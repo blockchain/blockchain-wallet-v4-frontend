@@ -1,11 +1,11 @@
 import React, { ComponentType } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { formValueSelector } from 'redux-form'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
-import { LoginSteps } from 'data/types'
+import { selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -27,8 +27,9 @@ const FooterContainer = styled.div`
   `}
 `
 
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.grey900};
+const Wrapper = styled.div<{ authProduct?: string }>`
+  background-color: ${(props) =>
+    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -37,9 +38,11 @@ const Wrapper = styled.div`
   ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
+    > div:last-child {
+      margin-top: auto;
+    }
   `}
 `
 
@@ -47,7 +50,7 @@ const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 `
-const ContentContainer = styled.div<{ isLogin?: boolean }>`
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,42 +59,37 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   max-width: 100%;
   box-sizing: border-box;
   margin: 0 16px;
-
-  ${(props) =>
-    props.isLogin &&
-    css`
-      margin-top: 40px;
-    `}
 `
 
-const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
-  const isLogin = path === '/login'
-  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
-  const isSecondLoginStep =
-    isLogin &&
-    (loginStep === LoginSteps.VERIFICATION_MOBILE || loginStep === LoginSteps.ENTER_PASSWORD)
+const PublicLayoutContainer = ({
+  authProduct,
+  component: Component,
+  exact = false,
+  formValues,
+  path
+}: Props) => {
   return (
     <Route
       path={path}
       exact={exact}
       render={(matchProps) => (
         <ErrorBoundary>
-          <Wrapper>
+          <Wrapper authProduct={authProduct}>
             {/* TODO: STILL NEEDS DEV/QA */}
             {/* <AndroidAppBanner /> */}
             <Alerts />
 
             <HeaderContainer>
-              <Header />
+              <Header authProduct={authProduct} />
             </HeaderContainer>
 
             <Modals />
-            <ContentContainer isLogin={isLogin}>
+            <ContentContainer>
               <Component {...matchProps} />
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isFirstLoginStep={isFirstLoginStep} isSecondLoginStep={isSecondLoginStep} />
+              <Footer authProduct={authProduct} formValues={formValues} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -100,17 +98,17 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
   )
 }
 
-type Props = {
-  component: ComponentType<any>
-  exact?: boolean
-  loginStep: LoginSteps
-  path: string
-}
-
 const mapStateToProps = (state) => ({
-  loginStep: formValueSelector('login')(state, 'step')
+  authProduct: selectors.auth.getProduct(state),
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
 })
 
 const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector> & {
+  component: ComponentType<any>
+  exact?: boolean
+  path: string
+}
 
 export default connector(PublicLayoutContainer)

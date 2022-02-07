@@ -74,8 +74,8 @@ export const getData = (
       ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
       : Remote.of([]),
     includeCustodial
-      ? selectors.components.simpleBuy
-          .getSBBalances(state)
+      ? selectors.components.buySell
+          .getBSBalances(state)
           .map((x) => x[coin])
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
@@ -83,7 +83,7 @@ export const getData = (
     includeInterest
       ? selectors.components.interest
           .getInterestAccountBalance(state)
-          .map((x) => x.DOGE)
+          .map((x) => x[coin])
           .map(toInterestDropdown)
           .map(toGroup('Rewards Account'))
       : Remote.of([])

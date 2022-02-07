@@ -1,8 +1,15 @@
+import { BSPaymentTypes, PaymentValue } from '@core/types'
+import {
+  BrokerageModalOriginType,
+  BSShowModalOriginType,
+  VerifyIdentityOriginType
+} from 'data/types'
 import type {
   BuySellClickedOrigin,
   InterestDepositClickedOrigin,
   LinkBankClickedOrigin,
   ManageTabSelectionClickedSelection,
+  SendReceiveClickedOrigin,
   SettingsHyperlinkClickedDestination,
   SettingsTabClickedDestination,
   SwapClickedOrigin,
@@ -10,17 +17,10 @@ import type {
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
-import { PaymentValue, SBPaymentTypes } from '@core/types'
-import {
-  BrokerageModalOriginType,
-  SBShowModalOriginType,
-  VerifyIdentityOriginType
-} from 'data/types'
-
 // The origin dictionaries are only necessary until we remove the MATOMO tracker,
 // after that, we should refactor those origins to use the correct origins with enums
 
-const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySellClickedOrigin => {
+const buySellClickedOriginDictionary = (rawOrigin: BSShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -34,7 +34,7 @@ const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySe
       return 'LINK_BANK'
     case 'PriceChart':
       return 'PRICE_CHART'
-    case 'SimpleBuyLink':
+    case 'BuySellLink':
       return 'BUY_WIDGET'
     case 'CurrencyList':
       return 'CURRENCY_PAGE'
@@ -55,18 +55,18 @@ const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySe
 }
 
 const buyPaymentMethodSelectedPaymentTypeDictionary = (
-  rawPaymentType: SBPaymentTypes
+  rawPaymentType: BSPaymentTypes
 ): PaymentType => {
   switch (rawPaymentType) {
-    case SBPaymentTypes.USER_CARD:
+    case BSPaymentTypes.USER_CARD:
       return PaymentType.PAYMENT_CARD
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.LINK_BANK:
       return PaymentType.BANK_ACCOUNT
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return PaymentType.BANK_ACCOUNT
-    case SBPaymentTypes.FUNDS:
+    case BSPaymentTypes.FUNDS:
       return PaymentType.FUNDS
-    case SBPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.BANK_TRANSFER:
       return PaymentType.BANK_TRANSFER
     default:
       return PaymentType.BANK_ACCOUNT
@@ -126,6 +126,24 @@ const manageTabSelectionClickedSelectionDictionary = (
       return 'SHOW_XPUB'
     default:
       throw new Error('Selection not found')
+  }
+}
+
+const sendReceiveClickedOriginDictionary = (rawOrigin: string): SendReceiveClickedOrigin => {
+  switch (rawOrigin) {
+    case 'FeaturesTopNav':
+    case 'Send':
+      return 'NAVIGATION'
+    case 'SwapNoHoldings':
+      return 'NO_HOLDINGS'
+    case 'Prices':
+      return 'CURRENCY_PAGE'
+    case 'EmptyFeed':
+    case 'WalletBalanceDropdown':
+      return 'TRANSACTIONS_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
   }
 }
 
@@ -199,7 +217,7 @@ const upgradeVerificationClickedOriginDictionary = (
       return 'RESUBMISSION'
     case 'Settings':
       return 'SETTINGS'
-    case 'SimpleBuy':
+    case 'BuySell':
       return 'SIMPLEBUY'
     case 'Swap':
       return 'SWAP'
@@ -242,6 +260,7 @@ export {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,

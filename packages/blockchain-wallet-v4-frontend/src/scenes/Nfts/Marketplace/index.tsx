@@ -1,134 +1,137 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-import { convertCoinToCoin } from '@core/exchange'
-import { NftOrdersType } from '@core/network/api/nfts/types'
-import { RemoteDataType } from '@core/types'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { PageTitle, SubTitle, Title } from 'components/Layout'
 
 import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
   AssetDetails,
-  AssetImage,
-  CollectionWrapper,
+  CTAWrapper,
   ImageContainer,
+  LazyLoadWrapper,
+  NftPageWrapper,
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
+import MarketForm from './MarketForm'
+
+const MarketplaceAsset = styled(Asset)``
 
 const Marketplace: React.FC<Props> = (props: Props) => {
-  const { nftsActions, ordersR } = props
+  const { marketplace, nftsActions } = props
 
   return (
-    <div>
-      <PageTitle>
-        <div>
-          <Title>
-            <Text color='grey800' size='24px' weight={600}>
-              <FormattedMessage id='copy.nfts.marketplace' defaultMessage='Marketplace' />
-            </Text>
-          </Title>
-          <SubTitle>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.nfts.marketplace.sub'
-                defaultMessage='Buy/Sell NFTs directly from your blockchain.com Wallet'
-              />
-            </Text>
-          </SubTitle>
-        </div>
-      </PageTitle>
-      <div>
-        {ordersR.cata({
-          Failure: (e) => e,
-          Loading: () => 'Loading...',
-          NotAsked: () => 'Loading...',
-          Success: (orders) => (
-            <CollectionWrapper>
-              {orders
-                .sort((a, b) => (a.basePrice.isLessThan(b.basePrice) ? -1 : 1))
-                .map((order) => {
-                  if (!order.paymentTokenContract) return null
-                  if (!window.coins[order.paymentTokenContract.symbol]) return null
-                  if (!order.asset) return null
+    <NftPageWrapper>
+      <MarketForm {...props} />
+      <LazyLoadWrapper
+        onLazyLoad={() => !marketplace.isLoading && nftsActions.fetchNftOrders()}
+        triggerDistance={300}
+      >
+        {marketplace.list.length ? (
+          marketplace.list.map((order) => {
+            if (!order.paymentTokenContract) return null
+            if (!window.coins[order.paymentTokenContract.symbol]) return null
+            if (!order.asset) return null
 
-                  return (
-                    <Asset key={order.calldata}>
-                      <ImageContainer
-                        style={{
-                          backgroundColor: `#${order.asset?.backgroundColor}` || '#fff'
-                        }}
+            return (
+              <MarketplaceAsset key={order.calldata}>
+                <ImageContainer
+                  background={`url(${order.asset.imageUrl.replace(/=s\d*/, '')})`}
+                  backgroundColor={`#${order.asset?.backgroundColor}` || '#fff'}
+                />
+                <AssetDetails>
+                  <div>
+                    <AssetCollection>
+                      <Text
+                        style={{ whiteSpace: 'nowrap' }}
+                        size='14px'
+                        color='grey800'
+                        weight={600}
                       >
-                        <AssetImage
-                          alt={order.asset.imageUrl}
-                          style={{ width: '100%' }}
-                          src={order.asset.imageUrl}
-                        />
-                      </ImageContainer>
-                      <AssetDetails>
-                        <div>
-                          <AssetCollection>
-                            <Text
-                              style={{ whiteSpace: 'nowrap' }}
-                              size='12px'
-                              color='grey600'
-                              weight={600}
-                            >
-                              {order.asset.collection.name}
-                            </Text>
-                          </AssetCollection>
-                          <Text
-                            style={{ marginTop: '4px' }}
-                            size='12px'
-                            color='grey800'
-                            weight={600}
-                          >
-                            {order.asset.name}
-                          </Text>
-                        </div>
-                        <PriceInfo>
-                          <Text size='12px' color='grey600' weight={600}>
-                            <FormattedMessage id='copy.price' defaultMessage='Price' />
-                          </Text>
-                          <Text
-                            style={{ marginTop: '4px' }}
-                            size='12px'
-                            color='grey800'
-                            weight={600}
-                          >
-                            <StyledCoinDisplay
-                              size='12px'
-                              color='grey800'
-                              weight={600}
-                              coin={order.paymentTokenContract.symbol}
-                            >
-                              {order.basePrice}
-                            </StyledCoinDisplay>
-                          </Text>
-                          <FiatDisplay coin={order.paymentTokenContract.symbol}>
-                            {order.basePrice}
-                          </FiatDisplay>
-                        </PriceInfo>
-                      </AssetDetails>
-                      <Button
-                        data-e2e='buyNft'
-                        nature='primary'
-                        onClick={() => nftsActions.createBuyOrder({ order })}
+                        {order.asset.collection.name}
+                      </Text>
+                    </AssetCollection>
+                    <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
+                      {order.asset.name}
+                    </Text>
+                  </div>
+                  <PriceInfo>
+                    <Text size='12px' color='black' weight={600}>
+                      <FormattedMessage id='copy.price' defaultMessage='Price' />
+                    </Text>
+                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                      <StyledCoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin={order.paymentTokenContract.symbol}
                       >
-                        <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                      </Button>
-                    </Asset>
-                  )
-                })}
-            </CollectionWrapper>
-          )
-        })}
-      </div>
-    </div>
+                        {order.basePrice}
+                      </StyledCoinDisplay>
+                      &nbsp;-&nbsp;
+                      <FiatDisplay
+                        size='12px'
+                        color='grey600'
+                        weight={600}
+                        coin={order.paymentTokenContract.symbol}
+                      >
+                        {order.basePrice}
+                      </FiatDisplay>
+                    </Text>
+                  </PriceInfo>
+                </AssetDetails>
+                <CTAWrapper>
+                  <Button
+                    data-e2e='buyNft'
+                    nature='primary'
+                    fullwidth
+                    onClick={() => nftsActions.nftOrderFlowOpen({ order })}
+                  >
+                    <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                  </Button>
+                  <Link
+                    style={{
+                      display: 'block',
+                      marginBottom: '8px',
+                      marginTop: '14px',
+                      textAlign: 'center',
+                      width: '100%'
+                    }}
+                    size='11px'
+                    href={order.asset.openseaLink}
+                    target='_blank'
+                  >
+                    View on OpenSea
+                  </Link>
+                </CTAWrapper>
+              </MarketplaceAsset>
+            )
+          })
+        ) : props.marketplace.isLoading || props.marketplace.isFailure ? null : (
+          <Text weight={600}>
+            <span aria-label='see no evil' role='img'>
+              🙈
+            </span>{' '}
+            No NFTs for sale in this collection.
+          </Text>
+        )}
+        {props.marketplace.isLoading ? (
+          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        ) : props.marketplace.isFailure ? (
+          <Text weight={600}>
+            <span aria-label='cry' role='img'>
+              😭
+            </span>{' '}
+            Error fetching NFTs!
+          </Text>
+        ) : null}
+      </LazyLoadWrapper>
+      {props.marketplace.atBound ? <div>No more NFTs for sale in this collection</div> : null}
+    </NftPageWrapper>
   )
 }
 

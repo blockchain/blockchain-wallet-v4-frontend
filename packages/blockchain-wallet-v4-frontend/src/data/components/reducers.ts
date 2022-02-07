@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { brokerageReducer as brokerage } from './brokerage/slice'
+import { buySellReducer as buySell } from './buySell/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
 import identityVerificationReducer from './identityVerification/reducers'
 import { interestReducer } from './interest/slice'
@@ -22,11 +23,11 @@ import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
-import { buySellReducer as buySell } from './simpleBuy/slice'
-import swapReducer from './swap/reducers'
+import { swapSliceReducer as swap } from './swap/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
-import { withdrawReducer } from './withdraw/reducers'
+import { walletConnectReducer as walletConnect } from './walletConnect/slice'
+import { withdrawReducer as withdraw } from './withdraw/slice'
 
 const componentReducer = combineReducers({
   brokerage,
@@ -52,10 +53,11 @@ const componentReducer = combineReducers({
   sendXlm: sendXlmReducer,
   settings: settingsReducer,
   signMessage,
-  swap: swapReducer,
+  swap,
   uploadDocuments,
   veriff,
-  withdraw: withdrawReducer
+  walletConnect,
+  withdraw
 })
 
 export default componentReducer

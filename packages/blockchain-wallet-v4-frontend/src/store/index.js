@@ -88,6 +88,12 @@ const configuredStore = async function () {
   // TODO: remove this
   window.coins.XLM.coinfig.type.isMemoBased = true
 
+  // Switch up the erc20 addresses to support testnet (for opensea testing)
+  if (options.domains.opensea && options.domains.opensea.includes('rinkeby')) {
+    window.coins.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
+    window.coins.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
+  }
+
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon

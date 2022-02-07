@@ -36,8 +36,7 @@ const NoAccountsText = styled.div`
 
 class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { close, data, formActions, sendCryptoActions, sendableCoins, walletCurrency } =
-      this.props
+    const { close, data, formActions, sendCryptoActions, walletCurrency } = this.props
 
     return (
       <Wrapper>
@@ -80,6 +79,7 @@ class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & 
             onClick={() => {
               formActions.change(SEND_FORM, 'selectedAccount', account)
               sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_TO })
+              sendCryptoActions.fetchSendLimits({ account })
             }}
             walletCurrency={walletCurrency}
           />

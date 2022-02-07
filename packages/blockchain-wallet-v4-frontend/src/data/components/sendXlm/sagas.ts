@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
-import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
+import { equals, head, identity, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit, touch } from 'redux-form'
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { AddressTypesType, CustodialFromType, XlmPaymentType } from '@core/types'
+import { AddressTypesType, CustodialFromType, WalletAccountEnum, XlmPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -165,6 +165,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             const memo = last(splitValue)
             yield put(actions.form.change(FORM, 'memo', memo))
           }
+          // seamless limits logic
+          const { from } = yield select(selectors.form.getFormValues(FORM))
+          if (from.type === ADDRESS_TYPES.CUSTODIAL) {
+            const appState = yield select(identity)
+            const currency = selectors.core.settings
+              .getCurrency(appState)
+              .getOrFail('Failed to get currency')
+            yield put(
+              A.sendXlmFetchLimits(
+                coin,
+                WalletAccountEnum.CUSTODIAL,
+                coin,
+                WalletAccountEnum.NON_CUSTODIAL,
+                currency
+              )
+            )
+          }
+
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)
@@ -307,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
         const address = value.memo ? `${value.to.address}:${value.memo}` : value.to.address
-        api.withdrawSBFunds(address, coin, value.amount)
+        api.withdrawBSFunds(address, coin, value.amount)
       } else {
         payment = yield call(payment.publish)
       }
@@ -369,10 +387,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchSendLimits = function* ({ payload }: ReturnType<typeof A.sendXlmFetchLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.sendXlmFetchLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.sendXlmFetchLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.sendXlmFetchLimitsFailure(e))
+    }
+  }
+
   return {
     checkDestinationAccountExists,
     checkIfDestinationIsExchange,
     destroyed,
+    fetchSendLimits,
     firstStepSubmitClicked,
     formChanged,
     initialized,

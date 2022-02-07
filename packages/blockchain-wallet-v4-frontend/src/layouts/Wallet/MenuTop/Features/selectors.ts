@@ -7,9 +7,10 @@ import { selectors } from 'data'
 export const getData = createSelector(
   [
     path<any>(['router', 'location', 'pathname']),
-    (state) => selectors.core.settings.getInvitations(state)
+    selectors.core.settings.getInvitations,
+    selectors.core.walletOptions.getWalletConnectEnabled
   ],
-  (pathname: string, invitationsR) => {
+  (pathname: string, invitationsR, walletConnectEnabledR) => {
     const params = pathname.split('/')
     const coin = toUpper(params[1])
     return {
@@ -19,7 +20,8 @@ export const getData = createSelector(
       lockboxPath: pathname.includes('lockbox'),
       pathname,
       requestAvailable: true,
-      sendAvailable: true
+      sendAvailable: true,
+      walletConnectEnabled: walletConnectEnabledR.getOrElse(false) as boolean
     }
   }
 )

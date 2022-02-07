@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
+import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -34,6 +34,15 @@ export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'api
 // FEATURE FLAG SELECTORS
 //
 
+// all flags
+export const getFeatureFlags = (
+  state: RootState
+): RemoteDataType<string, { [key in string]: boolean }> =>
+  getWebOptions(state).map(path(['featureFlags'])) as RemoteDataType<
+    string,
+    { [key in string]: boolean }
+  >
+
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'developerMobilePairing']))
@@ -42,10 +51,6 @@ export const getPairingCodeFlag = (state: RootState) =>
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
 
-// legacy recovery flag
-export const getFeatureLegacyWalletRecovery = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))
-
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
@@ -53,6 +58,14 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 // signup country feature flag
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// redesign feature flag
+export const getRedesignEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isRedesignEnabled']))
+
+// on hold funds feature flag
+export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
 
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
@@ -64,3 +77,36 @@ export const getCeloEurRewards = (state: RootState) =>
 
 export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
+
+// merge and upgrade wallet + exchange accounts
+export const getMergeAndUpgradeAccounts = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+// send the card to new payment processors feature flag (checkout)
+export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
+
+// send the card to new payment processors feature flag (stripe)
+export const getAddStripePaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addStripePaymentProvider']))
+
+// use card from new payment providers (stripe and checkout)
+export const getUseNewPaymentProviders = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
+
+export const getFlexiblePricingModel = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
+
+// show/hide wallet connect
+export const getWalletConnectEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
+
+export const getHotWalletAddresses = (state: RootState, product: Product) =>
+  getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
+
+// show/hide complete your profile flyout
+export const getCompleteYourProfile = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
+
+// show/hide trading currency flyout
+export const getTradingCurrency = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))

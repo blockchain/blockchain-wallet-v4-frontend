@@ -122,6 +122,7 @@ export default ({ api, coreSagas, networks }) => {
             tail,
             // @ts-ignore
             sortBy(prop('index'))
+            // @ts-ignore
           )(tiersData.tiers)
         )
       )
@@ -181,7 +182,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(setSession, userId, lifetimeToken, email, guid)
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
-      if (e.message.includes('User linked to another wallet')) {
+      if (e.message && e.message.includes('User linked to another wallet')) {
         return yield put(
           actions.modals.showModal(
             'NABU_USER_CONFLICT_REDIRECT',

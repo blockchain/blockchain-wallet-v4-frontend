@@ -1,4 +1,4 @@
-import { FiatType, RemoteDataType, WalletFiatType } from '@core/types'
+import { CrossBorderLimits, FiatType, RemoteDataType, WalletFiatType } from '@core/types'
 
 export enum BankPartners {
   YAPILY = 'YAPILY',
@@ -58,10 +58,13 @@ export enum BankStatusType {
   BANK_TRANSFER_ACCOUNT_ALREADY_LINKED = 'BANK_TRANSFER_ACCOUNT_ALREADY_LINKED',
   BANK_TRANSFER_ACCOUNT_EXPIRED = 'BANK_TRANSFER_ACCOUNT_EXPIRED',
   BANK_TRANSFER_ACCOUNT_FAILED = 'BANK_TRANSFER_ACCOUNT_FAILED',
+  BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL = 'BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL',
   BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND = 'BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND',
   BANK_TRANSFER_ACCOUNT_INVALID = 'BANK_TRANSFER_ACCOUNT_INVALID',
   BANK_TRANSFER_ACCOUNT_NAME_MISMATCH = 'BANK_TRANSFER_ACCOUNT_NAME_MISMATCH',
+  BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED = 'BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED',
   BANK_TRANSFER_ACCOUNT_REJECTED = 'BANK_TRANSFER_ACCOUNT_REJECTED',
+  BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD = 'BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD',
   DEFAULT_ERROR = 'DEFAULT_ERROR'
 }
 
@@ -166,6 +169,7 @@ export enum BrokerageModalOriginType {
   BANK = 'BankDetailsModal',
   DEPOSIT_BUTTON = 'BankDeposit',
   DW = 'DepositWithdrawalModal',
+  TRADE = 'Trade',
   WITHDRAWAL = 'WithdrawModal'
 }
 
@@ -192,6 +196,7 @@ export type BrokerageState = {
   bankCredentials: RemoteDataType<string, OBType>
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   dwStep: BankDWStepType
   fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined

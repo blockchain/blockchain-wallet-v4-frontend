@@ -2,8 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { UTM } from 'middleware/analyticsMiddleware/constants'
-import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -15,6 +13,8 @@ import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
+import { UTM } from 'middleware/analyticsMiddleware/constants'
+import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
@@ -26,11 +26,11 @@ import WalletLoading from './loading.wallet'
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
+const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
-const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
@@ -53,16 +53,17 @@ const Nfts = React.lazy(() => import('./Nfts'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
+const WalletConnect = React.lazy(() => import('./WalletConnect'))
 
 const App = ({
   apiUrl,
   coinsWithBalance,
   history,
   isAuthenticated,
-  legacyWalletRecoveryEnabled,
   persistor,
   store,
-  userData
+  userData,
+  walletConnectEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : PublicLoading
 
@@ -85,13 +86,11 @@ const App = ({
                   <Switch>
                     <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                     <PublicLayout path='/help' component={Help} />
+                    <PublicLayout path='/help-exchange' component={HelpExchange} />
                     <PublicLayout path='/login' component={Login} />
                     <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout path='/mobile-login' component={MobileLogin} />
-                    <PublicLayout
-                      path='/recover'
-                      component={legacyWalletRecoveryEnabled ? RecoverWalletLegacy : RecoverWallet}
-                    />
+                    <PublicLayout path='/recover' component={RecoverWallet} />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
                     <PublicLayout path='/signup' component={Signup} />
@@ -115,6 +114,9 @@ const App = ({
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
+                    {walletConnectEnabled && (
+                      <WalletLayout path='/dapps' component={WalletConnect} />
+                    )}
                     <WalletLayout path='/prices' component={Prices} />
                     {values(
                       map((coinModel) => {
@@ -130,7 +132,13 @@ const App = ({
                         )
                       }, coinsWithBalance)
                     )}
-                    {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                    {isAuthenticated ? (
+                      coinsWithBalance.length ? (
+                        <Redirect to='/home' />
+                      ) : null
+                    ) : (
+                      <Redirect to='/login' />
+                    )}
                   </Switch>
                 </Suspense>
               </ConnectedRouter>
@@ -150,10 +158,10 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  legacyWalletRecoveryEnabled: selectors.core.walletOptions
-    .getFeatureLegacyWalletRecovery(state)
-    .getOrElse(false) as boolean,
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
+  walletConnectEnabled: selectors.core.walletOptions
+    .getWalletConnectEnabled(state)
+    .getOrElse(false) as boolean
 })
 
 const connector = connect(mapStateToProps)

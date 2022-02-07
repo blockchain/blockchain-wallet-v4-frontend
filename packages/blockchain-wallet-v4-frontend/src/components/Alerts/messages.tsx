@@ -487,11 +487,25 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Mobile verification code sent'
         />
       )
+    case C.MOBILE_LOGIN_CONFIRM:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_confirm'
+          defaultMessage='Please confirm the login on your mobile device.'
+        />
+      )
+    case C.MOBILE_LOGIN_DECLINED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_declined'
+          defaultMessage='Mobile Log In Failed. Scan QR code to try again.'
+        />
+      )
     case C.MOBILE_LOGIN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.mobile_login_error'
-          defaultMessage='Error logging into your wallet'
+          defaultMessage='Error logging into your account'
         />
       )
     case C.MOBILE_LOGIN_ERROR_QRCODE_EXPIRED:
@@ -506,6 +520,13 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.mobile_login_scan_error'
           defaultMessage='Could not scan the mobile login QR Code'
+        />
+      )
+    case C.MOBILE_LOGIN_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_success'
+          defaultMessage='Success! Logging in...'
         />
       )
     case C.MOBILE_UPDATE_ERROR:
@@ -540,7 +561,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.new_wallet_create_error'
-          defaultMessage='Failed to create new wallet'
+          defaultMessage='Failed to create new account'
         />
       )
     case C.NEW_ADDRESS_GENERATE_ERROR:
@@ -554,7 +575,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.new_wallet_create_success'
-          defaultMessage='Successfully created new wallet'
+          defaultMessage='Successfully created new account'
         />
       )
     case C.PAYMENT_RECEIVED_BCH:
@@ -610,7 +631,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.please_login'
-          defaultMessage='Please login to your wallet to proceed'
+          defaultMessage='Please login to your account to proceed'
         />
       )
     case C.PLEASE_TRY_AGAIN:
@@ -652,14 +673,14 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.register_error'
-          defaultMessage='Wallet could not be created'
+          defaultMessage='Account could not be created'
         />
       )
     case C.REGISTER_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.register_successful'
-          defaultMessage='Wallet successfully created'
+          defaultMessage='Account successfully created'
         />
       )
     case C.RENAME_BCH_WALLET_ERROR:
@@ -702,21 +723,21 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.restore_error'
-          defaultMessage='Error restoring your wallet'
+          defaultMessage='Error restoring your account'
         />
       )
     case C.RESTORE_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.restore_success'
-          defaultMessage='Your wallet has been successfully restored'
+          defaultMessage='Your account has been successfully restored'
         />
       )
     case C.RESTORE_WALLET_INFO:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.restore_wallet_info'
-          defaultMessage='Restoring wallet...'
+          defaultMessage='Restoring account...'
         />
       )
     case C.SECOND_PASSWORD_INVALID_ERROR:
@@ -971,8 +992,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.VERIFY_EMAIL_SENT_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.verify_email_sent_error'
-          defaultMessage='Error sending verification email. Please try again later.'
+          id='components.alerts.verify_email_sent_error_try_again'
+          defaultMessage='Error sending verification email. Please try again.'
         />
       )
     case C.WALLET_LOADING_ERROR:
@@ -993,7 +1014,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.wallet_upgrade_error'
-          defaultMessage='Failed to upgrade to HD and save wallet.'
+          defaultMessage='Failed to upgrade and save account.'
         />
       )
     case C.YUBIKEY_VERIFY_ERROR:

@@ -97,3 +97,5 @@ export type SwapQuoteType = {
   staticFee: string
   updatedAt: string
 }
+
+export type SwapQuoteStateType = { quote: SwapQuoteType; rate: number }

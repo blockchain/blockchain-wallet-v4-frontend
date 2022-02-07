@@ -79,11 +79,11 @@ export interface ExchangeMetadataForBundle {
 export type ExchangeMetadata = ExchangeMetadataForAsset | ExchangeMetadataForBundle
 
 export interface WyvernOrder {
-  basePrice: BigNumber
+  basePrice: BigNumber | string
   calldata: string
   exchange: string
   expirationTime: BigNumber
-  extra: BigNumber
+  extra: BigNumber | string
   feeMethod: number
   feeRecipient: string
   howToCall: number
@@ -176,6 +176,20 @@ export interface OpenSeaAssetContract extends OpenSeaFees {
   wikiLink?: string
 }
 
+export interface OpenSeaStatus {
+  page: {
+    id: string
+    name: string
+    time_zone: string
+    updated_at: string
+    url: string
+  }
+  status: {
+    description: string
+    indicator: string
+  }
+}
+
 export interface ComputedFees extends OpenSeaFees {
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees
@@ -252,9 +266,21 @@ export interface OpenSeaCollection extends OpenSeaFees {
   paymentTokens: OpenSeaFungibleToken[]
   payoutAddress?: string
   slug: string
-  stats: object
+  stats: Stats
   traitStats: OpenSeaTraitStats
   wikiLink?: string
+}
+
+export interface CollectionData {
+  collection_data: {
+    primary_asset_contracts: {
+      address: string
+      total_supply: number
+    }[]
+    stats: Stats
+  }
+  name: string
+  slug: string
 }
 
 /**
@@ -327,7 +353,7 @@ export interface AssetEvent {
 export interface OpenSeaAsset extends Asset {
   assetContract: OpenSeaAssetContract
   backgroundColor: string | null
-  buyOrders: Order[] | null
+  buyOrders: NftOrder[] | null
   collection: OpenSeaCollection
   description: string
   externalLink: string
@@ -340,9 +366,9 @@ export interface OpenSeaAsset extends Asset {
   name: string
   numSales: number
   openseaLink: string
-  orders: Order[] | null
+  orders: NftOrder[] | null
   owner: OpenSeaAccount
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   traits: object[]
   transferFee: BigNumber | string | null
   transferFeePaymentToken: OpenSeaFungibleToken | null
@@ -360,7 +386,7 @@ export interface OpenSeaAssetBundle {
   maker: OpenSeaAccount
   name: string
   permalink: string
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   slug: string
 }
 export interface ECSignature {
@@ -372,7 +398,7 @@ export interface ECSignature {
  * Orders don't need to be signed if they're pre-approved
  * with a transaction on the contract to approveOrder_
  */
-export interface Order extends UnsignedOrder, Partial<ECSignature> {
+export interface NftOrder extends UnsignedOrder, Partial<ECSignature> {
   asset?: OpenSeaAsset
   assetBundle?: OpenSeaAssetBundle
   cancelledOrFinalized?: boolean
@@ -384,6 +410,103 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   markedInvalid?: boolean
   paymentTokenContract?: OpenSeaFungibleToken
   takerAccount?: OpenSeaAccount
+}
+
+export enum GasCalculationOperations {
+  AcceptOffer = 'accept-offer',
+  Buy = 'buy',
+  Cancel = 'cancel',
+  CreateOffer = 'create-offer',
+  Sell = 'sell',
+  Transfer = 'transfer'
+}
+
+export interface GasDataI {
+  approvalFees: number
+  gasFees: number
+  gasPrice: number
+  proxyFees: number
+  totalFees: number
+}
+
+export interface txnData {
+  gasLimit: number
+  gasPrice: number
+}
+
+export interface RawOrder {
+  approved_on_chain: boolean
+  base_price: string
+  bounty_multiple: string
+  calldata: string
+  cancelled: boolean
+  closing_date: null
+  closing_extendable: boolean
+  created_date: string
+  current_bounty: string
+  current_price: string
+  exchange: string
+  expiration_time: number
+  extra: string
+  fee_method: number
+  fee_recipient: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  finalized: boolean
+  how_to_call: number
+  listing_time: number
+  maker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  maker_protocol_fee: string
+  maker_referrer_fee: string
+  maker_relayer_fee: string
+  marked_invalid: boolean
+  metadata: {
+    asset: {
+      address: string
+      id: string
+    }
+    schema: string
+  }
+  order_hash: string
+  payment_token: string
+  payment_token_contract: {
+    address: string
+    decimals: number
+    eth_price: string
+    id: number
+    image_url: string
+    name: string
+    symbol: string
+    usd_price: string
+  }
+  prefixed_hash: string
+  quantity: string
+  r: string
+  replacement_pattern: string
+  s: string
+  sale_kind: number
+  salt: string
+  side: number
+  static_extradata: string
+  static_target: string
+  taker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  taker_protocol_fee: string
+  taker_relayer_fee: string
+  target: string
+  v: number
 }
 
 export interface NftAsset {
@@ -439,11 +562,15 @@ export interface NftAsset {
     only_proxied_transfers: boolean
     opensea_buyer_fee_basis_points: string
     opensea_seller_fee_basis_points: string
+    payment_tokens: {
+      symbol: string
+    }[]
     payout_address: string
     require_email: boolean
     safelist_request_status: string
     short_description: null
     slug: string
+    stats: Stats
     telegram_url: string | null
     twitter_username: string | null
     wiki_url: null
@@ -515,6 +642,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
+  orders: RawOrder[]
   owner: {
     address: string
     config: string
@@ -523,96 +651,27 @@ export interface NftAsset {
       username: string | null
     }
   }
+
   permalink: string
-  sell_orders: {
-    approved_on_chain: boolean
-    base_price: string
-    bounty_multiple: string
-    calldata: string
-    cancelled: boolean
-    closing_date: null
-    closing_extendable: boolean
-    created_date: string
-    current_bounty: string
-    current_price: string
-    exchange: string
-    expiration_time: number
-    extra: string
-    fee_method: number
-    fee_recipient: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    finalized: boolean
-    how_to_call: number
-    listing_time: number
-    maker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    maker_protocol_fee: string
-    maker_referrer_fee: string
-    maker_relayer_fee: string
-    marked_invalid: boolean
-    metadata: {
-      asset: {
-        address: string
-        id: string
-      }
-      schema: string
-    }
-    order_hash: string
-    payment_token: string
-    payment_token_contract: {
-      address: string
-      decimals: number
-      eth_price: string
-      id: number
-      image_url: string
-      name: string
-      symbol: string
-      usd_price: string
-    }
-    prefixed_hash: string
-    quantity: string
-    r: string
-    replacement_pattern: string
-    s: string
-    sale_kind: number
-    salt: string
-    side: number
-    static_extradata: string
-    static_target: string
-    taker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    taker_protocol_fee: string
-    taker_relayer_fee: string
-    target: string
-    v: number
-  }[]
   token_id: string
   token_metadata: null
   top_bid: null
-  traits: []
+  traits: [
+    {
+      trait_count: number
+      trait_type: string
+      value: string
+    }
+  ]
   transfer_fee: string | null
   transfer_fee_payment_token: null
 }
 
-export type NftAssetsType = {
-  assets: NftAsset[]
-}
+export type NftAssetsType = NftAsset[]
 
 export type NftOrdersType = {
   count: number
-  orders: Order[]
+  orders: NftOrder[]
 }
 
 export enum SolidityTypes {
@@ -650,3 +709,78 @@ export interface PartialAbiDefinition {
 }
 
 export type PartialReadonlyContractAbi = Array<Readonly<PartialAbiDefinition>>
+
+export interface Stats {
+  average_price: number
+  count: number
+  floor_price: number
+  market_cap: number
+  num_owners: number
+  num_reports: number
+  one_day_average_price: number
+  one_day_change: number
+  one_day_sales: number
+  one_day_volume: number
+  seven_day_average_price: number
+  seven_day_change: number
+  seven_day_sales: number
+  seven_day_volume: number
+  thirty_day_average_price: number
+  thirty_day_change: number
+  thirty_day_sales: number
+  thirty_day_volume: number
+  total_sales: number
+  total_supply: number
+  total_volume: number
+}
+
+export type AssetEventsType = {
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    created_date: string
+  }[]
+}
+
+export type OfferEventsType = {
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    bid_amount: string
+    created_date: string
+    from_account: {
+      address: string
+    }
+    payment_token: {
+      address: string
+      decimals: number
+      eth_price: string
+      id: number
+      image_url: string
+      name: string
+      symbol: string
+      usd_price: string
+    }
+  }[]
+}
+
+export interface ExplorerGatewayNftCollectionType {
+  added_timestamp: string
+  average_price: string
+  count: number
+  created_timestamp: string
+  floor_price: string
+  image_url: string
+  large_image_url: string
+  market_cap: string
+  name: string
+  num_owners: number
+  one_day_average_price: string
+  one_day_change: string
+  one_day_sales: string
+  one_day_volume: string
+  slug: string
+  total_sales: number
+  total_supply: number
+  total_volume: string
+}

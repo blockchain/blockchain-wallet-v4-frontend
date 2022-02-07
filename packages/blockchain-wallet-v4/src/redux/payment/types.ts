@@ -103,6 +103,7 @@ export type BtcPaymentType = IPaymentType & {
 export type EthPaymentType = IPaymentType & {
   amount: (n: number | string) => EthPaymentType
   coin: 'ETH' | string
+  data?: string
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string, coin?: string) => EthPaymentType
   init: (arg: { coin: 'ETH' | string; isErc20?: boolean }) => EthPaymentType
@@ -130,3 +131,8 @@ export type PaymentType = BchPaymentType | BtcPaymentType | EthPaymentType | Xlm
 export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
 
 export * from './btc/types'
+
+export enum Product {
+  REWARDS = 'rewards',
+  SWAP = 'swap'
+}

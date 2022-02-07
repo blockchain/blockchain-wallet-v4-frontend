@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
 import { Props as _P, SuccessStateType as _S } from '.'
@@ -13,6 +15,10 @@ const NoResultsWrapper = styled.div`
   margin-top: 120px;
 `
 
+const TableBodyWrapper = styled.div`
+  height: calc(100% - 52px);
+`
+
 const options = {
   disableMultiSort: true,
   disableSortRemove: true
@@ -23,10 +29,25 @@ const initialState = {
 }
 
 const PricesTable = (props: Props) => {
-  const { buySellActions, data, modalActions, routerActions, walletCurrency } = props
+  const {
+    buySellActions,
+    data,
+    formActions,
+    modalActions,
+    routerActions,
+    swapActions,
+    walletCurrency
+  } = props
 
   const columns = React.useMemo(
-    getTableColumns({ buySellActions, modalActions, routerActions, walletCurrency }),
+    getTableColumns({
+      buySellActions,
+      formActions,
+      modalActions,
+      routerActions,
+      swapActions,
+      walletCurrency
+    }),
     []
   )
 
@@ -59,6 +80,23 @@ const PricesTable = (props: Props) => {
     (state.globalFilter?.length > 20 && `${state.globalFilter.substring(0, 20)}…`) ||
     state.globalFilter
 
+  const RenderRow = React.useCallback(
+    ({ index, style }) => {
+      const row = rows[index]
+      prepareRow(row)
+      return (
+        <div key={`row-${row.id}`} {...row.getRowProps({ style })} className='tr'>
+          {row.cells.map((cell) => (
+            <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
+              {cell.render('Cell')}
+            </div>
+          ))}
+        </div>
+      )
+    },
+    [prepareRow, rows]
+  )
+
   return (
     <TableWrapper>
       {state.globalFilter?.length && !rows.length ? (
@@ -76,13 +114,17 @@ const PricesTable = (props: Props) => {
           </CellText>
         </NoResultsWrapper>
       ) : (
-        <table {...getTableProps()}>
-          <thead>
+        <div {...getTableProps()} className='table'>
+          <div>
             {headerGroups.map((headerGroup) => (
               // eslint-disable-next-line react/jsx-key
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <div {...headerGroup.getHeaderGroupProps()} className='tr'>
                 {headerGroup.headers.map((column) => (
-                  <th key={column.key} {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <div
+                    key={column.key}
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className='th'
+                  >
                     <HeaderText>
                       {column.render('Header')}
                       <div>
@@ -97,26 +139,25 @@ const PricesTable = (props: Props) => {
                         )}
                       </div>
                     </HeaderText>
-                  </th>
+                  </div>
                 ))}
-              </tr>
+              </div>
             ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row)
-              return (
-                <tr key={`row-${row.id}`} {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td key={`cell-${cell.row.id}`} {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+          </div>
+          <TableBodyWrapper>
+            <AutoSizer>
+              {({ height, width }) => {
+                return (
+                  <div {...getTableBodyProps()}>
+                    <List height={height} width={width} itemCount={rows.length} itemSize={90}>
+                      {RenderRow}
+                    </List>
+                  </div>
+                )
+              }}
+            </AutoSizer>
+          </TableBodyWrapper>
+        </div>
       )}
     </TableWrapper>
   )

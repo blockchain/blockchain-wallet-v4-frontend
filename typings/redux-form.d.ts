@@ -1,21 +1,21 @@
-import {
-  ConfigProps,
-  FormAction,
-  FormDecorator,
-  GetFormState,
-  InitializeOptions
-} from 'redux-form'
+import { ConfigProps, FormAction, FormDecorator, GetFormState, InitializeOptions } from 'redux-form'
 
 export type WalletFormType =
   | '@SEND.BCH.FORM'
   | '@SEND.BTC.FORM'
   | '@SEND.ETH.FORM'
   | '@SEND.XLM.FORM'
-  | 'addCCForm'
+  | 'addCardEverypayForm'
   | 'airdropClaim'
+  | 'buySellCheckout'
   | 'brokerageTx'
-  | 'cancelSBOrderForm'
-  | 'ccBillingAddress'
+  | 'bsCheckoutConfirm'
+  | 'bsCurrencySelection'
+  | 'bsCryptoSelection'
+  | 'bsPaymentMethods'
+  | 'bsChangeEmail'
+  | 'cancelBSOrderForm'
+  | 'billingAddress'
   | 'confirmCustodyWithdraw'
   | 'confirmRecoveryWords'
   | 'custodyWithdrawForm'
@@ -36,13 +36,7 @@ export type WalletFormType =
   | 'repayLoanForm'
   | 'requestCrypto'
   | 'sendCrypto'
-  | 'sbCheckoutConfirm'
-  | 'sbCurrencySelection'
-  | 'sbCryptoSelection'
-  | 'sbPaymentMethods'
-  | 'sbChangeEmail'
   | 'settingsNotifications'
-  | 'simpleBuyCheckout'
   | 'swapAmount'
   | 'swapOrderDetails'
   | 'transferEth'
@@ -67,20 +61,9 @@ declare module 'redux-form' {
     to: number
   ): FormAction
   export function arrayPop(form: WalletFormType, field: string): FormAction
-  export function arrayPush(
-    form: WalletFormType,
-    field: string,
-    value: any
-  ): FormAction
-  export function arrayRemove(
-    form: WalletFormType,
-    field: string,
-    index: number
-  ): FormAction
-  export function arrayRemoveAll(
-    form: WalletFormType,
-    field: string
-  ): FormAction
+  export function arrayPush(form: WalletFormType, field: string, value: any): FormAction
+  export function arrayRemove(form: WalletFormType, field: string, index: number): FormAction
+  export function arrayRemoveAll(form: WalletFormType, field: string): FormAction
   export function arrayShift(form: WalletFormType, field: string): FormAction
   export function arraySplice(
     form: WalletFormType,
@@ -95,22 +78,9 @@ declare module 'redux-form' {
     indexA: number,
     indexB: number
   ): FormAction
-  export function arrayUnshift(
-    form: WalletFormType,
-    field: string,
-    value: any
-  ): FormAction
-  export function autofill(
-    form: WalletFormType,
-    field: string,
-    value: any
-  ): FormAction
-  export function blur(
-    form: WalletFormType,
-    field: string,
-    value: any,
-    touch?: boolean
-  ): FormAction
+  export function arrayUnshift(form: WalletFormType, field: string, value: any): FormAction
+  export function autofill(form: WalletFormType, field: string, value: any): FormAction
+  export function blur(form: WalletFormType, field: string, value: any, touch?: boolean): FormAction
   export function change(
     form: WalletFormType,
     field: string,
@@ -214,21 +184,11 @@ declare module 'redux-form' {
 
   export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
     config: CustomConfigProps<FormData, P, ErrorType>
-  ): FormDecorator<
-    FormData,
-    P,
-    Partial<CustomConfigProps<FormData, P, ErrorType>>,
-    ErrorType
-  >
+  ): FormDecorator<FormData, P, Partial<CustomConfigProps<FormData, P, ErrorType>>, ErrorType>
 
   export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
     config: Partial<CustomConfigProps<FormData, P, ErrorType>>
-  ): FormDecorator<
-    FormData,
-    P,
-    CustomConfigProps<FormData, P, ErrorType>,
-    ErrorType
-  >
+  ): FormDecorator<FormData, P, CustomConfigProps<FormData, P, ErrorType>, ErrorType>
 
   export type WalletFormType = WalletFormType
   /* eslint-enable */

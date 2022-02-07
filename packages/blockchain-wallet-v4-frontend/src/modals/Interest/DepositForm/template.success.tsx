@@ -6,6 +6,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
+import { CoinType, DepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -15,11 +16,14 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics, SwapBaseCounterTypes } from 'data/types'
 import { required } from 'services/forms'
+import { debounce } from 'utils/helpers'
 
 import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
 import { CustomOrangeCartridge } from '../WithdrawalForm/model'
@@ -29,7 +33,6 @@ import {
   AmountError,
   AmountFieldContainer,
   ArrowIcon,
-  Bottom,
   ButtonContainer,
   CalculatorContainer,
   CalculatorDesc,
@@ -51,14 +54,30 @@ import {
   ToggleCoinFiat,
   ToggleCoinText,
   ToggleFiatText,
-  Top,
   TopText
 } from './model'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
+const checkIsAmountUnderDepositLimit = (
+  interestDepositLimits: DepositLimits,
+  coin: CoinType,
+  depositAmount: string
+): boolean => {
+  const { depositLimits } = interestDepositLimits
+
+  if (!depositLimits || depositLimits.length === 0) {
+    return false
+  }
+
+  const coinLimit = depositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
+  // compare entered amount with deposit limit for current coin
+  return Number(depositAmount) > coinLimit
+}
+
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
+    analyticsActions,
     coin,
     depositLimits,
     displayCoin,
@@ -67,9 +86,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formActions,
     formErrors,
     handleDisplayToggle,
+    interestAccount,
     interestActions,
+    interestEDDDepositLimits,
     interestEDDStatus,
-    interestEDDWithdrawLimits,
     interestLimits,
     interestRate,
     invalid,
@@ -100,6 +120,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
+  const fromAccountType =
+    interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
+
   const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
@@ -112,16 +135,34 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDWithdrawLimit =
-    (interestEDDWithdrawLimits?.withdrawLimits
-      ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
-      : false) &&
+  const showEDDDepositLimit =
+    checkIsAmountUnderDepositLimit(interestEDDDepositLimits, coin, depositAmountFiat) &&
     !interestEDDStatus?.eddSubmitted &&
     !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
     interestActions.submitDepositForm(coin)
-    props.setShowSupply(showEDDWithdrawLimit)
+    props.setShowSupply(showEDDDepositLimit)
+
+    analyticsActions.trackEvent({
+      key: Analytics.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED,
+      properties: {}
+    })
+  }
+
+  const amountChanged = (e) => {
+    analyticsActions.trackEvent({
+      key: Analytics.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED,
+      properties: {
+        amount: Number(e.target.value),
+        amount_currency: coin,
+        currency: walletCurrency,
+        from_account_type: fromAccountType,
+        input_amount: Number(values.depositAmount),
+        interest_rate: Number(interestRate[coin]),
+        output_amount: Number
+      }
+    })
   }
 
   if (submitting) {
@@ -147,7 +188,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 
   return (
     <CustomForm onSubmit={handleFormSubmit}>
-      <Top>
+      <FlyoutWrapper style={{ paddingBottom: '0' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
             onClick={() => interestActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
@@ -276,6 +317,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               errorBottom: true,
               errorLeft: true
             }}
+            onChange={debounce((event) => {
+              amountChanged(event)
+            }, 500)}
           />
           <PrincipalCcyAbsolute>
             {displayCoin ? (
@@ -310,12 +354,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 <GreyBlueCartridge
                   data-e2e='interestMax'
                   role='button'
-                  onClick={() =>
+                  onClick={() => {
                     interestActions.handleTransferMaxAmountClick({
                       amount: displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat,
                       coin: displayCoin || walletCurrency
                     })
-                  }
+
+                    analyticsActions.trackEvent({
+                      key: Analytics.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED,
+                      properties: {
+                        amount_currency: coin,
+                        currency: walletCurrency,
+                        from_account_type: fromAccountType
+                      }
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='modals.interest.deposit.maxtransfer.button'
@@ -358,7 +411,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             )}
           </AmountError>
         )}
-        {showEDDWithdrawLimit && (
+        {showEDDDepositLimit && (
           <CustomOrangeCartridge>
             <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
             <FormattedMessage
@@ -483,8 +536,15 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             </Text>
           </CalculatorContainer>
         </CalculatorWrapper>
-      </Top>
-      <Bottom>
+      </FlyoutWrapper>
+      <FlyoutWrapper
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'flex-end'
+        }}
+      >
         <Field component={CheckBox} hideErrors name='terms' validate={[required]}>
           <TermsContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
@@ -568,7 +628,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             </Text>
           </Button>
         </ButtonContainer>
-      </Bottom>
+      </FlyoutWrapper>
     </CustomForm>
   )
 }
@@ -578,6 +638,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })

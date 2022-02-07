@@ -2,11 +2,16 @@ import * as ethers from 'ethers'
 
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
-const provider = ethers.providers.getDefaultProvider()
+export default ({ apiUrl, get, openseaApi, post }) => {
+  // ONLY FOR TESTING OPENSEA!
+  const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
 
-export default ({ apiUrl, get, post }) => {
+  const ethProvider = IS_TESTNET
+    ? new ethers.providers.EtherscanProvider('rinkeby')
+    : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
   //
   // Deprecate
+  //
   //
 
   // web3.eth.getBalance
@@ -99,13 +104,14 @@ export default ({ apiUrl, get, post }) => {
     })
 
   // V3
-  const getEthAccountBalance = (account: string) => provider.getBalance(account)
-  const getEthAccountNonce = (account: string) => provider.getTransactionCount(account)
-  const getEthLatestBlock = () => provider.getBlockNumber()
-  const getEthGasPrice = () => provider.getGasPrice()
+  const getEthAccountBalance = (account: string) => ethProvider.getBalance(account)
+  const getEthAccountNonce = (account: string) => ethProvider.getTransactionCount(account)
+  const getEthLatestBlock = () => ethProvider.getBlockNumber()
+  const getEthGasPrice = () => ethProvider.getGasPrice()
 
   return {
     checkContract,
+    ethProvider,
     getAccountTokensBalances,
     getErc20AccountSummaryV2,
     getErc20TransactionsV2,

@@ -5,34 +5,58 @@
         "appIDs": [ 
             "NZ6PH75U7K.com.rainydayapps.Blockchain",
             "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
-            "NZ6PH75U7K.com.rainydayapps.Blockchain.dev",
-            "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
+            "NZ6PH75U7K.com.rainydayapps.Blockchain.dev"
          ],
         "components": [
           {
-            "/": "/login/*",
-            "comment": "Matches any URL whose path starts with /login/"
+            "/": "/deeplink/login/*",
+            "comment": "Matches any URL whose path starts with /deeplink/login/"
           },
           {
-            "/": "/*",
+            "/": "/deeplink/",
             "#": "*login*",
-            "comment": "Matches any URL whose path starts with /#/login/"
+            "comment": "Matches any URL whose path starts with /deeplink/#/login/"
           },
           {
-            "/": "/signup/*",
-            "comment": "Matches any URL whose path starts with /signup/"
+            "/": "/deeplink/signup/*",
+            "comment": "Matches any URL whose path starts with /deeplink/signup/"
           },
           {
-            "/": "/*",
+            "/": "/deeplink/",
             "#": "*signup*",
-            "comment": "Matches any URL whose path starts with /#/signup/"
+            "comment": "Matches any URL whose path starts with /deeplink/#/signup/"
+          }
+        ]
+      },
+      {
+        "appIDs": [
+            "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
+        ],
+        "components": [
+          {
+            "/": "/deeplink/alpha/login/*",
+            "comment": "Matches any URL whose path starts with /deeplink/alpha/login/"
+          },
+          {
+            "/": "/deeplink/alpha/",
+            "#": "*login*",
+            "comment": "Matches any URL whose path starts with /deeplink/alpha/#/login/"
+          },
+          {
+            "/": "/deeplink/alpha/signup/*",
+            "comment": "Matches any URL whose path starts with /deeplink/alpha/signup/"
+          },
+          {
+            "/": "/deeplink/alpha/",
+            "#": "*signup*",
+            "comment": "Matches any URL whose path starts with /deeplink/alpha/#/signup/"
           }
         ]
       }
     ]
   },
   "webcredentials": {
-    "apps": [ 
+    "apps": [
         "NZ6PH75U7K.com.rainydayapps.Blockchain",
         "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
         "NZ6PH75U7K.com.rainydayapps.Blockchain.dev",
@@ -40,7 +64,3 @@
     ]
   }
 }
-
-
-
-

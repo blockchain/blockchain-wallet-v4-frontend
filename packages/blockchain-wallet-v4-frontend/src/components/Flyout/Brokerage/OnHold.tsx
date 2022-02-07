@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, WithdrawalLock } from '@core/types'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { CheckoutRow } from 'components/Rows'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -17,12 +17,22 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
       </FlyoutHeader>
       <FlyoutContent mode='top'>
         <div style={{ padding: '0 40px 32px' }}>
-          <Text weight={400} lineHeight='24px' size='16px' color='grey600'>
-            <FormattedMessage
-              id='modals.brokerage.withdraw_holding_period'
-              defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
-            />
-          </Text>
+          <TextGroup inline>
+            <Text weight={400} lineHeight='24px' size='14px' color='grey600'>
+              <FormattedMessage
+                id='modals.brokerage.withdraw_holding_period'
+                defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
+              />
+            </Text>
+            <Link
+              weight={400}
+              size='14px'
+              target='_blank'
+              href='https://support.blockchain.com/hc/en-us/articles/360051018131-Trading-Account-Withdrawal-Holds'
+            >
+              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+            </Link>
+          </TextGroup>
         </div>
         <div>
           <CheckoutRow
@@ -44,7 +54,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
               color='grey400'
               style={{ letterSpacing: '1px' }}
             >
-              Clear Date
+              <FormattedMessage id='copy.held_until' defaultMessage='Held until' />
             </Text>
             <Text
               uppercase
@@ -53,7 +63,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
               color='grey400'
               style={{ letterSpacing: '1px' }}
             >
-              Amount
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
           </div>
         )}
@@ -65,7 +75,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
                 unit: amount.currency as FiatType,
                 value: convertBaseToStandard('FIAT', amount.amount)
               })}
-              title={moment(expiresAt).format('MMMM Do')}
+              title={moment(expiresAt).format('MMMM Do YYYY')}
             />
           )
         })}

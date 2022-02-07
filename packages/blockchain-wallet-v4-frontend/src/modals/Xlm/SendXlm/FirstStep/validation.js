@@ -1,11 +1,15 @@
 import React from 'react'
 import { BigNumber } from 'bignumber.js'
-import { mapObjIndexed, path, prop } from 'ramda'
+import { isEmpty, mapObjIndexed, path, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 
 import { Exchange, utils } from '@core'
 import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
@@ -23,7 +27,7 @@ export const insufficientFunds = (value, allValues, props) => {
   return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
-export const invalidAmount = (value, allValues, props) => {
+export const invalidAmount = (value) => {
   const valueXlm = prop('coin', value)
   const valueStroop = Exchange.convertCoinToCoin({
     baseToStandard: false,
@@ -142,4 +146,29 @@ export const validateMemoType = (value, allValues) => {
     if (value === 'text') return <WrongTextMemoFormat />
     if (value === 'id') return <WrongIdMemoFormat />
   }
+}
+
+export const isSendLimitOver = (value, allValues, props) => {
+  const { from, sendLimits } = props
+  const fiatValue = prop('fiat', value)
+  const isFromCustodial = from && from.type === 'CUSTODIAL'
+
+  if (!isFromCustodial || isEmpty(sendLimits) || !sendLimits?.current?.available?.currency) {
+    return undefined
+  }
+
+  const { currency, value: availableAmount } = sendLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  const effectiveLimit = getEffectiveLimit(sendLimits)
+  const effectivePeriod = getEffectivePeriod(sendLimits)
+
+  return fiatValue > Number(availableAmountInBase) ? (
+    <OverYourLimitMessage
+      amount={formatFiat(availableAmountInBase)}
+      currency={Currencies[currency].units[currency].symbol}
+      limit={formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0)}
+      period={effectivePeriod}
+    />
+  ) : undefined
 }

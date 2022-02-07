@@ -1,4 +1,5 @@
 import { queuevent } from '@blockchain-com/constellation'
+
 import type { AnalyticsValue, RawEvent } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
 

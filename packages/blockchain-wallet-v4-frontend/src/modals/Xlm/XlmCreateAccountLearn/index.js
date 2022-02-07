@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -96,10 +95,6 @@ class XlmCreateAccountLearn extends React.PureComponent {
       </Modal>
     )
   }
-}
-
-XlmCreateAccountLearn.propTypes = {
-  reserveXlm: PropTypes.string.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({

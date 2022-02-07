@@ -1,3 +1,5 @@
+import { CoinType, CrossBorderLimits, WalletAccountType, WalletFiatType } from '@core/types'
+
 import * as AT from './actionTypes'
 
 export const initialized = (payload) => ({
@@ -62,4 +64,34 @@ export const sendEthFirstStepMinimumFeeClicked = () => ({
 })
 export const sendEthFirstStepMaximumFeeClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_FEE_CLICKED
+})
+
+export const sendEthFetchLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAccountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAccountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.SEND_ETH_FETCH_LIMITS
+})
+export const sendEthFetchLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.SEND_ETH_FETCH_LIMITS_FAILURE
+})
+export const sendEthFetchLimitsLoading = () => ({
+  type: AT.SEND_ETH_FETCH_LIMITS_LOADING
+})
+export const sendEthFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
+  payload: limitsResponse,
+  type: AT.SEND_ETH_FETCH_LIMITS_SUCCESS
 })

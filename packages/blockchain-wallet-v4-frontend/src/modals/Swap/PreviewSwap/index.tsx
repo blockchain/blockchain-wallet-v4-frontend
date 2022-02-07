@@ -265,25 +265,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
               {this.props.submitting ? (
                 <HeartbeatLoader height='16px' width='16px' color='white' />
               ) : (
-                <FormattedMessage
-                  id='buttons.swap_x_for_y'
-                  defaultMessage='Swap {base} for {counter}'
-                  values={{ base: baseCoinDisplaySymbol, counter: counterCoinDisplaySymbol }}
-                />
+                <FormattedMessage id='buttons.swap_now' defaultMessage='Swap Now' />
               )}
-            </Button>
-            <Button
-              nature='light-red'
-              data-e2e='swapCancelBtn'
-              type='button'
-              disabled={this.props.submitting}
-              fullwidth
-              height='48px'
-              color='red400'
-              style={{ marginTop: '16px' }}
-              onClick={() => swapActions.setStep({ step: 'ENTER_AMOUNT' })}
-            >
-              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
             </Button>
             {this.props.error && (
               <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>

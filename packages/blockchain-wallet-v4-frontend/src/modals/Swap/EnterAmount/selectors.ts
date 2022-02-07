@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess, FiatType } from '@core/types'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
@@ -24,6 +24,9 @@ const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const coins = selectors.components.swap.getCoins()
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
+  const crossBorderLimits = selectors.components.swap
+    .getCrossBorderLimits(state)
+    .getOrElse({} as CrossBorderLimits)
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -34,6 +37,7 @@ const getData = (state: RootState) => {
     ) => ({
       accounts,
       baseRates,
+      crossBorderLimits,
       formErrors,
       formValues,
       incomingAmount,

@@ -23,6 +23,7 @@ export enum ModalName {
   BANK_DETAILS_MODAL = 'BANK_DETAILS_MODAL',
   BITPAY_INFORMATIONAL_MODAL = 'BITPAY_INFORMATIONAL_MODAL',
   BITPAY_INVOICE_EXPIRED_MODAL = 'BITPAY_INVOICE_EXPIRED_MODAL',
+  COMPLETE_USER_PROFILE = 'COMPLETE_USER_PROFILE',
   CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
   CONFIRM_DISABLE_2FA = 'CONFIRM_DISABLE_2FA',
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
@@ -43,11 +44,13 @@ export enum ModalName {
   LOCKBOX_FIRMWARE_MODAL = 'LOCKBOX_FIRMWARE_MODAL',
   LOCKBOX_SETUP_MODAL = 'LOCKBOX_SETUP_MODAL',
   LOCKBOX_SHOW_XPUBS = 'LOCKBOX_SHOW_XPUBS',
+  MOBILE_NAV = 'MOBILE_NAV',
   MOBILE_NUMBER_ADD_MODAL = 'MOBILE_NUMBER_ADD_MODAL',
   MOBILE_NUMBER_CHANGE_MODAL = 'MOBILE_NUMBER_CHANGE_MODAL',
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
   NEW_VERSION_AVAILABLE = 'NEW_VERSION_AVAILABLE',
+  NFT_ORDER = 'NFT_ORDER',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
@@ -70,8 +73,8 @@ export enum ModalName {
   SIGN_MESSAGE_MODAL = 'SIGN_MESSAGE_MODAL',
   SIMPLE_BUY_MODAL = 'SIMPLE_BUY_MODAL',
   SUPPORT_MODAL = 'SUPPORT_MODAL',
-  SWAP_GET_STARTED_MODAL = 'SWAP_GET_STARTED_MODAL',
   SWAP_MODAL = 'SWAP_MODAL',
+  TRADE_MODAL = 'TRADE_MODAL',
   TRADING_LIMITS_MODAL = 'TRADING_LIMITS_MODAL',
   TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
   TRANSFER_ETH_MODAL = 'TRANSFER_ETH_MODAL',
@@ -80,7 +83,9 @@ export enum ModalName {
   TWO_STEP_YUBICO_MODAL = 'TWO_STEP_YUBICO_MODAL',
   UPGRADE_ADDRESS_LABELS_MODAL = 'UPGRADE_ADDRESS_LABELS_MODAL',
   UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
+  UPGRADE_NOW_MODAL = 'UPGRADE_NOW_MODAL',
   VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
+  WALLET_CONNECT_MODAL = 'WALLET_CONNECT_MODAL',
   WELCOME_MODAL = 'WELCOME_MODAL'
 }
 
@@ -95,6 +100,8 @@ export type ModalOriginType =
   | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
   | 'BankDeposit'
+  | 'CompleteProfileBanner'
+  | 'CompleteProfile'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'
@@ -117,31 +124,32 @@ export type ModalOriginType =
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
   | 'RunKycGoal'
-  | 'SBEnterAmountCheckout'
-  | 'SBPaymentMethodSelection'
+  | 'BSEnterAmountCheckout'
+  | 'BSPaymentMethodSelection'
   | 'SellEmpty'
   | 'Send'
   | 'SendBch'
   | 'SendBtc'
   | 'SendEth'
-  | 'SendExchangePromo'
   | 'SendXlm'
   | 'SettingsGeneral'
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
-  | 'SimpleBuyLink'
-  | 'SimpleBuyStatus'
-  | 'SimpleBuyOrderSummary'
+  | 'BuySellLink'
+  | 'BuySellStatus'
+  | 'BuySellOrderSummary'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'
   | 'SwapNoHoldings'
   | 'TheExchangePage'
+  | 'Trade'
   | 'TradingLimits'
   | 'TransactionList'
   | 'Unknown'
   | 'WalletBalanceDropdown'
+  | 'WalletConnect'
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'CurrencyList'

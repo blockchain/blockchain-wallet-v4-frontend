@@ -1,25 +1,36 @@
 import React, { PureComponent } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LoginFormType, LoginSteps } from 'data/types'
-import { isGuid } from 'services/forms'
+import { LOGIN_FORM } from 'data/auth/model'
+import {
+  ExchangeErrorCodes,
+  LoginFormType,
+  LoginSteps,
+  PlatformTypes,
+  ProductAuthOptions
+} from 'data/types'
+import { isBrowserSupported } from 'services/browser'
 
-// step templates
 import Loading from '../loading.public'
-import CheckEmail from './CheckEmail'
-import EnterEmailOrGuid from './EnterEmailOrGuid'
-import EnterPassword from './EnterPassword'
-import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
-import VerificationMobile from './VerificationMobile'
+import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
+import UpgradePassword from './AccountUnification/UpgradePassword'
+import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
+import { loginSceneFooter } from './components/LoginSceneFooter'
+import ExchangeEnterEmail from './Exchange/EnterEmail'
+import EnterPasswordExchange from './Exchange/EnterPassword'
+import InstitutionalPortal from './Exchange/Institutional'
+import TwoFAExchange from './Exchange/TwoFA'
+import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
+import CheckEmail from './Wallet/CheckEmail'
+import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
+import EnterPasswordWallet from './Wallet/EnterPassword'
+import TwoFAWallet from './Wallet/TwoFA'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
@@ -35,20 +46,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   setStep = (step: LoginSteps) => {
-    this.props.formActions.change(LOGIN_FORM_NAME, 'step', step)
+    this.props.formActions.change(LOGIN_FORM, 'step', step)
   }
 
   initCaptcha = (callback?) => {
     /* eslint-disable */
-    // @ts-ignore
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-    // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
-      // @ts-ignore
       window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, {
-          action: 'LOGIN'
-        })
+        .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
         .then((captchaToken) => {
           console.log('Captcha success')
           this.setState({ captchaToken })
@@ -61,234 +67,182 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     /* eslint-enable */
   }
 
-  // Every step is part of one form
-  // One submit function that fires different events
-  // Depending on which step user is on
+  handleBackArrowClick = () => {
+    const { authActions, cacheActions, formActions } = this.props
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM)
+    this.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    authActions.clearLoginError()
+    this.initCaptcha()
+  }
+
+  exchangeTabClicked = () => {
+    const { exchangeEmail } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    routerActions.push('/login?product=exchange')
+    if (exchangeEmail) {
+      formActions.change(LOGIN_FORM, 'email', exchangeEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
+  walletTabClicked = () => {
+    const { email, lastGuid, storedGuid } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
+    routerActions.push('/login?product=wallet')
+    if (storedGuid || lastGuid) {
+      formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
+      formActions.change(LOGIN_FORM, 'email', email)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     // sometimes captcha doesnt mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!this.state.captchaToken) {
-      return this.initCaptcha(this.continueLoginProcess)
+      return this.initCaptcha(
+        this.props.authActions.continueLoginProcess({
+          captchaToken: this.state.captchaToken,
+          initCaptcha: this.initCaptcha
+        })
+      )
     }
     // we have a captcha token, continue login process
-    this.continueLoginProcess()
-  }
-
-  handleSmsResend = () => {
-    this.props.authActions.resendSmsCode({
-      email: this.props.formValues?.email,
-      guid: this.props.guid
+    this.props.authActions.continueLoginProcess({
+      captchaToken: this.state.captchaToken,
+      initCaptcha: this.initCaptcha
     })
-  }
-
-  continueLoginProcess = () => {
-    const { authActions, code, formActions, formValues, guid, guidOrEmail, password } = this.props
-    let auth = code
-    // only uppercase if authType is not Yubikey
-    if (auth && this.props.authType !== 1) {
-      auth = auth.toUpperCase()
-    }
-    if (
-      formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
-      formValues.step === LoginSteps.CHECK_EMAIL
-    ) {
-      if (isGuid(guidOrEmail)) {
-        formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
-        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
-      } else {
-        formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink({
-          captchaToken: this.state.captchaToken,
-          email: guidOrEmail
-        })
-        this.initCaptcha()
-      }
-      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
-      authActions.loginIdEntered(idType)
-    } else {
-      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
-    }
-  }
-
-  loginWithMobileClicked = () => {
-    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
-    this.setStep(LoginSteps.VERIFICATION_MOBILE)
   }
 
   render() {
-    const { data, formValues } = this.props
+    const { exchangeLoginData, formValues, productAuthMetadata, walletLoginData } = this.props
+    const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
-    const { busy, error } = data.cata({
-      Failure: (val) => ({ busy: false, error: val }),
+
+    const { exchangeError } = exchangeLoginData.cata({
+      Failure: (val) => ({ busy: false, exchangeError: val }),
       Loading: () => <Loading />,
-      NotAsked: () => ({ busy: false, error: null }),
-      Success: () => ({ busy: false, error: null })
+      NotAsked: () => ({ busy: false, exchangeError: null }),
+      Success: () => ({ busy: false, exchangeError: null })
     })
+
+    const { busy, walletError } = walletLoginData.cata({
+      Failure: (val) => ({ busy: false, walletError: val }),
+      Loading: () => <Loading />,
+      NotAsked: () => ({ busy: false, walletError: null }),
+      Success: () => ({ busy: false, walletError: null })
+    })
+
     const loginProps = {
-      busy,
-      handleSmsResend: this.handleSmsResend,
-      loginError: error
+      busy, // TODO see if we still need busy
+      exchangeError,
+      exchangeTabClicked: this.exchangeTabClicked,
+      isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
+      walletError,
+      ...this.props,
+      handleBackArrowClick: this.handleBackArrowClick,
+      isBrowserSupported: isBrowserSupported(),
+      setStep: this.setStep,
+      walletTabClicked: this.walletTabClicked
     }
 
     return (
       <>
-        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
-          {step === LoginSteps.ENTER_PASSWORD && (
-            <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-          )}
-          {step === LoginSteps.ENTER_EMAIL_GUID && (
-            <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
-          )}
-        </Text>
-        {step === LoginSteps.VERIFICATION_MOBILE && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
-          </Text>
-        )}
+        {/* CONTENT */}
+        <Form onSubmit={this.handleSubmit}>
+          {(() => {
+            switch (step) {
+              case LoginSteps.INSTITUTIONAL_PORTAL:
+                return <InstitutionalPortal {...loginProps} />
+              case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+                return <EnterPasswordExchange {...loginProps} />
+              case LoginSteps.ENTER_PASSWORD_WALLET:
+                return <EnterPasswordWallet {...loginProps} />
+              case LoginSteps.TWO_FA_EXCHANGE:
+                return <TwoFAExchange {...loginProps} />
+              case LoginSteps.TWO_FA_WALLET:
+                return <TwoFAWallet {...loginProps} />
+              case LoginSteps.CHECK_EMAIL:
+                return <CheckEmail {...loginProps} />
+              case LoginSteps.VERIFY_MAGIC_LINK:
+                return <VerifyMagicLink {...loginProps} />
+              case LoginSteps.UPGRADE_CONFIRM:
+                return <MergeAccountConfirm {...loginProps} />
+              case LoginSteps.UPGRADE_PASSWORD:
+                return <UpgradePassword {...loginProps} />
+              case LoginSteps.UPGRADE_SUCCESS:
+                return <UpgradeSuccess {...loginProps} />
+              case LoginSteps.ENTER_EMAIL_GUID:
+              default:
+                return product === ProductAuthOptions.EXCHANGE ? (
+                  <ExchangeEnterEmail {...loginProps} />
+                ) : (
+                  <WalletEnterEmailOrGuid {...loginProps} />
+                )
+            }
+          })()}
+        </Form>
 
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage
-              id='scenes.login.enter_password_login'
-              defaultMessage='Enter your password to login'
-            />
-          </Text>
-        )}
-
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage
-              id='scenes.login.enter_email_header'
-              defaultMessage='Enter Your Email Address or Wallet ID'
-            />
-          </Text>
-        )}
-        <Wrapper>
-          <Form onSubmit={this.handleSubmit}>
-            {(() => {
-              switch (step) {
-                case LoginSteps.ENTER_EMAIL_GUID:
-                  return (
-                    <EnterEmailOrGuid
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
-                case LoginSteps.ENTER_PASSWORD:
-                  return (
-                    <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
-
-                case LoginSteps.CHECK_EMAIL:
-                  return (
-                    <CheckEmail
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
-
-                case LoginSteps.VERIFY_MAGIC_LINK:
-                  return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
-
-                case LoginSteps.VERIFICATION_MOBILE:
-                  return (
-                    <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
-                  )
-                default:
-                  return null
-              }
-            })()}
-          </Form>
-        </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text
-            color='white'
-            weight={600}
-            size='16px'
-            cursor='pointer'
-            style={{ marginTop: '24px' }}
-            onClick={this.loginWithMobileClicked}
-          >
-            <FormattedMessage
-              id='scenes.login.loginwithmobile'
-              defaultMessage='Log In with Mobile App ->'
-            />
-          </Text>
-        )}
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
-          <>
-            <CreateAccount />
-            <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
-              <FormattedMessage
-                id='scenes.login.phishingwarning'
-                defaultMessage='Please check that you are visiting the correct URL'
-              />
-            </Text>
-            <PhishingWarning>
-              <Icon name='padlock' color='grey400' size='14px' />
-              <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
-                https://login.blockchain.com
-              </Text>
-            </PhishingWarning>
-          </>
-        )}
+        {/* FOOTER */}
+        {!loginProps.isMobileViewLogin && loginSceneFooter(step)}
       </>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
+  accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
-  code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
-  data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,
-  formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
-  guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
-  guidOrEmail: formValueSelector(LOGIN_FORM_NAME)(state, 'guidOrEmail'),
+  cache: selectors.cache.getCache(state),
+  data: getData(state),
+  exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
+  jwtToken: selectors.auth.getJwtToken(state),
+  magicLinkData: selectors.auth.getMagicLinkData(state),
+  productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
+  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type FormProps = {
-  busy: boolean
-  initCaptcha: () => void
+type OwnProps = {
+  busy?: boolean
+  exchangeError?: ExchangeErrorCodes
+  exchangeTabClicked?: () => void
+  handleBackArrowClick: () => void
   invalid: boolean
-  loginError?: string
+  isBrowserSupported: boolean | undefined
+  isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
+  walletError?: any
+  walletTabClicked?: () => void
 }
 
 type StateProps = {
   captchaToken?: string
 }
-export type Props = ConnectedProps<typeof connector> & FormProps
+export type Props = ConnectedProps<typeof connector> & OwnProps
 
-const enhance = compose<any>(
-  reduxForm({
-    form: LOGIN_FORM_NAME
-  }),
-  connector
-)
+const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
 
 export default enhance(Login)

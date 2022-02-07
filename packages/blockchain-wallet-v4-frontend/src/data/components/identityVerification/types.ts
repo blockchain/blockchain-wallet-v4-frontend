@@ -6,14 +6,16 @@ export type EmailSmsStepType = 'edit' | 'verify'
 
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'
+  | 'CompleteProfile'
   | 'Unknown'
   | 'Swap'
+  | 'Send'
   | 'Goals'
   | 'AccountReset'
   | 'Resubmission'
   | 'Onboarding'
   | 'Settings'
-  | 'SimpleBuy'
+  | 'BuySell'
   | 'Interest'
 
 export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'

@@ -12,12 +12,12 @@ import Recover from './template'
 
 class RecoverContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    const { authActions, mnemonic } = this.props
-    authActions.restoreFromMetadata(mnemonic)
+    const { authActions, formValues } = this.props
+    authActions.restoreFromMetadata(formValues.mnemonic)
   }
 
   render() {
-    const { kycReset, metadataRestore, previousStep, recoverPassword, restoringR } = this.props
+    const { kycReset, metadataRestore, previousStep, restoringR } = this.props
     const isRestoring = Remote.Loading.is(restoringR)
 
     return metadataRestore.cata({

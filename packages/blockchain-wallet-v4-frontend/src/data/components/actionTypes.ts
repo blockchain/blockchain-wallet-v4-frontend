@@ -19,10 +19,8 @@ import * as sendBtc from './sendBtc/actionTypes'
 import * as sendEth from './sendEth/actionTypes'
 import * as sendXlm from './sendXlm/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
-import * as swap from './swap/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
-import * as withdraw from './withdraw/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
@@ -47,9 +45,7 @@ export {
   sendEth,
   sendXlm,
   signMessage,
-  swap,
   uploadDocuments,
   veriff,
-  withdraw,
   xlmTransactions
 }

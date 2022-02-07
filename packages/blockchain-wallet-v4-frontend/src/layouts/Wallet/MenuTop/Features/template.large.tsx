@@ -45,7 +45,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
       <NavbarNavItem>
         <NavbarNavItemButton
           data-e2e='exchangeLink'
-          onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+          onClick={() => props.swapActions.showModal({ origin: 'FeaturesTopNav' })}
         >
           <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
           <NavbarNavItemTextHeader size='14px' weight={600}>
@@ -80,19 +80,38 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
         </NavbarNavItem>
       </LinkContainer>
       <NavbarDivider />
-      <LinkContainer to='/nfts' activeClassName='active'>
-        <NavbarNavItem>
-          <NavbarNavItemButton data-e2e='nftsLink'>
-            <Image name='nft' height='50%' style={{ marginRight: '4px' }} />
-            <NavbarNavItemTextHeader size='14px' weight={600}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.nfts'
-                defaultMessage='NFTs'
-              />
-            </NavbarNavItemTextHeader>
-          </NavbarNavItemButton>
-        </NavbarNavItem>
-      </LinkContainer>
+      {props.invitations.nfts ? (
+        <LinkContainer to='/nfts' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='nftsLink'>
+              <Image name='nft' height='50%' style={{ marginRight: '8px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.nfts'
+                  defaultMessage='NFTs'
+                />
+                &nbsp;(Beta)
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
+      <NavbarDivider />
+      {props.walletConnectEnabled ? (
+        <LinkContainer to='/dapps' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='dappsLink'>
+              <Image name='walletconnect-circle-logo' height='50%' style={{ marginRight: '8px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.dapps'
+                  defaultMessage='Dapps'
+                />
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
     </>
   )
 }

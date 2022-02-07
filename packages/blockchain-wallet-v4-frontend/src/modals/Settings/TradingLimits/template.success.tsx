@@ -1,26 +1,25 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { WalletFiatType } from '@core/types'
-import { Button, Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import {
-  BlueCartridge,
-  ErrorCartridge,
-  OrangeCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { UserTierType } from 'data/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { ModalName } from 'data/modals/types'
+import { SettingsItem, SettingsLimit } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import { ITEMS, TIER_TYPES, TIERS } from './model'
+import { SETTINGS_ITEM_PERIOD, SETTINGS_ITEMS, SETTINGS_ITEMS_ICONS, TIER_TYPES } from './model'
 
-const SILVER_LIMIT = '2000'
-const GOLD_LIMIT = '500000'
-
+const TextWrapper = styled(Text)`
+  a {
+    color: ${(props) => props.theme.blue600};
+    text-decoration: none;
+  }
+`
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -36,8 +35,21 @@ const Title = styled(Text)`
 const IconsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+`
+const CloseIconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${(props) => props.theme.grey000};
+  backdrop-filter: blur(54.3656px);
+  > span {
+    justify-content: center;
+  }
 `
 const Item = styled.div<{ isClickable?: boolean }>`
   border-top: 1px solid ${(props) => props.theme.grey000};
@@ -55,20 +67,13 @@ const IconWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
-const TierDescription = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 10px;
-`
 const HeaderWrapper = styled(FlyoutWrapper)`
   position: fixed;
   max-width: 480px;
   background-color: ${(props) => props.theme.white};
   z-index: 9999;
 `
-const LinkWrapper = styled.div`
-  padding: 0 40px 35px;
-`
+
 const FooterWrapper = styled(FlyoutWrapper)`
   flex: 1;
   justify-content: flex-end;
@@ -82,22 +87,12 @@ const StatusCartridge = styled.div`
   position: absolute;
   right: 40px;
   > span {
-    padding: 3px 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
   }
 `
-const CartridgeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  justify-content: flex-end;
-  min-width: 75px;
-`
-const IconBareWrapper = styled.div`
-  span {
-    margin-top: -8px;
-    margin-right: -8px;
-  }
-`
+
 const TierTitle = styled(Text)`
   color: ${(props) => props.theme.grey900};
   font-size: 16px;
@@ -105,389 +100,428 @@ const TierTitle = styled(Text)`
   line-height: 150%;
 `
 const MainContent = styled.div`
-  margin-top: 177px;
+  margin-top: 222px;
+`
+const ItemTitleWrapper = styled(Text)`
+  flex-direction: column;
+  justify-content: center;
 `
 const ItemTitle = styled(Text)`
   color: ${(props) => props.theme.grey900};
   font-size: 16px;
   font-weight: 600;
   margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 const ItemSubtitle = styled(Text)`
   color: ${(props) => props.theme.grey900};
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
   margin-bottom: 4px;
+  margin-left: 20px;
+  display: flex;
+`
+const UpgradeContainer = styled.div`
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 24px 40px;
+`
+
+const UpgradeSubtitle = styled(Text)`
+  color: ${(props) => props.theme.grey900};
+  font-size: 14px;
+  font-weight: 500;
+  margin: 4px 0 16px 0;
+`
+const HeadlineWrapper = styled.div`
+  background-color: rgba(240, 242, 247, 0.32);
+  padding: 8px 24px 8px 40px;
+`
+const Headline = styled(Text)`
+  color: ${(props) => props.theme.grey900};
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+`
+
+const LimitStatus = styled(Text)`
+  color: ${(props) => props.theme.grey600};
+  font-size: 16px;
+  font-weight: 600;
 `
 
 type Props = OwnProps & SuccessStateType
 
-const getItemBadgeStatus = (tier: number | undefined, type: ITEMS, isEligible = false) => {
-  return (tier !== undefined && TIERS[tier][type]) || isEligible ? (
-    <CartridgeWrapper>
-      <SuccessCartridge fontSize='12px'>
-        <FormattedMessage id='modals.tradinglimits.unlocked' defaultMessage='Unlocked' />
-      </SuccessCartridge>
-    </CartridgeWrapper>
-  ) : (
-    <CartridgeWrapper>
-      <ErrorCartridge fontSize='12px'>
-        <FormattedMessage id='modals.tradinglimits.locked' defaultMessage='Locked' />
-      </ErrorCartridge>
-    </CartridgeWrapper>
-  )
-}
-
-const getTierStatus = (
-  tier: number | undefined,
-  tierType: TIER_TYPES,
-  tierDetails: UserTierType,
-  isEddQualified: boolean
-) => {
-  if (tierDetails.state === 'under_review' || tierDetails.state === 'pending') {
-    return (
-      <StatusCartridge>
-        <OrangeCartridge fontSize='12px'>
-          <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
-        </OrangeCartridge>
-      </StatusCartridge>
-    )
-  }
-
-  if (isEddQualified) {
-    return (
-      <StatusCartridge>
-        <ErrorCartridge fontSize='12px'>
-          <FormattedMessage id='modals.tradinglimits.info_needed' defaultMessage='Info Needed' />
-        </ErrorCartridge>
-      </StatusCartridge>
-    )
-  }
-
-  if (tier && tier >= tierType) {
-    return (
-      <div>
-        <StatusCartridge>
-          <BlueCartridge fontSize='12px'>
-            <FormattedMessage id='modals.tradinglimits.approved' defaultMessage='Approved' />
-          </BlueCartridge>
-        </StatusCartridge>
-      </div>
-    )
+const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
+  if (tier === TIER_TYPES.GOLD) {
+    return
   }
 
   return (
-    <IconBareWrapper>
-      <Icon name='chevron-right' size='32px' color='grey400' />
-    </IconBareWrapper>
+    <UpgradeContainer>
+      <TierTitle>
+        {tier === TIER_TYPES.NONE ? (
+          <FormattedMessage id='copy.upgrade_your_wallet' defaultMessage='Upgrade Your Wallet' />
+        ) : (
+          <FormattedMessage
+            id='modals.tradinglimits.upgrade.tier.silver.title'
+            defaultMessage='Upgrade to Gold Limits'
+          />
+        )}
+      </TierTitle>
+      <UpgradeSubtitle>
+        {tier === TIER_TYPES.NONE ? (
+          <FormattedMessage
+            id='modals.tradinglimits.upgrade.tier.zero.description'
+            defaultMessage='Blockchain.com offers two types of Account Limits, each designed to suit your crypto goals and needs.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.tradinglimits.upgrade.tier.silver.description'
+            defaultMessage='Verify your ID and link your bank to Buy & Sell Crypto straight from your wallet.'
+          />
+        )}
+      </UpgradeSubtitle>
+      <Button
+        fullwidth
+        size='16px'
+        height='48px'
+        nature='primary'
+        data-e2e='tradingLimitsUnlockAll'
+        type='button'
+        onClick={showUpgradeModal}
+      >
+        {tier === TIER_TYPES.NONE ? (
+          <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
+        ) : (
+          <FormattedMessage id='scenes.borrow.verifyid' defaultMessage='Upgrade Now' />
+        )}
+      </Button>
+    </UpgradeContainer>
+  )
+}
+
+const renderLabelSubtitle = (name: SETTINGS_ITEMS) => {
+  switch (name) {
+    case SETTINGS_ITEMS.SEND_CRYPTO:
+      return (
+        <ItemSubtitle>
+          <FormattedMessage
+            id='modals.tradinglimits.from_trading_account'
+            defaultMessage='from Trading Accounts'
+          />
+        </ItemSubtitle>
+      )
+    case SETTINGS_ITEMS.RECEIVE_CRYPTO:
+      return (
+        <ItemSubtitle>
+          <FormattedMessage
+            id='modals.tradinglimits.to_trading_account'
+            defaultMessage='to Trading Accounts'
+          />
+        </ItemSubtitle>
+      )
+
+    default:
+      return <></>
+  }
+}
+const renderPeriod = (period: SETTINGS_ITEM_PERIOD) => {
+  switch (period) {
+    case SETTINGS_ITEM_PERIOD.DAY:
+      return <FormattedMessage id='modals.tradinglimits.a_day' defaultMessage='a Day' />
+    case SETTINGS_ITEM_PERIOD.MONTH:
+      return <FormattedMessage id='modals.tradinglimits.a_month' defaultMessage='a Month' />
+    case SETTINGS_ITEM_PERIOD.YEAR:
+      return <FormattedMessage id='modals.tradinglimits.a_year' defaultMessage='a Year' />
+
+    default:
+      return <></>
+  }
+}
+
+const renderLimit = (limit: SettingsLimit) => {
+  const { currency, value } = limit.value
+
+  return (
+    <LimitStatus>
+      {fiatToString({
+        digits: 0,
+        unit: currency,
+        value: convertBaseToStandard('FIAT', value)
+      })}
+      {` `}
+      {renderPeriod(limit.period as SETTINGS_ITEM_PERIOD)}
+    </LimitStatus>
+  )
+}
+
+const renderLabel = (name: SETTINGS_ITEMS) => {
+  switch (name) {
+    case SETTINGS_ITEMS.SEND_CRYPTO:
+      return <FormattedMessage id='modals.tradinglimits.send_crypto' defaultMessage='Send Crypto' />
+    case SETTINGS_ITEMS.RECEIVE_CRYPTO:
+      return (
+        <FormattedMessage
+          id='modals.requestcrypto.coinselect.title'
+          defaultMessage='Receive Crypto'
+        />
+      )
+    case SETTINGS_ITEMS.SWAP_CRYPTO:
+      return <FormattedMessage id='modals.tradinglimits.swap_crypto' defaultMessage='Swap Crypto' />
+    case SETTINGS_ITEMS.BUY_AND_SELL:
+      return <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
+    case SETTINGS_ITEMS.BUY_WITH_CARD:
+      return (
+        <FormattedMessage id='modals.tradinglimits.card_purchase' defaultMessage='Card Purchases' />
+      )
+    case SETTINGS_ITEMS.BUY_AND_DEPOSIT_WITH_BANK:
+      return (
+        <FormattedMessage
+          id='modals.tradinglimits.bank_buy_and_deposit'
+          defaultMessage='Bank Buys / Deposits'
+        />
+      )
+    case SETTINGS_ITEMS.WITHDRAW_WITH_BANK:
+      return (
+        <FormattedMessage
+          id='modals.tradinglimits.bank_withdrawals'
+          defaultMessage='Bank Withdrawals'
+        />
+      )
+    case SETTINGS_ITEMS.SAVINGS_INTEREST:
+      return (
+        <FormattedMessage id='modals.tradinglimits.earn_interest' defaultMessage='Earn Rewards' />
+      )
+
+    default:
+      return <></>
+  }
+}
+
+const renderStatus = (limit: SettingsItem) => {
+  if (!limit.enabled) {
+    return (
+      <LimitStatus>
+        <FormattedMessage
+          id='scenes.security.advanced.secondpassword.disabled'
+          defaultMessage='Disabled'
+        />
+      </LimitStatus>
+    )
+  }
+
+  if (limit.limit?.value) {
+    return renderLimit(limit.limit)
+  }
+
+  return (
+    <LimitStatus>
+      <FormattedMessage
+        id='scenes.security.advanced.secondpassword.enabled'
+        defaultMessage='Enabled'
+      />
+    </LimitStatus>
   )
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { interestEDDStatus, sddEligible, userData, userTiers } = props
+  const { limitsAndDetails, modalActions, sddEligible, userData, userTiers } = props
+  const showUpgradeModal = useCallback(() => {
+    modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
+      origin: 'TradingLimits'
+    })
+  }, [modalActions])
 
   if (!Array.isArray(userTiers)) {
     return null
   }
-  const silverTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.SILVER)
-  const goldTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.GOLD)
 
   const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
-
   const sddCheckTier =
     sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
       : userCurrentTier
   const currentTier: number | undefined =
     userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
+  const isUserTierZero = currentTier === TIER_TYPES.NONE
   const isUserGold = currentTier === TIER_TYPES.GOLD
-  const isUserVerifiedSilver =
-    currentTier === TIER_TYPES.SILVER || isUserGold || currentTier === TIER_TYPES.SILVER_PLUS
-
-  const swapProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SWAP')
-  const simpleBuyProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SIMPLEBUY')
-  const brokerageProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'BROKERAGE')
-  const savingsProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SAVINGS')
-
-  const isGoldInreview = goldTier.state === 'under_review' || goldTier.state === 'pending'
+  const isUserTierSilver =
+    currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
 
   return (
     <Wrapper>
       <HeaderWrapper>
         <IconsContainer>
-          <Icon
-            cursor
-            data-e2e='tradingLimitsCloseButton'
-            name='close'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={props.handleClose}
-          />
+          <Image width='26px' name='bar-chart' />
+          <CloseIconContainer>
+            <Icon
+              cursor
+              data-e2e='tradingLimitsCloseButton'
+              name='close'
+              size='20px'
+              color='grey600'
+              role='button'
+              onClick={props.handleClose}
+            />
+          </CloseIconContainer>
         </IconsContainer>
-        <Title color='grey800' size='24px' weight={600}>
+        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
           <FormattedMessage
-            id='layouts.wallet.header.tradinglimits'
-            defaultMessage='Trading Limits'
+            id='modals.limits_and_features.title'
+            defaultMessage='Limits & Features'
           />
         </Title>
-        <Text color='grey600' size='16px' weight={500} style={{ marginTop: '8px' }}>
-          <FormattedMessage
-            id='modals.tradinglimits.description'
-            defaultMessage='Unlock features within your Blockchain.com Wallet. Some features may ask you to verify your identity.'
-          />
+        <Text
+          color='textBlack'
+          size='16px'
+          weight={500}
+          style={{ fontStyle: 'normal', marginTop: '8px' }}
+        >
+          {isUserTierZero && (
+            <FormattedMessage
+              id='modals.tradinglimits.upgrade.unlock_tier_zero'
+              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and link a bank or card.'
+            />
+          )}
+          {isUserTierSilver && (
+            <FormattedMessage
+              id='modals.limits_and_features.subtitle.silver'
+              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
+            />
+          )}
+          {isUserGold && (
+            <FormattedMessage
+              id='modals.limits_and_features.subtitle.gold'
+              defaultMessage='You currently have the highest level of Account Limits and features available.'
+            />
+          )}
         </Text>
       </HeaderWrapper>
 
       <MainContent>
-        <Item
-          onClick={() =>
-            isUserVerifiedSilver
-              ? null
-              : props.identityVerificationActions.verifyIdentity({
-                  needMoreInfo: false,
-                  origin: 'Settings',
-                  tier: TIER_TYPES.SILVER
-                })
-          }
-          isClickable={!isUserVerifiedSilver}
-          data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
-        >
-          <div>
-            <Image name='tier-silver' size='32px' />
-          </div>
-          <TierDescription>
-            <TierTitle>
-              <FormattedMessage
-                id='components.identityverification.tiercard.silver'
-                defaultMessage='Silver Level'
-              />
-            </TierTitle>
-            <ItemSubtitle color='grey900' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.tradinglimits.silver_subheader'
-                defaultMessage='Trade up to {amount}/year.'
-                values={{
-                  amount: fiatToString({
-                    digits: 0,
-                    unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                    value: SILVER_LIMIT
-                  })
-                }}
-              />
-            </ItemSubtitle>
+        {upgradeWallet(currentTier, showUpgradeModal)}
 
-            <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
-              <FormattedMessage
-                id='modals.tradinglimits.silver_desc'
-                defaultMessage='You’ll need to verify your email address, name, home address and date of birth.'
-              />
-            </Text>
-          </TierDescription>
+        <HeadlineWrapper>
+          <Headline>
+            <FormattedMessage
+              id='modals.tradinglimits.your_limits'
+              defaultMessage='Your Limits & Features'
+            />
+          </Headline>
+        </HeadlineWrapper>
 
-          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier, false)}
-        </Item>
-
-        <Item
-          onClick={() =>
-            isUserGold || isGoldInreview
-              ? null
-              : props.identityVerificationActions.verifyIdentity(TIER_TYPES.GOLD, false)
-          }
-          isClickable={!isUserGold}
-          data-e2e={`continueKycTier${TIER_TYPES.GOLD}Btn`}
-        >
-          <div>
-            <Image name='tier-gold' size='32px' />
-          </div>
-          <TierDescription>
-            <TierTitle>
-              <FormattedMessage
-                id='components.identityverification.tiercard.gold'
-                defaultMessage='Gold Level'
-              />
-            </TierTitle>
-
-            <ItemSubtitle color='grey900' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.tradinglimits.gold_subheader'
-                defaultMessage='Earn Rewards & trade up to {amount}/day.'
-                values={{
-                  amount: fiatToString({
-                    digits: 0,
-                    unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    value: GOLD_LIMIT
-                  })
-                }}
-              />
-            </ItemSubtitle>
-
-            {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed ? (
-              <TextGroup inline>
-                <Text color='grey600' size='12px' weight={500}>
+        {isUserTierSilver && (
+          <ContentItem>
+            <IconWrapper>
+              <Image name='blockchain-silver' size='20px' />
+              <ItemTitleWrapper>
+                <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.gold_desc_high_edd'
-                    defaultMessage='Due to the high balance in your account, we need further information for legal reasons.'
+                    id='modals.tradinglimits.upgrade.silver_limits'
+                    defaultMessage='Silver Limits'
                   />
-                </Text>
-                <Link
-                  size='12px'
-                  weight={500}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://support.blockchain.com/hc/en-us/articles/360018080172-Identity-Verification-Overview'
-                >
-                  <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-                </Link>
-              </TextGroup>
-            ) : (
-              <TextGroup inline>
-                <Text color='grey600' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc1'
-                    defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
-                  />
-                </Text>
-                <Text color='grey600' italic size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc2'
-                    defaultMessage='Requires Silver Tier approval.'
-                  />
-                </Text>
-              </TextGroup>
-            )}
-          </TierDescription>
-
-          {getTierStatus(
-            currentTier === TIER_TYPES.SILVER_PLUS ? TIER_TYPES.SILVER : currentTier,
-            TIER_TYPES.GOLD,
-            goldTier,
-            interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed
-          )}
-        </Item>
-
-        {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed && (
-          <LinkWrapper>
-            <Link
-              onClick={() => {
-                props.interestUploadDocumentActions.showModal({
-                  origin: 'InterestUploadDocument'
-                })
-              }}
-              style={{ width: '100%' }}
-            >
-              <Button data-e2e='earnInterestSupplyInformation' fullwidth nature='primary'>
-                <FormattedMessage
-                  id='scenes.interest.submit_information'
-                  defaultMessage='Submit Information'
-                />
-              </Button>
-            </Link>
-          </LinkWrapper>
+                </ItemTitle>
+              </ItemTitleWrapper>
+            </IconWrapper>
+            <StatusCartridge>
+              <SuccessCartridge fontSize='14px'>
+                <FormattedMessage id='modals.tradinglimits.approved' defaultMessage='Approved' />
+              </SuccessCartridge>
+            </StatusCartridge>
+          </ContentItem>
         )}
 
-        <ContentItem>
-          <IconWrapper>
-            <Icon name='send' color='blue600' size='20px' />
-            <ItemTitle>
-              <FormattedMessage
-                id='modals.tradinglimits.send_crypto'
-                defaultMessage='Send Crypto'
-              />
-            </ItemTitle>
-          </IconWrapper>
-          {getItemBadgeStatus(currentTier, ITEMS.SEND)}
-        </ContentItem>
+        {isUserGold && (
+          <ContentItem>
+            <IconWrapper>
+              <Image name='blockchain-gold' size='20px' />
+              <ItemTitleWrapper>
+                <ItemTitle>
+                  <FormattedMessage
+                    id='modals.tradinglimits.upgrade.gold_limits'
+                    defaultMessage='Gold Limits'
+                  />
+                </ItemTitle>
+                <ItemSubtitle>
+                  <FormattedMessage
+                    id='modals.tradinglimits.upgrade.include_silver_limits'
+                    defaultMessage='Includes Silver Features'
+                  />
+                </ItemSubtitle>
+              </ItemTitleWrapper>
+            </IconWrapper>
+            <StatusCartridge>
+              <SuccessCartridge fontSize='14px'>
+                <FormattedMessage id='modals.tradinglimits.approved' defaultMessage='Approved' />
+              </SuccessCartridge>
+            </StatusCartridge>
+          </ContentItem>
+        )}
 
-        <ContentItem>
-          <Icon name='qr-code' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage
-              id='modals.tradinglimits.receive_crypto'
-              defaultMessage='Receive Crypto'
-            />
-          </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.RECEIVE)}
-        </ContentItem>
-        <ContentItem>
-          <Icon name='arrow-switch-thick' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage id='modals.tradinglimits.swap_crypto' defaultMessage='Swap Crypto' />
-          </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.SWAP, swapProduct?.eligible)}
-        </ContentItem>
-
-        <ContentItem>
-          <Icon name='USD' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage
-              id='modals.tradinglimits.cash_accounts'
-              defaultMessage='Cash Accounts'
-            />
-          </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.CASH_ACCOUNT)}
-        </ContentItem>
-        <ContentItem>
-          <Icon name='credit-card-sb' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage
-              id='modals.tradinglimits.buy_with_a_card'
-              defaultMessage='Buy with a Card'
-            />
-          </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD, simpleBuyProduct?.eligible)}
-        </ContentItem>
-        <ContentItem>
-          <Icon name='bank-filled' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage
-              id='modals.tradinglimits.deposits_and_withdrawals'
-              defaultMessage='Deposits & Withdrawals'
-            />
-          </ItemTitle>
-          {getItemBadgeStatus(
-            currentTier,
-            ITEMS.DEPOSIT_AND_WITHDRAWAL,
-            brokerageProduct?.eligible
-          )}
-        </ContentItem>
-        <ContentItem>
-          <Icon name='percentage' color='blue600' size='20px' />
-          <ItemTitle>
-            <FormattedMessage
-              id='modals.tradinglimits.earn_interest'
-              defaultMessage='Earn Rewards'
-            />
-          </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct?.eligible)}
-        </ContentItem>
+        {limitsAndDetails?.limits.length > 0 &&
+          limitsAndDetails.limits.map((limit) => (
+            <ContentItem key={limit.name}>
+              <IconWrapper>
+                <Image name={SETTINGS_ITEMS_ICONS[limit.name]} size='20px' />
+                <ItemTitleWrapper>
+                  <ItemTitle>{renderLabel(limit.name as SETTINGS_ITEMS)}</ItemTitle>
+                  {renderLabelSubtitle(limit.name as SETTINGS_ITEMS)}
+                </ItemTitleWrapper>
+              </IconWrapper>
+              {renderStatus(limit)}
+            </ContentItem>
+          ))}
       </MainContent>
 
       <FooterWrapper>
-        {!isUserGold && !isGoldInreview && (
-          <Button
-            fullwidth
-            size='16px'
-            height='48px'
-            nature='primary'
-            data-e2e='tradingLimitsUnlockAll'
-            type='button'
-            onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
-          >
-            {isUserVerifiedSilver ? (
-              <FormattedMessage
-                id='modals.tradinglimits.unlock_gold_tier'
-                defaultMessage='Unlock Gold Tier ->'
-              />
-            ) : (
-              <FormattedMessage id='buttons.unlock_all' defaultMessage='Unlock All  ->' />
-            )}
-          </Button>
-        )}
+        <TextWrapper
+          size='12px'
+          weight={500}
+          color='gray600'
+          style={{
+            marginBottom: '12px',
+            marginTop: '12px'
+          }}
+        >
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line1'
+            defaultMessage='Transaction limits may apply to certain banks and card issuers.'
+          />
+        </TextWrapper>
+
+        <TextWrapper
+          size='12px'
+          weight={500}
+          color='gray600'
+          style={{
+            marginBottom: '12px'
+          }}
+        >
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line2'
+            defaultMessage='Purchase or deposit limits are determined by many factors, including verification completed on your account, your purchase history, your payment type, and more.'
+          />
+        </TextWrapper>
+
+        <TextWrapper size='12px' weight={500} color='gray600'>
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line3'
+            defaultMessage='Learn more about Trading Accounts, Limits, and features by visiting our <a>Support Center</a>.'
+            values={{
+              a: (msg) => (
+                <a
+                  href='https://support.blockchain.com/hc/en-us/articles/4410561005844'
+                  target='_blank'
+                  rel='noopener noreferrrer noreferrer'
+                >
+                  {msg}
+                </a>
+              )
+            }}
+          />
+        </TextWrapper>
       </FooterWrapper>
     </Wrapper>
   )

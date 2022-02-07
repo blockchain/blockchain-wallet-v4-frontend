@@ -3,14 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
-import {
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
-  SBPaymentTypes,
-  WalletFiatType
-} from '@core/types'
+import { BSPaymentMethodType } from '@core/network/api/buySell/types'
+import { BSPaymentTypes, CrossBorderLimitsPayload, FiatType, WalletAccountEnum } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
@@ -19,7 +13,6 @@ import {
   AddBankStepType,
   BankDWStepType,
   BankPartners,
-  BankTransferAccountType,
   BrokerageModalOriginType,
   BrokerageOrderType
 } from 'data/types'
@@ -35,6 +28,14 @@ const EnterAmountContainer = (props: Props) => {
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchSDDEligibility()
     }
+
+    // fetch crossborder limits
+    props.brokerageActions.fetchCrossBorderLimits({
+      fromAccount: WalletAccountEnum.NON_CUSTODIAL,
+      inputCurrency: props.fiatCurrency,
+      outputCurrency: props.fiatCurrency,
+      toAccount: WalletAccountEnum.CUSTODIAL
+    } as CrossBorderLimitsPayload)
   }, [props.fiatCurrency])
 
   const onSubmit = () => {
@@ -100,16 +101,18 @@ const EnterAmountContainer = (props: Props) => {
       const paymentAccount = getDefaultMethod(props.defaultMethod, val.bankTransferAccounts)
       const paymentMethod = val.paymentMethods.methods.find(
         (method) =>
-          method.type === SBPaymentTypes.BANK_TRANSFER ||
-          method.type === SBPaymentTypes.BANK_ACCOUNT
+          method.type === BSPaymentTypes.BANK_TRANSFER ||
+          method.type === BSPaymentTypes.BANK_ACCOUNT
       )
       let handleMethodClick: () => void
+      const { crossBorderLimits, formErrors } = val
 
       if (val.bankTransferAccounts.length > 0) {
         handleMethodClick = handleChangeMethod
       } else {
         handleMethodClick = handleAddMethod
       }
+
       return isUserEligible && paymentMethod ? (
         <EnterAmount
           onSubmit={onSubmit}
@@ -120,6 +123,9 @@ const EnterAmountContainer = (props: Props) => {
           orderType={BrokerageOrderType.DEPOSIT}
           paymentAccount={paymentAccount}
           paymentMethod={paymentMethod}
+          crossBorderLimits={crossBorderLimits}
+          formErrors={formErrors}
+          formActions={props.formActions}
         />
       ) : (
         <FlyoutOopsError
@@ -140,14 +146,15 @@ const mapStateToProps = (state: RootState) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  method?: SBPaymentMethodType
+  method?: BSPaymentMethodType
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>

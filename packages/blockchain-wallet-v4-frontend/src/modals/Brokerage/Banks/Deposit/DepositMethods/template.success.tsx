@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { SBPaymentMethodsType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
 // TODO: move to somewhere more generic
-import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
+import BankWire from '../../../../BuySell/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
 
@@ -39,13 +39,13 @@ const IconContainer = styled.div`
   justify-content: center;
 `
 
-const getIcon = (value: SBPaymentMethodType): ReactElement => {
+const getIcon = (value: BSPaymentMethodType): ReactElement => {
   switch (value.type) {
-    case SBPaymentTypes.BANK_TRANSFER:
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
     default:
       return <Image name='bank' height='48px' />
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return (
         <IconContainer>
           <Icon size='18px' color='blue600' name='arrow-down' />
@@ -54,16 +54,21 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
   }
 }
 
-const getType = (value: SBPaymentMethodType) => {
+const getType = (value: BSPaymentMethodType) => {
   switch (value.type) {
-    case SBPaymentTypes.BANK_TRANSFER:
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
     default:
-      return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
-    case SBPaymentTypes.BANK_ACCOUNT:
+      return (
+        <FormattedMessage
+          id='modals.simplebuy.easybanktransfer'
+          defaultMessage='Easy Bank Transfer'
+        />
+      )
+    case BSPaymentTypes.BANK_ACCOUNT:
       let text
       if (value.currency === 'EUR' || value.currency === 'GBP') {
-        text = <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+        text = <FormattedMessage id='buttons.transfer' defaultMessage='Regular Bank Transfer' />
       } else {
         text = <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
       }
@@ -73,10 +78,10 @@ const getType = (value: SBPaymentMethodType) => {
 
 const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
-    (method) => method.type === SBPaymentTypes.BANK_TRANSFER
+    (method) => method.type === BSPaymentTypes.BANK_TRANSFER
   )
   const bankWire = paymentMethods.methods.find(
-    (method) => method.type === SBPaymentTypes.BANK_ACCOUNT
+    (method) => method.type === BSPaymentTypes.BANK_ACCOUNT
   )
 
   return (
@@ -129,7 +134,6 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
                 })
               }
             }}
-            text={getType(bankTransfer)}
             value={bankTransfer}
           />
         )}
@@ -152,7 +156,7 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
 
 type Props = {
   close: () => void
-  paymentMethods: SBPaymentMethodsType
+  paymentMethods: BSPaymentMethodsType
 } & ReturnType<typeof mapDispatchToProps> &
   _P
 

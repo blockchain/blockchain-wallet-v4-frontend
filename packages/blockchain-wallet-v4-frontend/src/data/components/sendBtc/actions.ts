@@ -1,4 +1,10 @@
-import { PaymentValue } from '@core/types'
+import {
+  CoinType,
+  CrossBorderLimits,
+  PaymentValue,
+  WalletAccountType,
+  WalletFiatType
+} from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -63,4 +69,34 @@ export const sendBtcSecondStepCancelClicked = () => ({
 
 export const sendBtcBitPayInvoiceExpired = () => ({
   type: AT.SEND_BTC_BITPAY_INVOICE_EXPIRED
+})
+
+export const sendBtcFetchLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAccountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAccountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.SEND_BTC_FETCH_LIMITS
+})
+export const sendBtcFetchLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.SEND_BTC_FETCH_LIMITS_FAILURE
+})
+export const sendBtcFetchLimitsLoading = () => ({
+  type: AT.SEND_BTC_FETCH_LIMITS_LOADING
+})
+export const sendBtcFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
+  payload: limitsResponse,
+  type: AT.SEND_BTC_FETCH_LIMITS_SUCCESS
 })

@@ -138,7 +138,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
   const getCategory = (name: string) =>
     name.includes('proofOfAddress') ? 'PROOF_OF_ADDRESS' : 'PROOF_OF_INCOME'
 
-  const submitUplaodedFiles = () => {
+  const submitUploadedFiles = () => {
     setIsUploading(true)
     const files: FileUploadItem[] = []
     // we had to do async converting files into base64
@@ -180,13 +180,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
       </Header>
       <Content mode='top'>
         <ContentWrapper>
-          <Text
-            color='grey900'
-            lineHeight='20px'
-            size='14px'
-            weight={500}
-            style={{ marginBottom: '45px' }}
-          >
+          <Text color='grey900' lineHeight='20px' size='14px' weight={500}>
             <FormattedMessage
               id='modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload'
               defaultMessage='Please upload a high resolution file ({files}) of each item below. Max file size is {maxSize}MB each.'
@@ -204,14 +198,14 @@ const UploadAndVerify: React.FC<Props> = (props) => {
           </Title>
           <Subtitle color='grey900' size='14px' weight={500} lineHeight='20px'>
             <FormattedMessage
-              id='modals.interest.withdrawal.upload_documents.get_started.bank_acccount_statement'
+              id='modals.interest.withdrawal.upload_documents.get_started.bank_account_statement'
               defaultMessage='Bank Account Statement or Utility Bill'
             />
           </Subtitle>
 
           <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
             <FormattedMessage
-              id='modals.interest.withdrawal.upload_documents.get_started.bank_acccount_statement.description'
+              id='modals.interest.withdrawal.upload_documents.get_started.bank_account_statement.description'
               defaultMessage='Must be dated within the last 90 days or a council tax bill for the current tax year.'
             />
           </Text>
@@ -314,8 +308,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
           type='button'
           fullwidth
           height='48px'
-          style={{ marginTop: '16px' }}
-          onClick={() => submitUplaodedFiles()}
+          onClick={() => submitUploadedFiles()}
           disabled={disable}
         >
           <FormattedMessage id='buttons.submit' defaultMessage='Submit' />

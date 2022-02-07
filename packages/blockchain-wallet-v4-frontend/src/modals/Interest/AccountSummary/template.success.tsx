@@ -35,9 +35,9 @@ const AccountSummary: React.FC<Props> = (props) => {
     accountBalances,
     coin,
     flagEDDInterestFileUpload,
+    handleBSClick,
     handleClose,
     handleDepositClick,
-    handleSBClick,
     interestActions,
     interestLimits,
     interestRate,
@@ -321,10 +321,10 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Text>
             </Button>
             <Button
-              data-e2e='interestDeposit'
+              data-e2e='interestDepositBuyButton'
               height='48px'
               nature='empty'
-              onClick={() => handleSBClick(coin)}
+              onClick={() => handleBSClick(coin)}
               width='192px'
             >
               <Text size='16px' weight={600} color='blue600'>
@@ -466,8 +466,8 @@ const AccountSummary: React.FC<Props> = (props) => {
 
 type ParentProps = {
   coin: CoinType
+  handleBSClick: (string) => void
   handleDepositClick: () => void
-  handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
   walletCurrency: FiatType
 }

@@ -72,7 +72,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
           </IconWrapper>
           <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
             <FormattedMessage
-              id='modals.kycverification.additionalinfo.title'
+              id='copy.more_information_needed'
               defaultMessage='More Information Needed'
             />
           </Text>

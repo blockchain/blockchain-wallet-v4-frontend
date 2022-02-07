@@ -3,23 +3,25 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
-import { SBPaymentMethodType, SBPaymentTypes, SBTransactionType } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
   BankPartners,
   BankStatusType,
   BrokerageModalOriginType,
-  FastLinkType,
-  SBCheckoutFormValuesType
+  BSCheckoutFormValuesType,
+  FastLinkType
 } from 'data/types'
 
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 export default ({ api }: { api: APIType }) => {
   const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
@@ -71,10 +73,10 @@ export default ({ api }: { api: APIType }) => {
       if (typeof account === 'string' && bankCredentials) {
         // Yapily
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
-        const { yapilyCallbackUrl } = domainsR.getOrElse({
-          yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        const { comRoot } = domainsR.getOrElse({
+          comRoot: 'https://www.blockchain.com'
         })
-        const callback = yapilyCallbackUrl
+        const callback = `${comRoot}/brokerage-link-success`
         bankId = bankCredentials.id
         attributes = { callback, institutionId: account }
       } else if (typeof account === 'object' && fastLink) {
@@ -112,8 +114,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.components.brokerage.fetchBankTransferAccounts())
 
       if (bankData.state === 'ACTIVE') {
-        const values: SBCheckoutFormValuesType = yield select(
-          selectors.form.getFormValues('simpleBuyCheckout')
+        const values: BSCheckoutFormValuesType = yield select(
+          selectors.form.getFormValues(FORM_BS_CHECKOUT)
         )
 
         // Set the brokerage defaultMethod to this new bank. Typically to
@@ -127,15 +129,15 @@ export default ({ api }: { api: APIType }) => {
           yield put(
             actions.components.buySell.createOrder({
               paymentMethodId: status.id,
-              paymentType: SBPaymentTypes.BANK_TRANSFER
+              paymentType: BSPaymentTypes.BANK_TRANSFER
             })
           )
         } else {
-          const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(yield select())
+          const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(yield select())
           const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
           if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
             const bankTransferMethod = sbMethods.methods.filter(
-              (method) => method.type === SBPaymentTypes.BANK_TRANSFER
+              (method) => method.type === BSPaymentTypes.BANK_TRANSFER
             )[0]
             yield put(
               actions.components.buySell.handleMethodChange({
@@ -143,7 +145,7 @@ export default ({ api }: { api: APIType }) => {
                 method: {
                   ...bankData,
                   limits: bankTransferMethod.limits,
-                  type: SBPaymentTypes.BANK_TRANSFER
+                  type: BSPaymentTypes.BANK_TRANSFER
                 }
               })
             )
@@ -209,13 +211,13 @@ export default ({ api }: { api: APIType }) => {
       })
     )
 
-    const paymentMethods: SBPaymentMethodType[] = yield call(api.getSBPaymentMethods, payload, true)
+    const paymentMethods: BSPaymentMethodType[] = yield call(api.getBSPaymentMethods, payload, true)
 
     const eligibleMethods = paymentMethods.filter(
       (method) =>
         method.currency === payload &&
-        (method.type === SBPaymentTypes.BANK_ACCOUNT ||
-          method.type === SBPaymentTypes.BANK_TRANSFER)
+        (method.type === BSPaymentTypes.BANK_ACCOUNT ||
+          method.type === BSPaymentTypes.BANK_TRANSFER)
     )
 
     if (eligibleMethods.length === 0) {
@@ -255,7 +257,8 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
-    yield put(actions.components.withdraw.showModal(payload))
+    yield put(actions.form.destroy('brokerageTx'))
+    yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
@@ -278,7 +281,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const ClearedStatusCheck = function* (orderId) {
-    const order: SBTransactionType = yield call(api.getPaymentById, orderId)
+    const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
     if (order.state === 'CLEARED' || order.state === 'COMPLETE' || order.state === 'FAILED') {
       return order
@@ -287,7 +290,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const AuthUrlCheck = function* (orderId) {
-    const order: SBTransactionType = yield call(api.getPaymentById, orderId)
+    const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
       (order.extraAttributes &&
@@ -304,10 +307,11 @@ export default ({ api }: { api: APIType }) => {
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id, partner } = yield select(selectors.components.brokerage.getAccount)
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { yapilyCallbackUrl } = domainsR.getOrElse({
-      yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+    const { comRoot } = domainsR.getOrElse({
+      comRoot: 'https://www.blockchain.com'
     })
-    const callback = partner === BankPartners.YAPILY ? yapilyCallbackUrl : undefined
+    const callback =
+      partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)
@@ -331,7 +335,7 @@ export default ({ api }: { api: APIType }) => {
       }
       // Poll for order status in order to show success, timed out or failed
       try {
-        const updatedOrder: SBTransactionType = yield retry(
+        const updatedOrder: BSTransactionType = yield retry(
           RETRY_AMOUNT,
           SECONDS * 1000,
           ClearedStatusCheck,
@@ -361,12 +365,33 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchCrossBorderLimits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchCrossBorderLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.fetchCrossBorderLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchCrossBorderLimitsFailure(e))
+    }
+  }
+
   return {
     createFiatDeposit,
     deleteSavedBank,
     fetchBankLinkCredentials,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
+    fetchCrossBorderLimits,
     handleDepositFiatClick,
     handleWithdrawClick,
     showModal

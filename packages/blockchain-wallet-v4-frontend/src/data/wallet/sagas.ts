@@ -1,7 +1,8 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { prop } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
-import { Remote } from '@core'
+import { Remote, Types } from '@core'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
@@ -167,8 +168,47 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const checkXpubCacheLegitimacy = function* () {
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    const accounts = Types.Wallet.selectHDAccounts(wallet)
+    const first5 = accounts.slice(0, 5)
+
+    let isValidReceive = true
+    let isValidChange = true
+    first5.forEach((account) => {
+      account.derivations.forEach((derivation) => {
+        const { cache, xpub } = derivation
+        const { changeAccount, receiveAccount } = cache
+        const accountNode = Bitcoin.bip32.fromBase58(xpub)
+
+        const validReceive = accountNode.derive(0).neutered().toBase58()
+        const validChange = accountNode.derive(1).neutered().toBase58()
+
+        if (receiveAccount !== validReceive) {
+          isValidReceive = false
+          // eslint-disable-next-line
+          console.log(`Receive cache is incorrect for ${derivation.type} at ${account.index}`)
+        }
+        if (changeAccount !== validChange) {
+          isValidChange = false
+          // eslint-disable-next-line
+          console.log(`Change cache is incorrect for ${derivation.type} at ${account.index}`)
+        }
+      })
+    })
+
+    if (!isValidReceive) {
+      yield put(actions.auth.logWrongReceiveCache())
+    }
+
+    if (!isValidChange) {
+      yield put(actions.auth.logWrongChangeCache())
+    }
+  }
+
   return {
     checkDataErrors,
+    checkXpubCacheLegitimacy,
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,

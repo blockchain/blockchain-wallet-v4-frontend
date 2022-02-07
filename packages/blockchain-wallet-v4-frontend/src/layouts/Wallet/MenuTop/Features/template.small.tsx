@@ -54,7 +54,7 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </DropdownMenuItem>
           <DropdownMenuItem
             data-e2e='exchangeLink'
-            onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+            onClick={() => props.swapActions.showModal({ origin: 'FeaturesTopNav' })}
           >
             <Destination>
               <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
@@ -78,6 +78,30 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
+          {props.invitations.nfts ? (
+            <LinkContainer to='/nfts' activeClassName='active'>
+              <DropdownMenuItem data-e2e='nftsLink'>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.nfts'
+                    defaultMessage='NFTs'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+            </LinkContainer>
+          ) : null}
+          {props.walletConnectEnabled ? (
+            <LinkContainer to='/dapps' activeClassName='active'>
+              <DropdownMenuItem data-e2e='dappsLink'>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.dapps'
+                    defaultMessage='Dapps'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+            </LinkContainer>
+          ) : null}
         </DropdownMenu>
       )}
     </NavbarNavItemButton>

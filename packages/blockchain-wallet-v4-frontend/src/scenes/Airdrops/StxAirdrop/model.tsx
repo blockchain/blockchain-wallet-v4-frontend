@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
 
+import { displayCoinToCoin } from '@core/exchange'
 import { Button, Link, Text } from 'blockchain-info-components'
 import {
   BlueCartridge,
@@ -103,7 +104,7 @@ const calcStxAmount = (stxCampaign) => {
     stxCampaign.userCampaignTransactionResponseList.length &&
     stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
   if (!stxAmount) return
-  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
+  return displayCoinToCoin({ coin: 'STX', value: stxAmount })
 }
 
 export const StxDateOrAmount = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
@@ -262,6 +263,7 @@ export const StxFooterCta = ({ kycState, tags, userCampaignsInfoResponseList }: 
       case undefined:
       case 'REGISTERED':
       case 'NONE':
+      default:
         return null
     }
   }

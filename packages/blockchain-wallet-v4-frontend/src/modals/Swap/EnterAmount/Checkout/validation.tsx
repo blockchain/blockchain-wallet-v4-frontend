@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
+import { PaymentValue, RatesType, SwapQuoteStateType, SwapUserLimitsType } from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { BSCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
 
 import { Props } from '.'
@@ -13,7 +13,7 @@ export const getMaxMin = (
   limits: SwapUserLimitsType,
   baseRate: RatesType,
   payment: undefined | PaymentValue,
-  quote: { quote: SwapQuoteType; rate: number },
+  quote: SwapQuoteStateType,
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
 ) => {
@@ -56,6 +56,8 @@ export const getMaxMin = (
 
       // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
       return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
+    default:
+      break
   }
 }
 
@@ -69,6 +71,8 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
   const cryptoMax = Number(
     getMaxMin('max', limits, baseRates, payment, quote, restProps.BASE, restProps.COUNTER)
   )
+  // const maxType = getMaxType(Number(value), limits, baseRates, payment, restProps.BASE)
+
   const fiatMax = Exchange.convertCoinToFiat({
     coin: restProps.BASE.coin,
     currency: walletCurrency,
@@ -76,7 +80,13 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
     rates: baseRates,
     value: cryptoMax
   })
-  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? 'ABOVE_MAX' : false
+
+  let maxType = 'ABOVE_MAX'
+  if (Number(value) > Number(payment ? payment.effectiveBalance : restProps.BASE.balance)) {
+    maxType = 'ABOVE_BALANCE'
+  }
+
+  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? maxType : false
 }
 
 export const minimumAmount = (value: string, allValues: SwapAmountFormValues, restProps: Props) => {
@@ -115,4 +125,21 @@ export const maximumAmountSilver = (restProps: Props, amtError: string | boolean
 export const incomingAmountNonZero = (value, allValues, restProps: Props) => {
   const { incomingAmount } = restProps
   return incomingAmount.isNegative ? 'NEGATIVE_INCOMING_AMT' : false
+}
+
+export const checkCrossBorderLimit = (
+  value: string,
+  allValues: BSCheckoutFormValuesType,
+  props: Props
+): boolean | string => {
+  const { crossBorderLimits } = props
+
+  if (!crossBorderLimits?.current) {
+    return false
+  }
+
+  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return Number(value) > Number(availableAmountInBase) ? 'ABOVE_MAX_LIMIT' : false
 }

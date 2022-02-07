@@ -1,4 +1,4 @@
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
@@ -27,12 +27,8 @@ enum AnalyticsKey {
   EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
   INTEREST_CLICKED = 'Interest Clicked',
-  INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
   INTEREST_DEPOSIT_CLICKED = 'Interest Deposit Clicked',
-  INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
-  INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
   INTEREST_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
-  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked',
   INTEREST_VIEWED = 'Interest Viewed',
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
@@ -49,7 +45,11 @@ enum AnalyticsKey {
   LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NEW_ACCOUNT_PASSWORD_ENTERED = 'New Account Password Entered',
+  NFT_ORDER_CREATED = 'NFT Order Created',
+  NFT_ORDER_FAILED = 'NFT Order Failed',
+  NFT_ORDER_SUCCEEDED = 'NFT Order Succeeded',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
+  PEEKSHEET_DISMISSED = 'Peeksheet Dismissed',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
@@ -150,10 +150,11 @@ enum DepositMethod {
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
-enum LoginHelpClikedOrigin {
+enum LoginHelpClickedOrigin {
   IDENTIFIER = 'IDENTIFIER',
   PASSWORD = 'PASSWORD',
-  QR_CODe = 'QR_CODE'
+  QR_CODE = 'QR_CODE',
+  UPGRADE_ACCOUNT_NEW_PASSWORD = 'UPGRADE_ACCOUNT_NEW_PASSWORD'
 }
 
 enum SendReceive {
@@ -359,7 +360,7 @@ type LinkBankClickedPayload = BasePayload & {
 }
 
 type LoginHelpClickedPayload = BasePayload & {
-  origin: LoginHelpClikedOrigin
+  origin: LoginHelpClickedOrigin
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
@@ -452,7 +453,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   input_currency: string
   origin: keyof typeof RecurringBuyOrigins
   output_currency: string
-  payment_method: SBPaymentTypes
+  payment_method: BSPaymentTypes
 }
 
 export type RecurringBuyClickedPayload = BasePayload & {
@@ -513,7 +514,7 @@ type SendFromSelectedPayload = BasePayload & {
   from_account_type: AccountType
 }
 
-type SendReceiveClickedOrigin = 'NAVIGATION'
+type SendReceiveClickedOrigin = 'CURRENCY_PAGE' | 'NAVIGATION' | 'NO_HOLDINGS' | 'TRANSACTIONS_PAGE'
 
 type SendReceiveClickedPayload = BasePayload & {
   currency: string
@@ -678,6 +679,10 @@ type WrongChangeCachePayload = BasePayload
 
 type WrongReceiveCachePayload = BasePayload
 
+type PeekSheetPayload = BasePayload & {
+  current_step_completed: number
+}
+
 type AnalyticsProperties =
   | AddressVerifyMessageClickedPayload
   | AddMobileNumberClickedPayload
@@ -718,6 +723,7 @@ type AnalyticsProperties =
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
+  | PeekSheetPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | RecoveryOptionSelectedPayload
@@ -795,6 +801,11 @@ export type {
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
+}
+
+export interface TrackEventAction {
+  key: AnalyticsKey
+  properties: AnalyticsProperties
 }
 
 export {

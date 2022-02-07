@@ -66,11 +66,14 @@ const btcReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BTC_TRANSACTIONS_SUCCESS: {
       const { reset, transactions } = payload
+      const filteredTransactions = transactions.filter(
+        (tx) => tx.state !== 'EXPIRED' && tx.state !== 'PENDING_CONFIRMATION'
+      )
       return reset
-        ? assoc('transactions', [Remote.Success(transactions)], state)
+        ? assoc('transactions', [Remote.Success(filteredTransactions)], state)
         : over(
             lensProp('transactions'),
-            compose(append(Remote.Success(transactions)), dropLast(1)),
+            compose(append(Remote.Success(filteredTransactions)), dropLast(1)),
             state
           )
     }

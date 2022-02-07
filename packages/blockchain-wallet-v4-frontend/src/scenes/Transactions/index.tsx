@@ -186,7 +186,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       width='100px'
                       onClick={() => {
                         this.props.buySellActions.showModal({
-                          cryptoCurrency: coin as CoinType,
                           orderType: OrderType.BUY,
                           origin: 'TransactionList'
                         })

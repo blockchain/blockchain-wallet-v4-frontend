@@ -1,5 +1,7 @@
 import {
   BeneficiaryType,
+  CrossBorderLimits,
+  FiatType,
   RemoteDataType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -8,7 +10,6 @@ import {
 } from '@core/types'
 
 import { BankTransferAccountType } from '../brokerage/types'
-import * as AT from './actionTypes'
 
 // types
 export type WithdrawCheckoutFormValuesType = {
@@ -57,6 +58,7 @@ export type WithdrawStepActionsPayload =
 export type WithdrawState = {
   amount?: string
   beneficiary?: BeneficiaryType
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
   step: WithdrawStepEnum
@@ -64,48 +66,33 @@ export type WithdrawState = {
   withdrawal?: WithdrawResponseType
 }
 
-// actions
-interface SetStepAction {
-  payload: WithdrawStepActionsPayload
-  type: typeof AT.SET_STEP
-}
-interface FetchWithdrawalFeesFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_FAILURE
-}
-interface FetchWithdrawalFeesLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_LOADING
-}
-interface FetchWithdrawalFeesSuccess {
-  payload: {
-    withdrawFeesResponse: WithdrawalMinsAndFeesResponse
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_SUCCESS
+type LimitItem = {
+  available: string
+  limit: string
+  used: string
 }
 
-interface FetchWithdrawalLockFailure {
-  payload: {
-    error: string
+export type WithdrawLimitsResponse = {
+  cryptoLimit: {
+    available: string
+    daily: LimitItem
+    monthly: LimitItem
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
   }
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_FAILURE
-}
-interface FetchWithdrawalLockLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_LOADING
-}
-interface FetchWithdrawalLockSuccess {
-  payload: {
-    withdrawLockResponse: WithdrawalLockResponseType
+  currency: FiatType
+  fiatLimit: {
+    available: string
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
   }
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
+  userId: string
 }
-
-export type WithdrawActionTypes =
-  | SetStepAction
-  | FetchWithdrawalFeesFailure
-  | FetchWithdrawalFeesSuccess
-  | FetchWithdrawalFeesLoading
-  | FetchWithdrawalLockFailure
-  | FetchWithdrawalLockLoading
-  | FetchWithdrawalLockSuccess

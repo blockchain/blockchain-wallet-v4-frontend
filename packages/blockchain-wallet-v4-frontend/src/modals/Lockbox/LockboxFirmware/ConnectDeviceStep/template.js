@@ -21,7 +21,7 @@ const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
 `
 
-const CheckForUpdatesStep = (props) => {
+const CheckForUpdatesStep = () => {
   return (
     <>
       <Title>

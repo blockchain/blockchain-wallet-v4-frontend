@@ -75,6 +75,4 @@ type OwnProps = {
   handleClick: (time: TimeRange) => void
 }
 
-type Props = OwnProps & ConnectedProps<typeof connector>
-
 export default connector(TabsContainer)

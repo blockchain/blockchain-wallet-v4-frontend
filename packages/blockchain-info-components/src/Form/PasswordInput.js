@@ -16,7 +16,6 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   min-height: 48px;
   padding: 6px 12px;
   box-sizing: border-box;
-  letter-spacing: 4px;
   font-size: 20px;
   font-weight: 500;
   color: ${(props) => props.theme.grey800};
@@ -40,16 +39,10 @@ const BasePasswordInput = styled.input.attrs((props) => ({
     font-size: 14px;
     font-weight: 500;
   }
-  &::-webkit-input-placeholder {
-    opacity: 0.4;
-    color: ${(props) => props.theme.grey400};
-    font-size: 14px;
-    font-weight: 500;
-  }
   &:disabled {
     cursor: not-allowed;
     background-color: ${(props) => props.theme.grey100};
-    border: '1px solid transparent';
+    border: 1px solid transparent;
   }
 `
 

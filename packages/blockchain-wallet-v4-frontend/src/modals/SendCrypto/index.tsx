@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 
+import { CrossBorderLimits } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -85,15 +86,27 @@ const mapStateToProps = (state: RootState) => ({
     coin: state.components.sendCrypto.initialCoin,
     fix: 'CRYPTO'
   },
+  sendLimits: selectors.components.sendCrypto
+    .getSendLimits(state)
+    .getOrElse({} as CrossBorderLimits),
   sendableCoins: getData(),
   step: selectors.components.sendCrypto.getStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
-  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
+  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch),
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Send',
+        tier: 2
+      })
+    )
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

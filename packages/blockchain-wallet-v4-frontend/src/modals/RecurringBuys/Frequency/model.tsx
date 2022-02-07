@@ -1,10 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import styled from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
-import { Row } from 'components/Flyout'
 import { RecurringBuyPeriods } from 'data/types'
 
 const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {

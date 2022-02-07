@@ -13,6 +13,7 @@ exports[`Button component default renders correctly 1`] = `
   hoverBorderColor="white"
   rounded={false}
   size="14px"
+  small={false}
   uppercase={false}
 />
 `;

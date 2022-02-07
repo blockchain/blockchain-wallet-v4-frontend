@@ -4,6 +4,9 @@ export type InvitationsType = {
   ETH: boolean
   XLM: boolean
   achDepositWithdrawal: boolean
+  isRedesignEnabled: boolean
+  nfts: boolean
   openBanking: boolean
   segwit: boolean
+  withdrawalLocksFundsOnHold: boolean
 }

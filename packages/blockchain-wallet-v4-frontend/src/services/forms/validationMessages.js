@@ -37,6 +37,12 @@ export const SegwitAddressMessage = () => (
     defaultMessage='Segwit addresses are not supported'
   />
 )
+export const InvalidDecliningPrice = () => (
+  <FormattedMessage
+    id='formhelper.invaliddecliningprice'
+    defaultMessage='Starting price must be greater than ending price'
+  />
+)
 export const InvalidEmailCodeMessage = () => (
   <FormattedMessage id='formhelper.invalidemailcode' defaultMessage='Invalid Email Code' />
 )

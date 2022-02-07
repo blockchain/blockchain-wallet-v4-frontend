@@ -34,6 +34,18 @@ export default () => {
     yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
+  const refreshNftsTab = function* () {
+    const activeTab = selectors.components.nfts.getNftActiveTab(yield select())
+
+    if (activeTab === 'explore') {
+      yield put(actions.components.nfts.clearAndRefetchOrders())
+    } else if (activeTab === 'my-collection') {
+      yield put(actions.components.nfts.clearAndRefetchAssets())
+    } else {
+      yield put(actions.components.nfts.clearAndRefetchOffersMade())
+    }
+  }
+
   const refreshClicked = function* () {
     try {
       // User
@@ -69,6 +81,9 @@ export default () => {
           break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
+          break
+        case contains('/nfts', pathname):
+          yield call(refreshNftsTab)
           break
         case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
           yield call(refreshErc20Transactions, pathname.split('/')[1])

@@ -4,9 +4,10 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { FiatType } from '@core/types'
+import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
+import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
 
 import * as S from './selectors'
@@ -87,8 +88,8 @@ export default ({ api }: { api: APIType }) => {
       const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
-      const response: ReturnType<typeof api.withdrawSBFunds> = yield call(
-        api.withdrawSBFunds,
+      const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
+        api.withdrawBSFunds,
         to,
         coin,
         finalAmt,
@@ -102,9 +103,35 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchSendLimits = function* ({ payload }: ReturnType<typeof A.fetchSendLimits>) {
+    const state = yield select()
+    const { coin, type } = payload.account
+
+    if (type !== SwapBaseCounterTypes.CUSTODIAL) {
+      return
+    }
+
+    const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
+    try {
+      yield put(A.fetchSendLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        coin,
+        WalletAccountEnum.CUSTODIAL,
+        coin,
+        WalletAccountEnum.NON_CUSTODIAL,
+        currency
+      )
+      yield put(A.fetchSendLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchSendLimitsFailure(e))
+    }
+  }
+
   return {
     fetchFees,
     fetchLocks,
+    fetchSendLimits,
     onFormChange,
     // fetchTransactionDetails,
     submitTransaction

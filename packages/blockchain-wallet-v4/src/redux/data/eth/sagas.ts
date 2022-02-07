@@ -6,7 +6,6 @@ import {
   equals,
   filter,
   flatten,
-  head,
   isNil,
   join,
   last,
@@ -115,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
 
       // eslint-disable-next-line
       const processedTxPage: Array<EthProcessedTxType> = yield call(__processTxs, txPage)
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         'ETH'
       )
@@ -125,7 +124,7 @@ export default ({ api }: { api: APIType }) => {
         nextPage,
         atBounds,
         'ETH',
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([processedTxPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
@@ -278,22 +277,23 @@ export default ({ api }: { api: APIType }) => {
   //
   const fetchErc20Data = function* (action: ReturnType<typeof A.fetchErc20Data>) {
     const { coin } = action.payload
-    const ethAddr = head(S.getContext(yield select()))
-    const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
-      api.getAccountTokensBalances,
-      ethAddr
-    )
-
-    yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
     try {
+      const ethAddr = (yield select(kvStoreSelectors.getDefaultAddress)).getOrFail(
+        'No Default ETH Address.'
+      )
+      const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
+        api.getAccountTokensBalances,
+        ethAddr
+      )
+
+      yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
-          // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
           if (!window.coins[symbol]) return
-          if (window.coins[symbol].coinfig.type.name !== 'ERC20') return
-          yield put(A.fetchErc20DataLoading(symbol))
-          const contract = val.tokenHash
+          const { coinfig } = window.coins[symbol]
+          if (!coinfig.type.erc20Address) return
+          const contract = coinfig.type.erc20Address
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
@@ -343,7 +343,7 @@ export default ({ api }: { api: APIType }) => {
       // eslint-disable-next-line
       const walletPage: Array<EthProcessedTxType> = yield call(__processErc20Txs, txs, token)
       const coin: Erc20CoinType = token.toUpperCase()
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         coin
       )
@@ -353,7 +353,7 @@ export default ({ api }: { api: APIType }) => {
         nextPage,
         atBounds,
         coin,
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([walletPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

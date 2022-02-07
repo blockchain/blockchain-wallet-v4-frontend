@@ -146,7 +146,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDDepositLimits = (currency?: WalletFiatType): DepositLimits =>
+  const getSavingsEDDDepositLimits = (currency?: FiatType): DepositLimits =>
     authorizedGet({
       data: {
         currency

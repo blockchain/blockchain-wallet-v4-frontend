@@ -1,110 +1,144 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
-import { PageTitle, SubTitle, Title } from 'components/Layout'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
   AssetDetails,
-  AssetImage,
-  CollectionWrapper,
+  CTAWrapper,
   ImageContainer,
+  LazyLoadWrapper,
+  NftPageWrapper,
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
+import CollectionForm from './CollectionForm'
 
-const YourCollection: React.FC<Props> = ({ assetsR, nftsActions }) => {
+const YourCollection: React.FC<Props> = (props) => {
+  useEffect(() => {
+    props.nftsActions.fetchNftAssets()
+  }, [])
+
+  const assets =
+    props.assets.collection === 'all'
+      ? props.assets.list
+      : props.assets.list.filter((asset) => asset.collection.slug === props.assets.collection)
+
   return (
-    <div>
-      <PageTitle>
-        <div>
-          <Title>
-            <Text color='grey800' size='24px' weight={600}>
-              <FormattedMessage id='copy.nfts.collection' defaultMessage='Your Collection' />
-            </Text>
-          </Title>
-          <SubTitle>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.nfts.collection.sub'
-                defaultMessage='View your NFT collection'
+    <NftPageWrapper>
+      <CollectionForm {...props} />
+      <LazyLoadWrapper onLazyLoad={() => props.nftsActions.fetchNftAssets()}>
+        {assets.map((asset) => {
+          if (!asset) return null
+          return (
+            <Asset key={asset.token_id}>
+              <ImageContainer
+                backgroundColor={`#${asset.background_color}` || '#fff'}
+                background={`url(${asset.image_url})`}
               />
+              <AssetDetails>
+                <div>
+                  <AssetCollection>
+                    <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
+                      {asset.collection.name}
+                    </Text>
+                  </AssetCollection>
+                  <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
+                    {asset.name}
+                  </Text>
+                </div>
+                <PriceInfo>
+                  <Text size='12px' color='black' weight={600}>
+                    <FormattedMessage id='copy.last_sale' defaultMessage='Last Sale' />
+                  </Text>
+                  {asset.last_sale ? (
+                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                      <StyledCoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin={asset.last_sale.payment_token.symbol}
+                      >
+                        {asset.last_sale.total_price}
+                      </StyledCoinDisplay>
+                      &nbsp;-&nbsp;
+                      <FiatDisplay
+                        size='12px'
+                        color='grey600'
+                        weight={600}
+                        coin={asset.last_sale.payment_token.symbol}
+                      >
+                        {asset.last_sale.total_price}
+                      </FiatDisplay>
+                    </Text>
+                  ) : (
+                    <Text color='grey600' size='12px' weight={600}>
+                      N/A
+                    </Text>
+                  )}
+                </PriceInfo>
+              </AssetDetails>
+              <CTAWrapper>
+                <Button
+                  fullwidth
+                  data-e2e='sellNft'
+                  nature='primary'
+                  onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
+                >
+                  <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
+                </Button>
+                <Link
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    marginTop: '14px',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
+                  size='11px'
+                  href={asset.permalink}
+                  target='_blank'
+                >
+                  View on OpenSea
+                </Link>
+              </CTAWrapper>
+            </Asset>
+          )
+        })}
+        {props.assets.isLoading ? (
+          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        ) : null}
+        {props.assets.atBound && props.assets.collection === 'all' ? (
+          props.assets.list.length === 0 ? (
+            <Text weight={600}>
+              <span aria-label='flag' role='img'>
+                🏴‍☠️
+              </span>{' '}
+              Your collection is looking a bit empty there. How about{' '}
+              <Link onClick={() => props.setActiveTab('explore')} weight={600}>
+                exploring the market?
+              </Link>
             </Text>
-          </SubTitle>
-        </div>
-      </PageTitle>
-      {assetsR.cata({
-        Failure: (e) => e,
-        Loading: () => 'Loading...',
-        NotAsked: () => 'Loading...',
-        Success: (assets) => (
-          <CollectionWrapper>
-            {assets.map((asset) => {
-              if (!asset) return null
-              return (
-                <Asset key={asset.token_id}>
-                  <ImageContainer
-                    style={{
-                      backgroundColor: `#${asset.background_color}` || '#fff'
-                    }}
-                  >
-                    <AssetImage
-                      alt={asset.image_url}
-                      style={{ width: '100%' }}
-                      src={asset.image_url}
-                    />
-                  </ImageContainer>
-                  <AssetDetails>
-                    <div>
-                      <AssetCollection>
-                        <Text size='12px' color='grey600' weight={600}>
-                          {asset.collection.name}
-                        </Text>
-                      </AssetCollection>
-                      <Text style={{ marginTop: '4px' }} size='12px' color='grey800' weight={600}>
-                        {asset.name}
-                      </Text>
-                    </div>
-                    <PriceInfo>
-                      <Text size='12px' color='grey600' weight={600}>
-                        <FormattedMessage id='copy.price' defaultMessage='Price' />
-                      </Text>
-                      <Text size='12px' color='grey800' weight={600}>
-                        {asset.last_sale ? (
-                          <StyledCoinDisplay
-                            size='12px'
-                            color='grey800'
-                            weight={600}
-                            coin={asset.last_sale.payment_token.symbol}
-                          >
-                            {asset.last_sale?.total_price}
-                          </StyledCoinDisplay>
-                        ) : (
-                          asset.top_bid
-                        )}
-                      </Text>
-                    </PriceInfo>
-                  </AssetDetails>
-                  <Button
-                    data-e2e='sellNft'
-                    nature='primary'
-                    onClick={() => nftsActions.createSellOrder({ asset })}
-                  >
-                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
-                  </Button>
-                </Asset>
-              )
-            })}
-          </CollectionWrapper>
-        )
-      })}
-    </div>
+          ) : (
+            <Text weight={600}>
+              <span aria-label='cry' role='img'>
+                😭
+              </span>{' '}
+              No more NFTs to view!
+            </Text>
+          )
+        ) : null}
+      </LazyLoadWrapper>
+    </NftPageWrapper>
   )
 }
 
-type Props = OwnProps
+export type Props = OwnProps & {
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
+}
 
 export default YourCollection

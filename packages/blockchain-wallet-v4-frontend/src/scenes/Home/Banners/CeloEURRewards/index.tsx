@@ -81,15 +81,15 @@ const CEURRewards = ({ cacheActions, showBanner }: Props) => {
         <div>
           <VerbText>
             <FormattedMessage
-              id='copy.earn_up_to_ceur'
-              defaultMessage='Earn up to 4% in {displaySymbol} Rewards'
+              id='layouts.wallet.header.announcements.ceur.limited_time'
+              defaultMessage='Limited-Time {displaySymbol} Bonus and Rewards'
               values={{ displaySymbol }}
             />
           </VerbText>
           <Description>
             <FormattedMessage
-              id='layouts.wallet.header.announcements.ceur.description1'
-              defaultMessage='Buy {displaySymbol} with no fees and earn up to 4% in annual rewards, paid monthly.'
+              id='layouts.wallet.header.announcements.ceur.limited_time.description'
+              defaultMessage='Buy 25 {displaySymbol}, get a 10 {displaySymbol} bonus, and earn 16% in annual rewards.'
               values={{ displaySymbol }}
             />
           </Description>
@@ -98,9 +98,9 @@ const CEURRewards = ({ cacheActions, showBanner }: Props) => {
 
       <CTAWrapper>
         <CTAButton data-e2e='ceurLearnMore' nature='primary' small style={{ borderRadius: '4px' }}>
-          <Link href='https://why.blockchain.com/celo' target='_blank' rel='noopener noreferrer'>
+          <Link href='https://www.blockchain.com/getceur' target='_blank' rel='noopener noreferrer'>
             <Text>
-              <FormattedMessage id='copy.learn_more' defaultMessage='Learn More' />
+              <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
             </Text>
           </Link>
         </CTAButton>

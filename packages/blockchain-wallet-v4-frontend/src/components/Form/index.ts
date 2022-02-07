@@ -45,6 +45,7 @@ import TextArea from './TextArea'
 import TextAreaDebounced from './TextAreaDebounced'
 import TextBox from './TextBox'
 import TextBoxDebounced from './TextBoxDebounced'
+import TextInputWithClipboard from './TextInputWithClipboard'
 
 export {
   AutosizeTextBox,
@@ -93,5 +94,6 @@ export {
   TextArea,
   TextAreaDebounced,
   TextBox,
-  TextBoxDebounced
+  TextBoxDebounced,
+  TextInputWithClipboard
 }

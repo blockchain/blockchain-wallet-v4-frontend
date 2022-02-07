@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has, props } from 'ramda'
-import { Field, reduxForm } from 'redux-form'
+import { has } from 'ramda'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
@@ -44,7 +44,7 @@ class SecondStep extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { invalid, isRestoring, isRestoringFromMetadata, recoverPassword } = this.props
+    const { formValues, invalid, isRestoring, isRestoringFromMetadata } = this.props
     return (
       <>
         {!isRestoringFromMetadata && !this.state.importWalletPrompt && (
@@ -117,7 +117,11 @@ class SecondStep extends React.PureComponent<Props, State> {
                     validate={[required, validStrongPassword]}
                     component={PasswordBox}
                     showPasswordScore
-                    passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
+                    passwordScore={
+                      has('zxcvbn', window)
+                        ? window.zxcvbn(formValues.recoverPassword || '').score
+                        : 0
+                    }
                   />
                 </FormGroup>
                 <FormGroup>

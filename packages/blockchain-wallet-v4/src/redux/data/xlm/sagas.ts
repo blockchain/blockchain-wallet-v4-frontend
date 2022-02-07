@@ -32,7 +32,7 @@ import { xlm } from '../../../transactions'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import * as selectors from '../../selectors'
-import simpleBuySagas from '../custodial/sagas'
+import buySellSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as S from './selectors'
 
@@ -57,7 +57,7 @@ const sumBalance = compose(
 )
 
 export default ({ api, networks }: { api: APIType; networks: any }) => {
-  const { fetchCustodialOrdersAndTransactions } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = buySellSagas({ api })
 
   const fetchLedgerDetails = function* () {
     try {
@@ -83,6 +83,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     const accountIds = yield select(S.getContext)
     yield all(accountIds.map((id) => call(fetchAccount, id)))
     const accounts = yield select(S.getAccounts)
+    // @ts-ignore
     const data = { info: { final_balance: sumBalance(accounts) } }
     yield put(A.fetchDataSuccess(data))
   }
@@ -112,6 +113,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
           map(transformTx(accounts, txNotes, tx)),
           // @ts-ignore
           filter(isLumenOperation)
+          // @ts-ignore
         )(operations)
       }, txList)
     )
@@ -156,6 +158,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       )
       // @ts-ignore
       const txType = prop('type', tx)
+      // @ts-ignore
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
         // @ts-ignore
@@ -217,7 +220,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       }
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         'XLM'
       )
@@ -228,7 +231,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         offset,
         atBounds,
         'XLM',
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

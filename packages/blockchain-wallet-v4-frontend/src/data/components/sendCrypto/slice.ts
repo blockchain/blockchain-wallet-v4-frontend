@@ -1,19 +1,27 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 import {
+  CrossBorderLimits,
   // ProductTypes,
-  // SBTransactionType,
+  // BSTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from '@core/types'
 
-import { SendCryptoState, SendCryptoStepPayload, SendCryptoStepType } from './types'
+import {
+  FetchSendLimitsPayload,
+  SendCryptoState,
+  SendCryptoStepPayload,
+  SendCryptoStepType
+} from './types'
 
 const initialState: SendCryptoState = {
   initialCoin: undefined,
+  sendLimits: Remote.NotAsked,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
@@ -24,6 +32,16 @@ const sendCryptoSlice = createSlice({
   initialState,
   name: 'sendCrypto',
   reducers: {
+    fetchSendLimits: (state, action: PayloadAction<FetchSendLimitsPayload>) => {},
+    fetchSendLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.sendLimits = Remote.Failure(action.payload)
+    },
+    fetchSendLimitsLoading: (state) => {
+      state.sendLimits = Remote.Loading
+    },
+    fetchSendLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
+      state.sendLimits = Remote.Success(action.payload)
+    },
     fetchWithdrawalFees: () => {},
     fetchWithdrawalFeesFailure: (state, action: PayloadAction<string>) => {
       state.withdrawalFeesAndMins = Remote.Failure(action.payload)

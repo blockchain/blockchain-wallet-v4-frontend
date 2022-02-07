@@ -5,10 +5,12 @@ const initialState = {
   channelChannelId: undefined,
   channelPhonePubkey: undefined,
   channelPrivKey: undefined,
+  exchangeEmail: undefined,
   guidStored: undefined,
   hasCloudBackup: undefined,
   lastEmail: undefined,
   lastGuid: undefined,
+  lastLogoutTimestamp: undefined,
   mobileConnected: undefined
 }
 
@@ -39,6 +41,9 @@ const cacheSlice = createSlice({
     emailStored: (state, action) => {
       state.lastEmail = action.payload
     },
+    exchangeEmail: (state, action) => {
+      state.exchangeEmail = action.payload
+    },
     guidEntered: (state, action) => {
       state.lastGuid = action.payload
     },
@@ -48,10 +53,14 @@ const cacheSlice = createSlice({
     hasCloudBackup: (state, action) => {
       state.hasCloudBackup = action.payload
     },
+    lastLogoutTimestamp: (state, action) => {
+      state.lastLogoutTimestamp = action.payload
+    },
     mobileConnectedStored: (state, action) => {
       state.mobileConnected = action.payload
     },
     removedStoredLogin: (state) => {
+      state.exchangeEmail = undefined
       state.guidStored = undefined
       state.lastEmail = undefined
       state.lastGuid = undefined

@@ -145,12 +145,12 @@ class CoinSelection extends PureComponent<Props> {
                   coin={account.coin}
                   onClick={() => {
                     if (this.props.side === 'BASE') {
-                      this.props.swapActions.changeBase(account)
+                      this.props.swapActions.changeBase({ account })
                       return
                     }
 
                     if (this.props.side === 'COUNTER') {
-                      this.props.swapActions.changeCounter(account)
+                      this.props.swapActions.changeCounter({ account })
                     }
                   }}
                   isAccountSelected={isAccountSelected}
