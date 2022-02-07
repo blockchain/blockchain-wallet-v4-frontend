@@ -158,6 +158,16 @@ class Checkout extends PureComponent<Props> {
     } else if (formValues && method) {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
+          if (this.props.mobilePaymentMethod) {
+            this.props.buySellActions.createOrder({
+              mobilePaymentMethod: this.props.mobilePaymentMethod,
+              paymentMethodId: method.id,
+              paymentType: BSPaymentTypes.PAYMENT_CARD
+            })
+
+            break
+          }
+
           this.props.buySellActions.setStep({
             step: 'DETERMINE_CARD_PROVIDER'
           })

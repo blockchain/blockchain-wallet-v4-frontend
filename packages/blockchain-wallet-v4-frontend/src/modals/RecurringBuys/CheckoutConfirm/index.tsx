@@ -115,8 +115,8 @@ const Confirm = ({
 
         <CheckoutRow
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
-          text={getPaymentMethod(order, {} as BankTransferAccountType)}
-          additionalText={getPaymentMethodDetails(order, bankAccount, cardDetails)}
+          text={getPaymentMethod({ bankAccount: {} as BankTransferAccountType, order })}
+          additionalText={getPaymentMethodDetails({ bankAccount, cardDetails, order })}
         />
 
         <CheckoutRow

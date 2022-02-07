@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
-  MobilePaymentTypes,
+  MobilePaymentType,
   OrderType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -99,8 +99,14 @@ const Methods = (props: Props) => {
     }
   }
 
-  const handleSubmit = (method: BSPaymentMethodType) => {
-    props.buySellActions.handleMethodChange({ isFlow: true, method })
+  const handlePaymentMethodSelect = ({
+    method,
+    mobilePaymentMethod
+  }: {
+    method: BSPaymentMethodType
+    mobilePaymentMethod?: MobilePaymentType
+  }) => {
+    props.buySellActions.handleMethodChange({ isFlow: true, method, mobilePaymentMethod })
   }
 
   const getIcon = (value: BSPaymentMethodType): ReactElement => {
@@ -175,7 +181,7 @@ const Methods = (props: Props) => {
   )
   const applePay = defaultMethods.find(
     (method) =>
-      method.value.mobilePayment?.includes(MobilePaymentTypes.APPLE_PAY) &&
+      method.value.mobilePayment?.includes(MobilePaymentType.APPLE_PAY) &&
       orderType === OrderType.BUY
   )
 
@@ -198,9 +204,11 @@ const Methods = (props: Props) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (window.ApplePaySession) {
-      setApplePayAvailable(true)
-    }
+    // if (window.ApplePaySession) {
+    //   setApplePayAvailable(true)
+    // }
+
+    setApplePayAvailable(true)
   }, [])
 
   return (
@@ -254,14 +262,17 @@ const Methods = (props: Props) => {
             <PaymentCard
               {...paymentCard}
               icon={getIcon(paymentCard.value)}
-              onClick={() => handleSubmit(paymentCard.value)}
+              onClick={() => handlePaymentMethodSelect({ method: paymentCard.value })}
             />
           ) : null}
 
           {applePay && isApplePayAvailable ? (
             <ApplePay
               onClick={() => {
-                handleSubmit(applePay.value)
+                handlePaymentMethodSelect({
+                  method: applePay.value,
+                  mobilePaymentMethod: MobilePaymentType.APPLE_PAY
+                })
               }}
             />
           ) : null}
@@ -272,9 +283,11 @@ const Methods = (props: Props) => {
               // @ts-ignore
               icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
               onClick={() =>
-                handleSubmit({
-                  ...bankTransfer.value,
-                  type: BSPaymentTypes.LINK_BANK
+                handlePaymentMethodSelect({
+                  method: {
+                    ...bankTransfer.value,
+                    type: BSPaymentTypes.LINK_BANK
+                  }
                 })
               }
             />
@@ -285,7 +298,7 @@ const Methods = (props: Props) => {
               <BankWire
                 {...bankAccount}
                 icon={getIcon(bankAccount.value)}
-                onClick={() => handleSubmit(bankAccount.value)}
+                onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
               />
             </>
           ) : null}

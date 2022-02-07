@@ -14,6 +14,7 @@ import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../.
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
+  ApplePayInfoType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -522,6 +523,14 @@ export default ({
       url: nabuUrl
     })
 
+  const getApplePayInfo = (currency: FiatType): ApplePayInfoType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/apple-pay/info?currency=${currency}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -534,6 +543,7 @@ export default ({
     deleteRecurringBuy,
     deleteSavedAccount,
     getAccumulatedTrades,
+    getApplePayInfo,
     getBSBalances,
     getBSCard,
     getBSCards,

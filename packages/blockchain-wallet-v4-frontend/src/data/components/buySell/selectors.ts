@@ -180,6 +180,9 @@ export const getBSPair = (state: RootState) => state.components.buySell.pair
 
 export const getBSPaymentMethod = (state: RootState) => state.components.buySell.method
 
+export const getBSMobilePaymentMethod = (state: RootState) =>
+  state.components.buySell.mobilePaymentMethod
+
 export const getBSProviderDetails = (state: RootState) => state.components.buySell.providerDetails
 
 export const getBSOrder = (state: RootState) => state.components.buySell.order

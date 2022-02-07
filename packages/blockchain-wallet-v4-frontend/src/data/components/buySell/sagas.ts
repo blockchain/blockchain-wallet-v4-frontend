@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import moment from 'moment'
-import { defaultTo, filter, prop } from 'ramda'
+import { defaultTo, filter, prop, set } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -9,6 +9,7 @@ import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
 import {
+  ApplePayInfoType,
   BSAccountType,
   BSCardStateType,
   BSCardType,
@@ -19,6 +20,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  MobilePaymentType,
   OrderType,
   ProductTypes,
   SwapOrderType,
@@ -322,8 +324,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSOrder = function* ({ payload }: ReturnType<typeof A.createOrder>) {
-    const { paymentMethodId, paymentType } = payload
+  const createBSOrder = function* ({
+    payload: { mobilePaymentMethod, paymentMethodId, paymentType }
+  }: ReturnType<typeof A.createOrder>) {
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
@@ -444,6 +447,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       let buyOrder: BSOrderType
       let oldBuyOrder: BSOrderType | undefined
+
+      if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
+        const applePayInfo: ApplePayInfoType = yield call(api.getApplePayInfo, fiat)
+
+        yield put(A.setApplePayInfo(applePayInfo))
+      }
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
@@ -1120,7 +1129,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleBSMethodChange = function* ({
-    payload: { isFlow, method }
+    payload: { isFlow, method, mobilePaymentMethod }
   }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
@@ -1191,7 +1200,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
 
+        // eslint-disable-next-line no-console
+        console.log('mobilePaymentMethod', { mobilePaymentMethod })
+
       case BSPaymentTypes.PAYMENT_CARD:
+        if (mobilePaymentMethod) {
+          return yield put(
+            A.setStep({
+              cryptoCurrency,
+              fiatCurrency,
+              method,
+              mobilePaymentMethod,
+              orderType: values?.orderType,
+              pair,
+              step: 'ENTER_AMOUNT',
+              swapAccount
+            })
+          )
+        }
+
         return yield put(
           A.setStep({
             step: 'DETERMINE_CARD_PROVIDER'

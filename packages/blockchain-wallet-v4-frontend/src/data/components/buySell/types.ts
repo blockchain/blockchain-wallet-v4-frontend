@@ -1,4 +1,5 @@
 import type {
+  ApplePayInfoType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -14,7 +15,7 @@ import type {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
-  MobilePaymentTypes,
+  MobilePaymentType,
   NabuAddressType,
   PaymentValue,
   ProviderDetailsType,
@@ -131,6 +132,7 @@ export type BuySellState = {
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
   addCardError: undefined | BSAddCardErrorType
+  applePayInfo: undefined | ApplePayInfoType
   balances: RemoteDataType<string, BSBalancesType>
   buyQuote: RemoteDataType<string, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
@@ -147,6 +149,7 @@ export type BuySellState = {
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method: undefined | BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
+  mobilePaymentMethod: undefined | MobilePaymentType
   order: undefined | BSOrderType
   orderType?: BSOrderActionType
   orders: RemoteDataType<string, Array<BSOrderType>>
@@ -190,10 +193,10 @@ export type StepActionsPayload =
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
       method?: BSPaymentMethodType
+      mobilePaymentMethod?: MobilePaymentType
       order?: BSOrderType
       orderType?: BSOrderActionType
       pair: BSPairType
-      selectedMobilePayment?: MobilePaymentTypes
       step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
       swapAccount?: SwapAccountType
     }

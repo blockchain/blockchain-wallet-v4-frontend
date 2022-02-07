@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
-  MobilePaymentTypes,
+  MobilePaymentType,
   OrderType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -101,8 +101,14 @@ const Accounts = (props: Props) => {
     }
   }
 
-  const handleSubmit = (method: BSPaymentMethodType) => {
-    props.buySellActions.handleMethodChange({ isFlow: false, method })
+  const handlePaymentMethodSelect = ({
+    method,
+    mobilePaymentMethod
+  }: {
+    method: BSPaymentMethodType
+    mobilePaymentMethod?: MobilePaymentType
+  }) => {
+    props.buySellActions.handleMethodChange({ isFlow: false, method, mobilePaymentMethod })
   }
 
   const addNewPaymentMethod = () => {
@@ -246,7 +252,7 @@ const Accounts = (props: Props) => {
 
   const applePay = defaultMethods.find(
     (method) =>
-      method.value.mobilePayment?.includes(MobilePaymentTypes.APPLE_PAY) &&
+      method.value.mobilePayment?.includes(MobilePaymentType.APPLE_PAY) &&
       orderType === OrderType.BUY
   )
 
@@ -254,9 +260,11 @@ const Accounts = (props: Props) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (window.ApplePaySession) {
-      setApplePayAvailable(true)
-    }
+    // if (window.ApplePaySession) {
+    //   setApplePayAvailable(true)
+    // }
+
+    setApplePayAvailable(true)
   }, [])
 
   return (
@@ -310,7 +318,7 @@ const Accounts = (props: Props) => {
                   key={`${fund.text}-${index}`}
                   value={fund.value}
                   icon={getIcon(fund.value)}
-                  onClick={() => handleSubmit(fund.value)}
+                  onClick={() => handlePaymentMethodSelect({ method: fund.value })}
                   balances={
                     props.balances[fund.value.currency] || {
                       available: '0',
@@ -326,7 +334,10 @@ const Accounts = (props: Props) => {
           {applePay && isApplePayAvailable ? (
             <ApplePay
               onClick={() => {
-                handleSubmit(applePay.value)
+                handlePaymentMethodSelect({
+                  method: applePay.value,
+                  mobilePaymentMethod: MobilePaymentType.APPLE_PAY
+                })
               }}
             />
           ) : null}
@@ -339,7 +350,7 @@ const Accounts = (props: Props) => {
                   value={cardMethod.value}
                   text={renderCardText(cardMethod.value)}
                   icon={getIcon(cardMethod.value)}
-                  onClick={() => handleSubmit(cardMethod.value)}
+                  onClick={() => handlePaymentMethodSelect({ method: cardMethod.value })}
                 />
               ))
             : null}
@@ -356,7 +367,7 @@ const Accounts = (props: Props) => {
                       ? getLinkedBankIcon(bankMethod.value?.details?.bankName)
                       : getIcon(bankMethod.value)
                   }
-                  onClick={() => handleSubmit(bankMethod.value)}
+                  onClick={() => handlePaymentMethodSelect({ method: bankMethod.value })}
                 />
               ))
             : null}

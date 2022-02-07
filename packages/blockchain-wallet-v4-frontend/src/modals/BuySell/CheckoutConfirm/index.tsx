@@ -160,7 +160,8 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   isFlexiblePricingModel: selectors.core.walletOptions
     .getFlexiblePricingModel(state)
-    .getOrElse(false)
+    .getOrElse(false),
+  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
