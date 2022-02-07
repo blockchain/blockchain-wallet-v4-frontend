@@ -25,12 +25,10 @@ const LoginWrapper = styled(Wrapper)`
     padding: 0 0 16px 0;
   `}
 `
-const BackArrowWrapper = styled.div<{ marginTop?: string }>`
+const BackArrowWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   margin-bottom: 24px;
   align-items: center;
-  margin-top: ${(props) => (props.marginTop ? props.marginTop : 'auto')};
 `
 const BackArrow = styled.div`
   display: flex;
@@ -51,15 +49,20 @@ const InstitutionalPortal = (props: Props) => {
     handleBackArrowClick,
     invalid,
     isBrowserSupported,
+    routerActions,
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+  const backArrowClick = () => {
+    handleBackArrowClick()
+    routerActions.push('/login?product=exchange')
+  }
   return (
     <LoginWrapper>
       <WrapperWithPadding>
         <FormGroup>
           <BackArrowWrapper>
-            <BackArrow onClick={handleBackArrowClick}>
+            <BackArrow onClick={backArrowClick}>
               <Icon
                 data-e2e='signupBack'
                 name='arrow-back'
@@ -73,18 +76,6 @@ const InstitutionalPortal = (props: Props) => {
                 <FormattedMessage id='copy.back' defaultMessage='Back' />
               </Text>
             </BackArrow>
-            <Text
-              color='blue600'
-              size='12px'
-              weight={600}
-              lineHeight='1.5'
-              style={{ marginRight: '2px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.exchange.institutional_portal'
-                defaultMessage='Institutional Portal'
-              />
-            </Text>
           </BackArrowWrapper>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ margin: '8px 0 16px' }}>

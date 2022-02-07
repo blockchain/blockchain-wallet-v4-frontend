@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 import { Button, SpinningLoader, TextGroup } from 'blockchain-info-components'
