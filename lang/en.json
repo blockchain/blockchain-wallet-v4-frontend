@@ -209,7 +209,7 @@
     "components.alerts.update_imported_address_label_error": "Failed to update imported address label",
     "components.alerts.update_imported_address_label_success": "Address label updated",
     "components.alerts.verify_email_sent": "Verification email sent. Please check your email.",
-    "components.alerts.verify_email_sent_error": "Error sending verification email. Please try again later.",
+    "components.alerts.verify_email_sent_error_try_again": "Error sending verification email. Please try again.",
     "components.alerts.wallet_loading_error": "Could not retrieve essential data. Try again later.",
     "components.alerts.wallet_session_error": "Error establishing the session",
     "components.alerts.wallet_upgrade_error": "Failed to upgrade to HD and save wallet.",

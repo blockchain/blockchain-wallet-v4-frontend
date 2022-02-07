@@ -22,7 +22,7 @@ import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../..
 const LoginWrapper = styled(Wrapper)`
   padding: 36px 0;
   ${media.mobile`
-    padding: 0 0 16px 0;
+    padding: 16px 0;
   `}
 `
 const BackArrowWrapper = styled.div`
