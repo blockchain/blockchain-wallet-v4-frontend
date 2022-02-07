@@ -58,7 +58,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
-  const showCompleteYourProfile = selectors.core.walletOptions.getCompleteYourProfile(state)
+  const showCompleteYourProfile = selectors.core.walletOptions
+    .getCompleteYourProfile(state)
+    .getOrElse(false) as boolean
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
