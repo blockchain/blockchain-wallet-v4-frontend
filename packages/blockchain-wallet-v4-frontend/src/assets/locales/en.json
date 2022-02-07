@@ -230,7 +230,7 @@
   "components.alerts.verify_device_expiry": "Device verification session expired.",
   "components.alerts.verify_device_failed": "Failed to verify device.",
   "components.alerts.verify_email_sent": "Verification email sent. Please check your email.",
-  "components.alerts.verify_email_sent_error": "Error sending verification email. Please try again later.",
+  "components.alerts.verify_email_sent_error_try_again": "Error sending verification email. Please try again.",
   "components.alerts.wallet_loading_error": "Could not retrieve essential data. Try again later.",
   "components.alerts.wallet_session_error": "Error establishing the session",
   "components.alerts.wallet_upgrade_error": "Failed to upgrade and save account.",
