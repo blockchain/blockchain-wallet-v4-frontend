@@ -52,7 +52,7 @@ export default ({ apiUrl, get, post }) => {
       contentType: 'application/json',
       data: {
         captcha: captchaToken,
-        // email,
+        email,
         product,
         siteKey: window.CAPTCHA_KEY
       },
