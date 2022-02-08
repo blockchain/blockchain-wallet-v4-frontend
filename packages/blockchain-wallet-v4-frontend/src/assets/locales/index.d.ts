@@ -444,6 +444,7 @@ type MessagesType = {
   'copy.interest_transactions_report': 'Reward Transactions Report'
   'copy.oops': 'Oops. Something went wrong.'
   'copy.ill_do_this_later:': "I'll Do This Later"
+  'copy.i_understand:': 'I understand'
   'copy.loading': 'Loading...'
   'copy.learn_more': 'Learn more'
   'copy.pending': 'Pending'
@@ -931,7 +932,7 @@ type MessagesType = {
   'modals.edittransactiondesc.button': 'Change Description'
   'modals.edittransactiondesc.description': 'Description'
   'modals.edittransactiondesc.title': 'Edit Transaction Description'
-  'modals.entity_migration.title': 'UK Update'
+  'modals.entity_migration.title': 'New Legal Entity'
   'modals.entity_migration.description': 'Starting later this month, UK customers will be served by our European subsidiary, Blockchain (LT), UAB. You will not experience any changes in user experience or access to your funds during this transition.'
   'modals.exchange.docresubmit.body1': "We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
   'modals.exchange.docresubmit.resubmit': 'Resubmit Now'

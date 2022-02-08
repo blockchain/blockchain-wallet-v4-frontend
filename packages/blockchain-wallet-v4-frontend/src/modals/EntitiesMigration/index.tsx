@@ -72,7 +72,10 @@ function EntitiesMigration({ cacheActions, close }) {
       <ModalBody>
         <Group>
           <GroupHeader>
-            <FormattedMessage id='modals.entity_migration.title' defaultMessage='UK Update' />
+            <FormattedMessage
+              id='modals.entity_migration.title'
+              defaultMessage='New Legal Entity'
+            />
           </GroupHeader>
           <GroupContent
             style={{
@@ -96,7 +99,7 @@ function EntitiesMigration({ cacheActions, close }) {
             onClick={handleCloseClick}
             fullwidth
           >
-            <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+            <FormattedMessage id='copy.i_understand:' defaultMessage='I understand' />
           </Button>
         </Group>
       </ModalBody>
