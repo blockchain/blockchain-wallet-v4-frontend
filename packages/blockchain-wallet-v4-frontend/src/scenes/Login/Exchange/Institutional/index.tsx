@@ -38,7 +38,7 @@ const BackArrow = styled.div`
 
 const InstitutionalPortal = (props: Props) => {
   useEffect(() => {
-    props.formActions.clearFields(LOGIN_FORM, false, false, 'email')
+    props.formActions.clearFields(LOGIN_FORM, false, false, 'exchangeEmail')
   }, [])
 
   const {

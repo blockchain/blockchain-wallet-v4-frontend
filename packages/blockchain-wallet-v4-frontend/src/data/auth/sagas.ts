@@ -647,7 +647,7 @@ export default ({ api, coreSagas, networks }) => {
           }
           if (product === ProductAuthOptions.EXCHANGE) {
             if (exchangeEmail) {
-              yield put(actions.form.change(LOGIN_FORM, 'email', exchangeEmail))
+              yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
             } else {
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -685,6 +685,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       code,
       email,
+      exchangeEmail,
       exchangePassword,
       exchangeTwoFA,
       guid,
@@ -708,8 +709,18 @@ export default ({ api, coreSagas, networks }) => {
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        } else if (product === ProductAuthOptions.EXCHANGE) {
+          // trigger email for exchange form
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+          yield put(
+            actions.auth.triggerWalletMagicLink({
+              captchaToken,
+              email: exchangeEmail
+            })
+          )
+          initCaptcha()
         } else {
-          // if it's an email, we triger the magic link email
+          // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
           yield put(
             actions.auth.triggerWalletMagicLink({
@@ -743,7 +754,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.auth.exchangeLogin({
             code: exchangeTwoFA,
             password: exchangePassword,
-            username: email
+            username: exchangeEmail
           })
         )
       }
