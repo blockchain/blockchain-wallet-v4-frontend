@@ -48,6 +48,7 @@ const EnterPasswordExchange = (props: Props) => {
           handleBackArrowClick={handleBackArrowClick}
           hideGuid
           marginTop='28px'
+          product={ProductAuthOptions.EXCHANGE}
         />
         <FormGroup>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />

@@ -82,7 +82,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
     routerActions.push('/login?product=exchange')
     if (exchangeEmail) {
-      formActions.change(LOGIN_FORM, 'email', exchangeEmail)
+      formActions.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail)
       formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
     } else {
       formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
@@ -90,13 +90,13 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   walletTabClicked = () => {
-    const { email, lastGuid, storedGuid } = this.props.cache
+    const { lastEmail, lastGuid, storedGuid } = this.props.cache
     const { authActions, formActions, routerActions } = this.props
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
     routerActions.push('/login?product=wallet')
     if (storedGuid || lastGuid) {
       formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
-      formActions.change(LOGIN_FORM, 'email', email)
+      formActions.change(LOGIN_FORM, 'email', lastEmail)
       formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
     } else {
       formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
