@@ -103,6 +103,9 @@ const TwoStepButton = styled(Button)`
 const Header = styled(SecurityHeader)`
   justify-content: flex-start;
   align-items: center;
+  ${media.mobile`
+    justify-content: space-between;
+  `};
 `
 const TipText = styled(Text)`
   display: inline;
