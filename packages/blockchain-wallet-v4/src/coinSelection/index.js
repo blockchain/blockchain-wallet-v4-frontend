@@ -123,20 +123,19 @@ export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
 const ft = (targets, feePerByte, coins, changeAddress) => {
   const target = List(targets).fold(Coin.empty).value
   const _findTarget = (seed) => {
-    const acc = seed[0]
+    const accValue = seed[0]
+    const accFee = seed[1]
     const newCoin = head(seed[2])
-    if (isNil(newCoin) || acc > target + seed[1]) {
+    if (isNil(newCoin) || accValue >= target + accFee) {
       return false
     }
-    const partialFee = seed[1] + Coin.inputBytes(newCoin) * feePerByte
+    const partialFee = accFee + Coin.inputBytes(newCoin) * feePerByte
     const restCoins = tail(seed[2])
-    const nextAcc = acc + newCoin.value
-    return acc > target + partialFee
-      ? false
-      : [
-          [nextAcc, partialFee, newCoin],
-          [nextAcc, partialFee, restCoins]
-        ]
+    const nextAcc = accValue + newCoin.value
+    return [
+      [nextAcc, partialFee, newCoin],
+      [nextAcc, partialFee, restCoins]
+    ]
   }
   const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
   const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
