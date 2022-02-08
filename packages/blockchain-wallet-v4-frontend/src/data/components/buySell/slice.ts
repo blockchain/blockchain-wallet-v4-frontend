@@ -179,7 +179,11 @@ const buySellSlice = createSlice({
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
-      action: PayloadAction<{ order: BSOrderType; paymentMethodId: BSCardType['id'] }>
+      action: PayloadAction<{
+        mobilePaymentMethod?: MobilePaymentType
+        order: BSOrderType
+        paymentMethodId: BSCardType['id']
+      }>
     ) => {},
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},

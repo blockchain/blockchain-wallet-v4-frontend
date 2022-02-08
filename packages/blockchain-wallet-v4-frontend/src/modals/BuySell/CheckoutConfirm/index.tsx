@@ -5,7 +5,13 @@ import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { BSOrderType, BSPaymentTypes, ExtractSuccess, WalletFiatType } from '@core/types'
+import {
+  BSOrderType,
+  BSPaymentTypes,
+  ExtractSuccess,
+  MobilePaymentType,
+  WalletFiatType
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/buySell/model'
@@ -100,13 +106,26 @@ class CheckoutConfirm extends PureComponent<Props> {
         })
 
       case BSPaymentTypes.PAYMENT_CARD:
-        if (this.props.order.paymentMethodId) {
+        let { paymentMethodId } = this.props.order
+
+        if (
+          this.props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY &&
+          this.props.applePayInfo
+        ) {
+          paymentMethodId = this.props.applePayInfo.beneficiaryID
+        }
+
+        if (paymentMethodId) {
           return this.props.buySellActions.confirmOrder({
+            mobilePaymentMethod: this.props.mobilePaymentMethod,
             order: this.props.order,
-            paymentMethodId: this.props.order.paymentMethodId
+            paymentMethodId
           })
         }
-        return this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
+
+        // return this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
+
+        break
 
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
@@ -156,6 +175,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  applePayInfo: selectors.components.buySell.getApplePayInfo(state),
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   isFlexiblePricingModel: selectors.core.walletOptions

@@ -35,7 +35,9 @@ import {
   CardAcquirer,
   FiatEligibleType,
   NabuAddressType,
-  TradesAccumulatedResponse
+  TradesAccumulatedResponse,
+  ValidateApplePayMerchantRequest,
+  ValidateApplePayMerchantResponse
 } from './types'
 
 export default ({
@@ -531,6 +533,21 @@ export default ({
       url: nabuUrl
     })
 
+  const validateApplePayMerchant = ({
+    beneficiaryID,
+    validationURL
+  }: ValidateApplePayMerchantRequest): ValidateApplePayMerchantResponse =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        beneficiaryID,
+        validationURL
+      },
+      endPoint: '/payments/apple-pay/validate-merchant',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -566,6 +583,7 @@ export default ({
     getUnifiedSellTrades,
     submitBSCardDetailsToEverypay,
     updateBankAccountLink,
+    validateApplePayMerchant,
     withdrawBSFunds
   }
 }

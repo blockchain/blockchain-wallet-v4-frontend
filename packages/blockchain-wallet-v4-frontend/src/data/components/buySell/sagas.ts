@@ -580,12 +580,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { order, paymentMethodId } = payload
+    const { mobilePaymentMethod, order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
+
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
       const account = selectors.components.brokerage.getAccount(yield select())
+
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
+
       const domains = domainsR.getOrElse({
         comRoot: 'https://www.blockchain.com',
         walletHelper: 'https://wallet-helper.blockchain.com'
@@ -599,17 +603,61 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
         order.paymentType === BSPaymentTypes.USER_CARD
       ) {
-        attributes =
-          order.paymentMethodId || paymentMethodId
-            ? {
-                everypay: {
-                  customerUrl: paymentSuccessLink
-                },
-                redirectURL: paymentSuccessLink
-              }
-            : undefined
+        attributes = {
+          everypay: {
+            customerUrl: paymentSuccessLink
+          },
+          redirectURL: paymentSuccessLink
+        }
       } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
+      }
+
+      if (mobilePaymentMethod) {
+        if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
+          const applePayInfo = selectors.components.buySell.getApplePayInfo(yield select())
+
+          if (!applePayInfo) {
+            throw new Error('Apple Pay info not found')
+          }
+
+          const request: ApplePayJS.ApplePayPaymentRequest = {
+            countryCode: applePayInfo.merchantBankCountry,
+            currencyCode: order.inputCurrency,
+            merchantCapabilities: ['supports3DS'],
+            supportedNetworks: ['visa', 'masterCard'],
+            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+          }
+
+          const session = new ApplePaySession(3, request)
+
+          session.onvalidatemerchant = async (event) => {
+            const merchantSession = await api.validateApplePayMerchant({
+              beneficiaryID: applePayInfo.beneficiaryID,
+              validationURL: event.validationURL
+            })
+
+            session.completeMerchantValidation(merchantSession)
+          }
+
+          session.onpaymentauthorized = (event) => {
+            const result = {
+              status: ApplePaySession.STATUS_SUCCESS
+            }
+            session.completePayment(result)
+
+            attributes = {
+              applePayPaymentToken: JSON.stringify(event.payment.token),
+              redirectURL: paymentSuccessLink
+            }
+          }
+
+          session.oncancel = () => {
+            // TODO send user to checkout enter amount
+          }
+
+          session.begin()
+        }
       }
 
       const confirmedOrder: BSOrderType = yield call(
@@ -1199,9 +1247,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             addBankStep: AddBankStepType.ADD_BANK
           })
         )
-
-        // eslint-disable-next-line no-console
-        console.log('mobilePaymentMethod', { mobilePaymentMethod })
 
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {

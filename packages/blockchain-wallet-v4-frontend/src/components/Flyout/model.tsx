@@ -492,11 +492,6 @@ const RawApplePayIcon = (props) => (
   </svg>
 )
 
-const ApplePayIcon = styled(RawApplePayIcon)`
-  height: 18px;
-  display: block;
-`
-
 const getPaymentMethodText = (paymentMethod: BSPaymentTypes) => {
   let text
   switch (paymentMethod) {

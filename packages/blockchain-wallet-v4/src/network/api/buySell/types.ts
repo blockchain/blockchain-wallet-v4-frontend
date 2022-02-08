@@ -125,8 +125,8 @@ export enum BSPaymentTypes {
 }
 
 export enum MobilePaymentType {
-  APPLE_PAY = 'apple_pay',
-  GOOGLE_PAY = 'google_pay'
+  APPLE_PAY = 'APPLE_PAY',
+  GOOGLE_PAY = 'GOOGLE_PAY'
 }
 
 export type BSPaymentMethodType = {
@@ -412,7 +412,16 @@ export type TradesAccumulatedResponse = {
 export type ApplePayInfoType = {
   apiKey: string
   applePayMerchantID: string
+  beneficiaryID: string
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
   merchantBankCountry: string
-  paymentMethodID: string
+}
+
+export type ValidateApplePayMerchantRequest = {
+  beneficiaryID: string
+  validationURL: string
+}
+
+export type ValidateApplePayMerchantResponse = {
+  applePayPayload: string
 }
