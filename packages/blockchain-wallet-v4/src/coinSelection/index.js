@@ -152,23 +152,33 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
     // not enough money to satisfy target
     return { fee, inputs: [], outputs: targets }
   }
-  const extra = maxBalance - target - fee
-  const change = Coin.fromJS({
+  // Value remaining after deducting the 'target' value and fees.
+  const remainingValue = maxBalance - target - fee
+  // A Coin with the full remaining value and the change address.
+  const proposedChangeCoin = Coin.fromJS({
     address: changeAddress,
     change: true,
-    value: extra
+    value: remainingValue
   })
-  // should we add change?
-  if (extra >= dustThreshold(feePerByte, change)) {
-    const feeForAdditionalChangeOutput = changeBytes(change.type()) * feePerByte
+  // Check if we should keep change.
+  if (remainingValue >= dustThreshold(feePerByte, proposedChangeCoin)) {
+    // Change is worth keeping
+    const feeForAdditionalChangeOutput = changeBytes(proposedChangeCoin.type()) * feePerByte
+    // Create the final change Coin, its value is the remainingValue minus
+    // the fee it takes to have it added to the transaction.
+    const changeCoin = Coin.fromJS({
+      address: changeAddress,
+      change: true,
+      value: remainingValue - feeForAdditionalChangeOutput
+    })
     return {
       fee: fee + feeForAdditionalChangeOutput,
       inputs: selectedCoins,
-      outputs: [...targets, change]
+      outputs: [...targets, changeCoin]
     }
   }
-  // burn change
-  return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
+  // Change is not worth keeping, burn change
+  return { fee: fee + remainingValue, inputs: selectedCoins, outputs: targets }
 }
 export const findTarget = memoize(ft)
 
@@ -195,7 +205,7 @@ export const descentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => a.lte(b), coins),
+    sort((a, b) => b.compare(a), coins),
     changeAddress
   )
 // ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
@@ -203,6 +213,6 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => b.lte(a), coins),
+    sort((a, b) => a.compare(b), coins),
     changeAddress
   )
