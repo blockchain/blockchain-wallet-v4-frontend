@@ -43,7 +43,7 @@ const EnterEmail = (props: Props) => {
         <FormGroup>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
-            <LoginFormLabel htmlFor='email'>
+            <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
             </LoginFormLabel>
 
@@ -52,7 +52,7 @@ const EnterEmail = (props: Props) => {
               data-e2e='exchangeEmail'
               disabled={!isBrowserSupported}
               disableSpellcheck
-              name='email'
+              name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
               placeholder='Enter your email'
@@ -66,7 +66,7 @@ const EnterEmail = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.email}
+            disabled={submitting || invalid || busy || !formValues?.exchangeEmail}
             data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >
