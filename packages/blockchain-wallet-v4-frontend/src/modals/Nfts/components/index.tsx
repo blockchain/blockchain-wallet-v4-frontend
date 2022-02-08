@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { TableHeader } from 'blockchain-info-components'
 import { Row } from 'components/Flyout/model'
 
 export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>`
@@ -12,6 +13,12 @@ export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>
 
 export const AssetDesc = styled.div`
   padding: 40px;
+`
+
+export const StickyTableHeader = styled(TableHeader)`
+  background: ${(props) => props.theme.white};
+  position: sticky;
+  top: 0;
 `
 
 export const StickyCTA = styled.div`

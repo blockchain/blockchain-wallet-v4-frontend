@@ -13,9 +13,9 @@ import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
   ACCEPT_OFFER = 'ACCEPT_OFFER',
+  BUY = 'BUY',
   CANCEL_LISTING = 'CANCEL_LISTING',
   CANCEL_OFFER = 'CANCEL_OFFER',
-  CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
   SHOW_ASSET = 'SHOW_ASSET',
@@ -67,13 +67,13 @@ export type NftsStateType = {
     }
   >
   orderFlow: {
-    activeOrder: NftOrder | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
     listingToCancel: RawOrder | null
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
     offerToCancel: RawOrder | null
+    orderToMatch: RawOrder | null
     step: NftOrderStepEnum
   }
 }

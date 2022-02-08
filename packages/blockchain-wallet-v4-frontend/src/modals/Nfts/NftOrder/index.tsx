@@ -10,6 +10,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import AcceptOffer from './AcceptOffer'
+import Buy from './Buy'
 import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
@@ -28,10 +29,6 @@ class NftOrder extends PureComponent<Props, State> {
   componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
-  }
-
-  componentWillUnmount() {
-    this.props.nftActions.resetOrderFlow()
   }
 
   handleClose = () => {
@@ -59,6 +56,11 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.SHOW_ASSET && (
           <FlyoutChild>
             <ShowAsset {...this.props} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.BUY && (
+          <FlyoutChild>
+            <Buy {...this.props} />
           </FlyoutChild>
         )}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (

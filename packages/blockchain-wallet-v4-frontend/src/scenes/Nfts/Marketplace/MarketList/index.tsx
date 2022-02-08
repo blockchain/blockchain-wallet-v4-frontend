@@ -5,6 +5,7 @@ import { CombinedError } from 'urql'
 
 import { Button, SpinningLoader } from 'blockchain-info-components'
 
+import { Props as OwnProps } from '../..'
 import { Grid } from '../../components'
 import Error from './error'
 import ResultsPage from './results'
@@ -19,7 +20,7 @@ const Centered = styled.div`
   gap: 8px;
 `
 
-const MarketList: React.FC<Props> = ({ slug }) => {
+const MarketList: React.FC<Props> = ({ nftsActions, slug }) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetching, setIsFetching] = useState(true)
   const [error, setError] = useState<CombinedError | undefined>(undefined)
@@ -41,6 +42,7 @@ const MarketList: React.FC<Props> = ({ slug }) => {
                 key={page}
                 slug={slug}
                 setError={setError}
+                nftsActions={nftsActions}
                 setIsFetching={setIsFetching}
               />
             ))
@@ -68,6 +70,6 @@ const MarketList: React.FC<Props> = ({ slug }) => {
   )
 }
 
-type Props = { slug: string }
+type Props = { nftsActions: OwnProps['nftsActions']; slug: string }
 
 export default MarketList

@@ -3,23 +3,23 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { NftAsset } from '@core/network/api/nfts/types'
-import { Button, Table, TableCell, TableHeader, TableRow, Text } from 'blockchain-info-components'
+import { NftAsset, RawOrder } from '@core/network/api/nfts/types'
+import { Button, Table, TableCell, TableRow, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { StickyTableHeader } from '../../../components'
 import { Props as OwnProps } from '../..'
 
-const CTA: React.FC<Props> = (props) => {
-  const { defaultEthAddr, nftActions } = props
+const ActiveOrders: React.FC<Props> = (props) => {
+  const { asset, defaultEthAddr, nftActions, orders } = props
   return (
     <>
-      {props.asset.orders.length ? (
+      {orders.length ? (
         <>
           <Text size='16px' weight={600} color='grey900'>
             <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings:' />
           </Text>
-          <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
+          <Table style={{ maxHeight: '150px', overflow: 'auto' }}>
             <StickyTableHeader>
               <TableCell>
                 <Text size='12px' weight={600}>
@@ -37,7 +37,7 @@ const CTA: React.FC<Props> = (props) => {
                 </Text>
               </TableCell>
             </StickyTableHeader>
-            {props.asset.orders.map((order) => {
+            {orders.map((order) => {
               return (
                 <>
                   <TableRow key={order.order_hash}>
@@ -55,19 +55,35 @@ const CTA: React.FC<Props> = (props) => {
                       </Text>
                     </TableCell>
                     <TableCell style={{ justifyContent: 'center' }}>
-                      <Button
-                        small
-                        onClick={() => {
-                          nftActions.setListingToCancel({ order })
-                          nftActions.setOrderFlowStep({
-                            step: NftOrderStepEnum.CANCEL_LISTING
-                          })
-                        }}
-                        nature='primary'
-                        data-e2e='cancelListingNft'
-                      >
-                        <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
-                      </Button>
+                      {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
+                        <Button
+                          small
+                          onClick={() => {
+                            nftActions.setListingToCancel({ order })
+                            nftActions.setOrderFlowStep({
+                              step: NftOrderStepEnum.CANCEL_LISTING
+                            })
+                          }}
+                          nature='primary'
+                          data-e2e='cancelListingNft'
+                        >
+                          <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
+                        </Button>
+                      ) : (
+                        <Button
+                          small
+                          onClick={() => {
+                            nftActions.setOrderToMatch({ order })
+                            nftActions.setOrderFlowStep({
+                              step: NftOrderStepEnum.BUY
+                            })
+                          }}
+                          nature='primary'
+                          data-e2e='buyNft'
+                        >
+                          <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 </>
@@ -80,6 +96,6 @@ const CTA: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps & { asset: NftAsset; orders: RawOrder[] }
 
-export default CTA
+export default ActiveOrders

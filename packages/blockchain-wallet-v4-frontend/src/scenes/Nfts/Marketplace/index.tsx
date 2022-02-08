@@ -28,7 +28,10 @@ const Marketplace: React.FC<Props> = (props: Props) => {
   return (
     <NftPageWrapper>
       <MarketForm {...props} />
-      <MarketList slug={props.marketplace.collection?.slug || 'doodles-official'} />
+      <MarketList
+        slug={props.marketplace.collection?.slug || 'doodles-official'}
+        nftsActions={nftsActions}
+      />
       {props.marketplace.atBound ? <div>No more NFTs for sale in this collection</div> : null}
     </NftPageWrapper>
   )

@@ -53,13 +53,13 @@ const initialState: NftsStateType = {
   },
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
-    activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
     isSubmitting: false,
     listingToCancel: null,
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
+    orderToMatch: null,
     step: NftOrderStepEnum.SHOW_ASSET
   }
 }
@@ -258,9 +258,9 @@ const nftsSlice = createSlice({
 
       state.orderFlow.isSubmitting = false
 
-      state.orderFlow.activeOrder = null
       state.orderFlow.offerToCancel = null
       state.orderFlow.listingToCancel = null
+      state.orderFlow.orderToMatch = null
       state.orderFlow.matchingOrder = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
@@ -268,14 +268,16 @@ const nftsSlice = createSlice({
     nftOrderFlowOpen: (
       state,
       action: PayloadAction<
-        | { asset: NftAsset; offer: OfferEventsType['asset_events'][0]; order?: never }
-        | { asset: NftAsset; offer?: never; order?: never }
-        | { asset?: never; offer?: never; order: NftOrder }
+        | {
+            asset: NftAsset
+            asset_contract_address?: never
+            offer: OfferEventsType['asset_events'][0]
+            token_id?: never
+          }
+        | { asset: NftAsset; asset_contract_address?: never; offer?: never; token_id?: never }
+        | { asset?: never; asset_contract_address: string; offer?: never; token_id: string }
       >
     ) => {
-      if (action.payload.order) {
-        state.orderFlow.activeOrder = action.payload.order
-      }
       state.orderFlow.asset = Remote.Loading
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
     },
@@ -302,11 +304,6 @@ const nftsSlice = createSlice({
       state.marketplace.isFailure = false
       state.marketplace.isLoading = true
       state.marketplace.list = []
-    },
-    resetOrderFlow: (state) => {
-      state.orderFlow.asset = Remote.NotAsked
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
-      state.orderFlow.activeOrder = null
     },
     searchNftAssetContract: (
       state,
@@ -360,6 +357,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
+    },
+    setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
+      state.orderFlow.orderToMatch = action.payload.order
     }
   }
 })

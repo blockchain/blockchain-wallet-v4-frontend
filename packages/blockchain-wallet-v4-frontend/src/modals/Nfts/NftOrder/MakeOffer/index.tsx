@@ -21,7 +21,7 @@ import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
-  const { activeOrder } = orderFlow
+  const { orderToMatch } = orderFlow
 
   const disabled =
     !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
@@ -132,7 +132,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     </FiatDisplay>
                   </Value>
                 </Row>
-                {activeOrder ? (
+                {orderToMatch ? (
                   <Row>
                     <Title>
                       <FormattedMessage id='copy.current_price' defaultMessage='Current Price' />
@@ -143,18 +143,18 @@ const MakeOffer: React.FC<Props> = (props) => {
                           size='14px'
                           color='black'
                           weight={600}
-                          coin={activeOrder.paymentTokenContract?.symbol}
+                          coin={orderToMatch.payment_token_contract?.symbol}
                         >
-                          {activeOrder.basePrice}
+                          {orderToMatch.base_price}
                         </CoinDisplay>
                         &nbsp;-&nbsp;
                         <FiatDisplay
                           size='12px'
                           color='grey600'
                           weight={600}
-                          coin={activeOrder.paymentTokenContract?.symbol}
+                          coin={orderToMatch.payment_token_contract?.symbol}
                         >
-                          {activeOrder.basePrice}
+                          {orderToMatch.base_price}
                         </FiatDisplay>
                       </div>
                     </Value>
@@ -162,7 +162,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 ) : null}
               </>
             </Form>
-            {activeOrder ? (
+            {orderToMatch ? (
               <StickyCTA>
                 <MakeOfferFees {...props} asset={val} />
                 <Button

@@ -8198,7 +8198,7 @@ export type OpenseaAssetsQueryVariables = Exact<{
 }>;
 
 
-export type OpenseaAssetsQuery = { __typename?: 'Query', openseaAssets?: Array<{ __typename?: 'OpenseaAsset', name?: string | null, token_id?: string | null, image_original_url?: string | null, permalink?: string | null } | null> | null };
+export type OpenseaAssetsQuery = { __typename?: 'Query', openseaAssets?: Array<{ __typename?: 'OpenseaAsset', name?: string | null, token_id?: string | null, contract_address?: string | null, owner_address?: string | null, image_original_url?: string | null, permalink?: string | null } | null> | null };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -67466,6 +67466,8 @@ export const OpenseaAssetsDocument = gql`
   openseaAssets(collection_slug: $collectionSlug, limit: $limit, offset: $offset) {
     name
     token_id
+    contract_address
+    owner_address
     image_original_url
     permalink
   }
