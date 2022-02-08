@@ -60,7 +60,7 @@ export type RecoverFormType = {
   mnemonic?: string
   password: string
   recoverPassword?: string
-  resetPassword?: string
+  resetAccountPassword?: string
   step: RecoverSteps
 }
 
