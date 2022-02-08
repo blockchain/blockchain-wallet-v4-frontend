@@ -931,6 +931,8 @@ type MessagesType = {
   'modals.edittransactiondesc.button': 'Change Description'
   'modals.edittransactiondesc.description': 'Description'
   'modals.edittransactiondesc.title': 'Edit Transaction Description'
+  'modals.entity_migration.title': 'UK Update'
+  'modals.entity_migration.description': 'Starting later this month, UK customers will be served by our European subsidiary, Blockchain (LT), UAB. You will not experience any changes in user experience or access to your funds during this transition.'
   'modals.exchange.docresubmit.body1': "We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
   'modals.exchange.docresubmit.resubmit': 'Resubmit Now'
   'modals.exchange.docresubmit.title': 'Documents Needed'
@@ -2322,7 +2324,7 @@ type MessagesType = {
   'scenes.login.login': 'Log In'
   'scenes.login.loginmobile': 'Login via Mobile'
   'scenes.logins.twofa.code': 'Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
-  'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'  
+  'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'
   'scenes.logins.twofa.enter_code.mobile_width': 'Enter your 2FA Code'
   'scenes.logins.twofa.lost': 'Lost access to your 2FA device?'
   'scenes.login.mobile': 'SMS Code'
