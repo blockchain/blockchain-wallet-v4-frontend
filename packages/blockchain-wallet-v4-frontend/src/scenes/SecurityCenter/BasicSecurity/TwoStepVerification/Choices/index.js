@@ -48,6 +48,7 @@ const YubikeyWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-right: 3px;
+    justify-content: space-between;
   `};
 `
 const SecurityIcon = styled(Icon)`
