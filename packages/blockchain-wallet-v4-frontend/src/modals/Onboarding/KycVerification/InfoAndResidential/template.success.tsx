@@ -395,6 +395,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               component={SelectBox}
               menuPlacement='auto'
               onChange={props.onCountrySelect}
+              disabled={!!countryCode}
               label={
                 <FormattedMessage
                   id='components.selectboxcountry.label'
