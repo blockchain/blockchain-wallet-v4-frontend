@@ -13,13 +13,23 @@ import { media } from 'services/styles'
 import { Props as OwnProps } from '../..'
 import { InfoStatsWrapper, LeftColWrapper } from '../../components'
 
+const StyledForm = styled(Form)`
+  ${media.tabletL`
+    gap: 20px;;
+  `}
+`
+
 const FormWrapper = styled.div`
   gap: 8px;
   max-height: 500px;
   overflow: scroll;
   ${media.tabletL`
-    max-height: 170px;
+    max-height: 230px;
   `}
+`
+
+const CollectionsWrapper = styled.div`
+  max-height: calc(100vh / 2 - 32px);
 `
 
 const CollectionField = styled.div`
@@ -68,7 +78,7 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
 
   return (
     <LeftColWrapper>
-      <Form>
+      <StyledForm>
         <InfoStatsWrapper>
           <Text color='grey400' weight={600} size='18px'>
             <FormattedMessage id='copy.my_collection' defaultMessage='My Collection' />
@@ -129,37 +139,39 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
               </Text>
             </CollectionLabel>
           </CollectionField>
-          {collections.map((collection) => (
-            <CollectionField
-              key={collection.slug}
-              // @ts-ignore
-              className={props.assets.collection === collection.slug ? 'active' : ''}
-            >
-              <Field
-                component='input'
-                type='radio'
-                id={collection.slug}
-                name='collection'
-                value={collection.slug}
-                onChange={() =>
-                  props.formActions.change('nftCollection', 'collection', collection.slug)
-                }
-              />
-              <CollectionLabel htmlFor={collection.slug}>
-                <img src={collection.image_url} alt={collection.name} />
-                <Text
-                  cursor='pointer'
-                  style={{ marginLeft: '4px;', marginTop: '2px' }}
-                  color='black'
-                  weight={600}
-                >
-                  {collection.name}
-                </Text>
-              </CollectionLabel>
-            </CollectionField>
-          ))}
+          <CollectionsWrapper>
+            {collections.map((collection) => (
+              <CollectionField
+                key={collection.slug}
+                // @ts-ignore
+                className={props.assets.collection === collection.slug ? 'active' : ''}
+              >
+                <Field
+                  component='input'
+                  type='radio'
+                  id={collection.slug}
+                  name='collection'
+                  value={collection.slug}
+                  onChange={() =>
+                    props.formActions.change('nftCollection', 'collection', collection.slug)
+                  }
+                />
+                <CollectionLabel htmlFor={collection.slug}>
+                  <img src={collection.image_url} alt={collection.name} />
+                  <Text
+                    cursor='pointer'
+                    style={{ marginLeft: '4px;', marginTop: '2px' }}
+                    color='black'
+                    weight={600}
+                  >
+                    {collection.name}
+                  </Text>
+                </CollectionLabel>
+              </CollectionField>
+            ))}
+          </CollectionsWrapper>
         </FormWrapper>
-      </Form>
+      </StyledForm>
     </LeftColWrapper>
   )
 }

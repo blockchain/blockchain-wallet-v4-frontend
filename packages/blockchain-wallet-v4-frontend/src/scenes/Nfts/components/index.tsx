@@ -15,12 +15,12 @@ export const NftPageWrapper = styled.div`
 export const LeftColWrapper = styled.div`
   position: sticky;
   height: 100%;
-  top: 48px;
+  top: 64px;
   overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
   ${media.atLeastTabletL`
-  top: 61px;
+  top: 72px;
   margin-right: 20px;
   max-width: 320px;
   width: 25%;
@@ -48,6 +48,25 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
   }
   ${media.atLeastLaptopL`
     > div {
+      grid-template-columns: repeat(3, minmax(0, 1fr));  
+    }
+  `}
+`
+
+export const Grid = styled.div`
+  max-width: 1000px;
+  ${media.atLeastTabletL`
+    width: 75%;
+  `}
+  > div:first-child {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: scroll;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  ${media.atLeastLaptopL`
+    > div:first-child {
       grid-template-columns: repeat(3, minmax(0, 1fr));  
     }
   `}

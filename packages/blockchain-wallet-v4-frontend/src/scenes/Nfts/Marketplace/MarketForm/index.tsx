@@ -13,13 +13,32 @@ import { media } from 'services/styles'
 import { Props as OwnProps } from '../..'
 import { InfoStatsWrapper, LeftColWrapper } from '../../components'
 
+const StyledForm = styled(Form)`
+  ${media.tabletL`
+    gap: 20px;
+  `}
+`
+
 const FormWrapper = styled.div`
   gap: 8px;
   max-height: 500px;
   overflow: scroll;
+  @media (max-height: 800px) {
+    max-height: 290px;
+  }
   ${media.tabletL`
-    max-height: 170px;
+    max-height: 210px;
   `}
+`
+
+const DropdownWrapper = styled.div`
+  position: sticky;
+  margin-bottom: 8px;
+  top: 0;
+`
+
+const CollectionsWrapper = styled.div`
+  max-height: calc(100vh / 2 - 32px);
 `
 
 const CollectionField = styled.div`
@@ -56,7 +75,7 @@ const CollectionLabel = styled.label`
 const MarketForm: React.FC<Props> = (props: Props) => {
   return (
     <LeftColWrapper>
-      <Form>
+      <StyledForm>
         <InfoStatsWrapper>
           <Text color='grey400' weight={600} size='18px'>
             {props.marketplace.collection?.name}
@@ -122,7 +141,7 @@ const MarketForm: React.FC<Props> = (props: Props) => {
           </Text>
         </InfoStatsWrapper>
         <FormWrapper>
-          <div style={{ marginBottom: '8px' }}>
+          <DropdownWrapper>
             <Field
               name='sortBy'
               component={SelectBox}
@@ -146,49 +165,51 @@ const MarketForm: React.FC<Props> = (props: Props) => {
                 }
               ]}
             />
-          </div>
-          {props.collections.cata({
-            Failure: () => null,
-            Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
-            NotAsked: () => null,
-            Success: (collections) => {
-              return collections.map((collection) => (
-                <CollectionField
-                  key={collection.slug}
-                  className={
-                    // @ts-ignore
-                    props.formValues?.collection === collection.slug ? 'active' : ''
-                  }
-                >
-                  <Field
-                    component='input'
-                    type='radio'
-                    id={collection.slug}
-                    name='collection'
-                    value={collection.slug}
-                    onChange={() =>
-                      props.formActions.change('nftMarketplace', 'collection', collection.slug)
+          </DropdownWrapper>
+          <CollectionsWrapper>
+            {props.collections.cata({
+              Failure: () => null,
+              Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
+              NotAsked: () => null,
+              Success: (collections) => {
+                return collections.map((collection) => (
+                  <CollectionField
+                    key={collection.slug}
+                    className={
+                      // @ts-ignore
+                      props.formValues?.collection === collection.slug ? 'active' : ''
                     }
-                  />
-                  <CollectionLabel htmlFor={collection.slug}>
-                    {collection.image_url ? (
-                      <img src={collection.image_url} alt={collection.name} />
-                    ) : null}
-                    <Text
-                      cursor='pointer'
-                      style={{ marginLeft: '4px;', marginTop: '2px' }}
-                      color='black'
-                      weight={600}
-                    >
-                      {collection.name}
-                    </Text>
-                  </CollectionLabel>
-                </CollectionField>
-              ))
-            }
-          })}
+                  >
+                    <Field
+                      component='input'
+                      type='radio'
+                      id={collection.slug}
+                      name='collection'
+                      value={collection.slug}
+                      onChange={() =>
+                        props.formActions.change('nftMarketplace', 'collection', collection.slug)
+                      }
+                    />
+                    <CollectionLabel htmlFor={collection.slug}>
+                      {collection.image_url ? (
+                        <img src={collection.image_url} alt={collection.name} />
+                      ) : null}
+                      <Text
+                        cursor='pointer'
+                        style={{ marginLeft: '4px;', marginTop: '2px' }}
+                        color='black'
+                        weight={600}
+                      >
+                        {collection.name}
+                      </Text>
+                    </CollectionLabel>
+                  </CollectionField>
+                ))
+              }
+            })}
+          </CollectionsWrapper>
         </FormWrapper>
-      </Form>
+      </StyledForm>
     </LeftColWrapper>
   )
 }

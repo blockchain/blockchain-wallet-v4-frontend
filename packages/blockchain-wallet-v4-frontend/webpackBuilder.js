@@ -239,6 +239,7 @@ const buildDevServerConfig = (
           envConfig.WEB_SOCKET_URL,
           envConfig.OPENSEA_API,
           'http://localhost:8081',
+          'http://localhost:4000',
           'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
           'https://bitpay.com',

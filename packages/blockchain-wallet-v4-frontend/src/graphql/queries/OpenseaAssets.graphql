@@ -1,0 +1,8 @@
+query OpenseaAssets($collectionSlug: String, $limit: [Int], $offset: [Int]) {
+  openseaAssets(collection_slug: $collectionSlug, limit: $limit, offset: $offset) {
+    name
+    token_id
+    image_original_url
+    permalink
+  }
+}

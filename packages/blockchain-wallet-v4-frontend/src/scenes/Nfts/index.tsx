@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
+import { createClient, Provider } from 'urql'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -24,15 +25,21 @@ const Nfts: React.FC<Props> = (props) => {
     props.nftsActions.setActiveTab(tab)
   }
 
+  const client = createClient({
+    url: 'http://localhost:4000/graphql'
+  })
+
   return (
-    <NftPage>
-      <NftHeader {...props} setActiveTab={setActiveTab} />
-      {props.activeTab === 'explore' ? <Marketplace {...props} /> : null}
-      {props.activeTab === 'my-collection' ? (
-        <YourCollection {...props} setActiveTab={setActiveTab} />
-      ) : null}
-      {props.activeTab === 'offers' ? <Offers {...props} /> : null}
-    </NftPage>
+    <Provider value={client}>
+      <NftPage>
+        <NftHeader {...props} setActiveTab={setActiveTab} />
+        {props.activeTab === 'explore' ? <Marketplace {...props} /> : null}
+        {props.activeTab === 'my-collection' ? (
+          <YourCollection {...props} setActiveTab={setActiveTab} />
+        ) : null}
+        {props.activeTab === 'offers' ? <Offers {...props} /> : null}
+      </NftPage>
+    </Provider>
   )
 }
 

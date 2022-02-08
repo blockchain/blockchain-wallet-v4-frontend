@@ -10,15 +10,15 @@ import { Props as OwnProps } from '..'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 
 const Wrapper = styled.div`
-  display: inline-block;
-  width: 100%;
-`
-const InnerContainer = styled.div`
-  z-index: 3;
-  padding: 8px 0px 8px 0px;
-  background: ${(props) => props.theme.white};
   position: sticky;
   top: 0;
+  display: inline-block;
+  width: 100%;
+  z-index: 3;
+`
+const InnerContainer = styled.div`
+  padding: 8px 0px 8px 0px;
+  background: ${(props) => props.theme.white};
   margin-bottom: 8px;
   align-items: center;
   display: flex;
