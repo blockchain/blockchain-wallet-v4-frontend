@@ -93,7 +93,6 @@ enum AnalyticsKey {
   TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   WALLET_SIGNED_UP = 'Wallet Signed Up',
-  WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
   WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked',
   WITHDRAWAL_CLICKED = 'Withdrawal Clicked',
