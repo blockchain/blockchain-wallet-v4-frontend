@@ -33,7 +33,7 @@ const CheckEmail = (props: Props) => {
       <WrapperWithPadding>
         <BackArrowHeader
           {...props}
-          handleBackArrowClick={props.handleBackArrowClick}
+          handleBackArrowClick={props.handleBackArrowClickWallet}
           product={props.productAuthMetadata.product}
         />
         <FormBody>

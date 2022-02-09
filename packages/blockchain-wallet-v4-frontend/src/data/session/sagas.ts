@@ -42,7 +42,7 @@ export default ({ api }) => {
       const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
       const sessionToken = yield select(selectors.session.getSession, guid, email)
       yield call(api.deauthorizeBrowser, sessionToken)
-      yield put(actions.cache.removedStoredLogin())
+      yield put(actions.cache.removeStoredLogin())
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
       yield put(actions.cache.disconnectChannelPhone())
     } catch (e) {

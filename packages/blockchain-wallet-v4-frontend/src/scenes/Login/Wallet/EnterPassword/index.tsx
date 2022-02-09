@@ -77,7 +77,7 @@ const EnterPasswordWallet = (props: Props) => {
     busy,
     exchangeTabClicked,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickWallet,
     invalid,
     isBrowserSupported,
     qrData,
@@ -102,7 +102,7 @@ const EnterPasswordWallet = (props: Props) => {
         <WrapperWithPadding>
           <BackArrowHeader
             {...props}
-            handleBackArrowClick={handleBackArrowClick}
+            handleBackArrowClick={handleBackArrowClickWallet}
             marginTop='28px'
           />
           <FormGroup>
