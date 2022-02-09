@@ -25,7 +25,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
           </Text>
           <Table style={{ maxHeight: '150px', overflow: 'auto' }}>
             <StickyTableHeader>
-              <TableCell width='50%'>
+              <TableCell width='40%'>
                 <Text size='12px' weight={600}>
                   Price
                 </Text>
@@ -35,7 +35,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
                   Expires
                 </Text>
               </TableCell>
-              <TableCell width='25%' style={{ justifyContent: 'center' }}>
+              <TableCell width='35%' style={{ justifyContent: 'end' }}>
                 <Text size='12px' weight={600}>
                   Actions
                 </Text>
@@ -45,7 +45,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
               return (
                 <>
                   <TableRow key={offer.order_hash}>
-                    <TableCell width='50%'>
+                    <TableCell width='40%'>
                       <Text size='14px' weight={600}>
                         {displayCoinToCoin({
                           coin: offer.payment_token_contract?.symbol || 'ETH',
@@ -58,7 +58,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
                         {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
                       </Text>
                     </TableCell>
-                    <TableCell width='25%' style={{ justifyContent: 'center' }}>
+                    <TableCell width='35%' style={{ justifyContent: 'end' }}>
                       {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
                         <Button
                           small
