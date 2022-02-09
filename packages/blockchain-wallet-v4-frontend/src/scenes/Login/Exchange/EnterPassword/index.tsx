@@ -31,7 +31,7 @@ const EnterPasswordExchange = (props: Props) => {
     busy,
     exchangeError,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickExchange,
     invalid,
     isBrowserSupported,
     submitting,
@@ -45,7 +45,7 @@ const EnterPasswordExchange = (props: Props) => {
       <WrapperWithPadding>
         <BackArrowHeader
           {...props}
-          handleBackArrowClick={handleBackArrowClick}
+          handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
           marginTop='28px'
           product={ProductAuthOptions.EXCHANGE}
