@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getType } from '@reduxjs/toolkit'
 import moment from 'moment'
 
 import { Remote } from '@core'
