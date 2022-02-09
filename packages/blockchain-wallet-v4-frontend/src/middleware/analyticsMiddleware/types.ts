@@ -684,7 +684,7 @@ type WrongChangeCachePayload = BasePayload
 type WrongReceiveCachePayload = BasePayload
 
 type PeekSheetPayload = BasePayload & {
-  current_step_completed: number
+  current_step_completed: string
 }
 
 type AnalyticsProperties =
