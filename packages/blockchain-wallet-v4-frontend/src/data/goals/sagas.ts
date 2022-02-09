@@ -759,8 +759,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runEntitiesMigrationGoal = function* (goal: GoalType) {
-    yield call(fetchUser)
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
     yield call(waitForUserData)
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
