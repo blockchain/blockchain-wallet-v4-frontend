@@ -68,12 +68,21 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleBackArrowClick = () => {
-    const { authActions, cacheActions, formActions } = this.props
-    cacheActions.removedStoredLogin()
+    const { authActions, formActions } = this.props
     formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
     authActions.clearLoginError()
     this.initCaptcha()
+  }
+
+  handleBackArrowClickWallet = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeWalletLogin()
+  }
+
+  handleBackArrowClickExchange = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeExchangeLogin()
   }
 
   exchangeTabClicked = () => {
@@ -148,7 +157,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
       walletError,
       ...this.props,
-      handleBackArrowClick: this.handleBackArrowClick,
+      handleBackArrowClickExchange: this.handleBackArrowClickExchange,
+      handleBackArrowClickWallet: this.handleBackArrowClickWallet,
       isBrowserSupported: isBrowserSupported(),
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
@@ -227,7 +237,8 @@ type OwnProps = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
   exchangeTabClicked?: () => void
-  handleBackArrowClick: () => void
+  handleBackArrowClickExchange: () => void
+  handleBackArrowClickWallet: () => void
   invalid: boolean
   isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean

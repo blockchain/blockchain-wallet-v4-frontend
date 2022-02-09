@@ -46,7 +46,7 @@ const InstitutionalPortal = (props: Props) => {
     busy,
     exchangeError,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickExchange,
     invalid,
     isBrowserSupported,
     routerActions,
@@ -54,7 +54,7 @@ const InstitutionalPortal = (props: Props) => {
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   const backArrowClick = () => {
-    handleBackArrowClick()
+    handleBackArrowClickExchange()
     routerActions.push('/login?product=exchange')
   }
   return (
