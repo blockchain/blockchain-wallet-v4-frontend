@@ -12,6 +12,14 @@ import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
   const { defaultEthAddr, nftActions } = props
+
+  const listings = props.asset.orders.filter(
+    (order) => order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
+  )
+  const getType = (order) => {
+    return order.sale_kind === 1 ? 'Descending' : order.extra !== '0' ? 'Ascending' : 'Fixed Price'
+  }
+
   return (
     <>
       {props.asset.orders.length ? (
@@ -29,6 +37,11 @@ const CTA: React.FC<Props> = (props) => {
               <TableCell>
                 <Text size='12px' weight={600}>
                   Expires
+                </Text>
+              </TableCell>
+              <TableCell>
+                <Text size='12px' weight={600}>
+                  Type
                 </Text>
               </TableCell>
               <TableCell style={{ justifyContent: 'center' }}>
@@ -50,8 +63,19 @@ const CTA: React.FC<Props> = (props) => {
                       </Text>
                     </TableCell>
                     <TableCell>
+                      {order.closing_date ? (
+                        <Text size='14px' weight={600}>
+                          {moment(order.closing_date).fromNow(true)}
+                        </Text>
+                      ) : (
+                        <Text size='20px' weight={600} style={{ paddingLeft: '0.5em' }}>
+                          ∞
+                        </Text>
+                      )}
+                    </TableCell>
+                    <TableCell>
                       <Text size='14px' weight={600}>
-                        {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
+                        {getType(order)}
                       </Text>
                     </TableCell>
                     <TableCell style={{ justifyContent: 'center' }}>

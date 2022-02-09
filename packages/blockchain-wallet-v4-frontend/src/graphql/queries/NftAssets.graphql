@@ -1,0 +1,13 @@
+query Assets($limit: Int, $offset: Int, $filter: AssetFilter) {
+  assets(limit: $limit, offset: $offset, filter: $filter) {
+    name
+    token_id
+    contract_address
+    image_url
+    permalink
+    owner_address
+    collection {
+      name
+    }
+  }
+}
