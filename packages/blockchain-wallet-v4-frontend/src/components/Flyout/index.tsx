@@ -73,7 +73,6 @@ const FlyoutModal = styled(AnimatedModal)`
   color: ${(props) => props.theme.grey700};
   ${media.mobile`
     width: 100%;
-    height: calc(100vh - 80px);
     padding-bottom: 20px;
   `};
 `
