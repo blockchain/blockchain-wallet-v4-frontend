@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useOpenseaAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import { useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
@@ -13,9 +13,11 @@ import { Asset, AssetCollection, AssetDetails, CTAWrapper, ImageContainer } from
 const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetching, slug }) => {
-  const [result] = useOpenseaAssetsQuery({
+  const [result] = useAssetsQuery({
     variables: {
-      collectionSlug: slug,
+      filter: {
+        collection_slug: slug
+      },
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT
     }
@@ -31,18 +33,24 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
 
   return (
     <>
-      {result?.data?.openseaAssets?.map((asset) =>
+      {result?.data?.assets?.map((asset) =>
         asset ? (
           <MarketplaceAsset key={asset?.token_id}>
             <ImageContainer
-              background={`url(${asset?.image_original_url?.replace(/=s\d*/, '')})`}
+              onClick={() =>
+                nftsActions.nftOrderFlowOpen({
+                  asset_contract_address: asset.contract_address!,
+                  token_id: asset.token_id!
+                })
+              }
+              background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
               // backgroundColor={`#${asset?.}` || '#fff'}
             />
             <AssetDetails>
               <div>
                 <AssetCollection>
                   <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-                    {/* {asset?.collection?.name} */}
+                    {asset?.collection?.name}
                   </Text>
                 </AssetCollection>
                 <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>

@@ -86,13 +86,11 @@ const ShowAsset: React.FC<Props> = (props) => {
               <>
                 <SellCTA {...props} asset={val} />
                 <TransferCTA {...props} asset={val} />
-                <br />
                 <ActiveOrders
                   {...props}
                   asset={val}
                   orders={val.orders.filter((order) => order.maker.address === val.owner.address)}
                 />
-                <br />
                 <ActiveOffers
                   {...props}
                   asset={val}

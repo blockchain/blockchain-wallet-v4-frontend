@@ -37,6 +37,12 @@ const YourCollection: React.FC<Props> = (props) => {
           return (
             <Asset key={asset.token_id}>
               <ImageContainer
+                onClick={() =>
+                  props.nftsActions.nftOrderFlowOpen({
+                    asset_contract_address: asset.asset_contract.address!,
+                    token_id: asset.token_id!
+                  })
+                }
                 backgroundColor={`#${asset.background_color}` || '#fff'}
                 background={`url(${asset.image_url})`}
               />

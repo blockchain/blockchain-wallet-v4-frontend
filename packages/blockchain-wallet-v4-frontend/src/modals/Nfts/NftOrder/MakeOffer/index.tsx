@@ -21,7 +21,6 @@ import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
-  const { orderToMatch } = orderFlow
 
   const disabled =
     !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
@@ -132,65 +131,35 @@ const MakeOffer: React.FC<Props> = (props) => {
                     </FiatDisplay>
                   </Value>
                 </Row>
-                {orderToMatch ? (
-                  <Row>
-                    <Title>
-                      <FormattedMessage id='copy.current_price' defaultMessage='Current Price' />
-                    </Title>
-                    <Value>
-                      <div style={{ display: 'flex' }}>
-                        <CoinDisplay
-                          size='14px'
-                          color='black'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {orderToMatch.base_price}
-                        </CoinDisplay>
-                        &nbsp;-&nbsp;
-                        <FiatDisplay
-                          size='12px'
-                          color='grey600'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {orderToMatch.base_price}
-                        </FiatDisplay>
-                      </div>
-                    </Value>
-                  </Row>
-                ) : null}
               </>
             </Form>
-            {orderToMatch ? (
-              <StickyCTA>
-                <MakeOfferFees {...props} asset={val} />
-                <Button
-                  jumbo
-                  nature='primary'
-                  fullwidth
-                  data-e2e='makeOfferNft'
-                  disabled={disabled}
-                  onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
-                >
-                  {formValues.amount ? (
-                    props.orderFlow.isSubmitting ? (
-                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                    ) : (
-                      <FormattedMessage
-                        id='copy.make_offer_value'
-                        defaultMessage='Make an Offer for {val}'
-                        values={{
-                          val: `${formValues.amount} ${formValues.coin}`
-                        }}
-                      />
-                    )
+            <StickyCTA>
+              <MakeOfferFees {...props} asset={val} />
+              <Button
+                jumbo
+                nature='primary'
+                fullwidth
+                data-e2e='makeOfferNft'
+                disabled={disabled}
+                onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
+              >
+                {formValues.amount ? (
+                  props.orderFlow.isSubmitting ? (
+                    <HeartbeatLoader color='blue100' height='20px' width='20px' />
                   ) : (
-                    <FormattedMessage id='copy.make_and_offer' defaultMessage='Make an Offer' />
-                  )}
-                </Button>
-              </StickyCTA>
-            ) : null}
+                    <FormattedMessage
+                      id='copy.make_offer_value'
+                      defaultMessage='Make an Offer for {val}'
+                      values={{
+                        val: `${formValues.amount} ${formValues.coin}`
+                      }}
+                    />
+                  )
+                ) : (
+                  <FormattedMessage id='copy.make_and_offer' defaultMessage='Make an Offer' />
+                )}
+              </Button>
+            </StickyCTA>
           </>
         )
       })}

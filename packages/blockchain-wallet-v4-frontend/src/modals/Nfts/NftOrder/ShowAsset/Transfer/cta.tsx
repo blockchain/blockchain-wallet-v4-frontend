@@ -25,6 +25,7 @@ const CTA: React.FC<Props> = (props) => {
       >
         <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
       </Link>
+      <br />
     </>
   ) : null
 }

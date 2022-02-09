@@ -13,6 +13,9 @@ import { Props as OwnProps } from '../..'
 
 const ActiveOrders: React.FC<Props> = (props) => {
   const { asset, defaultEthAddr, nftActions, offers } = props
+
+  const isOwner = asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
+
   return (
     <>
       {offers.length ? (
@@ -22,17 +25,17 @@ const ActiveOrders: React.FC<Props> = (props) => {
           </Text>
           <Table style={{ maxHeight: '150px', overflow: 'auto' }}>
             <StickyTableHeader>
-              <TableCell>
+              <TableCell width='50%'>
                 <Text size='12px' weight={600}>
                   Price
                 </Text>
               </TableCell>
-              <TableCell>
+              <TableCell width='25%'>
                 <Text size='12px' weight={600}>
                   Expires
                 </Text>
               </TableCell>
-              <TableCell style={{ justifyContent: 'center' }}>
+              <TableCell width='25%' style={{ justifyContent: 'center' }}>
                 <Text size='12px' weight={600}>
                   Actions
                 </Text>
@@ -42,7 +45,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
               return (
                 <>
                   <TableRow key={offer.order_hash}>
-                    <TableCell>
+                    <TableCell width='50%'>
                       <Text size='14px' weight={600}>
                         {displayCoinToCoin({
                           coin: offer.payment_token_contract?.symbol || 'ETH',
@@ -50,12 +53,12 @@ const ActiveOrders: React.FC<Props> = (props) => {
                         })}
                       </Text>
                     </TableCell>
-                    <TableCell>
+                    <TableCell width='25%'>
                       <Text size='14px' weight={600}>
                         {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
                       </Text>
                     </TableCell>
-                    <TableCell style={{ justifyContent: 'center' }}>
+                    <TableCell width='25%' style={{ justifyContent: 'center' }}>
                       {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
                         <Button
                           small
@@ -79,17 +82,17 @@ const ActiveOrders: React.FC<Props> = (props) => {
                 </>
               )
             })}
-            <TableRow>
-              <Link
-                weight={600}
-                size='14px'
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })}
-                style={{ display: 'block', textAlign: 'center', width: '100%' }}
-              >
-                Make an Offer
-              </Link>
-            </TableRow>
           </Table>
+          {isOwner ? null : (
+            <Link
+              weight={600}
+              size='14px'
+              onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })}
+              style={{ display: 'block', paddingTop: '8px', textAlign: 'center', width: '100%' }}
+            >
+              Make an Offer
+            </Link>
+          )}
         </>
       ) : null}
     </>

@@ -91,7 +91,11 @@ export const InfoStatsWrapper = styled.div`
   margin-bottom: 16px;
 `
 
-export const ImageContainer = styled.div<{ background?: string; backgroundColor?: string }>`
+export const ImageContainer = styled.div<{
+  background?: string
+  backgroundColor?: string
+  onClick: () => void
+}>`
   align-items: center;
   display: flex;
   justify-content: center;
@@ -103,6 +107,7 @@ export const ImageContainer = styled.div<{ background?: string; backgroundColor?
   background-size: cover;
   background-position: center;
   border-radius: 6px;
+  cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
 `

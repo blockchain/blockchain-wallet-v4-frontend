@@ -12,6 +12,7 @@ import { Props as OwnProps } from '../..'
 
 const ActiveOrders: React.FC<Props> = (props) => {
   const { asset, defaultEthAddr, nftActions, orders } = props
+
   return (
     <>
       {orders.length ? (
@@ -21,17 +22,17 @@ const ActiveOrders: React.FC<Props> = (props) => {
           </Text>
           <Table style={{ maxHeight: '150px', overflow: 'auto' }}>
             <StickyTableHeader>
-              <TableCell>
+              <TableCell width='50%'>
                 <Text size='12px' weight={600}>
                   Price
                 </Text>
               </TableCell>
-              <TableCell>
+              <TableCell width='25%'>
                 <Text size='12px' weight={600}>
                   Expires
                 </Text>
               </TableCell>
-              <TableCell style={{ justifyContent: 'center' }}>
+              <TableCell width='25%' style={{ justifyContent: 'center' }}>
                 <Text size='12px' weight={600}>
                   Actions
                 </Text>
@@ -41,7 +42,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
               return (
                 <>
                   <TableRow key={order.order_hash}>
-                    <TableCell>
+                    <TableCell width='50%'>
                       <Text size='14px' weight={600}>
                         {displayCoinToCoin({
                           coin: order.payment_token_contract?.symbol || 'ETH',
@@ -49,12 +50,12 @@ const ActiveOrders: React.FC<Props> = (props) => {
                         })}
                       </Text>
                     </TableCell>
-                    <TableCell>
+                    <TableCell width='25%'>
                       <Text size='14px' weight={600}>
                         {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
                       </Text>
                     </TableCell>
-                    <TableCell style={{ justifyContent: 'center' }}>
+                    <TableCell width='25%' style={{ justifyContent: 'center' }}>
                       {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
                         <Button
                           small
@@ -90,6 +91,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
               )
             })}
           </Table>
+          <br />
         </>
       ) : null}
     </>

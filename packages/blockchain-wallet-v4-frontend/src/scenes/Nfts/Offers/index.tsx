@@ -53,7 +53,8 @@ const Offers: React.FC<Props> = (props) => {
             return null
 
           return (
-            <Row key={i}>
+            // eslint-disable-next-line react/jsx-key
+            <Row>
               <Col>
                 <img
                   style={{ height: '32px', marginRight: '8px' }}
