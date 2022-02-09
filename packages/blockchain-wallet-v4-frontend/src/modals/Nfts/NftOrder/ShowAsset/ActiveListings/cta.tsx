@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { getType } from '@reduxjs/toolkit'
 import moment from 'moment'
 
 import { Remote } from '@core'
@@ -24,6 +25,9 @@ const CTA: React.FC<Props> = (props) => {
   const listings = props.asset.orders.filter(
     (order) => order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
   )
+  const getType = (order) => {
+    return order.sale_kind === 1 ? 'Descending' : order.extra !== '0' ? 'Ascending' : 'Fixed Price'
+  }
 
   return (
     <>
@@ -42,6 +46,11 @@ const CTA: React.FC<Props> = (props) => {
               <TableCell>
                 <Text size='12px' weight={600}>
                   Expires
+                </Text>
+              </TableCell>
+              <TableCell>
+                <Text size='12px' weight={600}>
+                  Type
                 </Text>
               </TableCell>
               <TableCell style={{ justifyContent: 'center' }}>
@@ -65,6 +74,11 @@ const CTA: React.FC<Props> = (props) => {
                     <TableCell>
                       <Text size='14px' weight={600}>
                         {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
+                      </Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text size='14px' weight={600}>
+                        {getType(order)}
                       </Text>
                     </TableCell>
                     <TableCell style={{ justifyContent: 'center' }}>
