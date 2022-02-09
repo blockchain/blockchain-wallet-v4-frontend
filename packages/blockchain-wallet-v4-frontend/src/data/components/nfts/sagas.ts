@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
 import { call, put, race, select, take } from 'redux-saga/effects'
@@ -11,6 +12,7 @@ import {
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
+  OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import {
@@ -19,14 +21,11 @@ import {
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
-  getNftBuyOrders,
+  getNftBuyOrder,
+  getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  WETH_ADDRESS,
-  WETH_ADDRESS_RINKEBY
-} from '@core/redux/payment/nfts/utils'
+import { NULL_ADDRESS, OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -215,6 +214,16 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchOpenseaStatus = function* () {
+    try {
+      yield put(A.fetchNftOffersMadeLoading())
+      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(api.getOpenSeaStatus)
+      yield put(A.fetchOpenseaStatusSuccess(res))
+    } catch (e) {
+      yield put(A.fetchOpenseaStatusFailure(e))
+    }
+  }
+
   const getEthSigner = function* () {
     try {
       const password = yield call(promptForSecondPassword)
@@ -238,18 +247,15 @@ export default ({ api }: { api: APIType }) => {
       const signer: Signer = yield call(getEthSigner)
       let fees
 
-      // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(14, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
         yield put(A.fetchMatchingOrderLoading())
         try {
-          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-            getNftBuyOrders,
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
             action.payload.order,
             signer,
-            action.payload.offer ? expirationTime : undefined,
+            undefined,
             IS_TESTNET ? 'rinkeby' : 'mainnet',
-            action.payload.offer,
             action.payload.paymentTokenAddress
           )
           fees = yield call(
@@ -266,12 +272,30 @@ export default ({ api }: { api: APIType }) => {
           yield put(A.fetchMatchingOrderFailure(error))
           throw e
         }
-      } else if (action.payload.operation === GasCalculationOperations.Accept) {
+      } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
+        const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+          getNftBuyOrder,
+          action.payload.asset,
+          signer,
+          undefined,
+          Number(action.payload.offer),
+          action.payload.paymentTokenAddress,
+          IS_TESTNET ? 'rinkeby' : 'mainnet'
+        )
+
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.CreateOffer,
+          signer,
+          undefined,
+          buy
+        )
+      } else if (action.payload.operation === GasCalculationOperations.AcceptOffer) {
         const { order } = action.payload
         yield put(A.fetchMatchingOrderLoading())
         try {
-          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-            getNftBuyOrders,
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
             order,
             signer,
             undefined,
@@ -299,10 +323,11 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order as RawOrder
         )
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        const listingTime =
-          action.payload.listingTime !== '' && action.payload.listingTime !== undefined
+        const listingTime = action.payload.listingTime
+          ? new Date(action.payload.listingTime).getTime() / 1000 > new Date().getTime() / 1000
             ? new Date(action.payload.listingTime).getTime() / 1000
-            : undefined
+            : moment().add(10, 'minutes').unix()
+          : undefined
         const expirationTime =
           action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
             ? new Date(action.payload.expirationTime).getTime() / 1000
@@ -354,7 +379,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
-      yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
@@ -373,32 +398,28 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
-      const { coinfig } = window.coins[action.payload.coin || 'WETH']
+      if (!action.payload.coin) throw new Error('No coin selected for offer.')
+      const { coinfig } = window.coins[action.payload.coin]
+      if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(7, 'day').unix()
-      const amount = convertCoinToCoin({
-        baseToStandard: false,
-        coin: coinfig.symbol,
-        value: action.payload.amount || '0'
-      })
-      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-        getNftBuyOrders,
-        action.payload.order,
+      const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+        getNftBuyOrder,
+        action.payload.asset,
         signer,
         expirationTime,
-        IS_TESTNET ? 'rinkeby' : 'mainnet',
-        amount,
-        coinfig.type.erc20Address
+        Number(action.payload.amount || '0'),
+        coinfig.type.erc20Address,
+        IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const gasData: GasDataI = yield call(
         calculateGasFees,
-        GasCalculationOperations.Buy,
+        GasCalculationOperations.CreateOffer,
         signer,
         undefined,
-        buy,
-        sell
+        buy
       )
-      const order = yield call(fulfillNftOrder, buy, sell, signer, gasData)
+      const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
@@ -423,7 +444,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setOrderFlowIsSubmitting(true))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
-      yield call(fulfillNftOrder, buy, sell, signer, gasData)
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
@@ -447,10 +468,11 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
-      const listingTime =
-        action.payload.listingTime !== '' && action.payload.listingTime !== undefined
+      const listingTime = action.payload.listingTime
+        ? new Date(action.payload.listingTime).getTime() / 1000 > new Date().getTime() / 1000
           ? new Date(action.payload.listingTime).getTime() / 1000
-          : undefined
+          : moment().add(10, 'minutes').unix()
+        : undefined
       const expirationTime =
         action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
           ? new Date(action.payload.expirationTime).getTime() / 1000
@@ -645,7 +667,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           action.payload.offer.asset.asset_contract.address,
           action.payload.offer.asset.token_id,
-          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
+          action.payload.offer.payment_token.address,
           0,
           ethAddr
         )
@@ -714,6 +736,7 @@ export default ({ api }: { api: APIType }) => {
     fetchNftCollections,
     fetchNftOffersMade,
     fetchNftOrders,
+    fetchOpenseaStatus,
     formChanged,
     formInitialized,
     nftOrderFlowClose,

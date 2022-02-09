@@ -50,6 +50,22 @@ export type NftsStateType = {
     list: OfferEventsType['asset_events']
     page: number
   }
+  openSeaStatus: RemoteDataType<
+    string,
+    {
+      page: {
+        id: string
+        name: string
+        time_zone: string
+        updated_at: string
+        url: string
+      }
+      status: {
+        description: string
+        indicator: string
+      }
+    }
+  >
   orderFlow: {
     activeOrder: NftOrder | null
     asset: RemoteDataType<string, NftAsset>

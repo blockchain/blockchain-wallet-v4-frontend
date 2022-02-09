@@ -11,7 +11,7 @@ import {
   NumberWrapper,
   RowNumber,
   SubTitle
-} from '../template.rejected.styles'
+} from '../../components/Rejected'
 import { Props } from '.'
 
 const Wrapper = styled.div`

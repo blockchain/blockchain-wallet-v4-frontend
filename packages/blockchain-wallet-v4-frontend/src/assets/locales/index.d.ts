@@ -652,6 +652,7 @@ type MessagesType = {
   'identityverification.more_info.required_docs': "You'll need to provide a government issued ID and selfie. Please click Continue below to complete these final steps."
   'identityverification.personal.address_line1required': 'Address Line 1 *'
   'identityverification.personal.address_line2': 'Address Line 2'
+  'identityverification.personal.address_line2_optional': 'Address Line 2 (optional)'
   'identityverification.personal.cityrequired': 'City *'
   'identityverification.personal.countryrequired': 'Country *'
   'identityverification.personal.dateofbirthrequired': 'Date of Birth *'

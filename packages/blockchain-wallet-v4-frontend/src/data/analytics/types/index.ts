@@ -1,4 +1,9 @@
 import {
+  AnalyticsProperties as InterestClientProperties,
+  Events as InterestClientEvents,
+  TrackEventAction as InterestClientTrackEventAction
+} from './interestClient'
+import {
   AnalyticsProperties as OnboardingAndVerificationAnalyticsProperties,
   Events as OnboardingAndVerificationEvents,
   TrackEventAction as OnboardingAndVerificationTrackEventAction
@@ -11,13 +16,18 @@ import {
 
 const TRACK_EVENT = 'trackEvent'
 
-type AnalyticsKey = OnboardingAndVerificationEvents | ViewAndClickEvents
-const Analytics = { ...OnboardingAndVerificationEvents, ...ViewAndClickEvents }
+type AnalyticsKey = OnboardingAndVerificationEvents | ViewAndClickEvents | InterestClientEvents
+const Analytics = {
+  ...OnboardingAndVerificationEvents,
+  ...ViewAndClickEvents,
+  ...InterestClientEvents
+}
 
 // queevent properties
 type AnalyticsProperties =
   | OnboardingAndVerificationAnalyticsProperties
   | ViewAndClickAnalyticsProperties
+  | InterestClientProperties
 
 type AnalyticsTraits = {
   email?: string
@@ -35,6 +45,9 @@ type RawEvent = {
   payload: AnalyticsValue
 }
 
-type TrackEventAction = OnboardingAndVerificationTrackEventAction | ViewAndClickTrackEventAction
+type TrackEventAction =
+  | OnboardingAndVerificationTrackEventAction
+  | ViewAndClickTrackEventAction
+  | InterestClientTrackEventAction
 
 export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }

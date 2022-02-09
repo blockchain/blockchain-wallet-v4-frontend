@@ -38,7 +38,11 @@ class Interest extends PureComponent<Props, State> {
     this.setState({ show: false })
     this.props.close(ModalName.INTEREST_MODAL)
     setTimeout(() => {
-      this.props.buySellActions.showModal({ cryptoCurrency: coin, origin: 'InterestPage' })
+      this.props.buySellActions.showModal({
+        cryptoCurrency: coin,
+        orderType: 'BUY',
+        origin: 'InterestPage'
+      })
     }, duration / 2)
   }
 
