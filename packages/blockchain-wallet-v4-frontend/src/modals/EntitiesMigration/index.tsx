@@ -24,6 +24,10 @@ const GroupContent = styled(Text)`
   font-weight: 500;
   color: ${(props) => props.theme.black};
   text-align: center;
+  a {
+    color: ${(props) => props.theme.blue600};
+    text-decoration: none;
+  }
 `
 
 const Header = styled.div`
@@ -84,7 +88,18 @@ function EntitiesMigration({ cacheActions, close }) {
           >
             <FormattedMessage
               id='modals.entity_migration.description'
-              defaultMessage='Starting later this month, UK customers will be served by our European subsidiary, Blockchain (LT), UAB. You will not experience any changes in user experience or access to your funds during this transition.'
+              defaultMessage='You will not experience any changes in user experience or lose access to your funds during this transition. <a>Learn more.</a>'
+              values={{
+                a: (msg) => (
+                  <a
+                    href='https://support.blockchain.com/hc/en-us/articles/4418431131668'
+                    rel='noopener noreferrer'
+                    target='_blank'
+                  >
+                    {msg}
+                  </a>
+                )
+              }}
             />
           </GroupContent>
         </Group>
