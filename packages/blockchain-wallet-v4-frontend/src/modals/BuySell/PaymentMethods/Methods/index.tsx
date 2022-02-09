@@ -203,12 +203,9 @@ const Methods = (props: Props) => {
     funds.length || cardMethods.length || !!paymentCard || !!bankAccount || !!applePay
 
   useEffect(() => {
-    // @ts-ignore
-    // if (window.ApplePaySession) {
-    //   setApplePayAvailable(true)
-    // }
-
-    setApplePayAvailable(true)
+    if ((window as any).ApplePaySession) {
+      setApplePayAvailable(true)
+    }
   }, [])
 
   return (

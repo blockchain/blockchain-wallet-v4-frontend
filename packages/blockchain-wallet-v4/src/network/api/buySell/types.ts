@@ -410,11 +410,11 @@ export type TradesAccumulatedResponse = {
 }
 
 export type ApplePayInfoType = {
-  apiKey: string
   applePayMerchantID: string
   beneficiaryID: string
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
-  merchantBankCountry: string
+  merchantBankCountryCode: string
+  publishableApiKey: string
 }
 
 export type ValidateApplePayMerchantRequest = {

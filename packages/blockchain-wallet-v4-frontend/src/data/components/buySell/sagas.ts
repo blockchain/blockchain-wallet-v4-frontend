@@ -94,6 +94,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
+  const performPayment = ({
+    applePayInfo,
+    paymentRequest
+  }: {
+    applePayInfo: ApplePayInfoType
+    paymentRequest: ApplePayJS.ApplePayPaymentRequest
+  }) => {
+    return new Promise((resolve, reject) => {
+      const session = new ApplePaySession(3, paymentRequest)
+
+      session.onvalidatemerchant = async (event) => {
+        try {
+          const { applePayPayload } = await api.validateApplePayMerchant({
+            beneficiaryID: applePayInfo.beneficiaryID,
+            validationURL: event.validationURL
+          })
+
+          session.completeMerchantValidation(JSON.parse(applePayPayload))
+        } catch (e) {
+          reject()
+        }
+      }
+      session.onpaymentauthorized = resolve
+      session.oncancel = reject
+      session.begin()
+    })
+  }
+
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
       const { paymentMethodTokens } = payload
@@ -621,42 +649,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
-          const request: ApplePayJS.ApplePayPaymentRequest = {
-            countryCode: applePayInfo.merchantBankCountry,
+          const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
+            countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
             total: { amount: order.inputQuantity, label: 'Blockchain.com' }
           }
 
-          const session = new ApplePaySession(3, request)
+          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
 
-          session.onvalidatemerchant = async (event) => {
-            const merchantSession = await api.validateApplePayMerchant({
-              beneficiaryID: applePayInfo.beneficiaryID,
-              validationURL: event.validationURL
-            })
-
-            session.completeMerchantValidation(merchantSession)
+          attributes = {
+            applePayPaymentToken: payment.token,
+            redirectURL: paymentSuccessLink
           }
-
-          session.onpaymentauthorized = (event) => {
-            const result = {
-              status: ApplePaySession.STATUS_SUCCESS
-            }
-            session.completePayment(result)
-
-            attributes = {
-              applePayPaymentToken: JSON.stringify(event.payment.token),
-              redirectURL: paymentSuccessLink
-            }
-          }
-
-          session.oncancel = () => {
-            // TODO send user to checkout enter amount
-          }
-
-          session.begin()
         }
       }
 
