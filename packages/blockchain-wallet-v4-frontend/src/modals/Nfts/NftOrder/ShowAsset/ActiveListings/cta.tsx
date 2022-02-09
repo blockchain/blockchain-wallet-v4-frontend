@@ -71,9 +71,15 @@ const CTA: React.FC<Props> = (props) => {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text size='14px' weight={600}>
-                        {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
-                      </Text>
+                      {order.closing_date ? (
+                        <Text size='14px' weight={600}>
+                          {moment(order.closing_date).fromNow(true)}
+                        </Text>
+                      ) : (
+                        <Text size='20px' weight={600} style={{ paddingLeft: '0.5em' }}>
+                          ∞
+                        </Text>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Text size='14px' weight={600}>
