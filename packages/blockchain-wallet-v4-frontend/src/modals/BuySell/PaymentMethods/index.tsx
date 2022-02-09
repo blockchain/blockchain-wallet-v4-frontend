@@ -48,6 +48,9 @@ class PaymentMethods extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  applePayEnabled: selectors.core.walletOptions
+    .getApplePayAsNewPaymentMethod(state)
+    .getOrElse(false) as boolean,
   data: getData(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state)
 })
@@ -70,6 +73,7 @@ export type OwnProps = {
 export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type LinkStatePropsType = {
+  applePayEnabled: boolean
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }

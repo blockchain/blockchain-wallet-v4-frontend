@@ -81,6 +81,11 @@ export const getPollForMagicLinkData = (state: RootState) =>
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+
+// apple pay as new payment method feature flag
+export const getApplePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
+
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
