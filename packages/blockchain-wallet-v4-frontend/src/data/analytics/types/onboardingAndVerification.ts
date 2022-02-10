@@ -108,14 +108,14 @@ type ManualVerificationRequiredAction = {
 type CompleteProfileDismissAction = {
   key: Events.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED
   properties: {
-    current_step_completed: number
+    current_step_completed: string
   }
 }
 
 type CompleteProfileModalViewedAction = {
   key: Events.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED
   properties: {
-    current_step_completed: number
+    current_step_completed: string
   }
 }
 
@@ -123,7 +123,7 @@ type CompleteProfileModalButtonClickedAction = {
   key: Events.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED
   properties: {
     button_clicked: boolean
-    current_step_completed: number
+    current_step_completed: string
     item: CompleteProfileSteps
   }
 }
@@ -131,7 +131,7 @@ type CompleteProfileModalButtonClickedAction = {
 type CompleteProfileBannerClickedAction = {
   key: Events.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED
   properties: {
-    current_step_completed: number
+    current_step_completed: string
   }
 }
 
@@ -246,7 +246,7 @@ type BasePayload = {
   originalTimestamp: string
 }
 type CurrentStepProperties = BasePayload & {
-  current_step_completed: number
+  current_step_completed: string
 }
 type ButtonClickProperties = BasePayload & {
   button_clicked: boolean

@@ -190,6 +190,7 @@ const swapClickedOriginDictionary = (rawOrigin: string): SwapClickedOrigin => {
     case 'SettingsProfile':
       return 'SETTINGS'
     case 'FeaturesTopNav':
+    case 'Trade':
       return 'NAVIGATION'
     case 'Send':
       return 'SEND'
