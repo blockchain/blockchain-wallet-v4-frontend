@@ -5,16 +5,28 @@ import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as OwnProps } from '../..'
-import { Asset, AssetCollection, AssetDetails, CTAWrapper, ImageContainer } from '../../components'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  CTAWrapper,
+  ImageContainer,
+  PriceInfo,
+  StyledCoinDisplay
+} from '../../components'
 
 const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetching, slug }) => {
   const [result] = useAssetsQuery({
     variables: {
+      eventsFilter: {
+        event_type: 'created'
+      },
       filter: {
         collection_slug: slug
       },
@@ -33,8 +45,8 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
 
   return (
     <>
-      {result?.data?.assets?.map((asset) =>
-        asset ? (
+      {result?.data?.assets?.map((asset) => {
+        return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
             <ImageContainer
               onClick={() =>
@@ -57,34 +69,52 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
                   {asset?.name}
                 </Text>
               </div>
-              {/* <PriceInfo>
-          <Text size='12px' color='black' weight={600}>
-            <FormattedMessage id='copy.price' defaultMessage='Price' />
-          </Text>
-          <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-            <StyledCoinDisplay
-              size='14px'
-              color='black'
-              weight={600}
-              coin={order.paymentTokenContract.symbol}
-            >
-              {order.basePrice}
-            </StyledCoinDisplay>
-            &nbsp;-&nbsp;
-            <FiatDisplay
-              size='12px'
-              color='grey600'
-              weight={600}
-              coin={order.paymentTokenContract.symbol}
-            >
-              {order.basePrice}
-            </FiatDisplay>
-          </Text>
-        </PriceInfo> */}
+
+              <PriceInfo>
+                <Text size='12px' color='black' weight={600}>
+                  <FormattedMessage id='copy.price' defaultMessage='Price' />
+                </Text>
+                {asset?.events && asset.events[0] ? (
+                  <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                    <StyledCoinDisplay
+                      size='14px'
+                      color='black'
+                      weight={600}
+                      coin={asset.events[0].payment_token?.symbol}
+                    >
+                      {asset.events[0].starting_price}
+                    </StyledCoinDisplay>
+                    &nbsp;-&nbsp;
+                    <FiatDisplay
+                      size='12px'
+                      color='grey600'
+                      weight={600}
+                      coin={asset.events[0].payment_token?.symbol}
+                    >
+                      {asset.events[0].starting_price}
+                    </FiatDisplay>
+                  </Text>
+                ) : (
+                  <Text
+                    size='12px'
+                    color='grey600'
+                    weight={600}
+                    style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
+                  >
+                    <FormattedMessage
+                      id='copy.not_for_sale'
+                      defaultMessage='This asset is not for sale.'
+                    />
+                    <TooltipHost id='tooltip.nft_asset_not_for_sale'>
+                      <TooltipIcon name='question-in-circle-filled' />
+                    </TooltipHost>
+                  </Text>
+                )}
+              </PriceInfo>
             </AssetDetails>
             <CTAWrapper>
               <Button
-                data-e2e='buyNft'
+                data-e2e='openNftFlow'
                 nature='primary'
                 fullwidth
                 onClick={() =>
@@ -94,7 +124,14 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
                   })
                 }
               >
-                <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                {asset?.events &&
+                asset.events[0] &&
+                asset?.events &&
+                asset.events[0].event_type === 'created' ? (
+                  <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                ) : (
+                  <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                )}
               </Button>
               <Link
                 style={{
@@ -113,7 +150,7 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
             </CTAWrapper>
           </MarketplaceAsset>
         ) : null
-      )}
+      })}
     </>
   )
 }

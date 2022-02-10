@@ -75,5 +75,6 @@ export type NftsStateType = {
     offerToCancel: RawOrder | null
     orderToMatch: RawOrder | null
     step: NftOrderStepEnum
+    walletUserIsAssetOwnerHack: boolean
   }
 }

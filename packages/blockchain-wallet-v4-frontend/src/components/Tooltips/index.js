@@ -312,6 +312,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='A one time fee required to make offers in the selected ERC20.'
           />
         </Tooltip>
+        <Tooltip id='tooltip.nft_asset_not_for_sale' maxWidth='160px'>
+          <FormattedMessage
+            id='copy.nft_asset_not_for_sale'
+            defaultMessage='You can still make an offer using an ERC20 like WETH.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

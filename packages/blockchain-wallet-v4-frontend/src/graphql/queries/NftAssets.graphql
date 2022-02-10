@@ -1,5 +1,5 @@
-query Assets($limit: Int, $offset: Int, $filter: AssetFilter) {
-  assets(limit: $limit, offset: $offset, filter: $filter) {
+query Assets($limit: Int, $filter: AssetFilter, $eventsFilter: EventFilter, $offset: Int) {
+  assets(limit: $limit, filter: $filter, offset: $offset) {
     name
     token_id
     contract_address
@@ -8,6 +8,14 @@ query Assets($limit: Int, $offset: Int, $filter: AssetFilter) {
     owner_address
     collection {
       name
+    }
+    events(filter: $eventsFilter) {
+      id
+      event_type
+      starting_price
+      payment_token {
+        symbol
+      }
     }
   }
 }

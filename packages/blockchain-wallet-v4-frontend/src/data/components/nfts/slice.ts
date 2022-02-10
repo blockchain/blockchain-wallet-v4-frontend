@@ -60,7 +60,10 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     orderToMatch: null,
-    step: NftOrderStepEnum.SHOW_ASSET
+    step: NftOrderStepEnum.SHOW_ASSET,
+    // This is a hack because sometimes opensea sets the owner address
+    // to NULL_ADDRESS (if contract is opensea storefront)
+    walletUserIsAssetOwnerHack: false
   }
 }
 

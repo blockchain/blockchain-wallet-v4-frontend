@@ -50,7 +50,7 @@ export type Asset = {
   animation_original_url?: Maybe<Scalars['String']>;
   animation_url?: Maybe<Scalars['String']>;
   asset_bundle_slug?: Maybe<Scalars['String']>;
-  asset_contract: Contract;
+  asset_contract?: Maybe<Contract>;
   background_color?: Maybe<Scalars['String']>;
   collection?: Maybe<Collection>;
   collection_slug?: Maybe<Scalars['String']>;
@@ -78,9 +78,74 @@ export type Asset = {
   supports_wyvern?: Maybe<Scalars['Boolean']>;
   token_id?: Maybe<Scalars['String']>;
   token_metadata?: Maybe<Scalars['String']>;
+  traits?: Maybe<Array<Maybe<Trait>>>;
   transfer_fee?: Maybe<Scalars['String']>;
   transfer_fee_payment_token?: Maybe<PaymentToken>;
   transfer_fee_payment_token_id?: Maybe<Scalars['Int']>;
+};
+
+
+export type AssetAsset_ContractArgs = {
+  filter?: InputMaybe<ContractFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ContractOrderBy>;
+};
+
+
+export type AssetCollectionArgs = {
+  filter?: InputMaybe<CollectionFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CollectionOrderBy>;
+};
+
+
+export type AssetCreatorArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type AssetEventsArgs = {
+  filter?: InputMaybe<EventFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<EventOrderBy>;
+};
+
+
+export type AssetLast_SaleArgs = {
+  filter?: InputMaybe<EventFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<EventOrderBy>;
+};
+
+
+export type AssetOwnerArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type AssetTraitsArgs = {
+  filter?: InputMaybe<TraitFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TraitOrderBy>;
+};
+
+
+export type AssetTransfer_Fee_Payment_TokenArgs = {
+  filter?: InputMaybe<PaymentTokenFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PaymentTokenOrderBy>;
 };
 
 export type AssetFilter = {
@@ -163,6 +228,30 @@ export type Bundle = {
   slug?: Maybe<Scalars['ID']>;
 };
 
+
+export type BundleAsset_ContractArgs = {
+  filter?: InputMaybe<ContractFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ContractOrderBy>;
+};
+
+
+export type BundleAssetsArgs = {
+  filter?: InputMaybe<AssetFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AssetOrderBy>;
+};
+
+
+export type BundleMakerArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
 export type BundleFilter = {
   contract_address?: InputMaybe<Scalars['String']>;
   date_ingested?: InputMaybe<Scalars['String']>;
@@ -228,6 +317,30 @@ export type Collection = {
   telegram_url?: Maybe<Scalars['String']>;
   twitter_username?: Maybe<Scalars['String']>;
   wiki_url?: Maybe<Scalars['String']>;
+};
+
+
+export type CollectionAssetsArgs = {
+  filter?: InputMaybe<AssetFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AssetOrderBy>;
+};
+
+
+export type CollectionPayment_TokensArgs = {
+  filter?: InputMaybe<PaymentTokenFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PaymentTokenOrderBy>;
+};
+
+
+export type CollectionPrimary_Asset_ContractsArgs = {
+  filter?: InputMaybe<ContractFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ContractOrderBy>;
 };
 
 export type CollectionFilter = {
@@ -324,6 +437,14 @@ export type Contract = {
   total_supply?: Maybe<Scalars['String']>;
 };
 
+
+export type ContractCollectionArgs = {
+  filter?: InputMaybe<CollectionFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CollectionOrderBy>;
+};
+
 export type ContractFilter = {
   address?: InputMaybe<Scalars['String']>;
   asset_contract_type?: InputMaybe<Scalars['String']>;
@@ -392,6 +513,94 @@ export type Event = {
   tx?: Maybe<Transaction>;
   winner_account?: Maybe<Account>;
   winner_account_address?: Maybe<Scalars['String']>;
+};
+
+
+export type EventAssetArgs = {
+  filter?: InputMaybe<AssetFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AssetOrderBy>;
+};
+
+
+export type EventAsset_BundleArgs = {
+  filter?: InputMaybe<BundleFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BundleOrderBy>;
+};
+
+
+export type EventCollectionArgs = {
+  filter?: InputMaybe<CollectionFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CollectionOrderBy>;
+};
+
+
+export type EventContractArgs = {
+  filter?: InputMaybe<ContractFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ContractOrderBy>;
+};
+
+
+export type EventFrom_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type EventOwner_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type EventPayment_TokenArgs = {
+  filter?: InputMaybe<PaymentTokenFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PaymentTokenOrderBy>;
+};
+
+
+export type EventSellerArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type EventTo_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type EventTxArgs = {
+  filter?: InputMaybe<TransactionFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<TransactionOrderBy>;
+};
+
+
+export type EventWinner_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
 };
 
 export type EventFilter = {
@@ -507,34 +716,37 @@ export enum PaymentTokenProperties {
 
 export type Query = {
   __typename?: 'Query';
-  account: Account;
-  accounts: Array<Account>;
-  asset: Asset;
-  assets: Array<Asset>;
-  bundle: Bundle;
-  bundles: Array<Bundle>;
-  collection: Collection;
-  collections: Array<Collection>;
-  contract: Contract;
-  contracts: Array<Contract>;
-  event: Event;
-  events: Array<Event>;
-  paymentToken: PaymentToken;
-  paymentTokens: Array<PaymentToken>;
-  trait: Trait;
-  traits: Array<Trait>;
-  transaction: Transaction;
-  transactions: Array<Transaction>;
+  account?: Maybe<Account>;
+  accounts?: Maybe<Array<Maybe<Account>>>;
+  asset?: Maybe<Asset>;
+  assets?: Maybe<Array<Maybe<Asset>>>;
+  bundle?: Maybe<Bundle>;
+  bundles?: Maybe<Array<Maybe<Bundle>>>;
+  collection?: Maybe<Collection>;
+  collections?: Maybe<Array<Maybe<Collection>>>;
+  contract?: Maybe<Contract>;
+  contracts?: Maybe<Array<Maybe<Contract>>>;
+  event?: Maybe<Event>;
+  events?: Maybe<Array<Maybe<Event>>>;
+  paymentToken?: Maybe<PaymentToken>;
+  paymentTokens?: Maybe<Array<Maybe<PaymentToken>>>;
+  trait?: Maybe<Trait>;
+  traits?: Maybe<Array<Maybe<Trait>>>;
+  transaction?: Maybe<Transaction>;
+  transactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 
 export type QueryAccountArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<AccountFilter>;
   orderBy?: InputMaybe<AccountOrderBy>;
 };
 
 
 export type QueryAccountsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<AccountFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<AccountOrderBy>;
@@ -542,12 +754,14 @@ export type QueryAccountsArgs = {
 
 
 export type QueryAssetArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<AssetFilter>;
   orderBy?: InputMaybe<AssetOrderBy>;
 };
 
 
 export type QueryAssetsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<AssetFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -556,12 +770,15 @@ export type QueryAssetsArgs = {
 
 
 export type QueryBundleArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<BundleFilter>;
   orderBy?: InputMaybe<BundleOrderBy>;
 };
 
 
 export type QueryBundlesArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<BundleFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<BundleOrderBy>;
@@ -569,12 +786,15 @@ export type QueryBundlesArgs = {
 
 
 export type QueryCollectionArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<CollectionFilter>;
   orderBy?: InputMaybe<CollectionOrderBy>;
 };
 
 
 export type QueryCollectionsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<CollectionFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<CollectionOrderBy>;
@@ -582,12 +802,15 @@ export type QueryCollectionsArgs = {
 
 
 export type QueryContractArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<ContractFilter>;
   orderBy?: InputMaybe<ContractOrderBy>;
 };
 
 
 export type QueryContractsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<ContractFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<ContractOrderBy>;
@@ -595,12 +818,14 @@ export type QueryContractsArgs = {
 
 
 export type QueryEventArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<EventFilter>;
   orderBy?: InputMaybe<EventOrderBy>;
 };
 
 
 export type QueryEventsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<EventFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -609,12 +834,15 @@ export type QueryEventsArgs = {
 
 
 export type QueryPaymentTokenArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<PaymentTokenFilter>;
   orderBy?: InputMaybe<PaymentTokenOrderBy>;
 };
 
 
 export type QueryPaymentTokensArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<PaymentTokenFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<PaymentTokenOrderBy>;
@@ -622,12 +850,15 @@ export type QueryPaymentTokensArgs = {
 
 
 export type QueryTraitArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<TraitFilter>;
   orderBy?: InputMaybe<TraitOrderBy>;
 };
 
 
 export type QueryTraitsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<TraitFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TraitOrderBy>;
@@ -635,12 +866,15 @@ export type QueryTraitsArgs = {
 
 
 export type QueryTransactionArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
   filter?: InputMaybe<TransactionFilter>;
   orderBy?: InputMaybe<TransactionOrderBy>;
 };
 
 
 export type QueryTransactionsArgs = {
+  eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<TransactionFilter>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<TransactionOrderBy>;
@@ -657,6 +891,14 @@ export type Trait = {
   token_id?: Maybe<Scalars['String']>;
   trait_type?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
+};
+
+
+export type TraitAssetArgs = {
+  filter?: InputMaybe<AssetFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AssetOrderBy>;
 };
 
 export type TraitFilter = {
@@ -701,6 +943,22 @@ export type Transaction = {
   transaction_index?: Maybe<Scalars['Int']>;
 };
 
+
+export type TransactionFrom_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
+
+export type TransactionTo_AccountArgs = {
+  filter?: InputMaybe<AccountFilter>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<AccountOrderBy>;
+};
+
 export type TransactionFilter = {
   block_hash?: InputMaybe<Scalars['String']>;
   block_number?: InputMaybe<Scalars['String']>;
@@ -732,12 +990,13 @@ export enum TransactionProperties {
 
 export type AssetsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<AssetFilter>;
+  eventsFilter?: InputMaybe<EventFilter>;
+  offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null }> };
+export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', id?: string | null, event_type?: string | null, starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -826,14 +1085,40 @@ export default {
           {
             "name": "asset_contract",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Contract",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Contract",
+              "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "background_color",
@@ -850,7 +1135,36 @@ export default {
               "name": "Collection",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "collection_slug",
@@ -875,7 +1189,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "creator_address",
@@ -919,7 +1262,36 @@ export default {
                 "ofType": null
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "external_link",
@@ -984,7 +1356,36 @@ export default {
               "name": "Event",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "listing_date",
@@ -1017,7 +1418,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "owner_address",
@@ -1060,6 +1490,47 @@ export default {
             "args": []
           },
           {
+            "name": "traits",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Trait",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
             "name": "transfer_fee",
             "type": {
               "kind": "SCALAR",
@@ -1074,7 +1545,36 @@ export default {
               "name": "PaymentToken",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "transfer_fee_payment_token_id",
@@ -1098,7 +1598,36 @@ export default {
               "name": "Contract",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "assets",
@@ -1110,7 +1639,36 @@ export default {
                 "ofType": null
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "contract_address",
@@ -1151,7 +1709,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "maker_address",
@@ -1202,7 +1789,36 @@ export default {
                 "ofType": null
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "banner_image_url",
@@ -1406,7 +2022,36 @@ export default {
                 "ofType": null
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "payout_address",
@@ -1426,7 +2071,36 @@ export default {
                 "ofType": null
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "require_email",
@@ -1522,7 +2196,36 @@ export default {
               "name": "Collection",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "created_date",
@@ -1602,7 +2305,36 @@ export default {
               "name": "Asset",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "asset_bundle",
@@ -1611,7 +2343,36 @@ export default {
               "name": "Bundle",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "asset_bundle_slug",
@@ -1652,7 +2413,36 @@ export default {
               "name": "Collection",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "collection_slug",
@@ -1669,7 +2459,36 @@ export default {
               "name": "Contract",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "contract_address",
@@ -1734,7 +2553,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "from_account_address",
@@ -1775,7 +2623,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "owner_account_address",
@@ -1792,7 +2669,36 @@ export default {
               "name": "PaymentToken",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "payment_token_id",
@@ -1817,7 +2723,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "seller_account_address",
@@ -1842,7 +2777,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "to_account_address",
@@ -1867,7 +2831,36 @@ export default {
               "name": "Transaction",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "winner_account",
@@ -1876,7 +2869,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "winner_account_address",
@@ -1983,14 +3005,18 @@ export default {
           {
             "name": "account",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Account",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2010,20 +3036,28 @@ export default {
           {
             "name": "accounts",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Account",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Account",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2050,14 +3084,18 @@ export default {
           {
             "name": "asset",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Asset",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Asset",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2077,20 +3115,21 @@ export default {
           {
             "name": "assets",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Asset",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Asset",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2124,14 +3163,18 @@ export default {
           {
             "name": "bundle",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Bundle",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Bundle",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2151,20 +3194,28 @@ export default {
           {
             "name": "bundles",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Bundle",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Bundle",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2191,14 +3242,18 @@ export default {
           {
             "name": "collection",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Collection",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Collection",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2218,20 +3273,28 @@ export default {
           {
             "name": "collections",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Collection",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Collection",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2258,14 +3321,18 @@ export default {
           {
             "name": "contract",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Contract",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Contract",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2285,20 +3352,28 @@ export default {
           {
             "name": "contracts",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Contract",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Contract",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2325,14 +3400,18 @@ export default {
           {
             "name": "event",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Event",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Event",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2352,20 +3431,21 @@ export default {
           {
             "name": "events",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Event",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2399,14 +3479,18 @@ export default {
           {
             "name": "paymentToken",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "PaymentToken",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "PaymentToken",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2426,20 +3510,28 @@ export default {
           {
             "name": "paymentTokens",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "PaymentToken",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "PaymentToken",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2466,14 +3558,18 @@ export default {
           {
             "name": "trait",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Trait",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Trait",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2493,20 +3589,28 @@ export default {
           {
             "name": "traits",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Trait",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Trait",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2533,14 +3637,18 @@ export default {
           {
             "name": "transaction",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Transaction",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Transaction",
+              "ofType": null
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2560,20 +3668,28 @@ export default {
           {
             "name": "transactions",
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Transaction",
-                    "ofType": null
-                  }
-                }
+                "kind": "OBJECT",
+                "name": "Transaction",
+                "ofType": null
               }
             },
             "args": [
+              {
+                "name": "eventsFilter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "limit",
                 "type": {
@@ -2611,7 +3727,36 @@ export default {
               "name": "Asset",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "contract_address",
@@ -2715,7 +3860,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "from_account_address",
@@ -2748,7 +3922,36 @@ export default {
               "name": "Account",
               "ofType": null
             },
-            "args": []
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "orderBy",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
           },
           {
             "name": "to_account_address",
@@ -2787,8 +3990,8 @@ export default {
 } as unknown as IntrospectionQuery;
 
 export const AssetsDocument = gql`
-    query Assets($limit: Int, $offset: Int, $filter: AssetFilter) {
-  assets(limit: $limit, offset: $offset, filter: $filter) {
+    query Assets($limit: Int, $filter: AssetFilter, $eventsFilter: EventFilter, $offset: Int) {
+  assets(limit: $limit, filter: $filter, offset: $offset) {
     name
     token_id
     contract_address
@@ -2797,6 +4000,14 @@ export const AssetsDocument = gql`
     owner_address
     collection {
       name
+    }
+    events(filter: $eventsFilter) {
+      id
+      event_type
+      starting_price
+      payment_token {
+        symbol
+      }
     }
   }
 }
