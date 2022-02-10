@@ -4,6 +4,7 @@ import { coreRootSagaFactory, coreSagasFactory } from '@core'
 import miscSagas from 'data/misc/sagas'
 
 import alerts from './alerts/sagaRegister'
+import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
 import custodial from './custodial/sagaRegister'
@@ -23,6 +24,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
 
   yield all([
     call(logAppConsoleWarning),
+    fork(analytics),
     fork(alerts),
     fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks, options })),

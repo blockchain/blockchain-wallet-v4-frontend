@@ -14,21 +14,22 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
+import { isBrowserSupported } from 'services/browser'
 
-// step templates
 import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
+import { loginSceneFooter } from './components/LoginSceneFooter'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
-import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
+import EnterPasswordExchange from './Exchange/EnterPassword'
+import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
-import { getLoginPageFooter } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
-import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
+import EnterPasswordWallet from './Wallet/EnterPassword'
 import TwoFAWallet from './Wallet/TwoFA'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -67,11 +68,48 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleBackArrowClick = () => {
-    this.props.cacheActions.removedStoredLogin()
-    this.props.formActions.destroy(LOGIN_FORM)
+    const { authActions, formActions } = this.props
+    formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    this.props.authActions.clearLoginError()
+    authActions.clearLoginError()
     this.initCaptcha()
+  }
+
+  handleBackArrowClickWallet = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeWalletLogin()
+  }
+
+  handleBackArrowClickExchange = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeExchangeLogin()
+  }
+
+  exchangeTabClicked = () => {
+    const { exchangeEmail } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    routerActions.push('/login?product=exchange')
+    if (exchangeEmail) {
+      formActions.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
+  walletTabClicked = () => {
+    const { lastEmail, lastGuid, storedGuid } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
+    routerActions.push('/login?product=wallet')
+    if (storedGuid || lastGuid) {
+      formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
+      formActions.change(LOGIN_FORM, 'email', lastEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
   }
 
   handleSubmit = (e) => {
@@ -112,24 +150,28 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       Success: () => ({ busy: false, walletError: null })
     })
 
-    // TODO see if we still need busy
     const loginProps = {
-      busy,
+      busy, // TODO see if we still need busy
       exchangeError,
-      handleBackArrowClick: this.handleBackArrowClick,
+      exchangeTabClicked: this.exchangeTabClicked,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
-      setStep: this.setStep,
       walletError,
-      ...this.props
+      ...this.props,
+      handleBackArrowClickExchange: this.handleBackArrowClickExchange,
+      handleBackArrowClickWallet: this.handleBackArrowClickWallet,
+      isBrowserSupported: isBrowserSupported(),
+      setStep: this.setStep,
+      walletTabClicked: this.walletTabClicked
     }
 
     return (
       <>
         {/* CONTENT */}
-
         <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
+              case LoginSteps.INSTITUTIONAL_PORTAL:
+                return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
                 return <EnterPasswordExchange {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_WALLET:
@@ -160,7 +202,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
 
         {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
+        {!loginProps.isMobileViewLogin && loginSceneFooter(step)}
       </>
     )
   }
@@ -169,6 +211,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
+  cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
@@ -190,22 +233,26 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type FormProps = {
+type OwnProps = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
-  handleBackArrowClick: () => void
+  exchangeTabClicked?: () => void
+  handleBackArrowClickExchange: () => void
+  handleBackArrowClickWallet: () => void
   invalid: boolean
+  isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
   walletError?: any
+  walletTabClicked?: () => void
 }
 
 type StateProps = {
   captchaToken?: string
 }
-export type Props = ConnectedProps<typeof connector> & FormProps
+export type Props = ConnectedProps<typeof connector> & OwnProps
 
 const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
 

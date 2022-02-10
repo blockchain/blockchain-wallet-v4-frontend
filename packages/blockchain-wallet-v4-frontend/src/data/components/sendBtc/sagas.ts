@@ -215,7 +215,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // @ts-ignore
           const toType = prop('type', value)
           // @ts-ignore
-          const address = prop('address', value) || value
+          const address = (prop('address', value) || value) as string
           let payProInvoice
           const tryParsePayPro = () => {
             try {

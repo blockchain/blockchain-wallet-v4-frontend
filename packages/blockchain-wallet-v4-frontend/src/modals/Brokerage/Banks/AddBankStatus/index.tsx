@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react'
+import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { AddBankStatus } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { AddBankStepType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
-import BankLinkError from './template.error.general'
-import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
@@ -18,20 +18,25 @@ type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
 }
 
-class LinkBankStatus extends PureComponent<Props> {
-  render() {
-    return this.props.data.cata({
-      Failure: () => null,
-      Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
-      NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />,
-      Success: (val) =>
-        val.bankStatus === 'ACTIVE' ? (
-          <Success {...val} {...this.props} />
-        ) : (
-          <BankLinkError {...val} {...this.props} />
-        )
+const LinkBankStatus = (props: Props) => {
+  const cancelGoBack = useCallback(() => {
+    props.brokerageActions.setAddBankStep({
+      addBankStep: AddBankStepType.ADD_BANK
     })
-  }
+  }, [])
+
+  return props.data.cata({
+    Failure: () => null,
+    Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />,
+    Success: (val) => (
+      <AddBankStatus
+        handleClose={props.handleClose}
+        bankStatus={val.bankStatus}
+        retryAction={cancelGoBack}
+      />
+    )
+  })
 }
 
 const mapStateToProps = (state: RootState) => ({

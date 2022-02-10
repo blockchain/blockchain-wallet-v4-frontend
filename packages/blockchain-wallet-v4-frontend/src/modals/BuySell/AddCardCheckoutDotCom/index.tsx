@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Remote } from '@core'
 import { BSPairType, CoinType, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
@@ -9,6 +10,7 @@ import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 import Success from './template.success'
+import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
   const [isError, setError] = useState(false)
@@ -57,8 +59,17 @@ const AddCardCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+  useEffect(() => {
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+    }
+  }, [])
+
   if (isError) {
     return <DataError />
+  }
+  if (props.addCardError) {
+    return <DataError message={{ message: props.addCardError }} />
   }
 
   return props.data.cata({
@@ -67,17 +78,33 @@ const AddCardCheckoutDotCom = (props: Props) => {
     ),
     Loading: () => null,
     NotAsked: () => null,
-    Success: (val) => (
-      <Success
-        {...props}
-        {...val}
-        domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
-      />
-    )
+    Success: (val) => {
+      const isUserEligible =
+        val.paymentMethods.methods.length &&
+        val.paymentMethods.methods.find(
+          (method) =>
+            method.limits?.max !== '0' && method.currency === props.fiatCurrency && method.eligible
+        )
+
+      return isUserEligible ? (
+        <Success
+          {...props}
+          {...val}
+          domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
+        />
+      ) : (
+        <Unsupported
+          handleClose={props.handleClose}
+          paymentAccountEligible={val.eligibility?.eligible}
+          fiatCurrency={props.fiatCurrency}
+        />
+      )
+    }
   })
 }
 
 const mapStateToProps = (state: RootState) => ({
+  addCardError: selectors.components.buySell.getAddCardError(state),
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),

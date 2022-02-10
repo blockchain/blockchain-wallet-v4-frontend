@@ -27,6 +27,7 @@ class ErrorBoundary extends React.Component<Props, { error: null | TypeError }> 
       this.props.history.push('/home')
     } else {
       this.props.history.push('/login')
+      // @ts-ignore
       window.location.reload(true)
     }
   }

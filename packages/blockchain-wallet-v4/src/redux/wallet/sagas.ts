@@ -140,7 +140,7 @@ export default ({ api, networks }) => {
     const getxpub = curry((nodes, i) =>
       nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
     )
-    const xpubs = map(getxpub(nodes), range(0, batch))
+    const xpubs = map(getxpub(nodes), range(0, batch)) as Array<string>
     const result = yield call(
       api.fetchBlockchainData,
       {
@@ -326,7 +326,7 @@ export default ({ api, networks }) => {
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const accountsWithMissingDerivations = accounts
-      .filter((acct) => acct.derivations.size === 0)
+      .filter((acct) => acct.derivations.size < DERIVATION_LIST.length)
       .toJS()
 
     return accountsWithMissingDerivations

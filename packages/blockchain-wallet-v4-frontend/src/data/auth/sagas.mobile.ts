@@ -118,7 +118,7 @@ export const initMobileAuthFlow = function* () {
       break
     // mobile exchange merge
     case product === ProductAuthOptions.EXCHANGE && mergeable:
-      yield put(actions.form.change(LOGIN_FORM, 'email', exchangeData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
       yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
       yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
       yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))

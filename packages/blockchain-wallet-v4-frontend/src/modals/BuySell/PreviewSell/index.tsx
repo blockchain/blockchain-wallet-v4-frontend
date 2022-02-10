@@ -544,28 +544,6 @@ class PreviewSell extends PureComponent<
                     </Text>
                   )}
                 </Button>
-                <Button
-                  nature='light-red'
-                  data-e2e='swapCancelBtn'
-                  type='button'
-                  disabled={this.props.submitting}
-                  fullwidth
-                  height='48px'
-                  color='red400'
-                  style={{ marginTop: '16px' }}
-                  onClick={() => {
-                    this.props.buySellActions.setStep({
-                      cryptoCurrency: BASE,
-                      fiatCurrency,
-                      orderType: this.props.orderType,
-                      pair: this.props.pair,
-                      step: 'ENTER_AMOUNT',
-                      swapAccount: this.props.account
-                    })
-                  }}
-                >
-                  <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-                </Button>
                 <Text
                   size='12px'
                   weight={500}

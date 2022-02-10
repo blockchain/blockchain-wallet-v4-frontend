@@ -4,8 +4,7 @@ import {
   GasCalculationOperations,
   GasDataI,
   NftAsset,
-  NftOrdersType,
-  Order,
+  NftOrder,
   RawOrder
 } from '@core/network/api/nfts/types'
 
@@ -37,7 +36,7 @@ export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasDat
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData: GasDataI) => {
+export const fulfillNftSellOrder = async (order: NftOrder, signer: Signer, gasData: GasDataI) => {
   const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
   // eslint-disable-next-line no-console
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
@@ -47,16 +46,18 @@ export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData:
 export const getNftSellOrder = async (
   asset: NftAsset,
   signer: Signer,
+  listingTime = 0,
+  expirationTime = 0,
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
+  endPrice: number | null = null,
   network: string,
-  endPrice: number | null = null, // Implement later for to enable dutch auction sales.
   waitForHighestBid = false, // True = English auction,
-  paymentTokenAddress = '0x0000000000000000000000000000000000000000',
-  expirationTime = 0
-): Promise<Order> => {
+  paymentTokenAddress = '0x0000000000000000000000000000000000000000'
+): Promise<NftOrder> => {
   return createSellOrder(
     asset,
     expirationTime,
+    listingTime,
     signer,
     startPrice,
     endPrice,
@@ -68,17 +69,18 @@ export const getNftSellOrder = async (
 
 // TODO: Be able to pass in custom value for price for making auction bids.
 export const fulfillNftOrder = async (
-  buy: Order,
-  sell: Order,
+  buy: NftOrder,
+  sell: NftOrder,
   signer: Signer,
-  gasData: GasDataI
+  gasData: GasDataI,
+  acceptingOffer?: boolean
 ) => {
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
   if (
     sell.waitingForBestCounterOrder ||
-    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS)
+    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS && !acceptingOffer)
   ) {
     await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     // eslint-disable-next-line no-console
@@ -89,23 +91,17 @@ export const fulfillNftOrder = async (
     console.log(buy)
     return buy
   }
-  // Is a dutch auction TODO: Find out why validations fail for buy order validations
-  if (sell.saleKind === 1) {
-    throw new Error('Dutch auctions not currently supported')
-    // await _atomicMatch({ buy, sell, signer })
-  }
-  // Is a fixed price sale
   await _atomicMatch({ buy, gasData, sell, signer })
 }
 
 export const getNftBuyOrders = async (
-  order: NftOrdersType['orders'][0],
+  order: NftOrder,
   signer: Signer,
   expirationTime = 0,
   network: string,
   offer?: string,
   paymentTokenAddress?: string
-): Promise<{ buy: Order; sell: Order }> => {
+): Promise<{ buy: NftOrder; sell: NftOrder }> => {
   return createMatchingOrders(
     expirationTime,
     offer || null,
@@ -121,8 +117,8 @@ export const calculateGasFees = async (
   operation: GasCalculationOperations,
   signer: Signer,
   cancelOrder?: RawOrder,
-  buyOrder?: Order,
-  sellOrder?: Order,
+  buyOrder?: NftOrder,
+  sellOrder?: NftOrder,
   transferAsset?: NftAsset,
   transferRecipient?: string
 ): Promise<GasDataI> => {

@@ -3,9 +3,9 @@ import {
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
+  NftOrder,
   NftOrdersType,
   OfferEventsType,
-  Order,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -13,6 +13,7 @@ import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
   ACCEPT_OFFER = 'ACCEPT_OFFER',
+  CANCEL_LISTING = 'CANCEL_LISTING',
   CANCEL_OFFER = 'CANCEL_OFFER',
   CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
@@ -31,8 +32,6 @@ export type NftsStateType = {
     list: NftAssetsType
     page: number
   }
-  cancelListing: RemoteDataType<string, boolean>
-  cancelOffer: RemoteDataType<string, boolean>
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {
@@ -52,13 +51,13 @@ export type NftsStateType = {
     page: number
   }
   orderFlow: {
-    activeOffer: RawOrder | null
-    activeOrder: NftOrdersType['orders'][0] | null
+    activeOrder: NftOrder | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
-    order: RemoteDataType<string, Order>
+    isSubmitting: boolean
+    listingToCancel: RawOrder | null
+    matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
+    offerToCancel: RawOrder | null
     step: NftOrderStepEnum
   }
-  sellOrder: RemoteDataType<string, boolean>
-  transfer: RemoteDataType<string, boolean>
 }

@@ -9,12 +9,14 @@ type ReturnData = {
   currentStep: number
   isBankOrCardLinked: boolean
   isBuyCrypto: boolean
+  isKycPending: boolean
   isVerifiedId: boolean
 }
 
 export const getData = (state: RootState): ReturnData => {
   let currentStep = 0
   let isVerifiedId = false
+  let isKycPending = false
   let isBankOrCardLinked = false
   let isBuyCrypto = false
   const isKycStateNone =
@@ -24,7 +26,13 @@ export const getData = (state: RootState): ReturnData => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   if (isFirstLogin || isKycStateNone) {
-    return { currentStep, isBankOrCardLinked: false, isBuyCrypto: false, isVerifiedId: false }
+    return {
+      currentStep,
+      isBankOrCardLinked: false,
+      isBuyCrypto: false,
+      isKycPending: false,
+      isVerifiedId: false
+    }
   }
 
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -33,12 +41,12 @@ export const getData = (state: RootState): ReturnData => {
   } as UserDataType)
 
   const { KYC_STATES } = model.profile
-  const isKycPendingOrVerified =
-    userData.kycState === KYC_STATES.PENDING ||
-    userData.kycState === KYC_STATES.UNDER_REVIEW ||
-    userData.kycState === KYC_STATES.VERIFIED
+  isKycPending =
+    userData.kycState === KYC_STATES.PENDING || userData.kycState === KYC_STATES.UNDER_REVIEW
 
-  if (isKycPendingOrVerified) {
+  const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
+
+  if (isKycVerified) {
     currentStep += 1
     isVerifiedId = true
   }
@@ -72,5 +80,5 @@ export const getData = (state: RootState): ReturnData => {
     }
   }
 
-  return { currentStep, isBankOrCardLinked, isBuyCrypto, isVerifiedId }
+  return { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId }
 }

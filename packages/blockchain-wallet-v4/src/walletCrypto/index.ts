@@ -258,6 +258,15 @@ export const decryptWallet = curry((password, data) =>
   })
 )
 
+// @ts-ignore
+window.decryptWallet = decryptWallet
+
+// @ts-ignore
+window.decryptWalletV2V3 = decryptWalletV2V3
+
+// @ts-ignore
+window.decryptDataWithPassword = decryptDataWithPassword
+
 export const derivePubFromPriv = (priv) => {
   return Bitcoin.ECPair.fromPrivateKey(priv).publicKey
 }

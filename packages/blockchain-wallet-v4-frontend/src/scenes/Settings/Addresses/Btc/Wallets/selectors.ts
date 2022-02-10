@@ -17,6 +17,7 @@ const prepareWallet = (wallet, idx) => ({
         pluck('final_balance'),
         reject(isNil),
         sum
+        // @ts-ignore
       )(wallet)
     : pathOr(0, ['info', 'final_balance'], wallet),
   default: idx === wallet.index,

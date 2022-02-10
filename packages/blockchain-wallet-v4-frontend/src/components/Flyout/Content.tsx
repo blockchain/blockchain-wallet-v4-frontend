@@ -11,13 +11,13 @@ const Content = styled.div<{ mode: Props['mode'] }>`
   ${(p) => p.mode === 'middle' && 'align-items: center;'}
 `
 
-const FlyoutContent = (props: Props) => {
+const FlyoutContent = memo((props: Props) => {
   return <Content mode={props.mode}>{props.children}</Content>
-}
+})
 
 export type Props = {
   children: React.ReactNode
   mode: 'top' | 'middle'
 }
 
-export default memo(FlyoutContent)
+export default FlyoutContent

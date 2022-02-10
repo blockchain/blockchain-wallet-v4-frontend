@@ -34,14 +34,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: rootUrl
     })
 
-  const getLocation = () =>
-    get({
-      contentType: 'application/json',
-      endPoint: '/geolocation',
-      ignoreQueryParams: true,
-      url: nabuUrl
-    })
-
   const createUser = (retailToken) => {
     return post({
       contentType: 'application/json',
@@ -220,7 +212,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     finaliseLinking,
     generateRetailToken,
     generateSession,
-    getLocation,
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,

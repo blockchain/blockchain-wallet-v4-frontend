@@ -53,6 +53,7 @@ enum AnalyticsKey {
   NFT_ORDER_FAILED = 'NFT Order Failed',
   NFT_ORDER_SUCCEEDED = 'NFT Order Succeeded',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
+  PEEKSHEET_DISMISSED = 'Peeksheet Dismissed',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
@@ -682,6 +683,10 @@ type WrongChangeCachePayload = BasePayload
 
 type WrongReceiveCachePayload = BasePayload
 
+type PeekSheetPayload = BasePayload & {
+  current_step_completed: string
+}
+
 type AnalyticsProperties =
   | AddressVerifyMessageClickedPayload
   | AddMobileNumberClickedPayload
@@ -722,6 +727,7 @@ type AnalyticsProperties =
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
+  | PeekSheetPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | RecoveryOptionSelectedPayload
@@ -799,6 +805,11 @@ export type {
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
+}
+
+export interface TrackEventAction {
+  key: AnalyticsKey
+  properties: AnalyticsProperties
 }
 
 export {

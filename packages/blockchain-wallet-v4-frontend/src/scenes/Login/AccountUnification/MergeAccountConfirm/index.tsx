@@ -5,14 +5,9 @@ import styled from 'styled-components'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { AccountUnificationFlows, LoginSteps } from 'data/types'
 
+import BackArrowHeader from '../../components/BackArrowHeader'
 import { Props } from '../../index'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
-  CircleBackground,
-  LoginWrapper
-} from '../../model'
+import { ActionButton, CenteredColumn, CircleBackground, LoginWrapper } from '../../model'
 
 const IconTextRow = styled.div`
   display: flex;
@@ -23,7 +18,7 @@ const TextStack = styled.div`
 `
 
 const MergeAccountConfirm = (props: Props) => {
-  const { accountUnificationFlow, authActions, handleBackArrowClick, setStep } = props
+  const { accountUnificationFlow, handleBackArrowClickWallet, setStep } = props
 
   const handleUpgradeAccountClick = () => {
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
@@ -52,7 +47,7 @@ const MergeAccountConfirm = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+      <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClickWallet} hideGuid />
       <CenteredColumn style={{ textAlign: 'center' }}>
         <Image name='account-icons' />
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
@@ -114,7 +109,6 @@ const MergeAccountConfirm = (props: Props) => {
         nature='primary'
         fullwidth
         height='48px'
-        // disabled={submitting || busy}
         data-e2e='upgradeButton'
         style={{ margin: '32px 0 24px' }}
         onClick={handleUpgradeAccountClick}

@@ -10,8 +10,8 @@ const BaseButton = styled.button.attrs((props) => ({
   justify-content: center;
   align-items: center;
   width: ${(props) => (props.fullwidth ? '100%' : props.width ? props.width : 'auto')};
-  min-width: ${(props) => (props.width ? props.width : '140px')};
-  height: ${(props) => (props.jumbo ? '56px' : props.height)};
+  min-width: ${(props) => (props.small ? '86px' : props.width ? props.width : '140px')};
+  height: ${(props) => (props.jumbo ? '56px' : props.small ? '32px' : props.height)};
   padding: ${(props) => (props.padding ? props.padding : '10px 15px')};
   margin: ${(props) => props.margin};
   box-sizing: border-box;
@@ -206,6 +206,7 @@ const Button = (props) => {
   return (
     <BaseButton
       {...rest}
+      small={small}
       disabled={disabled}
       color={color}
       backgroundColor={backgroundColor}

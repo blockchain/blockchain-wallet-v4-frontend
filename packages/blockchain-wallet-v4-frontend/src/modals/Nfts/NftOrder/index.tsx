@@ -9,6 +9,8 @@ import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
+import AcceptOffer from './AcceptOffer'
+import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
@@ -64,6 +66,11 @@ class NftOrder extends PureComponent<Props, State> {
             <MarkForSale {...this.props} />
           </FlyoutChild>
         )}
+        {step === NftOrderStepEnum.ACCEPT_OFFER && (
+          <FlyoutChild>
+            <AcceptOffer {...this.props} />
+          </FlyoutChild>
+        )}
         {step === NftOrderStepEnum.MAKE_OFFER && (
           <FlyoutChild>
             <MakeOffer {...this.props} />
@@ -72,6 +79,11 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.CANCEL_OFFER && (
           <FlyoutChild>
             <CancelOffer {...this.props} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.CANCEL_LISTING && (
+          <FlyoutChild>
+            <CancelListing {...this.props} />
           </FlyoutChild>
         )}
         {step === NftOrderStepEnum.TRANSFER && (
@@ -85,10 +97,8 @@ class NftOrder extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state) => ({
-  cancelListing: selectors.components.nfts.getCancelListing(state),
-  orderFlow: selectors.components.nfts.getOrderFlow(state),
-  sellOrder: selectors.components.nfts.getSellOrder(state),
-  transfer: selectors.components.nfts.getTransfer(state)
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -13,7 +13,7 @@ import { RootState } from 'data/rootReducer'
 import BuyGoal from './BuyGoal'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import SignupLanding from './SignupLanding'
-import { GeoLocationType, GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
+import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -38,10 +38,9 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { authActions, websocketActions } = this.props
+    const { websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
-    authActions.getUserGeoLocation()
     this.initCaptcha()
   }
 
@@ -63,7 +62,7 @@ class SignupContainer extends React.PureComponent<
     /* eslint-enable */
   }
 
-  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
@@ -74,14 +73,14 @@ class SignupContainer extends React.PureComponent<
     const { authActions, formValues, language } = this.props
     const { country, email, password, state } = formValues
 
-    // sometimes captcha doesnt mount correctly (race condition?)
+    // sometimes captcha doesn't mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!captchaToken) {
       return this.initCaptcha(
         authActions.register({ captchaToken, country, email, language, password, state })
       )
     }
-    // we have a captcha token, continue signup process
+    // we have a captcha token, continue Signup process
     authActions.register({ captchaToken, country, email, language, password, state })
   }
 
@@ -99,7 +98,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { goals, isLoadingR, signupCountryEnabled } = this.props
+    const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
     // pull email from simple buy goal if it exists
@@ -109,7 +108,6 @@ class SignupContainer extends React.PureComponent<
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
 
     const subviewProps = {
-      initialValues: signupInitialValues,
       isFormSubmitting,
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
@@ -117,9 +115,9 @@ class SignupContainer extends React.PureComponent<
       setDefaultCountry: this.setCountryOnLoad,
       showForm: this.state.showForm,
       showState: this.state.showState,
-      signupCountryEnabled,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
-      ...this.props
+      ...this.props, // order here matters as we may need to override initial form values!
+      initialValues: signupInitialValues
     }
 
     return (
@@ -140,8 +138,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   search: selectors.router.getSearch(state) as string,
   signupCountryEnabled: selectors.core.walletOptions
     .getFeatureSignupCountry(state)
-    .getOrElse(false) as boolean,
-  userGeoData: selectors.auth.getUserGeoData(state) as GeoLocationType
+    .getOrElse(false) as boolean
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -160,17 +157,14 @@ type LinkStatePropsType = {
   language: string
   search: string
   signupCountryEnabled: boolean
-  userGeoData: GeoLocationType
 }
 type StateProps = {
   captchaToken?: string
   showForm: boolean
   showState: boolean
 }
-type ownProps = {
-  setDefaultCountry: (country: string) => void
-}
-export type Props = ConnectedProps<typeof connector> & LinkStatePropsType & ownProps
+
+export type Props = ConnectedProps<typeof connector> & LinkStatePropsType
 
 const enhance = compose(reduxForm<{}, Props>({ form: SIGNUP_FORM }), connector)
 

@@ -13,7 +13,7 @@ import {
   NabuSymbolNumberType,
   WalletCurrencyType
 } from '@core/types'
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import {
   Content,
   DisplayContainer,
@@ -28,6 +28,7 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
   BankDetails,
+  BankStatusType,
   BankTransferAccountType,
   BrokerageOrderType,
   RecurringBuyPeriods
@@ -77,6 +78,194 @@ const DisablableIcon = styled(Icon)<{
       cursor: not-allowed;
     `}
 `
+
+const getAddBankStatusText = (bankStatus: BankStatusType) => {
+  let image: string
+  let title: React.ReactNode
+  let text: React.ReactNode
+  switch (bankStatus) {
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED:
+      image = 'bank-rejected'
+      break
+    case BankStatusType.ACTIVE:
+      image = 'bank-success'
+      break
+    default:
+      image = 'bank-error'
+      break
+  }
+  switch (bankStatus) {
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED:
+      title = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_already_linked'
+          defaultMessage='This account is already linked.'
+        />
+      )
+      break
+    case BankStatusType.ACTIVE:
+      title = <FormattedMessage id='copy.bank_linked.title' defaultMessage='Bank Linked!' />
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
+      title = (
+        <FormattedMessage
+          id='copy.bank_link_current_account'
+          defaultMessage='Please link a Current Account.'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
+      title = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_rejected_fraud'
+          defaultMessage='There was a problem linking your account.'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH:
+      title = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_yourbank'
+          defaultMessage='Is this your bank?'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED:
+      title = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_expiredaccount'
+          defaultMessage='We were unable to link your account.'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED:
+      title = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_connectionrejected'
+          defaultMessage='Connection Rejected'
+        />
+      )
+      break
+    default:
+      title = (
+        <FormattedMessage
+          id='scenes.exchange.confirm.oopsheader'
+          defaultMessage='Oops! Something went wrong.'
+        />
+      )
+      break
+  }
+  switch (bankStatus) {
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED:
+      text = (
+        <FormattedMessage
+          id='copy.bank_linked_error_alreadylinked1'
+          defaultMessage='We noticed this account is already linked to your Blockchain.com account.'
+        />
+      )
+      break
+    case BankStatusType.ACTIVE:
+      text = (
+        <FormattedMessage
+          id='copy.bank_linked'
+          defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
+      text = (
+        <FormattedMessage
+          id='copy.bank_link_current_account_extra_fees'
+          defaultMessage='Your bank may charge you extra fees if you buy crypto without a current account.'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH:
+      text = (
+        <>
+          <FormattedMessage
+            id='copy.bank_linked_error_yourbank'
+            defaultMessage='We noticed the names don’t match. The bank you link must have a matching legal first & last name as your Blockchain.com Account.'
+          />{' '}
+          <Link
+            size='16px'
+            weight={500}
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/'
+          >
+            <FormattedMessage id='buttons.learn_more_arrow' defaultMessage='Learn more ->' />
+          </Link>
+        </>
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED:
+      text = (
+        <FormattedMessage
+          id='copy.bank_linked_error_title_expiredaccount.desc'
+          defaultMessage='Please try connecting that bank account again or link any Visa or Mastercard'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
+      text = (
+        <>
+          <FormattedMessage
+            id='copy.bank_linked_error_rejected_fraud'
+            defaultMessage='Please try again or select a different payment method.'
+          />
+        </>
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED:
+      text = (
+        <>
+          <FormattedMessage
+            id='copy.bank_linked_error_account_rejected'
+            defaultMessage="We believe you have declined linking your account. If this isn't correct, please"
+          />{' '}
+          <Link
+            size='16px'
+            weight={500}
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
+          >
+            <FormattedMessage id='copy.contact_support' defaultMessage='Contact Support' />
+          </Link>
+          .
+        </>
+      )
+      break
+    default:
+      text = (
+        <>
+          <FormattedMessage
+            id='copy.bank_linked_error'
+            defaultMessage='Please try linking your bank again. If this keeps happening, please'
+          />{' '}
+          <Link
+            size='16px'
+            weight={500}
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/'
+          >
+            <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
+          </Link>
+          .
+        </>
+      )
+      break
+  }
+  return { image, text, title }
+}
 
 const getDefaultMethod = (defaultMethod, bankAccounts: BankTransferAccountType[]) => {
   if (defaultMethod) {
@@ -749,6 +938,7 @@ export {
   DisplayTitle,
   DisplayValue,
   getActionText,
+  getAddBankStatusText,
   getBankText,
   getBrokerageLimits,
   getDefaultMethod,

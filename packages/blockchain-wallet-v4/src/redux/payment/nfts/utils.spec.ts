@@ -24,10 +24,8 @@ describe('nft utils', () => {
     const encodeSellOrderOutput = encodeSell(
       schemaMap.ERC1155,
       {
-        asset_contract: {
-          address: '0x495f947276749ce646f68ac8c248420045cb7b5e'
-        },
-        token_id: '71233828018837041171392158059738422347218967485013419437723375284353941635073'
+        address: '0x495f947276749ce646f68ac8c248420045cb7b5e',
+        id: '71233828018837041171392158059738422347218967485013419437723375284353941635073'
       },
       '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3'
     )

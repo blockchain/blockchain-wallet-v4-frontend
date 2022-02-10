@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { NftAsset } from '@core/network/api/nfts/types'
 import { Button } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
@@ -22,6 +23,6 @@ const CTA: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default CTA

@@ -35,8 +35,8 @@ export const ActionButton = ({ currentStep, onClick }: Props) => {
           fullwidth
         >
           <FormattedMessage
-            id='modal.complete_profile.link_a_bank'
-            defaultMessage='Link a Bank or Card'
+            id='modal.complete_profile.link_a_payment_method'
+            defaultMessage='Link a Payment Method'
           />
         </Button>
       )

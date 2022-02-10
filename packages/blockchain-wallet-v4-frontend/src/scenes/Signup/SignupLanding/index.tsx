@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardInfo,
   CardsWrapper,
-  CardWrapper,
   IconWrapper,
   InfoItem,
   InfoTitle,
@@ -46,7 +45,7 @@ const ExchangeCardWrapper = styled.div<{ $showForm: boolean }>`
   ${({ $showForm }) => $showForm && 'margin-left: 24px;'}
 `
 
-const SignupLanding = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
+const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
   <>
     <Header />
     <CardsWrapper>

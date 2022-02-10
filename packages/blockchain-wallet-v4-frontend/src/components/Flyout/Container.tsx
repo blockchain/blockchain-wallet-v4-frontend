@@ -9,12 +9,12 @@ const Container = styled.div`
   justify-content: space-between;
 `
 
-const FlyoutContainer = (props: Props) => {
+const FlyoutContainer = memo((props: Props) => {
   return <Container>{props.children}</Container>
-}
+})
 
 export type Props = {
   children: React.ReactNode
 }
 
-export default memo(FlyoutContainer)
+export default FlyoutContainer

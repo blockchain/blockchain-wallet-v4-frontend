@@ -122,6 +122,7 @@ export default ({ api, coreSagas, networks }) => {
             tail,
             // @ts-ignore
             sortBy(prop('index'))
+            // @ts-ignore
           )(tiersData.tiers)
         )
       )

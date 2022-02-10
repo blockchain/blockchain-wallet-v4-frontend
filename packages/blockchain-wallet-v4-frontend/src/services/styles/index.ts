@@ -110,14 +110,18 @@ export type MediaHeightServiceType = {
 export const media = Object.keys(sizes).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media (max-width: ${sizes[label]}px) {
-      // @ts-ignore
-      ${css(...args)};
+      ${css(
+        // @ts-ignore
+        ...args
+      )};
     }
   `
   acc[`atLeast${label[0].toUpperCase()}${label.slice(1, label.length)}`] = (...args) => css`
     @media (min-width: ${sizes[label] + 1}px) {
-      // @ts-ignore
-      ${css(...args)};
+      ${css(
+        // @ts-ignore
+        ...args
+      )};
     }
   `
 
@@ -150,8 +154,10 @@ export function useMedia(size: Sizes): boolean {
 export const mediaHeight = Object.keys(heights).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media (max-height: ${heights[label]}px) {
-      // @ts-ignore
-      ${css(...args)};
+      ${css(
+        // @ts-ignore
+        ...args
+      )};
     }
   `
   return acc
