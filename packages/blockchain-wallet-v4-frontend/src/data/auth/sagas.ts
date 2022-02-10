@@ -116,19 +116,20 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // exchange institutional login
+        // exchange sso login
         case exchangeAuthUrl !== undefined:
-          // window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+
+          break
+        // exchange institutional login
+        default:
           // temp change to test poc
           window.open(
             `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
             '_self',
             'noreferrer'
           )
-          break
-        // exchange sso login
-        default:
-          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+          // window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
       // @ts-ignore
