@@ -18,6 +18,7 @@ import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
   analyticsMiddleware,
   autoDisconnection,
+  segmentStub,
   streamingXlm,
   webSocketCoins,
   webSocketRates
@@ -40,18 +41,6 @@ const devToolsConfig = {
   ],
   maxAge: 1000,
   serialize: serializer
-}
-
-const analyticsCaller = () => store => next => action => {
-  if (window.analytics) return next(action)
-
-  window.analytics = {
-    track(key, properties) {
-      store.dispatch(actions.analytics.trackEvent({ key, properties }))
-    }
-  }
-
-  return next(action)
 }
 
 const configuredStore = async function () {
@@ -149,7 +138,7 @@ const configuredStore = async function () {
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
       analyticsMiddleware(),
       autoDisconnection(),
-      analyticsCaller()
+      segmentStub()
     ]),
     reducer: connectRouter(history)(
       persistCombineReducers(

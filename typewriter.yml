@@ -1,6 +1,8 @@
 # Segment Typewriter Configuration (https://segment.com/docs/protocols/typewriter)
 # Just run `npx typewriter@next` to re-generate a client with the latest versions of these events.
 
+scripts:
+  token: node ./scripts/getSegmentToken.js
 # You can find more documentation on configuring this client in the Segment docs.
 # See: https://segment.com/docs/protocols/typewriter
 client:

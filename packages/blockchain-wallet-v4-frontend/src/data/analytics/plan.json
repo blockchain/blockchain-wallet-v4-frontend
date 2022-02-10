@@ -1423,6 +1423,20 @@
 						},
 						"properties": {
 							"properties": {
+								"card_decline_code": {
+									"description": "Common card decline code shared between acquirers",
+									"type": [
+										"string",
+										"null"
+									]
+								},
+								"card_generic_decline_code": {
+									"description": "Card decline code (acquirer specific)",
+									"type": [
+										"string",
+										"null"
+									]
+								},
 								"currency": {
 									"description": "",
 									"pattern": "^[A-Z0-9]{1,15}$",
@@ -1433,8 +1447,16 @@
 									"type": "string"
 								},
 								"partner": {
-									"description": "",
+									"description": "The card partner. From the partner column. Should be all upper case like in the table.",
 									"pattern": "^[A-Z0-9_]{1,15}$",
+									"type": "string"
+								},
+								"processing_account": {
+									"description": "The accounts from the processor. They are independent accounts (api key, jurisdictions, etc.). There could be many accounts for the same processor. Should be snake case like in the database ! For example : stripe_uk1, stripe_us1, checkoutdotcom_uk1 or checkoutdotcom_us1",
+									"type": "string"
+								},
+								"processor": {
+									"description": "The payment partner that is processing our payments and that is linked to the beneficiary account. For cards, this is the acquirer. Should be upper case ! For example : SIGNATURE, LHV, STRIPE EVERYPAY, CHECKOUT_COM, etc.",
 									"type": "string"
 								},
 								"state": {
@@ -1460,10 +1482,11 @@
 								}
 							},
 							"required": [
-								"state",
 								"type",
+								"processor",
 								"currency",
-								"partner"
+								"partner",
+								"state"
 							],
 							"type": "object"
 						},
@@ -1713,10 +1736,9 @@
 						},
 						"properties": {
 							"properties": {
-								"amount_currency": {
-									"description": "If the button explicitly displays the amount in a specific currency, what is the currency being clicked on for the max amount",
-									"pattern": "^[A-Z]{3,5}$",
-									"type": "string"
+								"amount": {
+									"description": "Max amount (input_currency) displayed when clicked. example $25000",
+									"type": "number"
 								},
 								"device": {
 									"description": "Device type from where the event was triggered.",
@@ -1741,6 +1763,18 @@
 									"pattern": "^[A-Z]{3,5}$",
 									"type": "string"
 								},
+								"payment_type": {
+									"description": "What payment type is selected : \nBANK_ACCOUNT: funds sent from a bank account. \nBANK_TRANSFER : Funds sent from Linked account via Open Banking or ACH. \nFUNDS: Funds taken from available funds in fiat wallet. \nPAYMENT_CARD:  by debit or credit card",
+									"enum": [
+										"APPLE_PAY",
+										"BANK_ACCOUNT",
+										"BANK_TRANSFER",
+										"FUNDS",
+										"GOOGLE_PAY",
+										"PAYMENT_CARD"
+									],
+									"type": "string"
+								},
 								"platform": {
 									"description": "What platform the user wants to buy from",
 									"enum": [
@@ -1751,10 +1785,11 @@
 								}
 							},
 							"required": [
-								"platform",
 								"output_currency",
 								"device",
-								"input_currency"
+								"input_currency",
+								"payment_type",
+								"platform"
 							],
 							"type": "object"
 						},
@@ -3327,6 +3362,20 @@
 						},
 						"properties": {
 							"properties": {
+								"card_decline_code": {
+									"description": "Common card decline code shared between acquirers",
+									"type": [
+										"string",
+										"null"
+									]
+								},
+								"card_generic_decline_code": {
+									"description": "Card decline code (acquirer specific)",
+									"type": [
+										"string",
+										"null"
+									]
+								},
 								"country_billing": {
 									"description": "The country used in the billing address. extra_attributes -> 'billing_address' ->> 'country'",
 									"pattern": "^[A-Z]{2}$",
@@ -3358,6 +3407,14 @@
 									"description": "The card partner. From the partner column. Should be all upper case like in the table.",
 									"type": "string"
 								},
+								"processing_account": {
+									"description": "The accounts from the processor (=acquirer). They are independent accounts (api key, jurisdictions, etc.). There could be many accounts for the same processor. Should be snake case like in the database ! For example : stripe_uk1, stripe_us1, checkoutdotcom_uk1 or checkoutdotcom_us1",
+									"type": "string"
+								},
+								"processor": {
+									"description": "This is the acquirer, i.e. our payment partner that is processing our payments and that is linked to the card. Should be upper case ! For example : STRIPE, EVERYPAY, CHECKOUT_COM",
+									"type": "string"
+								},
 								"state": {
 									"description": "The updated state of the card",
 									"enum": [
@@ -3379,11 +3436,12 @@
 								}
 							},
 							"required": [
-								"currency",
 								"partner",
 								"state",
+								"processor",
 								"type",
-								"country_billing"
+								"country_billing",
+								"currency"
 							],
 							"type": "object"
 						},
@@ -4106,12 +4164,98 @@
 								}
 							},
 							"required": [
+								"amount_usd",
 								"platform",
 								"currency",
 								"amount",
 								"origin",
 								"destination",
 								"transfer_id"
+							],
+							"type": "object"
+						},
+						"traits": {
+							"type": "object"
+						}
+					},
+					"required": [
+						"properties"
+					],
+					"type": "object"
+				},
+				"version": 1
+			},
+			{
+				"description": "A custodial transfer failed. This is done when trying to move funds between custodial accounts.",
+				"name": "Custodial Transfer Failed",
+				"rules": {
+					"$schema": "http://json-schema.org/draft-07/schema#",
+					"labels": {
+						"flow": "interest_v1",
+						"source": "backend"
+					},
+					"properties": {
+						"context": {
+						},
+						"properties": {
+							"properties": {
+								"amount": {
+									"description": "Amount being transferred, in the given currency. e.g. for 1.23 BTC, the amount is 1.23",
+									"type": "number"
+								},
+								"amount_usd": {
+									"description": "Amount (in USD) being transferred. e.g. for 10.23, for $10.23",
+									"type": "number"
+								},
+								"currency": {
+									"description": "What currency is being transferred",
+									"pattern": "^[A-Z]{3,5}$",
+									"type": "string"
+								},
+								"destination": {
+									"description": "To what account type the funds are coming from. This is usually named as a product SAVINGS or SIMPLEBUY",
+									"enum": [
+										"SAVINGS",
+										"SIMPLEBUY"
+									],
+									"type": "string"
+								},
+								"device": {
+									"description": "Device type from where the event was triggered.",
+									"enum": [
+										"APP-iOS",
+										"WEB",
+										"APP-Android"
+									],
+									"type": "string"
+								},
+								"failure_reason": {
+									"description": "Why the custodial transfer failed",
+									"type": "string"
+								},
+								"origin": {
+									"description": "From what account type the funds are coming from. This is usually named as the product like SAVINGS or SIMPLEBUY",
+									"enum": [
+										"SAVINGS",
+										"SIMPLEBUY"
+									],
+									"type": "string"
+								},
+								"platform": {
+									"description": "What platform the event was started from. WALLET is the only option\n",
+									"enum": [
+										"WALLET"
+									],
+									"type": "string"
+								}
+							},
+							"required": [
+								"currency",
+								"amount",
+								"origin",
+								"destination",
+								"platform",
+								"amount_usd"
 							],
 							"type": "object"
 						},
@@ -10569,6 +10713,20 @@
 									"description": "Amount in USD deposited by the user.",
 									"type": "number"
 								},
+								"card_decline_code": {
+									"description": "Common card decline code shared between acquirers",
+									"type": [
+										"string",
+										"null"
+									]
+								},
+								"card_generic_decline_code": {
+									"description": "Card decline code (acquirer specific)",
+									"type": [
+										"string",
+										"null"
+									]
+								},
 								"currency": {
 									"description": "Currency being deposited by the user",
 									"pattern": "^[A-Z]{3,5}$",
@@ -10721,7 +10879,8 @@
 									"description": "Device type from where the Peeksheet was dismissed.",
 									"enum": [
 										" APP-iOS",
-										"APP-Android"
+										"APP-Android",
+										"WEB"
 									],
 									"type": "string"
 								},
@@ -10734,9 +10893,9 @@
 								}
 							},
 							"required": [
+								"platform",
 								"current_step_completed",
-								"device",
-								"platform"
+								"device"
 							],
 							"type": "object"
 						},
@@ -10781,7 +10940,8 @@
 									"description": "Device type from where the Peeksheet was shown.",
 									"enum": [
 										" APP-iOS",
-										"APP-Android"
+										"APP-Android",
+										"WEB"
 									],
 									"type": "string"
 								},
@@ -10794,9 +10954,9 @@
 								}
 							},
 							"required": [
+								"current_step_completed",
 								"device",
-								"platform",
-								"current_step_completed"
+								"platform"
 							],
 							"type": "object"
 						},
@@ -10845,7 +11005,8 @@
 									"description": "Device type from which the selection was clicked",
 									"enum": [
 										" APP-iOS",
-										"APP-Android"
+										"APP-Android",
+										"WEB"
 									],
 									"type": "string"
 								},
@@ -10867,11 +11028,11 @@
 								}
 							},
 							"required": [
-								"device",
-								"platform",
 								"current_step_completed",
 								"item",
-								"button_clicked"
+								"button_clicked",
+								"device",
+								"platform"
 							],
 							"type": "object"
 						},
@@ -10916,7 +11077,8 @@
 									"description": "Device type from where the Peeksheet was shown.",
 									"enum": [
 										" APP-iOS",
-										"APP-Android"
+										"APP-Android",
+										"WEB"
 									],
 									"type": "string"
 								},
