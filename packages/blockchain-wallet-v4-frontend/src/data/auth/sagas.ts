@@ -118,7 +118,13 @@ export default ({ api, coreSagas, networks }) => {
           break
         // exchange institutional login
         case exchangeAuthUrl !== undefined:
-          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          // window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          // temp change to test poc
+          window.open(
+            `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
           break
         // exchange sso login
         default:
