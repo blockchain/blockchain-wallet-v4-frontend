@@ -321,7 +321,7 @@ const Navbar = ({
       </NavLeft>
       <NavRight>
         <SecondaryNavItems>
-          {isMobile ? (
+          {isMobile || isTablet ? (
             <>
               <li>
                 <StyledButton
@@ -347,9 +347,20 @@ const Navbar = ({
                 <FabButton onClick={fabClickHandler} />
               </li>
               <li>
-                <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                  <Icon name={IconName.MENU} color={colors.blue500} size='md' />
-                </NavButton>
+                {isMobileNavOpen ? (
+                  <Icon
+                    color={colors.grey600}
+                    data-e2e='closeMobileNav'
+                    name={IconName.CLOSE}
+                    role='button'
+                    size='md'
+                    onClick={closeMobileNavCallback}
+                  />
+                ) : (
+                  <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
+                    <Icon name={IconName.MENU} color={colors.blue500} size='md' />
+                  </NavButton>
+                )}
               </li>
             </>
           ) : (
