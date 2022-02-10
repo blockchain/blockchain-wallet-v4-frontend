@@ -42,14 +42,24 @@ const ContentContainer = styled(Column)`
 `
 
 const CustomIconWrapper = styled.div<{ background?: string }>`
-  display: flex;
   background: ${({ background }) => background || colors.blue100};
+  position: relative;
   border-radius: 50%;
 
   &:first-child {
     height: auto;
     margin-left: 0;
   }
+`
+
+const IconBG = styled.div`
+  background: ${colors.blue600};
+  border-radius: 50%;
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  z-index: -1;
 `
 
 const rows = ({
@@ -66,8 +76,9 @@ const rows = ({
     handleClick: handleBuy,
     header: <FormattedMessage id='buttons.buy' defaultMessage='Buy' />,
     iconComponent: () => (
-      <CustomIconWrapper background={colors.blue600}>
+      <CustomIconWrapper background='transparent'>
         <ConsIcon name={IconName.PLUS_CIRCLE} color={colors.blue100} size='md' />
+        <IconBG />
       </CustomIconWrapper>
     )
   },
@@ -81,8 +92,9 @@ const rows = ({
     handleClick: handleSell,
     header: <FormattedMessage id='buttons.sell' defaultMessage='Sell' />,
     iconComponent: () => (
-      <CustomIconWrapper background={colors.blue600}>
+      <CustomIconWrapper background='transparent'>
         <ConsIcon name={IconName.MINUS_CIRCLE} color={colors.blue100} size='md' />
+        <IconBG />
       </CustomIconWrapper>
     )
   },

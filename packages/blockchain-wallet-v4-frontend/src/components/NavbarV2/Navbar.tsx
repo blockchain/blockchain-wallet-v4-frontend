@@ -166,6 +166,21 @@ const Navbar = ({
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
   }
 
+  const closeMobileNavOpenSendCallback = useCallback(() => {
+    setMobileNav(false)
+    sendClickHandler()
+  }, [])
+
+  const closeMobileNavOpenReceiveCallback = useCallback(() => {
+    setMobileNav(false)
+    receiveClickHandler()
+  }, [])
+
+  const closeMobileNavOpenTradeCallback = useCallback(() => {
+    setMobileNav(false)
+    fabClickHandler()
+  }, [])
+
   const closeMobileNavCallback = useCallback(() => {
     setMobileNav(false)
   }, [])
@@ -221,7 +236,12 @@ const Navbar = ({
   const secondaryNavItems = [
     {
       component: () => (
-        <StyledButton data-e2e='sendButton' nature='empty-blue' onClick={sendClickHandler} small>
+        <StyledButton
+          data-e2e='sendButton'
+          nature='empty-blue'
+          onClick={closeMobileNavOpenSendCallback}
+          small
+        >
           <FormattedMessage id='buttons.send' defaultMessage='Send' />
         </StyledButton>
       ),
@@ -232,7 +252,7 @@ const Navbar = ({
         <StyledButton
           data-e2e='receiveButton'
           nature='empty-blue'
-          onClick={receiveClickHandler}
+          onClick={closeMobileNavOpenReceiveCallback}
           small
         >
           <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
@@ -241,8 +261,8 @@ const Navbar = ({
       name: 'Receive'
     },
     {
-      clickHandler: fabClickHandler,
-      component: () => <FabButton onClick={fabClickHandler} />,
+      clickHandler: closeMobileNavOpenTradeCallback,
+      component: () => <FabButton onClick={closeMobileNavOpenTradeCallback} />,
       name: 'Trade'
     },
     {
@@ -302,7 +322,7 @@ const Navbar = ({
         />
       )}
       <NavLeft>
-        <Logo>
+        <Logo onClick={closeMobileNavCallback}>
           <NavLink to='/home' data-e2e='homeLink'>
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
@@ -327,7 +347,7 @@ const Navbar = ({
                 <StyledButton
                   data-e2e='sendButton'
                   nature='empty-blue'
-                  onClick={sendClickHandler}
+                  onClick={closeMobileNavOpenSendCallback}
                   small
                 >
                   <FormattedMessage id='buttons.send' defaultMessage='Send' />
@@ -337,14 +357,14 @@ const Navbar = ({
                 <StyledButton
                   data-e2e='receiveButton'
                   nature='empty-blue'
-                  onClick={receiveClickHandler}
+                  onClick={closeMobileNavOpenReceiveCallback}
                   small
                 >
                   <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
                 </StyledButton>
               </li>
               <li>
-                <FabButton onClick={fabClickHandler} />
+                <FabButton onClick={closeMobileNavOpenTradeCallback} />
               </li>
               <li>
                 {isMobileNavOpen ? (
