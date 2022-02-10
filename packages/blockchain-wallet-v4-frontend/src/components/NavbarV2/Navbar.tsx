@@ -109,8 +109,25 @@ const PrimaryNavItems = styled(ListStyles)`
   }
 `
 
+const StyledButton = styled(Button)`
+  padding: 0 12px;
+  min-width: 32px;
+`
+
 const SecondaryNavItems = styled(ListStyles)`
   cursor: pointer;
+
+  & > li:nth-child(-n + 2) {
+    padding: 0;
+  }
+
+  & > li:nth-child(2) {
+    padding-left: 8px;
+  }
+
+  & > li:nth-child(3) {
+    padding-left: 8px;
+  }
 `
 
 const NavButton = styled(Button)`
@@ -134,13 +151,16 @@ const Navbar = ({
   limitsClickHandler,
   logoutClickHandler,
   primaryNavItems,
-  refreshClickHandler
+  receiveClickHandler,
+  refreshClickHandler,
+  sendClickHandler
 }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
   const [isMobileNavOpen, setMobileNav] = useState(false)
   const isMobile = useMedia('mobile')
+  const isTablet = useMedia('tablet')
 
   const handleMenuToggle = () => {
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
@@ -199,6 +219,27 @@ const Navbar = ({
   ]
 
   const secondaryNavItems = [
+    {
+      component: () => (
+        <StyledButton data-e2e='sendButton' nature='empty-blue' onClick={sendClickHandler} small>
+          <FormattedMessage id='buttons.send' defaultMessage='Send' />
+        </StyledButton>
+      ),
+      name: 'Send'
+    },
+    {
+      component: () => (
+        <StyledButton
+          data-e2e='receiveButton'
+          nature='empty-blue'
+          onClick={receiveClickHandler}
+          small
+        >
+          <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+        </StyledButton>
+      ),
+      name: 'Receive'
+    },
     {
       clickHandler: fabClickHandler,
       component: () => <FabButton onClick={fabClickHandler} />,
@@ -266,7 +307,7 @@ const Navbar = ({
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
-        {!isMobile && (
+        {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <li key={item.e2e}>
@@ -282,6 +323,26 @@ const Navbar = ({
         <SecondaryNavItems>
           {isMobile ? (
             <>
+              <li>
+                <StyledButton
+                  data-e2e='sendButton'
+                  nature='empty-blue'
+                  onClick={sendClickHandler}
+                  small
+                >
+                  <FormattedMessage id='buttons.send' defaultMessage='Send' />
+                </StyledButton>
+              </li>
+              <li>
+                <StyledButton
+                  data-e2e='receiveButton'
+                  nature='empty-blue'
+                  onClick={receiveClickHandler}
+                  small
+                >
+                  <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+                </StyledButton>
+              </li>
               <li>
                 <FabButton onClick={fabClickHandler} />
               </li>
@@ -311,7 +372,9 @@ type Props = {
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   primaryNavItems: Array<PrimaryNavItem>
+  receiveClickHandler: () => void
   refreshClickHandler: () => void
+  sendClickHandler: () => void
 }
 
 export default Navbar

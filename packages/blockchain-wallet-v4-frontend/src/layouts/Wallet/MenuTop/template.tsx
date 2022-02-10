@@ -24,6 +24,14 @@ const Header = (props: OwnProps) => {
     props.sessionActions.logout()
   }, [])
 
+  const sendCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
+  }, [])
+
+  const receiveCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' })
+  }, [])
+
   const fabCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.TRADE_MODAL, {
       origin: 'Header'
@@ -78,9 +86,11 @@ const Header = (props: OwnProps) => {
       <Navbar
         primaryNavItems={PrimaryNavItems}
         fabClickHandler={fabCallback}
-        refreshClickHandler={refreshCallback}
         limitsClickHandler={limitsCallback}
         logoutClickHandler={logoutCallback}
+        receiveClickHandler={receiveCallback}
+        refreshClickHandler={refreshCallback}
+        sendClickHandler={sendCallback}
       />
     )
   }
