@@ -98,7 +98,7 @@ const CompleteYourProfile = ({
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,
       properties: {
-        current_step_completed: currentStep
+        current_step_completed: String(currentStep)
       }
     })
   }, [modalActions])
