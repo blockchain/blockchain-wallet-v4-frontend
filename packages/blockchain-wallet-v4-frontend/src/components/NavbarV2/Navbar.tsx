@@ -112,6 +112,7 @@ const PrimaryNavItems = styled(ListStyles)`
 const StyledButton = styled(Button)`
   padding: 0 12px;
   min-width: 32px;
+  border-radius: 4px;
 `
 
 const SecondaryNavItems = styled(ListStyles)`
