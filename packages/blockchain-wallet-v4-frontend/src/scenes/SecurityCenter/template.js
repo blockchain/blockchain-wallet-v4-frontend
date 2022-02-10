@@ -86,6 +86,7 @@ const StepText = styled(Text)`
   margin-right: 20px;
   word-break: break-word;
   ${media.mobile`
+    margin-right: 15px;
     word-break: initial;
   `};
 `
