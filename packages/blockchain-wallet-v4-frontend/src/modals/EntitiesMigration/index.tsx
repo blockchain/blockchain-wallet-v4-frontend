@@ -88,7 +88,7 @@ function EntitiesMigration({ cacheActions, close }) {
           >
             <FormattedMessage
               id='modals.entity_migration.description'
-              defaultMessage='You will not experience any changes in user experience or lose access to your funds during this transition. <a>Learn more.</a>'
+              defaultMessage='Starting later this month, UK customers will be served by our European subsidiary, Blockchain (LT), UAB. You will not experience any changes in user experience or lose access to your funds during this transition. <a>Learn more.</a>'
               values={{
                 a: (msg) => (
                   <a
