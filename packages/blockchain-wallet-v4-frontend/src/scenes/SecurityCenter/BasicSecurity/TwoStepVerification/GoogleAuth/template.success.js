@@ -1,4 +1,3 @@
-/* stylelint-disable */
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
@@ -9,7 +8,9 @@ import { Button, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'
-import { spacing } from 'services/styles'
+import { media, spacing } from 'services/styles'
+
+import CopyClipboard from './CopyToClipboard'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -18,6 +19,9 @@ const AuthenticatorSummary = styled.div`
   @media (min-width: 992px) {
     width: 110%;
   }
+  ${media.mobile`
+    padding: 0;
+  `};
 `
 const QRCode = styled.div`
   display: flex;
@@ -47,17 +51,33 @@ const QRInputWrapper = styled.div`
 `
 
 const Google = (props) => {
-  const { data, handleSubmit, invalid, uiState } = props
+  const { data, handleNotification, handleSubmit, invalid, uiState } = props
+
+  const getSecret = (secret) => {
+    const myRegexp = /secret=(.*)/
+    const match = myRegexp.exec(secret)
+    if (match) {
+      return match[1]
+    }
+    return null
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <AuthenticatorSummary success={uiState.successToggled}>
         <QRCodeContainer>
-          {data.googleSecret ? (
+          {media.mobile && data.googleSecret && (
+            <CopyClipboard
+              data={getSecret(data.googleSecret)}
+              active={uiState.notificationActive}
+              handleClick={handleNotification}
+            />
+          )}
+          {data.googleSecret && (
             <QRCode>
               <QRCodeWrapper value={data.googleSecret} size={115} />
             </QRCode>
-          ) : null}
+          )}
           <QRCodeCopy>
             <Text size='14px' weight={400}>
               <FormattedMessage
