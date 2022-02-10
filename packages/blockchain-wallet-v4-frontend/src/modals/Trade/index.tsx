@@ -52,16 +52,6 @@ const TradeContainer = (props: Props) => {
     closeTradeModal()
   }, [])
 
-  const handleSend = useCallback(() => {
-    dispatch(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Trade' }))
-    closeTradeModal()
-  }, [])
-
-  const handleReceive = useCallback(() => {
-    dispatch(actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' }))
-    closeTradeModal()
-  }, [])
-
   const handleDeposit = useCallback(() => {
     dispatch(
       actions.components.brokerage.handleDepositFiatClick(props.fiatCurrency as WalletFiatType)
@@ -81,9 +71,7 @@ const TradeContainer = (props: Props) => {
           handleBuy={handleBuy}
           handleClose={handleClose}
           handleDeposit={handleDeposit}
-          handleReceive={handleReceive}
           handleSell={handleSell}
-          handleSend={handleSend}
           handleSwap={handleSwap}
           handleWithdraw={handleWithdraw}
         />
