@@ -55,6 +55,7 @@ const OptionRightActionRow = ({
   children,
   disabled,
   iconColor,
+  iconComponent,
   iconName,
   onClick,
   toolTip
@@ -70,7 +71,12 @@ const OptionRightActionRow = ({
 
   return (
     <FlexWrapper disabled={disabled} role='button' onClick={onClickCallback}>
-      {iconName && iconColor ? (
+      {iconComponent ? (
+        <IconWrapper>
+          {iconComponent()}
+          <div className={disabled ? 'disabledText' : ''}>{children}</div>
+        </IconWrapper>
+      ) : iconName && iconColor ? (
         <IconWrapper>
           {
             // @ts-ignore
@@ -102,6 +108,7 @@ export type Props = {
   children: React.ReactNode
   disabled?: boolean
   iconColor?: string
+  iconComponent?: () => void
   iconName?: string
   onClick: () => void
   toolTip?: React.ReactNode

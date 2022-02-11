@@ -51,7 +51,7 @@ class SendCrypto extends PureComponent<Props, State> {
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
         {this.props.step === SendCryptoStepType.COIN_SELECTION && (
           <FlyoutChild>
-            <CoinSelect {...this.props} />
+            <CoinSelect {...this.props} close={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === SendCryptoStepType.ENTER_TO && (
