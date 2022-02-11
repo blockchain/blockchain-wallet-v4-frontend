@@ -10,8 +10,8 @@ import {
   Asset,
   AssetCollection,
   AssetDetails,
+  AssetImageContainer,
   CTAWrapper,
-  ImageContainer,
   LazyLoadWrapper,
   NftPageWrapper,
   PriceInfo,
@@ -45,7 +45,7 @@ const YourCollection: React.FC<Props> = (props) => {
           if (!asset) return null
           return (
             <Asset key={asset.token_id}>
-              <ImageContainer
+              <AssetImageContainer
                 onClick={() => openAsset(asset)}
                 backgroundColor={`#${asset.background_color}` || '#fff'}
                 background={`url(${asset.image_url})`}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import Explore from './Explore'
 import NftHeader from './Header'
-import Marketplace from './Marketplace'
 import Offers from './Offers'
 import YourCollection from './YourCollection'
 
@@ -16,10 +16,6 @@ const NftPage = styled.div`
 `
 
 const Nfts: React.FC<Props> = (props) => {
-  useEffect(() => {
-    props.nftsActions.fetchNftCollections({})
-  }, [])
-
   const setActiveTab = (tab: 'explore' | 'my-collection' | 'offers') => {
     props.nftsActions.setActiveTab(tab)
   }
@@ -27,7 +23,7 @@ const Nfts: React.FC<Props> = (props) => {
   return (
     <NftPage>
       <NftHeader {...props} setActiveTab={setActiveTab} />
-      {props.activeTab === 'explore' ? <Marketplace {...props} /> : null}
+      {props.activeTab === 'explore' ? <Explore /> : null}
       {props.activeTab === 'my-collection' ? (
         <YourCollection {...props} setActiveTab={setActiveTab} />
       ) : null}

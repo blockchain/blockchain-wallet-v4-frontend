@@ -13,8 +13,8 @@ import {
   Asset,
   AssetCollection,
   AssetDetails,
+  AssetImageContainer,
   CTAWrapper,
-  ImageContainer,
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
@@ -58,7 +58,7 @@ const ResultsPage: React.FC<Props> = ({
 
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
-            <ImageContainer
+            <AssetImageContainer
               onClick={() =>
                 nftsActions.nftOrderFlowOpen({
                   asset_contract_address: asset.contract_address!,

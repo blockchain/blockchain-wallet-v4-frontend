@@ -4,6 +4,8 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
+export const maxWidth = '1200px'
+
 export const NftPageWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -35,7 +37,7 @@ export const LeftColWrapper = styled.div`
 `
 
 export const LazyLoadWrapper = styled(LazyLoadContainer)`
-  max-width: 1000px;
+  max-width: ${maxWidth};
   ${media.atLeastTabletL`
     width: 75%;
   `}
@@ -54,7 +56,7 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 `
 
 export const Grid = styled.div`
-  max-width: 1000px;
+  max-width: ${maxWidth};
   ${media.atLeastTabletL`
     width: 75%;
   `}
@@ -76,6 +78,7 @@ export const CTAWrapper = styled.div`
   padding: 8px;
 `
 
+// asset
 export const Asset = styled.div`
   border-radius: 8px;
   overflow: hidden;
@@ -91,7 +94,7 @@ export const InfoStatsWrapper = styled.div`
   margin-bottom: 16px;
 `
 
-export const ImageContainer = styled.div<{
+export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
   onClick: () => void
@@ -123,4 +126,34 @@ export const PriceInfo = styled.div`
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
   justify-content: flex-end;
+`
+
+// collection
+export const Collection = styled.div`
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 24px;
+  border: ${(props) => `1px solid ${props.theme.grey100}`};
+`
+
+export const CollectionBanner = styled.div<{ background?: string }>`
+  height: 74px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  background-image: ${(props) => props.background};
+`
+
+export const CollectionImage = styled.img`
+  border-radius: 50%;
+  height: 62px;
+  width: 62px;
+  position: absolute;
+  top: 60px;
+  left: calc(50% - 31px);
 `
