@@ -419,6 +419,7 @@ export type ApplePayInfoType = {
 
 export type ValidateApplePayMerchantRequest = {
   beneficiaryID: string
+  domain: string
   validationURL: string
 }
 

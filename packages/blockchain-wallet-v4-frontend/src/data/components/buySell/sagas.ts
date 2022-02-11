@@ -108,6 +108,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         try {
           const { applePayPayload } = await api.validateApplePayMerchant({
             beneficiaryID: applePayInfo.beneficiaryID,
+            domain: window.location.host,
             validationURL: event.validationURL
           })
 

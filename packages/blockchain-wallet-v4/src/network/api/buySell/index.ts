@@ -535,12 +535,14 @@ export default ({
 
   const validateApplePayMerchant = ({
     beneficiaryID,
+    domain,
     validationURL
   }: ValidateApplePayMerchantRequest): ValidateApplePayMerchantResponse =>
     authorizedPost({
       contentType: 'application/json',
       data: {
         beneficiaryID,
+        domain,
         validationURL
       },
       endPoint: '/payments/apple-pay/validate-merchant',
