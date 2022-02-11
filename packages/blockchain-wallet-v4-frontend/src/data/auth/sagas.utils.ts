@@ -86,8 +86,9 @@ export const parseMagicLink = function* () {
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
       if (session !== session_id && shouldPollForMagicLinkData) {
-        // TODO: question for merge, do we need the next line?
-        yield put(actions.auth.authorizeVerifyDevice())
+        // undefined because we're not yet confirming or rejecting
+        // device authorization
+        yield put(actions.auth.authorizeVerifyDevice(undefined))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // grab all the data from the JSON wallet data
@@ -111,13 +112,15 @@ export const parseMagicLink = function* () {
     }
     if (productAuth === ProductAuthOptions.EXCHANGE) {
       if (session !== session_id && shouldPollForMagicLinkData) {
-        // TODO: question for merge, do we need the next line?
-        yield put(actions.auth.authorizeVerifyDevice())
+        // Exchange only logins don't require any challenges
+        // `true` means we can confirm device verification right away
+        // Less security concern compared to wallet
+        yield put(actions.auth.authorizeVerifyDevice(true))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // set state with all exchange login information
-        yield put(actions.cache.emailStored(exchangeData?.email))
-        yield put(actions.form.change(LOGIN_FORM, 'email', userEmail))
+        yield put(actions.cache.exchangeEmail(exchangeData?.email))
+        yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
         if (walletData) {
           yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))

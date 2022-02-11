@@ -23,12 +23,9 @@ export const getData = (state: RootState): { currentStep: number } => {
   } as UserDataType)
 
   const { KYC_STATES } = model.profile
-  const isKycPendingOrVerified =
-    userData.kycState === KYC_STATES.PENDING ||
-    userData.kycState === KYC_STATES.UNDER_REVIEW ||
-    userData.kycState === KYC_STATES.VERIFIED
+  const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
 
-  if (isKycPendingOrVerified) {
+  if (isKycVerified) {
     currentStep += 1
   }
 

@@ -103,6 +103,7 @@ export type BSShowModalOriginType =
   | 'InterestPage'
   | 'RecurringBuyPromo'
   | 'SellEmpty'
+  | 'Send'
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
@@ -128,6 +129,7 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
+  addCardError: undefined | BSAddCardErrorType
   balances: RemoteDataType<string, BSBalancesType>
   buyQuote: RemoteDataType<string, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>

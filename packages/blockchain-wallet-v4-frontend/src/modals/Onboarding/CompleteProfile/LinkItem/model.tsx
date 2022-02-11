@@ -8,13 +8,13 @@ import { COMPLETE_PROFILE_STEPS } from '../types'
 
 export const ImageName = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: <Image name='identification' />,
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: <Image name='bank-empty-blue' />,
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: <Image name='bank-empty-blue' />,
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: <Image name='cart-green' />
 }
 
 export const IconColors = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: 'purple500',
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: 'blue600',
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: 'blue600',
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: 'green600'
 }
 
@@ -66,7 +66,7 @@ export const ItemGreen = styled(LinkItemContainer)`
 
 export const MainContainer = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: ItemPurple,
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: ItemBlue,
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: ItemBlue,
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: ItemGreen
 }
 
@@ -97,7 +97,7 @@ export const GreenIconWrapper = styled(IconWrapper)`
 
 export const MainIconWrapper = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: PurpleIconWrapper,
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: BlueIconWrapper,
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: BlueIconWrapper,
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: GreenIconWrapper
 }
 
@@ -127,10 +127,10 @@ export const LinkTitle = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: (
     <FormattedMessage id='modal.complete_profile.verify_your_id' defaultMessage='Verify Your ID' />
   ),
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: (
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
     <FormattedMessage
-      id='modal.complete_profile.link_a_bank'
-      defaultMessage='Link a Bank or Card'
+      id='modal.complete_profile.link_a_payment_method'
+      defaultMessage='Link a Payment Method'
     />
   ),
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: (
@@ -148,7 +148,7 @@ export const LinkExplanation = {
       }}
     />
   ),
-  [COMPLETE_PROFILE_STEPS.BANK_CARD]: (
+  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
     <FormattedMessage
       id='modal.complete_profile.minutes'
       defaultMessage='{time} Minutes'

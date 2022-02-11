@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
@@ -12,9 +12,9 @@ import CancelOfferFees from './fees'
 
 const CancelOffer: React.FC<Props> = (props) => {
   const { close, nftActions, orderFlow } = props
-  const { activeOffer } = orderFlow
+  const { offerToCancel } = orderFlow
 
-  const disabled = Remote.Loading.is(activeOffer) || Remote.Loading.is(orderFlow.fees)
+  const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
   return (
     <>
@@ -64,35 +64,39 @@ const CancelOffer: React.FC<Props> = (props) => {
               </Value>
             </Row>
             <StickyCTA>
-              <CancelOfferFees {...props} operation='cancel' />
+              <CancelOfferFees {...props} />
               {orderFlow.fees.cata({
                 Failure: () => (
                   <Text size='14px' weight={600}>
                     <FormattedMessage
-                      id='copy.no_active_sell_listings'
-                      defaultMessage='Error. You may not have any active offers for this asset.'
+                      id='copy.no_active_offers'
+                      defaultMessage='Error. You may have already cancelled this offer, or it has expired.'
                     />
                   </Text>
                 ),
                 Loading: () => null,
                 NotAsked: () => null,
                 Success: (val) =>
-                  activeOffer ? (
+                  offerToCancel ? (
                     <Button
                       jumbo
                       nature='primary'
                       fullwidth
                       data-e2e='cancelOfferNft'
                       disabled={disabled}
-                      onClick={() => nftActions.cancelOffer({ gasData: val, order: activeOffer })}
+                      onClick={() => nftActions.cancelOffer({ gasData: val, order: offerToCancel })}
                     >
-                      <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                      {props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                      )}
                     </Button>
                   ) : (
                     <Text size='14px' weight={600}>
                       <FormattedMessage
-                        id='copy.no_active_sell_listings'
-                        defaultMessage='Error. You may not have any active offers for this asset.'
+                        id='copy.no_active_offers_listings'
+                        defaultMessage='Error. You may have already cancelled this offer, or it has expired.'
                       />
                     </Text>
                   )

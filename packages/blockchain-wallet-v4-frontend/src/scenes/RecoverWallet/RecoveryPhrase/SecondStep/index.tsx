@@ -12,8 +12,8 @@ import Recover from './template'
 
 class RecoverContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    const { authActions, mnemonic } = this.props
-    authActions.restoreFromMetadata(mnemonic)
+    const { authActions, formValues } = this.props
+    authActions.restoreFromMetadata(formValues.mnemonic)
   }
 
   render() {

@@ -29,6 +29,7 @@ export enum LoginSteps {
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD_EXCHANGE = 'ENTER_PASSWORD_EXCHANGE',
   ENTER_PASSWORD_WALLET = 'ENTER_PASSWORD_WALLET',
+  INSTITUTIONAL_PORTAL = 'INSTITUTIONAL_PORTAL',
   LOADING = 'LOADING',
   PRODUCT_PICKER_AFTER_AUTHENTICATION = 'PRODUCT_PICKER_AFTER_AUTHENTICATION',
   PRODUCT_PICKER_BEFORE_AUTHENTICATION = 'PRODUCT_PICKER_BEFORE_AUTHENTICATION',
@@ -55,7 +56,11 @@ export enum RecoverSteps {
 }
 
 export type RecoverFormType = {
+  email?: string
+  mnemonic?: string
   password: string
+  recoverPassword?: string
+  resetAccountPassword?: string
   step: RecoverSteps
 }
 
@@ -77,6 +82,7 @@ export type LoginFormType = {
   code?: string
   email?: string
   emailToken?: string
+  exchangeEmail?: string
   exchangePassword?: string
   exchangeTwoFA?: string
   guid?: string
@@ -95,20 +101,6 @@ export enum UserType {
   WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
 }
 
-export type AuthorzieDeviceMismatchData = {
-  approver?: {
-    browser: string
-    country_code: string
-    ip_address: string
-  }
-  confirmation_required?: boolean
-  requester?: {
-    browser: string
-    country_code: string
-    ip_address: string
-  }
-  success: boolean
-}
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
@@ -208,7 +200,6 @@ export type AuthStateType = {
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
-  userGeoData: any
 }
 
 //

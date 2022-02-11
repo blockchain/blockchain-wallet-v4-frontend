@@ -10,7 +10,7 @@ import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -105,10 +105,21 @@ class CompleteProfile extends PureComponent<Props, State> {
     this.props.buySellActions.fetchCards(false)
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
     this.props.buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
+
+    const { currentStep } = this.props.data
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
+      properties: { current_step_completed: String(currentStep) }
+    })
   }
 
   handleClose = () => {
     this.setState({ show: false })
+    const { currentStep } = this.props.data
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
+      properties: { current_step_completed: String(currentStep) }
+    })
     setTimeout(() => {
       this.props.close()
     }, duration)
@@ -121,6 +132,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       tier: 2
     })
     this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
+    this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
   }
 
   startAddingCards = () => {
@@ -136,6 +148,8 @@ class CompleteProfile extends PureComponent<Props, State> {
     const { data } = this.props
     const { isVerifiedId } = data
 
+    this.trackButtonEvent(COMPLETE_PROFILE_STEPS.LINK_PAYMENT, false)
+
     if (isVerifiedId) {
       this.startAddingCards()
     } else {
@@ -143,13 +157,18 @@ class CompleteProfile extends PureComponent<Props, State> {
     }
   }
 
-  handleBuyCryptoClick = () => {
+  handleBuyCryptoClick = (isButtonClick: boolean) => {
     const { data } = this.props
     const { isBankOrCardLinked, isVerifiedId } = data
+
+    if (!isButtonClick) {
+      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.BUY_CRYPTO, false)
+    }
 
     if (isBankOrCardLinked) {
       this.props.buySellActions.showModal({ origin: 'CompleteProfile' })
       this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
+      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.BUY_CRYPTO, isButtonClick)
     } else if (isVerifiedId) {
       this.startAddingCards()
       return
@@ -159,13 +178,26 @@ class CompleteProfile extends PureComponent<Props, State> {
         origin: 'CompleteProfile',
         tier: 2
       })
+      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
     }
     this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
   }
 
+  trackButtonEvent = (eventType: COMPLETE_PROFILE_STEPS, isButtonClick: boolean) => {
+    const { currentStep } = this.props.data
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
+      properties: {
+        button_clicked: isButtonClick,
+        current_step_completed: String(currentStep),
+        item: eventType
+      }
+    })
+  }
+
   render() {
     const { data } = this.props
-    const { currentStep, isBankOrCardLinked, isBuyCrypto, isVerifiedId } = data
+    const { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId } = data
     const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
 
     return (
@@ -191,7 +223,7 @@ class CompleteProfile extends PureComponent<Props, State> {
                 <CloseIconContainer>
                   <Icon
                     cursor
-                    data-e2e='sbCloseModalIcon'
+                    data-e2e='completeProfileCloseModalIcon'
                     name='close'
                     size='20px'
                     color='grey600'
@@ -246,17 +278,18 @@ class CompleteProfile extends PureComponent<Props, State> {
                 <LinkItem
                   onClick={this.startVerification}
                   isComplete={isVerifiedId}
+                  isKycPending={isKycPending}
                   type={COMPLETE_PROFILE_STEPS.VERIFY}
                 />
 
                 <LinkItem
                   onClick={this.handleLinkBankOrCardClick}
                   isComplete={isBankOrCardLinked}
-                  type={COMPLETE_PROFILE_STEPS.BANK_CARD}
+                  type={COMPLETE_PROFILE_STEPS.LINK_PAYMENT}
                 />
 
                 <LinkItem
-                  onClick={this.handleBuyCryptoClick}
+                  onClick={() => this.handleBuyCryptoClick(true)}
                   isComplete={isBuyCrypto}
                   type={COMPLETE_PROFILE_STEPS.BUY_CRYPTO}
                 />
@@ -264,7 +297,10 @@ class CompleteProfile extends PureComponent<Props, State> {
             </ContentWrapper>
 
             <FooterWrapper>
-              <ActionButton currentStep={currentStep} onClick={this.handleBuyCryptoClick} />
+              <ActionButton
+                currentStep={currentStep}
+                onClick={() => this.handleBuyCryptoClick(false)}
+              />
             </FooterWrapper>
           </Wrapper>
         </FlyoutChild>
@@ -279,6 +315,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,

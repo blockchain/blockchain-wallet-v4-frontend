@@ -4,6 +4,7 @@ import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
+import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
@@ -79,42 +80,88 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
-    const exchangeURL = magicLinkData?.exchange_auth_url
+    const exchangeAuthUrl = magicLinkData?.exchange_auth_url
+    const { exchange: exchangeDomain } = selectors.core.walletOptions
+      .getDomains(yield select())
+      .getOrElse({
+        exchange: 'https://exchange.blockchain.com'
+      } as WalletOptionsType['domains'])
     yield put(startSubmit(LOGIN_FORM))
+    // analytics
+    if (code) {
+      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+    } else {
+      yield put(actions.auth.analyticsLoginPasswordEntered())
+    }
+    // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
-      if (
-        unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE ||
-        unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE
-      ) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else {
-        window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
+      // determine login flow
+      switch (true) {
+        // account merge/upgrade web
+        case unificationFlowType ===
+          (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account merge mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account upgrade mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // exchange institutional login
+        case exchangeAuthUrl !== undefined:
+          // window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          // temp change to test poc
+          window.open(
+            `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
+        // exchange sso login
+        default:
+          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+          break
       }
-    } catch (e) {
+      // @ts-ignore
+    } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       if (e.code && e.code === 11) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
+      }
+      if (e.code && e.code === 10) {
+        yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+      }
+      if (e.code && e.code === 8) {
+        yield put(actions.auth.analyticsLoginPasswordDenied())
       }
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
 
+  const checkWalletDerivationsLegitimacy = function* () {
+    const accounts = yield call(coreSagas.wallet.getAccountsWithIncompleteDerivations)
+
+    if (accounts.length > 0) {
+      yield call(coreSagas.wallet.replenishDerivations, accounts)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
   const loginRoutineSaga = function* ({
+    country = undefined,
     email = undefined,
     firstLogin = false,
-    country = undefined,
-    state = undefined,
-    recovery = false
+    recovery = false,
+    state = undefined
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -212,6 +259,8 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
+      // ensure derivations are correct
+      yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
     } catch (e) {
@@ -346,6 +395,7 @@ export default ({ api, coreSagas, networks }) => {
           // TODO: check on why we do this
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
@@ -463,10 +513,11 @@ export default ({ api, coreSagas, networks }) => {
           yield call(api.resetUserKyc, userId, lifetimeToken, token)
           yield put(actions.auth.setKycResetStatus(true))
           yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-        } catch (e) {
-          // if it fails with user already being reset, shuold be allowed
+          // @ts-ignore
+        } catch (e: { status?: number }) {
+          // if it fails with user already being reset, should be allowed
           // to continue with flow
-          if (e.status === 409) {
+          if (e && e.status === 409) {
             yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
             yield put(actions.auth.setKycResetStatus(true))
           } else {
@@ -486,17 +537,23 @@ export default ({ api, coreSagas, networks }) => {
 
   const restore = function* (action) {
     try {
-      yield put(actions.auth.restoreLoading())
-      yield put(actions.auth.setRegisterEmail(action.payload.email))
-      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
+      const { captchaToken, email, language, mnemonic, password } = action.payload
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
+
+      yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(email))
+      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, {
-        ...action.payload,
-        kvCredentials
+        captchaToken,
+        email,
+        kvCredentials,
+        language,
+        mnemonic,
+        password
       })
 
       yield call(loginRoutineSaga, {
-        email: action.payload.email,
+        email,
         firstLogin: true,
         recovery: true
       })
@@ -528,21 +585,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setCachedWalletData = function* () {
-    const storedGuid = yield select(selectors.cache.getStoredGuid)
-    const lastGuid = yield select(selectors.cache.getLastGuid)
-    const email = yield select(selectors.cache.getEmail)
-    yield put(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
-    yield put(actions.router.push('/login?product=wallet'))
-    if (storedGuid || lastGuid) {
-      yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
-      yield put(actions.form.change(LOGIN_FORM, 'email', email))
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-    } else {
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
-    }
-  }
-
   const initializeLogin = function* () {
     try {
       // set loading
@@ -555,9 +597,10 @@ export default ({ api, coreSagas, networks }) => {
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') ||
+      const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
+      const userType = queryParams.get('userType')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
@@ -573,6 +616,7 @@ export default ({ api, coreSagas, networks }) => {
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
+      const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
       // initialize login form and/or set initial auth step
@@ -582,13 +626,16 @@ export default ({ api, coreSagas, networks }) => {
         case platform !== PlatformTypes.WEB:
           yield call(initMobileAuthFlow)
           break
+        // institutional login portal for Prime exchange users
+        case userType === 'institutional':
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
+          break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) &&
           !walletGuidOrMagicLinkFromUrl &&
           product === ProductAuthOptions.WALLET:
           // change product param in url to make it clear to user
           yield put(actions.router.push('/login?product=wallet'))
-
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
@@ -606,8 +653,16 @@ export default ({ api, coreSagas, networks }) => {
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
             yield put(actions.router.push('/login?product=wallet'))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
           }
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+          if (product === ProductAuthOptions.EXCHANGE) {
+            if (exchangeEmail) {
+              yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+              yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+            } else {
+              yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+            }
+          }
           break
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
@@ -640,6 +695,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       code,
       email,
+      exchangeEmail,
       exchangePassword,
       exchangeTwoFA,
       guid,
@@ -663,8 +719,18 @@ export default ({ api, coreSagas, networks }) => {
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        } else if (product === ProductAuthOptions.EXCHANGE) {
+          // trigger email for exchange form
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+          yield put(
+            actions.auth.triggerWalletMagicLink({
+              captchaToken,
+              email: exchangeEmail
+            })
+          )
+          initCaptcha()
         } else {
-          // if it's an email, we triger the magic link email
+          // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
           yield put(
             actions.auth.triggerWalletMagicLink({
@@ -698,7 +764,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.auth.exchangeLogin({
             code: exchangeTwoFA,
             password: exchangePassword,
-            username: email
+            username: exchangeEmail
           })
         )
       }
@@ -735,25 +801,26 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
+      yield put(actions.auth.triggerWalletMagicLinkSuccess())
+      yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload if feature flag enabled
       if (shouldPollForMagicLinkData) {
         yield call(pollForSessionFromAuthPayload, api, sessionToken)
       }
-      yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-    } finally {
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
-    const { session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const exchange_only_login = !wallet
+    const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
+
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
       const data = yield call(
@@ -767,28 +834,20 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
-    } catch (e) {
-      if (e.status === 401 && e.confirmation_required) {
+      // @ts-ignore
+    } catch (e: { confirmation_required: boolean; status?: number }) {
+      if (e && e.status === 401 && e.confirmation_required) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
-      } else if (e.status === 409 && e.request_denied) {
+      } else if (e && e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
-      } else if (e.status === 400 && e.link_expired) {
+      } else if (e && e.status === 400 && e.link_expired) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
       } else {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
       }
-    }
-  }
-
-  const getUserGeoLocation = function* () {
-    try {
-      const userLocationData = yield call(api.getLocation)
-      yield put(actions.auth.setUserGeoLocation(userLocationData))
-    } catch (e) {
-      // do nothing
     }
   }
 
@@ -833,7 +892,6 @@ export default ({ api, coreSagas, networks }) => {
     continueLoginProcess,
     exchangeLogin,
     exchangeResetPassword,
-    getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,
@@ -843,7 +901,6 @@ export default ({ api, coreSagas, networks }) => {
     resetAccount,
     restore,
     restoreFromMetadata,
-    setCachedWalletData,
     triggerWalletMagicLink
   }
 }

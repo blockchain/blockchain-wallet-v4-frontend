@@ -321,7 +321,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Text>
             </Button>
             <Button
-              data-e2e='interestDeposit'
+              data-e2e='interestDepositBuyButton'
               height='48px'
               nature='empty'
               onClick={() => handleBSClick(coin)}

@@ -7,24 +7,30 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { ProductAuthOptions } from 'data/auth/types'
 import { required } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
+import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
-  removeWhitespace,
-  Row,
-  SignUpLink,
-  WalletNeedHelpLink,
-  WrapperWithPadding
-} from '../../model'
+import BackArrowHeader from '../../components/BackArrowHeader'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import SignupLink from '../../components/SignupLink'
+import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   padding: 0 0 24px 0;
+`
+const ResponsiveRow = styled(Row)`
+  justify-content: center;
+  margin-top: 16px;
+  ${media.mobile`
+    flex-direction: column;
+    align-items: center;
+    line-height: 2;
+  `}
 `
 
 const TwoFAWallet = (props: Props) => {
@@ -33,7 +39,7 @@ const TwoFAWallet = (props: Props) => {
     authType,
     busy,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickWallet,
     invalid,
     submitting,
     walletError
@@ -52,9 +58,9 @@ const TwoFAWallet = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader
+        <BackArrowHeader
           {...props}
-          handleBackArrowClick={handleBackArrowClick}
+          handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
         />
         {authType > 0 && (
@@ -67,12 +73,18 @@ const TwoFAWallet = (props: Props) => {
                     defaultMessage='Verify with your Yubikey'
                   />
                 )}
-                {(authType === 4 || authType === 5) && (
-                  <FormattedMessage
-                    id='scenes.logins.twofa.enter_code'
-                    defaultMessage='Enter your Two Factor Authentication Code'
-                  />
-                )}
+                {(authType === 4 || authType === 5) &&
+                  (isMobile() ? (
+                    <FormattedMessage
+                      id='scenes.logins.twofa.enter_code.mobile_width'
+                      defaultMessage='Enter your 2FA Code'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.logins.twofa.enter_code'
+                      defaultMessage='Enter your Two Factor Authentication Code'
+                    />
+                  ))}
               </FormLabel>
               <Field
                 name='code'
@@ -93,7 +105,7 @@ const TwoFAWallet = (props: Props) => {
                 <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
               )}
             </FormItem>
-            <Row style={{ justifyContent: 'center', marginTop: '16px' }}>
+            <ResponsiveRow>
               <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
                 <FormattedMessage
                   id='scenes.logins.twofa.lost'
@@ -105,7 +117,7 @@ const TwoFAWallet = (props: Props) => {
                   <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
                 </Link>
               </LinkContainer>
-            </Row>
+            </ResponsiveRow>
           </FormGroup>
         )}
         <CenteredColumn>
@@ -126,10 +138,14 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <WalletNeedHelpLink authActions={props.authActions} origin='2FA' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='2FA'
+            product={ProductAuthOptions.WALLET}
+          />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }

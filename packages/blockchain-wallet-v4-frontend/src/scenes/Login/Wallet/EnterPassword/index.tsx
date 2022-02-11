@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
@@ -19,17 +19,12 @@ import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
-  ProductTab,
-  SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
-  WalletNeedHelpLink,
-  WrapperWithPadding
-} from '../../model'
+import BackArrowHeader from '../../components/BackArrowHeader'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import ProductTabMenu from '../../components/ProductTabMenu'
+import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
+import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
   display: flex;
@@ -49,7 +44,6 @@ const SideWrapper = styled.div`
     display: none;
   `};
 `
-
 const FormWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
@@ -59,7 +53,6 @@ const FormWrapper = styled(Wrapper)`
   padding: 0 0 16px 0;
 `}
 `
-
 const MobileAuthSideWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
@@ -71,7 +64,6 @@ const MobileAuthSideWrapper = styled(Wrapper)`
   right: 0.5px;
   padding: 40px 16px;
 `
-
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -88,26 +80,20 @@ const SettingsGoalText = styled.div`
   margin: 36px 0 24px;
 `
 
-const isSupportedBrowser = isBrowserSupported()
-
 const EnterPasswordWallet = (props: Props) => {
   const {
     authActions,
     busy,
+    exchangeTabClicked,
     formValues,
     goals,
-    handleBackArrowClick,
+    handleBackArrowClickWallet,
     invalid,
+    isBrowserSupported,
     qrData,
     submitting,
     walletError
   } = props
-
-  const onExchangeTabClick = () => {
-    props.routerActions.push('/login?product=exchange')
-    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-  }
 
   const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -121,31 +107,17 @@ const EnterPasswordWallet = (props: Props) => {
       <SideWrapper />
       <FormWrapper>
         {!settingsGoal && (
-          <TabWrapper>
-            <ProductTab product={ProductAuthOptions.WALLET}>
-              <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
-              <Text size='20px' weight={600} color='purple600'>
-                <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-              </Text>
-            </ProductTab>
-            <ProductTab
-              backgroundColor='grey000'
-              onClick={onExchangeTabClick}
-              product={ProductAuthOptions.EXCHANGE}
-            >
-              <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
-              <Text size='20px' weight={600} color='grey400'>
-                <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-              </Text>
-            </ProductTab>
-          </TabWrapper>
+          <ProductTabMenu
+            active={ProductAuthOptions.WALLET}
+            onExchangeTabClick={exchangeTabClicked}
+          />
         )}
 
         <WrapperWithPadding>
           {!settingsGoal && (
-            <BackArrowFormHeader
+            <BackArrowHeader
               {...props}
-              handleBackArrowClick={handleBackArrowClick}
+              handleBackArrowClick={handleBackArrowClickWallet}
               marginTop='28px'
             />
           )}
@@ -167,22 +139,19 @@ const EnterPasswordWallet = (props: Props) => {
             </SettingsGoalText>
           )}
           <FormGroup>
-            {!isSupportedBrowser && <UnsupportedBrowserWarning />}
+            <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
             <FormItem>
               <FormLabel htmlFor='password'>
-                <FormattedMessage
-                  id='scenes.login.enter_password'
-                  defaultMessage='Enter your password'
-                />
+                <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
               </FormLabel>
               <Field
-                name='password'
-                disabled={!isSupportedBrowser}
-                validate={[required]}
+                autoFocus
                 component={PasswordBox}
                 data-e2e='loginPassword'
-                autoFocus
+                disabled={!isBrowserSupported}
+                name='password'
                 placeholder='Enter your password'
+                validate={[required]}
               />
               {passwordError && (
                 <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
@@ -225,10 +194,14 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <WalletNeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+            <NeedHelpLink
+              authActions={authActions}
+              origin='PASSWORD'
+              product={ProductAuthOptions.WALLET}
+            />
           </CenteredColumn>
         </WrapperWithPadding>
-        <SignUpLink />
+        <SignupLink />
       </FormWrapper>
       {!isMobile() && (
         <SideWrapper>

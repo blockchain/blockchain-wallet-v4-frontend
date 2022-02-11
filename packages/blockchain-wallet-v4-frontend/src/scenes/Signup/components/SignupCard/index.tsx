@@ -54,7 +54,7 @@ const LinkAccountSpacer = styled.div`
   height: 1rem;
 `
 
-const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
   const {
     isFormSubmitting,
     isLinkAccountGoal,

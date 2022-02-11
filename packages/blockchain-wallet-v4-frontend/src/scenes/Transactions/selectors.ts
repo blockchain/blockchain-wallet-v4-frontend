@@ -41,9 +41,8 @@ const filterTransactions = curry(
   ) => {
     const isOfTxType = curry((filter: TransferType, tx) => {
       return propSatisfies(
-        (x) =>
+        (x: string) =>
           filter === '' ||
-          // @ts-ignore
           (x && toUpper(x) === toUpper(filter)) ||
           (x === 'DEPOSIT' && filter === 'received') ||
           (x === 'WITHDRAWAL' && filter === 'sent'),
@@ -54,7 +53,9 @@ const filterTransactions = curry(
     const search = curry((text, txPath, tx) =>
       compose(includes(toUpper(text || '')), toUpper, String, path(txPath))(tx)
     )
+
     const searchPredicate = anyPass(
+      // @ts-ignore
       map(search(criteria), [
         ['id'],
         ['description'],
@@ -77,6 +78,7 @@ const filterTransactions = curry(
       }
     }
 
+    // @ts-ignore
     const fullPredicate = allPass([isOfTxType(status), searchPredicate])
     return filter(fullPredicate, transactions.filter(sourceTypeFilter))
   }

@@ -1788,107 +1788,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
-      case actions.components.withdraw.setStep.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const stepName = action.payload.step
-
-        switch (stepName) {
-          case 'CONFIRM_WITHDRAW': {
-            const currency = state.components.withdraw.fiatCurrency
-            const inputAmount = Number(state.form.custodyWithdrawForm.values.amount)
-            const fee = state.components.withdraw.feesAndMinAmount
-              .getOrElse({})
-              ?.fees.find((fee) => fee.symbol === currency)?.value
-            const outputAmount = inputAmount + fee
-            const withdrawMethod = state.components.brokerage.account
-              ? WithdrawalMethod.BANK_ACCOUNT
-              : WithdrawalMethod.BANK_TRANSFER
-
-            analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_ENTERED, {
-              properties: {
-                currency,
-                input_amount: inputAmount,
-                originalTimestamp: getOriginalTimestamp(),
-                output_amount: outputAmount,
-                withdrawal_method: withdrawMethod
-              },
-              traits: {
-                email,
-                nabuId,
-                tier
-              }
-            })
-
-            break
-          }
-          default: {
-            break
-          }
-        }
-
-        break
-      }
-      case actions.components.withdraw.handleWithdrawMaxAmountClick.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const currency = state.components.withdraw.fiatCurrency
-        const withdrawalMethod = state.components.brokerage.account
-          ? WithdrawalMethod.BANK_ACCOUNT
-          : WithdrawalMethod.BANK_TRANSFER
-
-        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MAX_CLICKED, {
-          properties: {
-            currency,
-            originalTimestamp: getOriginalTimestamp(),
-            withdrawal_method: withdrawalMethod
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.components.withdraw.handleWithdrawMinAmountClick.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const currency = state.components.withdraw.fiatCurrency
-        const withdrawalMethod = state.components.brokerage.account
-          ? WithdrawalMethod.BANK_ACCOUNT
-          : WithdrawalMethod.BANK_TRANSFER
-
-        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MIN_CLICKED, {
-          properties: {
-            currency,
-            originalTimestamp: getOriginalTimestamp(),
-            withdrawal_method: withdrawalMethod
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
       case actions.components.interest.showInterestModal.type: {
         const stepName: InterestStep = action.payload.step
 
@@ -1985,129 +1884,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
         }
-
-        break
-      }
-      case actions.components.interest.handleTransferMaxAmountClick.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const amountCurrency = state.components.interest.isCoinDisplayed
-          ? action.payload.coin
-          : state.settingsPath.getOrElse({})?.currency
-        const currency = state.components.interest.coin
-        const fromAccountType =
-          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
-            ? AccountType.TRADING
-            : AccountType.USERKEY
-
-        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED, {
-          properties: {
-            amount_currency: amountCurrency,
-            currency,
-            from_account_type: fromAccountType,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.components.interest.handleTransferMinAmountClick.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const amountCurrency = state.components.interest.isCoinDisplayed
-          ? action.payload.coin
-          : state.settingsPath.getOrElse({})?.currency
-        const currency = state.components.interest.coin
-        const fromAccountType =
-          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
-            ? AccountType.TRADING
-            : AccountType.USERKEY
-
-        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED, {
-          properties: {
-            amount_currency: amountCurrency,
-            currency,
-            from_account_type: fromAccountType,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.components.interest.submitDepositForm.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const currency = state.components.interest.coin
-        const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
-        const interestRate = state.components.interest.interestRate.getOrElse({})?.[currency]
-        const fromAccountType =
-          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
-            ? AccountType.TRADING
-            : AccountType.USERKEY
-
-        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_AMOUNT_ENTERED, {
-          properties: {
-            currency,
-            from_account_type: fromAccountType,
-            input_amount: inputAmount,
-            interest_rate: interestRate,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.components.interest.handleWithdrawalSupplyInformation.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const { origin } = action.payload
-
-        analytics.push(AnalyticsKey.INTEREST_SUBMIT_INFORMATION_CLICKED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
 
         break
       }
@@ -2826,10 +2602,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2846,7 +2624,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const site_redirect = state.auth.productAuthMetadata.product
 
         const origin = action.payload
 
@@ -2871,12 +2649,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
-        const { idType } = action.payload
+        const idType = action.payload
         analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
           properties: {
             identifier_type: idType,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2916,10 +2696,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2936,10 +2718,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3001,7 +2785,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const request_platform = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
@@ -3026,7 +2810,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const error = action.payload
-        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const request_platform = state.auth.productAuthMetadata.product
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
             error,
@@ -3049,10 +2833,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3069,10 +2855,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3267,54 +3055,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             }
           })
         }
-        break
-      }
-      case actions.components.nfts.createOrderSuccess.type: {
-        const state = store.getState()
-
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_SUCCEEDED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.components.nfts.createOrderFailure.type: {
-        const state = store.getState()
-
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const error = action.payload
-
-        analytics.push(AnalyticsKey.NFT_ORDER_FAILED, {
-          properties: {
-            error,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
         break
       }
       case actions.components.nfts.nftOrderFlowOpen.type: {

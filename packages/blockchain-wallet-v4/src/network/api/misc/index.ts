@@ -47,7 +47,7 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const triggerWalletMagicLink = (sessionToken, email, captchaToken, product, redirect) => {
+  const triggerWalletMagicLink = (sessionToken, email, captchaToken, product, redirect) =>
     post({
       contentType: 'application/json',
       data: {
@@ -61,7 +61,7 @@ export default ({ apiUrl, get, post }) => {
       sessionToken,
       url: apiUrl
     })
-  }
+
   return {
     getAssets,
     getErc20Assets,

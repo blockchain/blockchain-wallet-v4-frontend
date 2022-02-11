@@ -240,7 +240,7 @@ export const getData = (
     ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
       // @ts-ignore
-      const data = reduce(concat, [], orderArray)
+      const data = reduce(concat, [], orderArray) as Array<unknown>
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       }

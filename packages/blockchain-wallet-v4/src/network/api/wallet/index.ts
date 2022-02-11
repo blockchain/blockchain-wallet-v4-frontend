@@ -38,9 +38,18 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createPayload = (email, data) =>
+  const createPayload = (email, captchaToken, data) =>
     post({
-      data: mergeRight({ email, format: 'plain', method: 'insert' }, data),
+      data: mergeRight(
+        {
+          captcha: captchaToken,
+          email,
+          format: 'plain',
+          method: 'insert',
+          siteKey: window.CAPTCHA_KEY
+        },
+        data
+      ),
       endPoint: '/wallet',
       url: rootUrl
     }).then(() => data.checksum)

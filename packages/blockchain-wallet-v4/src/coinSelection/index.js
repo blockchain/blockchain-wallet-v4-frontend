@@ -123,20 +123,19 @@ export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
 const ft = (targets, feePerByte, coins, changeAddress) => {
   const target = List(targets).fold(Coin.empty).value
   const _findTarget = (seed) => {
-    const acc = seed[0]
+    const accValue = seed[0]
+    const accFee = seed[1]
     const newCoin = head(seed[2])
-    if (isNil(newCoin) || acc > target + seed[1]) {
+    if (isNil(newCoin) || accValue >= target + accFee) {
       return false
     }
-    const partialFee = seed[1] + Coin.inputBytes(newCoin) * feePerByte
+    const partialFee = accFee + Coin.inputBytes(newCoin) * feePerByte
     const restCoins = tail(seed[2])
-    const nextAcc = acc + newCoin.value
-    return acc > target + partialFee
-      ? false
-      : [
-          [nextAcc, partialFee, newCoin],
-          [nextAcc, partialFee, restCoins]
-        ]
+    const nextAcc = accValue + newCoin.value
+    return [
+      [nextAcc, partialFee, newCoin],
+      [nextAcc, partialFee, restCoins]
+    ]
   }
   const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
   const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
@@ -152,23 +151,33 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
     // not enough money to satisfy target
     return { fee, inputs: [], outputs: targets }
   }
-  const extra = maxBalance - target - fee
-  const change = Coin.fromJS({
+  // Value remaining after deducting the 'target' value and fees.
+  const remainingValue = maxBalance - target - fee
+  // A Coin with the full remaining value and the change address.
+  const proposedChangeCoin = Coin.fromJS({
     address: changeAddress,
     change: true,
-    value: extra
+    value: remainingValue
   })
-  // should we add change?
-  if (extra >= dustThreshold(feePerByte, change)) {
-    const feeForAdditionalChangeOutput = changeBytes(change.type()) * feePerByte
+  // Check if we should keep change.
+  if (remainingValue >= dustThreshold(feePerByte, proposedChangeCoin)) {
+    // Change is worth keeping
+    const feeForAdditionalChangeOutput = changeBytes(proposedChangeCoin.type()) * feePerByte
+    // Create the final change Coin, its value is the remainingValue minus
+    // the fee it takes to have it added to the transaction.
+    const changeCoin = Coin.fromJS({
+      address: changeAddress,
+      change: true,
+      value: remainingValue - feeForAdditionalChangeOutput
+    })
     return {
       fee: fee + feeForAdditionalChangeOutput,
       inputs: selectedCoins,
-      outputs: [...targets, change]
+      outputs: [...targets, changeCoin]
     }
   }
-  // burn change
-  return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
+  // Change is not worth keeping, burn change
+  return { fee: fee + remainingValue, inputs: selectedCoins, outputs: targets }
 }
 export const findTarget = memoize(ft)
 
@@ -195,7 +204,7 @@ export const descentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => a.lte(b), coins),
+    sort((a, b) => b.compare(a), coins),
     changeAddress
   )
 // ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
@@ -203,6 +212,6 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => b.lte(a), coins),
+    sort((a, b) => a.compare(b), coins),
     changeAddress
   )

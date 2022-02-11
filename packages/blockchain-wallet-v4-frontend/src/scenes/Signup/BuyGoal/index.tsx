@@ -53,7 +53,7 @@ const Amount = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const BuyGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
   const { goals } = props
   const dataGoal = find(propEq('name', 'buySell'), goals)
   const goalData: BuySellWidgetGoalDataType = propOr({}, 'data', dataGoal)

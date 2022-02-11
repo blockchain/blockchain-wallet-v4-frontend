@@ -27,12 +27,8 @@ enum AnalyticsKey {
   EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
   INTEREST_CLICKED = 'Interest Clicked',
-  INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
   INTEREST_DEPOSIT_CLICKED = 'Interest Deposit Clicked',
-  INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
-  INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
   INTEREST_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
-  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked',
   INTEREST_VIEWED = 'Interest Viewed',
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
@@ -53,6 +49,7 @@ enum AnalyticsKey {
   NFT_ORDER_FAILED = 'NFT Order Failed',
   NFT_ORDER_SUCCEEDED = 'NFT Order Succeeded',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
+  PEEKSHEET_DISMISSED = 'Peeksheet Dismissed',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
@@ -96,7 +93,6 @@ enum AnalyticsKey {
   TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   WALLET_SIGNED_UP = 'Wallet Signed Up',
-  WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
   WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked',
   WITHDRAWAL_CLICKED = 'Withdrawal Clicked',
@@ -682,6 +678,10 @@ type WrongChangeCachePayload = BasePayload
 
 type WrongReceiveCachePayload = BasePayload
 
+type PeekSheetPayload = BasePayload & {
+  current_step_completed: string
+}
+
 type AnalyticsProperties =
   | AddressVerifyMessageClickedPayload
   | AddMobileNumberClickedPayload
@@ -722,6 +722,7 @@ type AnalyticsProperties =
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
+  | PeekSheetPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | RecoveryOptionSelectedPayload
@@ -799,6 +800,11 @@ export type {
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
+}
+
+export interface TrackEventAction {
+  key: AnalyticsKey
+  properties: AnalyticsProperties
 }
 
 export {

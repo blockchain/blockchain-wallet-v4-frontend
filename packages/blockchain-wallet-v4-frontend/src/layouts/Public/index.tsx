@@ -1,10 +1,11 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -37,9 +38,11 @@ const Wrapper = styled.div<{ authProduct?: string }>`
   ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
+    > div:last-child {
+      margin-top: auto;
+    }
   `}
 `
 
@@ -62,6 +65,7 @@ const PublicLayoutContainer = ({
   authProduct,
   component: Component,
   exact = false,
+  formValues,
   path
 }: Props) => {
   return (
@@ -85,7 +89,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer authProduct={authProduct} />
+              <Footer authProduct={authProduct} formValues={formValues} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -95,7 +99,8 @@ const PublicLayoutContainer = ({
 }
 
 const mapStateToProps = (state) => ({
-  authProduct: selectors.auth.getProduct(state)
+  authProduct: selectors.auth.getProduct(state),
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
 })
 
 const connector = connect(mapStateToProps)

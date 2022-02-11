@@ -30,6 +30,8 @@ export type BannerType =
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
+export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
+
 const showBanner = (flag: boolean, banner: string, announcementState) => {
   return (
     flag &&
@@ -58,7 +60,15 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
-  const showCompleteYourProfile = selectors.core.walletOptions.getCompleteYourProfile(state)
+  const showCompleteYourProfile = selectors.core.walletOptions
+    .getCompleteYourProfile(state)
+    .getOrElse(false) as boolean
+  const completeProfileAnnouncement = getCompleteProfileAnnouncement()
+  const showCompleteYourProfileBanner = showBanner(
+    !!showCompleteYourProfile,
+    completeProfileAnnouncement,
+    announcementState
+  )
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
@@ -108,10 +118,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showCEURBanner =
     showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
     userData &&
-    userData.tiers?.current >= 1 &&
     userData.address &&
     userData.address.country &&
-    ['US', 'IT'].indexOf(userData.address.country) === -1
+    ['US', 'DE', 'IT', 'FR', 'NL'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -146,7 +155,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
-  if (showCompleteYourProfile && !isProfileCompleted) {
+  if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
