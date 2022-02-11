@@ -1,7 +1,13 @@
 query Asset($filter: AssetFilter) {
   asset(filter: $filter) {
     name
+    image_url
     animation_original_url
+    collection {
+      name
+      description
+      image_url
+    }
     animation_url
     contract_address
     permalink
