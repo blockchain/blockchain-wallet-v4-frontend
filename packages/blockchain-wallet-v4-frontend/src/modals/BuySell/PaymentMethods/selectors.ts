@@ -15,9 +15,11 @@ const getData = (state) => {
     openBanking: false
   } as InvitationsType)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const applePayEnabledR = selectors.core.walletOptions.getApplePayAsNewPaymentMethod(state)
 
   return lift(
     (
+      applePayEnabled: Boolean,
       balances: ExtractSuccess<typeof balancesR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
@@ -26,6 +28,7 @@ const getData = (state) => {
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       walletCurrency: FiatType
     ) => ({
+      applePayEnabled,
       balances,
       bankTransferAccounts,
       cards,
@@ -45,6 +48,7 @@ const getData = (state) => {
       walletCurrency
     })
   )(
+    applePayEnabledR,
     balancesR,
     bankTransferAccountsR,
     cardsR,
