@@ -47,7 +47,8 @@
         "tradingCurrencyFlyout": true,
         "walletConnect": true,
         "withdrawalLocksFundsOnHold": true,
-        "useNewPaymentProviders": true
+        "useNewPaymentProviders": true,
+        "walletDebitCardEnabled": true
       }
     }
   },

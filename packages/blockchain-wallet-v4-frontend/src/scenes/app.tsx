@@ -54,6 +54,7 @@ const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
+const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const App = ({
   apiUrl,
@@ -63,7 +64,8 @@ const App = ({
   persistor,
   store,
   userData,
-  walletConnectEnabled
+  walletConnectEnabled,
+  walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : PublicLoading
 
@@ -103,6 +105,9 @@ const App = ({
                     <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
                     <PublicLayout path='/wallet' component={Login} />
                     <PublicLayout path='/verify-email-step' component={VerifyEmail} />
+                    {walletDebitCardEnabled && (
+                      <WalletLayout path='/debitCard' component={DebitCard} />
+                    )}
                     <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout path='/exchange' component={TheExchange} />
                     <WalletLayout path='/home' component={Home} />
@@ -161,7 +166,10 @@ const mapStateToProps = (state) => ({
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
-    .getOrElse(false) as boolean
+    .getOrElse(false) as boolean,
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
+    .getOrElse(true) as boolean
 })
 
 const connector = connect(mapStateToProps)
