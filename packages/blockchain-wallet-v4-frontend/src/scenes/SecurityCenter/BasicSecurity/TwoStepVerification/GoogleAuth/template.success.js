@@ -5,12 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import { TextBox } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'
 import { media, spacing } from 'services/styles'
-
-import CopyClipboard from './CopyToClipboard'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -49,9 +48,12 @@ const QRInputWrapper = styled.div`
     margin-top: 10px;
   }
 `
+const ClipboardWrapper = styled.div`
+  max-width: 90%;
+`
 
 const Google = (props) => {
-  const { data, handleNotification, handleSubmit, invalid, uiState } = props
+  const { data, handleSubmit, invalid, uiState } = props
 
   const getSecret = (secret) => {
     const myRegexp = /secret=(.*)/
@@ -67,11 +69,12 @@ const Google = (props) => {
       <AuthenticatorSummary success={uiState.successToggled}>
         <QRCodeContainer>
           {media.mobile && data.googleSecret && (
-            <CopyClipboard
-              data={getSecret(data.googleSecret)}
-              active={uiState.notificationActive}
-              handleClick={handleNotification}
-            />
+            <ClipboardWrapper>
+              <CopyClipboard
+                address={getSecret(data.googleSecret)}
+                active={uiState.notificationActive}
+              />
+            </ClipboardWrapper>
           )}
           {data.googleSecret && (
             <QRCode>

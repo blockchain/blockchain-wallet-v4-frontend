@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
-import * as C from 'services/alerts'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -23,7 +22,6 @@ class GoogleAuthContainer extends React.PureComponent {
 
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.handleNotification = this.handleNotification.bind(this)
   }
 
   componentDidMount() {
@@ -47,15 +45,6 @@ class GoogleAuthContainer extends React.PureComponent {
     this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
   }
 
-  handleNotification() {
-    const { alertActions } = this.props
-    this.setState({ notificationActive: true })
-    this.timeout = setTimeout(() => {
-      this.setState({ notificationActive: false })
-    }, 2000)
-    alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
-  }
-
   onSubmit() {
     this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
@@ -70,7 +59,6 @@ class GoogleAuthContainer extends React.PureComponent {
       Success: (value) => (
         <Success
           data={value}
-          handleNotification={this.handleNotification}
           handleClick={this.handleClick}
           onSubmit={this.onSubmit}
           uiState={this.state}
@@ -86,7 +74,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
