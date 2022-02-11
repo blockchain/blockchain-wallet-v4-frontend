@@ -19,7 +19,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
     orderFlow.walletUserIsAssetOwnerHack
 
   const getType = (order) => {
-    return order.sale_kind === 1 ? 'Desc' : order.extra !== '0' ? 'Asc' : 'Fixed'
+    return order.sale_kind === 1 ? 'Desc' : order.v === 0 ? 'Asc' : 'Fixed'
   }
 
   return (
