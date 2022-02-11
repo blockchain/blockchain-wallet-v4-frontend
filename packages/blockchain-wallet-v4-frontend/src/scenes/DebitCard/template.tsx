@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
 import { Button, Icon, Image } from 'blockchain-info-components'
 import {
@@ -11,15 +10,7 @@ import {
   SceneSubHeaderText
 } from 'components/Layout'
 
-const Wrapper = styled.div`
-  width: 100%;
-`
-
-const IntroCardWrapper = styled.div`
-  text-align: center;
-  margin: auto;
-  width: 393px;
-`
+import { IntroCardWrapper, Wrapper } from './template.style'
 
 const OrderMyCardBtn = () => (
   <div style={{ marginTop: '32px' }}>
