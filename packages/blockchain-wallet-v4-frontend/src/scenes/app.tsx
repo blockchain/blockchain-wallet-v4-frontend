@@ -169,7 +169,7 @@ const mapStateToProps = (state) => ({
     .getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.core.walletOptions
     .getWalletDebitCardEnabled(state)
-    .getOrElse(true) as boolean
+    .getOrElse(false) as boolean
 })
 
 const connector = connect(mapStateToProps)
