@@ -1,0 +1,15 @@
+query Asset($filter: AssetFilter) {
+  asset(filter: $filter) {
+    name
+    animation_original_url
+    animation_url
+    contract_address
+    permalink
+    token_id
+    traits {
+      value
+      trait_type
+      max_value
+    }
+  }
+}

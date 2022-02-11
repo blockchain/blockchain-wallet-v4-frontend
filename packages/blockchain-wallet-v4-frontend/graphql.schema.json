@@ -5757,18 +5757,6 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "filter",
                 "description": null,
                 "type": {
@@ -5805,18 +5793,6 @@
             "name": "accounts",
             "description": null,
             "args": [
-              {
-                "name": "eventsFilter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
               {
                 "name": "filter",
                 "description": null,
@@ -5883,6 +5859,42 @@
             "description": null,
             "args": [
               {
+                "name": "asset_contractFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "collectionFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CollectionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "creatorFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "eventsFilter",
                 "description": null,
                 "type": {
@@ -5907,11 +5919,59 @@
                 "deprecationReason": null
               },
               {
+                "name": "last_saleFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "EventFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "orderBy",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "AssetOrderBy",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "ownerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "traitsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TraitFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "transfer_fee_payment_tokenFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -5932,6 +5992,42 @@
             "description": null,
             "args": [
               {
+                "name": "asset_contractFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "collectionFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CollectionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "creatorFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "eventsFilter",
                 "description": null,
                 "type": {
@@ -5949,6 +6045,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "AssetFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last_saleFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "EventFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -5990,6 +6098,42 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
+              },
+              {
+                "name": "ownerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "traitsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TraitFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "transfer_fee_payment_tokenFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6009,11 +6153,23 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "asset_contractFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "assetsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6026,6 +6182,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "BundleFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "makerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6058,11 +6226,23 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "asset_contractFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "assetsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6087,6 +6267,18 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "makerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6135,11 +6327,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetsFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6169,6 +6361,30 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
+              },
+              {
+                "name": "payment_tokensFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "primary_asset_contractsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6184,11 +6400,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetsFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6242,6 +6458,30 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
+              },
+              {
+                "name": "payment_tokensFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "primary_asset_contractsFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6261,11 +6501,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "collectionFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "CollectionFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6310,11 +6550,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "collectionFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "CollectionFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6387,11 +6627,47 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "asset_bundleFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "BundleFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "collectionFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CollectionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "contractFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6411,11 +6687,95 @@
                 "deprecationReason": null
               },
               {
+                "name": "from_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "orderBy",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "EventOrderBy",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "owner_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payment_tokenFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "sellerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "to_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "txFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TransactionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "winner_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6436,11 +6796,47 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "asset_bundleFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "BundleFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "collectionFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CollectionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "contractFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ContractFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6453,6 +6849,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "EventFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "from_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6494,6 +6902,78 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
+              },
+              {
+                "name": "owner_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "payment_tokenFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "PaymentTokenFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "sellerFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "to_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "txFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TransactionFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "winner_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
               }
             ],
             "type": {
@@ -6512,18 +6992,6 @@
             "name": "paymentToken",
             "description": null,
             "args": [
-              {
-                "name": "eventsFilter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
               {
                 "name": "filter",
                 "description": null,
@@ -6561,18 +7029,6 @@
             "name": "paymentTokens",
             "description": null,
             "args": [
-              {
-                "name": "eventsFilter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
               {
                 "name": "filter",
                 "description": null,
@@ -6639,11 +7095,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6688,11 +7144,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "assetFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "AssetFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6765,18 +7221,6 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
                 "name": "filter",
                 "description": null,
                 "type": {
@@ -6789,11 +7233,35 @@
                 "deprecationReason": null
               },
               {
+                "name": "from_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "orderBy",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "TransactionOrderBy",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "to_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6814,11 +7282,11 @@
             "description": null,
             "args": [
               {
-                "name": "eventsFilter",
+                "name": "filter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "EventFilter",
+                  "name": "TransactionFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6826,11 +7294,11 @@
                 "deprecationReason": null
               },
               {
-                "name": "filter",
+                "name": "from_accountFilter",
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "TransactionFilter",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -6867,6 +7335,18 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "TransactionOrderBy",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "to_accountFilter",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "AccountFilter",
                   "ofType": null
                 },
                 "defaultValue": null,
