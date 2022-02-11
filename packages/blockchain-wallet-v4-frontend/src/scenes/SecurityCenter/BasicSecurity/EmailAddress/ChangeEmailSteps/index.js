@@ -19,11 +19,15 @@ const ChangeEmailInputWrapper = styled.div`
   margin-bottom: 20px;
   ${media.mobile`
     display: block;
-    .email-input {
-      margin-bottom: 10px;
-    }
   `};
 `
+
+const StyledField = styled(Field)`
+  ${media.mobile`
+    margin-bottom: 10px;
+  `};
+`
+
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
@@ -39,13 +43,12 @@ function ChangeEmailSteps(props) {
     <SecuritySummary>
       <ChangeEmailWrapper>
         <ChangeEmailInputWrapper>
-          <Field
+          <StyledField
             autoFocus
             name='changeEmail'
             validate={[validEmail]}
             component={TextBox}
             placeholder='email@email.com'
-            className='email-input'
           />
           <ButtonContainer>
             <Button
