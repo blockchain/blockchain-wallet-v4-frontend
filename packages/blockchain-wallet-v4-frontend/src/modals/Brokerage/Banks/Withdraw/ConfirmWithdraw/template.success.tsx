@@ -138,23 +138,6 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
             />
           )}
         </Button>
-        <Button
-          onClick={() =>
-            props.withdrawActions.setStep({
-              beneficiary: props.beneficiary,
-              fiatCurrency: props.fiatCurrency,
-              step: WithdrawStepEnum.ENTER_AMOUNT
-            })
-          }
-          data-e2e='cancelWithdrawCustody'
-          height='48px'
-          fullwidth
-          nature='light-red'
-          size='16px'
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-        </Button>
       </FlyoutWrapper>
       {props.error && !props.submitting && (
         <ErrorContainer>

@@ -31,10 +31,6 @@ const Success = (props: Props) => {
     })
   }, [])
 
-  const cancelButtonClick = useCallback(() => {
-    props.handleClose()
-  }, [])
-
   const submitButtonClick = useCallback(() => {
     setSubmitting(true)
     props.brokerageActions.createFiatDeposit()
@@ -128,18 +124,6 @@ const Success = (props: Props) => {
               }}
             />
           )}
-        </Button>
-        <Button
-          data-e2e='depositCancel'
-          disabled={submitting}
-          size='16px'
-          height='48px'
-          nature='light-red'
-          onClick={cancelButtonClick}
-          fullwidth
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </FlyoutFooter>
     </FlyoutContainer>
