@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 import { displayCoinToCoin } from '@core/exchange'
@@ -51,63 +52,67 @@ const ActiveOrders: React.FC<Props> = (props) => {
                 </Text>
               </TableCell>
             </StickyTableHeader>
-            {orders.map((order) => {
-              return (
-                <>
-                  <TableRow key={order.order_hash}>
-                    <TableCell width='40%'>
-                      <Text size='14px' weight={600}>
-                        {displayCoinToCoin({
-                          coin: order.payment_token_contract?.symbol || 'ETH',
-                          value: order.current_price
-                        })}
-                      </Text>
-                    </TableCell>
-                    <TableCell width='20%'>
-                      <Text size='14px' weight={600}>
-                        {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
-                      </Text>
-                    </TableCell>
-                    <TableCell width='20%'>
-                      <Text size='14px' weight={600}>
-                        {getType(order)}
-                      </Text>
-                    </TableCell>
-                    <TableCell width='20%' style={{ justifyContent: 'flex-end' }}>
-                      {isOwner ? (
-                        <Button
-                          small
-                          onClick={() => {
-                            nftActions.setListingToCancel({ order })
-                            nftActions.setOrderFlowStep({
-                              step: NftOrderStepEnum.CANCEL_LISTING
-                            })
-                          }}
-                          nature='primary'
-                          data-e2e='cancelListingNft'
-                        >
-                          <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
-                        </Button>
-                      ) : (
-                        <Button
-                          small
-                          onClick={() => {
-                            nftActions.setOrderToMatch({ order })
-                            nftActions.setOrderFlowStep({
-                              step: NftOrderStepEnum.BUY
-                            })
-                          }}
-                          nature='primary'
-                          data-e2e='buyNft'
-                        >
-                          <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                </>
+            {orders
+              .sort((a, b) =>
+                new BigNumber(a.current_price).isGreaterThan(b.current_price) ? 1 : -1
               )
-            })}
+              .map((order) => {
+                return (
+                  <>
+                    <TableRow key={order.order_hash}>
+                      <TableCell width='40%'>
+                        <Text size='14px' weight={600}>
+                          {displayCoinToCoin({
+                            coin: order.payment_token_contract?.symbol || 'ETH',
+                            value: order.current_price
+                          })}
+                        </Text>
+                      </TableCell>
+                      <TableCell width='20%'>
+                        <Text size='14px' weight={600}>
+                          {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
+                        </Text>
+                      </TableCell>
+                      <TableCell width='20%'>
+                        <Text size='14px' weight={600}>
+                          {getType(order)}
+                        </Text>
+                      </TableCell>
+                      <TableCell width='20%' style={{ justifyContent: 'flex-end' }}>
+                        {isOwner ? (
+                          <Button
+                            small
+                            onClick={() => {
+                              nftActions.setListingToCancel({ order })
+                              nftActions.setOrderFlowStep({
+                                step: NftOrderStepEnum.CANCEL_LISTING
+                              })
+                            }}
+                            nature='primary'
+                            data-e2e='cancelListingNft'
+                          >
+                            <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
+                          </Button>
+                        ) : (
+                          <Button
+                            small
+                            onClick={() => {
+                              nftActions.setOrderToMatch({ order })
+                              nftActions.setOrderFlowStep({
+                                step: NftOrderStepEnum.BUY
+                              })
+                            }}
+                            nature='primary'
+                            data-e2e='buyNft'
+                          >
+                            <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </>
+                )
+              })}
           </Table>
           <br />
         </>

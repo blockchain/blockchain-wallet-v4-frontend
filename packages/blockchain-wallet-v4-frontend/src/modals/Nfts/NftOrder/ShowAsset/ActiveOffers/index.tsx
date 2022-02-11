@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 import { displayCoinToCoin } from '@core/exchange'
@@ -45,47 +46,49 @@ const ActiveOffers: React.FC<Props> = (props) => {
             </TableCell>
           </StickyTableHeader>
         ) : null}
-        {offers.map((offer) => {
-          return (
-            <>
-              <TableRow key={offer.order_hash}>
-                <TableCell width='40%'>
-                  <Text size='14px' weight={600}>
-                    {displayCoinToCoin({
-                      coin: offer.payment_token_contract?.symbol || 'ETH',
-                      value: offer.current_price
-                    })}
-                  </Text>
-                </TableCell>
-                <TableCell width='25%'>
-                  <Text size='14px' weight={600}>
-                    {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
-                  </Text>
-                </TableCell>
-                <TableCell width='35%' style={{ justifyContent: 'end' }}>
-                  {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
-                    <Button
-                      small
-                      onClick={() => {
-                        nftActions.fetchFees({
-                          operation: GasCalculationOperations.AcceptOffer,
-                          order: orderFromJSON(offer)
-                        })
-                        nftActions.setOrderFlowStep({
-                          step: NftOrderStepEnum.ACCEPT_OFFER
-                        })
-                      }}
-                      nature='primary'
-                      data-e2e='acceptOfferNft'
-                    >
-                      <FormattedMessage id='button.accept' defaultMessage='Accept' />
-                    </Button>
-                  ) : null}
-                </TableCell>
-              </TableRow>
-            </>
-          )
-        })}
+        {offers
+          .sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1))
+          .map((offer) => {
+            return (
+              <>
+                <TableRow key={offer.order_hash}>
+                  <TableCell width='40%'>
+                    <Text size='14px' weight={600}>
+                      {displayCoinToCoin({
+                        coin: offer.payment_token_contract?.symbol || 'ETH',
+                        value: offer.current_price
+                      })}
+                    </Text>
+                  </TableCell>
+                  <TableCell width='25%'>
+                    <Text size='14px' weight={600}>
+                      {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
+                    </Text>
+                  </TableCell>
+                  <TableCell width='35%' style={{ justifyContent: 'end' }}>
+                    {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
+                      <Button
+                        small
+                        onClick={() => {
+                          nftActions.fetchFees({
+                            operation: GasCalculationOperations.AcceptOffer,
+                            order: orderFromJSON(offer)
+                          })
+                          nftActions.setOrderFlowStep({
+                            step: NftOrderStepEnum.ACCEPT_OFFER
+                          })
+                        }}
+                        nature='primary'
+                        data-e2e='acceptOfferNft'
+                      >
+                        <FormattedMessage id='button.accept' defaultMessage='Accept' />
+                      </Button>
+                    ) : null}
+                  </TableCell>
+                </TableRow>
+              </>
+            )
+          })}
       </Table>
       {isOwner ? null : (
         <Link
