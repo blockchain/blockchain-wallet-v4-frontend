@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import { Row, Title, Value } from 'components/Flyout/model'
@@ -13,7 +14,7 @@ import SellCTA from './Sell/cta'
 import TransferCTA from './Transfer/cta'
 
 const ShowAsset: React.FC<Props> = (props) => {
-  const { close, orderFlow } = props
+  const { close, defaultEthAddr, orderFlow } = props
 
   return (
     <>
@@ -83,18 +84,31 @@ const ShowAsset: React.FC<Props> = (props) => {
               </Row>
             ))}
             <StickyCTA>
+              {/* NOTE: val.owner.address is unreliable and can sometimes be NULL_ADDRESS */}
+              {/* The fix is to check if the walletUserIsAssetOwnerHack is true (user initiated modal from 'Your Collection' page) */}
+              {/* If that flag is true and owner addr is NULL, check the maker is or is not current user */}
               <>
                 <SellCTA {...props} asset={val} />
                 <TransferCTA {...props} asset={val} />
                 <ActiveOrders
                   {...props}
                   asset={val}
-                  orders={val.orders.filter((order) => order.maker.address === val.owner.address)}
+                  orders={val.orders.filter((order) => {
+                    return props.orderFlow.walletUserIsAssetOwnerHack &&
+                      val.owner.address === NULL_ADDRESS
+                      ? order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
+                      : order.maker.address === val.owner.address
+                  })}
                 />
                 <ActiveOffers
                   {...props}
                   asset={val}
-                  offers={val.orders.filter((order) => order.maker.address !== val.owner.address)}
+                  offers={val.orders.filter((order) => {
+                    return props.orderFlow.walletUserIsAssetOwnerHack &&
+                      val.owner.address === NULL_ADDRESS
+                      ? order.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+                      : order.maker.address !== val.owner.address
+                  })}
                 />
               </>
             </StickyCTA>

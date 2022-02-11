@@ -12,6 +12,7 @@ const Marketplace: React.FC<Props> = (props: Props) => {
     <NftPageWrapper>
       <MarketForm {...props} />
       <MarketList
+        defaultEthAddr={props.defaultEthAddr}
         slug={props.marketplace.collection?.slug || 'doodles-official'}
         nftsActions={nftsActions}
       />

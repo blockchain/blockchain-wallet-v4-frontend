@@ -20,7 +20,7 @@ const Centered = styled.div`
   gap: 8px;
 `
 
-const MarketList: React.FC<Props> = ({ nftsActions, slug }) => {
+const MarketList: React.FC<Props> = ({ defaultEthAddr, nftsActions, slug }) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetching, setIsFetching] = useState(true)
   const [error, setError] = useState<CombinedError | undefined>(undefined)
@@ -41,6 +41,7 @@ const MarketList: React.FC<Props> = ({ nftsActions, slug }) => {
                 page={page}
                 key={page}
                 slug={slug}
+                defaultEthAddr={defaultEthAddr}
                 setError={setError}
                 nftsActions={nftsActions}
                 setIsFetching={setIsFetching}
@@ -70,6 +71,6 @@ const MarketList: React.FC<Props> = ({ nftsActions, slug }) => {
   )
 }
 
-type Props = { nftsActions: OwnProps['nftsActions']; slug: string }
+type Props = { defaultEthAddr: string; nftsActions: OwnProps['nftsActions']; slug: string }
 
 export default MarketList

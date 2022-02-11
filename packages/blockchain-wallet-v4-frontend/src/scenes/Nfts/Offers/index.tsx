@@ -77,7 +77,11 @@ const Offers: React.FC<Props> = (props) => {
                 {offer.from_account.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ? (
                   <Button
                     onClick={() =>
-                      props.nftsActions.nftOrderFlowOpen({ asset: offer.asset, offer })
+                      props.nftsActions.nftOrderFlowOpen({
+                        asset: offer.asset,
+                        offer,
+                        walletUserIsAssetOwnerHack: false
+                      })
                     }
                     small
                     height='28px'
@@ -88,7 +92,11 @@ const Offers: React.FC<Props> = (props) => {
                 ) : (
                   <Button
                     onClick={() =>
-                      props.nftsActions.nftOrderFlowOpen({ asset: offer.asset, offer })
+                      props.nftsActions.nftOrderFlowOpen({
+                        asset: offer.asset,
+                        offer,
+                        walletUserIsAssetOwnerHack: false
+                      })
                     }
                     small
                     nature='primary'

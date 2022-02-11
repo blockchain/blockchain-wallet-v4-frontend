@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { NftAsset } from '@core/network/api/nfts/types'
 import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -28,6 +29,14 @@ const YourCollection: React.FC<Props> = (props) => {
       ? props.assets.list
       : props.assets.list.filter((asset) => asset.collection.slug === props.assets.collection)
 
+  const openAsset = (asset: NftAsset) => {
+    props.nftsActions.nftOrderFlowOpen({
+      asset_contract_address: asset.asset_contract.address!,
+      token_id: asset.token_id!,
+      walletUserIsAssetOwnerHack: true
+    })
+  }
+
   return (
     <NftPageWrapper>
       <CollectionForm {...props} />
@@ -37,12 +46,7 @@ const YourCollection: React.FC<Props> = (props) => {
           return (
             <Asset key={asset.token_id}>
               <ImageContainer
-                onClick={() =>
-                  props.nftsActions.nftOrderFlowOpen({
-                    asset_contract_address: asset.asset_contract.address!,
-                    token_id: asset.token_id!
-                  })
-                }
+                onClick={() => openAsset(asset)}
                 backgroundColor={`#${asset.background_color}` || '#fff'}
                 background={`url(${asset.image_url})`}
               />
@@ -93,7 +97,7 @@ const YourCollection: React.FC<Props> = (props) => {
                   fullwidth
                   data-e2e='sellNft'
                   nature='primary'
-                  onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
+                  onClick={() => openAsset(asset)}
                 >
                   <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                 </Button>

@@ -21,7 +21,14 @@ import {
 
 const MarketplaceAsset = styled(Asset)``
 
-const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetching, slug }) => {
+const ResultsPage: React.FC<Props> = ({
+  defaultEthAddr,
+  nftsActions,
+  page,
+  setError,
+  setIsFetching,
+  slug
+}) => {
   const [result] = useAssetsQuery({
     variables: {
       eventsFilter: {
@@ -46,13 +53,17 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
   return (
     <>
       {result?.data?.assets?.map((asset) => {
+        const walletUserIsAssetOwnerHack =
+          asset?.owner_address?.toLowerCase() === defaultEthAddr.toLowerCase()
+
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
             <ImageContainer
               onClick={() =>
                 nftsActions.nftOrderFlowOpen({
                   asset_contract_address: asset.contract_address!,
-                  token_id: asset.token_id!
+                  token_id: asset.token_id!,
+                  walletUserIsAssetOwnerHack
                 })
               }
               background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
@@ -120,7 +131,8 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
                 onClick={() =>
                   nftsActions.nftOrderFlowOpen({
                     asset_contract_address: asset.contract_address!,
-                    token_id: asset.token_id!
+                    token_id: asset.token_id!,
+                    walletUserIsAssetOwnerHack
                   })
                 }
               >
@@ -156,6 +168,7 @@ const ResultsPage: React.FC<Props> = ({ nftsActions, page, setError, setIsFetchi
 }
 
 type Props = {
+  defaultEthAddr: string
   nftsActions: OwnProps['nftsActions']
   page: number
   setError: (error: CombinedError | undefined) => void

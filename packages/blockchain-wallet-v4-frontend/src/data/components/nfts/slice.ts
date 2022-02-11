@@ -20,10 +20,6 @@ import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
 
-// TODO
-// remove acceptOffer, cancelListing, cancelOffer, sellOrder, transfer, orderFlow.order (clean up state when modal closed)
-// break up orderFlow (offerToCancel, activeOrder, listingToCancel, offerToAccept) by gas calc op type?
-
 const initialState: NftsStateType = {
   activeTab: 'explore',
   assets: {
@@ -63,6 +59,7 @@ const initialState: NftsStateType = {
     step: NftOrderStepEnum.SHOW_ASSET,
     // This is a hack because sometimes opensea sets the owner address
     // to NULL_ADDRESS (if contract is opensea storefront)
+    // will be fixed by explorer-gateway eventually
     walletUserIsAssetOwnerHack: false
   }
 }
@@ -258,6 +255,7 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.walletUserIsAssetOwnerHack = false
 
       state.orderFlow.isSubmitting = false
 
@@ -276,13 +274,27 @@ const nftsSlice = createSlice({
             asset_contract_address?: never
             offer: OfferEventsType['asset_events'][0]
             token_id?: never
+            walletUserIsAssetOwnerHack: boolean
           }
-        | { asset: NftAsset; asset_contract_address?: never; offer?: never; token_id?: never }
-        | { asset?: never; asset_contract_address: string; offer?: never; token_id: string }
+        | {
+            asset: NftAsset
+            asset_contract_address?: never
+            offer?: never
+            token_id?: never
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset?: never
+            asset_contract_address: string
+            offer?: never
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
       >
     ) => {
       state.orderFlow.asset = Remote.Loading
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
     },
     resetNftAssets: (state) => {
       state.assets.atBound = false

@@ -11,10 +11,14 @@ import { StickyTableHeader } from '../../../components'
 import { Props as OwnProps } from '../..'
 
 const ActiveOrders: React.FC<Props> = (props) => {
-  const { asset, defaultEthAddr, nftActions, orders } = props
+  const { asset, defaultEthAddr, nftActions, orderFlow, orders } = props
+
+  const isOwner =
+    asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ||
+    orderFlow.walletUserIsAssetOwnerHack
 
   const getType = (order) => {
-    return order.sale_kind === 1 ? 'Descending' : order.extra !== '0' ? 'Ascending' : 'Fixed'
+    return order.sale_kind === 1 ? 'Desc' : order.extra !== '0' ? 'Asc' : 'Fixed'
   }
 
   return (
@@ -70,7 +74,7 @@ const ActiveOrders: React.FC<Props> = (props) => {
                       </Text>
                     </TableCell>
                     <TableCell width='20%' style={{ justifyContent: 'flex-end' }}>
-                      {asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase() ? (
+                      {isOwner ? (
                         <Button
                           small
                           onClick={() => {
