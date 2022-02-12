@@ -15,6 +15,7 @@ export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
 export const LeftColWrapper = styled.div`
   position: sticky;
+  margin-right: 2em;
   height: 100%;
   top: 64px;
   overflow: scroll;
@@ -22,7 +23,7 @@ export const LeftColWrapper = styled.div`
   z-index: 1;
   ${media.atLeastTabletL`
   top: 72px;
-  max-width: 550px;
+  max-width: 625px;
   width: 60%;
 `} > form {
     ${media.tabletL`
@@ -85,6 +86,15 @@ const PriceHistoryTitle = styled(AssetName)`
   line-height: 135%;
   padding: 2em 0em 2em 0em;
 `
+
+const PriceHistory = styled(PriceHistoryTitle)`
+  height: 340px;
+  background: #f0f2f7;
+  border: 1px solid #dfe3eb;
+  box-sizing: border-box;
+  border-radius: 8px;
+`
+
 const CurrentPriceBox = styled.div`
   width: 436px;
   height: 156px;
@@ -102,6 +112,10 @@ const HighestBid = styled.div`
   color: #677184;
 `
 
+const DetailsBidHistory = styled(HighestBid)`
+  font-size: 24px;
+  color: #121d33;
+`
 const EthText = styled(HighestBid)`
   font-size: 24px;
   display: flex;
@@ -110,7 +124,36 @@ const EthText = styled(HighestBid)`
   padding: 0.5em;
 `
 
+const CreatorOwnerBox = styled(CurrentPriceBox)`
+  height: 84px;
+  display: flex;
+`
+
+const CreatorOwnerLeft = styled(LeftColWrapper)`
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #677184;
+  border: unset;
+  padding: 1em;
+  }
+`
+
+const CreatorOwnerAddress = styled(CreatorOwnerLeft)`
+  padding: 1em, 0rem, 1em, 0rem;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 150%;
+  color: #121d33;
+  overflow: hidden;
+}
+`
+
+const CreatorOwnerRight = styled(CreatorOwnerLeft)``
+
 const Divider = styled.div`
+  margin-bottom: 2em;
   position: static;
   width: 727px;
   height: 1px;
@@ -129,6 +172,23 @@ const Description = styled.div`
   color: #677184;
 `
 
+// const Traits = styled.div`
+//   display: grid;
+//   grid-template-columns: 25% 25% 25% 25%;
+//   padding: 25px;
+//   font-family: Inter;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 12px;
+//   line-height: 16px;
+// `
+
+const Traits = styled.div`
+  padding-top: 4em;
+`
+
+const AdditionalDetails = styled(Traits)``
+
 const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
@@ -140,7 +200,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
       <LeftColWrapper>
         <img
           alt='Asset Logo'
-          height='50%'
+          height='60%'
           width='auto'
           style={{
             border: '1px solid #dfe3eb',
@@ -153,6 +213,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         />
         <PriceHistoryTitle>Price History</PriceHistoryTitle>
         <Divider />
+        <PriceHistory />
       </LeftColWrapper>
       <RightColWrapper>
         <CollectionName>
@@ -174,6 +235,45 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             ETH
           </EthText>
         </CurrentPriceBox>
+        <DetailsBidHistory>TO-DO: Details Bids History</DetailsBidHistory>
+        <CreatorOwnerBox>
+          <CreatorOwnerLeft>
+            Creator
+            <CreatorOwnerAddress>
+              <img
+                alt='Creator Logo'
+                height='30px'
+                width='auto'
+                style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+                src={asset?.data?.asset?.creator?.profile_img_url || ''}
+              />
+              {asset?.data?.asset?.creator?.address}
+            </CreatorOwnerAddress>
+          </CreatorOwnerLeft>
+          <CreatorOwnerRight>
+            Owner
+            <CreatorOwnerAddress>
+              <img
+                alt='Owner Logo'
+                height='30px'
+                width='auto'
+                style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+                src={asset?.data?.asset?.owner?.profile_img_url || ''}
+              />{' '}
+              {asset?.data?.asset?.owner?.address}
+            </CreatorOwnerAddress>
+          </CreatorOwnerRight>
+        </CreatorOwnerBox>
+        <Traits>
+          <div>TRAITS TO-DO: {JSON.stringify(asset?.data?.asset?.traits)}</div>
+        </Traits>
+        <AdditionalDetails>
+          <div>TO-DO: Additional Details WILL GO HERE</div>
+          <div>Contract Address {asset?.data?.asset?.contract_address}</div>
+          <div>Token ID {asset?.data?.asset?.token_id}</div>
+          <div>Token Standard ERC 721</div>
+          <div>Blockchain ETH</div>
+        </AdditionalDetails>
       </RightColWrapper>
     </>
   )
