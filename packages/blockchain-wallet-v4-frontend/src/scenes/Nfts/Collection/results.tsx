@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { useAssetsQuery } from 'generated/graphql'
 
 import { Props as OwnProps } from '..'
 import {
@@ -25,8 +25,8 @@ const ResultsPage: React.FC<Props> = ({
   defaultEthAddr,
   nftsActions,
   page,
-  setError,
-  setIsFetching,
+  setIsFetchingNextPage,
+  setNextPageFetchError,
   slug
 }) => {
   const [result] = useAssetsQuery({
@@ -43,11 +43,11 @@ const ResultsPage: React.FC<Props> = ({
   })
 
   useEffect(() => {
-    setError(result.error)
+    setNextPageFetchError(result.error)
   }, [result.error])
 
   useEffect(() => {
-    setIsFetching(result.fetching)
+    setIsFetchingNextPage(result.fetching)
   }, [result.fetching])
 
   return (
@@ -171,8 +171,8 @@ type Props = {
   defaultEthAddr: string
   nftsActions: OwnProps['nftsActions']
   page: number
-  setError: (error: CombinedError | undefined) => void
-  setIsFetching: (isFetching: boolean) => void
+  setIsFetchingNextPage: (isFetching: boolean) => void
+  setNextPageFetchError: (error: CombinedError | undefined) => void
   slug: string
 }
 

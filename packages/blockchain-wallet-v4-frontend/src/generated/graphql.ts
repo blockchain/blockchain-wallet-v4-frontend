@@ -1045,6 +1045,13 @@ export type AssetsQueryVariables = Exact<{
 
 export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', id?: string | null, event_type?: string | null, starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
 
+export type CollectionQueryVariables = Exact<{
+  filter?: InputMaybe<CollectionFilter>;
+}>;
+
+
+export type CollectionQuery = { __typename?: 'Query', collection?: { __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date?: string | null, name?: string | null } | null };
+
 import { IntrospectionQuery } from 'graphql';
 export default {
   "__schema": {
@@ -4363,4 +4370,24 @@ export const AssetsDocument = gql`
 
 export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVariables>, 'query'>) {
   return Urql.useQuery<AssetsQuery>({ query: AssetsDocument, ...options });
+};
+export const CollectionDocument = gql`
+    query Collection($filter: CollectionFilter) {
+  collection(filter: $filter) {
+    chat_url
+    discord_url
+    external_url
+    instagram_username
+    image_url
+    banner_image_url
+    short_description
+    description
+    created_date
+    name
+  }
+}
+    `;
+
+export function useCollectionQuery(options?: Omit<Urql.UseQueryArgs<CollectionQueryVariables>, 'query'>) {
+  return Urql.useQuery<CollectionQuery>({ query: CollectionDocument, ...options });
 };

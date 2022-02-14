@@ -6,12 +6,11 @@ import { media } from 'services/styles'
 
 export const maxWidth = '1200px'
 
-export const NftPageWrapper = styled.div`
-  display: flex;
+export const NftPage = styled.div`
   width: 100%;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
+  max-width: ${maxWidth};
+  margin: 0 auto;
+  position: relative;
 `
 
 export const LeftColWrapper = styled.div`
@@ -56,21 +55,13 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 `
 
 export const Grid = styled.div`
-  max-width: ${maxWidth};
-  ${media.atLeastTabletL`
-    width: 75%;
-  `}
-  > div:first-child {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow: scroll;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: scroll;
+  gap: 20px;
+  margin-bottom: 20px;
   ${media.atLeastLaptopL`
-    > div:first-child {
       grid-template-columns: repeat(3, minmax(0, 1fr));  
-    }
   `}
 `
 
@@ -129,7 +120,8 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 `
 
 // collection
-export const Collection = styled.div`
+export const Collection = styled.div<{ onClick: () => void }>`
+  cursor: pointer;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -139,8 +131,8 @@ export const Collection = styled.div`
   border: ${(props) => `1px solid ${props.theme.grey100}`};
 `
 
-export const CollectionBanner = styled.div<{ background?: string }>`
-  height: 74px;
+export const CollectionBanner = styled.div<{ background?: string; large?: boolean }>`
+  height: ${(props) => (props.large ? '180px' : '74px')};
   overflow: hidden;
   position: relative;
   background-size: cover;
@@ -151,9 +143,15 @@ export const CollectionBanner = styled.div<{ background?: string }>`
 
 export const CollectionImage = styled.img`
   border-radius: 50%;
+  position: absolute;
   height: 62px;
   width: 62px;
-  position: absolute;
   top: 60px;
   left: calc(50% - 31px);
+  ${media.tabletL`
+    height: 40px;
+    width: 40px;
+    top: 74px;
+    left: calc(50% - 20px);
+  `}
 `

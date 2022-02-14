@@ -1,19 +1,15 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { NftPage } from './components'
 import Explore from './Explore'
 import NftHeader from './Header'
 import Offers from './Offers'
 import YourCollection from './YourCollection'
-
-const NftPage = styled.div`
-  width: 100%;
-`
 
 const Nfts: React.FC<Props> = (props) => {
   const setActiveTab = (tab: 'explore' | 'my-collection' | 'offers') => {

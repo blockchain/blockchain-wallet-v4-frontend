@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { Form, SelectBox, TextBox } from 'components/Form'
+import { media, useMedia } from 'services/styles'
 import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
@@ -19,14 +20,22 @@ const Wrapper = styled.div`
   z-index: 3;
   margin-bottom: 16px;
   background: ${(props) => props.theme.white};
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
+
 const InnerContainer = styled.div`
   max-width: ${maxWidth};
-  padding: 8px 0px 8px 0px;
+  ${media.atLeastTabletL`
+    align-items: center;
+    margin: 0 auto;
+    `}
+  ${media.tabletL`
+    align-items: flex-start;
+    flex-direction: column;
+  `}
+  padding: 8px 0px 16px 0px;
   background: ${(props) => props.theme.white};
-  margin-bottom: 8px;
-  align-items: center;
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+  margin-bottom: 8px !important;
   display: flex;
   gap: 24px;
 `
@@ -44,6 +53,10 @@ const StyledForm = styled(Form)`
   > div {
     min-width: 200px;
     max-width: 400px;
+    ${media.tabletL`
+      min-width: 49%;
+      max-width: 49%;
+    `}
   }
 `
 
@@ -150,6 +163,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               name='sortBy'
               height='45px'
               component={SelectBox}
+              size='12px'
               elements={[
                 {
                   group: '',
@@ -160,11 +174,11 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     }),
                     [
                       { text: 'Volume: High to Low', value: 'one_day_vol-DESC' },
-                      { text: 'Volume: Low to High', value: 'one_day_vol-ASC' },
-                      { text: 'Floor Price: High to Low', value: 'floor_price-DESC' },
-                      { text: 'Floor Price: Low to High', value: 'floor_price-ASC' },
-                      { text: 'Avg. Price: High to Low', value: 'average_price-DESC' },
-                      { text: 'Avg. Price: Low to High', value: 'average_price-ASC' }
+                      { text: 'Volume: Low to High', value: 'one_day_vol-ASC' }
+                      // { text: 'Floor Price: High to Low', value: 'floor_price-DESC' },
+                      // { text: 'Floor Price: Low to High', value: 'floor_price-ASC' },
+                      // { text: 'Avg. Price: High to Low', value: 'average_price-DESC' },
+                      // { text: 'Avg. Price: Low to High', value: 'average_price-ASC' }
                     ]
                   )
                 }
