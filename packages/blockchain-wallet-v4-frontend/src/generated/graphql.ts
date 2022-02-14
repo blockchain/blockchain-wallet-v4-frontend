@@ -1033,7 +1033,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, contract_address?: string | null, permalink?: string | null, token_id?: string | null, traits?: Array<{ __typename?: 'Trait', trait_type?: string | null, value?: string | null, max_value?: string | null } | null> | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', name?: string | null, description?: string | null, image_url?: string | null } | null } | null };
+export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, contract_address?: string | null, permalink?: string | null, token_id?: string | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', name?: string | null, description?: string | null, image_url?: string | null } | null, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null } | null };
 
 export type AssetsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -4321,9 +4321,6 @@ export const AssetDocument = gql`
   asset(filter: $filter) {
     name
     image_url
-    traits {
-      trait_type
-    }
     owner {
       address
       profile_img_url

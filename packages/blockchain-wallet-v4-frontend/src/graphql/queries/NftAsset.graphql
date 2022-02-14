@@ -2,9 +2,6 @@ query Asset($filter: AssetFilter) {
   asset(filter: $filter) {
     name
     image_url
-    traits {
-      trait_type
-    }
     owner {
       address
       profile_img_url
