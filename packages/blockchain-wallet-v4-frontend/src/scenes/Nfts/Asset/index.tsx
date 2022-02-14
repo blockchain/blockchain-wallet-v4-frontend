@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { Button, Icon, Link, SpinningLoader } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -97,10 +97,10 @@ const PriceHistory = styled(PriceHistoryTitle)`
 `
 
 const CurrentPriceBox = styled.div`
-  height: 156px;
   border: 1px solid #dfe3eb;
   box-sizing: border-box;
   border-radius: 8px;
+  padding: 1em;
 `
 const HighestBid = styled.div`
   padding: 1em;
@@ -186,7 +186,6 @@ const Traits = styled.div`
   max-width: 100%;
   grid-gap: 10px;
   grid-auto-flow: column;
-  height: 150px;
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
@@ -245,7 +244,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           <HighestBid>Highest Bid</HighestBid>
           <EthText>
             <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-            ETH
+            2.25 ETH ($8,809.20)
           </EthText>
           <Button
             data-e2e='openNftFlow'
@@ -307,8 +306,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               {asset?.data?.asset?.traits?.length // @ts-ignore
                 ? asset?.data?.asset?.traits.map((traits, index) => (
                     // eslint-disable-next-line react/no-array-index-key
-                    <div key={index}>
-                      Type: {traits?.trait_type}, Value: {traits?.value}
+                    <div key={index} style={{ display: 'flex' }}>
+                      <Text capitalize style={{ padding: '1em' }}>
+                        <b>{traits?.trait_type}:</b>
+                      </Text>
+                      <Text capitalize style={{ padding: '1em' }}>
+                        {traits?.value}
+                      </Text>
                     </div>
                   ))
                 : null}
