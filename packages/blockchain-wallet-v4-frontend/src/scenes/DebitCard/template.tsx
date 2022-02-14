@@ -10,7 +10,7 @@ import {
   SceneSubHeaderText
 } from 'components/Layout'
 
-import { IntroCardWrapper, Wrapper } from './template.style'
+import { IntroCardWrapper, Wrapper } from './model'
 
 const OrderMyCardBtn = () => (
   <div style={{ marginTop: '32px' }}>

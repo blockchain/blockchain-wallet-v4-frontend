@@ -109,10 +109,10 @@ const Navigation = (props: OwnProps & Props) => {
         <LinkContainer to='/debitCard' activeClassName='active'>
           <MenuItem data-e2e='debitCardLink'>
             <DebitCardNavItem />
-            <NewCartridge>
+            <NewCartridge style={{ textTransform: 'uppercase' }}>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.debit_card.order'
-                defaultMessage='ORDER'
+                defaultMessage='order'
               />
             </NewCartridge>
           </MenuItem>
