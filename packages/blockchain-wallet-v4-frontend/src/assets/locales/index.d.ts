@@ -2375,6 +2375,7 @@ type MessagesType = {
   'scenes.login.wallet.mobile_app_login.title': 'Log In with Mobile App'
   'scenes.login.wallet.mobile_login.description_one': 'Scan this QR code with the Blockchain.com mobile app.'
   'scenes.login.wallet.mobile_login.description': 'Tap the QR code icon at the top right corner of the app.'
+  'scenes.login.wallet.mobile_login.notification': 'Ensure that notifications are enabled for the Blockchain.com app.'
   'scenes.login.wallet.connected.send_it_again': 'Send Again'
   'scenes.login.wallet.connected.add_a_new_device': 'Add a New Device'
   'scenes.login.welcome': 'Welcome back!'
