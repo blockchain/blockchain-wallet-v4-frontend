@@ -155,6 +155,11 @@ const Navbar = ({
 
   const tertiaryNavItems = [
     {
+      copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
+      'data-e2e': 'settings_generalLink',
+      to: '/tax-center'
+    },
+    {
       copy: <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
       'data-e2e': 'settings_generalLink',
       to: '/settings/general'

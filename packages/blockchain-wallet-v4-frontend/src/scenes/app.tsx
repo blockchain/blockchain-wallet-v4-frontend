@@ -51,6 +51,7 @@ const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const Nfts = React.lazy(() => import('./Nfts'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
+const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
@@ -111,6 +112,7 @@ const App = ({
                     <WalletLayout path='/nfts' component={Nfts} />
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     <WalletLayout path='/security-center' component={SecurityCenter} />
+                    <WalletLayout path='/tax-center' component={TaxCenter} />
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
