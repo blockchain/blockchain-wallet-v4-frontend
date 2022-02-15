@@ -1,7 +1,38 @@
 query Asset($filter: AssetFilter) {
   asset(filter: $filter) {
     name
+    description
+    num_sales
+    background_color
     image_url
+    image_preview_url
+    image_thumbnail_url
+    image_original_url
+    animation_url
+    animation_original_url
+    external_link
+    permalink
+    decimals
+    token_metadata
+    transfer_fee
+    is_presale
+    supports_wyvern
+    events {
+      auction_type,
+      bid_amount,
+      contract_address,
+      duration,
+      ending_price,
+      event_type,
+      id,
+      is_private,
+      quantity,
+      starting_price,
+      total_price,
+      created_date,
+      listing_time,
+      custom_event_name
+    }
     owner {
       address
       profile_img_url
@@ -12,13 +43,47 @@ query Asset($filter: AssetFilter) {
     }
     animation_original_url
     collection {
-      name
-      description
-      image_url
+      slug,
+      name,
+      short_description,
+      description,
+      editors,
+      banner_image_url,
+      chat_url,
+      default_to_fiat,
+      discord_url,
+      external_url,
+      featured,
+      featured_image_url,
+      hidden,
+      safelist_request_status,
+      image_url,
+      is_subject_to_whitelist,
+      large_image_url,
+      medium_username,
+      only_proxied_transfers,
+      payout_address,
+      require_email,
+      telegram_url,
+      twitter_username,
+      instagram_username,
+      wiki_url,
+      dev_buyer_fee_basis_points,
+      dev_seller_fee_basis_points,
+      opensea_buyer_fee_basis_points,
+      opensea_seller_fee_basis_points,
+      created_date,
+      buyer_fee_basis_points,
+      seller_fee_basis_points
     }
-    animation_url
     contract_address
-    permalink
+    collection_slug
+    owner_address
+    creator_address
+    asset_bundle_slug
+    transfer_fee_payment_token_id
+    listing_date
+    date_ingested
     token_id
     traits {
       value
