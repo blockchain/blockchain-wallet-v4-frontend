@@ -61,7 +61,7 @@ const ContentContainer = styled.div`
   margin: 0 16px;
 `
 
-const PublicLayoutContainer = ({
+const AuthLayoutContainer = ({
   authProduct,
   component: Component,
   exact = false,
@@ -111,4 +111,4 @@ type Props = ConnectedProps<typeof connector> & {
   path: string
 }
 
-export default connector(PublicLayoutContainer)
+export default connector(AuthLayoutContainer)

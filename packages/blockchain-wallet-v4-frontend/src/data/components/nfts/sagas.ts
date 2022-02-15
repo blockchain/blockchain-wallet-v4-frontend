@@ -52,7 +52,6 @@ export default ({ api }: { api: APIType }) => {
 
   const clearAndRefetchOrders = function* () {
     yield put(A.resetNftOrders())
-    yield put(A.fetchNftOrders())
   }
 
   const clearAndRefetchOffersMade = function* () {
@@ -136,81 +135,6 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftOffersMadeFailure(error))
-    }
-  }
-
-  // TODO: clean up w/ v2 endpoint from explorer-gateway
-  const fetchNftOrders = function* () {
-    try {
-      const marketplace = S.getMarketplace(yield select())
-      if (!marketplace.collection) throw new Error('Must select a collection')
-
-      yield put(A.fetchNftOrdersLoading())
-
-      // get recent events for the collection
-      const { asset_events } = yield call(
-        api.getNftRecentEvents,
-        marketplace.collection.slug,
-        marketplace.page
-      )
-      // map events to token_ids
-      const token_ids: string[] = asset_events.map((e) => e.asset?.token_id).filter(Boolean)
-      // how many token_ids are the same?
-      const non_unique_token_ids_map = {}
-      let non_unique_token_ids = 0
-      for (let i = 0; i < token_ids.length; i += 1) {
-        if (non_unique_token_ids_map[token_ids[i]]) {
-          non_unique_token_ids += 1
-        } else {
-          non_unique_token_ids_map[token_ids[i]] = 1
-        }
-      }
-      // get previously queried token_ids
-      const { token_ids_queried } = marketplace
-      // uniquify old and new token_ids
-      const new_unique_token_ids = [...new Set(token_ids)].filter(
-        (id) => !token_ids_queried.includes(id)
-      )
-
-      // fetch nfts for new token_ids
-      const nfts: ReturnType<typeof api.getNftOrders> = yield call(
-        api.getNftOrders,
-        NFT_ORDER_PAGE_LIMIT,
-        marketplace.collection.collection_data.primary_asset_contracts[0]
-          ? marketplace.collection.collection_data.primary_asset_contracts[0].address
-          : OPENSEA_SHARED_MARKETPLACE,
-        new_unique_token_ids.join(',')
-      )
-
-      const nextPage = marketplace.page + 1 + non_unique_token_ids
-      // when there are no more unique token_ids, we are done
-      const atBound = new_unique_token_ids.every((id) => token_ids_queried.includes(id))
-      // update marketplace state
-      yield put(
-        A.setMarketplaceData({
-          atBound,
-          page: nextPage,
-          token_ids_queried: new_unique_token_ids.concat(token_ids_queried)
-        })
-      )
-      // map orders to order objects
-      const orders = nfts.orders.map(orderFromJSON).reduce((prev, curr) => {
-        const prevOrder = prev.find((order) => order.asset?.tokenId === curr.asset?.tokenId)
-
-        // if order already exists, use cheapest order
-        if (prevOrder) {
-          return prevOrder.basePrice < curr.basePrice
-            ? prev
-            : [...prev.filter((order) => order.asset?.tokenId !== curr.asset?.tokenId), curr]
-        }
-
-        return [...prev, curr]
-      }, [] as ReturnType<typeof orderFromJSON>[])
-      // set orders to state
-      yield put(A.fetchNftOrdersSuccess(orders))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftOrdersFailure(error))
     }
   }
 
@@ -447,7 +371,6 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
-      yield put(A.fetchNftOrders())
       yield put(A.setActiveTab('my-collection'))
       yield put(
         actions.alerts.displaySuccess(
@@ -581,7 +504,6 @@ export default ({ api }: { api: APIType }) => {
           collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res
         })
       )
-      yield put(A.fetchNftOrders())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(error))
@@ -590,7 +512,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const formChanged = function* (action) {
-    if (action.meta.form === 'nftMarketplace') {
+    if (action.meta.form === 'nftSearch') {
       if (action.meta.field === 'sortBy') {
         yield put(
           A.fetchNftCollections({
@@ -598,30 +520,6 @@ export default ({ api }: { api: APIType }) => {
             sortBy: action.payload.split('-')[0] as keyof ExplorerGatewayNftCollectionType
           })
         )
-      }
-      if (action.meta.field === 'collection') {
-        try {
-          yield put(A.resetNftOrders())
-          const { res } = yield race({
-            formChanged: take(actionTypes.form.CHANGE),
-            res: call(api.getNftCollectionInfo, action.payload)
-          })
-          if (res) {
-            yield put(
-              A.setMarketplaceData({
-                atBound: false,
-                // @ts-ignore
-                collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
-                page: 1,
-                token_ids_queried: []
-              })
-            )
-            yield put(A.fetchNftOrders())
-          }
-        } catch (e) {
-          const error = errorHandler(e)
-          yield put(actions.logs.logErrorMessage(error))
-        }
       }
     }
     if (action.meta.form === 'nftCollection') {
@@ -736,7 +634,6 @@ export default ({ api }: { api: APIType }) => {
     fetchNftAssets,
     fetchNftCollections,
     fetchNftOffersMade,
-    fetchNftOrders,
     fetchOpenseaStatus,
     formChanged,
     formInitialized,

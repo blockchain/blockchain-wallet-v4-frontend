@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import { map } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { Form, SelectBox, TextBox } from 'components/Form'
+import { media, useMedia } from 'services/styles'
 import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
+import { maxWidth } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 
 const Wrapper = styled.div`
@@ -15,12 +18,24 @@ const Wrapper = styled.div`
   display: inline-block;
   width: 100%;
   z-index: 3;
-`
-const InnerContainer = styled.div`
-  padding: 8px 0px 8px 0px;
+  margin-bottom: 16px;
   background: ${(props) => props.theme.white};
-  margin-bottom: 8px;
-  align-items: center;
+`
+
+const InnerContainer = styled.div`
+  max-width: ${maxWidth};
+  ${media.atLeastTabletL`
+    align-items: center;
+    margin: 0 auto;
+    `}
+  ${media.tabletL`
+    align-items: flex-start;
+    flex-direction: column;
+  `}
+  padding: 8px 0px 16px 0px;
+  background: ${(props) => props.theme.white};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+  margin-bottom: 8px !important;
   display: flex;
   gap: 24px;
 `
@@ -31,11 +46,17 @@ const TabsContainer = styled.div`
 
 const StyledForm = styled(Form)`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   position: relative;
   gap: 8px;
   > div {
+    min-width: 200px;
     max-width: 400px;
+    ${media.tabletL`
+      min-width: 49%;
+      max-width: 49%;
+    `}
   }
 `
 
@@ -89,6 +110,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           <Field
             placeholder='Search Collections'
             name='search'
+            height='45px'
             onFocus={() => setShowDropdown(true)}
             onBlur={() => setShowDropdown(false)}
             onChange={debounce((_, val) => {
@@ -136,6 +158,33 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               />
             ) : null}
           </CollectionsContainer>
+          <div>
+            <Field
+              name='sortBy'
+              height='45px'
+              component={SelectBox}
+              size='12px'
+              elements={[
+                {
+                  group: '',
+                  items: map(
+                    (item) => ({
+                      text: item.text,
+                      value: item.value
+                    }),
+                    [
+                      { text: 'Volume: High to Low', value: 'one_day_vol-DESC' },
+                      { text: 'Volume: Low to High', value: 'one_day_vol-ASC' }
+                      // { text: 'Floor Price: High to Low', value: 'floor_price-DESC' },
+                      // { text: 'Floor Price: Low to High', value: 'floor_price-ASC' },
+                      // { text: 'Avg. Price: High to Low', value: 'average_price-DESC' },
+                      // { text: 'Avg. Price: Low to High', value: 'average_price-ASC' }
+                    ]
+                  )
+                }
+              ]}
+            />
+          </div>
         </StyledForm>
       </InnerContainer>
     </Wrapper>
@@ -147,4 +196,7 @@ type Props = OwnProps & {
   setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
 }
 
-export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)
+export default reduxForm<{}, Props>({
+  form: 'nftSearch',
+  initialValues: { sortBy: 'one_day_vol-DESC' }
+})(NftHeader)

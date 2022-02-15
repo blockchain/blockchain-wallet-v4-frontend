@@ -272,11 +272,7 @@ export interface OpenSeaCollection extends OpenSeaFees {
 }
 
 export interface CollectionData {
-  collection_data: {
-    primary_asset_contracts: {
-      address: string
-      total_supply: number
-    }[]
+  collection_data: NftAsset['collection'] & {
     stats: Stats
   }
   name: string
@@ -767,6 +763,7 @@ export type OfferEventsType = {
 export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string
   average_price: string
+  collection_data: CollectionData['collection_data']
   count: number
   created_timestamp: string
   floor_price: string

@@ -12,7 +12,8 @@ import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
-import PublicLayout from 'layouts/Public'
+import AuthLayout from 'layouts/Auth'
+import ExploreLayout from 'layouts/Explore'
 import WalletLayout from 'layouts/Wallet'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
 import { utmParser } from 'middleware/analyticsMiddleware/utils'
@@ -21,7 +22,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import PublicLoading from './loading.public'
+import AuthLoading from './loading.auth'
 import WalletLoading from './loading.wallet'
 
 // PUBLIC
@@ -50,7 +51,7 @@ const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const Nfts = React.lazy(() => import('./Nfts'))
+const Nfts = React.lazy(() => import('./Nfts/Explore'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
@@ -72,7 +73,7 @@ const App = ({
   userData,
   walletConnectEnabled
 }: Props) => {
-  const Loading = isAuthenticated ? WalletLoading : PublicLoading
+  const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
   useEffect(() => {
     const utm = utmParser(window.location.hash)
@@ -92,33 +93,33 @@ const App = ({
                 <ConnectedRouter history={history}>
                   <Suspense fallback={<Loading />}>
                     <Switch>
-                      <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
-                      <PublicLayout path='/help' component={Help} />
-                      <PublicLayout path='/help-exchange' component={HelpExchange} />
-                      <PublicLayout path='/login' component={Login} />
-                      <PublicLayout path='/logout' component={Logout} />
-                      <PublicLayout path='/mobile-login' component={MobileLogin} />
-                      <PublicLayout path='/recover' component={RecoverWallet} />
-                      <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
-                      <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                      <PublicLayout path='/signup' component={Signup} />
-                      <PublicLayout path='/verify-email' component={VerifyEmailToken} />
-                      <PublicLayout
+                      <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
+                      <AuthLayout path='/help' component={Help} />
+                      <AuthLayout path='/help-exchange' component={HelpExchange} />
+                      <AuthLayout path='/login' component={Login} />
+                      <AuthLayout path='/logout' component={Logout} />
+                      <AuthLayout path='/mobile-login' component={MobileLogin} />
+                      <AuthLayout path='/recover' component={RecoverWallet} />
+                      <AuthLayout path='/reset-2fa' component={ResetWallet2fa} />
+                      <AuthLayout path='/reset-two-factor' component={ResetWallet2faToken} />
+                      <AuthLayout path='/signup' component={Signup} />
+                      <AuthLayout path='/verify-email' component={VerifyEmailToken} />
+                      <AuthLayout
                         path='/upload-document/success'
                         component={UploadDocumentsSuccess}
                         exact
                       />
-                      <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
-                      <PublicLayout path='/wallet' component={Login} />
-                      <PublicLayout path='/verify-email-step' component={VerifyEmail} />
+                      <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
+                      <AuthLayout path='/wallet' component={Login} />
+                      <AuthLayout path='/verify-email-step' component={VerifyEmail} />
+                      <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
+                      <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
+                      <ExploreLayout path='/nfts' exact component={Nfts} />
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
                       <WalletLayout path='/rewards' component={Interest} exact />
                       <WalletLayout path='/rewards/history' component={InterestHistory} />
-                      <WalletLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
-                      <WalletLayout path='/nfts/:slug' exact component={NftsCollection} />
-                      <WalletLayout path='/nfts' exact component={Nfts} />
                       <WalletLayout path='/lockbox' component={Lockbox} />
                       <WalletLayout path='/security-center' component={SecurityCenter} />
                       <WalletLayout path='/settings/addresses' component={Addresses} />
