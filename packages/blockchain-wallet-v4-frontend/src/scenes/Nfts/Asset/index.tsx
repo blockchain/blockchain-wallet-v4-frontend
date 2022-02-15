@@ -69,11 +69,11 @@ export const MoreAssets = styled.div`
 `
 
 const CollectionName = styled.div`
-  padding-top: 1em;
+  padding-bottom: 1em;
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 40px;
   line-height: 150%;
   display: flex;
   align-items: left;
@@ -85,7 +85,7 @@ const AssetName = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 30px;
   line-height: 125%;
   display: flex;
   align-items: left;
@@ -145,13 +145,13 @@ const CreatorOwnerBox = styled(CurrentPriceBox)`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 20px;
 }
 `
 
 const CreatorOwnerAddress = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   line-height: 150%;
   color: #121d33;
   overflow: hidden;
@@ -173,7 +173,7 @@ const Description = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 24px;
   color: #677184;
 `
@@ -185,7 +185,7 @@ const TraitsWrapper = styled(CurrentPriceBox)`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   color: #677184;
 }
 `
@@ -199,7 +199,7 @@ const Traits = styled.div`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 20px;
 }
 `
@@ -241,18 +241,21 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         <PriceHistory />
       </LeftColWrapper>
       <RightColWrapper>
+        <Divider />
         <CollectionName>
           <img
             alt='Dapp Logo'
-            height='30px'
+            height='50px'
             width='auto'
             style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
             src={asset?.data?.asset?.collection?.image_url || ''}
           />
           {asset?.data?.asset?.collection?.name}
         </CollectionName>
+        <Divider />
         <AssetName>{asset?.data?.asset?.name}</AssetName>
         <Description>{asset?.data?.asset?.collection?.description}</Description>
+        <Divider />
         <CurrentPriceBox>
           <HighestBid>Highest Bid</HighestBid>
           <EthText>
@@ -336,11 +339,17 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           Additional Details
           <AdditionalDetails>
             <div style={{ padding: '1em' }}>
-              Contract Address: {asset?.data?.asset?.contract_address}
+              <b>Contract Address:</b> {asset?.data?.asset?.contract_address}
             </div>
-            <div style={{ padding: '1em' }}>Token ID: {asset?.data?.asset?.token_id}</div>
-            <div style={{ padding: '1em' }}>Token Standard: ERC 721</div>
-            <div style={{ padding: '1em' }}>Blockchain: ETH</div>
+            <div style={{ padding: '1em' }}>
+              <b>Token ID:</b> {asset?.data?.asset?.token_id}
+            </div>
+            <div style={{ padding: '1em' }}>
+              <b>Token Standard:</b> ERC 721
+            </div>
+            <div style={{ padding: '1em' }}>
+              <b>Blockchain:</b> ETH
+            </div>
           </AdditionalDetails>
         </AdditionalDetailsWrapper>
       </RightColWrapper>
