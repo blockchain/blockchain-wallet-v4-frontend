@@ -171,6 +171,7 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
+  userType?: string
 }
 
 export type AuthStateType = {

@@ -78,6 +78,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
+    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
@@ -116,11 +117,19 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // exchange institutional login
+        // exchange sso login
         case exchangeAuthUrl !== undefined:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
-        // exchange sso login
+        // temp change to test poc
+        case userType === 'institutional':
+          window.open(
+            `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
+        // exchange institutional login
         default:
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
@@ -590,13 +599,14 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
-      const userType = queryParams.get('userType')
+      const userType = queryParams.get('userType') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: redirect || undefined
+          redirect: redirect || undefined,
+          userType
         })
       )
 

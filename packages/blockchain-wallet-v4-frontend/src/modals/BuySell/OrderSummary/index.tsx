@@ -161,7 +161,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
           <OrderSummary
             baseAmount={getBaseAmount(order)}
             baseCurrency={getBaseCurrency(order)}
-            counterAmount={`${currencySymbol}${getCounterAmount(order)}`}
+            counterAmount={getCounterAmount(order)}
             currencySymbol={currencySymbol}
             handleClose={this.props.handleClose}
             handleCompleteButton={this.handleCompleteButton}

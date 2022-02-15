@@ -35,7 +35,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const isKycNotFinished = function* () {
     yield call(waitForUserData)
-    return (yield select(selectors.modules.profile.getUserKYCState))
+    return selectors.modules.profile
+      .getUserKYCState(yield select())
       .map(equals(NONE))
       .getOrElse(false)
   }
@@ -758,8 +759,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runEntitiesMigrationGoal = function* (goal: GoalType) {
-    yield call(fetchUser)
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
     yield call(waitForUserData)
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -773,7 +774,7 @@ export default ({ api, coreSagas, networks }) => {
       state: 'NONE',
       tiers: { current: 0 }
     } as UserDataType)
-    const announcementState = yield select(selectors.cache.getLastAnnouncementState)
+    const announcementState = selectors.cache.getLastAnnouncementState(yield select())
     const showModal =
       !announcementState ||
       !announcementState['entities-migration'] ||
