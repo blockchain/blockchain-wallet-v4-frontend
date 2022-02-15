@@ -11,7 +11,8 @@ const initialState = {
   lastEmail: undefined,
   lastGuid: undefined,
   lastLogoutTimestamp: undefined,
-  mobileConnected: undefined
+  mobileConnected: undefined,
+  unifiedAccount: undefined
 }
 
 const cacheSlice = createSlice({
@@ -61,6 +62,7 @@ const cacheSlice = createSlice({
     },
     removeExchangeLogin: (state) => {
       state.exchangeEmail = undefined
+      state.unifiedAccount = undefined
     },
     removeStoredLogin: (state) => {
       state.exchangeEmail = undefined
@@ -69,6 +71,7 @@ const cacheSlice = createSlice({
       state.lastGuid = undefined
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
+      state.unifiedAccount = undefined
     },
     removeWalletLogin: (state) => {
       state.guidStored = undefined
@@ -76,6 +79,9 @@ const cacheSlice = createSlice({
       state.lastGuid = undefined
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
+    },
+    setUnifiedAccount: (state, action) => {
+      state.unifiedAccount = action.payload
     }
   }
 })

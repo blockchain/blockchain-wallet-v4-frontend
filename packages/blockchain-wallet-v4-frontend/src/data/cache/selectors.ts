@@ -22,6 +22,8 @@ export const getHasCloudBackup = (state): boolean | undefined =>
   path(['cache', 'hasCloudBackup'], state)
 export const getLastLogoutTimestamp = (state): boolean | undefined =>
   path(['cache', 'lastLogoutTimestamp'], state)
+export const getUnifiedAccountStatus = (state): boolean | undefined =>
+  path(['cache', 'unifiedAccount'], state)
 
 export const getChannelPrivKeyForQrData = (state) => {
   const channelPrivKey = getChannelPrivKey(state)

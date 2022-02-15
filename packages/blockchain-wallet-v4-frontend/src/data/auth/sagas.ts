@@ -273,10 +273,14 @@ export default ({ api, coreSagas, networks }) => {
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
-    let session = yield select(selectors.session.getSession, guid, email)
+    let session =
+      product === ProductAuthOptions.EXCHANGE
+        ? yield select(selectors.session.getSession, undefined, exchangeEmail)
+        : yield select(selectors.session.getSession, guid, email)
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
       yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
@@ -288,7 +292,11 @@ export default ({ api, coreSagas, networks }) => {
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
-        yield put(actions.session.saveSession(assoc(guid, session, {})))
+        yield put(
+          actions.session.saveSession(
+            assoc(product === ProductAuthOptions.EXCHANGE ? exchangeEmail : guid, session, {})
+          )
+        )
       }
       if (emailToken) {
         yield call(
@@ -704,6 +712,8 @@ export default ({ api, coreSagas, networks }) => {
       step,
       upgradeAccountPassword
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const authType = yield select(selectors.auth.getAuthType)
     const language = yield select(selectors.preferences.getLanguage)
     const product = yield select(S.getProduct)
@@ -746,6 +756,20 @@ export default ({ api, coreSagas, networks }) => {
       } else if (step === LoginSteps.ENTER_PASSWORD_WALLET || step === LoginSteps.TWO_FA_WALLET) {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+        )
+      } else if (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) {
+        // exchange login but it is a unified account
+        // so it's using wallet login under the hood
+        // create a new saga that logs into the wallet and retrieves
+        // the jwt token underneath
+        yield put(
+          actions.auth.login({
+            code: auth,
+            exchangePassword,
+            guid,
+            mobileLogin: null,
+            sharedKey: null
+          })
         )
       } else if (step === LoginSteps.UPGRADE_PASSWORD) {
         yield put(

@@ -54,34 +54,35 @@ export const parseMagicLink = function* () {
     // CREATED FROM UNIFIED SIGN UP
     if (unifiedAccountLogin) {
       if (unified) {
+        yield put(actions.cache.setUnifiedAccount(true))
         yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
       }
     }
 
     // THESE ARE THE MERGE AND UPGRADE FLOWS
     // showMergeAndUpradeFlows is the feature flag
-    if (showMergeAndUpradeFlows) {
-      if (!unified && (mergeable || upgradeable)) {
-        if (productAuth === ProductAuthOptions.WALLET && mergeable) {
-          // send them to wallet password screen
-          yield put(
-            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE)
-          )
-        }
-        if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
-          // send them to exchange password screen
-          yield put(
-            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
-          )
-        }
-        if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
-          // send them to exchange password screen
-          yield put(
-            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
-          )
-        }
-      }
-    }
+    // if (showMergeAndUpradeFlows) {
+    //   if (!unified && (mergeable || upgradeable)) {
+    //     if (productAuth === ProductAuthOptions.WALLET && mergeable) {
+    //       // send them to wallet password screen
+    //       yield put(
+    //         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE)
+    //       )
+    //     }
+    //     if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
+    //       // send them to exchange password screen
+    //       yield put(
+    //         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
+    //       )
+    //     }
+    //     if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
+    //       // send them to exchange password screen
+    //       yield put(
+    //         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
+    //       )
+    //     }
+    //   }
+    // }
 
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
@@ -119,8 +120,16 @@ export const parseMagicLink = function* () {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // set state with all exchange login information
-        yield put(actions.cache.exchangeEmail(exchangeData?.email))
-        yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
+        // if account isn't unified, email for login is in exchangeData
+        // if account is unified, exchange data is embedded within walletData
+        yield put(actions.cache.exchangeEmail(exchangeData?.email || walletData?.exchange.email))
+        yield put(
+          actions.form.change(
+            LOGIN_FORM,
+            'exchangeEmail',
+            exchangeData?.email || walletData?.exchange.email
+          )
+        )
         if (walletData) {
           yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
