@@ -20,18 +20,19 @@ export type PrimaryNavItem = {
   text: string | React.ReactNode
 }
 
-const NavContainer = styled.div`
+export const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   background-color: ${colors.white1};
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0 22px;
   border-bottom: 1px solid ${colors.grey100};
   height: 56px;
 `
 
-const Logo = styled.div`
+export const Logo = styled.div`
   display: flex;
   align-items: center;
 
@@ -43,12 +44,12 @@ const Logo = styled.div`
   }
 `
 
-const NavLeft = styled.div`
+export const NavLeft = styled.div`
   display: flex;
   align-items: stretch;
 `
 
-const NavRight = styled.div`
+export const NavRight = styled.div`
   display: flex;
   align-items: stretch;
 `

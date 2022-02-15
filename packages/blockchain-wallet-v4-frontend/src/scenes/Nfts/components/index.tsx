@@ -9,8 +9,9 @@ export const maxWidth = '1200px'
 export const NftPage = styled.div`
   width: 100%;
   max-width: ${maxWidth};
-  margin: 0 auto;
+  margin: 20px auto;
   position: relative;
+  background: ${(props) => props.theme.white};
 `
 
 export const LeftColWrapper = styled.div`
@@ -88,7 +89,6 @@ export const InfoStatsWrapper = styled.div`
 export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
-  onClick: () => void
 }>`
   align-items: center;
   display: flex;

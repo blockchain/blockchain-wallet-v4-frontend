@@ -108,14 +108,26 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
     }
   }, [])
 
+  const scrollUp = () => {
+    wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
+    setShowFixedHeader(false)
+  }
+
   return (
     <NftPage ref={wrapperRef}>
       {showFixedHeader ? (
         <CollectionHeaderFixed>
           <div style={{ alignItems: 'center', display: 'flex' }}>
-            <LinkContainer cursor='pointer' to='/nfts'>
-              <Icon name={IconName.ARROW_LEFT} color={colors.grey600} />
+            <LinkContainer role='button' cursor='pointer' to='/nfts'>
+              <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
             </LinkContainer>
+            <Icon
+              cursor='pointer'
+              onClick={scrollUp}
+              name={IconName.ARROW_UP}
+              color={colors.grey400}
+              role='button'
+            />
             <CollectionImageSmall src={results.data?.collection?.image_url || ''} />{' '}
             <Text size='14px' weight={500} color='grey900'>
               {results.data?.collection?.name}
@@ -125,11 +137,11 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
       ) : null}
       <CollectionHeader ref={headerRef}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
-          <LinkContainer cursor='pointer' to='/nfts'>
+          <LinkContainer role='button' cursor='pointer' to='/nfts'>
             <Icon
               style={{ marginBottom: '8px' }}
               name={IconName.ARROW_LEFT}
-              color={colors.grey600}
+              color={colors.grey400}
             />
           </LinkContainer>
           <CollectionBanner
@@ -168,9 +180,7 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
                 page={page}
                 key={page}
                 slug={slug}
-                defaultEthAddr={defaultEthAddr}
                 setNextPageFetchError={setNextPageFetchError}
-                nftsActions={nftsActions}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />
             ))
