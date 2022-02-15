@@ -11,6 +11,7 @@ query Assets($limit: Int, $filter: AssetFilter, $eventsFilter: EventFilter, $off
     }
     events(filter: $eventsFilter) {
       id
+      contract_address
       event_type
       starting_price
       payment_token {

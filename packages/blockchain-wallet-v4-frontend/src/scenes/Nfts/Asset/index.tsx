@@ -354,9 +354,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         <div>
           {assets?.data?.assets?.length // @ts-ignore
             ? assets?.data?.assets?.map((asset, index) => {
-                const link = `${'/nfts/'}${'0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/'}${
-                  asset?.token_id
-                }`
+                const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
                 return (
                   <LinkContainer
                     // eslint-disable-next-line react/no-array-index-key

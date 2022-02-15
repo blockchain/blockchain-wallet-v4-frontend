@@ -1043,7 +1043,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', id?: string | null, event_type?: string | null, starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
+export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', id?: string | null, contract_address?: string | null, event_type?: string | null, starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -4365,6 +4365,7 @@ export const AssetsDocument = gql`
     }
     events(filter: $eventsFilter) {
       id
+      contract_address
       event_type
       starting_price
       payment_token {
