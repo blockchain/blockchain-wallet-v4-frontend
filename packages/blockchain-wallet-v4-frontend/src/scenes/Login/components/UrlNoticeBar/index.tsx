@@ -37,13 +37,13 @@ const UrlNoticeBar = () => (
   <Wrapper className='url-notice-bar'>
     <StyledText color='white' size={SIZE} weight={500}>
       <FormattedMessage
-        id='scenes.login.urlnoticebar.text'
+        id='scenes.login.url_notice_bar.text'
         defaultMessage='Check that the URL is correct.'
       />
     </StyledText>
     <Link color='white' size={SIZE} weight={700} href={BC_URL}>
       <StyledIcon name='padlock' color='white' size='12px' />
-      <FormattedMessage id='scenes.login.urlnoticebar.url' defaultMessage={BC_URL} />
+      <FormattedMessage id='scenes.login.url_notice_bar.url' defaultMessage={BC_URL} />
     </Link>
   </Wrapper>
 )
