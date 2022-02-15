@@ -305,9 +305,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               src={asset?.data?.asset?.creator?.profile_img_url || ''}
             />
             <CreatorOwnerAddress>
-              <AddressDisplay>
-                <div>{asset?.data?.asset?.creator?.address}</div>
-              </AddressDisplay>
+              <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
             </CreatorOwnerAddress>
           </div>
           <div style={{ color: '#677184', paddingLeft: '1em', paddingTop: '1.5em' }}>Owner</div>

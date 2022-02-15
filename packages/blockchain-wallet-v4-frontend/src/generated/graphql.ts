@@ -1033,7 +1033,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, description?: string | null, num_sales?: number | null, background_color?: string | null, image_url?: string | null, image_preview_url?: string | null, image_thumbnail_url?: string | null, image_original_url?: string | null, animation_url?: string | null, animation_original_url?: string | null, external_link?: string | null, permalink?: string | null, decimals?: number | null, token_metadata?: string | null, transfer_fee?: string | null, is_presale?: boolean | null, supports_wyvern?: boolean | null, contract_address?: string | null, collection_slug?: string | null, owner_address?: string | null, creator_address?: string | null, asset_bundle_slug?: string | null, transfer_fee_payment_token_id?: number | null, listing_date?: string | null, date_ingested?: string | null, token_id?: string | null, events?: Array<{ __typename?: 'Event', auction_type?: string | null, bid_amount?: string | null, contract_address?: string | null, duration?: number | null, ending_price?: string | null, event_type?: string | null, id?: string | null, is_private?: boolean | null, quantity?: number | null, starting_price?: string | null, total_price?: string | null, created_date?: string | null, listing_time?: string | null, custom_event_name?: string | null } | null> | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', slug?: string | null, name?: string | null, short_description?: string | null, description?: string | null, editors?: string | null, banner_image_url?: string | null, chat_url?: string | null, default_to_fiat?: boolean | null, discord_url?: string | null, external_url?: string | null, featured?: boolean | null, featured_image_url?: string | null, hidden?: boolean | null, safelist_request_status?: string | null, image_url?: string | null, is_subject_to_whitelist?: boolean | null, large_image_url?: string | null, medium_username?: string | null, only_proxied_transfers?: boolean | null, payout_address?: string | null, require_email?: boolean | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, dev_buyer_fee_basis_points?: string | null, dev_seller_fee_basis_points?: string | null, opensea_buyer_fee_basis_points?: string | null, opensea_seller_fee_basis_points?: string | null, created_date?: string | null, buyer_fee_basis_points?: string | null, seller_fee_basis_points?: string | null } | null, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null } | null };
+export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, contract_address?: string | null, permalink?: string | null, token_id?: string | null, events?: Array<{ __typename?: 'Event', event_type?: string | null } | null> | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', name?: string | null, description?: string | null, image_url?: string | null } | null, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null } | null };
 
 export type AssetsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -4320,37 +4320,9 @@ export const AssetDocument = gql`
     query Asset($filter: AssetFilter) {
   asset(filter: $filter) {
     name
-    description
-    num_sales
-    background_color
     image_url
-    image_preview_url
-    image_thumbnail_url
-    image_original_url
-    animation_url
-    animation_original_url
-    external_link
-    permalink
-    decimals
-    token_metadata
-    transfer_fee
-    is_presale
-    supports_wyvern
     events {
-      auction_type
-      bid_amount
-      contract_address
-      duration
-      ending_price
       event_type
-      id
-      is_private
-      quantity
-      starting_price
-      total_price
-      created_date
-      listing_time
-      custom_event_name
     }
     owner {
       address
@@ -4362,47 +4334,13 @@ export const AssetDocument = gql`
     }
     animation_original_url
     collection {
-      slug
       name
-      short_description
       description
-      editors
-      banner_image_url
-      chat_url
-      default_to_fiat
-      discord_url
-      external_url
-      featured
-      featured_image_url
-      hidden
-      safelist_request_status
       image_url
-      is_subject_to_whitelist
-      large_image_url
-      medium_username
-      only_proxied_transfers
-      payout_address
-      require_email
-      telegram_url
-      twitter_username
-      instagram_username
-      wiki_url
-      dev_buyer_fee_basis_points
-      dev_seller_fee_basis_points
-      opensea_buyer_fee_basis_points
-      opensea_seller_fee_basis_points
-      created_date
-      buyer_fee_basis_points
-      seller_fee_basis_points
     }
+    animation_url
     contract_address
-    collection_slug
-    owner_address
-    creator_address
-    asset_bundle_slug
-    transfer_fee_payment_token_id
-    listing_date
-    date_ingested
+    permalink
     token_id
     traits {
       value
