@@ -20,7 +20,7 @@ import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
-import { loginSceneFooter } from './components/LoginSceneFooter'
+import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
@@ -164,6 +164,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       walletTabClicked: this.walletTabClicked
     }
 
+    const { isMobileViewLogin } = loginProps
+
     return (
       <>
         {/* CONTENT */}
@@ -173,13 +175,33 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.INSTITUTIONAL_PORTAL:
                 return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                return <EnterPasswordExchange {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <EnterPasswordExchange {...loginProps} />
+                  </>
+                )
               case LoginSteps.ENTER_PASSWORD_WALLET:
-                return <EnterPasswordWallet {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <EnterPasswordWallet {...loginProps} />
+                  </>
+                )
               case LoginSteps.TWO_FA_EXCHANGE:
-                return <TwoFAExchange {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <TwoFAExchange {...loginProps} />
+                  </>
+                )
               case LoginSteps.TWO_FA_WALLET:
-                return <TwoFAWallet {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <TwoFAWallet {...loginProps} />
+                  </>
+                )
               case LoginSteps.CHECK_EMAIL:
                 return <CheckEmail {...loginProps} />
               case LoginSteps.VERIFY_MAGIC_LINK:
@@ -193,16 +215,19 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
-                  <ExchangeEnterEmail {...loginProps} />
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <ExchangeEnterEmail {...loginProps} />
+                  </>
                 ) : (
-                  <WalletEnterEmailOrGuid {...loginProps} />
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <WalletEnterEmailOrGuid {...loginProps} />
+                  </>
                 )
             }
           })()}
         </Form>
-
-        {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && loginSceneFooter(step)}
       </>
     )
   }
