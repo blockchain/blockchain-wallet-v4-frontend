@@ -374,7 +374,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           borderRadius: '10%',
                           borderWidth: '1px',
                           marginBottom: '0.5rem',
-                          padding: '2em'
+                          padding: '10px'
                         }}
                         src={asset?.image_url || ''}
                       />
