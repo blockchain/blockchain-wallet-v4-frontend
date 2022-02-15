@@ -164,6 +164,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       walletTabClicked: this.walletTabClicked
     }
 
+    const { isMobileViewLogin } = loginProps
+
     return (
       <>
         {/* CONTENT */}
@@ -175,28 +177,28 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
                 return (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <EnterPasswordExchange {...loginProps} />
                   </>
                 )
               case LoginSteps.ENTER_PASSWORD_WALLET:
                 return (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <EnterPasswordWallet {...loginProps} />
                   </>
                 )
               case LoginSteps.TWO_FA_EXCHANGE:
                 return (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <TwoFAExchange {...loginProps} />
                   </>
                 )
               case LoginSteps.TWO_FA_WALLET:
                 return (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <TwoFAWallet {...loginProps} />
                   </>
                 )
@@ -214,12 +216,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <ExchangeEnterEmail {...loginProps} />
                   </>
                 ) : (
                   <>
-                    {!loginProps.isMobileViewLogin && <UrlNoticeBar />}
+                    {!isMobileViewLogin && <UrlNoticeBar />}
                     <WalletEnterEmailOrGuid {...loginProps} />
                   </>
                 )

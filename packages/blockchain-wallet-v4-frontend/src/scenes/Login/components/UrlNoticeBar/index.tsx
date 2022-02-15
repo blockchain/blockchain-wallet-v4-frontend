@@ -3,15 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { isMobile, media } from 'services/styles'
+import { media } from 'services/styles'
 
 const BACKGROUND_COLOR = '#0C6CF2'
 const FONT_COLOR = 'white'
-const SIZE = isMobile() ? '12px' : '14px'
 const BC_URL = 'https://login.blockchain.com'
 
 const Wrapper = styled.div`
-  padding: 4px 16px;
+  padding: 0.25rem 1rem;
   background: ${BACKGROUND_COLOR};
   color: ${FONT_COLOR};
   position: absolute;
@@ -20,31 +19,42 @@ const Wrapper = styled.div`
   left: 0;
   text-align: center;
   ${media.mobile`
-    padding: 5px 0;
+    padding: 0.25rem 0;
   `}
 `
 
 const StyledText = styled(Text)`
   display: inline;
+  font-size: 0.875rem;
+  ${media.mobile`
+    font-size: 0.75rem;
+  `}
+`
+
+const StyledLink = styled(Link)`
+  font-size: 0.875rem;
+  ${media.mobile`
+    font-size: 0.75rem;
+  `}
 `
 
 const StyledIcon = styled(Icon)`
   display: inline;
-  margin: 0 4px 0 0;
+  margin: 0 0.25rem 0 0;
 `
 
 const UrlNoticeBar = () => (
   <Wrapper className='url-notice-bar'>
-    <StyledText color='white' size={SIZE} weight={500}>
+    <StyledText color='white' weight={500}>
       <FormattedMessage
         id='scenes.login.url_notice_bar.text'
         defaultMessage='Check that the URL is correct.'
       />
     </StyledText>
-    <Link color='white' size={SIZE} weight={700} href={BC_URL}>
+    <StyledLink color='white' weight={700} href={BC_URL}>
       <StyledIcon name='padlock' color='white' size='12px' />
       <FormattedMessage id='scenes.login.url_notice_bar.url' defaultMessage={BC_URL} />
-    </Link>
+    </StyledLink>
   </Wrapper>
 )
 
