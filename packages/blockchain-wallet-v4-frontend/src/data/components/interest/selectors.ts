@@ -1,7 +1,7 @@
-import { createSelector } from '@reduxjs/toolkit'
-import { isEmpty, union } from 'ramda'
+import { isEmpty, lift, union } from 'ramda'
 
-import { FiatType, InterestInstrumentsType, RatesType, RemoteDataType } from '@core/types'
+import { ExtractSuccess, FiatType, RatesType, RemoteDataType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -19,27 +19,34 @@ export const getInterestInstruments = (state: RootState) => state.components.int
 
 // If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
-export const getInstrumentsSortedByBalance = createSelector(
+export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getInterestInstruments,
   getInterestAccountBalance,
-  (insturmentsR, balancesR) => {
-    const balances = balancesR.getOrElse({})
-    const instruments = insturmentsR.getOrElse([]) as InterestInstrumentsType
-    if (instruments === []) return instruments
+  (
+    instrumentsR: ReturnType<typeof getInterestInstruments>,
+    balancesR: ReturnType<typeof getInterestAccountBalance>
+  ) => {
+    const transform = (
+      instruments: ExtractSuccess<typeof instrumentsR>,
+      balances: ExtractSuccess<typeof balancesR>
+    ) => {
+      if (isEmpty(instruments)) return []
+      let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC']
+      if (!isEmpty(balances)) {
+        preferredCoins = union(Object.keys(balances), preferredCoins)
+      }
 
-    let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC']
-    if (!isEmpty(balances)) {
-      preferredCoins = union(Object.keys(balances), preferredCoins)
+      preferredCoins.forEach((coin) => {
+        const coinIndex = instruments.indexOf(coin)
+        if (coinIndex !== -1) {
+          instruments.splice(coinIndex, 1)
+        }
+      })
+
+      return [...preferredCoins, ...instruments]
     }
 
-    preferredCoins.forEach((coin) => {
-      const coinIndex = instruments.indexOf(coin)
-      if (coinIndex !== -1) {
-        instruments.splice(coinIndex, 1)
-      }
-    })
-
-    return [...preferredCoins, ...instruments]
+    return lift(transform)(instrumentsR, balancesR)
   }
 )
 

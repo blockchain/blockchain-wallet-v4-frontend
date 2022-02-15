@@ -86,7 +86,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   interestEligible: RemoteDataType<string, InterestEligibleType>
-  sortedInstruments: ReturnType<typeof selectors.components.interest.getInstrumentsSortedByBalance>
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

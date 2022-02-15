@@ -97,7 +97,7 @@ class Interest extends React.PureComponent<Props, StateType> {
               <ContainerStyled>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
-                  this.props.sortedInstruments.map((instrument) => {
+                  val.sortedInstruments.map((instrument) => {
                     return window.coins[instrument] ? (
                       <SummaryCard
                         {...val}
@@ -119,8 +119,7 @@ class Interest extends React.PureComponent<Props, StateType> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state),
-  sortedInstruments: selectors.components.interest.getInstrumentsSortedByBalance(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -137,11 +136,11 @@ export type SuccessStateType = {
   interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
+  sortedInstruments: Array<CoinType>
   userData: UserDataType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  sortedInstruments: Array<CoinType>
 }
 export type LinkDispatchPropsType = {
   idvActions: typeof actions.components.identityVerification
