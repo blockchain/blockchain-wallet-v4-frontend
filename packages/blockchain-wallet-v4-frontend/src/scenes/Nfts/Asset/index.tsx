@@ -73,7 +73,7 @@ const CollectionName = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 16px;
   line-height: 150%;
   display: flex;
   align-items: left;
@@ -85,7 +85,7 @@ const AssetName = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 40px;
   line-height: 125%;
   display: flex;
   align-items: left;
@@ -145,13 +145,13 @@ const CreatorOwnerBox = styled(CurrentPriceBox)`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
   line-height: 20px;
 }
 `
 
 const CreatorOwnerAddress = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   line-height: 150%;
   color: #121d33;
   overflow: hidden;
@@ -173,7 +173,7 @@ const Description = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 24px;
   color: #677184;
 `
@@ -185,7 +185,7 @@ const TraitsWrapper = styled(CurrentPriceBox)`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
   color: #677184;
 }
 `
@@ -199,9 +199,18 @@ const Traits = styled.div`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
   line-height: 20px;
 }
+`
+
+const AddressDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+  hyphens: none;
 `
 
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
@@ -245,7 +254,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         <CollectionName>
           <img
             alt='Dapp Logo'
-            height='50px'
+            height='30px'
             width='auto'
             style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
             src={asset?.data?.asset?.collection?.image_url || ''}
@@ -298,7 +307,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               src={asset?.data?.asset?.creator?.profile_img_url || ''}
             />
             <CreatorOwnerAddress>
-              <div>{asset?.data?.asset?.creator?.address}</div>
+              <AddressDisplay>
+                <div>{asset?.data?.asset?.creator?.address}</div>
+              </AddressDisplay>
             </CreatorOwnerAddress>
           </div>
           <div style={{ color: '#677184', paddingLeft: '1em', paddingTop: '1.5em' }}>Owner</div>
@@ -311,7 +322,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               src={asset?.data?.asset?.owner?.profile_img_url || ''}
             />{' '}
             <CreatorOwnerAddress>
-              <div>{asset?.data?.asset?.owner?.address}</div>
+              <AddressDisplay>
+                <div>{asset?.data?.asset?.owner?.address}</div>
+              </AddressDisplay>
             </CreatorOwnerAddress>
           </div>
         </CreatorOwnerBox>
