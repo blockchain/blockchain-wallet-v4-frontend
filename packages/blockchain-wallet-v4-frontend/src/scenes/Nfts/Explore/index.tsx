@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { colors, Icon as IconV2, IconName } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 

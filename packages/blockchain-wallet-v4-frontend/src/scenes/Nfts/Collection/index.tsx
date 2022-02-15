@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { Button, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { useCollectionQuery } from 'generated/graphql'
@@ -56,6 +56,24 @@ const CollectionImageSmall = styled.img`
   height: 30px;
   width: 30px;
   margin-right: 8px;
+`
+
+const LinksContainer = styled.div`
+  background: ${colors.grey100};
+  border-radius: 40px;
+  display: inline-flex;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 6px 12px;
+  a {
+    line-height: 1;
+  }
+  a:hover {
+    path {
+      fill: ${colors.blue600};
+      transition: fill 0.3s;
+    }
+  }
 `
 
 const Centered = styled.div`
@@ -162,6 +180,26 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
               -
             </Text>
           </TextGroup>
+          <LinksContainer>
+            {results.data?.collection?.external_url ? (
+              <Link target='_blank' href={results.data?.collection?.external_url}>
+                <Icon name={IconName.GLOBE} color={colors.grey400} />
+              </Link>
+            ) : null}
+            {results.data?.collection?.instagram_username ? (
+              <Link
+                target='_blank'
+                href={`https://instagram.com/${results.data?.collection?.instagram_username}`}
+              >
+                <Icon name={IconName.CAMERA} color={colors.grey400} />
+              </Link>
+            ) : null}
+            {results.data?.collection?.discord_url ? (
+              <Link target='_blank' href={`${results.data?.collection?.discord_url}`}>
+                <Icon name={IconName.COMPUTER} color={colors.grey400} />
+              </Link>
+            ) : null}
+          </LinksContainer>
           <Text
             lineHeight='1.4'
             style={{ marginTop: '16px' }}
