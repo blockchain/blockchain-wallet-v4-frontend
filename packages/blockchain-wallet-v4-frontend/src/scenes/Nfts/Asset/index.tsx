@@ -205,12 +205,10 @@ const Traits = styled.div`
 `
 
 const AddressDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
   text-overflow: ellipsis;
-  hyphens: none;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 150px;
 `
 
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
@@ -322,9 +320,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               src={asset?.data?.asset?.owner?.profile_img_url || ''}
             />{' '}
             <CreatorOwnerAddress>
-              <AddressDisplay>
-                <div>{asset?.data?.asset?.owner?.address}</div>
-              </AddressDisplay>
+              <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
             </CreatorOwnerAddress>
           </div>
         </CreatorOwnerBox>
@@ -352,7 +348,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           Additional Details
           <AdditionalDetails>
             <div style={{ padding: '1em' }}>
-              <b>Contract Address:</b> {asset?.data?.asset?.contract_address}
+              <b>Contract Address:</b>
+              <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
             </div>
             <div style={{ padding: '1em' }}>
               <b>Token ID:</b> {asset?.data?.asset?.token_id}
