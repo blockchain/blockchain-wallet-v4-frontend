@@ -283,14 +283,14 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               })
             }
           >
-            {/* {asset?.data?.asset?.events &&
+            {asset?.data?.asset?.events &&
             asset?.data?.asset?.events[0] &&
             asset?.data?.asset?.events &&
             asset?.data?.asset?.events[0].event_type === 'created' ? (
               <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-            ) : ( */}
-            <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-            {/* )} */}
+            ) : (
+              <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+            )}
           </Button>
         </CurrentPriceBox>
         <DetailsBidHistory>Details</DetailsBidHistory>
