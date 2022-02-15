@@ -2396,6 +2396,8 @@ type MessagesType = {
   'scenes.login.recovery_options.phrase': 'Restore your account with your 12-word Secret Private key Recovery Phrase.'
   'scenes.login.reset_your_account': 'Reset your account'
   'scenes.login.reset_your_account.arrow': 'Reset your account ->'
+  'scenes.login.urlnoticebar.text': 'Check that the URL is correct.'
+  'scenes.login.urlnoticebar.url': 'https://login.blockchain.com'
   'scenes.logout.deauth': 'De-Authorize Browser'
   'scenes.logout.message': 'Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.'
   'scenes.logout.title': 'You are now logged out!'
