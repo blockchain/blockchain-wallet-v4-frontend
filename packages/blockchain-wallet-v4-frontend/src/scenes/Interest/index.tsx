@@ -10,7 +10,7 @@ import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@
 import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { UserDataType } from 'data/types'
 
 import IneligibilityCard from './IneligibilityCard'
@@ -97,7 +97,7 @@ class Interest extends React.PureComponent<Props, StateType> {
               <ContainerStyled>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
-                  val.instruments.map((instrument) => {
+                  this.props.sortedInstruments.map((instrument) => {
                     return window.coins[instrument] ? (
                       <SummaryCard
                         {...val}
@@ -119,7 +119,8 @@ class Interest extends React.PureComponent<Props, StateType> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  sortedInstruments: selectors.components.interest.getInstrumentsSortedByBalance(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -133,7 +134,6 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  instruments: Array<CoinType>
   interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
@@ -141,6 +141,7 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  sortedInstruments: Array<CoinType>
 }
 export type LinkDispatchPropsType = {
   idvActions: typeof actions.components.identityVerification

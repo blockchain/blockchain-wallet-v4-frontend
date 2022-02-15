@@ -1,4 +1,7 @@
-import { FiatType, RatesType, RemoteDataType } from '@core/types'
+import { createSelector } from '@reduxjs/toolkit'
+import { isEmpty, union } from 'ramda'
+
+import { FiatType, InterestInstrumentsType, RatesType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -13,6 +16,32 @@ export const getIsAmountDisplayedInCrypto = (state: RootState) =>
 export const getInterestEligible = (state: RootState) => state.components.interest.interestEligible
 
 export const getInterestInstruments = (state: RootState) => state.components.interest.instruments
+
+// If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
+// If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
+export const getInstrumentsSortedByBalance = createSelector(
+  getInterestInstruments,
+  getInterestAccountBalance,
+  (insturments, balances) => {
+    const remoteBalances = balances.getOrElse({})
+    const remoteInstruments = insturments.getOrElse([]) as InterestInstrumentsType
+    if (remoteInstruments === []) return []
+
+    let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC', 'abc123']
+    if (!isEmpty(remoteBalances)) {
+      preferredCoins = union(Object.keys(remoteBalances), preferredCoins)
+    }
+
+    preferredCoins.forEach((coin) => {
+      const coinIndex = remoteInstruments.indexOf(coin)
+      if (coinIndex !== -1) {
+        remoteInstruments.splice(coinIndex, 1)
+      }
+    })
+
+    return [...preferredCoins, ...remoteInstruments]
+  }
+)
 
 export const getInterestLimits = (state: RootState) => state.components.interest.interestLimits
 
