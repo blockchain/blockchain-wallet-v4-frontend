@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { NftOrderStepEnum } from 'blockchain-wallet-v4-frontend/src/data/components/nfts/types'
-import { useAssetQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
@@ -15,6 +16,7 @@ import { media } from 'services/styles'
 export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
 export const LeftColWrapper = styled.div`
+  min-width: 600px;
   position: sticky;
   margin-right: 2em;
   height: 100%;
@@ -56,6 +58,14 @@ export const RightColWrapper = styled.div`
     }
   `}
   }
+`
+
+export const MoreAssets = styled.div`
+  width: 20%;
+  position: sticky;
+  height: 100%;
+  top: 64px;
+  overflow: scroll;
 `
 
 const CollectionName = styled.div`
@@ -207,6 +217,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const [asset] = useAssetQuery({
     variables: { filter: { contract_address: contract, token_id: id } }
   })
+  const [assets] = useAssetsQuery({
+    variables: { filter: { contract_address: contract } }
+  })
   return (
     <>
       <LeftColWrapper>
@@ -331,6 +344,49 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           </AdditionalDetails>
         </AdditionalDetailsWrapper>
       </RightColWrapper>
+      <MoreAssets>
+        <Text
+          capitalize
+          style={{ fontWeight: 'bold', padding: '1em', textDecoration: 'underline' }}
+        >
+          More from this collection...
+        </Text>
+        <div>
+          {assets?.data?.assets?.length // @ts-ignore
+            ? assets?.data?.assets?.map((asset, index) => {
+                const link = `${'/nfts/'}${'0x8a90cab2b38dba80c64b7734e58ee1db38b8992e/'}${
+                  asset?.token_id
+                }`
+                return (
+                  <LinkContainer
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                    to={link}
+                  >
+                    <div style={{ display: 'flex' }}>
+                      <Text capitalize style={{ padding: '1em' }}>
+                        <b>{asset?.name}:</b>
+                      </Text>
+                      <img
+                        alt='Asset Logo'
+                        height='200px'
+                        width='auto'
+                        style={{
+                          border: '1px solid #dfe3eb',
+                          borderRadius: '10%',
+                          borderWidth: '1px',
+                          marginBottom: '0.5rem',
+                          padding: '2em'
+                        }}
+                        src={asset?.image_url || ''}
+                      />
+                    </div>
+                  </LinkContainer>
+                )
+              })
+            : null}
+        </div>
+      </MoreAssets>
     </>
   )
 }
