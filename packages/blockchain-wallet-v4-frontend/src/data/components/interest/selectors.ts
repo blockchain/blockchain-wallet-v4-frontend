@@ -22,24 +22,24 @@ export const getInterestInstruments = (state: RootState) => state.components.int
 export const getInstrumentsSortedByBalance = createSelector(
   getInterestInstruments,
   getInterestAccountBalance,
-  (insturments, balances) => {
-    const remoteBalances = balances.getOrElse({})
-    const remoteInstruments = insturments.getOrElse([]) as InterestInstrumentsType
-    if (remoteInstruments === []) return []
+  (insturmentsR, balancesR) => {
+    const balances = balancesR.getOrElse({})
+    const instruments = insturmentsR.getOrElse([]) as InterestInstrumentsType
+    if (instruments === []) return instruments
 
-    let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC', 'abc123']
-    if (!isEmpty(remoteBalances)) {
-      preferredCoins = union(Object.keys(remoteBalances), preferredCoins)
+    let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC']
+    if (!isEmpty(balances)) {
+      preferredCoins = union(Object.keys(balances), preferredCoins)
     }
 
     preferredCoins.forEach((coin) => {
-      const coinIndex = remoteInstruments.indexOf(coin)
+      const coinIndex = instruments.indexOf(coin)
       if (coinIndex !== -1) {
-        remoteInstruments.splice(coinIndex, 1)
+        instruments.splice(coinIndex, 1)
       }
     })
 
-    return [...preferredCoins, ...remoteInstruments]
+    return [...preferredCoins, ...instruments]
   }
 )
 
