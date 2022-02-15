@@ -17,7 +17,7 @@ import { isGuid } from 'services/forms'
 import { getFiatCurrencyFromCountry } from 'services/locales'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
-import { initMobileAuthFlow } from './sagas.mobile'
+import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
   parseMagicLink,
   pollForSessionFromAuthPayload,
@@ -80,6 +80,7 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const { userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -117,8 +118,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // exchange sso login
-        case exchangeAuthUrl !== undefined:
+        // mobile - exchange sso login
+        case platform !== PlatformTypes.WEB:
+          // eslint-disable-next-line
+          console.log('MOBILE MSG:', platform, { data: { jwt: jwtToken }, status: 'success' })
+          sendMessageToMobile(platform, { data: { jwt: jwtToken }, status: 'success' })
+          break
+        // web - exchange sso login
+        case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
         // // temp change to test poc
@@ -333,7 +340,7 @@ export default ({ api, coreSagas, networks }) => {
           } else if (product === ProductAuthOptions.EXCHANGE) {
             // CODE HERE TO AUTOMATICALLY DIRECT TO EXCHANGE
           } else {
-            // If proudct is undefined, show user product picker to choose
+            // If product is undefined, show user product picker to choose
             actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
           }
           break
@@ -631,9 +638,9 @@ export default ({ api, coreSagas, networks }) => {
       // initialize login form and/or set initial auth step
       // 👋 Case order matters, think before changing!
       switch (true) {
-        // mobile webview auth flow
-        case platform !== PlatformTypes.WEB:
-          yield call(initMobileAuthFlow)
+        // wallet mobile webview auth flow
+        case platform !== PlatformTypes.WEB && product === ProductAuthOptions.WALLET:
+          yield call(initMobileWalletAuthFlow)
           break
         // institutional login portal for Prime exchange users
         case userType === 'institutional':

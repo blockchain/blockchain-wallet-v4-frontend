@@ -34,7 +34,7 @@ const pollForMessageFromMobile = () => {
 }
 
 // sends messages to mobile clients based on platform
-const sendMessageToMobile = (
+export const sendMessageToMobile = (
   platform: PlatformTypes,
   message: MobileAuthConnectedMessage | MobileAuthWalletMergeMessage | MobileAuthExchangeMessage
 ) => {
@@ -68,7 +68,8 @@ const sendMessageToMobile = (
 }
 
 // initiates contact with mobile apps and returns the auth payload
-export const initMobileAuthFlow = function* () {
+// 👋 this is currently focused only on wallet mobile auth flow
+export const initMobileWalletAuthFlow = function* () {
   let mobileMessageChannel
   let authPayloadFromMobileEncoded
 

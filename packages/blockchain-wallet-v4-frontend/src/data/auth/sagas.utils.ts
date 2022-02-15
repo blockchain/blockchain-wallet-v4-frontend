@@ -27,7 +27,7 @@ export const parseMagicLink = function* () {
     const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
-    const showMergeAndUpradeFlows = (yield select(
+    const showMergeAndUpgradeFlows = (yield select(
       selectors.core.walletOptions.getMergeAndUpgradeAccounts
     )).getOrElse(false)
     // remove feature flag when not necessary
@@ -46,8 +46,8 @@ export const parseMagicLink = function* () {
       }
     }
     // THESE ARE THE MERGE AND UPGRADE FLOWS
-    // showMergeAndUpradeFlows is the feature flag
-    if (showMergeAndUpradeFlows) {
+    // showMergeAndUpgradeFlows is the feature flag
+    if (showMergeAndUpgradeFlows) {
       if (!unified && (mergeable || upgradeable)) {
         if (productAuth === ProductAuthOptions.WALLET && mergeable) {
           // send them to wallet password screen
@@ -90,6 +90,7 @@ export const parseMagicLink = function* () {
         yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
         yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
         yield put(actions.auth.setMagicLinkInfo(magicLink))
+        // TODO: probably dont hardcode the platform
         yield put(
           actions.auth.setProductAuthMetadata({
             platform: PlatformTypes.WEB,
@@ -115,6 +116,7 @@ export const parseMagicLink = function* () {
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
         }
         yield put(actions.auth.setMagicLinkInfo(magicLink))
+        // TODO: BUG HERE! dont hardcode the platform, need to have backend pass the platform back on magic link and use here instead of hardcode
         yield put(
           actions.auth.setProductAuthMetadata({
             platform: PlatformTypes.WEB,
