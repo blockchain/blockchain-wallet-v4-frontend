@@ -189,18 +189,22 @@ const TraitsWrapper = styled(CurrentPriceBox)`
   color: #677184;
 }
 `
-const Traits = styled.div`
+const TraitCell = styled.div`
   padding: 1em;
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
   max-width: 100%;
-  grid-gap: 10px;
-  grid-auto-flow: column;
+}
+`
+
+const Trait = styled.div`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 12px;
+  background: rgba(240, 242, 247, 0.4);;
+  border-radius: 8px;
 }
 `
 
@@ -324,23 +328,42 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         </CreatorOwnerBox>
         <TraitsWrapper>
           Traits
-          <Traits>
-            <div>
-              {asset?.data?.asset?.traits?.length // @ts-ignore
-                ? asset?.data?.asset?.traits.map((traits, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <div key={index} style={{ display: 'flex' }}>
-                      <Text capitalize style={{ padding: '1em' }}>
-                        <b>{traits?.trait_type}:</b>
-                      </Text>
-                      <Text capitalize style={{ padding: '1em' }}>
-                        {traits?.value}
-                      </Text>
-                    </div>
-                  ))
-                : null}
-            </div>
-          </Traits>
+          <TraitCell>
+            {asset?.data?.asset?.traits?.length
+              ? asset?.data?.asset?.traits.map((traits, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <Trait key={index}>
+                    <Text
+                      capitalize
+                      color='grey500'
+                      size='12px'
+                      weight={500}
+                      style={{ padding: '0.5em' }}
+                    >
+                      <b>{traits?.trait_type}</b>
+                    </Text>
+                    <Text
+                      capitalize
+                      color='blue600'
+                      size='14px'
+                      weight={600}
+                      style={{ padding: '0.5em' }}
+                    >
+                      {traits?.value}
+                    </Text>
+                    <Text
+                      capitalize
+                      color='grey500'
+                      size='12px'
+                      weight={400}
+                      style={{ padding: '0.5em' }}
+                    >
+                      0.1% Rarity
+                    </Text>
+                  </Trait>
+                ))
+              : null}
+          </TraitCell>
         </TraitsWrapper>
         <AdditionalDetailsWrapper>
           Additional Details
