@@ -127,14 +127,8 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
             <HeartbeatLoader height='20px' width='20px' color='white' />
           ) : (
             <FormattedMessage
-              id='buttons.withdraw_value'
-              defaultMessage='Withdraw {value}'
-              values={{
-                value: fiatToString({
-                  unit: props.fiatCurrency,
-                  value: props.amount
-                })
-              }}
+              id='modals.simplebuy.withdrawal.withdrawal_button'
+              defaultMessage='Withdrawal Now'
             />
           )}
         </Button>
