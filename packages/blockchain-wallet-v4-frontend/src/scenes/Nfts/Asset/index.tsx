@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -122,10 +122,12 @@ const HighestBid = styled.div`
   color: #677184;
 `
 
-const DetailsBidHistory = styled(HighestBid)`
-  font-size: 24px;
+const CustomTabMenu = styled(TabMenu)`
   color: #121d33;
+  margin: 1em 0em 1em 0em;
+  background: white;
 `
+
 const EthText = styled(HighestBid)`
   font-size: 24px;
   display: flex;
@@ -299,7 +301,17 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             )}
           </Button>
         </CurrentPriceBox>
-        <DetailsBidHistory>Details</DetailsBidHistory>
+        <CustomTabMenu>
+          <TabMenuItem width='33%' data-e2e='dayTab' selected={false} onClick={() => {}}>
+            <FormattedMessage id='copy.day' defaultMessage='Details' />
+          </TabMenuItem>
+          <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
+            <FormattedMessage id='copy.week' defaultMessage='Bids' />
+          </TabMenuItem>
+          <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
+            <FormattedMessage id='copy.week' defaultMessage='History' />
+          </TabMenuItem>
+        </CustomTabMenu>
         <CreatorOwnerBox>
           <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
           <div style={{ display: 'flex', paddingLeft: '1em' }}>
