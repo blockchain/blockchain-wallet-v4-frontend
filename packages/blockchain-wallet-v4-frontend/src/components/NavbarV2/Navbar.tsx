@@ -154,7 +154,8 @@ const Navbar = ({
   primaryNavItems,
   receiveClickHandler,
   refreshClickHandler,
-  sendClickHandler
+  sendClickHandler,
+  taxCenterEnabled
 }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
@@ -233,6 +234,14 @@ const Navbar = ({
       'data-e2e': 'logoutLink'
     }
   ]
+
+  if (taxCenterEnabled) {
+    tertiaryNavItems.splice(0, 0, {
+      copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
+      'data-e2e': 'tax_CenterLink',
+      to: '/tax-center'
+    })
+  }
 
   const secondaryNavItems = [
     {
@@ -407,6 +416,7 @@ type Props = {
   receiveClickHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
+  taxCenterEnabled: boolean
 }
 
 export default Navbar
