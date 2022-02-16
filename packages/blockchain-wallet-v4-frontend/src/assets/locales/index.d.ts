@@ -1621,7 +1621,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.network_fees': 'Network fees are set by the {coin} network.'
   'modals.simplebuy.confirm.learn_more_about_fees': 'Learn more about fees'
   'modals.simplebuy.processing': 'Processing…'
-  'modals.simplebuy.deposit.deposit_button': 'Deposit {amount}'
+  'modals.simplebuy.deposit.deposit_button': 'Deposit Now'
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
   'modals.simplebuy.deposit.bank_transfer_only': 'Bank Transfers Only'
   'modals.simplebuy.deposit.bank_transfer_only_description': 'Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
@@ -1793,6 +1793,7 @@ type MessagesType = {
   'modals.simplebuy.verifyemail.dint_get': 'Didn’t get the email?'
   'modals.simplebuy.verifyemail.resend': 'Resend'
   'modals.simplebuy.verifyemail.save_and_verify': 'Save & Verify'
+  'modals.simplebuy.withdrawal.withdrawal_button': 'Withdrawal Now'
   'modals.sunriverlinkerror.airdrop_not_available': "We're sorry, the airdrop program is currently not available where you are."
   'modals.sunriverlinkerror.already_received': "Looks like you've already received your airdrop!"
   'modals.sunriverlinkerror.campaign_has_expired': "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
@@ -2396,6 +2397,8 @@ type MessagesType = {
   'scenes.login.recovery_options.phrase': 'Restore your account with your 12-word Secret Private key Recovery Phrase.'
   'scenes.login.reset_your_account': 'Reset your account'
   'scenes.login.reset_your_account.arrow': 'Reset your account ->'
+  'scenes.login.url_notice_bar.text': 'Check that the URL is correct.'
+  'scenes.login.url_notice_bar.url': 'https://login.blockchain.com'
   'scenes.logout.deauth': 'De-Authorize Browser'
   'scenes.logout.message': 'Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.'
   'scenes.logout.title': 'You are now logged out!'

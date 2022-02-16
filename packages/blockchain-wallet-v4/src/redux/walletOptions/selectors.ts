@@ -114,3 +114,7 @@ export const getTradingCurrency = (state: RootState) =>
 // show/hide wallet debit card
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
+
+// show/hide wallet tax center
+export const getTaxCenterEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
