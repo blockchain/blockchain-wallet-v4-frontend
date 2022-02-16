@@ -64,6 +64,7 @@ const App = ({
   isAuthenticated,
   persistor,
   store,
+  taxCenterEnabled,
   userData,
   walletConnectEnabled,
   walletDebitCardEnabled
@@ -117,7 +118,6 @@ const App = ({
                     <WalletLayout path='/nfts' component={Nfts} />
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     <WalletLayout path='/security-center' component={SecurityCenter} />
-                    <WalletLayout path='/tax-center' component={TaxCenter} />
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
@@ -125,6 +125,7 @@ const App = ({
                       <WalletLayout path='/dapps' component={WalletConnect} />
                     )}
                     <WalletLayout path='/prices' component={Prices} />
+                    {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
                     {values(
                       map((coinModel) => {
                         const { coinfig } = coinModel
@@ -165,6 +166,9 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  taxCenterEnabled: selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)

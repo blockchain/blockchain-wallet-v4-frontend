@@ -10,7 +10,10 @@ import Large from './template.large'
 import Medium from './template.medium'
 import Small from './template.small'
 
-type OwnProps = Props & { handleToggle: () => void }
+type OwnProps = Props & {
+  handleToggle: () => void
+  taxCenterEnabled: boolean
+}
 
 const Header = (props: OwnProps) => {
   const isLaptop = useMedia('laptop')
@@ -86,6 +89,7 @@ const Header = (props: OwnProps) => {
       <Navbar
         primaryNavItems={PrimaryNavItems}
         fabClickHandler={fabCallback}
+        taxCenterEnabled={props.taxCenterEnabled}
         limitsClickHandler={limitsCallback}
         logoutClickHandler={logoutCallback}
         receiveClickHandler={receiveCallback}

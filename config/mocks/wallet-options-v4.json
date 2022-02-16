@@ -44,6 +44,7 @@
         "recurringBuys": true,
         "isRedesignEnabled": true,
         "signupCountry": true,
+        "taxCenter": false,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
