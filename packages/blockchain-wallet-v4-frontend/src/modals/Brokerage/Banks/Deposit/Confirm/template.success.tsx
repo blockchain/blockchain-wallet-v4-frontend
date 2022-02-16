@@ -118,7 +118,7 @@ const Success = (props: Props) => {
           ) : (
             <FormattedMessage
               id='modals.simplebuy.deposit.deposit_button'
-              defaultMessage='Deposit'
+              defaultMessage='Deposit Now'
             />
           )}
         </Button>
