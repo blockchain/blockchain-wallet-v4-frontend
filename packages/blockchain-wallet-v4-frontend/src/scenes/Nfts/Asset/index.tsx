@@ -155,7 +155,7 @@ const CreatorOwnerAddress = styled.div`
 `
 
 const Divider = styled.div`
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   position: static;
   width: 727px;
   height: 1px;
@@ -261,7 +261,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
             src={asset?.data?.asset?.collection?.image_url || ''}
           />
-          {asset?.data?.asset?.collection?.name}
+          <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+            {asset?.data?.asset?.collection?.name}
+          </div>
         </CollectionName>
         <Divider />
         <AssetName>{asset?.data?.asset?.name}</AssetName>
