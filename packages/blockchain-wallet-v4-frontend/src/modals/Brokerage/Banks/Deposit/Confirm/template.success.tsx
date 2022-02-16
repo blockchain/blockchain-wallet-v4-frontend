@@ -118,7 +118,14 @@ const Success = (props: Props) => {
           ) : (
             <FormattedMessage
               id='modals.simplebuy.deposit.deposit_button'
-              defaultMessage='Deposit'
+              defaultMessage='Deposit {amount}'
+              values={{
+                amount: fiatToString({
+                  digits: 0,
+                  unit: props.defaultMethod?.currency || ('USD' as FiatType),
+                  value: amount
+                })
+              }}
             />
           )}
         </Button>
