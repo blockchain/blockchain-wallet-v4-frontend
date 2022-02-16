@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FlyoutContainer, FlyoutContent, FlyoutHeader, FlyoutWrapper } from 'components/Flyout'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
@@ -103,7 +103,7 @@ const Success = (props: Props) => {
           {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
         </div>
       </FlyoutContent>
-      <FlyoutWrapper>
+      <FlyoutFooter collapsed>
         <Button
           data-e2e='submitDepositAmount'
           height='48px'
@@ -134,7 +134,7 @@ const Success = (props: Props) => {
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
-      </FlyoutWrapper>
+      </FlyoutFooter>
     </FlyoutContainer>
   )
 }
