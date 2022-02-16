@@ -82,7 +82,7 @@ class SignupContainer extends React.PureComponent<
     }
     // we have a captcha token, continue Signup process
     authActions.register({
-      captchaToken: '90',
+      captchaToken,
       country,
       email,
       initCaptcha: this.initCaptcha,
