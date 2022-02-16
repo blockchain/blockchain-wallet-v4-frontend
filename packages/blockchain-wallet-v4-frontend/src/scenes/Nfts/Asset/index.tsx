@@ -41,6 +41,7 @@ export const RightColWrapper = styled.div`
   height: 100%;
   top: 64px;
   overflow: scroll;
+  overflow-x: hidden;
   background: ${(props) => props.theme.white};
   z-index: 1;
   ${media.atLeastTabletL`
