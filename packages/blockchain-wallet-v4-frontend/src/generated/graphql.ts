@@ -1033,7 +1033,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, contract_address?: string | null, permalink?: string | null, token_id?: string | null, events?: Array<{ __typename?: 'Event', event_type?: string | null } | null> | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', name?: string | null, description?: string | null, image_url?: string | null } | null, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null } | null };
+export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, contract_address?: string | null, permalink?: string | null, token_id?: string | null, events?: Array<{ __typename?: 'Event', event_type?: string | null } | null> | null, asset_contract?: { __typename?: 'Contract', schema_name?: string | null } | null, owner?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, collection?: { __typename?: 'Collection', name?: string | null, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, external_url?: string | null } | null, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null } | null };
 
 export type AssetsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -4324,6 +4324,9 @@ export const AssetDocument = gql`
     events {
       event_type
     }
+    asset_contract {
+      schema_name
+    }
     owner {
       address
       profile_img_url
@@ -4337,6 +4340,12 @@ export const AssetDocument = gql`
       name
       description
       image_url
+      discord_url
+      telegram_url
+      twitter_username
+      instagram_username
+      wiki_url
+      external_url
     }
     animation_url
     contract_address

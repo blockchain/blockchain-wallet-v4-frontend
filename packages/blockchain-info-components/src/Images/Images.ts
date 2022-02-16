@@ -91,6 +91,7 @@ import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
 import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
+import instagram from './img/instagram.svg'
 import interest from './img/interest.svg'
 import introBankGif from './img/intro-bank.gif'
 import introCartGif from './img/intro-cart.gif'
@@ -281,6 +282,7 @@ const Images = {
   'graph-recurring-buy-background': recurringBuyBackground,
   identification,
   'identity-verification': identityVerification,
+  instagram,
   interest,
   'intro-bank-gif': introBankGif,
   'intro-cart-gif': introCartGif,

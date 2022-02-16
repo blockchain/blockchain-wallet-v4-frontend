@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { NftOrderStepEnum } from 'blockchain-wallet-v4-frontend/src/data/components/nfts/types'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-import { CombinedError } from 'urql'
 
-import { Button, Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Button, Color, Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -225,6 +223,47 @@ const AdditionalDetails = styled.div`
   color: #828b9e;
 `
 
+const SocialLinksWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em;
+  border-radius: 20px;
+`
+
+const SocialLinks = styled.a.attrs({
+  target: '_blank'
+})`
+  display: flex;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 100%;
+  background-color: ${Color('white')} !important;
+  color: white;
+  transition: all 0.5s;
+  margin-right: 0.5rem;
+  justify-content: center;
+
+  .social-icons {
+    opacity: 0.5;
+  }
+
+  &:hover {
+    .social-icons {
+      opacity: 1;
+    }
+  }
+
+  @media only screen and (max-width: 48rem) {
+    height: 2rem;
+    width: 2rem;
+    margin-top: 2rem;
+
+    img {
+      padding: 0.5rem;
+    }
+  }
+`
+
 const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
@@ -255,20 +294,65 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
       </LeftColWrapper>
       <RightColWrapper>
         <Divider />
-        <CollectionName>
-          <img
-            alt='Dapp Logo'
-            height='30px'
-            width='auto'
-            style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
-            src={asset?.data?.asset?.collection?.image_url || ''}
-          />
-          <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-            {asset?.data?.asset?.collection?.name}
-          </div>
-        </CollectionName>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <CollectionName>
+            <img
+              alt='Dapp Logo'
+              height='30px'
+              width='auto'
+              style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+              src={asset?.data?.asset?.collection?.image_url || ''}
+            />
+            <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+              {asset?.data?.asset?.collection?.name}
+            </div>
+          </CollectionName>
+          <SocialLinksWrap>
+            {asset?.data?.asset?.collection?.telegram_url && (
+              <SocialLinks
+                href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
+              >
+                <Image color='grey500' name='instagram' />
+              </SocialLinks>
+            )}
+            {asset?.data?.asset?.collection?.twitter_username && (
+              <SocialLinks
+                href={`${'https://twitter.com/'}${
+                  asset?.data?.asset?.collection?.twitter_username
+                }`}
+              >
+                <Image color='grey500' name='instagram' />
+              </SocialLinks>
+            )}
+            {asset?.data?.asset?.collection?.instagram_username && (
+              <SocialLinks
+                href={`${'http://instagram.com/'}${
+                  asset?.data?.asset?.collection?.instagram_username
+                }`}
+              >
+                <Image color='grey500' name='instagram' />
+              </SocialLinks>
+            )}
+            {asset?.data?.asset?.collection?.wiki_url && (
+              <SocialLinks
+                href={`${'https://en.wikipedia.org/wiki/'}${
+                  asset?.data?.asset?.collection?.instagram_username
+                }`}
+              >
+                <Image color='grey500' name='instagram' />
+              </SocialLinks>
+            )}
+            {asset?.data?.asset?.collection?.external_url && (
+              <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
+                <Image color='grey500' name='instagram' />
+              </SocialLinks>
+            )}
+          </SocialLinksWrap>
+        </div>
         <Divider />
-        <AssetName>{asset?.data?.asset?.name}</AssetName>
+        <AssetName>
+          {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
+        </AssetName>
         <Description>{asset?.data?.asset?.collection?.description}</Description>
         <Divider />
         <CurrentPriceBox>
@@ -315,13 +399,15 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         <CreatorOwnerBox>
           <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
           <div style={{ display: 'flex', paddingLeft: '1em' }}>
-            <img
-              alt='Creator Logo'
-              height='30px'
-              width='auto'
-              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-              src={asset?.data?.asset?.creator?.profile_img_url || ''}
-            />
+            {asset?.data?.asset?.creator?.profile_img_url && (
+              <img
+                alt='Creator Logo'
+                height='30px'
+                width='auto'
+                style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                src={asset?.data?.asset?.creator?.profile_img_url}
+              />
+            )}
             <CreatorOwnerAddress>
               <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
             </CreatorOwnerAddress>
@@ -401,7 +487,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
               <Text weight={500} size='16px'>
                 Token Standard:
               </Text>{' '}
-              ERC 721
+              {asset?.data?.asset?.asset_contract?.schema_name}
             </div>
             <DividerNoMargin />
             <div style={{ padding: '1em' }}>
@@ -432,7 +518,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   >
                     <div style={{ display: 'flex' }}>
                       <Text capitalize style={{ padding: '1em' }}>
-                        <b>{asset?.name}:</b>
+                        <b>{asset?.name || '#'}</b>
                       </Text>
                       <img
                         alt='Asset Logo'

@@ -5,6 +5,9 @@ query Asset($filter: AssetFilter) {
     events {
       event_type
     }
+    asset_contract {
+      schema_name
+    }
     owner {
       address
       profile_img_url
@@ -18,6 +21,12 @@ query Asset($filter: AssetFilter) {
       name
       description
       image_url
+      discord_url
+      telegram_url
+      twitter_username
+      instagram_username
+      wiki_url
+      external_url
     }
     animation_url
     contract_address
