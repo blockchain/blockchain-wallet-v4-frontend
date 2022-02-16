@@ -85,8 +85,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <FormLabel>
               {countryIsUS ? (
                 <FormattedMessage
-                  id='identityverification.personal.address_line2'
-                  defaultMessage='Address Line 2'
+                  id='identityverification.personal.address_line2_optional'
+                  defaultMessage='Address Line 2 (optional)'
                 />
               ) : (
                 <FormattedMessage

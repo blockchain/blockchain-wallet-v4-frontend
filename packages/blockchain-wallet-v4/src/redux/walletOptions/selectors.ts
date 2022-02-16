@@ -110,3 +110,7 @@ export const getCompleteYourProfile = (state: RootState) =>
 // show/hide trading currency flyout
 export const getTradingCurrency = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))
+
+// show/hide wallet debit card
+export const getWalletDebitCardEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))

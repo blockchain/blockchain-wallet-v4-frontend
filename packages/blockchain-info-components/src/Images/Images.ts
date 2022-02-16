@@ -65,6 +65,7 @@ import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins'
 import creditCard from './img/credit-card.svg'
+import introCard from './img/debitCard/intro-card.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -283,6 +284,7 @@ const Images = {
   'identity-verification': identityVerification,
   interest,
   'intro-bank-gif': introBankGif,
+  'intro-card': introCard,
   'intro-cart-gif': introCartGif,
   'intro-hand': introHand,
   'intro-lock': introLock,

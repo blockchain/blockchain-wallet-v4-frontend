@@ -45,9 +45,10 @@
         "isRedesignEnabled": true,
         "signupCountry": true,
         "tradingCurrencyFlyout": true,
+        "useNewPaymentProviders": true,
         "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
-        "useNewPaymentProviders": true
+        "walletDebitCardEnabled": true,
+        "withdrawalLocksFundsOnHold": true
       }
     }
   },

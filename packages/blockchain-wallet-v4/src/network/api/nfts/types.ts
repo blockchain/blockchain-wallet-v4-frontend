@@ -79,11 +79,11 @@ export interface ExchangeMetadataForBundle {
 export type ExchangeMetadata = ExchangeMetadataForAsset | ExchangeMetadataForBundle
 
 export interface WyvernOrder {
-  basePrice: BigNumber
+  basePrice: BigNumber | string
   calldata: string
   exchange: string
   expirationTime: BigNumber
-  extra: BigNumber
+  extra: BigNumber | string
   feeMethod: number
   feeRecipient: string
   howToCall: number
@@ -174,6 +174,20 @@ export interface OpenSeaAssetContract extends OpenSeaFees {
   traits?: object[]
   type: AssetContractType
   wikiLink?: string
+}
+
+export interface OpenSeaStatus {
+  page: {
+    id: string
+    name: string
+    time_zone: string
+    updated_at: string
+    url: string
+  }
+  status: {
+    description: string
+    indicator: string
+  }
 }
 
 export interface ComputedFees extends OpenSeaFees {
@@ -399,9 +413,10 @@ export interface NftOrder extends UnsignedOrder, Partial<ECSignature> {
 }
 
 export enum GasCalculationOperations {
-  Accept = 'accept',
+  AcceptOffer = 'accept-offer',
   Buy = 'buy',
   Cancel = 'cancel',
+  CreateOffer = 'create-offer',
   Sell = 'sell',
   Transfer = 'transfer'
 }
