@@ -50,7 +50,7 @@ const StyledIcon = styled(Icon)`
 `
 const NoAccounts = styled.div`
   border-top: ${(props) => `1px solid ${props.theme.grey000}`};
-  padding: 16px 40px 0;
+  padding: 16px 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
