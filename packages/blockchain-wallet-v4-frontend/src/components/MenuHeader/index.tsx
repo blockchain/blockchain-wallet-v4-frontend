@@ -4,7 +4,6 @@ const MenuHeader = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
-  align-items: center;
 `
 
 export default MenuHeader

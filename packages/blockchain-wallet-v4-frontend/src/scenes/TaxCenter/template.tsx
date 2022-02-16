@@ -1,19 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { SceneWrapper, StickyHeader } from 'components/Layout'
-import MenuHeader from 'components/MenuHeader'
 
-const Title = styled(Text)`
-  margin-bottom: 8px;
-`
+import { MenuHeaderCentered, Title } from './model'
 
 const TaxCenter = () => (
   <SceneWrapper>
     <StickyHeader>
-      <MenuHeader>
+      <MenuHeaderCentered>
         <Title size='40px' weight={600} color='black'>
           <FormattedMessage
             id='scenes.tax.center.title'
@@ -26,7 +22,7 @@ const TaxCenter = () => (
             defaultMessage='Here’s everything you’ll need from Blockchain.com to file your taxes this year.'
           />
         </Text>
-      </MenuHeader>
+      </MenuHeaderCentered>
     </StickyHeader>
   </SceneWrapper>
 )
