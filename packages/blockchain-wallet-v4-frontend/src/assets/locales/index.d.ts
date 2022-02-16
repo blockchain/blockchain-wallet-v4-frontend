@@ -1793,6 +1793,7 @@ type MessagesType = {
   'modals.simplebuy.verifyemail.dint_get': 'Didn’t get the email?'
   'modals.simplebuy.verifyemail.resend': 'Resend'
   'modals.simplebuy.verifyemail.save_and_verify': 'Save & Verify'
+  'modals.simplebuy.withdrawal.withdrawal_button': 'Withdrawal Now'
   'modals.sunriverlinkerror.airdrop_not_available': "We're sorry, the airdrop program is currently not available where you are."
   'modals.sunriverlinkerror.already_received': "Looks like you've already received your airdrop!"
   'modals.sunriverlinkerror.campaign_has_expired': "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
