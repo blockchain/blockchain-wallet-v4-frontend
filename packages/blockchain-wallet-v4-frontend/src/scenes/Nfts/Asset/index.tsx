@@ -16,8 +16,8 @@ import { media } from 'services/styles'
 export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
 export const LeftColWrapper = styled.div`
-  min-width: 600px;
   position: sticky;
+  padding-right: 3em;
   margin-right: 2em;
   height: 100%;
   top: 64px;
@@ -27,7 +27,7 @@ export const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
   top: 72px;
   max-width: 625px;
-  width: 60%;
+  width: 50%;
 `} > form {
     ${media.tabletL`
     display: flex;
@@ -117,7 +117,7 @@ const HighestBid = styled.div`
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 20px;
   color: #677184;
 `
@@ -135,26 +135,22 @@ const EthText = styled(HighestBid)`
 `
 
 const CreatorOwnerBox = styled(CurrentPriceBox)`
-  display: grid;
-  grid-template-columns: 16em;
-  grid-template-rows: auto auto;
   max-width: 100%;
-  grid-gap: 10px;
-  grid-auto-flow: column;
-  height: 150px;
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+  padding: 1em;
 }
 `
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
   line-height: 150%;
-  color: #121d33;
+  color: #828b9e;
   overflow: hidden;
+  padding-left: 1em
 }
 `
 
@@ -166,6 +162,11 @@ const Divider = styled.div`
   left: 48px;
   top: 51px;
   background: #f0f2f7;
+`
+
+const DividerNoMargin = styled(Divider)`
+  margin-bottom: unset;
+  width: 100%;
 `
 
 const Description = styled.div`
@@ -212,14 +213,14 @@ const AddressDisplay = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 150px;
+  width: 90%;
 `
 
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
 
 const AdditionalDetails = styled.div`
   padding: 1em;
-  color: #677184;
+  color: #828b9e;
 `
 
 const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
@@ -236,8 +237,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
       <LeftColWrapper>
         <img
           alt='Asset Logo'
-          height='60%'
-          width='auto'
+          width='100%'
           style={{
             border: '1px solid #dfe3eb',
             borderRadius: '10%',
@@ -299,26 +299,27 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         </CurrentPriceBox>
         <DetailsBidHistory>Details</DetailsBidHistory>
         <CreatorOwnerBox>
-          <div style={{ color: '#677184', paddingLeft: '1em', paddingTop: '1.5em' }}>Creator</div>
+          <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
           <div style={{ display: 'flex', paddingLeft: '1em' }}>
             <img
               alt='Creator Logo'
               height='30px'
               width='auto'
-              style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
               src={asset?.data?.asset?.creator?.profile_img_url || ''}
             />
             <CreatorOwnerAddress>
               <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
             </CreatorOwnerAddress>
           </div>
-          <div style={{ color: '#677184', paddingLeft: '1em', paddingTop: '1.5em' }}>Owner</div>
+          <DividerNoMargin />
+          <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
           <div style={{ display: 'flex', paddingLeft: '1em' }}>
             <img
               alt='Owner Logo'
               height='30px'
               width='auto'
-              style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
               src={asset?.data?.asset?.owner?.profile_img_url || ''}
             />{' '}
             <CreatorOwnerAddress>
@@ -369,17 +370,31 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           Additional Details
           <AdditionalDetails>
             <div style={{ padding: '1em' }}>
-              <b>Contract Address:</b>
+              <Text weight={500} size='16px'>
+                Contract Address:
+              </Text>
               <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
             </div>
+            <DividerNoMargin />
             <div style={{ padding: '1em' }}>
-              <b>Token ID:</b> {asset?.data?.asset?.token_id}
+              <Text weight={500} size='16px'>
+                Token ID:
+              </Text>
+              {asset?.data?.asset?.token_id}
             </div>
+            <DividerNoMargin />
             <div style={{ padding: '1em' }}>
-              <b>Token Standard:</b> ERC 721
+              <Text weight={500} size='16px'>
+                Token Standard:
+              </Text>{' '}
+              ERC 721
             </div>
+            <DividerNoMargin />
             <div style={{ padding: '1em' }}>
-              <b>Blockchain:</b> ETH
+              <Text weight={500} size='16px'>
+                Blockchain:
+              </Text>{' '}
+              ETH
             </div>
           </AdditionalDetails>
         </AdditionalDetailsWrapper>
