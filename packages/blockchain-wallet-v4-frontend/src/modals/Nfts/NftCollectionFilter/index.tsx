@@ -20,7 +20,7 @@ import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
-import { StickyTraitHeader, TraitList } from './components'
+import { StickyBuyNowRow, StickyTraitHeader, TraitList } from './components'
 
 class NftCollectionFilter extends PureComponent<Props, State> {
   constructor(props) {
@@ -80,7 +80,7 @@ class NftCollectionFilter extends PureComponent<Props, State> {
             NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
             Success: (val) => (
               <>
-                <Row>
+                <StickyBuyNowRow>
                   <Title>
                     <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                   </Title>
@@ -100,7 +100,7 @@ class NftCollectionFilter extends PureComponent<Props, State> {
                       }}
                     />
                   </Value>
-                </Row>
+                </StickyBuyNowRow>
                 {Object.keys(val.traits).map((trait) => {
                   return (
                     <div key={trait}>
