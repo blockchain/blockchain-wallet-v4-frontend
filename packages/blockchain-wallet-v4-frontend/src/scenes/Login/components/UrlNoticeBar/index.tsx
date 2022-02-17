@@ -5,14 +5,11 @@ import styled from 'styled-components'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-const BACKGROUND_COLOR = '#0C6CF2'
-const FONT_COLOR = 'white'
 const BC_URL = 'https://login.blockchain.com'
 
 const Wrapper = styled.div`
   padding: 0.25rem 1rem;
-  background: ${BACKGROUND_COLOR};
-  color: ${FONT_COLOR};
+  background: ${(props) => props.theme.blue600};
   position: absolute;
   top: 0;
   width: 100%;
@@ -53,7 +50,7 @@ const UrlNoticeBar = () => (
     </StyledText>
     <StyledLink color='white' weight={700} href={BC_URL}>
       <StyledIcon name='padlock' color='white' size='12px' />
-      <FormattedMessage id='scenes.login.url_notice_bar.url' defaultMessage={BC_URL} />
+      {BC_URL}
     </StyledLink>
   </Wrapper>
 )
