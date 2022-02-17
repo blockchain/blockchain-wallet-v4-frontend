@@ -5,7 +5,16 @@ import { colors, Switch } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
 
 import { SpinningLoader, Text } from 'blockchain-info-components'
-import Flyout, { duration, FlyoutChild, FlyoutHeader, StickyHeaderWrapper } from 'components/Flyout'
+import Flyout, {
+  duration,
+  FlyoutChild,
+  FlyoutHeader,
+  FlyoutWrapper,
+  Row,
+  StickyHeaderWrapper,
+  Title,
+  Value
+} from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -55,32 +64,43 @@ class NftCollectionFilter extends PureComponent<Props, State> {
           </StickyHeaderWrapper>
           {collection.cata({
             Failure: () => (
-              <Text size='12px' weight={500}>
-                Error: You must select a collection!
-              </Text>
+              <FlyoutWrapper>
+                <Text size='12px' weight={500}>
+                  Error: You must select a collection!
+                </Text>
+              </FlyoutWrapper>
             ),
             Loading: () => (
-              <Text size='12px' weight={500}>
-                Error: You must select a collection!
-              </Text>
+              <FlyoutWrapper>
+                <Text size='12px' weight={500}>
+                  Error: You must select a collection!
+                </Text>
+              </FlyoutWrapper>
             ),
             NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
             Success: (val) => (
               <>
-                <Switch
-                  firstItem=''
-                  secondItem=''
-                  selectedColor={colors.blue400}
-                  activeColor={colors.blue600}
-                  hoverColor={colors.grey700}
-                  isFirstItemActive={collectionFilter.isBuyNow}
-                  handleFirstItemClicked={() =>
-                    nftActions.updateCollectionFilter({ isBuyNow: !collectionFilter.isBuyNow })
-                  }
-                  handleSecondItemClicked={() => {
-                    nftActions.updateCollectionFilter({ isBuyNow: !collectionFilter.isBuyNow })
-                  }}
-                />
+                <Row>
+                  <Title>
+                    <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+                  </Title>
+                  <Value>
+                    <Switch
+                      firstItem=''
+                      secondItem=''
+                      selectedColor={colors.blue400}
+                      activeColor={colors.blue600}
+                      hoverColor={colors.grey700}
+                      isFirstItemActive={collectionFilter.isBuyNow}
+                      handleFirstItemClicked={() =>
+                        nftActions.updateCollectionFilter({ isBuyNow: !collectionFilter.isBuyNow })
+                      }
+                      handleSecondItemClicked={() => {
+                        nftActions.updateCollectionFilter({ isBuyNow: !collectionFilter.isBuyNow })
+                      }}
+                    />
+                  </Value>
+                </Row>
                 {Object.keys(val.traits).map((trait) => {
                   return (
                     <div key={trait}>
@@ -94,8 +114,36 @@ class NftCollectionFilter extends PureComponent<Props, State> {
                           .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
                           .map((value) => {
                             return (
-                              <div key={value}>
-                                {value} {val.traits[trait][value]}
+                              <div key={value} style={{ alignItems: 'center', display: 'flex' }}>
+                                <input type='checkbox' id={value} />
+                                <label
+                                  htmlFor={value}
+                                  style={{ alignItems: 'center', display: 'flex' }}
+                                >
+                                  <Text
+                                    style={{ marginLeft: '4px' }}
+                                    size='12px'
+                                    weight={600}
+                                    color='black'
+                                    capitalize
+                                  >
+                                    {value}
+                                  </Text>
+                                  &nbsp;
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    {val.traits[trait][value]}
+                                  </Text>
+                                  &nbsp;
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    (
+                                    {(
+                                      (Number(val.traits[trait][value]) /
+                                        Number(val.stats.total_supply)) *
+                                      100
+                                    ).toFixed(2)}
+                                    %)
+                                  </Text>
+                                </label>
                               </div>
                             )
                           })}
