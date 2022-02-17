@@ -50,6 +50,7 @@ export type NftsStateType = {
     list: OfferEventsType['asset_events']
     page: number
   }
+  openSeaAsset: RemoteDataType<string, NftAsset>
   openSeaStatus: RemoteDataType<
     string,
     {

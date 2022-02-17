@@ -12,7 +12,6 @@ import {
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
-  OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import {
@@ -214,6 +213,19 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchOpenseaAsset = function* () {
+    try {
+      yield put(A.fetchNftOffersMadeLoading())
+      const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
+        api.getOpenSeaAsset,
+        '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
+        '8520'
+      )
+      yield put(A.fetchOpenseaAssetSuccess(res))
+    } catch (e) {
+      yield put(A.fetchOpenseaAssetFailure(e))
+    }
+  }
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchNftOffersMadeLoading())
@@ -737,6 +749,7 @@ export default ({ api }: { api: APIType }) => {
     fetchNftCollections,
     fetchNftOffersMade,
     fetchNftOrders,
+    fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
     formInitialized,

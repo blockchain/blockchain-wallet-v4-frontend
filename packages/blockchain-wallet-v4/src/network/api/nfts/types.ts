@@ -656,6 +656,17 @@ export interface NftAsset {
   token_id: string
   token_metadata: null
   top_bid: null
+  top_ownerships: [
+    {
+      owner: {
+        address: string
+        config: string
+        profile_img_url: string
+        user: { username: string }
+      }
+      quantity: number
+    }
+  ]
   traits: [
     {
       trait_count: number

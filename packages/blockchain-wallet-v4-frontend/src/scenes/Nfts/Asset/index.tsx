@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -92,7 +92,7 @@ const AssetName = styled.div`
 `
 
 const PriceHistoryTitle = styled(AssetName)`
-  font-size: 24px;
+  font-size: 14px;
   line-height: 135%;
   padding: 2em 0em 2em 0em;
 `
@@ -100,6 +100,7 @@ const PriceHistoryTitle = styled(AssetName)`
 const PriceHistory = styled(PriceHistoryTitle)`
   height: 340px;
   background: #f0f2f7;
+  padding: 2em;
   border: 1px solid #dfe3eb;
   box-sizing: border-box;
   border-radius: 8px;
@@ -137,13 +138,12 @@ const EthText = styled(HighestBid)`
 
 const CreatorOwnerBox = styled(CurrentPriceBox)`
   max-width: 100%;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
   padding: 1em;
-}
 `
 
 const CreatorOwnerAddress = styled.div`
@@ -151,8 +151,7 @@ const CreatorOwnerAddress = styled.div`
   line-height: 150%;
   color: #828b9e;
   overflow: hidden;
-  padding-left: 1em
-}
+  padding-left: 1em;
 `
 
 const Divider = styled.div`
@@ -184,12 +183,11 @@ const TraitsWrapper = styled(CurrentPriceBox)`
   margin-top: 2em;
   padding: 1em;
   height: unset;
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   color: #677184;
-}
 `
 const TraitCell = styled.div`
   padding: 1em;
@@ -197,17 +195,15 @@ const TraitCell = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   max-width: 100%;
-}
 `
 
 const Trait = styled.div`
-  font-family: Inter;
+  font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
-  background: rgba(240, 242, 247, 0.4);;
+  background: rgba(240, 242, 247, 0.4);
   border-radius: 8px;
-}
 `
 
 const AddressDisplay = styled.div`
@@ -274,288 +270,317 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const [assets] = useAssetsQuery({
     variables: { filter: { contract_address: contract } }
   })
+  useEffect(() => {
+    nftsActions.fetchOpenseaAsset()
+  }, [])
   return (
     <>
-      <LeftColWrapper>
-        <img
-          alt='Asset Logo'
-          width='100%'
-          style={{
-            border: '1px solid #dfe3eb',
-            borderRadius: '10%',
-            borderWidth: '1px',
-            marginBottom: '0.5rem',
-            padding: '10px'
-          }}
-          src={asset?.data?.asset?.image_url || ''}
-        />
-        <PriceHistoryTitle>Price History</PriceHistoryTitle>
-        <Divider />
-        <PriceHistory />
-      </LeftColWrapper>
-      <RightColWrapper>
-        <Divider />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <CollectionName>
-            <img
-              alt='Dapp Logo'
-              height='30px'
-              width='auto'
-              style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
-              src={asset?.data?.asset?.collection?.image_url || ''}
-            />
-            <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-              {asset?.data?.asset?.collection?.name}
-            </div>
-          </CollectionName>
-          <SocialLinksWrap>
-            {asset?.data?.asset?.collection?.telegram_url && (
-              <SocialLinks
-                href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
-              >
-                <Image color='grey500' name='instagram' />
-              </SocialLinks>
-            )}
-            {asset?.data?.asset?.collection?.twitter_username && (
-              <SocialLinks
-                href={`${'https://twitter.com/'}${
-                  asset?.data?.asset?.collection?.twitter_username
-                }`}
-              >
-                <Image color='grey500' name='instagram' />
-              </SocialLinks>
-            )}
-            {asset?.data?.asset?.collection?.instagram_username && (
-              <SocialLinks
-                href={`${'http://instagram.com/'}${
-                  asset?.data?.asset?.collection?.instagram_username
-                }`}
-              >
-                <Image color='grey500' name='instagram' />
-              </SocialLinks>
-            )}
-            {asset?.data?.asset?.collection?.wiki_url && (
-              <SocialLinks
-                href={`${'https://en.wikipedia.org/wiki/'}${
-                  asset?.data?.asset?.collection?.instagram_username
-                }`}
-              >
-                <Image color='grey500' name='instagram' />
-              </SocialLinks>
-            )}
-            {asset?.data?.asset?.collection?.external_url && (
-              <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                <Image color='grey500' name='instagram' />
-              </SocialLinks>
-            )}
-          </SocialLinksWrap>
-        </div>
-        <Divider />
-        <AssetName>
-          {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
-        </AssetName>
-        <Description>{asset?.data?.asset?.collection?.description}</Description>
-        <Divider />
-        <CurrentPriceBox>
-          <HighestBid>Highest Bid</HighestBid>
-          <EthText>
-            <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-            2.25 ETH ($8,809.20)
-          </EthText>
-          <Button
-            data-e2e='openNftFlow'
-            nature='primary'
-            fullwidth
-            onClick={() =>
-              nftsActions.nftOrderFlowOpen({
-                // @ts-ignore
-                asset_contract_address: asset.data.asset.contract_address!,
-                // @ts-ignore
-                token_id: asset.data.asset.token_id!,
-                walletUserIsAssetOwnerHack: false
-              })
-            }
-          >
-            {asset?.data?.asset?.events &&
-            asset?.data?.asset?.events[0] &&
-            asset?.data?.asset?.events &&
-            asset?.data?.asset?.events[0].event_type === 'created' ? (
-              <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-            ) : (
-              <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-            )}
-          </Button>
-        </CurrentPriceBox>
-        <CustomTabMenu>
-          <TabMenuItem width='33%' data-e2e='dayTab' selected={false} onClick={() => {}}>
-            <FormattedMessage id='copy.day' defaultMessage='Details' />
-          </TabMenuItem>
-          <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
-            <FormattedMessage id='copy.week' defaultMessage='Bids' />
-          </TabMenuItem>
-          <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
-            <FormattedMessage id='copy.week' defaultMessage='History' />
-          </TabMenuItem>
-        </CustomTabMenu>
-        <CreatorOwnerBox>
-          <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
-          <div style={{ display: 'flex', paddingLeft: '1em' }}>
-            {asset?.data?.asset?.creator?.profile_img_url && (
-              <img
-                alt='Creator Logo'
-                height='30px'
-                width='auto'
-                style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                src={asset?.data?.asset?.creator?.profile_img_url}
-              />
-            )}
-            <CreatorOwnerAddress>
-              <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
-            </CreatorOwnerAddress>
-          </div>
-          <DividerNoMargin />
-          <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
-          <div style={{ display: 'flex', paddingLeft: '1em' }}>
-            <img
-              alt='Owner Logo'
-              height='30px'
-              width='auto'
-              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-              src={asset?.data?.asset?.owner?.profile_img_url || ''}
-            />{' '}
-            <CreatorOwnerAddress>
-              <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
-            </CreatorOwnerAddress>
-          </div>
-        </CreatorOwnerBox>
-        <TraitsWrapper>
-          Traits
-          <TraitCell>
-            {asset?.data?.asset?.traits?.length
-              ? asset?.data?.asset?.traits.map((traits, index) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <Trait key={index}>
-                    <Text
-                      capitalize
-                      color='grey500'
-                      size='12px'
-                      weight={500}
-                      style={{ padding: '0.5em' }}
-                    >
-                      <b>{traits?.trait_type}</b>
-                    </Text>
-                    <Text
-                      capitalize
-                      color='blue600'
-                      size='14px'
-                      weight={600}
-                      style={{ padding: '0.5em' }}
-                    >
-                      {traits?.value}
-                    </Text>
-                    <Text
-                      capitalize
-                      color='grey500'
-                      size='12px'
-                      weight={400}
-                      style={{ padding: '0.5em' }}
-                    >
-                      0.1% Rarity
-                    </Text>
-                  </Trait>
-                ))
-              : null}
-          </TraitCell>
-        </TraitsWrapper>
-        <AdditionalDetailsWrapper>
-          Additional Details
-          <AdditionalDetails>
-            <div style={{ padding: '1em' }}>
-              <Text weight={500} size='16px'>
-                Contract Address:
-              </Text>
-              <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
-            </div>
-            <DividerNoMargin />
-            <div style={{ padding: '1em' }}>
-              <Text weight={500} size='16px'>
-                Token ID:
-              </Text>
-              {asset?.data?.asset?.token_id}
-            </div>
-            <DividerNoMargin />
-            <div style={{ padding: '1em' }}>
-              <Text weight={500} size='16px'>
-                Token Standard:
-              </Text>{' '}
-              {asset?.data?.asset?.asset_contract?.schema_name}
-            </div>
-            <DividerNoMargin />
-            <div style={{ padding: '1em' }}>
-              <Text weight={500} size='16px'>
-                Blockchain:
-              </Text>{' '}
-              ETH
-            </div>
-          </AdditionalDetails>
-        </AdditionalDetailsWrapper>
-      </RightColWrapper>
-      <MoreAssets>
-        <Text
-          capitalize
-          style={{ fontWeight: 'bold', padding: '1em', textDecoration: 'underline' }}
-        >
-          More from this collection...
-        </Text>
-        <div>
-          {assets?.data?.assets?.length // @ts-ignore
-            ? assets?.data?.assets?.map((asset, index) => {
-                const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
-                return (
-                  <LinkContainer
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={index}
-                    to={link}
-                  >
-                    <div style={{ display: 'flex' }}>
-                      <Text capitalize style={{ padding: '1em' }}>
-                        <b>{asset?.name || '#'}</b>
-                      </Text>
-                      <img
-                        alt='Asset Logo'
-                        height='200px'
-                        width='auto'
-                        style={{
-                          border: '1px solid #dfe3eb',
-                          borderRadius: '10%',
-                          borderWidth: '1px',
-                          marginBottom: '0.5rem',
-                          padding: '10px'
-                        }}
-                        src={asset?.image_url || ''}
-                      />
+      {rest.openSeaAsset.cata({
+        Failure: () => <>Failure</>,
+        Loading: () => <>Loading</>,
+        NotAsked: () => <>Not asked</>,
+        Success: (assetFromDirectCall) => {
+          return (
+            <>
+              <LeftColWrapper>
+                <img
+                  alt='Asset Logo'
+                  width='100%'
+                  style={{
+                    border: '1px solid #dfe3eb',
+                    borderRadius: '10%',
+                    borderWidth: '1px',
+                    marginBottom: '0.5rem',
+                    padding: '10px'
+                  }}
+                  src={asset?.data?.asset?.image_url || ''}
+                />
+                <PriceHistoryTitle>Price History</PriceHistoryTitle>
+                <Divider />
+                <PriceHistory>
+                  First Order
+                  <br />
+                  Maker: {assetFromDirectCall.orders[0].maker.address}
+                  <br />
+                  Taker: {assetFromDirectCall.orders[0].taker.address}
+                  <br />
+                  BasePrice: {assetFromDirectCall.orders[0].base_price}
+                  <br />
+                  <br />
+                  Top Ownership
+                  <br />
+                  Top_Ownerships: {assetFromDirectCall.top_ownerships[0].owner.address}
+                </PriceHistory>
+              </LeftColWrapper>
+              <RightColWrapper>
+                <Divider />
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <CollectionName>
+                    <img
+                      alt='Dapp Logo'
+                      height='30px'
+                      width='auto'
+                      style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
+                      src={asset?.data?.asset?.collection?.image_url || ''}
+                    />
+                    <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                      {asset?.data?.asset?.collection?.name}
                     </div>
-                  </LinkContainer>
-                )
-              })
-            : null}
-        </div>
-      </MoreAssets>
+                  </CollectionName>
+                  <SocialLinksWrap>
+                    {asset?.data?.asset?.collection?.telegram_url && (
+                      <SocialLinks
+                        href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
+                      >
+                        <Image color='grey500' name='instagram' />
+                      </SocialLinks>
+                    )}
+                    {asset?.data?.asset?.collection?.twitter_username && (
+                      <SocialLinks
+                        href={`${'https://twitter.com/'}${
+                          asset?.data?.asset?.collection?.twitter_username
+                        }`}
+                      >
+                        <Image color='grey500' name='instagram' />
+                      </SocialLinks>
+                    )}
+                    {asset?.data?.asset?.collection?.instagram_username && (
+                      <SocialLinks
+                        href={`${'http://instagram.com/'}${
+                          asset?.data?.asset?.collection?.instagram_username
+                        }`}
+                      >
+                        <Image color='grey500' name='instagram' />
+                      </SocialLinks>
+                    )}
+                    {asset?.data?.asset?.collection?.wiki_url && (
+                      <SocialLinks
+                        href={`${'https://en.wikipedia.org/wiki/'}${
+                          asset?.data?.asset?.collection?.instagram_username
+                        }`}
+                      >
+                        <Image color='grey500' name='instagram' />
+                      </SocialLinks>
+                    )}
+                    {asset?.data?.asset?.collection?.external_url && (
+                      <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
+                        <Image color='grey500' name='instagram' />
+                      </SocialLinks>
+                    )}
+                  </SocialLinksWrap>
+                </div>
+                <Divider />
+                <AssetName>
+                  {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
+                </AssetName>
+                <Description>{asset?.data?.asset?.collection?.description}</Description>
+                <Divider />
+                <CurrentPriceBox>
+                  <HighestBid>Highest Bid</HighestBid>
+                  <EthText>
+                    <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
+                    2.25 ETH ($8,809.20)
+                  </EthText>
+                  <Button
+                    data-e2e='openNftFlow'
+                    nature='primary'
+                    fullwidth
+                    onClick={() =>
+                      nftsActions.nftOrderFlowOpen({
+                        // @ts-ignore
+                        asset_contract_address: asset.data.asset.contract_address!,
+                        // @ts-ignore
+                        token_id: asset.data.asset.token_id!,
+                        walletUserIsAssetOwnerHack: false
+                      })
+                    }
+                  >
+                    {asset?.data?.asset?.events &&
+                    asset?.data?.asset?.events[0] &&
+                    asset?.data?.asset?.events &&
+                    asset?.data?.asset?.events[0].event_type === 'created' ? (
+                      <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                    ) : (
+                      <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                    )}
+                  </Button>
+                </CurrentPriceBox>
+                <CustomTabMenu>
+                  <TabMenuItem width='33%' data-e2e='dayTab' selected={false} onClick={() => {}}>
+                    <FormattedMessage id='copy.day' defaultMessage='Details' />
+                  </TabMenuItem>
+                  <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
+                    <FormattedMessage id='copy.week' defaultMessage='Bids' />
+                  </TabMenuItem>
+                  <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
+                    <FormattedMessage id='copy.week' defaultMessage='History' />
+                  </TabMenuItem>
+                </CustomTabMenu>
+                <CreatorOwnerBox>
+                  <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
+                  <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                    {asset?.data?.asset?.creator?.profile_img_url && (
+                      <img
+                        alt='Creator Logo'
+                        height='30px'
+                        width='auto'
+                        style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                        src={asset?.data?.asset?.creator?.profile_img_url}
+                      />
+                    )}
+                    <CreatorOwnerAddress>
+                      <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
+                    </CreatorOwnerAddress>
+                  </div>
+                  <DividerNoMargin />
+                  <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
+                  <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                    <img
+                      alt='Owner Logo'
+                      height='30px'
+                      width='auto'
+                      style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                      src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                    />{' '}
+                    <CreatorOwnerAddress>
+                      <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
+                    </CreatorOwnerAddress>
+                  </div>
+                </CreatorOwnerBox>
+                <TraitsWrapper>
+                  Traits
+                  <TraitCell>
+                    {asset?.data?.asset?.traits?.length
+                      ? asset?.data?.asset?.traits.map((traits, index) => (
+                          // eslint-disable-next-line react/no-array-index-key
+                          <Trait key={index}>
+                            <Text
+                              capitalize
+                              color='grey500'
+                              size='12px'
+                              weight={500}
+                              style={{ padding: '0.5em' }}
+                            >
+                              <b>{traits?.trait_type}</b>
+                            </Text>
+                            <Text
+                              capitalize
+                              color='blue600'
+                              size='14px'
+                              weight={600}
+                              style={{ padding: '0.5em' }}
+                            >
+                              {traits?.value}
+                            </Text>
+                            <Text
+                              capitalize
+                              color='grey500'
+                              size='12px'
+                              weight={400}
+                              style={{ padding: '0.5em' }}
+                            >
+                              0.1% Rarity
+                            </Text>
+                          </Trait>
+                        ))
+                      : null}
+                  </TraitCell>
+                </TraitsWrapper>
+                <AdditionalDetailsWrapper>
+                  Additional Details
+                  <AdditionalDetails>
+                    <div style={{ padding: '1em' }}>
+                      <Text weight={500} size='16px'>
+                        Contract Address:
+                      </Text>
+                      <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
+                    </div>
+                    <DividerNoMargin />
+                    <div style={{ padding: '1em' }}>
+                      <Text weight={500} size='16px'>
+                        Token ID:
+                      </Text>
+                      {asset?.data?.asset?.token_id}
+                    </div>
+                    <DividerNoMargin />
+                    <div style={{ padding: '1em' }}>
+                      <Text weight={500} size='16px'>
+                        Token Standard:
+                      </Text>{' '}
+                      {asset?.data?.asset?.asset_contract?.schema_name}
+                    </div>
+                    <DividerNoMargin />
+                    <div style={{ padding: '1em' }}>
+                      <Text weight={500} size='16px'>
+                        Blockchain:
+                      </Text>{' '}
+                      ETH
+                    </div>
+                  </AdditionalDetails>
+                </AdditionalDetailsWrapper>
+              </RightColWrapper>
+              <MoreAssets>
+                <Text
+                  capitalize
+                  style={{ fontWeight: 'bold', padding: '1em', textDecoration: 'underline' }}
+                >
+                  More from this collection...
+                </Text>
+                <div>
+                  {assets?.data?.assets?.length // @ts-ignore
+                    ? assets?.data?.assets?.map((asset, index) => {
+                        const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
+                        return (
+                          <LinkContainer
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={index}
+                            to={link}
+                          >
+                            <div style={{ display: 'flex' }}>
+                              <Text capitalize style={{ padding: '1em' }}>
+                                <b>{asset?.name || '#'}</b>
+                              </Text>
+                              <img
+                                alt='Asset Logo'
+                                height='200px'
+                                width='auto'
+                                style={{
+                                  border: '1px solid #dfe3eb',
+                                  borderRadius: '10%',
+                                  borderWidth: '1px',
+                                  marginBottom: '0.5rem',
+                                  padding: '10px'
+                                }}
+                                src={asset?.image_url || ''}
+                              />
+                            </div>
+                          </LinkContainer>
+                        )
+                      })
+                    : null}
+                </div>
+              </MoreAssets>
+            </>
+          )
+        }
+      })}
     </>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  openSeaAsset: selectors.components.nfts.getOpenSeaAsset(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector> & {
+type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { contract: string; id: string } }
 }
 

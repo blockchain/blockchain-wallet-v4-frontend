@@ -47,6 +47,7 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
+  openSeaAsset: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     asset: Remote.NotAsked,
@@ -242,6 +243,16 @@ const nftsSlice = createSlice({
       state.marketplace.isFailure = false
       state.marketplace.isLoading = false
       state.marketplace.list = [...state.marketplace.list, ...action.payload]
+    },
+    fetchOpenseaAsset: () => {},
+    fetchOpenseaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaStatus = Remote.Failure(action.payload)
+    },
+    fetchOpenseaAssetLoading: (state) => {
+      state.openSeaStatus = Remote.Loading
+    },
+    fetchOpenseaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaAsset = Remote.Success(action.payload)
     },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
