@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon, IconName, Switch } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
@@ -15,6 +15,7 @@ import { useCollectionQuery } from 'generated/graphql'
 import { CollectionBanner, Grid, NftPage } from '../components'
 import Error from './error'
 import ResultsPage from './results'
+import Stats from './Stats'
 
 const CollectionHeader = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ const CollectionHeader = styled.div`
 const CollectionBannerWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 24px;
 `
 
 const CollectionHeaderFixed = styled.div`
@@ -45,8 +46,8 @@ const CollectionImage = styled.img`
   height: 100px;
   width: 100px;
   position: absolute;
-  top: 50%;
-  left: calc(50% - 60px);
+  top: 140px;
+  left: calc(50% - 50px);
   border-radius: 50%;
   border: 2px solid ${(props) => props.theme.grey100};
 `
@@ -86,28 +87,33 @@ const Centered = styled.div`
   gap: 8px;
 `
 
-const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({ coinsActions, collection, nftsActions, ...rest }) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const { slug } = rest.computedMatch.params
+
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
   const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
+  const [isBuyNow, setIsBuyNow] = useState(true)
+
   const [results] = useCollectionQuery({ variables: { filter: { slug } } })
 
   useEffect(() => {
+    setIsFetchingNextPage(true)
     setPageVariables([])
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 1000)
-  }, [slug])
+  }, [slug, isBuyNow])
 
   useEffect(() => {
     if (wrapperRef.current) {
-      const handleScroll = (e) => {
+      // eslint-disable-next-line
+      const handleScroll = (e: any) => {
         // @ts-ignore
         if (headerRef.current?.getBoundingClientRect()?.bottom < 0) {
           setShowFixedHeader(true)
@@ -125,6 +131,14 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
       }
     }
   }, [])
+
+  useEffect(() => {
+    nftsActions.fetchNftCollection({ slug })
+  }, [slug, nftsActions])
+
+  useEffect(() => {
+    coinsActions.fetchCoinsRates()
+  }, [coinsActions])
 
   const scrollUp = () => {
     wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -156,17 +170,15 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
       <CollectionHeader ref={headerRef}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
           <LinkContainer role='button' cursor='pointer' to='/nfts'>
-            <Icon
-              style={{ marginBottom: '8px' }}
-              name={IconName.ARROW_LEFT}
-              color={colors.grey400}
-            />
+            <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
           </LinkContainer>
           <CollectionBanner
             large
+            style={{ marginTop: '12px' }}
             background={`url(${results.data?.collection?.banner_image_url})`}
           />
           <CollectionImage src={results.data?.collection?.image_url || ''} />
+          <Stats collection={collection} />
         </CollectionBannerWrapper>
         <div style={{ width: '100%' }}>
           <Text size='40px' color='grey900' weight={600}>
@@ -211,6 +223,21 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
           </Text>
         </div>
       </CollectionHeader>
+      <div style={{ marginBottom: '8px' }}>
+        <Text>
+          <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+        </Text>
+        <Switch
+          firstItem=''
+          secondItem=''
+          selectedColor={colors.blue400}
+          activeColor={colors.blue600}
+          hoverColor={colors.grey700}
+          isFirstItemActive={isBuyNow}
+          handleFirstItemClicked={() => setIsBuyNow((isBuyNow) => !isBuyNow)}
+          handleSecondItemClicked={() => setIsBuyNow((isBuyNow) => !isBuyNow)}
+        />
+      </div>
       <Grid>
         {pageVariables.length
           ? pageVariables.map(({ page }) => (
@@ -218,6 +245,7 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
                 page={page}
                 key={page}
                 slug={slug}
+                isBuyNow={isBuyNow}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />
@@ -247,10 +275,12 @@ const NftsCollection: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest 
 }
 
 const mapStateToProps = (state: RootState) => ({
+  collection: selectors.components.nfts.getNftCollection(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 

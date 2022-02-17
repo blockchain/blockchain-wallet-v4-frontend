@@ -1,10 +1,8 @@
-import BigNumber from 'bignumber.js'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
-import { call, put, race, select, take } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { Remote } from '@core'
-import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -12,7 +10,6 @@ import {
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
-  OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import {
@@ -25,18 +22,16 @@ import {
   getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { NULL_ADDRESS, OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStepEnum } from './types'
-import { orderFromJSON } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -82,6 +77,20 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
+    }
+  }
+
+  const fetchNftCollection = function* (action: ReturnType<typeof A.fetchNftCollection>) {
+    try {
+      yield put(A.fetchNftCollectionLoading())
+      const { collection }: ReturnType<typeof api.getNftCollection> = yield call(
+        api.getNftCollection,
+        action.payload.slug
+      )
+      yield put(A.fetchNftCollectionSuccess(collection))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftCollectionFailure(error))
     }
   }
 
@@ -632,6 +641,7 @@ export default ({ api }: { api: APIType }) => {
     createTransfer,
     fetchFees,
     fetchNftAssets,
+    fetchNftCollection,
     fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenseaStatus,

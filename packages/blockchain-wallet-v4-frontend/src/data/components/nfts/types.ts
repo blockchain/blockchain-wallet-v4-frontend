@@ -3,6 +3,7 @@ import {
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
+  NftCollection,
   NftOrder,
   NftOrdersType,
   OfferEventsType,
@@ -32,6 +33,7 @@ export type NftsStateType = {
     list: NftAssetsType
     page: number
   }
+  collection: RemoteDataType<string, NftCollection>
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {

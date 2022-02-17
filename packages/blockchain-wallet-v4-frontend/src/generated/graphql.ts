@@ -497,6 +497,7 @@ export type Event = {
   from_account?: Maybe<Account>;
   from_account_address?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
+  is_active_listing?: Maybe<Scalars['Boolean']>;
   is_private?: Maybe<Scalars['Boolean']>;
   listing_time?: Maybe<Scalars['String']>;
   owner_account?: Maybe<Account>;
@@ -618,6 +619,7 @@ export type EventFilter = {
   event_type?: InputMaybe<Scalars['String']>;
   from_account_address?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  is_active_listing?: InputMaybe<Scalars['String']>;
   is_private?: InputMaybe<Scalars['String']>;
   listing_time?: InputMaybe<Scalars['String']>;
   owner_account_address?: InputMaybe<Scalars['String']>;
@@ -651,6 +653,7 @@ export enum EventProperties {
   EventType = 'event_type',
   FromAccountAddress = 'from_account_address',
   Id = 'id',
+  IsActiveListing = 'is_active_listing',
   IsPrivate = 'is_private',
   ListingTime = 'listing_time',
   OwnerAccountAddress = 'owner_account_address',
@@ -1037,13 +1040,14 @@ export type AssetQuery = { __typename?: 'Query', asset?: { __typename?: 'Asset',
 
 export type AssetsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
-  filter?: InputMaybe<AssetFilter>;
   eventsFilter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<AssetFilter>;
+  orderBy?: InputMaybe<AssetOrderBy>;
   offset?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', id?: string | null, event_type?: string | null, starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
+export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', name?: string | null, token_id?: string | null, contract_address?: string | null, image_url?: string | null, permalink?: string | null, owner_address?: string | null, collection?: { __typename?: 'Collection', name?: string | null } | null, events?: Array<{ __typename?: 'Event', event_type?: string | null, starting_price?: string | null, duration?: number | null, listing_time?: string | null, is_active_listing?: boolean | null, payment_token?: { __typename?: 'PaymentToken', symbol?: string | null } | null } | null> | null } | null> | null };
 
 export type CollectionQueryVariables = Exact<{
   filter?: InputMaybe<CollectionFilter>;
@@ -2648,6 +2652,14 @@ export default {
           },
           {
             "name": "id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "is_active_listing",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -4345,8 +4357,14 @@ export function useAssetQuery(options?: Omit<Urql.UseQueryArgs<AssetQueryVariabl
   return Urql.useQuery<AssetQuery>({ query: AssetDocument, ...options });
 };
 export const AssetsDocument = gql`
-    query Assets($limit: Int, $filter: AssetFilter, $eventsFilter: EventFilter, $offset: Int) {
-  assets(limit: $limit, filter: $filter, offset: $offset) {
+    query Assets($limit: Int, $eventsFilter: EventFilter, $filter: AssetFilter, $orderBy: AssetOrderBy, $offset: Int) {
+  assets(
+    limit: $limit
+    eventsFilter: $eventsFilter
+    filter: $filter
+    orderBy: $orderBy
+    offset: $offset
+  ) {
     name
     token_id
     contract_address
@@ -4357,9 +4375,11 @@ export const AssetsDocument = gql`
       name
     }
     events(filter: $eventsFilter) {
-      id
       event_type
       starting_price
+      duration
+      listing_time
+      is_active_listing
       payment_token {
         symbol
       }

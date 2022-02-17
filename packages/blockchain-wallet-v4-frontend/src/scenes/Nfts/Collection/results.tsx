@@ -23,6 +23,7 @@ import {
 const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({
+  isBuyNow,
   page,
   setIsFetchingNextPage,
   setNextPageFetchError,
@@ -31,7 +32,8 @@ const ResultsPage: React.FC<Props> = ({
   const [result] = useAssetsQuery({
     variables: {
       eventsFilter: {
-        event_type: 'created'
+        event_type: 'created',
+        is_active_listing: isBuyNow ? 'true' : 'false'
       },
       filter: {
         collection_slug: slug
@@ -76,7 +78,7 @@ const ResultsPage: React.FC<Props> = ({
                 <Text size='12px' color='black' weight={600}>
                   <FormattedMessage id='copy.price' defaultMessage='Price' />
                 </Text>
-                {asset?.events && asset.events[0] ? (
+                {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
                   <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                     <StyledCoinDisplay
                       size='14px'
@@ -91,6 +93,7 @@ const ResultsPage: React.FC<Props> = ({
                       size='12px'
                       color='grey600'
                       weight={600}
+                      currency='USD'
                       coin={asset.events[0].payment_token?.symbol}
                     >
                       {asset.events[0].starting_price}
@@ -150,6 +153,7 @@ const ResultsPage: React.FC<Props> = ({
 }
 
 type Props = {
+  isBuyNow: boolean
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
