@@ -19,18 +19,18 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
-  parseMagicLink,
+  parseAuthMagicLink,
   pollForSessionFromAuthPayload,
   pollForSessionFromGuid
 } from './sagas.utils'
 import * as S from './selectors'
 import {
   AccountUnificationFlows,
+  AuthMagicLink,
   LoginErrorType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions,
-  WalletDataFromMagicLink
+  ProductAuthOptions
 } from './types'
 
 export default ({ api, coreSagas, networks }) => {
@@ -81,7 +81,7 @@ export default ({ api, coreSagas, networks }) => {
     const { userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const { platform } = yield select(selectors.auth.getProductAuthMetadata)
-    const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
+    const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
@@ -691,7 +691,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
           const magicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
-          ) as WalletDataFromMagicLink
+          ) as AuthMagicLink
           yield put(actions.auth.setMagicLinkInfo(magicLink))
           yield call(parseMagicLink)
       }
@@ -875,7 +875,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { email, language, password } = action.payload
       // get recovery token and nabu ID
-      const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
+      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
       const recoveryToken = magicLinkData.wallet?.nabu?.recovery_token
       const userId = magicLinkData.wallet?.nabu?.user_id
       yield put(actions.auth.setResetAccount(true))

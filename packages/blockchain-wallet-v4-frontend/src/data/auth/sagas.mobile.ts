@@ -4,13 +4,13 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
 import {
   AccountUnificationFlows,
+  AuthMagicLink,
   LoginSteps,
   MobileAuthConnectedMessage,
   MobileAuthExchangeMessage,
   MobileAuthWalletMergeMessage,
   PlatformTypes,
-  ProductAuthOptions,
-  WalletDataFromMagicLink
+  ProductAuthOptions
 } from 'data/types'
 
 import { LOGIN_FORM } from './model'
@@ -103,7 +103,7 @@ export const initMobileWalletAuthFlow = function* () {
     mergeable,
     upgradeable,
     wallet: walletData
-  }: WalletDataFromMagicLink = authPayloadDecoded
+  }: AuthMagicLink = authPayloadDecoded
 
   // determine correct flow then setup forms and next step
   switch (true) {
