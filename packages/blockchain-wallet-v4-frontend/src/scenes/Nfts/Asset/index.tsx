@@ -6,7 +6,16 @@ import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Color, Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Color,
+  Icon,
+  Image,
+  SpinningLoader,
+  TabMenu,
+  TabMenuItem,
+  Text
+} from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -260,6 +269,14 @@ const SocialLinks = styled.a.attrs({
     }
   }
 `
+const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+`
 
 const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
   const { contract, id } = rest.computedMatch.params
@@ -277,8 +294,26 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     <>
       {rest.openSeaAsset.cata({
         Failure: () => <>Failure</>,
-        Loading: () => <>Loading</>,
-        NotAsked: () => <>Not asked</>,
+        Loading: () => (
+          <>
+            <LoadingWrapper>
+              <SpinningLoader />
+              <Text weight={600} color='grey600' style={{ marginLeft: '8px' }}>
+                <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+              </Text>
+            </LoadingWrapper>
+          </>
+        ),
+        NotAsked: () => (
+          <>
+            <LoadingWrapper>
+              <SpinningLoader />
+              <Text weight={600} color='grey600' style={{ marginLeft: '8px' }}>
+                <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+              </Text>
+            </LoadingWrapper>
+          </>
+        ),
         Success: (assetFromDirectCall) => {
           return (
             <>
