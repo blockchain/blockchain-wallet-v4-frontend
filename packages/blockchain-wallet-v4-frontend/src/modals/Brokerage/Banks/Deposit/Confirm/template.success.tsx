@@ -99,7 +99,7 @@ const Success = (props: Props) => {
           {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
         </div>
       </FlyoutContent>
-      <FlyoutFooter>
+      <FlyoutFooter collapsed>
         <Button
           data-e2e='submitDepositAmount'
           height='48px'
