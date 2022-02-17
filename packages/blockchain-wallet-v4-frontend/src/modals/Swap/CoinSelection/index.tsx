@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, StickyHeaderWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
 import {
@@ -85,43 +85,45 @@ class CoinSelection extends PureComponent<Props> {
     const { coins, custodialEligibility, values, walletCurrency } = this.props
     return (
       <>
-        <StickyHeaderFlyoutWrapper>
-          <TopText spaceBetween={false} marginBottom>
-            <Icon
-              role='button'
-              data-e2e='backToInitSwap'
-              name='arrow-back'
-              cursor
-              size='24px'
-              color='grey600'
-              onClick={() =>
-                this.props.swapActions.setStep({
-                  step: 'INIT_SWAP'
-                })
-              }
-            />{' '}
-            <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '24px' }}>
+        <StickyHeaderWrapper>
+          <FlyoutWrapper>
+            <TopText spaceBetween={false} marginBottom>
+              <Icon
+                role='button'
+                data-e2e='backToInitSwap'
+                name='arrow-back'
+                cursor
+                size='24px'
+                color='grey600'
+                onClick={() =>
+                  this.props.swapActions.setStep({
+                    step: 'INIT_SWAP'
+                  })
+                }
+              />{' '}
+              <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '24px' }}>
+                {this.props.side === 'BASE' ? (
+                  <FormattedMessage id='copy.swap_from' defaultMessage='Swap from' />
+                ) : (
+                  <FormattedMessage id='copy.receive_to' defaultMessage='Receive to' />
+                )}
+              </Text>
+            </TopText>
+            <Text size='16px' color='grey600' weight={500} style={{ margin: '10px 0 0 48px' }}>
               {this.props.side === 'BASE' ? (
-                <FormattedMessage id='copy.swap_from' defaultMessage='Swap from' />
+                <FormattedMessage
+                  id='copy.swap_from_origin'
+                  defaultMessage='Which wallet do you want to Swap from?'
+                />
               ) : (
-                <FormattedMessage id='copy.receive_to' defaultMessage='Receive to' />
+                <FormattedMessage
+                  id='copy.swap_for_destination'
+                  defaultMessage='Which crypto do you want to Swap for?'
+                />
               )}
             </Text>
-          </TopText>
-          <Text size='16px' color='grey600' weight={500} style={{ margin: '10px 0 0 48px' }}>
-            {this.props.side === 'BASE' ? (
-              <FormattedMessage
-                id='copy.swap_from_origin'
-                defaultMessage='Which wallet do you want to Swap from?'
-              />
-            ) : (
-              <FormattedMessage
-                id='copy.swap_for_destination'
-                defaultMessage='Which crypto do you want to Swap for?'
-              />
-            )}
-          </Text>
-        </StickyHeaderFlyoutWrapper>
+          </FlyoutWrapper>
+        </StickyHeaderWrapper>
         {coins?.map((coin) => {
           const accounts = (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map((account) => {

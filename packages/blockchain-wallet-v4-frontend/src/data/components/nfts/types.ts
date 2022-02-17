@@ -34,6 +34,14 @@ export type NftsStateType = {
     page: number
   }
   collection: RemoteDataType<string, NftCollection>
+  collectionFilter: {
+    isBuyNow: boolean
+    traits: {
+      [key in string]: {
+        [key in string]: boolean
+      }
+    }
+  }
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {

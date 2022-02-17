@@ -90,6 +90,7 @@ const Centered = styled.div`
 const NftsCollection: React.FC<Props> = ({
   coinsActions,
   collection,
+  collectionFilter,
   modalActions,
   nftsActions,
   ...rest
@@ -104,7 +105,6 @@ const NftsCollection: React.FC<Props> = ({
     undefined
   )
   const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
-  const [isBuyNow, setIsBuyNow] = useState(true)
 
   const [results] = useCollectionQuery({ variables: { filter: { slug } } })
 
@@ -114,7 +114,7 @@ const NftsCollection: React.FC<Props> = ({
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 1000)
-  }, [slug, isBuyNow])
+  }, [slug, collectionFilter.isBuyNow])
 
   useEffect(() => {
     if (wrapperRef.current) {
@@ -247,7 +247,7 @@ const NftsCollection: React.FC<Props> = ({
                 page={page}
                 key={page}
                 slug={slug}
-                isBuyNow={isBuyNow}
+                isBuyNow={collectionFilter.isBuyNow}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />
@@ -278,6 +278,7 @@ const NftsCollection: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   collection: selectors.components.nfts.getNftCollection(state),
+  collectionFilter: selectors.components.nfts.getNftCollectionFilter(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
 

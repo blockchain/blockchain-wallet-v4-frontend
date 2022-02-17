@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { string } from 'prop-types'
 
 import { Remote } from '@core'
 import {
@@ -32,6 +33,10 @@ const initialState: NftsStateType = {
     page: 0
   },
   collection: Remote.NotAsked,
+  collectionFilter: {
+    isBuyNow: false,
+    traits: {}
+  },
   collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
@@ -379,6 +384,19 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
+    },
+    updateCollectionFilter: (
+      state,
+      action: PayloadAction<{ isBuyNow: boolean; trait?: { name: string; value: string } }>
+    ) => {
+      const { isBuyNow, trait } = action.payload
+      state.collectionFilter.isBuyNow = isBuyNow
+
+      if (!trait) return
+      const { name, value } = trait
+
+      const active = state.collectionFilter.traits[value][name]
+      state.collectionFilter.traits[value][name] = !active
     }
   }
 })

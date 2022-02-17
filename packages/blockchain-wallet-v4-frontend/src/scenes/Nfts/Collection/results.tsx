@@ -9,7 +9,6 @@ import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-co
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { useAssetsQuery } from 'generated/graphql'
 
-import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
