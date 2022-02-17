@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
+import Modals from '../../modals'
 import Header from './Header'
 
 const Wrapper = styled.div`
@@ -18,6 +19,7 @@ const ExploreTemplate: React.FC<Props> = ({ children }) => {
   return (
     <ErrorBoundary>
       <Wrapper>
+        <Modals />
         <Header />
         {children}
       </Wrapper>

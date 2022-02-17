@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { Row, Title, Value } from 'components/Flyout/model'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'

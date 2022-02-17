@@ -10,6 +10,7 @@ import { CombinedError } from 'urql'
 import { Button, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
 
 import { CollectionBanner, Grid, NftPage } from '../components'
@@ -27,7 +28,6 @@ const CollectionHeader = styled.div`
 const CollectionBannerWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding-bottom: 24px;
 `
 
 const CollectionHeaderFixed = styled.div`
@@ -87,7 +87,13 @@ const Centered = styled.div`
   gap: 8px;
 `
 
-const NftsCollection: React.FC<Props> = ({ coinsActions, collection, nftsActions, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({
+  coinsActions,
+  collection,
+  modalActions,
+  nftsActions,
+  ...rest
+}) => {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const { slug } = rest.computedMatch.params
@@ -223,19 +229,15 @@ const NftsCollection: React.FC<Props> = ({ coinsActions, collection, nftsActions
           </Text>
         </div>
       </CollectionHeader>
-      <div style={{ marginBottom: '8px' }}>
-        <Text>
-          <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-        </Text>
-        <Switch
-          firstItem=''
-          secondItem=''
-          selectedColor={colors.blue400}
-          activeColor={colors.blue600}
-          hoverColor={colors.grey700}
-          isFirstItemActive={isBuyNow}
-          handleFirstItemClicked={() => setIsBuyNow((isBuyNow) => !isBuyNow)}
-          handleSecondItemClicked={() => setIsBuyNow((isBuyNow) => !isBuyNow)}
+      <div style={{ marginBottom: '12px' }}>
+        <Icon
+          onClick={() =>
+            modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
+          }
+          cursor='pointer'
+          role='button'
+          name={IconName.FILTER}
+          color={colors.grey400}
         />
       </div>
       <Grid>
@@ -281,6 +283,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 
