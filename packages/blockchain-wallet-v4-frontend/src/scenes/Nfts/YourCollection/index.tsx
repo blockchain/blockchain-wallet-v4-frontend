@@ -10,10 +10,9 @@ import {
   Asset,
   AssetCollection,
   AssetDetails,
+  AssetImageContainer,
   CTAWrapper,
-  ImageContainer,
   LazyLoadWrapper,
-  NftPageWrapper,
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
@@ -38,14 +37,14 @@ const YourCollection: React.FC<Props> = (props) => {
   }
 
   return (
-    <NftPageWrapper>
+    <>
       <CollectionForm {...props} />
       <LazyLoadWrapper onLazyLoad={() => props.nftsActions.fetchNftAssets()}>
         {assets.map((asset) => {
           if (!asset) return null
           return (
             <Asset key={asset.token_id}>
-              <ImageContainer
+              <AssetImageContainer
                 onClick={() => openAsset(asset)}
                 backgroundColor={`#${asset.background_color}` || '#fff'}
                 background={`url(${asset.image_url})`}
@@ -143,7 +142,7 @@ const YourCollection: React.FC<Props> = (props) => {
           )
         ) : null}
       </LazyLoadWrapper>
-    </NftPageWrapper>
+    </>
   )
 }
 

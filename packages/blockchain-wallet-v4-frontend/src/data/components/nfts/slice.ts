@@ -9,6 +9,7 @@ import {
   GasDataI,
   NftAsset,
   NftAssetsType,
+  NftCollection,
   NftOrder,
   NftOrdersType,
   OfferEventsType,
@@ -30,6 +31,7 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
+  collection: Remote.NotAsked,
   collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
@@ -190,6 +192,21 @@ const nftsSlice = createSlice({
       state.assets.isLoading = false
       state.assets.list = [...state.assets.list, ...action.payload]
     },
+    fetchNftCollection: (
+      state,
+      action: PayloadAction<{
+        slug: string
+      }>
+    ) => {},
+    fetchNftCollectionFailure: (state, action: PayloadAction<string>) => {
+      state.collection = Remote.Failure(action.payload)
+    },
+    fetchNftCollectionLoading: (state) => {
+      state.collection = Remote.Loading
+    },
+    fetchNftCollectionSuccess: (state, action: PayloadAction<NftCollection>) => {
+      state.collection = Remote.Success(action.payload)
+    },
     fetchNftCollections: (
       state,
       action: PayloadAction<{
@@ -230,19 +247,6 @@ const nftsSlice = createSlice({
     },
     fetchNftOrderAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.orderFlow.asset = Remote.Success(action.payload)
-    },
-    fetchNftOrders: () => {},
-    fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
-      state.marketplace.isLoading = false
-      state.marketplace.isFailure = true
-    },
-    fetchNftOrdersLoading: (state) => {
-      state.marketplace.isLoading = true
-    },
-    fetchNftOrdersSuccess: (state, action: PayloadAction<NftOrdersType['orders']>) => {
-      state.marketplace.isFailure = false
-      state.marketplace.isLoading = false
-      state.marketplace.list = [...state.marketplace.list, ...action.payload]
     },
     fetchOpenseaAsset: () => {},
     fetchOpenseaAssetFailure: (state, action: PayloadAction<NftAsset>) => {

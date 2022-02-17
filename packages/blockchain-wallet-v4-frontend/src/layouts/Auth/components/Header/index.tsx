@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Image, Link, Text } from 'blockchain-info-components'
+import { Image, Link } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
 import { media } from 'services/styles'
@@ -27,7 +27,7 @@ const BlockchainLogoImage = styled(Image)`
     width: 200px;
   `}
 `
-const PublicBrand = styled.div`
+const AuthBrand = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -45,11 +45,11 @@ const Header = (props) => {
     <>
       <NavbarStyled height='112px' authProduct={props.authProduct}>
         <NavbarBrandStyled>
-          <PublicBrand>
+          <AuthBrand>
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
             </HeaderLink>
-          </PublicBrand>
+          </AuthBrand>
         </NavbarBrandStyled>
       </NavbarStyled>
       <Announcements type='service' alertArea='public' />

@@ -4,12 +4,14 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const NftPageWrapper = styled.div`
-  display: flex;
+export const maxWidth = '1200px'
+
+export const NftPage = styled.div`
   width: 100%;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
+  max-width: ${maxWidth};
+  margin: 20px auto;
+  position: relative;
+  background: ${(props) => props.theme.white};
 `
 
 export const LeftColWrapper = styled.div`
@@ -35,7 +37,7 @@ export const LeftColWrapper = styled.div`
 `
 
 export const LazyLoadWrapper = styled(LazyLoadContainer)`
-  max-width: 1000px;
+  max-width: ${maxWidth};
   ${media.atLeastTabletL`
     width: 75%;
   `}
@@ -54,21 +56,13 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 `
 
 export const Grid = styled.div`
-  max-width: 1000px;
-  ${media.atLeastTabletL`
-    width: 75%;
-  `}
-  > div:first-child {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    overflow: scroll;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: scroll;
+  gap: 20px;
+  margin-bottom: 20px;
   ${media.atLeastLaptopL`
-    > div:first-child {
       grid-template-columns: repeat(3, minmax(0, 1fr));  
-    }
   `}
 `
 
@@ -76,6 +70,7 @@ export const CTAWrapper = styled.div`
   padding: 8px;
 `
 
+// asset
 export const Asset = styled.div`
   border-radius: 8px;
   overflow: hidden;
@@ -91,10 +86,9 @@ export const InfoStatsWrapper = styled.div`
   margin-bottom: 16px;
 `
 
-export const ImageContainer = styled.div<{
+export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
-  onClick: () => void
 }>`
   align-items: center;
   display: flex;
@@ -123,4 +117,41 @@ export const PriceInfo = styled.div`
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
   justify-content: flex-end;
+`
+
+// collection
+export const Collection = styled.div<{ onClick: () => void }>`
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 24px;
+  border: ${(props) => `1px solid ${props.theme.grey100}`};
+`
+
+export const CollectionBanner = styled.div<{ background?: string; large?: boolean }>`
+  height: ${(props) => (props.large ? '180px' : '74px')};
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  background-image: ${(props) => props.background};
+`
+
+export const CollectionImage = styled.img`
+  border-radius: 50%;
+  position: absolute;
+  height: 62px;
+  width: 62px;
+  top: 60px;
+  left: calc(50% - 31px);
+  ${media.tabletL`
+    height: 40px;
+    width: 40px;
+    top: 74px;
+    left: calc(50% - 20px);
+  `}
 `

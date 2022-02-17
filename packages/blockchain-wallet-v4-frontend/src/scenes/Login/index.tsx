@@ -16,7 +16,7 @@ import {
 } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 
-import Loading from '../loading.public'
+import Loading from '../loading.auth'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'

@@ -3,6 +3,7 @@ import {
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
+  NftCollection,
   NftOrdersType,
   OfferEventsType,
   OpenSeaStatus
@@ -11,9 +12,10 @@ import {
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 30
 
-export default ({ apiUrl, get, post }) => {
+export default ({ apiUrl, get, openseaApi, post }) => {
   // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
   const explorerUrl = `${apiUrl}/explorer-gateway/nft`
+  const openseaUrl = `${openseaApi}/api/v1`
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
@@ -108,11 +110,21 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  // DEPRECATED
   const getNftCollectionInfo = (slug: string) => {
     return get({
       endPoint: `/collection/${slug}/`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
+    })
+  }
+  // DEPRECATED
+
+  const getNftCollection = (slug): { collection: NftCollection } => {
+    return get({
+      endPoint: `/collection/${slug}`,
+      ignoreQueryParams: true,
+      url: openseaUrl
     })
   }
 
@@ -165,6 +177,7 @@ export default ({ apiUrl, get, post }) => {
     getAssetContract,
     getNftAsset,
     getNftAssets,
+    getNftCollection,
     getNftCollectionInfo,
     getNftCollections,
     getNftOffersForAsset,

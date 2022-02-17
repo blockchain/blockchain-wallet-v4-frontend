@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { useAssetsQuery } from 'generated/graphql'
 
 import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
   AssetDetails,
+  AssetImageContainer,
   CTAWrapper,
-  ImageContainer,
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
@@ -22,17 +23,17 @@ import {
 const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({
-  defaultEthAddr,
-  nftsActions,
+  isBuyNow,
   page,
-  setError,
-  setIsFetching,
+  setIsFetchingNextPage,
+  setNextPageFetchError,
   slug
 }) => {
   const [result] = useAssetsQuery({
     variables: {
       eventsFilter: {
-        event_type: 'created'
+        event_type: 'created',
+        is_active_listing: isBuyNow ? 'true' : 'false'
       },
       filter: {
         collection_slug: slug
@@ -43,32 +44,24 @@ const ResultsPage: React.FC<Props> = ({
   })
 
   useEffect(() => {
-    setError(result.error)
+    setNextPageFetchError(result.error)
   }, [result.error])
 
   useEffect(() => {
-    setIsFetching(result.fetching)
+    setIsFetchingNextPage(result.fetching)
   }, [result.fetching])
 
   return (
     <>
       {result?.data?.assets?.map((asset) => {
-        const walletUserIsAssetOwnerHack =
-          asset?.owner_address?.toLowerCase() === defaultEthAddr.toLowerCase()
-
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
-            <ImageContainer
-              onClick={() =>
-                nftsActions.nftOrderFlowOpen({
-                  asset_contract_address: asset.contract_address!,
-                  token_id: asset.token_id!,
-                  walletUserIsAssetOwnerHack
-                })
-              }
-              background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
-              // backgroundColor={`#${asset?.}` || '#fff'}
-            />
+            <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+              <AssetImageContainer
+                background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
+                // backgroundColor={`#${asset?.}` || '#fff'}
+              />
+            </LinkContainer>
             <AssetDetails>
               <div>
                 <AssetCollection>
@@ -85,7 +78,7 @@ const ResultsPage: React.FC<Props> = ({
                 <Text size='12px' color='black' weight={600}>
                   <FormattedMessage id='copy.price' defaultMessage='Price' />
                 </Text>
-                {asset?.events && asset.events[0] ? (
+                {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
                   <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                     <StyledCoinDisplay
                       size='14px'
@@ -100,6 +93,7 @@ const ResultsPage: React.FC<Props> = ({
                       size='12px'
                       color='grey600'
                       weight={600}
+                      currency='USD'
                       coin={asset.events[0].payment_token?.symbol}
                     >
                       {asset.events[0].starting_price}
@@ -124,27 +118,18 @@ const ResultsPage: React.FC<Props> = ({
               </PriceInfo>
             </AssetDetails>
             <CTAWrapper>
-              <Button
-                data-e2e='openNftFlow'
-                nature='primary'
-                fullwidth
-                onClick={() =>
-                  nftsActions.nftOrderFlowOpen({
-                    asset_contract_address: asset.contract_address!,
-                    token_id: asset.token_id!,
-                    walletUserIsAssetOwnerHack
-                  })
-                }
-              >
-                {asset?.events &&
-                asset.events[0] &&
-                asset?.events &&
-                asset.events[0].event_type === 'created' ? (
-                  <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                ) : (
-                  <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                )}
-              </Button>
+              <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+                <Button data-e2e='openNftFlow' nature='primary' fullwidth>
+                  {asset?.events &&
+                  asset.events[0] &&
+                  asset?.events &&
+                  asset.events[0].event_type === 'created' ? (
+                    <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                  ) : (
+                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                  )}
+                </Button>
+              </LinkContainer>
               <Link
                 style={{
                   display: 'block',
@@ -168,11 +153,10 @@ const ResultsPage: React.FC<Props> = ({
 }
 
 type Props = {
-  defaultEthAddr: string
-  nftsActions: OwnProps['nftsActions']
+  isBuyNow: boolean
   page: number
-  setError: (error: CombinedError | undefined) => void
-  setIsFetching: (isFetching: boolean) => void
+  setIsFetchingNextPage: (isFetching: boolean) => void
+  setNextPageFetchError: (error: CombinedError | undefined) => void
   slug: string
 }
 
