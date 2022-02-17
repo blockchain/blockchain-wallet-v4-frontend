@@ -292,11 +292,11 @@ export default ({ api, coreSagas, networks }) => {
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
-        yield put(
-          actions.session.saveSession(
-            assoc(product === ProductAuthOptions.EXCHANGE ? exchangeEmail : guid, session, {})
-          )
-        )
+        if (product === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.session.saveExchangeSession({ email: exchangeEmail, id: session }))
+        } else {
+          yield put(actions.session.saveWalletSession({ guid, email, id: session }))
+        }
       }
       if (emailToken) {
         yield call(
@@ -594,6 +594,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeLogin = function* () {
+    yield put(actions.session.clearSessions())
     try {
       // set loading
       yield put(actions.auth.initializeLoginLoading())
@@ -811,7 +812,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
-      yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      if (product === ProductAuthOptions.EXCHANGE) {
+        yield put(actions.session.saveExchangeSession({ email, id: sessionToken }))
+      } else {
+        yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
+      }
       yield call(
         api.triggerWalletMagicLink,
         sessionToken,
