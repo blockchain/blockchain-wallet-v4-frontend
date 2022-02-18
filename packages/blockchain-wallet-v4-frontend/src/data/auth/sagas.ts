@@ -464,6 +464,11 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, initCaptcha, state } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    // Want this behind a feature flag to monitor
+    // if this thing could be abused or not
+    const refreshToken = (yield select(
+      selectors.core.walletOptions.getRefreshCaptchaOnSignupError
+    )).getOrElse(false)
     try {
       yield put(actions.auth.registerLoading())
       yield put(actions.auth.setRegisterEmail(email))
@@ -486,7 +491,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.registerFailure(undefined))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
-      initCaptcha()
+      if (refreshToken) {
+        initCaptcha()
+      }
     }
   }
 
