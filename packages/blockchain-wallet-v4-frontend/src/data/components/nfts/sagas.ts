@@ -147,13 +147,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchOpenseaAsset = function* () {
+  const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
     try {
       yield put(A.fetchNftOffersMadeLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
-        '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
-        '8520'
+        action.payload.address,
+        action.payload.token_id
       )
       yield put(A.fetchOpenseaAssetSuccess(res))
     } catch (e) {

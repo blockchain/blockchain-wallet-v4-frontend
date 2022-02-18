@@ -6,6 +6,7 @@ import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { RawOrder } from '@core/network/api/nfts/types'
 import {
   Button,
   Color,
@@ -121,7 +122,7 @@ const CurrentPriceBox = styled.div`
   border-radius: 8px;
   padding: 1em;
 `
-const HighestBid = styled.div`
+const Highest = styled.div`
   padding: 1em;
   font-family: Inter, sans-serif;
   font-style: normal;
@@ -137,7 +138,7 @@ const CustomTabMenu = styled(TabMenu)`
   background: white;
 `
 
-const EthText = styled(HighestBid)`
+const EthText = styled(Highest)`
   font-size: 24px;
   display: flex;
   line-height: 135%;
@@ -287,8 +288,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const [assets] = useAssetsQuery({
     variables: { filter: { contract_address: contract } }
   })
+  const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
   useEffect(() => {
-    nftsActions.fetchOpenseaAsset()
+    nftsActions.fetchOpenseaAsset({
+      address: asset?.data?.asset?.contract_address || '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
+      token_id: asset.data?.asset?.token_id || '8520'
+    })
   }, [])
   return (
     <>
@@ -315,6 +320,32 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           </>
         ),
         Success: (assetFromDirectCall) => {
+          let bids = assetFromDirectCall.orders.filter((x) => {
+            return x.side === 0 && x.taker.address !== NULL_ADDRESS
+          }, [])
+          // Offers have taker as null address
+          let offers = assetFromDirectCall.orders.filter((x) => {
+            return x.side === 0 && x.taker.address === NULL_ADDRESS
+          }, [])
+          // const sellOrders = assetFromDirectCall.orders.filter((x) => {
+          //   return x.side === 1 && x.maker.address ===
+          // })
+          bids = bids.length
+            ? bids.sort((a: any, b: any) => {
+                return b.base_price - a.base_price
+              })
+            : []
+          offers = offers.length
+            ? offers.sort((a: any, b: any) => {
+                return b.base_price - a.base_price
+              })
+            : []
+          const highest_bid = bids[0]
+          const highest_offer = offers[0]
+          // eslint-disable-next-line no-console
+          console.log(highest_bid, 'highest_bid')
+          // eslint-disable-next-line no-console
+          console.log(highest_offer, 'highest_offer')
           return (
             <>
               <LeftColWrapper>
@@ -333,18 +364,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 <PriceHistoryTitle>Price History</PriceHistoryTitle>
                 <Divider />
                 <PriceHistory>
-                  First Order
+                  <br />A Bid Order Maker Address: {bids.length ? bids[0].maker.address : 'none'}
+                  <br />A Bid Order Expiration Time: {bids.length ? bids[0].listing_time : 'none'}
+                  <br />A Bid Order Expiration Time:{bids.length ? bids[0].expiration_time : 'none'}
+                  <br />A Offer Order Maker Address:
+                  {offers.length ? offers[0].maker.address : 'none'}
+                  <br />A Offer Order Expiration: {offers.length ? offers[0].listing_time : 'none'}
+                  <br />A Offer Order Expiration:
+                  {offers.length ? offers[0].expiration_time : 'none'}
                   <br />
-                  Maker: {assetFromDirectCall.orders[0].maker.address}
-                  <br />
-                  Taker: {assetFromDirectCall.orders[0].taker.address}
-                  <br />
-                  BasePrice: {assetFromDirectCall.orders[0].base_price}
-                  <br />
-                  <br />
-                  Top Ownership
-                  <br />
-                  Top_Ownerships: {assetFromDirectCall.top_ownerships[0].owner.address}
+                  Top_Ownerships[0]: {assetFromDirectCall.top_ownerships[0].owner.address}
                 </PriceHistory>
               </LeftColWrapper>
               <RightColWrapper>
@@ -411,11 +440,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 <Description>{asset?.data?.asset?.collection?.description}</Description>
                 <Divider />
                 <CurrentPriceBox>
-                  <HighestBid>Highest Bid</HighestBid>
-                  <EthText>
-                    <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                    2.25 ETH ($8,809.20)
-                  </EthText>
+                  {highest_bid && (
+                    <>
+                      <Highest>Highest Bid</Highest>
+                      <EthText>
+                        <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
+                        {highest_bid?.base_price} wei
+                      </EthText>
+                    </>
+                  )}
+                  {highest_offer && (
+                    <>
+                      <Highest>Highest Offer</Highest>
+                      <EthText>
+                        <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
+                        {highest_offer?.base_price} wei
+                      </EthText>
+                    </>
+                  )}
                   <Button
                     data-e2e='openNftFlow'
                     nature='primary'
@@ -570,6 +612,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             // eslint-disable-next-line react/no-array-index-key
                             key={index}
                             to={link}
+                            onClick={() => {
+                              nftsActions.fetchOpenseaAsset({
+                                address: asset?.contract_address || '',
+                                token_id: asset?.token_id || ''
+                              })
+                            }}
                           >
                             <div style={{ display: 'flex' }}>
                               <Text capitalize style={{ padding: '1em' }}>
