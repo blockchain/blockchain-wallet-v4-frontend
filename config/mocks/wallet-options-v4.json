@@ -43,7 +43,7 @@
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "isRedesignEnabled": true,
-        "refreshCaptchaWithSignupError": false,
+        "refreshCaptchaWithSignupError": true,
         "signupCountry": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
