@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -288,6 +288,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const [assets] = useAssetsQuery({
     variables: { filter: { contract_address: contract } }
   })
+  const [Tab, setTab] = useState('details')
   const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
   const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
   useEffect(() => {
@@ -499,118 +500,134 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   </Button>
                 </CurrentPriceBox>
                 <CustomTabMenu>
-                  <TabMenuItem width='33%' data-e2e='dayTab' selected={false} onClick={() => {}}>
+                  <TabMenuItem
+                    width='33%'
+                    onClick={() => setTab('details')}
+                    selected={Tab === 'details'}
+                  >
                     <FormattedMessage id='copy.day' defaultMessage='Details' />
                   </TabMenuItem>
-                  <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
-                    <FormattedMessage id='copy.week' defaultMessage='Bids' />
+                  <TabMenuItem
+                    width='33%'
+                    onClick={() => setTab('offers')}
+                    selected={Tab === 'offers'}
+                  >
+                    <FormattedMessage id='copy.week' defaultMessage='Offers' />
                   </TabMenuItem>
-                  <TabMenuItem width='33%' data-e2e='weekTab' selected={false} onClick={() => {}}>
+                  <TabMenuItem
+                    width='33%'
+                    onClick={() => setTab('history')}
+                    selected={Tab === 'history'}
+                  >
                     <FormattedMessage id='copy.week' defaultMessage='History' />
                   </TabMenuItem>
                 </CustomTabMenu>
-                <CreatorOwnerBox>
-                  <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
-                  <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                    {asset?.data?.asset?.creator?.profile_img_url && (
-                      <img
-                        alt='Creator Logo'
-                        height='30px'
-                        width='auto'
-                        style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                        src={asset?.data?.asset?.creator?.profile_img_url}
-                      />
-                    )}
-                    <CreatorOwnerAddress>
-                      <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
-                    </CreatorOwnerAddress>
-                  </div>
-                  <DividerNoMargin />
-                  <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
-                  <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                    <img
-                      alt='Owner Logo'
-                      height='30px'
-                      width='auto'
-                      style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                      src={asset?.data?.asset?.owner?.profile_img_url || ''}
-                    />{' '}
-                    <CreatorOwnerAddress>
-                      <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
-                    </CreatorOwnerAddress>
-                  </div>
-                </CreatorOwnerBox>
-                <TraitsWrapper>
-                  Traits
-                  <TraitCell>
-                    {asset?.data?.asset?.traits?.length
-                      ? asset?.data?.asset?.traits.map((traits, index) => (
-                          // eslint-disable-next-line react/no-array-index-key
-                          <Trait key={index}>
-                            <Text
-                              capitalize
-                              color='grey500'
-                              size='12px'
-                              weight={500}
-                              style={{ padding: '0.5em' }}
-                            >
-                              <b>{traits?.trait_type}</b>
-                            </Text>
-                            <Text
-                              capitalize
-                              color='blue600'
-                              size='14px'
-                              weight={600}
-                              style={{ padding: '0.5em' }}
-                            >
-                              {traits?.value}
-                            </Text>
-                            <Text
-                              capitalize
-                              color='grey500'
-                              size='12px'
-                              weight={400}
-                              style={{ padding: '0.5em' }}
-                            >
-                              0.1% Rarity
-                            </Text>
-                          </Trait>
-                        ))
-                      : null}
-                  </TraitCell>
-                </TraitsWrapper>
-                <AdditionalDetailsWrapper>
-                  Additional Details
-                  <AdditionalDetails>
-                    <div style={{ padding: '1em' }}>
-                      <Text weight={500} size='16px'>
-                        Contract Address:
-                      </Text>
-                      <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
-                    </div>
-                    <DividerNoMargin />
-                    <div style={{ padding: '1em' }}>
-                      <Text weight={500} size='16px'>
-                        Token ID:
-                      </Text>
-                      {asset?.data?.asset?.token_id}
-                    </div>
-                    <DividerNoMargin />
-                    <div style={{ padding: '1em' }}>
-                      <Text weight={500} size='16px'>
-                        Token Standard:
-                      </Text>{' '}
-                      {asset?.data?.asset?.asset_contract?.schema_name}
-                    </div>
-                    <DividerNoMargin />
-                    <div style={{ padding: '1em' }}>
-                      <Text weight={500} size='16px'>
-                        Blockchain:
-                      </Text>{' '}
-                      ETH
-                    </div>
-                  </AdditionalDetails>
-                </AdditionalDetailsWrapper>
+                {Tab === 'details' && (
+                  <>
+                    <CreatorOwnerBox>
+                      <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
+                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                        {asset?.data?.asset?.creator?.profile_img_url && (
+                          <img
+                            alt='Creator Logo'
+                            height='30px'
+                            width='auto'
+                            style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                            src={asset?.data?.asset?.creator?.profile_img_url}
+                          />
+                        )}
+                        <CreatorOwnerAddress>
+                          <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
+                        </CreatorOwnerAddress>
+                      </div>
+                      <DividerNoMargin />
+                      <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
+                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                        <img
+                          alt='Owner Logo'
+                          height='30px'
+                          width='auto'
+                          style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                          src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                        />{' '}
+                        <CreatorOwnerAddress>
+                          <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
+                        </CreatorOwnerAddress>
+                      </div>
+                    </CreatorOwnerBox>
+                    <TraitsWrapper>
+                      Traits
+                      <TraitCell>
+                        {asset?.data?.asset?.traits?.length
+                          ? asset?.data?.asset?.traits.map((traits, index) => (
+                              // eslint-disable-next-line react/no-array-index-key
+                              <Trait key={index}>
+                                <Text
+                                  capitalize
+                                  color='grey500'
+                                  size='12px'
+                                  weight={500}
+                                  style={{ padding: '0.5em' }}
+                                >
+                                  <b>{traits?.trait_type}</b>
+                                </Text>
+                                <Text
+                                  capitalize
+                                  color='blue600'
+                                  size='14px'
+                                  weight={600}
+                                  style={{ padding: '0.5em' }}
+                                >
+                                  {traits?.value}
+                                </Text>
+                                <Text
+                                  capitalize
+                                  color='grey500'
+                                  size='12px'
+                                  weight={400}
+                                  style={{ padding: '0.5em' }}
+                                >
+                                  0.1% Rarity
+                                </Text>
+                              </Trait>
+                            ))
+                          : null}
+                      </TraitCell>
+                    </TraitsWrapper>
+                    <AdditionalDetailsWrapper>
+                      Additional Details
+                      <AdditionalDetails>
+                        <div style={{ padding: '1em' }}>
+                          <Text weight={500} size='16px'>
+                            Contract Address:
+                          </Text>
+                          <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
+                        </div>
+                        <DividerNoMargin />
+                        <div style={{ padding: '1em' }}>
+                          <Text weight={500} size='16px'>
+                            Token ID:
+                          </Text>
+                          {asset?.data?.asset?.token_id}
+                        </div>
+                        <DividerNoMargin />
+                        <div style={{ padding: '1em' }}>
+                          <Text weight={500} size='16px'>
+                            Token Standard:
+                          </Text>{' '}
+                          {asset?.data?.asset?.asset_contract?.schema_name}
+                        </div>
+                        <DividerNoMargin />
+                        <div style={{ padding: '1em' }}>
+                          <Text weight={500} size='16px'>
+                            Blockchain:
+                          </Text>{' '}
+                          ETH
+                        </div>
+                      </AdditionalDetails>
+                    </AdditionalDetailsWrapper>
+                  </>
+                )}
               </RightColWrapper>
               <MoreAssets>
                 <Text
