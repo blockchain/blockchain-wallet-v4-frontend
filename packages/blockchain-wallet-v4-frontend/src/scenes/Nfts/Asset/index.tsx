@@ -406,7 +406,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <SocialLinks
                         href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
                       >
-                        <Image color='grey500' name='instagram' />
+                        <Image color='grey500' name='smartphone' />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.twitter_username && (
@@ -415,7 +415,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           asset?.data?.asset?.collection?.twitter_username
                         }`}
                       >
-                        <Image color='grey500' name='instagram' />
+                        <Image color='grey500' name='email-success' />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.instagram_username && (
@@ -433,12 +433,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           asset?.data?.asset?.collection?.instagram_username
                         }`}
                       >
-                        <Image color='grey500' name='instagram' />
+                        <Image color='grey500' name='globe' />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.external_url && (
                       <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                        <Image color='grey500' name='instagram' />
+                        <Image color='grey500' name='world-alert' />
                       </SocialLinks>
                     )}
                   </SocialLinksWrap>
