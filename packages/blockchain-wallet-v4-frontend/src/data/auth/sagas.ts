@@ -673,11 +673,11 @@ export default ({ api, coreSagas, networks }) => {
           break
         // url has base64 encrypted magic link JSON
         default:
+          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
           const magicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as WalletDataFromMagicLink
           yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
           yield call(parseMagicLink)
       }
 
@@ -810,8 +810,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
