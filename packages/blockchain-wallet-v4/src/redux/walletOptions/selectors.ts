@@ -114,3 +114,7 @@ export const getTradingCurrency = (state: RootState) =>
 // show/hide wallet debit card
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
+
+// refresh captcha token if there's an error on signup
+export const getRefreshCaptchaOnSignupError = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
