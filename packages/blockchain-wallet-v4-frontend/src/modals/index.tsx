@@ -27,6 +27,9 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 // BCH
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
+// Debit Card
+const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -210,6 +213,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD) ? (
+          <OrderMyCard />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
