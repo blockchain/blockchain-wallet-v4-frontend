@@ -102,12 +102,13 @@ const AssetName = styled.div`
 `
 
 const PriceHistoryTitle = styled(AssetName)`
-  font-size: 14px;
+  font-size: 24px;
   line-height: 135%;
   padding: 2em 0em 2em 0em;
 `
 
 const PriceHistory = styled(PriceHistoryTitle)`
+  font-size: 14px;
   height: 340px;
   background: #f0f2f7;
   padding: 2em;
@@ -628,6 +629,18 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     </AdditionalDetailsWrapper>
                   </>
                 )}
+                {Tab === 'offers' &&
+                  (offers.length
+                    ? offers?.map((offer, index) => {
+                        return (
+                          // eslint-disable-next-line react/no-array-index-key
+                          <div key={index}>
+                            Offer: {offer.base_price}, Expires:{offer.expiration_time}{' '}
+                          </div>
+                        )
+                      })
+                    : null)}
+                {Tab === 'history' && <div>History</div>}
               </RightColWrapper>
               <MoreAssets>
                 <Text
