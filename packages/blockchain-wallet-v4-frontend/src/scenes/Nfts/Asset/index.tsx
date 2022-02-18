@@ -112,7 +112,7 @@ const PriceHistoryTitle = styled(AssetName)`
 const PriceHistory = styled(PriceHistoryTitle)`
   font-size: 14px;
   height: 340px;
-  color: ${colors.grey100};
+  color: ${colors.grey400};
   padding: 2em;
   border: 1px solid ${colors.grey0};
   box-sizing: border-box;
@@ -126,7 +126,7 @@ const CurrentPriceBox = styled.div`
   padding: 1em;
 `
 const Highest = styled.div`
-  padding: 1em;
+  padding: 0.5em;
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -146,10 +146,10 @@ const EthText = styled(Highest)`
   display: flex;
   line-height: 135%;
   color: ${colors.grey900};
-  padding: 0.5em;
 `
 
 const CreatorOwnerBox = styled(CurrentPriceBox)`
+  margin-top: 2em;
   max-width: 100%;
   font-family: Inter, sans-serif;
   font-style: normal;
@@ -167,19 +167,18 @@ const CreatorOwnerAddress = styled.div`
   padding-left: 1em;
 `
 
-const Divider = styled.div`
-  margin-bottom: 1em;
+const Divider = styled.hr`
+  margin-bottom: 2em;
   position: static;
-  width: 727px;
-  height: 1px;
+  width: 100%;
   left: 48px;
   top: 51px;
-  color: ${colors.grey100};
+  opacity: 0.3;
+  color: ${colors.grey0};
 `
 
 const DividerNoMargin = styled(Divider)`
   margin-bottom: unset;
-  width: 100%;
 `
 
 const Description = styled.div`
@@ -293,7 +292,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   })
   const [Tab, setTab] = useState('details')
   const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-  // Default to WETH
+
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
   useEffect(() => {
@@ -454,7 +453,6 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
                 </AssetName>
                 <Description>{asset?.data?.asset?.collection?.description}</Description>
-                <Divider />
                 <CurrentPriceBox>
                   {highest_bid && (
                     <>
@@ -504,6 +502,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     )}
                   </Button>
                 </CurrentPriceBox>
+                <Divider style={{ marginTop: '2em' }} />
                 <CustomTabMenu>
                   <TabMenuItem
                     width='33%'
@@ -527,39 +526,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     <FormattedMessage id='copy.week' defaultMessage='History' />
                   </TabMenuItem>
                 </CustomTabMenu>
+                <Divider style={{ marginTop: '2em' }} />
                 {Tab === 'details' && (
                   <>
-                    <CreatorOwnerBox>
-                      <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
-                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                        {asset?.data?.asset?.creator?.profile_img_url && (
-                          <img
-                            alt='Creator Logo'
-                            height='30px'
-                            width='auto'
-                            style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                            src={asset?.data?.asset?.creator?.profile_img_url}
-                          />
-                        )}
-                        <CreatorOwnerAddress>
-                          <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
-                        </CreatorOwnerAddress>
-                      </div>
-                      <DividerNoMargin />
-                      <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
-                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                        <img
-                          alt='Owner Logo'
-                          height='30px'
-                          width='auto'
-                          style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                          src={asset?.data?.asset?.owner?.profile_img_url || ''}
-                        />{' '}
-                        <CreatorOwnerAddress>
-                          <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
-                        </CreatorOwnerAddress>
-                      </div>
-                    </CreatorOwnerBox>
                     <TraitsWrapper>
                       Traits
                       <TraitCell>
@@ -599,6 +568,37 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           : null}
                       </TraitCell>
                     </TraitsWrapper>
+                    <CreatorOwnerBox>
+                      <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
+                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                        {asset?.data?.asset?.creator?.profile_img_url && (
+                          <img
+                            alt='Creator Logo'
+                            height='30px'
+                            width='auto'
+                            style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                            src={asset?.data?.asset?.creator?.profile_img_url}
+                          />
+                        )}
+                        <CreatorOwnerAddress>
+                          <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
+                        </CreatorOwnerAddress>
+                      </div>
+                      <DividerNoMargin />
+                      <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
+                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                        <img
+                          alt='Owner Logo'
+                          height='30px'
+                          width='auto'
+                          style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                          src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                        />{' '}
+                        <CreatorOwnerAddress>
+                          <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
+                        </CreatorOwnerAddress>
+                      </div>
+                    </CreatorOwnerBox>
                     <AdditionalDetailsWrapper>
                       Additional Details
                       <AdditionalDetails>
@@ -650,7 +650,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             // eslint-disable-next-line react/no-array-index-key
                             key={index}
                           >
-                            <Text>{coin} WETH</Text>{' '}
+                            <Text>
+                              {coin}{' '}
+                              {offer?.payment_token_contract?.address === WETH_ADDRESS
+                                ? 'WETH'
+                                : 'ETH'}
+                            </Text>{' '}
                             <Text>
                               {'Expires: '}
                               {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
