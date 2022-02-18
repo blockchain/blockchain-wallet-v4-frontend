@@ -305,6 +305,12 @@ const nftsSlice = createSlice({
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
     },
+    resetCollectionFilter: (state) => {
+      state.collectionFilter = {
+        isBuyNow: false,
+        traits: {}
+      }
+    },
     resetNftAssets: (state) => {
       state.assets.atBound = false
       state.assets.page = 0
