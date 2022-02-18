@@ -462,10 +462,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
-    // Want this behind a feature flag to monitor
-    // if this thing could be abused or not
     const { country, email, initCaptcha, state } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    // Want this behind a feature flag to monitor
+    // if this thing could be abused or not
     const refreshToken = (yield select(
       selectors.core.walletOptions.getRefreshCaptchaOnSignupError
     )).getOrElse(false)
