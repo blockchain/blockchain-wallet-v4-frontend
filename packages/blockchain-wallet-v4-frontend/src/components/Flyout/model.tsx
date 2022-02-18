@@ -680,6 +680,7 @@ const getIcon = (
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     case BSPaymentTypes.BANK_ACCOUNT:
       return <Icon name='bank-filled' color='blue600' />
+
     default:
       return <></>
   }

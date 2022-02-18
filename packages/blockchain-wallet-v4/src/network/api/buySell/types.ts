@@ -1,6 +1,11 @@
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
+import {
+  BankDetails,
+  CountryType,
+  RecurringBuyFailureReasons,
+  RecurringBuyPeriods
+} from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -119,6 +124,11 @@ export enum BSPaymentTypes {
   USER_CARD = 'USER_CARD'
 }
 
+export enum MobilePaymentType {
+  APPLE_PAY = 'APPLE_PAY',
+  GOOGLE_PAY = 'GOOGLE_PAY'
+}
+
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
@@ -133,6 +143,7 @@ export type BSPaymentMethodType = {
     max: string
     min: string
   }
+  mobilePayment?: MobilePaymentType[]
   state?: 'ACTIVE' | Exclude<BSCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: BSPaymentTypes
@@ -396,4 +407,22 @@ export type TradeAccumulatedItem = {
 
 export type TradesAccumulatedResponse = {
   tradesAccumulated: Array<TradeAccumulatedItem>
+}
+
+export type ApplePayInfoType = {
+  applePayMerchantID: string
+  beneficiaryID: string
+  cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
+  merchantBankCountryCode: string
+  publishableApiKey: string
+}
+
+export type ValidateApplePayMerchantRequest = {
+  beneficiaryID: string
+  domain: string
+  validationURL: string
+}
+
+export type ValidateApplePayMerchantResponse = {
+  applePayPayload: string
 }

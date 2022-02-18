@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import moment from 'moment'
-import { defaultTo, filter, prop } from 'ramda'
+import { defaultTo, filter, prop, set } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -9,6 +9,7 @@ import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
 import {
+  ApplePayInfoType,
   BSAccountType,
   BSCardStateType,
   BSCardType,
@@ -19,6 +20,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  MobilePaymentType,
   OrderType,
   ProductTypes,
   SwapOrderType,
@@ -91,6 +93,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     networks
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
+
+  const performPayment = ({
+    applePayInfo,
+    paymentRequest
+  }: {
+    applePayInfo: ApplePayInfoType
+    paymentRequest: ApplePayJS.ApplePayPaymentRequest
+  }) => {
+    return new Promise((resolve, reject) => {
+      const session = new ApplePaySession(3, paymentRequest)
+
+      session.onvalidatemerchant = async (event) => {
+        try {
+          const { applePayPayload } = await api.validateApplePayMerchant({
+            beneficiaryID: applePayInfo.beneficiaryID,
+            domain: window.location.host,
+            validationURL: event.validationURL
+          })
+
+          session.completeMerchantValidation(JSON.parse(applePayPayload))
+        } catch (e) {
+          reject()
+        }
+      }
+      session.onpaymentauthorized = resolve
+      session.oncancel = reject
+      session.begin()
+    })
+  }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
@@ -322,8 +353,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSOrder = function* ({ payload }: ReturnType<typeof A.createOrder>) {
-    const { paymentMethodId, paymentType } = payload
+  const createBSOrder = function* ({
+    payload: { mobilePaymentMethod, paymentMethodId, paymentType }
+  }: ReturnType<typeof A.createOrder>) {
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
@@ -444,6 +476,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       let buyOrder: BSOrderType
       let oldBuyOrder: BSOrderType | undefined
+
+      if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
+        const applePayInfo: ApplePayInfoType = yield call(api.getApplePayInfo, fiat)
+
+        yield put(A.setApplePayInfo(applePayInfo))
+      }
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
@@ -571,12 +609,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { order, paymentMethodId } = payload
+    const { mobilePaymentMethod, order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
+
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
       const account = selectors.components.brokerage.getAccount(yield select())
+
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
+
       const domains = domainsR.getOrElse({
         comRoot: 'https://www.blockchain.com',
         walletHelper: 'https://wallet-helper.blockchain.com'
@@ -590,17 +632,39 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
         order.paymentType === BSPaymentTypes.USER_CARD
       ) {
-        attributes =
-          order.paymentMethodId || paymentMethodId
-            ? {
-                everypay: {
-                  customerUrl: paymentSuccessLink
-                },
-                redirectURL: paymentSuccessLink
-              }
-            : undefined
+        attributes = {
+          everypay: {
+            customerUrl: paymentSuccessLink
+          },
+          redirectURL: paymentSuccessLink
+        }
       } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
+      }
+
+      if (mobilePaymentMethod) {
+        if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
+          const applePayInfo = selectors.components.buySell.getApplePayInfo(yield select())
+
+          if (!applePayInfo) {
+            throw new Error('Apple Pay info not found')
+          }
+
+          const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
+            countryCode: applePayInfo.merchantBankCountryCode,
+            currencyCode: order.inputCurrency,
+            merchantCapabilities: ['supports3DS'],
+            supportedNetworks: ['visa', 'masterCard'],
+            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+          }
+
+          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
+
+          attributes = {
+            applePayPaymentToken: payment.token,
+            redirectURL: paymentSuccessLink
+          }
+        }
       }
 
       const confirmedOrder: BSOrderType = yield call(
@@ -1119,12 +1183,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
-  const handleBSMethodChange = function* ({ payload }: ReturnType<typeof A.handleMethodChange>) {
+  const handleBSMethodChange = function* ({
+    payload: { isFlow, method, mobilePaymentMethod }
+  }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
 
-    const { isFlow, method } = payload
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
     // At this point fiatCurrency should be set inside buy/sell flow - fallback to USD
@@ -1191,6 +1256,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
       case BSPaymentTypes.PAYMENT_CARD:
+        if (mobilePaymentMethod) {
+          return yield put(
+            A.setStep({
+              cryptoCurrency,
+              fiatCurrency,
+              method,
+              mobilePaymentMethod,
+              orderType: values?.orderType,
+              pair,
+              step: 'ENTER_AMOUNT',
+              swapAccount
+            })
+          )
+        }
+
         return yield put(
           A.setStep({
             step: 'DETERMINE_CARD_PROVIDER'

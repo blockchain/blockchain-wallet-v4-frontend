@@ -1,4 +1,7 @@
-import { FiatType, RatesType, RemoteDataType } from '@core/types'
+import { isEmpty, lift, union } from 'ramda'
+
+import { ExtractSuccess, FiatType, RatesType, RemoteDataType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -13,6 +16,39 @@ export const getIsAmountDisplayedInCrypto = (state: RootState) =>
 export const getInterestEligible = (state: RootState) => state.components.interest.interestEligible
 
 export const getInterestInstruments = (state: RootState) => state.components.interest.instruments
+
+// If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
+// If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
+export const getInstrumentsSortedByBalance = createDeepEqualSelector(
+  getInterestInstruments,
+  getInterestAccountBalance,
+  (
+    instrumentsR: ReturnType<typeof getInterestInstruments>,
+    balancesR: ReturnType<typeof getInterestAccountBalance>
+  ) => {
+    const transform = (
+      instruments: ExtractSuccess<typeof instrumentsR>,
+      balances: ExtractSuccess<typeof balancesR>
+    ) => {
+      if (isEmpty(instruments)) return []
+      let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC']
+      if (!isEmpty(balances)) {
+        preferredCoins = union(Object.keys(balances), preferredCoins)
+      }
+
+      preferredCoins.forEach((coin) => {
+        const coinIndex = instruments.indexOf(coin)
+        if (coinIndex !== -1) {
+          instruments.splice(coinIndex, 1)
+        }
+      })
+
+      return [...preferredCoins, ...instruments]
+    }
+
+    return lift(transform)(instrumentsR, balancesR)
+  }
+)
 
 export const getInterestLimits = (state: RootState) => state.components.interest.interestLimits
 

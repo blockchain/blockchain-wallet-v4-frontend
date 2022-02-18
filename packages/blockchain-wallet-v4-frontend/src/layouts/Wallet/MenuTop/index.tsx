@@ -28,6 +28,9 @@ const mapStateToProps = (state: RootState) => ({
   isRedesignEnabled: selectors.core.walletOptions
     .getRedesignEnabled(state)
     .getOrElse(false) as boolean,
+  taxCenterEnabled: selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean,
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean

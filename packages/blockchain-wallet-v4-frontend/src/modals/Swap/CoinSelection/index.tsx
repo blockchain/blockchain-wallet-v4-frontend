@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
@@ -29,8 +30,8 @@ class CoinSelection extends PureComponent<Props> {
     account: SwapAccountType
   ) => {
     if (
-      (side === 'BASE' && values?.BASE?.label === account.label) ||
-      (side === 'COUNTER' && values?.COUNTER?.label === account.label)
+      (side === 'BASE' && !!values?.BASE && equals(values.BASE, account)) ||
+      (side === 'COUNTER' && !!values?.COUNTER && equals(values?.COUNTER, account))
     ) {
       return true
     }
@@ -128,7 +129,6 @@ class CoinSelection extends PureComponent<Props> {
             const isAccountSelected = this.checkAccountSelected(this.props.side, values, account)
             const isCoinSelected = this.checkCoinSelected(this.props.side, values, account)
             const hideCustodialToAccount = this.checkBaseCustodial(this.props.side, values, account)
-
             const isBaseAccountZero = this.checkBaseAccountZero(this.props.side, account)
             const isCustodialEligible = this.checkCustodialEligibility(
               custodialEligibility,

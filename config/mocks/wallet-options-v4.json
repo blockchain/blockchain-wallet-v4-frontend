@@ -32,6 +32,7 @@
         }
       },
       "featureFlags": {
+        "applePayPaymentMethod": true,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
@@ -44,6 +45,7 @@
         "recurringBuys": true,
         "isRedesignEnabled": true,
         "signupCountry": true,
+        "taxCenter": false,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
