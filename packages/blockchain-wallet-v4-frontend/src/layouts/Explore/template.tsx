@@ -19,8 +19,8 @@ const ExploreTemplate: React.FC<Props> = ({ children }) => {
   return (
     <ErrorBoundary>
       <Wrapper>
-        <Modals />
         <Header />
+        <Modals />
         {children}
       </Wrapper>
     </ErrorBoundary>
