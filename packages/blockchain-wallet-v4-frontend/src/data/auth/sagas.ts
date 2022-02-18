@@ -631,7 +631,7 @@ export default ({ api, coreSagas, networks }) => {
         case userType === 'institutional':
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
           break
-        // no guid on path, use cached/stored authrguid if exists
+        // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) &&
           !walletGuidOrMagicLinkFromUrl &&
           product === ProductAuthOptions.WALLET:
