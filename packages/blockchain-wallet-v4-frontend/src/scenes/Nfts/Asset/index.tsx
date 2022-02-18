@@ -112,7 +112,8 @@ const PriceHistoryTitle = styled(AssetName)`
 const PriceHistory = styled(PriceHistoryTitle)`
   font-size: 14px;
   height: 340px;
-  color: ${colors.grey400};
+  background: ${colors.grey0};
+  opacity: 0.2;
   padding: 2em;
   border: 1px solid ${colors.grey0};
   box-sizing: border-box;
@@ -373,23 +374,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 />
                 <PriceHistoryTitle>Price History</PriceHistoryTitle>
                 <Divider />
-                <PriceHistory>
-                  <br />A Bid Order Maker Address: {bids.length ? bids[0].maker.address : 'none'}
-                  <br />A Bid Order Listing Time: {bids.length ? bids[0].listing_time : 'none'}
-                  <br />A Bid Order Expiration Time:{bids.length ? bids[0].expiration_time : 'none'}
-                  <br />A Bid Order Payment Token:
-                  {bids.length ? bids[0].payment_token_contract?.address : 'none'}
-                  <br />A Offer Order Maker Address:
-                  {offers.length ? offers[0].maker.address : 'none'}
-                  <br />A Offer Order Listing: {offers.length ? offers[0].listing_time : 'none'}
-                  <br />A Offer Order Expiration:
-                  {offers.length ? offers[0].expiration_time : 'none'}
-                  <br />
-                  Offer Payment Token:{' '}
-                  {offers.length ? offers[0].payment_token_contract?.address : 'none'}
-                  <br />
-                  Top_Ownerships[0]: {assetFromDirectCall.top_ownerships[0].owner.address}
-                </PriceHistory>
+                <PriceHistory />
               </LeftColWrapper>
               <RightColWrapper>
                 <Divider />
@@ -634,37 +619,39 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   </>
                 )}
                 {Tab === 'offers' &&
-                  (offers.length
-                    ? offers?.map((offer, index) => {
-                        const coin = Exchange.convertCoinToCoin({
-                          coin: 'ETH',
-                          value: offer?.base_price
-                        })
-                        return (
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              padding: '0.5em'
-                            }}
-                            // eslint-disable-next-line react/no-array-index-key
-                            key={index}
-                          >
-                            <Text>
-                              {coin}{' '}
-                              {offer?.payment_token_contract?.address === WETH_ADDRESS
-                                ? 'WETH'
-                                : 'ETH'}
-                            </Text>{' '}
-                            <Text>
-                              {'Expires: '}
-                              {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
-                            </Text>
-                          </div>
-                        )
+                  (offers.length ? (
+                    offers?.map((offer, index) => {
+                      const coin = Exchange.convertCoinToCoin({
+                        coin: 'ETH',
+                        value: offer?.base_price
                       })
-                    : null)}
-                {Tab === 'history' && <div>History</div>}
+                      return (
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            padding: '0.5em'
+                          }}
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={index}
+                        >
+                          <Text>
+                            {coin}{' '}
+                            {offer?.payment_token_contract?.address === WETH_ADDRESS
+                              ? 'WETH'
+                              : 'ETH'}
+                          </Text>{' '}
+                          <Text>
+                            {'Expires: '}
+                            {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
+                          </Text>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <Text>No offers made on this asset (yet!)</Text>
+                  ))}
+                {Tab === 'history' && <Text>No history available for this asset.</Text>}
               </RightColWrapper>
               <MoreAssets>
                 <Text
