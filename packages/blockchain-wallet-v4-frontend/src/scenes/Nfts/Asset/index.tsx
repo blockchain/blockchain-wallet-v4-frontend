@@ -6,7 +6,7 @@ import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { RawOrder } from '@core/network/api/nfts/types'
+import { Exchange } from '@core'
 import {
   Button,
   Color,
@@ -289,6 +289,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     variables: { filter: { contract_address: contract } }
   })
   const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
+  const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
       address: asset?.data?.asset?.contract_address || '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
@@ -342,6 +343,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             : []
           const highest_bid = bids[0]
           const highest_offer = offers[0]
+          const coin = Exchange.convertCoinToCoin({
+            coin: 'ETH',
+            value: highest_bid?.base_price || highest_offer?.base_price
+          })
           // eslint-disable-next-line no-console
           console.log(highest_bid, 'highest_bid')
           // eslint-disable-next-line no-console
@@ -367,11 +372,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   <br />A Bid Order Maker Address: {bids.length ? bids[0].maker.address : 'none'}
                   <br />A Bid Order Listing Time: {bids.length ? bids[0].listing_time : 'none'}
                   <br />A Bid Order Expiration Time:{bids.length ? bids[0].expiration_time : 'none'}
+                  <br />A Bid Order Payment Token:
+                  {bids.length ? bids[0].payment_token_contract?.address : 'none'}
                   <br />A Offer Order Maker Address:
                   {offers.length ? offers[0].maker.address : 'none'}
                   <br />A Offer Order Listing: {offers.length ? offers[0].listing_time : 'none'}
                   <br />A Offer Order Expiration:
                   {offers.length ? offers[0].expiration_time : 'none'}
+                  <br />
+                  Offer Payment Token:{' '}
+                  {offers.length ? offers[0].payment_token_contract?.address : 'none'}
                   <br />
                   Top_Ownerships[0]: {assetFromDirectCall.top_ownerships[0].owner.address}
                 </PriceHistory>
@@ -445,7 +455,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <Highest>Highest Bid</Highest>
                       <EthText>
                         <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                        {highest_bid?.base_price} wei
+                        {coin}{' '}
+                        {highest_bid.payment_token_contract.address === WETH_ADDRESS
+                          ? 'WETH'
+                          : 'ETH'}
                       </EthText>
                     </>
                   )}
@@ -454,7 +467,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <Highest>Highest Offer</Highest>
                       <EthText>
                         <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                        {highest_offer?.base_price} wei
+                        {coin}{' '}
+                        {highest_offer.payment_token_contract.address === WETH_ADDRESS
+                          ? 'WETH'
+                          : 'ETH'}
                       </EthText>
                     </>
                   )}
