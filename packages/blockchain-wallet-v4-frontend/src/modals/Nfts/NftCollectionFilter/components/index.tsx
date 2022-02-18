@@ -20,7 +20,7 @@ export const StickyTraitHeader = styled.div`
 `
 
 export const TraitList = styled.div`
-  padding: 4px 40px;
+  padding: 8px 40px;
   max-height: 200px;
   overflow: auto;
   border-bottom: 1px solid ${colors.grey100};

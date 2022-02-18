@@ -42,6 +42,16 @@ class NftCollectionFilter extends PureComponent<Props, State> {
     }, duration + 100)
   }
 
+  handleTraitChange = (name: string, value: string) => {
+    this.props.nftActions.updateCollectionFilter({
+      isBuyNow: this.props.collectionFilter.isBuyNow,
+      trait: {
+        name,
+        value
+      }
+    })
+  }
+
   render() {
     const { collection, collectionFilter, nftActions, position, total, userClickedOutside } =
       this.props
@@ -114,8 +124,23 @@ class NftCollectionFilter extends PureComponent<Props, State> {
                           .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
                           .map((value) => {
                             return (
-                              <div key={value} style={{ alignItems: 'center', display: 'flex' }}>
-                                <input type='checkbox' id={value} />
+                              <div
+                                key={value}
+                                style={{
+                                  alignItems: 'center',
+                                  display: 'flex',
+                                  marginBottom: '4px'
+                                }}
+                              >
+                                <input
+                                  onChange={() => this.handleTraitChange(trait, value)}
+                                  type='checkbox'
+                                  checked={
+                                    this.props.collectionFilter.traits[trait] &&
+                                    this.props.collectionFilter.traits[trait][value]
+                                  }
+                                  id={value}
+                                />
                                 <label
                                   htmlFor={value}
                                   style={{ alignItems: 'center', display: 'flex' }}

@@ -395,8 +395,11 @@ const nftsSlice = createSlice({
       if (!trait) return
       const { name, value } = trait
 
-      const active = state.collectionFilter.traits[value][name]
-      state.collectionFilter.traits[value][name] = !active
+      if (state.collectionFilter.traits[name]) {
+        state.collectionFilter.traits[name][value] = !state.collectionFilter.traits[name][value]
+      } else {
+        state.collectionFilter.traits[name] = { [value]: true }
+      }
     }
   }
 })
