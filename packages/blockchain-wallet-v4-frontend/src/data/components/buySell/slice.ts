@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import {
+  ApplePayInfoType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -21,6 +22,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  MobilePaymentType,
   PaymentValue,
   ProductTypes,
   ProviderDetailsType,
@@ -49,6 +51,7 @@ const initialState: BuySellState = {
   accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
   addCardError: undefined,
+  applePayInfo: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
@@ -65,6 +68,7 @@ const initialState: BuySellState = {
   limits: Remote.NotAsked,
   method: undefined,
   methods: Remote.NotAsked,
+  mobilePaymentMethod: undefined,
   order: undefined,
   orderType: undefined,
   orders: Remote.NotAsked,
@@ -101,6 +105,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,
+        mobilePaymentMethod: payload.mobilePaymentMethod,
         orderType: payload.orderType || 'BUY',
         pair: payload.pair,
         step: payload.step,
@@ -174,7 +179,11 @@ const buySellSlice = createSlice({
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
-      action: PayloadAction<{ order: BSOrderType; paymentMethodId: BSCardType['id'] }>
+      action: PayloadAction<{
+        mobilePaymentMethod?: MobilePaymentType
+        order: BSOrderType
+        paymentMethodId: BSCardType['id']
+      }>
     ) => {},
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
@@ -190,6 +199,7 @@ const buySellSlice = createSlice({
     createOrder: (
       state,
       action: PayloadAction<{
+        mobilePaymentMethod?: MobilePaymentType
         paymentMethodId?: BSCardType['id'] | BankTransferAccountType['id']
         paymentType?: Exclude<
           BSPaymentMethodType['type'],
@@ -416,7 +426,11 @@ const buySellSlice = createSlice({
     ) => {},
     handleMethodChange: (
       state,
-      action: PayloadAction<{ isFlow?: boolean; method: BSPaymentMethodType }>
+      action: PayloadAction<{
+        isFlow?: boolean
+        method: BSPaymentMethodType
+        mobilePaymentMethod?: MobilePaymentType
+      }>
     ) => {},
     handleSellMaxAmountClick: (
       state,
@@ -446,6 +460,9 @@ const buySellSlice = createSlice({
     setAddCardError: (state, action: PayloadAction<undefined | BSAddCardErrorType>) => {
       state.addCardError = action.payload
     },
+    setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
+      state.applePayInfo = action.payload
+    },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
@@ -466,6 +483,7 @@ const buySellSlice = createSlice({
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
           state.method = stepPayload.method
+          state.mobilePaymentMethod = stepPayload.mobilePaymentMethod
           state.order = undefined
           state.orderType = stepPayload.orderType
           state.pair = stepPayload.pair
