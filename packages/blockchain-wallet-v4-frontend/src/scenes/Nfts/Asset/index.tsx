@@ -365,11 +365,11 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 <Divider />
                 <PriceHistory>
                   <br />A Bid Order Maker Address: {bids.length ? bids[0].maker.address : 'none'}
-                  <br />A Bid Order Expiration Time: {bids.length ? bids[0].listing_time : 'none'}
+                  <br />A Bid Order Listing Time: {bids.length ? bids[0].listing_time : 'none'}
                   <br />A Bid Order Expiration Time:{bids.length ? bids[0].expiration_time : 'none'}
                   <br />A Offer Order Maker Address:
                   {offers.length ? offers[0].maker.address : 'none'}
-                  <br />A Offer Order Expiration: {offers.length ? offers[0].listing_time : 'none'}
+                  <br />A Offer Order Listing: {offers.length ? offers[0].listing_time : 'none'}
                   <br />A Offer Order Expiration:
                   {offers.length ? offers[0].expiration_time : 'none'}
                   <br />
