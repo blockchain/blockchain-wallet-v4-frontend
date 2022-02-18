@@ -256,10 +256,10 @@ const nftsSlice = createSlice({
       }>
     ) => {},
     fetchOpenseaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
-      state.openSeaStatus = Remote.Failure(action.payload)
+      state.openSeaAsset = Remote.Failure(action.payload)
     },
     fetchOpenseaAssetLoading: (state) => {
-      state.openSeaStatus = Remote.Loading
+      state.openSeaAsset = Remote.Loading
     },
     fetchOpenseaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.openSeaAsset = Remote.Success(action.payload)
