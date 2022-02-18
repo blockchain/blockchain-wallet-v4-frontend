@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { colors } from '@blockchain-com/constellation'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -19,7 +21,7 @@ import {
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { media } from 'services/styles'
+import { flex, media } from 'services/styles'
 
 export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
@@ -86,7 +88,7 @@ const CollectionName = styled.div`
   line-height: 150%;
   display: flex;
   align-items: left;
-  color: #121d33;
+  color: ${colors.grey900};
 `
 
 const AssetName = styled.div`
@@ -98,7 +100,7 @@ const AssetName = styled.div`
   line-height: 125%;
   display: flex;
   align-items: left;
-  color: #121d33;
+  color: ${colors.grey900};
 `
 
 const PriceHistoryTitle = styled(AssetName)`
@@ -110,15 +112,15 @@ const PriceHistoryTitle = styled(AssetName)`
 const PriceHistory = styled(PriceHistoryTitle)`
   font-size: 14px;
   height: 340px;
-  background: #f0f2f7;
+  color: ${colors.grey100};
   padding: 2em;
-  border: 1px solid #dfe3eb;
+  border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
 `
 
 const CurrentPriceBox = styled.div`
-  border: 1px solid #dfe3eb;
+  border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
   padding: 1em;
@@ -134,7 +136,7 @@ const Highest = styled.div`
 `
 
 const CustomTabMenu = styled(TabMenu)`
-  color: #121d33;
+  color: ${colors.grey900};
   margin: 1em 0em 1em 0em;
   background: white;
 `
@@ -143,7 +145,7 @@ const EthText = styled(Highest)`
   font-size: 24px;
   display: flex;
   line-height: 135%;
-  color: #121d33;
+  color: ${colors.grey900};
   padding: 0.5em;
 `
 
@@ -172,7 +174,7 @@ const Divider = styled.div`
   height: 1px;
   left: 48px;
   top: 51px;
-  background: #f0f2f7;
+  color: ${colors.grey100};
 `
 
 const DividerNoMargin = styled(Divider)`
@@ -291,17 +293,19 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   })
   const [Tab, setTab] = useState('details')
   const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-  const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+  // Default to WETH
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
-      address: asset?.data?.asset?.contract_address || '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
-      token_id: asset.data?.asset?.token_id || '8520'
+      address: asset?.data?.asset?.contract_address || '',
+      token_id: asset.data?.asset?.token_id || ''
     })
   }, [])
   return (
     <>
       {rest.openSeaAsset.cata({
-        Failure: () => <>Failure</>,
+        Failure: () => <Text size='40px'>404 Not Found</Text>,
         Loading: () => (
           <>
             <LoadingWrapper>
@@ -632,10 +636,25 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 {Tab === 'offers' &&
                   (offers.length
                     ? offers?.map((offer, index) => {
+                        const coin = Exchange.convertCoinToCoin({
+                          coin: 'ETH',
+                          value: offer?.base_price
+                        })
                         return (
-                          // eslint-disable-next-line react/no-array-index-key
-                          <div key={index}>
-                            Offer: {offer.base_price}, Expires:{offer.expiration_time}{' '}
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              padding: '0.5em'
+                            }}
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={index}
+                          >
+                            <Text>{coin} WETH</Text>{' '}
+                            <Text>
+                              {'Expires: '}
+                              {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
+                            </Text>
                           </div>
                         )
                       })
