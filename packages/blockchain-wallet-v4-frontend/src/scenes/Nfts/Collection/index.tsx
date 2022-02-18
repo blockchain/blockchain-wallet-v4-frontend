@@ -14,6 +14,7 @@ import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
 
 import { CollectionBanner, Grid, NftPage } from '../components'
+import OpenSeaStatusComponent from '../components/openSeaStatus'
 import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
@@ -90,6 +91,7 @@ const Centered = styled.div`
 const NftsCollection: React.FC<Props> = ({
   coinsActions,
   collection,
+  collectionFilter,
   modalActions,
   nftsActions,
   ...rest
@@ -104,7 +106,6 @@ const NftsCollection: React.FC<Props> = ({
     undefined
   )
   const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
-  const [isBuyNow, setIsBuyNow] = useState(true)
 
   const [results] = useCollectionQuery({ variables: { filter: { slug } } })
 
@@ -114,7 +115,7 @@ const NftsCollection: React.FC<Props> = ({
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 1000)
-  }, [slug, isBuyNow])
+  }, [slug, collectionFilter.isBuyNow])
 
   useEffect(() => {
     if (wrapperRef.current) {
@@ -153,9 +154,10 @@ const NftsCollection: React.FC<Props> = ({
 
   return (
     <NftPage ref={wrapperRef}>
+      <OpenSeaStatusComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
-          <div style={{ alignItems: 'center', display: 'flex' }}>
+          <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
             <LinkContainer role='button' cursor='pointer' to='/nfts'>
               <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
             </LinkContainer>
@@ -170,6 +172,17 @@ const NftsCollection: React.FC<Props> = ({
             <Text size='14px' weight={500} color='grey900'>
               {results.data?.collection?.name}
             </Text>
+            <Icon
+              onClick={() =>
+                modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
+              }
+              cursor='pointer'
+              role='button'
+              name={IconName.FILTER}
+              color={colors.grey400}
+              height={16}
+              width={16}
+            />
           </div>
         </CollectionHeaderFixed>
       ) : null}
@@ -247,7 +260,7 @@ const NftsCollection: React.FC<Props> = ({
                 page={page}
                 key={page}
                 slug={slug}
-                isBuyNow={isBuyNow}
+                isBuyNow={collectionFilter.isBuyNow}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />
@@ -278,6 +291,7 @@ const NftsCollection: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   collection: selectors.components.nfts.getNftCollection(state),
+  collectionFilter: selectors.components.nfts.getNftCollectionFilter(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
 

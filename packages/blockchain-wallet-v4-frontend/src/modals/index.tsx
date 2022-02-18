@@ -312,7 +312,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_COLLECTION_FILTER) ? (
-          <NftCollectionFilter />
+          <NftCollectionFilter fixed />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
           <IdentityVerification />

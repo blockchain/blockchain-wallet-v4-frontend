@@ -45,10 +45,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.fetchNftAssets())
   }
 
-  const clearAndRefetchOrders = function* () {
-    yield put(A.resetNftOrders())
-  }
-
   const clearAndRefetchOffersMade = function* () {
     yield put(A.resetNftOffersMade())
     yield put(A.fetchNftOffersMade())
@@ -88,6 +84,7 @@ export default ({ api }: { api: APIType }) => {
         action.payload.slug
       )
       yield put(A.fetchNftCollectionSuccess(collection))
+      yield put(A.resetCollectionFilter())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftCollectionFailure(error))
@@ -367,11 +364,9 @@ export default ({ api }: { api: APIType }) => {
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
-      yield put(A.resetNftOrders())
-      yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.clearAndRefetchOffersMade())
       yield put(A.clearAndRefetchOrders())
-      yield put(A.setActiveTab('offers'))
+      yield put(actions.router.push('/nfts/activity'))
       yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
     } catch (e) {
       let error = errorHandler(e)
@@ -391,9 +386,7 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
-      yield put(A.resetNftOrders())
-      yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
-      yield put(A.setActiveTab('my-collection'))
+      yield put(actions.router.push('/nfts/collection'))
       yield put(
         actions.alerts.displaySuccess(
           `Successfully created order! It may take a few minutes to appear in your collection.`
@@ -515,24 +508,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setOrderFlowIsSubmitting(false))
   }
 
-  const formInitialized = function* (action) {
-    if (action.meta.form !== 'nftMarketplace') return
-
-    try {
-      const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload.collection)
-      yield put(
-        A.setMarketplaceData({
-          // @ts-ignore
-          collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res
-        })
-      )
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.logs.logErrorMessage(error))
-      yield put(actions.alerts.displayError(error))
-    }
-  }
-
   const formChanged = function* (action) {
     if (action.meta.form === 'nftSearch') {
       if (action.meta.field === 'sortBy') {
@@ -647,7 +622,6 @@ export default ({ api }: { api: APIType }) => {
     cancelOffer,
     clearAndRefetchAssets,
     clearAndRefetchOffersMade,
-    clearAndRefetchOrders,
     createOffer,
     createOrder,
     createSellOrder,
@@ -660,7 +634,6 @@ export default ({ api }: { api: APIType }) => {
     fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
-    formInitialized,
     nftOrderFlowClose,
     nftOrderFlowOpen,
     searchNftAssetContract

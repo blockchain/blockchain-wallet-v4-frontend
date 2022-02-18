@@ -9,7 +9,6 @@ import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-co
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { useAssetsQuery } from 'generated/graphql'
 
-import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
@@ -123,7 +122,8 @@ const ResultsPage: React.FC<Props> = ({
                   {asset?.events &&
                   asset.events[0] &&
                   asset?.events &&
-                  asset.events[0].event_type === 'created' ? (
+                  asset.events[0].event_type === 'created' &&
+                  asset.events[0].is_active_listing ? (
                     <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                   ) : (
                     <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />

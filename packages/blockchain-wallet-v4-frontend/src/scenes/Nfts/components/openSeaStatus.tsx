@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-
-import { Props as OwnProps } from '..'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -64,6 +66,18 @@ const OpenSeaStatusComponent: React.FC<Props> = (props) => {
     </>
   )
 }
-type Props = OwnProps
 
-export default OpenSeaStatusComponent
+const mapStateToProps = (state: RootState) => ({
+  openSeaStatus: selectors.components.nfts.getOpenSeaStatus(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(OpenSeaStatusComponent)

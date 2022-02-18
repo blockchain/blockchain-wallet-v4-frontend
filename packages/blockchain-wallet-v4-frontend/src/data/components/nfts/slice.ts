@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { string } from 'prop-types'
 
 import { Remote } from '@core'
 import {
@@ -32,16 +33,12 @@ const initialState: NftsStateType = {
     page: 0
   },
   collection: Remote.NotAsked,
+  collectionFilter: {
+    isBuyNow: false,
+    traits: {}
+  },
   collectionSearch: [],
   collections: Remote.NotAsked,
-  marketplace: {
-    atBound: false,
-    isFailure: false,
-    isLoading: true,
-    list: [],
-    page: 0,
-    token_ids_queried: []
-  },
   offersMade: {
     atBound: false,
     isFailure: false,
@@ -317,6 +314,12 @@ const nftsSlice = createSlice({
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
     },
+    resetCollectionFilter: (state) => {
+      state.collectionFilter = {
+        isBuyNow: false,
+        traits: {}
+      }
+    },
     resetNftAssets: (state) => {
       state.assets.atBound = false
       state.assets.page = 0
@@ -333,21 +336,10 @@ const nftsSlice = createSlice({
       state.offersMade.isLoading = true
       state.offersMade.list = []
     },
-    resetNftOrders: (state) => {
-      state.marketplace.atBound = false
-      state.marketplace.page = 0
-      state.marketplace.token_ids_queried = []
-      state.marketplace.isFailure = false
-      state.marketplace.isLoading = true
-      state.marketplace.list = []
-    },
     searchNftAssetContract: (
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
-    setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
-      state.activeTab = action.payload
-    },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },
@@ -360,24 +352,6 @@ const nftsSlice = createSlice({
     },
     setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order
-    },
-    setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
-      state.marketplace.atBound = action.payload.atBound
-    },
-    setMarketplaceData: (
-      state,
-      action: PayloadAction<{
-        atBound?: boolean
-        collection?: CollectionData
-        page?: number
-        token_ids_queried?: string[]
-      }>
-    ) => {
-      state.marketplace.page = action.payload.page || 0
-      if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
-      if (action.payload.collection) state.marketplace.collection = action.payload.collection
-      if (action.payload.token_ids_queried)
-        state.marketplace.token_ids_queried = action.payload.token_ids_queried
     },
     setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer
@@ -396,6 +370,22 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
+    },
+    updateCollectionFilter: (
+      state,
+      action: PayloadAction<{ isBuyNow: boolean; trait?: { name: string; value: string } }>
+    ) => {
+      const { isBuyNow, trait } = action.payload
+      state.collectionFilter.isBuyNow = isBuyNow
+
+      if (!trait) return
+      const { name, value } = trait
+
+      if (state.collectionFilter.traits[name]) {
+        state.collectionFilter.traits[name][value] = !state.collectionFilter.traits[name][value]
+      } else {
+        state.collectionFilter.traits[name] = { [value]: true }
+      }
     }
   }
 })

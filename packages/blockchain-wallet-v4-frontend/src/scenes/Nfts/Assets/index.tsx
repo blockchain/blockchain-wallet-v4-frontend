@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { NftAsset } from '@core/network/api/nfts/types'
 import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
-import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
@@ -16,17 +19,11 @@ import {
   PriceInfo,
   StyledCoinDisplay
 } from '../components'
-import CollectionForm from './CollectionForm'
 
-const YourCollection: React.FC<Props> = (props) => {
+const Assets: React.FC<Props> = (props) => {
   useEffect(() => {
     props.nftsActions.fetchNftAssets()
   }, [])
-
-  const assets =
-    props.assets.collection === 'all'
-      ? props.assets.list
-      : props.assets.list.filter((asset) => asset.collection.slug === props.assets.collection)
 
   const openAsset = (asset: NftAsset) => {
     props.nftsActions.nftOrderFlowOpen({
@@ -38,9 +35,8 @@ const YourCollection: React.FC<Props> = (props) => {
 
   return (
     <>
-      <CollectionForm {...props} />
       <LazyLoadWrapper onLazyLoad={() => props.nftsActions.fetchNftAssets()}>
-        {assets.map((asset) => {
+        {props.assets.list.map((asset) => {
           if (!asset) return null
           return (
             <Asset key={asset.token_id}>
@@ -128,7 +124,7 @@ const YourCollection: React.FC<Props> = (props) => {
                 🏴‍☠️
               </span>{' '}
               Your collection is looking a bit empty there. How about{' '}
-              <Link onClick={() => props.setActiveTab('explore')} weight={600}>
+              <Link onClick={() => props.routerActions.push('/nfts')} weight={600}>
                 exploring the market?
               </Link>
             </Text>
@@ -146,8 +142,17 @@ const YourCollection: React.FC<Props> = (props) => {
   )
 }
 
-export type Props = OwnProps & {
-  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
-}
+const mapStateToProps = (state: RootState) => ({
+  assets: selectors.components.nfts.getNftAssets(state)
+})
 
-export default YourCollection
+const mapDispatchToProps = (dispatch) => ({
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(Assets)

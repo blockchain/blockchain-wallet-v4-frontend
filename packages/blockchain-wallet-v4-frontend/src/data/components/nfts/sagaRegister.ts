@@ -13,7 +13,6 @@ export default ({ api }) => {
     yield takeLatest(actions.cancelOffer, nftsSagas.cancelOffer)
     yield takeLatest(actions.clearAndRefetchAssets, nftsSagas.clearAndRefetchAssets)
     yield takeLatest(actions.clearAndRefetchOffersMade, nftsSagas.clearAndRefetchOffersMade)
-    yield takeLatest(actions.clearAndRefetchOrders, nftsSagas.clearAndRefetchOrders)
     yield takeLatest(actions.createOffer, nftsSagas.createOffer)
     yield takeLatest(actions.createOrder, nftsSagas.createOrder)
     yield takeLatest(actions.createSellOrder, nftsSagas.createSellOrder)
@@ -29,6 +28,5 @@ export default ({ api }) => {
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.searchNftAssetContract, nftsSagas.searchNftAssetContract)
     yield takeEvery(actionTypes.CHANGE, nftsSagas.formChanged)
-    yield takeEvery(actionTypes.INITIALIZE, nftsSagas.formInitialized)
   }
 }
