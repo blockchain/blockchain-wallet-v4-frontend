@@ -157,7 +157,7 @@ const NftsCollection: React.FC<Props> = ({
       <OpenSeaStatusComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
-          <div style={{ alignItems: 'center', display: 'flex' }}>
+          <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
             <LinkContainer role='button' cursor='pointer' to='/nfts'>
               <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
             </LinkContainer>
@@ -172,6 +172,17 @@ const NftsCollection: React.FC<Props> = ({
             <Text size='14px' weight={500} color='grey900'>
               {results.data?.collection?.name}
             </Text>
+            <Icon
+              onClick={() =>
+                modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
+              }
+              cursor='pointer'
+              role='button'
+              name={IconName.FILTER}
+              color={colors.grey400}
+              height={16}
+              width={16}
+            />
           </div>
         </CollectionHeaderFixed>
       ) : null}
