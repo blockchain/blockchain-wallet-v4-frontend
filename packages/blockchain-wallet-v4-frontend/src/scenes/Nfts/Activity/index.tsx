@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import LazyLoadWrapper from 'components/LazyLoadContainer'
-
-import { Props as OwnProps } from '..'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 const Row = styled(Text)`
   width: 100%;
@@ -29,7 +31,7 @@ const LazyLoadContainer = styled(LazyLoadWrapper)`
   max-width: 1200px;
 `
 
-const Offers: React.FC<Props> = (props) => {
+const Activity: React.FC<Props> = (props) => {
   useEffect(() => {
     props.nftsActions.fetchNftOffersMade()
   }, [])
@@ -126,6 +128,17 @@ const Offers: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+const mapStateToProps = (state: RootState) => ({
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  offersMade: selectors.components.nfts.getOffersMade(state)
+})
 
-export default Offers
+const mapDispatchToProps = (dispatch) => ({
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(Activity)

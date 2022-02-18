@@ -41,6 +41,11 @@ const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Succes
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
+// EXPLORE (mixed)
+const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
+
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
@@ -51,9 +56,8 @@ const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const Nfts = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
-const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
+const NftsActivty = React.lazy(() => import('./Nfts/Activity'))
+const NftsAssets = React.lazy(() => import('./Nfts/Assets'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
@@ -112,9 +116,11 @@ const App = ({
                       <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
                       <AuthLayout path='/wallet' component={Login} />
                       <AuthLayout path='/verify-email-step' component={VerifyEmail} />
+                      <WalletLayout path='/nfts/activity' exact component={NftsActivty} />
+                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
-                      <ExploreLayout path='/nfts' exact component={Nfts} />
+                      <ExploreLayout path='/nfts' exact component={NftsExplorer} />
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />

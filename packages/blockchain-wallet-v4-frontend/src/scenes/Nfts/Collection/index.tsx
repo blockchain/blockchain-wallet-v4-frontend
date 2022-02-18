@@ -14,6 +14,7 @@ import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
 
 import { CollectionBanner, Grid, NftPage } from '../components'
+import OpenSeaStatusComponent from '../components/openSeaStatus'
 import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
@@ -153,6 +154,7 @@ const NftsCollection: React.FC<Props> = ({
 
   return (
     <NftPage ref={wrapperRef}>
+      <OpenSeaStatusComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
           <div style={{ alignItems: 'center', display: 'flex' }}>

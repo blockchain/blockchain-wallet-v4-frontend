@@ -39,14 +39,6 @@ const initialState: NftsStateType = {
   },
   collectionSearch: [],
   collections: Remote.NotAsked,
-  marketplace: {
-    atBound: false,
-    isFailure: false,
-    isLoading: true,
-    list: [],
-    page: 0,
-    token_ids_queried: []
-  },
   offersMade: {
     atBound: false,
     isFailure: false,
@@ -327,21 +319,10 @@ const nftsSlice = createSlice({
       state.offersMade.isLoading = true
       state.offersMade.list = []
     },
-    resetNftOrders: (state) => {
-      state.marketplace.atBound = false
-      state.marketplace.page = 0
-      state.marketplace.token_ids_queried = []
-      state.marketplace.isFailure = false
-      state.marketplace.isLoading = true
-      state.marketplace.list = []
-    },
     searchNftAssetContract: (
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
-    setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
-      state.activeTab = action.payload
-    },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },
@@ -354,24 +335,6 @@ const nftsSlice = createSlice({
     },
     setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order
-    },
-    setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
-      state.marketplace.atBound = action.payload.atBound
-    },
-    setMarketplaceData: (
-      state,
-      action: PayloadAction<{
-        atBound?: boolean
-        collection?: CollectionData
-        page?: number
-        token_ids_queried?: string[]
-      }>
-    ) => {
-      state.marketplace.page = action.payload.page || 0
-      if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
-      if (action.payload.collection) state.marketplace.collection = action.payload.collection
-      if (action.payload.token_ids_queried)
-        state.marketplace.token_ids_queried = action.payload.token_ids_queried
     },
     setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer

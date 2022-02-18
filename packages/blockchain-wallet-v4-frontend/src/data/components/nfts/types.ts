@@ -1,11 +1,9 @@
 import {
-  CollectionData,
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
   NftCollection,
   NftOrder,
-  NftOrdersType,
   OfferEventsType,
   RawOrder
 } from '@core/network/api/nfts/types'
@@ -44,15 +42,6 @@ export type NftsStateType = {
   }
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
-  marketplace: {
-    atBound?: boolean
-    collection?: CollectionData
-    isFailure: boolean
-    isLoading: boolean
-    list: NftOrdersType['orders']
-    page: number
-    token_ids_queried: string[]
-  }
   offersMade: {
     atBound?: boolean
     isFailure: boolean
