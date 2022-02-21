@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 
 export const SubTextWrapper = styled(Text)`
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   color: ${(props) => props.theme.grey600};
   margin-top: 8px;
@@ -31,7 +31,7 @@ const StyledSeeCardDetailsBtn = styled(Button)`
 export const SeeCardDetailsBtn = ({ onClick }) => (
   <StyledSeeCardDetailsBtn data-e2e='seeCardDetailsBtn' onClick={onClick} nature='grey400'>
     <Icon name='info' color='blue600' />
-    <Text size='14px' color='black'>
+    <Text size='0.875rem' color='black'>
       <FormattedMessage
         id='modals.order_my_card.select_your_card.see_card_details'
         defaultMessage='See Card Details'
