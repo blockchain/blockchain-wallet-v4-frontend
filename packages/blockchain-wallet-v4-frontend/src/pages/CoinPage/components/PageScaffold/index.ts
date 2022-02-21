@@ -1,0 +1,1 @@
+export { PageScaffold } from './PageScaffold'
