@@ -14,7 +14,7 @@ export const SubTextWrapper = styled(Text)`
   margin-bottom: 33px;
 `
 
-const StyledSeeCardDetailsBtn = styled(Button)`
+const StyledSeeCardDetailsButton = styled(Button)`
   border: none;
   border-radius: 32px;
   justify-content: space-between;
@@ -32,8 +32,8 @@ const StyledButton = styled(Button)`
   margin-top: 32px;
 `
 
-export const SeeCardDetailsBtn = ({ onClick }) => (
-  <StyledSeeCardDetailsBtn data-e2e='seeCardDetailsBtn' onClick={onClick} nature='grey400'>
+export const SeeCardDetailsButton = ({ onClick }) => (
+  <StyledSeeCardDetailsButton data-e2e='seeCardDetailsBtn' onClick={onClick} nature='grey400'>
     <Icon name='info' color='blue600' />
     <Text size='0.875rem' color='black'>
       <FormattedMessage
@@ -42,10 +42,10 @@ export const SeeCardDetailsBtn = ({ onClick }) => (
       />
     </Text>
     <Text color='blue600'>{'->'}</Text>
-  </StyledSeeCardDetailsBtn>
+  </StyledSeeCardDetailsButton>
 )
 
-export const CreateCardBtn = ({ onClick }) => (
+export const CreateCardButton = ({ onClick }) => (
   <StyledButton data-e2e='createCardBtn' nature='primary' onClick={onClick} width='327px'>
     <FormattedMessage
       id='modals.order_my_card.select_your_card.create_card'

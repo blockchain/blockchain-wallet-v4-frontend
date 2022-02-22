@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContent, FlyoutHeader } from 'components/Flyout'
 
-import { CreateCardBtn, SubTextWrapper } from '../model'
+import { CreateCardButton, SubTextWrapper } from '../model'
 
 type Props = {
   handleClose: () => void
@@ -39,7 +39,7 @@ const CreateCardStep = ({ handleClose, handleCreateCard }: Props) => (
 
       <Image name='order-my-card-icon' />
 
-      <CreateCardBtn onClick={handleCreateCard} />
+      <CreateCardButton onClick={handleCreateCard} />
     </FlyoutContent>
   </>
 )
