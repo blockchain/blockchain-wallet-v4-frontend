@@ -8,7 +8,7 @@ import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import Spacer from 'components/Spacer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { useMedia } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import { Collection, CollectionBanner, CollectionImage, Grid, NftPage } from '../components'
 
@@ -21,6 +21,12 @@ const Stats = styled.div`
     flex-direction: column;
     align-items: center;
   }
+  ${media.tabletL`
+    flex-direction: column;
+    > div:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  `}
 `
 
 const Explore: React.FC<Props> = (props) => {
@@ -83,7 +89,7 @@ const Explore: React.FC<Props> = (props) => {
                       <Icon name='ETH' style={{ marginLeft: '3px' }} />
                     </Text>
                   </div>
-                  <Spacer />
+                  {laptopL ? null : <Spacer />}
                   <div>
                     <Text size='12px' weight={600} color='grey700'>
                       <FormattedMessage defaultMessage='One Day Volume' id='copy.one_day_vol' />
@@ -98,7 +104,7 @@ const Explore: React.FC<Props> = (props) => {
                       <Icon name='ETH' style={{ marginLeft: '3px' }} />
                     </Text>
                   </div>
-                  <Spacer />
+                  {laptopL ? null : <Spacer />}
                   <div>
                     <Text size='12px' weight={600} color='grey700'>
                       <FormattedMessage defaultMessage='7 Day Sales' id='copy.seven_day_sales' />

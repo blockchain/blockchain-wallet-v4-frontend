@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const StatsWrapper = styled.div`
   display: flex;
@@ -28,6 +29,12 @@ const Stat = styled.div`
     border-bottom-right-radius: 8px;
   }
   border: 1px solid ${colors.grey100};
+  ${media.tabletL`
+    padding: 10px;
+    > div {
+      font-size: 12px;
+    }
+  `}
 `
 
 const Stats: React.FC<Props> = ({ collection }) => {
