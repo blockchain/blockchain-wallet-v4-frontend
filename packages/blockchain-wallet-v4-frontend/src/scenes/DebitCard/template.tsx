@@ -14,7 +14,11 @@ import { ModalName } from 'data/modals/types'
 import { Props } from '.'
 import { IntroCardWrapper, Wrapper } from './model'
 
-const OrderMyCardBtn = ({ onClick }) => (
+type ButtonProps = {
+  onClick: () => void
+}
+
+const OrderMyCardButton = ({ onClick }: ButtonProps) => (
   <div style={{ marginTop: '32px' }}>
     <Button
       data-e2e='orderMyCard'
@@ -29,7 +33,7 @@ const OrderMyCardBtn = ({ onClick }) => (
   </div>
 )
 
-const LinkHereBtn = () => (
+const LinkHereButton = () => (
   <div style={{ marginTop: '16px' }}>
     <Button
       data-e2e='linkCard'
@@ -47,9 +51,9 @@ const LinkHereBtn = () => (
   </div>
 )
 
-const DebitCard = (props: Props) => {
-  const openOrderMyCard = () =>
-    props.modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
+const DebitCard = ({ modalActions }: Props) => {
+  const handleOpenOrderMyCard = () =>
+    modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
   return (
     <Wrapper>
@@ -85,8 +89,8 @@ const DebitCard = (props: Props) => {
             defaultMessage='A card that lets you spend and earn in crypto right from your Blockchain account.'
           />
         </SceneSubHeaderText>
-        <OrderMyCardBtn onClick={openOrderMyCard} />
-        <LinkHereBtn />
+        <OrderMyCardButton onClick={handleOpenOrderMyCard} />
+        <LinkHereButton />
       </IntroCardWrapper>
     </Wrapper>
   )
