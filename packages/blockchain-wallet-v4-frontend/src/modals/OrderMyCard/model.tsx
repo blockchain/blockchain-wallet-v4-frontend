@@ -28,6 +28,10 @@ const StyledSeeCardDetailsBtn = styled(Button)`
   }
 `
 
+const StyledButton = styled(Button)`
+  margin-top: 32px;
+`
+
 export const SeeCardDetailsBtn = ({ onClick }) => (
   <StyledSeeCardDetailsBtn data-e2e='seeCardDetailsBtn' onClick={onClick} nature='grey400'>
     <Icon name='info' color='blue600' />
@@ -42,16 +46,10 @@ export const SeeCardDetailsBtn = ({ onClick }) => (
 )
 
 export const CreateCardBtn = ({ onClick }) => (
-  <Button
-    data-e2e='createCardBtn'
-    nature='primary'
-    onClick={onClick}
-    width='327px'
-    style={{ marginTop: '33px' }}
-  >
+  <StyledButton data-e2e='createCardBtn' nature='primary' onClick={onClick} width='327px'>
     <FormattedMessage
       id='modals.order_my_card.select_your_card.create_card'
       defaultMessage='Create Card'
     />
-  </Button>
+  </StyledButton>
 )
