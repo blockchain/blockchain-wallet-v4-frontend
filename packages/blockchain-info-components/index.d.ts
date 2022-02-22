@@ -281,7 +281,7 @@ export const SelectInput: FunctionComponent<{
   disabled?: boolean,
   elements?: Array<any>,
   grouped?: boolean,
-  label?: string | any,
+  label?: string | unknown,
   onBlur?: () => void,
   onChange?: () => void,
   onFocus?: () => void,
