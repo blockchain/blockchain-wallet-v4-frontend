@@ -12,6 +12,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
+import { media } from 'services/styles'
 
 import { CollectionBanner, Grid, NftPage } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
@@ -24,6 +25,9 @@ const CollectionHeader = styled.div`
   justify-content: space-between;
   padding-bottom: 24px;
   gap: 24px;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
 `
 
 const CollectionBannerWrapper = styled.div`

@@ -57,12 +57,15 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
+  ${media.atLeastTablet`
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  `}
   ${media.atLeastLaptopL`
-      grid-template-columns: repeat(3, minmax(0, 1fr));  
+    grid-template-columns: repeat(3, minmax(0, 1fr));  
   `}
 `
 
@@ -108,6 +111,9 @@ export const AssetImageContainer = styled.div<{
 export const AssetDetails = styled.div`
   padding: 12px 8px;
   background: ${(props) => props.theme.white};
+  ${media.laptopL`
+    padding-bottom: 4px;
+  `}
 `
 export const AssetCollection = styled.div`
   overflow: hidden;
@@ -129,6 +135,9 @@ export const Collection = styled.div<{ onClick: () => void }>`
   position: relative;
   padding: 24px;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
+  ${media.tabletL`
+    padding: 12px;
+  `}
 `
 
 export const CollectionBanner = styled.div<{ background?: string; large?: boolean }>`
@@ -151,7 +160,7 @@ export const CollectionImage = styled.img`
   ${media.tabletL`
     height: 40px;
     width: 40px;
-    top: 74px;
+    top: 60px;
     left: calc(50% - 20px);
   `}
 `
