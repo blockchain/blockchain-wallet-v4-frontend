@@ -144,6 +144,19 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
+    try {
+      yield put(A.fetchOpenseaAssetLoading())
+      const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
+        api.getOpenSeaAsset,
+        action.payload.address,
+        action.payload.token_id
+      )
+      yield put(A.fetchOpenseaAssetSuccess(res))
+    } catch (e) {
+      yield put(A.fetchOpenseaAssetFailure(e))
+    }
+  }
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchNftOffersMadeLoading())
@@ -618,6 +631,7 @@ export default ({ api }: { api: APIType }) => {
     fetchNftCollection,
     fetchNftCollections,
     fetchNftOffersMade,
+    fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
     nftOrderFlowClose,

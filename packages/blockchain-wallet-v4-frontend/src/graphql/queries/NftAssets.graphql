@@ -10,6 +10,8 @@ query Assets($limit: Int, $eventsFilter: EventFilter, $filter: AssetFilter, $ord
       name
     }
     events(filter: $eventsFilter) {
+      id
+      contract_address
       event_type
       starting_price
       duration

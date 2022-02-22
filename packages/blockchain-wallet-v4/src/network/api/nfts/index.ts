@@ -146,6 +146,14 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
+  const getOpenSeaAsset = (collection_id: string, asset_number: string): NftAsset => {
+    return get({
+      endPoint: `/asset/${collection_id}/${asset_number}`,
+      ignoreQueryParams: true,
+      url: openseaUrl
+    })
+  }
+
   const getOpenSeaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
@@ -176,6 +184,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
+    getOpenSeaAsset,
     getOpenSeaStatus,
     postNftOrder,
     searchNftCollectionInfo

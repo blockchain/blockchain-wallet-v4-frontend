@@ -1,7 +1,33 @@
 query Asset($filter: AssetFilter) {
   asset(filter: $filter) {
     name
+    image_url
+    events {
+      event_type
+    }
+    asset_contract {
+      schema_name
+    }
+    owner {
+      address
+      profile_img_url
+    }
+    creator {
+      address
+      profile_img_url
+    }
     animation_original_url
+    collection {
+      name
+      description
+      image_url
+      discord_url
+      telegram_url
+      twitter_username
+      instagram_username
+      wiki_url
+      external_url
+    }
     animation_url
     contract_address
     permalink
