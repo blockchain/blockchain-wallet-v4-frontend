@@ -22,11 +22,37 @@ import {
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { flex, media } from 'services/styles'
+import { media } from 'services/styles'
 
 export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
+const Wrapper = styled.div`
+  ${media.atLeastTabletL`
+  background-color: ${colors.white1};
+  height: 50%;
+  min-height: 100%;
+  width: 100%;
+  padding: 1em;
+  overflow: auto;
+  display: flex;
+  flex-direction: columns;
+  `}
+  display: block;
+  height: 100%;
+`
 export const LeftColWrapper = styled.div`
+  ${media.atLeastTabletL`
+  top: 72px;
+  max-width: 625px;
+  width: 50%;
+  `} > form {
+    ${media.tabletL`
+    display: flex;
+    > div {
+      flex: 1;
+    }
+  `}
+  }
   position: sticky;
   padding-right: 3em;
   margin-right: 2em;
@@ -35,11 +61,16 @@ export const LeftColWrapper = styled.div`
   overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
+  display: block;
+`
+
+export const RightColWrapper = styled.div`
   ${media.atLeastTabletL`
   top: 72px;
-  max-width: 625px;
-  width: 50%;
-`} > form {
+  margin-right: 20px;
+  max-width: 500px;
+  width: 40%;
+  `} > form {
     ${media.tabletL`
     display: flex;
     > div {
@@ -47,9 +78,6 @@ export const LeftColWrapper = styled.div`
     }
   `}
   }
-`
-
-export const RightColWrapper = styled.div`
   position: sticky;
   height: 100%;
   top: 64px;
@@ -57,27 +85,18 @@ export const RightColWrapper = styled.div`
   overflow-x: hidden;
   background: ${(props) => props.theme.white};
   z-index: 1;
-  ${media.atLeastTabletL`
-  top: 72px;
-  margin-right: 20px;
-  max-width: 500px;
-  width: 40%;
-`} > form {
-    ${media.tabletL`
-    display: flex;
-    > div {
-      flex: 1;
-    }
-  `}
-  }
+  display: block;
 `
 
 export const MoreAssets = styled.div`
+  ${media.atLeastTabletL`
   width: 20%;
   position: sticky;
   height: 100%;
   top: 64px;
   overflow: scroll;
+  `}
+  width: 100%;
 `
 
 const CollectionName = styled.div`
@@ -298,8 +317,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
-      address: asset?.data?.asset?.contract_address || '',
-      token_id: asset.data?.asset?.token_id || ''
+      address: asset?.data?.asset?.contract_address || contract,
+      token_id: asset.data?.asset?.token_id || id
     })
   }, [])
   return (
@@ -358,7 +377,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           // eslint-disable-next-line no-console
           console.log(highest_offer, 'highest_offer')
           return (
-            <>
+            <Wrapper>
               <LeftColWrapper>
                 <img
                   alt='Asset Logo'
@@ -700,7 +719,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     : null}
                 </div>
               </MoreAssets>
-            </>
+            </Wrapper>
           )
         }
       })}
