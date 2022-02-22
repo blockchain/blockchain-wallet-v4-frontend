@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   overflow: auto;
   ${media.tabletL`
+  > div:not(:first-child) {
     padding-right: 20px !important;
     padding-left: 20px !important;
     box-sizing: border-box;
