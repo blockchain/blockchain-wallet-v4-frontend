@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 
@@ -10,11 +10,7 @@ import { ModalPropsType } from '../types'
 import CreateCardStep from './CreateCardStep'
 
 const OrderMyCard = (props: Props) => {
-  const [show, setShow] = useState(false)
-
-  useEffect(() => {
-    setShow(true)
-  }, [])
+  const [show, setShow] = useState(true)
 
   const handleClose = () => {
     setShow(false)

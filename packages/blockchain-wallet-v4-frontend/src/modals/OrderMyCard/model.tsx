@@ -30,6 +30,7 @@ const StyledSeeCardDetailsButton = styled(Button)`
 
 const StyledButton = styled(Button)`
   margin-top: 32px;
+  width: 327px;
 `
 
 export const SeeCardDetailsButton = ({ onClick }) => (
@@ -46,7 +47,7 @@ export const SeeCardDetailsButton = ({ onClick }) => (
 )
 
 export const CreateCardButton = ({ onClick }) => (
-  <StyledButton data-e2e='createCardBtn' nature='primary' onClick={onClick} width='327px'>
+  <StyledButton data-e2e='createCardBtn' nature='primary' onClick={onClick}>
     <FormattedMessage
       id='modals.order_my_card.select_your_card.create_card'
       defaultMessage='Create Card'
