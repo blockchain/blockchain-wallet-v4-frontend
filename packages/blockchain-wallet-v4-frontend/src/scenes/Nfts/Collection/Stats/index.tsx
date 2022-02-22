@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 const StatsWrapper = styled.div`
   display: flex;
@@ -38,12 +38,21 @@ const Stat = styled.div`
 `
 
 const Stats: React.FC<Props> = ({ collection }) => {
+  const tabletL = useMedia('tabletL')
+
   return (
     <div style={{ marginTop: '42px' }}>
       {collection.cata({
         Failure: () => null,
         Loading: () => (
-          <div style={{ display: 'flex', height: '82px', justifyContent: 'center', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              height: tabletL ? '56px' : '82px',
+              justifyContent: 'center',
+              width: '100%'
+            }}
+          >
             <SpinningLoader height='14px' width='14px' borderWidth='3px' />
           </div>
         ),
