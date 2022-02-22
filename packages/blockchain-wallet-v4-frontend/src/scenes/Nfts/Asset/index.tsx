@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import {
   Button,
   Color,
@@ -292,7 +293,6 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     variables: { filter: { contract_address: contract } }
   })
   const [Tab, setTab] = useState('details')
-  const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!

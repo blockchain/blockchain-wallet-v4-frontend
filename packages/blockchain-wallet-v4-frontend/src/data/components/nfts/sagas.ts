@@ -146,7 +146,7 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
     try {
-      yield put(A.fetchNftOffersMadeLoading())
+      yield put(A.fetchOpenseaAssetLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.address,
