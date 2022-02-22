@@ -1,3 +1,5 @@
+import { TermsAndConditionType } from './types'
+
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
   const exchangeSignIn = (code, password, username) => {
     return authorizedPost({
@@ -204,6 +206,18 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const getUserTermsAndConditions = (): TermsAndConditionType =>
+    authorizedGet({
+      endPoint: '/user/terms-and-conditions',
+      url: nabuUrl
+    })
+
+  const getUserTermsAndConditionsLast = (): TermsAndConditionType =>
+    authorizedGet({
+      endPoint: '/user/terms-and-conditions/last',
+      url: nabuUrl
+    })
+
   return {
     createLinkAccountId,
     createUser,
@@ -215,6 +229,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
+    getUserTermsAndConditions,
+    getUserTermsAndConditionsLast,
     linkAccount,
     recoverUser,
     registerUserCampaign,

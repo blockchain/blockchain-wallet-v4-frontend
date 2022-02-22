@@ -27,6 +27,7 @@ import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import swap from './swap/sagas'
+import termsAndConditions from './termsAndConditions/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import walletConnect from './walletConnect/sagas'
@@ -63,6 +64,7 @@ export default ({ api, coreSagas, networks }) => ({
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   swap: swap({ api, coreSagas, networks }),
+  termsAndConditions: termsAndConditions({ api }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
   walletConnect: walletConnect({ coreSagas }),
