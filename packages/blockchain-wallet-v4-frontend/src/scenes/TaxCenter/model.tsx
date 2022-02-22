@@ -58,4 +58,10 @@ export const SelectLabel = styled(Text)`
 
 export const GenerateButton = styled(Button)`
   margin-top: 24px;
+  height: 48px;
+`
+
+export const VisitButton = styled(Button)`
+  margin-top: 16px;
+  height: 48px;
 `

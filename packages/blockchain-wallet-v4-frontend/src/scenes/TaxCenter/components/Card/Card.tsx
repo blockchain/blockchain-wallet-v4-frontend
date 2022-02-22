@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -22,7 +22,7 @@ const Body = styled.div`
   margin-top: 24px;
 `
 
-const Card = ({ children, description = '', number = 0, title = '' }) => (
+const Card = ({ children, description, number = 0, title }: Props) => (
   <ShadedBox>
     <Header>
       <CircleBackground>
@@ -40,5 +40,12 @@ const Card = ({ children, description = '', number = 0, title = '' }) => (
     <Body>{children}</Body>
   </ShadedBox>
 )
+
+type Props = {
+  children: ReactElement
+  description: ReactElement
+  number: number
+  title: ReactElement
+}
 
 export default Card
