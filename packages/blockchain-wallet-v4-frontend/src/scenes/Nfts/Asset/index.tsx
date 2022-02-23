@@ -24,25 +24,25 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
+import { NftPage } from '../components'
+
 export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
 
-const Wrapper = styled.div`
-  ${media.atLeastTabletL`
-  background-color: ${colors.white1};
-  height: 50%;
-  min-height: 100%;
-  width: 100%;
-  padding: 1em;
-  overflow: auto;
+const Wrapper = styled(NftPage)`
   display: flex;
-  flex-direction: columns;
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+  box-sizing: border-box;
+  ${media.atLeastTabletL`
+    height: 100%;
   `}
-  display: block;
-  height: 100%;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
 `
 export const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
-  top: 72px;
+  box-sizing: border-box;
   max-width: 625px;
   width: 50%;
   `} > form {
@@ -53,7 +53,6 @@ export const LeftColWrapper = styled.div`
     }
   `}
   }
-  position: sticky;
   padding-right: 3em;
   margin-right: 2em;
   height: 100%;
@@ -66,7 +65,7 @@ export const LeftColWrapper = styled.div`
 
 export const RightColWrapper = styled.div`
   ${media.atLeastTabletL`
-  top: 72px;
+  height: 100%;
   margin-right: 20px;
   max-width: 500px;
   width: 40%;
@@ -78,9 +77,6 @@ export const RightColWrapper = styled.div`
     }
   `}
   }
-  position: sticky;
-  height: 100%;
-  top: 64px;
   overflow: scroll;
   overflow-x: hidden;
   background: ${(props) => props.theme.white};
@@ -88,7 +84,7 @@ export const RightColWrapper = styled.div`
   display: block;
 `
 
-export const MoreAssets = styled.div`
+const MoreAssets = styled.div`
   ${media.atLeastTabletL`
   width: 20%;
   position: sticky;
@@ -97,6 +93,14 @@ export const MoreAssets = styled.div`
   overflow: scroll;
   `}
   width: 100%;
+`
+
+const MoreAssetsList = styled.div`
+  ${media.tabletL`
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+  `}
 `
 
 const CollectionName = styled.div`
@@ -111,13 +115,10 @@ const CollectionName = styled.div`
   color: ${colors.grey900};
 `
 
-const AssetName = styled.div`
-  height: 20px;
-  font-family: Inter, sans-serif;
+const AssetName = styled(Text)`
   font-style: normal;
   font-weight: 600;
   font-size: 40px;
-  line-height: 125%;
   display: flex;
   align-items: left;
   color: ${colors.grey900};
@@ -322,7 +323,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     })
   }, [])
   return (
-    <>
+    <Wrapper>
       {rest.openSeaAsset.cata({
         Failure: () => <Text size='40px'>404 Not Found</Text>,
         Loading: () => (
@@ -377,15 +378,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           // eslint-disable-next-line no-console
           console.log(highest_offer, 'highest_offer')
           return (
-            <Wrapper>
+            <>
               <LeftColWrapper>
                 <img
                   alt='Asset Logo'
                   width='100%'
                   style={{
-                    border: '1px solid #dfe3eb',
+                    border: `1px solid ${colors.grey100}`,
                     borderRadius: '10%',
                     borderWidth: '1px',
+                    boxSizing: 'border-box',
                     marginBottom: '0.5rem',
                     padding: '10px'
                   }}
@@ -679,7 +681,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 >
                   More from this collection...
                 </Text>
-                <div>
+                <MoreAssetsList>
                   {assets?.data?.assets?.length // @ts-ignore
                     ? assets?.data?.assets?.map((asset, index) => {
                         const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
@@ -704,9 +706,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 height='200px'
                                 width='auto'
                                 style={{
-                                  border: '1px solid #dfe3eb',
+                                  border: `1px solid ${colors.grey100}`,
                                   borderRadius: '10%',
                                   borderWidth: '1px',
+                                  boxSizing: 'border-box',
                                   marginBottom: '0.5rem',
                                   padding: '10px'
                                 }}
@@ -717,13 +720,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         )
                       })
                     : null}
-                </div>
+                </MoreAssetsList>
               </MoreAssets>
-            </Wrapper>
+            </>
           )
         }
       })}
-    </>
+    </Wrapper>
   )
 }
 
