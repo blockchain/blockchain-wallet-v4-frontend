@@ -19,12 +19,12 @@ const Page = styled.div`
   box-sizing: border-box;
   height: calc(100% - ${FIXED_HEADER_HEIGHT}px);
   overflow: auto;
-  padding-top: 20px;
+  > div:first-child {
+    padding-top: 20px;
+  }
   ${media.tabletL`
-  > div:not(:first-child) {
     padding-right: 20px !important;
     padding-left: 20px !important;
-    box-sizing: border-box;
   `}
 `
 
