@@ -123,3 +123,7 @@ export const getWalletDebitCardEnabled = (state: RootState) =>
 // show/hide wallet tax center
 export const getTaxCenterEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
+
+// refresh captcha token if there's an error on signup
+export const getRefreshCaptchaOnSignupError = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
