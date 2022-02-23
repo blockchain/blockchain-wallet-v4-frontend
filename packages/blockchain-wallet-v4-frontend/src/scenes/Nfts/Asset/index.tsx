@@ -27,7 +27,6 @@ import { flex, media } from 'services/styles'
 import { NftPage } from '../components'
 
 export const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })``
-
 const Wrapper = styled(NftPage)`
   display: flex;
   margin: 0 auto;
@@ -609,7 +608,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             />
                           )}
                           <CreatorOwnerAddress>
-                            <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
+                            <AddressDisplay>
+                              {asset?.data?.asset?.creator?.address || 'Not Available'}
+                            </AddressDisplay>
                             {asset?.data?.asset?.creator?.address?.substring(
                               asset?.data?.asset?.creator?.address.length - 4
                             )}
@@ -654,7 +655,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         <Divider />
                         <Detail>
                           <Text>Token ID:</Text>
-                          <b>{asset?.data?.asset?.token_id} </b>
+                          <b>
+                            <AddressDisplay>{asset?.data?.asset?.token_id} </AddressDisplay>
+                          </b>
                         </Detail>
                         <Divider />
                         <Detail>
