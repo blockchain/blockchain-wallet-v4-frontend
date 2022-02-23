@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
@@ -8,20 +9,20 @@ import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
 import { Form, NumberBox, SelectBox } from 'components/Form'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow } = props
+  const { close, formValues, isAuthenticated, nftActions, orderFlow } = props
 
   const disabled =
     !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
@@ -136,30 +137,43 @@ const MakeOffer: React.FC<Props> = (props) => {
             </Form>
             <StickyCTA>
               <MakeOfferFees {...props} asset={val} />
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='makeOfferNft'
-                disabled={disabled}
-                onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
-              >
-                {formValues.amount ? (
-                  props.orderFlow.isSubmitting ? (
-                    <HeartbeatLoader color='blue100' height='20px' width='20px' />
+              {isAuthenticated ? (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='makeOfferNft'
+                  disabled={disabled}
+                  onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
+                >
+                  {formValues.amount ? (
+                    props.orderFlow.isSubmitting ? (
+                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                    ) : (
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage='Make an Offer for {val}'
+                        values={{
+                          val: `${formValues.amount} ${formValues.coin}`
+                        }}
+                      />
+                    )
                   ) : (
+                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                  )}
+                </Button>
+              ) : (
+                <LinkContainer
+                  to={`/open/${DeepLinkGoal.MAKE_OFFER_NFT}?contract_address=${val.asset_contract.address}&token_id=${val.token_id}`}
+                >
+                  <Button jumbo nature='primary' fullwidth data-e2e='login'>
                     <FormattedMessage
-                      id='copy.make_offer_value'
-                      defaultMessage='Make an Offer for {val}'
-                      values={{
-                        val: `${formValues.amount} ${formValues.coin}`
-                      }}
+                      id='copy.login_to_make_offer'
+                      defaultMessage='Login to Make an Offer'
                     />
-                  )
-                ) : (
-                  <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                )}
-              </Button>
+                  </Button>
+                </LinkContainer>
+              )}
             </StickyCTA>
           </>
         )
@@ -172,7 +186,8 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string
-  }
+  },
+  isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
 const connector = connect(mapStateToProps)

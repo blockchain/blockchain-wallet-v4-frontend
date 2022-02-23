@@ -119,8 +119,11 @@ export const AssetDetails = styled.div`
 export const AssetCollection = styled.div`
   overflow: hidden;
 `
-export const PriceInfo = styled.div`
+export const PriceCTA = styled.div`
   margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
   justify-content: flex-end;

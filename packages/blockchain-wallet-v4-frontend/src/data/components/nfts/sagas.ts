@@ -6,7 +6,6 @@ import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
-  CollectionData,
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
@@ -34,6 +33,7 @@ import { actions as A } from './slice'
 import { NftOrderStepEnum } from './types'
 
 export const logLocation = 'components/nfts/sagas'
+export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 const INSUFFICIENT_FUNDS = 'insufficient funds'
 
@@ -177,7 +177,7 @@ export default ({ api }: { api: APIType }) => {
       const wallet = new ethers.Wallet(privateKey, api.ethProvider)
       return wallet
     } catch (e) {
-      throw new Error('Error getting eth wallet signer.')
+      throw new Error(WALLET_SIGNER_ERR)
     }
   }
 
