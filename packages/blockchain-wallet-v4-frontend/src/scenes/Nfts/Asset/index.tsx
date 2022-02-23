@@ -248,6 +248,13 @@ const AddressDisplay = styled.div`
   overflow: hidden;
   width: 7em;
 `
+const TokenDisplay = styled.div`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 200px;
+  text-align: right;
+`
 
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
 
@@ -656,7 +663,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         <Detail>
                           <Text>Token ID:</Text>
                           <b>
-                            <AddressDisplay>{asset?.data?.asset?.token_id} </AddressDisplay>
+                            <TokenDisplay>{asset?.data?.asset?.token_id} </TokenDisplay>
                           </b>
                         </Detail>
                         <Divider />
