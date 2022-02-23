@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { Button, Image } from 'blockchain-info-components'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 
+export const FIXED_HEADER_HEIGHT = 56
+
 const FixedNav = styled(NavContainer)`
   position: fixed;
   z-index: 3;
@@ -15,7 +17,7 @@ const FixedNav = styled(NavContainer)`
 
 const ExploreHeader: React.FC<Props> = () => {
   return (
-    <div style={{ paddingBottom: '56px' }}>
+    <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
       <FixedNav>
         <NavLeft>
           <Logo>
