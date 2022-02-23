@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DateInput component default renders correctly 1`] = `
-<Styled(DateTime)
+<Styled(n)
   borderColor="grey100"
   bordercolor="red600"
   className=""
+  closeOnClickOutside={true}
   closeOnSelect={true}
   closeOnTab={true}
   dateFormat={true}

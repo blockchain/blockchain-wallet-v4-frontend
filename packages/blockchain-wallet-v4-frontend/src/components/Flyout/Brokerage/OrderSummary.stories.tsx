@@ -39,6 +39,24 @@ Default.args = {
   paymentType: BSPaymentTypes.PAYMENT_CARD
 }
 
+export const WillBuyMonthly = Template.bind({})
+WillBuyMonthly.args = {
+  baseAmount: '0.001',
+  baseCurrency: 'BTC',
+  counterAmount: '100',
+  currencySymbol: '$',
+  frequencyText: <span>Monthly</span>,
+  handleClose: () => {},
+  handleCompleteButton: () => {},
+  handleOkButton: () => {},
+  lockTime: 604800,
+  orderState: 'FINISHED',
+  orderType: OrderType.BUY,
+  outputCurrency: 'BTC',
+  paymentState: null,
+  paymentType: BSPaymentTypes.PAYMENT_CARD
+}
+
 export const FundsSuccess = Template.bind({})
 FundsSuccess.args = {
   baseAmount: '0.001',

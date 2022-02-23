@@ -70,7 +70,7 @@ const CancelOffer: React.FC<Props> = (props) => {
                   <Text size='14px' weight={600}>
                     <FormattedMessage
                       id='copy.no_active_offers'
-                      defaultMessage='Error. You may not have any active offers for this asset.'
+                      defaultMessage='Error. You may have already cancelled this offer, or it has expired.'
                     />
                   </Text>
                 ),
@@ -96,7 +96,7 @@ const CancelOffer: React.FC<Props> = (props) => {
                     <Text size='14px' weight={600}>
                       <FormattedMessage
                         id='copy.no_active_offers_listings'
-                        defaultMessage='Error. You may not have any active offers for this asset.'
+                        defaultMessage='Error. You may have already cancelled this offer, or it has expired.'
                       />
                     </Text>
                   )

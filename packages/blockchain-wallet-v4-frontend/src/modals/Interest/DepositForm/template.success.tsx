@@ -21,7 +21,9 @@ import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics, SwapBaseCounterTypes } from 'data/types'
 import { required } from 'services/forms'
+import { debounce } from 'utils/helpers'
 
 import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
 import { CustomOrangeCartridge } from '../WithdrawalForm/model'
@@ -75,6 +77,7 @@ const checkIsAmountUnderDepositLimit = (
 
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
+    analyticsActions,
     coin,
     depositLimits,
     displayCoin,
@@ -83,6 +86,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formActions,
     formErrors,
     handleDisplayToggle,
+    interestAccount,
     interestActions,
     interestEDDDepositLimits,
     interestEDDStatus,
@@ -116,6 +120,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
+  const fromAccountType =
+    interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
+
   const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
@@ -136,6 +143,26 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const handleFormSubmit = () => {
     interestActions.submitDepositForm(coin)
     props.setShowSupply(showEDDDepositLimit)
+
+    analyticsActions.trackEvent({
+      key: Analytics.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED,
+      properties: {}
+    })
+  }
+
+  const amountChanged = (e) => {
+    analyticsActions.trackEvent({
+      key: Analytics.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED,
+      properties: {
+        amount: Number(e.target.value),
+        amount_currency: coin,
+        currency: walletCurrency,
+        from_account_type: fromAccountType,
+        input_amount: Number(values.depositAmount),
+        interest_rate: Number(interestRate[coin]),
+        output_amount: Number
+      }
+    })
   }
 
   if (submitting) {
@@ -290,6 +317,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               errorBottom: true,
               errorLeft: true
             }}
+            onChange={debounce((event) => {
+              amountChanged(event)
+            }, 500)}
           />
           <PrincipalCcyAbsolute>
             {displayCoin ? (
@@ -324,12 +354,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 <GreyBlueCartridge
                   data-e2e='interestMax'
                   role='button'
-                  onClick={() =>
+                  onClick={() => {
                     interestActions.handleTransferMaxAmountClick({
                       amount: displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat,
                       coin: displayCoin || walletCurrency
                     })
-                  }
+
+                    analyticsActions.trackEvent({
+                      key: Analytics.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED,
+                      properties: {
+                        amount_currency: coin,
+                        currency: walletCurrency,
+                        from_account_type: fromAccountType
+                      }
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='modals.interest.deposit.maxtransfer.button'
@@ -599,6 +638,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })

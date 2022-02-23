@@ -4,7 +4,8 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrdersType,
-  OfferEventsType
+  OfferEventsType,
+  OpenSeaStatus
 } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
@@ -16,7 +17,7 @@ export default ({ apiUrl, get, post }) => {
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
-      endPoint: `/asset_contract/${asset_contract_address}`,
+      endPoint: `/asset-contract/${asset_contract_address}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -133,6 +134,14 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getOpenSeaStatus = (): OpenSeaStatus => {
+    return get({
+      endPoint: `/status`,
+      ignoreQueryParams: true,
+      url: `${explorerUrl}`
+    })
+  }
+
   const postNftOrder = (order) => {
     return post({
       contentType: 'application/json',
@@ -154,6 +163,7 @@ export default ({ apiUrl, get, post }) => {
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
+    getOpenSeaStatus,
     postNftOrder,
     searchNftCollectionInfo
   }

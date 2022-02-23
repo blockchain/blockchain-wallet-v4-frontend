@@ -43,11 +43,13 @@
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "isRedesignEnabled": true,
+        "refreshCaptchaWithSignupError": true,
         "signupCountry": true,
         "tradingCurrencyFlyout": true,
+        "useNewPaymentProviders": true,
         "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
-        "useNewPaymentProviders": true
+        "walletDebitCardEnabled": true,
+        "withdrawalLocksFundsOnHold": true
       }
     }
   },
