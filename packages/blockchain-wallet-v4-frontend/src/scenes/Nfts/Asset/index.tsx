@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
@@ -13,7 +13,7 @@ import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import {
   Button,
   Color,
-  Icon,
+  Icon as BlockchainIcon,
   Image,
   SpinningLoader,
   TabMenu,
@@ -22,11 +22,11 @@ import {
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { media } from 'services/styles'
+import { flex, media } from 'services/styles'
 
 import { NftPage } from '../components'
 
-export const CoinIcon = styled(Icon).attrs({ className: 'coin-icon' })``
+export const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })``
 
 const Wrapper = styled(NftPage)`
   display: flex;
@@ -68,7 +68,7 @@ export const RightColWrapper = styled.div`
   height: 100%;
   margin-right: 20px;
   max-width: 500px;
-  width: 40%;
+  width: 50%;
   `} > form {
     ${media.tabletL`
     display: flex;
@@ -179,28 +179,31 @@ const CreatorOwnerBox = styled(CurrentPriceBox)`
   font-size: 14px;
   line-height: 20px;
   padding: 1em;
+  display: flex;
 `
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
   line-height: 150%;
-  color: #828b9e;
+  color: ${colors.grey700};
   overflow: hidden;
   padding-left: 1em;
+  padding-right: 0em;
+  display: flex;
 `
 
-const Divider = styled.hr`
+const Spacing = styled.div`
   margin-bottom: 2em;
   position: static;
   width: 100%;
   left: 48px;
   top: 51px;
-  opacity: 0.3;
-  color: ${colors.grey0};
 `
 
-const DividerNoMargin = styled(Divider)`
+const Divider = styled.hr`
   margin-bottom: unset;
+  opacity: 0.3;
+  color: ${colors.grey0};
 `
 
 const Description = styled.div`
@@ -244,7 +247,7 @@ const AddressDisplay = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 90%;
+  width: 7em;
 `
 
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
@@ -253,12 +256,31 @@ const AdditionalDetails = styled.div`
   padding: 1em;
   color: #828b9e;
 `
+const Detail = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  color: ${colors.grey700};
+  font-size: 16px;
+  font-weight: 500;
+`
 
 const SocialLinksWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 0.5em;
-  border-radius: 20px;
+  background: ${colors.grey100};
+  border-radius: 40px;
+  display: inline-flex;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 6px 12px;
+  a {
+    line-height: 1;
+  }
+  a:hover {
+    path {
+      fill: ${colors.blue600};
+      transition: fill 0.3s;
+    }
+  }
 `
 
 const SocialLinks = styled.a.attrs({
@@ -268,7 +290,6 @@ const SocialLinks = styled.a.attrs({
   height: 1.5rem;
   width: 1.5rem;
   border-radius: 100%;
-  background-color: ${Color('white')} !important;
   color: white;
   transition: all 0.5s;
   margin-right: 0.5rem;
@@ -394,11 +415,11 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   src={asset?.data?.asset?.image_url || ''}
                 />
                 <PriceHistoryTitle>Price History</PriceHistoryTitle>
-                <Divider />
+                <Spacing />
                 <PriceHistory />
               </LeftColWrapper>
               <RightColWrapper>
-                <Divider />
+                <Spacing style={{ marginBottom: '1em' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <CollectionName>
                     <img
@@ -417,7 +438,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <SocialLinks
                         href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
                       >
-                        <Image color='grey500' name='smartphone' />
+                        <Icon name={IconName.PHONE} color={colors.grey400} />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.twitter_username && (
@@ -426,7 +447,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           asset?.data?.asset?.collection?.twitter_username
                         }`}
                       >
-                        <Image color='grey500' name='email-success' />
+                        <Icon name={IconName.CLIPBOARD} color={colors.grey400} />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.instagram_username && (
@@ -435,26 +456,26 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           asset?.data?.asset?.collection?.instagram_username
                         }`}
                       >
-                        <Image color='grey500' name='instagram' />
+                        <Icon name={IconName.CHECK_CIRCLE} color={colors.grey400} />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.wiki_url && (
                       <SocialLinks
                         href={`${'https://en.wikipedia.org/wiki/'}${
-                          asset?.data?.asset?.collection?.instagram_username
+                          asset?.data?.asset?.collection?.wiki_url
                         }`}
                       >
-                        <Image color='grey500' name='globe' />
+                        <Icon name={IconName.CHEVRON_LEFT} color={colors.grey400} />
                       </SocialLinks>
                     )}
                     {asset?.data?.asset?.collection?.external_url && (
                       <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                        <Image color='grey500' name='world-alert' />
+                        <Icon name={IconName.GLOBE} color={colors.grey400} />
                       </SocialLinks>
                     )}
                   </SocialLinksWrap>
                 </div>
-                <Divider />
+                <Spacing />
                 <AssetName>
                   {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
                 </AssetName>
@@ -508,7 +529,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     )}
                   </Button>
                 </CurrentPriceBox>
-                <Divider style={{ marginTop: '2em' }} />
+                <Spacing style={{ marginTop: '2em' }} />
                 <CustomTabMenu>
                   <TabMenuItem
                     width='33%'
@@ -532,7 +553,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     <FormattedMessage id='copy.week' defaultMessage='History' />
                   </TabMenuItem>
                 </CustomTabMenu>
-                <Divider style={{ marginTop: '2em' }} />
+                <Spacing style={{ marginTop: '2em' }} />
                 {Tab === 'details' && (
                   <>
                     <TraitsWrapper>
@@ -575,66 +596,75 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       </TraitCell>
                     </TraitsWrapper>
                     <CreatorOwnerBox>
-                      <div style={{ color: '#677184', padding: '1em' }}>Creator Address:</div>
-                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                        {asset?.data?.asset?.creator?.profile_img_url && (
+                      <div style={{ display: 'block' }}>
+                        <div style={{ color: '#677184', padding: '1em' }}>Creator</div>
+                        <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                          {asset?.data?.asset?.creator?.profile_img_url && (
+                            <img
+                              alt='Creator Logo'
+                              height='30px'
+                              width='auto'
+                              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                              src={asset?.data?.asset?.creator?.profile_img_url}
+                            />
+                          )}
+                          <CreatorOwnerAddress>
+                            <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
+                            {asset?.data?.asset?.creator?.address?.substring(
+                              asset?.data?.asset?.creator?.address.length - 4
+                            )}
+                          </CreatorOwnerAddress>
+                        </div>
+                      </div>
+                      <div style={{ display: 'block' }}>
+                        <div style={{ color: '#677184', padding: '1em' }}>Owner</div>
+                        <div style={{ display: 'flex', paddingLeft: '1em' }}>
                           <img
-                            alt='Creator Logo'
+                            alt='Owner Logo'
                             height='30px'
                             width='auto'
                             style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                            src={asset?.data?.asset?.creator?.profile_img_url}
-                          />
-                        )}
-                        <CreatorOwnerAddress>
-                          <AddressDisplay>{asset?.data?.asset?.creator?.address}</AddressDisplay>
-                        </CreatorOwnerAddress>
-                      </div>
-                      <DividerNoMargin />
-                      <div style={{ color: '#677184', padding: '1em' }}>Owner Address:</div>
-                      <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                        <img
-                          alt='Owner Logo'
-                          height='30px'
-                          width='auto'
-                          style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                          src={asset?.data?.asset?.owner?.profile_img_url || ''}
-                        />{' '}
-                        <CreatorOwnerAddress>
-                          <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
-                        </CreatorOwnerAddress>
+                            src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                          />{' '}
+                          <CreatorOwnerAddress>
+                            <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
+                            {asset?.data?.asset?.owner?.address?.substring(
+                              asset?.data?.asset?.owner?.address.length - 4
+                            )}
+                          </CreatorOwnerAddress>
+                        </div>
                       </div>
                     </CreatorOwnerBox>
                     <AdditionalDetailsWrapper>
                       Additional Details
                       <AdditionalDetails>
-                        <div style={{ padding: '1em' }}>
-                          <Text weight={500} size='16px'>
-                            Contract Address:
-                          </Text>
-                          <AddressDisplay>{asset?.data?.asset?.contract_address}</AddressDisplay>
-                        </div>
-                        <DividerNoMargin />
-                        <div style={{ padding: '1em' }}>
-                          <Text weight={500} size='16px'>
-                            Token ID:
-                          </Text>
-                          {asset?.data?.asset?.token_id}
-                        </div>
-                        <DividerNoMargin />
-                        <div style={{ padding: '1em' }}>
-                          <Text weight={500} size='16px'>
-                            Token Standard:
-                          </Text>{' '}
-                          {asset?.data?.asset?.asset_contract?.schema_name}
-                        </div>
-                        <DividerNoMargin />
-                        <div style={{ padding: '1em' }}>
-                          <Text weight={500} size='16px'>
-                            Blockchain:
-                          </Text>{' '}
-                          ETH
-                        </div>
+                        <Detail>
+                          <Text>Contract Address:</Text>
+                          <b>
+                            <div style={{ display: 'flex' }}>
+                              <AddressDisplay>
+                                {asset?.data?.asset?.contract_address}
+                              </AddressDisplay>
+                              {asset?.data?.asset?.contract_address?.substring(
+                                asset?.data?.asset?.contract_address.length - 4
+                              )}
+                            </div>
+                          </b>
+                        </Detail>
+                        <Divider />
+                        <Detail>
+                          <Text>Token ID:</Text>
+                          <b>{asset?.data?.asset?.token_id} </b>
+                        </Detail>
+                        <Divider />
+                        <Detail>
+                          <Text>Token Standard:</Text>{' '}
+                          <b>{asset?.data?.asset?.asset_contract?.schema_name} </b>
+                        </Detail>
+                        <Divider />
+                        <Detail>
+                          <Text>Blockchain:</Text> <b>Ethereum </b>
+                        </Detail>
                       </AdditionalDetails>
                     </AdditionalDetailsWrapper>
                   </>
