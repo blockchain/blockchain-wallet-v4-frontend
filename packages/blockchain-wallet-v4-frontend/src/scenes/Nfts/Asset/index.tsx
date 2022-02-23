@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import { routerActions as router } from 'connected-react-router'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -28,7 +29,7 @@ import { NftPage } from '../components'
 
 export const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })``
 const Wrapper = styled(NftPage)`
-  display: flex;
+  display: block;
   margin: 0 auto;
   padding: 20px 0 0 0;
   box-sizing: border-box;
@@ -39,6 +40,13 @@ const Wrapper = styled(NftPage)`
     flex-direction: column;
   `}
 `
+export const Top = styled.div`
+  ${media.atLeastTabletL`
+  display: flex;
+  `}
+  display: block;
+`
+
 export const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
   box-sizing: border-box;
@@ -54,9 +62,8 @@ export const LeftColWrapper = styled.div`
   }
   padding-right: 3em;
   margin-right: 2em;
-  height: 100%;
+
   top: 64px;
-  overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
@@ -76,30 +83,22 @@ export const RightColWrapper = styled.div`
     }
   `}
   }
-  overflow: scroll;
-  overflow-x: hidden;
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
 `
 
 const MoreAssets = styled.div`
-  ${media.atLeastTabletL`
-  width: 20%;
+  width: 100%;
   position: sticky;
   height: 100%;
   top: 64px;
-  overflow: scroll;
-  `}
-  width: 100%;
 `
 
 const MoreAssetsList = styled.div`
-  ${media.tabletL`
-    display: flex;
-    width: 100%;
-    overflow-x: scroll;
-  `}
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
 `
 
 const CollectionName = styled.div`
@@ -131,13 +130,13 @@ const PriceHistoryTitle = styled(AssetName)`
 
 const PriceHistory = styled(PriceHistoryTitle)`
   font-size: 14px;
-  height: 340px;
   background: ${colors.grey0};
   opacity: 0.2;
   padding: 2em;
   border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
+  height: 40%;
 `
 
 const CurrentPriceBox = styled.div`
@@ -406,362 +405,423 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           console.log(highest_offer, 'highest_offer')
           return (
             <>
-              <LeftColWrapper>
-                <img
-                  alt='Asset Logo'
-                  width='100%'
-                  style={{
-                    border: `1px solid ${colors.grey100}`,
-                    borderRadius: '10%',
-                    borderWidth: '1px',
-                    boxSizing: 'border-box',
-                    marginBottom: '0.5rem',
-                    padding: '10px'
-                  }}
-                  src={asset?.data?.asset?.image_url || ''}
-                />
-                <PriceHistoryTitle>Price History</PriceHistoryTitle>
-                <Spacing />
-                <PriceHistory />
-              </LeftColWrapper>
-              <RightColWrapper>
-                <Spacing style={{ marginBottom: '1em' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <CollectionName>
+              <div style={{ display: 'block' }}>
+                <Top>
+                  <LeftColWrapper>
                     <img
-                      alt='Dapp Logo'
-                      height='30px'
-                      width='auto'
-                      style={{ borderRadius: '50%', marginBottom: '0.5rem', paddingRight: '2px' }}
-                      src={asset?.data?.asset?.collection?.image_url || ''}
+                      alt='Asset Logo'
+                      width='100%'
+                      style={{
+                        border: `1px solid ${colors.grey100}`,
+                        borderRadius: '10%',
+                        borderWidth: '1px',
+                        boxSizing: 'border-box',
+                        marginBottom: '0.5rem',
+                        padding: '10px'
+                      }}
+                      src={asset?.data?.asset?.image_url || ''}
                     />
-                    <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                      {asset?.data?.asset?.collection?.name}
-                    </div>
-                  </CollectionName>
-                  <SocialLinksWrap>
-                    {asset?.data?.asset?.collection?.telegram_url && (
-                      <SocialLinks
-                        href={`${'https://t.me/'}${asset?.data?.asset?.collection?.telegram_url}`}
-                      >
-                        <Icon name={IconName.PHONE} color={colors.grey400} />
-                      </SocialLinks>
-                    )}
-                    {asset?.data?.asset?.collection?.twitter_username && (
-                      <SocialLinks
-                        href={`${'https://twitter.com/'}${
-                          asset?.data?.asset?.collection?.twitter_username
-                        }`}
-                      >
-                        <Icon name={IconName.CLIPBOARD} color={colors.grey400} />
-                      </SocialLinks>
-                    )}
-                    {asset?.data?.asset?.collection?.instagram_username && (
-                      <SocialLinks
-                        href={`${'http://instagram.com/'}${
-                          asset?.data?.asset?.collection?.instagram_username
-                        }`}
-                      >
-                        <Icon name={IconName.CHECK_CIRCLE} color={colors.grey400} />
-                      </SocialLinks>
-                    )}
-                    {asset?.data?.asset?.collection?.wiki_url && (
-                      <SocialLinks
-                        href={`${'https://en.wikipedia.org/wiki/'}${
-                          asset?.data?.asset?.collection?.wiki_url
-                        }`}
-                      >
-                        <Icon name={IconName.CHEVRON_LEFT} color={colors.grey400} />
-                      </SocialLinks>
-                    )}
-                    {asset?.data?.asset?.collection?.external_url && (
-                      <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                        <Icon name={IconName.GLOBE} color={colors.grey400} />
-                      </SocialLinks>
-                    )}
-                  </SocialLinksWrap>
-                </div>
-                <Spacing />
-                <AssetName>
-                  {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
-                </AssetName>
-                <Description>{asset?.data?.asset?.collection?.description}</Description>
-                <CurrentPriceBox>
-                  {highest_bid && (
-                    <>
-                      <Highest>Highest Bid</Highest>
-                      <EthText>
-                        <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                        {coin}{' '}
-                        {highest_bid.payment_token_contract.address === WETH_ADDRESS
-                          ? 'WETH'
-                          : 'ETH'}
-                      </EthText>
-                    </>
-                  )}
-                  {highest_offer && (
-                    <>
-                      <Highest>Highest Offer</Highest>
-                      <EthText>
-                        <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                        {coin}{' '}
-                        {highest_offer.payment_token_contract.address === WETH_ADDRESS
-                          ? 'WETH'
-                          : 'ETH'}
-                      </EthText>
-                    </>
-                  )}
-                  <Button
-                    data-e2e='openNftFlow'
-                    nature='primary'
-                    fullwidth
-                    onClick={() =>
-                      nftsActions.nftOrderFlowOpen({
-                        // @ts-ignore
-                        asset_contract_address: asset.data.asset.contract_address!,
-                        // @ts-ignore
-                        token_id: asset.data.asset.token_id!,
-                        walletUserIsAssetOwnerHack: false
-                      })
-                    }
-                  >
-                    {asset?.data?.asset?.events &&
-                    asset?.data?.asset?.events[0] &&
-                    asset?.data?.asset?.events &&
-                    asset?.data?.asset?.events[0].event_type === 'created' ? (
-                      <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                    ) : (
-                      <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                    )}
-                  </Button>
-                </CurrentPriceBox>
-                <Spacing style={{ marginTop: '2em' }} />
-                <CustomTabMenu>
-                  <TabMenuItem
-                    width='33%'
-                    onClick={() => setTab('details')}
-                    selected={Tab === 'details'}
-                  >
-                    <FormattedMessage id='copy.day' defaultMessage='Details' />
-                  </TabMenuItem>
-                  <TabMenuItem
-                    width='33%'
-                    onClick={() => setTab('offers')}
-                    selected={Tab === 'offers'}
-                  >
-                    <FormattedMessage id='copy.week' defaultMessage='Offers' />
-                  </TabMenuItem>
-                  <TabMenuItem
-                    width='33%'
-                    onClick={() => setTab('history')}
-                    selected={Tab === 'history'}
-                  >
-                    <FormattedMessage id='copy.week' defaultMessage='History' />
-                  </TabMenuItem>
-                </CustomTabMenu>
-                <Spacing style={{ marginTop: '2em' }} />
-                {Tab === 'details' && (
-                  <>
-                    <TraitsWrapper>
-                      Traits
-                      <TraitCell>
-                        {asset?.data?.asset?.traits?.length
-                          ? asset?.data?.asset?.traits.map((traits, index) => (
-                              // eslint-disable-next-line react/no-array-index-key
-                              <Trait key={index}>
-                                <Text
-                                  capitalize
-                                  color='grey500'
-                                  size='12px'
-                                  weight={500}
-                                  style={{ padding: '0.5em' }}
-                                >
-                                  <b>{traits?.trait_type}</b>
-                                </Text>
-                                <Text
-                                  capitalize
-                                  color='blue600'
-                                  size='14px'
-                                  weight={600}
-                                  style={{ padding: '0.5em' }}
-                                >
-                                  {traits?.value}
-                                </Text>
-                                <Text
-                                  capitalize
-                                  color='grey500'
-                                  size='12px'
-                                  weight={400}
-                                  style={{ padding: '0.5em' }}
-                                >
-                                  0.1% Rarity
-                                </Text>
-                              </Trait>
-                            ))
-                          : null}
-                      </TraitCell>
-                    </TraitsWrapper>
-                    <CreatorOwnerBox>
-                      <div style={{ display: 'block' }}>
-                        <div style={{ color: '#677184', padding: '1em' }}>Creator</div>
-                        <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                          {asset?.data?.asset?.creator?.profile_img_url && (
-                            <img
-                              alt='Creator Logo'
-                              height='30px'
-                              width='auto'
-                              style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                              src={asset?.data?.asset?.creator?.profile_img_url}
-                            />
-                          )}
-                          <CreatorOwnerAddress>
-                            <AddressDisplay>
-                              {asset?.data?.asset?.creator?.address || 'Not Available'}
-                            </AddressDisplay>
-                            {asset?.data?.asset?.creator?.address?.substring(
-                              asset?.data?.asset?.creator?.address.length - 4
-                            )}
-                          </CreatorOwnerAddress>
-                        </div>
-                      </div>
-                      <div style={{ display: 'block' }}>
-                        <div style={{ color: '#677184', padding: '1em' }}>Owner</div>
-                        <div style={{ display: 'flex', paddingLeft: '1em' }}>
-                          <img
-                            alt='Owner Logo'
-                            height='30px'
-                            width='auto'
-                            style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
-                            src={asset?.data?.asset?.owner?.profile_img_url || ''}
-                          />{' '}
-                          <CreatorOwnerAddress>
-                            <AddressDisplay>{asset?.data?.asset?.owner?.address}</AddressDisplay>
-                            {asset?.data?.asset?.owner?.address?.substring(
-                              asset?.data?.asset?.owner?.address.length - 4
-                            )}
-                          </CreatorOwnerAddress>
-                        </div>
-                      </div>
-                    </CreatorOwnerBox>
-                    <AdditionalDetailsWrapper>
-                      Additional Details
-                      <AdditionalDetails>
-                        <Detail>
-                          <Text>Contract Address:</Text>
-                          <b>
-                            <div style={{ display: 'flex' }}>
-                              <AddressDisplay>
-                                {asset?.data?.asset?.contract_address}
-                              </AddressDisplay>
-                              {asset?.data?.asset?.contract_address?.substring(
-                                asset?.data?.asset?.contract_address.length - 4
-                              )}
-                            </div>
-                          </b>
-                        </Detail>
-                        <Divider />
-                        <Detail>
-                          <Text>Token ID:</Text>
-                          <b>
-                            <TokenDisplay>{asset?.data?.asset?.token_id} </TokenDisplay>
-                          </b>
-                        </Detail>
-                        <Divider />
-                        <Detail>
-                          <Text>Token Standard:</Text>{' '}
-                          <b>{asset?.data?.asset?.asset_contract?.schema_name} </b>
-                        </Detail>
-                        <Divider />
-                        <Detail>
-                          <Text>Blockchain:</Text> <b>Ethereum </b>
-                        </Detail>
-                      </AdditionalDetails>
-                    </AdditionalDetailsWrapper>
-                  </>
-                )}
-                {Tab === 'offers' &&
-                  (offers.length ? (
-                    offers?.map((offer, index) => {
-                      const coin = Exchange.convertCoinToCoin({
-                        coin: 'ETH',
-                        value: offer?.base_price
-                      })
-                      return (
-                        <div
+                    <PriceHistoryTitle>Price History</PriceHistoryTitle>
+                    <Spacing />
+                    <PriceHistory />
+                  </LeftColWrapper>
+                  <RightColWrapper>
+                    <Spacing style={{ marginBottom: '1em' }} />
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <CollectionName>
+                        <img
+                          alt='Dapp Logo'
+                          height='30px'
+                          width='auto'
                           style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '0.5em'
+                            borderRadius: '50%',
+                            marginBottom: '0.5rem',
+                            paddingRight: '2px'
                           }}
-                          // eslint-disable-next-line react/no-array-index-key
-                          key={index}
-                        >
-                          <Text>
+                          src={asset?.data?.asset?.collection?.image_url || ''}
+                        />
+                        <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                          {asset?.data?.asset?.collection?.name}
+                        </div>
+                      </CollectionName>
+                      <SocialLinksWrap>
+                        {asset?.data?.asset?.collection?.telegram_url && (
+                          <SocialLinks
+                            href={`${'https://t.me/'}${
+                              asset?.data?.asset?.collection?.telegram_url
+                            }`}
+                          >
+                            <Icon name={IconName.PHONE} color={colors.grey400} />
+                          </SocialLinks>
+                        )}
+                        {asset?.data?.asset?.collection?.twitter_username && (
+                          <SocialLinks
+                            href={`${'https://twitter.com/'}${
+                              asset?.data?.asset?.collection?.twitter_username
+                            }`}
+                          >
+                            <Icon name={IconName.CLIPBOARD} color={colors.grey400} />
+                          </SocialLinks>
+                        )}
+                        {asset?.data?.asset?.collection?.instagram_username && (
+                          <SocialLinks
+                            href={`${'http://instagram.com/'}${
+                              asset?.data?.asset?.collection?.instagram_username
+                            }`}
+                          >
+                            <Icon name={IconName.CHECK_CIRCLE} color={colors.grey400} />
+                          </SocialLinks>
+                        )}
+                        {asset?.data?.asset?.collection?.wiki_url && (
+                          <SocialLinks
+                            href={`${'https://en.wikipedia.org/wiki/'}${
+                              asset?.data?.asset?.collection?.wiki_url
+                            }`}
+                          >
+                            <Icon name={IconName.CHEVRON_LEFT} color={colors.grey400} />
+                          </SocialLinks>
+                        )}
+                        {asset?.data?.asset?.collection?.external_url && (
+                          <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
+                            <Icon name={IconName.GLOBE} color={colors.grey400} />
+                          </SocialLinks>
+                        )}
+                      </SocialLinksWrap>
+                    </div>
+                    <Spacing />
+                    <AssetName>
+                      {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
+                    </AssetName>
+                    <Description>{asset?.data?.asset?.collection?.description}</Description>
+                    <CurrentPriceBox>
+                      {highest_bid && (
+                        <>
+                          <Highest>Highest Bid</Highest>
+                          <EthText>
+                            <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
                             {coin}{' '}
-                            {offer?.payment_token_contract?.address === WETH_ADDRESS
+                            {highest_bid.payment_token_contract.address === WETH_ADDRESS
                               ? 'WETH'
                               : 'ETH'}
-                          </Text>{' '}
-                          <Text>
-                            {'Expires: '}
-                            {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
-                          </Text>
-                        </div>
-                      )
-                    })
-                  ) : (
-                    <Text>No offers made on this asset (yet!)</Text>
-                  ))}
-                {Tab === 'history' && <Text>No history available for this asset.</Text>}
-              </RightColWrapper>
-              <MoreAssets>
-                <Text
-                  capitalize
-                  style={{ fontWeight: 'bold', padding: '1em', textDecoration: 'underline' }}
-                >
-                  More from this collection...
-                </Text>
-                <MoreAssetsList>
-                  {assets?.data?.assets?.length // @ts-ignore
-                    ? assets?.data?.assets?.map((asset, index) => {
-                        const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
-                        return (
-                          <LinkContainer
-                            // eslint-disable-next-line react/no-array-index-key
-                            key={index}
-                            to={link}
-                            onClick={() => {
-                              nftsActions.fetchOpenseaAsset({
-                                address: asset?.contract_address || '',
-                                token_id: asset?.token_id || ''
-                              })
-                            }}
-                          >
-                            <div style={{ display: 'flex' }}>
-                              <Text capitalize style={{ padding: '1em' }}>
-                                <b>{asset?.name || '#'}</b>
-                              </Text>
+                          </EthText>
+                        </>
+                      )}
+                      {highest_offer && (
+                        <>
+                          <Highest>Highest Offer</Highest>
+                          <EthText>
+                            <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
+                            {coin}{' '}
+                            {highest_offer.payment_token_contract.address === WETH_ADDRESS
+                              ? 'WETH'
+                              : 'ETH'}
+                          </EthText>
+                        </>
+                      )}
+                      <Button
+                        data-e2e='openNftFlow'
+                        nature='primary'
+                        fullwidth
+                        onClick={() =>
+                          nftsActions.nftOrderFlowOpen({
+                            // @ts-ignore
+                            asset_contract_address: asset.data.asset.contract_address!,
+                            // @ts-ignore
+                            token_id: asset.data.asset.token_id!,
+                            walletUserIsAssetOwnerHack: false
+                          })
+                        }
+                      >
+                        {asset?.data?.asset?.events &&
+                        asset?.data?.asset?.events[0] &&
+                        asset?.data?.asset?.events &&
+                        asset?.data?.asset?.events[0].event_type === 'created' ? (
+                          <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                        ) : (
+                          <FormattedMessage
+                            id='copy.make_an_offer'
+                            defaultMessage='Make an Offer'
+                          />
+                        )}
+                      </Button>
+                    </CurrentPriceBox>
+                    <Spacing style={{ marginTop: '2em' }} />
+                    <CustomTabMenu>
+                      <TabMenuItem
+                        width='33%'
+                        onClick={() => setTab('details')}
+                        selected={Tab === 'details'}
+                      >
+                        <FormattedMessage id='copy.day' defaultMessage='Details' />
+                      </TabMenuItem>
+                      <TabMenuItem
+                        width='33%'
+                        onClick={() => setTab('offers')}
+                        selected={Tab === 'offers'}
+                      >
+                        <FormattedMessage id='copy.week' defaultMessage='Offers' />
+                      </TabMenuItem>
+                      <TabMenuItem
+                        width='33%'
+                        onClick={() => setTab('history')}
+                        selected={Tab === 'history'}
+                      >
+                        <FormattedMessage id='copy.week' defaultMessage='History' />
+                      </TabMenuItem>
+                    </CustomTabMenu>
+                    <Spacing style={{ marginTop: '2em' }} />
+                    {Tab === 'details' && (
+                      <>
+                        <TraitsWrapper>
+                          Traits
+                          <TraitCell>
+                            {asset?.data?.asset?.traits?.length ? (
+                              asset?.data?.asset?.traits.map((traits, index) => (
+                                // eslint-disable-next-line react/no-array-index-key
+                                <Trait key={index}>
+                                  <Text
+                                    capitalize
+                                    color='grey500'
+                                    size='12px'
+                                    weight={500}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    <b>{traits?.trait_type}</b>
+                                  </Text>
+                                  <Text
+                                    capitalize
+                                    color='blue600'
+                                    size='14px'
+                                    weight={600}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    {traits?.value}
+                                  </Text>
+                                  <Text
+                                    capitalize
+                                    color='grey500'
+                                    size='12px'
+                                    weight={400}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    0.1% Rarity
+                                  </Text>
+                                </Trait>
+                              ))
+                            ) : (
+                              <Text>Not Available</Text>
+                            )}
+                          </TraitCell>
+                        </TraitsWrapper>
+                        <CreatorOwnerBox>
+                          <div style={{ display: 'block', width: '50%' }}>
+                            <div style={{ color: '#677184', padding: '1em' }}>Creator</div>
+                            <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                              {asset?.data?.asset?.creator?.profile_img_url && (
+                                <img
+                                  alt='Creator Logo'
+                                  height='30px'
+                                  width='auto'
+                                  style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                                  src={asset?.data?.asset?.creator?.profile_img_url}
+                                />
+                              )}
+                              <CreatorOwnerAddress>
+                                <AddressDisplay>
+                                  {asset?.data?.asset?.creator?.address || 'Not Available '}
+                                </AddressDisplay>
+                                {asset?.data?.asset?.creator?.address?.substring(
+                                  asset?.data?.asset?.creator?.address.length - 4
+                                )}
+                              </CreatorOwnerAddress>
+                            </div>
+                          </div>
+                          <div style={{ display: 'block', width: '50%' }}>
+                            <div style={{ color: '#677184', padding: '1em' }}>Owner</div>
+                            <div style={{ display: 'flex', paddingLeft: '1em' }}>
                               <img
-                                alt='Asset Logo'
-                                height='200px'
+                                alt='Owner Logo'
+                                height='30px'
                                 width='auto'
+                                style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                                src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                              />{' '}
+                              <CreatorOwnerAddress>
+                                <AddressDisplay>
+                                  {asset?.data?.asset?.owner?.address}
+                                </AddressDisplay>
+                                {asset?.data?.asset?.owner?.address?.substring(
+                                  asset?.data?.asset?.owner?.address.length - 4
+                                )}
+                              </CreatorOwnerAddress>
+                            </div>
+                          </div>
+                        </CreatorOwnerBox>
+                        <AdditionalDetailsWrapper>
+                          Additional Details
+                          <AdditionalDetails>
+                            <Detail>
+                              <Text>Contract Address:</Text>
+                              <b>
+                                <div style={{ display: 'flex' }}>
+                                  <AddressDisplay>
+                                    {asset?.data?.asset?.contract_address}
+                                  </AddressDisplay>
+                                  {asset?.data?.asset?.contract_address?.substring(
+                                    asset?.data?.asset?.contract_address.length - 4
+                                  )}
+                                </div>
+                              </b>
+                            </Detail>
+                            <Divider />
+                            <Detail>
+                              <Text>Token ID:</Text>
+                              <b>
+                                <TokenDisplay>{asset?.data?.asset?.token_id} </TokenDisplay>
+                              </b>
+                            </Detail>
+                            <Divider />
+                            <Detail>
+                              <Text>Token Standard:</Text>{' '}
+                              <b>{asset?.data?.asset?.asset_contract?.schema_name} </b>
+                            </Detail>
+                            <Divider />
+                            <Detail>
+                              <Text>Blockchain:</Text> <b>Ethereum </b>
+                            </Detail>
+                          </AdditionalDetails>
+                        </AdditionalDetailsWrapper>
+                      </>
+                    )}
+                    {Tab === 'offers' &&
+                      (offers.length ? (
+                        offers?.map((offer, index) => {
+                          const coin = Exchange.convertCoinToCoin({
+                            coin: 'ETH',
+                            value: offer?.base_price
+                          })
+                          return (
+                            <div
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '0.5em'
+                              }}
+                              // eslint-disable-next-line react/no-array-index-key
+                              key={index}
+                            >
+                              <Text>
+                                {coin}{' '}
+                                {offer?.payment_token_contract?.address === WETH_ADDRESS
+                                  ? 'WETH'
+                                  : 'ETH'}
+                              </Text>{' '}
+                              <Text>
+                                {'Expires: '}
+                                {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
+                              </Text>
+                            </div>
+                          )
+                        })
+                      ) : (
+                        <Text>No offers made on this asset (yet!)</Text>
+                      ))}
+                    {Tab === 'history' && <Text>No history available for this asset.</Text>}
+                  </RightColWrapper>
+                </Top>
+                <div style={{ display: 'flex', paddingTop: '12em' }}>
+                  <MoreAssets>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        padding: '5em 1em 1em 1em'
+                      }}
+                    >
+                      <Text
+                        color={colors.grey700}
+                        capitalize
+                        style={{ fontWeight: 'bold', padding: '1em', width: 'fit-content' }}
+                      >
+                        More from this collection
+                      </Text>
+                      <LinkContainer to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
+                        <Button
+                          data-e2e='goToCollection'
+                          nature='empty-blue'
+                          width='10%'
+                          padding='1em'
+                        >
+                          See All
+                        </Button>
+                      </LinkContainer>
+                    </div>
+                    <MoreAssetsList>
+                      {assets?.data?.assets?.length // @ts-ignore
+                        ? assets?.data?.assets?.slice(0, 10).map((asset, index) => {
+                            const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
+                            return (
+                              <LinkContainer
+                                // eslint-disable-next-line react/no-array-index-key
+                                key={index}
+                                to={link}
+                                onClick={() => {
+                                  nftsActions.fetchOpenseaAsset({
+                                    address: asset?.contract_address || '',
+                                    token_id: asset?.token_id || ''
+                                  })
+                                }}
                                 style={{
                                   border: `1px solid ${colors.grey100}`,
                                   borderRadius: '10%',
                                   borderWidth: '1px',
                                   boxSizing: 'border-box',
+                                  margin: '1em',
                                   marginBottom: '0.5rem',
                                   padding: '10px'
                                 }}
-                                src={asset?.image_url || ''}
-                              />
-                            </div>
-                          </LinkContainer>
-                        )
-                      })
-                    : null}
-                </MoreAssetsList>
-              </MoreAssets>
+                              >
+                                <div>
+                                  <CollectionName>
+                                    <img
+                                      alt='Dapp Logo'
+                                      height='30px'
+                                      width='auto'
+                                      style={{
+                                        borderRadius: '50%',
+                                        marginBottom: '0.5rem',
+                                        paddingRight: '2px'
+                                      }}
+                                      src={asset?.collection?.image_url || ''}
+                                    />
+                                    <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                                      {asset?.collection?.name}
+                                    </div>
+                                  </CollectionName>
+                                  <img
+                                    alt='Asset Logo'
+                                    height='200px'
+                                    width='auto'
+                                    style={{
+                                      borderRadius: '10%',
+                                      boxSizing: 'border-box',
+                                      marginBottom: '0.5rem',
+                                      padding: '10px'
+                                    }}
+                                    src={asset?.image_url || ''}
+                                  />
+                                  <Text capitalize style={{ padding: '1em' }}>
+                                    {asset?.name || '#'}
+                                  </Text>
+                                </div>
+                              </LinkContainer>
+                            )
+                          })
+                        : null}
+                    </MoreAssetsList>
+                  </MoreAssets>
+                </div>
+              </div>
             </>
           )
         }

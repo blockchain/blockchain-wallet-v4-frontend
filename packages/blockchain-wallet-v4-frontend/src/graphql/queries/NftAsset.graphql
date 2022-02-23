@@ -19,6 +19,7 @@ query Asset($filter: AssetFilter) {
     animation_original_url
     collection {
       name
+      slug
       description
       image_url
       discord_url

@@ -1005,6 +1005,7 @@ export type AssetQuery = {
       image_url?: string | null
       instagram_username?: string | null
       name?: string | null
+      slug?: string | null
       telegram_url?: string | null
       twitter_username?: string | null
       wiki_url?: string | null
@@ -1046,7 +1047,11 @@ export type AssetsQuery = {
   __typename?: 'Query'
   assets?: Array<{
     __typename?: 'Asset'
-    collection?: { __typename?: 'Collection'; name?: string | null } | null
+    collection?: {
+      __typename?: 'Collection'
+      image_url?: string | null
+      name?: string | null
+    } | null
     contract_address?: string | null
     events?: Array<{
       __typename?: 'Event'
@@ -4388,6 +4393,7 @@ export const AssetDocument = gql`
       animation_original_url
       collection {
         name
+        slug
         description
         image_url
         discord_url
@@ -4436,6 +4442,7 @@ export const AssetsDocument = gql`
       owner_address
       collection {
         name
+        image_url
       }
       events(filter: $eventsFilter) {
         id
