@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import e from 'express'
 import styled from 'styled-components'
@@ -51,11 +51,6 @@ const CheckEmail = (props: Props) => {
 
   const hasErrorAlert = props.alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
 
-  const handleSendAgainClick = (e) => {
-    setDisabled(true)
-    setSentState('sent')
-    props.handleSubmit(e)
-  }
   return (
     <LoginWrapper>
       <WrapperWithPadding>
@@ -91,7 +86,12 @@ const CheckEmail = (props: Props) => {
           height='48px'
           data-e2e='loginResendEmail'
           disabled={disabled && !hasErrorAlert}
-          onClick={() => handleSendAgainClick}
+          // @ts-ignore
+          onClick={(e: SyntheticEvent) => {
+            setDisabled(true)
+            setSentState('sent')
+            props.handleSubmit(e)
+          }}
         >
           {disabled && sentState === 'sent' && !hasErrorAlert && (
             <ButtonTextRow>
