@@ -81,15 +81,7 @@ class SignupContainer extends React.PureComponent<
       )
     }
     // we have a captcha token, continue Signup process
-    authActions.register({
-      captchaToken: '90',
-      country,
-      email,
-      initCaptcha: this.initCaptcha,
-      language,
-      password,
-      state
-    })
+    authActions.register({ captchaToken, country, email, language, password, state })
   }
 
   setCountryOnLoad = (country: string) => {

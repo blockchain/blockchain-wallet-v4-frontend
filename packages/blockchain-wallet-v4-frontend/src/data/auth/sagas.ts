@@ -453,7 +453,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
-    const { country, email, initCaptcha, state } = action.payload
+    const { country, email, state } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     try {
       yield put(actions.auth.registerLoading())
@@ -477,7 +477,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.registerFailure(undefined))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
-      initCaptcha()
     }
   }
 
