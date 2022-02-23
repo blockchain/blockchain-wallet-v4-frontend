@@ -140,7 +140,7 @@ const PriceHistory = styled(PriceHistoryTitle)`
 `
 
 const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.grey0};
+  border: 1px solid ${colors.white800};
   box-sizing: border-box;
   border-radius: 8px;
   padding: 1em;
@@ -215,6 +215,7 @@ const Description = styled.div`
 `
 
 const TraitsWrapper = styled(CurrentPriceBox)`
+  border: unset;
   margin-top: 2em;
   padding: 1em;
   height: unset;
@@ -572,47 +573,6 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     <Spacing style={{ marginTop: '2em' }} />
                     {Tab === 'details' && (
                       <>
-                        <TraitsWrapper>
-                          Traits
-                          <TraitCell>
-                            {asset?.data?.asset?.traits?.length ? (
-                              asset?.data?.asset?.traits.map((traits, index) => (
-                                // eslint-disable-next-line react/no-array-index-key
-                                <Trait key={index}>
-                                  <Text
-                                    capitalize
-                                    color='grey500'
-                                    size='12px'
-                                    weight={500}
-                                    style={{ padding: '0.5em' }}
-                                  >
-                                    <b>{traits?.trait_type}</b>
-                                  </Text>
-                                  <Text
-                                    capitalize
-                                    color='blue600'
-                                    size='14px'
-                                    weight={600}
-                                    style={{ padding: '0.5em' }}
-                                  >
-                                    {traits?.value}
-                                  </Text>
-                                  <Text
-                                    capitalize
-                                    color='grey500'
-                                    size='12px'
-                                    weight={400}
-                                    style={{ padding: '0.5em' }}
-                                  >
-                                    0.1% Rarity
-                                  </Text>
-                                </Trait>
-                              ))
-                            ) : (
-                              <Text>Not Available</Text>
-                            )}
-                          </TraitCell>
-                        </TraitsWrapper>
                         <CreatorOwnerBox>
                           <div style={{ display: 'block', width: '50%' }}>
                             <div style={{ color: '#677184', padding: '1em' }}>Creator</div>
@@ -657,6 +617,47 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             </div>
                           </div>
                         </CreatorOwnerBox>
+                        <TraitsWrapper>
+                          Traits
+                          <TraitCell>
+                            {asset?.data?.asset?.traits?.length ? (
+                              asset?.data?.asset?.traits.map((traits, index) => (
+                                // eslint-disable-next-line react/no-array-index-key
+                                <Trait key={index}>
+                                  <Text
+                                    capitalize
+                                    color='grey500'
+                                    size='12px'
+                                    weight={500}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    <b>{traits?.trait_type}</b>
+                                  </Text>
+                                  <Text
+                                    capitalize
+                                    color='blue600'
+                                    size='14px'
+                                    weight={600}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    {traits?.value}
+                                  </Text>
+                                  <Text
+                                    capitalize
+                                    color='grey500'
+                                    size='12px'
+                                    weight={400}
+                                    style={{ padding: '0.5em' }}
+                                  >
+                                    0.1% Rarity
+                                  </Text>
+                                </Trait>
+                              ))
+                            ) : (
+                              <Text>Not Available</Text>
+                            )}
+                          </TraitCell>
+                        </TraitsWrapper>
                         <AdditionalDetailsWrapper>
                           Additional Details
                           <AdditionalDetails>
@@ -776,13 +777,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   borderRadius: '10%',
                                   borderWidth: '1px',
                                   boxSizing: 'border-box',
+                                  justifyContent: 'center',
                                   margin: '1em',
                                   marginBottom: '0.5rem',
                                   padding: '10px'
                                 }}
                               >
                                 <div>
-                                  <CollectionName>
+                                  <CollectionName
+                                    style={{ justifyContent: 'center', paddingBottom: 'unset' }}
+                                  >
                                     <img
                                       alt='Dapp Logo'
                                       height='30px'
