@@ -769,15 +769,24 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
+    const { captchaToken, email } = action.payload
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
     )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
-      const sessionToken = yield call(api.obtainSessionToken)
-      const { captchaToken, email } = action.payload
-      yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      let sessionToken
+      if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
+        sessionToken = yield select(selectors.session.getSession, null, email)
+        if (!sessionToken) {
+          sessionToken = yield call(api.obtainSessionToken)
+          yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+        }
+      } else {
+        sessionToken = yield call(api.obtainSessionToken)
+        yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      }
       yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
