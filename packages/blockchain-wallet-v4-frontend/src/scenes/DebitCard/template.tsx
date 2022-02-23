@@ -9,10 +9,16 @@ import {
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
+import { ModalName } from 'data/modals/types'
 
+import { Props } from '.'
 import { IntroCardWrapper, Wrapper } from './model'
 
-const OrderMyCardBtn = () => (
+type ButtonProps = {
+  onClick: () => void
+}
+
+const OrderMyCardButton = ({ onClick }: ButtonProps) => (
   <div style={{ marginTop: '32px' }}>
     <Button
       data-e2e='orderMyCard'
@@ -20,14 +26,14 @@ const OrderMyCardBtn = () => (
       height='48px'
       width='327px'
       margin='auto'
-      onClick={() => {}}
+      onClick={onClick}
     >
       <FormattedMessage id='scenes.debit_card.intro.order_my_card' defaultMessage='Order My Card' />
     </Button>
   </div>
 )
 
-const LinkHereBtn = () => (
+const LinkHereButton = () => (
   <div style={{ marginTop: '16px' }}>
     <Button
       data-e2e='linkCard'
@@ -45,45 +51,49 @@ const LinkHereBtn = () => (
   </div>
 )
 
-const DebitCard = () => (
-  <Wrapper>
-    <SceneHeader>
-      <HeaderTextWrapper>
-        <IconBackground>
-          <Icon name='credit-card-sb' color='blue600' size='26px' />
-        </IconBackground>
-        <SceneHeaderText>
-          <FormattedMessage id='copy.debit_card' defaultMessage='Debit Card' />
-        </SceneHeaderText>
-      </HeaderTextWrapper>
-    </SceneHeader>
-    <SceneSubHeaderText>
-      <FormattedMessage
-        id='scenes.debit_card.intro.subheader'
-        defaultMessage='Taking crypto into the physical world.'
-      />
-    </SceneSubHeaderText>
-    <IntroCardWrapper>
-      <Image name='intro-card' />
+const DebitCard = ({ modalActions }: Props) => {
+  const handleOpenOrderMyCard = () =>
+    modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
-      <SceneHeaderText>
-        <FormattedMessage
-          id='scenes.debit_card.intro.content.header'
-          defaultMessage='Your Gateway To The Blockchain Debit Card'
-        />
-      </SceneHeaderText>
-
+  return (
+    <Wrapper>
+      <SceneHeader>
+        <HeaderTextWrapper>
+          <IconBackground>
+            <Icon name='credit-card-sb' color='blue600' size='26px' />
+          </IconBackground>
+          <SceneHeaderText>
+            <FormattedMessage id='copy.debit_card' defaultMessage='Debit Card' />
+          </SceneHeaderText>
+        </HeaderTextWrapper>
+      </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage
-          id='scenes.debit_card.intro.content.subheader'
-          defaultMessage='A card that lets you spend and earn in crypto right from your Blockchain account.'
+          id='scenes.debit_card.intro.subheader'
+          defaultMessage='Taking crypto into the physical world.'
         />
       </SceneSubHeaderText>
+      <IntroCardWrapper>
+        <Image name='intro-card' />
 
-      <OrderMyCardBtn />
-      <LinkHereBtn />
-    </IntroCardWrapper>
-  </Wrapper>
-)
+        <SceneHeaderText>
+          <FormattedMessage
+            id='scenes.debit_card.intro.content.header'
+            defaultMessage='Your Gateway To The Blockchain Debit Card'
+          />
+        </SceneHeaderText>
+
+        <SceneSubHeaderText>
+          <FormattedMessage
+            id='scenes.debit_card.intro.content.subheader'
+            defaultMessage='A card that lets you spend and earn in crypto right from your Blockchain account.'
+          />
+        </SceneSubHeaderText>
+        <OrderMyCardButton onClick={handleOpenOrderMyCard} />
+        <LinkHereButton />
+      </IntroCardWrapper>
+    </Wrapper>
+  )
+}
 
 export default DebitCard
