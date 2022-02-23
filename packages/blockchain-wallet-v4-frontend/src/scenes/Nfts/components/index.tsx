@@ -9,8 +9,9 @@ export const maxWidth = '1200px'
 export const NftPage = styled.div`
   width: 100%;
   max-width: ${maxWidth};
-  margin: 20px auto;
+  margin: 0px auto;
   position: relative;
+  box-sizing: border-box;
   background: ${(props) => props.theme.white};
 `
 

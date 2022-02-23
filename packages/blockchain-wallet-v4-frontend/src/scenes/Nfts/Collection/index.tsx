@@ -38,7 +38,7 @@ const CollectionBannerWrapper = styled.div`
 const CollectionHeaderFixed = styled.div`
   position: sticky;
   z-index: 1;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
   display: flex;
