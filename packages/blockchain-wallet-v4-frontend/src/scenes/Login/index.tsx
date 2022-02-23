@@ -8,6 +8,7 @@ import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
+  AlertsState,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
@@ -203,7 +204,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   </>
                 )
               case LoginSteps.CHECK_EMAIL:
-                return <CheckEmail {...loginProps} />
+                return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
               case LoginSteps.UPGRADE_CONFIRM:
@@ -235,6 +236,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
+  alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   authType: selectors.auth.getAuthType(state) as Number,
   cache: selectors.cache.getCache(state),
   data: getData(state),

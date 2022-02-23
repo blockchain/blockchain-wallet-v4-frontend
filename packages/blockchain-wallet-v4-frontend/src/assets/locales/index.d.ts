@@ -391,6 +391,7 @@ type MessagesType = {
   'copy.cancel': 'Cancel'
   'copy.canceled': 'Canceled'
   'copy.cash': 'Cash'
+  'copy.check_your_email': 'Check your email'
   'copy.close': 'Close'
   'copy.coin_network_fee': '{coin} Network Fee'
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
