@@ -16,7 +16,7 @@ import {
   AssetImageContainer,
   CTAWrapper,
   LazyLoadWrapper,
-  PriceInfo,
+  PriceCTA,
   StyledCoinDisplay
 } from '../components'
 
@@ -56,46 +56,48 @@ const Assets: React.FC<Props> = (props) => {
                     {asset.name}
                   </Text>
                 </div>
-                <PriceInfo>
-                  <Text size='12px' color='black' weight={600}>
-                    <FormattedMessage id='copy.last_sale' defaultMessage='Last Sale' />
-                  </Text>
-                  {asset.last_sale ? (
-                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                      <StyledCoinDisplay
-                        size='14px'
-                        color='black'
-                        weight={600}
-                        coin={asset.last_sale.payment_token.symbol}
-                      >
-                        {asset.last_sale.total_price}
-                      </StyledCoinDisplay>
-                      &nbsp;-&nbsp;
-                      <FiatDisplay
-                        size='12px'
-                        color='grey600'
-                        weight={600}
-                        coin={asset.last_sale.payment_token.symbol}
-                      >
-                        {asset.last_sale.total_price}
-                      </FiatDisplay>
+                <PriceCTA>
+                  <div>
+                    <Text size='12px' color='black' weight={600}>
+                      <FormattedMessage id='copy.last_sale' defaultMessage='Last Sale' />
                     </Text>
-                  ) : (
-                    <Text color='grey600' size='12px' weight={600}>
-                      N/A
-                    </Text>
-                  )}
-                </PriceInfo>
+                    {asset.last_sale ? (
+                      <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                        <StyledCoinDisplay
+                          size='14px'
+                          color='black'
+                          weight={600}
+                          coin={asset.last_sale.payment_token.symbol}
+                        >
+                          {asset.last_sale.total_price}
+                        </StyledCoinDisplay>
+                        &nbsp;-&nbsp;
+                        <FiatDisplay
+                          size='12px'
+                          color='grey600'
+                          weight={600}
+                          coin={asset.last_sale.payment_token.symbol}
+                        >
+                          {asset.last_sale.total_price}
+                        </FiatDisplay>
+                      </Text>
+                    ) : (
+                      <Text color='grey600' size='12px' weight={600}>
+                        N/A
+                      </Text>
+                    )}
+                  </div>
+                  <Button
+                    fullwidth
+                    data-e2e='sellNft'
+                    nature='primary'
+                    onClick={() => openAsset(asset)}
+                  >
+                    <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
+                  </Button>
+                </PriceCTA>
               </AssetDetails>
               <CTAWrapper>
-                <Button
-                  fullwidth
-                  data-e2e='sellNft'
-                  nature='primary'
-                  onClick={() => openAsset(asset)}
-                >
-                  <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-                </Button>
                 <Link
                   style={{
                     display: 'block',

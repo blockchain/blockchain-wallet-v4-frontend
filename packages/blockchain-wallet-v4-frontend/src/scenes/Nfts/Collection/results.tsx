@@ -15,7 +15,7 @@ import {
   AssetDetails,
   AssetImageContainer,
   CTAWrapper,
-  PriceInfo,
+  PriceCTA,
   StyledCoinDisplay
 } from '../components'
 
@@ -73,63 +73,57 @@ const ResultsPage: React.FC<Props> = ({
                 </Text>
               </div>
 
-              <PriceInfo>
-                <Text size='12px' color='black' weight={600}>
-                  <FormattedMessage id='copy.price' defaultMessage='Price' />
-                </Text>
-                {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
-                  <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                    <StyledCoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin={asset.events[0].payment_token?.symbol}
-                    >
-                      {asset.events[0].starting_price}
-                    </StyledCoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay
+              <PriceCTA>
+                <div>
+                  <Text size='12px' color='black' weight={600}>
+                    <FormattedMessage id='copy.price' defaultMessage='Price' />
+                  </Text>
+                  {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
+                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                      <StyledCoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin={asset.events[0].payment_token?.symbol}
+                      >
+                        {asset.events[0].starting_price}
+                      </StyledCoinDisplay>
+                      &nbsp;-&nbsp;
+                      <FiatDisplay
+                        size='12px'
+                        color='grey600'
+                        weight={600}
+                        currency='USD'
+                        coin={asset.events[0].payment_token?.symbol}
+                      >
+                        {asset.events[0].starting_price}
+                      </FiatDisplay>
+                    </Text>
+                  ) : (
+                    <Text
                       size='12px'
                       color='grey600'
                       weight={600}
-                      currency='USD'
-                      coin={asset.events[0].payment_token?.symbol}
+                      style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
                     >
-                      {asset.events[0].starting_price}
-                    </FiatDisplay>
-                  </Text>
-                ) : (
-                  <Text
-                    size='12px'
-                    color='grey600'
-                    weight={600}
-                    style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
-                  >
-                    <FormattedMessage
-                      id='copy.not_for_sale'
-                      defaultMessage='This asset is not for sale.'
-                    />
-                    <TooltipHost id='tooltip.nft_asset_not_for_sale'>
-                      <TooltipIcon name='question-in-circle-filled' />
-                    </TooltipHost>
-                  </Text>
-                )}
-              </PriceInfo>
+                      <FormattedMessage
+                        id='copy.not_for_sale'
+                        defaultMessage='This asset is not for sale.'
+                      />
+                      <TooltipHost id='tooltip.nft_asset_not_for_sale'>
+                        <TooltipIcon name='question-in-circle-filled' />
+                      </TooltipHost>
+                    </Text>
+                  )}
+                </div>
+                <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+                  <Button data-e2e='nftAssetPage' nature='primary' small>
+                    <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
+                  </Button>
+                </LinkContainer>
+              </PriceCTA>
             </AssetDetails>
             <CTAWrapper>
-              <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
-                <Button data-e2e='openNftFlow' nature='primary' fullwidth>
-                  {asset?.events &&
-                  asset.events[0] &&
-                  asset?.events &&
-                  asset.events[0].event_type === 'created' &&
-                  asset.events[0].is_active_listing ? (
-                    <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                  ) : (
-                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                  )}
-                </Button>
-              </LinkContainer>
               <Link
                 style={{
                   display: 'block',

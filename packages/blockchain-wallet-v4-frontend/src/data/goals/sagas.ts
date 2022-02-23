@@ -77,6 +77,21 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: { tier }, name: 'kyc' }))
   }
 
+  const defineMakeOfferNFTGoal = function* (search) {
+    // /#/open/make-offer-nft?contract_address=0x123&token_id=456
+    const params = new URLSearchParams(search)
+
+    const contract_address = params.get('contract_address')
+    const token_id = params.get('token_id')
+
+    yield put(
+      actions.goals.saveGoal({
+        data: { contract_address, token_id },
+        name: DeepLinkGoal.MAKE_OFFER_NFT
+      })
+    )
+  }
+
   const defineSwapGoal = function* () {
     yield put(actions.goals.saveGoal({ data: {}, name: 'swap' }))
   }
@@ -173,6 +188,10 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineWalletConnectGoal, search)
     }
 
+    if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
+      return yield call(defineMakeOfferNFTGoal, search)
+    }
+
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
     if (startsWith(DeepLinkGoal.KYC, pathname)) {
       return yield call(defineKycGoal, search)
@@ -217,7 +236,6 @@ export default ({ api, coreSagas, networks }) => {
   const defineGoals = function* () {
     const search = yield select(selectors.router.getSearch)
     const pathname = yield select(selectors.router.getPathname)
-    yield take('@@router/LOCATION_CHANGE')
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
@@ -610,6 +628,18 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runMakeOfferNFTGoal = function* (goal: GoalType) {
+    yield take(actions.auth.loginSuccess)
+    yield put(actions.router.push(`/nfts/${goal.data.contract_address}/${goal.data.token_id}`))
+    yield put(
+      actions.components.nfts.nftOrderFlowOpen({
+        asset_contract_address: goal.data.contract_address,
+        token_id: goal.data.token_id,
+        walletUserIsAssetOwnerHack: false
+      })
+    )
+  }
+
   const runInterestRedirect = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -760,11 +790,23 @@ export default ({ api, coreSagas, networks }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
+        case 'buySell':
+          yield call(runBuySellGoal, goal)
+          break
         case 'kyc':
           yield call(runKycGoal, goal)
           break
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
+          break
+        case 'interest':
+          yield call(runInterestRedirect, goal)
+          break
+        case 'interestPromo':
+          yield call(runInterestPromo, goal)
+          break
+        case 'make-offer-nft':
+          yield call(runMakeOfferNFTGoal, goal)
           break
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)
@@ -777,9 +819,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'referral':
           yield call(runReferralGoal, goal)
-          break
-        case 'buySell':
-          yield call(runBuySellGoal, goal)
           break
         case 'swap':
           yield call(runSwapModal, goal)
@@ -801,12 +840,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
-          break
-        case 'interest':
-          yield call(runInterestRedirect, goal)
-          break
-        case 'interestPromo':
-          yield call(runInterestPromo, goal)
           break
         default:
           break
@@ -841,8 +874,15 @@ export default ({ api, coreSagas, networks }) => {
     // yield put(actions.goals.saveGoal('airdropClaim'))
   }
 
+  // watch for /open calls and run the goals
+  const routerChanged = function* () {
+    yield call(defineGoals)
+    yield call(runGoals)
+  }
+
   return {
     defineGoals,
+    routerChanged,
     runGoal,
     runGoals,
     saveGoals

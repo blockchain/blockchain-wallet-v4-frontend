@@ -11,6 +11,7 @@ export type GoalsType =
   | 'paymentProtocol'
   | 'referral'
   | 'buySell'
+  | 'make-offer-nft'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
@@ -47,6 +48,7 @@ export enum DeepLinkGoal {
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
   LOG_LEVEL = 'log-level',
+  MAKE_OFFER_NFT = 'make-offer-nft',
   REFERRAL = 'referral',
   REWARDS = 'rewards',
   SIMPLE_BUY = 'simple-buy',
