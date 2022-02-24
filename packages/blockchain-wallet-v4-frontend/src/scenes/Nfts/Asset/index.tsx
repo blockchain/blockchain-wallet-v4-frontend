@@ -72,8 +72,6 @@ export const LeftColWrapper = styled.div`
 export const RightColWrapper = styled.div`
   ${media.atLeastTabletL`
   height: 100%;
-  margin-right: 20px;
-  max-width: 500px;
   width: 50%;
   `} > form {
     ${media.tabletL`
@@ -107,12 +105,17 @@ const CollectionName = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  line-height: 150%;
   display: flex;
   align-items: left;
   color: ${colors.grey900};
 `
 
+const CustomLink = styled(LinkContainer)`
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+`
 const AssetName = styled(Text)`
   font-style: normal;
   font-weight: 600;
@@ -136,7 +139,7 @@ const PriceHistory = styled(PriceHistoryTitle)`
   border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
-  height: 40%;
+  height: 40em;
 `
 
 const CurrentPriceBox = styled.div`
@@ -310,16 +313,6 @@ const SocialLinks = styled.a.attrs({
       opacity: 1;
     }
   }
-
-  @media only screen and (max-width: 48rem) {
-    height: 2rem;
-    width: 2rem;
-    margin-top: 2rem;
-
-    img {
-      padding: 0.5rem;
-    }
-  }
 `
 const LoadingWrapper = styled.div`
   width: 100%;
@@ -408,6 +401,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             <>
               <div style={{ display: 'block' }}>
                 <Top>
+                  <LinkContainer
+                    role='button'
+                    cursor='pointer'
+                    to={`/nfts/${assetFromDirectCall.collection.slug}`}
+                  >
+                    <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
+                  </LinkContainer>
                   <LeftColWrapper>
                     <img
                       alt='Asset Logo'
@@ -429,22 +429,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   <RightColWrapper>
                     <Spacing style={{ marginBottom: '1em' }} />
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <CollectionName>
-                        <img
-                          alt='Dapp Logo'
-                          height='30px'
-                          width='auto'
-                          style={{
-                            borderRadius: '50%',
-                            marginBottom: '0.5rem',
-                            paddingRight: '2px'
-                          }}
-                          src={asset?.data?.asset?.collection?.image_url || ''}
-                        />
-                        <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                          {asset?.data?.asset?.collection?.name}
-                        </div>
-                      </CollectionName>
+                      <CustomLink to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
+                        <CollectionName>
+                          <img
+                            alt='Dapp Logo'
+                            height='30px'
+                            width='auto'
+                            style={{
+                              borderRadius: '50%',
+                              marginBottom: '0.5rem',
+                              paddingRight: '2px'
+                            }}
+                            src={asset?.data?.asset?.collection?.image_url || ''}
+                          />
+                          <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                            {asset?.data?.asset?.collection?.name}
+                          </div>
+                        </CollectionName>
+                      </CustomLink>
                       <SocialLinksWrap>
                         {asset?.data?.asset?.collection?.telegram_url && (
                           <SocialLinks
@@ -694,6 +696,23 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         </AdditionalDetailsWrapper>
                       </>
                     )}
+                    {Tab === 'offers' && (
+                      <>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '2.5em',
+                            padding: '0.5em'
+                          }}
+                        >
+                          <Text style={{ width: '5em' }}>Price</Text>
+                          <Text style={{ width: '5em' }}>USD Price</Text>.
+                          <Text style={{ width: '5em' }}>Expiration</Text>
+                          <Text style={{ width: '5em' }}>From</Text>
+                        </div>
+                        <Divider style={{ marginBottom: '1em' }} />
+                      </>
+                    )}
                     {Tab === 'offers' &&
                       (offers.length ? (
                         offers?.map((offer, index) => {
@@ -705,21 +724,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             <div
                               style={{
                                 display: 'flex',
-                                justifyContent: 'space-between',
+                                gap: '4em',
                                 padding: '0.5em'
                               }}
                               // eslint-disable-next-line react/no-array-index-key
                               key={index}
                             >
-                              <Text>
+                              <Text style={{ width: '5em' }}>
                                 {coin}{' '}
                                 {offer?.payment_token_contract?.address === WETH_ADDRESS
                                   ? 'WETH'
                                   : 'ETH'}
-                              </Text>{' '}
-                              <Text>
-                                {'Expires: '}
+                              </Text>
+                              <Text style={{ width: '5em' }}>{coin.valueOf()} </Text>
+                              <Text style={{ width: '5em' }}>
                                 {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
+                              </Text>
+                              <Text style={{ width: '5em' }}>
+                                <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
                               </Text>
                             </div>
                           )
@@ -730,7 +752,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     {Tab === 'history' && <Text>No history available for this asset.</Text>}
                   </RightColWrapper>
                 </Top>
-                <div style={{ display: 'flex', paddingTop: '12em' }}>
+                <div style={{ display: 'flex' }}>
                   <MoreAssets>
                     <div
                       style={{
@@ -746,7 +768,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       >
                         More from this collection
                       </Text>
-                      <LinkContainer to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
+                      <CustomLink to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
                         <Button
                           data-e2e='goToCollection'
                           nature='empty-blue'
@@ -755,14 +777,14 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         >
                           See All
                         </Button>
-                      </LinkContainer>
+                      </CustomLink>
                     </div>
                     <MoreAssetsList>
                       {assets?.data?.assets?.length // @ts-ignore
                         ? assets?.data?.assets?.slice(0, 10).map((asset, index) => {
                             const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
                             return (
-                              <LinkContainer
+                              <CustomLink
                                 // eslint-disable-next-line react/no-array-index-key
                                 key={index}
                                 to={link}
@@ -818,7 +840,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                     {asset?.name || '#'}
                                   </Text>
                                 </div>
-                              </LinkContainer>
+                              </CustomLink>
                             )
                           })
                         : null}
