@@ -143,6 +143,8 @@ import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
 import printer from './img/printer.svg'
+import exchangeButton from './img/product-picker/pp-exchange-button.png'
+import walletButton from './img/product-picker/pp-wallet-button.png'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
 import qrCodeNew from './img/qr-code.svg'
@@ -263,6 +265,7 @@ const Images = {
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
   exchange,
+  'exchange-button': exchangeButton,
   'exchange-grayscale': exchangeGrayscale,
   'exchange-logo': exchangeLogo,
   'exchange-no-background': exchangeNoBackground,
@@ -365,6 +368,7 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'wallet-button': walletButton,
   'wallet-grayscale': walletGrayscale,
   'wallet-logo': walletLogo,
   'wallet-no-background': walletNoBackground,
