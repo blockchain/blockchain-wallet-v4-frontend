@@ -37,7 +37,6 @@ class CoinSelection extends PureComponent<Props> {
   }
 
   render() {
-    // @ts-ignore
     const { filteredAccounts, values, walletCurrency } = this.props
 
     const Row = ({ data: rowData, index, style }) => {
