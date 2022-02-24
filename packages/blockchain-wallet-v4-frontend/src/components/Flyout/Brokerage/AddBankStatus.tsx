@@ -2,9 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
-import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 import { BankStatusType } from 'data/types'
 
 import { getAddBankStatusText } from '../model'

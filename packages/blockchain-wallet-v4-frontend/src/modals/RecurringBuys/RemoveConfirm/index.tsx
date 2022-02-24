@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { RecurringBuyRemoveConfirm } from 'components/Flyout'
+import { RecurringBuyRemoveConfirm } from 'components/Flyout/RecurringBuy'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyRegisteredList, RecurringBuyStepType } from 'data/types'

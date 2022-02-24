@@ -12,7 +12,8 @@ import {
   WalletAccountEnum,
   WalletFiatType
 } from '@core/types'
-import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
+import { EnterAmount } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {

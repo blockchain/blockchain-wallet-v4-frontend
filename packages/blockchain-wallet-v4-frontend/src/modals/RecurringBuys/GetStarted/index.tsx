@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import { Exchange } from '@core'
 import { BSOrderType } from '@core/types'
-import { RecurringBuyGettingStarted } from 'components/Flyout'
+import { RecurringBuyGettingStarted } from 'components/Flyout/RecurringBuy'
 import { selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
