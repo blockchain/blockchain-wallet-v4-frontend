@@ -8,6 +8,7 @@ query Assets($limit: Int, $eventsFilter: EventFilter, $filter: AssetFilter, $ord
     owner_address
     collection {
       name
+      image_url
     }
     events(filter: $eventsFilter) {
       id
