@@ -731,12 +731,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               key={index}
                             >
                               <Text style={{ width: '5em' }}>
-                                {coin}{' '}
+                                <AddressDisplay>{coin}</AddressDisplay>{' '}
                                 {offer?.payment_token_contract?.address === WETH_ADDRESS
                                   ? 'WETH'
                                   : 'ETH'}
                               </Text>
-                              <Text style={{ width: '5em' }}>{coin.valueOf()} </Text>
+                              <AddressDisplay style={{ width: '5em' }}>{coin} </AddressDisplay>
                               <Text style={{ width: '5em' }}>
                                 {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
                               </Text>
