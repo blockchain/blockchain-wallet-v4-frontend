@@ -121,15 +121,14 @@ export default ({ api, coreSagas, networks }) => {
         case exchangeAuthUrl !== undefined:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
-        // // temp change to test poc
-        // Commenting out to fix institutional login on prod
-        // case userType === 'institutional':
-        //   window.open(
-        //     `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
-        //     '_self',
-        //     'noreferrer'
-        //   )
-        //   break
+        // temp change to test poc
+        case userType === 'institutional':
+          window.open(
+            `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
         // exchange institutional login
         default:
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
