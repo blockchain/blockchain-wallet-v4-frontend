@@ -1,11 +1,6 @@
+import Details from './Details'
 import FrequencyScreen from './FrequencyScreen'
-import RecurringBuyGettingStarted from './GettingStarted'
-import RecurringBuyDetails from './RecurringBuyDetails'
-import RecurringBuyRemoveConfirm from './RecurringBuyRemoveConfirm'
+import GettingStarted from './GettingStarted'
+import RemoveConfirm from './RemoveConfirm'
 
-export {
-  FrequencyScreen,
-  RecurringBuyDetails,
-  RecurringBuyGettingStarted,
-  RecurringBuyRemoveConfirm
-}
+export { Details, FrequencyScreen, GettingStarted, RemoveConfirm }
