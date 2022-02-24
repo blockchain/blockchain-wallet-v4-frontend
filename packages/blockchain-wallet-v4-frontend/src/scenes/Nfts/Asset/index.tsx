@@ -701,12 +701,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         <div
                           style={{
                             display: 'flex',
-                            gap: '2.5em',
+                            gap: '4em',
                             padding: '0.5em'
                           }}
                         >
                           <Text style={{ width: '5em' }}>Price</Text>
-                          <Text style={{ width: '5em' }}>USD Price</Text>.
+                          <Text style={{ width: '5em' }}>USD Price</Text>
                           <Text style={{ width: '5em' }}>Expiration</Text>
                           <Text style={{ width: '5em' }}>From</Text>
                         </div>
