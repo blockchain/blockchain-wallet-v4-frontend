@@ -56,6 +56,7 @@ const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
+const ProductPicker = React.lazy(() => import('./Signup/ProductPicker'))
 
 const App = ({
   apiUrl,
@@ -99,6 +100,7 @@ const App = ({
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
                     <PublicLayout path='/signup' component={Signup} />
                     <PublicLayout path='/verify-email' component={VerifyEmailToken} />
+                    <PublicLayout path='/product-picker' component={ProductPicker} />
                     <PublicLayout
                       path='/upload-document/success'
                       component={UploadDocumentsSuccess}

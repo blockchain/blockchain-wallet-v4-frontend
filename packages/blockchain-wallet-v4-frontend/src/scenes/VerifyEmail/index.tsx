@@ -17,10 +17,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
       nextProps.authActions.setRegisterEmail(undefined)
-      nextProps.routerActions.push('/home')
-      // for first time login users we need to run goal since this is a first page we show them
-      nextProps.saveGoal('welcomeModal', { firstLogin: true })
-      nextProps.runGoals()
+      nextProps.routerActions.push('/product-picker')
     }
     return null
   }
@@ -34,10 +31,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     const { email } = this.props
     this.props.authActions.setRegisterEmail(undefined)
     this.props.securityCenterActions.skipVerifyEmail(email)
-    this.props.routerActions.push('/home')
-    // for first time login users we need to run goal since this is a first page we show them
-    this.props.saveGoal('welcomeModal', { firstLogin: true })
-    this.props.runGoals()
+    this.props.routerActions.push('/product-picker')
   }
 
   render() {
