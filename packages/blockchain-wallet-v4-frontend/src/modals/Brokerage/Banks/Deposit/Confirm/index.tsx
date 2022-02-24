@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { ExtractSuccess } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'

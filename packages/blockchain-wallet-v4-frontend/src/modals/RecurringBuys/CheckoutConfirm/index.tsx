@@ -12,7 +12,7 @@ import {
   FlyoutFooter,
   FlyoutHeader,
   FlyoutSubHeader
-} from 'components/Flyout'
+} from 'components/Flyout/Layout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { CheckoutRow } from 'components/Rows'
 import { actions, selectors } from 'data'
