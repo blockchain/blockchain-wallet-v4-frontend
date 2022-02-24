@@ -53,7 +53,7 @@ const getData = (state, ownProps: OwnProps) => {
       break
     default:
       switch (true) {
-        case selectors.core.data.eth.getErc20Coins().includes(coin):
+        case selectors.core.data.coins.getErc20Coins().includes(coin):
           addressDataR = getErc20AddressData(state, {
             coin,
             includeCustodial,
