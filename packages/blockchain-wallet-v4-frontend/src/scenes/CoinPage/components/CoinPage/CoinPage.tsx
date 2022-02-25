@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Flex } from 'components/Flex'
 
-import { Container, Grid } from './styles'
+import { ChartWrapper, Container, Grid } from './styles'
 import { CoinPageComponent } from './types'
 
 export const CoinPage: CoinPageComponent = ({
@@ -10,6 +10,8 @@ export const CoinPage: CoinPageComponent = ({
   activity,
   alertCard,
   chart,
+  chartBalancePanel,
+  chartTabs,
   favoriteButton,
   header,
   holdings,
@@ -26,7 +28,15 @@ export const CoinPage: CoinPageComponent = ({
             {favoriteButton}
           </Flex>
 
-          {chart}
+          <Flex flexDirection='column' gap={32}>
+            <Flex gap={16} alignItems='center' justifyContent='space-between'>
+              {chartBalancePanel}
+              {chartTabs}
+            </Flex>
+
+            <ChartWrapper>{chart}</ChartWrapper>
+          </Flex>
+
           {about}
           {activity}
         </Flex>
