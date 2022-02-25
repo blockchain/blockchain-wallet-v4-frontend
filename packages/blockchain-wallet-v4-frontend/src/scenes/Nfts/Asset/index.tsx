@@ -807,15 +807,19 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <>
                         <div
                           style={{
+                            color: colors.grey600,
                             display: 'flex',
+                            fontFamily: 'Inter, sans-serif',
+                            fontStyle: 'normal',
+                            fontWeight: 600,
                             gap: '4em',
                             padding: '0.5em'
                           }}
                         >
-                          <Text style={{ width: '5em' }}>Price</Text>
-                          <Text style={{ width: '5em' }}>USD Price</Text>
-                          <Text style={{ width: '5em' }}>Expiration</Text>
-                          <Text style={{ width: '5em' }}>From</Text>
+                          <div style={{ width: '5em' }}>Price</div>
+                          <div style={{ width: '5em' }}>USD Price</div>
+                          <div style={{ width: '5em' }}>Expiration</div>
+                          <div style={{ width: '5em' }}>From</div>
                         </div>
                         <Divider style={{ marginBottom: '1em' }} />
                       </>
@@ -830,26 +834,39 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           return (
                             <div
                               style={{
+                                color: colors.grey600,
                                 display: 'flex',
+                                fontFamily: 'Inter, sans-serif',
+                                fontStyle: 'normal',
+                                fontWeight: 600,
                                 gap: '4em',
                                 padding: '0.5em'
                               }}
                               // eslint-disable-next-line react/no-array-index-key
                               key={index}
                             >
-                              <Text style={{ width: '5em' }}>
+                              <div style={{ display: 'flex', paddingRight: '0.2em', width: '5em' }}>
                                 <AddressDisplay>{coin}</AddressDisplay>{' '}
                                 {offer?.payment_token_contract?.address === WETH_ADDRESS
                                   ? 'WETH'
                                   : 'ETH'}
-                              </Text>
-                              <AddressDisplay style={{ width: '5em' }}>{coin} </AddressDisplay>
-                              <Text style={{ width: '5em' }}>
-                                {moment.unix(offer.expiration_time).format('YYYY-MM-DD')}{' '}
-                              </Text>
-                              <Text style={{ width: '5em' }}>
+                              </div>
+                              <div style={{ width: '5em' }}>
+                                <FiatDisplay
+                                  weight={500}
+                                  currency='USD'
+                                  size='16px'
+                                  coin={offer.payment_token_contract.symbol}
+                                >
+                                  {offer.base_price}
+                                </FiatDisplay>
+                              </div>
+                              <div style={{ width: '6em' }}>
+                                {moment.unix(offer.expiration_time).format('MM-DD-YYYY')}{' '}
+                              </div>
+                              <div style={{ width: '5em' }}>
                                 <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
-                              </Text>
+                              </div>
                             </div>
                           )
                         })
