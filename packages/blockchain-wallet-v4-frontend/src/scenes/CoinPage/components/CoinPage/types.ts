@@ -13,6 +13,8 @@ export type CoinPageProps = {
   activity?: ReactNode
   alertCard?: ReactNode
   chart: ReactNode
+  chartBalancePanel?: ReactNode
+  chartTabs?: ReactNode
   favoriteButton?: ReactNode
   header: ReactNode
   holdings?: ReactNode
