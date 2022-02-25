@@ -670,12 +670,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   </CreatorOwnerAddress>
                                 </Link>
                               ) : (
-                                <Text
-                                  size='16px'
-                                  weight={500}
-                                  style={{ display: 'flex' }}
-                                  color='grey500'
-                                >
+                                <Text size='16px' weight={500}>
                                   Not Available
                                 </Text>
                               )}
@@ -714,20 +709,20 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   </CreatorOwnerAddress>
                                 </Link>
                               ) : (
-                                <Text size='14px' weight={500}>
+                                <Text size='16px' weight={500}>
                                   Not Available
                                 </Text>
                               )}
                             </div>
                           </div>
                         </CreatorOwnerBox>
-                        <TraitsWrapper>
-                          <Text size='14px' weight={600}>
-                            Traits
-                          </Text>
-                          <TraitCell>
-                            {asset?.data?.asset?.traits?.length ? (
-                              asset?.data?.asset?.traits.map((traits, index) => (
+                        {asset?.data?.asset?.traits?.length ? (
+                          <TraitsWrapper>
+                            <Text size='14px' weight={600}>
+                              Traits
+                            </Text>
+                            <TraitCell>
+                              {asset?.data?.asset?.traits.map((traits, index) => (
                                 // eslint-disable-next-line react/no-array-index-key
                                 <Traits key={index}>
                                   <Text capitalize color='grey500' size='12px' weight={500}>
@@ -740,12 +735,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                     0.1% Rarity
                                   </Text>
                                 </Traits>
-                              ))
-                            ) : (
-                              <Text>Not Available</Text>
-                            )}
-                          </TraitCell>
-                        </TraitsWrapper>
+                              ))}
+                            </TraitCell>
+                          </TraitsWrapper>
+                        ) : null}
                         <AdditionalDetailsWrapper>
                           <Text
                             size='14px'
@@ -776,7 +769,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   </CreatorOwnerAddressLinkText>
                                 </Link>
                               ) : (
-                                <Text size='16px' weight={600} color={colors.grey900}>
+                                <Text size='16px' weight={500}>
                                   Not Available
                                 </Text>
                               )}
