@@ -121,7 +121,7 @@ const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
 // TAXCENTER
-const GeneratReport = React.lazy(() => import('./GenerateReport'))
+const GenerateReport = React.lazy(() => import('./GenerateReport'))
 
 const Modals = (props: Props) => {
   return (
@@ -333,7 +333,7 @@ const Modals = (props: Props) => {
           <KycTierUpgrade />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
-          <GeneratReport />
+          <GenerateReport />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
