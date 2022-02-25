@@ -120,6 +120,9 @@ const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee')
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
+// TAXCENTER
+const GenerateReport = React.lazy(() => import('./GenerateReport'))
+
 const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
@@ -328,6 +331,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
           <KycTierUpgrade />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
+          <GenerateReport />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

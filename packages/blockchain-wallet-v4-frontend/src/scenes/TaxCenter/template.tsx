@@ -19,7 +19,7 @@ import {
   VisitButton
 } from './model'
 
-const TaxCenter = () => (
+const TaxCenter = ({ onGenerateReportClick }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -119,7 +119,7 @@ const TaxCenter = () => (
           nature='primary'
           data-e2e='additionalInfoUploadDocument'
           type='button'
-          onClick={() => {}}
+          onClick={onGenerateReportClick}
         >
           <FormattedMessage
             id='scenes.tax.center.card.report.button'
@@ -170,5 +170,9 @@ const TaxCenter = () => (
     </Footer>
   </Container>
 )
+
+type Props = {
+  onGenerateReportClick: () => void
+}
 
 export default TaxCenter

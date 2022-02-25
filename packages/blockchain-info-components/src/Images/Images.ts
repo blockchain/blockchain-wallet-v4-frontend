@@ -159,6 +159,7 @@ import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
+import subtractCheckCircle from './img/subtract-check-circle.png'
 import swap from './img/swap.svg'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
@@ -349,6 +350,7 @@ const Images = {
   smartphone,
   'source-of-wealth': sourceOfWealth,
   'starfield-banner-bg': starfieldBannerBg,
+  'subtract-check-circle': subtractCheckCircle,
   swap,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
