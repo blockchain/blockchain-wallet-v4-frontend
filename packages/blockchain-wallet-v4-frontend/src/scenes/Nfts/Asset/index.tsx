@@ -819,7 +819,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           <div style={{ width: '5em' }}>Price</div>
                           <div style={{ width: '5em' }}>USD Price</div>
                           <div style={{ width: '5em' }}>Expiration</div>
-                          <div style={{ width: '5em' }}>From</div>
+                          <div style={{ paddingLeft: '1em', width: '5em' }}>From</div>
                         </div>
                         <Divider style={{ marginBottom: '1em' }} />
                       </>
@@ -865,7 +865,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 {moment.unix(offer.expiration_time).format('MM-DD-YYYY')}{' '}
                               </div>
                               <div style={{ width: '5em' }}>
-                                <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
+                                <Link
+                                  href={`https://www.blockchain.com/eth/address/${offer?.maker?.address}`}
+                                  target='_blank'
+                                >
+                                  <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
+                                </Link>
                               </div>
                             </div>
                           )
