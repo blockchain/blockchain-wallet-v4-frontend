@@ -93,7 +93,6 @@ const Centered = styled.div`
 `
 
 const NftsCollection: React.FC<Props> = ({
-  coinsActions,
   collection,
   collectionFilter,
   modalActions,
@@ -146,10 +145,6 @@ const NftsCollection: React.FC<Props> = ({
   useEffect(() => {
     nftsActions.fetchNftCollection({ slug })
   }, [slug, nftsActions])
-
-  useEffect(() => {
-    coinsActions.fetchCoinsRates()
-  }, [coinsActions])
 
   const scrollUp = () => {
     wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
@@ -300,7 +295,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })

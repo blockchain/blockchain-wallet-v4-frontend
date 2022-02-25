@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import BigNumber from 'bignumber.js'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
-import { routerActions as router } from 'connected-react-router'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -13,22 +13,28 @@ import { Exchange } from '@core'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import {
   Button,
-  Color,
   Icon as BlockchainIcon,
-  Image,
   Link,
   SpinningLoader,
   TabMenu,
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { flex, media } from 'services/styles'
+import { media } from 'services/styles'
 
 import { NftPage } from '../components'
 
-export const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })``
+const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
+  margin-right: 8px;
+  > img {
+    height: 24px;
+    width: 24px;
+  }
+`
 const Wrapper = styled(NftPage)`
   display: block;
   margin: 0 auto;
@@ -41,14 +47,14 @@ const Wrapper = styled(NftPage)`
     flex-direction: column;
   `}
 `
-export const Top = styled.div`
+const Top = styled.div`
   ${media.atLeastTabletL`
   display: flex;
   `}
   display: block;
 `
 
-export const LeftColWrapper = styled.div`
+const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
   box-sizing: border-box;
   max-width: 625px;
@@ -70,7 +76,7 @@ export const LeftColWrapper = styled.div`
   display: block;
 `
 
-export const RightColWrapper = styled.div`
+const RightColWrapper = styled.div`
   ${media.atLeastTabletL`
   height: 100%;
   width: 50%;
@@ -101,7 +107,6 @@ const MoreAssetsList = styled.div`
 `
 
 const CollectionName = styled.div`
-  padding-bottom: 1em;
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -128,8 +133,7 @@ const AssetName = styled(Text)`
 
 const PriceHistoryTitle = styled(AssetName)`
   font-size: 24px;
-  line-height: 135%;
-  padding: 2em 0em 2em 0em;
+  margin-top: 2em;
 `
 
 const PriceHistory = styled(PriceHistoryTitle)`
@@ -144,19 +148,16 @@ const PriceHistory = styled(PriceHistoryTitle)`
 `
 
 const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.white800};
+  border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
-  padding: 1em;
+  padding: 1.2em;
 `
-const Highest = styled.div`
-  padding: 0.5em;
-  font-family: Inter, sans-serif;
-  font-style: normal;
+const Highest = styled(Text)`
+  margin-bottom: 12px;
   font-weight: 600;
-  font-size: 20px;
-  line-height: 20px;
-  color: #677184;
+  font-size: 14px;
+  color: ${colors.grey600};
 `
 
 const CustomTabMenu = styled(TabMenu)`
@@ -168,30 +169,25 @@ const CustomTabMenu = styled(TabMenu)`
 const EthText = styled(Highest)`
   font-size: 24px;
   display: flex;
-  line-height: 135%;
+  margin-bottom: 20px;
+  align-items: center;
   color: ${colors.grey900};
 `
 
 const CreatorOwnerBox = styled(CurrentPriceBox)`
   margin-top: 2em;
-  max-width: 100%;
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  padding: 1em;
+  padding: 1.2em;
   display: flex;
 `
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
-  line-height: 150%;
   color: ${colors.grey700};
-  overflow: hidden;
-  padding-left: 1em;
-  padding-right: 0em;
   display: flex;
+`
+const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
+  color: ${colors.blue600};
+  font-weight: 600;
 `
 
 const Spacing = styled.div`
@@ -208,41 +204,31 @@ const Divider = styled.hr`
   color: ${colors.grey0};
 `
 
-const Description = styled.div`
-  padding: 3em 0em 3em 0em;
-  font-family: Inter, sans-serif;
-  font-style: normal;
+const Description = styled(Text)`
+  padding: 1.5em 0em 1.5em 0em;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: #677184;
+  color: ${colors.grey600};
 `
 
-const TraitsWrapper = styled(CurrentPriceBox)`
-  border: unset;
-  margin-top: 2em;
-  padding: 1em;
-  height: unset;
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  color: #677184;
+const TraitsWrapper = styled.div`
+  margin-top: 1.5em;
 `
 const TraitCell = styled.div`
-  padding: 1em;
+  margin-top: 1em;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   max-width: 100%;
 `
 
-const Trait = styled.div`
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  background: rgba(240, 242, 247, 0.4);
+const Traits = styled.div`
+  display: flex;
+  padding: 0.5em 1em;
+  flex-direction: column;
+  gap: 8px;
+  background: ${(props) => props.theme.greyFade000};
   border-radius: 8px;
 `
 
@@ -252,7 +238,7 @@ const AddressDisplay = styled.div`
   overflow: hidden;
   width: 5em;
 `
-const TokenDisplay = styled.div`
+const TokenDisplay = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -263,14 +249,14 @@ const TokenDisplay = styled.div`
 const AdditionalDetailsWrapper = styled(TraitsWrapper)``
 
 const AdditionalDetails = styled.div`
-  padding: 1em;
-  color: #828b9e;
+  padding-top: 1em;
 `
-const Detail = styled.div`
+const Detail = styled(Text)`
   display: flex;
   justify-content: space-between;
-  padding: 1em;
-  color: ${colors.grey700};
+  color: ${colors.grey900};
+  padding: 1em 1.5em;
+  border-bottom: 1px solid ${colors.grey0};
   font-size: 16px;
   font-weight: 500;
 `
@@ -375,9 +361,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           let offers = assetFromDirectCall.orders.filter((x) => {
             return x.side === 0 && x.taker.address === NULL_ADDRESS
           }, [])
-          // const sellOrders = assetFromDirectCall.orders.filter((x) => {
-          //   return x.side === 1 && x.maker.address ===
-          // })
+          const sellOrders = assetFromDirectCall.orders.filter((x) => {
+            return x.side === 1
+          })
           bids = bids.length
             ? bids.sort((a: any, b: any) => {
                 return b.base_price - a.base_price
@@ -390,14 +376,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             : []
           const highest_bid = bids[0]
           const highest_offer = offers[0]
-          const coin = Exchange.convertCoinToCoin({
-            coin: 'ETH',
-            value: highest_bid?.base_price || highest_offer?.base_price
-          })
-          // eslint-disable-next-line no-console
-          console.log(highest_bid, 'highest_bid')
-          // eslint-disable-next-line no-console
-          console.log(highest_offer, 'highest_offer')
+          const lowest_order = sellOrders.sort((a, b) =>
+            new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+          )[0]
           return (
             <>
               <div style={{ display: 'block' }}>
@@ -429,7 +410,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                   </LeftColWrapper>
                   <RightColWrapper>
                     <Spacing style={{ marginBottom: '1em' }} />
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div
+                      style={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
                       <CustomLink to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
                         <CollectionName>
                           <img
@@ -438,7 +425,6 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             width='auto'
                             style={{
                               borderRadius: '50%',
-                              marginBottom: '0.5rem',
                               paddingRight: '2px'
                             }}
                             src={asset?.data?.asset?.collection?.image_url || ''}
@@ -494,33 +480,113 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     </AssetName>
                     <Description>{asset?.data?.asset?.collection?.description}</Description>
                     <CurrentPriceBox>
-                      {highest_bid && (
+                      {lowest_order ? (
+                        <>
+                          <Highest>Best Price</Highest>
+                          <EthText>
+                            <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
+                            <CoinDisplay
+                              weight={600}
+                              color={colors.grey900}
+                              size='24px'
+                              coin={lowest_order.payment_token_contract.symbol}
+                            >
+                              {lowest_order.base_price}
+                            </CoinDisplay>
+                            &nbsp;{' '}
+                            <Text
+                              size='16px'
+                              weight={500}
+                              style={{ display: 'flex' }}
+                              color='grey500'
+                            >
+                              (
+                              <FiatDisplay
+                                weight={500}
+                                currency='USD'
+                                color='grey500'
+                                size='16px'
+                                coin={lowest_order.payment_token_contract.symbol}
+                              >
+                                {lowest_order.base_price}
+                              </FiatDisplay>
+                              )
+                            </Text>
+                          </EthText>
+                        </>
+                      ) : highest_bid ? (
                         <>
                           <Highest>Highest Bid</Highest>
                           <EthText>
-                            <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                            {coin}{' '}
-                            {highest_bid.payment_token_contract.address === WETH_ADDRESS
-                              ? 'WETH'
-                              : 'ETH'}
+                            <CoinIcon name={highest_bid.payment_token_contract.symbol || 'ETH'} />
+                            <CoinDisplay
+                              weight={600}
+                              color={colors.grey900}
+                              size='24px'
+                              coin={highest_bid.payment_token_contract.symbol}
+                            >
+                              {highest_bid.base_price}
+                            </CoinDisplay>
+                            &nbsp;{' '}
+                            <Text
+                              size='16px'
+                              weight={500}
+                              style={{ display: 'flex' }}
+                              color='grey500'
+                            >
+                              (
+                              <FiatDisplay
+                                weight={500}
+                                currency='USD'
+                                color='grey500'
+                                size='16px'
+                                coin={highest_bid.payment_token_contract.symbol}
+                              >
+                                {highest_bid.base_price}
+                              </FiatDisplay>
+                              )
+                            </Text>
                           </EthText>
                         </>
-                      )}
-                      {highest_offer && (
+                      ) : highest_offer ? (
                         <>
                           <Highest>Highest Offer</Highest>
                           <EthText>
-                            <CoinIcon name='ETH' style={{ padding: '0.5em' }} />
-                            {coin}{' '}
-                            {highest_offer.payment_token_contract.address === WETH_ADDRESS
-                              ? 'WETH'
-                              : 'ETH'}
+                            <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
+                            <CoinDisplay
+                              weight={600}
+                              color={colors.grey900}
+                              size='24px'
+                              coin={highest_offer.payment_token_contract.symbol}
+                            >
+                              {highest_offer.base_price}
+                            </CoinDisplay>
+                            &nbsp;{' '}
+                            <Text
+                              size='16px'
+                              weight={500}
+                              style={{ display: 'flex' }}
+                              color='grey500'
+                            >
+                              (
+                              <FiatDisplay
+                                weight={500}
+                                currency='USD'
+                                color='grey500'
+                                size='16px'
+                                coin={highest_offer.payment_token_contract.symbol}
+                              >
+                                {highest_offer.base_price}
+                              </FiatDisplay>
+                              )
+                            </Text>
                           </EthText>
                         </>
-                      )}
+                      ) : null}
                       <Button
                         data-e2e='openNftFlow'
                         nature='primary'
+                        jumbo
                         fullwidth
                         onClick={() =>
                           nftsActions.nftOrderFlowOpen({
@@ -532,10 +598,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           })
                         }
                       >
-                        {asset?.data?.asset?.events &&
-                        asset?.data?.asset?.events[0] &&
-                        asset?.data?.asset?.events &&
-                        asset?.data?.asset?.events[0].event_type === 'created' ? (
+                        {lowest_order ? (
                           <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                         ) : (
                           <FormattedMessage
@@ -574,14 +637,23 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <>
                         <CreatorOwnerBox>
                           <div style={{ display: 'block', width: '50%' }}>
-                            <div style={{ color: '#677184', padding: '1em' }}>Creator</div>
-                            <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                            <Text weight={600} size='14px'>
+                              Creator
+                            </Text>
+                            <div
+                              style={{
+                                alignItems: 'center',
+                                display: 'flex',
+                                marginTop: '8px',
+                                minHeight: '32px'
+                              }}
+                            >
                               {asset?.data?.asset?.creator?.profile_img_url && (
                                 <img
                                   alt='Creator Logo'
                                   height='30px'
                                   width='auto'
-                                  style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                                  style={{ borderRadius: '50%', marginRight: '4px' }}
                                   src={asset?.data?.asset?.creator?.profile_img_url}
                                 />
                               )}
@@ -591,27 +663,41 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   target='_blank'
                                 >
                                   <CreatorOwnerAddress>
-                                    <AddressDisplay>
-                                      {asset.data.asset.creator.address}
-                                    </AddressDisplay>
+                                    {asset.data.asset.creator.address.slice(0, 6)}...
                                     {asset?.data?.asset?.creator?.address?.substring(
                                       asset?.data?.asset?.creator?.address.length - 4
                                     )}
                                   </CreatorOwnerAddress>
                                 </Link>
                               ) : (
-                                <Text>Not Available</Text>
+                                <Text
+                                  size='16px'
+                                  weight={500}
+                                  style={{ display: 'flex' }}
+                                  color='grey500'
+                                >
+                                  Not Available
+                                </Text>
                               )}
                             </div>
                           </div>
                           <div style={{ display: 'block', width: '50%' }}>
-                            <div style={{ color: '#677184', padding: '1em' }}>Owner</div>
-                            <div style={{ display: 'flex', paddingLeft: '1em' }}>
+                            <Text weight={600} size='14px'>
+                              Owner
+                            </Text>
+                            <div
+                              style={{
+                                alignItems: 'center',
+                                display: 'flex',
+                                marginTop: '8px',
+                                minHeight: '32px'
+                              }}
+                            >
                               <img
                                 alt='Owner Logo'
                                 height='30px'
                                 width='auto'
-                                style={{ borderRadius: '50%', marginBottom: '0.5rem' }}
+                                style={{ borderRadius: '50%', marginRight: '4px' }}
                                 src={asset?.data?.asset?.owner?.profile_img_url || ''}
                               />{' '}
                               {asset?.data?.asset?.owner?.address ? (
@@ -620,55 +706,40 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   target='_blank'
                                 >
                                   <CreatorOwnerAddress>
-                                    <AddressDisplay>
-                                      {asset.data.asset.owner.address}
-                                    </AddressDisplay>
+                                    {asset.data.asset.owner.address.slice(0, 6)}
+                                    ...
                                     {asset?.data?.asset?.owner?.address?.substring(
                                       asset?.data?.asset?.owner?.address.length - 4
                                     )}
                                   </CreatorOwnerAddress>
                                 </Link>
                               ) : (
-                                <Text>Not Available</Text>
+                                <Text size='14px' weight={500}>
+                                  Not Available
+                                </Text>
                               )}
                             </div>
                           </div>
                         </CreatorOwnerBox>
                         <TraitsWrapper>
-                          Traits
+                          <Text size='14px' weight={600}>
+                            Traits
+                          </Text>
                           <TraitCell>
                             {asset?.data?.asset?.traits?.length ? (
                               asset?.data?.asset?.traits.map((traits, index) => (
                                 // eslint-disable-next-line react/no-array-index-key
-                                <Trait key={index}>
-                                  <Text
-                                    capitalize
-                                    color='grey500'
-                                    size='12px'
-                                    weight={500}
-                                    style={{ padding: '0.5em' }}
-                                  >
+                                <Traits key={index}>
+                                  <Text capitalize color='grey500' size='12px' weight={500}>
                                     <b>{traits?.trait_type}</b>
                                   </Text>
-                                  <Text
-                                    capitalize
-                                    color='blue600'
-                                    size='14px'
-                                    weight={600}
-                                    style={{ padding: '0.5em' }}
-                                  >
+                                  <Text capitalize color='blue600' size='14px' weight={600}>
                                     {traits?.value}
                                   </Text>
-                                  <Text
-                                    capitalize
-                                    color='grey500'
-                                    size='12px'
-                                    weight={400}
-                                    style={{ padding: '0.5em' }}
-                                  >
+                                  <Text capitalize color='grey400' size='12px' weight={500}>
                                     0.1% Rarity
                                   </Text>
-                                </Trait>
+                                </Traits>
                               ))
                             ) : (
                               <Text>Not Available</Text>
@@ -676,46 +747,64 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           </TraitCell>
                         </TraitsWrapper>
                         <AdditionalDetailsWrapper>
-                          Additional Details
+                          <Text
+                            size='14px'
+                            weight={600}
+                            style={{
+                              borderBottom: `1px solid ${colors.grey0}`,
+                              paddingBottom: '8px'
+                            }}
+                          >
+                            Additional Details
+                          </Text>
                           <AdditionalDetails>
                             <Detail>
-                              <Text>Contract Address:</Text>
+                              <Text size='16px' weight={500} color='grey900'>
+                                Contract Address:
+                              </Text>
 
                               {asset?.data?.asset?.contract_address ? (
                                 <Link
                                   href={`https://www.blockchain.com/eth/address/${asset?.data?.asset?.contract_address}`}
                                   target='_blank'
                                 >
-                                  <b>
-                                    <CreatorOwnerAddress style={{ display: 'flex' }}>
-                                      <AddressDisplay>
-                                        {asset?.data?.asset?.contract_address}
-                                      </AddressDisplay>
-                                      {asset?.data?.asset?.contract_address?.substring(
-                                        asset?.data?.asset?.contract_address.length - 4
-                                      )}
-                                    </CreatorOwnerAddress>
-                                  </b>
+                                  <CreatorOwnerAddressLinkText>
+                                    {asset?.data?.asset?.contract_address.slice(0, 6)}...
+                                    {asset?.data?.asset?.contract_address?.substring(
+                                      asset?.data?.asset?.contract_address.length - 4
+                                    )}
+                                  </CreatorOwnerAddressLinkText>
                                 </Link>
                               ) : (
-                                <Text>Not Available</Text>
+                                <Text size='16px' weight={600} color={colors.grey900}>
+                                  Not Available
+                                </Text>
                               )}
                             </Detail>
-                            <Divider />
                             <Detail>
-                              <Text>Token ID:</Text>
-                              <b>
-                                <TokenDisplay>{asset?.data?.asset?.token_id} </TokenDisplay>
-                              </b>
+                              <Text size='16px' weight={500} color='grey900'>
+                                Token ID:
+                              </Text>
+
+                              <TokenDisplay size='16px' weight={600} color={colors.grey900}>
+                                {asset?.data?.asset?.token_id}{' '}
+                              </TokenDisplay>
                             </Detail>
-                            <Divider />
                             <Detail>
-                              <Text>Token Standard:</Text>{' '}
-                              <b>{asset?.data?.asset?.asset_contract?.schema_name} </b>
+                              <Text size='16px' weight={500} color='grey900'>
+                                Token Standard:
+                              </Text>{' '}
+                              <Text size='16px' weight={600} color={colors.grey900}>
+                                {asset?.data?.asset?.asset_contract?.schema_name}
+                              </Text>
                             </Detail>
-                            <Divider />
                             <Detail>
-                              <Text>Blockchain:</Text> <b>Ethereum </b>
+                              <Text size='16px' weight={500} color='grey900'>
+                                Blockchain:
+                              </Text>{' '}
+                              <Text size='16px' weight={600} color={colors.grey900}>
+                                Ethereum
+                              </Text>
                             </Detail>
                           </AdditionalDetails>
                         </AdditionalDetailsWrapper>
