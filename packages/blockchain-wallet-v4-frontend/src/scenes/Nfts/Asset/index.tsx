@@ -174,6 +174,9 @@ const EthText = styled(Highest)`
   color: ${colors.grey900};
 `
 
+const CountdownText = styled(EthText)`
+  font-size: 20px;
+`
 const CreatorOwnerBox = styled(CurrentPriceBox)`
   margin-top: 2em;
   padding: 1.2em;
@@ -320,6 +323,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     variables: { filter: { contract_address: contract } }
   })
   const [Tab, setTab] = useState('details')
+  const [Countdown, setCountdown] = useState('')
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
@@ -379,6 +383,21 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           const lowest_order = sellOrders.sort((a, b) =>
             new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
           )[0]
+          if (lowest_order && lowest_order.expiration_time) {
+            const countDownDate = lowest_order.expiration_time * 1000
+            // Update the count down every 1 second
+            setInterval(function () {
+              const now = new Date().getTime()
+              const duration = countDownDate - now
+              const days = Math.floor(duration / (1000 * 60 * 60 * 24))
+              const hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+              const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60))
+              const seconds = Math.floor((duration % (1000 * 60)) / 1000)
+              // Display the result in the element with id="demo"
+              setCountdown(`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`)
+              // if duration < 0, expired
+            }, 1000)
+          }
           return (
             <>
               <div style={{ display: 'block' }}>
@@ -482,6 +501,14 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     <CurrentPriceBox>
                       {lowest_order ? (
                         <>
+                          <Highest>
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends{' '}
+                              {moment(lowest_order?.expiration_time * 1000).from(moment())}:
+                            </div>
+                            <CountdownText>{Countdown}</CountdownText>
+                          </Highest>
+                          <Divider style={{ marginBottom: '1em' }} />
                           <Highest>Best Price</Highest>
                           <EthText>
                             <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
