@@ -1,14 +1,15 @@
 import React from 'react'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
+import { ImageType } from 'blockchain-info-components/src/Images/Images'
+import { Flex } from 'components/Flex'
 
-import { Flex } from '../../../../components/Flex'
 import { CoinHeaderComponent } from './types'
 
 export const CoinHeader: CoinHeaderComponent = ({ coinCode, coinDescription, coinName }) => {
   return (
     <Flex gap={16}>
-      <Icon name={coinCode} size='48' />
+      <Image name={coinCode.toLocaleLowerCase() as keyof ImageType} width='48px' height='48px' />
 
       <Flex flexDirection='column' gap={4} justifyContent='center'>
         <Flex gap={4}>
