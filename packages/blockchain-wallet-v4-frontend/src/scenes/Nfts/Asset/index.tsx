@@ -888,7 +888,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                   {offer.base_price}
                                 </FiatDisplay>
                               </div>
-                              <div style={{ width: '6em' }}>
+                              <div style={{ width: '7em' }}>
                                 {moment.unix(offer.expiration_time).format('MM-DD-YYYY')}{' '}
                               </div>
                               <div style={{ width: '5em' }}>
