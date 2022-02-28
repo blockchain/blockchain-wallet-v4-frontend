@@ -5,7 +5,7 @@ import { IconButton } from 'blockchain-info-components'
 import { CoinHeader, PageScaffold } from './components'
 import { CoinPageComponent } from './types'
 
-export const CoinPage: CoinPageComponent = () => {
+const CoinPage: CoinPageComponent = () => {
   return (
     <PageScaffold
       header={
@@ -26,3 +26,5 @@ export const CoinPage: CoinPageComponent = () => {
     />
   )
 }
+
+export default CoinPage
