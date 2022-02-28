@@ -379,6 +379,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 return b.base_price - a.base_price
               })
             : []
+          if (offers.length < 1) offers = bids
           const highest_bid = bids[0]
           const highest_offer = offers[0]
           const lowest_order = sellOrders.sort((a, b) =>
@@ -500,51 +501,17 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     </AssetName>
                     <Description>{asset?.data?.asset?.collection?.description}</Description>
                     <CurrentPriceBox>
-                      {lowest_order ? (
+                      {highest_bid ? (
                         <>
                           <Highest>
                             <div style={{ marginBottom: '1em' }}>
-                              Sale ends{' '}
-                              {moment(lowest_order?.expiration_time * 1000).from(moment())}:
+                              Sale ends {moment(highest_bid?.expiration_time * 1000).from(moment())}
+                              :
                             </div>
                             <CountdownText>{Countdown}</CountdownText>
                           </Highest>
                           <Divider style={{ marginBottom: '1em' }} />
-                          <Highest>Best Price</Highest>
-                          <EthText>
-                            <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
-                            <CoinDisplay
-                              weight={600}
-                              color={colors.grey900}
-                              size='24px'
-                              coin={lowest_order.payment_token_contract.symbol}
-                            >
-                              {lowest_order.base_price}
-                            </CoinDisplay>
-                            &nbsp;{' '}
-                            <Text
-                              size='16px'
-                              weight={500}
-                              style={{ display: 'flex' }}
-                              color='grey500'
-                            >
-                              (
-                              <FiatDisplay
-                                weight={500}
-                                currency='USD'
-                                color='grey500'
-                                size='16px'
-                                coin={lowest_order.payment_token_contract.symbol}
-                              >
-                                {lowest_order.base_price}
-                              </FiatDisplay>
-                              )
-                            </Text>
-                          </EthText>
-                        </>
-                      ) : highest_bid ? (
-                        <>
-                          <Highest>Highest Bid</Highest>
+                          <Highest>Top Bid</Highest>
                           <EthText>
                             <CoinIcon name={highest_bid.payment_token_contract.symbol || 'ETH'} />
                             <CoinDisplay
@@ -571,6 +538,48 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 coin={highest_bid.payment_token_contract.symbol}
                               >
                                 {highest_bid.base_price}
+                              </FiatDisplay>
+                              )
+                            </Text>
+                          </EthText>
+                        </>
+                      ) : lowest_order ? (
+                        <>
+                          <Highest>
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends{' '}
+                              {moment(lowest_order?.expiration_time * 1000).from(moment())}:
+                            </div>
+                            <CountdownText>{Countdown}</CountdownText>
+                          </Highest>
+                          <Divider style={{ marginBottom: '1em' }} />
+                          <Highest>Current Price</Highest>
+                          <EthText>
+                            <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
+                            <CoinDisplay
+                              weight={600}
+                              color={colors.grey900}
+                              size='24px'
+                              coin={lowest_order.payment_token_contract.symbol}
+                            >
+                              {lowest_order.base_price}
+                            </CoinDisplay>
+                            &nbsp;{' '}
+                            <Text
+                              size='16px'
+                              weight={500}
+                              style={{ display: 'flex' }}
+                              color='grey500'
+                            >
+                              (
+                              <FiatDisplay
+                                weight={500}
+                                currency='USD'
+                                color='grey500'
+                                size='16px'
+                                coin={lowest_order.payment_token_contract.symbol}
+                              >
+                                {lowest_order.base_price}
                               </FiatDisplay>
                               )
                             </Text>
@@ -635,7 +644,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           }
                         }}
                       >
-                        {lowest_order ? (
+                        {highest_bid ? (
+                          <FormattedMessage id='copy.place_an_bid' defaultMessage='Place Bid' />
+                        ) : lowest_order ? (
                           <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                         ) : (
                           <FormattedMessage
@@ -865,7 +876,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       (offers.length ? (
                         offers?.map((offer, index) => {
                           const coin = Exchange.convertCoinToCoin({
-                            coin: 'ETH',
+                            coin: offer.payment_token_contract.symbol || 'ETH',
                             value: offer?.base_price
                           })
                           return (
@@ -899,7 +910,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 </FiatDisplay>
                               </div>
                               <div style={{ width: '7em' }}>
-                                {moment.unix(offer.expiration_time).format('MM-DD-YYYY')}{' '}
+                                {moment(offer?.expiration_time * 1000).from(moment())}{' '}
                               </div>
                               <div style={{ width: '5em' }}>
                                 <Link
