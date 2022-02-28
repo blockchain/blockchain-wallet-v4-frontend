@@ -540,47 +540,19 @@ export default ({ api }: { api: APIType }) => {
 
   // explorer-gateway v2
   // With the introduction of the explorer-gateway graphql API the flow will need to change a bit
-  // For one, we will not have orders until the user has selected an asset. So the new flow will
-  // be: asset => fetch orders => display orders
+  // we should require:
+  // 1. operation (buy, sell, make offer)
+  // 2. token_id
+  // 3. contract_address
   const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
+    const { asset_contract_address, token_id } = action.payload
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
-    let address = action.payload.asset_contract_address
-    let { token_id } = action.payload
-    const ethAddr = selectors.core.kvStore.eth.getDefaultAddress(yield select()).getOrElse('')
-    // User wants to view an asset, its active listings, or its offers
-    if (action.payload.asset) {
-      address = action.payload.asset.asset_contract.address
-      token_id = action.payload.asset.token_id
-    }
-
-    if (action.payload.offer) {
-      // User wants to cancel offer
-      if (action.payload.offer.from_account.address.toLowerCase() === ethAddr.toLowerCase()) {
-        const activeOrders = yield call(
-          api.getNftOrders,
-          undefined,
-          action.payload.offer.asset.asset_contract.address,
-          action.payload.offer.asset.token_id,
-          action.payload.offer.payment_token.address,
-          0,
-          ethAddr
-        )
-        const nonPrefixedEthAddr = ethAddr.replace(/^0x/, '').toLowerCase()
-        const offer = activeOrders.orders.find((order) =>
-          order.calldata.toLowerCase().includes(nonPrefixedEthAddr)
-        )
-        yield put(A.setOfferToCancel({ offer }))
-        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
-      }
-    }
-
-    if (!address || !token_id) throw new Error('No asset found')
 
     try {
       yield put(actions.components.nfts.fetchNftOrderAssetLoading())
       const asset: ReturnType<typeof api.getNftAsset> = yield call(
         api.getNftAsset,
-        address,
+        asset_contract_address,
         token_id
       )
       yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))

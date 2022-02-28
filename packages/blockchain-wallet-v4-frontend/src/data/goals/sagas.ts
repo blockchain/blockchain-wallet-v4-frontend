@@ -1,6 +1,7 @@
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
+import * as lz from 'lz-string'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
@@ -10,6 +11,7 @@ import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
@@ -88,6 +90,22 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.saveGoal({
         data: { contract_address, token_id },
         name: DeepLinkGoal.MAKE_OFFER_NFT
+      })
+    )
+  }
+
+  const defineBuyNFTGoal = function* (search) {
+    // /#/open/buy-nft?contract_address=0x123&token_id=456&order={order}
+    const params = new URLSearchParams(search)
+
+    const contract_address = params.get('contract_address')
+    const token_id = params.get('token_id')
+    const order = JSON.parse(lz.decompressFromEncodedURIComponent(params.get('order')))
+
+    yield put(
+      actions.goals.saveGoal({
+        data: { contract_address, order, token_id },
+        name: DeepLinkGoal.BUY_NFT
       })
     )
   }
@@ -190,6 +208,10 @@ export default ({ api, coreSagas, networks }) => {
 
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
       return yield call(defineMakeOfferNFTGoal, search)
+    }
+
+    if (startsWith(DeepLinkGoal.BUY_NFT, pathname)) {
+      return yield call(defineBuyNFTGoal, search)
     }
 
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
@@ -634,6 +656,21 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
+        step: NftOrderStepEnum.MAKE_OFFER,
+        token_id: goal.data.token_id,
+        walletUserIsAssetOwnerHack: false
+      })
+    )
+  }
+
+  const runBuyNFTGoal = function* (goal: GoalType) {
+    yield take(actions.auth.loginSuccess)
+    yield put(actions.router.push(`/nfts/${goal.data.contract_address}/${goal.data.token_id}`))
+    yield put(
+      actions.components.nfts.nftOrderFlowOpen({
+        asset_contract_address: goal.data.contract_address,
+        order: goal.data.order,
+        step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id,
         walletUserIsAssetOwnerHack: false
       })
@@ -807,6 +844,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'make-offer-nft':
           yield call(runMakeOfferNFTGoal, goal)
+          break
+        case 'buy-nft':
+          yield call(runBuyNFTGoal, goal)
           break
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)

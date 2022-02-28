@@ -23,6 +23,7 @@ import {
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, selectors } from 'data'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
@@ -588,15 +589,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         nature='primary'
                         jumbo
                         fullwidth
-                        onClick={() =>
-                          nftsActions.nftOrderFlowOpen({
-                            // @ts-ignore
-                            asset_contract_address: asset.data.asset.contract_address!,
-                            // @ts-ignore
-                            token_id: asset.data.asset.token_id!,
-                            walletUserIsAssetOwnerHack: false
-                          })
-                        }
+                        onClick={() => {
+                          if (lowest_order) {
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              order: lowest_order,
+                              step: NftOrderStepEnum.BUY,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: false
+                            })
+                          } else {
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              step: NftOrderStepEnum.MAKE_OFFER,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: false
+                            })
+                          }
+                        }}
                       >
                         {lowest_order ? (
                           <FormattedMessage id='copy.buy' defaultMessage='Buy' />

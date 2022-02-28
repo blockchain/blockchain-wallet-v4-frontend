@@ -7,6 +7,7 @@ import { displayCoinToCoin } from '@core/exchange'
 import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import LazyLoadWrapper from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 
 const Row = styled(Text)`
@@ -80,8 +81,10 @@ const Activity: React.FC<Props> = (props) => {
                   <Button
                     onClick={() =>
                       props.nftsActions.nftOrderFlowOpen({
-                        asset: offer.asset,
+                        asset_contract_address: offer.asset.asset_contract.address,
                         offer,
+                        step: NftOrderStepEnum.CANCEL_OFFER,
+                        token_id: offer.asset.token_id,
                         walletUserIsAssetOwnerHack: false
                       })
                     }
@@ -95,8 +98,9 @@ const Activity: React.FC<Props> = (props) => {
                   <Button
                     onClick={() =>
                       props.nftsActions.nftOrderFlowOpen({
-                        asset: offer.asset,
-                        offer,
+                        asset_contract_address: offer.asset.asset_contract.address,
+                        step: NftOrderStepEnum.ACCEPT_OFFER,
+                        token_id: offer.asset.token_id,
                         walletUserIsAssetOwnerHack: false
                       })
                     }

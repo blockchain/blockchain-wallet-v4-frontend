@@ -288,31 +288,38 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-            asset: NftAsset
-            asset_contract_address?: never
+            asset_contract_address: string
             offer: OfferEventsType['asset_events'][0]
-            token_id?: never
+            order?: never
+            step: NftOrderStepEnum.CANCEL_OFFER
+            token_id: string
             walletUserIsAssetOwnerHack: boolean
           }
         | {
-            asset: NftAsset
-            asset_contract_address?: never
-            offer?: never
-            token_id?: never
-            walletUserIsAssetOwnerHack: boolean
-          }
-        | {
-            asset?: never
             asset_contract_address: string
             offer?: never
+            order: RawOrder
+            step: NftOrderStepEnum.BUY
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
+            order?: never
+            step: NftOrderStepEnum
             token_id: string
             walletUserIsAssetOwnerHack: boolean
           }
       >
     ) => {
       state.orderFlow.asset = Remote.Loading
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.step = action.payload.step
       state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
+
+      if (action.payload.order) {
+        state.orderFlow.orderToMatch = action.payload.order
+      }
     },
     resetCollectionFilter: (state) => {
       state.collectionFilter = {
