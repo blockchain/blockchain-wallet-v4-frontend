@@ -25,6 +25,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
+const CoinViewV2 = React.lazy(() => import('../pages/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -61,6 +62,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
+  coinViewV2,
   coinsWithBalance,
   history,
   isAuthenticated,
@@ -178,7 +180,7 @@ const App = ({
                         return (
                           <WalletLayout
                             path={`/${coinfig.symbol}/transactions`}
-                            component={Transactions}
+                            component={coinViewV2 ? CoinViewV2 : Transactions}
                             coinfig={coinfig}
                             coin={coinfig.symbol}
                             key={coinfig.symbol}
@@ -210,6 +212,7 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state),
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions

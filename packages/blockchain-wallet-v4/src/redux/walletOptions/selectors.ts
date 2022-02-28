@@ -132,3 +132,6 @@ export const getSilverRevamp = (state: RootState) =>
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))
+
+export const getCoinViewV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
