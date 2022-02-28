@@ -987,13 +987,17 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                     style={{
                                       borderRadius: '10%',
                                       boxSizing: 'border-box',
-                                      marginBottom: '0.5rem',
-                                      padding: '10px'
+                                      marginBottom: '0.5rem'
                                     }}
                                     src={asset?.image_url || ''}
                                   />
-                                  <Text capitalize style={{ padding: '1em' }}>
-                                    {asset?.name || '#'}
+                                  <Text
+                                    style={{ textAlign: 'center' }}
+                                    size='14px'
+                                    weight={600}
+                                    capitalize
+                                  >
+                                    {asset?.name || asset?.token_id}
                                   </Text>
                                 </div>
                               </CustomLink>
