@@ -5,7 +5,7 @@ import { CoinHeader, CoinHeaderComponent } from '.'
 
 const coinHeaderStory: ComponentMeta<CoinHeaderComponent> = {
   component: CoinHeader,
-  title: 'Pages/CoinView/CoinHeader'
+  title: 'Pages/CoinPage/CoinHeader'
 }
 
 const Template: ComponentStory<CoinHeaderComponent> = (args) => <CoinHeader {...args} />
