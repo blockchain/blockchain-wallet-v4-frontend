@@ -100,6 +100,7 @@ class NftOrder extends PureComponent<Props, State> {
 
 const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 

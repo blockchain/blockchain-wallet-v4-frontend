@@ -1,23 +1,53 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import BigNumber from 'bignumber.js'
+import * as lz from 'lz-string'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
+import { DeepLinkGoal } from 'data/types'
 
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
 const CTA: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
+  const { isAuthenticated, nftActions, orderFlow } = props
   const { orderToMatch } = orderFlow
 
   if (!orderToMatch) return null
 
   const disabled = props.orderFlow.isSubmitting
+
+  console.log(lz.compressToEncodedURIComponent(JSON.stringify(orderToMatch)))
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        {orderFlow.asset.cata({
+          Failure: () => null,
+          Loading: () => null,
+          NotAsked: () => null,
+          Success: (val) => (
+            <LinkContainer
+              to={`/open/${DeepLinkGoal.BUY_NFT}?contract_address=${
+                val.asset_contract.address
+              }&token_id=${val.token_id}&order=${lz.compressToEncodedURIComponent(
+                JSON.stringify(orderToMatch)
+              )}`}
+            >
+              <Button jumbo nature='primary' fullwidth data-e2e='buyNftLogin'>
+                <FormattedMessage id='copy.login_buy_now' defaultMessage='Login to Buy Now' />
+              </Button>
+            </LinkContainer>
+          )
+        })}
+      </>
+    )
+  }
 
   return (
     <>

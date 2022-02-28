@@ -186,8 +186,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string
-  },
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  }
 })
 
 const connector = connect(mapStateToProps)

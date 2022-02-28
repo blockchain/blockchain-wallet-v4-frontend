@@ -57,7 +57,6 @@ const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const NftsActivty = React.lazy(() => import('./Nfts/Activity'))
-const NftsAssets = React.lazy(() => import('./Nfts/Assets'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
@@ -117,7 +116,6 @@ const App = ({
                       <AuthLayout path='/wallet' component={Login} />
                       <AuthLayout path='/verify-email-step' component={VerifyEmail} />
                       <WalletLayout path='/nfts/activity' exact component={NftsActivty} />
-                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />
