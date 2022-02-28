@@ -127,3 +127,6 @@ export const getTaxCenterEnabled = (state: RootState) =>
 // refresh captcha token if there's an error on signup
 export const getRefreshCaptchaOnSignupError = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
+
+export const getCoinViewV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))

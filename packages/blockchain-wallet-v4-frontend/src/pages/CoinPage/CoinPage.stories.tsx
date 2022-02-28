@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { CoinPage, CoinPageComponent } from '.'
+import CoinPage, { CoinPageComponent } from '.'
 
 const coinPageStory: ComponentMeta<CoinPageComponent> = {
   component: CoinPage,

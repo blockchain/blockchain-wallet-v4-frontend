@@ -36,6 +36,7 @@
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
+        "coinViewV2": true,
         "completeYourProfile": true,
         "developerMobilePairing": true,
         "mergeAndUpgrade": false,
