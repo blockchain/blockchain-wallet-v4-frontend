@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSCardType, BSOrderType, Everypay3DSResponseType, ProviderDetailsType } from '@core/types'
-import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
+import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -54,7 +54,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   }
 
   return props.data.cata({
-    Failure: (e) => <DataError message={{ message: e }} />,
+    Failure: (code) => <Failure code={code} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} handleIconClick={handleIconClick} isPolling={isPolling} />
