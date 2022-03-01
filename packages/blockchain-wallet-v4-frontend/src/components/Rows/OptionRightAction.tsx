@@ -98,7 +98,7 @@ const OptionRightActionRow = ({
         </div>
       ) : (
         // @ts-ignore grey400
-        <Icon name='chevron-right' color='#98A1B2' size='md' />
+        <Icon name='chevronRight' color='#98A1B2' size='md' />
       )}
     </FlexWrapper>
   )
