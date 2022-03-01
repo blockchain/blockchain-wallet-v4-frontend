@@ -51,13 +51,17 @@ import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
 import blockchainSilver from './img/blockchain-silver.svg'
+import blueVerified from './img/blue-verified.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
+import buyWhiteCircle from './img/buy-white-circle.svg'
 import cartGreen from './img/cart-green.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
+import checkEmptyBlue from './img/check-empty-blue.svg'
+import checkEmptyWhite from './img/check-empty-white.svg'
 import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
 import circleEmpty from './img/circle-empty.svg'
@@ -93,6 +97,7 @@ import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
+import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
 import interest from './img/interest.svg'
@@ -142,6 +147,7 @@ import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
+import percentWhiteCircle from './img/percent-white-circle.svg'
 import printer from './img/printer.svg'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
@@ -154,18 +160,21 @@ import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
+import send from './img/send.svg'
 import sendCrypto from './img/send-crypto.svg'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import swap from './img/swap.svg'
+import swapBlue from './img/swap-blue.svg'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
 import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
+import swapWhite from './img/swap-white.svg'
 import tierGold from './img/tier-gold.svg'
 import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
@@ -180,6 +189,7 @@ import walletLogo from './img/wallet-logo.svg'
 import walletNoBackground from './img/wallet-no-background.svg'
 import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
+import whiteVerified from './img/white-verified.svg'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
@@ -241,13 +251,17 @@ const Images = {
   'blockchain-logo': blockchainLogo,
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
+  'blue-verified': blueVerified,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'buy-white-circle': buyWhiteCircle,
   'cart-green': cartGreen,
   'chart-placeholder': chartPlaceholder,
+  'check-empty-blue': checkEmptyBlue,
+  'check-empty-white': checkEmptyWhite,
   'checkmark-circle-green': checkmarkCircleGreen,
   'checkmark-green': checkmarkGreen,
   'circle-empty': circleEmpty,
@@ -284,6 +298,7 @@ const Images = {
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
+  'grey-verified': greyVerified,
   identification,
   'identity-verification': identityVerification,
   interest,
@@ -333,6 +348,7 @@ const Images = {
   nft,
   'order-my-card': orderMyCard,
   'order-my-card-icon': orderMyCardIcon,
+  'percent-white-circle': percentWhiteCircle,
   printer,
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
@@ -344,18 +360,21 @@ const Images = {
   search,
   'select-arrow': selectArrow,
   sell,
+  send,
   'send-crypto': sendCrypto,
   'silver-approved': silverApproved,
   smartphone,
   'source-of-wealth': sourceOfWealth,
   'starfield-banner-bg': starfieldBannerBg,
   swap,
+  'swap-blue': swapBlue,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
+  'swap-white': swapWhite,
   'tier-gold': tierGold,
   'tier-silver': tierSilver,
   'twitter-white': twitterWhite,
@@ -370,6 +389,7 @@ const Images = {
   'wallet-no-background': walletNoBackground,
   'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
+  'white-verified': whiteVerified,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
