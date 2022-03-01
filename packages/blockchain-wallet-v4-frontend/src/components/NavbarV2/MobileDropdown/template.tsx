@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react'
-import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com/constellation'
+import { colors, Icon, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
 import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/NavbarDropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
+
+import Switch from './Switch'
 
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
 const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
@@ -62,7 +64,7 @@ const MobileDropdown = () => {
 
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
-      <Icon color={colors.grey400} name={IconName.PHONE} size='sm' onClick={handleMenuToggle} />
+      <Icon color='grey400' name='phone' size='sm' onClick={handleMenuToggle} />
       {isMenuOpen && (
         <CustomDropdownMenu>
           <DropdownMenuArrow />
