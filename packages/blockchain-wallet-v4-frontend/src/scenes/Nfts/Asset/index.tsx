@@ -379,14 +379,23 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                 return b.base_price - a.base_price
               })
             : []
+          const bidsAndOffers = bids.concat(offers).sort((a: any, b: any) => {
+            return b.base_price - a.base_price
+          })
           if (offers.length < 1) offers = bids
           const highest_bid = bids[0]
           const highest_offer = offers[0]
           const lowest_order = sellOrders.sort((a, b) =>
             new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
           )[0]
-          if (lowest_order && lowest_order.expiration_time) {
-            const countDownDate = lowest_order.expiration_time * 1000
+          if (
+            (highest_bid && lowest_order && lowest_order?.expiration_time) ||
+            (lowest_order && lowest_order?.expiration_time)
+          ) {
+            const countDownDate =
+              highest_bid && lowest_order && lowest_order?.expiration_time
+                ? lowest_order?.expiration_time * 1000 - 604800000 // subtract 7 days for auction
+                : lowest_order?.expiration_time * 1000
             // Update the count down every 1 second
             setInterval(function () {
               const now = new Date().getTime()
@@ -505,7 +514,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         <>
                           <Highest>
                             <div style={{ marginBottom: '1em' }}>
-                              Sale ends {moment(highest_bid?.expiration_time * 1000).from(moment())}
+                              Sale ends{' '}
+                              {moment(lowest_order?.expiration_time * 1000)
+                                .subtract(7, 'day')
+                                .from(moment())}
                               :
                             </div>
                             <CountdownText>{Countdown}</CountdownText>
@@ -513,14 +525,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           <Divider style={{ marginBottom: '1em' }} />
                           <Highest>Top Bid</Highest>
                           <EthText>
-                            <CoinIcon name={highest_bid.payment_token_contract.symbol || 'ETH'} />
+                            <CoinIcon
+                              name={bidsAndOffers[0].payment_token_contract.symbol || 'ETH'}
+                            />
                             <CoinDisplay
                               weight={600}
                               color={colors.grey900}
                               size='24px'
-                              coin={highest_bid.payment_token_contract.symbol}
+                              coin={bidsAndOffers[0].payment_token_contract.symbol}
                             >
-                              {highest_bid.base_price}
+                              {bidsAndOffers[0].base_price}
                             </CoinDisplay>
                             &nbsp;{' '}
                             <Text
@@ -535,9 +549,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 currency='USD'
                                 color='grey500'
                                 size='16px'
-                                coin={highest_bid.payment_token_contract.symbol}
+                                coin={bidsAndOffers[0].payment_token_contract.symbol}
                               >
-                                {highest_bid.base_price}
+                                {bidsAndOffers[0].base_price}
                               </FiatDisplay>
                               )
                             </Text>
@@ -873,8 +887,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       </>
                     )}
                     {Tab === 'offers' &&
-                      (offers.length ? (
-                        offers?.map((offer, index) => {
+                      (bidsAndOffers.length ? (
+                        bidsAndOffers?.map((offer, index) => {
                           const coin = Exchange.convertCoinToCoin({
                             coin: offer.payment_token_contract.symbol || 'ETH',
                             value: offer?.base_price
