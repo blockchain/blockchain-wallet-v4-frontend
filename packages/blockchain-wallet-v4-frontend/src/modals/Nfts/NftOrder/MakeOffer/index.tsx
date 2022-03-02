@@ -22,7 +22,7 @@ import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
-  const { close, formValues, isAuthenticated, nftActions, orderFlow } = props
+  const { close, erc20Balance, formValues, isAuthenticated, nftActions, orderFlow } = props
 
   const disabled =
     !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
@@ -183,6 +183,11 @@ const MakeOffer: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
+  erc20Balance: selectors.core.data.eth.getErc20Balance(
+    state,
+    // @ts-ignore
+    selectors.form.getFormValues('nftMakeOffer')(state)?.coin || 'WETH'
+  ),
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string

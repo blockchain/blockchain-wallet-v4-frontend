@@ -18,7 +18,8 @@ export enum NftOrderStepEnum {
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
   SHOW_ASSET = 'SHOW_ASSET',
-  TRANSFER = 'TRANSFER'
+  TRANSFER = 'TRANSFER',
+  WRAP_ETH = 'WRAP_ETH'
 }
 
 export type NftsStateType = {

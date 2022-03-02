@@ -93,6 +93,11 @@ class NftOrder extends PureComponent<Props, State> {
             <Transfer {...this.props} />
           </FlyoutChild>
         )}
+        {step === NftOrderStepEnum.WRAP_ETH && (
+          <FlyoutChild>
+            <Transfer {...this.props} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }

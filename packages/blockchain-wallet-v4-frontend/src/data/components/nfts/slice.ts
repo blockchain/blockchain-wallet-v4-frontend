@@ -121,6 +121,9 @@ const nftsSlice = createSlice({
             order: NftOrder
           }
         | {
+            operation: GasCalculationOperations.WrapEth
+          }
+        | {
             asset: NftAsset
             offer: string
             operation: GasCalculationOperations.CreateOffer
