@@ -626,6 +626,9 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
 
+      // eslint-disable-next-line
+      console.log('URL DATA:: ', platform, product, redirect, userType)
+
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
@@ -693,7 +696,7 @@ export default ({ api, coreSagas, networks }) => {
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as AuthMagicLink
           yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield call(parseMagicLink)
+          yield call(parseAuthMagicLink)
       }
 
       // hide loading and ensure latest app version

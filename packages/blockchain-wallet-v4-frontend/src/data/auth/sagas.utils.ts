@@ -29,6 +29,8 @@ export const parseAuthMagicLink = function* () {
       wallet: walletData
     } = magicLink as AuthMagicLink
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
+    // eslint-disable-next-line
+    console.log('MAGIC LINK:: ', magicLink)
     const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
