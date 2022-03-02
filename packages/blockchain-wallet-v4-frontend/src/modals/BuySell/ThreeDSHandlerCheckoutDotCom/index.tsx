@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSCardType, BSOrderType, Everypay3DSResponseType, ProviderDetailsType } from '@core/types'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
@@ -63,15 +63,27 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     props.buySellActions.destroyCheckout()
   }
 
+  const handleRetry = () => {
+    // DO SOMETHING HERE
+  }
+
   return props.data.cata({
-    Failure: (code) => <Failure code={code} handleBack={handleBack} handleReset={handleReset} />,
+    Failure: (code) => (
+      <Failure
+        code={code}
+        handleBack={handleBack}
+        handleReset={handleReset}
+        handleRetry={handleRetry}
+      />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} handleBack={handleBack} isPolling={isPolling} />
   })
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
+  checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   data: getData(state)
 })
 
@@ -95,10 +107,6 @@ export type SuccessStateType =
       threeDSDetails: Everypay3DSResponseType
       type: 'CARD'
     }
-
-type LinkStatePropsType = {
-  data: ReturnType<typeof getData>
-}
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
