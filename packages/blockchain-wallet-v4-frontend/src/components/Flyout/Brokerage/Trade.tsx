@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon as ConsIcon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon as ConsIcon } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -77,7 +77,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.buy' defaultMessage='Buy' />,
     iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon name={IconName.PLUS_CIRCLE} color={colors.blue100} size='md' />
+        <ConsIcon name='plusCircle' color='blue100' size='md' />
         <IconBG />
       </CustomIconWrapper>
     )
@@ -93,7 +93,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.sell' defaultMessage='Sell' />,
     iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon name={IconName.MINUS_CIRCLE} color={colors.blue100} size='md' />
+        <ConsIcon name='minusCircle' color='blue100' size='md' />
         <IconBG />
       </CustomIconWrapper>
     )
@@ -109,7 +109,17 @@ const rows = ({
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_BI_DIRECTIONAL} color={colors.blue600} size='md' />
+        <div
+          style={{
+            alignItems: 'center',
+            display: 'flex',
+            height: 24,
+            justifyContent: 'center',
+            width: 24
+          }}
+        >
+          <ConsIcon name='swap' color='blue600' size='sm' />
+        </div>
       </CustomIconWrapper>
     )
   },
@@ -124,7 +134,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_DOWN} color={colors.blue600} size='md' />
+        <ConsIcon name='arrowDown' color='blue600' size='md' />
       </CustomIconWrapper>
     )
   },
@@ -139,7 +149,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_UP} color={colors.blue600} size='md' />
+        <ConsIcon name='arrowUp' color='blue600' size='md' />
       </CustomIconWrapper>
     )
   }

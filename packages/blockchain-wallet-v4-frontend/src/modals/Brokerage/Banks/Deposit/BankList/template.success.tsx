@@ -16,7 +16,6 @@ type OwnProps = {
   account: BankTransferAccountType | undefined
   bankTransferAccounts: BankTransferAccountType[]
   beneficiaries: BeneficiaryType[]
-  minAmount: NabuSymbolNumberType
 }
 type Props = _P & OwnProps
 
@@ -86,7 +85,6 @@ const BankList = (props: Props) => {
           <BankWire
             key={beneficiary.id}
             beneficiary={beneficiary}
-            minAmount={props.minAmount}
             onClick={() => {
               props.brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS

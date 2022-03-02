@@ -1,9 +1,19 @@
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions } from 'data'
 
 import DebitCard from './template'
 
-const DebitCardContainer = () => {
-  return <DebitCard />
-}
+const DebitCardContainer = (props: Props) => <DebitCard {...props} />
 
-export default DebitCardContainer
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+const connector = connect(undefined, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(DebitCardContainer)

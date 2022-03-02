@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
+import { colors, Icon, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -23,7 +23,7 @@ export type PrimaryNavItem = {
 const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white1};
+  background-color: ${colors.white100};
   display: flex;
   justify-content: space-between;
   padding: 0 22px;
@@ -91,7 +91,7 @@ const ListStyles = styled.ul`
 
     &:hover,
     &.active {
-      background-color: ${colors.blue0};
+      background-color: ${colors.blue000};
       color: ${colors.blue600};
     }
   }
@@ -154,7 +154,8 @@ const Navbar = ({
   primaryNavItems,
   receiveClickHandler,
   refreshClickHandler,
-  sendClickHandler
+  sendClickHandler,
+  taxCenterEnabled
 }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
@@ -234,6 +235,14 @@ const Navbar = ({
     }
   ]
 
+  if (taxCenterEnabled) {
+    tertiaryNavItems.splice(0, 0, {
+      copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
+      'data-e2e': 'tax_CenterLink',
+      to: '/tax-center'
+    })
+  }
+
   const secondaryNavItems = [
     {
       component: () => (
@@ -273,7 +282,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color={colors.grey400} name={IconName.REFRESH} size='sm' />
+          <Icon color='grey400' name='refresh' size='sm' />
         </NavButton>
       ),
       name: 'Refresh'
@@ -281,7 +290,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color={colors.grey400} name={IconName.USER} size='sm' />
+          <Icon color='grey400' name='user' size='sm' />
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
@@ -333,7 +342,9 @@ const Navbar = ({
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <li key={item.e2e}>
                 <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
+                  <div style={{ fontFamily: 'Inter' }}>
+                    <Text variant='paragraph-1'>{item.text}</Text>
+                  </div>
                 </NavLink>
               </li>
             ))}
@@ -370,16 +381,16 @@ const Navbar = ({
               <li>
                 {isMobileNavOpen ? (
                   <Icon
-                    color={colors.grey600}
+                    color='grey600'
                     data-e2e='closeMobileNav'
-                    name={IconName.CLOSE}
+                    name='close'
                     role='button'
                     size='md'
                     onClick={closeMobileNavCallback}
                   />
                 ) : (
                   <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                    <Icon name={IconName.MENU} color={colors.blue500} size='md' />
+                    <Icon name='menu' color='blue500' size='md' />
                   </NavButton>
                 )}
               </li>
@@ -407,6 +418,7 @@ type Props = {
   receiveClickHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
+  taxCenterEnabled: boolean
 }
 
 export default Navbar
