@@ -58,9 +58,11 @@ const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const NftsActivty = React.lazy(() => import('./Nfts/Activity'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
+const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
+const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const client = createClient({
   url: 'http://localhost:4000/graphql'
@@ -73,8 +75,10 @@ const App = ({
   isAuthenticated,
   persistor,
   store,
+  taxCenterEnabled,
   userData,
-  walletConnectEnabled
+  walletConnectEnabled,
+  walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
@@ -86,9 +90,11 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
+  console.log(isAuthenticated)
+
   return (
-    <Provider store={store}>
-      <UrqlProvider value={client}>
+    <UrqlProvider value={client}>
+      <Provider store={store}>
         <ThemeProvider>
           <TranslationsProvider>
             <PersistGate loading={<Loading />} persistor={persistor}>
@@ -119,6 +125,9 @@ const App = ({
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debitCard' component={DebitCard} />
+                      )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
@@ -133,6 +142,9 @@ const App = ({
                         <WalletLayout path='/dapps' component={WalletConnect} />
                       )}
                       <WalletLayout path='/prices' component={Prices} />
+                      {taxCenterEnabled && (
+                        <WalletLayout path='/tax-center' component={TaxCenter} />
+                      )}
                       {values(
                         map((coinModel) => {
                           const { coinfig } = coinModel
@@ -163,8 +175,8 @@ const App = ({
             </PersistGate>
           </TranslationsProvider>
         </ThemeProvider>
-      </UrqlProvider>
-    </Provider>
+      </Provider>
+    </UrqlProvider>
   )
 }
 
@@ -174,9 +186,15 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  taxCenterEnabled: selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
+    .getOrElse(false) as boolean,
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
     .getOrElse(false) as boolean
 })
 

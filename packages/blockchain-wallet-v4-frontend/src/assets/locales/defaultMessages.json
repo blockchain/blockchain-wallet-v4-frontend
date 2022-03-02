@@ -547,8 +547,8 @@
         "id": "components.alerts.verify_email_sent"
       },
       {
-        "defaultMessage": "Error sending verification email. Please try again later.",
-        "id": "components.alerts.verify_email_sent_error"
+        "defaultMessage": "Error sending verification email. Please try again.",
+        "id": "components.alerts.verify_email_sent_error_try_again"
       },
       {
         "defaultMessage": "Could not retrieve essential data. Try again later.",

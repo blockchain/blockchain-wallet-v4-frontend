@@ -992,8 +992,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.VERIFY_EMAIL_SENT_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.verify_email_sent_error'
-          defaultMessage='Error sending verification email. Please try again later.'
+          id='components.alerts.verify_email_sent_error_try_again'
+          defaultMessage='Error sending verification email. Please try again.'
         />
       )
     case C.WALLET_LOADING_ERROR:

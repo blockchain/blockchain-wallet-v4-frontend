@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import moment from 'moment'
@@ -139,17 +139,17 @@ const PriceHistoryTitle = styled(AssetName)`
 
 const PriceHistory = styled(PriceHistoryTitle)`
   font-size: 14px;
-  background: ${colors.grey0};
+  background: ${colors.grey000};
   opacity: 0.2;
   padding: 2em;
-  border: 1px solid ${colors.grey0};
+  border: 1px solid ${colors.grey000};
   box-sizing: border-box;
   border-radius: 8px;
   height: 40em;
 `
 
 const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.grey0};
+  border: 1px solid ${colors.grey000};
   box-sizing: border-box;
   border-radius: 8px;
   padding: 1.2em;
@@ -202,7 +202,7 @@ const Spacing = styled.div`
 const Divider = styled.hr`
   margin-bottom: unset;
   opacity: 0.3;
-  color: ${colors.grey0};
+  color: ${colors.grey000};
 `
 
 const Description = styled(Text)`
@@ -257,7 +257,7 @@ const Detail = styled(Text)`
   justify-content: space-between;
   color: ${colors.grey900};
   padding: 1em 1.5em;
-  border-bottom: 1px solid ${colors.grey0};
+  border-bottom: 1px solid ${colors.grey000};
   font-size: 16px;
   font-weight: 500;
 `
@@ -389,7 +389,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     cursor='pointer'
                     to={`/nfts/${assetFromDirectCall.collection.slug}`}
                   >
-                    <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
+                    <Icon name='arrowLeft' color='grey400' />
                   </LinkContainer>
                   <LeftColWrapper>
                     <img
@@ -438,7 +438,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <SocialLinksWrap>
                         {asset?.data?.asset?.collection?.telegram_url && (
                           <SocialLinks href={asset?.data?.asset?.collection?.telegram_url}>
-                            <Icon name={IconName.PHONE} color={colors.grey400} />
+                            <Icon name='phone' color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.twitter_username && (
@@ -447,7 +447,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.twitter_username
                             }`}
                           >
-                            <Icon name={IconName.CLIPBOARD} color={colors.grey400} />
+                            <Icon name='clipboard' color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.instagram_username && (
@@ -456,7 +456,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.instagram_username
                             }`}
                           >
-                            <Icon name={IconName.CHECK_CIRCLE} color={colors.grey400} />
+                            <Icon name='checkCircle' color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.wiki_url && (
@@ -465,12 +465,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.wiki_url
                             }`}
                           >
-                            <Icon name={IconName.CHEVRON_LEFT} color={colors.grey400} />
+                            <Icon name='chevronLeft' color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.external_url && (
                           <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                            <Icon name={IconName.GLOBE} color={colors.grey400} />
+                            <Icon name='globe' color='grey400' />
                           </SocialLinks>
                         )}
                       </SocialLinksWrap>
@@ -754,7 +754,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             size='14px'
                             weight={600}
                             style={{
-                              borderBottom: `1px solid ${colors.grey0}`,
+                              borderBottom: `1px solid ${colors.grey000}`,
                               paddingBottom: '8px'
                             }}
                           >

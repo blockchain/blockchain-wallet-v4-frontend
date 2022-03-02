@@ -18,7 +18,7 @@ const TextStack = styled.div`
 `
 
 const MergeAccountConfirm = (props: Props) => {
-  const { accountUnificationFlow, handleBackArrowClick, setStep } = props
+  const { accountUnificationFlow, handleBackArrowClickWallet, setStep } = props
 
   const handleUpgradeAccountClick = () => {
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
@@ -47,7 +47,7 @@ const MergeAccountConfirm = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+      <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClickWallet} hideGuid />
       <CenteredColumn style={{ textAlign: 'center' }}>
         <Image name='account-icons' />
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>

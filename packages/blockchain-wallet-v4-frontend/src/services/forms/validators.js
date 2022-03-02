@@ -152,6 +152,11 @@ export const validBchAddress = (value, allValues, props) => {
 export const validEmailCode = (value) =>
   isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
+export const validDecliningPrice = (value, allValues, props) =>
+  props.values.ending && props.values.starting && props.values.ending > props.values.starting ? (
+    <M.InvalidDecliningPrice />
+  ) : undefined
+
 export const validBtcPrivateKey = (value, allValues, props) =>
   utils.btc.isValidBtcPrivateKey(value, props.network) ? undefined : (
     <M.InvalidBtcPrivateKeyMessage />

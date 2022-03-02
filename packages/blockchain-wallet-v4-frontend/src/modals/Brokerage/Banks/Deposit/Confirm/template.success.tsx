@@ -31,10 +31,6 @@ const Success = (props: Props) => {
     })
   }, [])
 
-  const cancelButtonClick = useCallback(() => {
-    props.handleClose()
-  }, [])
-
   const submitButtonClick = useCallback(() => {
     setSubmitting(true)
     props.brokerageActions.createFiatDeposit()
@@ -103,7 +99,7 @@ const Success = (props: Props) => {
           {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
         </div>
       </FlyoutContent>
-      <FlyoutFooter>
+      <FlyoutFooter collapsed>
         <Button
           data-e2e='submitDepositAmount'
           height='48px'
@@ -118,28 +114,9 @@ const Success = (props: Props) => {
           ) : (
             <FormattedMessage
               id='modals.simplebuy.deposit.deposit_button'
-              defaultMessage='Deposit {amount}'
-              values={{
-                amount: fiatToString({
-                  digits: 0,
-                  unit: props.defaultMethod?.currency || ('USD' as FiatType),
-                  value: amount
-                })
-              }}
+              defaultMessage='Deposit Now'
             />
           )}
-        </Button>
-        <Button
-          data-e2e='depositCancel'
-          disabled={submitting}
-          size='16px'
-          height='48px'
-          nature='light-red'
-          onClick={cancelButtonClick}
-          fullwidth
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </FlyoutFooter>
     </FlyoutContainer>

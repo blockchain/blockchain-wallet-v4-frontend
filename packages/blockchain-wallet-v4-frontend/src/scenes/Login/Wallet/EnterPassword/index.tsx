@@ -75,20 +75,15 @@ const EnterPasswordWallet = (props: Props) => {
   const {
     authActions,
     busy,
+    exchangeTabClicked,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickWallet,
     invalid,
     isBrowserSupported,
     qrData,
     submitting,
     walletError
   } = props
-
-  const onExchangeTabClick = () => {
-    props.routerActions.push('/login?product=exchange')
-    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-  }
 
   const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -102,12 +97,12 @@ const EnterPasswordWallet = (props: Props) => {
       <FormWrapper>
         <ProductTabMenu
           active={ProductAuthOptions.WALLET}
-          onExchangeTabClick={onExchangeTabClick}
+          onExchangeTabClick={exchangeTabClicked}
         />
         <WrapperWithPadding>
           <BackArrowHeader
             {...props}
-            handleBackArrowClick={handleBackArrowClick}
+            handleBackArrowClick={handleBackArrowClickWallet}
             marginTop='28px'
           />
           <FormGroup>
@@ -196,6 +191,18 @@ const EnterPasswordWallet = (props: Props) => {
                 <FormattedMessage
                   id='scenes.login.wallet.mobile_login.description'
                   defaultMessage='Tap the QR code icon at the top right corner of the app.'
+                />
+              </Text>
+              <Text
+                color='grey900'
+                size='12px'
+                weight={500}
+                lineHeight='1.5'
+                style={{ marginTop: '4px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.wallet.mobile_login.notification'
+                  defaultMessage='Ensure that notifications are enabled for the Blockchain.com app.'
                 />
               </Text>
             </TextColumn>

@@ -11,6 +11,7 @@ import {
   BSPaymentTypes,
   CoinType,
   FiatType,
+  MobilePaymentType,
   SwapOrderType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -22,6 +23,7 @@ import { BankStatusType, FastLinkType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
+import Rejected from '../components/Rejected'
 import { ModalPropsType } from '../types'
 import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
 import AddCardEverypay from './AddCardEverypay'
@@ -42,7 +44,6 @@ import getData from './selectors'
 import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
 import Pending from './template.pending'
-import Rejected from './template.rejected'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
@@ -304,6 +305,7 @@ const mapStateToProps = (state: RootState) => ({
   goals: selectors.goals.getGoals(state),
   isFirstLogin: selectors.auth.getFirstLogin(state),
   method: selectors.components.buySell.getBSPaymentMethod(state),
+  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   order: selectors.components.buySell.getBSOrder(state),
   orderType: selectors.components.buySell.getOrderType(state),
   pair: selectors.components.buySell.getBSPair(state),
@@ -396,6 +398,7 @@ type LinkStatePropsType =
   | {
       goals: Array<{ data: any; id: string; name: GoalsType }>
       method?: BSPaymentMethodType
+      mobilePaymentMethod?: MobilePaymentType
       order?: BSOrderType
       orderType: BSOrderActionType
       pair: BSPairType

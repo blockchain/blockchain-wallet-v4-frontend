@@ -277,3 +277,15 @@ export const CheckBoxInput: FunctionComponent<{
   onClick?: () => void
   onChange?: () => void
 }>
+export const SelectInput: FunctionComponent<{
+  disabled?: boolean,
+  elements?: Array<any>,
+  grouped?: boolean,
+  label?: string | unknown,
+  onBlur?: () => void,
+  onChange?: () => void,
+  onFocus?: () => void,
+  opened?: boolean,
+  searchEnabled?: boolean,
+  value: string | boolean | number
+}>
