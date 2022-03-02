@@ -22,7 +22,8 @@ const termsAndConditionsSlice = createSlice({
     },
     fetchTermsAndConditionsSuccess: (state, action: PayloadAction<TermsAndConditionType>) => {
       state.termsAndConditions = Remote.Success(action.payload)
-    }
+    },
+    signTermsAndConditions: () => {}
   }
 })
 

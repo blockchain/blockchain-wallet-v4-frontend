@@ -218,6 +218,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const signUserTermsAndConditionsLast = () =>
+    authorizedPut({
+      endPoint: '/user/terms-and-conditions/sign-latest',
+      url: nabuUrl
+    })
+
   return {
     createLinkAccountId,
     createUser,
@@ -238,6 +244,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     resetUserKyc,
     setUserInitialAddress,
     shareWalletDepositAddresses,
+    signUserTermsAndConditionsLast,
     syncUserWithWallet,
     updateUser,
     updateUserAddress

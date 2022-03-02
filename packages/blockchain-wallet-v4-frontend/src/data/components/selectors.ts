@@ -25,6 +25,7 @@ import * as sendXlm from './sendXlm/selectors'
 import * as settings from './settings/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as swap from './swap/selectors'
+import * as termsAndConditions from './termsAndConditions/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
@@ -59,6 +60,7 @@ export {
   settings,
   signMessage,
   swap,
+  termsAndConditions,
   uploadDocuments,
   utils,
   veriff,

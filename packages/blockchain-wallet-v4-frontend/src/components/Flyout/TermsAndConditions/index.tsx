@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import Markdown from 'markdown-to-jsx'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { TermsAndConditionType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { CheckBox, Form } from 'components/Form'
 import { model } from 'data'
@@ -33,14 +35,17 @@ const HeaderWrapper = styled.div`
 const HeaderTitle = styled(Text)`
   display: flex;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   flex: 1;
   max-height: 24px;
   overflow: hidden;
 `
 
 const Content = styled(ContentWrapper)`
+  height: calc(100vh - 232px);
+  min-height: calc(100vh - 232px);
   overflow-y: scroll;
+  padding: 40px;
 `
 
 const CustomForm = styled(Form)`
@@ -61,10 +66,31 @@ const FooterWrapper = styled(Footer)`
   flex-direction: column;
 `
 const PagePlaceholder = styled.div`
-  min-height: 1000px;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  flex: 1;
+  margin-top: 200px;
+  padding-top: 250px;
+  div {
+    flex: 1;
+  }
+`
+
+const TextWrapper = styled(Text)`
+  color: ${(props) => props.theme.grey800};
+  font-size: 12px;
+  a {
+    color: ${(props) => props.theme.blue600};
+    text-decoration: none;
+  }
+`
+const StyledParagraph = styled(Text)`
+  font-size: 12px;
+  padding: 10px 0;
+`
+const StyledHeader = styled(Text)`
+  padding: 10px 0;
 `
 
 const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -92,7 +118,7 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
       <CustomForm onSubmit={props.handleSubmit}>
         <Header>
           <HeaderWrapper>
-            <HeaderTitle size='16px' weight={600} color='grey900' lineHeight='24px'>
+            <HeaderTitle size='24px' weight={600} color='grey900' lineHeight='24px'>
               <FormattedMessage
                 id='modals.terms_and_conditions.title'
                 defaultMessage='Review Our New Terms'
@@ -101,14 +127,29 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
           </HeaderWrapper>
         </Header>
         <Content mode='middle'>
-          <PagePlaceholder>Terms and conditions page content Placeholder</PagePlaceholder>
+          <PagePlaceholder>
+            <Markdown
+              options={{
+                overrides: {
+                  h1: {
+                    component: StyledHeader
+                  },
+                  p: {
+                    component: StyledParagraph
+                  }
+                }
+              }}
+            >
+              {props.termsAndConditions.termsAndConditions}
+            </Markdown>
+          </PagePlaceholder>
           <CheckboxContainer ref={currentElement}>
             <Field
               name='acceptTermsAndConditions'
               component={CheckBox}
               onChange={onCheckboxChecked}
             >
-              <Text color='grey800' size='14px' weight={600} style={{ marginLeft: '4px' }}>
+              <TextWrapper>
                 <FormattedMessage
                   id='modals.terms_and_conditions.confirm_label'
                   defaultMessage='I agree to Blockchain.com’s <a>Terms of Service & Privacy Policy.</a>'
@@ -124,7 +165,7 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
                     )
                   }}
                 />
-              </Text>
+              </TextWrapper>
             </Field>
           </CheckboxContainer>
         </Content>
@@ -133,13 +174,11 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
             <Button
               nature='primary'
               data-e2e='signNewTermsAndConditions'
-              type='button'
+              type='submit'
               fullwidth
               height='48px'
               style={{ marginTop: '16px' }}
-              onClick={() => {
-                // move fwd
-              }}
+              disabled={!acceptTerms}
             >
               <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
             </Button>
@@ -153,7 +192,6 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
               height='48px'
               style={{ marginTop: '16px' }}
               onClick={scrollToBottom}
-              disabled={!acceptTerms}
             >
               <FormattedMessage id='buttons.review' defaultMessage='Review' />
             </Button>
@@ -166,6 +204,7 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
 
 export type Props = {
   handleSubmit: (e) => void
+  termsAndConditions: TermsAndConditionType
 }
 
 export default reduxForm<{}, Props>({

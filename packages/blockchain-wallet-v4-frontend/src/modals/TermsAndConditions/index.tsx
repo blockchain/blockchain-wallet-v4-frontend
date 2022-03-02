@@ -31,19 +31,19 @@ class TermsAndConditions extends PureComponent<Props, State> {
   }
 
   handleClose = () => {
-    // this.setState({ show: false })
-    // setTimeout(() => {
-    // this.props.close()
-    // }, duration)
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    // this.props.interestUploadDocumentActions.saveAdditionalData()
-  }
-
-  submitData = () => {
-    // this.props.interestUploadDocumentActions.uploadFiles({ files })
+    this.props.termsAndConditionsActions.signTermsAndConditions()
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
   }
 
   render() {
@@ -82,7 +82,10 @@ class TermsAndConditions extends PureComponent<Props, State> {
           data-e2e='termsAndConditionsModal'
           userClickedOutside={false}
         >
-          <TermsAndConditionsContent handleSubmit={this.handleSubmit} />
+          <TermsAndConditionsContent
+            handleSubmit={this.handleSubmit}
+            termsAndConditions={value.termsAndConditions}
+          />
         </Flyout>
       )
     })

@@ -11,5 +11,9 @@ export default ({ api }) => {
       actions.fetchTermsAndConditions.type,
       termsAndConditionsSagas.fetchTermsAndConditions
     )
+    yield takeLatest(
+      actions.signTermsAndConditions.type,
+      termsAndConditionsSagas.signTermsAndConditions
+    )
   }
 }

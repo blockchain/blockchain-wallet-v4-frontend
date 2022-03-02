@@ -5,11 +5,9 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const countryCode = selectors.core.settings.getCountryCode(state).getOrElse(null)
-  const userDataR = selectors.modules.profile.getUserData(state)
+  const termsAndConditionsR = selectors.components.termsAndConditions.getTermsAndConditions(state)
 
-  return lift((userData: ExtractSuccess<typeof userDataR>) => ({
-    countryCode,
-    userData
-  }))(userDataR)
+  return lift((termsAndConditions: ExtractSuccess<typeof termsAndConditionsR>) => ({
+    termsAndConditions
+  }))(termsAndConditionsR)
 }

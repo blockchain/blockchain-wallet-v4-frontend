@@ -20,8 +20,16 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTermsAndConditionsFailure(error))
     }
   }
+  const signTermsAndConditions = function* () {
+    try {
+      yield call(api.signUserTermsAndConditionsLast)
+    } catch (e) {
+      // do nothing
+    }
+  }
 
   return {
-    fetchTermsAndConditions
+    fetchTermsAndConditions,
+    signTermsAndConditions
   }
 }
