@@ -52,8 +52,7 @@ export const parseAuthMagicLink = function* () {
         productAuth = ProductAuthOptions.WALLET
       }
     }
-    // THESE ARE THE MERGE AND UPGRADE FLOWS
-    // showMergeAndUpgradeFlows is the feature flag
+    // check if merge/upgrade flows are both enabled and required for user
     if (showMergeAndUpgradeFlows) {
       if (!unified && (mergeable || upgradeable)) {
         if (productAuth === ProductAuthOptions.WALLET && mergeable) {
