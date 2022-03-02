@@ -127,3 +127,7 @@ export const getTaxCenterEnabled = (state: RootState) =>
 // refresh captcha token if there's an error on signup
 export const getRefreshCaptchaOnSignupError = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
+
+// use new institutional portal app
+export const getInstitutionalPortalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))

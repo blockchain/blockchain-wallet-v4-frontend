@@ -83,11 +83,14 @@ export default ({ api, coreSagas, networks }) => {
     const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { exchange: exchangeDomain } = selectors.core.walletOptions
+    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
       } as WalletOptionsType['domains'])
+    const institutionalPortalEnabled = (yield select(
+      selectors.core.walletOptions.getInstitutionalPortalEnabled
+    )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     // analytics
     if (code) {
@@ -128,15 +131,14 @@ export default ({ api, coreSagas, networks }) => {
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
-        // // temp change to test poc
-        // Commenting out to fix institutional login on prod
-        // case userType === 'institutional':
-        //   window.open(
-        //     `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
-        //     '_self',
-        //     'noreferrer'
-        //   )
-        //   break
+        // institutional login
+        case userType === 'institutional' && institutionalPortalEnabled:
+          window.open(
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
         // exchange institutional login
         default:
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
