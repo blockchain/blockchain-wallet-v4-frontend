@@ -10,7 +10,7 @@ import Flyout, {
 } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -27,6 +27,11 @@ class TermsAndConditions extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     this.props.termsAndConditionsActions.fetchTermsAndConditions()
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.LOGIN_TERMS_AND_CONDITIONS_VIEWED,
+      properties: {}
+    })
     /* eslint-enable */
   }
 
@@ -40,6 +45,10 @@ class TermsAndConditions extends PureComponent<Props, State> {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.termsAndConditionsActions.signTermsAndConditions()
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.LOGIN_TERMS_AND_CONDITIONS_ACCEPTED,
+      properties: {}
+    })
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
@@ -97,6 +106,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   termsAndConditionsActions: bindActionCreators(actions.components.termsAndConditions, dispatch)
 })
 
