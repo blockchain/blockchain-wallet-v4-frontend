@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { RemoteDataType } from '@core/types'
+import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -81,7 +81,15 @@ class SignupContainer extends React.PureComponent<
       )
     }
     // we have a captcha token, continue Signup process
-    authActions.register({ captchaToken, country, email, language, password, state })
+    authActions.register({
+      captchaToken,
+      country,
+      email,
+      initCaptcha: this.initCaptcha,
+      language,
+      password,
+      state
+    })
   }
 
   setCountryOnLoad = (country: string) => {
@@ -131,6 +139,9 @@ class SignupContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    exchange: 'https://exchange.blockchain.com'
+  } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, undefined>,
@@ -151,6 +162,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>

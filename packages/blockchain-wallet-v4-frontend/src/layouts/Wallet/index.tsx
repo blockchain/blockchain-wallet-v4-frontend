@@ -2,7 +2,6 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
-import { CoinfigType, CoinType } from '@core/types'
 import { selectors } from 'data'
 
 import WalletLayout from './template'
@@ -11,12 +10,19 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
   render() {
     const { component: Component, computedMatch, isAuthenticated, path, ...rest } = this.props
 
-    return isAuthenticated ? (
+    let isValid = true
+    let coin
+    if (path.includes('/transactions')) {
+      coin = computedMatch.params.coin
+      if (!window.coins[coin]) isValid = false
+    }
+
+    return isAuthenticated && isValid ? (
       <Route
         path={path}
         render={(props) => (
-          <WalletLayout location={props.location} coin={this.props.coin}>
-            <Component computedMatch={computedMatch} {...rest} />
+          <WalletLayout location={props.location} coin={coin}>
+            <Component computedMatch={computedMatch} {...rest} coin={coin} />
           </WalletLayout>
         )}
       />
@@ -33,8 +39,6 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
-  coin?: CoinType
-  coinfig?: CoinfigType
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean

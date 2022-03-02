@@ -8,6 +8,7 @@ import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
+  AlertsState,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
@@ -20,7 +21,7 @@ import Loading from '../loading.auth'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
-import LoginSceneFooter from './components/LoginSceneFooter'
+import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
@@ -68,13 +69,48 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleBackArrowClick = () => {
-    const { authActions, cacheActions, formActions } = this.props
-
-    cacheActions.removedStoredLogin()
+    const { authActions, formActions } = this.props
     formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
     authActions.clearLoginError()
     this.initCaptcha()
+  }
+
+  handleBackArrowClickWallet = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeWalletLogin()
+  }
+
+  handleBackArrowClickExchange = () => {
+    this.handleBackArrowClick()
+    this.props.cacheActions.removeExchangeLogin()
+  }
+
+  exchangeTabClicked = () => {
+    const { exchangeEmail } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    routerActions.push('/login?product=exchange')
+    if (exchangeEmail) {
+      formActions.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
+  walletTabClicked = () => {
+    const { lastEmail, lastGuid, storedGuid } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
+    routerActions.push('/login?product=wallet')
+    if (storedGuid || lastGuid) {
+      formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
+      formActions.change(LOGIN_FORM, 'email', lastEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
   }
 
   handleSubmit = (e) => {
@@ -118,13 +154,18 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const loginProps = {
       busy, // TODO see if we still need busy
       exchangeError,
+      exchangeTabClicked: this.exchangeTabClicked,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
       walletError,
       ...this.props,
-      handleBackArrowClick: this.handleBackArrowClick,
+      handleBackArrowClickExchange: this.handleBackArrowClickExchange,
+      handleBackArrowClickWallet: this.handleBackArrowClickWallet,
       isBrowserSupported: isBrowserSupported(),
-      setStep: this.setStep
+      setStep: this.setStep,
+      walletTabClicked: this.walletTabClicked
     }
+
+    const { isMobileViewLogin } = loginProps
 
     return (
       <>
@@ -135,15 +176,35 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.INSTITUTIONAL_PORTAL:
                 return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                return <EnterPasswordExchange {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <EnterPasswordExchange {...loginProps} />
+                  </>
+                )
               case LoginSteps.ENTER_PASSWORD_WALLET:
-                return <EnterPasswordWallet {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <EnterPasswordWallet {...loginProps} />
+                  </>
+                )
               case LoginSteps.TWO_FA_EXCHANGE:
-                return <TwoFAExchange {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <TwoFAExchange {...loginProps} />
+                  </>
+                )
               case LoginSteps.TWO_FA_WALLET:
-                return <TwoFAWallet {...loginProps} />
+                return (
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <TwoFAWallet {...loginProps} />
+                  </>
+                )
               case LoginSteps.CHECK_EMAIL:
-                return <CheckEmail {...loginProps} />
+                return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
               case LoginSteps.UPGRADE_CONFIRM:
@@ -155,16 +216,19 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
-                  <ExchangeEnterEmail {...loginProps} />
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <ExchangeEnterEmail {...loginProps} />
+                  </>
                 ) : (
-                  <WalletEnterEmailOrGuid {...loginProps} />
+                  <>
+                    {!isMobileViewLogin && <UrlNoticeBar />}
+                    <WalletEnterEmailOrGuid {...loginProps} />
+                  </>
                 )
             }
           })()}
         </Form>
-
-        {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && <LoginSceneFooter step={step} />}
       </>
     )
   }
@@ -172,7 +236,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
+  alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   authType: selectors.auth.getAuthType(state) as Number,
+  cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
@@ -197,7 +263,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type OwnProps = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
-  handleBackArrowClick: () => void
+  exchangeTabClicked?: () => void
+  handleBackArrowClickExchange: () => void
+  handleBackArrowClickWallet: () => void
   invalid: boolean
   isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
@@ -205,6 +273,7 @@ type OwnProps = {
   setStep: (step: LoginSteps) => void
   submitting: boolean
   walletError?: any
+  walletTabClicked?: () => void
 }
 
 type StateProps = {

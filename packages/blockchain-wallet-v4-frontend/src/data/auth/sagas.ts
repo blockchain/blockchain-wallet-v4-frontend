@@ -78,6 +78,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
+    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
@@ -116,11 +117,20 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // exchange institutional login
+        // exchange sso login
         case exchangeAuthUrl !== undefined:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
-        // exchange sso login
+        // // temp change to test poc
+        // Commenting out to fix institutional login on prod
+        // case userType === 'institutional':
+        //   window.open(
+        //     `http://institutional-frontend.traefik/portfolio?jwt=${jwtToken}`,
+        //     '_self',
+        //     'noreferrer'
+        //   )
+        //   break
+        // exchange institutional login
         default:
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
@@ -453,8 +463,13 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
-    const { country, email, state } = action.payload
+    const { country, email, initCaptcha, state } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    // Want this behind a feature flag to monitor
+    // if this thing could be abused or not
+    const refreshToken = (yield select(
+      selectors.core.walletOptions.getRefreshCaptchaOnSignupError
+    )).getOrElse(false)
     try {
       yield put(actions.auth.registerLoading())
       yield put(actions.auth.setRegisterEmail(email))
@@ -477,6 +492,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.registerFailure(undefined))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
+      if (refreshToken) {
+        initCaptcha()
+      }
     }
   }
 
@@ -575,21 +593,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setCachedWalletData = function* () {
-    const storedGuid = yield select(selectors.cache.getStoredGuid)
-    const lastGuid = yield select(selectors.cache.getLastGuid)
-    const email = yield select(selectors.cache.getEmail)
-    yield put(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
-    yield put(actions.router.push('/login?product=wallet'))
-    if (storedGuid || lastGuid) {
-      yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
-      yield put(actions.form.change(LOGIN_FORM, 'email', email))
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-    } else {
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
-    }
-  }
-
   const initializeLogin = function* () {
     try {
       // set loading
@@ -605,13 +608,14 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
-      const userType = queryParams.get('userType')
+      const userType = queryParams.get('userType') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: redirect || undefined
+          redirect: redirect || undefined,
+          userType
         })
       )
 
@@ -621,6 +625,7 @@ export default ({ api, coreSagas, networks }) => {
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
+      const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
       // initialize login form and/or set initial auth step
@@ -640,7 +645,6 @@ export default ({ api, coreSagas, networks }) => {
           product === ProductAuthOptions.WALLET:
           // change product param in url to make it clear to user
           yield put(actions.router.push('/login?product=wallet'))
-
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
@@ -658,8 +662,16 @@ export default ({ api, coreSagas, networks }) => {
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
             yield put(actions.router.push('/login?product=wallet'))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
           }
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+          if (product === ProductAuthOptions.EXCHANGE) {
+            if (exchangeEmail) {
+              yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+              yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+            } else {
+              yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+            }
+          }
           break
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
@@ -669,11 +681,11 @@ export default ({ api, coreSagas, networks }) => {
           break
         // url has base64 encrypted magic link JSON
         default:
+          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
           const magicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as WalletDataFromMagicLink
           yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
           yield call(parseMagicLink)
       }
 
@@ -692,6 +704,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       code,
       email,
+      exchangeEmail,
       exchangePassword,
       exchangeTwoFA,
       guid,
@@ -715,8 +728,18 @@ export default ({ api, coreSagas, networks }) => {
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        } else if (product === ProductAuthOptions.EXCHANGE) {
+          // trigger email for exchange form
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+          yield put(
+            actions.auth.triggerWalletMagicLink({
+              captchaToken,
+              email: exchangeEmail
+            })
+          )
+          initCaptcha()
         } else {
-          // if it's an email, we triger the magic link email
+          // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
           yield put(
             actions.auth.triggerWalletMagicLink({
@@ -750,7 +773,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.auth.exchangeLogin({
             code: exchangeTwoFA,
             password: exchangePassword,
-            username: email
+            username: exchangeEmail
           })
         )
       }
@@ -764,39 +787,48 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
+    const { captchaToken, email } = action.payload
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
     )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
-      const sessionToken = yield call(api.obtainSessionToken)
-      const { captchaToken, email } = action.payload
-      yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      let sessionToken
+      if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
+        sessionToken = yield select(selectors.session.getSession, null, email)
+        if (!sessionToken) {
+          sessionToken = yield call(api.obtainSessionToken)
+          yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+        }
+      } else {
+        sessionToken = yield call(api.obtainSessionToken)
+        yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
+      }
       yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
+      yield put(actions.auth.triggerWalletMagicLinkSuccess())
+      yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload if feature flag enabled
       if (shouldPollForMagicLinkData) {
         yield call(pollForSessionFromAuthPayload, api, sessionToken)
       }
-      yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-    } finally {
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
@@ -879,7 +911,6 @@ export default ({ api, coreSagas, networks }) => {
     resetAccount,
     restore,
     restoreFromMetadata,
-    setCachedWalletData,
     triggerWalletMagicLink
   }
 }

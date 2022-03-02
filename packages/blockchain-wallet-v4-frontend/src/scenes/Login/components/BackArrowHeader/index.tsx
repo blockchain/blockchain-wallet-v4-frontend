@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { LoginFormType, LoginSteps } from 'data/auth/types'
+import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
 
 const BackArrowWrapper = styled.div<{ marginTop?: string }>`
@@ -30,7 +30,12 @@ const BackArrowHeader = (props: {
   hideBackArrow?: boolean
   hideGuid?: boolean
   marginTop?: string
+  product?: ProductAuthOptions
 }) => {
+  const email =
+    props.product === ProductAuthOptions.EXCHANGE
+      ? props.formValues.exchangeEmail
+      : props.formValues.email
   const guid = props.formValues?.guid
   const firstPartGuid = guid && guid.slice(0, 4)
   const lastPartGuid = guid && guid.slice(-4)
@@ -53,7 +58,7 @@ const BackArrowHeader = (props: {
           </Text>
         </BackArrow>
         <EmailAndGuid>
-          {props.hideGuid || props.formValues.email || (props.formValues.email && isMobile()) ? (
+          {props.hideGuid || email || (email && isMobile()) ? (
             <Text
               color='blue600'
               size='12px'
@@ -61,7 +66,7 @@ const BackArrowHeader = (props: {
               lineHeight='1.5'
               style={{ marginRight: '2px' }}
             >
-              {props.formValues?.email}
+              {email}
             </Text>
           ) : (
             <Text color='grey400' size='12px' weight={600} lineHeight='1.5'>

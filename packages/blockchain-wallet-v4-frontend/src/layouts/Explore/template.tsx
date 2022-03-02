@@ -9,7 +9,7 @@ import Modals from '../../modals'
 import Header, { FIXED_HEADER_HEIGHT } from './Header'
 
 const Wrapper = styled.div`
-  background-color: ${colors.white1};
+  background-color: ${colors.white100};
   height: 100%;
   min-height: 100%;
   width: 100%;

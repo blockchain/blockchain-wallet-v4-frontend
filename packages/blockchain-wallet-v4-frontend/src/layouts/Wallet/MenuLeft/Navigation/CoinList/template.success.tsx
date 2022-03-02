@@ -32,7 +32,7 @@ const Success: React.FC<Props> = ({ coinList }) => {
       {map(
         (coinfig) => (
           <LinkContainer
-            to={`/${coinfig.symbol}/transactions`}
+            to={`/transactions/${coinfig.symbol}`}
             activeClassName='active'
             key={coinfig.symbol}
           >

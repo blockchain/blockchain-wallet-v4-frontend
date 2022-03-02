@@ -5,7 +5,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
-import { coinToString, fiatToString, formatFiat } from '@core/exchange/utils'
+import { coinToString, fiatToString, formatCoin, formatFiat } from '@core/exchange/utils'
 import {
   BSOrderActionType,
   BSPaymentMethodType,
@@ -220,9 +220,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = props.isFlexiblePricingModel
-    ? getBuyQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
-    : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+  // TODO: Remove this ordertype check when flexible pricing is implemented for SELL
+  const quoteAmt =
+    props.isFlexiblePricingModel && props.orderType === OrderType.BUY
+      ? getBuyQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+      : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -384,7 +386,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
 
   const isFundsMethod = method && method.type === BSPaymentTypes.FUNDS
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -492,7 +493,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   name='up-down-chevron'
                   onClick={() =>
                     props.buySellActions.switchFix({
-                      amount: quoteAmt,
+                      amount: fix === 'FIAT' ? formatCoin(quoteAmt, 0, CRYPTO_DECIMALS) : quoteAmt, // format crypto amount to 8 digits
                       fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
                       orderType: props.orderType
                     })
@@ -531,15 +532,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     </Text>
                   </ActionsItem>
                 )}
+
                 <CartridgeWrapper onClick={handleMinMaxClick}>
                   <Cartridge error={amtError === 'ABOVE_MAX'}>
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.maxbuysell'
-                      defaultMessage='{orderType} Max'
-                      values={{
-                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
-                      }}
-                    />
+                    {/* If amount is 0 or below min show the min amount button before the max sell button */}
+                    {amtError === 'BELOW_MIN' ? (
+                      <FormattedMessage
+                        id='modals.simplebuy.checkout.belowmin'
+                        defaultMessage='{value} Minimum {orderType}'
+                        values={{
+                          orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
+                          value: getValue(min)
+                        }}
+                      />
+                    ) : (
+                      <FormattedMessage
+                        id='modals.simplebuy.checkout.maxbuysell'
+                        defaultMessage='{orderType} Max'
+                        values={{
+                          orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                        }}
+                      />
+                    )}
                   </Cartridge>
                 </CartridgeWrapper>
               </MaxAvailableWrapper>

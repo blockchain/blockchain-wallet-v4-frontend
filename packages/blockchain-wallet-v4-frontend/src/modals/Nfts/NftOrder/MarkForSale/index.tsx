@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import moment from 'moment'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -16,7 +17,7 @@ import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { required } from 'services/forms'
+import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
@@ -36,7 +37,7 @@ const DateSelectRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 84%;
 `
 const DateDivider = styled.div`
   min-width: 18px;
@@ -45,7 +46,7 @@ const DateLabel = styled(Text)`
   margin-bottom: 6px;
 `
 const EndDateLabel = styled(DateLabel)`
-  margin-right: 140px;
+  margin-right: 95px;
 `
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
@@ -55,10 +56,13 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues['sale-type'] === 'fixed-price'
       ? // Fixed Price
         !formValues.amount || props.orderFlow.isSubmitting
-      : // Dutch
-        ((!formValues.starting || !formValues.ending || props.orderFlow.isSubmitting) &&
+      : // Dutch (Declining)
+        ((!formValues.starting ||
+          !formValues.ending ||
+          props.orderFlow.isSubmitting ||
+          formValues.ending > formValues.starting) &&
           formValues.timedAuctionType === 'decliningPrice') ||
-        // English
+        // English (Ascending)
         (!formValues.starting && formValues.timedAuctionType === 'highestBidder')
 
   const resetForms = () => {
@@ -253,6 +257,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         <Field
                           name='ending'
                           component={NumberBox}
+                          validate={[required, validDecliningPrice]}
                           onChange={() => {
                             nftActions.fetchFees({
                               asset: val,
@@ -294,8 +299,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                     />
                   </EndDateLabel>
                 </DateSelectRow>
-              </Row>
-              <Row>
                 <DateSelectRow>
                   <Field
                     dateFormat='MM/DD/YYYY'
@@ -439,7 +442,11 @@ const connector = connect(mapStateToProps)
 const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
-    initialValues: { 'sale-type': 'fixed-price', timedAuctionType: 'decliningPrice' }
+    initialValues: {
+      listingTime: moment().format('MM/DD/YYYY'),
+      'sale-type': 'fixed-price',
+      timedAuctionType: 'decliningPrice'
+    }
   }),
   connector
 )

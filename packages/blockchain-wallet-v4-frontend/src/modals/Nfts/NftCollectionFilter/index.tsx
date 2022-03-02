@@ -95,7 +95,7 @@ class NftCollectionFilter extends PureComponent<Props, State> {
                     <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                   </Title>
                   <Value>
-                    <Switch
+                    {/* <Switch
                       firstItem=''
                       secondItem=''
                       selectedColor={colors.blue400}
@@ -108,7 +108,7 @@ class NftCollectionFilter extends PureComponent<Props, State> {
                       handleSecondItemClicked={() => {
                         nftActions.updateCollectionFilter({ isBuyNow: !collectionFilter.isBuyNow })
                       }}
-                    />
+                    /> */}
                   </Value>
                 </StickyBuyNowRow>
                 {Object.keys(val.traits).map((trait) => {

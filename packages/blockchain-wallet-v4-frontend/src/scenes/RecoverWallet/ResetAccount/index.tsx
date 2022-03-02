@@ -29,7 +29,11 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
   handleSubmit = (e) => {
     e.preventDefault()
     const { authActions, cachedEmail, formValues, language } = this.props
-    authActions.resetAccount({ email: cachedEmail, language, password: formValues.resetPassword })
+    authActions.resetAccount({
+      email: cachedEmail,
+      language,
+      password: formValues.resetAccountPassword
+    })
   }
 
   render() {

@@ -10,7 +10,7 @@ import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@
 import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { UserDataType } from 'data/types'
 
 import IneligibilityCard from './IneligibilityCard'
@@ -97,7 +97,7 @@ class Interest extends React.PureComponent<Props, StateType> {
               <ContainerStyled>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
-                  val.instruments.map((instrument) => {
+                  val.sortedInstruments.map((instrument) => {
                     return window.coins[instrument] ? (
                       <SummaryCard
                         {...val}
@@ -133,10 +133,10 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  instruments: Array<CoinType>
   interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
+  sortedInstruments: Array<CoinType>
   userData: UserDataType
 }
 type LinkStatePropsType = {

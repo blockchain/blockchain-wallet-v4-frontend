@@ -39,7 +39,7 @@ const TwoFAWallet = (props: Props) => {
     authType,
     busy,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickWallet,
     invalid,
     submitting,
     walletError
@@ -58,7 +58,11 @@ const TwoFAWallet = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} marginTop='28px' />
+        <BackArrowHeader
+          {...props}
+          handleBackArrowClick={handleBackArrowClickWallet}
+          marginTop='28px'
+        />
         {authType > 0 && (
           <FormGroup>
             <FormItem>

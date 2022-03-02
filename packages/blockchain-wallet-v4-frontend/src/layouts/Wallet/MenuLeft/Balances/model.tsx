@@ -62,7 +62,7 @@ export const CoinBalanceWrapper = (props: OwnProps) => {
       </FiatDisplay>
     </CoinBalanceMain>
   ) : (
-    <LinkContainer to={`/${props.coin}/transactions`}>
+    <LinkContainer to={`/transactions/${props.coin}`}>
       <CoinBalanceSwitchable>
         <CoinNameText>{props.coinTicker ? props.coinTicker : props.coin}</CoinNameText>
         <SwitchableDisplay size='12px' weight={500} coin={props.coin} hideCoinTicker>

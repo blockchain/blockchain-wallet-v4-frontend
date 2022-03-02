@@ -329,9 +329,17 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
         <RowText>
           <RowTextWrapper>
-            {getPaymentMethod(props.order, bankAccount)}
+            {getPaymentMethod({
+              bankAccount,
+              mobilePaymentMethod: props.mobilePaymentMethod,
+              order: props.order
+            })}
             <AdditionalText>
-              {getPaymentMethodDetails(props.order, bankAccount, cardDetails)}
+              {getPaymentMethodDetails({
+                bankAccount,
+                cardDetails,
+                order: props.order
+              })}
             </AdditionalText>
           </RowTextWrapper>
         </RowText>

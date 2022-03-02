@@ -22,15 +22,13 @@ import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../..
 const LoginWrapper = styled(Wrapper)`
   padding: 36px 0;
   ${media.mobile`
-    padding: 0 0 16px 0;
+    padding: 16px 0;
   `}
 `
-const BackArrowWrapper = styled.div<{ marginTop?: string }>`
+const BackArrowWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   margin-bottom: 24px;
   align-items: center;
-  margin-top: ${(props) => (props.marginTop ? props.marginTop : 'auto')};
 `
 const BackArrow = styled.div`
   display: flex;
@@ -40,7 +38,7 @@ const BackArrow = styled.div`
 
 const InstitutionalPortal = (props: Props) => {
   useEffect(() => {
-    props.formActions.clearFields(LOGIN_FORM, false, false, 'email')
+    props.formActions.clearFields(LOGIN_FORM, false, false, 'exchangeEmail')
   }, [])
 
   const {
@@ -48,18 +46,23 @@ const InstitutionalPortal = (props: Props) => {
     busy,
     exchangeError,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickExchange,
     invalid,
     isBrowserSupported,
+    routerActions,
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+  const backArrowClick = () => {
+    handleBackArrowClickExchange()
+    routerActions.push('/login?product=exchange')
+  }
   return (
     <LoginWrapper>
       <WrapperWithPadding>
         <FormGroup>
           <BackArrowWrapper>
-            <BackArrow onClick={handleBackArrowClick}>
+            <BackArrow onClick={backArrowClick}>
               <Icon
                 data-e2e='signupBack'
                 name='arrow-back'
@@ -73,22 +76,10 @@ const InstitutionalPortal = (props: Props) => {
                 <FormattedMessage id='copy.back' defaultMessage='Back' />
               </Text>
             </BackArrow>
-            <Text
-              color='blue600'
-              size='12px'
-              weight={600}
-              lineHeight='1.5'
-              style={{ marginRight: '2px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.exchange.institutional_portal'
-                defaultMessage='Institutional Portal'
-              />
-            </Text>
           </BackArrowWrapper>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ margin: '8px 0 16px' }}>
-            <LoginFormLabel htmlFor='email'>
+            <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='copy.email' defaultMessage='Email' />
             </LoginFormLabel>
 
@@ -97,7 +88,7 @@ const InstitutionalPortal = (props: Props) => {
               data-e2e='exchangeEmail'
               disabled={!isBrowserSupported}
               disableSpellcheck
-              name='email'
+              name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
               placeholder='Enter your email'
@@ -133,7 +124,7 @@ const InstitutionalPortal = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.email}
+            disabled={submitting || invalid || busy || !formValues?.exchangeEmail}
             data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >

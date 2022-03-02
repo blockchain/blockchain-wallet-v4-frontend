@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
+import { colors, Icon, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -23,7 +23,7 @@ export type PrimaryNavItem = {
 export const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white1};
+  background-color: ${colors.white100};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,7 +92,7 @@ const ListStyles = styled.ul`
 
     &:hover,
     &.active {
-      background-color: ${colors.blue0};
+      background-color: ${colors.blue000};
       color: ${colors.blue600};
     }
   }
@@ -110,8 +110,26 @@ const PrimaryNavItems = styled(ListStyles)`
   }
 `
 
+const StyledButton = styled(Button)`
+  padding: 0 12px;
+  min-width: 32px;
+  border-radius: 4px;
+`
+
 const SecondaryNavItems = styled(ListStyles)`
   cursor: pointer;
+
+  & > li:nth-child(-n + 2) {
+    padding: 0;
+  }
+
+  & > li:nth-child(2) {
+    padding-left: 8px;
+  }
+
+  & > li:nth-child(3) {
+    padding-left: 8px;
+  }
 `
 
 const NavButton = styled(Button)`
@@ -135,17 +153,36 @@ const Navbar = ({
   limitsClickHandler,
   logoutClickHandler,
   primaryNavItems,
-  refreshClickHandler
+  receiveClickHandler,
+  refreshClickHandler,
+  sendClickHandler,
+  taxCenterEnabled
 }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
   const [isMobileNavOpen, setMobileNav] = useState(false)
   const isMobile = useMedia('mobile')
+  const isTablet = useMedia('tablet')
 
   const handleMenuToggle = () => {
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
   }
+
+  const closeMobileNavOpenSendCallback = useCallback(() => {
+    setMobileNav(false)
+    sendClickHandler()
+  }, [])
+
+  const closeMobileNavOpenReceiveCallback = useCallback(() => {
+    setMobileNav(false)
+    receiveClickHandler()
+  }, [])
+
+  const closeMobileNavOpenTradeCallback = useCallback(() => {
+    setMobileNav(false)
+    fabClickHandler()
+  }, [])
 
   const closeMobileNavCallback = useCallback(() => {
     setMobileNav(false)
@@ -199,10 +236,44 @@ const Navbar = ({
     }
   ]
 
+  if (taxCenterEnabled) {
+    tertiaryNavItems.splice(0, 0, {
+      copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
+      'data-e2e': 'tax_CenterLink',
+      to: '/tax-center'
+    })
+  }
+
   const secondaryNavItems = [
     {
-      clickHandler: fabClickHandler,
-      component: () => <FabButton onClick={fabClickHandler} />,
+      component: () => (
+        <StyledButton
+          data-e2e='sendButton'
+          nature='empty-blue'
+          onClick={closeMobileNavOpenSendCallback}
+          small
+        >
+          <FormattedMessage id='buttons.send' defaultMessage='Send' />
+        </StyledButton>
+      ),
+      name: 'Send'
+    },
+    {
+      component: () => (
+        <StyledButton
+          data-e2e='receiveButton'
+          nature='empty-blue'
+          onClick={closeMobileNavOpenReceiveCallback}
+          small
+        >
+          <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+        </StyledButton>
+      ),
+      name: 'Receive'
+    },
+    {
+      clickHandler: closeMobileNavOpenTradeCallback,
+      component: () => <FabButton onClick={closeMobileNavOpenTradeCallback} />,
       name: 'Trade'
     },
     {
@@ -212,7 +283,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color={colors.grey400} name={IconName.REFRESH} size='sm' />
+          <Icon color='grey400' name='refresh' size='sm' />
         </NavButton>
       ),
       name: 'Refresh'
@@ -220,7 +291,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color={colors.grey400} name={IconName.USER} size='sm' />
+          <Icon color='grey400' name='user' size='sm' />
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
@@ -262,17 +333,19 @@ const Navbar = ({
         />
       )}
       <NavLeft>
-        <Logo>
+        <Logo onClick={closeMobileNavCallback}>
           <NavLink to='/home' data-e2e='homeLink'>
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
-        {!isMobile && (
+        {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <li key={item.e2e}>
                 <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
+                  <div style={{ fontFamily: 'Inter' }}>
+                    <Text variant='paragraph-1'>{item.text}</Text>
+                  </div>
                 </NavLink>
               </li>
             ))}
@@ -281,15 +354,46 @@ const Navbar = ({
       </NavLeft>
       <NavRight>
         <SecondaryNavItems>
-          {isMobile ? (
+          {isMobile || isTablet ? (
             <>
               <li>
-                <FabButton onClick={fabClickHandler} />
+                <StyledButton
+                  data-e2e='sendButton'
+                  nature='empty-blue'
+                  onClick={closeMobileNavOpenSendCallback}
+                  small
+                >
+                  <FormattedMessage id='buttons.send' defaultMessage='Send' />
+                </StyledButton>
               </li>
               <li>
-                <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                  <Icon name={IconName.MENU} color={colors.blue500} size='md' />
-                </NavButton>
+                <StyledButton
+                  data-e2e='receiveButton'
+                  nature='empty-blue'
+                  onClick={closeMobileNavOpenReceiveCallback}
+                  small
+                >
+                  <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+                </StyledButton>
+              </li>
+              <li>
+                <FabButton onClick={closeMobileNavOpenTradeCallback} />
+              </li>
+              <li>
+                {isMobileNavOpen ? (
+                  <Icon
+                    color='grey600'
+                    data-e2e='closeMobileNav'
+                    name='close'
+                    role='button'
+                    size='md'
+                    onClick={closeMobileNavCallback}
+                  />
+                ) : (
+                  <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
+                    <Icon name='menu' color='blue500' size='md' />
+                  </NavButton>
+                )}
               </li>
             </>
           ) : (
@@ -312,7 +416,10 @@ type Props = {
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   primaryNavItems: Array<PrimaryNavItem>
+  receiveClickHandler: () => void
   refreshClickHandler: () => void
+  sendClickHandler: () => void
+  taxCenterEnabled: boolean
 }
 
 export default Navbar
