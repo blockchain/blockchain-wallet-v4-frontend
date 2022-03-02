@@ -128,7 +128,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           ) : (
             <FormattedMessage
               id='modals.simplebuy.withdrawal.withdrawal_button'
-              defaultMessage='Withdrawal Now'
+              defaultMessage='Withdraw Now'
             />
           )}
         </Button>
