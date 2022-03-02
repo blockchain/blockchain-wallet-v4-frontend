@@ -5,8 +5,6 @@ import { errorHandler } from '@core/utils'
 
 import { actions as A } from './slice'
 
-// const logLocation = 'components/termsAndConditions/sagas'
-
 export default ({ api }: { api: APIType }) => {
   const fetchTermsAndConditions = function* () {
     try {
