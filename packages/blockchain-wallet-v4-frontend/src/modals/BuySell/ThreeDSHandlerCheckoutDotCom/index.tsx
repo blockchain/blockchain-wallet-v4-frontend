@@ -38,8 +38,14 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
-  const handleIconClick = () => {
-    const { order, type } = props.data.getOrFail('NO ORDER/CARD TO GET')
+  const handleBack = () => {
+    const { order, type } = props.data.getOrElse({})
+
+    if (!order || !type) {
+      props.buySellActions.setStep({
+        step: 'DETERMINE_CARD_PROVIDER'
+      })
+    }
 
     if (type === 'ORDER') {
       props.buySellActions.setStep({
@@ -53,11 +59,15 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
+  const handleReset = () => {
+    props.buySellActions.destroyCheckout()
+  }
+
   return props.data.cata({
-    Failure: (code) => <Failure code={code} />,
+    Failure: (code) => <Failure code={code} handleBack={handleBack} handleReset={handleReset} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
-    Success: (val) => <Success {...val} handleIconClick={handleIconClick} isPolling={isPolling} />
+    Success: (val) => <Success {...val} handleBack={handleBack} isPolling={isPolling} />
   })
 }
 
