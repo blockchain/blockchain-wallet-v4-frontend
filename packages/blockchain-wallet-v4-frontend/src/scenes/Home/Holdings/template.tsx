@@ -59,7 +59,7 @@ const Success = (props: OwnProps & Props) => {
             key={val.symbol + val.name}
             data-e2e={`${toLower(val.symbol)}BalanceTable`}
           >
-            <TxLink to={`/${val.symbol}/transactions`}>
+            <TxLink to={`transactions/${val.symbol}/`}>
               <div>
                 <Wrapper>
                   <Coin>

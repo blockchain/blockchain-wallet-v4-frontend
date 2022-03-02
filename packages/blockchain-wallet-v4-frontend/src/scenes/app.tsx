@@ -90,8 +90,6 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  console.log(isAuthenticated)
-
   return (
     <UrqlProvider value={client}>
       <Provider store={store}>
@@ -145,20 +143,7 @@ const App = ({
                       {taxCenterEnabled && (
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                       )}
-                      {values(
-                        map((coinModel) => {
-                          const { coinfig } = coinModel
-                          return (
-                            <WalletLayout
-                              path={`/${coinfig.symbol}/transactions`}
-                              component={Transactions}
-                              coinfig={coinfig}
-                              coin={coinfig.symbol}
-                              key={coinfig.symbol}
-                            />
-                          )
-                        }, coinsWithBalance)
-                      )}
+                      <WalletLayout path='/transactions/:coin' component={Transactions} />
                       {isAuthenticated ? (
                         coinsWithBalance.length ? (
                           <Redirect to='/home' />

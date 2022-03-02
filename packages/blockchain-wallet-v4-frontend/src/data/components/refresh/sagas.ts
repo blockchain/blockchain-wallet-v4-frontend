@@ -54,20 +54,20 @@ export default () => {
       // Custodial Swaps
       yield put(actions.custodial.fetchRecentSwapTxs())
 
-      const pathname = yield select(selectors.router.getPathname)
+      const pathname = (yield select(selectors.router.getPathname))?.toLowerCase()
       const maybeCoin = toUpper(pathname.split('/')[1])
 
       switch (true) {
-        case contains('/bch/transactions', pathname):
+        case contains('/transactions/bch', pathname):
           yield call(refreshBchTransactions)
           break
-        case contains('/btc/transactions', pathname):
+        case contains('/transactions/btc', pathname):
           yield call(refreshBtcTransactions)
           break
-        case contains('/eth/transactions', pathname):
+        case contains('/transactions/eth', pathname):
           yield call(refreshEthTransactions)
           break
-        case contains('/xlm/transactions', pathname):
+        case contains('/transactions/xlm', pathname):
           yield call(refreshXlmTransactions)
           break
         case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
@@ -76,13 +76,13 @@ export default () => {
         case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break
-        case contains('/eur/transactions', pathname):
+        case contains('/transactions/eur', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
           break
-        case contains('/gbp/transactions', pathname):
+        case contains('/transactions/gbp', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
           break
-        case contains('/usd/transactions', pathname):
+        case contains('/transactions/usd', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
           break
         case contains('/lockbox/', pathname):

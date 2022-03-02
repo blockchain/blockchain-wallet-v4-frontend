@@ -100,7 +100,7 @@ const Status: React.FC<Props> = (props) => {
             data-e2e='viewDetails'
             fullwidth
             jumbo
-            onClick={() => props.routerActions.push(`/${val.amount.symbol}/transactions`)}
+            onClick={() => props.routerActions.push(`/transactions/${val.amount.symbol}`)}
           >
             <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
           </Button>
