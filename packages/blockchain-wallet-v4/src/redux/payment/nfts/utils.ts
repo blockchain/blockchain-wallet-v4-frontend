@@ -44,11 +44,12 @@ export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045c
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
 const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
 const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
-const WYVERN_CONTRACT_ADDR_MAINNET = '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'
+const WYVERN_CONTRACT_ADDR_MAINNET = '0x7f268357a8c2552623316e2562d90e642bb538e5'
 const OPENSEA_FEE_RECIPIENT_RINKEBY = NULL_ADDRESS
 const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
-const WYVERN_PROXY_REGISTRY_ADDRESS = '0xa5409ec958C83C3f309868babACA7c86DCB077c1'
+const WYVERN_PROXY_REGISTRY_ADDRESS = '0xa5409ec958c83c3f309868babaca7c86dcb077c1'
 const WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY = '0xF57B2c51dED3A29e6891aba85459d600256Cf317'
+const WYVERN_MERKLE_VALIDATOR_MAINNET = '0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -325,7 +326,7 @@ export const encodeSell = (schema, asset: WyvernAsset, address) => {
 }
 
 export const encodeBuy = (schema, asset: WyvernAsset, address) => {
-  const transfer = schema.functions.transfer(asset)
+  const transfer = schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
   const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
   const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
 
@@ -345,6 +346,9 @@ export const encodeBuy = (schema, asset: WyvernAsset, address) => {
         return generateDefaultValue(input.type)
       default:
         try {
+          if (input.type === 'bytes32[]') {
+            return input.value
+          }
           return input.value.toString()
         } catch (e) {
           console.error(schema)
@@ -353,6 +357,7 @@ export const encodeBuy = (schema, asset: WyvernAsset, address) => {
         }
     }
   })
+
   const calldata = encodeCall(transfer, parameters)
 
   // Compute replacement pattern
@@ -1700,6 +1705,7 @@ export async function _validateOrderWyvern({
     order.r || NULL_BLOCK_HASH,
     order.s || NULL_BLOCK_HASH
   )
+
   return isValid
 }
 

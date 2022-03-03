@@ -22,8 +22,6 @@ const CTA: React.FC<Props> = (props) => {
 
   const disabled = props.orderFlow.isSubmitting
 
-  console.log(lz.compressToEncodedURIComponent(JSON.stringify(orderToMatch)))
-
   if (!isAuthenticated) {
     return (
       <>

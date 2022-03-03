@@ -34,6 +34,45 @@ export const ERC721Schema = {
 
   functions: {
     assetsOfOwnerByIndex: [],
+    checkAndTransfer: (asset, validatorAddress, merkle) => ({
+      constant: false,
+      inputs: [
+        { kind: FunctionInputKind.Owner, name: 'from', type: 'address' },
+        { kind: FunctionInputKind.Replaceable, name: 'to', type: 'address' },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'token',
+          type: 'address',
+          value: asset.address
+        },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'tokenId',
+          type: 'uint256',
+          value: asset.id
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'root',
+          type: 'bytes32',
+          value: merkle
+            ? merkle.root
+            : '0x0000000000000000000000000000000000000000000000000000000000000000'
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'proof',
+          type: 'bytes32[]',
+          value: merkle ? merkle.proof : []
+        }
+      ],
+      name: 'matchERC721UsingCriteria',
+      outputs: [],
+      payable: false,
+      stateMutability: StateMutability.Nonpayable,
+      target: validatorAddress,
+      type: 'function'
+    }),
     ownerOf: (asset) => ({
       constant: true,
       inputs: [
