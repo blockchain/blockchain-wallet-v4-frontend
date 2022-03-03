@@ -306,11 +306,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
-  getData(state, ownProps.coin, ownProps.coinfig)
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => {
+  return getData(state, ownProps)
+}
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  const { coin, coinfig } = ownProps
+  const { coin } = ownProps
+  const { coinfig } = window.coins[coin]
+
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
@@ -357,8 +360,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  coin: WalletCurrencyType
-  coinfig: CoinfigType
+  coin: string
 }
 
 export type SuccessStateType = {

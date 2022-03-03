@@ -49,6 +49,22 @@ export default ({ api }: { api: APIType }) => {
   //
   // ETH
   //
+  const checkForLowEthBalance = function* () {
+    // TODO: ERC20 check for any erc20 balance in future
+    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
+    const weiBalance = (yield select(S.getBalance)).getOrFail()
+    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
+    const ethBalance = Exchange.convertCoinToFiat({
+      coin: 'ETH',
+      currency: 'USD',
+      rates: ethRates,
+      value: weiBalance
+    })
+    // less than $1 eth and has PAX, set warning flag to true
+    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
+    yield put(A.checkLowEthBalanceSuccess(showWarning))
+  }
+
   const fetchData = function* () {
     try {
       const context = kvStoreSelectors.getDefaultAddress(yield select()).getOrFail('No ETH address')
@@ -254,22 +270,6 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       yield put(A.fetchLegacyBalanceFailure(e))
     }
-  }
-
-  const checkForLowEthBalance = function* () {
-    // TODO: ERC20 check for any erc20 balance in future
-    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
-    const weiBalance = (yield select(S.getBalance)).getOrFail()
-    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
-    const ethBalance = Exchange.convertCoinToFiat({
-      coin: 'ETH',
-      currency: 'USD',
-      rates: ethRates,
-      value: weiBalance
-    })
-    // less than $1 eth and has PAX, set warning flag to true
-    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
-    yield put(A.checkLowEthBalanceSuccess(showWarning))
   }
 
   //
@@ -510,7 +510,7 @@ export default ({ api }: { api: APIType }) => {
   const __processTxs = function* (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const tokens = selectors.data.eth.getErc20Coins()
+    const tokens = selectors.data.coins.getErc20Coins()
     const erc20Contracts = tokens.map((coin) => window.coins[coin].coinfig.type.erc20Address)
     const lockboxContextR = yield select(getLockboxEthContext)
     const lockboxContext = lockboxContextR.getOrElse([])

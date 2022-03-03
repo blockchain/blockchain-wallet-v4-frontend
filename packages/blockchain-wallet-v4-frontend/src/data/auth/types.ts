@@ -60,7 +60,7 @@ export type RecoverFormType = {
   mnemonic?: string
   password: string
   recoverPassword?: string
-  resetPassword?: string
+  resetAccountPassword?: string
   step: RecoverSteps
 }
 
@@ -82,6 +82,7 @@ export type LoginFormType = {
   code?: string
   email?: string
   emailToken?: string
+  exchangeEmail?: string
   exchangePassword?: string
   exchangeTwoFA?: string
   guid?: string
@@ -100,7 +101,14 @@ export enum UserType {
   WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
 }
 
-export type WalletDataFromMagicLink = {
+export enum WalletPollingResponseType {
+  CONTINUE_POLLING = 'CONTINUE_POLLING',
+  EXCHANGE_ONLY_LOGIN = 'EXCHANGE_ONLY_LOGIN',
+  REQUEST_DENIED = 'REQUEST_DENIED',
+  WALLET_INFO_POLLED = 'WALLET_INFO_POLLED'
+}
+
+export type AuthMagicLink = {
   exchange?: {
     email?: string
     twoFaMode?: boolean
@@ -108,7 +116,9 @@ export type WalletDataFromMagicLink = {
   }
   exchange_auth_url?: string
   mergeable?: boolean | null
+  platform_type: PlatformTypes
   product?: ProductAuthOptions
+  response_type?: WalletPollingResponseType
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
@@ -170,6 +180,7 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
+  userType?: string
 }
 
 export type AuthStateType = {
@@ -187,7 +198,7 @@ export type AuthStateType = {
   isLoggingIn: boolean
   kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
-  magicLinkData?: WalletDataFromMagicLink
+  magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string
   manifestFile: null
   metadataRestore: RemoteDataType<string, MetadataRestoreType>

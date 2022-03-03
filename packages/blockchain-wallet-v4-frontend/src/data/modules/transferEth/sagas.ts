@@ -41,7 +41,7 @@ export default ({ coreSagas, networks }) => {
       payment = yield payment.signLegacy(password)
       yield payment.publish()
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/eth/transactions'))
+      yield put(actions.router.push('/transactions/ETH'))
       yield put(
         actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
           coinName: 'Ethereum'

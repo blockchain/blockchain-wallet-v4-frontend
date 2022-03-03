@@ -10,7 +10,10 @@ import Large from './template.large'
 import Medium from './template.medium'
 import Small from './template.small'
 
-type OwnProps = Props & { handleToggle: () => void }
+type OwnProps = Props & {
+  handleToggle: () => void
+  taxCenterEnabled: boolean
+}
 
 const Header = (props: OwnProps) => {
   const isLaptop = useMedia('laptop')
@@ -22,6 +25,14 @@ const Header = (props: OwnProps) => {
 
   const logoutCallback = useCallback(() => {
     props.sessionActions.logout()
+  }, [])
+
+  const sendCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
+  }, [])
+
+  const receiveCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' })
   }, [])
 
   const fabCallback = useCallback(() => {
@@ -78,9 +89,12 @@ const Header = (props: OwnProps) => {
       <Navbar
         primaryNavItems={PrimaryNavItems}
         fabClickHandler={fabCallback}
-        refreshClickHandler={refreshCallback}
+        taxCenterEnabled={props.taxCenterEnabled}
         limitsClickHandler={limitsCallback}
         logoutClickHandler={logoutCallback}
+        receiveClickHandler={receiveCallback}
+        refreshClickHandler={refreshCallback}
+        sendClickHandler={sendCallback}
       />
     )
   }

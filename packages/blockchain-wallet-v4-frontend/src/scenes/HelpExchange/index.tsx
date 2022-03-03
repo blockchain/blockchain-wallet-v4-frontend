@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
+import CircleBackground from 'components/CircleBackground'
 import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 
@@ -76,15 +77,7 @@ const IconTextRow = styled.div`
   cursor: pointer;
 `
 
-const CircleBackground = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  background-color: ${(props) => props.theme.blue000};
-  border-radius: 48px;
+const StyledCircle = styled(CircleBackground)`
   margin: 8px 16px 8px 0;
 `
 
@@ -133,9 +126,9 @@ class Help extends React.PureComponent<Props, State> {
             </Text>
           </Header>
           <IconTextRow onClick={this.showPasswordResetForm} style={{ marginBottom: '12px' }}>
-            <CircleBackground color='blue000'>
+            <StyledCircle size='48px'>
               <Icon name='keyboard' color='blue600' size='16px' />
-            </CircleBackground>
+            </StyledCircle>
             <TextStack>
               <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
                 <FormattedMessage
@@ -159,9 +152,9 @@ class Help extends React.PureComponent<Props, State> {
             target='_blank'
           >
             <IconTextRow>
-              <CircleBackground color='blue000'>
+              <StyledCircle size='48px' color='blue000'>
                 <Icon name='lock' color='blue600' size='24px' />
-              </CircleBackground>
+              </StyledCircle>
               <TextStack>
                 <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
                   <FormattedMessage

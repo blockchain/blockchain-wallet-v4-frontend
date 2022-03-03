@@ -86,8 +86,7 @@ const filterTransactions = curry(
 
 const coinSelectorMap = (
   state,
-  coin,
-  coinfig: CoinfigType
+  coin
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
@@ -103,12 +102,14 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, coinfig: CoinfigType) =>
-  createSelector(
+export const getData = (state, ownProps) => {
+  const { coin } = ownProps
+
+  return createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap(state, coin, coinfig),
+      coinSelectorMap(state, coin),
       selectors.core.settings.getCurrency,
       selectors.components.recurringBuy.getRegisteredListByCoin(coin),
       selectors.core.walletOptions.getFeatureFlagRecurringBuys
@@ -126,6 +127,7 @@ export const getData = (state, coin, coinfig: CoinfigType) =>
           : []
 
       return {
+        coin,
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         isInvited: invitationsR
@@ -140,5 +142,6 @@ export const getData = (state, coin, coinfig: CoinfigType) =>
       }
     }
   )(state)
+}
 
 export default getData

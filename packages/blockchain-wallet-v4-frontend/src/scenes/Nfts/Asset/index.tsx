@@ -389,7 +389,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     cursor='pointer'
                     to={`/nfts/${assetFromDirectCall.collection.slug}`}
                   >
-                    <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
+                    <Icon name={IconName.ARROW_LEFT} color='grey400' />
                   </LinkContainer>
                   <LeftColWrapper>
                     <img
@@ -438,7 +438,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       <SocialLinksWrap>
                         {asset?.data?.asset?.collection?.telegram_url && (
                           <SocialLinks href={asset?.data?.asset?.collection?.telegram_url}>
-                            <Icon name={IconName.PHONE} color={colors.grey400} />
+                            <Icon name={IconName.PHONE} color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.twitter_username && (
@@ -447,7 +447,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.twitter_username
                             }`}
                           >
-                            <Icon name={IconName.CLIPBOARD} color={colors.grey400} />
+                            <Icon name={IconName.CLIPBOARD} color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.instagram_username && (
@@ -456,7 +456,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.instagram_username
                             }`}
                           >
-                            <Icon name={IconName.CHECK_CIRCLE} color={colors.grey400} />
+                            <Icon name={IconName.CHECK_CIRCLE} color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.wiki_url && (
@@ -465,12 +465,12 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               asset?.data?.asset?.collection?.wiki_url
                             }`}
                           >
-                            <Icon name={IconName.CHEVRON_LEFT} color={colors.grey400} />
+                            <Icon name={IconName.CHEVRON_LEFT} color='grey400' />
                           </SocialLinks>
                         )}
                         {asset?.data?.asset?.collection?.external_url && (
                           <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
-                            <Icon name={IconName.GLOBE} color={colors.grey400} />
+                            <Icon name={IconName.GLOBE} color='grey400' />
                           </SocialLinks>
                         )}
                       </SocialLinksWrap>

@@ -27,6 +27,9 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 // BCH
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
+// Debit Card
+const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -108,6 +111,7 @@ const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
+const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -116,6 +120,9 @@ const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily')
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
+
+// TAXCENTER
+const GenerateReport = React.lazy(() => import('./GenerateReport'))
 
 const Modals = (props: Props) => {
   return (
@@ -169,6 +176,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ENTITIES_MIGRATION_MODAL) ? (
+          <EntitiesMigration />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
         ) : null}
@@ -207,6 +217,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD) ? (
+          <OrderMyCard />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
@@ -322,6 +335,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
           <KycTierUpgrade />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
+          <GenerateReport />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

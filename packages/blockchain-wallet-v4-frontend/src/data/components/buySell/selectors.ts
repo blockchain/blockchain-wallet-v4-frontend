@@ -27,6 +27,10 @@ const hasEligibleFiatCurrency = (currency) =>
 
 export const getAddBank = (state: RootState) => state.components.buySell.addBank
 
+export const getAddCardError = (state: RootState) => state.components.buySell.addCardError
+
+export const getApplePayInfo = (state: RootState) => state.components.buySell.applePayInfo
+
 export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
 export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS
@@ -177,6 +181,9 @@ export const getBSPairs = (state: RootState) => state.components.buySell.pairs
 export const getBSPair = (state: RootState) => state.components.buySell.pair
 
 export const getBSPaymentMethod = (state: RootState) => state.components.buySell.method
+
+export const getBSMobilePaymentMethod = (state: RootState) =>
+  state.components.buySell.mobilePaymentMethod
 
 export const getBSProviderDetails = (state: RootState) => state.components.buySell.providerDetails
 

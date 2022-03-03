@@ -158,13 +158,13 @@ const NftsCollection: React.FC<Props> = ({
         <CollectionHeaderFixed>
           <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
             <LinkContainer role='button' cursor='pointer' to='/nfts'>
-              <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
+              <Icon name={IconName.ARROW_LEFT} color='grey400' />
             </LinkContainer>
             <Icon
-              cursor='pointer'
+              style={{ cursor: 'pointer' }}
               onClick={scrollUp}
               name={IconName.ARROW_UP}
-              color={colors.grey400}
+              color='grey400'
               role='button'
             />
             <CollectionImageSmall src={results.data?.collection?.image_url || ''} />{' '}
@@ -175,10 +175,10 @@ const NftsCollection: React.FC<Props> = ({
               onClick={() =>
                 modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
               }
-              cursor='pointer'
+              style={{ cursor: 'pointer' }}
               role='button'
               name={IconName.FILTER}
-              color={colors.grey400}
+              color='grey400'
               height={16}
               width={16}
             />
@@ -188,7 +188,7 @@ const NftsCollection: React.FC<Props> = ({
       <CollectionHeader ref={headerRef}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
           <LinkContainer role='button' cursor='pointer' to='/nfts'>
-            <Icon name={IconName.ARROW_LEFT} color={colors.grey400} />
+            <Icon name={IconName.ARROW_LEFT} color='grey400' />
           </LinkContainer>
           <CollectionBanner
             large
@@ -213,7 +213,7 @@ const NftsCollection: React.FC<Props> = ({
           <LinksContainer>
             {results.data?.collection?.external_url ? (
               <Link target='_blank' href={results.data?.collection?.external_url}>
-                <Icon name={IconName.GLOBE} color={colors.grey400} />
+                <Icon name={IconName.GLOBE} color='grey400' />
               </Link>
             ) : null}
             {results.data?.collection?.instagram_username ? (
@@ -221,12 +221,12 @@ const NftsCollection: React.FC<Props> = ({
                 target='_blank'
                 href={`https://instagram.com/${results.data?.collection?.instagram_username}`}
               >
-                <Icon name={IconName.CAMERA} color={colors.grey400} />
+                <Icon name={IconName.CAMERA} color='grey400' />
               </Link>
             ) : null}
             {results.data?.collection?.discord_url ? (
               <Link target='_blank' href={`${results.data?.collection?.discord_url}`}>
-                <Icon name={IconName.COMPUTER} color={colors.grey400} />
+                <Icon name={IconName.COMPUTER} color='grey400' />
               </Link>
             ) : null}
           </LinksContainer>
@@ -246,10 +246,10 @@ const NftsCollection: React.FC<Props> = ({
           onClick={() =>
             modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
           }
-          cursor='pointer'
+          style={{ cursor: 'pointer' }}
           role='button'
           name={IconName.FILTER}
-          color={colors.grey400}
+          color='grey400'
         />
       </div>
       <Grid>

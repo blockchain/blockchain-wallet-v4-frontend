@@ -11,12 +11,14 @@ import { ModalName, WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE } from '../../../components'
+import Rejected from '../../../components/Rejected'
 import { ModalPropsType } from '../../../types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import Loading from './ConfirmWithdraw/template.loading'
 import EnterAmount from './EnterAmount'
 import OnHold from './OnHold'
+import getData from './selectors'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
@@ -40,61 +42,84 @@ class Withdraw extends PureComponent<Props, State> {
   }
 
   render() {
-    return (
-      <Flyout
-        {...this.props}
-        onClose={this.handleClose}
-        isOpen={this.state.show}
-        data-e2e='custodyWithdrawModal'
-      >
-        {this.props.step === WithdrawStepEnum.LOADING && (
-          <FlyoutChild>
-            <Loading {...this.props} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.ENTER_AMOUNT && (
-          <FlyoutChild>
-            <EnterAmount {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
-          <FlyoutChild>
-            <WithdrawalMethods {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.BANK_PICKER && (
-          <FlyoutChild>
-            <BankPicker {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
-          <FlyoutChild>
-            <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
-          <FlyoutChild>
-            <WithdrawalDetails {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.INELIGIBLE && (
-          <FlyoutChild>
-            <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
-          </FlyoutChild>
-        )}
-        {this.props.step === WithdrawStepEnum.ON_HOLD && (
-          <FlyoutChild>
-            <OnHold handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-      </Flyout>
-    )
+    return this.props.data.cata({
+      Failure: () => null,
+      Loading: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='custodyWithdrawModal'
+        >
+          <Loading {...this.props} />
+        </Flyout>
+      ),
+      NotAsked: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='custodyWithdrawModal'
+        >
+          <Loading {...this.props} />
+        </Flyout>
+      ),
+      Success: (val) => {
+        const { userData } = val
+        const { kycState } = userData
+        const isUserRejectedOrExpired = kycState === 'REJECTED' || kycState === 'EXPIRED'
+
+        return isUserRejectedOrExpired ? (
+          <Flyout
+            {...this.props}
+            onClose={this.handleClose}
+            isOpen={this.state.show}
+            data-e2e='custodyWithdrawModal'
+          >
+            <Rejected handleClose={this.handleClose} />
+          </Flyout>
+        ) : (
+          <Flyout
+            {...this.props}
+            onClose={this.handleClose}
+            isOpen={this.state.show}
+            data-e2e='custodyWithdrawModal'
+          >
+            <FlyoutChild>
+              {this.props.step === WithdrawStepEnum.LOADING && <Loading {...this.props} />}
+              {this.props.step === WithdrawStepEnum.ENTER_AMOUNT && (
+                <EnterAmount {...this.props} handleClose={this.handleClose} />
+              )}
+              {this.props.step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
+                <WithdrawalMethods {...this.props} handleClose={this.handleClose} />
+              )}
+              {this.props.step === WithdrawStepEnum.BANK_PICKER && (
+                <BankPicker {...this.props} handleClose={this.handleClose} />
+              )}
+              {this.props.step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
+                <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
+              )}
+              {this.props.step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
+                <WithdrawalDetails {...this.props} handleClose={this.handleClose} />
+              )}
+              {this.props.step === WithdrawStepEnum.INELIGIBLE && (
+                <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
+              )}
+              {this.props.step === WithdrawStepEnum.ON_HOLD && (
+                <OnHold handleClose={this.handleClose} />
+              )}
+            </FlyoutChild>
+          </Flyout>
+        )
+      }
+    })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
   amount: selectors.components.withdraw.getAmount(state),
   beneficiary: selectors.components.withdraw.getBeneficiary(state),
+  data: getData(state),
   fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   step: selectors.components.withdraw.getStep(state),
   withdrawal: selectors.components.withdraw.getWithdrawal(state)

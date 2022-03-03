@@ -302,8 +302,8 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
                     <Label htmlFor='line2'>
                       <Text weight={500} size='14px' color='grey900'>
                         <FormattedMessage
-                          id='identityverification.personal.address_line2'
-                          defaultMessage='Address Line 2'
+                          id='identityverification.personal.address_line2_optional'
+                          defaultMessage='Address Line 2 (optional)'
                         />
                       </Text>
                     </Label>

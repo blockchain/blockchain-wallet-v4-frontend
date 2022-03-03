@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Row } from 'components/Flyout'
 
 export const StickyBuyNowRow = styled(Row)`
-  background: ${colors.white1};
+  background: ${colors.white100};
   position: sticky;
   top: 120px;
   z-index: 2;
@@ -15,7 +15,7 @@ export const StickyTraitHeader = styled.div`
   top: 194px;
   z-index: 1;
   padding: 16px 40px;
-  background: ${colors.white1};
+  background: ${colors.white100};
   border-bottom: 1px solid ${colors.grey100};
 `
 

@@ -109,7 +109,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     const { currentStep } = this.props.data
     this.props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
-      properties: { current_step_completed: currentStep }
+      properties: { current_step_completed: String(currentStep) }
     })
   }
 
@@ -118,7 +118,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     const { currentStep } = this.props.data
     this.props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
-      properties: { current_step_completed: currentStep }
+      properties: { current_step_completed: String(currentStep) }
     })
     setTimeout(() => {
       this.props.close()
@@ -189,7 +189,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
       properties: {
         button_clicked: isButtonClick,
-        current_step_completed: currentStep,
+        current_step_completed: String(currentStep),
         item: eventType
       }
     })

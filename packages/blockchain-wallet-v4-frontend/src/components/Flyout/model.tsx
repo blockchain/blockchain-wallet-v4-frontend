@@ -85,10 +85,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
   let text: React.ReactNode
   switch (bankStatus) {
     case BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED:
-      image = 'bank-expired'
-      break
     case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED:
-    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
       image = 'bank-rejected'
       break
     case BankStatusType.ACTIVE:
@@ -103,15 +100,26 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       title = (
         <FormattedMessage
           id='copy.bank_linked_error_title_already_linked'
-          defaultMessage='Account Already Linked'
+          defaultMessage='This account is already linked.'
         />
       )
       break
     case BankStatusType.ACTIVE:
       title = <FormattedMessage id='copy.bank_linked.title' defaultMessage='Bank Linked!' />
       break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
+      title = (
+        <FormattedMessage
+          id='copy.bank_link_current_account'
+          defaultMessage='Please link a Current Account.'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND:
     case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD:
     case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
       title = (
         <FormattedMessage
           id='copy.bank_linked_error_title_rejected_fraud'
@@ -131,7 +139,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       title = (
         <FormattedMessage
           id='copy.bank_linked_error_title_expiredaccount'
-          defaultMessage='Access Request Expired'
+          defaultMessage='We were unable to link your account.'
         />
       )
       break
@@ -140,22 +148,6 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
         <FormattedMessage
           id='copy.bank_linked_error_title_connectionrejected'
           defaultMessage='Connection Rejected'
-        />
-      )
-      break
-    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
-      title = (
-        <FormattedMessage
-          id='copy.bank_linked_error_title_failedconnection'
-          defaultMessage='Failed Connection Request'
-        />
-      )
-      break
-    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
-      title = (
-        <FormattedMessage
-          id='copy.bank_linked_error_title_account_invalid'
-          defaultMessage='Invalid Account'
         />
       )
       break
@@ -171,21 +163,10 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
   switch (bankStatus) {
     case BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED:
       text = (
-        <>
-          <FormattedMessage
-            id='copy.bank_linked_error_alreadylinked1'
-            defaultMessage='We noticed this account is already active on another Wallet. If you believe this is incorrect,'
-          />{' '}
-          <Link
-            size='16px'
-            weight={500}
-            target='_blank'
-            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
-          >
-            <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
-          </Link>
-          .
-        </>
+        <FormattedMessage
+          id='copy.bank_linked_error_alreadylinked1'
+          defaultMessage='We noticed this account is already linked to your Blockchain.com account.'
+        />
       )
       break
     case BankStatusType.ACTIVE:
@@ -193,6 +174,15 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
         <FormattedMessage
           id='copy.bank_linked'
           defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
+        />
+      )
+      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
+      text = (
+        <FormattedMessage
+          id='copy.bank_link_current_account_extra_fees'
+          defaultMessage='Your bank may charge you extra fees if you buy crypto without a current account.'
         />
       )
       break
@@ -214,65 +204,18 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
         </>
       )
       break
-    case BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID:
-      text = (
-        <>
-          <FormattedMessage
-            id='copy.bank_linked_error_account_invalid'
-            defaultMessage="You've tried to link an invalid account. Please try another account or"
-          />{' '}
-          <Link
-            size='16px'
-            weight={500}
-            target='_blank'
-            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
-          >
-            <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
-          </Link>
-          .
-        </>
-      )
-      break
     case BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED:
       text = (
-        <>
-          <FormattedMessage
-            id='copy.bank_linked_error_account_expired'
-            defaultMessage='The request to pair your account has timed out. Try pairing your account again. If this keeps happening, please'
-          />{' '}
-          <Link
-            size='16px'
-            weight={500}
-            target='_blank'
-            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
-          >
-            <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
-          </Link>
-          .
-        </>
+        <FormattedMessage
+          id='copy.bank_linked_error_title_expiredaccount.desc'
+          defaultMessage='Please try connecting that bank account again or link any Visa or Mastercard'
+        />
       )
       break
-    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
-      text = (
-        <>
-          <FormattedMessage
-            id='copy.bank_linked_error_account_failed'
-            defaultMessage='The request to pair your account has timed out. Try pairing your account again. If this keeps happening, please'
-          />{' '}
-          <Link
-            size='16px'
-            weight={500}
-            target='_blank'
-            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
-          >
-            <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
-          </Link>
-          .
-        </>
-      )
-      break
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_INFO_NOT_FOUND:
     case BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD:
     case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL:
+    case BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED:
       text = (
         <>
           <FormattedMessage
@@ -295,7 +238,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
             target='_blank'
             href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
           >
-            <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
+            <FormattedMessage id='copy.contact_support' defaultMessage='Contact Support' />
           </Link>
           .
         </>
@@ -737,6 +680,7 @@ const getIcon = (
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     case BSPaymentTypes.BANK_ACCOUNT:
       return <Icon name='bank-filled' color='blue600' />
+
     default:
       return <></>
   }

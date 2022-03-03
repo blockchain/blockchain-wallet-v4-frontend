@@ -284,6 +284,7 @@ const DateInput = (props) => {
 // Documentation: https://github.com/arqex/react-datetime
 DateInput.propTypes = {
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  closeOnClickOutside: PropTypes.bool,
   closeOnSelect: PropTypes.bool,
   closeOnTab: PropTypes.bool,
   dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -291,7 +292,7 @@ DateInput.propTypes = {
   disableOnClickOutside: PropTypes.bool,
   fullwidth: PropTypes.bool,
   input: PropTypes.bool,
-  inputProps: PropTypes.object,
+  inputProps: PropTypes.oneOfType([PropTypes.object]),
   isValidDate: PropTypes.func,
   locale: PropTypes.string,
   onBlur: PropTypes.func,
@@ -302,7 +303,7 @@ DateInput.propTypes = {
   renderMonth: PropTypes.func,
   renderYear: PropTypes.func,
   strictParsing: PropTypes.bool,
-  timeConstraints: PropTypes.object,
+  timeConstraints: PropTypes.oneOfType([PropTypes.object]),
   timeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   utc: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -311,6 +312,7 @@ DateInput.propTypes = {
 
 DateInput.defaultProps = {
   className: '',
+  closeOnClickOutside: true,
   closeOnSelect: true,
   closeOnTab: true,
   dateFormat: true,
