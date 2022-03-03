@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Padding } from '../Padding'
-import { AllPaddingComponent } from './types'
+import { PaddingAllComponent } from './types'
 
-export const AllPadding: AllPaddingComponent = ({ children, size }) => (
+export const PaddingAll: PaddingAllComponent = ({ children, size }) => (
   <Padding top={size} bottom={size} left={size} right={size}>
     {children}
   </Padding>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SymetricPadding, SymetricPaddingComponent } from '.'
+import { PaddingSymetric, PaddingSymetricComponent } from '.'
 
-const symetricPaddingStoriesMeta: ComponentMeta<SymetricPaddingComponent> = {
+const PaddingSymetricStoriesMeta: ComponentMeta<PaddingSymetricComponent> = {
   argTypes: {
     children: {
       defaultValue: <span>Padding context</span>
@@ -15,19 +15,19 @@ const symetricPaddingStoriesMeta: ComponentMeta<SymetricPaddingComponent> = {
       defaultValue: 10
     }
   },
-  component: SymetricPadding,
+  component: PaddingSymetric,
   title: 'Components/Padding/Symetric'
 }
 
-export const Horizontal16Vertical10: ComponentStory<SymetricPaddingComponent> = ({
+export const Horizontal16Vertical10: ComponentStory<PaddingSymetricComponent> = ({
   children,
   horizontal,
   vertical
 }) => (
   <div style={{ backgroundColor: 'blue', color: 'white' }}>
-    <SymetricPadding horizontal={horizontal} vertical={vertical}>
+    <PaddingSymetric horizontal={horizontal} vertical={vertical}>
       {children}
-    </SymetricPadding>
+    </PaddingSymetric>
   </div>
 )
 Horizontal16Vertical10.args = {
@@ -35,4 +35,4 @@ Horizontal16Vertical10.args = {
   vertical: 10
 }
 
-export default symetricPaddingStoriesMeta
+export default PaddingSymetricStoriesMeta

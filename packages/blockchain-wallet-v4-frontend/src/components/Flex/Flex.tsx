@@ -1,23 +1,14 @@
 import React, { CSSProperties, useMemo } from 'react'
+import styled, { css } from 'styled-components'
 
-import { FlexComponent } from './types'
+import { FlexComponent, FlexProps } from './types'
 
-export const Flex: FlexComponent = ({
-  alignItems,
-  children,
-  flexDirection,
-  gap,
-  justifyContent
-}) => {
-  const style: CSSProperties = useMemo(() => {
-    return {
-      alignItems,
-      display: 'flex',
-      flexDirection,
-      gap: gap ? `${gap}px` : undefined,
-      justifyContent
-    }
-  }, [alignItems, justifyContent, gap, flexDirection])
-
-  return <div style={style}>{children}</div>
-}
+export const Flex: FlexComponent = styled.div<FlexProps>`
+  ${({ alignItems, flexDirection, gap, justifyContent }) => css`
+    align-items: ${alignItems};
+    display: flex;
+    flex-direction: ${flexDirection};
+    gap: ${gap ? `${gap}px` : undefined};
+    justify-content: ${justifyContent};
+  `}
+`
