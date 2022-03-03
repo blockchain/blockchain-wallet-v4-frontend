@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, Switch } from '@blockchain-com/constellation'
+import { colors, Icon, IconName, Switch } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
@@ -158,12 +158,12 @@ const NftsCollection: React.FC<Props> = ({
         <CollectionHeaderFixed>
           <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
             <LinkContainer role='button' cursor='pointer' to='/nfts'>
-              <Icon name='arrowLeft' color='grey400' />
+              <Icon name={IconName.ARROW_LEFT} color='grey400' />
             </LinkContainer>
             <Icon
               style={{ cursor: 'pointer' }}
               onClick={scrollUp}
-              name='arrowUp'
+              name={IconName.ARROW_UP}
               color='grey400'
               role='button'
             />
@@ -177,7 +177,7 @@ const NftsCollection: React.FC<Props> = ({
               }
               style={{ cursor: 'pointer' }}
               role='button'
-              name='filter'
+              name={IconName.FILTER}
               color='grey400'
               height={16}
               width={16}
@@ -188,7 +188,7 @@ const NftsCollection: React.FC<Props> = ({
       <CollectionHeader ref={headerRef}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
           <LinkContainer role='button' cursor='pointer' to='/nfts'>
-            <Icon name='arrowLeft' color='grey400' />
+            <Icon name={IconName.ARROW_LEFT} color='grey400' />
           </LinkContainer>
           <CollectionBanner
             large
@@ -213,7 +213,7 @@ const NftsCollection: React.FC<Props> = ({
           <LinksContainer>
             {results.data?.collection?.external_url ? (
               <Link target='_blank' href={results.data?.collection?.external_url}>
-                <Icon name='globe' color='grey400' />
+                <Icon name={IconName.GLOBE} color='grey400' />
               </Link>
             ) : null}
             {results.data?.collection?.instagram_username ? (
@@ -221,12 +221,12 @@ const NftsCollection: React.FC<Props> = ({
                 target='_blank'
                 href={`https://instagram.com/${results.data?.collection?.instagram_username}`}
               >
-                <Icon name='camera' color='grey400' />
+                <Icon name={IconName.CAMERA} color='grey400' />
               </Link>
             ) : null}
             {results.data?.collection?.discord_url ? (
               <Link target='_blank' href={`${results.data?.collection?.discord_url}`}>
-                <Icon name='computer' color='grey400' />
+                <Icon name={IconName.COMPUTER} color='grey400' />
               </Link>
             ) : null}
           </LinksContainer>
@@ -248,7 +248,7 @@ const NftsCollection: React.FC<Props> = ({
           }
           style={{ cursor: 'pointer' }}
           role='button'
-          name='filter'
+          name={IconName.FILTER}
           color='grey400'
         />
       </div>

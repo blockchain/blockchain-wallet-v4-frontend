@@ -106,7 +106,6 @@ const ExplainerText = styled(Text)`
 
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    debugger
     this.props.initTxs()
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
