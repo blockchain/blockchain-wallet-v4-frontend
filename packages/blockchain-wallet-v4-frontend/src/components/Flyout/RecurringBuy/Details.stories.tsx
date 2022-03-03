@@ -5,7 +5,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
-import RecurringBuyDetails from './RecurringBuyDetails'
+import RecurringBuyDetails from './Details'
 
 export default {
   argTypes: {

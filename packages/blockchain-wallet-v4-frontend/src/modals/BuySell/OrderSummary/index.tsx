@@ -13,7 +13,7 @@ import {
   RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
-import { OrderSummary } from 'components/Flyout'
+import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
 import { actions, model, selectors } from 'data'
 import {
