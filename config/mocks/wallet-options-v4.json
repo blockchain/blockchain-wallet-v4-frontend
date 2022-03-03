@@ -46,6 +46,7 @@
         "isRedesignEnabled": true,
         "refreshCaptchaWithSignupError": true,
         "signupCountry": true,
+        "silverRevamp": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,

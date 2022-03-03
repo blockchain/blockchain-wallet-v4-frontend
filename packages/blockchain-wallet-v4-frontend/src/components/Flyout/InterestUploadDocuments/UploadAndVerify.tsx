@@ -301,7 +301,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
         </ContentWrapper>
       </Content>
 
-      <Footer>
+      <Footer collapsed>
         <Button
           nature='primary'
           data-e2e='additionalInfoUploadDocument'

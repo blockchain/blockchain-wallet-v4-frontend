@@ -63,6 +63,7 @@ const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
+const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() => import('./Lockbox/LockboxAppManager'))
@@ -307,6 +308,9 @@ const Modals = (props: Props) => {
           <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (
+          <UpgradeNowSilver />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
         ) : null}
