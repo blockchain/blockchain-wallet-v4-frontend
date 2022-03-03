@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
@@ -17,47 +17,36 @@ export type OwnProps = {
   handleClose: () => void
 } & ModalPropsType
 
-class UpgradeNowSilver extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { show: false }
-  }
+const UpgradeNowSilver = (props: Props) => {
+  const [show, setShow] = useState(true)
 
-  componentDidMount() {
-    this.setState({ show: true })
-    this.props.fetchInterestEDDStatus()
-  }
+  useEffect(() => {
+    props.fetchInterestEDDStatus()
+  }, [])
 
-  handleClose = () => {
-    this.setState({ show: false })
+  const handleClose = () => {
+    setShow(false)
     setTimeout(() => {
-      this.props.close()
+      props.close()
     }, duration)
   }
 
-  render() {
-    return (
-      <Flyout
-        {...this.props}
-        onClose={this.handleClose}
-        isOpen={this.state.show}
-        data-e2e='tradingLimitsModal'
-      >
-        <FlyoutChild>
-          {this.props.data.cata({
-            Failure: (error) => (
-              <Text color='red600' size='14px' weight={400}>
-                {error}
-              </Text>
-            ),
-            Loading: () => null,
-            NotAsked: () => null,
-            Success: (val) => <Success {...val} {...this.props} handleClose={this.handleClose} />
-          })}
-        </FlyoutChild>
-      </Flyout>
-    )
-  }
+  return (
+    <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='tradingLimitsModal'>
+      <FlyoutChild>
+        {props.data.cata({
+          Failure: (error) => (
+            <Text color='red600' size='14px' weight={400}>
+              {error}
+            </Text>
+          ),
+          Loading: () => null,
+          NotAsked: () => null,
+          Success: (val) => <Success {...val} {...props} handleClose={handleClose} />
+        })}
+      </FlyoutChild>
+    </Flyout>
+  )
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -83,6 +72,5 @@ const enhance = compose(
 export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
-type State = { show: boolean }
 
 export default enhance(UpgradeNowSilver)
