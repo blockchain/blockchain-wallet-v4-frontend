@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   border-radius: 12px;
   padding: 16px 18px;
   margin: 10px 0;
+  cursor: pointer;
 
   ${media.atLeastLaptop`
     height: 72px;
@@ -49,9 +50,9 @@ const ImageWrapper = styled.div`
   justify-content: flex-start;
 `
 
-const GetMoreAccess = ({ startBuy }: Props) => {
+const GetMoreAccess = ({ startProcess }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={startProcess}>
       <SpacedRow>
         <ImageWrapper>
           <Image size='24px' name='lock-open' />
@@ -76,6 +77,6 @@ const GetMoreAccess = ({ startBuy }: Props) => {
   )
 }
 
-type Props = { startBuy: () => void }
+type Props = { startProcess: () => void }
 
 export default GetMoreAccess
