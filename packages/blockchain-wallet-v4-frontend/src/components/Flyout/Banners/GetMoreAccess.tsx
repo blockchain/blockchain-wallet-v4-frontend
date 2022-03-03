@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   padding: 16px 18px;
   margin: 10px 0;
   cursor: pointer;
+  box-shadow: 0px 0px 24px rgba(5, 24, 61, 0.08);
 
   ${media.atLeastLaptop`
     height: 72px;
