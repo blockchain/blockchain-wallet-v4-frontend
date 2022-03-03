@@ -135,6 +135,7 @@ const App = ({
                           <WalletLayout
                             path={`/${coinfig.symbol}/transactions`}
                             component={coinViewV2 ? CoinViewV2 : Transactions}
+                            coinViewV2={coinViewV2}
                             coinfig={coinfig}
                             coin={coinfig.symbol}
                             key={coinfig.symbol}
@@ -166,7 +167,7 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
-  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state),
+  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
