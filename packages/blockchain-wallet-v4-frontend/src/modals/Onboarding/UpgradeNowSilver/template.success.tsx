@@ -4,17 +4,11 @@ import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { BlueCartridge, GreyCartridge } from 'components/Cartridge'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutContainer, FlyoutWrapper } from 'components/Flyout'
 import { ModalName } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
 const Title = styled(Text)`
   display: flex;
   align-items: center;
@@ -63,14 +57,14 @@ const RowItemSubTitle = styled(Text)`
   justify-content: center;
   flex: 1;
 `
+
 const RowItemTitleWhite = styled(RowItemTitle)`
   color: ${(props) => props.theme.white};
 `
+
 const RowItemSubTitleWhite = styled(RowItemSubTitle)`
   color: rgba(255, 255, 255, 0.72);
 `
-
-const MainContent = styled.div``
 
 const StatusCartridge = styled(GreyCartridge)`
   display: flex;
@@ -135,7 +129,7 @@ const CloseIconContainer = styled.div`
 
 type Props = OwnProps & SuccessStateType
 
-const Template: React.FC<Props> = (props) => {
+const Template = (props: Props) => {
   const { identityVerificationActions, modalActions, userTiers } = props
   const startVerification = useCallback(() => {
     modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
@@ -150,7 +144,7 @@ const Template: React.FC<Props> = (props) => {
   }
 
   return (
-    <Wrapper>
+    <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainer>
           <Title color='textBlack' size='24px' weight={600}>
@@ -164,9 +158,7 @@ const Template: React.FC<Props> = (props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={() => {
-                // close
-              }}
+              onClick={props.onClose}
             />
           </CloseIconContainer>
         </IconsContainer>
@@ -197,7 +189,7 @@ const Template: React.FC<Props> = (props) => {
         </Text>
       </HeaderWrapper>
 
-      <MainContent>
+      <div>
         <UpgradeContainer>
           <UpgradeRowWithBorder>
             <Image name='grey-verified' size='20px' />
@@ -353,8 +345,8 @@ const Template: React.FC<Props> = (props) => {
             />
           </RowItemSubTitle>
         </Disclaimer>
-      </MainContent>
-    </Wrapper>
+      </div>
+    </FlyoutContainer>
   )
 }
 
