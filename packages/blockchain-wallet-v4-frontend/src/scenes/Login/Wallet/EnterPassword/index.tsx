@@ -112,7 +112,6 @@ const EnterPasswordWallet = (props: Props) => {
                 <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
               </FormLabel>
               <Field
-                autoFocus
                 component={PasswordBox}
                 data-e2e='loginPassword'
                 disabled={!isBrowserSupported}

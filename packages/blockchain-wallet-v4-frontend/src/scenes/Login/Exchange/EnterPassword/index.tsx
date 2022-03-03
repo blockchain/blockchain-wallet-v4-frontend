@@ -57,7 +57,6 @@ const EnterPasswordExchange = (props: Props) => {
               <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
             </FormLabel>
             <Field
-              autoFocus
               component={PasswordBox}
               data-e2e='exchangePassword'
               disabled={!isBrowserSupported}

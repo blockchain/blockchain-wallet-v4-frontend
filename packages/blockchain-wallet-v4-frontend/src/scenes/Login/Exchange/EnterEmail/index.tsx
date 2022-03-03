@@ -56,7 +56,6 @@ const EnterEmail = (props: Props) => {
               normalize={removeWhitespace}
               validate={[required, validEmail]}
               placeholder='Enter your email'
-              autoFocus
             />
           </FormItem>
         </FormGroup>
