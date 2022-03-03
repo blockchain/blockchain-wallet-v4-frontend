@@ -161,6 +161,9 @@
     "uuid": "8.3.2",
     "zxcvbn": "4.4.2"
   },
+  "devDependencies": {
+    "jest-styled-components": "6.3.3"
+  },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
   }

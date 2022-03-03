@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Padding } from '../Padding'
-import { SymetricPaddingComponent } from './types'
+import { PaddingSymetricComponent } from './types'
 
-export const SymetricPadding: SymetricPaddingComponent = ({ children, horizontal, vertical }) => {
+export const PaddingSymetric: PaddingSymetricComponent = ({ children, horizontal, vertical }) => {
   return (
     <Padding top={vertical} bottom={vertical} left={horizontal} right={horizontal}>
       {children}

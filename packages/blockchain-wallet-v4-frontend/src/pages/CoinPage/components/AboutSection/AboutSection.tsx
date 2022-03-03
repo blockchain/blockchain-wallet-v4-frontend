@@ -1,16 +1,16 @@
 import React from 'react'
 
 import { Text } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 
 import { Card } from '../../../../components/Card'
-import { Padding } from '../../../../components/Padding'
+import { Flex } from '../../../../components/Flex'
+import { PaddingAll } from '../../../../components/Padding'
 import { AboutSectionComponent } from './types'
 
 export const AboutSection: AboutSectionComponent = ({ actions, content, title }) => {
   return (
     <Card>
-      <Padding.All size={16}>
+      <PaddingAll size={16}>
         <Flex flexDirection='column' gap={16}>
           <Text size='14px' weight={500} lineHeight='20px' color='grey600'>
             {title}
@@ -24,7 +24,7 @@ export const AboutSection: AboutSectionComponent = ({ actions, content, title })
             {actions}
           </Flex>
         </Flex>
-      </Padding.All>
+      </PaddingAll>
     </Card>
   )
 }
