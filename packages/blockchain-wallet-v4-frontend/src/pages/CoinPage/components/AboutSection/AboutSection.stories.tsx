@@ -1,30 +1,13 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { Link } from 'blockchain-info-components'
-
-import { Flex } from '../../../../components/Flex'
+import { defaultAboutSectionActions } from '../../mocks/defaultAboutSectionActions'
 import { AboutSection, AboutSectionComponent } from '.'
 
 const aboutSectionStoriesMeta: ComponentMeta<AboutSectionComponent> = {
   argTypes: {
     actions: {
-      defaultValue: [
-        <Link key={1}>
-          <Flex gap={8} alignItems='center'>
-            <Icon name='link' size='sm' color='blue600' />
-            Official Website
-          </Flex>
-        </Link>,
-
-        <Link key={2}>
-          <Flex gap={8} alignItems='center'>
-            <Icon name='link' size='sm' color='blue600' />
-            Whitepaper
-          </Flex>
-        </Link>
-      ]
+      defaultValue: defaultAboutSectionActions
     },
     content: {
       defaultValue:
