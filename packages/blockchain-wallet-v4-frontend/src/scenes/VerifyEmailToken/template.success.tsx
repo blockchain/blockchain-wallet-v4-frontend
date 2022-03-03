@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { isMobile } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Success = () => {
   return (
     <Wrapper>
-      <Icon color='success' name='checkmark-circle-filled' size='40px' />
+      <Image name='email-verified' size='24px' />
 
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
         <FormattedMessage
@@ -26,15 +26,15 @@ const Success = () => {
       {isMobile() ? (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
-            id='scenes.verifyemailtoken.return_mobile'
-            defaultMessage='Return to the app to access your Blockchain.com Account.'
+            id='scenes.verifyemailtoken.return_mobile_new'
+            defaultMessage='Return to the app to access your Blockchain.com Wallet.'
           />
         </Text>
       ) : (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
-            id='scenes.verifyemailtoken.return'
-            defaultMessage='Return to the previous tab to access your Blockchain.com Account.'
+            id='scenes.verifyemailtoken.return_new'
+            defaultMessage='Return to the previous tab to access your Blockchain.com Wallet.'
           />
         </Text>
       )}
