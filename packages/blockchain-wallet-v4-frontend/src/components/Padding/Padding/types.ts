@@ -1,8 +1,5 @@
 import { FC } from 'react'
 
-import { AllPaddingComponent } from '../AllPadding'
-import { SymetricPaddingComponent } from '../SymetricPadding'
-
 export type PaddingProps = {
   bottom?: number
   left?: number
@@ -10,7 +7,4 @@ export type PaddingProps = {
   top?: number
 }
 
-export type PaddingComponent = FC<PaddingProps> & {
-  All: AllPaddingComponent
-  Symetric: SymetricPaddingComponent
-}
+export type PaddingComponent = FC<PaddingProps>
