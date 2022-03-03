@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, Text } from '@blockchain-com/constellation'
+import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -23,7 +23,7 @@ export type PrimaryNavItem = {
 export const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white100};
+  background-color: ${colors.white1};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,7 +92,7 @@ const ListStyles = styled.ul`
 
     &:hover,
     &.active {
-      background-color: ${colors.blue000};
+      background-color: ${colors.blue0};
       color: ${colors.blue600};
     }
   }
@@ -283,7 +283,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color='grey400' name='refresh' size='sm' />
+          <Icon color={colors.grey400} name={IconName.REFRESH} size='sm' />
         </NavButton>
       ),
       name: 'Refresh'
@@ -291,7 +291,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color='grey400' name='user' size='sm' />
+          <Icon color={colors.grey400} name={IconName.USER} size='sm' />
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
@@ -343,9 +343,7 @@ const Navbar = ({
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <li key={item.e2e}>
                 <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <div style={{ fontFamily: 'Inter' }}>
-                    <Text variant='paragraph-1'>{item.text}</Text>
-                  </div>
+                  <Text variant='paragraph-1'>{item.text}</Text>
                 </NavLink>
               </li>
             ))}
@@ -382,16 +380,16 @@ const Navbar = ({
               <li>
                 {isMobileNavOpen ? (
                   <Icon
-                    color='grey600'
+                    color={colors.grey600}
                     data-e2e='closeMobileNav'
-                    name='close'
+                    name={IconName.CLOSE}
                     role='button'
                     size='md'
                     onClick={closeMobileNavCallback}
                   />
                 ) : (
                   <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                    <Icon name='menu' color='blue500' size='md' />
+                    <Icon name={IconName.MENU} color={colors.blue500} size='md' />
                   </NavButton>
                 )}
               </li>
