@@ -1,20 +1,19 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 
 import { Flex } from '.'
+import 'jest-styled-components'
 
 describe('Flex', () => {
   it('Should create the flex element with the correct flex parameters', () => {
-    const component = shallow(
+    const component = mount(
       <Flex gap={12} flexDirection='column' alignItems='center' justifyContent='space-between' />
     )
 
-    const flexElementStyle = component.get(0).props.style
-
-    expect(flexElementStyle.display).toEqual('flex')
-    expect(flexElementStyle.gap).toEqual('12px')
-    expect(flexElementStyle.flexDirection).toEqual('column')
-    expect(flexElementStyle.alignItems).toEqual('center')
-    expect(flexElementStyle.justifyContent).toEqual('space-between')
+    expect(component).toHaveStyleRule('display', 'flex')
+    expect(component).toHaveStyleRule('gap', '12px')
+    expect(component).toHaveStyleRule('flex-direction', 'column')
+    expect(component).toHaveStyleRule('align-items', 'center')
+    expect(component).toHaveStyleRule('justify-content', 'space-between')
   })
 })
