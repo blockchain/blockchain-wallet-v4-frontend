@@ -2891,8 +2891,8 @@ type MessagesType = {
   'scenes.verifyemailtoken.error.tryagain': 'Try logging in again or contact support.'
   'scenes.verifyemailtoken.loading': "We're verifying your email address. Please wait..."
   'scenes.verifyemailtoken.mobile.openwallet': 'Open My Wallet'
-  'scenes.verifyemailtoken.return_mobile': 'Return to the app to access your Blockchain.com Account.'
-  'scenes.verifyemailtoken.return': 'Return to the previous tab to access your Blockchain.com Account.'
+  'scenes.verifyemailtoken.return_mobile_new': 'Return to the app to access your Blockchain.com Wallet.'
+  'scenes.verifyemailtoken.return_new': 'Return to the previous tab to access your Blockchain.com Wallet.'
   'scenes.verifyemailtoken.verified': 'Your email is verified!'
   'scenes.wallet.menutop.balance.totalbalance': 'Total Balance'
   'scenes.wallet.menutop.balance.totalbalance.total': 'Total Balance'

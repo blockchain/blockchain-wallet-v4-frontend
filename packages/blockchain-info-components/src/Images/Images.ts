@@ -75,6 +75,7 @@ import orderMyCard from './img/debitCard/order-my-card.png'
 import orderMyCardIcon from './img/debitCard/order-my-card-icon.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
+import emailVerified from './img/email-verified.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
@@ -273,6 +274,7 @@ const Images = {
   'credit-card': creditCard,
   'email-error': emailError,
   'email-success': emailSuccess,
+  'email-verified': emailVerified,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
   'eth-airdrop': ethAirdrop,
