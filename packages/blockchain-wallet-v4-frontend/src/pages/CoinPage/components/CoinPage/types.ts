@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 
-export type PageScaffoldProps = {
+export type CoinPageProps = {
   about?: ReactNode
   activity?: ReactNode
   alertCard?: ReactNode
@@ -13,4 +13,4 @@ export type PageScaffoldProps = {
   wallets?: ReactNode
 }
 
-export type PageScaffoldComponent = FC<PageScaffoldProps>
+export type CoinPageComponent = FC<CoinPageProps>
