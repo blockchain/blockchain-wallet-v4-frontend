@@ -178,7 +178,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.activateCardSuccess(providerDetails))
     } catch (e) {
-      yield put(A.activateCardFailure(e.code))
+      if (e.code) {
+        yield put(A.activateCardFailure(e.code))
+
+        return
+      }
+
+      const error = errorHandler(e)
+      yield put(A.activateCardFailure(error))
     }
   }
 
@@ -767,6 +774,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const userData = userDataR.getOrFail('NO_USER_ADDRESS')
       const address = billingAddressForm || userData.address
+
+      // change this throw to something else
       if (!address) throw new Error('NO_USER_ADDRESS')
 
       const card = yield call(api.createBSCard, {
@@ -775,9 +784,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         email: userData.email,
         paymentMethodTokens: payload
       })
+
       yield put(A.createCardSuccess(card))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.createCardFailure(error))
     }

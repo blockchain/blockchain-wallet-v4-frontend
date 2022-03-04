@@ -59,12 +59,14 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
-  const handleReset = () => {
-    props.buySellActions.destroyCheckout()
-  }
+  // const handleReset = () => {
+  //   props.buySellActions.destroyCheckout()
+  // }
 
   const handleRetry = () => {
-    // DO SOMETHING HERE
+    props.buySellActions.setStep({
+      step: 'DETERMINE_CARD_PROVIDER'
+    })
   }
 
   return props.data.cata({
@@ -72,7 +74,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
       <Failure
         code={code}
         handleBack={handleBack}
-        handleReset={handleReset}
+        // handleReset={handleReset}
         handleRetry={handleRetry}
       />
     ),

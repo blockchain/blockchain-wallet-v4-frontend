@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import CardErrorCreateFailed from './CardErrorCreateFailed'
@@ -27,27 +28,37 @@ enum CARD_ERROR_CODE {
   PAYMENT_FAILED = 10007
 }
 
-const Failure = ({ code, handleBack, handleReset, handleRetry }: Props) => {
-  return (
-    <Wrapper>
-      {code === CARD_ERROR_CODE.INSUFFICIENT_FUNDS ? <></> : null}
-      {code === CARD_ERROR_CODE.BANK_DECLINE ? <></> : null}
-      {code === CARD_ERROR_CODE.DUPLICATE ? <CardErrorDuplicate handleBack={handleBack} /> : null}
-      {code === CARD_ERROR_CODE.BLOCKCHAIN_DECLINE ? <></> : null}
-      {code === CARD_ERROR_CODE.ACQUIRER_DECLINE ? <></> : null}
-      {code === CARD_ERROR_CODE.PAYMENT_NOT_SUPPORTED ? <></> : null}
-      {code === CARD_ERROR_CODE.CREATE_FAILED ? (
-        <CardErrorCreateFailed handleBack={handleBack} handleRetry={handleRetry} />
-      ) : null}
-      {code === CARD_ERROR_CODE.PAYMENT_FAILED ? <></> : null}
-    </Wrapper>
-  )
+const Failure = ({ code, handleBack, /* handleReset, */ handleRetry }: Props) => {
+  const renderError = () => {
+    switch (code) {
+      // case CARD_ERROR_CODE.INSUFFICIENT_FUNDS:
+      //   return <></>
+      // case CARD_ERROR_CODE.BANK_DECLINE:
+      //   return <></>
+      case CARD_ERROR_CODE.DUPLICATE:
+        return <CardErrorDuplicate handleBack={handleBack} />
+      // case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
+      //   return <></>
+      // case CARD_ERROR_CODE.ACQUIRER_DECLINE:
+      //   return <></>
+      // case CARD_ERROR_CODE.PAYMENT_NOT_SUPPORTED:
+      //   return <></>
+      case CARD_ERROR_CODE.CREATE_FAILED:
+        return <CardErrorCreateFailed handleBack={handleBack} handleRetry={handleRetry} />
+      // case CARD_ERROR_CODE.PAYMENT_FAILED:
+      //   return <></>
+      default:
+        return <DataError message={{ message: `${code}` }} />
+    }
+  }
+
+  return <Wrapper>{renderError()}</Wrapper>
 }
 
 type Props = {
   code: number
   handleBack: () => void
-  handleReset: () => void
+  // handleReset: () => void
   handleRetry: () => void
 }
 
