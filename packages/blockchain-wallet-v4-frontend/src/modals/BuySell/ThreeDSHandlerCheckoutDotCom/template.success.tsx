@@ -37,7 +37,7 @@ const Success = (props: Props) => {
           size='20px'
           color='grey600'
           role='button'
-          onClick={props.handleIconClick}
+          onClick={props.handleBack}
         />
         <Iframe
           src={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/paymentLink/${paymentLink}`}
@@ -47,6 +47,6 @@ const Success = (props: Props) => {
   )
 }
 
-type Props = SuccessStateType & { handleIconClick: () => void; isPolling: boolean }
+type Props = SuccessStateType & { handleBack: () => void; isPolling: boolean }
 
 export default Success
