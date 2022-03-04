@@ -138,58 +138,45 @@ const generateDefaultValue = (type: string): string | boolean | number => {
   }
 }
 
-const getOrderHashHex = (order: UnhashedOrder): string => {
-  const orderParts = [
-    { type: SolidityTypes.Address, value: order.exchange },
-    { type: SolidityTypes.Address, value: order.maker },
-    { type: SolidityTypes.Address, value: order.taker },
-    { type: SolidityTypes.Uint256, value: order.makerRelayerFee.toString() },
-    { type: SolidityTypes.Uint256, value: order.takerRelayerFee.toString() },
-    { type: SolidityTypes.Uint256, value: order.makerProtocolFee.toString() },
-    { type: SolidityTypes.Uint256, value: order.takerProtocolFee.toString() },
-    { type: SolidityTypes.Address, value: order.feeRecipient },
-    { type: SolidityTypes.Uint8, value: order.feeMethod },
-    { type: SolidityTypes.Uint8, value: order.side },
-    { type: SolidityTypes.Uint8, value: order.saleKind },
-    { type: SolidityTypes.Address, value: order.target },
-    { type: SolidityTypes.Uint8, value: order.howToCall },
-    // eslint-disable-next-line no-buffer-constructor
-    { type: SolidityTypes.Bytes, value: new Buffer(order.calldata.slice(2), 'hex') },
-    // eslint-disable-next-line no-buffer-constructor
-    { type: SolidityTypes.Bytes, value: new Buffer(order.replacementPattern.slice(2), 'hex') },
-    { type: SolidityTypes.Address, value: order.staticTarget },
-    // eslint-disable-next-line no-buffer-constructor
-    { type: SolidityTypes.Bytes, value: new Buffer(order.staticExtradata.slice(2), 'hex') },
-    { type: SolidityTypes.Address, value: order.paymentToken },
-    { type: SolidityTypes.Uint256, value: order.basePrice.toString(10) },
-    { type: SolidityTypes.Uint256, value: order.extra.toString(10) },
-    { type: SolidityTypes.Uint256, value: order.listingTime.toString() },
-    { type: SolidityTypes.Uint256, value: order.expirationTime.toString() },
-    { type: SolidityTypes.Uint256, value: order.salt.toString() }
-  ]
-  const types = orderParts.map((o) => o.type)
-  const values = orderParts.map((o) => o.value)
-  const hash = ethers.utils.solidityKeccak256(types, values)
-  return hash
-}
-
 /**
  * Get the non-prefixed hash for the order
  * (Fixes a Wyvern typescript issue and casing issue)
  * @param order order to hash
  */
-export function getOrderHash(order: UnhashedOrder) {
-  const orderWithStringTypes = {
-    ...order,
-    feeMethod: order.feeMethod.toString(),
-    feeRecipient: order.feeRecipient.toLowerCase(),
-    howToCall: order.howToCall.toString(),
-    maker: order.maker.toLowerCase(),
-    saleKind: order.saleKind.toString(),
-    side: order.side.toString(),
-    taker: order.taker.toLowerCase()
-  }
-  return getOrderHashHex(orderWithStringTypes as any)
+export async function getOrderHash(order: UnhashedOrder, signer: Signer) {
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+
+  const hash = await wyvernExchangeContract.hashToSign_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee.toNumber(),
+      order.takerRelayerFee.toNumber(),
+      order.makerProtocolFee.toNumber(),
+      order.takerProtocolFee.toNumber(),
+      order.basePrice.toString(),
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata
+  )
+
+  return hash
 }
 
 async function safeGasEstimation(estimationFunction, args, txData, retries = 2) {
@@ -326,7 +313,9 @@ export const encodeSell = (schema, asset: WyvernAsset, address) => {
 }
 
 export const encodeBuy = (schema, asset: WyvernAsset, address) => {
-  const transfer = schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
+  const transfer = schema.functions.checkAndTransfer
+    ? schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
+    : schema.functions.transfer(asset)
   const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
   const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
 
@@ -582,13 +571,14 @@ async function getTransferFeeSettings(
 //   return { basePrice, extra, paymentToken, reservePrice }
 // }
 
-export function _makeMatchingOrder({
+export async function _makeMatchingOrder({
   accountAddress,
   expirationTime,
   network,
   order,
   paymentTokenAddress,
-  recipientAddress
+  recipientAddress,
+  signer
 }: {
   // UnsignedOrder;
   accountAddress: string
@@ -597,7 +587,8 @@ export function _makeMatchingOrder({
   order: NftOrder
   paymentTokenAddress: null | string
   recipientAddress: string
-}): UnsignedOrder {
+  signer: Signer
+}): Promise<UnsignedOrder> {
   accountAddress = ethers.utils.getAddress(accountAddress)
   recipientAddress = ethers.utils.getAddress(recipientAddress)
 
@@ -691,7 +682,7 @@ export function _makeMatchingOrder({
 
   return {
     ...matchingOrder,
-    hash: getOrderHash(matchingOrder)
+    hash: await getOrderHash(matchingOrder, signer)
   }
 }
 
@@ -1705,7 +1696,6 @@ export async function _validateOrderWyvern({
     order.r || NULL_BLOCK_HASH,
     order.s || NULL_BLOCK_HASH
   )
-
   return isValid
 }
 
@@ -1880,15 +1870,6 @@ export async function _buyOrderValidationAndApprovals({
     // Check token approval
     // This can be done at a higher level to show UI
     await fungibleTokenApprovals({ minimumAmount, signer, tokenAddress, txnData })
-  }
-
-  // Check order formation
-  const buyValid = await _validateOrderWyvern({ order, signer })
-  if (!buyValid) {
-    console.error(order)
-    throw new Error(
-      `Failed to validate buy order parameters. Make sure you're on the right network!`
-    )
   }
 }
 
@@ -2238,7 +2219,7 @@ export async function createSellOrder(
   // 3. Compute hash of the order and output {...order, hash:hash(order)}
   const hashedOrder = {
     ...order,
-    hash: getOrderHash(order)
+    hash: await getOrderHash(order, signer)
   }
   // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
   let signature
@@ -2281,7 +2262,7 @@ export async function createBuyOrder(
   // 2. Compute hash of the order and output {...order, hash:hash(order)}
   const hashedOrder: UnsignedOrder = {
     ...order,
-    hash: getOrderHash(order)
+    hash: await getOrderHash(order, signer)
   }
   const signature = await _signMessage({ message: hashedOrder.hash, signer })
   const orderWithSignature = {
@@ -2303,34 +2284,41 @@ export async function createMatchingOrders(
 ): Promise<{ buy: NftOrder; sell: NftOrder }> {
   const accountAddress = await signer.getAddress()
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
-  const matchingOrder = _makeMatchingOrder({
+  const matchingOrder = await _makeMatchingOrder({
     accountAddress,
     expirationTime,
     network,
     order,
     paymentTokenAddress,
-    recipientAddress: accountAddress
+    recipientAddress: accountAddress,
+    signer
   })
   // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
 
   if (order.side === NftOrderSide.Sell) {
+    // USER IS THE BUYER, only validate the sell order
+    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+    if (!isSellValid) throw new Error('Sell order is invalid')
     const signature = await _signMessage({ message: buy.hash, signer })
     buy = {
       ...buy,
       ...signature
     }
   } else {
+    // USER IS THE SELLER, only validate the buy order
+    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+    if (!isBuyValid) throw new Error('Buy order is invalid')
     const signature = await _signMessage({ message: sell.hash, signer })
     sell = {
       ...sell,
       ...signature
     }
   }
-  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-  if (!isSellValid) throw new Error('Sell order is invalid')
-  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-  if (!isBuyValid) throw new Error('Buy order is invalid')
+
+  // Validate that the orders can match
+  const ordersCanMatch = await _validateMatch({ buy, sell, signer })
+  if (!ordersCanMatch) throw new Error('Orders cannot match')
   return { buy, sell }
 }
 
