@@ -163,7 +163,8 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
-    "jest-styled-components": "6.3.3"
+    "jest-styled-components": "6.3.3",
+    "@types/enzyme": "3.10.11"
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
