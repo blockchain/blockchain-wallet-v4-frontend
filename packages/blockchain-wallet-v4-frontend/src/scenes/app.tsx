@@ -128,6 +128,22 @@ const App = ({
                     )}
                     <WalletLayout path='/prices' component={Prices} />
                     {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
+                    {coinViewV2 &&
+                      values(
+                        map((coinModel) => {
+                          const { coinfig } = coinModel
+                          return (
+                            <WalletLayout
+                              path={`/coin/${coinfig.symbol}`}
+                              component={CoinViewV2}
+                              coinViewV2={coinViewV2}
+                              coinfig={coinfig}
+                              coin={coinfig.symbol}
+                              key={coinfig.symbol}
+                            />
+                          )
+                        }, coinsWithBalance)
+                      )}
                     {values(
                       map((coinModel) => {
                         const { coinfig } = coinModel
