@@ -2214,6 +2214,8 @@ type MessagesType = {
   'scenes.home.banners.interestpromo.button': 'Deposit Now'
   'scenes.home.banners.recurringbuys.title': 'Recurring buys are now available'
   'scenes.home.banners.recurringbuys.description': 'It’s really hard to time the market, which is why many investors use dollar cost averaging.'
+  'scenes.home.banners.transactions_left.title': 'Transactions Left'
+  'scenes.home.banners.transactions_left.description': 'Unlimited trades and higher limits'
   'scenes.home.pricechart.coincurrentprice.currentprice': 'Current Price'
   'scenes.home.pricechart.coinperformance.all': 'all time'
   'scenes.home.pricechart.coinperformance.day': 'today'
