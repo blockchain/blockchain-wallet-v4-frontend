@@ -1,4 +1,4 @@
-import CoinPage from './CoinPage'
+import { CoinPage } from './components/CoinPage'
 
 export { CoinPageComponent, CoinPageProps } from './types'
 

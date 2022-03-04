@@ -1,7 +1,2 @@
-export {
-    PageScaffold,
-} from "./PageScaffold"
-
-export {
-    CoinHeader,
-} from "./CoinHeader"
+export { CoinHeader } from './CoinHeader'
+export { CoinPage } from './CoinPage'
