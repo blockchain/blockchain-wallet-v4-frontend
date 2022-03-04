@@ -3,13 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { displayFiatToFiat } from '@core/exchange'
 import { fiatToString } from '@core/exchange/utils'
 import { NabuSymbolNumberType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
 
@@ -105,7 +104,11 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
         <FormattedMessage id='copy.total' defaultMessage='Total' />
       </Text>
       <Value>
-        {displayFiatToFiat({ value: props.amount })} {props.fiatCurrency}
+        {fiatToString({
+          digits: 0,
+          unit: props.fiatCurrency || ('USD' as FiatType),
+          value: props.amount
+        })}
       </Value>
     </Row>
     <FlyoutWrapper>
