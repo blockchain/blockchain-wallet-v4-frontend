@@ -3,9 +3,9 @@ import React from 'react'
 import { Flex } from 'components/Flex'
 
 import { Container, Grid } from './styles'
-import { PageScaffoldComponent } from './types'
+import { CoinPageComponent } from './types'
 
-export const PageScaffold: PageScaffoldComponent = ({
+export const CoinPage: CoinPageComponent = ({
   about,
   activity,
   alertCard,
