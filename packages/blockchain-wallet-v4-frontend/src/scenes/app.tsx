@@ -25,7 +25,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
-const CoinViewV2 = React.lazy(() => import('../pages/CoinPage'))
+const CoinViewV2 = React.lazy(() => import('../pages/CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
