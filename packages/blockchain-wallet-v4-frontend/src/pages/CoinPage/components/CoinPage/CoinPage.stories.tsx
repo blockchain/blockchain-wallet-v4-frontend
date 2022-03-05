@@ -8,7 +8,8 @@ import * as AboutSection from '../AboutSection/AboutSection.stories'
 import * as AlertCard from '../AlertCard/AlertCard.stories'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
-import { CoinPage, CoinPageComponent } from '.'
+import { CoinPage } from './CoinPage'
+import { CoinPageComponent } from './types'
 
 const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
   argTypes: {
