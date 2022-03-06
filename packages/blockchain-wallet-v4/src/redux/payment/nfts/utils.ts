@@ -15,7 +15,6 @@ import {
   NftSaleKind,
   PartialReadonlyContractAbi,
   RawOrder,
-  SolidityTypes,
   txnData,
   UnhashedOrder,
   UnsignedOrder,
@@ -50,6 +49,43 @@ const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
 const WYVERN_PROXY_REGISTRY_ADDRESS = '0xa5409ec958c83c3f309868babaca7c86dcb077c1'
 const WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY = '0xF57B2c51dED3A29e6891aba85459d600256Cf317'
 const WYVERN_MERKLE_VALIDATOR_MAINNET = '0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7'
+
+const EIP_712_WYVERN_DOMAIN_NAME = 'Wyvern Exchange Contract'
+const EIP_712_WYVERN_DOMAIN_VERSION = '2.3'
+const EIP_712_ORDER_TYPES = {
+  EIP712Domain: [
+    { name: 'name', type: 'string' },
+    { name: 'version', type: 'string' },
+    { name: 'chainId', type: 'uint256' },
+    { name: 'verifyingContract', type: 'address' }
+  ],
+  Order: [
+    { name: 'exchange', type: 'address' },
+    { name: 'maker', type: 'address' },
+    { name: 'taker', type: 'address' },
+    { name: 'makerRelayerFee', type: 'uint256' },
+    { name: 'takerRelayerFee', type: 'uint256' },
+    { name: 'makerProtocolFee', type: 'uint256' },
+    { name: 'takerProtocolFee', type: 'uint256' },
+    { name: 'feeRecipient', type: 'address' },
+    { name: 'feeMethod', type: 'uint8' },
+    { name: 'side', type: 'uint8' },
+    { name: 'saleKind', type: 'uint8' },
+    { name: 'target', type: 'address' },
+    { name: 'howToCall', type: 'uint8' },
+    { name: 'calldata', type: 'bytes' },
+    { name: 'replacementPattern', type: 'bytes' },
+    { name: 'staticTarget', type: 'address' },
+    { name: 'staticExtradata', type: 'bytes' },
+    { name: 'paymentToken', type: 'address' },
+    { name: 'basePrice', type: 'uint256' },
+    { name: 'extra', type: 'uint256' },
+    { name: 'listingTime', type: 'uint256' },
+    { name: 'expirationTime', type: 'uint256' },
+    { name: 'salt', type: 'uint256' },
+    { name: 'nonce', type: 'uint256' }
+  ]
+}
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -278,44 +314,23 @@ export const encodeDefaultCall = (abi, address) => {
   return encodeCall(abi, parameters)
 }
 
-export const encodeSell = (schema, asset: WyvernAsset, address) => {
-  const wyvAsset = schema.assetFromFields({
-    Address: asset.address,
-    ID: asset.id,
-    Quantity: new BigNumber(1).toString()
-  })
-  const transfer = schema.functions.transfer(wyvAsset)
-  let calldata
-  if (schema.name === 'ERC1155') {
-    const tokenInterface = new ethers.utils.Interface(ERC1155_ABI)
-    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
-      address.toLowerCase(),
-      NULL_ADDRESS,
-      asset.id,
-      wyvAsset.quantity,
-      []
-    ])
-  } else if (schema.name === 'ERC721') {
-    const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
-    calldata = tokenInterface.encodeFunctionData('transferFrom', [
-      address.toLowerCase(),
-      NULL_ADDRESS,
-      asset.id
-    ])
-  } else {
-    throw new Error(`Unsupported Asset Standard: ${schema.name}`)
-  }
+export const encodeSell = (schema, asset: WyvernAsset, address, validatorAddress?: string) => {
+  const transfer =
+    validatorAddress && schema.functions.checkAndTransfer
+      ? schema.functions.checkAndTransfer(asset, validatorAddress)
+      : schema.functions.transfer(asset)
   return {
-    calldata,
+    calldata: encodeDefaultCall(transfer, address),
     replacementPattern: encodeReplacementPattern(transfer),
     target: transfer.target
   }
 }
 
-export const encodeBuy = (schema, asset: WyvernAsset, address) => {
-  const transfer = schema.functions.checkAndTransfer
-    ? schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
-    : schema.functions.transfer(asset)
+export const encodeBuy = (schema, asset: WyvernAsset, address, validatorAddress?: string) => {
+  const transfer =
+    schema.functions.checkAndTransfer && validatorAddress
+      ? schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
+      : schema.functions.transfer(asset)
   const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
   const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
 
@@ -597,8 +612,13 @@ export async function _makeMatchingOrder({
       // const schema = this._getSchema(order.metadata.schema)
       const schema = schemaMap[order.metadata.schema]
       return order.side === NftOrderSide.Buy
-        ? encodeSell(schema, order.metadata.asset, recipientAddress)
-        : encodeBuy(schema, order.metadata.asset, recipientAddress)
+        ? encodeSell(
+            schema,
+            order.metadata.asset,
+            recipientAddress,
+            WYVERN_MERKLE_VALIDATOR_MAINNET
+          )
+        : encodeBuy(schema, order.metadata.asset, recipientAddress, WYVERN_MERKLE_VALIDATOR_MAINNET)
     }
     // BUNDLE NOT SUPPORTED
     // if ('bundle' in order.metadata) {
@@ -909,27 +929,66 @@ export async function _signMessage({
   return { r, s, v }
 }
 
-export async function _authorizeOrder(
+async function authorizeOrder(
   order: UnsignedOrder,
-  signer: Signer
-): Promise<ECSignature | null> {
-  const message = order.hash
+  signer: Signer,
+  network: string
+): Promise<{ nonce: number; r: string; s: string; v: number } | undefined> {
   const signerAddress = order.maker
-  const makerIsSmartContract = await isContractAddress(signerAddress, signer.provider!)
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
 
   try {
-    if (makerIsSmartContract) {
-      // The web3 provider is probably a smart contract wallet.
-      // Fallback to on-chain approval.
-      await _approveOrder(order, signer)
-      return null
+    // 2.3 Sign order flow using EIP-712
+    const signerOrderNonce = await wyvernExchangeContract.nonces(signerAddress)
+
+    // We need to manually specify each field because OS orders can contain unrelated data
+    const orderForSigning = {
+      basePrice: order.basePrice.toString(),
+      calldata: order.calldata,
+      exchange: order.exchange,
+      expirationTime: order.expirationTime.toString(),
+      extra: order.extra.toString(),
+      feeMethod: order.feeMethod,
+      feeRecipient: order.feeRecipient,
+      howToCall: order.howToCall,
+      listingTime: order.listingTime.toString(),
+      maker: order.maker,
+      makerProtocolFee: order.makerProtocolFee.toString(),
+      makerRelayerFee: order.makerRelayerFee.toString(),
+      paymentToken: order.paymentToken,
+      replacementPattern: order.replacementPattern,
+      saleKind: order.saleKind,
+      salt: order.salt.toString(),
+      side: order.side,
+      staticExtradata: order.staticExtradata,
+      staticTarget: order.staticTarget,
+      taker: order.taker,
+      takerProtocolFee: order.takerProtocolFee.toString(),
+      takerRelayerFee: order.takerRelayerFee.toString(),
+      target: order.target
     }
-    const signatureDataHex = await signer.signMessage(message)
-    const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
-    return _signMessage({ message, signer })
+
+    const message = {
+      domain: {
+        chainId: network === 'rinkeby' ? 4 : 1,
+        name: EIP_712_WYVERN_DOMAIN_NAME,
+        verifyingContract: order.exchange,
+        version: EIP_712_WYVERN_DOMAIN_VERSION
+      },
+      message: { ...orderForSigning, nonce: signerOrderNonce.toNumber() },
+      primaryType: 'Order',
+      types: { Order: EIP_712_ORDER_TYPES.Order }
+    }
+
+    // @ts-ignore
+    const ecSignature = await signer._signTypedData(message.domain, message.types, message.message)
+    const r = `0x${ecSignature.slice(2, 66)}`
+    const s = `0x${ecSignature.slice(66, 130)}`
+    const v = parseInt(ecSignature.slice(130, 132), 16)
+    return { nonce: signerOrderNonce.toNumber(), r, s, v }
   } catch (error) {
-    console.error('failed to create signature')
-    throw error
+    // eslint-disable-next-line no-console
+    console.log(error)
   }
 }
 
@@ -1073,7 +1132,8 @@ export async function _makeSellOrder({
   const { calldata, replacementPattern, target } = encodeSell(
     schema,
     { address: asset.asset_contract.address, id: asset.token_id },
-    accountAddress
+    accountAddress,
+    waitForHighestBid ? undefined : WYVERN_MERKLE_VALIDATOR_MAINNET
   )
   const orderSaleKind =
     endAmount != null && endAmount !== startAmount
@@ -2224,7 +2284,7 @@ export async function createSellOrder(
   // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
   let signature
   try {
-    signature = await _authorizeOrder(hashedOrder, signer)
+    signature = await authorizeOrder(hashedOrder, signer, network)
   } catch (error) {
     console.error(error)
     throw new Error('You declined to authorize your auction')
@@ -2264,7 +2324,7 @@ export async function createBuyOrder(
     ...order,
     hash: await getOrderHash(order, signer)
   }
-  const signature = await _signMessage({ message: hashedOrder.hash, signer })
+  const signature = await authorizeOrder(hashedOrder, signer, network)
   const orderWithSignature = {
     ...hashedOrder,
     ...signature
@@ -2297,19 +2357,13 @@ export async function createMatchingOrders(
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
 
   if (order.side === NftOrderSide.Sell) {
-    // USER IS THE BUYER, only validate the sell order
-    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-    if (!isSellValid) throw new Error('Sell order is invalid')
-    const signature = await _signMessage({ message: buy.hash, signer })
+    const signature = await authorizeOrder(buy, signer, network)
     buy = {
       ...buy,
       ...signature
     }
   } else {
-    // USER IS THE SELLER, only validate the buy order
-    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-    if (!isBuyValid) throw new Error('Buy order is invalid')
-    const signature = await _signMessage({ message: sell.hash, signer })
+    const signature = await authorizeOrder(sell, signer, network)
     sell = {
       ...sell,
       ...signature
@@ -2319,6 +2373,13 @@ export async function createMatchingOrders(
   // Validate that the orders can match
   const ordersCanMatch = await _validateMatch({ buy, sell, signer })
   if (!ordersCanMatch) throw new Error('Orders cannot match')
+  // Even though the wyvern contract does not require order validation
+  // for atomicMatch_ we do it here to be safe.
+  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+  if (!isBuyValid) throw new Error('Buy order is invalid')
+  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+  if (!isSellValid) throw new Error('Sell order is invalid')
+
   return { buy, sell }
 }
 

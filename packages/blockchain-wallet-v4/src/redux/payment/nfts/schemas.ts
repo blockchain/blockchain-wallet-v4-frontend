@@ -166,7 +166,12 @@ export const ERC1155Schema = {
           type: 'uint256',
           value: asset.id
         },
-        { kind: FunctionInputKind.Count, name: 'amount', type: 'uint256', value: asset.quantity },
+        {
+          kind: FunctionInputKind.Count,
+          name: 'amount',
+          type: 'uint256',
+          value: asset.quantity || 1
+        },
         {
           kind: FunctionInputKind.Data,
           name: 'root',
