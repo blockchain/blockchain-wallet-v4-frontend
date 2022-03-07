@@ -2219,6 +2219,8 @@ type MessagesType = {
   'scenes.home.banners.recurringbuys.description': 'It’s really hard to time the market, which is why many investors use dollar cost averaging.'
   'scenes.home.banners.transactions_left.title': 'Transactions Left'
   'scenes.home.banners.transactions_left.description': 'Unlimited trades and higher limits'
+  'scenes.home.banners.get_more_access.title': 'Get More Access When You Verify'
+  'scenes.home.banners.get_more_access.description': 'After completing this transaction, verify to unlock higher transaction limits and more payment methods.'
   'scenes.home.pricechart.coincurrentprice.currentprice': 'Current Price'
   'scenes.home.pricechart.coinperformance.all': 'all time'
   'scenes.home.pricechart.coinperformance.day': 'today'

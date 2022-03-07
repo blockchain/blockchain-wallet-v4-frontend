@@ -115,6 +115,7 @@ import introSend from './img/intro-send.png'
 import introSwapGif from './img/intro-swap.gif'
 import introSwap from './img/intro-swap.png'
 import linkedinWhite from './img/linkedin-white.svg'
+import lockOpen from './img/lock-open.svg'
 import deviceLockbox from './img/lockbox/device-lockbox.png'
 import deviceNanoS from './img/lockbox/device-nano.png'
 import lockboxFailed from './img/lockbox/firmware-bad.png'
@@ -329,6 +330,7 @@ const Images = {
   'ledger-logo3': ledgerLogo3,
   'ledger-nano-s': deviceNanoS,
   'linkedin-white': linkedinWhite,
+  'lock-open': lockOpen,
   'lockbox-device': deviceLockbox,
   'lockbox-failed': lockboxFailed,
   'lockbox-failed2': lockboxFailed2,
