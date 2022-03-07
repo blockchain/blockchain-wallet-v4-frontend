@@ -15,10 +15,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(undefined, mapDispatchToProps)
 
-type OwnProps = {
-  getProducts: () => {}
-}
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(DebitCardContainer)

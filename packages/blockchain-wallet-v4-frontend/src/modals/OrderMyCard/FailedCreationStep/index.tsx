@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Image } from 'blockchain-info-components'
-import { FlyoutContent, FlyoutHeader } from 'components/Flyout'
+import FlyoutContent from 'components/Flyout/Content'
+import { FlyoutHeader } from 'components/Flyout/Layout'
 
 import { ResultSubTitleWrapper, ResultTitleWrapper, ResultWrapper, StyledButton } from '../model'
 
