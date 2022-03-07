@@ -9,11 +9,16 @@ import DebitCard from './template'
 const DebitCardContainer = (props: Props) => <DebitCard {...props} />
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  debitCardActions: bindActionCreators(actions.components.debitCard, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector>
+type OwnProps = {
+  getProducts: () => {}
+}
+
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DebitCardContainer)

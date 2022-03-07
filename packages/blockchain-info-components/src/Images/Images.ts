@@ -67,6 +67,7 @@ import coinPax from './img/coin-pax.svg'
 import coins from './img/coins'
 import creditCard from './img/credit-card.svg'
 import introCard from './img/debitCard/intro-card.png'
+import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderMyCardIcon from './img/debitCard/order-my-card-icon.png'
 import emailError from './img/email-error.svg'
@@ -331,6 +332,7 @@ const Images = {
   'micro-deposits-whole': microDepositsWhole,
   money,
   nft,
+  'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-my-card-icon': orderMyCardIcon,
   printer,
