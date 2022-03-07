@@ -17,22 +17,15 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       defaultValue: 'bitcoin',
       mapping: {
         bitcoin: (
+          // @ts-ignore
           <AboutSection.Bitcoin
-            // @ts-ignore
-            content={AboutSection.Bitcoin.args.content}
-            // @ts-ignore
-            title={AboutSection.Bitcoin.args.title}
+            {...AboutSection.Bitcoin.args}
             actions={defaultAboutSectionActions}
           />
         ),
         solana: (
-          <AboutSection.Solana
-            // @ts-ignore
-            content={AboutSection.Solana.args.content}
-            // @ts-ignore
-            title={AboutSection.Solana.args.title}
-            actions={defaultAboutSectionActions}
-          />
+          // @ts-ignore
+          <AboutSection.Solana {...AboutSection.Solana.args} actions={defaultAboutSectionActions} />
         )
       },
       options: ['bitcoin', 'solana']
@@ -44,12 +37,8 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       defaultValue: 'not_tradable',
       mapping: {
         not_tradable: (
-          <AlertCard.NotTradable
-            // @ts-ignore
-            content={AlertCard.NotTradable.args.content}
-            // @ts-ignore
-            title={AlertCard.NotTradable.args.title}
-          />
+          // @ts-ignore
+          <AlertCard.NotTradable {...AlertCard.NotTradable.args} />
         )
       },
       options: ['not_tradable']
