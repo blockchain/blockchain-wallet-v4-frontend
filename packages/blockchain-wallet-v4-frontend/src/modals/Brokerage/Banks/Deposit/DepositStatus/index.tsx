@@ -5,7 +5,7 @@ import { getFormValues } from 'redux-form'
 
 import { Remote } from '@core'
 import { FiatType } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'

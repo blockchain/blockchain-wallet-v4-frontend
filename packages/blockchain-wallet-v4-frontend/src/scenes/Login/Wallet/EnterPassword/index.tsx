@@ -226,6 +226,18 @@ const EnterPasswordWallet = (props: Props) => {
                   defaultMessage='Tap the QR code icon at the top right corner of the app.'
                 />
               </Text>
+              <Text
+                color='grey900'
+                size='12px'
+                weight={500}
+                lineHeight='1.5'
+                style={{ marginTop: '4px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.wallet.mobile_login.notification'
+                  defaultMessage='Ensure that notifications are enabled for the Blockchain.com app.'
+                />
+              </Text>
             </TextColumn>
           </MobileAuthSideWrapper>
         </SideWrapper>

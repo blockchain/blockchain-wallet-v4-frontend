@@ -121,14 +121,19 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device, exchange_only_login) =>
+  const authorizeVerifyDevice = (
+    fromSessionId,
+    magicLinkDataEncoded,
+    confirm_device,
+    exchange_only_login
+  ) =>
     post({
       data: {
         confirm_device,
         exchange_only_login,
         fromSessionId,
         method: 'authorize-verify-device',
-        payload
+        payload: magicLinkDataEncoded
       },
       endPoint: '/wallet',
       url: rootUrl

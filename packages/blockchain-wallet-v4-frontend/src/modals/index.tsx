@@ -27,6 +27,9 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 // BCH
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
+// Debit Card
+const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -116,6 +119,9 @@ const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily')
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
+
+// TAXCENTER
+const GenerateReport = React.lazy(() => import('./GenerateReport'))
 
 const Modals = (props: Props) => {
   return (
@@ -210,6 +216,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD) ? (
+          <OrderMyCard />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
@@ -322,6 +331,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
           <KycTierUpgrade />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
+          <GenerateReport />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

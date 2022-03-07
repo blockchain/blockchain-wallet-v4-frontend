@@ -63,7 +63,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )
-      yield put(A.fetchInterestBalanceSuccess(response))
+      yield put(A.fetchInterestBalanceSuccess(response || {}))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestBalanceFailure(error))

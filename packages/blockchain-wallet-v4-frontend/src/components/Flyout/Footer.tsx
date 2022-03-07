@@ -12,6 +12,13 @@ const Footer = styled.div<{ collapsed?: boolean }>`
   }
 `
 
+/**
+ * Flyout Footer
+ *
+ * @param {React.ReactNode} children - content passed between the Flyout Footer.
+ * @param {boolean} collapsed - collapses the height of the footer otherwise its set to 50%
+ */
+
 const FlyoutFooter = memo((props: Props) => {
   return <Footer collapsed={props.collapsed}>{props.children}</Footer>
 })

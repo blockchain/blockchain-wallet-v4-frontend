@@ -90,24 +90,6 @@
 //                   </Text>
 //                 </TextGroup>
 //               </InfoItem>
-
-//               <InfoItem>
-//                 <TextGroup inline>
-//                   <Text color='grey800' size='16px' weight={600}>
-//                     <FormattedMessage
-//                       id='scenes.register.exchangecard.item.2.bold1'
-//                       defaultMessage='Many trading pairs'
-//                     />
-//                   </Text>
-//                   <Text color='grey600' size='16px' weight={500}>
-//                     <FormattedMessage
-//                       id='scenes.register.exchangecard.item.2.regular1'
-//                       defaultMessage='including USD, GBP and EUR.'
-//                     />
-//                   </Text>
-//                 </TextGroup>
-//               </InfoItem>
-
 //               <InfoItem>
 //                 <TextGroup inline>
 //                   <Text color='grey800' size='16px' weight={600}>

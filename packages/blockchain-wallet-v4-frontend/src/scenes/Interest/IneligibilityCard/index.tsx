@@ -22,14 +22,14 @@ class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
   }
 
   render() {
-    const { instruments, interestEligible } = this.props
+    const { interestEligible, sortedInstruments } = this.props
 
     return interestEligible.cata({
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => {
-        const ineligibilityReasonList = instruments.map((instrument) => {
+        const ineligibilityReasonList = sortedInstruments.map((instrument) => {
           return val[instrument]?.ineligibilityReason
         })
         return (

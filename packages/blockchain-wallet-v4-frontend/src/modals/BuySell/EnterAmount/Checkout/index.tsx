@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
 import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
@@ -158,6 +158,16 @@ class Checkout extends PureComponent<Props> {
     } else if (formValues && method) {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
+          if (this.props.mobilePaymentMethod) {
+            this.props.buySellActions.createOrder({
+              mobilePaymentMethod: this.props.mobilePaymentMethod,
+              paymentMethodId: method.id,
+              paymentType: BSPaymentTypes.PAYMENT_CARD
+            })
+
+            break
+          }
+
           this.props.buySellActions.setStep({
             step: 'DETERMINE_CARD_PROVIDER'
           })

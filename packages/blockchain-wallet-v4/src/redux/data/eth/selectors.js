@@ -1,4 +1,4 @@
-import { concat, curry, path, prop } from 'ramda'
+import { concat, path, prop } from 'ramda'
 
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
@@ -58,9 +58,6 @@ export const getErc20Balance = (state, token) => {
 }
 export const getErc20CurrentBalance = (state, token) => {
   return path([dataPath, 'eth', 'current_balance', token])(state) || Remote.NotAsked
-}
-export const getErc20Coins = () => {
-  return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.erc20Address)
 }
 export const getErc20Transactions = (state, token) => {
   return path([dataPath, 'eth', 'transactions', token])(state) || Remote.NotAsked

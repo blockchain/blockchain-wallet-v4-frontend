@@ -1,7 +1,7 @@
 import React from 'react'
 import { equals } from 'ramda'
 
-import { BuySellLimitReached } from 'components/Flyout'
+import { BuySellLimitReached } from 'components/Flyout/Brokerage'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'

@@ -5,29 +5,36 @@ import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
-import { AccountUnificationFlows, LoginSteps, PlatformTypes, ProductAuthOptions } from './types'
-
-const logLocation = 'auth/sagas'
+import {
+  AccountUnificationFlows,
+  AuthMagicLink,
+  LoginSteps,
+  PlatformTypes,
+  ProductAuthOptions
+} from './types'
 
 // TODO: cleanup this function
-export const parseMagicLink = function* () {
+export const parseAuthMagicLink = function* () {
   try {
     const magicLink = yield select(selectors.auth.getMagicLinkData)
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       exchange: exchangeData,
       mergeable,
+      platform_type,
       product,
       session_id,
       unified,
       upgradeable,
       wallet: walletData
-    } = magicLink
+    } = magicLink as AuthMagicLink
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
+    // eslint-disable-next-line
+    console.log('MAGIC LINK:: ', magicLink)
     const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
-    const showMergeAndUpradeFlows = (yield select(
+    const showMergeAndUpgradeFlows = (yield select(
       selectors.core.walletOptions.getMergeAndUpgradeAccounts
     )).getOrElse(false)
     // feature flag for unified accounts login
@@ -56,6 +63,29 @@ export const parseMagicLink = function* () {
       if (unified) {
         yield put(actions.cache.setUnifiedAccount(true))
         yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+      }
+    }
+    // check if merge/upgrade flows are both enabled and required for user
+    if (showMergeAndUpgradeFlows) {
+      if (!unified && (mergeable || upgradeable)) {
+        if (productAuth === ProductAuthOptions.WALLET && mergeable) {
+          // send them to wallet password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE)
+          )
+        }
+        if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
+          // send them to exchange password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
+          )
+        }
+        if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
+          // send them to exchange password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
+          )
+        }
       }
     }
 
@@ -97,11 +127,12 @@ export const parseMagicLink = function* () {
         yield put(actions.cache.emailStored(walletData?.email))
         yield put(actions.cache.guidStored(walletData?.guid))
         yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
-        yield put(actions.cache.hasCloudBackup(walletData.has_cloud_backup))
+        yield put(actions.cache.hasCloudBackup(walletData?.has_cloud_backup))
         yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
         yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
         yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
         yield put(actions.auth.setMagicLinkInfo(magicLink))
+        // TODO: probably dont hardcode the platform
         yield put(
           actions.auth.setProductAuthMetadata({
             platform: PlatformTypes.WEB,
@@ -122,12 +153,12 @@ export const parseMagicLink = function* () {
         // set state with all exchange login information
         // if account isn't unified, email for login is in exchangeData
         // if account is unified, exchange data is embedded within walletData
-        yield put(actions.cache.exchangeEmail(exchangeData?.email || walletData?.exchange.email))
+        yield put(actions.cache.exchangeEmail(exchangeData?.email || walletData?.exchange?.email))
         yield put(
           actions.form.change(
             LOGIN_FORM,
             'exchangeEmail',
-            exchangeData?.email || walletData?.exchange.email
+            exchangeData?.email || walletData?.exchange?.email
           )
         )
         if (walletData) {
@@ -137,7 +168,7 @@ export const parseMagicLink = function* () {
         yield put(actions.auth.setMagicLinkInfo(magicLink))
         yield put(
           actions.auth.setProductAuthMetadata({
-            platform: PlatformTypes.WEB,
+            platform: platform_type as PlatformTypes,
             product: ProductAuthOptions.EXCHANGE
           })
         )
@@ -148,7 +179,7 @@ export const parseMagicLink = function* () {
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
+    yield put(actions.logs.logErrorMessage('auth/sagas.utils', 'parseLink', e))
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
     yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
   }
@@ -186,7 +217,7 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
     }
     if (prop('wallet', response) || prop('exchange', response)) {
       yield put(actions.auth.setMagicLinkInfo(response))
-      yield call(parseMagicLink)
+      yield call(parseAuthMagicLink)
       return true
     }
     if (response.request_denied) {

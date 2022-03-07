@@ -12,9 +12,11 @@ import {
   CoinType,
   ExtractSuccess,
   FiatType,
+  MobilePaymentType,
   RemoteDataType
 } from '@core/types'
-import { BuySellLimitReached, FlyoutOopsError } from 'components/Flyout'
+import { BuySellLimitReached } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { DEFAULT_BS_METHODS } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
@@ -98,6 +100,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
   method?: BSPaymentMethodType
+  mobilePaymentMethod?: MobilePaymentType
   order?: BSOrderType
   orderType: BSOrderActionType
   pair: BSPairType

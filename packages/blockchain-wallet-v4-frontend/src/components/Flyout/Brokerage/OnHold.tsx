@@ -5,7 +5,12 @@ import moment from 'moment'
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, WithdrawalLock } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import { CheckoutRow } from 'components/Rows'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 

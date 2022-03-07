@@ -12,6 +12,7 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import applePay from './img/apple-pay-icon.svg'
 import arrowLeft from './img/arrow-left.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
@@ -55,6 +56,9 @@ import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
+import cardErrorIcon from './img/card-error-icon.svg'
+import cardSuccessIcon from './img/card-success-icon.svg'
+import cardWarningIcon from './img/card-warning-icon.svg'
 import cartGreen from './img/cart-green.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
@@ -65,6 +69,9 @@ import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins'
 import creditCard from './img/credit-card.svg'
+import introCard from './img/debitCard/intro-card.png'
+import orderMyCard from './img/debitCard/order-my-card.png'
+import orderMyCardIcon from './img/debitCard/order-my-card-icon.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -157,6 +164,7 @@ import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
+import subtractCheckCircle from './img/subtract-check-circle.png'
 import swap from './img/swap.svg'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
@@ -200,6 +208,7 @@ const Images = {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
+  'apple-pay': applePay,
   'arrow-left': arrowLeft,
   bank,
   'bank-empty': bankEmpty,
@@ -243,6 +252,9 @@ const Images = {
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'card-error-icon': cardErrorIcon,
+  'card-success-icon': cardSuccessIcon,
+  'card-warning-icon': cardWarningIcon,
   'cart-green': cartGreen,
   'chart-placeholder': chartPlaceholder,
   'checkmark-circle-green': checkmarkCircleGreen,
@@ -285,6 +297,7 @@ const Images = {
   'identity-verification': identityVerification,
   interest,
   'intro-bank-gif': introBankGif,
+  'intro-card': introCard,
   'intro-cart-gif': introCartGif,
   'intro-hand': introHand,
   'intro-lock': introLock,
@@ -327,6 +340,8 @@ const Images = {
   'micro-deposits-whole': microDepositsWhole,
   money,
   nft,
+  'order-my-card': orderMyCard,
+  'order-my-card-icon': orderMyCardIcon,
   printer,
   'product-redirect-exchange': productRedirectExchange,
   'product-redirect-wallet': productRedirectWallet,
@@ -345,6 +360,7 @@ const Images = {
   smartphone,
   'source-of-wealth': sourceOfWealth,
   'starfield-banner-bg': starfieldBannerBg,
+  'subtract-check-circle': subtractCheckCircle,
   swap,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,

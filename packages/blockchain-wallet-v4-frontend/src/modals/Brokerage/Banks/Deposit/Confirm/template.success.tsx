@@ -7,7 +7,12 @@ import styled from 'styled-components'
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
@@ -29,10 +34,6 @@ const Success = (props: Props) => {
     props.brokerageActions.setDWStep({
       dwStep: BankDWStepType.ENTER_AMOUNT
     })
-  }, [])
-
-  const cancelButtonClick = useCallback(() => {
-    props.handleClose()
   }, [])
 
   const submitButtonClick = useCallback(() => {
@@ -103,7 +104,7 @@ const Success = (props: Props) => {
           {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
         </div>
       </FlyoutContent>
-      <FlyoutFooter>
+      <FlyoutFooter collapsed>
         <Button
           data-e2e='submitDepositAmount'
           height='48px'
@@ -118,28 +119,9 @@ const Success = (props: Props) => {
           ) : (
             <FormattedMessage
               id='modals.simplebuy.deposit.deposit_button'
-              defaultMessage='Deposit {amount}'
-              values={{
-                amount: fiatToString({
-                  digits: 0,
-                  unit: props.defaultMethod?.currency || ('USD' as FiatType),
-                  value: amount
-                })
-              }}
+              defaultMessage='Deposit Now'
             />
           )}
-        </Button>
-        <Button
-          data-e2e='depositCancel'
-          disabled={submitting}
-          size='16px'
-          height='48px'
-          nature='light-red'
-          onClick={cancelButtonClick}
-          fullwidth
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </FlyoutFooter>
     </FlyoutContainer>

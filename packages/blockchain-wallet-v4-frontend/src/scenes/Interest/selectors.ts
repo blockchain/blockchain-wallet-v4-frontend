@@ -9,20 +9,21 @@ import { SuccessStateType } from '.'
 const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => {
   const userDataR = selectors.modules.profile.getUserData(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
-  const instrumentsR = selectors.components.interest.getInterestInstruments(state)
   const interestEDDStatus = selectors.components.interest.getInterestEDDStatus(state).getOrElse({
     eddNeeded: false
   } as InterestEDDStatus)
 
-  const transform = (instruments, interestRate, userData) => ({
-    instruments: instruments.sort(),
+  const sortedInstrumentsR = selectors.components.interest.getInstrumentsSortedByBalance(state)
+
+  const transform = (interestRate, userData, sortedInstruments) => ({
     interestEDDStatus,
     interestRate,
     interestRateArray: values(interestRate),
+    sortedInstruments,
     userData
   })
 
-  return lift(transform)(instrumentsR, interestRateR, userDataR)
+  return lift(transform)(interestRateR, userDataR, sortedInstrumentsR)
 }
 
 export default getData
