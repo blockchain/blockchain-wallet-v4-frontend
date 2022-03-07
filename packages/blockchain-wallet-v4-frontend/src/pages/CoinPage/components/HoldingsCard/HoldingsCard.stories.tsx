@@ -34,4 +34,11 @@ Bitcoin.args = {
   total: '$7,926.43'
 }
 
+export const BitcoinEmpty = Template.bind({})
+BitcoinEmpty.args = {
+  coinCode: 'BTC',
+  coinTotal: '0',
+  total: '0'
+}
+
 export default holdingsCardStoriesMeta
