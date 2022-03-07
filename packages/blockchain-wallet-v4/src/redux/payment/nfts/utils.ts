@@ -329,7 +329,7 @@ export const encodeSell = (schema, asset: WyvernAsset, address, validatorAddress
 export const encodeBuy = (schema, asset: WyvernAsset, address, validatorAddress?: string) => {
   const transfer =
     schema.functions.checkAndTransfer && validatorAddress
-      ? schema.functions.checkAndTransfer(asset, WYVERN_MERKLE_VALIDATOR_MAINNET)
+      ? schema.functions.checkAndTransfer(asset, validatorAddress)
       : schema.functions.transfer(asset)
   const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
   const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
@@ -422,28 +422,6 @@ function _getTimeParameters(
   }
 }
 
-// function _getSchema(schemaName?: WyvernSchemaName): Schema<any> {
-//   const schemaName_ = schemaName || WyvernSchemaName.ERC721
-//   const schema = WyvernSchemas.schemas[this._networkName].filter((s) => s.name == schemaName_)[0]
-
-//   if (!schema) {
-//     throw new Error(
-//       `Trading for this asset (${schemaName_}) is not yet supported. Please contact us or check back later!`
-//     )
-//   }
-//   return schema
-// }
-
-function toBaseUnitAmount(amount: BigNumber, decimals: number): BigNumber {
-  const unit = new BigNumber(10).pow(decimals)
-  const baseUnitAmount = amount.times(unit)
-  const hasDecimals = baseUnitAmount.decimalPlaces() !== 0
-  if (hasDecimals) {
-    throw new Error(`Invalid unit amount: ${amount.toString()} - Too many decimal places`)
-  }
-  return baseUnitAmount
-}
-
 export function assignOrdersToSides(
   order: NftOrder,
   matchingOrder: UnsignedOrder
@@ -480,111 +458,6 @@ export function _getMetadata(order: NftOrder, referrerAddress?: string) {
   }
   return undefined
 }
-
-/**
- * To-DO make it work with the dynamic price setting from the on-chain data. Currently hard-coded. Currently doesn't work with Enjin assets
- * Get current transfer fees for an asset
- * @param web3 Web3 instance
- * @param asset The asset to check for transfer fees
- */
-async function getTransferFeeSettings(
-  // web3: Web3,
-  {
-    accountAddress,
-    asset
-  }: {
-    accountAddress?: string
-    asset: Asset
-  }
-) {
-  let transferFee: BigNumber | undefined
-  let transferFeeTokenAddress: string | undefined
-
-  // if (asset.tokenAddress.toLowerCase() == ENJIN_ADDRESS.toLowerCase()) {
-  //   // Enjin asset
-  //   const feeContract = web3.eth.contract(ERC1155 as any).at(asset.tokenAddress)
-
-  //   const params = await promisifyCall<any[]>((c) =>
-  //     feeContract.transferSettings(asset.tokenId, { from: accountAddress }, c)
-  //   )
-  //   if (params) {
-  //     transferFee = new BigNumber(params[3])
-  //     if (params[2] == 0) {
-  //       transferFeeTokenAddress = ENJIN_COIN_ADDRESS
-  //     }
-  //   }
-  // }
-  return { transferFee, transferFeeTokenAddress }
-}
-
-/**
- * Compute the `basePrice` and `extra` parameters to be used to price an order.
- * Also validates the expiration time and auction type.
- * @param tokenAddress Address of the ERC-20 token to use for trading.
- * Use the null address for ETH
- * @param expirationTime When the auction expires, or 0 if never.
- * @param startAmount The base value for the order, in the token's main units (e.g. ETH instead of wei)
- * @param endAmount The end value for the order, in the token's main units (e.g. ETH instead of wei). If unspecified, the order's `extra` attribute will be 0
- */
-// async function _getPriceParameters(
-//   orderSide: NftOrderSide,
-//   tokenAddress: string,
-//   expirationTime: number,
-//   startAmount: number,
-//   endAmount?: number,
-//   waitingForBestCounterOrder = false,
-//   englishAuctionReservePrice?: number
-// ) {
-//   const priceDiff = endAmount != null ? startAmount - endAmount : 0
-//   const paymentToken = tokenAddress.toLowerCase()
-//   const isEther = tokenAddress == NULL_ADDRESS
-//   const { tokens } = await this.api.getPaymentTokens({ address: paymentToken })
-//   const token = tokens[0]
-
-//   // Validation
-//   if (Number.isNaN(startAmount) || startAmount == null || startAmount < 0) {
-//     throw new Error(`Starting price must be a number >= 0`)
-//   }
-//   if (!isEther && !token) {
-//     throw new Error(`No ERC-20 token found for '${paymentToken}'`)
-//   }
-//   if (isEther && waitingForBestCounterOrder) {
-//     throw new Error(`English auctions must use wrapped ETH or an ERC-20 token.`)
-//   }
-//   if (isEther && orderSide === NftOrderSide.Buy) {
-//     throw new Error(`Offers must use wrapped ETH or an ERC-20 token.`)
-//   }
-//   if (priceDiff < 0) {
-//     throw new Error('End price must be less than or equal to the start price.')
-//   }
-//   if (priceDiff > 0 && expirationTime == 0) {
-//     throw new Error('Expiration time must be set if order will change in price.')
-//   }
-//   if (englishAuctionReservePrice && !waitingForBestCounterOrder) {
-//     throw new Error('Reserve prices may only be set on English auctions.')
-//   }
-//   if (englishAuctionReservePrice && englishAuctionReservePrice < startAmount) {
-//     throw new Error('Reserve price must be greater than or equal to the start amount.')
-//   }
-
-//   // Note: WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
-//   // will fail if too many decimal places, so special-case ether
-//   const basePrice = isEther
-//     ? new BigNumber(this.web3.toWei(startAmount, 'ether')).round()
-//     : WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
-
-//   const extra = isEther
-//     ? new BigNumber(this.web3.toWei(priceDiff, 'ether')).round()
-//     : WyvernProtocol.toBaseUnitAmount(new BigNumber(priceDiff), token.decimals)
-
-//   const reservePrice = englishAuctionReservePrice
-//     ? isEther
-//       ? new BigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
-//       : WyvernProtocol.toBaseUnitAmount(new BigNumber(englishAuctionReservePrice), token.decimals)
-//     : undefined
-
-//   return { basePrice, extra, paymentToken, reservePrice }
-// }
 
 export async function _makeMatchingOrder({
   accountAddress,
@@ -865,68 +738,6 @@ export async function isContractAddress(
 ): Promise<boolean> {
   const code = await provider.getCode(address)
   return code !== '0x'
-}
-
-/**
- * Instead of signing an off-chain order, you can approve an order
- * with on on-chain transaction using this method
- * @param order Order to approve
- * @returns Transaction hash of the approval transaction
- */
-async function _approveOrder(order: UnsignedOrder, signer: Signer) {
-  const accountAddress = order.maker
-  const includeInOrderBook = true
-  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
-
-  const transactionHash = await wyvernExchangeContract.approveOrder_(
-    [
-      order.exchange,
-      order.maker,
-      order.taker,
-      order.feeRecipient,
-      order.target,
-      order.staticTarget,
-      order.paymentToken
-    ],
-    [
-      order.makerRelayerFee,
-      order.takerRelayerFee,
-      order.makerProtocolFee,
-      order.takerProtocolFee,
-      order.basePrice,
-      order.extra,
-      order.listingTime,
-      order.expirationTime,
-      order.salt
-    ],
-    order.feeMethod,
-    order.side,
-    order.saleKind,
-    order.howToCall,
-    order.calldata,
-    order.replacementPattern,
-    order.staticExtradata,
-    includeInOrderBook,
-    { from: accountAddress }
-  )
-
-  return transactionHash
-}
-
-export async function _signMessage({
-  isHash = true,
-  message,
-  signer
-}: {
-  isHash?: boolean
-  message: string
-  signer: Signer
-}): Promise<ECSignature | null> {
-  const signatureDataHex = isHash
-    ? await signer.signMessage(ethers.utils.arrayify(message))
-    : await signer.signMessage(message)
-  const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
-  return { r, s, v }
 }
 
 async function authorizeOrder(
@@ -1345,21 +1156,6 @@ export async function _ownsAssetOnChain({
   return false
 }
 
-// async function getNonCompliantApprovalAddress(
-//   erc721Contract: any,
-//   tokenId: string,
-//   accountAddress: string
-// ): Promise<string | undefined> {
-//   const results = await Promise.all([
-//     // CRYPTOKITTIES check
-//     promisifyCall<string>((c) => erc721Contract.kittyIndexToApproved.call(tokenId, c)),
-//     // Etherbots check
-//     promisifyCall<string>((c) => erc721Contract.partIndexToApproved.call(tokenId, c))
-//   ])
-
-//   return _.compact(results)[0]
-// }
-
 /**
  * Approve a non-fungible token for use in trades.
  * Requires an account to be initialized first.
@@ -1768,7 +1564,6 @@ export async function _cancelOrder({
   signer: Signer
   txnData: txnData
 }) {
-  const accountAddress = await signer.getAddress()
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,
@@ -2245,6 +2040,7 @@ export async function _makeBuyOrder({
     waitingForBestCounterOrder: false
   }
 }
+
 export async function createSellOrder(
   asset: NftAsset,
   expirationTime: number,
