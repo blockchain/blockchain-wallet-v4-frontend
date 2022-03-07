@@ -32,7 +32,7 @@
         }
       },
       "featureFlags": {
-        "applePayPaymentMethod": true,
+        "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
