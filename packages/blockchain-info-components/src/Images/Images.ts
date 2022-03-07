@@ -58,6 +58,9 @@ import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
 import buyWhiteCircle from './img/buy-white-circle.svg'
+import cardErrorIcon from './img/card-error-icon.svg'
+import cardSuccessIcon from './img/card-success-icon.svg'
+import cardWarningIcon from './img/card-warning-icon.svg'
 import cartGreen from './img/cart-green.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
 import checkEmptyBlue from './img/check-empty-blue.svg'
@@ -260,6 +263,9 @@ const Images = {
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
   'buy-white-circle': buyWhiteCircle,
+  'card-error-icon': cardErrorIcon,
+  'card-success-icon': cardSuccessIcon,
+  'card-warning-icon': cardWarningIcon,
   'cart-green': cartGreen,
   'chart-placeholder': chartPlaceholder,
   'check-empty-blue': checkEmptyBlue,
