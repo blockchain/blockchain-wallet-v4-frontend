@@ -94,7 +94,7 @@ export interface WyvernOrder {
   paymentToken: string
   replacementPattern: string
   saleKind: number
-  salt: BigNumber
+  salt: string
   side: number
   staticExtradata: string
   staticTarget: string

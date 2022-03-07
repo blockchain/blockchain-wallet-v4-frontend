@@ -9,20 +9,20 @@ import {
 } from '@core/network/api/nfts/types'
 
 import {
-  _atomicMatch,
-  _buyOrderValidationAndApprovals,
-  _cancelOrder,
-  _sellOrderValidationAndApprovals,
+  atomicMatch,
+  buyOrderValidationAndApprovals,
   calculateAtomicMatchFees,
   calculateCancellation,
   calculatePaymentProxyApprovals,
   calculateProxyApprovalFees,
   calculateProxyFees,
   calculateTransferFees,
+  cancelOrder,
   createBuyOrder,
   createMatchingOrders,
   createSellOrder,
   NULL_ADDRESS,
+  sellOrderValidationAndApprovals,
   transferAsset,
   verifyTransfered
 } from './utils'
@@ -33,12 +33,12 @@ export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasDat
     gasLimit: gasFees,
     gasPrice
   }
-  const cancelled = await _cancelOrder({ sellOrder, signer, txnData })
+  const cancelled = await cancelOrder({ sellOrder, signer, txnData })
   return cancelled
 }
 
 export const fulfillNftSellOrder = async (order: NftOrder, signer: Signer, gasData: GasDataI) => {
-  const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
+  const validatedAndApproved = await sellOrderValidationAndApprovals({ gasData, order, signer })
   // eslint-disable-next-line no-console
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
   return order
@@ -79,19 +79,18 @@ export const fulfillNftOrder = async ({
   sell?: NftOrder
   signer: Signer
 }) => {
-  // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
-  // await _buyOrderValidationAndApprovals({ order: buy, signer })
+  // Perform buy order validations (abstracted away from atomicMatch because english auction bids don't hit that function)
   if (
     !sell ||
     sell.waitingForBestCounterOrder ||
     (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS)
   ) {
-    await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
+    await buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     // eslint-disable-next-line no-console
     console.log('Post buy order to OpenSea API.')
     return buy
   }
-  await _atomicMatch({ buy, gasData, sell, signer })
+  await atomicMatch({ buy, gasData, sell, signer })
 }
 
 export const getNftBuyOrder = async (
@@ -174,7 +173,7 @@ export const calculateGasFees = async (
       buyOrder.paymentToken !== NULL_ADDRESS
         ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toNumber()
         : 0
-    // 2. Caclulate the gas cost of the _atomicMatch function call
+    // 2. Caclulate the gas cost of the atomicMatch function call
     gasFees =
       approvalFees === 0 && buyOrder.paymentToken === NULL_ADDRESS
         ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
