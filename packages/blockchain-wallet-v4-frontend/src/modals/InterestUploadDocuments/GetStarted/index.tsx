@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { GetStarted } from 'components/Flyout'
+import { GetStarted } from 'components/Flyout/InterestUploadDocuments'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from 'data/types'

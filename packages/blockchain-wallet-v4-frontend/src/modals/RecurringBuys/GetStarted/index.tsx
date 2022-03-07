@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import { Exchange } from '@core'
 import { BSOrderType } from '@core/types'
-import { RecurringBuyGettingStarted } from 'components/Flyout'
+import { GettingStarted } from 'components/Flyout/RecurringBuy'
 import { selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
@@ -27,7 +27,7 @@ const GetStartedContainer = ({ close, order, recurringBuyActions }: Props) => {
   const amount = `${Exchange.getSymbol(getCounterCurrency(order))}${getCounterAmount(order)}`
   const gettingStartedProps = { amount, close: closeCallback, nextStep, outputCurrency }
 
-  return <RecurringBuyGettingStarted {...gettingStartedProps} />
+  return <GettingStarted {...gettingStartedProps} />
 }
 
 const mapStateToProps = (state: RootState) => ({

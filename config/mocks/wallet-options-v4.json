@@ -32,7 +32,7 @@
         }
       },
       "featureFlags": {
-        "applePayPaymentMethod": true,
+        "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
@@ -41,9 +41,11 @@
         "mergeAndUpgrade": false,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
+        "institutionalPortal": true,
+        "isRedesignEnabled": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
-        "isRedesignEnabled": true,
+        "refreshCaptchaWithSignupError": true,
         "signupCountry": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,

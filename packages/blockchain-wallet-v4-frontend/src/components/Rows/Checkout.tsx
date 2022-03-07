@@ -121,5 +121,4 @@ export type Props = {
   toolTip?: string | React.ReactNode
 }
 
-export { CheckoutRow }
 export default CheckoutRow

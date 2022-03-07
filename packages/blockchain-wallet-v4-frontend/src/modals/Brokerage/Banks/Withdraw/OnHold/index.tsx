@@ -4,7 +4,8 @@ import { Loading, LoadingTextEnum } from 'blockchain-wallet-v4-frontend/src/moda
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { ExtractSuccess } from '@core/types'
-import { FlyoutOopsError, OnHold } from 'components/Flyout'
+import { OnHold } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'

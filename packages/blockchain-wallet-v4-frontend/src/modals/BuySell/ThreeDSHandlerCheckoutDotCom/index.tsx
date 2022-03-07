@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSCardType, BSOrderType, Everypay3DSResponseType, ProviderDetailsType } from '@core/types'
-import DataError from 'components/DataError'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
+import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -38,8 +38,14 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
-  const handleIconClick = () => {
-    const { order, type } = props.data.getOrFail('NO ORDER/CARD TO GET')
+  const handleBack = () => {
+    const { order, type } = props.data.getOrElse({})
+
+    if (!order || !type) {
+      props.buySellActions.setStep({
+        step: 'DETERMINE_CARD_PROVIDER'
+      })
+    }
 
     if (type === 'ORDER') {
       props.buySellActions.setStep({
@@ -53,15 +59,33 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
+  // const handleReset = () => {
+  //   props.buySellActions.destroyCheckout()
+  // }
+
+  const handleRetry = () => {
+    props.buySellActions.setStep({
+      step: 'DETERMINE_CARD_PROVIDER'
+    })
+  }
+
   return props.data.cata({
-    Failure: (e) => <DataError message={{ message: e }} />,
+    Failure: (code) => (
+      <Failure
+        code={code}
+        handleBack={handleBack}
+        // handleReset={handleReset}
+        handleRetry={handleRetry}
+      />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
-    Success: (val) => <Success {...val} handleIconClick={handleIconClick} isPolling={isPolling} />
+    Success: (val) => <Success {...val} handleBack={handleBack} isPolling={isPolling} />
   })
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
+  checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   data: getData(state)
 })
 
@@ -85,10 +109,6 @@ export type SuccessStateType =
       threeDSDetails: Everypay3DSResponseType
       type: 'CARD'
     }
-
-type LinkStatePropsType = {
-  data: ReturnType<typeof getData>
-}
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
