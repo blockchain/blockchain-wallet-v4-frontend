@@ -24,6 +24,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
 import { swapSliceReducer as swap } from './swap/slice'
+import { reducer as termsAndConditions } from './termsAndConditions/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { walletConnectReducer as walletConnect } from './walletConnect/slice'
@@ -54,6 +55,7 @@ const componentReducer = combineReducers({
   settings: settingsReducer,
   signMessage,
   swap,
+  termsAndConditions,
   uploadDocuments,
   veriff,
   walletConnect,

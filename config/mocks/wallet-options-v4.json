@@ -45,6 +45,7 @@
         "recurringBuys": true,
         "isRedesignEnabled": true,
         "refreshCaptchaWithSignupError": true,
+        "showTermsAndConditions": true,
         "signupCountry": true,
         "silverRevamp": true,
         "taxCenter": true,

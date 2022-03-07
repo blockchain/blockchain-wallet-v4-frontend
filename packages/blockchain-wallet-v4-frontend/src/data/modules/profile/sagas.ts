@@ -5,7 +5,6 @@ import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
-import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'

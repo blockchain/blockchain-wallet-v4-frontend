@@ -8,6 +8,7 @@ import {
   Events as InterestClientEvents,
   TrackEventAction as InterestClientTrackEventAction
 } from './interestClient'
+import { Events as LoginEvents, TrackEventAction as LoginTrackEventAction } from './login'
 import {
   AnalyticsProperties as OnboardingAndVerificationAnalyticsProperties,
   Events as OnboardingAndVerificationEvents,
@@ -24,11 +25,13 @@ const TRACK_EVENT = 'trackEvent'
 type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | ViewAndClickEvents
+  | LoginEvents
   | InterestClientEvents
   | DepositWithdrawalClientEvents
 const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
+  ...LoginEvents,
   ...InterestClientEvents,
   ...DepositWithdrawalClientEvents
 }
@@ -59,6 +62,7 @@ type RawEvent = {
 type TrackEventAction =
   | OnboardingAndVerificationTrackEventAction
   | ViewAndClickTrackEventAction
+  | LoginTrackEventAction
   | InterestClientTrackEventAction
   | DepositWithdrawalClientEventAction
 

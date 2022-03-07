@@ -112,6 +112,7 @@ const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
+const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -273,6 +274,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
+          <TermsAndConditions disableOutsideClose />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
           <TransferEth />
