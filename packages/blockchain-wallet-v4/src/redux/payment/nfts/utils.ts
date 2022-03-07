@@ -1181,7 +1181,7 @@ export async function _makeSellOrder({
     extra: new BigNumber(extra.toString()).toString(10),
     feeMethod,
     feeRecipient,
-    howToCall: HowToCall.Call,
+    howToCall: HowToCall.DelegateCall,
     listingTime: times.listingTime,
     maker: accountAddress,
     makerProtocolFee,
@@ -2407,9 +2407,11 @@ export async function calculateProxyApprovalFees(order: NftOrder, signer: Signer
   const accountAddress = await signer.getAddress()
   // @ts-ignore
   if (order.metadata.schema === WyvernSchemaName.ERC721) {
-    tokenContract = new ethers.Contract(order.target, ERC721_ABI, signer)
+    // @ts-ignore
+    tokenContract = new ethers.Contract(order.metadata.asset.address, ERC721_ABI, signer)
   } else {
-    tokenContract = new ethers.Contract(order.target, ERC1155_ABI, signer)
+    // @ts-ignore
+    tokenContract = new ethers.Contract(order.metadata.asset.address, ERC1155_ABI, signer)
   }
   const approved = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
   return approved
