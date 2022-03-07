@@ -25,7 +25,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
-const CoinViewV2 = React.lazy(() => import('../pages/CoinPage/components/CoinPage'))
+const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -181,7 +181,7 @@ const App = ({
                           return (
                             <WalletLayout
                               path={`/coin/${coinfig.symbol}`}
-                              component={CoinViewV2}
+                              component={CoinPage}
                               coinViewV2={coinViewV2}
                               coinfig={coinfig}
                               coin={coinfig.symbol}
@@ -196,7 +196,7 @@ const App = ({
                         return (
                           <WalletLayout
                             path={`/${coinfig.symbol}/transactions`}
-                            component={coinViewV2 ? CoinViewV2 : Transactions}
+                            component={coinViewV2 ? CoinPage : Transactions}
                             coinViewV2={coinViewV2}
                             coinfig={coinfig}
                             coin={coinfig.symbol}
