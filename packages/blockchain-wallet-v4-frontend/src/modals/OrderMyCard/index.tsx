@@ -19,7 +19,7 @@ const OrderMyCard = (props: Props) => {
   const [show, setShow] = useState(true)
 
   // MVP only one product will be available, for V1 there will be a product selector in the UI
-  const { productCode } = props.products[0]
+  const [{ productCode }] = props.products
 
   useEffect(() => {
     // Initialize selector for preventing wrong state

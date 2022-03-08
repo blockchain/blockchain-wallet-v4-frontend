@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Image } from 'blockchain-info-components'
+import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutContent from 'components/Flyout/Content'
 import { FlyoutHeader } from 'components/Flyout/Layout'
 
@@ -13,7 +14,7 @@ type Props = {
 }
 
 const FailedCreationStep = ({ handleClose, handleRetry }: Props) => (
-  <>
+  <FlyoutContainer>
     <FlyoutHeader data-e2e='creationFailedHeader' mode='close' onClick={handleClose} />
     <FlyoutContent mode='middle'>
       <ResultWrapper>
@@ -38,7 +39,7 @@ const FailedCreationStep = ({ handleClose, handleRetry }: Props) => (
         </StyledButton>
       </ResultWrapper>
     </FlyoutContent>
-  </>
+  </FlyoutContainer>
 )
 
 export default FailedCreationStep
