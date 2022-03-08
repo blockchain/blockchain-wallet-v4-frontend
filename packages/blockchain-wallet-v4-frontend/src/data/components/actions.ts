@@ -3,6 +3,7 @@ import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actions'
 import { actions as buySell } from './buySell/slice'
 import * as coinTransactions from './coinTransactions/actions'
+import { actions as debitCard } from './debitCard/slice'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as fundRecovery from './fundRecovery/actions'
@@ -42,6 +43,7 @@ export {
   btcTransactions,
   buySell,
   coinTransactions,
+  debitCard,
   ethTransactions,
   fiatTransactions,
   fundRecovery,
