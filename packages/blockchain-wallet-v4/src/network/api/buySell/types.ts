@@ -88,6 +88,7 @@ export type BSCardType = {
     min: string
   }
   partner: BSCardPartnerType
+  // TODO: add lastError here
 } & (
   | {
       card: BSCard

@@ -13,6 +13,12 @@ const Description = styled(Text)`
   margin-bottom: 1.5rem;
 `
 
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
 const CardErrorDuplicate = ({ handleBack }: { handleBack: () => void }) => {
   return (
     <>
@@ -32,19 +38,21 @@ const CardErrorDuplicate = ({ handleBack }: { handleBack: () => void }) => {
         />
       </Description>
 
-      <Button
-        data-e2e='cardDuplicateBack'
-        height='48px'
-        size='16px'
-        nature='primary'
-        fullwidth
-        onClick={handleBack}
-      >
-        <FormattedMessage
-          id='modals.buysell.error.duplicate.back'
-          defaultMessage='Try A Different Payment Method'
-        />
-      </Button>
+      <Actions>
+        <Button
+          data-e2e='cardDCreateFailedTryDifferentMethod'
+          height='48px'
+          size='16px'
+          nature='primary'
+          fullwidth
+          onClick={handleBack}
+        >
+          <FormattedMessage
+            id='modals.buysell.error.duplicate.back'
+            defaultMessage='Try A Different Payment Method'
+          />
+        </Button>
+      </Actions>
     </>
   )
 }
