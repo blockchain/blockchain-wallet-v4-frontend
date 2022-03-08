@@ -4,8 +4,11 @@ import styled from 'styled-components'
 import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 
+import CardErrorBankDecline from './CardErrorBankDecline'
 import CardErrorCreateFailed from './CardErrorCreateFailed'
 import CardErrorDuplicate from './CardErrorDuplicate'
+import CardErrorInsufficientFunds from './CardErrorInsufficientFunds'
+import CardErrorPaymentFailed from './CardErrorPaymentFailed'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -28,25 +31,23 @@ enum CARD_ERROR_CODE {
   PAYMENT_FAILED = 10007
 }
 
-const Failure = ({ code, handleBack, /* handleReset, */ handleRetry }: Props) => {
+const Failure = ({ code, handleBack, handleRetry }: Props) => {
   const renderError = () => {
     switch (code) {
-      // case CARD_ERROR_CODE.INSUFFICIENT_FUNDS:
-      //   return <></>
-      // case CARD_ERROR_CODE.BANK_DECLINE:
-      //   return <></>
+      case CARD_ERROR_CODE.INSUFFICIENT_FUNDS:
+        return <CardErrorInsufficientFunds handleBack={handleBack} handleRetry={handleRetry} />
+      case CARD_ERROR_CODE.BANK_DECLINE:
+        return <CardErrorBankDecline handleBack={handleBack} handleRetry={handleRetry} />
       case CARD_ERROR_CODE.DUPLICATE:
         return <CardErrorDuplicate handleBack={handleBack} />
-      // case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
-      //   return <></>
-      // case CARD_ERROR_CODE.ACQUIRER_DECLINE:
-      //   return <></>
-      // case CARD_ERROR_CODE.PAYMENT_NOT_SUPPORTED:
-      //   return <></>
+      case CARD_ERROR_CODE.ACQUIRER_DECLINE:
+        return <CardErrorBankDecline handleBack={handleBack} handleRetry={handleRetry} />
+      case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
+        return <CardErrorPaymentFailed handleBack={handleBack} handleRetry={handleRetry} />
       case CARD_ERROR_CODE.CREATE_FAILED:
         return <CardErrorCreateFailed handleBack={handleBack} handleRetry={handleRetry} />
-      // case CARD_ERROR_CODE.PAYMENT_FAILED:
-      //   return <></>
+      case CARD_ERROR_CODE.PAYMENT_FAILED:
+        return <CardErrorPaymentFailed handleBack={handleBack} handleRetry={handleRetry} />
       default:
         return <DataError message={{ message: `${code}` }} />
     }
@@ -58,7 +59,6 @@ const Failure = ({ code, handleBack, /* handleReset, */ handleRetry }: Props) =>
 type Props = {
   code: number
   handleBack: () => void
-  // handleReset: () => void
   handleRetry: () => void
 }
 

@@ -185,6 +185,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const error = errorHandler(e)
+
       yield put(A.activateCardFailure(error))
     }
   }
@@ -772,10 +773,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const userData = userDataR.getOrFail('NO_USER_DATA')
       const address = billingAddressForm || userData.address
 
-      // change this throw to something else
       if (!address) throw new Error('NO_USER_ADDRESS')
 
       const card = yield call(api.createBSCard, {
@@ -787,7 +787,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.createCardSuccess(card))
     } catch (e) {
+      if (e.code) {
+        yield put(A.createCardFailure(e.code))
+
+        return
+      }
+
       const error = errorHandler(e)
+
       yield put(A.createCardFailure(error))
     }
   }
@@ -1410,6 +1417,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  // TODO this should redirect the user to the correct screen
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
     yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -1461,6 +1469,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(2000)
     }
 
+    // TODO handle statuses here, on lastError
+    // to test you can use an email with +onlystripe on it
+    // add a card with checkout and you'll receive an error on activate
+    // I can get the ID from there and test getting the card, so I can see the lastError
     switch (card.state) {
       case 'BLOCKED':
         yield call(pollBSCardErrorHandler, card.state)
