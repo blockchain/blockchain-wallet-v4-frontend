@@ -19,7 +19,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.createCardLoading())
       const { payload } = action
-      const orderId = yield call(api.createDCCard, payload)
+      const orderId = yield call(api.createDCOrder, payload)
       yield put(A.createCardSuccess(orderId))
     } catch (e) {
       const error = errorHandler(e)

@@ -1,7 +1,7 @@
 import { ProductType } from 'data/components/debitCard/types'
 
 export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
-  const createDCCard = (productCode: string): string =>
+  const createDCOrder = (productCode: string): string =>
     authorizedPost({
       contentType: 'application/json',
       data: {
@@ -18,7 +18,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   return {
-    createDCCard,
+    createDCOrder,
     getDCProducts
   }
 }
