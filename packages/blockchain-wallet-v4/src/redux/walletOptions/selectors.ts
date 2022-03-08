@@ -131,3 +131,11 @@ export const getRefreshCaptchaOnSignupError = (state: RootState) =>
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
+
+// show/hide silver revamp
+export const getSilverRevamp = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+
+// show terms and conditions
+export const getShowTermsAndConditions = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))

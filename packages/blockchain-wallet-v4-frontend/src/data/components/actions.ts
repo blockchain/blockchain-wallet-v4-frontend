@@ -31,6 +31,7 @@ import * as sendXlm from './sendXlm/actions'
 import { actions as settings } from './settings/slice'
 import * as signMessage from './signMessage/actions'
 import { actions as swap } from './swap/slice'
+import { actions as termsAndConditions } from './termsAndConditions/slice'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
 import { actions as walletConnect } from './walletConnect/slice'
@@ -71,6 +72,7 @@ export {
   settings,
   signMessage,
   swap,
+  termsAndConditions,
   uploadDocuments,
   veriff,
   walletConnect,
