@@ -23,7 +23,7 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorCreateFailed = ({
+const CardErrorBankDecline = ({
   handleBack,
   handleRetry
 }: {
@@ -36,15 +36,15 @@ const CardErrorCreateFailed = ({
 
       <Title size='1.25rem' weight={600} color='grey900'>
         <FormattedMessage
-          id='modals.buysell.error.create_failed.title'
-          defaultMessage='Failed To Add Card'
+          id='modals.buysell.error.bank_decline.title'
+          defaultMessage='Blocked By Card Issuer'
         />
       </Title>
 
       <Description size='0.875rem' weight={500}>
         <FormattedMessage
-          id='modals.buysell.error.create_failed.description'
-          defaultMessage='The card you tried to add has failed, please try again or another payment method.'
+          id='modals.buysell.error.bank_decline.description'
+          defaultMessage='Unfortunately your card issuer does not allow payments in the form of cryptocurrencies.'
         />
       </Description>
 
@@ -58,7 +58,7 @@ const CardErrorCreateFailed = ({
           onClick={handleRetry}
         >
           <FormattedMessage
-            id='modals.buysell.error.create_failed.try_again'
+            id='modals.buysell.error.bank_decline.try_again'
             defaultMessage='Try Again'
           />
         </Button>
@@ -72,7 +72,7 @@ const CardErrorCreateFailed = ({
           onClick={handleBack}
         >
           <FormattedMessage
-            id='modals.buysell.error.create_failed.back'
+            id='modals.buysell.error.bank_decline.back'
             defaultMessage='Try A Different Payment Method'
           />
         </Button>
@@ -81,4 +81,4 @@ const CardErrorCreateFailed = ({
   )
 }
 
-export default CardErrorCreateFailed
+export default CardErrorBankDecline
