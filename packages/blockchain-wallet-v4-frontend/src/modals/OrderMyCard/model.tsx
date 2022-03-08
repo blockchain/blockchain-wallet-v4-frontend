@@ -36,6 +36,7 @@ export const StyledButton = styled(Button)`
 export const ResultWrapper = styled.div`
   width: 327px;
   text-align: center;
+  margin-top: -10%;
 `
 
 export const ResultTitleWrapper = styled(Text)`
