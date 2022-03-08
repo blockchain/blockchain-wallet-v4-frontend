@@ -292,8 +292,8 @@ export default ({ api, coreSagas, networks }) => {
     const product = yield select(S.getProduct)
     let session =
       product === ProductAuthOptions.EXCHANGE
-        ? yield select(selectors.session.getSession, undefined, exchangeEmail)
-        : yield select(selectors.session.getSession, guid, email)
+        ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
+        : yield select(selectors.session.getWalletSessionId, guid, email)
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
       yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
@@ -615,7 +615,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeLogin = function* () {
-    yield put(actions.session.clearSessions())
+    // TODO: just for dev purposes, remove before release
+    // yield put(actions.session.clearSessions())
     try {
       // set loading
       yield put(actions.auth.initializeLoginLoading())

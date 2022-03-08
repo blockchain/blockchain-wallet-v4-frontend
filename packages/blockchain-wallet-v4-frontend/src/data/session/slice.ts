@@ -3,37 +3,41 @@ import { dissoc, mergeRight } from 'ramda'
 
 import {
   ExchangeSessionType,
-  SessionStateType,
   SessionStatePOCType,
+  SessionStateType,
   WalletSessionType
 } from './types'
 
 const initialState: SessionStatePOCType = {
-  wallet: [],
-  exchange: []
+  exchange: undefined,
+  wallet: undefined
 }
 
 const sessionSlice = createSlice({
   initialState,
   name: 'session',
   reducers: {
-    deauthorizeBrowser: () => {},
-    logout: () => {},
-    logoutClearReduxStore: () => {},
-    removeSession: (state, action: PayloadAction<string>) => {
-      dissoc(action.payload, state)
-    },
     // saveSession: (state, action: PayloadAction<{ [key: string]: string }>) => {
     //   return mergeRight(state, action.payload)
     // },
     clearSessions: (state) => {
-      return (state = { wallet: [], exchange: [] })
+      state = { exchange: undefined, wallet: undefined }
+    },
+
+    deauthorizeBrowser: () => {},
+
+    logout: () => {},
+
+    logoutClearReduxStore: () => {},
+
+    removeSession: (state, action: PayloadAction<string>) => {
+      dissoc(action.payload, state)
     },
     saveExchangeSession: (state, action: PayloadAction<ExchangeSessionType>) => {
-      state.exchange.push(action.payload)
+      state.exchange = action.payload
     },
     saveWalletSession: (state, action: PayloadAction<WalletSessionType>) => {
-      state.wallet.push(action.payload)
+      state.wallet = action.payload
     }
   }
 })

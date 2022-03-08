@@ -1,8 +1,8 @@
 export type SessionStateType = { [key: string]: string }
 
 export type SessionStatePOCType = {
-  wallet: Array<WalletSessionType>
-  exchange: Array<ExchangeSessionType>
+  exchange?: ExchangeSessionType
+  wallet?: WalletSessionType
 }
 
 export type WalletSessionType = {
