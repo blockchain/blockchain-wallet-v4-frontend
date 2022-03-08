@@ -23,7 +23,7 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorCreateFailed = ({
+const CardErrorPaymentFailed = ({
   handleBack,
   handleRetry
 }: {
@@ -36,21 +36,21 @@ const CardErrorCreateFailed = ({
 
       <Title size='1.25rem' weight={600} color='grey900'>
         <FormattedMessage
-          id='modals.buysell.error.create_failed.title'
-          defaultMessage='Failed To Add Card'
+          id='modals.buysell.error.payment_failed.title'
+          defaultMessage='Payment Failed'
         />
       </Title>
 
       <Description size='0.875rem' weight={500}>
         <FormattedMessage
-          id='modals.buysell.error.create_failed.description'
-          defaultMessage='The card you tried to add has failed, please try again or another payment method.'
+          id='modals.buysell.error.payment_failed.description'
+          defaultMessage='Your payment has failed with our legacy system. However we have an upgraded system available for early access, simply verify your card details to try-again.'
         />
       </Description>
 
       <Actions>
         <Button
-          data-e2e='cardDCreateFailedTryAgain'
+          data-e2e='cardDCreateFailedBack'
           height='48px'
           size='16px'
           nature='primary'
@@ -58,13 +58,13 @@ const CardErrorCreateFailed = ({
           onClick={handleRetry}
         >
           <FormattedMessage
-            id='modals.buysell.error.create_failed.try_again'
+            id='modals.buysell.error.payment_failed.try_again'
             defaultMessage='Try Again'
           />
         </Button>
 
         <Button
-          data-e2e='cardDCreateFailedTryDifferentMethod'
+          data-e2e='cardDCreateFailedReset'
           height='48px'
           size='16px'
           nature='empty-blue'
@@ -72,7 +72,7 @@ const CardErrorCreateFailed = ({
           onClick={handleBack}
         >
           <FormattedMessage
-            id='modals.buysell.error.create_failed.back'
+            id='modals.buysell.error.payment_failed.back'
             defaultMessage='Try A Different Payment Method'
           />
         </Button>
@@ -81,4 +81,4 @@ const CardErrorCreateFailed = ({
   )
 }
 
-export default CardErrorCreateFailed
+export default CardErrorPaymentFailed
