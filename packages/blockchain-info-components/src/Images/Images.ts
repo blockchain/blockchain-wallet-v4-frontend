@@ -179,7 +179,9 @@ import swapCarousel2 from './img/swap-carousel2.png'
 import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
+import swapLoading from './img/swap-loading.svg'
 import swapModalBg from './img/swap-modal-bg.svg'
+import swapSuccess from './img/swap-success.svg'
 import swapWhite from './img/swap-white.svg'
 import tierGold from './img/tier-gold.svg'
 import tierSilver from './img/tier-silver.svg'
@@ -385,7 +387,9 @@ const Images = {
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
+  'swap-loading': swapLoading,
   'swap-modal-bg': swapModalBg,
+  'swap-success': swapSuccess,
   'swap-white': swapWhite,
   'tier-gold': tierGold,
   'tier-silver': tierSilver,
