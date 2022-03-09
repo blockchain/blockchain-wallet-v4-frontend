@@ -81,6 +81,11 @@ export const getPollForMagicLinkData = (state: RootState) =>
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+
+// apple pay as new payment method feature flag
+export const getApplePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
+
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
@@ -115,6 +120,18 @@ export const getTradingCurrency = (state: RootState) =>
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
 
+// show/hide wallet tax center
+export const getTaxCenterEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
+
 // refresh captcha token if there's an error on signup
 export const getRefreshCaptchaOnSignupError = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
+
+// show/hide silver revamp
+export const getSilverRevamp = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+
+// show terms and conditions
+export const getShowTermsAndConditions = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))

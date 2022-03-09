@@ -29,8 +29,7 @@ const MainContent = styled(FlyoutWrapper)`
 const Requirements = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 28px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 40px;
 `
 const ContentTop = styled.div`
   display: flex;
@@ -38,8 +37,11 @@ const ContentTop = styled.div`
   flex: 1;
 `
 const ContentItem = styled.div`
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
-  padding: 28px 250px 28px 40px;
+  padding: 20px;
+  border: 1px solid #f0f2f7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-bottom: 8px;
 `
 
 const ContentFooter = styled.div`
@@ -47,10 +49,6 @@ const ContentFooter = styled.div`
   flex-direction: column;
 `
 
-const LeftTopCol = styled.div`
-  display: flex;
-  align-items: center;
-`
 const BannerContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -60,29 +58,62 @@ const BannerContainer = styled.div`
   padding: 16px;
 `
 
+const Title = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+`
+const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`
+const CloseIconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: ${(props) => props.theme.grey000};
+  backdrop-filter: blur(54.3656px);
+  > span {
+    justify-content: center;
+  }
+`
+
 const AdditionalInfo: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
-          <LeftTopCol>
-            <Icon
-              cursor
-              data-e2e='kycAdditionalInfoBackButton'
-              name='arrow-left'
-              size='20px'
-              color='grey600'
-              role='button'
-              style={{ marginRight: '8px' }}
-              onClick={props.closeAllModals}
-            />
-            <FormattedMessage
-              id='copy.additional_information_required'
-              defaultMessage='Additional Information Required'
-            />
-          </LeftTopCol>
+          <IconsContainer>
+            <Title color='textBlack' size='24px' weight={600}>
+              <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
+            </Title>
+            <CloseIconContainer>
+              <Icon
+                cursor
+                data-e2e='tradingLimitsCloseButton'
+                name='close'
+                size='20px'
+                color='grey600'
+                role='button'
+                onClick={props.onClose}
+              />
+            </CloseIconContainer>
+          </IconsContainer>
         </TopText>
-        <Text color='grey600' weight={500}>
+        <Icon name='user' size='32px' color='blue600' />
+        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+          <FormattedMessage
+            id='modals.kycverification.additionalinfo.title'
+            defaultMessage='Great, Now We Just Need To Confirm Your Identity.'
+          />
+        </Title>
+        <Text color='grey600' weight={500} size='16px'>
           <FormattedMessage
             id='modals.kycverification.additionalinfo.description'
             defaultMessage='We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is turned on.'

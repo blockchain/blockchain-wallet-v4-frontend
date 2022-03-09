@@ -51,6 +51,7 @@ const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const Nfts = React.lazy(() => import('./Nfts'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
+const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
@@ -63,6 +64,7 @@ const App = ({
   isAuthenticated,
   persistor,
   store,
+  taxCenterEnabled,
   userData,
   walletConnectEnabled,
   walletDebitCardEnabled
@@ -123,6 +125,7 @@ const App = ({
                       <WalletLayout path='/dapps' component={WalletConnect} />
                     )}
                     <WalletLayout path='/prices' component={Prices} />
+                    {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
                     {values(
                       map((coinModel) => {
                         const { coinfig } = coinModel
@@ -163,6 +166,9 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  taxCenterEnabled: selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)

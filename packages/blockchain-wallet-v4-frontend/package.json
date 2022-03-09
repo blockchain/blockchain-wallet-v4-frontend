@@ -117,6 +117,7 @@
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
     "lottie-web": "5.7.11",
+    "markdown-to-jsx": "7.1.6",
     "matchmedia-polyfill": "0.3.2",
     "moment": "2.29.1",
     "polished": "4.1.3",

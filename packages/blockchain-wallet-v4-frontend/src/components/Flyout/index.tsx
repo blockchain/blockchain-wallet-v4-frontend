@@ -32,6 +32,8 @@ import RecurringBuyDetails from './RecurringBuy/RecurringBuyDetails'
 import RecurringBuyRemoveConfirm from './RecurringBuy/RecurringBuyRemoveConfirm'
 // These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
 import FlyoutSubHeader from './SubHeader'
+// Terms and Conditions modal
+import TermsAndConditions from './TermsAndConditions'
 
 export {
   AddBankStatus,
@@ -51,6 +53,7 @@ export {
   RecurringBuyDetails,
   RecurringBuyGettingStarted,
   RecurringBuyRemoveConfirm,
+  TermsAndConditions,
   Trade,
   UploadAndVerify,
   Uploaded

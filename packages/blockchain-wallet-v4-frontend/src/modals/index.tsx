@@ -27,6 +27,9 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 // BCH
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
+// Debit Card
+const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -60,6 +63,7 @@ const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
+const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() => import('./Lockbox/LockboxAppManager'))
@@ -108,6 +112,7 @@ const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
+const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -116,6 +121,9 @@ const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily')
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
+
+// TAXCENTER
+const GenerateReport = React.lazy(() => import('./GenerateReport'))
 
 const Modals = (props: Props) => {
   return (
@@ -211,6 +219,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD) ? (
+          <OrderMyCard />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
         ) : null}
@@ -263,6 +274,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
+          <TermsAndConditions disableOutsideClose />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
           <TransferEth />
@@ -298,6 +312,9 @@ const Modals = (props: Props) => {
           <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (
+          <UpgradeNowSilver />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
         ) : null}
@@ -322,6 +339,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
           <KycTierUpgrade />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
+          <GenerateReport />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

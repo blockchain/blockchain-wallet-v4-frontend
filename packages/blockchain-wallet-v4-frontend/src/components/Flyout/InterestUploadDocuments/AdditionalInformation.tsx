@@ -157,7 +157,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
             </>
           )}
         </Content>
-        <Footer>
+        <Footer collapsed>
           <Button
             nature='primary'
             data-e2e='additionalInfoUploadDocument'

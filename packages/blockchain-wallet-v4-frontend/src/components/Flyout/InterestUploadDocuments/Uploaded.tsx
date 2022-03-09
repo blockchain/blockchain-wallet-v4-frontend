@@ -63,7 +63,7 @@ const Uploaded = ({ close }: Props) => {
           </TextContentWrapper>
         </InfoContent>
       </Content>
-      <Footer>
+      <Footer collapsed>
         <Button
           nature='primary'
           data-e2e='additionalInfoUploadDocument'
