@@ -1417,26 +1417,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  // TODO this should redirect the user to the correct screen
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
     switch (state) {
       case 'PENDING':
         error = 'PENDING_CARD_AFTER_POLL'
         break
+      case 'BLOCKED':
+        error = 'BLOCKED_CARD_AFTER_POLL'
+        break
       default:
         error = 'LINK_CARD_FAILED'
     }
+
+    yield put(A.setAddCardError(error))
+
+    // LEGACY
+    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     yield put(
       actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
         _error: error
       })
     )
-    yield put(A.setAddCardError(error))
   }
 
   const pollBSBalances = function* () {
@@ -1469,32 +1474,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(2000)
     }
 
-    // TODO handle statuses here, on lastError
+    if (card.state === 'ACTIVE') {
+      const skipLoading = true
+      const order = S.getBSLatestPendingOrder(yield select())
+      yield put(A.fetchCards(skipLoading))
+      // If the order was already created
+      if (order && order.state === 'PENDING_CONFIRMATION') {
+        return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
+      }
+      return yield put(
+        A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
+      )
+    }
+
+    // TODO handle statuses here, on lastError somehow
     // to test you can use an email with +onlystripe on it
     // add a card with checkout and you'll receive an error on activate
     // I can get the ID from there and test getting the card, so I can see the lastError
-    switch (card.state) {
-      case 'BLOCKED':
-        yield call(pollBSCardErrorHandler, card.state)
-        return
-      case 'ACTIVE':
-        const skipLoading = true
-        const order = S.getBSLatestPendingOrder(yield select())
-        yield put(A.fetchCards(skipLoading))
-        // If the order was already created
-        if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
-        }
-        return yield put(
-          A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
-        )
-      case 'PENDING':
-        // TODO: this is not an error, but we need to handle it differently
-        yield call(pollBSCardErrorHandler, card.state)
-        return
-      default:
-        yield call(pollBSCardErrorHandler, card.state)
-    }
+    yield call(pollBSCardErrorHandler, card.state)
   }
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
