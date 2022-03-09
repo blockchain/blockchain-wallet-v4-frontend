@@ -13,6 +13,16 @@ const Description = styled(Text)`
   margin-bottom: 1.5rem;
 `
 
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  & > * {
+    margin-bottom: 1rem;
+  }
+`
+
 const CardErrorCreateFailed = ({
   handleBack,
   handleRetry
@@ -38,19 +48,35 @@ const CardErrorCreateFailed = ({
         />
       </Description>
 
-      <Button
-        data-e2e='cardDCreateFailedBack'
-        height='48px'
-        size='16px'
-        nature='primary'
-        fullwidth
-        onClick={handleBack}
-      >
-        <FormattedMessage
-          id='modals.buysell.error.create_failed.back'
-          defaultMessage='Try A Different Payment Method'
-        />
-      </Button>
+      <Actions>
+        <Button
+          data-e2e='cardDCreateFailedTryAgain'
+          height='48px'
+          size='16px'
+          nature='primary'
+          fullwidth
+          onClick={handleRetry}
+        >
+          <FormattedMessage
+            id='modals.buysell.error.create_failed.try_again'
+            defaultMessage='Try Again'
+          />
+        </Button>
+
+        <Button
+          data-e2e='cardDCreateFailedTryDifferentMethod'
+          height='48px'
+          size='16px'
+          nature='empty-blue'
+          fullwidth
+          onClick={handleBack}
+        >
+          <FormattedMessage
+            id='modals.buysell.error.create_failed.back'
+            defaultMessage='Try A Different Payment Method'
+          />
+        </Button>
+      </Actions>
     </>
   )
 }

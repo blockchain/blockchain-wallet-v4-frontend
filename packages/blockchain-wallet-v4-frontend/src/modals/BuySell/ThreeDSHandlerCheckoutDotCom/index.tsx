@@ -59,9 +59,9 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
-  // const handleReset = () => {
-  //   props.buySellActions.destroyCheckout()
-  // }
+  const handleReset = () => {
+    props.buySellActions.destroyCheckout()
+  }
 
   const handleRetry = () => {
     props.buySellActions.setStep({
@@ -70,14 +70,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   }
 
   return props.data.cata({
-    Failure: (code) => (
-      <Failure
-        code={code}
-        handleBack={handleBack}
-        // handleReset={handleReset}
-        handleRetry={handleRetry}
-      />
-    ),
+    Failure: (code) => <Failure code={code} handleBack={handleBack} handleRetry={handleRetry} />,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} handleBack={handleBack} isPolling={isPolling} />
