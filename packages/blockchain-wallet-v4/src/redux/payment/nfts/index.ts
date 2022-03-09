@@ -13,8 +13,8 @@ import {
   atomicMatch,
   buyOrderValidationAndApprovals,
   calculateAtomicMatchFees,
-  calculateCancellation,
-  calculatePaymentProxyApprovals,
+  calculateCancellationFees,
+  calculatePaymentProxyApprovalsFees,
   calculateProxyApprovalFees,
   calculateProxyFees,
   calculateTransferFees,
@@ -138,7 +138,7 @@ export const calculateGasFees = async (
   let approvalFees = 0
   let gasFees = 0
   if (operation === GasCalculationOperations.Cancel && cancelOrder) {
-    gasFees = (await calculateCancellation(cancelOrder, signer)).toNumber()
+    gasFees = (await calculateCancellationFees(cancelOrder, signer)).toNumber()
   } else if (
     operation === GasCalculationOperations.Transfer &&
     transferAsset &&
@@ -159,7 +159,7 @@ export const calculateGasFees = async (
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
     approvalFees =
       buyOrder.paymentToken !== NULL_ADDRESS
-        ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toNumber()
+        ? (await calculatePaymentProxyApprovalsFees(buyOrder, signer)).toNumber()
         : 0
   }
   // Buy orders dont need any approval or proxy IF payment token is Ether.
@@ -171,7 +171,7 @@ export const calculateGasFees = async (
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
     approvalFees =
       buyOrder.paymentToken !== NULL_ADDRESS
-        ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toNumber()
+        ? (await calculatePaymentProxyApprovalsFees(buyOrder, signer)).toNumber()
         : 0
     // 2. Caclulate the gas cost of the atomicMatch function call
     gasFees =

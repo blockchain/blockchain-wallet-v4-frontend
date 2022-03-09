@@ -1978,7 +1978,7 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
   return _safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 
-export async function calculatePaymentProxyApprovals(order: NftOrder, signer: Signer) {
+export async function calculatePaymentProxyApprovalsFees(order: NftOrder, signer: Signer) {
   const minimumAmount = new BigNumber(order.basePrice)
   const tokenContract = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
   const proxyAddress =
@@ -1998,7 +1998,7 @@ export async function calculatePaymentProxyApprovals(order: NftOrder, signer: Si
   )
 }
 
-export async function calculateCancellation(sellOrder: RawOrder, signer: Signer) {
+export async function calculateCancellationFees(sellOrder: RawOrder, signer: Signer) {
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,

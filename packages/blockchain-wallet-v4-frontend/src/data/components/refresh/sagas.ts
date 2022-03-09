@@ -58,6 +58,9 @@ export default () => {
       const maybeCoin = toUpper(pathname.split('/')[1])
 
       switch (true) {
+        case contains('/nfts/activity', pathname):
+          yield put(actions.components.nfts.fetchNftOffersMade())
+          break
         case contains('/transactions/bch', pathname):
           yield call(refreshBchTransactions)
           break
