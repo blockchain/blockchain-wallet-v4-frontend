@@ -8,6 +8,7 @@ import {
   RawOrder
 } from '@core/network/api/nfts/types'
 
+import { NULL_ADDRESS } from './constants'
 import {
   atomicMatch,
   buyOrderValidationAndApprovals,
@@ -21,7 +22,6 @@ import {
   createBuyOrder,
   createMatchingOrders,
   createSellOrder,
-  NULL_ADDRESS,
   sellOrderValidationAndApprovals,
   transferAsset,
   verifyTransfered

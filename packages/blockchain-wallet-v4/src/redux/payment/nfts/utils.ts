@@ -23,68 +23,32 @@ import {
 } from '@core/network/api/nfts/types'
 
 import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
+import {
+  DEFAULT_BUYER_FEE_BASIS_POINTS,
+  DEFAULT_MAX_BOUNTY,
+  DEFAULT_SELLER_FEE_BASIS_POINTS,
+  EIP_712_ORDER_TYPES,
+  EIP_712_WYVERN_DOMAIN_NAME,
+  EIP_712_WYVERN_DOMAIN_VERSION,
+  INVERSE_BASIS_POINT,
+  MAX_DIGITS_IN_UNSIGNED_256_INT,
+  MIN_EXPIRATION_SECONDS,
+  NULL_ADDRESS,
+  NULL_BLOCK_HASH,
+  OPENSEA_FEE_RECIPIENT,
+  OPENSEA_FEE_RECIPIENT_RINKEBY,
+  OPENSEA_SELLER_BOUNTY_BASIS_POINTS,
+  ORDER_MATCHING_LATENCY_SECONDS,
+  WYVERN_CONTRACT_ADDR_MAINNET,
+  WYVERN_CONTRACT_ADDR_RINKEBY,
+  WYVERN_MERKLE_VALIDATOR_MAINNET,
+  WYVERN_PROXY_REGISTRY_ADDRESS,
+  WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY,
+  WYVERN_TOKEN_PAYMENT_PROXY,
+  WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY
+} from './constants'
 import { schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
-
-export const INVERSE_BASIS_POINT = 10000
-export const NULL_BLOCK_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
-export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
-const MIN_EXPIRATION_SECONDS = 10
-const ORDER_MATCHING_LATENCY_SECONDS = 60 * 60 * 24 * 7
-const MAX_DIGITS_IN_UNSIGNED_256_INT = 72
-export const DEFAULT_BUYER_FEE_BASIS_POINTS = 0
-export const DEFAULT_SELLER_FEE_BASIS_POINTS = 250
-export const OPENSEA_SELLER_BOUNTY_BASIS_POINTS = 100
-export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
-export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
-export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
-export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045cb7b5e'
-export const WYVERN_MERKLE_VALIDATOR_MAINNET = '0xbaf2127b49fc93cbca6269fade0f7f31df4c88a7'
-const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
-const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
-const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
-const WYVERN_CONTRACT_ADDR_MAINNET = '0x7f268357a8c2552623316e2562d90e642bb538e5'
-const OPENSEA_FEE_RECIPIENT_RINKEBY = NULL_ADDRESS
-const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
-const WYVERN_PROXY_REGISTRY_ADDRESS = '0xa5409ec958c83c3f309868babaca7c86dcb077c1'
-const WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY = '0xF57B2c51dED3A29e6891aba85459d600256Cf317'
-
-const EIP_712_WYVERN_DOMAIN_NAME = 'Wyvern Exchange Contract'
-const EIP_712_WYVERN_DOMAIN_VERSION = '2.3'
-const EIP_712_ORDER_TYPES = {
-  EIP712Domain: [
-    { name: 'name', type: 'string' },
-    { name: 'version', type: 'string' },
-    { name: 'chainId', type: 'uint256' },
-    { name: 'verifyingContract', type: 'address' }
-  ],
-  Order: [
-    { name: 'exchange', type: 'address' },
-    { name: 'maker', type: 'address' },
-    { name: 'taker', type: 'address' },
-    { name: 'makerRelayerFee', type: 'uint256' },
-    { name: 'takerRelayerFee', type: 'uint256' },
-    { name: 'makerProtocolFee', type: 'uint256' },
-    { name: 'takerProtocolFee', type: 'uint256' },
-    { name: 'feeRecipient', type: 'address' },
-    { name: 'feeMethod', type: 'uint8' },
-    { name: 'side', type: 'uint8' },
-    { name: 'saleKind', type: 'uint8' },
-    { name: 'target', type: 'address' },
-    { name: 'howToCall', type: 'uint8' },
-    { name: 'calldata', type: 'bytes' },
-    { name: 'replacementPattern', type: 'bytes' },
-    { name: 'staticTarget', type: 'address' },
-    { name: 'staticExtradata', type: 'bytes' },
-    { name: 'paymentToken', type: 'address' },
-    { name: 'basePrice', type: 'uint256' },
-    { name: 'extra', type: 'uint256' },
-    { name: 'listingTime', type: 'uint256' },
-    { name: 'expirationTime', type: 'uint256' },
-    { name: 'salt', type: 'uint256' },
-    { name: 'nonce', type: 'uint256' }
-  ]
-}
 
 // PRIVATE FUNCTIONS _NOT_ TO BE USED OUTSIDE THIS FILE
 // prefixed with _

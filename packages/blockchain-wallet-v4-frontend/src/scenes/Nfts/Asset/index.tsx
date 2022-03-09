@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import {
   Button,
   Icon as BlockchainIcon,

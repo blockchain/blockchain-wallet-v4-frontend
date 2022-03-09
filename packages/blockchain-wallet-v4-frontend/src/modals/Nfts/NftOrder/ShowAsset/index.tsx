@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import { Title } from 'components/Flyout'
