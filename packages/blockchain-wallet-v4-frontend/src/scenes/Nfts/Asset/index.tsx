@@ -359,16 +359,19 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
           </>
         ),
         Success: (assetFromDirectCall) => {
-          let bids = assetFromDirectCall.orders.filter((x) => {
-            return x.side === 0 && x.taker.address !== NULL_ADDRESS
-          }, [])
+          let bids =
+            assetFromDirectCall.orders?.filter((x) => {
+              return x.side === 0 && x.taker.address !== NULL_ADDRESS
+            }, []) || []
           // Offers have taker as null address
-          let offers = assetFromDirectCall.orders.filter((x) => {
-            return x.side === 0 && x.taker.address === NULL_ADDRESS
-          }, [])
-          const sellOrders = assetFromDirectCall.orders.filter((x) => {
-            return x.side === 1
-          })
+          let offers =
+            assetFromDirectCall.orders?.filter((x) => {
+              return x.side === 0 && x.taker.address === NULL_ADDRESS
+            }, []) || []
+          const sellOrders =
+            assetFromDirectCall.orders?.filter((x) => {
+              return x.side === 1
+            }) || []
           bids = bids.length
             ? bids.sort((a: any, b: any) => {
                 return b.base_price - a.base_price

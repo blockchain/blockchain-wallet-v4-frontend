@@ -649,7 +649,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: RawOrder[]
+  orders: RawOrder[] | null
   owner: {
     address: string
     config: string
