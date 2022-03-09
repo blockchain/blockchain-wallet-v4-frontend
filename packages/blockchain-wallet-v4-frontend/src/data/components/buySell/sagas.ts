@@ -647,12 +647,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
+          // The amount has to be in cents
+          let totalAmount = parseInt(order.inputQuantity) / 100
+
+          if (order.fee) {
+            totalAmount += parseInt(order.fee) / 100
+          }
+
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
-            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+            total: { amount: `${totalAmount}`, label: 'Blockchain.com' }
           }
 
           const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
