@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import Markdown from 'markdown-to-jsx'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -57,7 +56,7 @@ const CheckboxContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 40px 40px 0 40px;
 `
 
 const FooterWrapper = styled(Footer)`
@@ -70,11 +69,6 @@ const PagePlaceholder = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-top: 200px;
-  padding-top: 250px;
-  div {
-    flex: 1;
-  }
 `
 
 const TextWrapper = styled(Text)`
@@ -85,12 +79,9 @@ const TextWrapper = styled(Text)`
     text-decoration: none;
   }
 `
-const StyledParagraph = styled(Text)`
-  font-size: 12px;
-  padding: 10px 0;
-`
-const StyledHeader = styled(Text)`
-  padding: 10px 0;
+
+const TextBox = styled.div`
+  padding-top: 20px;
 `
 
 const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -126,22 +117,13 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
             </HeaderTitle>
           </HeaderWrapper>
         </Header>
-        <Content mode='middle'>
+        <Content mode='top'>
           <PagePlaceholder>
-            <Markdown
-              options={{
-                overrides: {
-                  h1: {
-                    component: StyledHeader
-                  },
-                  p: {
-                    component: StyledParagraph
-                  }
-                }
-              }}
-            >
-              {props.termsAndConditions.termsAndConditions}
-            </Markdown>
+            <TextWrapper>
+              <TextBox
+                dangerouslySetInnerHTML={{ __html: props.termsAndConditions.termsAndConditions }}
+              />
+            </TextWrapper>
           </PagePlaceholder>
           <CheckboxContainer ref={currentElement}>
             <Field
