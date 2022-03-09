@@ -319,13 +319,15 @@ export default ({ api, coreSagas, networks }) => {
   const getExchangeLoginToken = function* (action) {
     const { signUp } = action.payload
     try {
+      const retailToken = yield call(generateRetailToken)
       const exchangeLifetimeTokenR = yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
       )
-
       const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
+
       const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
       const exchangeUserId = exchangeUserIdR.getOrElse(null)
+
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (signUp) {
           return
@@ -336,7 +338,12 @@ export default ({ api, coreSagas, networks }) => {
           'noreferrer'
         )
       }
-      const { token } = yield call(api.getExchangeAuthToken, exchangeLifetimeToken, exchangeUserId)
+      const { token } = yield call(
+        api.getExchangeAuthToken,
+        exchangeLifetimeToken,
+        exchangeUserId,
+        retailToken
+      )
       window.open(
         `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
         '_self',

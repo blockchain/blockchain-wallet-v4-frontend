@@ -64,10 +64,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
-  const getExchangeAuthToken = (exchangeLifetimeToken, usersCredentialsId) => {
+  const getExchangeAuthToken = (exchangeLifetimeToken, usersCredentialsId, retailToken) => {
     return authorizedPost({
       contentType: 'application/json',
       data: {
+        retailToken,
         usersCredentialsId
       },
       endPoint: '/mercury/auth',
