@@ -31,7 +31,12 @@ export const parseAuthMagicLink = function* () {
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
     // eslint-disable-next-line
     console.log('MAGIC LINK:: ', magicLink)
-    const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
+
+    const session =
+      product === ProductAuthOptions.EXCHANGE
+        ? yield select(selectors.session.getExchangeSessionId, userEmail)
+        : yield select(selectors.session.getWalletSessionId, walletData?.guid, userEmail)
+
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
     const showMergeAndUpgradeFlows = (yield select(
@@ -59,6 +64,7 @@ export const parseAuthMagicLink = function* () {
 
     // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
     // CREATED FROM UNIFIED SIGN UP
+    debugger
     if (unifiedAccountLogin) {
       if (unified) {
         yield put(actions.cache.setUnifiedAccount(true))
