@@ -94,7 +94,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const performPayment = ({
+  const performApplePayValidation = ({
     applePayInfo,
     paymentRequest
   }: {
@@ -114,11 +114,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
-          reject()
+          reject(e)
         }
       }
-      session.onpaymentauthorized = resolve
+
+      session.onpaymentauthorized = (event) => {
+        const result = {
+          status: ApplePaySession.STATUS_SUCCESS
+        }
+        session.completePayment(result)
+
+        resolve(event)
+      }
+
       session.oncancel = reject
+
       session.begin()
     })
   }
@@ -658,10 +668,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
+          const { payment } = yield call(performApplePayValidation, {
+            applePayInfo,
+            paymentRequest
+          })
 
           attributes = {
             applePayPaymentToken: payment.token,
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
             redirectURL: paymentSuccessLink
           }
         }
