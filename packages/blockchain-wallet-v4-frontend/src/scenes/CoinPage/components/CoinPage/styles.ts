@@ -13,3 +13,7 @@ export const Grid = styled.div`
   width: 100%;
   max-width: 1280px;
 `
+
+export const ChartWrapper = styled.div`
+  height: 400px;
+`

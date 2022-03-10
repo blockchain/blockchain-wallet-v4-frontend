@@ -1,11 +1,17 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import moment from 'moment'
+
+import { Tab, Tabs } from 'components/Tabs'
 
 import { defaultAboutSectionActions } from '../../mocks/defaultAboutSectionActions'
 import { defaultHoldingsCardActions } from '../../mocks/defaultHoldingsCardActions'
 import * as AboutSection from '../AboutSection/AboutSection.stories'
 import * as AlertCard from '../AlertCard/AlertCard.stories'
+import * as ChartBalancePanel from '../ChartBalancePanel/ChartBalancePanel.stories'
+import { CoinChart } from '../CoinChart'
+import { serie_ascending_1, serie_descending_1 } from '../CoinChart/mocks'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
 import { CoinPage } from './CoinPage'
@@ -44,7 +50,61 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       options: ['not_tradable']
     },
     chart: {
-      defaultValue: null
+      control: { type: 'select' },
+      defaultValue: 'ascending_chart',
+      mapping: {
+        ascending_chart: (
+          <CoinChart
+            y='value'
+            backgroundColor='white'
+            data={serie_ascending_1}
+            primaryColor='#0C6CF2'
+            textColor='#98A1B2'
+            x='date'
+            xFormatter={(date) => moment(date).format('hh:mm')}
+          />
+        ),
+        decending_chart: (
+          <CoinChart
+            y='value'
+            backgroundColor='white'
+            data={serie_descending_1}
+            primaryColor='#0C6CF2'
+            textColor='#98A1B2'
+            x='date'
+            xFormatter={(date) => moment(date).format('hh:mm')}
+          />
+        )
+      },
+      options: ['ascending_chart', 'decending_chart']
+    },
+    chartBalancePanel: {
+      defaultValue: 'bitcoin_up',
+      mapping: {
+        bitcoin_up: (
+          // @ts-ignore
+          <ChartBalancePanel.BitcoinUp {...ChartBalancePanel.BitcoinUp.args} />
+        )
+      },
+      options: ['bitcoin_up']
+    },
+    chartTabs: {
+      defaultValue: 'live',
+      mapping: {
+        live: (
+          <Tabs>
+            <Tab selected badgeColor='green'>
+              Live
+            </Tab>
+            <Tab>1D</Tab>
+            <Tab>1W</Tab>
+            <Tab>1M</Tab>
+            <Tab>1Y</Tab>
+            <Tab>All</Tab>
+          </Tabs>
+        )
+      },
+      options: ['live']
     },
     favoriteButton: {
       defaultValue: null
@@ -126,7 +186,6 @@ Default.args = {
   about: 'bitcoin',
   activity: null,
   alertCard: 'not_tradable',
-  chart: null,
   favoriteButton: null,
   header: 'Bitcoin',
   holdings: 'BitcoinWithBalance',
