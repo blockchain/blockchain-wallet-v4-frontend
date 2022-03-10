@@ -658,18 +658,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
 
           // The amount has to be in cents
-          let totalAmount = parseInt(order.inputQuantity) / 100
-
-          if (order.fee) {
-            totalAmount += parseInt(order.fee) / 100
-          }
+          const amount = parseInt(order.inputQuantity) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
-            total: { amount: `${totalAmount}`, label: 'Blockchain.com' }
+            total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
           const { payment } = yield call(performApplePayValidation, {
