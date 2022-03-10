@@ -64,7 +64,6 @@ export const parseAuthMagicLink = function* () {
 
     // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
     // CREATED FROM UNIFIED SIGN UP
-    debugger
     if (unifiedAccountLogin) {
       if (unified) {
         yield put(actions.cache.setUnifiedAccount(true))

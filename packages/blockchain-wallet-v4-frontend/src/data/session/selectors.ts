@@ -25,8 +25,8 @@ export const getWalletSessions = (state: RootState) => {
 }
 
 export const getWalletSessionId = (state: RootState, guid, email) => {
-  const guidMatches = getWalletSessions(state)?.guid === guid && guid
-  const emailMatches = getWalletSessions(state)?.email === email && email
+  const guidMatches = guid && getWalletSessions(state)?.guid === guid
+  const emailMatches = email && getWalletSessions(state)?.email === email
   if (guidMatches || emailMatches) {
     return getWalletSessions(state)?.id
   }

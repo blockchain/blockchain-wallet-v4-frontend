@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import * as S from './selectors'
-import { UserDataType } from './types'
+import { ExchangeAuthOriginType, UserDataType } from './types'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -210,7 +210,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield call(coreSagas.kvStore.uÎserCredentials.fetchMetadataUserCredentials)
       const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
         null
       )
@@ -317,7 +317,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const getExchangeLoginToken = function* (action) {
-    const { signUp } = action.payload
+    const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
       const exchangeLifetimeTokenR = yield select(
@@ -329,7 +329,7 @@ export default ({ api, coreSagas, networks }) => {
       const exchangeUserId = exchangeUserIdR.getOrElse(null)
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
-        if (signUp) {
+        if (origin === ExchangeAuthOriginType.Signup) {
           return
         }
         return window.open(

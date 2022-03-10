@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
+import { ExchangeAuthOriginType } from 'data/types'
 
 import Loading from '../loading.public'
 import ProductPicker from './template'
@@ -28,7 +29,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
 
   exchangeRedirect = () => {
     this.props.authActions.setRegisterEmail(undefined)
-    this.props.profileActions.getExchangeLoginToken(true)
+    this.props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.Signup)
     // TODO: this is a placeholder
   }
 

@@ -5,6 +5,7 @@ import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
 import { Icon, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { ExchangeAuthOriginType } from 'data/types'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import { Props } from '.'
@@ -161,7 +162,7 @@ const Navigation = (props: OwnProps & Props) => {
       </LinkContainer>
       <ExchangeMenuItem
         data-e2e='exchangeLink'
-        onClick={() => props.profileActions.getExchangeLoginToken()}
+        onClick={() => props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.SideMenu)}
       >
         <ExchangeNavItem {...props} />
       </ExchangeMenuItem>

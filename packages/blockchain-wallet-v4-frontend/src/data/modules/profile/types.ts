@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 
+import { Exchange } from '@core'
 import type { NabuAddressType, NabuApiErrorType, RemoteDataType, WalletFiatType } from '@core/types'
 import type { CampaignsType } from 'data/components/identityVerification/types'
 
@@ -23,6 +24,12 @@ export type CampaignInfoType = {
   updatedAt: string
   userCampaignState?: UserCampaignState
   userCampaignTransactionResponseList: Array<UserCampaignTransactionResponseType>
+}
+
+export enum ExchangeAuthOriginType {
+  Login = 'login',
+  SideMenu = 'sideMenu',
+  Signup = 'signup'
 }
 
 export type KycStateType = 'NONE' | 'PENDING' | 'UNDER_REVIEW' | 'REJECTED' | 'VERIFIED' | 'EXPIRED'
@@ -202,7 +209,7 @@ interface FetchUserDataSuccessAction {
 
 interface GetExchangeLoginTokenAction {
   payload: {
-    signUp?: boolean
+    origin: ExchangeAuthOriginType
   }
   type: typeof AT.GET_EXCHANGE_LOGIN_TOKEN
 }

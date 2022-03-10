@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bind, concat, prop } from 'ramda'
+import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
 import { getCoinsSortedByBalance } from 'components/Balances/selectors'

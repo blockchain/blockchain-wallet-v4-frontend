@@ -11,6 +11,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
+import { ExchangeAuthOriginType } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -350,6 +351,7 @@ export default ({ api, coreSagas, networks }) => {
           } else if (product === ProductAuthOptions.EXCHANGE) {
             // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
             // HOW DO WE RETRIEVE KV STORE
+            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
           } else {
             // If product is undefined, show user product picker to choose
             actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
@@ -792,9 +794,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({
             code: auth,
-            exchangePassword,
             guid,
             mobileLogin: null,
+            password: exchangePassword,
             sharedKey: null
           })
         )
