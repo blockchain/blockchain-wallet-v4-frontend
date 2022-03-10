@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import DOMPurify from 'dompurify'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -121,7 +122,9 @@ const TermsAndConditions: React.FC<InjectedFormProps<{}, Props> & Props> = (prop
           <PagePlaceholder>
             <TextWrapper>
               <TextBox
-                dangerouslySetInnerHTML={{ __html: props.termsAndConditions.termsAndConditions }}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(props.termsAndConditions.termsAndConditions)
+                }}
               />
             </TextWrapper>
           </PagePlaceholder>
