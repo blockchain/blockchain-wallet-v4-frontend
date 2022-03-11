@@ -30,6 +30,7 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
     top: 16
   }
 
+  // FIXME: This is a hack to get the chart to render correctly.
   const lastY = useMemo(() => {
     if (data.length) {
       const last = data[data.length - 1]
@@ -68,9 +69,11 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
     <svg ref={ref} width='100%' height='100%' viewBox={`0 0 ${width} ${height}`}>
       <LinearGradient
         id='coin_chart_linear_gradient'
-        from={backgroundColor}
+        from={primaryColor}
         to={primaryColor}
         rotate='-90'
+        toOffset='30%'
+        fromOpacity={0.1}
       />
 
       <LinearGradient
