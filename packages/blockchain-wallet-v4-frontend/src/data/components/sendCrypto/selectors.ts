@@ -2,6 +2,8 @@ import { RootState } from 'data/rootReducer'
 
 export const getStep = (state: RootState) => state.components.sendCrypto.step
 
+export const getIsValidAddress = (state: RootState) => state.components.sendCrypto.isValidAddress
+
 export const getTransaction = (state: RootState) => state.components.sendCrypto.transaction
 
 export const getWithdrawalFees = (state: RootState, coin: string) =>

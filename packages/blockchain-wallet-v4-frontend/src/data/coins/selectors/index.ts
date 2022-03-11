@@ -14,6 +14,7 @@ import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 import * as EUR from './coins/eur'
 import * as GBP from './coins/gbp'
+import * as SELF_CUSTODY from './coins/self-custody'
 import * as USD from './coins/usd'
 import * as XLM from './coins/xlm'
 
@@ -26,6 +27,7 @@ const coinSelectors = {
   ETH,
   EUR,
   GBP,
+  SELF_CUSTODY,
   USD,
   XLM
 }
@@ -36,6 +38,10 @@ export const getSelector = (coinfig: CoinfigType) => {
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
     return 'CUSTODIAL'
+  }
+  // TODO: SELF_CUSTODY
+  if (coinfig.symbol === 'STX') {
+    return 'SELF_CUSTODY'
   }
   return coinfig.symbol
 }

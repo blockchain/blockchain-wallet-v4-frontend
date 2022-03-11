@@ -39,7 +39,8 @@ class FeaturesContainer extends React.PureComponent<Props> {
         origin: 'FeaturesTopNav'
       })
     }
-    if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
+    // TODO: SELF_CUSTODY
+    if (selectors.core.data.coins.getCustodialCoins().includes(coin) || coin === 'STX') {
       return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, {
         coin,
         origin: 'FeaturesTopNav'

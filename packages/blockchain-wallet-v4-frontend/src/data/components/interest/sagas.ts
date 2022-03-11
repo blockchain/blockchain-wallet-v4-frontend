@@ -45,6 +45,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     getNextReceiveAddressForCoin,
     getOrUpdateProvisionalPaymentForCoin
   } = coinSagas({
+    api,
     coreSagas,
     networks
   })

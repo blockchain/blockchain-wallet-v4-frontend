@@ -39,6 +39,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
         'ETH',
         'BCH',
         'XLM',
+        'STX',
         ...custodials,
         // ...coins.rest // erc20s
         // TODO: erc20 phase 2, key off hash not symbol

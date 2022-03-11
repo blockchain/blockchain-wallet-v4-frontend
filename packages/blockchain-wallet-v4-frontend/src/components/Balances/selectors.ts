@@ -293,7 +293,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           (coin) =>
             getBalanceSelector(coin)(state).getOrElse(0) <= 0 &&
             window.coins[coin].coinfig.type.name !== 'FIAT' &&
-            coin !== 'BTC',
+            coin !== 'BTC' &&
+            coin !== 'STX',
           Object.keys(window.coins)
         )
       )

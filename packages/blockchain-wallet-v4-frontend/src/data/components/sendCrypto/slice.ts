@@ -21,6 +21,7 @@ import {
 
 const initialState: SendCryptoState = {
   initialCoin: undefined,
+  isValidAddress: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
@@ -77,7 +78,18 @@ const sendCryptoSlice = createSlice({
     },
     submitTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
       state.transaction = Remote.Success(action.payload)
+    },
+    validateAddress: (state, action: PayloadAction<{ address: string; coin: string }>) => {},
+    validateAddressFailure: (state, action: PayloadAction<string>) => {
+      state.isValidAddress = Remote.Failure(action.payload)
+    },
+    validateAddressLoading: (state) => {
+      state.isValidAddress = Remote.Loading
+    },
+    validateAddressSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isValidAddress = Remote.Success(action.payload)
     }
+
     // showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
   }
 })

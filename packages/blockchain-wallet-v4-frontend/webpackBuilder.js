@@ -238,6 +238,7 @@ const buildDevServerConfig = (
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
           envConfig.OPENSEA_API,
+          'http://localhost:4444',
           'http://localhost:8081',
           'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',

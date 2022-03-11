@@ -1,13 +1,26 @@
 import { CoinType, PaymentType, PaymentValue, RemoteDataType } from '@core/types'
+import { selectors } from 'data'
 
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
+import * as SELF_CUSTODY from './coins/self-custody'
 // import * as EUR from './coins/eur'
 // import * as GBP from './coins/gbp'
 // import * as USD from './coins/usd'
 import * as XLM from './coins/xlm'
+
+const getSaga = (coin: CoinType) => {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
+    return 'ERC20'
+  }
+  // TODO: SELF_CUSTODY
+  if (coin === 'STX') {
+    return 'SELF_CUSTODY'
+  }
+  return coin
+}
 
 // create a function map of all coins
 const coinSagas = {
@@ -15,6 +28,7 @@ const coinSagas = {
   BTC,
   ERC20,
   ETH,
+  SELF_CUSTODY,
   // EUR,
   // GBP,
   // USD,
@@ -26,13 +40,11 @@ const coinSagas = {
 // that require coin specific logic to execute. perhaps in the future we split these out further
 //
 
-export default ({ coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   // gets the default account/address for requested coin
   const getDefaultAccountForCoin = function* (coin: CoinType): Generator<string> {
-    const { coinfig } = window.coins[coin]
-    const defaultAccountR = yield coinSagas[
-      coinfig.type.erc20Address ? 'ERC20' : coin
-    ]?.getDefaultAccount(coin)
+    const saga = getSaga(coin)
+    const defaultAccountR = yield coinSagas[saga]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
   }
@@ -43,12 +55,8 @@ export default ({ coreSagas, networks }) => {
     coin: CoinType,
     index?: number
   ): Generator<string> {
-    const { coinfig } = window.coins[coin]
-    return yield coinSagas[coinfig.type.erc20Address ? 'ERC20' : coin]?.getNextReceiveAddress(
-      coin,
-      networks,
-      index
-    )
+    const saga = getSaga(coin)
+    return yield coinSagas[saga]?.getNextReceiveAddress(coin, networks, index, api)
   }
 
   // gets or updates a provisional payment for a coin
@@ -58,10 +66,12 @@ export default ({ coreSagas, networks }) => {
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): Generator<PaymentType> {
-    const { coinfig } = window.coins[coin]
-    return yield coinSagas[
-      coinfig.type.erc20Address ? 'ERC20' : coin
-    ]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR) as PaymentType
+    const saga = getSaga(coin)
+    return yield coinSagas[saga]?.getOrUpdateProvisionalPayment(
+      coreSagas,
+      networks,
+      paymentR
+    ) as PaymentType
   }
 
   return {

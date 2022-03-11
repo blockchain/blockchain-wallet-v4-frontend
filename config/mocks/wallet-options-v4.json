@@ -49,6 +49,7 @@
         "showTermsAndConditions": true,
         "signupCountry": true,
         "silverRevamp": true,
+        "stxPrivateKey": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,

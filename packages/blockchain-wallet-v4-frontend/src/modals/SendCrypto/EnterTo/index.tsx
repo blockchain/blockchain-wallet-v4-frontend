@@ -4,6 +4,7 @@ import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -11,10 +12,11 @@ import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption, Form } from 'components/Form'
 import TextWithQRScanner from 'components/Form/TextWithQRScanner'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
 import { FormLabelWithBorder, SEND_FORM } from '../model'
-import { INVALID_ADDR, validate } from './validation'
+import { INVALID_ADDR } from './validation'
 
 const Wrapper = styled(Form)`
   display: flex;
@@ -33,12 +35,19 @@ const ErrorWrapper = styled(FlyoutWrapper)`
 
 class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { formErrors, formValues, sendCryptoActions, walletCurrency } = this.props
+    const { formErrors, formValues, isValidAddress, sendCryptoActions, walletCurrency } = this.props
     const { selectedAccount, to } = formValues
 
     const { coinfig } = window.coins[selectedAccount.coin]
 
     const toError = typeof formErrors.to === 'string' && formErrors.to === INVALID_ADDR
+    const valid = isValidAddress.cata({
+      Failure: () => false,
+      Loading: () => false,
+      NotAsked: () => false,
+      Success: (res) => res
+    })
+    const disabled = !Remote.Success.is(isValidAddress) || !valid
 
     return (
       <Wrapper
@@ -76,8 +85,15 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
           <ToWrapper>
             <Field
               name='to'
+              // @ts-ignore
               component={TextWithQRScanner}
               onScan={(data) => this.props.formActions.change(SEND_FORM, 'to', data)}
+              onChange={debounce((e) => {
+                this.props.sendCryptoActions.validateAddress({
+                  address: e.currentTarget.value,
+                  coin: selectedAccount.coin
+                })
+              }, 100)}
               placeholder={`${coinfig.name} Address`}
             />
           </ToWrapper>
@@ -96,7 +112,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
             data-e2e='enterToBtn'
             fullwidth
             jumbo
-            disabled={!to || toError}
+            disabled={!to || toError || disabled}
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
@@ -114,6 +130,5 @@ type Props = OwnProps & {
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: SEND_FORM,
-  validate
+  form: SEND_FORM
 })(SendEnterTo)

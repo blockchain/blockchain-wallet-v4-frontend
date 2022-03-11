@@ -86,6 +86,7 @@ const mapStateToProps = (state: RootState) => ({
     coin: state.components.sendCrypto.initialCoin,
     fix: 'CRYPTO'
   },
+  isValidAddress: selectors.components.sendCrypto.getIsValidAddress(state),
   sendLimits: selectors.components.sendCrypto
     .getSendLimits(state)
     .getOrElse({} as CrossBorderLimits),

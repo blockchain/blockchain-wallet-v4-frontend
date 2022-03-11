@@ -58,7 +58,8 @@ export default ({ api }: { api: APIType }) => {
 
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
-      if (selectors.core.data.coins.getCustodialCoins().includes(payload)) {
+      // TODO: SELF_CUSTODY
+      if (selectors.core.data.coins.getCustodialCoins().includes(payload) || payload === 'STX') {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin
@@ -128,12 +129,27 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const validateAddress = function* ({ payload }: ReturnType<typeof A.validateAddress>) {
+    const { address, coin } = payload
+    try {
+      const response: ReturnType<typeof api.validateAddress> = yield call(
+        api.validateAddress,
+        coin,
+        address
+      )
+      yield put(A.validateAddressSuccess(response.success))
+    } catch (e) {
+      yield put(A.validateAddressFailure(e))
+    }
+  }
+
   return {
     fetchFees,
     fetchLocks,
     fetchSendLimits,
     onFormChange,
     // fetchTransactionDetails,
-    submitTransaction
+    submitTransaction,
+    validateAddress
   }
 }

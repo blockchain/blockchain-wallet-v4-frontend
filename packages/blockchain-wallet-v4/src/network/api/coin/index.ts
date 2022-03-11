@@ -1,6 +1,30 @@
 import { IndexMultiResponseType, TickerResponseType } from './types'
 
 export default ({ apiUrl, get, post }) => {
+  // TODO: SELF_CUSTODY
+  const getCoinAddress = (coin: string, pubKey: string) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        pubKey
+      },
+      endPoint: `/deriveAddress`,
+      url: 'http://localhost:4444'
+    })
+  }
+
+  // TODO: SELF_CUSTODY
+  const validateAddress = (coin: string, address: string): { success: boolean } => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        address
+      },
+      endPoint: `/validateAddress`,
+      url: 'http://localhost:4444'
+    })
+  }
+
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -24,6 +48,8 @@ export default ({ apiUrl, get, post }) => {
 
   return {
     getBtcTicker,
-    getCoinPrices
+    getCoinAddress,
+    getCoinPrices,
+    validateAddress
   }
 }
