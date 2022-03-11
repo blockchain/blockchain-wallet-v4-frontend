@@ -10,6 +10,7 @@ import { actions } from 'data'
 
 import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
+import { ChartBalancePanel } from '../ChartBalancePanel'
 import { CoinChart } from '../CoinChart'
 import { CoinPage } from './CoinPage'
 import { getData } from './selectors'
@@ -92,6 +93,14 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
               />
             }
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
+            chartBalancePanel={
+              <ChartBalancePanel
+                coinCode={coin}
+                pastHourDelta={value.priceChange.overallChange.percentChange}
+                pastHourPrice={value.priceChange.overallChange.diff}
+                price={value.priceChange.currentPrice}
+              />
+            }
           />
         )
       }
