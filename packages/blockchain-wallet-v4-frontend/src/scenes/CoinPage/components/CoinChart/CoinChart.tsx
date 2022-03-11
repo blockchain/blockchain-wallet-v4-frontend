@@ -30,6 +30,12 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
     top: 16
   }
 
+  const lastY = useMemo(() => {
+    if (data.length) {
+      const last = data[data.length - 1]
+      return getY(last)
+    }
+  }, [data, getY])
   const maxY = useMemo(() => max(data, getY) as number, [data, getY])
   const minY = useMemo(() => min(data, getY) as number, [data, getY])
   const maxX = useMemo(() => max(data, getX) as number, [data, getX])
@@ -94,7 +100,7 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
           fill='url(#coin_chart_line_background_linear_gradient)'
         /> */}
 
-        <Group left={xScale(maxX)} top={yScale(maxY)}>
+        <Group left={xScale(maxX)} top={yScale(lastY || maxY)}>
           <Circle fill={primaryColor} r={4} />
           <Circle fill={primaryColor} r={8} opacity={0.1} />
           <Circle fill={primaryColor} r={16} opacity={0.1} />
