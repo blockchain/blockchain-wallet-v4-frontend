@@ -27,6 +27,7 @@ const Wrapper = styled(Form)`
 const ToWrapper = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
+  padding-bottom: 12px;
 `
 const ErrorWrapper = styled(FlyoutWrapper)`
   display: flex;
@@ -35,12 +36,11 @@ const ErrorWrapper = styled(FlyoutWrapper)`
 
 class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { formErrors, formValues, isValidAddress, sendCryptoActions, walletCurrency } = this.props
+    const { formValues, isValidAddress, sendCryptoActions, walletCurrency } = this.props
     const { selectedAccount, to } = formValues
 
     const { coinfig } = window.coins[selectedAccount.coin]
 
-    const toError = typeof formErrors.to === 'string' && formErrors.to === INVALID_ADDR
     const valid = isValidAddress.cata({
       Failure: () => false,
       Loading: () => false,
@@ -97,13 +97,20 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
               placeholder={`${coinfig.name} Address`}
             />
           </ToWrapper>
-          {toError && (
-            <ErrorWrapper>
-              <ErrorCartridge>
-                <FormattedMessage id='copy.invalid_addr' defaultMessage='Invalid Address' />
-              </ErrorCartridge>
-            </ErrorWrapper>
-          )}
+          {isValidAddress.cata({
+            Failure: () => null,
+            Loading: () => null,
+            NotAsked: () => null,
+            Success: (val) => {
+              return val ? null : (
+                <ErrorWrapper>
+                  <ErrorCartridge>
+                    <FormattedMessage id='copy.invalid_addr' defaultMessage='Invalid Address' />
+                  </ErrorCartridge>
+                </ErrorWrapper>
+              )
+            }
+          })}
         </div>
         <FlyoutWrapper>
           <Button
@@ -112,7 +119,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
             data-e2e='enterToBtn'
             fullwidth
             jumbo
-            disabled={!to || toError || disabled}
+            disabled={!to || disabled}
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
