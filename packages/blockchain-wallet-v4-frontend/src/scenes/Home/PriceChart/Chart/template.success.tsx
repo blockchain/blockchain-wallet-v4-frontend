@@ -83,8 +83,10 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   const yScale = useMemo(
     () =>
       scaleLinear({
-        // @ts-ignore
-        domain: [min(data, getXValue) - height / 5, max(data, getXValue) + height / 5],
+        domain: [
+          (min(data, getXValue) || 0) - height / 5,
+          (max(data, getXValue) || 0) + height / 5
+        ],
         range: [height, 0]
       }),
     [height, data]
