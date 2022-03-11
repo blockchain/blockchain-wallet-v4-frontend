@@ -128,7 +128,10 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address
+                Success: (val) => {
+                  const parsedAddress = val.address.match(/[^:]+$/g)?.[0]
+                  return typeof parsedAddress === 'string' ? parsedAddress : val.address
+                }
               })}
             </Text>
           </AddressDisplay>
