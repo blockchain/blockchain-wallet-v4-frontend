@@ -94,7 +94,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const performPayment = ({
+  const performApplePayValidation = ({
     applePayInfo,
     paymentRequest
   }: {
@@ -114,11 +114,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
-          reject()
+          reject(e)
         }
       }
-      session.onpaymentauthorized = resolve
+
+      session.onpaymentauthorized = (event) => {
+        const result = {
+          status: ApplePaySession.STATUS_SUCCESS
+        }
+        session.completePayment(result)
+
+        resolve(event)
+      }
+
       session.oncancel = reject
+
       session.begin()
     })
   }
@@ -647,18 +657,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
+          // The amount has to be in cents
+          const amount = parseInt(order.inputQuantity) / 100
+
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
-            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+            total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
+          const { payment } = yield call(performApplePayValidation, {
+            applePayInfo,
+            paymentRequest
+          })
 
           attributes = {
             applePayPaymentToken: payment.token,
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
             redirectURL: paymentSuccessLink
           }
         }
