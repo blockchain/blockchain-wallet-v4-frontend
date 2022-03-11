@@ -34,6 +34,8 @@ export const validate = (formValues: SendFormType, props: Props) => {
   const { coin } = selectedAccount
 
   const fee = feesR.getOrElse(0) || 0
+  const min = minR.getOrElse(0) || 0
+
   const cryptoStandardAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -55,7 +57,7 @@ export const validate = (formValues: SendFormType, props: Props) => {
     value: fee
   })
 
-  const isBelowMin = minimumAmount(cryptoStandardAmt, minR.getOrElse(0) || 0)
+  const isBelowMin = minimumAmount(cryptoStandardAmt, min)
   let isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
 
   // do this only for seamless limits and if amount is below current balance

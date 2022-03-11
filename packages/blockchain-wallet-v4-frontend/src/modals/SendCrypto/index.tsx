@@ -31,7 +31,7 @@ class SendCrypto extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.sendCryptoActions.fetchWithdrawalFees()
+    this.props.sendCryptoActions.fetchWithdrawalFees({})
     this.props.sendCryptoActions.fetchWithdrawalLocks()
   }
 

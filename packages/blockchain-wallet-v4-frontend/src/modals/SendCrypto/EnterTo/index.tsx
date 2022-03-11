@@ -35,6 +35,12 @@ const ErrorWrapper = styled(FlyoutWrapper)`
 `
 
 class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
+  componentDidMount() {
+    this.props.sendCryptoActions.fetchWithdrawalFees({
+      account: this.props.formValues.selectedAccount
+    })
+  }
+
   render() {
     const { formValues, isValidAddress, sendCryptoActions, walletCurrency } = this.props
     const { selectedAccount, to } = formValues

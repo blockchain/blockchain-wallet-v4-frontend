@@ -2,7 +2,7 @@ import { IndexMultiResponseType, TickerResponseType } from './types'
 
 export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
-  const getCoinAddress = (coin: string, pubKey: string) => {
+  const deriveAddress = (coin: string, pubKey: string) => {
     return post({
       contentType: 'application/json',
       data: {
@@ -19,6 +19,48 @@ export default ({ apiUrl, get, post }) => {
       contentType: 'application/json',
       data: {
         address
+      },
+      endPoint: `/validateAddress`,
+      url: 'http://localhost:4444'
+    })
+  }
+
+  // TODO: SELF_CUSTODY
+  // {
+  //   "intent": {
+  //     "coin": "string",
+  //     "type": "PAYMENT",
+  //     "source": {
+  //       "pubkey": "string",
+  //       "guid": "string"
+  //     },
+  //     "destination": "string",
+  //     "amount": "string",
+  //     "fee": "string",
+  //     "additional_data": {
+  //       "memo": "string",
+  //       "txID": "string"
+  //     },
+  //     "maxVerificationVersion": "string"
+  //   },
+  //   "id": {
+  //     "uuid": "string",
+  //     "guid": "string"
+  //   }
+  // }
+  const buildTx = (data: {
+    additional_data?: { memo: string; txID: string }
+    amount: string
+    coin: string
+    destination: string
+    fee: string
+    source: { guid: string; pubkey: string }
+    type: 'PAYMENT'
+  }) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        data
       },
       endPoint: `/validateAddress`,
       url: 'http://localhost:4444'
@@ -47,8 +89,9 @@ export default ({ apiUrl, get, post }) => {
     })
 
   return {
+    buildTx,
+    deriveAddress,
     getBtcTicker,
-    getCoinAddress,
     getCoinPrices,
     validateAddress
   }

@@ -361,7 +361,11 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                   <CustomBlueCartridge
                     pointer
                     data-e2e='retryFetchFees'
-                    onClick={() => props.sendCryptoActions.fetchWithdrawalFees()}
+                    onClick={() =>
+                      props.sendCryptoActions.fetchWithdrawalFees({
+                        account: props.formValues.selectedAccount
+                      })
+                    }
                   >
                     <Text size='10px' color='blue600' weight={600}>
                       <FormattedMessage id='copy.retry' defaultMessage='Retry' />

@@ -15,15 +15,26 @@ import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchFees = function* () {
+  const fetchFeesAndMins = function* ({ payload }: ReturnType<typeof A.fetchWithdrawalFees>) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
-      const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
-        api.getWithdrawalFees,
-        'simplebuy'
-      )
+      console.log(payload.account)
+      if (payload.account && payload.account.type === SwapBaseCounterTypes.ACCOUNT) {
+        yield put(
+          A.fetchWithdrawalFeesSuccess({
+            feeType: 'NETWORK',
+            fees: [{ minorValue: '1000000', symbol: payload.account.coin, value: 1 }],
+            minAmounts: [{ minorValue: '0', symbol: payload.account.coin, value: 0 }]
+          })
+        )
+      } else {
+        const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
+          api.getWithdrawalFees,
+          'simplebuy'
+        )
 
-      yield put(A.fetchWithdrawalFeesSuccess(withdrawalFees))
+        yield put(A.fetchWithdrawalFeesSuccess(withdrawalFees))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchWithdrawalFeesFailure(error))
@@ -144,7 +155,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchFees,
+    fetchFeesAndMins,
     fetchLocks,
     fetchSendLimits,
     onFormChange,

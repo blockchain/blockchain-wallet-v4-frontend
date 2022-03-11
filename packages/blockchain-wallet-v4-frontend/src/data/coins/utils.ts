@@ -5,7 +5,8 @@ import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 export const generateSelfCustodyAccount = (coin: CoinType): SwapAccountType[] => {
   return [
     {
-      balance: '0',
+      // TODO: SELF_CUSTODY
+      balance: '3000000',
       baseCoin: coin,
       coin,
       label: 'Private Key Wallet',

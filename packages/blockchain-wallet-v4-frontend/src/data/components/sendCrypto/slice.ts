@@ -12,6 +12,7 @@ import {
   WithdrawResponseType
 } from '@core/types'
 
+import { SwapAccountType } from '../swap/types'
 import {
   FetchSendLimitsPayload,
   SendCryptoState,
@@ -43,7 +44,7 @@ const sendCryptoSlice = createSlice({
     fetchSendLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.sendLimits = Remote.Success(action.payload)
     },
-    fetchWithdrawalFees: () => {},
+    fetchWithdrawalFees: (state, action: PayloadAction<{ account?: SwapAccountType }>) => {},
     fetchWithdrawalFeesFailure: (state, action: PayloadAction<string>) => {
       state.withdrawalFeesAndMins = Remote.Failure(action.payload)
     },
