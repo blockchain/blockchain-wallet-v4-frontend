@@ -210,7 +210,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
-      yield call(coreSagas.kvStore.uÎserCredentials.fetchMetadataUserCredentials)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
         null
       )
@@ -332,11 +332,13 @@ export default ({ api, coreSagas, networks }) => {
         if (origin === ExchangeAuthOriginType.Signup) {
           return
         }
-        return window.open(
-          `https://exchange.staging.blockchain.info/trade/`,
-          '_blank',
-          'noreferrer'
-        )
+        if (origin === ExchangeAuthOriginType.SideMenu) {
+          return window.open(
+            `https://exchange.staging.blockchain.info/trade/`,
+            '_blank',
+            'noreferrer'
+          )
+        }
       }
       const { token } = yield call(
         api.getExchangeAuthToken,
@@ -373,7 +375,6 @@ export default ({ api, coreSagas, networks }) => {
         return authCredentials
       })
       .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
-
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 

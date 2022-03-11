@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, fork, put, select, take } from 'redux-saga/effects'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
@@ -79,9 +79,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
-    const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
@@ -178,6 +177,7 @@ export default ({ api, coreSagas, networks }) => {
     state = undefined
   }) {
     try {
+      const product = yield select(selectors.auth.getProduct)
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
@@ -210,7 +210,11 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-
+      yield delay(3000)
+      if (product === ProductAuthOptions.EXCHANGE) {
+        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+        return
+      }
       if (firstLogin) {
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
@@ -346,16 +350,16 @@ export default ({ api, coreSagas, networks }) => {
           break
         // if account is unified, we have
         case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
-          if (product === ProductAuthOptions.WALLET) {
-            yield call(loginRoutineSaga, {})
-          } else if (product === ProductAuthOptions.EXCHANGE) {
-            // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
-            // HOW DO WE RETRIEVE KV STORE
-            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
-          } else {
-            // If product is undefined, show user product picker to choose
-            actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
-          }
+          // if (product === ProductAuthOptions.WALLET) {
+          yield call(loginRoutineSaga, {})
+          // } else if (product === ProductAuthOptions.EXCHANGE) {
+          //   // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
+          //   // HOW DO WE RETRIEVE KV STORE
+          //   yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+          // } else {
+          //   // If product is undefined, show user product picker to choose
+          //   actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
+          // }
           break
         default:
           yield call(loginRoutineSaga, {})
