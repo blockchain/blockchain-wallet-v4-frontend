@@ -1,5 +1,5 @@
 declare global {
-    interface Window { coins: {[key: string]: unknown}; }
+  interface Window { coins: {[key: string]: unknown}; }
 }
 
 export const addIconsToWindow = () => {
@@ -10,7 +10,7 @@ export const addIconsToWindow = () => {
         displaySymbol: "WBTC",
         name: "Wrapped Bitcoin",
         type: {
-          logoPngUrl: "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",  
+          logoPngUrl: "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
         },
       }
     },

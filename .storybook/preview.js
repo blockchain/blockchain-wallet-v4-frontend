@@ -21,11 +21,11 @@ const withTheme = () => (story, context) => {
 
 const withIconsAndFonts = () => (story) => {
   return (
-    <>
-      {story()}
-      <IconGlobalStyles />
-      <FontGlobalStyles />
-    </>
+      <>
+        {story()}
+        <IconGlobalStyles />
+        <FontGlobalStyles />
+      </>
   )
 }
 addDecorator(withTheme())
