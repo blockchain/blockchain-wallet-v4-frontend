@@ -24,9 +24,8 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-#     Non-working command
-#      - name: Deploy storybook - base components
-#        run: yarn storybook:base
+      - name: Deploy storybook - base components
+        run: yarn storybook:base
 
       - name: Deploy storybook - wallet
         run: yarn storybook:deploy-wallet
