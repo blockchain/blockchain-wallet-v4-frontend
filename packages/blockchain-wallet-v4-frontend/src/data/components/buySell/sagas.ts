@@ -112,7 +112,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             validationURL: event.validationURL
           })
 
-          session.completeMerchantValidation(JSON.parse(applePayPayload))
+          session.completeMerchantValidation(applePayPayload)
         } catch (e) {
           reject(e)
         }
