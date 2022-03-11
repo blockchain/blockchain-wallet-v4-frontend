@@ -137,14 +137,18 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Failure: () => <></>,
               Loading: () => <></>,
               NotAsked: () => <></>,
-              Success: (val) => (
-                <CopyClipboardButton
-                  onClick={() => this.props.requestActions.setAddressCopied()}
-                  textToCopy={val.address}
-                  color='blue600'
-                  size='24px'
-                />
-              )
+              Success: (val) => {
+                const parsedAddress = val.address.match(/[^:]+$/g)?.[0]
+                const textToCopy = typeof parsedAddress === 'string' ? parsedAddress : val.address
+                return (
+                  <CopyClipboardButton
+                    color='blue600'
+                    onClick={() => this.props.requestActions.setAddressCopied()}
+                    size='24px'
+                    textToCopy={textToCopy}
+                  />
+                )
+              }
             })}
           </ClipboardWrapper>
         </AddressWrapper>
