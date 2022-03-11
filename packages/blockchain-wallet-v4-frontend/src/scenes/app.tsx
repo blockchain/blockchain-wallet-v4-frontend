@@ -79,8 +79,6 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  console.error('ENTRO VALOR:', walletDebitCardEnabled)
-
   return (
     <Provider store={store}>
       <ThemeProvider>

@@ -28,7 +28,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  cardProducts: selectors.components.debitCard.getProducts(state),
   coinList: getCoinsSortedByBalance(state),
   isRedesignEnabled: selectors.core.walletOptions
     .getRedesignEnabled(state)
