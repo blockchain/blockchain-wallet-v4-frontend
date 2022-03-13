@@ -101,6 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
+      debugger
       const { token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
@@ -604,13 +605,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeLogin = function* () {
     try {
+      debugger
       // set loading
       yield put(actions.auth.initializeLoginLoading())
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
-      const searchString = yield select(selectors.router.getSearch)
-      const queryParams = new URLSearchParams(searchString)
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
@@ -618,6 +619,7 @@ export default ({ api, coreSagas, networks }) => {
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
       const userType = queryParams.get('userType') as string
+      const email = queryParams.get('email')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
@@ -629,12 +631,14 @@ export default ({ api, coreSagas, networks }) => {
       )
 
       // eslint-disable-next-line
-      console.log('URL DATA:: ', platform, product, redirect, userType)
+      console.log(`URL DATA:: ${platform}, ${product}, ${redirect}, ${userType}, ${email}`)
 
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
+      // eslint-disable-next-line
+      console.log(`MAGIC DATA:: ${platform}, ${product}, ${redirect}, ${userType}, ${email}`)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
@@ -845,6 +849,7 @@ export default ({ api, coreSagas, networks }) => {
 
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
+      if (!magicLinkDataEncoded) return
       const data = yield call(
         api.authorizeVerifyDevice,
         session_id,

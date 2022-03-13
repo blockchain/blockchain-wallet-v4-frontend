@@ -28,6 +28,7 @@ export const parseAuthMagicLink = function* () {
       upgradeable,
       wallet: walletData
     } = magicLink as AuthMagicLink
+    debugger
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
     // eslint-disable-next-line
     console.log('MAGIC LINK:: ', magicLink)
