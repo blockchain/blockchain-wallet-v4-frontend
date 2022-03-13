@@ -4,22 +4,27 @@ import { FormattedMessage } from 'react-intl'
 import { Carousel, Link, Text, TextGroup } from 'blockchain-info-components'
 
 import { Card } from './components'
+import List from './components/List'
 import {
   Box,
   Container,
   Content,
   Footer,
   GenerateButton,
+  GenerateReport,
   MenuHeaderCentered,
+  ReportList,
   SelectGroup,
   SelectLabel,
   Slide,
   StyledSelect,
+  StyledSeparator,
+  StyledTextGroup,
   Title,
   VisitButton
 } from './model'
 
-const TaxCenter = ({ onGenerateReportClick }: Props) => (
+const TaxCenter = ({ onGenerateReportClick, reports }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -106,26 +111,49 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
       }
     >
       <Content>
-        <SelectGroup>
-          <SelectLabel size='14px' weight={600} color='black'>
+        <GenerateReport>
+          <SelectGroup>
+            <SelectLabel size='14px' weight={600} color='black'>
+              <FormattedMessage
+                id='scenes.tax.center.card.report.select'
+                defaultMessage='Choose tax year'
+              />
+            </SelectLabel>
+            <StyledSelect value='' elements={[]} onBlur={() => {}} />
+          </SelectGroup>
+          <GenerateButton
+            nature='primary'
+            data-e2e='additionalInfoUploadDocument'
+            type='button'
+            onClick={onGenerateReportClick}
+          >
             <FormattedMessage
-              id='scenes.tax.center.card.report.select'
-              defaultMessage='Choose tax year'
+              id='scenes.tax.center.card.report.button'
+              defaultMessage='Generate Report'
             />
-          </SelectLabel>
-          <StyledSelect value='' elements={[]} onBlur={() => {}} />
-        </SelectGroup>
-        <GenerateButton
-          nature='primary'
-          data-e2e='additionalInfoUploadDocument'
-          type='button'
-          onClick={onGenerateReportClick}
-        >
-          <FormattedMessage
-            id='scenes.tax.center.card.report.button'
-            defaultMessage='Generate Report'
-          />
-        </GenerateButton>
+          </GenerateButton>
+        </GenerateReport>
+        {reports.length > 0 && (
+          <ReportList>
+            <StyledTextGroup inline>
+              <SelectLabel size='14px' weight={600} color='black'>
+                <FormattedMessage
+                  id='scenes.tax.center.card.report.list'
+                  defaultMessage='Generated Reports'
+                />
+              </SelectLabel>
+              <Text size='12px' color='grey400'>
+                {`${reports.length}/5 `}
+                <FormattedMessage
+                  id='scenes.tax.center.card.report.limit'
+                  defaultMessage='Report Limit'
+                />
+              </Text>
+            </StyledTextGroup>
+            <StyledSeparator />
+            <List reports={reports} />
+          </ReportList>
+        )}
       </Content>
     </Card>
     <Card
@@ -173,6 +201,7 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
 
 type Props = {
   onGenerateReportClick: () => void
+  reports: Array<any>
 }
 
 export default TaxCenter
