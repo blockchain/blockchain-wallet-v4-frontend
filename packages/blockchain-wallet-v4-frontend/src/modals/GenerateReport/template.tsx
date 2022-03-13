@@ -39,7 +39,7 @@ const GeneratReport = ({ onClose }) => (
         capitalize
         onClick={onClose}
       >
-        <FormattedMessage id='modals.generate.report.button' defaultMessage='OK' />
+        <FormattedMessage id='buttons.ok' defaultMessage='OK' />
       </StyledButton>
     </StyledModalFooter>
   </Modal>

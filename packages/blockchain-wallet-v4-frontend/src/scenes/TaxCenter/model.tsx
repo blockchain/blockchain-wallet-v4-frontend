@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Button, SelectInput, Text } from 'blockchain-info-components'
+import { Button, SelectInput, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { SceneWrapper } from 'components/Layout'
 import MenuHeader from 'components/MenuHeader'
 
@@ -40,7 +40,9 @@ export const Footer = styled.div`
 `
 export const Content = styled.div`
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
 `
 
 export const SelectGroup = styled.div`
@@ -64,4 +66,26 @@ export const GenerateButton = styled(Button)`
 export const VisitButton = styled(Button)`
   margin-top: 16px;
   height: 48px;
+`
+
+export const GenerateReport = styled.div`
+  display: flex;
+`
+
+export const ReportList = styled.div`
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+
+export const StyledTextGroup = styled(TextGroup)`
+  align-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
+export const StyledSeparator = styled(Separator)`
+  margin: 0 0 10px 0;
 `

@@ -6,17 +6,21 @@ import { actions } from 'data'
 
 import TaxCenter from './template'
 
-const TaxCenterContainer = ({ modalActions }) => {
+const TaxCenterContainer = ({ modalActions, reports }) => {
   const onGenerateReportClick = () => {
     modalActions.showModal('GENERATE_REPORT_MODAL')
   }
-  return <TaxCenter onGenerateReportClick={onGenerateReportClick} />
+  return <TaxCenter reports={reports} onGenerateReportClick={onGenerateReportClick} />
 }
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const mapStateToProps = () => ({
+  reports: [{ id: 0 }]
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export default connector(TaxCenterContainer)
