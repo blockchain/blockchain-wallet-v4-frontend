@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
@@ -9,17 +9,20 @@ import { actions, selectors } from 'data'
 import { Props as OwnProps } from '../template.success'
 import Navigation from './template'
 
-class NavigationContainer extends React.PureComponent<Props> {
-  render() {
-    const { domains } = this.props
+const NavigationContainer = (props: Props) => {
+  useEffect(() => {
+    props.getCardProductsAction()
+  }, [])
 
-    return <Navigation {...this.props} exchangeUrl={concat(prop('exchange', domains), '/trade')} />
-  }
+  const { domains } = props
+
+  return <Navigation {...props} exchangeUrl={concat(prop('exchange', domains), '/trade')} />
 }
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  getCardProductsAction: bindActionCreators(actions.components.debitCard.getProducts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
@@ -29,9 +32,7 @@ const mapStateToProps = (state) => ({
   isRedesignEnabled: selectors.core.walletOptions
     .getRedesignEnabled(state)
     .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.core.walletOptions
-    .getWalletDebitCardEnabled(state)
-    .getOrElse(false) as boolean
+  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

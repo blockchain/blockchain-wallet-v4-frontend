@@ -11,8 +11,8 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getDCProducts)
       yield put(A.getProductsSuccess(data))
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.getProductsFailure(error))
+      console.error('Failed to get card products', errorHandler(e))
+      yield put(A.getProductsFailure())
     }
   }
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
