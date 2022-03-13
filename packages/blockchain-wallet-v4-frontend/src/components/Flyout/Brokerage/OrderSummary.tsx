@@ -33,7 +33,7 @@ const IconWrapper = styled.div`
   justify-content: center;
 `
 const TitleWrapper = styled(Text)`
-  margin: 32px 0 24px 0;
+  padding: 32px 0 24px 0;
   width: 100%;
 `
 const BottomInfo = styled(Bottom)`
@@ -73,13 +73,16 @@ const OrderSummary: React.FC<Props> = ({
   const isTransactionPending = isPendingDeposit && paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const days = moment.duration(lockTime, 'seconds').days()
+
   return (
     <Container>
       <Header data-e2e='sbCloseModalIcon' mode='close' onClick={handleClose} />
       <Content mode='middle'>
         <div style={{ padding: '0 77px', textAlign: 'center' }}>
           <IconWrapper>
-            <Icon color={outputCurrency} name={outputCurrency} size='64px' />
+            <div style={{ height: 64, width: 64 }}>
+              <Icon name={outputCurrency} size='64px' />
+            </div>
 
             {orderState === 'FINISHED' ? (
               <IconBackground color='white'>
@@ -254,7 +257,7 @@ const OrderSummary: React.FC<Props> = ({
             )}
         </div>
       </Content>
-      <Footer>
+      <Footer collapsed>
         {children && <BottomPromo>{children}</BottomPromo>}
 
         {orderType === 'BUY' && orderState !== 'FAILED' && (
