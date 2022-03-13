@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }) => {
     const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
+    const { comRoot: institutionalDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
@@ -101,8 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      debugger
-      const { token: jwtToken } = response
+      const { csrfToken, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -125,24 +124,27 @@ export default ({ api, coreSagas, networks }) => {
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, { data: { jwt: jwtToken }, status: 'success' })
-          sendMessageToMobile(platform, { data: { jwt: jwtToken }, status: 'success' })
+          console.log('MOBILE MSG:', platform, { data: { csrf: csrfToken, jwt: jwtToken }, status: 'success' })
+          sendMessageToMobile(platform, {
+            data: { csrf: csrfToken, jwt: jwtToken },
+            status: 'success'
+          })
           break
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
-          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
-        // institutional login
+        // web - institutional exchange login
         case userType === 'institutional' && institutionalPortalEnabled:
           window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}&csrf=${csrfToken}`,
             '_self',
             'noreferrer'
           )
           break
-        // exchange institutional login
         default:
-          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+          // eslint-disable-next-line
+          console.log('SSO login flow missing or unsupported')
           break
       }
       // @ts-ignore
@@ -605,7 +607,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeLogin = function* () {
     try {
-      debugger
       // set loading
       yield put(actions.auth.initializeLoginLoading())
       // open coin ws needed for coin streams and channel key for mobile login
@@ -619,7 +620,6 @@ export default ({ api, coreSagas, networks }) => {
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
       const userType = queryParams.get('userType') as string
-      const email = queryParams.get('email')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
@@ -629,16 +629,10 @@ export default ({ api, coreSagas, networks }) => {
           userType
         })
       )
-
-      // eslint-disable-next-line
-      console.log(`URL DATA:: ${platform}, ${product}, ${redirect}, ${userType}, ${email}`)
-
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
-      // eslint-disable-next-line
-      console.log(`MAGIC DATA:: ${platform}, ${product}, ${redirect}, ${userType}, ${email}`)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const exchangeEmail = yield select(selectors.cache.getExchangeEmail)

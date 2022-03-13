@@ -21,18 +21,31 @@ export const parseAuthMagicLink = function* () {
     const {
       exchange: exchangeData,
       mergeable,
-      platform_type,
+      platform_type: platformType,
       product,
-      session_id,
       unified,
       upgradeable,
       wallet: walletData
     } = magicLink as AuthMagicLink
-    debugger
+    // handles cases where we don't yet know which product user wants to authenticate to
+    // if there's only wallet data or exchange data, we can deduce which product they want
+    let productAuthenticatingInto = product
+    if (!product) {
+      if (exchangeData && !walletData) {
+        productAuthenticatingInto = ProductAuthOptions.EXCHANGE
+      }
+      if (walletData && !exchangeData) {
+        productAuthenticatingInto = ProductAuthOptions.WALLET
+      }
+    }
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
     // eslint-disable-next-line
     console.log('MAGIC LINK:: ', magicLink)
-    const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
+    const currentLoginSession = yield select(
+      selectors.session.getSession,
+      walletData?.guid,
+      userEmail
+    )
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
     const showMergeAndUpgradeFlows = (yield select(
@@ -42,33 +55,23 @@ export const parseAuthMagicLink = function* () {
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
     )).getOrElse(false)
-    // handles cases where we don't yet know which product user wants to authenticate to
-    // if there's only wallet data or exchange data, we can deduce which product they want
-    let productAuth = product
-    if (!product) {
-      if (exchangeData && !walletData) {
-        productAuth = ProductAuthOptions.EXCHANGE
-      }
-      if (walletData && !exchangeData) {
-        productAuth = ProductAuthOptions.WALLET
-      }
-    }
+
     // check if merge/upgrade flows are both enabled and required for user
     if (showMergeAndUpgradeFlows) {
       if (!unified && (mergeable || upgradeable)) {
-        if (productAuth === ProductAuthOptions.WALLET && mergeable) {
+        if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable) {
           // send them to wallet password screen
           yield put(
             actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE)
           )
         }
-        if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
+        if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable) {
           // send them to exchange password screen
           yield put(
             actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
           )
         }
-        if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
+        if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && upgradeable) {
           // send them to exchange password screen
           yield put(
             actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
@@ -79,14 +82,45 @@ export const parseAuthMagicLink = function* () {
       }
     }
 
-    // store data in the cache and update form values to be used to submit login
-    if (productAuth === ProductAuthOptions.WALLET) {
-      if (session !== session_id && shouldPollForMagicLinkData) {
-        // undefined because we're not yet confirming or rejecting
-        // device authorization
-        yield put(actions.auth.authorizeVerifyDevice(undefined))
+    // determines if we should be polling for auth magic link or starting product authentication flow
+    switch (true) {
+      // MAGIC LINK POLLING
+      // TODO: MUST FIX, the platform check most likely introduces a bug if the user is trying to login via
+      // exchange mobile app AND verify their device using the web instead of on their mobile
+      case currentLoginSession !== magicLink.session_id &&
+        shouldPollForMagicLinkData &&
+        platformType === PlatformTypes.WEB:
+        // If authing into exchange, pass 'true' since it doesn't require any challenges
+        // and we can confirm device verification right away. If the login is for Wallet,
+        // passing 'undefined' because we're not yet confirming or rejecting device authorization
+        yield put(
+          actions.auth.authorizeVerifyDevice(
+            productAuthenticatingInto === ProductAuthOptions.EXCHANGE ? true : undefined
+          )
+        )
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-      } else {
+        break
+      // AUTHENTICATION - EXCHANGE
+      case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
+        // set state with all exchange login information
+        yield put(actions.cache.exchangeEmail(exchangeData?.email))
+        yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
+        if (walletData) {
+          yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+          yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+        }
+        yield put(actions.auth.setMagicLinkInfo(magicLink))
+        yield put(
+          actions.auth.setProductAuthMetadata({
+            platform: platformType as PlatformTypes,
+            product: ProductAuthOptions.EXCHANGE
+          })
+        )
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+        break
+      // AUTHENTICATION - WALLET
+      case productAuthenticatingInto === ProductAuthOptions.WALLET:
+      default:
         // grab all the data from the JSON wallet data
         // store data in the cache and update form values to be used to submit login
         yield put(actions.cache.emailStored(walletData?.email))
@@ -105,34 +139,7 @@ export const parseAuthMagicLink = function* () {
           })
         )
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-      }
-    }
-    if (productAuth === ProductAuthOptions.EXCHANGE) {
-      if (session !== session_id && shouldPollForMagicLinkData) {
-        // Exchange only logins don't require any challenges
-        // `true` means we can confirm device verification right away
-        // Less security concern compared to wallet
-        yield put(actions.auth.authorizeVerifyDevice(true))
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-      } else {
-        // set state with all exchange login information
-        yield put(actions.cache.exchangeEmail(exchangeData?.email))
-        yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
-        if (walletData) {
-          yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
-          yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
-        }
-        yield put(actions.auth.setMagicLinkInfo(magicLink))
-        yield put(
-          actions.auth.setProductAuthMetadata({
-            platform: platform_type as PlatformTypes,
-            product: ProductAuthOptions.EXCHANGE
-          })
-        )
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
-      }
-      // if the account is unified, they're using wallet to login and retrieve token
-      // TODO** need to fix logic here, not sure what to do with this
+        break
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
