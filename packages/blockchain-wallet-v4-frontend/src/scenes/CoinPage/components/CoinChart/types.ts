@@ -9,6 +9,7 @@ export type CoinChartProps<
 > = {
   backgroundColor: string
   data: DATA[]
+  numTicks?: number
   primaryColor: string
   textColor: string
   x: X

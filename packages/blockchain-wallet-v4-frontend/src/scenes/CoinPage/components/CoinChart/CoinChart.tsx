@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react'
 import useMeasure from 'react-use-measure'
-import { Axis } from '@visx/axis'
-import { curveCardinal } from '@visx/curve'
-import { GradientPinkRed, LinearGradient, RadialGradient } from '@visx/gradient'
+import { AxisBottom } from '@visx/axis'
+import { curveBasis } from '@visx/curve'
+import { LinearGradient } from '@visx/gradient'
 import { Group } from '@visx/group'
 import { scaleLinear, scaleTime } from '@visx/scale'
-import { AreaClosed, Circle, LinePath } from '@visx/shape'
+import { Circle, LinePath } from '@visx/shape'
 import { extent, max, min, Numeric } from 'd3-array'
 
 import { CoinChartProps, CoinData } from './types'
 
 export const CoinChart = <DATA extends CoinData = CoinData>({
-  backgroundColor,
   data,
+  numTicks,
   primaryColor,
   textColor,
   x,
@@ -30,16 +30,10 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
     top: 16
   }
 
-  // FIXME: This is a hack to get the chart to render correctly.
-  const lastY = useMemo(() => {
-    if (data.length) {
-      const last = data[data.length - 1]
-      return getY(last)
-    }
-  }, [data, getY])
+  const lastDataPoint: DATA = useMemo(() => data[data.length - 1], [data, getY])
+
   const maxY = useMemo(() => max(data, getY) as number, [data, getY])
   const minY = useMemo(() => min(data, getY) as number, [data, getY])
-  const maxX = useMemo(() => max(data, getX) as number, [data, getX])
 
   const xScale = useMemo(() => {
     const xDomain = extent(data, getX) as [Date, Date]
@@ -72,7 +66,6 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
         from={primaryColor}
         to={primaryColor}
         rotate='-90'
-        toOffset='30%'
         fromOpacity={0.1}
       />
 
@@ -80,12 +73,11 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
         id='coin_chart_line_background_linear_gradient'
         from='rgba(12, 108, 242, 0.08)'
         to='rgba(12, 108, 242, 0)'
-        toOffset='71.14%'
       />
 
-      <Group left={padding.left} top={padding.top}>
+      <Group left={padding.left} top={padding.top} width={innerWidth} height={innerHeight}>
         <LinePath
-          curve={curveCardinal}
+          curve={curveBasis}
           data={data}
           x={(dataItem) => xScale(getX(dataItem))}
           y={(dataItem) => yScale(getY(dataItem))}
@@ -103,25 +95,27 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
           fill='url(#coin_chart_line_background_linear_gradient)'
         /> */}
 
-        <Group left={xScale(maxX)} top={yScale(lastY || maxY)}>
+        <Group left={xScale(getX(lastDataPoint))} top={yScale(getY(lastDataPoint))}>
           <Circle fill={primaryColor} r={4} />
           <Circle fill={primaryColor} r={8} opacity={0.1} />
           <Circle fill={primaryColor} r={16} opacity={0.1} />
         </Group>
 
-        <Axis
+        <AxisBottom
           scale={xScale}
           hideAxisLine
           hideTicks
           hideZero
           orientation='bottom'
+          numTicks={numTicks}
           tickFormat={(xValue) => xFormatter?.(xValue as DATA[keyof DATA]) ?? xValue.toString()}
-          top={height - 64}
+          top={height - 44}
           tickLabelProps={() => ({
             fill: textColor,
             fontFamily: 'Inter',
             fontSize: 14,
             fontWeight: 600,
+            lineHeight: 22,
             textAnchor: 'middle',
             verticalAnchor: 'middle'
           })}
