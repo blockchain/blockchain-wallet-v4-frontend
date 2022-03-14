@@ -46,6 +46,10 @@ const ErrorText = styled(Text)`
   color: white;
   font-weight: 400;
 `
+const BodyText = styled(TextGroup)`
+  margin: 0 20px;
+  text-align: center;
+`
 
 configureStore()
   .then((root) => {
@@ -64,12 +68,12 @@ configureStore()
     ReactDOM.render(
       <ErrorWrapper>
         <Row>
-          <TextGroup>
+          <BodyText>
             <ErrorText size='18px'>
               Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.
               We&rsquo;ll be back online soon!
             </ErrorText>
-          </TextGroup>
+          </BodyText>
         </Row>
         <Row style={{ marginTop: '60px' }}>
           <BlockchainLogoImage name='blockchain-logo' />
