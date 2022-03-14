@@ -37,8 +37,6 @@ const CreateCardStep = ({ handleClose, handleCreateCard }: Props) => (
       {/* disabled for MVP, will need this for V1 */}
       {/* <SeeCardDetailsBtn onClick={handleShowCardDetails} /> */}
 
-      <Image name='order-my-card-icon' style={{ marginBottom: '32px' }} />
-
       <CreateCardButton onClick={handleCreateCard} />
     </FlyoutContent>
   </>
