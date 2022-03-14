@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }) => {
     const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { comRoot: institutionalDomain } = selectors.core.walletOptions
+    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
@@ -124,7 +124,10 @@ export default ({ api, coreSagas, networks }) => {
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, { data: { csrf: csrfToken, jwt: jwtToken }, status: 'success' })
+          console.log('MOBILE MSG:', platform, {
+            data: { csrf: csrfToken, jwt: jwtToken },
+            status: 'success'
+          })
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: jwtToken },
             status: 'success'
@@ -143,8 +146,9 @@ export default ({ api, coreSagas, networks }) => {
           )
           break
         default:
-          // eslint-disable-next-line
-          console.log('SSO login flow missing or unsupported')
+          // case where user has email cached and is
+          // logging in without triggering verify email template
+          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
       // @ts-ignore
