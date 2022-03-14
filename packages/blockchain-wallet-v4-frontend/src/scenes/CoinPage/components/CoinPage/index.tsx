@@ -15,7 +15,6 @@ import { CoinPage } from './CoinPage'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
 import { createDateFormatterFromSelectedTimeRange } from './utils/createChartDateFormatterFromSelectedTimeRange'
-import { findNumTicksFromTimeRange } from './utils/findNumTicksFromTimeRange'
 import { transformChartData } from './utils/transformChartData'
 
 export type { CoinPageComponent, CoinPageProps } from './types'
@@ -92,7 +91,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
                 x='date'
                 y='value'
                 xFormatter={createDateFormatterFromSelectedTimeRange(selectedTab)}
-                numTicks={findNumTicksFromTimeRange(selectedTab)}
+                numTicks={6}
               />
             }
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
