@@ -40,7 +40,6 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       defaultValue: null
     },
     alertCard: {
-      defaultValue: 'not_tradable',
       mapping: {
         not_tradable: (
           // @ts-ignore
@@ -136,8 +135,6 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       options: ['Ethereum', 'Bitcoin']
     },
     holdings: {
-      defaultValue: 'BitcoinWithBalance',
-
       mapping: {
         BitcoinEmpty: (
           <HoldingsCard.BitcoinEmpty
@@ -185,7 +182,6 @@ export const Default = Template.bind({})
 Default.args = {
   about: 'bitcoin',
   activity: null,
-  alertCard: 'not_tradable',
   favoriteButton: null,
   header: 'Bitcoin',
   holdings: 'BitcoinWithBalance',
@@ -194,4 +190,15 @@ Default.args = {
   wallets: null
 }
 
+export const NotTradable = Template.bind({})
+NotTradable.args = {
+  about: 'solana',
+  activity: null,
+  alertCard: 'not_tradable',
+  favoriteButton: null,
+  header: 'Solana',
+  promoCard: null,
+  recurringBuys: null,
+  wallets: null
+}
 export default coinPageStoriesMeta
