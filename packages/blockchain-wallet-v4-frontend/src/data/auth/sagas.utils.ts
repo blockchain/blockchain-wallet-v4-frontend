@@ -14,7 +14,7 @@ import {
 } from './types'
 
 // TODO: cleanup this function
-export const parseAuthMagicLink = function* () {
+export const parseAuthMagicLink = function* (fromPolling?: boolean) {
   try {
     const magicLink = yield select(selectors.auth.getMagicLinkData)
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
@@ -107,7 +107,7 @@ export const parseAuthMagicLink = function* () {
       }
     }
     if (productAuth === ProductAuthOptions.EXCHANGE) {
-      if (session !== session_id && shouldPollForMagicLinkData) {
+      if (session !== session_id && shouldPollForMagicLinkData && !fromPolling) {
         // Exchange only logins don't require any challenges
         // `true` means we can confirm device verification right away
         // Less security concern compared to wallet
@@ -173,7 +173,7 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
     }
     if (prop('wallet', response) || prop('exchange', response)) {
       yield put(actions.auth.setMagicLinkInfo(response))
-      yield call(parseAuthMagicLink)
+      yield call(parseAuthMagicLink, true)
       return true
     }
     if (response.request_denied) {
