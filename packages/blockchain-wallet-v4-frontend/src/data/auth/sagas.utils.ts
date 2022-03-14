@@ -14,7 +14,7 @@ import {
 } from './types'
 
 // TODO: cleanup this function
-export const parseAuthMagicLink = function* () {
+export const parseAuthMagicLink = function* (fromPolling?: boolean) {
   try {
     const magicLink = yield select(selectors.auth.getMagicLinkData)
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
@@ -87,39 +87,45 @@ export const parseAuthMagicLink = function* () {
       // MAGIC LINK POLLING
       // TODO: MUST FIX, the platform check most likely introduces a bug if the user is trying to login via
       // exchange mobile app AND verify their device using the web instead of on their mobile
-      case currentLoginSession !== magicLink.session_id &&
-        shouldPollForMagicLinkData &&
-        platformType === PlatformTypes.WEB:
-        // If authing into exchange, pass 'true' since it doesn't require any challenges
-        // and we can confirm device verification right away. If the login is for Wallet,
-        // passing 'undefined' because we're not yet confirming or rejecting device authorization
-        yield put(
-          actions.auth.authorizeVerifyDevice(
-            productAuthenticatingInto === ProductAuthOptions.EXCHANGE ? true : undefined
-          )
-        )
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-        break
+
       // AUTHENTICATION - EXCHANGE
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
-        // set state with all exchange login information
-        yield put(actions.cache.exchangeEmail(exchangeData?.email))
-        yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
-        if (walletData) {
-          yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
-          yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+        if (
+          currentLoginSession !== magicLink.session_id &&
+          shouldPollForMagicLinkData &&
+          !fromPolling &&
+          platformType === PlatformTypes.WEB
+        ) {
+          // Exchange only logins don't require any challenges
+          // `true` means we can confirm device verification right away
+          // Less security concern compared to wallet
+          yield put(actions.auth.authorizeVerifyDevice(true))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
+        } else {
+          // set state with all exchange login information
+          yield put(actions.cache.exchangeEmail(exchangeData?.email))
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
+          if (walletData) {
+            yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+            yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+          }
+          yield put(actions.auth.setMagicLinkInfo(magicLink))
+          yield put(
+            actions.auth.setProductAuthMetadata({
+              platform: platformType as PlatformTypes,
+              product: ProductAuthOptions.EXCHANGE
+            })
+          )
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
         }
-        yield put(actions.auth.setMagicLinkInfo(magicLink))
-        yield put(
-          actions.auth.setProductAuthMetadata({
-            platform: platformType as PlatformTypes,
-            product: ProductAuthOptions.EXCHANGE
-          })
-        )
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
         break
       // AUTHENTICATION - WALLET
-      case productAuthenticatingInto === ProductAuthOptions.WALLET:
+      case productAuthenticatingInto === ProductAuthOptions.WALLET &&
+        currentLoginSession !== magicLink.session_id &&
+        shouldPollForMagicLinkData:
+        yield put(actions.auth.authorizeVerifyDevice(undefined))
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
+        break
       default:
         // grab all the data from the JSON wallet data
         // store data in the cache and update form values to be used to submit login
@@ -181,7 +187,7 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
     }
     if (prop('wallet', response) || prop('exchange', response)) {
       yield put(actions.auth.setMagicLinkInfo(response))
-      yield call(parseAuthMagicLink)
+      yield call(parseAuthMagicLink, true)
       return true
     }
     if (response.request_denied) {
