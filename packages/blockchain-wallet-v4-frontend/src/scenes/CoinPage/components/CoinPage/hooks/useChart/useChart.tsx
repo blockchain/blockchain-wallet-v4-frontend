@@ -1,17 +1,24 @@
 import React, { ReactNode, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
-import moment from 'moment'
 
 import { selectors } from 'data'
 
-import { CoinChart } from '../../../CoinChart'
+import { createCoinChartTooltipBuilder } from '../../../CoinChartTooltip'
+import { ResponsiveCoinChart } from '../../../ResponsiveCoinChart'
+import { createDateFormatterFromSelectedTimeRange } from '../../utils/createChartDateFormatterFromSelectedTimeRange'
+import { findNumTicksFromTimeRange } from '../../utils/findNumTicksFromTimeRange'
 import { usePriceIndexSeries } from '../usePriceIndexSeries'
+import { UseChartArgs } from './types'
 
-export const useChart = (): [ReactNode] => {
+export const useChart = ({ timeRange }: UseChartArgs): [ReactNode] => {
   const seriesData = useSelector(selectors.core.data.misc.getPriceIndexSeries)
 
   const data = usePriceIndexSeries(seriesData.data)
+
+  const xFormatter = useMemo(() => {
+    return createDateFormatterFromSelectedTimeRange(timeRange)
+  }, [timeRange])
 
   const chartNode = useMemo(() => {
     return seriesData.cata({
@@ -19,18 +26,20 @@ export const useChart = (): [ReactNode] => {
       Loading: () => <span>Loading</span>,
       NotAsked: () => <span>NotAsked</span>,
       Success: () => (
-        <CoinChart
+        <ResponsiveCoinChart
           data={data}
           backgroundColor={colors.white060}
           primaryColor={colors.blue600}
           textColor={colors.grey400}
           x='date'
           y='price'
-          xFormatter={(date) => moment(date.valueOf()).format('hh:mm')}
+          xFormatter={xFormatter}
+          numTicks={findNumTicksFromTimeRange(timeRange)}
+          tooltip={createCoinChartTooltipBuilder()}
         />
       )
     })
-  }, [seriesData, data])
+  }, [seriesData, data, xFormatter])
 
   return [chartNode]
 }

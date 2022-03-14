@@ -10,10 +10,11 @@ import { defaultHoldingsCardActions } from '../../mocks/defaultHoldingsCardActio
 import * as AboutSection from '../AboutSection/AboutSection.stories'
 import * as AlertCard from '../AlertCard/AlertCard.stories'
 import * as ChartBalancePanel from '../ChartBalancePanel/ChartBalancePanel.stories'
-import { CoinChart } from '../CoinChart'
-import { serie_ascending_1, serie_descending_1 } from '../CoinChart/mocks'
+import { liveDataCopy, serie_ascending_1, serie_descending_1 } from '../CoinChart/mocks'
+import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
+import { ResponsiveCoinChart } from '../ResponsiveCoinChart'
 import { CoinPage } from './CoinPage'
 import { CoinPageComponent } from './types'
 
@@ -50,10 +51,10 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
     },
     chart: {
       control: { type: 'select' },
-      defaultValue: 'ascending_chart',
+      defaultValue: 'Live copy',
       mapping: {
-        ascending_chart: (
-          <CoinChart
+        'Ascending chart': (
+          <ResponsiveCoinChart
             y='value'
             backgroundColor='white'
             data={serie_ascending_1}
@@ -61,10 +62,11 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
             textColor='#98A1B2'
             x='date'
             xFormatter={(date) => moment(date).format('hh:mm')}
+            tooltip={createCoinChartTooltipBuilder()}
           />
         ),
-        decending_chart: (
-          <CoinChart
+        'Decending chart': (
+          <ResponsiveCoinChart
             y='value'
             backgroundColor='white'
             data={serie_descending_1}
@@ -72,10 +74,23 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
             textColor='#98A1B2'
             x='date'
             xFormatter={(date) => moment(date).format('hh:mm')}
+            tooltip={createCoinChartTooltipBuilder()}
+          />
+        ),
+        'Live copy': (
+          <ResponsiveCoinChart
+            y='value'
+            backgroundColor='white'
+            data={liveDataCopy.map(([date, value]) => ({ date, value }))}
+            primaryColor='#0C6CF2'
+            textColor='#98A1B2'
+            x='date'
+            xFormatter={(date) => moment(date).format('MMM D')}
+            tooltip={createCoinChartTooltipBuilder()}
           />
         )
       },
-      options: ['ascending_chart', 'decending_chart']
+      options: ['Ascending_chart', 'Decending chart', 'Live copy']
     },
     chartBalancePanel: {
       defaultValue: 'bitcoin_up',
@@ -92,11 +107,9 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       mapping: {
         live: (
           <Tabs>
-            <Tab selected badgeColor='green'>
-              Live
-            </Tab>
+            <Tab badgeColor='green'>Live</Tab>
             <Tab>1D</Tab>
-            <Tab>1W</Tab>
+            <Tab selected>1W</Tab>
             <Tab>1M</Tab>
             <Tab>1Y</Tab>
             <Tab>All</Tab>

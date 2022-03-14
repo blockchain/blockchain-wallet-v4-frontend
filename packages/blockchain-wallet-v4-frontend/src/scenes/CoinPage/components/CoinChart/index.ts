@@ -1,3 +1,3 @@
 export type { CoinChartComponent } from './CoinChart'
 export { CoinChart } from './CoinChart'
-export type { CoinChartProps } from './types'
+export type { CoinChartProps, CoinData, TooltipBuilder } from './types'
