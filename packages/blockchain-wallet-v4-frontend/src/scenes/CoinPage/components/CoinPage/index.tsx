@@ -33,7 +33,9 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     sendButtonHandler
   }) => {
     const [selectedTab, setSelectedTab] = useState<TimeRange>(TimeRange.WEEK)
-    const [chart] = useChart()
+    const [chart] = useChart({
+      timeRange: selectedTab
+    })
 
     useEffect(() => {
       priceChartActions.initialized(coin, TimeRange.WEEK)
