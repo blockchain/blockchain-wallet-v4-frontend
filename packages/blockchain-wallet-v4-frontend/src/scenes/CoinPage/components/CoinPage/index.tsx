@@ -2,7 +2,6 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import moment, { MomentInput } from 'moment'
 
 import { TimeRange } from '@core/types'
 import { Tab, Tabs } from 'components/Tabs'
@@ -15,6 +14,9 @@ import { CoinChart } from '../CoinChart'
 import { CoinPage } from './CoinPage'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
+import { createDateFormatterFromSelectedTimeRange } from './utils/createChartDateFormatterFromSelectedTimeRange'
+import { findNumTicksFromTimeRange } from './utils/findNumTicksFromTimeRange'
+import { transformChartData } from './utils/transformChartData'
 
 export type { CoinPageComponent, CoinPageProps } from './types'
 
@@ -83,13 +85,14 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
             about={<AboutSection content='' title={coin} actions={[<></>]} />}
             chart={
               <CoinChart
-                data={value.data}
+                data={transformChartData(value.data)}
                 backgroundColor={colors.white060}
                 primaryColor={colors.blue600}
                 textColor={colors.grey400}
-                x={0}
-                y={1}
-                xFormatter={(date) => moment(date as MomentInput).format('hh:mm')}
+                x='date'
+                y='value'
+                xFormatter={createDateFormatterFromSelectedTimeRange(selectedTab)}
+                numTicks={findNumTicksFromTimeRange(selectedTab)}
               />
             }
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
