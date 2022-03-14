@@ -1,12 +1,14 @@
+import BIP39 from 'bip39'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
 
-import { convertCoinToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
+import { getPubKey } from 'data/coins/sagas/coins/self-custody'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
 
@@ -15,10 +17,80 @@ import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
 
 export default ({ api }: { api: APIType }) => {
+  const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
+    try {
+      yield put(A.buildTxLoading())
+      const { account, amount, destination, fix, rates, walletCurrency } = action.payload
+      const { coin } = account
+      const feesR = S.getWithdrawalFees(yield select(), coin)
+
+      if (account.type === SwapBaseCounterTypes.ACCOUNT) {
+        const pubKey = yield call(getPubKey)
+        const guid = yield select(selectors.core.wallet.getGuid)
+        const [uuid] = yield call(api.generateUUIDs, 1)
+
+        const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
+          id: {
+            guid,
+            uuid
+          },
+          intent: {
+            amount,
+            coin,
+            destination,
+            fee: 'LOW',
+            source: {
+              pubKey
+            },
+            type: 'PAYMENT'
+          }
+        })
+
+        yield put(A.buildTxSuccess(tx))
+      } else {
+        // amt
+        const standardCryptoAmt =
+          fix === 'FIAT'
+            ? convertFiatToCoin({
+                coin,
+                currency: walletCurrency,
+                rates,
+                value: amount
+              })
+            : amount
+        const baseCryptoAmt = convertCoinToCoin({
+          baseToStandard: false,
+          coin,
+          value: standardCryptoAmt
+        })
+
+        // fee
+        const standardCryptoFee = feesR.getOrElse(0) || 0
+        const baseCryptoFee = convertCoinToCoin({
+          baseToStandard: false,
+          coin,
+          value: standardCryptoFee
+        })
+
+        yield put(
+          A.buildTxSuccess({
+            // @ts-ignore
+            txSummary: {
+              absoluteFeeEstimate: baseCryptoFee,
+              amount: baseCryptoAmt
+            }
+          })
+        )
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.buildTxFailure(error))
+    }
+  }
+
   const fetchFeesAndMins = function* ({ payload }: ReturnType<typeof A.fetchWithdrawalFees>) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
-      console.log(payload.account)
       if (payload.account && payload.account.type === SwapBaseCounterTypes.ACCOUNT) {
         yield put(
           A.fetchWithdrawalFeesSuccess({
@@ -100,15 +172,19 @@ export default ({ api }: { api: APIType }) => {
       const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
-      const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
-        api.withdrawBSFunds,
-        to,
-        coin,
-        finalAmt,
-        Number(finalFee)
-      )
-
-      yield put(A.submitTransactionSuccess(response))
+      if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
+        // sign transaction
+      } else {
+        const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
+          api.withdrawBSFunds,
+          to,
+          coin,
+          finalAmt,
+          Number(finalFee)
+        )
+        // @ts-ignore
+        yield put(A.submitTransactionSuccess({ ...response.amount }))
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.submitTransactionFailure(error))
@@ -155,6 +231,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    buildTx,
     fetchFeesAndMins,
     fetchLocks,
     fetchSendLimits,

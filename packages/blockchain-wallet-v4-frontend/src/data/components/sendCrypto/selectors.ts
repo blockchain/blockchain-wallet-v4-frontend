@@ -6,6 +6,8 @@ export const getIsValidAddress = (state: RootState) => state.components.sendCryp
 
 export const getTransaction = (state: RootState) => state.components.sendCrypto.transaction
 
+export const getPrebuildTx = (state: RootState) => state.components.sendCrypto.prebuildTx
+
 export const getWithdrawalFees = (state: RootState, coin: string) =>
   state.components.sendCrypto.withdrawalFeesAndMins.map(
     (x) => x.fees.find(({ symbol }) => symbol === coin)?.value

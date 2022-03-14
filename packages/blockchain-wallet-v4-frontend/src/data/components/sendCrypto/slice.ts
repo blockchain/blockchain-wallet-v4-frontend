@@ -2,9 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { BuildTxResponseType } from '@core/network/api/coin/types'
 import Remote from '@core/remote'
 import {
   CrossBorderLimits,
+  FiatCurrenciesType,
+  RatesType,
   // ProductTypes,
   // BSTransactionType,
   WithdrawalLockResponseType,
@@ -23,6 +26,7 @@ import {
 const initialState: SendCryptoState = {
   initialCoin: undefined,
   isValidAddress: Remote.NotAsked,
+  prebuildTx: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
@@ -34,6 +38,26 @@ const sendCryptoSlice = createSlice({
   initialState,
   name: 'sendCrypto',
   reducers: {
+    buildTx: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+        amount: string
+        destination: string
+        fix: 'FIAT' | 'CRYPTO'
+        rates: RatesType
+        walletCurrency: keyof FiatCurrenciesType
+      }>
+    ) => {},
+    buildTxFailure: (state, action: PayloadAction<string>) => {
+      state.prebuildTx = Remote.Failure(action.payload)
+    },
+    buildTxLoading: (state) => {
+      state.prebuildTx = Remote.Loading
+    },
+    buildTxSuccess: (state, action: PayloadAction<BuildTxResponseType>) => {
+      state.prebuildTx = Remote.Success(action.payload)
+    },
     fetchSendLimits: (state, action: PayloadAction<FetchSendLimitsPayload>) => {},
     fetchSendLimitsFailure: (state, action: PayloadAction<string>) => {
       state.sendLimits = Remote.Failure(action.payload)
@@ -77,7 +101,10 @@ const sendCryptoSlice = createSlice({
     submitTransactionLoading: (state) => {
       state.transaction = Remote.Loading
     },
-    submitTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
+    submitTransactionSuccess: (
+      state,
+      action: PayloadAction<{ amount: string; symbol: string }>
+    ) => {
       state.transaction = Remote.Success(action.payload)
     },
     validateAddress: (state, action: PayloadAction<{ address: string; coin: string }>) => {},

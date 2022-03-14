@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
@@ -9,8 +9,9 @@ import styled from 'styled-components'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CollapseText from 'components/CollapseText'
+import DataError from 'components/DataError'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
@@ -40,11 +41,10 @@ const CustomRow = styled(Row)`
 `
 
 const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const { feesR, formValues, rates, sendCryptoActions, walletCurrency } = props
-  const { amount, fix, selectedAccount, to } = formValues
+  const { formValues, rates, sendCryptoActions, walletCurrency } = props
+  const { amount, fix, selectedAccount, selectedAccount: account, to } = formValues
   const { coin } = selectedAccount
 
-  // amt
   const standardCryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -56,13 +56,16 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       : amount
   const baseCryptoAmt = convertCoinToCoin({ baseToStandard: false, coin, value: standardCryptoAmt })
 
-  // fee
-  const standardCryptoFee = feesR.getOrElse(0) || 0
-  const baseCryptoFee = convertCoinToCoin({ baseToStandard: false, coin, value: standardCryptoFee })
-
-  // TODO: pull from payment
-  // total
-  const total = new BigNumber(baseCryptoAmt).plus(baseCryptoFee)
+  useEffect(() => {
+    sendCryptoActions.buildTx({
+      account,
+      amount: baseCryptoAmt,
+      destination: to,
+      fix,
+      rates,
+      walletCurrency
+    })
+  }, [])
 
   return (
     <Wrapper
@@ -88,107 +91,117 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </Text>
           </StepHeader>
         </FlyoutWrapper>
-        <AmountWrapper>
-          <CoinDisplay coin={coin} size='32px' weight={600} color='black'>
-            {total}
-          </CoinDisplay>
-        </AmountWrapper>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.send' defaultMessage='Send' />
-            </Text>
-          </div>
-          <div>
-            <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
-              {/* TODO, pull from payment */}
-              {baseCryptoAmt}
-            </CoinDisplay>
-            <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
-              {/* TODO, pull from payment */}
-              {baseCryptoAmt}
-            </FiatDisplay>
-          </div>
-        </CustomRow>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.from' defaultMessage='From' />
-            </Text>
-          </div>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              {selectedAccount.label}
-            </Text>
-          </div>
-        </CustomRow>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.to' defaultMessage='To' />
-            </Text>
-          </div>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              <CollapseText text={to} size='16px' color='black' weight={500} place='left' />
-            </Text>
-          </div>
-        </CustomRow>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.fee' defaultMessage='Fee' />
-            </Text>
-          </div>
-          <div>
-            <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
-              {/* TODO, pull from payment */}
-              {baseCryptoFee}
-            </CoinDisplay>
-            <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
-              {/* TODO, pull from payment */}
-              {baseCryptoFee}
-            </FiatDisplay>
-          </div>
-        </CustomRow>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={600} color='black'>
-              <FormattedMessage id='copy.total' defaultMessage='Total' />
-            </Text>
-          </div>
-          <div>
-            <CoinDisplay coin={coin} size='16px' weight={600} color='black'>
-              {/* TODO, pull from payment */}
-              {total}
-            </CoinDisplay>
-            <FiatDisplay coin={coin} size='14px' weight={600} color='grey500'>
-              {/* TODO, pull from payment */}
-              {total}
-            </FiatDisplay>
-          </div>
-        </CustomRow>
+        {props.prebuildTxR.cata({
+          Failure: (e) => <DataError message={{ message: e }} />,
+          Loading: () => (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            </div>
+          ),
+          NotAsked: () => (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            </div>
+          ),
+          Success: (tx) => (
+            <>
+              <AmountWrapper>
+                <CoinDisplay coin={coin} size='32px' weight={600} color='black'>
+                  {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                </CoinDisplay>
+              </AmountWrapper>
+              <CustomRow>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    <FormattedMessage id='copy.send' defaultMessage='Send' />
+                  </Text>
+                </div>
+                <div>
+                  <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
+                    {tx.txSummary.amount}
+                  </CoinDisplay>
+                  <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
+                    {tx.txSummary.amount}
+                  </FiatDisplay>
+                </div>
+              </CustomRow>
+              <CustomRow>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    <FormattedMessage id='copy.from' defaultMessage='From' />
+                  </Text>
+                </div>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    {selectedAccount.label}
+                  </Text>
+                </div>
+              </CustomRow>
+              <CustomRow>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    <FormattedMessage id='copy.to' defaultMessage='To' />
+                  </Text>
+                </div>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    <CollapseText text={to} size='16px' color='black' weight={500} place='left' />
+                  </Text>
+                </div>
+              </CustomRow>
+              <CustomRow>
+                <div>
+                  <Text size='16px' weight={500} color='black'>
+                    <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+                  </Text>
+                </div>
+                <div>
+                  <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
+                    {tx.txSummary.absoluteFeeEstimate}
+                  </CoinDisplay>
+                  <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
+                    {tx.txSummary.absoluteFeeEstimate}
+                  </FiatDisplay>
+                </div>
+              </CustomRow>
+              <CustomRow>
+                <div>
+                  <Text size='16px' weight={600} color='black'>
+                    <FormattedMessage id='copy.total' defaultMessage='Total' />
+                  </Text>
+                </div>
+                <div>
+                  <CoinDisplay coin={coin} size='16px' weight={600} color='black'>
+                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                  </CoinDisplay>
+                  <FiatDisplay coin={coin} size='14px' weight={600} color='grey500'>
+                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                  </FiatDisplay>
+                </div>
+              </CustomRow>
+              <FlyoutWrapper>
+                <Button data-e2e='sendBtn' nature='primary' jumbo fullwidth type='submit'>
+                  <FormattedMessage id='buttons.send' defaultMessage='Send' />
+                  &nbsp;
+                  <CoinDisplay coin={coin} size='16px' weight={600} color='white'>
+                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                  </CoinDisplay>
+                </Button>
+                <Button
+                  style={{ marginTop: '16px' }}
+                  data-e2e='cancelBtn'
+                  nature='light-red'
+                  jumbo
+                  fullwidth
+                  onClick={() => props.close()}
+                >
+                  <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+                </Button>
+              </FlyoutWrapper>
+            </>
+          )
+        })}
       </div>
-      <FlyoutWrapper>
-        <Button data-e2e='sendBtn' nature='primary' jumbo fullwidth type='submit'>
-          <FormattedMessage id='buttons.send' defaultMessage='Send' />
-          &nbsp;
-          <CoinDisplay coin={coin} size='16px' weight={600} color='white'>
-            {/* TODO, pull from payment */}
-            {total}
-          </CoinDisplay>
-        </Button>
-        <Button
-          style={{ marginTop: '16px' }}
-          data-e2e='cancelBtn'
-          nature='light-red'
-          jumbo
-          fullwidth
-          onClick={() => props.close()}
-        >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-        </Button>
-      </FlyoutWrapper>
     </Wrapper>
   )
 }
@@ -197,8 +210,10 @@ const mapStateToProps = (state, ownProps: OwnProps) => {
   const { coin } = ownProps.formValues.selectedAccount
 
   const ratesSelector = getRatesSelector(coin, state)
+
   return {
     feesR: selectors.components.sendCrypto.getWithdrawalFees(state, coin),
+    prebuildTxR: selectors.components.sendCrypto.getPrebuildTx(state),
     rates: ratesSelector.getOrElse({} as RatesType)
   }
 }

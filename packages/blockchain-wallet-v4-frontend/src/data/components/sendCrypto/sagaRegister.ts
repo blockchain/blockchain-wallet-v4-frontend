@@ -9,6 +9,7 @@ export default ({ api }) => {
   const sendCryptoSagas = sagas({ api })
 
   return function* brokerageSaga() {
+    yield takeLatest(A.buildTx.type, sendCryptoSagas.buildTx)
     yield takeLatest(A.fetchWithdrawalFees.type, sendCryptoSagas.fetchFeesAndMins)
     yield takeLatest(A.fetchWithdrawalLocks.type, sendCryptoSagas.fetchLocks)
     yield takeLatest(A.submitTransaction.type, sendCryptoSagas.submitTransaction)

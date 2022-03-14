@@ -1,4 +1,4 @@
-import { IndexMultiResponseType, TickerResponseType } from './types'
+import { BuildTxResponseType, IndexMultiResponseType, TickerResponseType } from './types'
 
 export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
@@ -8,7 +8,7 @@ export default ({ apiUrl, get, post }) => {
       data: {
         pubKey
       },
-      endPoint: `/deriveAddress`,
+      endPoint: `/public/deriveAddress`,
       url: 'http://localhost:4444'
     })
   }
@@ -20,49 +20,57 @@ export default ({ apiUrl, get, post }) => {
       data: {
         address
       },
-      endPoint: `/validateAddress`,
+      endPoint: `/public/validateAddress`,
       url: 'http://localhost:4444'
     })
   }
 
   // TODO: SELF_CUSTODY
-  // {
-  //   "intent": {
-  //     "coin": "string",
-  //     "type": "PAYMENT",
-  //     "source": {
-  //       "pubkey": "string",
-  //       "guid": "string"
-  //     },
-  //     "destination": "string",
-  //     "amount": "string",
-  //     "fee": "string",
-  //     "additional_data": {
-  //       "memo": "string",
-  //       "txID": "string"
-  //     },
-  //     "maxVerificationVersion": "string"
-  //   },
-  //   "id": {
-  //     "uuid": "string",
-  //     "guid": "string"
-  //   }
-  // }
   const buildTx = (data: {
-    additional_data?: { memo: string; txID: string }
-    amount: string
-    coin: string
-    destination: string
-    fee: string
-    source: { guid: string; pubkey: string }
-    type: 'PAYMENT'
-  }) => {
+    id: { guid: string; uuid: string }
+    intent: {
+      additional_data?: { memo: string }
+      amount: string
+      coin: string
+      destination: string
+      fee: string
+      maxVerificationVersion?: number
+      source: { pubKey: string }
+      type: 'PAYMENT'
+    }
+  }): BuildTxResponseType => {
+    data.intent.maxVerificationVersion = 2
+
     return post({
       contentType: 'application/json',
-      data: {
-        data
-      },
-      endPoint: `/validateAddress`,
+      data,
+      endPoint: `/public/buildTx`,
+      removeDefaultPostData: true,
+      url: 'http://localhost:4444'
+    })
+  }
+
+  // TODO: SELF_CUSTODY
+  const pushTx = (data: {
+    id: { guid: string; uuid: string }
+    intent: {
+      additional_data?: { memo: string }
+      amount: string
+      coin: string
+      destination: string
+      fee: string
+      maxVerificationVersion?: number
+      source: { pubKey: string }
+      type: 'PAYMENT'
+    }
+  }): BuildTxResponseType => {
+    data.intent.maxVerificationVersion = 2
+
+    return post({
+      contentType: 'application/json',
+      data,
+      endPoint: `/public/pushTx`,
+      removeDefaultPostData: true,
       url: 'http://localhost:4444'
     })
   }
@@ -93,6 +101,7 @@ export default ({ apiUrl, get, post }) => {
     deriveAddress,
     getBtcTicker,
     getCoinPrices,
+    pushTx,
     validateAddress
   }
 }
