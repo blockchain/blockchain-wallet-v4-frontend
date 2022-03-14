@@ -112,7 +112,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             validationURL: event.validationURL
           })
 
-          session.completeMerchantValidation(applePayPayload)
+          session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
           reject(e)
         }
@@ -124,7 +124,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
         session.completePayment(result)
 
-        resolve(event)
+        resolve(JSON.stringify(event.payment.token))
       }
 
       session.oncancel = reject
@@ -668,13 +668,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { payment } = yield call(performApplePayValidation, {
+          const token = yield call(performApplePayValidation, {
             applePayInfo,
             paymentRequest
           })
 
           attributes = {
-            applePayPaymentToken: payment.token,
+            applePayPaymentToken: token,
             everypay: {
               customerUrl: paymentSuccessLink
             },
