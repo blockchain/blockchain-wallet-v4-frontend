@@ -449,6 +449,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
               placeholder='0'
+              autoComplete='off'
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
               haveError={!!showError}
