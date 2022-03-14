@@ -24,7 +24,7 @@ import {
   VisitButton
 } from './model'
 
-const TaxCenter = ({ onGenerateReportClick, reports }: Props) => (
+const TaxCenter = ({ onGenerateReportClick, options, reports }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -119,7 +119,7 @@ const TaxCenter = ({ onGenerateReportClick, reports }: Props) => (
                 defaultMessage='Choose tax year'
               />
             </SelectLabel>
-            <StyledSelect value='' elements={[]} onBlur={() => {}} />
+            <StyledSelect value={0} elements={[{ group: '', items: options }]} onBlur={() => {}} />
           </SelectGroup>
           <GenerateButton
             nature='primary'
@@ -133,7 +133,7 @@ const TaxCenter = ({ onGenerateReportClick, reports }: Props) => (
             />
           </GenerateButton>
         </GenerateReport>
-        {reports.length > 0 && (
+        {reports && reports.length > 0 && (
           <ReportList>
             <StyledTextGroup inline>
               <SelectLabel size='14px' weight={600} color='black'>
@@ -201,6 +201,7 @@ const TaxCenter = ({ onGenerateReportClick, reports }: Props) => (
 
 type Props = {
   onGenerateReportClick: () => void
+  options: Array<any>
   reports: Array<any>
 }
 
