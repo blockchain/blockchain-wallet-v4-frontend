@@ -94,7 +94,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const performPayment = ({
+  const performApplePayValidation = ({
     applePayInfo,
     paymentRequest
   }: {
@@ -114,11 +114,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
-          reject()
+          reject(e)
         }
       }
-      session.onpaymentauthorized = resolve
+
+      session.onpaymentauthorized = (event) => {
+        const result = {
+          status: ApplePaySession.STATUS_SUCCESS
+        }
+        session.completePayment(result)
+
+        resolve(JSON.stringify(event.payment.token))
+      }
+
       session.oncancel = reject
+
       session.begin()
     })
   }
@@ -185,6 +195,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const error = errorHandler(e)
+
       yield put(A.activateCardFailure(error))
     }
   }
@@ -646,18 +657,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
+          // The amount has to be in cents
+          const amount = parseInt(order.inputQuantity) / 100
+
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
-            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+            total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
+          const token = yield call(performApplePayValidation, {
+            applePayInfo,
+            paymentRequest
+          })
 
           attributes = {
-            applePayPaymentToken: payment.token,
+            applePayPaymentToken: token,
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
             redirectURL: paymentSuccessLink
           }
         }
@@ -772,10 +792,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const userData = userDataR.getOrFail('NO_USER_DATA')
       const address = billingAddressForm || userData.address
 
-      // change this throw to something else
       if (!address) throw new Error('NO_USER_ADDRESS')
 
       const card = yield call(api.createBSCard, {
@@ -787,7 +806,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.createCardSuccess(card))
     } catch (e) {
+      if (e.code) {
+        yield put(A.createCardFailure(e.code))
+
+        return
+      }
+
       const error = errorHandler(e)
+
       yield put(A.createCardFailure(error))
     }
   }
@@ -1412,23 +1438,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
     switch (state) {
       case 'PENDING':
         error = 'PENDING_CARD_AFTER_POLL'
         break
+      case 'BLOCKED':
+        error = 'BLOCKED_CARD_AFTER_POLL'
+        break
       default:
         error = 'LINK_CARD_FAILED'
     }
+
+    yield put(A.setAddCardError(error))
+
+    // LEGACY
+    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     yield put(
       actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
         _error: error
       })
     )
-    yield put(A.setAddCardError(error))
   }
 
   const pollBSBalances = function* () {
@@ -1461,28 +1493,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(2000)
     }
 
-    switch (card.state) {
-      case 'BLOCKED':
-        yield call(pollBSCardErrorHandler, card.state)
-        return
-      case 'ACTIVE':
-        const skipLoading = true
-        const order = S.getBSLatestPendingOrder(yield select())
-        yield put(A.fetchCards(skipLoading))
-        // If the order was already created
-        if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
-        }
-        return yield put(
-          A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
-        )
-      case 'PENDING':
-        // TODO: this is not an error, but we need to handle it differently
-        yield call(pollBSCardErrorHandler, card.state)
-        return
-      default:
-        yield call(pollBSCardErrorHandler, card.state)
+    if (card.state === 'ACTIVE') {
+      const skipLoading = true
+      const order = S.getBSLatestPendingOrder(yield select())
+      yield put(A.fetchCards(skipLoading))
+      // If the order was already created
+      if (order && order.state === 'PENDING_CONFIRMATION') {
+        return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
+      }
+      return yield put(
+        A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
+      )
     }
+
+    // TODO handle statuses here, on lastError somehow
+    // to test you can use an email with +onlystripe on it
+    // add a card with checkout and you'll receive an error on activate
+    // I can get the ID from there and test getting the card, so I can see the lastError
+    yield call(pollBSCardErrorHandler, card.state)
   }
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {

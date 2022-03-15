@@ -154,6 +154,7 @@ export type LoginErrorType =
     }
   | string
 
+// TODO: define missing types and determine if all of these types are needed/used
 export type ExchangeLoginSuccessType = {}
 
 export type ExchangeLoginFailureType = any
@@ -186,7 +187,7 @@ export type ProductAuthMetadata = {
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
-  authorizeVerifyDevice: RemoteDataType<any, any>
+  authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
   exchangeAuth: {
     exchangeAccountConflict?: boolean
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
@@ -231,6 +232,7 @@ export type MobileAuthWalletMergeMessage = {
 
 export type MobileAuthExchangeMessage = {
   data?: {
+    csrf: string
     jwt: string
   }
   error?: string

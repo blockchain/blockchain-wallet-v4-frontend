@@ -39,6 +39,7 @@ export const PriceChange = ({
   const change = isPortfolioPosition ? priceChange.positionChange : priceChange.overallChange
   let priceFormatted
   const price = formatFiat(change.diff)
+  const hidePrices = Number.isNaN(price) || Number.isNaN(change.percentChange)
   if (change.movement === 'down') {
     priceFormatted = `-${Exchange.getSymbol(currency)}${price.substring(1)}`
   } else {
@@ -47,9 +48,11 @@ export const PriceChange = ({
 
   return (
     <PriceChangeText>
-      <PriceChangeColoredText change={change}>
-        {priceFormatted} ({formatFiat(change.percentChange)})%
-      </PriceChangeColoredText>
+      {!hidePrices && (
+        <PriceChangeColoredText change={change}>
+          {priceFormatted} ({formatFiat(change.percentChange)})%
+        </PriceChangeColoredText>
+      )}
       {children}
     </PriceChangeText>
   )

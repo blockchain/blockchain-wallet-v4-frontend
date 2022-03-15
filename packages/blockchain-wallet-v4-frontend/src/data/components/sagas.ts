@@ -3,6 +3,7 @@ import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import buySell from './buySell/sagas'
 import coinTransactions from './coinTransactions/sagas'
+import debitCard from './debitCard/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
 import fundRecovery from './fundRecovery/sagas'
@@ -27,6 +28,7 @@ import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import swap from './swap/sagas'
+import termsAndConditions from './termsAndConditions/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import walletConnect from './walletConnect/sagas'
@@ -39,6 +41,7 @@ export default ({ api, coreSagas, networks }) => ({
   btcTransactions: btcTransactions(),
   buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
+  debitCard: debitCard({ api }),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
   fundRecovery: fundRecovery({ api }),
@@ -63,6 +66,7 @@ export default ({ api, coreSagas, networks }) => ({
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   swap: swap({ api, coreSagas, networks }),
+  termsAndConditions: termsAndConditions({ api }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
   walletConnect: walletConnect({ coreSagas }),

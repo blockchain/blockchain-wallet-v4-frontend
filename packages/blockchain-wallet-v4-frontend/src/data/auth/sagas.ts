@@ -101,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      const { token: jwtToken } = response
+      const { csrfToken, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -124,23 +124,30 @@ export default ({ api, coreSagas, networks }) => {
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, { data: { jwt: jwtToken }, status: 'success' })
-          sendMessageToMobile(platform, { data: { jwt: jwtToken }, status: 'success' })
+          console.log('MOBILE MSG:', platform, {
+            data: { csrf: csrfToken, jwt: jwtToken },
+            status: 'success'
+          })
+          sendMessageToMobile(platform, {
+            data: { csrf: csrfToken, jwt: jwtToken },
+            status: 'success'
+          })
           break
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
-          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
-        // institutional login
+        // web - institutional exchange login
         case userType === 'institutional' && institutionalPortalEnabled:
           window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}&csrf=${csrfToken}`,
             '_self',
             'noreferrer'
           )
           break
-        // exchange institutional login
         default:
+          // case where user has email cached and is
+          // logging in without triggering verify email template
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
@@ -632,8 +639,7 @@ export default ({ api, coreSagas, networks }) => {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
-      const searchString = yield select(selectors.router.getSearch)
-      const queryParams = new URLSearchParams(searchString)
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
@@ -650,10 +656,6 @@ export default ({ api, coreSagas, networks }) => {
           userType
         })
       )
-
-      // eslint-disable-next-line
-      console.log('URL DATA:: ', platform, product, redirect, userType)
-
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
@@ -894,6 +896,7 @@ export default ({ api, coreSagas, networks }) => {
 
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
+      if (!magicLinkDataEncoded) return
       const data = yield call(
         api.authorizeVerifyDevice,
         session_id,

@@ -156,7 +156,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
       </AmountRow>
       {accountBalanceBase > 0 ? (
         <Button
-          disabled={!isGoldTier || !interestEligibleCoin}
+          disabled={!isGoldTier}
           style={{ marginTop: '16px' }}
           nature='primary'
           data-e2e='viewInterestDetails'

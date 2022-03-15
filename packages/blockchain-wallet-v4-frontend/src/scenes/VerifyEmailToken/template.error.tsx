@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Error = ({ error }: Props) => {
     <Wrapper>
       {error && error.includes('already been verified') ? (
         <>
-          <Icon color='success' name='checkmark-circle-filled' size='40px' />
+          <Image name='email-verified' size='24px' />
 
           <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
             <FormattedMessage

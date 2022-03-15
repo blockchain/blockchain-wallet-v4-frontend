@@ -2,6 +2,7 @@ import * as bchTransactions from './bchTransactions/selectors'
 import * as brokerage from './brokerage/selectors'
 import * as btcTransactions from './btcTransactions/selectors'
 import * as buySell from './buySell/selectors'
+import * as debitCard from './debitCard/selectors'
 import * as fundRecovery from './fundRecovery/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
@@ -25,6 +26,7 @@ import * as sendXlm from './sendXlm/selectors'
 import * as settings from './settings/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as swap from './swap/selectors'
+import * as termsAndConditions from './termsAndConditions/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
@@ -36,6 +38,7 @@ export {
   brokerage,
   btcTransactions,
   buySell,
+  debitCard,
   fundRecovery,
   identityVerification,
   interest,
@@ -59,6 +62,7 @@ export {
   settings,
   signMessage,
   swap,
+  termsAndConditions,
   uploadDocuments,
   utils,
   veriff,
