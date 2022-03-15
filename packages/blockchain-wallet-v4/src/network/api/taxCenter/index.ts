@@ -1,6 +1,14 @@
 import { ReportType } from 'data/components/taxCenter/types'
 
-export default ({ authorizedGet, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+  const createReport = (data) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data,
+      endPoint: '/reports/taxes',
+      url: nabuUrl
+    })
+
   const getReports = (): Array<ReportType> =>
     authorizedGet({
       endPoint: '/reports/taxes',
@@ -8,6 +16,7 @@ export default ({ authorizedGet, nabuUrl }) => {
     })
 
   return {
+    createReport,
     getReports
   }
 }

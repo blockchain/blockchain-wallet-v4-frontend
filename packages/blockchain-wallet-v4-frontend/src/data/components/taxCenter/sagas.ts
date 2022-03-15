@@ -11,12 +11,23 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getReports)
       yield put(A.getReportsSuccess(data.reports))
     } catch (e) {
-      const error = errorHandler(e)
+      errorHandler(e)
       yield put(A.getReportsFailure())
     }
   }
 
+  const createReport = function* (action: ReturnType<typeof A.createReport>) {
+    try {
+      const { payload } = action
+      yield call(api.createReport, payload)
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createReportFailure(error))
+    }
+  }
+
   return {
+    createReport,
     getReports
   }
 }

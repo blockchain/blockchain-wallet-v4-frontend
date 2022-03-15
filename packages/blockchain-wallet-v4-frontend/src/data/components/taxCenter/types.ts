@@ -1,4 +1,7 @@
+import { RemoteDataType } from '@core/remote/types'
+
 export type TaxCenterState = {
+  reportData: RemoteDataType<string, string>
   reports: Array<ReportType>
 }
 

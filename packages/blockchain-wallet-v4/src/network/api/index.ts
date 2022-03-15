@@ -99,6 +99,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...taxCenter({
       authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
       nabuUrl
     }),
     ...wallet({ rootUrl, ...http }),
