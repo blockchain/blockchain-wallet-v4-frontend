@@ -47,7 +47,8 @@ describe('App Store Config', () => {
     domains: { api: 'MOCK_API', root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
-        erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
+        erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI'],
+        featureFlags: {}
       }
     }
   }

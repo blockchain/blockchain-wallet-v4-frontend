@@ -1,14 +1,15 @@
-import BIP39 from 'bip39'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
+import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
+import { BuildTxResponseType } from '@core/network/api/coin/types'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { getPubKey } from 'data/coins/sagas/coins/self-custody'
+import { getPrivKey, getPubKey } from 'data/coins/sagas/coins/self-custody'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
 
@@ -159,6 +160,31 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const signTx = function* (prebuildTx: BuildTxResponseType) {
+    const privateKey = yield call(getPrivKey)
+
+    if (!privateKey) throw new Error('Could not derive private key')
+
+    const signedTx = prebuildTx
+    const signedPreImages = prebuildTx.preImages.map((preImage) => {
+      // @ts-ignore
+      const { recovery, signature } = secp256k1.sign(
+        Buffer.from(preImage.preImage, 'hex'),
+        privateKey
+      )
+
+      // eslint-disable-next-line no-buffer-constructor
+      const recoveryBuffer = new Buffer(1)
+      recoveryBuffer.writeUInt8(recovery)
+      preImage.signature = Buffer.concat([signature, recoveryBuffer]).toString('hex')
+      return preImage
+    })
+
+    signedTx.preImages = signedPreImages
+
+    return signedTx
+  }
+
   const submitTransaction = function* () {
     try {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
@@ -173,7 +199,20 @@ export default ({ api }: { api: APIType }) => {
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
-        // sign transaction
+        const guid = yield select(selectors.core.wallet.getGuid)
+        const [uuid] = yield call(api.generateUUIDs, 1)
+        const prebuildTx = S.getPrebuildTx(yield select()).getOrFail('No prebuildTx')
+        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx)
+        const pushedTx = yield call(api.pushTx, coin, signedTx.rawTx, signedTx.preImages, {
+          guid,
+          uuid
+        })
+
+        if (pushedTx.success) {
+          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amount } }))
+        } else {
+          throw new Error('Failed to submit transaction.')
+        }
       } else {
         const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
           api.withdrawBSFunds,
@@ -182,8 +221,7 @@ export default ({ api }: { api: APIType }) => {
           finalAmt,
           Number(finalFee)
         )
-        // @ts-ignore
-        yield put(A.submitTransactionSuccess({ ...response.amount }))
+        yield put(A.submitTransactionSuccess({ amount: response.amount }))
       }
     } catch (e) {
       const error = errorHandler(e)

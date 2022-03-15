@@ -51,24 +51,20 @@ export default ({ apiUrl, get, post }) => {
   }
 
   // TODO: SELF_CUSTODY
-  const pushTx = (data: {
+  const pushTx = (
+    coin: string,
+    rawTx: BuildTxResponseType['rawTx'],
+    signatures: BuildTxResponseType['preImages'],
     id: { guid: string; uuid: string }
-    intent: {
-      additional_data?: { memo: string }
-      amount: string
-      coin: string
-      destination: string
-      fee: string
-      maxVerificationVersion?: number
-      source: { pubKey: string }
-      type: 'PAYMENT'
-    }
-  }): BuildTxResponseType => {
-    data.intent.maxVerificationVersion = 2
-
+  ): BuildTxResponseType => {
     return post({
       contentType: 'application/json',
-      data,
+      data: {
+        coin,
+        id,
+        rawTx,
+        signatures
+      },
       endPoint: `/public/pushTx`,
       removeDefaultPostData: true,
       url: 'http://localhost:4444'

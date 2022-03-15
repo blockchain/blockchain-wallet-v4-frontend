@@ -103,7 +103,7 @@ const sendCryptoSlice = createSlice({
     },
     submitTransactionSuccess: (
       state,
-      action: PayloadAction<{ amount: string; symbol: string }>
+      action: PayloadAction<{ amount: { symbol: string; value: string } }>
     ) => {
       state.transaction = Remote.Success(action.payload)
     },

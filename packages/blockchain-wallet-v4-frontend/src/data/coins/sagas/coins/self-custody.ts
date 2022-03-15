@@ -9,19 +9,33 @@ import { promptForSecondPassword } from 'services/sagas'
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export const getPubKey = function* () {
+export const getSeed = function* () {
   const password = yield call(promptForSecondPassword)
-  // const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
-  // const mnemonicT = yield select(getMnemonic)
+  const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+  const mnemonicT = yield select(getMnemonic)
   // // @ts-ignore
-  // const mnemonic = yield call(() => taskToPromise(mnemonicT))
-  const mnemonic = selectors.core.wallet.getMnemonic(yield select(), password)
+  const mnemonic = yield call(() => taskToPromise(mnemonicT))
   const seed = BIP39.mnemonicToSeed(mnemonic)
+
+  return seed
+}
+
+export const getPubKey = function* () {
+  const seed = yield call(getSeed)
   // TODO: SELF_CUSTODY
   const { publicKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0`)
   const pubkey = publicKey.toString('hex')
 
   return pubkey
+}
+
+export const getPrivKey = function* () {
+  const seed = yield call(getSeed)
+  // TODO: SELF_CUSTODY
+  const { privateKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0`)
+  const privkey = privateKey?.toString('hex')
+
+  return privkey
 }
 
 // retrieves the next receive address

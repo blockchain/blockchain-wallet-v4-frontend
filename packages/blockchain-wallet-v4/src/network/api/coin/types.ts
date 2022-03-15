@@ -1,13 +1,56 @@
 export type BuildTxResponseType = {
-  preImages: [
-    {
-      descriptor: null | string
-      preImage: string
-      signatureAlgorithm: 'secp256k1'
-      signingKey: string
+  preImages: {
+    descriptor: null | string
+    preImage: string
+    signature?: string
+    signatureAlgorithm: 'secp256k1'
+    signingKey: string
+  }[]
+  rawTx: {
+    payload: {
+      anchorMode: number
+      auth: {
+        authType: number
+        spendingCondition: {
+          fee: string
+          hashMode: number
+          keyEncoding: number
+          nonce: string
+          signature: {
+            data: string
+            type: number
+          }
+          signer: string
+        }
+      }
+      chainId: number
+      payload: {
+        amount: string
+        memo: {
+          content: string
+          type: number
+        }
+        payloadType: number
+        recipient: {
+          address: {
+            hash160: string
+            type: number
+            version: number
+          }
+          type: number
+        }
+        type: number
+      }
+      postConditionMode: number
+      postConditions: {
+        lengthPrefixBytes: number
+        type: number
+        values: []
+      }
+      version: number
     }
-  ]
-  rawTx: {}
+    version: number
+  }
   txSummary: {
     absoluteFeeEstimate: string
     absoluteFeeMaximum: string
