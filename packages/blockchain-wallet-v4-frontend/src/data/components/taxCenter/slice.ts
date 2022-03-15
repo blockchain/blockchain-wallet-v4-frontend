@@ -1,8 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { Remote } from '@core'
 
 import { TaxCenterState } from './types'
 
 const initialState: TaxCenterState = {
+  reportData: Remote.NotAsked,
   reports: []
 }
 
@@ -10,6 +13,10 @@ const taxCenterSlice = createSlice({
   initialState,
   name: 'taxCenter',
   reducers: {
+    createReport: (state, action: PayloadAction<string>) => {},
+    createReportFailure: (state, action: PayloadAction<string>) => {
+      state.reportData = Remote.Failure(action.payload)
+    },
     getReports: () => {},
     getReportsFailure: (state) => {
       state.reports = []

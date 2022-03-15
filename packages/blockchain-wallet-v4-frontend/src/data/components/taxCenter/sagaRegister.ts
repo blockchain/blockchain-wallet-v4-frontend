@@ -8,5 +8,6 @@ export default ({ api }) => {
 
   return function* taxCenterSaga() {
     yield takeLatest(actions.getReports.type, taxCenterSagas.getReports)
+    yield takeLatest(actions.createReport.type, taxCenterSagas.createReport)
   }
 }
