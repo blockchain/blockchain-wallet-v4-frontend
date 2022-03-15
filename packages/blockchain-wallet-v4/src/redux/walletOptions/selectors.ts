@@ -142,3 +142,8 @@ export const getSilverRevamp = (state: RootState) =>
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))
+
+// SSO creating exchange users under the hood
+// for all wallet logins
+export const getCreateExchangeUserForExistingWallets = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createExchangeUserForExistingWallets']))
