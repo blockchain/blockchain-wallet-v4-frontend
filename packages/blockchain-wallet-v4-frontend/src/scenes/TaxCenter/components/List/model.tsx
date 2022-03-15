@@ -1,0 +1,25 @@
+import { Icon } from '@blockchain-com/constellation'
+import styled from 'styled-components'
+
+export const ReportItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+`
+
+export const Content = styled.div`
+  display: flex;
+
+  svg {
+    margin-top: 4px;
+  }
+`
+
+export const Description = styled.div`
+  margin-left: 16px;
+`
+
+export const StyledIcon = styled(Icon)`
+  margin-right: 8px;
+`

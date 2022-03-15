@@ -21,7 +21,7 @@ const taxCenterSlice = createSlice({
     getReportsFailure: (state) => {
       state.reports = []
     },
-    getReportsSuccess: (state, action) => {
+    getReportsSuccess: (state, action: PayloadAction<any>) => {
       state.reports = action.payload
     }
   }
