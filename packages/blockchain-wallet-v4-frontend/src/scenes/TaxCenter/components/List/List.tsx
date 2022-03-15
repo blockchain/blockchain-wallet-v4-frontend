@@ -2,32 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import moment from 'moment'
-import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 
-const ReportItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 8px 0;
-`
+import { Content, Description, ReportItem, StyledIcon } from './model'
 
-const Content = styled.div`
-  display: flex;
-
-  svg {
-    margin-top: 4px;
-  }
-`
-
-const Description = styled.div`
-  margin-left: 16px;
-`
-
-const StyledIcon = styled(Icon)`
-  margin-right: 8px;
-`
 const COMPLETED_STATUS = 'COMPLETED'
 
 const getReportTitle = (from, to) => {
