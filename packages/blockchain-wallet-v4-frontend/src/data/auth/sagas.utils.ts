@@ -156,8 +156,12 @@ export const parseAuthMagicLink = function* () {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // set state with all exchange login information
-        // if account isn't unified, email for login is in exchangeData
+        // if unified, we want to cache the guid since we use that for login
+        if (unified) {
+          yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
+        }
         // if account is unified, exchange data is embedded within walletData
+        // if account isn't unified, email for login is in exchangeData
         yield put(actions.cache.exchangeEmail(exchangeData?.email || walletData?.exchange?.email))
         yield put(
           actions.form.change(

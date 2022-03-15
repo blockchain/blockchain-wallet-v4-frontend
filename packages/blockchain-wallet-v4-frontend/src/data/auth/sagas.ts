@@ -211,7 +211,8 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(authNabu)
       yield delay(3000)
-      if (product === ProductAuthOptions.EXCHANGE) {
+      // If user is logging into a unified exchange account
+      if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
         return
       }
@@ -348,7 +349,9 @@ export default ({ api, coreSagas, networks }) => {
           // call action to merge account
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
           break
-        // if account is unified, we have
+        // if account is unified, we run wallet
+        // loginRoutineSaga for both. login routine
+        // catches whether account is exchange or not
         case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
           // if (product === ProductAuthOptions.WALLET) {
           yield call(loginRoutineSaga, {})
@@ -655,9 +658,11 @@ export default ({ api, coreSagas, networks }) => {
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
+      const isUnified = yield select(selectors.cache.getUnifiedAccountStatus)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+      const exchangeWalletGuid = yield select(selectors.cache.getExchangeWalletGuid)
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
       // initialize login form and/or set initial auth step
@@ -699,6 +704,9 @@ export default ({ api, coreSagas, networks }) => {
           if (product === ProductAuthOptions.EXCHANGE) {
             if (exchangeEmail) {
               yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+              if (isUnified && exchangeWalletGuid) {
+                yield put(actions.form.change(LOGIN_FORM, 'guid', exchangeWalletGuid))
+              }
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
             } else {
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))

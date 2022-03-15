@@ -296,19 +296,11 @@ export default ({ api, coreSagas, networks }) => {
       const exchangeLifetimeTokenR = yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
       )
-      const exchangeAuthCredentialsR = lift((exchangeUserId, exchangeLifetimeToken) => ({
-        exchangeLifetimeToken,
-        exchangeUserId
-      }))(exchangeUserIdR, exchangeLifetimeTokenR)
-
-      const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
-        .map((exchangeAuthCredentials) => {
-          const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
-          if (!exchangeUserId || !exchangeLifetimeToken)
-            return call(generateExchangeAuthCredentials)
-          return exchangeAuthCredentials
-        })
-        .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
+      const exchangeUserId = exchangeUserIdR.getOrElse(null)
+      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
+      if (!exchangeUserId || !exchangeLifetimeToken) {
+        yield call(generateExchangeAuthCredentials)
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
     }

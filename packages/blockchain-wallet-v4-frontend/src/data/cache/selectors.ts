@@ -8,6 +8,8 @@ export const getCache = (state) => prop('cache', state)
 export const getEmail = (state): string | undefined => path(['cache', 'lastEmail'], state)
 export const getExchangeEmail = (state): string | undefined =>
   path(['cache', 'exchangeEmail'], state)
+export const getExchangeWalletGuid = (state): string | undefined =>
+  path(['cache', 'exchangeWalletGuid'], state)
 export const getStoredGuid = (state): string | undefined => path(['cache', 'guidStored'], state)
 export const getMobileConnected = (state): string | undefined =>
   path(['cache', 'mobileConnected'], state)
