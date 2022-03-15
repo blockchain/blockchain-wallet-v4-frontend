@@ -39,8 +39,6 @@ export const parseAuthMagicLink = function* (fromPolling?: boolean) {
       }
     }
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
-    // eslint-disable-next-line
-    console.log('MAGIC LINK:: ', magicLink)
     const currentLoginSession = yield select(
       selectors.session.getSession,
       walletData?.guid,

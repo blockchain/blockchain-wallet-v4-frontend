@@ -123,11 +123,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
-          // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
-            status: 'success'
-          })
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: jwtToken },
             status: 'success'
