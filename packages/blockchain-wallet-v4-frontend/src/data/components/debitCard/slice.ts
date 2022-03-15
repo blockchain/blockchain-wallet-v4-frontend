@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { DebitCardState } from './types'
+import { DebitCardState, DebitCardType } from './types'
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
@@ -20,7 +20,7 @@ const debitCardSlice = createSlice({
     createCardLoading: (state) => {
       state.cardCreationData = Remote.Loading
     },
-    createCardSuccess: (state, action: PayloadAction<string>) => {
+    createCardSuccess: (state, action: PayloadAction<Array<DebitCardType>>) => {
       state.cardCreationData = Remote.Success(action.payload)
     },
     getProducts: () => {},
