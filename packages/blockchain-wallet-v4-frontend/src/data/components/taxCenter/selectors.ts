@@ -1,3 +1,5 @@
+import { FIRST_YEAR } from 'blockchain-wallet-v4-frontend/src/scenes/TaxCenter/utils'
+
 import { Types } from '@core'
 import { selectors } from 'data'
 
@@ -7,7 +9,6 @@ import { getData as getDataXlm } from '../../../scenes/Settings/Addresses/Xlm/se
 const BECH32_DERIVATION = 'bech32'
 const LEGACY_DERIVATION = 'legacy'
 const WALLET = '0'
-const FIRST_YEAR = 2014
 
 export const selectReports = (state) => state.components.taxCenter.reports
 

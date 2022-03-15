@@ -24,7 +24,7 @@ import {
   VisitButton
 } from './model'
 
-const TaxCenter = ({ handleChange, onGenerateReportClick, options, reports, value }: Props) => (
+const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -123,14 +123,14 @@ const TaxCenter = ({ handleChange, onGenerateReportClick, options, reports, valu
               value={value}
               elements={[{ group: '', items: options }]}
               onBlur={() => {}}
-              onChange={handleChange}
+              onChange={onChange}
             />
           </SelectGroup>
           <GenerateButton
             nature='primary'
             data-e2e='additionalInfoUploadDocument'
             type='button'
-            onClick={onGenerateReportClick}
+            onClick={onClick}
           >
             <FormattedMessage
               id='scenes.tax.center.card.report.button'
@@ -205,8 +205,8 @@ const TaxCenter = ({ handleChange, onGenerateReportClick, options, reports, valu
 )
 
 type Props = {
-  handleChange: (unknow) => void
-  onGenerateReportClick: () => void
+  onChange: (unknow) => void
+  onClick: () => void
   options: Array<any>
   reports: Array<any>
   value: number
