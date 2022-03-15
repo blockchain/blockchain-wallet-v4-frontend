@@ -15,3 +15,19 @@ export type ProductType = {
   productCode: string
   type: string
 }
+
+export type DebitCardType = {
+  brand: string
+  cardId: string
+  cardStatus: string
+  createdAt: string
+  expiry: string
+  last4: string
+  orderStatus: [
+    {
+      date: string
+      status: string
+    }
+  ]
+  type: string
+}
