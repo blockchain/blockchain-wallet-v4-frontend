@@ -16,15 +16,13 @@ const Wrapper = styled.div`
   `}
 `
 
-const Success = ({ currency, priceChange }: Props) => {
-  return (
-    <Wrapper>
-      <PriceChange currency={currency} priceChange={priceChange}>
-        {' '}
-      </PriceChange>
-    </Wrapper>
-  )
-}
+const Success = ({ currency, priceChange }: Props) => (
+  <Wrapper>
+    <PriceChange currency={currency} priceChange={priceChange}>
+      {' '}
+    </PriceChange>
+  </Wrapper>
+)
 
 type Props = OwnProps & SuccessStateType & { priceChange: PriceChangeType }
 

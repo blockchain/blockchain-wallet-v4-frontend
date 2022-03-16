@@ -94,7 +94,7 @@ export interface WyvernOrder {
   paymentToken: string
   replacementPattern: string
   saleKind: number
-  salt: BigNumber
+  salt: string
   side: number
   staticExtradata: string
   staticTarget: string
@@ -650,7 +650,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: RawOrder[]
+  orders: RawOrder[] | null
   owner: {
     address: string
     config: string

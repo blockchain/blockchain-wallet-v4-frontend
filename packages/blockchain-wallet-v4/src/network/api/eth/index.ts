@@ -4,7 +4,7 @@ import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType 
 
 export default ({ apiUrl, get, openseaApi, post }) => {
   // ONLY FOR TESTING OPENSEA!
-  const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
+  const IS_TESTNET = openseaApi && openseaApi.includes('testnets')
 
   const ethProvider = IS_TESTNET
     ? new ethers.providers.EtherscanProvider('rinkeby')

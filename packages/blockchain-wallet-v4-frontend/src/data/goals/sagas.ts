@@ -6,7 +6,12 @@ import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from '
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from '@core'
-import { InterestAfterTransactionType, RatesType, WalletFiatType } from '@core/types'
+import {
+  InterestAfterTransactionType,
+  RatesType,
+  TermsAndConditionType,
+  WalletFiatType
+} from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
@@ -746,6 +751,7 @@ export default ({ api, coreSagas, networks }) => {
       swap,
       swapGetStarted,
       swapUpgrade,
+      termsAndConditions,
       transferEth,
       upgradeForAirdrop,
       walletConnect,
@@ -786,6 +792,9 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (entitiesMigration) {
       return yield put(actions.modals.showModal(entitiesMigration.name, entitiesMigration.data))
+    }
+    if (termsAndConditions) {
+      return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
     }
     if (airdropClaim) {
       return yield put(
@@ -857,6 +866,38 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+  const runTermsAndConditionsGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showCompleteYourProfile = selectors.core.walletOptions
+      .getShowTermsAndConditions(yield select())
+      .getOrElse(null)
+
+    yield put(actions.components.termsAndConditions.fetchTermsAndConditions())
+    // make sure that fetch is done
+    yield take([
+      actions.components.termsAndConditions.fetchTermsAndConditionsSuccess.type,
+      actions.components.termsAndConditions.fetchTermsAndConditionsFailure.type
+    ])
+
+    const termsAndConditionsChanged = selectors.components.termsAndConditions
+      .getTermsAndConditions(yield select())
+      .getOrElse({} as TermsAndConditionType)
+
+    if (showCompleteYourProfile && termsAndConditionsChanged?.termsAndConditions) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'termsAndConditions',
+          name: ModalName.TERMS_AND_CONDITIONS
+        })
+      )
+    }
+  }
 
   const runGoal = function* (goal: GoalType) {
     try {
@@ -923,6 +964,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'entitiesMigration':
           yield call(runEntitiesMigrationGoal, goal)
           break
+        case 'termsAndConditions':
+          yield call(runTermsAndConditionsGoal, goal)
+          break
         default:
           break
       }
@@ -952,6 +996,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'entitiesMigration' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))

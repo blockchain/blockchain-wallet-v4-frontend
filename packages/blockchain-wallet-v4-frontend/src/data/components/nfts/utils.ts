@@ -16,7 +16,7 @@ import {
   OpenSeaUser,
   Transaction
 } from '@core/network/api/nfts/types'
-import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
+import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 
 /**
  * Special fixes for making BigNumbers using web3 results

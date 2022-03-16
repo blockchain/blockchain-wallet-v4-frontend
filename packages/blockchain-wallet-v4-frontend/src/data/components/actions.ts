@@ -3,6 +3,7 @@ import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actions'
 import { actions as buySell } from './buySell/slice'
 import * as coinTransactions from './coinTransactions/actions'
+import { actions as debitCard } from './debitCard/slice'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as fundRecovery from './fundRecovery/actions'
@@ -30,6 +31,7 @@ import * as sendXlm from './sendXlm/actions'
 import { actions as settings } from './settings/slice'
 import * as signMessage from './signMessage/actions'
 import { actions as swap } from './swap/slice'
+import { actions as termsAndConditions } from './termsAndConditions/slice'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
 import { actions as walletConnect } from './walletConnect/slice'
@@ -42,6 +44,7 @@ export {
   btcTransactions,
   buySell,
   coinTransactions,
+  debitCard,
   ethTransactions,
   fiatTransactions,
   fundRecovery,
@@ -69,6 +72,7 @@ export {
   settings,
   signMessage,
   swap,
+  termsAndConditions,
   uploadDocuments,
   veriff,
   walletConnect,

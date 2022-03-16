@@ -15,7 +15,8 @@ import {
   MobilePaymentType,
   RemoteDataType
 } from '@core/types'
-import { BuySellLimitReached, FlyoutOopsError } from 'components/Flyout'
+import { BuySellLimitReached } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { DEFAULT_BS_METHODS } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'

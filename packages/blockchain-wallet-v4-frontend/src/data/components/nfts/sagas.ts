@@ -30,7 +30,6 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { NftOrderStepEnum } from './types'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -552,8 +551,8 @@ export default ({ api }: { api: APIType }) => {
 
     try {
       yield put(actions.components.nfts.fetchNftOrderAssetLoading())
-      const asset: ReturnType<typeof api.getNftAsset> = yield call(
-        api.getNftAsset,
+      const asset: ReturnType<typeof api.getOpenSeaAsset> = yield call(
+        api.getOpenSeaAsset,
         asset_contract_address,
         token_id
       )

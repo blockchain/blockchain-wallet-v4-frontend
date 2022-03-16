@@ -386,7 +386,7 @@ class PreviewSell extends PureComponent<
                               <AdditionalText>
                                 {coinToString({
                                   unit: {
-                                    symbol: account.baseCoin
+                                    symbol: account.coin
                                   },
                                   value: saleInCoin
                                 })}

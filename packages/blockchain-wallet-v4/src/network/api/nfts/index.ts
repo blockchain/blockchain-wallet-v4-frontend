@@ -25,14 +25,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
-  const getNftAsset = (contract_address: string, token_id: string): NftAsset => {
-    return get({
-      endPoint: `/asset/${contract_address}/${token_id}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
   const getNftAssets = (
     owner: string /* = JAYZ_ADDRESS */,
     offset = 0,
@@ -40,7 +32,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     order_direction: 'asc' | 'desc' = 'desc'
   ): NftAssetsType => {
     return get({
-      endPoint: `/assets-by-owner?owner=${owner}&direction=${order_direction}&offset=${
+      endPoint: `/assets?owner=${owner}&direction=${order_direction}&offset=${
         offset * NFT_ORDER_PAGE_LIMIT
       }&limit=${limit}`,
       ignoreQueryParams: true,
@@ -175,7 +167,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   return {
     getAssetContract,
-    getNftAsset,
     getNftAssets,
     getNftCollection,
     getNftCollectionInfo,

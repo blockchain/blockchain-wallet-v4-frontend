@@ -15,7 +15,7 @@ const SendHeader = styled(ModalHeader)`
 `
 
 const SendXlm = (props) => (
-  <Modal size='medium' position={props.position} total={props.total}>
+  <Modal size='large' position={props.position} total={props.total}>
     <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage id='modals.sendxlm.title' defaultMessage='Send Stellar' />
     </SendHeader>

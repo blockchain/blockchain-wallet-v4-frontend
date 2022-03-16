@@ -130,7 +130,7 @@ const GetStarted = ({ nextStep, previousStep }: Props) => {
           </Item>
         </Items>
       </Content>
-      <Footer>
+      <Footer collapsed>
         <Button
           nature='primary'
           data-e2e='additionalInfoUploadDocument'

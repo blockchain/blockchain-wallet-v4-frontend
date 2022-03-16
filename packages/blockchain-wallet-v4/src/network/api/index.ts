@@ -5,6 +5,7 @@ import btc from './btc'
 import buySell from './buySell'
 import coin from './coin'
 import custodial from './custodial'
+import debitCard from './debitCard'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -41,6 +42,12 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...btc({ apiUrl, rootUrl, ...http }),
     ...coin({ apiUrl, ...http }),
     ...custodial({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
+      ...http
+    }),
+    ...debitCard({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       nabuUrl,
@@ -100,6 +107,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
   ReturnType<typeof custodial> &
+  ReturnType<typeof debitCard> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof kyc> &

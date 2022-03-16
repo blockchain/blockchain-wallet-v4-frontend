@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 

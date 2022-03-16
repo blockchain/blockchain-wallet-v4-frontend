@@ -15,8 +15,9 @@ import {
 } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
-import { FlyoutOopsError, FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper } from 'components/Flyout'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
 import { model } from 'data'
@@ -448,6 +449,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
               placeholder='0'
+              autoComplete='off'
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
               haveError={!!showError}

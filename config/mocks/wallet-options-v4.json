@@ -32,7 +32,7 @@
         }
       },
       "featureFlags": {
-        "applePayPaymentMethod": true,
+        "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
@@ -43,10 +43,11 @@
         "flexiblePricingModel": true,
         "institutionalPortal": true,
         "isRedesignEnabled": true,
-        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "refreshCaptchaWithSignupError": true,
+        "showTermsAndConditions": true,
         "signupCountry": true,
+        "silverRevamp": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,

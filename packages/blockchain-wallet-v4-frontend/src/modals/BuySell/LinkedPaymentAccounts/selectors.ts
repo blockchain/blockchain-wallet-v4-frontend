@@ -10,6 +10,7 @@ export const getData = (state) => {
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const applePayEnabledR = selectors.core.walletOptions.getApplePayAsNewPaymentMethod(state)
+  const isInternalTesterR = selectors.modules.profile.isInternalTester(state)
 
   return lift(
     (
@@ -17,6 +18,7 @@ export const getData = (state) => {
       balances: ExtractSuccess<typeof balancesR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
+      isInternalTester: ExtractSuccess<typeof isInternalTesterR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       walletCurrency: FiatType
     ) => ({
@@ -24,8 +26,17 @@ export const getData = (state) => {
       balances,
       bankTransferAccounts,
       cards,
+      isInternalTester,
       paymentMethods,
       walletCurrency
     })
-  )(applePayEnabledR, balancesR, bankTransferAccountsR, cardsR, paymentMethodsR, walletCurrencyR)
+  )(
+    applePayEnabledR,
+    balancesR,
+    bankTransferAccountsR,
+    cardsR,
+    isInternalTesterR,
+    paymentMethodsR,
+    walletCurrencyR
+  )
 }

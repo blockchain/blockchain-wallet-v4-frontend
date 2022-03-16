@@ -5,10 +5,8 @@ import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 
-import FlyoutContainer from '../Flyout/Container'
-import FlyoutContent from '../Flyout/Content'
-import FlyoutFooter from '../Flyout/Footer'
 import { PrimaryNavItem } from './Navbar'
 
 const MobileNavList = styled.ul`

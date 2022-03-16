@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutFooter, FlyoutHeader } from 'components/Flyout'
+import { FlyoutFooter, FlyoutHeader } from 'components/Flyout/Layout'
 import { actions } from 'data'
 
 import AnimatedCarousel from './AnimatedCarousel'

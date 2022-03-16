@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { AddBankStatus } from 'components/Flyout'
+import { AddBankStatus } from 'components/Flyout/Brokerage'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'

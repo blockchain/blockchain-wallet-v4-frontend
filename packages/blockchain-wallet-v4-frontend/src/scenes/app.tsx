@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
@@ -56,7 +55,8 @@ const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsActivty = React.lazy(() => import('./Nfts/Activity'))
+const NftsActivity = React.lazy(() => import('./Nfts/Activity'))
+const NftsAssets = React.lazy(() => import('./Nfts/Assets'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -119,7 +119,8 @@ const App = ({
                       <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
                       <AuthLayout path='/wallet' component={Login} />
                       <AuthLayout path='/verify-email-step' component={VerifyEmail} />
-                      <WalletLayout path='/nfts/activity' exact component={NftsActivty} />
+                      <WalletLayout path='/nfts/activity' exact component={NftsActivity} />
+                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />
@@ -178,9 +179,7 @@ const mapStateToProps = (state) => ({
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.core.walletOptions
-    .getWalletDebitCardEnabled(state)
-    .getOrElse(false) as boolean
+  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 
 const connector = connect(mapStateToProps)
