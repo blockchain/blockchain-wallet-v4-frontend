@@ -102,7 +102,6 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
-      debugger
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
