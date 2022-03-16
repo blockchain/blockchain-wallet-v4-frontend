@@ -2,17 +2,23 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
+import { selectors } from 'data'
 
 import { actions as A } from './slice'
 
 export default ({ api }: { api: APIType }) => {
   const getProducts = function* () {
-    try {
-      const data = yield call(api.getDCProducts)
-      yield put(A.getProductsSuccess(data))
-    } catch (e) {
-      console.error('Failed to get card products', errorHandler(e))
-      yield put(A.getProductsFailure())
+    const debitCardModuleEnabled = (yield select(
+      selectors.core.walletOptions.getWalletDebitCardEnabled
+    )).getOrElse(false)
+    if (debitCardModuleEnabled) {
+      try {
+        const data = yield call(api.getDCProducts)
+        yield put(A.getProductsSuccess(data))
+      } catch (e) {
+        console.error('Failed to get card products', errorHandler(e))
+        yield put(A.getProductsFailure())
+      }
     }
   }
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
