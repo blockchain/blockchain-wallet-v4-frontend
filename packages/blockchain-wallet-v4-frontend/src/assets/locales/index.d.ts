@@ -705,7 +705,7 @@ type MessagesType = {
   'identityverification.verify.resubmit.reason.intro': 'Main reasons for this to happen are'
   'identityverification.verify.resubmit.reason.quality': 'We were unable to read the images you submitted due to image quality'
   'identityverification.verify.supportedcountries': 'Is my country supported?'
-  'layouts.wallet.footer.institutional_portal': 'Are you an institutional user?'
+  'layouts.wallet.footer.institutional_link': 'Are you an Institutional Exchange user?'
   'layouts.wallet.footer.looking_product': 'Looking for another product?'
   'layouts.wallet.footer.select_product': 'Select a Product ->'
   'layouts.wallet.header.Sign Out': 'Sign Out'
