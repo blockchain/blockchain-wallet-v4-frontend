@@ -94,14 +94,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const performPayment = ({
+  const generateApplePayToken = async ({
     applePayInfo,
     paymentRequest
   }: {
     applePayInfo: ApplePayInfoType
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   }) => {
-    return new Promise((resolve, reject) => {
+    const token = await new Promise((resolve, reject) => {
       const session = new ApplePaySession(3, paymentRequest)
 
       session.onvalidatemerchant = async (event) => {
@@ -114,13 +114,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
-          reject()
+          session.abort()
+
+          reject(new Error('FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT'))
         }
       }
-      session.onpaymentauthorized = resolve
-      session.oncancel = reject
+
+      session.onpaymentauthorized = (event) => {
+        const result = {
+          status: ApplePaySession.STATUS_SUCCESS
+        }
+        session.completePayment(result)
+
+        resolve(JSON.stringify(event.payment.token))
+      }
+
+      // TODO add error here
+      session.oncancel = (e) => {
+        session.abort()
+
+        reject(new Error('USER_CANCELLED_APPLE_PAY'))
+      }
+
       session.begin()
     })
+
+    return token
   }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
@@ -139,8 +158,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // and we need 3DS to create a card
       yield put(A.setStep({ step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
 
-      yield put(A.addCardLoading())
-
       // This creates the card on the backend
       yield put(A.createCard(paymentMethodTokens))
       yield take([A.createCardSuccess.type, A.createCardFailure.type])
@@ -152,23 +169,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // This is for the 0 dollar payment
       yield put(A.activateCard(card))
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
-
-      yield put(
-        A.addCardSuccess({
-          payment_state: null,
-          processing_errors: null
-        })
-      )
     } catch (e) {
-      const error = errorHandler(e)
+      // TODO: improve error message here, adding translations and more context
 
       yield put(
         A.setStep({
           step: 'DETERMINE_CARD_PROVIDER'
         })
       )
-
-      yield put(A.addCardFailure(error))
     }
   }
 
@@ -189,7 +197,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.activateCardSuccess(providerDetails))
     } catch (e) {
+      if (e.code) {
+        yield put(A.activateCardFailure(e.code))
+
+        return
+      }
+
       const error = errorHandler(e)
+
       yield put(A.activateCardFailure(error))
     }
   }
@@ -348,6 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.modals.closeAllModals())
       }
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM_BS_CANCEL_ORDER, { _error: error }))
     }
@@ -583,7 +599,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const AuthUrlCheck = function* (orderId) {
+  const authUrlCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
@@ -591,7 +607,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error('retrying to fetch for AuthUrl')
   }
 
-  const OrderConfirmCheck = function* (orderId) {
+  const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
@@ -602,14 +618,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
-    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, payload.id)
+    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
     yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { mobilePaymentMethod, order, paymentMethodId } = payload
+    const { mobilePaymentMethod, paymentMethodId } = payload
+
+    let { order } = payload
+
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
 
@@ -650,29 +669,64 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
+          // The amount has to be in cents
+          const amount = parseInt(order.inputQuantity) / 100
+
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities: ['supports3DS'],
             supportedNetworks: ['visa', 'masterCard'],
-            total: { amount: order.inputQuantity, label: 'Blockchain.com' }
+            total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { payment } = yield call(performPayment, { applePayInfo, paymentRequest })
+          const token = yield call(generateApplePayToken, {
+            applePayInfo,
+            paymentRequest
+          })
 
           attributes = {
-            applePayPaymentToken: payment.token,
+            applePayPaymentToken: token,
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
             redirectURL: paymentSuccessLink
           }
         }
       }
 
+      const isFlexiblePricingModel = (yield select(
+        selectors.core.walletOptions.getFlexiblePricingModel
+      )).getOrElse(false)
+
+      if (isFlexiblePricingModel) {
+        const freshOrder = S.getBSOrder(yield select())
+
+        if (!freshOrder) {
+          throw new Error('Order not found')
+        }
+
+        if (freshOrder.inputQuantity !== order.inputQuantity) {
+          throw new Error('Order value has changed')
+        }
+
+        order = freshOrder
+      }
+
+      // TODO: Change behavior changing a flag to make this async when backend is ready
+      // then we will have to poll this order until it's confirmed and has the 3DS url
       const confirmedOrder: BSOrderType = yield call(
         api.confirmBSOrder,
         order,
         attributes,
         paymentMethodId
       )
+
+      // TODO add loading state
+
+      // TODO add polling for order
+
+      // TODO pass confirmed order here
 
       // Check if the user has a yapily account and if they're submitting a bank transfer order
       if (
@@ -683,7 +737,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
-        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, AuthUrlCheck, confirmedOrder.id)
+        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, authUrlCheck, confirmedOrder.id)
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
@@ -697,6 +751,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
+      // TODO check if it's Apple Pay of Google Pay and send to order_summary
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else if (
@@ -713,9 +768,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchOrders())
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
+
       yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
+
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
@@ -730,6 +789,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
@@ -745,6 +805,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(actions.alerts.displaySuccess('Card removed.'))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
       yield put(actions.alerts.displayError('Error removing card.'))
@@ -773,8 +834,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const userData = userDataR.getOrFail('NO_USER_DATA')
       const address = billingAddressForm || userData.address
+
       if (!address) throw new Error('NO_USER_ADDRESS')
 
       const card = yield call(api.createBSCard, {
@@ -783,9 +845,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         email: userData.email,
         paymentMethodTokens: payload
       })
+
       yield put(A.createCardSuccess(card))
     } catch (e) {
+      if (e.code) {
+        yield put(A.createCardFailure(e.code))
+
+        return
+      }
+
       const error = errorHandler(e)
+
       yield put(A.createCardFailure(error))
     }
   }
@@ -804,6 +874,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
       }
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchSDDVerifiedFailure(error))
     }
@@ -828,6 +899,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchCardsFailure(error))
     }
@@ -855,6 +927,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchFiatEligibleFailure(error))
     }
@@ -879,6 +952,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       }
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchSDDEligibleFailure(error))
     }
@@ -892,6 +966,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchOrdersSuccess(orders))
       yield put(actions.components.brokerage.fetchBankTransferAccounts())
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
       yield put(A.fetchOrdersFailure(error))
@@ -911,6 +986,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
       yield put(A.fetchPairsSuccess({ coin, pairs: filteredPairs }))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchPairsFailure(error))
     }
@@ -924,6 +1000,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const account: BSAccountType = yield call(api.getBSPaymentAccount, fiatCurrency)
       yield put(A.fetchPaymentAccountSuccess(account))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchPaymentAccountFailure(error))
     }
@@ -989,6 +1066,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchPaymentMethodsFailure(error))
     }
@@ -1002,6 +1080,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const quote: BSQuoteType = yield call(api.getBSQuote, pair, orderType, amount)
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchQuoteFailure(error))
     }
@@ -1393,6 +1472,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(error))
     }
@@ -1400,23 +1480,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
     switch (state) {
       case 'PENDING':
         error = 'PENDING_CARD_AFTER_POLL'
         break
+      case 'BLOCKED':
+        error = 'BLOCKED_CARD_AFTER_POLL'
+        break
       default:
         error = 'LINK_CARD_FAILED'
     }
+
+    yield put(A.setAddCardError(error))
+
+    // LEGACY
+    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     yield put(
       actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
         _error: error
       })
     )
-    yield put(A.setAddCardError(error))
   }
 
   const pollBSBalances = function* () {
@@ -1427,7 +1513,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 5
+    const maxRetryAttempts = 10
 
     let card: ReturnType<typeof api.getBSCard> = yield call(api.getBSCard, payload)
     let step = S.getStep(yield select())
@@ -1449,29 +1535,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(2000)
     }
 
-    switch (card.state) {
-      case 'BLOCKED':
-        yield call(pollBSCardErrorHandler, card.state)
-        return
-      case 'ACTIVE':
-        const skipLoading = true
-        const order = S.getBSLatestPendingOrder(yield select())
-        yield put(A.fetchCards(skipLoading))
-        // If the order was already created
-        if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
-        }
-        return yield put(
-          A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
-        )
-      default:
-        yield call(pollBSCardErrorHandler, card.state)
+    if (card.state === 'ACTIVE') {
+      const skipLoading = true
+      const order = S.getBSLatestPendingOrder(yield select())
+      yield put(A.fetchCards(skipLoading))
+      // If the order was already created
+      if (order && order.state === 'PENDING_CONFIRMATION') {
+        return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
+      }
+      return yield put(
+        A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
+      )
     }
+
+    // TODO handle statuses here, on lastError somehow
+    // to test you can use an email with +onlystripe on it
+    // add a card with checkout and you'll receive an error on activate
+    // I can get the ID from there and test getting the card, so I can see the lastError
+    yield call(pollBSCardErrorHandler, card.state)
   }
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 5
+    const maxRetryAttempts = 10
 
     let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
     let step = S.getStep(yield select())
@@ -1520,7 +1606,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
         (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
-
       if (checkoutAcquirers.length === 0) {
         yield put(
           A.setStep({
@@ -1653,6 +1738,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchLimitsSuccess(limits))
     } catch (e) {
+      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchLimitsFailure(error))
     }

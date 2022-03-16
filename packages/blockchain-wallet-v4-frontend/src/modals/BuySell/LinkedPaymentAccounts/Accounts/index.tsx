@@ -259,10 +259,14 @@ const Accounts = (props: Props) => {
   const availableMethods = funds.length || cardMethods.length || bankMethods.length || !!applePay
 
   useEffect(() => {
-    if ((window as any).ApplePaySession && props.applePayEnabled) {
+    if (
+      ApplePaySession &&
+      ApplePaySession.canMakePayments() &&
+      (props.applePayEnabled || props.isInternalTester)
+    ) {
       setApplePayAvailable(true)
     }
-  }, [props.applePayEnabled])
+  }, [props.applePayEnabled, props.isInternalTester])
 
   return (
     <Wrapper>

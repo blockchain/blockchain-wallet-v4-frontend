@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Image, Text } from 'blockchain-info-components'
-import { FlyoutContent, FlyoutHeader } from 'components/Flyout'
+import { FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 
 import { CreateCardButton, SubTextWrapper } from '../model'
 
@@ -36,8 +36,6 @@ const CreateCardStep = ({ handleClose, handleCreateCard }: Props) => (
 
       {/* disabled for MVP, will need this for V1 */}
       {/* <SeeCardDetailsBtn onClick={handleShowCardDetails} /> */}
-
-      <Image name='order-my-card-icon' />
 
       <CreateCardButton onClick={handleCreateCard} />
     </FlyoutContent>

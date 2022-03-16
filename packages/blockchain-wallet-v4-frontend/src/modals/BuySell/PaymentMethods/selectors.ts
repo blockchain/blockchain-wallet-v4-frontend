@@ -16,6 +16,7 @@ const getData = (state) => {
   } as InvitationsType)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const applePayEnabledR = selectors.core.walletOptions.getApplePayAsNewPaymentMethod(state)
+  const isInternalTesterR = selectors.modules.profile.isInternalTester(state)
 
   return lift(
     (
@@ -24,6 +25,7 @@ const getData = (state) => {
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
+      isInternalTester: ExtractSuccess<typeof isInternalTesterR>,
       pairs: ExtractSuccess<typeof pairsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
       walletCurrency: FiatType
@@ -33,6 +35,7 @@ const getData = (state) => {
       bankTransferAccounts,
       cards,
       eligibility,
+      isInternalTester,
       pairs,
       paymentMethods:
         (!invitations.openBanking && {
@@ -53,6 +56,7 @@ const getData = (state) => {
     bankTransferAccountsR,
     cardsR,
     eligibilityR,
+    isInternalTesterR,
     pairsR,
     paymentMethodsR,
     walletCurrencyR

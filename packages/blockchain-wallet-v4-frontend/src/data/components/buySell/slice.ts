@@ -164,6 +164,7 @@ const buySellSlice = createSlice({
     activateCardSuccess: (state, action: PayloadAction<ProviderDetailsType>) => {
       state.providerDetails = Remote.Success(action.payload)
     },
+    // START LEGACY EVERYPAY
     addCard: () => {},
     addCardFailure: (state, action: PayloadAction<string>) => {
       state.everypay3DS = Remote.Failure(action.payload)
@@ -175,6 +176,7 @@ const buySellSlice = createSlice({
     addCardSuccess: (state, action: PayloadAction<Everypay3DSResponseType>) => {
       state.everypay3DS = Remote.Success(action.payload)
     },
+    // END LEGACY EVERYPAY
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (

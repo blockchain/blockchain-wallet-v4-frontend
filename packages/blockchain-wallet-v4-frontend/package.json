@@ -108,6 +108,7 @@
     "browser-locale": "1.0.3",
     "connected-react-router": "6.9.1",
     "country-region-data": "1.7.0",
+    "dompurify": "2.3.6",
     "d3-array": "2.12.1",
     "d3-time-format": "3.0.0",
     "data.either": "1.5.2",

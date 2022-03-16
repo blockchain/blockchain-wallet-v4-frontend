@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Icon, Image } from 'blockchain-info-components'
@@ -51,7 +51,11 @@ const LinkHereButton = () => (
   </div>
 )
 
-const DebitCard = ({ modalActions }: Props) => {
+const DebitCard = ({ debitCardActions, modalActions }: Props) => {
+  useEffect(() => {
+    // Get available products that user can create
+    debitCardActions.getProducts()
+  }, [])
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 

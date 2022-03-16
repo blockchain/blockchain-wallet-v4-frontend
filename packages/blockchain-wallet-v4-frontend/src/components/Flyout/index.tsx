@@ -7,55 +7,6 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-// Brokerage specific flyout screens
-import AddBankStatus from './Brokerage/AddBankStatus'
-import BuySellLimitReached from './Brokerage/BuySellLimitReached'
-import EnterAmount from './Brokerage/EnterAmount'
-import OnHold from './Brokerage/OnHold'
-import OrderSummary from './Brokerage/OrderSummary'
-import Trade from './Brokerage/Trade'
-// Flyout layout base components
-import FlyoutContainer from './Container'
-import FlyoutContent from './Content'
-import FlyoutOopsError from './Errors/Oops'
-import FlyoutFooter from './Footer'
-import FlyoutHeader from './Header'
-// Interest Upload Documents specific layout screens
-import AdditionalInformation from './InterestUploadDocuments/AdditionalInformation'
-import GetStarted from './InterestUploadDocuments/GetStarted'
-import UploadAndVerify from './InterestUploadDocuments/UploadAndVerify'
-import Uploaded from './InterestUploadDocuments/Uploaded'
-// Recurring Buy specific flyout screens
-import FrequencyScreen from './RecurringBuy/FrequencyScreen'
-import RecurringBuyGettingStarted from './RecurringBuy/GettingStarted'
-import RecurringBuyDetails from './RecurringBuy/RecurringBuyDetails'
-import RecurringBuyRemoveConfirm from './RecurringBuy/RecurringBuyRemoveConfirm'
-// These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
-import FlyoutSubHeader from './SubHeader'
-
-export {
-  AddBankStatus,
-  AdditionalInformation,
-  BuySellLimitReached,
-  EnterAmount,
-  FlyoutContainer,
-  FlyoutContent,
-  FlyoutFooter,
-  FlyoutHeader,
-  FlyoutOopsError,
-  FlyoutSubHeader,
-  FrequencyScreen,
-  GetStarted,
-  OnHold,
-  OrderSummary,
-  RecurringBuyDetails,
-  RecurringBuyGettingStarted,
-  RecurringBuyRemoveConfirm,
-  Trade,
-  UploadAndVerify,
-  Uploaded
-}
-
 export const duration = 500
 export const slide = 500
 export const width = 480

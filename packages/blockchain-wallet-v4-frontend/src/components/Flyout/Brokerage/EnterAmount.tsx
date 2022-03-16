@@ -18,13 +18,13 @@ import {
 } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/BuySell'
 import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
-  FlyoutHeader,
-  FlyoutWrapper
-} from 'components/Flyout'
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import {
   DepositOrWithdrawal,
   getBankText,
