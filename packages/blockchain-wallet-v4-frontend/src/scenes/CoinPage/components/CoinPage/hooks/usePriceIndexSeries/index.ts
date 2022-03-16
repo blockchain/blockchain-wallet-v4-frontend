@@ -1,0 +1,1 @@
+export { usePriceIndexSeries } from './usePriceIndexSeries'
