@@ -10,11 +10,10 @@ const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
 
 const getReportTitle = (from, to) => {
-  const yearDifference = Math.ceil(
-    (Number(new Date(to)) - Number(new Date(from))) / 1000 / 60 / 60 / 24 / 365
-  )
+  const isAllTimeReport =
+    Math.round((Number(new Date(to)) - Number(new Date(from))) / 1000 / 60 / 60 / 24 / 365) > 1
 
-  if (yearDifference === 0) {
+  if (!isAllTimeReport) {
     return new Date(to).getFullYear()
   }
 

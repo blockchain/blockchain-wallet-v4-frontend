@@ -76,7 +76,7 @@ export const ReportList = styled.div`
   margin-top: 32px;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 100%;
 `
 
 export const StyledTextGroup = styled(TextGroup)`
