@@ -11,7 +11,6 @@ import { CoinPageContainerProps } from './types'
 export const getData = createDeepEqualSelector(
   [
     selectors.core.settings.getCurrency,
-    selectors.core.data.misc.getPriceIndexSeries,
     (state, { coin }: CoinPageContainerProps) =>
       selectors.core.data.misc.getPriceChange(coin, TimeRange.WEEK, state),
     (state, { coin }) => coin,
@@ -25,21 +24,20 @@ export const getData = createDeepEqualSelector(
     balanceSelectors.getBtcBalance,
     (state, { coin }) => selectors.core.data.misc.getRatesSelector(coin, state)
   ],
-  (currencyR, priceIndexSeriesDataR, priceChangeR, coin, addressDataR, balanceDataR, ratesR) => {
+  (currencyR, priceChangeR, coin, addressDataR, balanceDataR, ratesR) => {
     const currency = currencyR.getOrElse('USD')
 
-    const transform = (priceIndexSeriesData, priceChange, addressData, balanceData, rates) => ({
+    const transform = (priceChange, addressData, balanceData, rates) => ({
       addressData,
       balanceData,
       coin,
-      data: map((d) => [d.timestamp * 1000, d.price], priceIndexSeriesData) as any,
       priceChange,
       rates
     })
 
     return {
       currency,
-      data: lift(transform)(priceIndexSeriesDataR, priceChangeR, addressDataR, balanceDataR, ratesR)
+      data: lift(transform)(priceChangeR, addressDataR, balanceDataR, ratesR)
     }
   }
 )
