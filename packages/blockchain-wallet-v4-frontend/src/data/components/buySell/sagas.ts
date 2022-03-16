@@ -94,14 +94,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const performApplePayValidation = ({
+  const generateApplePayToken = async ({
     applePayInfo,
     paymentRequest
   }: {
     applePayInfo: ApplePayInfoType
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   }) => {
-    return new Promise((resolve, reject) => {
+    const token = await new Promise((resolve, reject) => {
       const session = new ApplePaySession(3, paymentRequest)
 
       session.onvalidatemerchant = async (event) => {
@@ -114,6 +114,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
+          // TODO add error here
           reject(e)
         }
       }
@@ -127,10 +128,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         resolve(JSON.stringify(event.payment.token))
       }
 
+      // TODO add error here
       session.oncancel = reject
 
       session.begin()
     })
+
+    return token
   }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
@@ -616,7 +620,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { mobilePaymentMethod, order, paymentMethodId } = payload
+    const { mobilePaymentMethod, paymentMethodId } = payload
+
+    let { order } = payload
+
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
 
@@ -668,7 +675,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const token = yield call(performApplePayValidation, {
+          const token = yield call(generateApplePayToken, {
             applePayInfo,
             paymentRequest
           })
@@ -683,12 +690,38 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
+      const isFlexiblePricingModel = (yield select(
+        selectors.core.walletOptions.getFlexiblePricingModel
+      )).getOrElse(false)
+
+      if (isFlexiblePricingModel) {
+        const freshOrder = S.getBSOrder(yield select())
+
+        if (!freshOrder) {
+          throw new Error('Order not found')
+        }
+
+        if (freshOrder.inputQuantity !== order.inputQuantity) {
+          throw new Error('Order value has changed')
+        }
+
+        order = freshOrder
+      }
+
+      // TODO: Change behavior changing a flag to make this async when backend is ready
+      // then we will have to poll this order until it's confirmed and has the 3DS url
       const confirmedOrder: BSOrderType = yield call(
         api.confirmBSOrder,
         order,
         attributes,
         paymentMethodId
       )
+
+      // TODO add loading state
+
+      // TODO add polling for order
+
+      // TODO pass confirmed order here
 
       // Check if the user has a yapily account and if they're submitting a bank transfer order
       if (
@@ -713,6 +746,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
+      // TODO check if it's Apple Pay of Google Pay and send to order_summary
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else if (
