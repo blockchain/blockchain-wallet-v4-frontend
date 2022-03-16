@@ -121,6 +121,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
+        // institutional login
+        case userType === 'institutional' && institutionalPortalEnabled:
+          window.open(
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
@@ -130,14 +138,6 @@ export default ({ api, coreSagas, networks }) => {
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
-          break
-        // institutional login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
-            '_self',
-            'noreferrer'
-          )
           break
         // exchange institutional login
         default:
