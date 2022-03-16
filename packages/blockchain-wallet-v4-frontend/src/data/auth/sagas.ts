@@ -422,6 +422,11 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
           break
+        // Account locked due to too many failed 2fa attemps
+        case errorString && errorString.includes('is locked'):
+          yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
+          yield put(actions.auth.loginFailure(errorString))
+          break
         // Wrong 2fa code error
         case errorString &&
           (errorString.includes('Authentication code is incorrect') ||
