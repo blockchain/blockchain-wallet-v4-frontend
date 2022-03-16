@@ -101,7 +101,8 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      const { csrfToken, token: jwtToken } = response
+      const { csrfToken, sessionExpirationTime, token: jwtToken } = response
+      debugger
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -124,7 +125,7 @@ export default ({ api, coreSagas, networks }) => {
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           sendMessageToMobile(platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
+            data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
           })
           break
