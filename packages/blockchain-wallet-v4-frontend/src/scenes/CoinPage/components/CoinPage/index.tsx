@@ -2,13 +2,15 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
+import moment, { MomentInput } from 'moment'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { CoinType, TimeRange } from '@core/types'
+import { CoinType, OrderType, TimeRange } from '@core/types'
 import { Tab, Tabs } from 'components/Tabs'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { ModalName } from 'data/types'
 
 import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
@@ -20,21 +22,36 @@ import { CoinPage } from './CoinPage'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
-import { createDateFormatterFromSelectedTimeRange } from './utils/createChartDateFormatterFromSelectedTimeRange'
-import { transformChartData } from './utils/transformChartData'
 
 export type { CoinPageComponent, CoinPageProps } from './types'
 
 const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
-  ({ coin, currency, data, priceChartActions }) => {
-    const { coinfig } = useMemo(() => window.coins[coin], [coin])
-    const displayName = useMemo(() => coinfig.name, [coin])
+  ({
+    buyButtonHandler,
+    coin,
+    currency,
+    data,
+    priceChartActions,
+    receiveButtonHandler,
+    sellButtonHandler,
+    sendButtonHandler
+  }) => {
     const [selectedTab, setSelectedTab] = useState<TimeRange>(TimeRange.DAY)
 
     useEffect(() => {
       priceChartActions.initialized(coin, TimeRange.WEEK)
     }, [coin, priceChartActions])
 
+    const { coinfig } = useMemo(() => window.coins[coin], [coin])
+    const displayName = useMemo(() => coinfig.name, [coinfig.name])
+
+    const buyButtonCallback = useCallback(() => buyButtonHandler(coin), [buyButtonHandler, coin])
+    const sellButtonCallback = useCallback(() => sellButtonHandler(coin), [sellButtonHandler, coin])
+    const sendButtonCallback = useCallback(() => sendButtonHandler(coin), [sendButtonHandler, coin])
+    const receiveButtonCallback = useCallback(
+      () => receiveButtonHandler(coin),
+      [receiveButtonHandler, coin]
+    )
     const handleTabChange = useCallback(
       (timeRange: TimeRange) => {
         setSelectedTab(timeRange)
@@ -58,10 +75,19 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
           value: balanceData
         })
         const totalFiatFormatted = fiatToString({ unit: currency, value: totalFiatAmount })
-        const coinTotalAmount = convertBaseToStandard(coin, balanceData)
+        const coinTotalAmount = Exchange.displayCoinToCoin({
+          coin,
+          isFiat: coinfig.type.name === 'FIAT',
+          value: balanceData
+        })
+
         const holdingsCardActions = HoldingsCardActions({
           amount: Number(coinTotalAmount),
-          products
+          buyButtonCallback,
+          products,
+          receiveButtonCallback,
+          sellButtonCallback,
+          sendButtonCallback
         })
 
         return (
@@ -107,14 +133,13 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
             about={<AboutSection content='' title={coin} actions={[<></>]} />}
             chart={
               <CoinChart
-                data={transformChartData(value.data)}
+                data={value.data}
                 backgroundColor={colors.white060}
                 primaryColor={colors.blue600}
                 textColor={colors.grey400}
-                x='date'
-                y='value'
-                xFormatter={createDateFormatterFromSelectedTimeRange(selectedTab)}
-                numTicks={6}
+                x={0}
+                y={1}
+                xFormatter={(date) => moment(date as MomentInput).format('hh:mm')}
               />
             }
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
@@ -126,7 +151,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
                 price={value.priceChange.currentPrice}
               />
             }
-            // alertCard={<AlertCard content='' title='' />}
+            // alertCard={<AlertCard content='' />}
             holdings={
               <HoldingsCard
                 actions={holdingsCardActions}
@@ -143,9 +168,44 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
 )
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
+
 const mapDispatchToProps = (dispatch) => ({
+  buyButtonHandler: (coin: CoinType) => {
+    dispatch(
+      actions.components.buySell.showModal({
+        cryptoCurrency: coin,
+        orderType: OrderType.BUY,
+        origin: 'CoinPageHoldings'
+      })
+    )
+  },
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
+  priceChartActions: bindActionCreators(actions.components.priceChart, dispatch),
+  receiveButtonHandler: (coin: CoinType) => {
+    dispatch(
+      actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+        origin: 'CoinPageHoldings',
+        preselectedCoin: coin
+      })
+    )
+  },
+  sellButtonHandler: (coin: CoinType) => {
+    dispatch(
+      actions.components.buySell.showModal({
+        cryptoCurrency: coin,
+        orderType: OrderType.SELL,
+        origin: 'CoinPageHoldings'
+      })
+    )
+  },
+  sendButtonHandler: (coin: CoinType) => {
+    dispatch(
+      actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, {
+        coin,
+        origin: 'CoinPageHoldings'
+      })
+    )
+  }
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
