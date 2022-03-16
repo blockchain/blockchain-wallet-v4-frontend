@@ -1,4 +1,7 @@
+import { lift } from 'ramda'
+
 import { Remote } from '@core'
+import { getBalance } from '@core/redux/data/coins/selectors'
 import { CoinType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateSelfCustodyAccount } from 'data/coins/utils'
@@ -9,11 +12,16 @@ export const getTransactionPageHeaderText = () => null
 // accepts a coin string
 export const getAccounts = createDeepEqualSelector(
   [
+    (state, ownProps) => getBalance(ownProps.coin, state),
     (state, ownProps) => ownProps // selector config
   ],
-  (ownProps) => {
+  (balanceR, ownProps) => {
     const { coin } = ownProps
 
-    return Remote.of(generateSelfCustodyAccount(coin as CoinType))
+    const transform = (balance) => {
+      return generateSelfCustodyAccount(coin, balance)
+    }
+
+    return lift(transform)(balanceR)
   }
 )

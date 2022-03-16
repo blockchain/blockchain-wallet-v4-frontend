@@ -35,6 +35,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
         'USD',
         'EUR',
         'GBP',
+        // TODO: SELF_CUSTODY
         'BTC',
         'ETH',
         'BCH',

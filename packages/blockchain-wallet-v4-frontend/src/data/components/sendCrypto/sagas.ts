@@ -6,12 +6,13 @@ import secp256k1 from 'secp256k1'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BuildTxResponseType } from '@core/network/api/coin/types'
+import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { getPrivKey, getPubKey } from 'data/coins/sagas/coins/self-custody'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
+import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
@@ -26,7 +27,8 @@ export default ({ api }: { api: APIType }) => {
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
-        const pubKey = yield call(getPubKey)
+        const password = yield call(promptForSecondPassword)
+        const pubKey = yield call(getPubKey, password)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
 
@@ -160,8 +162,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const signTx = function* (prebuildTx: BuildTxResponseType) {
-    const privateKey = yield call(getPrivKey)
+  const signTx = function* (prebuildTx: BuildTxResponseType, password: string) {
+    const privateKey = yield call(getPrivKey, password)
 
     if (!privateKey) throw new Error('Could not derive private key')
 
@@ -170,7 +172,7 @@ export default ({ api }: { api: APIType }) => {
       // @ts-ignore
       const { recovery, signature } = secp256k1.sign(
         Buffer.from(preImage.preImage, 'hex'),
-        privateKey
+        Buffer.from(privateKey, 'hex')
       )
 
       // eslint-disable-next-line no-buffer-constructor
@@ -199,10 +201,11 @@ export default ({ api }: { api: APIType }) => {
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
+        const password = yield call(promptForSecondPassword)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
         const prebuildTx = S.getPrebuildTx(yield select()).getOrFail('No prebuildTx')
-        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx)
+        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
         const pushedTx = yield call(api.pushTx, coin, signedTx.rawTx, signedTx.preImages, {
           guid,
           uuid

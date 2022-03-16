@@ -71,6 +71,19 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  // TODO: SELF_CUSTODY
+  const balance = (pubKey: string): { balance: string } => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        pubKey
+      },
+      endPoint: `/public/balance`,
+      removeDefaultPostData: true,
+      url: 'http://localhost:4444'
+    })
+  }
+
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -93,6 +106,7 @@ export default ({ apiUrl, get, post }) => {
     })
 
   return {
+    balance,
     buildTx,
     deriveAddress,
     getBtcTicker,

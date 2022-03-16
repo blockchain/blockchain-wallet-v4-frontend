@@ -2,11 +2,10 @@ import { BSBalanceType, CoinType, InterestBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
-export const generateSelfCustodyAccount = (coin: CoinType): SwapAccountType[] => {
+export const generateSelfCustodyAccount = (coin: CoinType, balance: string): SwapAccountType[] => {
   return [
     {
-      // TODO: SELF_CUSTODY
-      balance: '3000000',
+      balance,
       baseCoin: coin,
       coin,
       label: 'Private Key Wallet',
