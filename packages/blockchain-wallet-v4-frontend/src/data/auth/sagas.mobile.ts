@@ -41,9 +41,6 @@ export const sendMessageToMobile = (
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
 
-  // eslint-disable-next-line
-  console.log('MSG TO MOBILE:: ', messageStringified)
-
   switch (true) {
     // ios
     case platform === PlatformTypes.IOS:

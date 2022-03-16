@@ -75,9 +75,6 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 export const getCeloEurRewards = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
 
-export const getPollForMagicLinkData = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))

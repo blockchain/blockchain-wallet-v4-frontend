@@ -77,6 +77,7 @@ import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderMyCardIcon from './img/debitCard/order-my-card-icon.png'
+import orderSuccess from './img/debitCard/order-success.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -363,6 +364,7 @@ const Images = {
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-my-card-icon': orderMyCardIcon,
+  'order-success': orderSuccess,
   'percent-white-circle': percentWhiteCircle,
   printer,
   'proof-of-address': proofOfAddress,

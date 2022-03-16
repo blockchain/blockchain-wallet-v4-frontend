@@ -19,7 +19,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
-  parseAuthMagicLink,
+  determineAuthenticationFlow,
   pollForSessionFromAuthPayload,
   pollForSessionFromGuid
 } from './sagas.utils'
@@ -101,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      const { token: jwtToken } = response
+      const { csrfToken, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -121,7 +121,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // institutional login
+        // web - institutional exchange login
         case userType === 'institutional' && institutionalPortalEnabled:
           window.open(
             `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
@@ -131,16 +131,18 @@ export default ({ api, coreSagas, networks }) => {
           break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
-          // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, { data: { jwt: jwtToken }, status: 'success' })
-          sendMessageToMobile(platform, { data: { jwt: jwtToken }, status: 'success' })
+          sendMessageToMobile(platform, {
+            data: { csrf: csrfToken, jwt: jwtToken },
+            status: 'success'
+          })
           break
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
-          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
-        // exchange institutional login
         default:
+          // case where user has email cached and is
+          // logging in without triggering verify email template
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
@@ -614,28 +616,22 @@ export default ({ api, coreSagas, networks }) => {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
-      const searchString = yield select(selectors.router.getSearch)
-      const queryParams = new URLSearchParams(searchString)
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
-      const redirect = queryParams.get('redirect')
       const userType = queryParams.get('userType') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: redirect || undefined,
+          redirect: queryParams.get('redirect') || undefined,
           userType
         })
       )
-
-      // eslint-disable-next-line
-      console.log('URL DATA:: ', platform, product, redirect, userType)
-
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
@@ -699,11 +695,12 @@ export default ({ api, coreSagas, networks }) => {
         // url has base64 encrypted magic link JSON
         default:
           yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
-          const magicLink = JSON.parse(
+          const authMagicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as AuthMagicLink
-          yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield call(parseAuthMagicLink)
+          yield put(actions.auth.setMagicLinkInfo(authMagicLink))
+          // check querystring to determine if mobile has already completed the device polling
+          yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
       }
 
       // hide loading and ensure latest app version
@@ -805,9 +802,6 @@ export default ({ api, coreSagas, networks }) => {
     const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
     const { captchaToken, email } = action.payload
-    const shouldPollForMagicLinkData = (yield select(
-      selectors.core.walletOptions.getPollForMagicLinkData
-    )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -830,10 +824,8 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
-      // poll for session from auth payload if feature flag enabled
-      if (shouldPollForMagicLinkData) {
-        yield call(pollForSessionFromAuthPayload, api, sessionToken)
-      }
+      // poll for session from auth payload
+      yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
@@ -850,6 +842,7 @@ export default ({ api, coreSagas, networks }) => {
 
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
+      if (!magicLinkDataEncoded) return
       const data = yield call(
         api.authorizeVerifyDevice,
         session_id,
