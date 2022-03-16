@@ -114,8 +114,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           session.completeMerchantValidation(JSON.parse(applePayPayload))
         } catch (e) {
-          // TODO add error here
-          reject(e)
+          session.abort()
+
+          reject(new Error('FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT'))
         }
       }
 
@@ -129,7 +130,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       // TODO add error here
-      session.oncancel = reject
+      session.oncancel = (e) => {
+        session.abort()
+
+        reject(new Error('USER_CANCELLED_APPLE_PAY'))
+      }
 
       session.begin()
     })
@@ -594,7 +599,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const AuthUrlCheck = function* (orderId) {
+  const authUrlCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
@@ -602,7 +607,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error('retrying to fetch for AuthUrl')
   }
 
-  const OrderConfirmCheck = function* (orderId) {
+  const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
@@ -613,7 +618,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
-    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, payload.id)
+    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
     yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
@@ -732,7 +737,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
-        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, AuthUrlCheck, confirmedOrder.id)
+        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, authUrlCheck, confirmedOrder.id)
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
@@ -765,8 +770,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
+
       yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
+
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
@@ -1598,7 +1606,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
         (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
-
       if (checkoutAcquirers.length === 0) {
         yield put(
           A.setStep({
