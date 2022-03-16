@@ -1,24 +1,20 @@
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import moment, { MomentInput } from 'moment'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
 import { CoinType, OrderType, TimeRange } from '@core/types'
 import { Tab, Tabs } from 'components/Tabs'
 import { actions } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalName } from 'data/types'
 
 import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
-import { AlertCard } from '../AlertCard'
 import { ChartBalancePanel } from '../ChartBalancePanel'
-import { CoinChart } from '../CoinChart'
 import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
+import { useChart } from './hooks'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
@@ -36,7 +32,8 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     sellButtonHandler,
     sendButtonHandler
   }) => {
-    const [selectedTab, setSelectedTab] = useState<TimeRange>(TimeRange.DAY)
+    const [selectedTab, setSelectedTab] = useState<TimeRange>(TimeRange.WEEK)
+    const [chart] = useChart()
 
     useEffect(() => {
       priceChartActions.initialized(coin, TimeRange.WEEK)
@@ -61,7 +58,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     )
 
     return data.cata({
-      Failure: () => <></>,
+      Failure: () => <>Failure</>,
       Loading: () => <>Loading...</>,
       NotAsked: () => <>Not Asked</>,
       Success: (value) => {
@@ -131,17 +128,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
               </Tabs>
             }
             about={<AboutSection content='' title={coin} actions={[<></>]} />}
-            chart={
-              <CoinChart
-                data={value.data}
-                backgroundColor={colors.white060}
-                primaryColor={colors.blue600}
-                textColor={colors.grey400}
-                x={0}
-                y={1}
-                xFormatter={(date) => moment(date as MomentInput).format('hh:mm')}
-              />
-            }
+            chart={chart}
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
             chartBalancePanel={
               <ChartBalancePanel
