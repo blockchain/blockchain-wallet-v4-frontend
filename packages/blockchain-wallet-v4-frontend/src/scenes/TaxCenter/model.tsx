@@ -76,7 +76,7 @@ export const ReportList = styled.div`
   margin-top: 32px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex: 1;
 `
 
 export const StyledTextGroup = styled(TextGroup)`
@@ -88,4 +88,14 @@ export const StyledTextGroup = styled(TextGroup)`
 
 export const StyledSeparator = styled(Separator)`
   margin: 0 0 10px 0;
+`
+
+export const AlertMessage = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+
+  div {
+    margin-left: 8px;
+  }
 `

@@ -1,7 +1,5 @@
-import { FIRST_YEAR } from 'blockchain-wallet-v4-frontend/src/scenes/TaxCenter/utils'
-
 import { Types } from '@core'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 
 import { getData as getDataBch } from '../../../scenes/Settings/Addresses/Bch/Wallets/selectors'
 import { getData as getDataXlm } from '../../../scenes/Settings/Addresses/Xlm/selectors'
@@ -9,6 +7,8 @@ import { getData as getDataXlm } from '../../../scenes/Settings/Addresses/Xlm/se
 const BECH32_DERIVATION = 'bech32'
 const LEGACY_DERIVATION = 'legacy'
 const WALLET = '0'
+
+const { FIRST_YEAR } = model.components.taxCenter
 
 export const selectReports = (state) => state.components.taxCenter.reports
 
@@ -46,11 +46,16 @@ export const selectAddress = (state) => {
   return {
     bchAddresses: getAddresses(selectors.core.common.bch.getActiveAddresses(state)),
     bchXpubs: getBchAddresses(getDataBch(state)),
-    btcBench32ImportedAddresses: getAddresses(selectors.core.common.btc.getActiveAddresses(state)),
-    btcBench32XPubs: [Types.HDAccount.selectXpub(account, BECH32_DERIVATION)],
+    btcBech32ImportedAddresses: getAddresses(selectors.core.common.btc.getActiveAddresses(state)),
+    btcBech32XPubs: [Types.HDAccount.selectXpub(account, BECH32_DERIVATION)],
     btcLegacyImportedAddresses: getAddresses(selectors.core.common.btc.getActiveAddresses(state)),
     btcLegacyXPubs: [Types.HDAccount.selectXpub(account, LEGACY_DERIVATION)],
     ethAddresses: ethAddresses ? [ethAddresses] : [],
     xlmAddresses: [getDataXlm(state)?.addressInfo?.addr]
   }
 }
+
+export const selectErrors = (state) => ({
+  createReport: state.components.taxCenter.createReportError,
+  reportList: state.components.taxCenter.fetchError
+})

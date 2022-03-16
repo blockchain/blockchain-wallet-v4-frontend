@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
-import moment from 'moment'
 
 import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 
@@ -11,8 +10,12 @@ const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
 
 const getReportTitle = (from, to) => {
-  if (moment(to).diff(moment(from), 'year') === 0) {
-    return moment(to).format('YYYY')
+  const yearDifference = Math.ceil(
+    (Number(new Date(to)) - Number(new Date(from))) / 1000 / 60 / 60 / 24 / 365
+  )
+
+  if (yearDifference === 0) {
+    return new Date(to).getFullYear()
   }
 
   return (
@@ -28,6 +31,8 @@ const List = ({ reports }) => (
     {reports.map(({ filePath, from, id, insertedAt, status, to }) => {
       const isCompleted = status === COMPLETED_STATUS
       const isPending = status === PENDING_STATUS
+      const insertedDate = new Date(insertedAt)
+      const inserted = `${insertedDate.getDate()}/${insertedDate.getMonth()}/${insertedDate.getFullYear()}`
 
       return (
         <ReportItem key={id}>
@@ -38,7 +43,7 @@ const List = ({ reports }) => (
               <Text size='16px' weight={600}>
                 {getReportTitle(from, to)}
               </Text>
-              <Text size='14px'>{moment(insertedAt).format('DD/MM/YYYY')}</Text>
+              <Text size='14px'>{inserted}</Text>
             </Description>
           </Content>
           {isCompleted && (

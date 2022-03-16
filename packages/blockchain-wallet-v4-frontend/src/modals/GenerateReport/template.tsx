@@ -12,23 +12,39 @@ import {
   Title
 } from './model'
 
-const GeneratReport = ({ onClose }) => (
+const GeneratReport = ({ errors, onClose }) => (
   <Modal size='medium'>
     <StyledModalHeader onClose={onClose} />
     <StyledModalBody>
       <Image name='subtract-check-circle' width='88px' height='88px' />
       <Title size='24px' weight={600} color='black'>
-        <FormattedMessage
-          id='modal.generate.report.title'
-          defaultMessage='Your Report Is Being Generated!'
-        />
+        {!errors.createReport && (
+          <FormattedMessage
+            id='modal.generate.report.title'
+            defaultMessage='Your Report Is Being Generated!'
+          />
+        )}
+        {errors.createReport && (
+          <FormattedMessage
+            id='modal.generate.report.error.title'
+            defaultMessage='Your Report can not be generated!'
+          />
+        )}
       </Title>
       <Description size='14px'>
-        <FormattedMessage
-          id='modal.generate.report.description'
-          defaultMessage='This process can take up to 60 minutes. We will notify you via email when the report is
-          ready.'
-        />
+        {!errors.createReport && (
+          <FormattedMessage
+            id='modal.generate.report.description'
+            defaultMessage='This process can take up to 60 minutes. We will notify you via email when the report is
+            ready.'
+          />
+        )}
+        {errors.createReport && (
+          <FormattedMessage
+            id='modal.generate.report.error.description'
+            defaultMessage='Please try again in a few minutes!'
+          />
+        )}
       </Description>
     </StyledModalBody>
     <StyledModalFooter align='center'>

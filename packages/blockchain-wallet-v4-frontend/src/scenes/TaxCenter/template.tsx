@@ -1,11 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
 import { Carousel, Link, Text, TextGroup } from 'blockchain-info-components'
 
 import { Card } from './components'
 import List from './components/List'
 import {
+  AlertMessage,
   Box,
   Container,
   Content,
@@ -24,7 +26,7 @@ import {
   VisitButton
 } from './model'
 
-const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
+const TaxCenter = ({ errors, onChange, onClick, options, reports, value }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -159,6 +161,17 @@ const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
             <List reports={reports} />
           </ReportList>
         )}
+        {errors.reportList && (
+          <AlertMessage>
+            <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
+            <Text size='12px' color='orange600' weight={500}>
+              <FormattedMessage
+                id='scenes.tax.center.card.report.error.message'
+                defaultMessage='Reports not available. Please try reload the page'
+              />
+            </Text>
+          </AlertMessage>
+        )}
       </Content>
     </Card>
     <Card
@@ -205,6 +218,9 @@ const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
 )
 
 type Props = {
+  errors: {
+    reportList: boolean
+  }
   onChange: (unknow) => void
   onClick: () => void
   options: Array<any>
