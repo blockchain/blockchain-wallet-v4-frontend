@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { utils } from '@core'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -16,6 +17,8 @@ import { SwapBaseCounterTypes } from 'data/types'
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper } from '../model'
 import { RequestSteps } from '../types'
+
+const { formatAddr } = utils.bch
 
 const Wrapper = styled.div`
   display: flex;
@@ -128,10 +131,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => {
-                  const parsedAddress = val.address.match(/[^:]+$/g)?.[0]
-                  return typeof parsedAddress === 'string' ? parsedAddress : val.address
-                }
+                Success: (val) => formatAddr(val.address, true)
               })}
             </Text>
           </AddressDisplay>
@@ -141,14 +141,12 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Loading: () => <></>,
               NotAsked: () => <></>,
               Success: (val) => {
-                const parsedAddress = val.address.match(/[^:]+$/g)?.[0]
-                const textToCopy = typeof parsedAddress === 'string' ? parsedAddress : val.address
                 return (
                   <CopyClipboardButton
                     color='blue600'
                     onClick={() => this.props.requestActions.setAddressCopied()}
                     size='24px'
-                    textToCopy={textToCopy}
+                    textToCopy={formatAddr(val.address, true)}
                   />
                 )
               }
