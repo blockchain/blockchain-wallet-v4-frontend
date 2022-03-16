@@ -103,6 +103,7 @@ export type ModalOriginType =
   | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
   | 'BankDeposit'
+  | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
   | 'DebitCardPage'
