@@ -820,9 +820,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
-      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
-      yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
       yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())

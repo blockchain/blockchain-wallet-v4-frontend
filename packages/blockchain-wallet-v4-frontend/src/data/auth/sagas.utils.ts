@@ -75,7 +75,9 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
 
-    // detect if device verification or which product specific authentication flow is required and execute
+    // detect if device/session verification is required or can be bypassed
+    // if device/session checks are not required, determine which product specific
+    // authentication flow is required and execute
     switch (true) {
       // EXCHANGE AUTHENTICATION AND DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
