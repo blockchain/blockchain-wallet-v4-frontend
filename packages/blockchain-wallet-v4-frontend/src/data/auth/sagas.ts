@@ -19,7 +19,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
-  parseAuthMagicLink,
+  determineAuthenticationFlow,
   pollForSessionFromAuthPayload,
   pollForSessionFromGuid
 } from './sagas.utils'
@@ -123,11 +123,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
-          // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
-            status: 'success'
-          })
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: jwtToken },
             status: 'success'
@@ -622,14 +617,13 @@ export default ({ api, coreSagas, networks }) => {
       // get product param or default to wallet
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
-      const redirect = queryParams.get('redirect')
       const userType = queryParams.get('userType') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: redirect || undefined,
+          redirect: queryParams.get('redirect') || undefined,
           userType
         })
       )
@@ -696,11 +690,12 @@ export default ({ api, coreSagas, networks }) => {
         // url has base64 encrypted magic link JSON
         default:
           yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
-          const magicLink = JSON.parse(
+          const authMagicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as AuthMagicLink
-          yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield call(parseAuthMagicLink)
+          yield put(actions.auth.setMagicLinkInfo(authMagicLink))
+          // check querystring to determine if mobile has already completed the device polling
+          yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
       }
 
       // hide loading and ensure latest app version
@@ -802,9 +797,6 @@ export default ({ api, coreSagas, networks }) => {
     const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
     const { captchaToken, email } = action.payload
-    const shouldPollForMagicLinkData = (yield select(
-      selectors.core.walletOptions.getPollForMagicLinkData
-    )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -827,10 +819,8 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
-      // poll for session from auth payload if feature flag enabled
-      if (shouldPollForMagicLinkData) {
-        yield call(pollForSessionFromAuthPayload, api, sessionToken)
-      }
+      // poll for session from auth payload
+      yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
