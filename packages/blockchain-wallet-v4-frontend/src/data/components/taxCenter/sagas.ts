@@ -1,7 +1,6 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
-import { errorHandler } from '@core/utils'
 
 import { actions as A } from './slice'
 
@@ -11,7 +10,6 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getReports)
       yield put(A.getReportsSuccess(data.reports))
     } catch (e) {
-      errorHandler(e)
       yield put(A.getReportsFailure())
     }
   }
@@ -20,9 +18,9 @@ export default ({ api }: { api: APIType }) => {
     try {
       const { payload } = action
       yield call(api.createReport, payload)
+      yield put(A.createReportSuccess())
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.createReportFailure(error))
+      yield put(A.createReportFailure())
     }
   }
 

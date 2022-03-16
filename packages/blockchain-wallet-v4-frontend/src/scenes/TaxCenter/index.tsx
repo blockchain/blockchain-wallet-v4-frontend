@@ -2,19 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 import TaxCenter from './template'
-import { getLimits } from './utils'
 
-const TaxCenterContainer = ({ addresses, modalActions, options, reports, taxCenterActions }) => {
+const { getLimits } = model.components.taxCenter
+
+const TaxCenterContainer = ({
+  addresses,
+  errors,
+  modalActions,
+  options,
+  reports,
+  taxCenterActions
+}) => {
   const [option, setOption] = useState(0)
 
   const handleClick = () => {
     const limits = getLimits(option)
 
     taxCenterActions.createReport({ ...addresses, ...limits })
-    modalActions.showModal('GENERATE_REPORT_MODAL')
+    modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
   }
 
   const handleChange = (value) => setOption(value)
@@ -25,6 +34,7 @@ const TaxCenterContainer = ({ addresses, modalActions, options, reports, taxCent
 
   return (
     <TaxCenter
+      errors={errors}
       value={option}
       onChange={handleChange}
       options={options}
@@ -41,6 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   addresses: selectors.components.taxCenter.selectAddress(state),
+  errors: selectors.components.taxCenter.selectErrors(state),
   options: selectors.components.taxCenter.selectOptions(),
   reports: selectors.components.taxCenter.selectReports(state)
 })
