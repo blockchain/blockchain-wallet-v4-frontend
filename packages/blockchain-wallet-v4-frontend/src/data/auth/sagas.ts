@@ -121,6 +121,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
+        // institutional login
+        case userType === 'institutional' && institutionalPortalEnabled:
+          window.open(
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
@@ -130,14 +138,6 @@ export default ({ api, coreSagas, networks }) => {
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
-          break
-        // institutional login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
-            '_self',
-            'noreferrer'
-          )
           break
         // exchange institutional login
         default:
@@ -421,6 +421,11 @@ export default ({ api, coreSagas, networks }) => {
         case errorString && errorString.includes('restricted to another IP address.'):
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
+          break
+        // Account locked due to too many failed 2fa attemps
+        case errorString && errorString.includes('is locked'):
+          yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
+          yield put(actions.auth.loginFailure(errorString))
           break
         // Wrong 2fa code error
         case errorString &&
