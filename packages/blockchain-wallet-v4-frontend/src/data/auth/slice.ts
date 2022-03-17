@@ -62,6 +62,7 @@ const authSlice = createSlice({
     analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
     analyticsAuthorizeVerifyDeviceSuccess: () => {},
     analyticsLoginIdEntered: (state, action) => {},
+    analyticsLoginIdentifierFailed: () => {},
     analyticsLoginMethodSelected: (state, action) => {},
     analyticsLoginPasswordDenied: () => {},
     analyticsLoginPasswordEntered: () => {},

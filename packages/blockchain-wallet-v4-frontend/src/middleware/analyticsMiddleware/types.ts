@@ -35,6 +35,7 @@ enum AnalyticsKey {
   LINK_BANK_CLICKED = 'Link Bank Clicked',
   LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
+  LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
   LOGIN_METHOD_SELECTED = 'Login Method Selected',
   LOGIN_PASSWORD_DENIED = 'Login Password Denied',
   LOGIN_PASSWORD_ENTERED = 'Login Password Entered',

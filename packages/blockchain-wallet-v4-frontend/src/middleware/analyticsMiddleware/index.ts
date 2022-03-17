@@ -2870,6 +2870,28 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case actions.auth.analyticsLoginIdentifierFailed.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
+
+        analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_FAILED, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       case actions.auth.resetAccountSuccess.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
