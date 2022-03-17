@@ -43,7 +43,6 @@
         "flexiblePricingModel": true,
         "institutionalPortal": true,
         "isRedesignEnabled": true,
-        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,

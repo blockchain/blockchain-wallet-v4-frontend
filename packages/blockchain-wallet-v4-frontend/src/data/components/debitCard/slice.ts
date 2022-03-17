@@ -20,7 +20,7 @@ const debitCardSlice = createSlice({
     createCardLoading: (state) => {
       state.cardCreationData = Remote.Loading
     },
-    createCardSuccess: (state, action: PayloadAction<Array<DebitCardType>>) => {
+    createCardSuccess: (state, action: PayloadAction<DebitCardType>) => {
       state.cardCreationData = Remote.Success(action.payload)
     },
     getProducts: () => {},
