@@ -751,20 +751,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
-      // TODO check if it's Apple Pay of Google Pay and send to order_summary
-      if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
+      if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
+        yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+      } else if (
+        confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
+      ) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay ||
-        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
-      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+      } else if (
+        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
-      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+      } else if (
+        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
-        throw new Error('Unknown payment provider')
+        throw new Error('Unknown payment state')
       }
       yield put(A.fetchOrders())
     } catch (e) {
