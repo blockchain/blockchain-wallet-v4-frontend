@@ -260,8 +260,8 @@ const Accounts = (props: Props) => {
 
   useEffect(() => {
     if (
-      ApplePaySession &&
-      ApplePaySession.canMakePayments() &&
+      (window as any).ApplePaySession &&
+      (window as any).ApplePaySession.canMakePayments() &&
       (props.applePayEnabled || props.isInternalTester)
     ) {
       setApplePayAvailable(true)
