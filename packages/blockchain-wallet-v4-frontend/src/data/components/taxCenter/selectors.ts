@@ -28,7 +28,4 @@ export const selectOptions = () => {
   return options
 }
 
-export const selectErrors = (state) => ({
-  createReport: state.components.taxCenter.createReportError,
-  reportList: state.components.taxCenter.fetchError
-})
+export const selectCreateReport = (state) => state.components.taxCenter.createReport
