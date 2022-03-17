@@ -380,6 +380,11 @@ type LoginIdentifierEnteredPayload = BasePayload & {
   identifier_type: 'EMAIL' | 'WALLET_ID'
 }
 
+type LoginIdentifierFailedPayload = BasePayload & {
+  error_code: string
+  error_message: string
+}
+
 type LoginMethodSelectedPayload = BasePayload & {
   login_method: 'PASSWORD' | 'SECURE_CHANNEL'
 }
@@ -717,6 +722,7 @@ type AnalyticsProperties =
   | LinkBankClickedPayload
   | LoginHelpClickedPayload
   | LoginIdentifierEnteredPayload
+  | LoginIdentifierFailedPayload
   | LoginMethodSelectedPayload
   | LoginRequestPayload
   | LoginRequestApprovedOrFailedPayload
