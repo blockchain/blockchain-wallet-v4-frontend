@@ -51,14 +51,17 @@ export default ({
 }) => {
   const activateBSCard = ({
     cardBeneficiaryId,
+    cvv,
     redirectUrl
   }: {
     cardBeneficiaryId: BSCardType['id']
+    cvv: string
     redirectUrl: string
   }): BSCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
+        cvv,
         everypay: {
           customerUrl: redirectUrl
         },

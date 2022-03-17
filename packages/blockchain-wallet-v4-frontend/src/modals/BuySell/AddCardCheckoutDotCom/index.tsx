@@ -14,18 +14,26 @@ import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
   const [isError, setError] = useState(false)
+  const [cvv, setCVV] = useState('')
 
   const handlePostMessage = async ({
     data
   }: {
     data: {
-      action: 'ADD_CARD' | 'CHANGE_BILLING_ADDRESS'
+      action: 'ADD_CARD' | 'CHANGE_BILLING_ADDRESS' | 'ADD_CVV'
+      cvv?: string
       provider: 'CHECKOUTDOTCOM'
       status: 'ERROR' | 'SUCCESS'
       token?: string
     }
   }) => {
     if (data.provider !== 'CHECKOUTDOTCOM') return
+
+    if (data.action === 'ADD_CVV') {
+      if (!data.cvv) throw new Error('CVV is required')
+
+      setCVV(data.cvv)
+    }
 
     if (data.action === 'CHANGE_BILLING_ADDRESS') {
       props.buySellActions.setStep({ step: 'BILLING_ADDRESS' })
@@ -48,7 +56,9 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
         if (!paymentMethodTokens) throw new Error('No payment method tokens')
 
-        props.buySellActions.registerCard({ paymentMethodTokens })
+        if (!cvv) throw new Error('No CVV')
+
+        props.buySellActions.registerCard({ cvv, paymentMethodTokens })
       }
     }
   }
