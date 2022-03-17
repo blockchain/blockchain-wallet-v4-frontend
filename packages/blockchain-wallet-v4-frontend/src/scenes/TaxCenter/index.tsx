@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions, model, selectors } from 'data'
 import { ModalName } from 'data/types'
 
+import { getAddressesAndXpubs } from './selectors'
 import TaxCenter from './template'
 
 const { getLimits } = model.components.taxCenter
@@ -50,7 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  addresses: selectors.components.taxCenter.selectAddress(state),
+  addresses: getAddressesAndXpubs(state),
   errors: selectors.components.taxCenter.selectErrors(state),
   options: selectors.components.taxCenter.selectOptions(),
   reports: selectors.components.taxCenter.selectReports(state)
