@@ -28,4 +28,4 @@ export const selectOptions = () => {
   return options
 }
 
-export const selectCreateReport = (state) => state.components.taxCenter.createReport
+export const selectCreateReport = (state) => state.components.taxCenter.report

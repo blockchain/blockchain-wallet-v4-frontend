@@ -46,15 +46,15 @@ const SuccessMessage = () => (
   </>
 )
 
-const GeneratReport = ({ createReport, onClose }) => (
+const GeneratReport = ({ onClose, report }) => (
   <Modal size='medium'>
     <StyledModalHeader onClose={onClose} />
     <StyledModalBody>
       <Image name='subtract-check-circle' width='88px' height='88px' />
-      {createReport.cata({
+      {report.cata({
         Failure: () => <ErrorMessage />,
         Loading: () => <></>,
-        NotAsked: () => <></>,
+        NotAsked: () => <ErrorMessage />,
         Success: () => <SuccessMessage />
       })}
     </StyledModalBody>

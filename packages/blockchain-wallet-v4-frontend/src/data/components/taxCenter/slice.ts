@@ -5,10 +5,8 @@ import { Remote } from '@core'
 import { ReportType, TaxCenterState } from './types'
 
 const initialState: TaxCenterState = {
-  createReport: Remote.NotAsked,
-  fetchError: false,
-  reports: Remote.NotAsked,
-  test: Remote.NotAsked
+  report: Remote.NotAsked,
+  reports: Remote.NotAsked
 }
 
 const taxCenterSlice = createSlice({
@@ -17,21 +15,17 @@ const taxCenterSlice = createSlice({
   reducers: {
     createReport: () => {},
     createReportFailure: (state) => {
-      state.createReport = Remote.Failure()
+      state.report = Remote.Failure()
     },
     createReportSuccess: (state) => {
-      state.createReport = Remote.Success()
+      state.report = Remote.Success()
     },
     getReports: () => {},
     getReportsFailure: (state) => {
-      state.fetchError = true
-      state.test = Remote.Failure(true)
       state.reports = Remote.Failure()
     },
     getReportsSuccess: (state, action: PayloadAction<ReportType[]>) => {
-      state.fetchError = false
       state.reports = Remote.Success(action.payload)
-      state.test = Remote.Success(true)
     }
   }
 })
