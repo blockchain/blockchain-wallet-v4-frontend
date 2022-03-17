@@ -1,6 +1,8 @@
 import { Icon } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { SpinningLoader } from 'blockchain-info-components'
+
 export const ReportItem = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,4 +24,8 @@ export const Description = styled.div`
 
 export const StyledIcon = styled(Icon)`
   margin-right: 8px;
+`
+
+export const StyledLoading = styled(SpinningLoader)`
+  margin-top: 4px;
 `

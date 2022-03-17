@@ -4,7 +4,7 @@ import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
 import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 
-import { Content, Description, ReportItem, StyledIcon } from './model'
+import { Content, Description, ReportItem, StyledIcon, StyledLoading } from './model'
 
 const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
@@ -36,7 +36,7 @@ const List = ({ reports }) => (
       return (
         <ReportItem key={id}>
           <Content>
-            {isPending && <SpinningLoader borderWidth='4px' width='16px' height='16px' />}
+            {isPending && <StyledLoading borderWidth='4px' width='16px' height='16px' />}
             {!isPending && <Icon name={IconName.CLIPBOARD} color={colors.blue600} size='md' />}
             <Description>
               <Text size='16px' weight={600}>

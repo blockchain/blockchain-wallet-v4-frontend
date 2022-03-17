@@ -10,14 +10,7 @@ import TaxCenter from './template'
 
 const { getLimits } = model.components.taxCenter
 
-const TaxCenterContainer = ({
-  addresses,
-  errors,
-  modalActions,
-  options,
-  reports,
-  taxCenterActions
-}) => {
+const TaxCenterContainer = ({ addresses, modalActions, options, reports, taxCenterActions }) => {
   const [option, setOption] = useState(0)
 
   const handleClick = () => {
@@ -35,7 +28,6 @@ const TaxCenterContainer = ({
 
   return (
     <TaxCenter
-      errors={errors}
       value={option}
       onChange={handleChange}
       options={options}
@@ -52,7 +44,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   addresses: getAddressesAndXpubs(state),
-  errors: selectors.components.taxCenter.selectErrors(state),
   options: selectors.components.taxCenter.selectOptions(),
   reports: selectors.components.taxCenter.selectReports(state)
 })

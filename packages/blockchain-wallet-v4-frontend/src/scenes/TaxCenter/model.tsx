@@ -99,3 +99,10 @@ export const AlertMessage = styled.div`
     margin-left: 8px;
   }
 `
+
+export const LoadingContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 32px;
+`

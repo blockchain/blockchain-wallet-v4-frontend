@@ -2,7 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
-import { Carousel, Link, Text, TextGroup } from 'blockchain-info-components'
+import { RemoteDataType } from '@core/types'
+import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { ReportType } from 'data/components/taxCenter/types'
 
 import { Card } from './components'
 import List from './components/List'
@@ -14,6 +16,7 @@ import {
   Footer,
   GenerateButton,
   GenerateReport,
+  LoadingContainer,
   MenuHeaderCentered,
   ReportList,
   SelectGroup,
@@ -26,7 +29,25 @@ import {
   VisitButton
 } from './model'
 
-const TaxCenter = ({ errors, onChange, onClick, options, reports, value }: Props) => (
+const ErrorMessage = () => (
+  <AlertMessage>
+    <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
+    <Text size='12px' color='orange600' weight={500}>
+      <FormattedMessage
+        id='scenes.tax.center.card.report.error.message'
+        defaultMessage='Reports not available. Please try reload the page'
+      />
+    </Text>
+  </AlertMessage>
+)
+
+const Loader = () => (
+  <LoadingContainer>
+    <SpinningLoader width='32px' height='32px' />
+  </LoadingContainer>
+)
+
+const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -140,38 +161,32 @@ const TaxCenter = ({ errors, onChange, onClick, options, reports, value }: Props
             />
           </GenerateButton>
         </GenerateReport>
-        {reports && reports.length > 0 && (
-          <ReportList>
-            <StyledTextGroup inline>
-              <SelectLabel size='14px' weight={600} color='black'>
-                <FormattedMessage
-                  id='scenes.tax.center.card.report.list'
-                  defaultMessage='Generated Reports'
-                />
-              </SelectLabel>
-              <Text size='12px' color='grey400'>
-                {`${reports.length}/5 `}
-                <FormattedMessage
-                  id='scenes.tax.center.card.report.limit'
-                  defaultMessage='Report Limit'
-                />
-              </Text>
-            </StyledTextGroup>
-            <StyledSeparator />
-            <List reports={reports} />
-          </ReportList>
-        )}
-        {errors.reportList && (
-          <AlertMessage>
-            <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
-            <Text size='12px' color='orange600' weight={500}>
-              <FormattedMessage
-                id='scenes.tax.center.card.report.error.message'
-                defaultMessage='Reports not available. Please try reload the page'
-              />
-            </Text>
-          </AlertMessage>
-        )}
+        {reports.cata({
+          Failure: () => <ErrorMessage />,
+          Loading: () => <Loader />,
+          NotAsked: () => <Loader />,
+          Success: (list) => (
+            <ReportList>
+              <StyledTextGroup inline>
+                <SelectLabel size='14px' weight={600} color='black'>
+                  <FormattedMessage
+                    id='scenes.tax.center.card.report.list'
+                    defaultMessage='Generated Reports'
+                  />
+                </SelectLabel>
+                <Text size='12px' color='grey400'>
+                  {`${list.length}/5 `}
+                  <FormattedMessage
+                    id='scenes.tax.center.card.report.limit'
+                    defaultMessage='Report Limit'
+                  />
+                </Text>
+              </StyledTextGroup>
+              <StyledSeparator />
+              <List reports={list} />
+            </ReportList>
+          )
+        })}
       </Content>
     </Card>
     <Card
@@ -218,13 +233,10 @@ const TaxCenter = ({ errors, onChange, onClick, options, reports, value }: Props
 )
 
 type Props = {
-  errors: {
-    reportList: boolean
-  }
   onChange: (unknow) => void
   onClick: () => void
   options: Array<any>
-  reports: Array<any>
+  reports: RemoteDataType<string, ReportType[]>
   value: number
 }
 

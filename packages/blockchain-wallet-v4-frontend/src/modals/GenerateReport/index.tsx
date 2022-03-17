@@ -8,10 +8,10 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import GenerateReport from './template'
 
-const GenerateReportContainer = ({ errors, modalActions }) => {
+const GenerateReportContainer = ({ createReport, modalActions }) => {
   const onClose = () => modalActions.closeModal()
 
-  return <GenerateReport errors={errors} onClose={onClose} />
+  return <GenerateReport createReport={createReport} onClose={onClose} />
 }
 
 const mapDispatchToProps = (dispatch) => ({
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  errors: selectors.components.taxCenter.selectErrors(state)
+  createReport: selectors.components.taxCenter.selectCreateReport(state)
 })
 
 const enhance = compose(

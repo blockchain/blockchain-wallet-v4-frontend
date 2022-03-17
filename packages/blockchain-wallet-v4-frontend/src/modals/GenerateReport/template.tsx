@@ -12,40 +12,51 @@ import {
   Title
 } from './model'
 
-const GeneratReport = ({ errors, onClose }) => (
+const ErrorMessage = () => (
+  <>
+    <Title size='24px' weight={600} color='black'>
+      <FormattedMessage
+        id='modal.generate.report.error.title'
+        defaultMessage='Your Report can not be generated!'
+      />
+    </Title>
+    <Description size='14px'>
+      <FormattedMessage
+        id='modal.generate.report.error.description'
+        defaultMessage='Please try again in a few minutes!'
+      />
+    </Description>
+  </>
+)
+
+const SuccessMessage = () => (
+  <>
+    <Title size='24px' weight={600} color='black'>
+      <FormattedMessage
+        id='modal.generate.report.title'
+        defaultMessage='our Report Is Being Generated!'
+      />
+    </Title>
+    <Description size='14px'>
+      <FormattedMessage
+        id='modal.generate.report.description'
+        defaultMessage='This process can take up to 60 minutes. We will notify you via email when the report is ready.'
+      />
+    </Description>
+  </>
+)
+
+const GeneratReport = ({ createReport, onClose }) => (
   <Modal size='medium'>
     <StyledModalHeader onClose={onClose} />
     <StyledModalBody>
       <Image name='subtract-check-circle' width='88px' height='88px' />
-      <Title size='24px' weight={600} color='black'>
-        {!errors.createReport && (
-          <FormattedMessage
-            id='modal.generate.report.title'
-            defaultMessage='Your Report Is Being Generated!'
-          />
-        )}
-        {errors.createReport && (
-          <FormattedMessage
-            id='modal.generate.report.error.title'
-            defaultMessage='Your Report can not be generated!'
-          />
-        )}
-      </Title>
-      <Description size='14px'>
-        {!errors.createReport && (
-          <FormattedMessage
-            id='modal.generate.report.description'
-            defaultMessage='This process can take up to 60 minutes. We will notify you via email when the report is
-            ready.'
-          />
-        )}
-        {errors.createReport && (
-          <FormattedMessage
-            id='modal.generate.report.error.description'
-            defaultMessage='Please try again in a few minutes!'
-          />
-        )}
-      </Description>
+      {createReport.cata({
+        Failure: () => <ErrorMessage />,
+        Loading: () => <></>,
+        NotAsked: () => <></>,
+        Success: () => <SuccessMessage />
+      })}
     </StyledModalBody>
     <StyledModalFooter align='center'>
       <StyledButton
