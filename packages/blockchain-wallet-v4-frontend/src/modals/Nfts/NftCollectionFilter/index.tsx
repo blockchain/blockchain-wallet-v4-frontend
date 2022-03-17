@@ -1,20 +1,18 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Switch } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
 
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import Flyout, {
   duration,
   FlyoutChild,
-  FlyoutHeader,
   FlyoutWrapper,
-  Row,
   StickyHeaderWrapper,
   Title,
   Value
 } from 'components/Flyout'
+import FlyoutHeader from 'components/Flyout/Header'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'

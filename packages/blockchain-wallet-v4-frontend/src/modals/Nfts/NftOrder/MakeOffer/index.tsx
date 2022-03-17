@@ -2,13 +2,21 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import BigNumber from 'bignumber.js'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  Link,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
@@ -22,10 +30,19 @@ import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
-  const { close, erc20Balance, formValues, isAuthenticated, nftActions, orderFlow } = props
+  const { close, erc20BalanceR, formValues, isAuthenticated, nftActions, orderFlow } = props
+
+  const erc20Balance = erc20BalanceR.getOrElse(0)
+  const standardErc20Balance = convertCoinToCoin({
+    coin: formValues.coin || 'WETH',
+    value: erc20Balance
+  })
 
   const disabled =
-    !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
+    !formValues.amount ||
+    Remote.Loading.is(orderFlow.fees) ||
+    props.orderFlow.isSubmitting ||
+    new BigNumber(formValues.amount || 0).isGreaterThan(standardErc20Balance)
 
   return (
     <>
@@ -138,30 +155,53 @@ const MakeOffer: React.FC<Props> = (props) => {
             <StickyCTA>
               <MakeOfferFees {...props} asset={val} />
               {isAuthenticated ? (
-                <Button
-                  jumbo
-                  nature='primary'
-                  fullwidth
-                  data-e2e='makeOfferNft'
-                  disabled={disabled}
-                  onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
-                >
-                  {formValues.amount ? (
-                    props.orderFlow.isSubmitting ? (
-                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                    ) : (
-                      <FormattedMessage
-                        id='copy.make_offer_value'
-                        defaultMessage='Make an Offer for {val}'
-                        values={{
-                          val: `${formValues.amount} ${formValues.coin}`
-                        }}
-                      />
-                    )
-                  ) : (
-                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                  )}
-                </Button>
+                formValues.amount &&
+                new BigNumber(formValues.amount).isGreaterThan(standardErc20Balance) &&
+                formValues?.coin === 'WETH' ? (
+                  <>
+                    <Text size='14px' color='red600' weight={600} style={{ marginBottom: '8px' }}>
+                      Not enough {formValues.coin}.
+                    </Text>
+                    <Button
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      data-e2e='wrapEth'
+                      onClick={() =>
+                        nftActions.setOrderFlowStep({ step: NftOrderStepEnum.WRAP_ETH })
+                      }
+                    >
+                      <FormattedMessage id='copy.wrap_eth' defaultMessage='Wrap ETH' />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      data-e2e='makeOfferNft'
+                      disabled={disabled}
+                      onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
+                    >
+                      {formValues.amount ? (
+                        props.orderFlow.isSubmitting ? (
+                          <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                        ) : (
+                          <FormattedMessage
+                            id='copy.make_offer_value'
+                            defaultMessage='Make an Offer for {val}'
+                            values={{
+                              val: `${formValues.amount} ${formValues.coin}`
+                            }}
+                          />
+                        )
+                      ) : (
+                        <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                      )}
+                    </Button>
+                  </>
+                )
               ) : (
                 <LinkContainer
                   to={`/open/${DeepLinkGoal.MAKE_OFFER_NFT}?contract_address=${val.asset_contract.address}&token_id=${val.token_id}`}
@@ -183,7 +223,7 @@ const MakeOffer: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  erc20Balance: selectors.core.data.eth.getErc20Balance(
+  erc20BalanceR: selectors.core.data.eth.getErc20Balance(
     state,
     // @ts-ignore
     selectors.form.getFormValues('nftMakeOffer')(state)?.coin || 'WETH'
