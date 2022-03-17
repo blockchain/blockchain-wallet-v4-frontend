@@ -19,6 +19,7 @@ import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
 import { actions as prices } from './prices/slice'
 import { actions as session } from './session/slice'
+import { actions as signup } from './signup/slice'
 import * as wallet from './wallet/actions'
 
 export {
@@ -40,6 +41,7 @@ export {
   prices,
   router,
   session,
+  signup,
   wallet,
   ws
 }

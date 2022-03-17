@@ -5,7 +5,6 @@ import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
-import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
@@ -36,7 +35,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser, generateRetailToken, setSession } = profileSagas({
+  const { createExchangeUser, createUser } = profileSagas({
     api,
     coreSagas,
     networks
@@ -496,121 +495,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const register = function* (action) {
-    const { country, email, initCaptcha, state } = action.payload
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    // Want this behind a feature flag to monitor
-    // if this thing could be abused or not
-    const refreshToken = (yield select(
-      selectors.core.walletOptions.getRefreshCaptchaOnSignupError
-    )).getOrElse(false)
-    try {
-      yield put(actions.auth.registerLoading())
-      yield put(actions.auth.loginLoading())
-      yield put(actions.auth.setRegisterEmail(email))
-      yield call(coreSagas.wallet.createWalletSaga, action.payload)
-      yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      if (formValues?.step === LoginSteps.UPGRADE_PASSWORD) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-      } else {
-        // TODO: want to pull user country off of exchange profile
-        // For account upgrade
-        yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
-        yield call(loginRoutineSaga, {
-          country,
-          email,
-          firstLogin: true,
-          state
-        })
-      }
-      yield put(actions.auth.registerSuccess(undefined))
-    } catch (e) {
-      yield put(actions.auth.registerFailure(undefined))
-      yield put(actions.auth.loginFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
-      yield put(actions.alerts.displayError(C.REGISTER_ERROR))
-      if (refreshToken) {
-        initCaptcha()
-      }
-    }
-  }
-
-  const restoreFromMetadata = function* (action) {
-    const mnemonic = action.payload
-    try {
-      yield put(actions.auth.restoreFromMetadataLoading())
-      // try and pull recovery credentials from metadata
-      const metadataInfo = yield call(
-        coreSagas.wallet.restoreWalletCredentialsFromMetadata,
-        mnemonic
-      )
-      const { guid, sharedKey } = metadataInfo
-      // during recovery, we reset user kyc and generate a retail token from nabu using guid/shared key
-      const { token } = yield call(api.generateRetailToken, guid, sharedKey)
-      // pass that token to /user. if a user already exists, it returns
-      // information associated with that user
-      const { created, token: lifetimeToken, userId } = yield call(api.createOrGetUser, token)
-      // if the recovered user never had a nabu account, we're creating a new user
-      // so created will return true. No need to reset their kyc
-      if (!created) {
-        try {
-          // call reset kyc
-          yield call(api.resetUserKyc, userId, lifetimeToken, token)
-          yield put(actions.auth.setKycResetStatus(true))
-          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-          // @ts-ignore
-        } catch (e: { status?: number }) {
-          // if it fails with user already being reset, should be allowed
-          // to continue with flow
-          if (e && e.status === 409) {
-            yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-            yield put(actions.auth.setKycResetStatus(true))
-          } else {
-            yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
-            yield put(actions.auth.restoreFromMetadataFailure(errorHandler(e)))
-            yield put(actions.auth.setKycResetStatus(false))
-          }
-        }
-      } else {
-        yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-      }
-    } catch (e) {
-      yield put(actions.auth.restoreFromMetadataFailure(errorHandler(e)))
-      yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))
-    }
-  }
-
-  const restore = function* (action) {
-    try {
-      const { captchaToken, email, language, mnemonic, password } = action.payload
-      const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
-
-      yield put(actions.auth.restoreLoading())
-      yield put(actions.auth.setRegisterEmail(email))
-      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
-      yield call(coreSagas.wallet.restoreWalletSaga, {
-        captchaToken,
-        email,
-        kvCredentials,
-        language,
-        mnemonic,
-        password
-      })
-
-      yield call(loginRoutineSaga, {
-        email,
-        firstLogin: true,
-        recovery: true
-      })
-      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      yield put(actions.auth.restoreSuccess(undefined))
-    } catch (e) {
-      yield put(actions.auth.restoreFailure())
-      yield put(actions.logs.logErrorMessage(logLocation, 'restore', e))
-      yield put(actions.alerts.displayError(C.RESTORE_ERROR))
-    }
-  }
-
   const resendSmsLoginCode = function* (action) {
     try {
       const { email, guid } = action.payload
@@ -816,7 +700,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       } else if (step === LoginSteps.UPGRADE_PASSWORD) {
         yield put(
-          actions.auth.register({
+          actions.signup.register({
             country: undefined,
             email,
             language,
@@ -925,41 +809,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const resetAccount = function* (action) {
-    // if user is resetting their custodial account
-    // create a new wallet and assign an existing custodial account to that wallet
-    yield put(actions.auth.resetAccountLoading())
-    try {
-      const { email, language, password } = action.payload
-      // get recovery token and nabu ID
-      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
-      const recoveryToken = magicLinkData.wallet?.nabu?.recovery_token
-      const userId = magicLinkData.wallet?.nabu?.user_id
-      yield put(actions.auth.setResetAccount(true))
-      // create a new wallet
-      yield call(register, actions.auth.register({ email, language, password }))
-      const guid = yield select(selectors.core.wallet.getGuid)
-      // generate a retail token for new wallet
-      const retailToken = yield call(generateRetailToken)
-      // call the reset nabu user endpoint, receive new lifetime token for nabu user
-      const { token: lifetimeToken } = yield call(
-        api.resetUserAccount,
-        userId,
-        recoveryToken,
-        retailToken
-      )
-      // set new lifetime token for user in metadata
-      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-      // fetch user in new wallet
-      yield call(setSession, userId, lifetimeToken, email, guid)
-      yield put(actions.auth.resetAccountSuccess())
-    } catch (e) {
-      yield put(actions.auth.resetAccountFailure())
-      yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
-      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
-    }
-  }
-
   return {
     authNabu,
     authorizeVerifyDevice,
@@ -970,11 +819,7 @@ export default ({ api, coreSagas, networks }) => {
     login,
     loginRoutineSaga,
     mobileLogin,
-    register,
     resendSmsLoginCode,
-    resetAccount,
-    restore,
-    restoreFromMetadata,
     triggerWalletMagicLink
   }
 }

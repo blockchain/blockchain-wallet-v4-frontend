@@ -12,8 +12,8 @@ import Recover from './template'
 
 class RecoverContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    const { authActions, formValues } = this.props
-    authActions.restoreFromMetadata(formValues.mnemonic)
+    const { formValues, signupActions } = this.props
+    signupActions.restoreFromMetadata(formValues.mnemonic)
   }
 
   render() {
@@ -37,8 +37,8 @@ class RecoverContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  metadataRestore: selectors.auth.getMetadataRestore(state) as any,
-  restoringR: selectors.auth.getRestoring(state) as any
+  metadataRestore: selectors.signup.getMetadataRestore(state) as any,
+  restoringR: selectors.signup.getRestoring(state) as any
 })
 
 const mapDispatchToProps = (dispatch) => ({

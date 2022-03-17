@@ -62,14 +62,15 @@ const mapStateToProps = (state) => ({
   lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   nabuId: selectors.auth.getMagicLinkData(state)?.wallet?.nabu?.user_id,
-  registering: selectors.auth.getRegistering(state) as RemoteDataType<string, any>
+  registering: selectors.signup.getRegistering(state) as RemoteDataType<string, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch),
+  signupActions: bindActionCreators(actions.signup, dispatch)
 })
 
 type FormProps = {

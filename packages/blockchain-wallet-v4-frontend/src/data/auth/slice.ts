@@ -13,13 +13,9 @@ import {
   LoginFailureType,
   LoginRoutinePayloadType,
   LoginSuccessType,
-  MetadataRestoreType,
   PlatformTypes,
   ProductAuthMetadata,
   ProductAuthOptions,
-  RegisteringFailureType,
-  RegisteringSuccessType,
-  RestoringType,
   SecureChannelLoginType
 } from './types'
 
@@ -42,7 +38,7 @@ const initialState: AuthStateType = {
   magicLinkData: undefined,
   magicLinkDataEncoded: undefined,
   manifestFile: null,
-  metadataRestore: Remote.NotAsked,
+
   mobileLoginStarted: false,
   productAuthMetadata: {
     platform: PlatformTypes.WEB,
@@ -50,9 +46,7 @@ const initialState: AuthStateType = {
     redirect: undefined
   },
   registerEmail: undefined,
-  registering: Remote.NotAsked,
   resetAccount: false,
-  restoring: Remote.NotAsked,
   secureChannelLogin: Remote.NotAsked
 }
 
@@ -148,39 +142,7 @@ const authSlice = createSlice({
     mobileLoginStarted: (state) => {
       state.mobileLoginStarted = true
     },
-    register: (state, action) => {},
-    registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
-      state.registering = Remote.Failure(action.payload)
-    },
-    registerLoading: (state) => {
-      state.registering = Remote.Loading
-    },
-    registerSuccess: (state, action: PayloadAction<RegisteringSuccessType>) => {
-      state.registering = Remote.Success(action.payload)
-    },
     resendSmsCode: (state, action) => {},
-    resetAccount: (state, action) => {},
-    resetAccountFailure: () => {},
-    resetAccountLoading: () => {},
-    resetAccountSuccess: () => {},
-    restore: (state, action) => {},
-    restoreFailure: () => {},
-    restoreFromMetadata: (state, action) => {},
-    restoreFromMetadataFailure: (state, action: PayloadAction<string>) => {
-      state.metadataRestore = Remote.Failure(action.payload)
-    },
-    restoreFromMetadataLoading: (state) => {
-      state.metadataRestore = Remote.Loading
-    },
-    restoreFromMetadataSuccess: (state, action: PayloadAction<MetadataRestoreType>) => {
-      state.metadataRestore = Remote.Success(action.payload)
-    },
-    restoreLoading: (state) => {
-      state.restoring = Remote.Loading
-    },
-    restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
-      state.restoring = Remote.Success(action.payload)
-    },
     secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
@@ -233,15 +195,7 @@ const authSlice = createSlice({
         userType
       }
     },
-    setRegisterEmail: (state, action: PayloadAction<AuthStateType['registerEmail']>) => {
-      state.registerEmail = action.payload
-    },
-    setResetAccount: (state, action: PayloadAction<AuthStateType['resetAccount']>) => {
-      state.resetAccount = action.payload
-    },
-    setResetLogin: (state, action: PayloadAction<AuthStateType['resetAccount']>) => {
-      state.resetAccount = action.payload
-    },
+
     signupDetailsEntered: (state, action) => {},
     startLogoutTimer: () => {},
     triggerWalletMagicLink: (state, action) => {},

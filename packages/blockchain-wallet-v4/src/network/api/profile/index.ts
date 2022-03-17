@@ -55,11 +55,13 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
-  const createExchangeUser = (retailToken) => {
+  const createExchangeUser = (referrerUsername, retailToken, tuneTid) => {
     return post({
       contentType: 'application/json',
       data: {
-        retailToken
+        referrerUsername,
+        retailToken,
+        tuneTid
       },
       endPoint: '/mercury/users',
       url: nabuUrl

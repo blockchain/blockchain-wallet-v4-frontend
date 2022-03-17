@@ -70,18 +70,18 @@ class SignupContainer extends React.PureComponent<
   onSubmit = (e) => {
     e.preventDefault()
     const { captchaToken } = this.state
-    const { authActions, formValues, language } = this.props
+    const { formValues, language, signupActions } = this.props
     const { country, email, password, state } = formValues
 
     // sometimes captcha doesn't mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!captchaToken) {
       return this.initCaptcha(
-        authActions.register({ captchaToken, country, email, language, password, state })
+        signupActions.register({ captchaToken, country, email, language, password, state })
       )
     }
     // we have a captcha token, continue Signup process
-    authActions.register({
+    signupActions.register({
       captchaToken,
       country,
       email,
@@ -144,7 +144,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
-  isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, undefined>,
+  isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
   signupCountryEnabled: selectors.core.walletOptions
@@ -156,6 +156,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })
 

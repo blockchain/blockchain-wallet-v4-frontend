@@ -20,7 +20,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   walletRedirect = () => {
-    this.props.authActions.setRegisterEmail(undefined)
+    this.props.signupActions.setRegisterEmail(undefined)
     this.props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
     this.props.saveGoal('welcomeModal', { firstLogin: true })
@@ -28,7 +28,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   exchangeRedirect = () => {
-    this.props.authActions.setRegisterEmail(undefined)
+    this.props.signupActions.setRegisterEmail(undefined)
     this.props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.Signup)
     // TODO: this is a placeholder
   }
@@ -66,7 +66,8 @@ const mapDispatchToProps = (dispatch) => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
-  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name }))
+  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
+  signupActions: bindActionCreators(actions.signup, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

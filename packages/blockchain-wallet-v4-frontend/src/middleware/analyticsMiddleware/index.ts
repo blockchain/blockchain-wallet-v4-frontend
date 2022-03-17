@@ -864,7 +864,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.registerSuccess.type: {
+      case actions.signup.registerSuccess.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2870,7 +2870,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountSuccess.type: {
+      case actions.signup.resetAccountSuccess.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2916,7 +2916,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       //   })
       //   break
       // }
-      case actions.auth.resetAccount.type: {
+      case actions.signup.resetAccount.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2961,7 +2961,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.restoreFromMetadata.type: {
+      case actions.signup.restoreFromMetadata.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

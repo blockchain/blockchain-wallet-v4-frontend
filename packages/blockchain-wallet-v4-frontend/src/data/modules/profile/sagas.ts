@@ -268,10 +268,15 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateExchangeAuthCredentials = function* () {
     try {
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      const referrerUsername = queryParams.get('referrerUsername')
+      const tuneTid = queryParams.get('tuneTid')
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
-        retailToken
+        referrerUsername,
+        retailToken,
+        tuneTid
       )
       yield put(
         actions.core.kvStore.userCredentials.setExchangeUserCredentials(

@@ -47,23 +47,6 @@ export enum PlatformTypes {
   WEB = 'WEB'
 }
 
-export enum RecoverSteps {
-  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
-  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
-  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
-  RESET_ACCOUNT = 'RESET_ACCOUNT',
-  RESET_PASSWORD = 'RESET_PASSWORD'
-}
-
-export type RecoverFormType = {
-  email?: string
-  mnemonic?: string
-  password: string
-  recoverPassword?: string
-  resetAccountPassword?: string
-  step: RecoverSteps
-}
-
 export type LoginRoutinePayloadType = {
   country?: string
   email?: string
@@ -167,14 +150,6 @@ export type LoginSuccessType = boolean
 
 export type LoginFailureType = string | boolean | undefined
 
-export type MetadataRestoreType = any
-
-export type RegisteringFailureType = undefined
-
-export type RegisteringSuccessType = undefined
-
-export type RestoringType = undefined
-
 export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
@@ -203,13 +178,10 @@ export type AuthStateType = {
   magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string
   manifestFile: null
-  metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
   productAuthMetadata: ProductAuthMetadata
   registerEmail?: string
-  registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean
-  restoring: RemoteDataType<string, RestoringType>
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
 }
 
