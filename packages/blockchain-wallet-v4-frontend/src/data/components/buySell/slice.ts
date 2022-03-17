@@ -154,7 +154,7 @@ const buySellSlice = createSlice({
   initialState,
   name: 'buySell',
   reducers: {
-    activateCard: (state, action: PayloadAction<BSCardType>) => {},
+    activateCard: (state, action: PayloadAction<{ card: BSCardType; cvv: string }>) => {},
     activateCardFailure: (state, action: PayloadAction<string>) => {
       state.providerDetails = Remote.Failure(action.payload)
     },
@@ -457,7 +457,7 @@ const buySellSlice = createSlice({
     pollOrder: (state, action: PayloadAction<string>) => {},
     registerCard: (
       state,
-      action: PayloadAction<{ paymentMethodTokens: { [key: string]: string } }>
+      action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
     setAddCardError: (state, action: PayloadAction<undefined | BSAddCardErrorType>) => {
       state.addCardError = action.payload
