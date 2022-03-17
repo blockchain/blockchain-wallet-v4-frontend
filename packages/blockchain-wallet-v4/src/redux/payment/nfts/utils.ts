@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import { ethers, Signer } from 'ethers'
+import { parseEther } from 'ethers/lib/utils'
 
 import {
   Asset,
@@ -22,7 +23,14 @@ import {
   WyvernSchemaName
 } from '@core/network/api/nfts/types'
 
-import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
+import {
+  ERC20_ABI,
+  ERC721_ABI,
+  ERC1155_ABI,
+  proxyRegistry_ABI,
+  WETH_ABI,
+  wyvernExchange_ABI
+} from './abis'
 import {
   DEFAULT_BUYER_FEE_BASIS_POINTS,
   DEFAULT_MAX_BOUNTY,
@@ -39,6 +47,8 @@ import {
   OPENSEA_FEE_RECIPIENT_RINKEBY,
   OPENSEA_SELLER_BOUNTY_BASIS_POINTS,
   ORDER_MATCHING_LATENCY_SECONDS,
+  WETH_CONTRACT_MAINNET,
+  WETH_CONTRACT_RINKEBY,
   WYVERN_CONTRACT_ADDR_MAINNET,
   WYVERN_CONTRACT_ADDR_RINKEBY,
   WYVERN_MERKLE_VALIDATOR_MAINNET,
@@ -2159,6 +2169,22 @@ export async function calculateAtomicMatchFees(
       value: counterOrder.paymentToken === NULL_ADDRESS ? counterOrder.basePrice.toString() : '0'
     })
   )
+}
+
+export const calculateWrapEthFees = async (signer: Signer) => {
+  const wrappedEthAddr =
+    getNetwork(signer) === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+
+  return signer.estimateGas({
+    // `function deposit() payable`
+    data: '0xd0e30db0',
+
+    // Wrapped ETH address
+    to: wrappedEthAddr,
+
+    // 1 ether
+    value: parseEther('0.000000000000000001')
+  })
 }
 
 async function getFairGasPrice(signer: Signer, gasPrice: string): Promise<string> {

@@ -305,6 +305,10 @@ export default ({ api }: { api: APIType }) => {
           action.payload.asset,
           action.payload.to
         )
+      } else if (action.payload.operation === GasCalculationOperations.WrapEth) {
+        fees = yield call(calculateGasFees, GasCalculationOperations.WrapEth, signer)
+      } else {
+        throw new Error('Invalid gas operation')
       }
 
       yield put(A.fetchFeesSuccess(fees as GasDataI))

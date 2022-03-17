@@ -18,6 +18,7 @@ import {
   calculateProxyApprovalFees,
   calculateProxyFees,
   calculateTransferFees,
+  calculateWrapEthFees,
   cancelOrder,
   createBuyOrder,
   createMatchingOrders,
@@ -178,6 +179,8 @@ export const calculateGasFees = async (
       approvalFees === 0 && buyOrder.paymentToken === NULL_ADDRESS
         ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
         : 350_000
+  } else if (operation === GasCalculationOperations.WrapEth) {
+    gasFees = (await calculateWrapEthFees(signer)).toNumber()
   } else {
     throw new Error('Invalid operation type or arguments provided.')
   }
@@ -206,9 +209,4 @@ export const fulfillTransfer = async (
   if (!verified) {
     throw new Error('Asset transfer failed!')
   }
-}
-
-export const wrapEth = async (amount: string, signer: string) => {
-  console.log('Wrapping ETH')
-  console.log(amount)
 }
