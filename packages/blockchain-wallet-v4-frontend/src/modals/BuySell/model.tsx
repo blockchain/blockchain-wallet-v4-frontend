@@ -235,6 +235,16 @@ export const getLockRuleMessaging = (
     case BSPaymentTypes.BANK_TRANSFER:
     case BSPaymentTypes.PAYMENT_CARD:
     case BSPaymentTypes.USER_CARD:
+      if (days === 0) {
+        return (
+          <Text size='12px' weight={500} color='grey900'>
+            <FormattedMessage
+              id='modals.simplebuy.confirm.activity'
+              defaultMessage='Your final amount may change due to market activity.'
+            />
+          </Text>
+        )
+      }
       if (showLockRule) {
         return (
           <TextGroup inline>
