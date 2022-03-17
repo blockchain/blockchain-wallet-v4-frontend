@@ -144,7 +144,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
-      const { paymentMethodTokens } = payload
+      const { cvv, paymentMethodTokens } = payload
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
@@ -167,7 +167,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
       // This is for the 0 dollar payment
-      yield put(A.activateCard(card))
+      yield put(A.activateCard({ card, cvv }))
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
     } catch (e) {
       // TODO: improve error message here, adding translations and more context
@@ -182,6 +182,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const activateBSCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     try {
+      const { card, cvv } = payload
+
       yield put(A.activateCardLoading())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
@@ -191,7 +193,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const redirectUrl = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
       const providerDetails = yield call(api.activateBSCard, {
-        cardBeneficiaryId: payload.id,
+        cardBeneficiaryId: card.id,
+        cvv,
         redirectUrl
       })
 
@@ -277,7 +280,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
       // Activate card
-      yield put(A.activateCard(card))
+      yield put(A.activateCard({ card, cvv: formValues.cvc }))
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
 
       const providerDetailsR = S.getBSProviderDetails(yield select())
