@@ -57,7 +57,7 @@ const mapStateToProps = (state) => ({
   formMeta: getFormMeta(RECOVER_FORM)(state),
   formValues: selectors.form.getFormValues(RECOVER_FORM)(state) as RecoverFormType,
   hasCloudBackup: selectors.cache.getHasCloudBackup(state) as boolean,
-  kycReset: selectors.auth.getKycResetStatus(state),
+  kycReset: selectors.signup.getKycResetStatus(state),
   language: selectors.preferences.getLanguage(state),
   lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),

@@ -94,7 +94,7 @@ export default ({ api, coreSagas, networks }) => {
           } else {
             yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
             yield put(actions.signup.restoreFromMetadataFailure(errorHandler(e)))
-            yield put(actions.auth.setKycResetStatus(false))
+            yield put(actions.signup.setKycResetStatus(false))
           }
         }
       } else {
@@ -174,12 +174,20 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeSignUp = function* () {
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
-    const referrerUsername = queryParams.get('referrerUsername')
-    const tuneTid = queryParams.get('tuneTid')
+    const referrerUsername = queryParams.get('referrerUsername') as string
+    const tuneTid = queryParams.get('tuneTid') as string
+    yield put(
+      actions.signup.setExchangeUrlData({
+        referrerUsername,
+        tuneTid
+      })
+    )
   }
 
   return {
+    initializeSignUp,
     register,
+    resetAccount,
     restore,
     restoreFromMetadata
   }

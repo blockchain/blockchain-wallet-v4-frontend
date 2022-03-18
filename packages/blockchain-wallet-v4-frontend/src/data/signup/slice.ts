@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Remote } from '@core'
+import { Exchange, Remote } from '@core'
 
 import {
+  ExchangeUrlDataType,
   MetadataRestoreType,
   RegisteringFailureType,
   RegisteringSuccessType,
@@ -22,12 +23,12 @@ const initialState: SignupStateType = {
 
 const signupSlice = createSlice({
   initialState,
-  name: 'singup',
+  name: 'signup',
   reducers: {
     analyticsRecoveryPhraseEntered: () => {},
     analyticsResetAccountCancelled: (state, action) => {},
     analyticsResetAccountClicked: (state, action) => {},
-
+    initializeSignup: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
       state.registering = Remote.Failure(action.payload)
@@ -60,7 +61,12 @@ const signupSlice = createSlice({
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
     },
-
+    setExchangeUrlData: (state, action: PayloadAction<ExchangeUrlDataType>) => {
+      state.exchangeUrlData = {
+        referrerUsername: action.payload.referrerUsername,
+        tuneTid: action.payload.tuneTid
+      }
+    },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },

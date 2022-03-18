@@ -7,6 +7,10 @@ export function getAccountReset(state: RootState): SignupStateType['resetAccount
   return state.signup.resetAccount
 }
 
+export function getExchangeUrlData(state: RootState): SignupStateType['exchangeUrlData'] {
+  return state.signup.exchangeUrlData
+}
+
 export function getRegistering(state: RootState): SignupStateType['registering'] {
   return state.signup.registering
 }

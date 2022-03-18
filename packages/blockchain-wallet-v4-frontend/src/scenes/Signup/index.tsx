@@ -38,9 +38,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { websocketActions } = this.props
+    const { signupActions, websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
+    signupActions.initializeSignup()
     this.initCaptcha()
   }
 

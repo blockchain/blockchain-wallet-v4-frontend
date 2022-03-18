@@ -30,10 +30,8 @@ const initialState: AuthStateType = {
     jwtToken: undefined,
     resetPassword: Remote.NotAsked
   },
-  firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
-  kycReset: undefined,
   login: Remote.NotAsked,
   magicLinkData: undefined,
   magicLinkDataEncoded: undefined,
@@ -168,14 +166,8 @@ const authSlice = createSlice({
     ) => {
       state.exchangeAuth.exchangeAccountConflict = action.payload
     },
-    setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
-      state.firstLogin = action.payload
-    },
     setJwtToken: (state, action: PayloadAction<AuthStateType['exchangeAuth']['jwtToken']>) => {
       state.exchangeAuth.jwtToken = action.payload
-    },
-    setKycResetStatus: (state, action: PayloadAction<AuthStateType['kycReset']>) => {
-      state.kycReset = action.payload
     },
     setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload

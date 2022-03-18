@@ -70,7 +70,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
-  const isFirstLogin = selectors.auth.getFirstLogin(state)
+  const isFirstLogin = selectors.signup.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const userData = userDataR.getOrElse({

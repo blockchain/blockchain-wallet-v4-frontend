@@ -56,7 +56,7 @@ class CryptoSelection extends React.Component<Props> {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
-  isFirstLogin: selectors.auth.getFirstLogin(state),
+  isFirstLogin: selectors.signup.getFirstLogin(state),
   originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
   sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state),
   showTradingCurrency: selectors.core.walletOptions.getTradingCurrency(state).getOrElse(false)

@@ -203,7 +203,7 @@ export default ({ api, coreSagas, networks }) => {
       const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
-      yield put(actions.auth.setFirstLogin(firstLogin))
+      yield put(actions.signup.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)

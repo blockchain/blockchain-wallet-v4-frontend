@@ -23,10 +23,6 @@ export function getExchangeConflictStatus(
   return state.auth.exchangeAuth.exchangeAccountConflict
 }
 
-export function getFirstLogin(state: RootState): AuthStateType['firstLogin'] {
-  return state.auth.firstLogin
-}
-
 export function getProductAuthMetadata(state: RootState): AuthStateType['productAuthMetadata'] {
   return state.auth.productAuthMetadata
 }
@@ -53,10 +49,6 @@ export function getMobileLoginStarted(state: RootState): AuthStateType['mobileLo
 
 export function getRegisterEmail(state: RootState): AuthStateType['registerEmail'] {
   return state.auth.registerEmail
-}
-
-export function getKycResetStatus(state: RootState): AuthStateType['kycReset'] {
-  return state.auth.kycReset
 }
 
 export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData'] {

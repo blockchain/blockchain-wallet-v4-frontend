@@ -1,5 +1,10 @@
 import { RemoteDataType } from '@core/types'
 
+export type ExchangeUrlDataType = {
+  referrerUsername?: string
+  tuneTid?: string
+}
+
 export enum RecoverSteps {
   CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
@@ -26,6 +31,7 @@ export type RegisteringSuccessType = undefined
 export type RestoringType = undefined
 
 export type SignupStateType = {
+  exchangeUrlData?: ExchangeUrlDataType
   firstLogin: boolean
   kycReset?: boolean
   metadataRestore: RemoteDataType<string, MetadataRestoreType>

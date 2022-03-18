@@ -170,10 +170,8 @@ export type AuthStateType = {
     jwtToken?: string
     resetPassword?: RemoteDataType<string, string>
   }
-  firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean
-  kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
   magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string
