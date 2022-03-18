@@ -17,6 +17,7 @@ const TaxCenterContainer = ({ modalActions, options, reportsR, taxCenterActions,
 
     taxCenterActions.createReport({ walletData: walletDataR, ...limits })
     modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
+    taxCenterActions.getReports()
   }
 
   const handleChange = (value) => setOption(value)
