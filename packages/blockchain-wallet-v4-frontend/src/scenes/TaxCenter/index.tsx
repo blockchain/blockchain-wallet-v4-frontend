@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 
-import { getAddressesAndXpubs } from './selectors'
+import { getFirstAndLastDaysOfYear } from './model'
+import { getAddressesAndXpubs, getReportYearOptions } from './selectors'
 import TaxCenter from './template'
 
-const { getLimits } = model.components.taxCenter
-
-const TaxCenterContainer = ({ addresses, modalActions, options, reports, taxCenterActions }) => {
+const TaxCenterContainer = ({ modalActions, options, reportsR, taxCenterActions, walletDataR }) => {
   const [option, setOption] = useState(0)
 
   const handleClick = () => {
-    const limits = getLimits(option)
+    const limits = getFirstAndLastDaysOfYear(option)
 
-    taxCenterActions.createReport({ ...addresses, ...limits })
+    taxCenterActions.createReport({ walletData: walletDataR, ...limits })
     modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
   }
 
@@ -31,7 +30,7 @@ const TaxCenterContainer = ({ addresses, modalActions, options, reports, taxCent
       value={option}
       onChange={handleChange}
       options={options}
-      reports={reports}
+      reportsR={reportsR}
       onClick={handleClick}
     />
   )
@@ -43,9 +42,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  addresses: getAddressesAndXpubs(state),
-  options: selectors.components.taxCenter.selectOptions(),
-  reports: selectors.components.taxCenter.selectReports(state)
+  options: getReportYearOptions(),
+  reportsR: selectors.components.taxCenter.selectReports(state),
+  walletDataR: getAddressesAndXpubs(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

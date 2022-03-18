@@ -6,7 +6,6 @@ import * as sendBch from './sendBch/model'
 import * as sendBtc from './sendBtc/model'
 import * as sendEth from './sendEth/model'
 import * as sendXlm from './sendXlm/model'
-import * as taxCenter from './taxCenter/model'
 import * as termsAndConditions from './termsAndConditions/model'
 import * as walletConnect from './walletConnect/model'
 
@@ -19,7 +18,6 @@ export {
   sendBtc,
   sendEth,
   sendXlm,
-  taxCenter,
   termsAndConditions,
   walletConnect
 }

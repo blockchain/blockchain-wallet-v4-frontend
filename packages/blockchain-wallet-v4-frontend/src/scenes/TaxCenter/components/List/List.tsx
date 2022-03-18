@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
-import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 
 import { Content, Description, ReportItem, StyledIcon, StyledLoading } from './model'
 
@@ -25,8 +25,10 @@ const getReportTitle = (from, to) => {
   )
 }
 
+// TODO: line 31: center text, "No reports generated"
 const List = ({ reports }) => (
   <>
+    {!reports?.length && <h2>No reports</h2>}
     {reports.map(({ filePath, from, id, insertedAt, status, to }) => {
       const isCompleted = status === COMPLETED_STATUS
       const isPending = status === PENDING_STATUS

@@ -1,8 +1,25 @@
 import { RemoteDataType } from '@core/remote/types'
 
 export type TaxCenterState = {
-  report: RemoteDataType<string, string>
+  reportGenerationStatus: RemoteDataType<string, string>
   reports: RemoteDataType<string, ReportType[]>
+}
+
+export type ReportGenerateRequestType = {
+  from: string
+  to: string
+  walletData: RemoteDataType<
+    string,
+    {
+      bchImportedAddresses: Array<string>
+      bchXPubs: Array<string>
+      btcBech32XPubs: Array<string>
+      btcImportedAddresses: Array<string>
+      btcLegacyXPubs: Array<string>
+      ethAddresses: Array<string>
+      xlmAddresses: Array<string>
+    }
+  >
 }
 
 export type ReportType = {
