@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects'
+import { call, delay, put } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 
@@ -16,11 +16,17 @@ export default ({ api }: { api: APIType }) => {
 
   const createReport = function* (action: ReturnType<typeof A.createReport>) {
     try {
-      const { payload } = action
-      yield call(api.createReport, payload)
+      const { from, to, walletData } = action.payload
+      yield put(A.createReportLoading())
+      yield delay(3000)
+      yield call(api.createReport, {
+        ...walletData.getOrFail('Failed to fetch wallet data'),
+        from,
+        to
+      })
       yield put(A.createReportSuccess())
     } catch (e) {
-      yield put(A.createReportFailure())
+      yield put(A.createReportFailure(e))
     }
   }
 

@@ -4,6 +4,22 @@ import { Button, SelectInput, Separator, Text, TextGroup } from 'blockchain-info
 import { SceneWrapper } from 'components/Layout'
 import MenuHeader from 'components/MenuHeader'
 
+export const FIRST_YEAR = 2014
+
+export const getFirstAndLastDaysOfYear = (option) => {
+  if (option === 0) {
+    return {
+      from: new Date(Date.UTC(FIRST_YEAR, 0, 1)).toISOString(),
+      to: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString()
+    }
+  }
+
+  return {
+    from: new Date(Date.UTC(option, 0, 1)).toISOString(),
+    to: new Date(Date.UTC(option, 11, 31)).toISOString()
+  }
+}
+
 export const Title = styled(Text)`
   margin-bottom: 8px;
 `

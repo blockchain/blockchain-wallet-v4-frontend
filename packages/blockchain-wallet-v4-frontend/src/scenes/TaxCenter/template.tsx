@@ -35,7 +35,7 @@ const ErrorMessage = () => (
     <Text size='12px' color='orange600' weight={500}>
       <FormattedMessage
         id='scenes.tax.center.card.report.error.message'
-        defaultMessage='Reports not available. Please try reload the page'
+        defaultMessage='Reports not currently available. Please try again or reload the page.'
       />
     </Text>
   </AlertMessage>
@@ -47,7 +47,7 @@ const Loader = () => (
   </LoadingContainer>
 )
 
-const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
+const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -161,7 +161,7 @@ const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
             />
           </GenerateButton>
         </GenerateReport>
-        {reports.cata({
+        {reportsR.cata({
           Failure: () => <ErrorMessage />,
           Loading: () => <Loader />,
           NotAsked: () => <Loader />,
@@ -233,10 +233,10 @@ const TaxCenter = ({ onChange, onClick, options, reports, value }: Props) => (
 )
 
 type Props = {
-  onChange: (unknow) => void
+  onChange: (unknown) => void
   onClick: () => void
-  options: Array<any>
-  reports: RemoteDataType<string, ReportType[]>
+  options: Array<{ text: string; value: number }>
+  reportsR: RemoteDataType<string, ReportType[]>
   value: number
 }
 
