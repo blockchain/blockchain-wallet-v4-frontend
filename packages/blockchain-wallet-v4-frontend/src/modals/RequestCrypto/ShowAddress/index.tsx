@@ -139,10 +139,10 @@ class RequestShowAddress extends React.PureComponent<Props> {
               NotAsked: () => <></>,
               Success: (val) => (
                 <CopyClipboardButton
-                  onClick={() => this.props.requestActions.setAddressCopied()}
-                  textToCopy={val.address}
                   color='blue600'
+                  onClick={() => this.props.requestActions.setAddressCopied()}
                   size='24px'
+                  textToCopy={val.address}
                 />
               )
             })}
