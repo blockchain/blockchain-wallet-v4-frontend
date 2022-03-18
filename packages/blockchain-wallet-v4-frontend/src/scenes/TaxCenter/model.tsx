@@ -110,6 +110,7 @@ export const AlertMessage = styled.div`
   margin-top: 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
 
   div {
     margin-left: 8px;

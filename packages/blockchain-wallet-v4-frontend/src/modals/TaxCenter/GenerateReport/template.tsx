@@ -38,7 +38,7 @@ const GenerateReport = ({ onClose, reportGenerationStatus }) => (
       {reportGenerationStatus.cata({
         Failure: () => (
           <>
-            <h1>TODO: Error Icon</h1>
+            <Image name='email-error' width='128px' height='128px' />
             <Title size='24px' weight={600} color='black'>
               <FormattedMessage
                 id='modal.generate.report.error.title'
@@ -57,7 +57,7 @@ const GenerateReport = ({ onClose, reportGenerationStatus }) => (
         NotAsked: () => <LoadingState />,
         Success: () => (
           <>
-            <h1>TODO: Success Icon</h1>
+            <Image name='email-success' width='128px' height='128px' />
             <Title size='24px' weight={600} color='black'>
               <FormattedMessage
                 id='modal.generate.report.title'
