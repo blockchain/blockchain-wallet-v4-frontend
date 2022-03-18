@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { utils } from '@core'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -17,8 +16,6 @@ import { SwapBaseCounterTypes } from 'data/types'
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper } from '../model'
 import { RequestSteps } from '../types'
-
-const { formatAddr } = utils.bch
 
 const Wrapper = styled.div`
   display: flex;
@@ -131,7 +128,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => formatAddr(val.address, true)
+                Success: (val) => val.address
               })}
             </Text>
           </AddressDisplay>
@@ -140,16 +137,14 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Failure: () => <></>,
               Loading: () => <></>,
               NotAsked: () => <></>,
-              Success: (val) => {
-                return (
-                  <CopyClipboardButton
-                    color='blue600'
-                    onClick={() => this.props.requestActions.setAddressCopied()}
-                    size='24px'
-                    textToCopy={formatAddr(val.address, true)}
-                  />
-                )
-              }
+              Success: (val) => (
+                <CopyClipboardButton
+                  onClick={() => this.props.requestActions.setAddressCopied()}
+                  textToCopy={val.address}
+                  color='blue600'
+                  size='24px'
+                />
+              )
             })}
           </ClipboardWrapper>
         </AddressWrapper>
