@@ -12,6 +12,7 @@ import {
 } from './types'
 
 const initialState: SignupStateType = {
+  exchangeUrlData: {},
   firstLogin: false,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,

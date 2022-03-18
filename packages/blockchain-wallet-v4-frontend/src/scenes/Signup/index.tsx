@@ -13,7 +13,7 @@ import { RootState } from 'data/rootReducer'
 import BuyGoal from './BuyGoal'
 import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
-import { GeoLocationType, GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
+import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
   display: flex;
