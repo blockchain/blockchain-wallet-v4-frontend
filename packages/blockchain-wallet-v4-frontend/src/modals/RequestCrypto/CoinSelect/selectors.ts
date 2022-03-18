@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
     const isAtLeastTier1 = isSilverOrAbove
     const lowerSearch = search.toLowerCase()
     // @ts-ignore
-    const ethAccount = accounts.ETH.find(({ type }) => type === SwapBaseCounterTypes.ACCOUNT)
+    const ethAccount = accounts.ETH?.find(({ type }) => type === SwapBaseCounterTypes.ACCOUNT)
     const sortedCoins = sortedCoinsR
       .getOrElse([] as CoinfigType[])
       .map(({ symbol }) => symbol)
