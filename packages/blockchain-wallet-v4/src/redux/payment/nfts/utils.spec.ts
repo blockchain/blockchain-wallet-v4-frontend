@@ -1,9 +1,17 @@
-// eslint-disable-next-line
+import { NftOrder } from '@core/network/api/nfts/types'
+
+// eslint-disable-next-line jest/no-mocks-import
 import { MockSigner, MockUnhashedOrder } from './__mocks__'
+import { WYVERN_MERKLE_VALIDATOR_MAINNET } from './constants'
 import { ERC721Schema, schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
-import { _encodeBuy, _encodeReplacementPattern, _encodeSell, _getOrderHash } from './utils'
-import { WYVERN_MERKLE_VALIDATOR_MAINNET } from './constants'
+import {
+  _encodeBuy,
+  _encodeReplacementPattern,
+  _encodeSell,
+  _getMetadata,
+  _getOrderHash
+} from './utils'
 
 describe('nft utils', () => {
   describe('_getOrderHash', () => {
@@ -82,5 +90,11 @@ describe('nft utils', () => {
       '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3'
     )
     expect(encodeSellOrderOutput.calldata).toBe(correctCallData)
+  })
+
+  it('Should correctly return refferer.', () => {
+    const correctAddress = '0x495f947276749ce646f68ac8c248420045cb7b5e'
+    const metadata = _getMetadata({} as NftOrder, '0x495f947276749ce646f68ac8c248420045cb7b5e')
+    expect(metadata).toBe(correctAddress)
   })
 })
