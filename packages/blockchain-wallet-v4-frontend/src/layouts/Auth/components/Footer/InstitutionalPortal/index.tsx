@@ -33,8 +33,8 @@ const InstitutionalPortal = (props) => {
       <SubCard onClick={institutionalPortalFooterClick}>
         <Text size='16px' color='grey400' weight={500}>
           <FormattedMessage
-            id='layouts.wallet.footer.institutional_portal'
-            defaultMessage='Are you an institutional user?'
+            id='layouts.wallet.footer.institutional_link'
+            defaultMessage='Are you an Institutional Exchange user?'
           />
         </Text>
         &nbsp;

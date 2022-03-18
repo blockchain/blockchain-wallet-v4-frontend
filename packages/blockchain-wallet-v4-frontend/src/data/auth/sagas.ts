@@ -101,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      const { csrfToken, token: jwtToken } = response
+      const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -121,24 +121,24 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
+        // web - institutional exchange login
+        case userType === 'institutional' && institutionalPortalEnabled:
+          window.open(
+            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
+            '_self',
+            'noreferrer'
+          )
+          break
         // mobile - exchange sso login
         case platform !== PlatformTypes.WEB:
           sendMessageToMobile(platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
+            data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
           })
           break
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
-          break
-        // web - institutional exchange login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}&csrf=${csrfToken}`,
-            '_self',
-            'noreferrer'
-          )
           break
         default:
           // case where user has email cached and is
@@ -423,6 +423,11 @@ export default ({ api, coreSagas, networks }) => {
         case errorString && errorString.includes('restricted to another IP address.'):
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
+          break
+        // Account locked due to too many failed 2fa attemps
+        case errorString && errorString.includes('is locked'):
+          yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
+          yield put(actions.auth.loginFailure(errorString))
           break
         // Wrong 2fa code error
         case errorString &&
