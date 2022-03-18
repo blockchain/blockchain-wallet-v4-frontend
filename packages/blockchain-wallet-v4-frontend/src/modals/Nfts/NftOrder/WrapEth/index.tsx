@@ -1,20 +1,24 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
+import { Remote } from '@core'
+import { convertCoinToCoin } from '@core/exchange'
 import { GasDataI } from '@core/network/api/nfts/types'
-import { Button, Icon } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import { BlueCartridge } from 'components/Cartridge'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import { Form, NumberBox } from 'components/Form'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { required } from 'services/forms'
 
@@ -23,10 +27,13 @@ import { Props as OwnProps } from '..'
 import WrapEthFees from './fees'
 
 const WrapEth: React.FC<Props> = (props) => {
-  const { ethBalanceR, formValues, nftActions, orderFlow } = props
+  const { ethBalanceR, formActions, formValues, nftActions, orderFlow } = props
   const ethBalance = ethBalanceR.getOrElse(new BigNumber(0))
-  const fee = orderFlow.fees.getOrElse({ totalFees: 0 } as GasDataI).totalFees
-  const max = ethBalance.minus(fee).toNumber()
+  const fee = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const max = Math.max(0, ethBalance.minus(fee.gasPrice * fee.totalFees).toNumber())
+  const gasData = orderFlow.fees.getOrElse({} as GasDataI)
+
+  const disabled = !Remote.Success.is(orderFlow.fees)
 
   return (
     <>
@@ -50,17 +57,52 @@ const WrapEth: React.FC<Props> = (props) => {
       <Form>
         <Row>
           <Title>
-            <b>
-              <FormattedMessage id='copy.deposit' defaultMessage='Deposit' />
-            </b>
+            <FormattedMessage
+              id='scenes.wallet.menutop.balance.totalbalance'
+              defaultMessage='Total Balance'
+            />
+          </Title>
+          <Value>
+            <div style={{ display: 'flex' }}>
+              <FiatDisplay coin='ETH' size='14px' weight={600}>
+                {ethBalance}
+              </FiatDisplay>
+              &nbsp;-&nbsp;
+              <CoinDisplay coin='ETH' size='14px' weight={600}>
+                {ethBalance}
+              </CoinDisplay>
+            </div>
+          </Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage id='copy.deposit' defaultMessage='Deposit' />
           </Title>
           <Value>
             <Field name='amount' component={NumberBox} validate={[required]} />
-            <BlueCartridge>
-              <FiatDisplay coin='ETH' size='14px' weight={600}>
-                {max}
-              </FiatDisplay>
-            </BlueCartridge>
+            <div style={{ display: 'flex', marginTop: '12px' }}>
+              <BlueCartridge
+                cursor
+                role='button'
+                onClick={() =>
+                  formActions.change(
+                    'wrapEth',
+                    'amount',
+                    convertCoinToCoin({ baseToStandard: true, coin: 'ETH', value: max })
+                  )
+                }
+              >
+                <FormattedMessage id='copy.max' defaultMessage='Max' />
+                &nbsp;
+                <FiatDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
+                  {max}
+                </FiatDisplay>
+                &nbsp;-&nbsp;
+                <CoinDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
+                  {max}
+                </CoinDisplay>
+              </BlueCartridge>
+            </div>
           </Value>
         </Row>
         <Row>
@@ -69,15 +111,35 @@ const WrapEth: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.receive' defaultMessage='Receive' />
             </b>
           </Title>
-          <Value>{formValues?.amount || 0} WETH</Value>
+          <Value>
+            <div style={{ display: 'flex' }}>
+              <Text size='14px' color='black' weight={600}>
+                {formValues?.amount || 0} WETH -&nbsp;
+              </Text>
+              <FiatDisplay size='12px' color='grey600' weight={600} coin='WETH'>
+                {convertCoinToCoin({
+                  baseToStandard: false,
+                  coin: 'WETH',
+                  value: formValues?.amount || 0
+                })}
+              </FiatDisplay>
+            </div>
+          </Value>
         </Row>
+        <StickyCTA>
+          <WrapEthFees {...props} />
+          <Button
+            disabled={disabled}
+            fullwidth
+            jumbo
+            nature='primary'
+            data-e2e='wrapEth'
+            onClick={() => nftActions.wrapEth({ amount: formValues.amount, gasData })}
+          >
+            Wrap ETH
+          </Button>
+        </StickyCTA>
       </Form>
-      <StickyCTA>
-        <WrapEthFees {...props} />
-        <Button fullwidth jumbo nature='primary' data-e2e='wrapEth'>
-          Wrap ETH
-        </Button>
-      </StickyCTA>
     </>
   )
 }
@@ -87,7 +149,11 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('wrapEth')(state) as { amount: string }
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   reduxForm<{}, OwnProps>({

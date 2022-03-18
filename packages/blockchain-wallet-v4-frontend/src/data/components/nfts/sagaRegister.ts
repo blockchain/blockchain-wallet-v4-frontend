@@ -27,6 +27,7 @@ export default ({ api }) => {
     yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.searchNftAssetContract, nftsSagas.searchNftAssetContract)
+    yield takeLatest(actions.wrapEth, nftsSagas.wrapEth)
     yield takeEvery(actionTypes.CHANGE, nftsSagas.formChanged)
   }
 }

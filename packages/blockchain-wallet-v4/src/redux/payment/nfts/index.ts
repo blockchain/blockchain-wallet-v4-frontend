@@ -1,4 +1,4 @@
-import { Signer } from 'ethers'
+import { ethers, Signer } from 'ethers'
 
 import {
   GasCalculationOperations,
@@ -8,7 +8,8 @@ import {
   RawOrder
 } from '@core/network/api/nfts/types'
 
-import { NULL_ADDRESS } from './constants'
+import { WETH_ABI } from './abis'
+import { NULL_ADDRESS, WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from './constants'
 import {
   atomicMatch,
   buyOrderValidationAndApprovals,
@@ -23,6 +24,7 @@ import {
   createBuyOrder,
   createMatchingOrders,
   createSellOrder,
+  getNetwork,
   sellOrderValidationAndApprovals,
   transferAsset,
   verifyTransfered
@@ -209,4 +211,18 @@ export const fulfillTransfer = async (
   if (!verified) {
     throw new Error('Asset transfer failed!')
   }
+}
+
+export const executeWrapEth = async (signer: Signer, amount: string, gasData: GasDataI) => {
+  const wrapEthAddr =
+    getNetwork(signer) === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+  const wrapEthContract = new ethers.Contract(wrapEthAddr, WETH_ABI, signer)
+
+  const wrap = await wrapEthContract.deposit({
+    gasLimit: gasData.gasFees,
+    gasPrice: gasData.gasPrice,
+    value: amount
+  })
+
+  await wrap.wait()
 }

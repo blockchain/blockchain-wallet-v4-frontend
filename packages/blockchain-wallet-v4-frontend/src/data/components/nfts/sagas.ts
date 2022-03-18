@@ -3,6 +3,7 @@ import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
 import { Remote } from '@core'
+import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -14,6 +15,7 @@ import {
 import {
   calculateGasFees,
   cancelNftOrder,
+  executeWrapEth,
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
@@ -30,6 +32,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { NftOrderStepEnum } from './types'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -513,6 +516,26 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setOrderFlowIsSubmitting(false))
   }
 
+  const wrapEth = function* (action: ReturnType<typeof A.wrapEth>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+
+    try {
+      const { amount: standardAmt, gasData } = action.payload
+      const amount = convertCoinToCoin({ baseToStandard: false, coin: 'WETH', value: standardAmt })
+      const signer = yield call(getEthSigner)
+      yield put(A.setOrderFlowIsSubmitting(true))
+      yield call(executeWrapEth, signer, amount, gasData)
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
+    } catch (e) {
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS)) error = 'You do not have enough funds to Wrap ETH.'
+      yield put(actions.alerts.displayError(error))
+      yield put(actions.logs.logErrorMessage(error))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
+
   const formChanged = function* (action) {
     if (action.meta.form === 'nftSearch') {
       if (action.meta.field === 'sortBy') {
@@ -613,6 +636,7 @@ export default ({ api }: { api: APIType }) => {
     formChanged,
     nftOrderFlowClose,
     nftOrderFlowOpen,
-    searchNftAssetContract
+    searchNftAssetContract,
+    wrapEth
   }
 }

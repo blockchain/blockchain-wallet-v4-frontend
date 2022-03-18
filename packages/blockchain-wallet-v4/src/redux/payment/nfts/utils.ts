@@ -2172,19 +2172,16 @@ export async function calculateAtomicMatchFees(
 }
 
 export const calculateWrapEthFees = async (signer: Signer) => {
-  const wrappedEthAddr =
+  const wrapEthAddr =
     getNetwork(signer) === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+  const wrapEthContract = new ethers.Contract(wrapEthAddr, WETH_ABI, signer)
 
-  return signer.estimateGas({
-    // `function deposit() payable`
-    data: '0xd0e30db0',
-
-    // Wrapped ETH address
-    to: wrappedEthAddr,
-
-    // 1 ether
-    value: parseEther('0.000000000000000001')
-  })
+  return new BigNumber(
+    await _safeGasEstimation(wrapEthContract.estimateGas.deposit, [], {
+      gasLimit: 90_000,
+      value: '0'
+    })
+  )
 }
 
 async function getFairGasPrice(signer: Signer, gasPrice: string): Promise<string> {
