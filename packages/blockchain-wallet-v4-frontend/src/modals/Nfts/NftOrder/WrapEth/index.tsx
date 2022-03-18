@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
+import { GasDataI } from '@core/network/api/nfts/types'
 import { Button, Icon } from 'blockchain-info-components'
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
+import { BlueCartridge } from 'components/Cartridge'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -20,8 +23,10 @@ import { Props as OwnProps } from '..'
 import WrapEthFees from './fees'
 
 const WrapEth: React.FC<Props> = (props) => {
-  const { ethBalanceR, formValues, nftActions } = props
+  const { ethBalanceR, formValues, nftActions, orderFlow } = props
   const ethBalance = ethBalanceR.getOrElse(new BigNumber(0))
+  const fee = orderFlow.fees.getOrElse({ totalFees: 0 } as GasDataI).totalFees
+  const max = ethBalance.minus(fee).toNumber()
 
   return (
     <>
@@ -51,6 +56,11 @@ const WrapEth: React.FC<Props> = (props) => {
           </Title>
           <Value>
             <Field name='amount' component={NumberBox} validate={[required]} />
+            <BlueCartridge>
+              <FiatDisplay coin='ETH' size='14px' weight={600}>
+                {max}
+              </FiatDisplay>
+            </BlueCartridge>
           </Value>
         </Row>
         <Row>
