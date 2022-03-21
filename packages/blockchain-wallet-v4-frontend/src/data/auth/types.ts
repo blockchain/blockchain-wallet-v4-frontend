@@ -234,6 +234,7 @@ export type MobileAuthExchangeMessage = {
   data?: {
     csrf: string
     jwt: string
+    jwtExpirationTime: number
   }
   error?: string
   status: 'error' | 'success'

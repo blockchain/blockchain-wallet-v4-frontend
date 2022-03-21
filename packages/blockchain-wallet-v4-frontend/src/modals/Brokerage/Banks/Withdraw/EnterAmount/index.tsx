@@ -46,7 +46,7 @@ const EnterAmountContainer = (props: Props) => {
 
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankTransferAccounts()
-      props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+      props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
       props.withdrawActions.fetchWithdrawalLock({})
     }
 
@@ -62,7 +62,7 @@ const EnterAmountContainer = (props: Props) => {
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
-    props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+    props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
   }, [props.fiatCurrency])
 
   const handleSubmit = () => {

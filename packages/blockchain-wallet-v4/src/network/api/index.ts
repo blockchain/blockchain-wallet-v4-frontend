@@ -59,6 +59,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...kyc({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),

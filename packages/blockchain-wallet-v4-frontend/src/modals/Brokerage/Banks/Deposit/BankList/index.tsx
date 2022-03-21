@@ -18,7 +18,7 @@ const BankList = (props: Props) => {
       props.brokerageActions.fetchBankTransferAccounts()
       props.withdrawActions.fetchWithdrawalFees({ paymentMethod: 'ALL' })
     }
-    props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+    props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
   }, [])
 
   return props.data.cata({

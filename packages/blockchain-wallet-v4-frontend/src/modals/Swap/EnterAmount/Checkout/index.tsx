@@ -13,6 +13,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
+import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -234,6 +235,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
   const showBalanceError = showError && amtError === 'ABOVE_BALANCE'
 
+  const showSilverRevampBanner = props.silverRevamp && props.products?.swap?.maxOrdersLeft > 0
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -441,6 +444,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           >
             <FormattedMessage id='buttons.preview_swap' defaultMessage='Preview Swap' />
           </Button>
+        )}
+
+        {showSilverRevampBanner && (
+          <TransactionsLeft remaining={props.products.buy.maxOrdersLeft} />
         )}
 
         {!showLimitError && !showBalanceError && showError && (

@@ -15,7 +15,7 @@ import Success from './template.success'
 class BankPicker extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      this.props.custodialActions.fetchCustodialBeneficiaries(this.props.fiatCurrency)
+      this.props.custodialActions.fetchCustodialBeneficiaries({ currency: this.props.fiatCurrency })
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }

@@ -131,7 +131,7 @@ export const getInstitutionalPortalEnabled = (state: RootState) =>
 
 // show/hide silver revamp
 export const getSilverRevamp = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+  getWebOptions(state).map(path(['featureFlags', 'showSilverRevamp']))
 
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>

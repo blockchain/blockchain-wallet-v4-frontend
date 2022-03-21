@@ -16,7 +16,9 @@ import {
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
+import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
+import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
+// import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
@@ -33,7 +35,7 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
-import IncreaseLimits from './IncreaseLimits'
+// import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 import {
   checkCrossBorderLimit,
@@ -180,7 +182,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     defaultMethod,
     fiatCurrency,
     method: selectedMethod,
-    orderType
+    orderType,
+    products
   } = props
 
   const [fontRatio, setFontRatio] = useState(1)
@@ -643,6 +646,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
+          {props.orderType === OrderType.BUY && products?.buy && products.buy.enabled === false && (
+            <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
+          )}
+
           {!showLimitError && showError && (
             <ButtonContainer>
               <AlertButton>
@@ -853,15 +860,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </AnchoredActions>
       </FlyoutWrapper>
 
-      {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />}
+      {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
       {(props.isSddFlow ||
+        props.userData?.tiers?.current < 2 || // silver tier
         (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
         amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
-            <UpgradeToGoldLine
-              type={Flows.BUY}
-              verifyIdentity={() =>
+            <GetMoreAccess
+              startProcess={() =>
                 props.identityVerificationActions.verifyIdentity({
                   needMoreInfo: false,
                   origin: 'BuySell',
@@ -871,7 +878,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           </FlyoutWrapper>
         )}
-
       {isSufficientEthForErc20 && (
         <Banner type='warning'>
           <FormattedMessage
