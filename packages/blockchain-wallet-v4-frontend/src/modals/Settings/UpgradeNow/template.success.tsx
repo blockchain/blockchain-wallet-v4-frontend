@@ -104,7 +104,7 @@ const Template: React.FC<Props> = (props) => {
         tier
       })
     },
-    [identityVerificationActions]
+    [identityVerificationActions, modalActions]
   )
   if (!Array.isArray(userTiers)) {
     return null

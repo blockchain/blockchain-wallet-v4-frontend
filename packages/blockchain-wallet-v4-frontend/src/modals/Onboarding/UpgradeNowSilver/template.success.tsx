@@ -134,10 +134,10 @@ const Template = (props: Props) => {
   const { identityVerificationActions, modalActions, userTiers } = props
   const startVerification = useCallback(() => {
     modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
-    modalActions.closeModal(ModalName.UPGRADE_NOW_MODAL)
+    modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
-      origin: 'Settings'
+      origin: 'UpgradeNowSilver'
     })
   }, [identityVerificationActions, modalActions])
   if (!Array.isArray(userTiers)) {

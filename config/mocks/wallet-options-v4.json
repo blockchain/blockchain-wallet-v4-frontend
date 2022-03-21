@@ -47,7 +47,7 @@
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,
         "signupCountry": true,
-        "silverRevamp": true,
+        "showSilverRevamp": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,

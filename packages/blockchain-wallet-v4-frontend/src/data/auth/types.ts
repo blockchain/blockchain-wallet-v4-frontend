@@ -178,6 +178,7 @@ export type RestoringType = undefined
 export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
+  exchangePortal?: string
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
@@ -233,6 +234,7 @@ export type MobileAuthExchangeMessage = {
   data?: {
     csrf: string
     jwt: string
+    jwtExpirationTime: number
   }
   error?: string
   status: 'error' | 'success'

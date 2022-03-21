@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { CoinType } from '@core/types'
 import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -69,6 +70,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   render() {
     const { accounts, userData, values } = this.props
+    const showSilverRevamp = this.props.silverRevamp && this.props.products?.swap?.maxOrdersLeft > 0
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
         <FlyoutWrapper>
@@ -236,111 +238,125 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <FormattedMessage id='copy.reset' defaultMessage='Reset' />
             </Text>
           </FlyoutWrapper>
-          <>
-            <Text
-              color='grey600'
-              weight={500}
-              size='14px'
-              style={{
-                alignItems: 'flex-end',
-                display: 'flex',
-                margin: '0 0 0 40px'
-              }}
-            >
-              <FormattedMessage id='copy.suggested' defaultMessage='Suggested' />
-              <SuggestedTextCustomBorder />
-            </Text>
-            <Field
-              name='TRENDINGONE'
-              component={() => (
-                <CustomOption
-                  role='button'
-                  data-e2e='trending1'
-                  onClick={() =>
-                    this.props.swapActions.changeTrendingPair({
-                      baseAccount: this.getCustodialWallet(accounts, 'BTC'),
-                      counterAccount: this.getCustodialWallet(accounts, 'ETH')
-                    })
-                  }
-                >
-                  <FlexStartRow>
-                    <TrendingIconRow>
-                      <Icon color='BTC' name='BTC' size='32px' style={{ marginRight: '16px' }} />
-                      <IconBackground size='24px' position='absolute'>
-                        <Icon name='arrows-horizontal' size='10px' color='blue600' />
-                      </IconBackground>
-                      <Icon color='ETH' name='ETH' size='32px' />
-                    </TrendingIconRow>
-                    <div>
-                      <OptionTitle>Swap Bitcoin</OptionTitle>
-                      <OptionValue>Receive Ethereum</OptionValue>
-                    </div>
-                  </FlexStartRow>
-                  <Icon name='chevron-right' size='20px' color='grey400' />
-                </CustomOption>
-              )}
-            />
-            <Field
-              name='TRENDINGTWO'
-              component={() => (
-                <CustomOption
-                  role='button'
-                  data-e2e='trending2'
-                  onClick={() =>
-                    this.props.swapActions.changeTrendingPair({
-                      baseAccount: this.getCustodialWallet(accounts, 'ETH'),
-                      counterAccount: this.getCustodialWallet(accounts, 'BTC')
-                    })
-                  }
-                >
-                  <FlexStartRow>
-                    <TrendingIconRow>
-                      <Icon color='ETH' name='ETH' size='32px' style={{ marginRight: '16px' }} />
-                      <IconBackground size='24px' position='absolute'>
-                        <Icon name='arrows-horizontal' size='10px' color='blue600' />
-                      </IconBackground>
-                      <Icon color='BTC' name='BTC' size='32px' />
-                    </TrendingIconRow>
-                    <div>
-                      <OptionTitle>Swap Ethereum</OptionTitle>
-                      <OptionValue>Receive Bitcoin</OptionValue>
-                    </div>
-                  </FlexStartRow>
-                  <Icon name='chevron-right' size='20px' color='grey400' />
-                </CustomOption>
-              )}
-            />
-            <Field
-              name='TRENDINGTHREE'
-              component={() => (
-                <CustomOption
-                  role='button'
-                  data-e2e='trending3'
-                  onClick={() =>
-                    this.props.swapActions.changeTrendingPair({
-                      baseAccount: this.getCustodialWallet(accounts, 'BTC'),
-                      counterAccount: this.getCustodialWallet(accounts, 'PAX')
-                    })
-                  }
-                >
-                  <FlexStartRow>
-                    <TrendingIconRow>
-                      <Icon color='BTC' name='BTC' size='32px' style={{ marginRight: '16px' }} />
-                      <IconBackground size='24px' position='absolute'>
-                        <Icon name='arrows-horizontal' size='10px' color='blue600' />
-                      </IconBackground>
-                      <Icon color='PAX' name='PAX' size='32px' />
-                    </TrendingIconRow>
-                    <div>
-                      <OptionTitle>Swap Bitcoin</OptionTitle>
-                      <OptionValue>Receive Paxos Standard</OptionValue>
-                    </div>
-                  </FlexStartRow>
-                  <Icon name='chevron-right' size='20px' color='grey400' />
-                </CustomOption>
-              )}
-            />
-          </>
+          {showSilverRevamp ? (
+            <FlyoutWrapper>
+              <GetMoreAccess
+                startProcess={() =>
+                  this.props.identityVerificationActions.verifyIdentity({
+                    needMoreInfo: false,
+                    origin: 'Swap',
+                    tier: 2
+                  })
+                }
+              />
+            </FlyoutWrapper>
+          ) : (
+            <>
+              <Text
+                color='grey600'
+                weight={500}
+                size='14px'
+                style={{
+                  alignItems: 'flex-end',
+                  display: 'flex',
+                  margin: '0 0 0 40px'
+                }}
+              >
+                <FormattedMessage id='copy.suggested' defaultMessage='Suggested' />
+                <SuggestedTextCustomBorder />
+              </Text>
+              <Field
+                name='TRENDINGONE'
+                component={() => (
+                  <CustomOption
+                    role='button'
+                    data-e2e='trending1'
+                    onClick={() =>
+                      this.props.swapActions.changeTrendingPair({
+                        baseAccount: this.getCustodialWallet(accounts, 'BTC'),
+                        counterAccount: this.getCustodialWallet(accounts, 'ETH')
+                      })
+                    }
+                  >
+                    <FlexStartRow>
+                      <TrendingIconRow>
+                        <Icon color='BTC' name='BTC' size='32px' style={{ marginRight: '16px' }} />
+                        <IconBackground size='24px' position='absolute'>
+                          <Icon name='arrows-horizontal' size='10px' color='blue600' />
+                        </IconBackground>
+                        <Icon color='ETH' name='ETH' size='32px' />
+                      </TrendingIconRow>
+                      <div>
+                        <OptionTitle>Swap Bitcoin</OptionTitle>
+                        <OptionValue>Receive Ethereum</OptionValue>
+                      </div>
+                    </FlexStartRow>
+                    <Icon name='chevron-right' size='20px' color='grey400' />
+                  </CustomOption>
+                )}
+              />
+              <Field
+                name='TRENDINGTWO'
+                component={() => (
+                  <CustomOption
+                    role='button'
+                    data-e2e='trending2'
+                    onClick={() =>
+                      this.props.swapActions.changeTrendingPair({
+                        baseAccount: this.getCustodialWallet(accounts, 'ETH'),
+                        counterAccount: this.getCustodialWallet(accounts, 'BTC')
+                      })
+                    }
+                  >
+                    <FlexStartRow>
+                      <TrendingIconRow>
+                        <Icon color='ETH' name='ETH' size='32px' style={{ marginRight: '16px' }} />
+                        <IconBackground size='24px' position='absolute'>
+                          <Icon name='arrows-horizontal' size='10px' color='blue600' />
+                        </IconBackground>
+                        <Icon color='BTC' name='BTC' size='32px' />
+                      </TrendingIconRow>
+                      <div>
+                        <OptionTitle>Swap Ethereum</OptionTitle>
+                        <OptionValue>Receive Bitcoin</OptionValue>
+                      </div>
+                    </FlexStartRow>
+                    <Icon name='chevron-right' size='20px' color='grey400' />
+                  </CustomOption>
+                )}
+              />
+              <Field
+                name='TRENDINGTHREE'
+                component={() => (
+                  <CustomOption
+                    role='button'
+                    data-e2e='trending3'
+                    onClick={() =>
+                      this.props.swapActions.changeTrendingPair({
+                        baseAccount: this.getCustodialWallet(accounts, 'BTC'),
+                        counterAccount: this.getCustodialWallet(accounts, 'PAX')
+                      })
+                    }
+                  >
+                    <FlexStartRow>
+                      <TrendingIconRow>
+                        <Icon color='BTC' name='BTC' size='32px' style={{ marginRight: '16px' }} />
+                        <IconBackground size='24px' position='absolute'>
+                          <Icon name='arrows-horizontal' size='10px' color='blue600' />
+                        </IconBackground>
+                        <Icon color='PAX' name='PAX' size='32px' />
+                      </TrendingIconRow>
+                      <div>
+                        <OptionTitle>Swap Bitcoin</OptionTitle>
+                        <OptionValue>Receive Paxos Standard</OptionValue>
+                      </div>
+                    </FlexStartRow>
+                    <Icon name='chevron-right' size='20px' color='grey400' />
+                  </CustomOption>
+                )}
+              />
+            </>
+          )}
         </StyledForm>
       </>
     ) : (

@@ -29,7 +29,8 @@ class InfoAndResidential extends PureComponent<Props> {
     const { checkSddEligibility, identityVerificationActions, onCompletionCallback } = this.props
     identityVerificationActions.saveInfoAndResidentialData(
       checkSddEligibility,
-      onCompletionCallback
+      onCompletionCallback,
+      false
     )
   }
 

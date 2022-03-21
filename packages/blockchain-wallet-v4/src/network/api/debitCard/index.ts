@@ -5,7 +5,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     authorizedPost({
       contentType: 'application/json',
       data: {
-        productCode
+        productCode,
+        ssn: 111111110 // TODO: Hardcoded for testing purpose. Waiting for designs to get this value from a form
       },
       endPoint: '/card-issuing/cards',
       url: nabuUrl
