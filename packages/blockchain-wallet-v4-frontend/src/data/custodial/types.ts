@@ -1,6 +1,6 @@
 import { BeneficiariesType, RemoteDataType, SwapOrderType } from '@core/types'
 
-export type Products = {
+export type ProductEligibilityForUser = {
   buy: {
     canPlaceOrder: boolean
     enabled: boolean
@@ -35,6 +35,6 @@ export type Products = {
 // State
 export type CustodialState = {
   beneficiaries: RemoteDataType<string, BeneficiariesType>
-  products: RemoteDataType<string, Products>
+  productEligibilityForUser: RemoteDataType<string, ProductEligibilityForUser>
   recentSwapTxs: RemoteDataType<string, SwapOrderType[]>
 }

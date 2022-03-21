@@ -64,7 +64,7 @@ class BuySell extends PureComponent<Props, State> {
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
-    this.props.custodialActions.fetchProducts()
+    this.props.custodialActions.fetchProductEligibilityForUser()
     /* eslint-enable */
   }
 

@@ -32,7 +32,7 @@ class Swap extends PureComponent<Props, State> {
     this.setState({ show: true })
     /* eslint-enable */
     this.props.swapActions.fetchCustodialEligibility()
-    this.props.custodialActions.fetchProducts()
+    this.props.custodialActions.fetchProductEligibilityForUser()
   }
 
   componentWillUnmount() {

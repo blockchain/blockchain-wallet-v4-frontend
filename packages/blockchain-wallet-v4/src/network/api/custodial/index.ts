@@ -175,7 +175,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getProducts = () =>
+  const fetchProductEligibilityForUser = () =>
     authorizedGet({
       endPoint: `/products`,
       url: nabuUrl
@@ -183,11 +183,11 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     checkWithdrawalLocks,
+    fetchProductEligibilityForUser,
     getBeneficiaries,
     getCrossBorderTransactions,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
-    getProducts,
     getTransactionsHistory,
     getWithdrawalFees,
     getWithdrawalLimits,

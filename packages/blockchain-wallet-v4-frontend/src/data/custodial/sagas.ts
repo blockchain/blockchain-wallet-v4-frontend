@@ -42,20 +42,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
-  const fetchProducts = function* () {
+  const fetchProductEligibilityForUser = function* () {
     try {
-      yield put(A.fetchProductsLoading())
-      const productsResponse: ReturnType<typeof api.getProducts> = yield call(api.getProducts)
-      yield put(A.fetchProductsSuccess(productsResponse))
+      yield put(A.fetchProductEligibilityForUserLoading())
+      const productsResponse: ReturnType<typeof api.fetchProductEligibilityForUser> = yield call(
+        api.fetchProductEligibilityForUser
+      )
+      yield put(A.fetchProductEligibilityForUserSuccess(productsResponse))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchProductsFailure(error))
+      yield put(A.fetchProductEligibilityForUserFailure(error))
     }
   }
 
   return {
     fetchBeneficiaries,
-    fetchProducts,
+    fetchProductEligibilityForUser,
     fetchRecentSwapTxs
   }
 }

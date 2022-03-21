@@ -9,6 +9,9 @@ export default ({ api, coreSagas, networks }) => {
   return function* custodialSaga() {
     yield takeLatest(actions.fetchCustodialBeneficiaries.type, custodialSagas.fetchBeneficiaries)
     yield takeLatest(actions.fetchRecentSwapTxs.type, custodialSagas.fetchRecentSwapTxs)
-    yield takeLatest(actions.fetchProducts.type, custodialSagas.fetchProducts)
+    yield takeLatest(
+      actions.fetchProductEligibilityForUser.type,
+      custodialSagas.fetchProductEligibilityForUser
+    )
   }
 }

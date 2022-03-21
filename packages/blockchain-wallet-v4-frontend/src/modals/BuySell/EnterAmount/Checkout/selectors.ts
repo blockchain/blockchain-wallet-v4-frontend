@@ -43,7 +43,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
 
-  const productsR = selectors.custodial.getProducts(state)
+  const productsR = selectors.custodial.getProductEligibilityForUser(state)
 
   return lift(
     (

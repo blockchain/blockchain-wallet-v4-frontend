@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { OrderType } from '@core/types'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 
 import { Props as OwnProps, SuccessStateType } from '..'
 
@@ -82,17 +82,6 @@ const ActionButton: React.FC<Props> = (props) => {
               <FormattedMessage id='buttons.next' defaultMessage='Next' />
             )}
           </Button>
-          {/* <Text
-            color='grey600'
-            weight={500}
-            size='14px'
-            style={{ marginTop: '24px', textAlign: 'center' }}
-          >
-            <FormattedMessage
-              id='modals.simplebuy.setupaccount'
-              defaultMessage="Next, we'll set up your account."
-            />
-          </Text> */}
         </div>
       )
     case 'VERIFIED':

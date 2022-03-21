@@ -4,11 +4,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import { BeneficiariesType, SwapOrderType, WalletFiatType } from '@core/types'
 
-import { CustodialState, Products } from './types'
+import { CustodialState, ProductEligibilityForUser } from './types'
 
 const initialState: CustodialState = {
   beneficiaries: Remote.NotAsked,
-  products: Remote.NotAsked,
+  productEligibilityForUser: Remote.NotAsked,
   recentSwapTxs: Remote.NotAsked
 }
 
@@ -31,16 +31,19 @@ const custodialSlice = createSlice({
       state.beneficiaries = Remote.Success(action.payload)
     },
 
-    // Products
-    fetchProducts: () => {},
-    fetchProductsFailure: (state, action: PayloadAction<string>) => {
-      state.products = Remote.Failure(action.payload)
+    // Products Eligibility for user
+    fetchProductEligibilityForUser: () => {},
+    fetchProductEligibilityForUserFailure: (state, action: PayloadAction<string>) => {
+      state.productEligibilityForUser = Remote.Failure(action.payload)
     },
-    fetchProductsLoading: (state) => {
-      state.products = Remote.Loading
+    fetchProductEligibilityForUserLoading: (state) => {
+      state.productEligibilityForUser = Remote.Loading
     },
-    fetchProductsSuccess: (state, action: PayloadAction<Products>) => {
-      state.products = Remote.Success(action.payload)
+    fetchProductEligibilityForUserSuccess: (
+      state,
+      action: PayloadAction<ProductEligibilityForUser>
+    ) => {
+      state.productEligibilityForUser = Remote.Success(action.payload)
     },
 
     // Swap Tx

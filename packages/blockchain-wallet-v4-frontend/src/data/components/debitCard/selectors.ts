@@ -1,6 +1,5 @@
 import { isEmpty } from 'ramda'
 
-import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getProducts = (state: RootState) => state.components.debitCard.products

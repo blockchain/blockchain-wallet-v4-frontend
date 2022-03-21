@@ -65,6 +65,7 @@ const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserC
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
+const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 
 // LOCKBOX
 const LockboxAppManager = React.lazy(() => import('./Lockbox/LockboxAppManager'))
@@ -114,7 +115,6 @@ const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocumen
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
-const VerifyNotice = React.lazy(() => import('./VerifyNotice'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))

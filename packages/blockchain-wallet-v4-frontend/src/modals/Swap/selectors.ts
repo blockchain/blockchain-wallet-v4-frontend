@@ -9,7 +9,7 @@ export const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const fix = selectors.components.swap.getFix(state)
   const custodialEligibilityR = selectors.components.swap.getCustodialEligibility(state)
-  const productsR = selectors.custodial.getProducts(state)
+  const productsR = selectors.custodial.getProductEligibilityForUser(state)
   const silverRevamp = selectors.core.walletOptions.getSilverRevamp(state).getOrElse(false)
 
   return lift(
