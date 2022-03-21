@@ -2,7 +2,7 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 
 import { RecurringBuyRegisteredList } from '../../../data/types'
-import RecurringBuyRemoveConfirm from './RecurringBuyRemoveConfirm'
+import RemoveConfirm from './RemoveConfirm'
 
 export default {
   args: {
@@ -13,7 +13,7 @@ export default {
     goBack: () => {},
     removeClick: () => {}
   },
-  component: RecurringBuyRemoveConfirm,
+  component: RemoveConfirm,
   decorators: [
     (Story) => (
       <IntlProvider locale='en'>
@@ -24,4 +24,4 @@ export default {
   title: 'Flyouts/RecurringBuy/RecurringBuyRemoveConfirm'
 }
 
-export const Default = (args) => <RecurringBuyRemoveConfirm {...args} />
+export const Default = (args) => <RemoveConfirm {...args} />

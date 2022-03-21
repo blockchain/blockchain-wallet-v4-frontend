@@ -18,13 +18,13 @@ import {
 } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/BuySell'
 import { AmountTextBox } from 'components/Exchange'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
-  FlyoutHeader,
-  FlyoutWrapper
-} from 'components/Flyout'
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import {
   DepositOrWithdrawal,
   getBankText,
@@ -386,6 +386,7 @@ const EnterAmount = ({
   handleSubmit,
   invalid,
   minWithdrawAmount,
+  onMaxButtonClicked,
   orderType,
   paymentAccount,
   paymentMethod,
@@ -445,6 +446,10 @@ const EnterAmount = ({
                 'amount',
                 convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
               )
+              // record max click withdrawal
+              if (onMaxButtonClicked) {
+                onMaxButtonClicked()
+              }
             }}
           />
         </FlyoutContent>
@@ -482,6 +487,7 @@ export type OwnProps =
       handleBack: () => void
       handleMethodClick: () => void
       minWithdrawAmount?: never
+      onMaxButtonClicked?: never
       orderType: BrokerageOrderType.DEPOSIT
       paymentAccount?: BankTransferAccountType | BeneficiaryType
       paymentMethod: BSPaymentMethodType
@@ -496,6 +502,7 @@ export type OwnProps =
       handleBack: () => void
       handleMethodClick: () => void
       minWithdrawAmount: string
+      onMaxButtonClicked: () => void
       orderType: BrokerageOrderType.WITHDRAW
       paymentAccount?: BankTransferAccountType | BeneficiaryType
       paymentMethod: BSPaymentMethodType

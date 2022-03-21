@@ -14,6 +14,7 @@ import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../.
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
+  ApplePayInfoType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -34,7 +35,9 @@ import {
   CardAcquirer,
   FiatEligibleType,
   NabuAddressType,
-  TradesAccumulatedResponse
+  TradesAccumulatedResponse,
+  ValidateApplePayMerchantRequest,
+  ValidateApplePayMerchantResponse
 } from './types'
 
 export default ({
@@ -48,14 +51,17 @@ export default ({
 }) => {
   const activateBSCard = ({
     cardBeneficiaryId,
+    cvv,
     redirectUrl
   }: {
     cardBeneficiaryId: BSCardType['id']
+    cvv: string
     redirectUrl: string
   }): BSCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
+        cvv,
         everypay: {
           customerUrl: redirectUrl
         },
@@ -522,6 +528,31 @@ export default ({
       url: nabuUrl
     })
 
+  const getApplePayInfo = (currency: FiatType): ApplePayInfoType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/apple-pay/info?currency=${currency}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const validateApplePayMerchant = ({
+    beneficiaryID,
+    domain,
+    validationURL
+  }: ValidateApplePayMerchantRequest): ValidateApplePayMerchantResponse =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        beneficiaryID,
+        domain,
+        validationURL
+      },
+      endPoint: '/payments/apple-pay/validate-merchant',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -534,6 +565,7 @@ export default ({
     deleteRecurringBuy,
     deleteSavedAccount,
     getAccumulatedTrades,
+    getApplePayInfo,
     getBSBalances,
     getBSCard,
     getBSCards,
@@ -556,6 +588,7 @@ export default ({
     getUnifiedSellTrades,
     submitBSCardDetailsToEverypay,
     updateBankAccountLink,
+    validateApplePayMerchant,
     withdrawBSFunds
   }
 }

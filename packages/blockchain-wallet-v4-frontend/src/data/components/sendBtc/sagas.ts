@@ -21,6 +21,7 @@ import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
 
 import sendSagas from '../send/sagas'
+import { emojiRegex } from '../send/types'
 import * as A from './actions'
 import { FORM } from './model'
 import * as S from './selectors'
@@ -252,8 +253,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
-            case includes('.', address as unknown as string) &&
-              !includes('bitpay', address as unknown as string):
+            case (includes('.', address as unknown as string) &&
+              !includes('bitpay', address as unknown as string)) ||
+              !!address.match(emojiRegex):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
                   address as unknown as string,

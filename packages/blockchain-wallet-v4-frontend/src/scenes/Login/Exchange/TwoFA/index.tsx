@@ -30,7 +30,7 @@ const TwoFAExchange = (props: Props) => {
     busy,
     exchangeError,
     formValues,
-    handleBackArrowClick,
+    handleBackArrowClickExchange,
     invalid,
     submitting
   } = props
@@ -39,7 +39,7 @@ const TwoFAExchange = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClickExchange} hideGuid />
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>

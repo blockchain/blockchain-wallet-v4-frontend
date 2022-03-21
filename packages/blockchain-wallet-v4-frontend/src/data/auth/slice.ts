@@ -198,7 +198,6 @@ const authSlice = createSlice({
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
-    setCachedWalletData: () => {},
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
@@ -218,11 +217,12 @@ const authSlice = createSlice({
       state.magicLinkDataEncoded = action.payload
     },
     setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
-      const { platform, product, redirect } = action.payload
+      const { platform, product, redirect, userType } = action.payload
       state.productAuthMetadata = {
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
-        redirect
+        redirect,
+        userType
       }
     },
     setRegisterEmail: (state, action: PayloadAction<AuthStateType['registerEmail']>) => {

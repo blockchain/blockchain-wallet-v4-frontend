@@ -295,8 +295,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <Text weight={500} size='14px' color='grey900'>
                 {countryIsUS ? (
                   <FormattedMessage
-                    id='identityverification.personal.address_line2'
-                    defaultMessage='Address Line 2'
+                    id='identityverification.personal.address_line2_optional'
+                    defaultMessage='Address Line 2 (optional)'
                   />
                 ) : (
                   <FormattedMessage
@@ -395,6 +395,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               component={SelectBox}
               menuPlacement='auto'
               onChange={props.onCountrySelect}
+              disabled={!!countryCode}
               label={
                 <FormattedMessage
                   id='components.selectboxcountry.label'

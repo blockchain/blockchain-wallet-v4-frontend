@@ -2,9 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
-import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 import { BankStatusType } from 'data/types'
 
 import { getAddBankStatusText } from '../model'
@@ -54,19 +54,30 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
               onClick={retryAction}
               fullwidth
             >
-              <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+              {bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_EXPIRED ? (
+                <FormattedMessage
+                  id='copy.try_another_method'
+                  defaultMessage='Try another method'
+                />
+              ) : (
+                <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+              )}
             </Button>
-            <Button
-              data-e2e='bankLinkCancel'
-              height='48px'
-              size='16px'
-              nature='light'
-              style={{ marginTop: '16px' }}
-              onClick={handleClose}
-              fullwidth
-            >
-              <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
-            </Button>
+            {bankStatus !== BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID &&
+              bankStatus !== BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED &&
+              bankStatus !== BankStatusType.BANK_TRANSFER_ACCOUNT_NOT_SUPPORTED && (
+                <Button
+                  data-e2e='bankLinkCancel'
+                  height='48px'
+                  size='16px'
+                  nature='light'
+                  style={{ marginTop: '16px' }}
+                  onClick={handleClose}
+                  fullwidth
+                >
+                  <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
+                </Button>
+              )}
           </>
         )}
       </FlyoutFooter>

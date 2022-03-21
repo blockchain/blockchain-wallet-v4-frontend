@@ -5,6 +5,7 @@ import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import coinTransactions from './coinTransactions/sagaRegister'
+import debitCard from './debitCard/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
 import fundRecovery from './fundRecovery/sagaRegister'
@@ -30,6 +31,8 @@ import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import swap from './swap/sagaRegister'
+import taxCenter from './taxCenter/sagaRegister'
+import termsAndConditions from './termsAndConditions/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 import walletConnect from './walletConnect/sagaRegister'
@@ -42,6 +45,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(coinTransactions())
+    yield fork(debitCard({ api }))
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
@@ -49,6 +53,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(interestUploadDocument({ api }))
+    yield fork(termsAndConditions({ api }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
@@ -69,6 +74,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(signMessage({ coreSagas }))
     yield fork(buySell({ api, coreSagas, networks }))
     yield fork(swap({ api, coreSagas, networks }))
+    yield fork(taxCenter({ api }))
     yield fork(uploadDocuments({ api }))
     yield fork(walletConnect({ coreSagas }))
     yield fork(withdraw({ api }))

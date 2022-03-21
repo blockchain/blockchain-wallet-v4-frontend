@@ -12,10 +12,12 @@ import {
   WalletAccountEnum,
   WalletFiatType
 } from '@core/types'
-import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
+import { EnterAmount } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageOrderType,
@@ -65,20 +67,30 @@ const EnterAmountContainer = (props: Props) => {
 
   const handleSubmit = () => {
     const { defaultBeneficiary } = props.data.getOrElse({} as SuccessStateType)
-    const { defaultMethod } = props
+    const { analyticsActions, defaultMethod, fiatCurrency, formValues } = props
+    const { amount } = formValues
     const beneficiary = defaultBeneficiary || props.beneficiary
+
+    analyticsActions.trackEvent({
+      key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_ENTERED,
+      properties: {
+        amount: Number(amount),
+        currency: fiatCurrency,
+        withdrawal_method: defaultMethod ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+      }
+    })
 
     if (!beneficiary && !defaultMethod) return
 
     if (defaultMethod) {
       props.withdrawActions.setStep({
-        amount: props.formValues.amount,
+        amount,
         defaultMethod: defaultMethod as BankTransferAccountType,
         step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
     } else if (defaultBeneficiary || props.beneficiary) {
       props.withdrawActions.setStep({
-        amount: props.formValues.amount,
+        amount,
         beneficiary,
         step: WithdrawStepEnum.CONFIRM_WITHDRAW
       })
@@ -96,6 +108,19 @@ const EnterAmountContainer = (props: Props) => {
         step: 'KYC_REQUIRED'
       })
     }
+  }
+
+  const handleMaxButtonClicked = () => {
+    const { analyticsActions, defaultMethod, fiatCurrency, formValues } = props
+
+    analyticsActions.trackEvent({
+      key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_MAX_CLICKED,
+      properties: {
+        amount_currency: Number(formValues.amount),
+        currency: fiatCurrency,
+        withdrawal_method: defaultMethod ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+      }
+    })
   }
 
   return props.data.cata({
@@ -148,6 +173,7 @@ const EnterAmountContainer = (props: Props) => {
           crossBorderLimits={crossBorderLimits}
           formErrors={formErrors}
           formActions={props.formActions}
+          onMaxButtonClicked={handleMaxButtonClicked}
         />
       )
     }
@@ -162,6 +188,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),

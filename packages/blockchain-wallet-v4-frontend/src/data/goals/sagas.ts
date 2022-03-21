@@ -5,13 +5,19 @@ import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from '
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from '@core'
-import { InterestAfterTransactionType, RatesType, WalletFiatType } from '@core/types'
+import {
+  InterestAfterTransactionType,
+  RatesType,
+  TermsAndConditionType,
+  WalletFiatType
+} from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
+import { UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -24,7 +30,7 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
-  const { waitForUserData } = profileSagas({
+  const { fetchUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -34,7 +40,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const isKycNotFinished = function* () {
     yield call(waitForUserData)
-    return (yield select(selectors.modules.profile.getUserKYCState))
+    return selectors.modules.profile
+      .getUserKYCState(yield select())
       .map(equals(NONE))
       .getOrElse(false)
   }
@@ -669,6 +676,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       airdropClaim,
       buySellModal,
+      entitiesMigration,
       interestPromo,
       kycDocResubmit,
       linkAccount,
@@ -676,6 +684,7 @@ export default ({ api, coreSagas, networks }) => {
       swap,
       swapGetStarted,
       swapUpgrade,
+      termsAndConditions,
       transferEth,
       upgradeForAirdrop,
       walletConnect,
@@ -714,6 +723,12 @@ export default ({ api, coreSagas, networks }) => {
     if (swapUpgrade) {
       return yield put(actions.modals.showModal(swapUpgrade.name, swapUpgrade.data))
     }
+    if (entitiesMigration) {
+      return yield put(actions.modals.showModal(entitiesMigration.name, entitiesMigration.data))
+    }
+    if (termsAndConditions) {
+      return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
+    }
     if (airdropClaim) {
       return yield put(
         actions.modals.showModal(airdropClaim.name, {
@@ -749,6 +764,71 @@ export default ({ api, coreSagas, networks }) => {
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
+    }
+  }
+
+  const runEntitiesMigrationGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const userData = (yield select(selectors.modules.profile.getUserData)).getOrElse({
+      address: undefined,
+      id: '',
+      kycState: 'NONE',
+      mobile: '',
+      mobileVerified: false,
+      state: 'NONE',
+      tiers: { current: 0 }
+    } as UserDataType)
+    const announcementState = selectors.cache.getLastAnnouncementState(yield select())
+    const showModal =
+      !announcementState ||
+      !announcementState['entities-migration'] ||
+      (announcementState['entities-migration'] &&
+        !announcementState['entities-migration'].dismissed)
+    if (userData?.address?.country === 'GB' && showModal) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'entitiesMigration',
+          name: ModalName.ENTITIES_MIGRATION_MODAL
+        })
+      )
+    }
+  }
+  const runTermsAndConditionsGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showCompleteYourProfile = selectors.core.walletOptions
+      .getShowTermsAndConditions(yield select())
+      .getOrElse(null)
+
+    yield put(actions.components.termsAndConditions.fetchTermsAndConditions())
+    // make sure that fetch is done
+    yield take([
+      actions.components.termsAndConditions.fetchTermsAndConditionsSuccess.type,
+      actions.components.termsAndConditions.fetchTermsAndConditionsFailure.type
+    ])
+
+    const termsAndConditionsChanged = selectors.components.termsAndConditions
+      .getTermsAndConditions(yield select())
+      .getOrElse({} as TermsAndConditionType)
+
+    if (showCompleteYourProfile && termsAndConditionsChanged?.termsAndConditions) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'termsAndConditions',
+          name: ModalName.TERMS_AND_CONDITIONS
+        })
+      )
     }
   }
 
@@ -808,6 +888,12 @@ export default ({ api, coreSagas, networks }) => {
         case 'interestPromo':
           yield call(runInterestPromo, goal)
           break
+        case 'entitiesMigration':
+          yield call(runEntitiesMigrationGoal, goal)
+          break
+        case 'termsAndConditions':
+          yield call(runTermsAndConditionsGoal, goal)
+          break
         default:
           break
       }
@@ -836,6 +922,8 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'entitiesMigration' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))

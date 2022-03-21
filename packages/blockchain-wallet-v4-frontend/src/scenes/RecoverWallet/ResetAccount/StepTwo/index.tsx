@@ -42,7 +42,7 @@ const SecondStep = (props: Props) => {
           component={PasswordBox}
           showPasswordScore
           passwordScore={
-            has('zxcvbn', window) ? window.zxcvbn(formValues.resetPassword || '').score : 0
+            has('zxcvbn', window) ? window.zxcvbn(formValues.resetAccountPassword || '').score : 0
           }
         />
       </FormGroup>

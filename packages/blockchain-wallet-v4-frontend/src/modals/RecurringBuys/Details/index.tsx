@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { RecurringBuyDetails } from 'components/Flyout'
+import { Details } from 'components/Flyout/RecurringBuy'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -24,7 +24,7 @@ const Success = ({ activeDetails, close: closeClick, removeClick }: Props) => {
     removeClick,
     standardAmount: convertBaseToStandard(activeDetails.inputCurrency, activeDetails.inputValue)
   }
-  return <RecurringBuyDetails {...detailProps} />
+  return <Details {...detailProps} />
 }
 
 const mapStateToProps = (state: RootState) => ({

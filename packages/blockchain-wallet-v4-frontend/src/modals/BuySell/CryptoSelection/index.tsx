@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { ExtractSuccess, WalletFiatEnum } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

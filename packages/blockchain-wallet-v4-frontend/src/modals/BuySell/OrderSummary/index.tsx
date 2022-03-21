@@ -13,7 +13,7 @@ import {
   RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
-import { OrderSummary } from 'components/Flyout'
+import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
 import { actions, model, selectors } from 'data'
 import {
@@ -161,7 +161,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
           <OrderSummary
             baseAmount={getBaseAmount(order)}
             baseCurrency={getBaseCurrency(order)}
-            counterAmount={`${currencySymbol}${getCounterAmount(order)}`}
+            counterAmount={getCounterAmount(order)}
             currencySymbol={currencySymbol}
             handleClose={this.props.handleClose}
             handleCompleteButton={this.handleCompleteButton}

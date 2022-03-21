@@ -41,6 +41,7 @@ export const getTags = compose(lift(path(['tags'])), getUserData)
 export const getSunRiverTag = compose(lift(path(['tags', 'SUNRIVER'])), getUserData)
 export const getPowerPaxTag = compose(lift(hasPath(['tags', 'POWER_PAX'])), getUserData)
 export const getBlockstackTag = compose(lift(path(['tags', 'BLOCKSTACK'])), getUserData)
+export const isInternalTester = compose(lift(hasPath(['tags', 'INTERNAL_TESTING'])), getUserData)
 export const isUserCreated = compose(
   lift(equals(USER_ACTIVATION_STATES.CREATED)),
   getUserActivationState

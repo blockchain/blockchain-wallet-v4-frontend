@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { BSPaymentMethodType, BSPaymentTypes, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
-import { FrequencyScreen } from 'components/Flyout'
+import { FrequencyScreen } from 'components/Flyout/RecurringBuy'
 import { actions, model } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'

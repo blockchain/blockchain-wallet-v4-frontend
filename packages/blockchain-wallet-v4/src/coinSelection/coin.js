@@ -30,6 +30,13 @@ export class Coin extends Type {
     return this.value <= coin.value
   }
 
+  // Returns this coin value minus the value of the given coin.
+  // Can be used to sort an Array of Coin ascending (direct use)
+  // or descending (switch parameters order).
+  compare(coin) {
+    return this.value - coin.value
+  }
+
   ge(coin) {
     return this.value >= coin.value
   }

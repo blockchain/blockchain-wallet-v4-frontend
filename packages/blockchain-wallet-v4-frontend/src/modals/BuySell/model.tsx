@@ -8,7 +8,8 @@ import {
   BSOrderType,
   BSPaymentTypes,
   CoinType,
-  FiatType
+  FiatType,
+  MobilePaymentType
 } from '@core/types'
 import { Link, Text, TextGroup } from 'blockchain-info-components'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/buySell/model'
@@ -139,7 +140,19 @@ export const getOrderDestination = (order: BSOrderType) => {
   return orderType === 'BUY' ? `${baseCurrency} Trading Account` : `${counterCurrency} Account`
 }
 
-export const getPaymentMethod = (order: BSOrderType, bankAccount: BankTransferAccountType) => {
+export const getPaymentMethod = ({
+  bankAccount,
+  mobilePaymentMethod,
+  order
+}: {
+  bankAccount: BankTransferAccountType
+  mobilePaymentMethod?: MobilePaymentType
+  order: BSOrderType
+}) => {
+  if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
+    return <FormattedMessage id='apple_pay' defaultMessage='Apple Pay' />
+  }
+
   const baseCurrency = getBaseCurrency(order)
   const counterCurrency = getCounterCurrency(order)
   const orderType = getOrderType(order)
@@ -188,11 +201,15 @@ export const displayFiat = (order: BSOrderType, amt: string) => {
   })
 }
 
-export const getPaymentMethodDetails = (
-  order: BSOrderType,
-  bankAccount: BankTransferAccountType,
+export const getPaymentMethodDetails = ({
+  bankAccount,
+  cardDetails,
+  order
+}: {
+  bankAccount: BankTransferAccountType
   cardDetails: BSCardType | null
-) => {
+  order: BSOrderType
+}) => {
   switch (order.paymentType) {
     case BSPaymentTypes.PAYMENT_CARD:
       return `${cardDetails?.card?.type || ''} ${cardDetails?.card?.number || ''}`

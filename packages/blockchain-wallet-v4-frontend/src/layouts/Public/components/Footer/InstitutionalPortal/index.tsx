@@ -23,26 +23,30 @@ const SignUpText = styled(Text)`
   }
 `
 
-const InstitutionalPortal = (props) => (
-  <LinkContainer to='/login?product=exchange&userType=institutional'>
-    <SubCard
-      onClick={() => props.formActions.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL)}
-    >
-      <Text size='16px' color='grey400' weight={500}>
-        <FormattedMessage
-          id='layouts.wallet.footer.institutional_portal'
-          defaultMessage='Looking for the Institutional Portal?'
-        />
-      </Text>
-      &nbsp;
-      <SignUpText size='16px' color='white' weight={600}>
-        <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
-      </SignUpText>
-    </SubCard>
-  </LinkContainer>
-)
-
+const InstitutionalPortal = (props) => {
+  const institutionalPortalFooterClick = () => {
+    props.authActions.setProductAuthMetadata({ userType: 'institutional' })
+    props.formActions.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL)
+  }
+  return (
+    <LinkContainer to='/login?product=exchange&userType=institutional'>
+      <SubCard onClick={institutionalPortalFooterClick}>
+        <Text size='16px' color='grey400' weight={500}>
+          <FormattedMessage
+            id='layouts.wallet.footer.institutional_link'
+            defaultMessage='Are you an Institutional Exchange user?'
+          />
+        </Text>
+        &nbsp;
+        <SignUpText size='16px' color='white' weight={600}>
+          <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+        </SignUpText>
+      </SubCard>
+    </LinkContainer>
+  )
+}
 const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

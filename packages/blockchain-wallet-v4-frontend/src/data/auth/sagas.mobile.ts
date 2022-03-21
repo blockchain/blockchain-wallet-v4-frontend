@@ -4,13 +4,13 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
 import {
   AccountUnificationFlows,
+  AuthMagicLink,
   LoginSteps,
   MobileAuthConnectedMessage,
   MobileAuthExchangeMessage,
   MobileAuthWalletMergeMessage,
   PlatformTypes,
-  ProductAuthOptions,
-  WalletDataFromMagicLink
+  ProductAuthOptions
 } from 'data/types'
 
 import { LOGIN_FORM } from './model'
@@ -34,12 +34,13 @@ const pollForMessageFromMobile = () => {
 }
 
 // sends messages to mobile clients based on platform
-const sendMessageToMobile = (
+export const sendMessageToMobile = (
   platform: PlatformTypes,
   message: MobileAuthConnectedMessage | MobileAuthWalletMergeMessage | MobileAuthExchangeMessage
 ) => {
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
+
   switch (true) {
     // ios
     case platform === PlatformTypes.IOS:
@@ -68,7 +69,8 @@ const sendMessageToMobile = (
 }
 
 // initiates contact with mobile apps and returns the auth payload
-export const initMobileAuthFlow = function* () {
+// 👋 this is currently focused only on wallet mobile auth flow
+export const initMobileWalletAuthFlow = function* () {
   let mobileMessageChannel
   let authPayloadFromMobileEncoded
 
@@ -102,7 +104,7 @@ export const initMobileAuthFlow = function* () {
     mergeable,
     upgradeable,
     wallet: walletData
-  }: WalletDataFromMagicLink = authPayloadDecoded
+  }: AuthMagicLink = authPayloadDecoded
 
   // determine correct flow then setup forms and next step
   switch (true) {
@@ -118,7 +120,7 @@ export const initMobileAuthFlow = function* () {
       break
     // mobile exchange merge
     case product === ProductAuthOptions.EXCHANGE && mergeable:
-      yield put(actions.form.change(LOGIN_FORM, 'email', exchangeData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
       yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
       yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
       yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))

@@ -126,7 +126,7 @@ const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
               </InfoItem>
             </CardInfo>
             <Link
-              href='https://exchange.blockchain.com/trade/signup?utm_source=web_wallet&utm_medium=referral&utm_campaign=wallet_register_page'
+              href={`${props.domains.exchange}/trade/signup?utm_source=web_wallet&utm_medium=referral&utm_campaign=wallet_register_page`}
               target='_blank'
             >
               <ExchangeButton

@@ -2,9 +2,11 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Box, Icon } from 'blockchain-info-components'
+import { MobilePaymentType } from '@core/types'
+import { Box, Icon, Image } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/BuySell'
 import {
+  DisplayValue,
   getIcon,
   getText,
   PaymentArrowContainer,
@@ -40,6 +42,8 @@ const Payment: React.FC<Props> = (props: Props) => {
       : null
   }
 
+  const isApplePay = props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY
+
   return (
     <>
       <SectionTitle color='grey900' size='14px' weight={500}>
@@ -52,10 +56,18 @@ const Payment: React.FC<Props> = (props: Props) => {
       </SectionTitle>
       <Box role='button' data-e2e='paymentMethodSelect' onClick={onPaymentMethodClick}>
         <DisplayPaymentIcon showBackground={!props.method}>
-          {getIcon(props.method, props.isSddFlow)}
+          {isApplePay ? (
+            <Image name='apple-pay' height='18px' />
+          ) : (
+            getIcon(props.method, props.isSddFlow)
+          )}
         </DisplayPaymentIcon>
         <PaymentText isMethod={!!props.method}>
-          {getText(props.method, props.sbBalances, props.isSddFlow)}
+          {isApplePay ? (
+            <DisplayValue>Apple Pay</DisplayValue>
+          ) : (
+            getText(props.method, props.sbBalances, props.isSddFlow)
+          )}
         </PaymentText>
         {!props.isSddFlow && (
           <PaymentArrowContainer>

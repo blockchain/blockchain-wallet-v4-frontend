@@ -32,6 +32,7 @@
         }
       },
       "featureFlags": {
+        "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
@@ -40,14 +41,19 @@
         "mergeAndUpgrade": false,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
-        "pollForMagicLinkData": true,
-        "recurringBuys": true,
+        "institutionalPortal": true,
         "isRedesignEnabled": true,
+        "recurringBuys": true,
+        "refreshCaptchaWithSignupError": true,
+        "showTermsAndConditions": true,
         "signupCountry": true,
+        "silverRevamp": true,
+        "taxCenter": true,
         "tradingCurrencyFlyout": true,
+        "useNewPaymentProviders": true,
         "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
-        "useNewPaymentProviders": true
+        "walletDebitCardEnabled": true,
+        "withdrawalLocksFundsOnHold": true
       }
     }
   },

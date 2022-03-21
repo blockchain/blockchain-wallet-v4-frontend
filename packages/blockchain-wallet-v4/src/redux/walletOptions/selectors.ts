@@ -75,12 +75,14 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 export const getCeloEurRewards = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
 
-export const getPollForMagicLinkData = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+
+// apple pay as new payment method feature flag
+export const getApplePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
+
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
@@ -110,3 +112,27 @@ export const getCompleteYourProfile = (state: RootState) =>
 // show/hide trading currency flyout
 export const getTradingCurrency = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))
+
+// show/hide wallet debit card
+export const getWalletDebitCardEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
+
+// show/hide wallet tax center
+export const getTaxCenterEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
+
+// refresh captcha token if there's an error on signup
+export const getRefreshCaptchaOnSignupError = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
+
+// use new institutional portal app
+export const getInstitutionalPortalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
+
+// show/hide silver revamp
+export const getSilverRevamp = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+
+// show terms and conditions
+export const getShowTermsAndConditions = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))

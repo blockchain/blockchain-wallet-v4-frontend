@@ -12,7 +12,7 @@ import {
   FlyoutFooter,
   FlyoutHeader,
   FlyoutSubHeader
-} from 'components/Flyout'
+} from 'components/Flyout/Layout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { CheckoutRow } from 'components/Rows'
 import { actions, selectors } from 'data'
@@ -115,8 +115,8 @@ const Confirm = ({
 
         <CheckoutRow
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
-          text={getPaymentMethod(order, {} as BankTransferAccountType)}
-          additionalText={getPaymentMethodDetails(order, bankAccount, cardDetails)}
+          text={getPaymentMethod({ bankAccount: {} as BankTransferAccountType, order })}
+          additionalText={getPaymentMethodDetails({ bankAccount, cardDetails, order })}
         />
 
         <CheckoutRow

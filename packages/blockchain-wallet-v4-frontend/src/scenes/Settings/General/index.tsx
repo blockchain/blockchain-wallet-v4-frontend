@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import MenuHeader from 'components/MenuHeader'
 import { selectors } from 'data'
 
 import About from './About'
@@ -16,11 +17,6 @@ import TermsOfService from './TermsOfService'
 import WalletId from './WalletId'
 import WalletVersion from './WalletVersion'
 
-const MenuHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5rem;
-`
 const Title = styled(Text)`
   margin: 4px 0;
 `
