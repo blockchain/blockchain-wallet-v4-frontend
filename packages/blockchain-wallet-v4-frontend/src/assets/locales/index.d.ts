@@ -2645,6 +2645,7 @@ type MessagesType = {
   'scenes.securitycenter.steps.step2.verify': 'Turn on Two-Step Verification'
   'scenes.securitycenter.steps.step2mobile': '2 Factor Auth'
   'scenes.securitycenter.steps.step3.savephrase': 'Save Secret Private Key Recovery Phrase'
+  'scenes.securitycenter.steps.step3.mobile.savephrase': 'Recovery Phrase'
   'scenes.securitysettings.advanced.secondpasswordwallet.settings.explain': 'Confirm Second Password'
   'scenes.securitysettings.advanced.secondpasswordwallet.settings.invalidsecondpassword': 'Second password invalid'
   'scenes.securitysettings.advanced.secondpasswordwallet.settings.label': 'Second Password'
