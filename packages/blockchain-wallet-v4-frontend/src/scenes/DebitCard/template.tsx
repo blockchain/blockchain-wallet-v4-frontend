@@ -51,11 +51,7 @@ const LinkHereButton = () => (
   </div>
 )
 
-const DebitCard = ({ debitCardActions, modalActions }: Props) => {
-  useEffect(() => {
-    // Get available products that user can create
-    debitCardActions.getProducts()
-  }, [])
+const DebitCard = ({ modalActions }: Props) => {
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
@@ -94,7 +90,10 @@ const DebitCard = ({ debitCardActions, modalActions }: Props) => {
           />
         </SceneSubHeaderText>
         <OrderMyCardButton onClick={handleOpenOrderMyCard} />
-        <LinkHereButton />
+        {/*
+          Waiting for UX designs
+          <LinkHereButton />
+        */}
       </IntroCardWrapper>
     </Wrapper>
   )
