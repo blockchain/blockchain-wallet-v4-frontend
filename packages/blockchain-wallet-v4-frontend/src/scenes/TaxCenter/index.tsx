@@ -6,10 +6,17 @@ import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 
 import { getFirstAndLastDaysOfYear } from './model'
-import { getAddressesAndXpubs, getReportYearOptions } from './selectors'
+import { getAddressesAndXpubs, getExchangeDomain, getReportYearOptions } from './selectors'
 import TaxCenter from './template'
 
-const TaxCenterContainer = ({ modalActions, options, reportsR, taxCenterActions, walletDataR }) => {
+const TaxCenterContainer = ({
+  exchangeDomain,
+  modalActions,
+  options,
+  reportsR,
+  taxCenterActions,
+  walletDataR
+}) => {
   const [option, setOption] = useState(0)
 
   const handleClick = () => {
@@ -17,7 +24,6 @@ const TaxCenterContainer = ({ modalActions, options, reportsR, taxCenterActions,
 
     taxCenterActions.createReport({ walletData: walletDataR, ...limits })
     modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
-    taxCenterActions.getReports()
   }
 
   const handleChange = (value) => setOption(value)
@@ -28,6 +34,7 @@ const TaxCenterContainer = ({ modalActions, options, reportsR, taxCenterActions,
 
   return (
     <TaxCenter
+      exchangeDomain={exchangeDomain}
       value={option}
       onChange={handleChange}
       options={options}
@@ -43,6 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
+  exchangeDomain: getExchangeDomain(state),
   options: getReportYearOptions(),
   reportsR: selectors.components.taxCenter.selectReports(state),
   walletDataR: getAddressesAndXpubs(state)

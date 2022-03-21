@@ -1,5 +1,6 @@
 import { filter, lift, not, startsWith } from 'ramda'
 
+import { WalletOptionsType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
@@ -62,3 +63,10 @@ export const getAddressesAndXpubs = createDeepEqualSelector(
     return lift(transform)(ethAccountR, xlmAccountR)
   }
 )
+
+export const getExchangeDomain = (state) => {
+  const { exchange } = selectors.core.walletOptions.getDomains(state).getOrElse({
+    exchange: 'https://exchange.blockchain.com'
+  } as WalletOptionsType['domains'])
+  return exchange
+}

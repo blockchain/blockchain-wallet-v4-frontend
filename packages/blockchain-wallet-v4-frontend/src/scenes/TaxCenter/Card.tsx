@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import CircleBackground from 'components/CircleBackground'
 
-import { Box } from '../../model'
+import { Box } from './model'
 
 const ShadedBox = styled(Box)`
   margin-top: 16px;
