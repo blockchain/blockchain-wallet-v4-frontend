@@ -122,8 +122,8 @@ const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee')
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
-// TAXCENTER
-const GenerateReport = React.lazy(() => import('./GenerateReport'))
+// TAX CENTER
+const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
 
 const Modals = (props: Props) => {
   return (
