@@ -435,13 +435,14 @@ const StyledOvalButton = styled(Button)`
   border-radius: 32px;
 `
 
-const AlertButton = ({ children }) => (
+const AlertButton = ({ children, onClick = () : void => {}}) => (
   <StyledOvalButton
     data-e2e='overLimitButton'
     height='48px'
     size='16px'
     nature='dark-grey'
     fullwidth
+    onClick={onClick}
   >
     <Image width='16px' height='16px' name='alert-orange' />
     <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
