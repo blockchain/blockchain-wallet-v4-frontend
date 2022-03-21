@@ -1,4 +1,4 @@
-import { NftOrder } from '@core/network/api/nfts/types'
+import { NftOrder, WyvernAsset, WyvernSchemaName } from '@core/network/api/nfts/types'
 
 // eslint-disable-next-line jest/no-mocks-import
 import { MockSigner, MockUnhashedOrder } from './__mocks__'
@@ -6,11 +6,16 @@ import { WYVERN_MERKLE_VALIDATOR_MAINNET } from './constants'
 import { ERC721Schema, schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
 import {
+  _assignOrdersToSides,
   _encodeBuy,
+  _encodeDefaultCall,
   _encodeReplacementPattern,
   _encodeSell,
   _getMetadata,
-  _getOrderHash
+  _getOrderHash,
+  _makeMatchingOrder,
+  _ownsAssetOnChain,
+  _validateOrderWyvern
 } from './utils'
 
 describe('nft utils', () => {
@@ -92,9 +97,68 @@ describe('nft utils', () => {
     expect(encodeSellOrderOutput.calldata).toBe(correctCallData)
   })
 
-  it('Should correctly return refferer.', () => {
+  it('Should correctly return referrer.', () => {
     const correctAddress = '0x495f947276749ce646f68ac8c248420045cb7b5e'
     const metadata = _getMetadata({} as NftOrder, '0x495f947276749ce646f68ac8c248420045cb7b5e')
     expect(metadata).toBe(correctAddress)
   })
+
+  // it('Should correctly output buyside and sellside', () => {
+  //   const buySide = { r: 1, s: 1, side: 0, v: 1 } as {} as NftOrder
+  //   const sellSide = { r: 1, s: 1, side: 1, v: 1 } as {} as NftOrder
+  //   const { buy, sell } = _assignOrdersToSides(buySide, sellSide)
+  //   expect(buySide).toStrictEqual(buy)
+  //   expect(sellSide).toStrictEqual(sell)
+  // })
+
+  // it('Should return true for asset owned on chain', () => {
+  //   const accountAddress = ''
+  //   const proxyAddress = null
+  //   const schemaName = WyvernSchemaName.ERC721
+  //   const signer = null
+  //   const wyAsset = {} as WyvernAsset
+  //   const isOwner = _ownsAssetOnChain({
+  //     accountAddress,
+  //     proxyAddress,
+  //     schemaName,
+  //     signer,
+  //     wyAsset
+  //   })
+  //   expect(isOwner).toBe(true)
+  // })
+
+  // it('Should validate wyvern order and return true', () => {
+  //   const order = {}
+  //   const signer = {}
+  //   const isValid = _validateOrderWyvern({ order, signer })
+  //   expect(isValid).toBe(true)
+  // })
+
+  // it('Should correctly create a matching order', () => {
+  //   const accountAddress = ''
+  //   const expirationTime = 0
+  //   const network = ''
+  //   const order = {}
+  //   const paymentTokenAddress = ''
+  //   const recipientAddress = ''
+  //   const signer = null
+  //   const matchingOrder = _makeMatchingOrder({
+  //     accountAddress,
+  //     expirationTime,
+  //     network,
+  //     order,
+  //     paymentTokenAddress,
+  //     recipientAddress,
+  //     signer
+  //   })
+  //   expect(matchingOrder).toBe(order)
+  // })
+
+  // it('Should correctly return encoded string', () => {
+  //   const encodedString = ''
+  //   const abi = ''
+  //   const address = ''
+  //   const encoded = _encodeDefaultCall(abi, address)
+  //   expect(encoded).toBe(encodedString)
+  // })
 })
