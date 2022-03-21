@@ -211,7 +211,7 @@ const OrderSummary: React.FC<Props> = ({
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
-                    defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+                    defaultMessage='Your final amount might change due to market activity. {days, plural, =0 {We will notify you once the transaction has completed.} other {For security purposes, a # day holding period will be applied to your funds. You can sell or swap during this time. We will notify you once the transaction has completed.}}'
                     values={{ days }}
                   />
                 </Text>
@@ -219,7 +219,7 @@ const OrderSummary: React.FC<Props> = ({
                   <span>
                     <FormattedMessage
                       id='modals.simplebuy.summary.complete_card_info_additional'
-                      defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
+                      defaultMessage='In the meantime, you can sell into cash, swap, and trade within Blockchain.com.'
                     />{' '}
                     <a
                       href='https://support.blockchain.com/hc/en-us/articles/360048200392'
