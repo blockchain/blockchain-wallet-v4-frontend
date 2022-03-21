@@ -13,6 +13,8 @@ import { SettingsItem, SettingsLimit } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SETTINGS_ITEM_PERIOD, SETTINGS_ITEMS, SETTINGS_ITEMS_ICONS, TIER_TYPES } from './model'
+import Gold from './template.success.gold'
+import Silver from './template.success.silver'
 
 const TextWrapper = styled(Text)`
   a {
@@ -349,6 +351,15 @@ const Template: React.FC<Props> = (props) => {
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserTierSilver =
     currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
+
+  // show silver/silver+ settings
+  if (isUserTierSilver && props.showSilverRevamp) {
+    return <Silver {...props} />
+  }
+  // show gold settings
+  if (isUserGold && props.showSilverRevamp) {
+    return <Gold {...props} />
+  }
 
   return (
     <Wrapper>
