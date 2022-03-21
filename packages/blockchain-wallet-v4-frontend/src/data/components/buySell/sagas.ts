@@ -101,6 +101,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     applePayInfo: ApplePayInfoType
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   }) => {
+    if (!ApplePaySession) {
+      throw new Error('APPLE_PAY_SESSION_NOT_SUPPORTED')
+    }
+
     const token = await new Promise((resolve, reject) => {
       const session = new ApplePaySession(3, paymentRequest)
 
@@ -124,15 +128,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const result = {
           status: ApplePaySession.STATUS_SUCCESS
         }
+
         session.completePayment(result)
 
         resolve(JSON.stringify(event.payment.token))
       }
 
-      // TODO add error here
-      session.oncancel = (e) => {
-        session.abort()
-
+      session.oncancel = () => {
         reject(new Error('USER_CANCELLED_APPLE_PAY'))
       }
 
@@ -602,12 +604,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const authUrlCheck = function* (orderId) {
+  const checkAuthUrl = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     }
-    throw new Error('retrying to fetch for AuthUrl')
+    throw new Error('RETRYING_TO_GET_AUTH_URL')
   }
 
   const orderConfirmCheck = function* (orderId) {
@@ -672,13 +674,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error('Apple Pay info not found')
           }
 
+          const merchantCapabilities: ApplePayJS.ApplePayMerchantCapability[] = [
+            'supports3DS',
+            'supportsDebit'
+          ]
+
+          if (applePayInfo.allowCreditCards) {
+            merchantCapabilities.push('supportsCredit')
+          }
+
           // The amount has to be in cents
           const amount = parseInt(order.inputQuantity) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
-            merchantCapabilities: ['supports3DS'],
+            merchantCapabilities,
             supportedNetworks: ['visa', 'masterCard'],
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
@@ -706,11 +717,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const freshOrder = S.getBSOrder(yield select())
 
         if (!freshOrder) {
-          throw new Error('Order not found')
+          throw new Error('ORDER_NOT_FOUND')
         }
 
         if (freshOrder.inputQuantity !== order.inputQuantity) {
-          throw new Error('Order value has changed')
+          throw new Error('ORDER_VALUE_CHANGED')
         }
 
         order = freshOrder
@@ -740,7 +751,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
-        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, authUrlCheck, confirmedOrder.id)
+        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, checkAuthUrl, confirmedOrder.id)
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
@@ -778,8 +789,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
-        throw new Error('Unknown payment state')
+        throw new Error('UNHANDLED_PAYMENT_STATE')
       }
+
       yield put(A.fetchOrders())
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -1567,6 +1579,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // add a card with checkout and you'll receive an error on activate
     // I can get the ID from there and test getting the card, so I can see the lastError
     yield call(pollBSCardErrorHandler, card.state)
+
+    // TODO pass this function to here, and not send to DETERMINE_CARD_PROVIDER depending on a feature flag
   }
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {

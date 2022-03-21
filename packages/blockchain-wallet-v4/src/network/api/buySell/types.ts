@@ -406,6 +406,8 @@ export type TradesAccumulatedResponse = {
 }
 
 export type ApplePayInfoType = {
+  allowCreditCards: boolean
+  allowPrepaidCards: boolean
   applePayMerchantID: string
   beneficiaryID: string
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
