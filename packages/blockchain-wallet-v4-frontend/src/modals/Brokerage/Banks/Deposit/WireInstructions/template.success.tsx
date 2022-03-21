@@ -13,6 +13,18 @@ import { BankDWStepType } from 'data/types'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TransferType } from './types'
 
+/**
+ *
+ * @param value string to separate in blocks.
+ * @param {Number} [everyXChars] quantity of chars per block, defaults to 4
+ * @param {String} [separator] the separator to use between the blocks of the value, defaults to ' '
+ * @returns {string}
+ */
+const separateStringValue = (value: string, everyXChars = 4, separator = ' ') => {
+  const EVERY_X_CHARS = new RegExp(`(.{${everyXChars}})(?!$)`, 'g')
+  return value.replace(EVERY_X_CHARS, `$1${separator}`)
+}
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -246,7 +258,9 @@ const Success: React.FC<Props> = (props) => {
                   defaultMessage='IBAN'
                 />
               </Title>
-              <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
+              <Value data-e2e='sbIbanAddress'>
+                {separateStringValue(props.account.address, 4, ' ')}
+              </Value>
             </div>
             <Copy>
               <CopyClipboardButton textToCopy={props.account.address} />
