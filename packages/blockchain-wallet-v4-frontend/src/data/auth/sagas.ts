@@ -78,7 +78,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { exchangePortal, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
@@ -122,7 +122,9 @@ export default ({ api, coreSagas, networks }) => {
           yield put(stopSubmit(LOGIN_FORM))
           break
         // web - institutional exchange login
-        case userType === 'institutional' && institutionalPortalEnabled:
+        case userType === 'institutional' &&
+          exchangePortal === 'institutional' &&
+          institutionalPortalEnabled:
           window.open(
             `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
             '_self',
@@ -623,9 +625,11 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const userType = queryParams.get('userType') as string
+      const exchangePortal = queryParams.get('portal') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
+          exchangePortal,
           platform,
           product,
           redirect: queryParams.get('redirect') || undefined,
@@ -830,6 +834,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
