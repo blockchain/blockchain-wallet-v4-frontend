@@ -190,6 +190,7 @@ import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usFlag from './img/us-flag.svg'
 import usddIntro from './img/usdd-intro.svg'
+import verifyNotice from './img/verify-notice.svg'
 import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
@@ -400,6 +401,7 @@ const Images = {
   'twitter-white': twitterWhite,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
   wallet,

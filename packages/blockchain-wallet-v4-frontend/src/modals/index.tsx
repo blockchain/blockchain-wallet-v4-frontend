@@ -58,6 +58,7 @@ const AirdropSuccess = React.lazy(() => import('./Onboarding/AirdropSuccess'))
 const LinkFromExchangeAccount = React.lazy(() => import('./Onboarding/LinkFromExchangeAccount'))
 const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchangeAccount'))
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
+const ExtraFields = React.lazy(() => import('./Onboarding/KycVerification/ExtraFields'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
@@ -113,6 +114,7 @@ const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocumen
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
+const VerifyNotice = React.lazy(() => import('./VerifyNotice'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -277,6 +279,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.VERIFY_NOTICE) ? (
+          <VerifyNotice disableOutsideClose />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
           <TransferEth />
@@ -331,6 +336,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
+          <ExtraFields />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
           <IdentityVerification />
         ) : null}

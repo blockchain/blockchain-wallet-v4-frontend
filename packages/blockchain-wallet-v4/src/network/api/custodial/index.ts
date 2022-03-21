@@ -175,12 +175,19 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getProducts = () =>
+    authorizedGet({
+      endPoint: `/products`,
+      url: nabuUrl
+    })
+
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
     getCrossBorderTransactions,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
+    getProducts,
     getTransactionsHistory,
     getWithdrawalFees,
     getWithdrawalLimits,

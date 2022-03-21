@@ -64,6 +64,7 @@ class BuySell extends PureComponent<Props, State> {
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
+    this.props.custodialActions.fetchProducts()
     /* eslint-enable */
   }
 
@@ -315,6 +316,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),

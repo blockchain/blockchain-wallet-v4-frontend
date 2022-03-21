@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Modal, ModalBody, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Modal, ModalBody, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { ModalName } from 'data/modals/types'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -19,17 +19,18 @@ const GroupHeader = styled(Text)`
   text-align: center;
   margin-bottom: 20px;
 `
-const GroupContent = styled(Text)`
+const GroupDescription = styled(Text)`
   font-size: 14px;
   font-weight: 500;
-  color: ${(props) => props.theme.black};
+  color: ${(props) => props.theme.grey600};
   text-align: center;
-  a {
-    color: ${(props) => props.theme.blue600};
-    text-decoration: none;
-  }
 `
 
+const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -52,11 +53,18 @@ const CloseIconContainer = styled.div`
   }
 `
 
-function EntitiesMigration({ cacheActions, close }) {
+const VerifyNotice = ({ cacheActions, close, modalActions }) => {
   const handleCloseClick = useCallback(() => {
-    cacheActions.announcementDismissed('entities-migration')
+    cacheActions.announcementDismissed('verify-notice')
     close()
   }, [cacheActions, close])
+
+  const verifyNowClick = useCallback(() => {
+    close()
+    modalActions.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+      origin: 'VerifyNotice'
+    })
+  }, [modalActions, close])
 
   return (
     <Modal>
@@ -75,33 +83,21 @@ function EntitiesMigration({ cacheActions, close }) {
       </Header>
       <ModalBody>
         <Group>
+          <ImageWrapper>
+            <Image name='verify-notice' size='88px' />
+          </ImageWrapper>
           <GroupHeader>
             <FormattedMessage
-              id='modals.entity_migration.title'
-              defaultMessage='New Legal Entity'
+              id='modals.verify_notifications.title'
+              defaultMessage='We are updating our account verification requirements'
             />
           </GroupHeader>
-          <GroupContent
-            style={{
-              marginBottom: '48px'
-            }}
-          >
+          <GroupDescription>
             <FormattedMessage
-              id='modals.entity_migration.description'
-              defaultMessage='Starting later this month, UK customers will be served by our European subsidiary, Blockchain (LT), UAB. You will not experience any changes in user experience or lose access to your funds during this transition. <a>Learn more.</a>'
-              values={{
-                a: (msg) => (
-                  <a
-                    href='https://support.blockchain.com/hc/en-us/articles/4418431131668'
-                    rel='noopener noreferrer'
-                    target='_blank'
-                  >
-                    {msg}
-                  </a>
-                )
-              }}
+              id='modals.verify_notifications.description'
+              defaultMessage='To buy, sell, and swap, you will need to verify your identity by March 27, 2022.'
             />
-          </GroupContent>
+          </GroupDescription>
         </Group>
         <Group>
           <Button
@@ -111,10 +107,10 @@ function EntitiesMigration({ cacheActions, close }) {
             size='16px'
             type='submit'
             disabled={false}
-            onClick={handleCloseClick}
+            onClick={verifyNowClick}
             fullwidth
           >
-            <FormattedMessage id='copy.i_understand' defaultMessage='I understand' />
+            <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
           </Button>
         </Group>
       </ModalBody>
@@ -128,8 +124,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer(ModalName.ENTITIES_MIGRATION_MODAL),
+  modalEnhancer(ModalName.VERIFY_NOTICE),
   connect(undefined, mapDispatchToProps)
 )
 
-export default enhance(EntitiesMigration)
+export default enhance(VerifyNotice)

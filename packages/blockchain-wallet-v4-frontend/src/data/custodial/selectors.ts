@@ -14,3 +14,4 @@ export const getDefaultBeneficiary = (currency: WalletCurrencyType, state: RootS
 }
 
 export const getRecentSwapTxs = (state: RootState) => state.custodial.recentSwapTxs
+export const getProducts = (state: RootState) => state.custodial.products

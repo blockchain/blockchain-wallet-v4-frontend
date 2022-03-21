@@ -82,7 +82,7 @@ const ActionButton: React.FC<Props> = (props) => {
               <FormattedMessage id='buttons.next' defaultMessage='Next' />
             )}
           </Button>
-          <Text
+          {/* <Text
             color='grey600'
             weight={500}
             size='14px'
@@ -92,7 +92,7 @@ const ActionButton: React.FC<Props> = (props) => {
               id='modals.simplebuy.setupaccount'
               defaultMessage="Next, we'll set up your account."
             />
-          </Text>
+          </Text> */}
         </div>
       )
     case 'VERIFIED':
