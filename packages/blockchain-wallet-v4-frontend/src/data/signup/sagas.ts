@@ -154,14 +154,20 @@ export default ({ api, coreSagas, networks }) => {
       // generate a retail token for new wallet
       const retailToken = yield call(generateRetailToken)
       // call the reset nabu user endpoint, receive new lifetime token for nabu user
-      const { token: lifetimeToken } = yield call(
-        api.resetUserAccount,
-        userId,
-        recoveryToken,
-        retailToken
-      )
+      const {
+        mercuryLifetimeToken: exchangeLifetimeToken,
+        token: lifetimeToken,
+        userCredentialsId: exchangeUserId
+      } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
       // set new lifetime token for user in metadata
       yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+      // set new exchange lifetime token for user in metadata
+      yield put(
+        actions.core.kvStore.userCredentials.setExchangeUserCredentials(
+          exchangeUserId,
+          exchangeLifetimeToken
+        )
+      )
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
       yield put(actions.signup.resetAccountSuccess())

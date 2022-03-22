@@ -9,6 +9,7 @@ export default ({ api, coreSagas, networks }) => {
   return function* authSaga() {
     yield takeLatest(actions.initializeSignup.type, signupSagas.initializeSignUp)
     yield takeLatest(actions.register.type, signupSagas.register)
+    yield takeLatest(actions.resetAccount.type, signupSagas.resetAccount)
     yield takeLatest(actions.restore.type, signupSagas.restore)
     yield takeLatest(actions.restoreFromMetadata.type, signupSagas.restoreFromMetadata)
   }
