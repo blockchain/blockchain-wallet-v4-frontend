@@ -254,7 +254,7 @@
         if (!window.grecaptcha || !window.grecaptcha.enterprise) return
         window.grecaptcha.enterprise.ready(() => {
             window.grecaptcha.enterprise
-                .execute(window.CAPTCHA_KEY, { action: 'IMPORT_JSON_WALLET' })
+                .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
                 .then((captchaToken) => {
                     console.log('Captcha success', captchaToken)
                     window.NEWRECAPCHA = captchaToken
