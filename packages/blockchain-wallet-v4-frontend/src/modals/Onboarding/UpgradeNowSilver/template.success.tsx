@@ -148,7 +148,7 @@ const Template = (props: Props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.onClose}
+              onClick={props.handleClose}
             />
           </CloseIconContainer>
         </IconsContainer>
