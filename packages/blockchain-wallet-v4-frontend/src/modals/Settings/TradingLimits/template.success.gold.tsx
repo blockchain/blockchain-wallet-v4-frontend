@@ -9,6 +9,7 @@ import Content from 'components/Flyout/Content'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { LimitsAndDetails, SettingsLimit } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SETTINGS_ITEM_PERIOD, SETTINGS_ITEMS } from './model'
 import {
@@ -29,18 +30,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,7 +121,7 @@ const Template: React.FC<Props> = (props) => {
     <Wrapper>
       <HeaderWrapper>
         <IconsContainer>
-          <Title color='textBlack' size='24px' weight={600}>
+          <Title color='textBlack'>
             <FormattedMessage
               id='modals.onboarding.upgrade_now.account_limits'
               defaultMessage='Account Limits'
@@ -165,7 +155,7 @@ const Template: React.FC<Props> = (props) => {
         <Text color='grey900' size='12px' weight={500} style={{ marginTop: '8px' }}>
           <FormattedMessage
             id='modals.onboarding.upgrade_now.verified_account_description'
-            defaultMessage='With a Verified Account, you can now connect your bank or card to your Wallet. Hold cash in your wallet. Earn crypto with Rewards.'
+            defaultMessage='With a Verified Account, you can now connect your bank or card to your Wallet. Hold cash in your Wallet. Earn crypto with Rewards.'
           />
         </Text>
       </HeaderWrapper>

@@ -8,6 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import Content from 'components/Flyout/Content'
 import { ModalName } from 'data/modals/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { TIER_TYPES } from './model'
 import {
@@ -31,18 +32,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,7 +84,7 @@ const Template: React.FC<Props> = (props) => {
     <Wrapper>
       <HeaderWrapper>
         <IconsContainer>
-          <Title color='textBlack' size='24px' weight={600}>
+          <Title color='textBlack'>
             <FormattedMessage
               id='layouts.wallet.header.tradinglimits'
               defaultMessage='Trading Limits'
