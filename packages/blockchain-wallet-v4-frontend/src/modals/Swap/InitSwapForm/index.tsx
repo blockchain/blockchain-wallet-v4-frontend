@@ -11,7 +11,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
