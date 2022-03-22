@@ -29,3 +29,7 @@ export const StyledIcon = styled(Icon)`
 export const StyledLoading = styled(SpinningLoader)`
   margin-top: 4px;
 `
+
+export const EmptyReportList = styled.div`
+  height: 1rem;
+`

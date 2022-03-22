@@ -18,13 +18,14 @@ export default ({ api }: { api: APIType }) => {
     try {
       const { from, to, walletData } = action.payload
       yield put(A.createReportLoading())
-      yield delay(3000)
+      yield delay(2000)
       yield call(api.createReport, {
         ...walletData.getOrFail('Failed to fetch wallet data'),
         from,
         to
       })
       yield put(A.createReportSuccess())
+      yield put(A.getReports())
     } catch (e) {
       yield put(A.createReportFailure(e))
     }
