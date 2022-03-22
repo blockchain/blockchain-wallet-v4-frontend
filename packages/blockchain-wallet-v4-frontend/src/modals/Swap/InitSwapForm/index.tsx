@@ -240,15 +240,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </FlyoutWrapper>
           {showSilverRevamp ? (
             <FlyoutWrapper>
-              <GetMoreAccess
-                startProcess={() =>
-                  this.props.identityVerificationActions.verifyIdentity({
-                    needMoreInfo: false,
-                    origin: 'Swap',
-                    tier: 2
-                  })
-                }
-              />
+              <GetMoreAccess startProcess={this.props.showUpgradeModal} />
             </FlyoutWrapper>
           ) : (
             <>
