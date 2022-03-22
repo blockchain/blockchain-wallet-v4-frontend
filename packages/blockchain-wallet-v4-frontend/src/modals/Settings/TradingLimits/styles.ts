@@ -4,12 +4,6 @@ import { Text } from 'blockchain-info-components'
 import { BlueCartridge, GreyCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 
-export const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
 export const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;

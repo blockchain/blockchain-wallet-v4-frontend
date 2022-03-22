@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
-import { IconsContainer } from '../../components'
+import { IconsContainer, Title } from '../../components'
 import {
   NumberContainer,
   NumberDescription,
@@ -21,12 +21,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
+
 const ShortTitleContainer = styled.div`
   max-width: 154px;
   margin-top: 20px;
@@ -58,7 +53,7 @@ const Template: React.FC<Props> = (props) => {
             onClick={props.handleClose}
           />
         </IconsContainer>
-        <Title color='grey800' size='24px' weight={600}>
+        <Title color='grey800'>
           <ShortTitleContainer>
             <FormattedMessage id='modals.simplebuy.kycrequired.title' defaultMessage='Buy Crypto' />
           </ShortTitleContainer>

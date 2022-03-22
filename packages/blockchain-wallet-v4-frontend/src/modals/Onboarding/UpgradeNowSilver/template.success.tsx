@@ -8,15 +8,9 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer } from 'components/Flyout/Layout'
 import { ModalName } from 'data/types'
 
-import { IconsContainer } from '../../components'
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
 const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;
@@ -143,7 +137,7 @@ const Template = (props: Props) => {
     <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainer>
-          <Title color='textBlack' size='24px' weight={600}>
+          <Title color='textBlack'>
             <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
           </Title>
           <CloseIconContainer>

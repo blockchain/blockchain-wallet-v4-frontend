@@ -480,6 +480,15 @@ const IconsContainer = styled.div`
   width: 100%;
 `
 
+const Title = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-size: 24px;
+  font-weight: 600;
+`
+
 export {
   AlertButton,
   BankSearchIcon,
@@ -503,5 +512,6 @@ export {
   ScanWithPhone,
   Section,
   SimpleBankRow,
+  Title,
   TopText
 }
