@@ -9,14 +9,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
@@ -81,7 +74,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 {val?.name}
               </Text>
             </AssetDesc>
-            <Row>
+            {/* <Row>
               <Title>
                 <FormattedMessage id='copy.description' defaultMessage='Description' />
               </Title>
@@ -90,7 +83,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
                 )}
               </Value>
-            </Row>
+            </Row> */}
             <Form>
               <Row>
                 <Title>
@@ -156,6 +149,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               <MakeOfferFees {...props} asset={val} />
               {isAuthenticated ? (
                 formValues.amount &&
+                Remote.Success.is(erc20BalanceR) &&
                 new BigNumber(formValues.amount).isGreaterThan(standardErc20Balance) &&
                 formValues?.coin === 'WETH' ? (
                   <>
@@ -238,6 +232,7 @@ const connector = connect(mapStateToProps)
 
 const enhance = compose(
   reduxForm<{}, OwnProps>({
+    destroyOnUnmount: false,
     form: 'nftMakeOffer',
     initialValues: {
       coin: 'WETH'

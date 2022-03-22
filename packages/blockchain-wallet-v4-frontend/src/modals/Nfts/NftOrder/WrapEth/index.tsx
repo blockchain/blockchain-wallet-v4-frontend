@@ -9,7 +9,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasDataI } from '@core/network/api/nfts/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -32,8 +32,9 @@ const WrapEth: React.FC<Props> = (props) => {
   const fee = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const max = Math.max(0, ethBalance.minus(fee.gasPrice * fee.totalFees).toNumber())
   const gasData = orderFlow.fees.getOrElse({} as GasDataI)
+  const overMax = new BigNumber(formValues?.amount || 0).isGreaterThan(max)
 
-  const disabled = !Remote.Success.is(orderFlow.fees)
+  const disabled = !Remote.Success.is(orderFlow.fees) || props.orderFlow.isSubmitting || overMax
 
   return (
     <>
@@ -81,27 +82,31 @@ const WrapEth: React.FC<Props> = (props) => {
           <Value>
             <Field name='amount' component={NumberBox} validate={[required]} />
             <div style={{ display: 'flex', marginTop: '12px' }}>
-              <BlueCartridge
-                cursor
-                role='button'
-                onClick={() =>
-                  formActions.change(
-                    'wrapEth',
-                    'amount',
-                    convertCoinToCoin({ baseToStandard: true, coin: 'ETH', value: max })
-                  )
-                }
-              >
-                <FormattedMessage id='copy.max' defaultMessage='Max' />
-                &nbsp;
-                <FiatDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
-                  {max}
-                </FiatDisplay>
-                &nbsp;-&nbsp;
-                <CoinDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
-                  {max}
-                </CoinDisplay>
-              </BlueCartridge>
+              {overMax ? (
+                <div />
+              ) : (
+                <BlueCartridge
+                  cursor
+                  role='button'
+                  onClick={() =>
+                    formActions.change(
+                      'wrapEth',
+                      'amount',
+                      convertCoinToCoin({ baseToStandard: true, coin: 'ETH', value: max })
+                    )
+                  }
+                >
+                  <FormattedMessage id='copy.max' defaultMessage='Max' />
+                  &nbsp;
+                  <FiatDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
+                    {max}
+                  </FiatDisplay>
+                  &nbsp;-&nbsp;
+                  <CoinDisplay cursor color='blue600' coin='ETH' size='14px' weight={600}>
+                    {max}
+                  </CoinDisplay>
+                </BlueCartridge>
+              )}
             </div>
           </Value>
         </Row>
@@ -136,7 +141,11 @@ const WrapEth: React.FC<Props> = (props) => {
             data-e2e='wrapEth'
             onClick={() => nftActions.wrapEth({ amount: formValues.amount, gasData })}
           >
-            Wrap ETH
+            {props.orderFlow.isSubmitting ? (
+              <HeartbeatLoader color='blue100' height='20px' width='20px' />
+            ) : (
+              <>Wrap ETH</>
+            )}
           </Button>
         </StickyCTA>
       </Form>
