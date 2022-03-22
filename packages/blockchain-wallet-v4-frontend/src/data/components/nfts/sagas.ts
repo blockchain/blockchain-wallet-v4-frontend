@@ -525,6 +525,8 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield put(A.setOrderFlowIsSubmitting(true))
       yield call(executeWrapEth, signer, amount, gasData)
+      yield put(actions.core.data.eth.fetchData())
+      yield put(actions.core.data.eth.fetchErc20Data())
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
     } catch (e) {
       let error = errorHandler(e)

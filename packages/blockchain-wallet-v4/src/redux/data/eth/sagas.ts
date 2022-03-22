@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
 import moment from 'moment'
 import {
   addIndex,
@@ -23,6 +24,8 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
+import { WETH_ABI } from '@core/redux/payment/nfts/abis'
+import { WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { EthProcessedTxType } from '@core/transactions/types'
 import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -285,6 +288,14 @@ export default ({ api }: { api: APIType }) => {
         api.getAccountTokensBalances,
         ethAddr
       )
+      // REMOVE!
+      const network = api.ethProvider.network.name
+      const contract = new ethers.Contract(
+        network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET,
+        WETH_ABI,
+        api.ethProvider
+      )
+      const balance = yield call(contract.balanceOf, ethAddr)
 
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
@@ -297,6 +308,18 @@ export default ({ api }: { api: APIType }) => {
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
+
+          // REMOVE!
+          if (symbol === 'WETH') {
+            yield put(
+              A.fetchErc20DataSuccess(
+                symbol,
+                constructDefaultErc20Data(ethAddr, contract, balance.toString())
+              )
+            )
+            return
+          }
+
           yield put(
             A.fetchErc20DataSuccess(
               symbol,
