@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
+import { IconsContainer } from '../../../components'
 import { Props } from '.'
 
 const Wrapper = styled.div`
@@ -64,12 +65,7 @@ const Title = styled(Text)`
   justify-content: space-between;
   margin-bottom: 7px;
 `
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;

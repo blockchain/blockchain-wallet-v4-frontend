@@ -473,6 +473,13 @@ const MaxButton = ({ onClick, type }) => (
   </MaxButtonWrapper>
 )
 
+const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`
+
 export {
   AlertButton,
   BankSearchIcon,
@@ -482,6 +489,7 @@ export {
   BankWrapper,
   BROKERAGE_INELIGIBLE,
   Hr,
+  IconsContainer,
   IneligibleErrorMessage,
   LinkOptionsWrapper,
   LinkViaDesktop,

@@ -10,12 +10,6 @@ export const Title = styled(Text)`
   justify-content: space-between;
   margin-bottom: 7px;
 `
-export const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
 export const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;

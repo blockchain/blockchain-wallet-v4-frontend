@@ -1312,7 +1312,7 @@ type MessagesType = {
   'modals.onboarding.upgrade_now.get_verified': 'Get Verified'
   'modals.onboarding.upgrade_now.your_current_limits': 'Your Current Limits & Features'
   'modals.onboarding.upgrade_now.to_from_trading_accounts': 'To & From Trading Accounts'
-  'modals.onboarding.upgrade_now.verified_account_description': 'With a Verified Account, you can now connect your bank or card to your Wallet. Hold cash in your wallet. Earn crypto with Rewards.'
+  'modals.onboarding.upgrade_now.verified_account_description': 'With a Verified Account, you can now connect your bank or card to your Wallet. Hold cash in your Wallet. Earn crypto with Rewards.'
   'modals.onboarding.upgrade_now.swap_gold_description': 'Between All Accounts'
   'modals.onboarding.upgrade_now.buying_crypto': 'Buying Crypto'
   'modals.onboarding.upgrade_now.personal_bank_account': 'To Personal Bank Account'

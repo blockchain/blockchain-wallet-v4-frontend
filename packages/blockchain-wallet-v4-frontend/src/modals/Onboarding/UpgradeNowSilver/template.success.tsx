@@ -8,6 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer } from 'components/Flyout/Layout'
 import { ModalName } from 'data/types'
 
+import { IconsContainer } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Title = styled(Text)`
@@ -15,12 +16,6 @@ const Title = styled(Text)`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
 `
 const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;

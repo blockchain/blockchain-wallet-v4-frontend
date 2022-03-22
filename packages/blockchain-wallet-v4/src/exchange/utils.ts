@@ -51,18 +51,12 @@ export const fiatToString = ({
   unit: FiatType
   value: string | number
 }): string => {
-  const options = showNarrowSymbol
-    ? {
-        currency: unit,
-        currencyDisplay: 'narrowSymbol',
-        minimumFractionDigits: digits,
-        style: 'currency'
-      }
-    : {
-        currency: unit,
-        minimumFractionDigits: digits,
-        style: 'currency'
-      }
+  const options = {
+    currency: unit,
+    currencyDisplay: showNarrowSymbol ? 'narrowSymbol' : undefined,
+    minimumFractionDigits: digits,
+    style: 'currency'
+  }
 
   return new Intl.NumberFormat(getLang(), options).format(new BigNumber(value).toNumber())
 }

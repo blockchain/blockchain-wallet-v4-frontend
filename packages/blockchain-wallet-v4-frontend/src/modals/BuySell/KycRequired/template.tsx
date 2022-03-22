@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
+import { IconsContainer } from '../../components'
 import {
   NumberContainer,
   NumberDescription,
@@ -38,12 +39,6 @@ const DisplayTitle = styled(Text)`
   font-size: 15px;
   display: flex;
   color: ${(props) => props.theme.textBlack};
-  width: 100%;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   width: 100%;
 `
 
