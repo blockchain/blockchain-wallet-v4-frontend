@@ -143,10 +143,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/
       }),
-      new Webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/wordlists\/(?!english)/,
-        contextRegExp: /bip39$/,
-      }),
       new FaviconsWebpackPlugin({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
