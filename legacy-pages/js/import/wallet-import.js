@@ -1,6 +1,8 @@
 (function() {
     //Save the javascript wallet to the remote server
     function reallyInsertWallet(guid, sharedKey, password, successcallback) {
+        // Executing google recaptcha
+        initCaptcha()
         var _errorcallback = function(e) {
             MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000);
             throw e;
@@ -20,16 +22,29 @@
             MyWallet.decryptWallet(crypted, password, function(obj) {
                 try {
                     //SHA256 new_checksum verified by server in case of curruption during transit
-                    var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, {asBytes: true}));
+                    var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, { asBytes: true }));
 
                     MyWallet.setLoadingText('Saving wallet');
 
-                    MyWallet.securePost('wallet', { length: crypted.length, payload: crypted, checksum: new_checksum, method : 'insert', format : 'plain', sharedKey : sharedKey, guid : guid }, function(data) {
-                        MyWallet.makeNotice('success', 'misc-success', data);
+                    MyWallet.securePost(
+                        'wallet', 
+                        { 
+                            length: crypted.length, 
+                            payload: crypted, 
+                            captcha: window.NEWRECAPCHA,
+                            checksum: new_checksum, 
+                            method : 'insert', 
+                            format : 'plain', 
+                            sharedKey : sharedKey, 
+                            guid : guid 
+                        }, 
+                        function(data) {
+                            MyWallet.makeNotice('success', 'misc-success', data);
 
                         if (successcallback != null)
                             successcallback();
-                    }, function(e) {
+                        }, 
+                        function(e) {
                         _errorcallback(e.responseText);
                     });
 
@@ -112,7 +127,6 @@
             modal.modal('hide');
         });
     }
-
 
     function generateUUIDs(n, success, error) {
         $.ajax({
@@ -234,6 +248,21 @@
         evt.stopPropagation();
         evt.preventDefault();
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    }
+
+    function initCaptcha() {
+        if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+        window.grecaptcha.enterprise.ready(() => {
+            window.grecaptcha.enterprise
+                .execute(window.CAPTCHA_KEY, { action: 'IMPORT_JSON_WALLET' })
+                .then((captchaToken) => {
+                    console.log('Captcha success', captchaToken)
+                    window.NEWRECAPCHA = captchaToken
+                })
+                .catch((e) => {
+                    console.error('Captcha error: ', e)
+                })
+        })
     }
 
     $(document).ready(function() {
