@@ -6,8 +6,8 @@ import { RemoteDataType } from '@core/types'
 import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { ReportType } from 'data/components/taxCenter/types'
 
-import { Card } from './components'
-import List from './components/List'
+import Card from './Card'
+import List from './List'
 import {
   AlertMessage,
   Box,
@@ -47,7 +47,7 @@ const Loader = () => (
   </LoadingContainer>
 )
 
-const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
+const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value }: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -72,8 +72,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
           <Text size='14px' weight={500} color='black'>
             <FormattedMessage
               id='scenes.tax.center.carousel.taxes.description'
-              defaultMessage='If you sold or converted your crypto last year, the transactions are likely subject to U.S. capital
-              gains taxes.'
+              defaultMessage='If you sold, swapped, or earned rewards on your crypto in the last year, you likely owe taxes.'
             />
           </Text>
         </Slide>
@@ -89,7 +88,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
               id='scenes.tax.center.carousel.file.description'
               defaultMessage='Export your transaction history then manually calculate your gains/losses using your cost
               basis. If you want to simplify the process, use our crypto tax partner CoinTracker to get free
-              tax reports for up to 1,000 transactions.'
+              tax reports for up to 500 transactions.'
             />
           </Text>
         </Slide>
@@ -100,21 +99,14 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
               defaultMessage='What if I use other crypto services?'
             />
           </Title>
-          <TextGroup inline>
-            <Text size='14px' weight={500} color='black'>
-              <FormattedMessage
-                id='scenes.tax.center.carousel.services.description'
-                defaultMessage='This file only contains your Blockchain.com Wallet activity. If you use other crypto services,
-                those transactions will not appear here. If you use the Blockchain.com Exchange, you can
-                connect your account to CoinTracker via API.'
-              />
-            </Text>
-            <Text>
-              <Link href='/' target='_blank' weight={500} size='14px'>
-                <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
-              </Link>
-            </Text>
-          </TextGroup>
+          <Text size='14px' weight={500} color='black'>
+            <FormattedMessage
+              id='scenes.tax.center.carousel.services.description'
+              defaultMessage='This file only contains your Blockchain.com Wallet activity. If you use other crypto services,
+              those transactions will not appear here. If you use the Blockchain.com Exchange, you can
+              export your Exchange transaction history by using Exchange Tax Center'
+            />
+          </Text>
         </Slide>
       </Carousel>
     </Box>
@@ -139,7 +131,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
             <SelectLabel size='14px' weight={600} color='black'>
               <FormattedMessage
                 id='scenes.tax.center.card.report.select'
-                defaultMessage='Choose tax year'
+                defaultMessage='Choose year'
               />
             </SelectLabel>
             <StyledSelect
@@ -157,7 +149,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
           >
             <FormattedMessage
               id='scenes.tax.center.card.report.button'
-              defaultMessage='Generate Report'
+              defaultMessage='Generate Export'
             />
           </GenerateButton>
         </GenerateReport>
@@ -171,7 +163,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
                 <SelectLabel size='14px' weight={600} color='black'>
                   <FormattedMessage
                     id='scenes.tax.center.card.report.list'
-                    defaultMessage='Generated Reports'
+                    defaultMessage='Generated Exports'
                   />
                 </SelectLabel>
                 <Text size='12px' color='grey400'>
@@ -193,7 +185,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
       description={
         <FormattedMessage
           id='scenes.tax.center.card.service.description'
-          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Get free tax reports for up to 1,000 transactions with CoinTracker or use a service provider of your choosing.'
+          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Cointracker is fully supported in the US, Australia, UK, Canada and also provide capital gains reports for users around the World. Get free tax reports for up to 500 transactions with CoinTracker or use a service provider of your choosing.'
         />
       }
       number={2}
@@ -205,10 +197,12 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
       }
     >
       <VisitButton nature='empty-blue' data-e2e='visitButton' type='button' onClick={() => {}}>
-        <FormattedMessage
-          id='scenes.tax.center.card.service.button'
-          defaultMessage='Visit CoinTracker'
-        />
+        <Link href='https://www.cointracker.io/blockchain' target='_blank'>
+          <FormattedMessage
+            id='scenes.tax.center.card.service.button'
+            defaultMessage='Visit CoinTracker'
+          />
+        </Link>
       </VisitButton>
     </Card>
     <Footer>
@@ -220,7 +214,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
           />
         </Text>
         <Text>
-          <Link href='/' target='_blank' weight={500} size='14px'>
+          <Link href={`${exchangeDomain}/trade`} target='_blank' weight={500} size='14px'>
             <FormattedMessage
               id='scenes.tax.center.footer.link'
               defaultMessage='Visit Exchange Tax Center'
@@ -233,6 +227,7 @@ const TaxCenter = ({ onChange, onClick, options, reportsR, value }: Props) => (
 )
 
 type Props = {
+  exchangeDomain: string
   onChange: (unknown) => void
   onClick: () => void
   options: Array<{ text: string; value: number }>

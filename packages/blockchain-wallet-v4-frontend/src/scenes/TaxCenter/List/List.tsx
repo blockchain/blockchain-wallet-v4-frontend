@@ -1,11 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 
-import { AlertMessage } from '../../model'
-import { Content, Description, ReportItem, StyledIcon, StyledLoading } from './model'
+import {
+  Content,
+  Description,
+  EmptyReportList,
+  ReportItem,
+  StyledIcon,
+  StyledLoading
+} from './model'
 
 const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
@@ -28,17 +35,7 @@ const getReportTitle = (from, to) => {
 
 const List = ({ reports }) => (
   <>
-    {!reports?.length && (
-      <AlertMessage>
-        <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
-        <Text size='12px' color='orange600' weight={500}>
-          <FormattedMessage
-            id='scenes.tax.center.card.report.generation.error.message'
-            defaultMessage='No reports generated.'
-          />
-        </Text>
-      </AlertMessage>
-    )}
+    {!reports?.length && <EmptyReportList />}
     {reports.map(({ filePath, from, id, insertedAt, status, to }) => {
       const isCompleted = status === COMPLETED_STATUS
       const isPending = status === PENDING_STATUS
