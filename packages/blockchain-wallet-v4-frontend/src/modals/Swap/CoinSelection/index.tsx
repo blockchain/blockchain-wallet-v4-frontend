@@ -124,17 +124,7 @@ class CoinSelection extends PureComponent<Props> {
             </List>
           )}
         </AutoSizer>
-        {showSilverRevampBanner && (
-          <GetMoreAccess
-            startProcess={() =>
-              this.props.identityVerificationActions.verifyIdentity({
-                needMoreInfo: false,
-                origin: 'Swap',
-                tier: 2
-              })
-            }
-          />
-        )}
+        {showSilverRevampBanner && <GetMoreAccess startProcess={this.props.showUpgradeModal} />}
       </>
     )
   }

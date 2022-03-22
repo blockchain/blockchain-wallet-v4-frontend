@@ -18,7 +18,6 @@ import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
-// import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
@@ -35,7 +34,6 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
-// import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 import {
   checkCrossBorderLimit,
@@ -867,15 +865,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
-            <GetMoreAccess
-              startProcess={() =>
-                props.identityVerificationActions.verifyIdentity({
-                  needMoreInfo: false,
-                  origin: 'BuySell',
-                  tier: 2
-                })
-              }
-            />
+            <GetMoreAccess startProcess={props.showUpgradeModal} />
           </FlyoutWrapper>
         )}
       {isSufficientEthForErc20 && (

@@ -11,6 +11,7 @@ import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
   BSCheckoutFormValuesType,
+  ModalName,
   RecurringBuyPeriods,
   SwapBaseCounterTypes,
   UserDataType
@@ -243,7 +244,14 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+  showUpgradeModal: () => {
+    dispatch(
+      actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+        origin: 'Swap'
+      })
+    )
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
