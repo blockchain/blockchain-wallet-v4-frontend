@@ -5,11 +5,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { BSOrderType } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins } from 'data/types'
 import { media } from 'services/styles'
+
+import { BannerButton } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,14 +66,6 @@ const Copy = styled(Text)`
   `}
   ${media.tablet`
     font-size: 14px;
-  `}
-`
-const BannerButton = styled(Button)`
-  height: 48px;
-  ${media.mobile`
-    font-size: 14px;
-    margin-top: 16px;
-    padding: 10px;
   `}
 `
 
