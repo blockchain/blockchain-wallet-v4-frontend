@@ -1,11 +1,10 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { CoinType, OrderType, TimeRange } from '@core/types'
-import { Tab, Tabs } from 'components/Tabs'
+import { CoinType, OrderType } from '@core/types'
 import { actions } from 'data'
 import { ModalName } from 'data/types'
 
@@ -14,7 +13,7 @@ import { AboutSection } from '../AboutSection'
 import { ChartBalancePanel } from '../ChartBalancePanel'
 import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
-import { useChart, useWalletsCard } from './hooks'
+import { useChart, useWalletsCard, useTabs } from './hooks'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
@@ -27,20 +26,17 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     coin,
     currency,
     data,
-    priceChartActions,
+    // priceChartActions,
     receiveButtonHandler,
     sellButtonHandler,
     sendButtonHandler
   }) => {
-    const [selectedTab, setSelectedTab] = useState<TimeRange>(TimeRange.WEEK)
+    const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
+
     const [chart] = useChart({
-      timeRange: selectedTab
+      timeRange: selectedTimeRange
     })
     const [walletsCard] = useWalletsCard(coin)
-
-    useEffect(() => {
-      priceChartActions.initialized(coin, TimeRange.WEEK)
-    }, [coin, priceChartActions])
 
     const { coinfig } = useMemo(() => window.coins[coin], [coin])
     const displayName = useMemo(() => coinfig.name, [coinfig.name])
@@ -51,13 +47,6 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     const receiveButtonCallback = useCallback(
       () => receiveButtonHandler(coin),
       [receiveButtonHandler, coin]
-    )
-    const handleTabChange = useCallback(
-      (timeRange: TimeRange) => {
-        setSelectedTab(timeRange)
-        priceChartActions.initialized(coin, timeRange)
-      },
-      [coin, priceChartActions]
     )
 
     return data.cata({
@@ -92,44 +81,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
 
         return (
           <CoinPage
-            chartTabs={
-              <Tabs>
-                <Tab
-                  onClick={() => handleTabChange(TimeRange.DAY)}
-                  selected={selectedTab === TimeRange.DAY}
-                >
-                  1D
-                </Tab>
-
-                <Tab
-                  onClick={() => handleTabChange(TimeRange.WEEK)}
-                  selected={selectedTab === TimeRange.WEEK}
-                >
-                  1W
-                </Tab>
-
-                <Tab
-                  onClick={() => handleTabChange(TimeRange.MONTH)}
-                  selected={selectedTab === TimeRange.MONTH}
-                >
-                  1M
-                </Tab>
-
-                <Tab
-                  onClick={() => handleTabChange(TimeRange.YEAR)}
-                  selected={selectedTab === TimeRange.YEAR}
-                >
-                  1Y
-                </Tab>
-
-                <Tab
-                  onClick={() => handleTabChange(TimeRange.ALL)}
-                  selected={selectedTab === TimeRange.ALL}
-                >
-                  All
-                </Tab>
-              </Tabs>
-            }
+            chartTabs={tabsNode}
             about={<AboutSection content='' title={coin} actions={[<></>]} />}
             chart={chart}
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
@@ -171,7 +123,7 @@ const mapDispatchToProps = (dispatch) => ({
     )
   },
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  priceChartActions: bindActionCreators(actions.components.priceChart, dispatch),
+  // priceChartActions: bindActionCreators(actions.components.priceChart, dispatch),
   receiveButtonHandler: (coin: CoinType) => {
     dispatch(
       actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
