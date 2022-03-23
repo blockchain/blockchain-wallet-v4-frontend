@@ -2,8 +2,9 @@ import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import moment from 'moment'
 
+import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import { CoinChart, CoinChartComponent } from '.'
-import { serie_ascending_1, serie_descending_1 } from './mocks'
+import { liveDataCopy, serie_ascending_1, serie_descending_1 } from './mocks'
 
 const coinChartStory: ComponentMeta<CoinChartComponent> = {
   argTypes: {
@@ -14,6 +15,12 @@ const coinChartStory: ComponentMeta<CoinChartComponent> = {
     data: {
       defaultValue: serie_ascending_1
     },
+    height: {
+      defaultValue: 400
+    },
+    numTicks: {
+      defaultValue: 6
+    },
     primaryColor: {
       control: { type: 'color' },
       defaultValue: '#0C6CF2'
@@ -21,6 +28,9 @@ const coinChartStory: ComponentMeta<CoinChartComponent> = {
     textColor: {
       control: { type: 'color' },
       defaultValue: '#98A1B2'
+    },
+    width: {
+      defaultValue: 600
     },
     x: {
       defaultValue: 'date'
@@ -44,29 +54,43 @@ const coinChartStory: ComponentMeta<CoinChartComponent> = {
 }
 
 export const Ascending: ComponentStory<CoinChartComponent> = ({ ...args }) => (
-  <div style={{ height: 300, width: 600 }}>
-    <CoinChart {...args} />
-  </div>
+  <CoinChart tooltip={createCoinChartTooltipBuilder()} {...args} />
 )
 
 export const Decending: ComponentStory<CoinChartComponent> = ({ ...args }) => (
-  <div style={{ height: 300, width: 600 }}>
-    <CoinChart {...args} />
-  </div>
+  <CoinChart tooltip={createCoinChartTooltipBuilder()} {...args} />
 )
 Decending.args = {
   data: serie_descending_1
 }
 
-export const AscendingDark: ComponentStory<CoinChartComponent> = ({ ...args }) => (
-  <div style={{ backgroundColor: '#2f2f2f', height: 300, width: 600 }}>
-    <CoinChart {...args} />
+export const AscendingDark: ComponentStory<CoinChartComponent> = ({ height, width, ...args }) => (
+  <div style={{ backgroundColor: '#2f2f2f', height, width }}>
+    <CoinChart width={width} height={height} tooltip={createCoinChartTooltipBuilder()} {...args} />
   </div>
 )
 AscendingDark.args = {
   backgroundColor: '#353F52',
   primaryColor: '#0C6CF2',
   textColor: '#98a1b2'
+}
+
+export const LiveCopy: ComponentStory<CoinChartComponent> = ({ ...args }) => {
+  const data = liveDataCopy.map(([date, value]) => ({ date, value }))
+
+  return (
+    <div style={{ height: 300, width: 600 }}>
+      <CoinChart
+        {...args}
+        data={data}
+        x='date'
+        y='value'
+        xFormatter={(date) => moment(date).format('hh:mm A')}
+        yFormatter={(value) => value.toString()}
+        tooltip={createCoinChartTooltipBuilder()}
+      />
+    </div>
+  )
 }
 
 export default coinChartStory
