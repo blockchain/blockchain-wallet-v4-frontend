@@ -2,10 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
+import { Card } from 'components/Card'
+import { Flex } from 'components/Flex'
+import { PaddingAll } from 'components/Padding'
 
-import { Card } from '../../../../components/Card'
-import { Flex } from '../../../../components/Flex'
-import { PaddingAll } from '../../../../components/Padding'
 import { HoldingsCardComponent } from './types'
 
 export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTotal, total }) => {
@@ -29,7 +29,7 @@ export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTot
             </Text>
 
             <Text color='grey600' size='14px' lineHeight='20px' weight={500}>
-              {coinTotal} {coinCode}
+              {coinTotal}
             </Text>
           </Flex>
 
