@@ -1493,8 +1493,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-
     let error
     switch (state) {
       case 'PENDING':
@@ -1507,16 +1505,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         error = 'LINK_CARD_FAILED'
     }
 
-    yield put(A.setAddCardError(error))
+    yield put(A.createCardFailure(error))
+
+    const addCheckoutDotComPaymentProvider: boolean = (yield select(
+      selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
+    )).getOrElse(false)
 
     // LEGACY
-    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
+    if (!addCheckoutDotComPaymentProvider) {
+      yield put(A.setAddCardError(error))
 
-    yield put(
-      actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-        _error: error
-      })
-    )
+      yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
+
+      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
+
+      yield put(
+        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
+          _error: error
+        })
+      )
+    }
   }
 
   const pollBSBalances = function* () {
