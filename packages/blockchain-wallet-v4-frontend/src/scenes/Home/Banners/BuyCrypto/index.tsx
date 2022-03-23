@@ -5,10 +5,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { WalletFiatType } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
+
+import { BannerButton, IconWrapper } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,15 +42,7 @@ const Column = styled.div`
     margin-bottom: 4px;
   }
 `
-const PendingIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-  margin-right: 20px;
+const PendingIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.blue100};
 `
 const Copy = styled(Text)`
@@ -59,14 +53,6 @@ const Copy = styled(Text)`
   `}
   ${media.tablet`
     font-size: 14px;
-  `}
-`
-const BannerButton = styled(Button)`
-  height: 48px;
-  ${media.mobile`
-    font-size: 14px;
-    margin-top: 16px;
-    padding: 10px;
   `}
 `
 
