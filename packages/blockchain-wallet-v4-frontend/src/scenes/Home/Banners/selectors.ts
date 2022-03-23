@@ -155,7 +155,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   }
 
   // tax center
-  const isCountryUS = userData?.address?.country === 'US' || userData?.address?.country === 'AR'
+  const isCountryUS = userData?.address?.country === 'US'
   const taxCenterAnnouncement = getTaxCenterAnnouncement()
   const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
 
