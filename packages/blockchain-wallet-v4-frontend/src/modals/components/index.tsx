@@ -435,7 +435,11 @@ const StyledOvalButton = styled(Button)`
   border-radius: 32px;
 `
 
-const AlertButton = ({ children, onClick = () : void => {}}) => (
+interface AlertButtonProps {
+  children: React.ReactChild
+  onClick?: () => void
+}
+const AlertButton = ({ children, onClick }: AlertButtonProps) => (
   <StyledOvalButton
     data-e2e='overLimitButton'
     height='48px'

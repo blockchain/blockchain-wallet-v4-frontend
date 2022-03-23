@@ -450,7 +450,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               maxFontSize='56px'
               placeholder='0'
               autoComplete='off'
-              pointerToLeft={true}
+              pointerToLeft
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
               haveError={!!showError}
