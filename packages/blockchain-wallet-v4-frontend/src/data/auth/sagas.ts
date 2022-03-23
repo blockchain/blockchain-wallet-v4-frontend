@@ -78,9 +78,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
-    const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
@@ -122,15 +121,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(stopSubmit(LOGIN_FORM))
           break
         // web - institutional exchange login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
-            '_self',
-            'noreferrer'
-          )
+        // only insitutional users coming from the .com page will have
+        // a redirect link. All other users coming from footer in login page
+        // should be redirected to regular exchange app in the default case
+        case userType === 'institutional' && institutionalPortalEnabled && redirect:
+          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
         // mobile - exchange sso login
-        case platform !== PlatformTypes.WEB:
+        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
@@ -623,12 +621,13 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const userType = queryParams.get('userType') as string
+      const redirect = queryParams.get('redirect') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: queryParams.get('redirect') || undefined,
+          redirect,
           userType
         })
       )
