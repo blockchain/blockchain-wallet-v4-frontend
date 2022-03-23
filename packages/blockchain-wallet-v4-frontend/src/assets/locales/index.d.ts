@@ -558,6 +558,7 @@ type MessagesType = {
   'copy.all': 'All'
   'copy.available_to_trade': 'Available to Trade'
   'copy.wallet_funds': 'Wallet Funds'
+  'copy.wallets_accounts': 'Wallets & Accounts'
   'copy.day': '1D'
   'copy.month': '1M'
   'copy.wallet': 'Wallet'

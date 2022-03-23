@@ -33,7 +33,7 @@ describe('HoldingsCard', () => {
     it('Should display the total amoint in the coin value', () => {
       const wrapper = createBtcScene()
 
-      expect(wrapper.text()).toContain('0.00039387 BTC')
+      expect(wrapper.text()).toContain('0.00039387')
     })
 
     it('Should display the actions', () => {
