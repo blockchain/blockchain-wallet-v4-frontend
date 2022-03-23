@@ -44,6 +44,7 @@ export const AmountTextBox = styled(ResizeableFontInput(AutosizeTextBox))<{
     max-width: 100%;
     border: none;
     text-align: center;
+    caret-color: rgba(0, 0, 0, .3);
     color: ${(props) => (props.haveError ? props.theme.red400 : props.theme.textBlack)};
     background-color: ${(props) => props.theme.white};
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,

@@ -60,6 +60,12 @@ class TextInput extends React.Component {
     minHeight: '40px'
   }
 
+  componentDidMount() {
+    if (this.props.pointerToLeft) {
+      this.input.input.setSelectionRange(0, 0)
+    }
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
