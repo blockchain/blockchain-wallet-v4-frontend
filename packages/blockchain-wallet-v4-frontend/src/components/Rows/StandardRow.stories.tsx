@@ -2,6 +2,7 @@ import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { Icon } from 'blockchain-info-components'
+import { IconCircularBackground } from 'components/IconCircularBackground'
 
 import StandardRow from './StandardRow'
 
@@ -17,19 +18,9 @@ Default.args = {
   bottomLeftText: 'Non-custodial',
   bottomRightText: '0.00039387 BTC',
   icon: (
-    <div
-      style={{
-        alignItems: 'center',
-        backgroundColor: '#C4C4C4',
-        borderRadius: '50%',
-        display: 'flex',
-        height: '24px',
-        justifyContent: 'center',
-        width: '24px'
-      }}
-    >
+    <IconCircularBackground color='grey200'>
       <Icon name='key' size='8px' color='grey600' />
-    </div>
+    </IconCircularBackground>
   ),
   topLeftText: 'Private Key Wallet',
   topRightText: '$7,926.43'
@@ -49,19 +40,9 @@ MultipleRows.args = {
   bottomLeftText: 'Non-custodial',
   bottomRightText: '0.00039387 BTC',
   icon: (
-    <div
-      style={{
-        alignItems: 'center',
-        backgroundColor: '#C4C4C4',
-        borderRadius: '50%',
-        display: 'flex',
-        height: '24px',
-        justifyContent: 'center',
-        width: '24px'
-      }}
-    >
-      <Icon name='key' size='8px' color='grey600' />
-    </div>
+    <IconCircularBackground color='orange400'>
+      <Icon name='key' size='8px' color='white' />
+    </IconCircularBackground>
   ),
   topLeftText: 'Private Key Wallet',
   topRightText: '$7,926.43'
