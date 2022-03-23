@@ -125,11 +125,18 @@ export enum MobilePaymentType {
   GOOGLE_PAY = 'GOOGLE_PAY'
 }
 
+export enum CardFundSourceType {
+  CREDIT = 'CREDIT',
+  DEBIT = 'DEBIT',
+  PREPAID = 'PREPAID'
+}
+
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
   attributes?: {}
   card?: BSCard
+  cardFundSources?: CardFundSourceType[]
   currency: FiatType
   details?: BankDetails
   eligible?: boolean
