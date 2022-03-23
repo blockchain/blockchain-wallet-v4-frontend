@@ -86,7 +86,6 @@ export const LiveCopy: ComponentStory<CoinChartComponent> = ({ ...args }) => {
         x='date'
         y='value'
         xFormatter={(date) => moment(date).format('hh:mm A')}
-        yFormatter={(value) => value.toString()}
         tooltip={createCoinChartTooltipBuilder()}
       />
     </div>
