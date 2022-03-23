@@ -14,7 +14,7 @@ import { AboutSection } from '../AboutSection'
 import { ChartBalancePanel } from '../ChartBalancePanel'
 import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
-import { useChart } from './hooks'
+import { useChart, useWalletsCard } from './hooks'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
@@ -36,6 +36,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     const [chart] = useChart({
       timeRange: selectedTab
     })
+    const [walletsCard] = useWalletsCard(coin)
 
     useEffect(() => {
       priceChartActions.initialized(coin, TimeRange.WEEK)
@@ -149,6 +150,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
                 coinTotal={coinTotalAmount}
               />
             }
+            wallets={walletsCard}
           />
         )
       }
