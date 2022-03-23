@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
+import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
 
 import { WalletsCard } from '../../../WalletsCard'
@@ -50,19 +51,9 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
                   topLeftText={label}
                   topRightText={totalFiatFormatted}
                   icon={
-                    <div
-                      style={{
-                        alignItems: 'center',
-                        backgroundColor: '#C4C4C4',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        height: '24px',
-                        justifyContent: 'center',
-                        width: '24px'
-                      }}
-                    >
+                    <IconCircularBackground color='grey200'>
                       <Icon name='key' size='8px' color='grey600' />
-                    </div>
+                    </IconCircularBackground>
                   }
                 />
               )
