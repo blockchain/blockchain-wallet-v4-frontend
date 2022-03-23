@@ -386,13 +386,13 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
-      // Should we prompt KYC extra fields form atm only for Lithuanian entity users
+      // Should we prompt KYC extra fields
       yield put(actions.components.identityVerification.fetchExtraKYC())
       yield take([AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS, AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE])
       const kycExtraSteps = selectors.components.identityVerification
         .getKYCExtraSteps(yield select())
         .getOrElse({} as ExtraQuestionsType)
-      const isLithuanianEntityUser = kycExtraSteps?.nodes && kycExtraSteps.nodes.length > 0
+      const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
 
       // in case of US we have to append state with prefix
       const userState = country.code === 'US' ? `US-${state}` : state
@@ -409,7 +409,7 @@ export default ({ api, coreSagas, networks }) => {
         .getSilverRevamp(yield select())
         .getOrElse(null)
 
-      if (isLithuanianEntityUser && showSilverRevamp && !payload.skipExtraFields) {
+      if (showExtraKycSteps && showSilverRevamp && !payload.skipExtraFields) {
         yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
         yield put(
           actions.modals.showModal(ModalName.KYC_EXTRA_FIELDS_MODAL, {
