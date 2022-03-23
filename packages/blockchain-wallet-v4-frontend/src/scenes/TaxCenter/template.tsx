@@ -169,8 +169,8 @@ const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value
                 <Text size='12px' color='grey400'>
                   {`${list.length}/5 `}
                   <FormattedMessage
-                    id='scenes.tax.center.card.report.limit'
-                    defaultMessage='Report Limit'
+                    id='scenes.tax.center.card.export.limit'
+                    defaultMessage='Export Limit'
                   />
                 </Text>
               </StyledTextGroup>
@@ -185,7 +185,7 @@ const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value
       description={
         <FormattedMessage
           id='scenes.tax.center.card.service.description'
-          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Cointracker is fully supported in the US, Australia, UK, Canada and also provide capital gains reports for users around the World. Get free tax reports for up to 500 transactions with CoinTracker or use a service provider of your choosing.'
+          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Get free tax reports for up to 500 transactions with CoinTracker or use a service provider of your choosing.'
         />
       }
       number={2}

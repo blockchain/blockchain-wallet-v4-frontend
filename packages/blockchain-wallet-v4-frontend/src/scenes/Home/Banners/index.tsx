@@ -19,6 +19,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
+import TaxCenter from './TaxCenter'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -106,6 +107,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <RecurringBuys />
+          </BannerWrapper>
+        )
+      case 'taxCenter':
+        return (
+          <BannerWrapper>
+            <TaxCenter />
           </BannerWrapper>
         )
       default:
