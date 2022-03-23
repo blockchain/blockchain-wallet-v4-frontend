@@ -178,7 +178,6 @@ export type RestoringType = undefined
 export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
-  exchangePortal?: string
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
