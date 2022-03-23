@@ -4,7 +4,7 @@ import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 
 import profileSagas from '../modules/profile/sagas'
-import * as A from './actions'
+import { actions as A } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
@@ -37,12 +37,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const txs: ReturnType<typeof api.getUnifiedSwapTrades> = yield call(api.getUnifiedSwapTrades)
       yield put(A.fetchRecentSwapTxsSuccess(txs))
     } catch (e) {
-      yield put(A.fetchRecentSwapTxsFailure())
+      const error = errorHandler(e)
+      yield put(A.fetchRecentSwapTxsFailure(error))
+    }
+  }
+
+  const fetchProductEligibilityForUser = function* () {
+    try {
+      yield put(A.fetchProductEligibilityForUserLoading())
+      const productsResponse: ReturnType<typeof api.fetchProductEligibilityForUser> = yield call(
+        api.fetchProductEligibilityForUser
+      )
+      yield put(A.fetchProductEligibilityForUserSuccess(productsResponse))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchProductEligibilityForUserFailure(error))
     }
   }
 
   return {
     fetchBeneficiaries,
+    fetchProductEligibilityForUser,
     fetchRecentSwapTxs
   }
 }

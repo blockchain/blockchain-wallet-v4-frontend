@@ -2,7 +2,7 @@ import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
-import { RemoteDataType, SDDVerifiedType } from '@core/types'
+import { ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/types'
@@ -17,6 +17,7 @@ import {
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
+  KYC_EXTRA_QUESTIONS_FORM,
   PERSONAL_FORM,
   PHONE_EXISTS_ERROR,
   SMS_NUMBER_FORM,
@@ -385,6 +386,14 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
+      // Should we prompt KYC extra fields
+      yield put(actions.components.identityVerification.fetchExtraKYC())
+      yield take([AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS, AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE])
+      const kycExtraSteps = selectors.components.identityVerification
+        .getKYCExtraSteps(yield select())
+        .getOrElse({} as ExtraQuestionsType)
+      const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
+
       // in case of US we have to append state with prefix
       const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
@@ -395,6 +404,22 @@ export default ({ api, coreSagas, networks }) => {
         postCode,
         state: userState
       }
+
+      const showSilverRevamp = selectors.core.walletOptions
+        .getSilverRevamp(yield select())
+        .getOrElse(null)
+
+      if (showExtraKycSteps && showSilverRevamp && !payload.skipExtraFields) {
+        yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+        yield put(
+          actions.modals.showModal(ModalName.KYC_EXTRA_FIELDS_MODAL, {
+            origin: 'KycRequiredStep'
+          })
+        )
+        // prevent progressing in KYC flow
+        return
+      }
+
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, {
         payload: { address }
@@ -466,12 +491,93 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchExtraKYC = function* () {
+    try {
+      yield put(A.fetchExtraKYCLoading())
+      const questions = yield call(api.fetchKYCExtraQuestions)
+      yield put(A.fetchExtraKYCSuccess(questions))
+    } catch (e) {
+      yield put(A.fetchExtraKYCFailure(e))
+      actions.logs.logErrorMessage(logLocation, 'fetchExtraKYC', `Error fetching extra KYC: ${e}`)
+    }
+  }
+
+  const saveKYCExtraQuestions = function* () {
+    try {
+      yield put(actions.form.startSubmit(KYC_EXTRA_QUESTIONS_FORM))
+      const formValues = yield select(selectors.form.getFormValues(KYC_EXTRA_QUESTIONS_FORM))
+      const extraForm = selectors.components.identityVerification
+        .getKYCExtraSteps(yield select())
+        .getOrElse({} as ExtraQuestionsType)
+
+      if (extraForm) {
+        const question1 = Object.keys(formValues).filter((k) => k.startsWith('q1'))
+        if (question1.length > 0) {
+          Object.keys(question1).forEach((que1) =>
+            extraForm.nodes[0].children.forEach((q1) => {
+              if (q1.id === question1[que1]) {
+                q1.checked = true
+              }
+            })
+          )
+        }
+        extraForm.nodes[1].children.forEach((q2) => {
+          if (q2.id === formValues.q2) {
+            q2.checked = true
+          }
+          if (q2.id === 'q2-a7' && formValues['q2-a7-a1']) {
+            q2.children[0].input = formValues['q2-a7-a1']
+          }
+        })
+        extraForm.nodes[2].children.forEach((q3) => {
+          if (q3.id === formValues.q3) {
+            q3.checked = true
+          }
+        })
+        extraForm.nodes[3].children.forEach((q4) => {
+          if (q4.id === formValues.q4) {
+            q4.checked = true
+          }
+          // name and relationship
+          if (q4.id === 'q4-a3' && formValues['q4-a3-a1'] && formValues['q4-a3-a2']) {
+            q4.children[0].input = formValues['q4-a3-a1']
+            q4.children[1].input = formValues['q4-a3-a2']
+          }
+        })
+      }
+
+      yield call(api.updateKYCExtraQuestions, extraForm)
+
+      yield put(actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM))
+      // close modal
+      yield put(actions.modals.closeModal(ModalName.KYC_EXTRA_FIELDS_MODAL))
+      // re-submit info and residential form
+      yield put(
+        actions.components.identityVerification.saveInfoAndResidentialData(false, null, true)
+      )
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM, {
+          _error: typeof e === 'string' ? e : e.description
+        })
+      )
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveInfoAndResidentialData',
+          `Error saving info and residential data: ${e}`
+        )
+      )
+    }
+  }
+
   return {
     checkKycFlow,
     claimCampaignClicked,
     createRegisterUserCampaign,
     createUser,
     defineSteps,
+    fetchExtraKYC,
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
@@ -482,6 +588,7 @@ export default ({ api, coreSagas, networks }) => {
     registerUserCampaign,
     resendSmsCode,
     saveInfoAndResidentialData,
+    saveKYCExtraQuestions,
     selectTier,
     sendDeeplink,
     sendEmailVerification,

@@ -60,7 +60,7 @@ export const getInterestBalance = (coin: CoinType, state) => {
 // generic selector that should be used by all features to request their desired
 // account types for their coins
 export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
-  const getCoinAccountsR = (state) => {
+  const getCoinAccountsR = (state: RootState) => {
     const coinList = ownProps?.coins
 
     // dynamically create account selectors via passed in coin list
