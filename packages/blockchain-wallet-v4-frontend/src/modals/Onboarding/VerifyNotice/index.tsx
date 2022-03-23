@@ -95,7 +95,7 @@ const VerifyNotice = ({ cacheActions, close, modalActions }) => {
           <GroupDescription>
             <FormattedMessage
               id='modals.verify_notifications.description'
-              defaultMessage='To buy, sell, and swap, you will need to verify your identity by March 27, 2022.'
+              defaultMessage='To buy, sell, and swap, you will need to verify your identity.'
             />
           </GroupDescription>
         </Group>

@@ -1997,7 +1997,7 @@ type MessagesType = {
   'modals.xlmairdropwelcome.verified.subtitle2': 'If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience'
   'modals.xlmairdropwelcome.verified.title': 'Thank you for already verifying your identity'
   'modals.verify_notifications.title': 'We are updating our account verification requirements'
-  'modals.verify_notifications.description': 'To buy, sell, and swap, you will need to verify your identity by March 27, 2022.'
+  'modals.verify_notifications.description': 'To buy, sell, and swap, you will need to verify your identity.'
   'orderdetails.recurring.tooltip': 'Recurring orders will be placed automatically on a regular basis from your linked credit card.'
   'price.chart.buy.coin': 'Buy {coinName}'
   'price.chart.swap.coin': 'Swap {coinName}'
