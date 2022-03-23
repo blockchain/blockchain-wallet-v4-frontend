@@ -44,6 +44,8 @@ export default ({ api }: { api: APIType }) => {
       const { payload } = action
       const data = yield call(api.createDCOrder, payload)
       yield put(A.createCardSuccess(data))
+
+      yield call(getCards)
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.createCardFailure(error))
