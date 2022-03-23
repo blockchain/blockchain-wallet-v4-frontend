@@ -5,6 +5,8 @@ import { SceneWrapper } from 'components/Layout'
 import MenuHeader from 'components/MenuHeader'
 
 export const FIRST_YEAR = 2014
+export const BECH32_PREFIX = 'bc1'
+export const XPUB_PREFIX = 'xpub'
 
 export const getFirstAndLastDaysOfYear = (option) => {
   // Historical report from 2014 to yesterday
