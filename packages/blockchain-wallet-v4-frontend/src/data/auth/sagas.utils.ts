@@ -10,7 +10,7 @@ import { AccountUnificationFlows, LoginSteps, PlatformTypes, ProductAuthOptions 
 const logLocation = 'auth/sagas'
 
 // TODO: cleanup this function
-export const parseMagicLink = function* () {
+export const parseMagicLink = function* (skipSessionCheck?: boolean) {
   try {
     const magicLink = yield select(selectors.auth.getMagicLinkData)
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
@@ -24,7 +24,11 @@ export const parseMagicLink = function* () {
       wallet: walletData
     } = magicLink
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
-    const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
+    const currentLoginSession = yield select(
+      selectors.session.getSession,
+      walletData?.guid,
+      userEmail
+    )
     // feature flag for merge and upgrade wallet + exchange
     // shipping signup first before
     const showMergeAndUpradeFlows = (yield select(
@@ -74,12 +78,15 @@ export const parseMagicLink = function* () {
 
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
-      if (session !== session_id && shouldPollForMagicLinkData) {
+      if (
+        currentLoginSession !== session_id ||
+        (currentLoginSession === session_id && !skipSessionCheck)
+      ) {
         // undefined because we're not yet confirming or rejecting
         // device authorization
         yield put(actions.auth.authorizeVerifyDevice(undefined))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-      } else {
+      } else if (currentLoginSession === session_id && skipSessionCheck) {
         // grab all the data from the JSON wallet data
         // store data in the cache and update form values to be used to submit login
         yield put(actions.cache.emailStored(walletData?.email))
@@ -97,16 +104,20 @@ export const parseMagicLink = function* () {
           })
         )
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+      } else {
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
       }
     }
+    // all logins will call 'authorize verify device' with verification email
+    // we won't open password screen in second tab
     if (productAuth === ProductAuthOptions.EXCHANGE) {
-      if (session !== session_id && shouldPollForMagicLinkData) {
+      if (!skipSessionCheck) {
         // Exchange only logins don't require any challenges
         // `true` means we can confirm device verification right away
         // Less security concern compared to wallet
         yield put(actions.auth.authorizeVerifyDevice(true))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-      } else {
+      } else if (skipSessionCheck) {
         // set state with all exchange login information
         yield put(actions.cache.exchangeEmail(exchangeData?.email))
         yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
@@ -122,6 +133,8 @@ export const parseMagicLink = function* () {
           })
         )
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      } else {
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
       }
       // if the account is unified, they're using wallet to login and retrieve token
       // TODO** need to fix logic here, not sure what to do with this
@@ -166,7 +179,7 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
     }
     if (prop('wallet', response) || prop('exchange', response)) {
       yield put(actions.auth.setMagicLinkInfo(response))
-      yield call(parseMagicLink)
+      yield call(parseMagicLink, true)
       return true
     }
     if (response.request_denied) {
