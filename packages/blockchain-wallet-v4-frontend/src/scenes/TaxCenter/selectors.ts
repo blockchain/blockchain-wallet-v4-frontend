@@ -51,9 +51,15 @@ export const getAddressesAndXpubs = createDeepEqualSelector(
       return {
         bchAddresses: filter((x: string) => not(startsWith('xpub', x)), bchContext),
         bchXPubs: filter((x: string) => startsWith('xpub', x), bchContext),
-        btcBech32ImportedAddresses: btcContext.addresses,
+        btcBech32ImportedAddresses: filter(
+          (x: string) => startsWith('bc1', x),
+          btcContext.addresses
+        ),
         btcBech32XPubs: btcContext.bech32,
-        btcLegacyImportedAddresses: btcContext.addresses,
+        btcLegacyImportedAddresses: filter(
+          (x: string) => not(startsWith('bc1', x)),
+          btcContext.addresses
+        ),
         btcLegacyXPubs: btcContext.legacy,
         ethAddresses: [ethAccount],
         xlmAddresses: [xlmAccount]

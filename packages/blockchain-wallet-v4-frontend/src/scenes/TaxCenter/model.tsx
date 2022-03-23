@@ -7,6 +7,7 @@ import MenuHeader from 'components/MenuHeader'
 export const FIRST_YEAR = 2014
 
 export const getFirstAndLastDaysOfYear = (option) => {
+  // Historical report from 2014 to yesterday
   if (option === 0) {
     return {
       from: new Date(Date.UTC(FIRST_YEAR, 0, 1)).toISOString(),
@@ -14,6 +15,15 @@ export const getFirstAndLastDaysOfYear = (option) => {
     }
   }
 
+  // Current year report from 01/01/current_year to yesterday
+  if (option === new Date().getFullYear()) {
+    return {
+      from: new Date(Date.UTC(option, 0, 1)).toISOString(),
+      to: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString()
+    }
+  }
+
+  // Not current year report from 01/01/select_year to 31/12/select_year
   return {
     from: new Date(Date.UTC(option, 0, 1)).toISOString(),
     to: new Date(Date.UTC(option, 11, 31)).toISOString()
