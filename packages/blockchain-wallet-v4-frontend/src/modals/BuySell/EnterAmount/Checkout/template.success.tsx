@@ -652,7 +652,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <ButtonContainer>
               {props.orderType === OrderType.BUY ? (
                 amtError === 'BELOW_MIN' ? (
-                  <AlertButton onClick={handleMinMaxClick}>
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.below_min'
                       defaultMessage='{amount} Minimum'
@@ -663,10 +663,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
-                  ) : amtError === 'ABOVE_LIMIT' ||
-                    (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
+                  </AlertButton>
+                ) : amtError === 'ABOVE_LIMIT' ||
+                  (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
+                  <AlertButton>
                     <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
-                  ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                  </AlertButton>
+                ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.not_enough_coin'
                       defaultMessage='Not Enough {coin}'
@@ -674,7 +678,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         coin: props.fiatCurrency
                       }}
                     />
-                  ) : (
+                  </AlertButton>
+                ) : (
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.above_max'
                       defaultMessage='{amount} Maximum'
@@ -685,10 +691,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                             : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
-                  )
-                ) : null}
+                  </AlertButton>
+                )
+              ) : null}
 
-                {props.orderType === OrderType.SELL && (
+              {props.orderType === OrderType.SELL && (
+                <AlertButton>
                   <FormattedMessage
                     id='copy.not_enough_coin'
                     defaultMessage='Not Enough {coin}'
@@ -696,8 +704,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       coin: cryptoCurrency
                     }}
                   />
-                )}
-              </AlertButton>
+                </AlertButton>
+              )}
 
               <Text
                 size='14px'
