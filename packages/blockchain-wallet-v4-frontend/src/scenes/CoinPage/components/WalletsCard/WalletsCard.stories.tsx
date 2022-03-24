@@ -31,14 +31,14 @@ const walletsCardStoriesMeta: ComponentMeta<WalletsCardComponent> = {
 const Template: ComponentStory<WalletsCardComponent> = (args) => <WalletsCard {...args} />
 
 export const Default = Template.bind({})
-// @ts-ignore
 Default.args = {
+  // @ts-ignore
   children: [1, 2, 3].map((num) => <StandardRow key={num} {...StandardRowStory.Default.args} />)
 }
 
 export const Loading = Template.bind({})
-// @ts-ignore
 Loading.args = {
+  // @ts-ignore
   children: [1, 2, 3].map((num) => <StandardRow key={num} {...StandardRowStory.Loading.args} />)
 }
 
