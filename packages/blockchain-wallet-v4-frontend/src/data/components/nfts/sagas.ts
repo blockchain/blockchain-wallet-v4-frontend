@@ -308,8 +308,6 @@ export default ({ api }: { api: APIType }) => {
           action.payload.asset,
           action.payload.to
         )
-      } else if (action.payload.operation === GasCalculationOperations.WrapEth) {
-        fees = yield call(calculateGasFees, GasCalculationOperations.WrapEth, signer)
       } else {
         throw new Error('Invalid gas operation')
       }
@@ -320,6 +318,20 @@ export default ({ api }: { api: APIType }) => {
       console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
+    }
+  }
+
+  const fetchFeesWrapEth = function* () {
+    try {
+      yield put(A.fetchFeesWrapEthLoading())
+      const signer: Signer = yield call(getEthSigner)
+      const fees = yield call(calculateGasFees, GasCalculationOperations.WrapEth, signer)
+      yield put(A.fetchFeesWrapEthSuccess(fees as GasDataI))
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+      const error = errorHandler(e)
+      yield put(A.fetchFeesWrapEthFailure(error))
     }
   }
 
@@ -352,6 +364,18 @@ export default ({ api }: { api: APIType }) => {
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(7, 'day').unix()
+
+      if (action.payload.amtToWrap && action.payload.wrapFees) {
+        const amount = convertCoinToCoin({
+          baseToStandard: false,
+          coin: 'WETH',
+          value: action.payload.amtToWrap
+        })
+        yield call(executeWrapEth, signer, amount, action.payload.wrapFees)
+        yield put(actions.core.data.eth.fetchData())
+        yield put(actions.core.data.eth.fetchErc20Data())
+      }
+
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
         getNftBuyOrder,
         action.payload.asset,
@@ -361,13 +385,7 @@ export default ({ api }: { api: APIType }) => {
         coinfig.type.erc20Address,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
-      const gasData: GasDataI = yield call(
-        calculateGasFees,
-        GasCalculationOperations.CreateOffer,
-        signer,
-        undefined,
-        buy
-      )
+      const gasData = action.payload.offerFees
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
@@ -629,6 +647,7 @@ export default ({ api }: { api: APIType }) => {
     createSellOrder,
     createTransfer,
     fetchFees,
+    fetchFeesWrapEth,
     fetchNftAssets,
     fetchNftCollection,
     fetchNftCollections,

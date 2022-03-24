@@ -2179,7 +2179,7 @@ export const calculateWrapEthFees = async (signer: Signer) => {
   return new BigNumber(
     await _safeGasEstimation(wrapEthContract.estimateGas.deposit, [], {
       gasLimit: 90_000,
-      value: '0'
+      value: '1'
     })
   )
 }

@@ -43,7 +43,7 @@ const Fees: React.FC<Props> = (props) => {
             <>
               <CTARow>
                 <Title style={{ display: 'flex' }}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
                   {val.approvalFees > 0 ? (
                     <TooltipHost id='tooltip.opensea_offer_approval_fees'>
                       <TooltipIcon name='question-in-circle-filled' />

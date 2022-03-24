@@ -60,7 +60,9 @@ const initialState: NftsStateType = {
     // This is a hack because sometimes opensea sets the owner address
     // to NULL_ADDRESS (if contract is opensea storefront)
     // will be fixed by explorer-gateway eventually
-    walletUserIsAssetOwnerHack: false
+    walletUserIsAssetOwnerHack: false,
+
+    wrapEthFees: Remote.NotAsked
   }
 }
 
@@ -84,8 +86,11 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         amount?: string
+        amtToWrap?: string
         asset: NftAsset
         coin?: string
+        offerFees: GasDataI
+        wrapFees?: GasDataI
       }>
     ) => {},
     createOrder: (
@@ -119,9 +124,6 @@ const nftsSlice = createSlice({
         | {
             operation: GasCalculationOperations.AcceptOffer
             order: NftOrder
-          }
-        | {
-            operation: GasCalculationOperations.WrapEth
           }
         | {
             asset: NftAsset
@@ -166,6 +168,22 @@ const nftsSlice = createSlice({
       action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
     ) => {
       state.orderFlow.fees = Remote.Success(action.payload)
+    },
+    fetchFeesWrapEth: (
+      state,
+      action: PayloadAction<{ operation: GasCalculationOperations.WrapEth }>
+    ) => {},
+    fetchFeesWrapEthFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.wrapEthFees = Remote.Failure(action.payload)
+    },
+    fetchFeesWrapEthLoading: (state) => {
+      state.orderFlow.wrapEthFees = Remote.Loading
+    },
+    fetchFeesWrapEthSuccess: (
+      state,
+      action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
+    ) => {
+      state.orderFlow.wrapEthFees = Remote.Success(action.payload)
     },
     fetchMatchingOrder: (state) => {},
     fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {
@@ -286,6 +304,7 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
+      state.orderFlow.wrapEthFees = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,

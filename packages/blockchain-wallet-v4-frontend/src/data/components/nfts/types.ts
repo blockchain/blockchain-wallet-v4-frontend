@@ -77,5 +77,6 @@ export type NftsStateType = {
     orderToMatch: RawOrder | null
     step: NftOrderStepEnum
     walletUserIsAssetOwnerHack: boolean
+    wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
 }

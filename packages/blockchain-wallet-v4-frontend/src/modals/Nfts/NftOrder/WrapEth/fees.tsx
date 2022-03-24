@@ -16,14 +16,14 @@ const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
 
   useEffect(() => {
-    nftActions.fetchFees({
+    nftActions.fetchFeesWrapEth({
       operation: GasCalculationOperations.WrapEth
     })
   }, [nftActions])
 
   return (
     <>
-      {orderFlow.fees.cata({
+      {orderFlow.wrapEthFees.cata({
         Failure: () => null,
         Loading: () => (
           <CTARow>
@@ -36,7 +36,7 @@ const Fees: React.FC<Props> = (props) => {
             <>
               <CTARow>
                 <Title style={{ display: 'flex' }}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.wrap_eth_fees' defaultMessage='Wrap Eth Fees' />
                 </Title>
                 <Value>
                   <div style={{ display: 'flex' }}>
