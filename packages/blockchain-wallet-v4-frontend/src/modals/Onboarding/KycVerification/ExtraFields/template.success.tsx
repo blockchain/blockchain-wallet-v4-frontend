@@ -327,10 +327,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               onChange={onSourceOfFundsChange}
             />
           </FormItem>
-          {props?.formValues?.q2 === 'q2-a7' && (
+          {props?.formValues?.q2 === 'q2-a8' && (
             <FormItem style={{ marginTop: '10px' }}>
               <Field
-                name='q2-a7-a1'
+                name='q2-a8-a1'
                 errorBottom
                 validate={required}
                 component={TextBox}

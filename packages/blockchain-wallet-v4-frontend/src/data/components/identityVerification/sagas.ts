@@ -525,8 +525,8 @@ export default ({ api, coreSagas, networks }) => {
           if (q2.id === formValues.q2) {
             q2.checked = true
           }
-          if (q2.id === 'q2-a7' && formValues['q2-a7-a1']) {
-            q2.children[0].input = formValues['q2-a7-a1']
+          if (q2.id === 'q2-a8' && formValues['q2-a8-a1']) {
+            q2.children[0].input = formValues['q2-a8-a1']
           }
         })
         extraForm.nodes[2].children.forEach((q3) => {
