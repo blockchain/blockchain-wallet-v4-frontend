@@ -221,8 +221,5 @@
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
-  },
-  "dependencies": {
-    "marked": "^4.0.12"
   }
 }
