@@ -144,6 +144,7 @@ export type ModalOriginType =
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
+  | 'BuySellInit'
   | 'BuySellLink'
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
