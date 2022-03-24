@@ -354,26 +354,28 @@ const Account = ({
   )
 }
 
-const NextButton = ({ invalid, orderType, paymentAccount, pristine, submitting }) => {
-  return (
-    <Button
-      data-e2e={orderType === BrokerageOrderType.DEPOSIT ? 'submitDepositAmount' : 'withdrawNext'}
-      height='48px'
-      size='16px'
-      nature='primary'
-      type='submit'
-      fullwidth
-      disabled={invalid || pristine || submitting || !paymentAccount}
-      onClick={() => {}}
-    >
-      {submitting ? (
-        <HeartbeatLoader height='16px' width='16px' color='white' />
-      ) : (
-        <FormattedMessage id='buttons.next' defaultMessage='Next' />
-      )}
-    </Button>
-  )
-}
+const PreviewButton = ({ invalid, orderType, paymentAccount, pristine, submitting }) => (
+  <Button
+    data-e2e={orderType === BrokerageOrderType.DEPOSIT ? 'submitDepositAmount' : 'withdrawNext'}
+    height='48px'
+    size='16px'
+    nature='primary'
+    type='submit'
+    fullwidth
+    disabled={invalid || pristine || submitting || !paymentAccount}
+    onClick={() => {}}
+  >
+    {submitting ? (
+      <HeartbeatLoader height='16px' width='16px' color='white' />
+    ) : (
+      <FormattedMessage
+        id='buttons.preview_buysell'
+        defaultMessage='Preview {orderType}'
+        values={{ orderType: orderType === BrokerageOrderType.DEPOSIT ? 'Deposit' : 'Withdrawal' }}
+      />
+    )}
+  </Button>
+)
 
 const EnterAmount = ({
   crossBorderLimits,
@@ -461,7 +463,7 @@ const EnterAmount = ({
             paymentMethod={paymentMethod}
           />
           {!showError && (
-            <NextButton
+            <PreviewButton
               paymentAccount={paymentAccount}
               invalid={invalid}
               orderType={orderType}
