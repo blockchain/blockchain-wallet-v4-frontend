@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import moment from 'moment'
-import { defaultTo, filter, prop, set } from 'ramda'
+import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -30,6 +30,8 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { ProductEligibilityForUser } from 'data/custodial/types'
+import { ModalName } from 'data/modals/types'
 import {
   AddBankStepType,
   BankPartners,
@@ -38,6 +40,7 @@ import {
   UserDataType
 } from 'data/types'
 
+import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -1675,6 +1678,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { cryptoCurrency, orderType, origin } = payload
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
+
+    const showSilverRevamp = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    // check is user eligible to do sell/buy
+    if (showSilverRevamp) {
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+      yield take([
+        custodialActions.fetchProductEligibilityForUserSuccess.type,
+        custodialActions.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+        buy: { enabled: false, maxOrdersLeft: 0 }
+      } as ProductEligibilityForUser)
+
+      const userCanBuyMore = products.buy?.maxOrdersLeft > 0
+      // prompt upgrade modal in case that user can't buy more
+      if (!userCanBuyMore) {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'BuySellInit'
+          })
+        )
+        return
+      }
+    }
 
     // Check if there is a pending_deposit Open Banking order
     if (latestPendingOrder) {
