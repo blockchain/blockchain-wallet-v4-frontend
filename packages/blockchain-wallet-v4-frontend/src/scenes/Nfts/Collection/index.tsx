@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon, IconName, Switch } from '@blockchain-com/constellation'
+import { marked } from 'marked'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
@@ -237,7 +238,15 @@ const NftsCollection: React.FC<Props> = ({
             color='grey600'
             weight={500}
           >
-            {results.data?.collection?.description}
+            <div
+              id='preview'
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: results.data?.collection?.description
+                  ? marked.parse(results.data?.collection?.description)
+                  : results.data?.collection?.description
+              }}
+            />
           </Text>
         </div>
       </CollectionHeader>
