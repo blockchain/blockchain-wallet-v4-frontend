@@ -124,7 +124,6 @@ class CoinSelection extends PureComponent<Props> {
             </List>
           )}
         </AutoSizer>
-        {showSilverRevampBanner && <GetMoreAccess startProcess={this.props.showUpgradeModal} />}
       </>
     )
   }
