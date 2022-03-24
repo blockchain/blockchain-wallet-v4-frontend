@@ -644,7 +644,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
-          {props.orderType === OrderType.BUY && products?.buy && products.buy.enabled === false && (
+          {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
             <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
           )}
 
