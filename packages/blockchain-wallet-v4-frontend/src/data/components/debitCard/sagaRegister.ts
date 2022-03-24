@@ -9,5 +9,6 @@ export default ({ api }) => {
   return function* debitCardSaga() {
     yield takeLatest(actions.getProducts.type, debitCardSagas.getProducts)
     yield takeLatest(actions.createCard.type, debitCardSagas.createCard)
+    yield takeLatest(actions.getCards.type, debitCardSagas.getCards)
   }
 }

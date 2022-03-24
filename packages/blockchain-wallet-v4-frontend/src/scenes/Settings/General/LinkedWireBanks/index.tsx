@@ -12,7 +12,7 @@ import Success from './template.success'
 
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
-    this.props.custodialActions.fetchCustodialBeneficiaries()
+    this.props.custodialActions.fetchCustodialBeneficiaries({})
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
   }

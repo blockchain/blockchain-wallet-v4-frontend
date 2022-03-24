@@ -5,6 +5,7 @@ import { ModalNameType } from 'data/modals/types'
 export type GoalsType =
   | 'airdropClaim'
   | 'entitiesMigration'
+  | 'kycUpgradeRequiredNotice'
   | 'termsAndConditions'
   | 'kyc'
   | 'kycDocResubmit'

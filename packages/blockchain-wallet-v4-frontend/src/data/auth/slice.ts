@@ -5,6 +5,7 @@ import { Remote } from '@core'
 import {
   AccountUnificationFlows,
   AuthStateType,
+  AuthUserType,
   ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
@@ -55,6 +56,7 @@ const authSlice = createSlice({
     analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
     analyticsAuthorizeVerifyDeviceSuccess: () => {},
     analyticsLoginIdEntered: (state, action) => {},
+    analyticsLoginIdentifierFailed: (state, action) => {},
     analyticsLoginMethodSelected: (state, action) => {},
     analyticsLoginPasswordDenied: () => {},
     analyticsLoginPasswordEntered: () => {},
@@ -184,7 +186,7 @@ const authSlice = createSlice({
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         redirect,
-        userType
+        userType: userType?.toUpperCase() as AuthUserType
       }
     },
 

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* stylelint-disable */
 import React, { Fragment } from 'react'
 import { pulse } from 'react-animations'
@@ -33,6 +35,9 @@ const SecuritySummaryChoice = styled(SecuritySummary)`
   @media (min-width: 992px) {
     width: 120%;
   }
+  ${media.mobile`
+    padding: 15px 15px 10px 15px;
+  `};
 `
 const SecurityTwoStepContainer = styled(SecurityContainer)`
   border-bottom-left-radius: 0;
@@ -98,6 +103,9 @@ const TwoStepButton = styled(Button)`
 const Header = styled(SecurityHeader)`
   justify-content: flex-start;
   align-items: center;
+  ${media.mobile`
+    justify-content: space-between;
+  `};
 `
 const TipText = styled(Text)`
   display: inline;
@@ -107,6 +115,7 @@ const TipText = styled(Text)`
     display: inline;
   }
 `
+/* stylelint-enable */
 
 const TwoStepVerification = (props) => {
   const { data, editing, handleClick, handleGoBack, twoStepChoice, uiState, ...rest } = props
@@ -277,16 +286,17 @@ const TwoStepVerification = (props) => {
           </SecuritySummary>
           {renderDisable()}
         </IconAndHeaderContainer>
-        {!uiState.verifyToggled ? (
+        {!uiState.verifyToggled && (
           <SecurityComponent>
-            {!twoFAEnabled ? (
+            {!twoFAEnabled && (
               <TwoStepButton nature='primary' onClick={props.handleClick}>
                 <FormattedMessage
                   id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable'
                   defaultMessage='Enable'
                 />
               </TwoStepButton>
-            ) : (
+            )}
+            {twoFAEnabled && (
               <TwoStepButton nature='primary' onClick={props.handleDisableClick}>
                 <FormattedMessage
                   id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable'
@@ -295,12 +305,12 @@ const TwoStepVerification = (props) => {
               </TwoStepButton>
             )}
           </SecurityComponent>
-        ) : (
-          <div />
         )}
+        {uiState.verifyToggled && <div />}
+
         {renderChoices()}
       </SecurityTwoStepContainer>
-      {uiState.verifyToggled ? (
+      {uiState.verifyToggled && (
         <SecurityTip>
           <TipText weight={400} size='12px'>
             <FormattedMessage
@@ -327,7 +337,7 @@ const TwoStepVerification = (props) => {
             <FormattedMessage id='scenes.securitycenter.2fa.tip.three' defaultMessage=').' />
           </TipText>
         </SecurityTip>
-      ) : null}
+      )}
     </>
   )
 }

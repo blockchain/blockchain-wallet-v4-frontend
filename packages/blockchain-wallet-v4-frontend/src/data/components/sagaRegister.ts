@@ -31,6 +31,7 @@ import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import swap from './swap/sagaRegister'
+import taxCenter from './taxCenter/sagaRegister'
 import termsAndConditions from './termsAndConditions/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
@@ -73,6 +74,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(signMessage({ coreSagas }))
     yield fork(buySell({ api, coreSagas, networks }))
     yield fork(swap({ api, coreSagas, networks }))
+    yield fork(taxCenter({ api }))
     yield fork(uploadDocuments({ api }))
     yield fork(walletConnect({ coreSagas }))
     yield fork(withdraw({ api }))
