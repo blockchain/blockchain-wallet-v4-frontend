@@ -233,7 +233,7 @@ const NftsCollection: React.FC<Props> = ({
           </LinksContainer>
           <Text
             lineHeight='1.4'
-            style={{ marginTop: '16px' }}
+            style={{ marginTop: '16px', maxHeight: '15em', overflow: 'hidden' }}
             size='14px'
             color='grey600'
             weight={500}
