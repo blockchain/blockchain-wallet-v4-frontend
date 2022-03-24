@@ -12,7 +12,8 @@ describe('ChartBalancePanel', () => {
         <IntlProvider locale='en'>
           <ChartBalancePanel
             coinCode='BTC'
-            pastHourDelta={0.3469}
+            pastHourChange='34.69'
+            isPositive
             pastHourPrice='$9.95'
             price='$30.000'
           />
@@ -30,7 +31,8 @@ describe('ChartBalancePanel', () => {
       const component = shallow(
         <ChartBalancePanel
           coinCode='BTC'
-          pastHourDelta={0.3469}
+          pastHourChange='34.69'
+          isPositive
           pastHourPrice='$9.95'
           price='$30.000'
         />
@@ -45,7 +47,8 @@ describe('ChartBalancePanel', () => {
       const component = shallow(
         <ChartBalancePanel
           coinCode='BTC'
-          pastHourDelta={-0.3469}
+          pastHourChange='34.69'
+          isPositive={false}
           pastHourPrice='$9.95'
           price='$30.000'
         />

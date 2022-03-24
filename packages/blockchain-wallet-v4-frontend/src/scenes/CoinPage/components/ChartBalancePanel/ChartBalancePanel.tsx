@@ -9,33 +9,32 @@ import { ChartBalancePanelComponent } from './types'
 
 export const ChartBalancePanel: ChartBalancePanelComponent = ({
   coinCode,
-  pastHourDelta,
+  isPositive,
+  pastHourChange,
   pastHourPrice,
   price
 }) => {
-  const isPositive: boolean = useMemo(() => {
-    return pastHourDelta > 0
-  }, [pastHourDelta])
-
   const arrowIcon: ReactNode = useMemo(() => {
-    if (isPositive) {
+    if (isPositive === true) {
       return <Icon name='arrowUp' size='sm' color='green600' />
     }
 
-    return <Icon name='arrowDown' size='sm' color='red600' />
+    if (isPositive === false) {
+      return <Icon name='arrowDown' size='sm' color='red600' />
+    }
   }, [isPositive])
 
-  const textColor: 'green600' | 'red600' = useMemo(() => {
-    if (isPositive) {
+  const textColor: 'green600' | 'red600' | 'grey600' = useMemo(() => {
+    if (isPositive === true) {
       return 'green600'
     }
 
-    return 'red600'
-  }, [isPositive])
+    if (isPositive === false) {
+      return 'red600'
+    }
 
-  const formattedPercentage = useMemo(() => {
-    return (pastHourDelta * 100).toFixed(2)
-  }, [pastHourDelta])
+    return 'grey600'
+  }, [isPositive])
 
   return (
     <Flex gap={8} flexDirection='column'>
@@ -61,7 +60,7 @@ export const ChartBalancePanel: ChartBalancePanelComponent = ({
         </Text>
 
         <Text color={textColor} weight={600} size='16px' lineHeight='24px'>
-          {`(${formattedPercentage}%)`}
+          {`(${pastHourChange}%)`}
         </Text>
 
         <Text color='grey400' weight={600} size='16px' lineHeight='24px'>

@@ -1,6 +1,5 @@
 import { lift, map } from 'ramda'
 
-import { TimeRange } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { selectors } from 'data'
@@ -50,25 +49,22 @@ export const getData = (state, ownProps: CoinPageContainerProps) => {
     [
       selectors.core.settings.getCurrency,
       selectors.core.data.misc.getPriceIndexSeries,
-      (state, { coin }: CoinPageContainerProps) =>
-        selectors.core.data.misc.getPriceChange(coin, TimeRange.WEEK, state),
       (state, { coin }: CoinPageContainerProps) => coin,
       (state, { coin }) => selectors.core.data.misc.getRatesSelector(coin, state)
     ],
-    (currencyR, priceIndexSeriesDataR, priceChangeR, coin, ratesR) => {
+    (currencyR, priceIndexSeriesDataR, coin, ratesR) => {
       const currency = currencyR.getOrElse('USD')
 
-      const transform = (priceIndexSeriesData, priceChange, balanceData, rates) => ({
+      const transform = (priceIndexSeriesData, balanceData, rates) => ({
         balanceData,
         coin,
         data: map((d) => [d.timestamp * 1000, d.price], priceIndexSeriesData) as any,
-        priceChange,
         rates
       })
 
       return {
         currency,
-        data: lift(transform)(priceIndexSeriesDataR, priceChangeR, balanceDataR, ratesR)
+        data: lift(transform)(priceIndexSeriesDataR, balanceDataR, ratesR)
       }
     }
   )

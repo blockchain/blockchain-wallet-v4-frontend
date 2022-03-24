@@ -18,7 +18,8 @@ const Template: ComponentStory<ChartBalancePanelComponent> = (args) => (
 export const BitcoinUp = Template.bind({})
 BitcoinUp.args = {
   coinCode: 'BTC',
-  pastHourDelta: 0.3453908,
+  isPositive: true,
+  pastHourChange: '34.53',
   pastHourPrice: '$95.23',
   price: '$31,928.19'
 }
@@ -26,8 +27,17 @@ BitcoinUp.args = {
 export const BitcoinDown = Template.bind({})
 BitcoinDown.args = {
   coinCode: 'BTC',
-  pastHourDelta: -0.34538978979,
+  isPositive: false,
+  pastHourChange: '34.53',
   pastHourPrice: '$95.23',
+  price: '$31,928.19'
+}
+
+export const BitcoinNeutral = Template.bind({})
+BitcoinNeutral.args = {
+  coinCode: 'BTC',
+  pastHourChange: '$0.00',
+  pastHourPrice: '$0.00',
   price: '$31,928.19'
 }
 
