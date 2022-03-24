@@ -16,6 +16,7 @@ import { media } from 'services/styles'
 
 import { CollectionBanner, Grid, NftPage } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
+import WorkInProgressComponent from '../components/workInProgressBanner'
 import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
@@ -154,6 +155,7 @@ const NftsCollection: React.FC<Props> = ({
   return (
     <NftPage ref={wrapperRef}>
       <OpenSeaStatusComponent />
+      <WorkInProgressComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
           <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
