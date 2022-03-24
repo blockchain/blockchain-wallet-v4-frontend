@@ -15,6 +15,7 @@ import {
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0px;
+  min-width: 100%;
 `
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
