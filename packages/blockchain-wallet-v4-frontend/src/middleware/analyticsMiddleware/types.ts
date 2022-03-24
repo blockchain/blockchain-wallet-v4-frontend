@@ -456,7 +456,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   frequency: RecurringBuyPeriods
   input_amount: number
   input_currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'TRANSACTION_DETAILS' | 'RECURRING_BUY_DETAILS'
   output_currency: string
   payment_method: BSPaymentTypes
 }
@@ -467,7 +467,7 @@ export type RecurringBuyClickedPayload = BasePayload & {
 
 export type RecurringBuyDetailsClickedPayload = BasePayload & {
   currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'CURRENCY_PAGE' | 'TRANSACTION_LIST'
 }
 
 type SellAmountEnteredPayload = BasePayload & {

@@ -33,7 +33,7 @@ const Header = (props: OwnProps) => {
   }, [])
 
   const receiveCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' })
+    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
   }, [])
 
   const fabCallback = useCallback(() => {

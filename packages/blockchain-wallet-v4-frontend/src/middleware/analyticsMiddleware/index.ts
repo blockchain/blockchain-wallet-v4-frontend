@@ -36,6 +36,8 @@ import {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  recurringBuyCancelOrigin,
+  recurringBuyDetailsClickOrigin,
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
@@ -567,6 +569,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
               properties: {
+                origin: 'SETTINGS',
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -1725,9 +1728,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const stepName: RecurringBuyStepType = action.payload.step
-        const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
           case RecurringBuyStepType.REMOVE_CONFIRM: {
+            const origin = recurringBuyCancelOrigin(action.payload.origin)
             const {
               destinationCurrency: output_currency,
               inputCurrency: input_currency,
@@ -1739,7 +1742,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.CANCEL_RECURRING_BUY_CLICKED, {
               properties: {
                 frequency,
-                input_amount,
+                input_amount: Number(input_amount),
                 input_currency,
                 origin,
                 output_currency,
@@ -1769,6 +1772,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case RecurringBuyStepType.DETAILS: {
             const { inputCurrency: currency }: { inputCurrency: string } =
               state.components.recurringBuy.active
+            const origin = recurringBuyDetailsClickOrigin(action.payload.origin)
             analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
               properties: {
                 currency,

@@ -2,6 +2,7 @@ import { BSPaymentTypes, PaymentValue } from '@core/types'
 import {
   BrokerageModalOriginType,
   BSShowModalOriginType,
+  RecurringBuyOrigins,
   VerifyIdentityOriginType
 } from 'data/types'
 import type {
@@ -126,6 +127,32 @@ const manageTabSelectionClickedSelectionDictionary = (
       return 'SHOW_XPUB'
     default:
       throw new Error('Selection not found')
+  }
+}
+
+const recurringBuyDetailsClickOrigin = (
+  rawOrigin: RecurringBuyOrigins
+): 'CURRENCY_PAGE' | 'TRANSACTION_LIST' => {
+  switch (rawOrigin) {
+    case RecurringBuyOrigins.COIN_PAGE:
+      return 'CURRENCY_PAGE'
+    default:
+      return 'TRANSACTION_LIST'
+  }
+}
+
+const recurringBuyCancelOrigin = (
+  rawOrigin: RecurringBuyOrigins
+): 'TRANSACTION_DETAILS' | 'RECURRING_BUY_DETAILS' => {
+  switch (rawOrigin) {
+    case RecurringBuyOrigins.BUY_CONFIRMATION:
+    case RecurringBuyOrigins.RECURRING_BUYS_FREQUENCY_SCREEN:
+      return 'TRANSACTION_DETAILS'
+    case RecurringBuyOrigins.COIN_PAGE:
+    case RecurringBuyOrigins.DASHBOARD_PROMO:
+    case RecurringBuyOrigins.RECURRING_BUYS_BANNER:
+    default:
+      return 'RECURRING_BUY_DETAILS'
   }
 }
 
@@ -261,6 +288,8 @@ export {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  recurringBuyCancelOrigin,
+  recurringBuyDetailsClickOrigin,
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
