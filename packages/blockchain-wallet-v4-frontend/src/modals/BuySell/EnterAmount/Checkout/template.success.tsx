@@ -653,7 +653,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <ButtonContainer>
               {props.orderType === OrderType.BUY ? (
                 amtError === 'BELOW_MIN' ? (
-                  <AlertButton onClick={handleMinMaxClick}>
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.below_min'
                       defaultMessage='{amount} Minimum'
