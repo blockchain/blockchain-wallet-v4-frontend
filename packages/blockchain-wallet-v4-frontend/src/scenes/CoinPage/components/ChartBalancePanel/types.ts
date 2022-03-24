@@ -2,7 +2,8 @@ import { FC } from 'react'
 
 export type ChartBalancePanelProps = {
   coinCode: string
-  pastHourDelta: number
+  isPositive?: boolean
+  pastHourChange: string
   pastHourPrice: string
   price: string
 }

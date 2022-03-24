@@ -10,10 +10,9 @@ import { ModalName } from 'data/types'
 
 import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
-import { ChartBalancePanel } from '../ChartBalancePanel'
 import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
-import { useChart, useWalletsCard, useTabs } from './hooks'
+import { useChart, useChartBalancePanel, useTabs, useWalletsCard } from './hooks'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
@@ -26,7 +25,6 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     coin,
     currency,
     data,
-    // priceChartActions,
     receiveButtonHandler,
     sellButtonHandler,
     sendButtonHandler
@@ -36,7 +34,12 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     const [chart] = useChart({
       timeRange: selectedTimeRange
     })
+
     const [walletsCard] = useWalletsCard(coin)
+
+    const [chartBalancePanel] = useChartBalancePanel({
+      coin
+    })
 
     const { coinfig } = useMemo(() => window.coins[coin], [coin])
     const displayName = useMemo(() => coinfig.name, [coinfig.name])
@@ -85,14 +88,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
             about={<AboutSection content='' title={coin} actions={[<></>]} />}
             chart={chart}
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
-            chartBalancePanel={
-              <ChartBalancePanel
-                coinCode={coin}
-                pastHourDelta={value.priceChange.overallChange.percentChange}
-                pastHourPrice={value.priceChange.overallChange.diff}
-                price={value.priceChange.currentPrice}
-              />
-            }
+            chartBalancePanel={chartBalancePanel}
             // alertCard={<AlertCard content='' />}
             holdings={
               <HoldingsCard
@@ -123,7 +119,6 @@ const mapDispatchToProps = (dispatch) => ({
     )
   },
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  // priceChartActions: bindActionCreators(actions.components.priceChart, dispatch),
   receiveButtonHandler: (coin: CoinType) => {
     dispatch(
       actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
