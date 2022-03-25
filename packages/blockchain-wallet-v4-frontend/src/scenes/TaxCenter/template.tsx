@@ -47,7 +47,17 @@ const Loader = () => (
   </LoadingContainer>
 )
 
-const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value }: Props) => (
+const TaxCenter = ({
+  exchangeDomain,
+  onChange,
+  onClick,
+  onExportClick,
+  onPartnerClick,
+  onVisitClick,
+  options,
+  reportsR,
+  value
+}: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -175,7 +185,7 @@ const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value
                 </Text>
               </StyledTextGroup>
               <StyledSeparator />
-              <List reports={list} />
+              <List reports={list} onExportClick={onExportClick} />
             </ReportList>
           )
         })}
@@ -196,7 +206,12 @@ const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value
         />
       }
     >
-      <VisitButton nature='empty-blue' data-e2e='visitButton' type='button' onClick={() => {}}>
+      <VisitButton
+        nature='empty-blue'
+        data-e2e='visitButton'
+        type='button'
+        onClick={onPartnerClick}
+      >
         <Link href='https://www.cointracker.io/blockchain' target='_blank'>
           <FormattedMessage
             id='scenes.tax.center.card.service.button'
@@ -214,7 +229,13 @@ const TaxCenter = ({ exchangeDomain, onChange, onClick, options, reportsR, value
           />
         </Text>
         <Text>
-          <Link href={`${exchangeDomain}/trade/login`} target='_blank' weight={500} size='14px'>
+          <Link
+            href={`${exchangeDomain}/trade/login`}
+            target='_blank'
+            weight={500}
+            size='14px'
+            onClick={onVisitClick}
+          >
             <FormattedMessage
               id='scenes.tax.center.footer.link'
               defaultMessage='Visit Exchange Tax Center'
@@ -230,6 +251,9 @@ type Props = {
   exchangeDomain: string
   onChange: (unknown) => void
   onClick: () => void
+  onExportClick: (number) => void
+  onPartnerClick: () => void
+  onVisitClick: () => void
   options: Array<{ text: string; value: number }>
   reportsR: RemoteDataType<string, ReportType[]>
   value: number
