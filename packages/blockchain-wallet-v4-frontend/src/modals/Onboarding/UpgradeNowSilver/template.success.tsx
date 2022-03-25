@@ -8,20 +8,9 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer } from 'components/Flyout/Layout'
 import { ModalName } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
 const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;
@@ -134,10 +123,10 @@ const Template = (props: Props) => {
   const { identityVerificationActions, modalActions, userTiers } = props
   const startVerification = useCallback(() => {
     modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
-    modalActions.closeModal(ModalName.UPGRADE_NOW_MODAL)
+    modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
-      origin: 'Settings'
+      origin: 'UpgradeNowSilver'
     })
   }, [identityVerificationActions, modalActions])
   if (!Array.isArray(userTiers)) {
@@ -148,7 +137,7 @@ const Template = (props: Props) => {
     <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainer>
-          <Title color='textBlack' size='24px' weight={600}>
+          <Title color='textBlack'>
             <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
           </Title>
           <CloseIconContainer>
@@ -159,7 +148,7 @@ const Template = (props: Props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.onClose}
+              onClick={props.handleClose}
             />
           </CloseIconContainer>
         </IconsContainer>

@@ -19,7 +19,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
-  parseAuthMagicLink,
+  determineAuthenticationFlow,
   pollForSessionFromAuthPayload,
   pollForSessionFromGuid
 } from './sagas.utils'
@@ -27,6 +27,7 @@ import * as S from './selectors'
 import {
   AccountUnificationFlows,
   AuthMagicLink,
+  AuthUserType,
   LoginErrorType,
   LoginSteps,
   PlatformTypes,
@@ -78,11 +79,11 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { platform, userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
+    const { exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
@@ -100,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
-      const { csrfToken, token: jwtToken } = response
+      const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
@@ -120,29 +121,23 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
+        // web - institutional exchange login
+        // only institutional users coming from the .com page will have
+        // a redirect link. All other users coming from footer in login page
+        // should be redirected to regular exchange app in the default case
+        case userType === AuthUserType.INSTITUTIONAL && !!redirect && institutionalPortalEnabled:
+          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
+          break
         // mobile - exchange sso login
-        case platform !== PlatformTypes.WEB:
-          // eslint-disable-next-line
-          console.log('MOBILE MSG:', platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
-            status: 'success'
-          })
+        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
           sendMessageToMobile(platform, {
-            data: { csrf: csrfToken, jwt: jwtToken },
+            data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
           })
           break
         // web - exchange sso login
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
-          break
-        // web - institutional exchange login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}&csrf=${csrfToken}`,
-            '_self',
-            'noreferrer'
-          )
           break
         default:
           // case where user has email cached and is
@@ -453,6 +448,11 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
           break
+        // Account locked due to too many failed 2fa attemps
+        case errorString && errorString.includes('is locked'):
+          yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
+          yield put(actions.auth.loginFailure(errorString))
+          break
         // Wrong 2fa code error
         case errorString &&
           (errorString.includes('Authentication code is incorrect') ||
@@ -536,14 +536,14 @@ export default ({ api, coreSagas, networks }) => {
       // get product param or default to wallet
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
-      const redirect = queryParams.get('redirect')
-      const userType = queryParams.get('userType') as string
+      const userType = (queryParams.get('userType')?.toUpperCase() || undefined) as AuthUserType
+      const redirect = queryParams.get('redirect') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: redirect || undefined,
+          redirect,
           userType
         })
       )
@@ -566,7 +566,7 @@ export default ({ api, coreSagas, networks }) => {
           yield call(initMobileWalletAuthFlow)
           break
         // institutional login portal for Prime exchange users
-        case userType === 'institutional':
+        case userType === AuthUserType.INSTITUTIONAL:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
           break
         // no guid on path, use cached/stored guid if exists
@@ -615,11 +615,12 @@ export default ({ api, coreSagas, networks }) => {
         // url has base64 encrypted magic link JSON
         default:
           yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
-          const magicLink = JSON.parse(
+          const authMagicLink = JSON.parse(
             base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as AuthMagicLink
-          yield put(actions.auth.setMagicLinkInfo(magicLink))
-          yield call(parseAuthMagicLink)
+          yield put(actions.auth.setMagicLinkInfo(authMagicLink))
+          // check querystring to determine if mobile has already completed the device polling
+          yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
       }
 
       // hide loading and ensure latest app version
@@ -738,9 +739,6 @@ export default ({ api, coreSagas, networks }) => {
     const decodedRedirect = decodeURIComponent(redirect)
     const { step } = formValues
     const { captchaToken, email } = action.payload
-    const shouldPollForMagicLinkData = (yield select(
-      selectors.core.walletOptions.getPollForMagicLinkData
-    )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -767,14 +765,13 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
-      // poll for session from auth payload if feature flag enabled
-      if (shouldPollForMagicLinkData) {
-        yield call(pollForSessionFromAuthPayload, api, sessionToken)
-      }
+      // poll for session from auth payload
+      yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
     }
   }

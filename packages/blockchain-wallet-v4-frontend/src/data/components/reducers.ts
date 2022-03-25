@@ -25,6 +25,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
 import { swapSliceReducer as swap } from './swap/slice'
+import { taxCenterReducer } from './taxCenter/slice'
 import { reducer as termsAndConditions } from './termsAndConditions/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
@@ -57,6 +58,7 @@ const componentReducer = combineReducers({
   settings: settingsReducer,
   signMessage,
   swap,
+  taxCenter: taxCenterReducer,
   termsAndConditions,
   uploadDocuments,
   veriff,

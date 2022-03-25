@@ -317,7 +317,11 @@ const AccountSummary: React.FC<Props> = (props) => {
               width='192px'
             >
               <Text weight={600} color='white'>
-                <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+                <FormattedMessage
+                  id='buttons.add_coin'
+                  defaultMessage='Add {displayName}'
+                  values={{ displayName: coinfig.displaySymbol }}
+                />
               </Text>
             </Button>
             <Button
@@ -454,7 +458,11 @@ const AccountSummary: React.FC<Props> = (props) => {
               onClick={() => interestActions.showInterestModal({ coin, step: 'WITHDRAWAL' })}
             >
               <Text color='white' size='16px' weight={600}>
-                <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+                <FormattedMessage
+                  id='buttons.withdraw_coin'
+                  defaultMessage='Withdraw {displayName}'
+                  values={{ displayName: coinfig.displaySymbol }}
+                />
               </Text>
             </Button>
           </ButtonContainer>

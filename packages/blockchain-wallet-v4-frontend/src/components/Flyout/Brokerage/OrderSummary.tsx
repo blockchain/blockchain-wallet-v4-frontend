@@ -208,28 +208,39 @@ const OrderSummary: React.FC<Props> = ({
             (paymentType === BSPaymentTypes.PAYMENT_CARD ||
               paymentType === BSPaymentTypes.USER_CARD) && (
               <BottomInfo>
-                <Text color='grey600' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.simplebuy.summary.complete_card_info_main'
-                    defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
-                    values={{ days }}
-                  />
-                </Text>
-                <Text color='grey600' size='14px' weight={500} style={{ marginTop: '16px' }}>
-                  <span>
+                {days === 0 ? (
+                  <Text size='12px' weight={500} color='grey900'>
                     <FormattedMessage
-                      id='modals.simplebuy.summary.complete_card_info_additional'
-                      defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
-                    />{' '}
-                    <a
-                      href='https://support.blockchain.com/hc/en-us/articles/360048200392'
-                      rel='noopener noreferrer'
-                      target='_blank'
-                    >
-                      <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
-                    </a>
-                  </span>
-                </Text>
+                      id='modals.simplebuy.confirm.activity'
+                      defaultMessage='Your final amount may change due to market activity.'
+                    />
+                  </Text>
+                ) : (
+                  <>
+                    <Text color='grey600' size='14px' weight={500}>
+                      <FormattedMessage
+                        id='modals.simplebuy.summary.complete_card_info_main'
+                        defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+                        values={{ days }}
+                      />
+                    </Text>
+                    <Text color='grey600' size='14px' weight={500} style={{ marginTop: '16px' }}>
+                      <span>
+                        <FormattedMessage
+                          id='modals.simplebuy.summary.complete_card_info_additional'
+                          defaultMessage='In the meantime, you can sell into cash, swap, and trade within Blockchain.com.'
+                        />{' '}
+                        <a
+                          href='https://support.blockchain.com/hc/en-us/articles/360048200392'
+                          rel='noopener noreferrer'
+                          target='_blank'
+                        >
+                          <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
+                        </a>
+                      </span>
+                    </Text>
+                  </>
+                )}
               </BottomInfo>
             )}
           {orderType === 'BUY' &&

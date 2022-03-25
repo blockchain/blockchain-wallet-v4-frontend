@@ -4,11 +4,14 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 const Wrapper = styled.div`
   padding: 10px 30px 30px;
   box-sizing: border-box;
+  ${media.mobile`
+    padding: 10px 0 30px;
+  `};
 `
 const StatusWrapper = styled.div`
   display: flex;
@@ -83,9 +86,11 @@ const StepText = styled(Text)`
   margin-right: 20px;
   word-break: break-word;
   ${media.mobile`
+    margin-right: 15px;
     word-break: initial;
   `};
 `
+
 const SecurityCenter = (props) => {
   const { children, progress } = props
   const { emailComplete, mnemonicComplete, overallProgress, twoFactorComplete } = progress
@@ -186,10 +191,18 @@ const SecurityCenter = (props) => {
                   )}
                 </Circle>
                 <StepText success={mnemonicComplete} size={mobile ? '12px' : '14px'} weight={400}>
-                  <FormattedMessage
-                    id='scenes.securitycenter.steps.step3.savephrase'
-                    defaultMessage='Save Secret Private Key Recovery Phrase'
-                  />
+                  {isMobile() && (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step3.mobile.savephrase'
+                      defaultMessage='Recovery Phrase'
+                    />
+                  )}
+                  {!isMobile() && (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step3.savephrase'
+                      defaultMessage='Save Secret Private Key Recovery Phrase'
+                    />
+                  )}
                 </StepText>
               </StepSection>
             </SecurityStepsWrapper>

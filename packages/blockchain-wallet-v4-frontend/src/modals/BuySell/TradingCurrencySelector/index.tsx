@@ -10,6 +10,8 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
 
+import { IconsContainer } from '../../components'
+
 const COINS = [
   {
     title: 'US Dollars',
@@ -28,13 +30,6 @@ const COINS = [
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
   position: relative;
-`
-
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
 `
 
 const CloseIconContainer = styled.div`

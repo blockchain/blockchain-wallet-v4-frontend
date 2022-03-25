@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { ProductTypes } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
@@ -14,6 +14,7 @@ import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { getCompleteProfileAnnouncement } from '../selectors'
+import { BannerButton, CloseLink } from '../styles'
 import { getData } from './selectors'
 
 const MAX_STEPS = 3
@@ -59,19 +60,6 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-`
-const BannerButton = styled(Button)`
-  height: 48px;
-  ${media.mobile`
-    font-size: 14px;
-    margin-top: 16px;
-    padding: 10px;
-  `}
-`
-
-const CloseLink = styled.div`
-  margin-left: 24px;
-  cursor: pointer;
 `
 
 const CompleteYourProfile = ({

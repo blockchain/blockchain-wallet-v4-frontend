@@ -9,8 +9,11 @@ import * as S from './selectors'
 export default () => {
   const pingManifestFile = function* () {
     try {
-      // only ping manifest if window is active
-      if (!window.document.hidden || window.document.visibilityState === 'visible') {
+      // only ping manifest if in production and window is active
+      if (
+        window.location.host === 'login.blockchain.com' &&
+        (!window.document.hidden || window.document.visibilityState === 'visible')
+      ) {
         const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
           comWalletApp: 'https://login.blockchain.com'
         })

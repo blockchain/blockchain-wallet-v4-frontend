@@ -25,12 +25,14 @@ export type BannerType =
   | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
+  | 'taxCenter'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
+export const getTaxCenterAnnouncement = () => `tax-center-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
   return (
@@ -43,7 +45,6 @@ const showBanner = (flag: boolean, banner: string, announcementState) => {
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
-
   let isVerifiedId = false
   let isBankOrCardLinked = false
   let isBuyCrypto = false
@@ -74,6 +75,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const userData = userDataR.getOrElse({
+    address: { country: '' },
     tiers: { current: 0 }
   } as UserDataType)
 
@@ -152,10 +154,17 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   }
 
+  // tax center
+  const isCountryUS = userData?.address?.country === 'US'
+  const taxCenterAnnouncement = getTaxCenterAnnouncement()
+  const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
+
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
-  if (showCompleteYourProfileBanner && !isProfileCompleted) {
+  if (showTaxCenterBanner) {
+    bannerToShow = 'taxCenter'
+  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'

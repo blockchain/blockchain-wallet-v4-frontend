@@ -435,13 +435,18 @@ const StyledOvalButton = styled(Button)`
   border-radius: 32px;
 `
 
-const AlertButton = ({ children }) => (
+interface AlertButtonProps {
+  children: React.ReactChild
+  onClick?: () => void
+}
+const AlertButton = ({ children, onClick }: AlertButtonProps) => (
   <StyledOvalButton
     data-e2e='overLimitButton'
     height='48px'
     size='16px'
     nature='dark-grey'
     fullwidth
+    onClick={onClick}
   >
     <Image width='16px' height='16px' name='alert-orange' />
     <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
@@ -473,6 +478,22 @@ const MaxButton = ({ onClick, type }) => (
   </MaxButtonWrapper>
 )
 
+const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const Title = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-size: 24px;
+  font-weight: 600;
+`
+
 export {
   AlertButton,
   BankSearchIcon,
@@ -482,6 +503,7 @@ export {
   BankWrapper,
   BROKERAGE_INELIGIBLE,
   Hr,
+  IconsContainer,
   IneligibleErrorMessage,
   LinkOptionsWrapper,
   LinkViaDesktop,
@@ -495,5 +517,6 @@ export {
   ScanWithPhone,
   Section,
   SimpleBankRow,
+  Title,
   TopText
 }

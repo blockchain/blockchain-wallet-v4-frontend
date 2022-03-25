@@ -30,10 +30,13 @@ const getData = (state: RootState) => {
     .getInterestEDDStatus(state)
     .getOrElse({} as InterestEDDStatus)
 
+  const showSilverRevamp = selectors.core.walletOptions.getSilverRevamp(state).getOrElse(false)
+
   return lift((limitsAndDetails: ExtractSuccess<typeof limitsAndDetailsR>) => ({
     interestEDDStatus,
     limitsAndDetails,
     sddEligible,
+    showSilverRevamp,
     userData,
     userTiers
   }))(limitsAndDetailsR)

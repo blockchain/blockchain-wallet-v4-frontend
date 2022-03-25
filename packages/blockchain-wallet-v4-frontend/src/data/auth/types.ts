@@ -76,12 +76,8 @@ export type LoginFormType = {
   upgradePassword?: string
 }
 
-export enum UserType {
-  EXCHANGE = 'EXCHANGE',
-  WALLET = 'WALLET',
-  WALLET_EXCHANGE_BOTH = 'WALLET_EXCHANGE_BOTH',
-  WALLET_EXCHANGE_LINKED = 'WALLET_EXCHANGE_LINKED',
-  WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
+export enum AuthUserType {
+  INSTITUTIONAL = 'INSTITUTIONAL'
 }
 
 export enum WalletPollingResponseType {
@@ -105,7 +101,7 @@ export type AuthMagicLink = {
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
-  user_type?: UserType
+  user_type?: AuthUserType
   wallet?: {
     auth_type?: number
     email: string
@@ -156,7 +152,7 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
-  userType?: string
+  userType?: AuthUserType
 }
 
 export type AuthStateType = {
@@ -204,6 +200,7 @@ export type MobileAuthExchangeMessage = {
   data?: {
     csrf: string
     jwt: string
+    jwtExpirationTime: number
   }
   error?: string
   status: 'error' | 'success'

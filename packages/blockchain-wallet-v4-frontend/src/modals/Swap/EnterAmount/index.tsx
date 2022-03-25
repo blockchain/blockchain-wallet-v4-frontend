@@ -110,6 +110,9 @@ class EnterAmount extends PureComponent<Props> {
     const { coinfig: baseCoinfig } = window.coins[BASE.coin]
     const { coinfig: counterCoinfig } = window.coins[COUNTER.coin]
 
+    const showSilverRevampBanner =
+      this.props.silverRevamp && this.props.products?.swap?.maxOrdersLeft > 0
+
     return (
       <>
         <FlyoutWrapper>
@@ -216,7 +219,9 @@ class EnterAmount extends PureComponent<Props> {
                   <Border />
                 </Options>
                 <Checkout {...val} {...this.props} BASE={BASE} COUNTER={COUNTER} />
-                {userData.tiers.current === 1 && <Upgrade {...this.props} />}
+                {(showSilverRevampBanner || userData.tiers.current === 1) && (
+                  <Upgrade {...this.props} />
+                )}
               </>
             )
           })}

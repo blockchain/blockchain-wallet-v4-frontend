@@ -1,49 +1,40 @@
 import { BeneficiariesType, RemoteDataType, SwapOrderType } from '@core/types'
 
-import * as AT from './actionTypes'
+export type ProductEligibilityForUser = {
+  buy: {
+    canPlaceOrder: boolean
+    enabled: boolean
+    id: 'BUY'
+    maxOrdersLeft: number
+  }
+  custodialWallets: {
+    canDepositCrypto: boolean
+    canDepositFiat: boolean
+    canWithdrawCrypto: boolean
+    canWithdrawFiat: boolean
+    enabled: boolean
+    id: 'CUSTODIAL_WALLET'
+  }
+  exchange: {
+    canDepositCrypto: boolean
+    canDepositFiat: boolean
+    canTrade: boolean
+    canWithdrawCrypto: boolean
+    canWithdrawFiat: boolean
+    enabled: boolean
+    id: 'EXCHANGE'
+  }
+  swap: {
+    canPlaceOrder: boolean
+    enabled: boolean
+    id: 'SWAP'
+    maxOrdersLeft: number
+  }
+}
 
-// state
+// State
 export type CustodialState = {
   beneficiaries: RemoteDataType<string, BeneficiariesType>
+  productEligibilityForUser: RemoteDataType<string, ProductEligibilityForUser>
   recentSwapTxs: RemoteDataType<string, SwapOrderType[]>
 }
-
-// actions
-interface FetchBeneficiariesFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_CUSTODIAL_BENEFICIARIES_FAILURE
-}
-interface FetchBeneficiariesLoading {
-  type: typeof AT.FETCH_CUSTODIAL_BENEFICIARIES_LOADING
-}
-interface FetchBeneficiariesSuccess {
-  payload: {
-    beneficiaries: BeneficiariesType
-  }
-  type: typeof AT.FETCH_CUSTODIAL_BENEFICIARIES_SUCCESS
-}
-
-interface FetchRecentSwapTxsFailure {
-  type: typeof AT.FETCH_RECENT_SWAP_TXS_FAILURE
-}
-
-interface FetchRecentSwapTxsLoading {
-  type: typeof AT.FETCH_RECENT_SWAP_TXS_LOADING
-}
-
-interface FetchRecentSwapTxsSuccess {
-  payload: {
-    data: SwapOrderType[]
-  }
-  type: typeof AT.FETCH_RECENT_SWAP_TXS_SUCCESS
-}
-
-export type CustodialActionTypes =
-  | FetchBeneficiariesFailure
-  | FetchBeneficiariesSuccess
-  | FetchBeneficiariesLoading
-  | FetchRecentSwapTxsFailure
-  | FetchRecentSwapTxsSuccess
-  | FetchRecentSwapTxsLoading
