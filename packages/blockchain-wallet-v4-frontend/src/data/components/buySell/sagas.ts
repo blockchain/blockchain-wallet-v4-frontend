@@ -20,6 +20,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  GooglePayInfoType,
   MobilePaymentType,
   OrderType,
   ProductTypes,
@@ -145,6 +146,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     })
 
     return token
+  }
+
+  const generateGooglePayToken = async ({
+    googlePayInfo,
+    paymentRequest
+  }: {
+    googlePayInfo: GooglePayInfoType
+    paymentRequest: PaymentRequest
+  }) => {
+    // eslint-disable-next-line no-console
+    console.log(googlePayInfo)
   }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
@@ -505,6 +517,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const applePayInfo: ApplePayInfoType = yield call(api.getApplePayInfo, fiat)
 
         yield put(A.setApplePayInfo(applePayInfo))
+      }
+
+      if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+        const googlePayInfo: GooglePayInfoType = yield call(api.getGooglePayInfo, fiat)
+
+        yield put(A.setGooglePayInfo(googlePayInfo))
       }
 
       // This code is handles refreshing the buy order when the user sits on

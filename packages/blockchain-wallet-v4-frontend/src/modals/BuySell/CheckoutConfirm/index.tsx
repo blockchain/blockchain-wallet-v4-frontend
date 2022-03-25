@@ -115,6 +115,13 @@ class CheckoutConfirm extends PureComponent<Props> {
           paymentMethodId = this.props.applePayInfo.beneficiaryID
         }
 
+        if (
+          this.props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY &&
+          this.props.googlePayInfo
+        ) {
+          paymentMethodId = this.props.googlePayInfo.beneficiaryID
+        }
+
         if (paymentMethodId) {
           return this.props.buySellActions.confirmOrder({
             mobilePaymentMethod: this.props.mobilePaymentMethod,
@@ -122,8 +129,6 @@ class CheckoutConfirm extends PureComponent<Props> {
             paymentMethodId
           })
         }
-
-        // return this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
 
         break
 
@@ -178,6 +183,7 @@ const mapStateToProps = (state: RootState) => ({
   applePayInfo: selectors.components.buySell.getApplePayInfo(state),
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
+  googlePayInfo: selectors.components.buySell.getGooglePayInfo(state),
   isFlexiblePricingModel: selectors.core.walletOptions
     .getFlexiblePricingModel(state)
     .getOrElse(false),
