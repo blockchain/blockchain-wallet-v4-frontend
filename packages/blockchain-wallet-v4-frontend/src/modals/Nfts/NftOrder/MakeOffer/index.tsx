@@ -218,7 +218,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     disabled={disabled}
                     onClick={() =>
                       nftActions.createOffer({
-                        amtToWrap: amtToWrap.toString(),
+                        amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                         asset: val,
                         offerFees,
                         wrapFees,

@@ -534,28 +534,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.setOrderFlowIsSubmitting(false))
   }
 
-  const wrapEth = function* (action: ReturnType<typeof A.wrapEth>) {
-    yield put(A.setOrderFlowIsSubmitting(true))
-
-    try {
-      const { amount: standardAmt, gasData } = action.payload
-      const amount = convertCoinToCoin({ baseToStandard: false, coin: 'WETH', value: standardAmt })
-      const signer = yield call(getEthSigner)
-      yield put(A.setOrderFlowIsSubmitting(true))
-      yield call(executeWrapEth, signer, amount, gasData)
-      yield put(actions.core.data.eth.fetchData())
-      yield put(actions.core.data.eth.fetchErc20Data())
-      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
-    } catch (e) {
-      let error = errorHandler(e)
-      if (error.includes(INSUFFICIENT_FUNDS)) error = 'You do not have enough funds to Wrap ETH.'
-      yield put(actions.alerts.displayError(error))
-      yield put(actions.logs.logErrorMessage(error))
-    }
-
-    yield put(A.setOrderFlowIsSubmitting(false))
-  }
-
   const formChanged = function* (action) {
     if (action.meta.form === 'nftSearch') {
       if (action.meta.field === 'sortBy') {
@@ -657,7 +635,6 @@ export default ({ api }: { api: APIType }) => {
     formChanged,
     nftOrderFlowClose,
     nftOrderFlowOpen,
-    searchNftAssetContract,
-    wrapEth
+    searchNftAssetContract
   }
 }

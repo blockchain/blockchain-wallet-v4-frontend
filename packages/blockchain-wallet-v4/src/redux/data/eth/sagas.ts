@@ -295,7 +295,18 @@ export default ({ api }: { api: APIType }) => {
         WETH_ABI,
         api.ethProvider
       )
-      const balance = yield call(contract.balanceOf, ethAddr)
+      const wethBalance = yield call(contract.balanceOf, ethAddr)
+      // REMOVE!
+      yield put(
+        A.fetchErc20DataSuccess(
+          'WETH',
+          constructDefaultErc20Data(
+            ethAddr,
+            window.coins.WETH.coinfig.type.erc20Address!,
+            wethBalance.toString()
+          )
+        )
+      )
 
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
@@ -308,17 +319,6 @@ export default ({ api }: { api: APIType }) => {
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
-
-          // REMOVE!
-          if (symbol === 'WETH') {
-            yield put(
-              A.fetchErc20DataSuccess(
-                symbol,
-                constructDefaultErc20Data(ethAddr, contract, balance.toString())
-              )
-            )
-            return
-          }
 
           yield put(
             A.fetchErc20DataSuccess(

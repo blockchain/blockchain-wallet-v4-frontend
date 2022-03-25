@@ -52,6 +52,7 @@ import {
   WYVERN_CONTRACT_ADDR_MAINNET,
   WYVERN_CONTRACT_ADDR_RINKEBY,
   WYVERN_MERKLE_VALIDATOR_MAINNET,
+  WYVERN_MERKLE_VALIDATOR_RINKEBY,
   WYVERN_PROXY_REGISTRY_ADDRESS,
   WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY,
   WYVERN_TOKEN_PAYMENT_PROXY,
@@ -669,7 +670,8 @@ function _validateFees(totalBuyerFeeBasisPoints: number, totalSellerFeeBasisPoin
 function _getBuyFeeParameters(
   totalBuyerFeeBasisPoints: number,
   totalSellerFeeBasisPoints: number,
-  sellOrder?: UnhashedOrder
+  sellOrder?: UnhashedOrder,
+  network?: 'mainnet' | 'rinkeby'
 ) {
   _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
   let makerRelayerFee
@@ -1338,7 +1340,7 @@ async function _makeBuyOrder({
     makerRelayerFee,
     takerProtocolFee,
     takerRelayerFee
-  } = _getBuyFeeParameters(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints, sellOrder)
+  } = _getBuyFeeParameters(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints, sellOrder, network)
 
   const { calldata, replacementPattern, target } = _encodeBuy(
     schema,
@@ -1451,7 +1453,11 @@ async function _makeSellOrder({
     schema,
     { address: asset.asset_contract.address, id: asset.token_id },
     accountAddress,
-    waitForHighestBid ? undefined : WYVERN_MERKLE_VALIDATOR_MAINNET
+    waitForHighestBid
+      ? undefined
+      : network === 'rinkeby'
+      ? WYVERN_MERKLE_VALIDATOR_RINKEBY
+      : WYVERN_MERKLE_VALIDATOR_MAINNET
   )
   const orderSaleKind =
     endAmount != null && endAmount !== startAmount
@@ -1549,24 +1555,16 @@ export async function _makeMatchingOrder({
 }): Promise<UnsignedOrder> {
   accountAddress = ethers.utils.getAddress(accountAddress)
   recipientAddress = ethers.utils.getAddress(recipientAddress)
+  const validatorAddress =
+    network === 'rinkeby' ? WYVERN_MERKLE_VALIDATOR_RINKEBY : WYVERN_MERKLE_VALIDATOR_MAINNET
 
   const computeOrderParams = () => {
     if ('asset' in order.metadata) {
       // const schema = this._getSchema(order.metadata.schema)
       const schema = schemaMap[order.metadata.schema]
       return order.side === NftOrderSide.Buy
-        ? _encodeSell(
-            schema,
-            order.metadata.asset,
-            recipientAddress,
-            WYVERN_MERKLE_VALIDATOR_MAINNET
-          )
-        : _encodeBuy(
-            schema,
-            order.metadata.asset,
-            recipientAddress,
-            WYVERN_MERKLE_VALIDATOR_MAINNET
-          )
+        ? _encodeSell(schema, order.metadata.asset, recipientAddress, validatorAddress)
+        : _encodeBuy(schema, order.metadata.asset, recipientAddress, validatorAddress)
     }
     // BUNDLE NOT SUPPORTED
     // if ('bundle' in order.metadata) {

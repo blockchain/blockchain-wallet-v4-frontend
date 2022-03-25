@@ -415,8 +415,7 @@ const nftsSlice = createSlice({
       } else {
         state.collectionFilter.traits[name] = { [value]: true }
       }
-    },
-    wrapEth: (state, action: PayloadAction<{ amount: string; gasData: GasDataI }>) => {}
+    }
   }
 })
 
