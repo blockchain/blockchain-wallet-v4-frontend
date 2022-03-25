@@ -201,17 +201,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     props.buySellActions.cancelOrder(props.order)
   }
 
-  const paymentPartnerButton =
-    paymentPartner === BankPartners.YAPILY ? (
-      <FormattedMessage id='copy.next' defaultMessage='Next' />
-    ) : (
-      <FormattedMessage
-        id='buttons.buy_sell_now'
-        defaultMessage='{orderType} Now'
-        values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-      />
-    )
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -529,7 +518,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             {props.submitting ? (
               <HeartbeatLoader height='16px' width='16px' color='white' />
             ) : (
-              paymentPartnerButton
+              <FormattedMessage
+                id='buttons.buy_sell_now'
+                defaultMessage='{orderType} Now'
+                values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
+              />
             )}
           </Button>
 

@@ -2956,12 +2956,12 @@ type MessagesType = {
   'swap.carousel.title.page5': 'Manage Risk Better'
   'swap.getstarted.readytoswap.body': 'Complete your profile and start exchanging cryptocurrencies today.'
   'swap.getstarted.readytoswap.title': 'Ready to Swap?'
-  'swap.no_holdings.get_started': 'You’re all set to Swap but we don’t see any crypto in this Wallet. Below are 3 ways to get started.'
-  'swap.no_holdings.own_some_first': 'But you’ll need to own some first...'
+  'swap.no_holdings.get_started': "You're all set to Swap but we don't see any crypto in this Wallet. Below are ways to get started."
+  'swap.no_holdings.own_some_first': "But you'll need to own some first..."
   'swap.no_holdings.buy_with_card.title': 'Buy with a Card'
   'swap.no_holdings.buy_with_card.description': 'Instantly buy crypto with any Visa or Mastercard. You will need to verify your identiy to link a card'
   'swap.no_holdings.buy_with_bank.title': 'Buy with a Bank Deposit'
-  'swap.no_holdings.buy_with_bank.description': 'Send cash directly from your bank. Once received, we’ll use use that balance to buy the crypto of your choice.'
+  'swap.no_holdings.buy_with_bank.description': "Send cash directly from your bank. Once received, we'll use use that balance to buy the crypto of your choice."
   'swap.no_holdings.receive_another_wallet.title': 'Receive from Another Wallet'
   'swap.no_holdings.receive_another_wallet.description_1': 'Are you holding crypto in a different wallet? Does a friend want to send you some Bitcoin?'
   'swap.no_holdings.receive_another_wallet.description_2': 'Copy & paste or share your unique wallet addresses QR codes.'
