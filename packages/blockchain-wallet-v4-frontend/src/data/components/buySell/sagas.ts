@@ -1679,12 +1679,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
 
+    // get current user tier
+    const currentUserTier = selectors.modules.profile.getCurrentTier(yield select())
+
     const showSilverRevamp = selectors.core.walletOptions
       .getSilverRevamp(yield select())
       .getOrElse(null)
 
     // check is user eligible to do sell/buy
-    if (showSilverRevamp) {
+    if (showSilverRevamp && !latestPendingOrder) {
       yield put(actions.custodial.fetchProductEligibilityForUser())
       yield take([
         custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -1723,6 +1726,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // poll for the order status
     if (hasPendingOBOrder && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      yield put(
+        A.setStep({
+          order: latestPendingOrder,
+          step
+        })
+      )
+      // For all silver/silver+ users if they have pending transaction and they are from silver revamp
+      // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
+    } else if (currentUserTier !== 2 && latestPendingOrder && showSilverRevamp) {
+      const step: T.StepActionsPayload['step'] =
+        latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
