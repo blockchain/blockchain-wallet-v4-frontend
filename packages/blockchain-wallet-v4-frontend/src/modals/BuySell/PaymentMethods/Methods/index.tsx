@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
+  CardFundSourceType,
   MobilePaymentType,
   OrderType,
   WalletCurrencyType,
@@ -74,22 +75,66 @@ const Methods = (props: Props) => {
           />
         )
       case BSPaymentTypes.PAYMENT_CARD:
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+        ) {
+          return (
+            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
+          )
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+        ) {
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.paymentcard.credit'
+              defaultMessage='Credit Card'
+            />
+          )
+        }
+
         return (
           <FormattedMessage
-            id='modals.simplebuy.paymentcard'
+            id='modals.simplebuy.paymentcard.debit_and_credit'
             defaultMessage='Credit or Debit Card'
           />
         )
       case BSPaymentTypes.USER_CARD:
-        return value && value.card ? (
-          value.card.label ? (
-            value.card.label
-          ) : (
-            value.card.type
+        if (value?.card) {
+          if (value.card.label) {
+            return value.card.label
+          }
+
+          return value.card.type
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+        ) {
+          return (
+            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
           )
-        ) : (
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+        ) {
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.paymentcard.credit'
+              defaultMessage='Credit Card'
+            />
+          )
+        }
+
+        return (
           <FormattedMessage
-            id='modals.simplebuy.paymentcard'
+            id='modals.simplebuy.paymentcard.debit_and_credit'
             defaultMessage='Credit or Debit Card'
           />
         )
@@ -204,13 +249,16 @@ const Methods = (props: Props) => {
 
   useEffect(() => {
     if (
-      ApplePaySession &&
-      ApplePaySession.canMakePayments() &&
+      (window as any).ApplePaySession &&
+      (window as any).ApplePaySession.canMakePayments() &&
       (props.applePayEnabled || props.isInternalTester)
     ) {
       setApplePayAvailable(true)
     }
   }, [props.applePayEnabled, props.isInternalTester])
+
+  // eslint-disable-next-line no-console
+  console.log(paymentCard)
 
   return (
     <Wrapper>

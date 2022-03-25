@@ -67,6 +67,10 @@ class TradingLimits extends PureComponent<Props, State> {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchLimitsAndDetails: () => dispatch(actions.components.settings.fetchLimitsAndDetails()),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   modalActions: bindActionCreators(actions.modals, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })

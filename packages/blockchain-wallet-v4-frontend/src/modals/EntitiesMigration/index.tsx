@@ -114,7 +114,7 @@ function EntitiesMigration({ cacheActions, close }) {
             onClick={handleCloseClick}
             fullwidth
           >
-            <FormattedMessage id='copy.i_understand:' defaultMessage='I understand' />
+            <FormattedMessage id='copy.i_understand' defaultMessage='I understand' />
           </Button>
         </Group>
       </ModalBody>

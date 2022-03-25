@@ -62,7 +62,11 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
   )
 }
 
-type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
+type OwnProps = BaseProps &
+  SuccessStateType & {
+    handleClose: () => void
+    order?: SwapOrderType
+  }
 export type Props = OwnProps
 
 export default SuccessfulSwap

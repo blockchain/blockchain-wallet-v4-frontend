@@ -53,7 +53,7 @@ const OrderMyCard = (props: Props) => {
       NotAsked: () => (
         <CreateCardStep handleClose={handleClose} handleCreateCard={handleCreateCard} />
       ),
-      Success: () => <SuccessCreationStep />
+      Success: () => <SuccessCreationStep handleClose={handleClose} />
     })
 
   return (

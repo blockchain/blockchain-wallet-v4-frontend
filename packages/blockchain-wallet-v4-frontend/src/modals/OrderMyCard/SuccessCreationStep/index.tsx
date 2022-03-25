@@ -8,11 +8,10 @@ import { FlyoutHeader } from 'components/Flyout/Layout'
 
 import { ResultSubTitleWrapper, ResultTitleWrapper, ResultWrapper, StyledButton } from '../model'
 
-const SuccessCreationStep = () => {
-  const handleClose = () => {
-    // TODO: see how or when change the default page to one with the card view
-  }
-
+type Props = {
+  handleClose: () => void
+}
+const SuccessCreationStep = ({ handleClose }: Props) => {
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='creationSuccessHeader' mode='close' onClick={handleClose} />

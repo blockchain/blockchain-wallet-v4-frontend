@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { FlyoutWrapper } from 'components/Flyout'
-import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
+import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 
 import { Props } from '.'
 
 const Upgrade: React.FC<Props> = (props) => {
   return (
     <FlyoutWrapper>
-      <UpgradeToGoldLine type={Flows.SWAP} verifyIdentity={props.verifyIdentity} />
+      <GetMoreAccess startProcess={props.verifyIdentity} />
     </FlyoutWrapper>
   )
 }
