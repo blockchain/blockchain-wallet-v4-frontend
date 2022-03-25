@@ -1,7 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { includes, pickBy } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
 import { RemoteDataType } from '@core/types'
@@ -21,30 +19,6 @@ import Loading from './template.loading'
 import Verify from './Verify'
 
 const { STEPS } = model.components.identityVerification
-
-const stepMap = {
-  [STEPS.infoAndResidential]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.info_and_residential'
-      defaultMessage='Info and residential'
-    />
-  ),
-  [STEPS.moreInfo]: (
-    <FormattedMessage id='modals.identityverification.steps.more_info' defaultMessage='Info' />
-  ),
-  [STEPS.additionalInfo]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.additional_info'
-      defaultMessage='Additional Info'
-    />
-  ),
-  [STEPS.verify]: (
-    <FormattedMessage id='modals.identityverification.steps.verify' defaultMessage='Verify' />
-  ),
-  [STEPS.submitted]: (
-    <FormattedMessage id='modals.identityverification.steps.submitted' defaultMessage='Submitted' />
-  )
-}
 
 type OwnProps = {
   checkSddEligibility?: boolean
@@ -79,8 +53,6 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
     this.initializeVerification()
   }
-
-  getSteps = (steps) => pickBy((_, step) => includes(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })

@@ -18,10 +18,6 @@ const Wrapper = styled.div`
   cursor: pointer;
   box-shadow: 0px 0px 24px rgba(5, 24, 61, 0.08);
 
-  ${media.atLeastLaptop`
-    height: 72px;
-    padding: 0 20px;
-  `}
   ${media.mobile`
     padding: 12px;
     flex-direction: column;

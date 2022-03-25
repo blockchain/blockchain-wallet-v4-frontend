@@ -52,6 +52,7 @@ import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
 import blockchainSilver from './img/blockchain-silver.svg'
 import blueVerified from './img/blue-verified.svg'
+import buyBlueCircle from './img/buy-blue-circle.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -73,6 +74,7 @@ import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins'
 import creditCard from './img/credit-card.svg'
+import creditCardBlue from './img/credit-card-blue.svg'
 import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
@@ -155,6 +157,7 @@ import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
+import percentBlueCircle from './img/percentage-blue-circle.svg'
 import printer from './img/printer.svg'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
@@ -190,6 +193,7 @@ import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usFlag from './img/us-flag.svg'
 import usddIntro from './img/usdd-intro.svg'
+import verifyNotice from './img/verify-notice.svg'
 import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
@@ -200,6 +204,7 @@ import walletNoBackground from './img/wallet-no-background.svg'
 import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import whiteVerified from './img/white-verified.svg'
+import withdrawBlueCircle from './img/withdraw-blue-circle.svg'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
@@ -262,6 +267,7 @@ const Images = {
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
   'blue-verified': blueVerified,
+  'buy-blue-circle': buyBlueCircle,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
@@ -283,6 +289,7 @@ const Images = {
   'coin-pax': coinPax,
   coins,
   'credit-card': creditCard,
+  'credit-card-blue': creditCardBlue,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
@@ -365,6 +372,7 @@ const Images = {
   'order-my-card': orderMyCard,
   'order-my-card-icon': orderMyCardIcon,
   'order-success': orderSuccess,
+  'percent-blue-circle': percentBlueCircle,
   'percent-white-circle': percentWhiteCircle,
   printer,
   'proof-of-address': proofOfAddress,
@@ -400,6 +408,7 @@ const Images = {
   'twitter-white': twitterWhite,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,
   wallet,
@@ -410,6 +419,7 @@ const Images = {
   'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'white-verified': whiteVerified,
+  'withdraw-blue-circle': withdrawBlueCircle,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,

@@ -21,3 +21,5 @@ export const getKycFlowConfig = (state: RootState) =>
 export const getPreIdvData = (state: RootState) => state.components.identityVerification.preIdvData
 
 export const getSteps = (state: RootState) => state.components.identityVerification.steps
+export const getKYCExtraSteps = (state: RootState) =>
+  state.components.identityVerification.kycExtraQuestions

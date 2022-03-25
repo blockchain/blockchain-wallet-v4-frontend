@@ -10,8 +10,7 @@ const store = createStore(combineReducers({}))
 
 export default {
   args: {
-    current: 0,
-    limit: 1
+    remaining: 1
   },
   component: TransactionsLeft,
   decorators: [

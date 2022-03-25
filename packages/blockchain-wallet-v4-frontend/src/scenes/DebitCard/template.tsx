@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon } from 'blockchain-info-components'
@@ -16,7 +16,11 @@ import CardDashboard from './CardDashboard'
 import CardOrder from './CardOrder'
 import { Wrapper } from './model'
 
-const DebitCard = ({ cards, modalActions }: Props) => {
+const DebitCard = ({ cards, debitCardActions, modalActions }: Props) => {
+  useEffect(() => {
+    // Need to load cards again in case of card created in different platform while user already logged in
+    debitCardActions.getCards()
+  }, [])
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 

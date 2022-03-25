@@ -1,4 +1,4 @@
-import { NabuAddressType, RemoteDataType } from '@core/types'
+import { ExtraQuestionsType, NabuAddressType, RemoteDataType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -61,6 +61,7 @@ export interface IdentityVerificationState {
   addressRefetchVisible: boolean
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
+  kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
   preIdvData: RemoteDataType<string, PreIdvDataType>
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, StateType>
@@ -229,6 +230,26 @@ interface VerifyIdentityAction {
   type: typeof AT.VERIFY_IDENTITY
 }
 
+// extra KYC
+interface FetchExtraKYCFailure {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE
+}
+
+interface FetchExtraKYCLoading {
+  type: typeof AT.FETCH_KYC_EXTRA_QUESTIONS_LOADING
+}
+
+interface FetchExtraKYCSuccess {
+  payload: {
+    questions: any
+  }
+  type: typeof AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS
+}
+
 export type IdentityVerificationActionTypes =
   | FetchSupportedDocumentAction
   | SetEmailStepAction
@@ -254,6 +275,9 @@ export type IdentityVerificationActionTypes =
   | SetVerificationStepAction
   | ResetVerificationStepAction
   | VerifyIdentityAction
+  | FetchExtraKYCFailure
+  | FetchExtraKYCLoading
+  | FetchExtraKYCSuccess
 
 export type InfoAndResidentialFormValuesType = {
   country: CountryType
@@ -264,4 +288,13 @@ export type InfoAndResidentialFormValuesType = {
 
 export type VerifyEmailFormValuesType = {
   email: string
+}
+
+export type ExtraKeyFieldsFormValuesType = {
+  fullName?: string
+  q1: Array<string>
+  q2: string
+  q3: string
+  q4: string
+  relationship?: string
 }

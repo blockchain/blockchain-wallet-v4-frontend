@@ -11,8 +11,11 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalName } from 'data/modals/types'
 import { SettingsItem, SettingsLimit } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SETTINGS_ITEM_PERIOD, SETTINGS_ITEMS, SETTINGS_ITEMS_ICONS, TIER_TYPES } from './model'
+import Gold from './template.success.gold'
+import Silver from './template.success.silver'
 
 const TextWrapper = styled(Text)`
   a {
@@ -26,18 +29,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -350,6 +342,15 @@ const Template: React.FC<Props> = (props) => {
   const isUserTierSilver =
     currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
 
+  // show silver/silver+ settings
+  if (isUserTierSilver && props.showSilverRevamp) {
+    return <Silver {...props} />
+  }
+  // show gold settings
+  if (isUserGold && props.showSilverRevamp) {
+    return <Gold {...props} />
+  }
+
   return (
     <Wrapper>
       <HeaderWrapper>
@@ -367,7 +368,7 @@ const Template: React.FC<Props> = (props) => {
             />
           </CloseIconContainer>
         </IconsContainer>
-        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+        <Title color='textBlack' style={{ marginTop: '18px' }}>
           <FormattedMessage
             id='modals.limits_and_features.title'
             defaultMessage='Limits & Features'

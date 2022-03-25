@@ -70,7 +70,14 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   }
 
   return props.data.cata({
-    Failure: (code) => <Failure code={code} handleBack={handleBack} handleRetry={handleRetry} />,
+    Failure: (code) => (
+      <Failure
+        code={code}
+        handleReset={handleReset}
+        handleBack={handleBack}
+        handleRetry={handleRetry}
+      />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} handleBack={handleBack} isPolling={isPolling} />

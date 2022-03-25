@@ -8,6 +8,7 @@ import { BlueCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { ModalName } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { TIER_TYPES } from '../TradingLimits/model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -17,18 +18,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const HeaderWrapper = styled(FlyoutWrapper)`
   position: fixed;
   max-width: 480px;
@@ -104,7 +94,7 @@ const Template: React.FC<Props> = (props) => {
         tier
       })
     },
-    [identityVerificationActions]
+    [identityVerificationActions, modalActions]
   )
   if (!Array.isArray(userTiers)) {
     return null
@@ -133,7 +123,7 @@ const Template: React.FC<Props> = (props) => {
             <Image width='26px' name='arrow-left' />
           </Link>
         </IconsContainer>
-        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+        <Title color='textBlack' style={{ marginTop: '18px' }}>
           <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
         </Title>
         <Text
