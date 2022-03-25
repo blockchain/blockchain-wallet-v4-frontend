@@ -11,7 +11,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, deepEqual)
 
 export { bch, btc, checks, createDeepEqualSelector, eth, xlm }
 
-export const MISSING_WALLET = 'missing_wallet'
+export const MISSING_WALLET = 'MISSING_WALLET'
 
 export const errorHandler = (e): string => {
   return typeof e === 'object'

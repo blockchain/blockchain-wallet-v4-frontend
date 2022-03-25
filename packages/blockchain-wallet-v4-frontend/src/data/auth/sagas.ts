@@ -27,6 +27,7 @@ import * as S from './selectors'
 import {
   AccountUnificationFlows,
   AuthMagicLink,
+  AuthUserType,
   LoginErrorType,
   LoginSteps,
   PlatformTypes,
@@ -78,12 +79,11 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
-    const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
+    const { exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
@@ -122,15 +122,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(stopSubmit(LOGIN_FORM))
           break
         // web - institutional exchange login
-        case userType === 'institutional' && institutionalPortalEnabled:
-          window.open(
-            `${institutionalDomain}/institutional/portal/?jwt=${jwtToken}`,
-            '_self',
-            'noreferrer'
-          )
+        // only institutional users coming from the .com page will have
+        // a redirect link. All other users coming from footer in login page
+        // should be redirected to regular exchange app in the default case
+        case userType === AuthUserType.INSTITUTIONAL && !!redirect && institutionalPortalEnabled:
+          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
         // mobile - exchange sso login
-        case platform !== PlatformTypes.WEB:
+        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
@@ -622,13 +621,14 @@ export default ({ api, coreSagas, networks }) => {
       // get product param or default to wallet
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
-      const userType = queryParams.get('userType') as string
+      const userType = (queryParams.get('userType')?.toUpperCase() || undefined) as AuthUserType
+      const redirect = queryParams.get('redirect') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: queryParams.get('redirect') || undefined,
+          redirect,
           userType
         })
       )
@@ -649,7 +649,7 @@ export default ({ api, coreSagas, networks }) => {
           yield call(initMobileWalletAuthFlow)
           break
         // institutional login portal for Prime exchange users
-        case userType === 'institutional':
+        case userType === AuthUserType.INSTITUTIONAL:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
           break
         // no guid on path, use cached/stored guid if exists
@@ -830,6 +830,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
     }
   }

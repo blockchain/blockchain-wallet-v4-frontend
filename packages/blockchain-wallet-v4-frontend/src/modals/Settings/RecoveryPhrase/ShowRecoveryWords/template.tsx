@@ -67,7 +67,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
         words.map((word, index) => {
           if (index < 6) {
             return (
-              <WordBox>
+              <WordBox className='notranslate'>
                 <WordText data-e2e='backupWords'>
                   <Title>{index + 1}</Title>
                   <Value>{word}</Value>
@@ -75,12 +75,13 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
               </WordBox>
             )
           }
+          return null
         })}
       {step === 'SECOND_SET_WORDS' &&
         words.map((word, index) => {
           if (index >= 6) {
             return (
-              <WordBox>
+              <WordBox className='notranslate'>
                 <WordText data-e2e='backupWords'>
                   <Title>{index + 1}</Title>
                   <Value>{word}</Value>
@@ -88,6 +89,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
               </WordBox>
             )
           }
+          return null
         })}
       <Bottom>
         <Button

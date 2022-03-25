@@ -16,6 +16,7 @@ import { CountdownTimer } from 'components/Form'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0px;
+  min-width: 100%;
 `
 const WarningBanner = styled.div`
   margin-top: 16px;

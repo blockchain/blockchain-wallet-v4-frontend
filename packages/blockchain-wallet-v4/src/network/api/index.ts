@@ -19,6 +19,7 @@ import rates from './rates'
 import send from './send'
 import settings from './settings'
 import swap from './swap'
+import taxCenter from './taxCenter'
 import wallet from './wallet'
 import xlm from './xlm'
 
@@ -58,6 +59,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...kyc({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
@@ -96,6 +98,11 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),
+    ...taxCenter({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl
+    }),
     ...wallet({ rootUrl, ...http }),
     ...xlm({ apiUrl, horizonUrl, ...http })
   }
@@ -117,5 +124,6 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof buySell> &
   ReturnType<typeof send> &
   ReturnType<typeof swap> &
+  ReturnType<typeof taxCenter> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

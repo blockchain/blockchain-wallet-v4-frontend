@@ -12,14 +12,23 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getDCCreated = (): Array<DebitCardType> =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/card-issuing/cards',
+      url: nabuUrl
+    })
+
   const getDCProducts = (): Array<ProductType> =>
     authorizedGet({
+      contentType: 'application/json',
       endPoint: '/card-issuing/products',
       url: nabuUrl
     })
 
   return {
     createDCOrder,
+    getDCCreated,
     getDCProducts
   }
 }

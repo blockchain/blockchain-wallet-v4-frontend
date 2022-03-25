@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { LoginSteps } from 'data/types'
+import { AuthUserType, LoginSteps } from 'data/types'
 
 const SubCard = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const SignUpText = styled(Text)`
 
 const InstitutionalPortal = (props) => {
   const institutionalPortalFooterClick = () => {
-    props.authActions.setProductAuthMetadata({ userType: 'institutional' })
+    props.authActions.setProductAuthMetadata({ userType: AuthUserType.INSTITUTIONAL })
     props.formActions.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL)
   }
   return (

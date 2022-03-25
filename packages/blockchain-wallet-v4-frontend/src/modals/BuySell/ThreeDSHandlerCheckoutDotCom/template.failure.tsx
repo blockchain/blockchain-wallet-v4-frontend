@@ -11,6 +11,8 @@ import CardErrorInsufficientFunds from './CardErrorInsufficientFunds'
 import CardErrorInternalServerError from './CardErrorInternalServerError'
 import CardErrorPaymentFailed from './CardErrorPaymentFailed'
 import CardErrorPendingAfterPoll from './CardErrorPendingAfterPoll'
+import CardErrorProblemCollecting from './CardErrorProblemCollecting'
+import CardErrorTryAnotherCard from './CardErrorTryAnotherCard'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -32,12 +34,14 @@ enum CARD_ERROR_CODE {
   PAYMENT_NOT_SUPPORTED = 10005,
   CREATE_FAILED = 10006,
   PAYMENT_FAILED = 10007,
+  CREATE_DEBIT_ONLY = 10011,
+  PAYMENT_DEBIT_ONLY = 10012,
   PENDING_CARD_AFTER_POLL = 'PENDING_CARD_AFTER_POLL',
   BLOCKED_CARD_AFTER_POLL = 'BLOCKED_CARD_AFTER_POLL',
   LINK_CARD_FAILED = 'LINK_CARD_FAILED'
 }
 
-const Failure = ({ code, handleBack, handleRetry }: Props) => {
+const Failure = ({ code, handleBack, handleReset, handleRetry }: Props) => {
   const renderError = () => {
     switch (code) {
       case CARD_ERROR_CODE.INSUFFICIENT_FUNDS:
@@ -58,6 +62,10 @@ const Failure = ({ code, handleBack, handleRetry }: Props) => {
         return <CardErrorPendingAfterPoll handleBack={handleBack} />
       case CARD_ERROR_CODE.INTERNAL_SERVER_ERROR:
         return <CardErrorInternalServerError handleBack={handleBack} handleRetry={handleRetry} />
+      case CARD_ERROR_CODE.CREATE_DEBIT_ONLY:
+        return <CardErrorTryAnotherCard handleReset={handleReset} handleRetry={handleRetry} />
+      case CARD_ERROR_CODE.PAYMENT_DEBIT_ONLY:
+        return <CardErrorProblemCollecting handleReset={handleReset} handleRetry={handleRetry} />
       case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
       default:
         return <DataError message={{ message: `Error code: ${code}` }} />
@@ -70,6 +78,7 @@ const Failure = ({ code, handleBack, handleRetry }: Props) => {
 type Props = {
   code: number | string
   handleBack: () => void
+  handleReset: () => void
   handleRetry: () => void
 }
 

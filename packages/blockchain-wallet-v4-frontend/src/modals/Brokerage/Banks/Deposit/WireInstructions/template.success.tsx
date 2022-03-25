@@ -77,6 +77,11 @@ const TabsContainer = styled.div`
 const Success: React.FC<Props> = (props) => {
   const [transferType, setTransferType] = useState(TransferType.DOMESTIC)
 
+  const formatIbanAddress = (): string => {
+    const EVERY_FOUR_CHARS = /(.{4})(?!$)/g
+    return props.account.address.replace(EVERY_FOUR_CHARS, `$1 `)
+  }
+
   const recipientName =
     props.account.currency === 'USD'
       ? props.account.agent.recipient
@@ -246,7 +251,7 @@ const Success: React.FC<Props> = (props) => {
                   defaultMessage='IBAN'
                 />
               </Title>
-              <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
+              <Value data-e2e='sbIbanAddress'>{formatIbanAddress()}</Value>
             </div>
             <Copy>
               <CopyClipboardButton textToCopy={props.account.address} />

@@ -9,10 +9,14 @@ import styled from 'styled-components'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { Form, PhoneNumberBox, TextBox } from 'components/Form'
 import { required, validMobileNumber } from 'services/forms'
+import { media } from 'services/styles'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
+  ${media.mobile`
+    padding: 0;
+  `};
   opacity: ${(props) => (props.verified ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
@@ -37,6 +41,14 @@ const QRInputWrapper = styled.div`
   a {
     margin-top: 20px;
   }
+  ${media.mobile`
+    width: 55%;
+  `};
+`
+const StyledText = styled(Text)`
+  ${media.mobile`
+    padding-left: 20px;
+  `};
 `
 
 const SmsAuth = (props) => {
@@ -49,12 +61,12 @@ const SmsAuth = (props) => {
         <SmsAuthContainer>
           {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
             <>
-              <Text size='14px' weight={400}>
+              <StyledText size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entermobile'
                   defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
                 />
-              </Text>
+              </StyledText>
               <QRInputWrapper>
                 <Field
                   name='mobileNumber'
@@ -100,8 +112,7 @@ SmsAuth.propTypes = {
     authType: PropTypes.number,
     smsNumber: PropTypes.string,
     smsVerified: PropTypes.number
-  }),
-  onSubmit: PropTypes.func.isRequired
+  })
 }
 
 export default reduxForm({

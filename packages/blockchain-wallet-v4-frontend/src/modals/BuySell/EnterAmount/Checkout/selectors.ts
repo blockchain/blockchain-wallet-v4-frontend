@@ -43,6 +43,8 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
 
+  const productsR = selectors.custodial.getProductEligibilityForUser(state)
+
   return lift(
     (
       cards: ExtractSuccess<typeof cardsR>,
@@ -52,7 +54,8 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       userData: ExtractSuccess<typeof userDataR>,
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       sddLimit: ExtractSuccess<typeof sddLimitR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>
+      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
+      products: ExtractSuccess<typeof productsR>
     ) => ({
       bankTransferAccounts,
       cards,
@@ -64,6 +67,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       limits: limitsR.getOrElse(undefined),
       payment: paymentR.getOrElse(undefined),
+      products,
       quote,
       rates,
       sbBalances,
@@ -71,7 +75,17 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       sddLimit,
       userData
     })
-  )(cardsR, quoteR, ratesR, sbBalancesR, userDataR, sddEligibleR, sddLimitR, userSDDTierR)
+  )(
+    cardsR,
+    quoteR,
+    ratesR,
+    sbBalancesR,
+    userDataR,
+    sddEligibleR,
+    sddLimitR,
+    userSDDTierR,
+    productsR
+  )
 }
 
 export default getData
