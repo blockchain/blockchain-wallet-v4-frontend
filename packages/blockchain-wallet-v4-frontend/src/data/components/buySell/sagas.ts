@@ -1679,6 +1679,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
 
+    // get current user tier
+    const currentUserTier = selectors.modules.profile.getCurrentTier(yield select())
+
     const showSilverRevamp = selectors.core.walletOptions
       .getSilverRevamp(yield select())
       .getOrElse(null)
@@ -1707,6 +1710,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    // Check if there is a pending_deposit Open Banking order
+    if (latestPendingOrder) {
+      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
+      hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
+    }
+
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
@@ -1715,18 +1724,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
     // poll for the order status
-    if (latestPendingOrder) {
-      let step: T.StepActionsPayload['step'] =
+    if (hasPendingOBOrder && latestPendingOrder) {
+      const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      yield put(
+        A.setStep({
+          order: latestPendingOrder,
+          step
+        })
+      )
+      // For all silver/silver+ users if they have pending transaction and they are from silver revamp
+      // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
+    } else if (currentUserTier !== 2 && latestPendingOrder && showSilverRevamp) {
+      const step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
-
-      // Check if there is a pending_deposit Open Banking order
-      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
-      hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
-
-      if (hasPendingOBOrder) {
-        step = 'OPEN_BANKING_CONNECT'
-      }
-
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
