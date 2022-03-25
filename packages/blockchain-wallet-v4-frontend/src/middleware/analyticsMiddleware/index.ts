@@ -497,6 +497,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+            let currency = state.profile.userData.getOrElse({})?.limits[0]?.currency
+            if (!currency) {
+              currency = state.settingsPath.currency
+            }
 
             const upgradeTier = action.payload.props.tier
 
@@ -504,6 +508,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
               properties: {
+                currency,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 tier: upgradeTier
@@ -801,13 +806,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.buySell.fiatCurrency
         const outputCurrency = state.components.buySell.cryptoCurrency
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(
+          state.components.buySell.method.type
+        )
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
           properties: {
             input_currency: inputCurrency,
             max_card_limit: maxCardLimit,
             originalTimestamp: getOriginalTimestamp(),
-            output_currency: outputCurrency
+            output_currency: outputCurrency,
+            payment_type: paymentType
           },
           traits: {
             email,
@@ -1219,7 +1228,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             input_type: inputType,
             network_fee_input_amount: networkFeeInputAmount,
             network_fee_input_currency: inputCurrency,
-            network_fee_output_amount: networkFeeOutputAmount,
+            network_fee_output_amount: Number(networkFeeOutputAmount),
             network_fee_output_currency: outputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_amount: outputAmount,

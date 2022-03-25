@@ -133,11 +133,13 @@ const manageTabSelectionClickedSelectionDictionary = (
 const recurringBuyDetailsClickOrigin = (
   rawOrigin: RecurringBuyOrigins
 ): 'CURRENCY_PAGE' | 'TRANSACTION_LIST' => {
+  // Users can't currently click on RB details from anywhere accept the coin page
   switch (rawOrigin) {
     case RecurringBuyOrigins.COIN_PAGE:
       return 'CURRENCY_PAGE'
-    default:
-      return 'TRANSACTION_LIST'
+    default: {
+      throw new Error('Origin not found')
+    }
   }
 }
 
@@ -151,8 +153,10 @@ const recurringBuyCancelOrigin = (
     case RecurringBuyOrigins.COIN_PAGE:
     case RecurringBuyOrigins.DASHBOARD_PROMO:
     case RecurringBuyOrigins.RECURRING_BUYS_BANNER:
-    default:
       return 'RECURRING_BUY_DETAILS'
+    default: {
+      throw new Error('Origin not found')
+    }
   }
 }
 
@@ -199,7 +203,7 @@ const settingsTabClickedDestinationDictionary = (
     case 'Preferences':
       return 'PREFERENCES'
     case 'TradingLimits':
-      return 'TRADING_LIMITS_MODAL'
+      return 'TRADING_LIMITS'
     case 'WalletAndAddresses':
       return 'WALLETS&ADDRESSES'
     default: {
@@ -233,6 +237,7 @@ const upgradeVerificationClickedOriginDictionary = (
   rawOrigin: VerifyIdentityOriginType
 ): UpgradeVerificationClickedOrigin => {
   switch (rawOrigin) {
+    case 'CompleteProfile':
     case 'DashboardPromo':
       return 'DASHBOARD_PROMO'
     case 'Goals':

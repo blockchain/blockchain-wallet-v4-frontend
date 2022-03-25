@@ -551,7 +551,7 @@ type SettingsHyperlinkClickedPayload = BasePayload & {
 type SettingsTabClickedDestination =
   | 'GENERAL'
   | 'PREFERENCES'
-  | 'TRADING_LIMITS_MODAL'
+  | 'TRADING_LIMITS'
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {
@@ -647,6 +647,7 @@ type UpgradeVerificationClickedOrigin =
   | 'UNKNOWN'
 
 type UpgradeVerificationClickedPayload = BasePayload & {
+  currency: string
   origin: UpgradeVerificationClickedOrigin
   tier: number
 }
