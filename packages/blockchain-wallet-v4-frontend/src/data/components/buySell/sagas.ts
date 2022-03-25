@@ -509,6 +509,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // the order confirmation screen.
       if (isFlexiblePricingModel) {
         while (true) {
+          // non gold users can only make one order at a time so we need to cancel the old one
+          if (oldBuyOrder) {
+            yield call(api.cancelBSOrder, oldBuyOrder)
+          }
           // get the current order, if any
           const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
 
@@ -534,7 +538,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             // when the quote expires and a new order is created, set it it in redux and cancel the old order
             yield put(A.fetchOrders())
             yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-            yield call(api.cancelBSOrder, oldBuyOrder)
           }
 
           oldBuyOrder = buyOrder
