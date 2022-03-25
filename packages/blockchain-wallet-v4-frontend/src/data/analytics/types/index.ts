@@ -15,6 +15,10 @@ import {
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
 import {
+  Events as TaxCenterEvents,
+  TrackEventAction as TaxCenterTrackEventAction
+} from './taxCenter'
+import {
   AnalyticsProperties as ViewAndClickAnalyticsProperties,
   Events as ViewAndClickEvents,
   TrackEventAction as ViewAndClickTrackEventAction
@@ -28,12 +32,14 @@ type AnalyticsKey =
   | LoginEvents
   | InterestClientEvents
   | DepositWithdrawalClientEvents
+  | TaxCenterEvents
 const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
   ...LoginEvents,
   ...InterestClientEvents,
-  ...DepositWithdrawalClientEvents
+  ...DepositWithdrawalClientEvents,
+  ...TaxCenterEvents
 }
 
 // queevent properties
@@ -65,5 +71,6 @@ type TrackEventAction =
   | LoginTrackEventAction
   | InterestClientTrackEventAction
   | DepositWithdrawalClientEventAction
+  | TaxCenterTrackEventAction
 
 export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }
