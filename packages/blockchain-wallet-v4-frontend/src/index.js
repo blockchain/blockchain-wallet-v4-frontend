@@ -81,6 +81,5 @@ configureStore()
       </ErrorWrapper>,
       document.getElementById('app')
     )
-    // eslint-disable-next-line no-console
-    console.info(e)
+    console.error(e)
   })
