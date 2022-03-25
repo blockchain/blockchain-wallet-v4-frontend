@@ -32,7 +32,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { NftOrderStepEnum } from './types'
+import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -358,6 +358,7 @@ export default ({ api }: { api: APIType }) => {
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const signer = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
@@ -366,6 +367,7 @@ export default ({ api }: { api: APIType }) => {
       const expirationTime = moment().add(7, 'day').unix()
 
       if (action.payload.amtToWrap && action.payload.wrapFees) {
+        yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
         const amount = convertCoinToCoin({
           baseToStandard: false,
           coin: 'WETH',
@@ -376,6 +378,7 @@ export default ({ api }: { api: APIType }) => {
         yield put(actions.core.data.eth.fetchErc20Data())
       }
 
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.PROXY_CONTRACT))
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
         getNftBuyOrder,
         action.payload.asset,
@@ -386,13 +389,13 @@ export default ({ api }: { api: APIType }) => {
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const gasData = action.payload.offerFees
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
-      yield put(actions.modals.closeAllModals())
-      yield put(A.clearAndRefetchOffersMade())
-      yield put(A.clearAndRefetchOrders())
-      yield put(actions.router.push('/nfts/activity'))
-      yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
+      // yield put(A.clearAndRefetchOffersMade())
+      // yield put(A.clearAndRefetchOrders())
+      // yield put(actions.router.push('/nfts/activity'))
     } catch (e) {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))

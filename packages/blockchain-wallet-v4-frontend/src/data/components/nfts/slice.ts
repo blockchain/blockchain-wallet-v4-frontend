@@ -20,7 +20,7 @@ import {
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
 
-import { NftOrderStepEnum, NftsStateType } from './types'
+import { NftOrderStatusEnum, NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
   activeTab: 'explore',
@@ -56,6 +56,7 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     orderToMatch: null,
+    status: null,
     step: NftOrderStepEnum.SHOW_ASSET,
     // This is a hack because sometimes opensea sets the owner address
     // to NULL_ADDRESS (if contract is opensea storefront)
@@ -381,6 +382,9 @@ const nftsSlice = createSlice({
     },
     setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order
+    },
+    setNftOrderStatus: (state, action: PayloadAction<NftOrderStatusEnum>) => {
+      state.orderFlow.status = action.payload
     },
     setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer
