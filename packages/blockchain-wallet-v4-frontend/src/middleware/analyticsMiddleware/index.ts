@@ -2878,13 +2878,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const site_redirect = state.auth.productAuthMetadata.product
-
-        const { code, message } = action.payload
+        const { code, description } = action.payload
 
         analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_FAILED, {
           properties: {
             error_code: code,
-            error_message: message,
+            error_message: description,
             originalTimestamp: getOriginalTimestamp(),
             site_redirect
           },
