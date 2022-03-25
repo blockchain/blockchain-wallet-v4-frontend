@@ -144,6 +144,6 @@ export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))
 
 // SSO creating exchange users under the hood
-// for all wallet logins
-export const getCreateExchangeUserForExistingWallets = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'createExchangeUserForExistingWallets']))
+// for all wallet logins and signup
+export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createExchangeUserOnSignupOrLogin']))

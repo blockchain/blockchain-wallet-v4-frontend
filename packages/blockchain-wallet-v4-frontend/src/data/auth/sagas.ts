@@ -190,6 +190,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.wallet.upgradeWallet(3))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      const createExchangeUserFlag = (yield select(
+        selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
+      )).getOrElse(false)
       const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
       const invitations = selectors.core.settings
@@ -200,7 +203,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
-      const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
+      const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.signup.setFirstLogin(firstLogin))
@@ -216,6 +219,8 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
+      // TODO solve this for real
+      // Use yield take to wait for the right action to finish
       yield delay(3000)
       // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
@@ -277,10 +282,12 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.setUserInitialAddress, country, userState)
         yield call(coreSagas.settings.fetchSettings)
       }
-      yield fork(createExchangeUser)
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
+      if (!isAccountReset && !recovery && createExchangeUserFlag) {
+        yield fork(createExchangeUser)
+      }
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)

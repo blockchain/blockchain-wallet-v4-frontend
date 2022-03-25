@@ -610,7 +610,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
     // Check if new wallet is from regular new registration
     // or nabu account reset
-    const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
+    const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     if (firstLogin && !isAccountReset) {
       yield put(
         actions.goals.addInitialModal({

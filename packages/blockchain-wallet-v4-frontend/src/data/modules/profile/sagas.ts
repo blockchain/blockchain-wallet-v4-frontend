@@ -32,7 +32,6 @@ export default ({ api, coreSagas, networks }) => {
   const waitForUserId = function* () {
     const userId = yield select(selectors.core.kvStore.userCredentials.getUserId)
     if (Remote.Success.is(userId)) return userId.getOrElse(null)
-
     yield race({
       failure: take(
         actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE

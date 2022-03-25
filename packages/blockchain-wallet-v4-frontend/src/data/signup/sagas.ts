@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -159,11 +159,11 @@ export default ({ api, coreSagas, networks }) => {
         token: lifetimeToken,
         userCredentialsId: exchangeUserId
       } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
-      // set new lifetime token for user in metadata
-      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-      // set new exchange lifetime token for user in metadata
+      // set new lifetime tokens for nabu and exchange for user in metadata
       yield put(
-        actions.core.kvStore.userCredentials.setExchangeUserCredentials(
+        actions.core.kvStore.userCredentials.setUnifiedAccountResetCredentials(
+          userId,
+          lifetimeToken,
           exchangeUserId,
           exchangeLifetimeToken
         )

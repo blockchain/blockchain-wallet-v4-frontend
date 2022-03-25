@@ -38,6 +38,15 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+
+    case AT.SET_UNIFIED_ACCOUNT_RESET_CREDENTIALS: {
+      const { exchange_lifetime_token, exchange_user_id, lifetime_token, user_id } = payload
+      return over(
+        compose(mapped, KVStoreEntry.value),
+        merge(__, { exchange_lifetime_token, exchange_user_id, lifetime_token, user_id }),
+        state
+      )
+    }
     default:
       return state
   }
