@@ -6,7 +6,6 @@ import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { DEFAULT_INVITATIONS } from '@core/redux/settings/model'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -62,7 +61,6 @@ const App = ({
   apiUrl,
   coinsWithBalance,
   history,
-  invitations,
   isAuthenticated,
   persistor,
   store,
@@ -117,7 +115,7 @@ const App = ({
                     <WalletLayout path='/home' component={Home} />
                     <WalletLayout path='/rewards' component={Interest} exact />
                     <WalletLayout path='/rewards/history' component={InterestHistory} />
-                    {invitations.nfts && <WalletLayout path='/nfts' component={Nfts} />}
+                    <WalletLayout path='/nfts' component={Nfts} />
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     <WalletLayout path='/security-center' component={SecurityCenter} />
                     <WalletLayout path='/settings/addresses' component={Addresses} />
@@ -167,7 +165,6 @@ const mapStateToProps = (state) => ({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
-  invitations: selectors.core.settings.getInvitations(state).getOrElse(DEFAULT_INVITATIONS),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)
