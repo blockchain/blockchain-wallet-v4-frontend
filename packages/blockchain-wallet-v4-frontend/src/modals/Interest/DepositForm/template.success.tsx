@@ -199,8 +199,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             color='grey600'
           />
           <FormattedMessage
-            id='modals.interest.deposit.title_transfer'
-            defaultMessage='Transfer {displayName}'
+            id='modals.interest.deposit.title_add'
+            defaultMessage='Add {displayName}'
             values={{ displayName: coinfig.name }}
           />
         </TopText>

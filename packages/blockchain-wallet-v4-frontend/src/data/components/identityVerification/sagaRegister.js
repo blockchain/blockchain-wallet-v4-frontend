@@ -38,5 +38,7 @@ export default ({ api, coreSagas }) => {
       AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
       identityVerificationSagas.saveInfoAndResidentialData
     )
+    yield takeLatest(AT.FETCH_KYC_EXTRA_QUESTIONS, identityVerificationSagas.fetchExtraKYC)
+    yield takeLatest(AT.SAVE_KYC_EXTRA_QUESTIONS, identityVerificationSagas.saveKYCExtraQuestions)
   }
 }

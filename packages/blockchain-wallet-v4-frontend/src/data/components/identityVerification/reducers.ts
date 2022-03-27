@@ -12,6 +12,7 @@ const INITIAL_STATE: IdentityVerificationState = {
   addressRefetchVisible: false,
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
+  kycExtraQuestions: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
@@ -150,6 +151,24 @@ const identityVerificationReducer = (
       return {
         ...state,
         steps: Remote.Success(action.payload.steps)
+      }
+    }
+    case AT.FETCH_KYC_EXTRA_QUESTIONS_LOADING: {
+      return {
+        ...state,
+        kycExtraQuestions: Remote.Loading
+      }
+    }
+    case AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS: {
+      return {
+        ...state,
+        kycExtraQuestions: Remote.Success(action.payload.questions)
+      }
+    }
+    case AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE: {
+      return {
+        ...state,
+        kycExtraQuestions: Remote.Failure(action.payload.e)
       }
     }
     default:

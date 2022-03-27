@@ -679,6 +679,7 @@ export default ({ api, coreSagas, networks }) => {
       entitiesMigration,
       interestPromo,
       kycDocResubmit,
+      kycUpgradeRequiredNotice,
       linkAccount,
       payment,
       swap,
@@ -725,6 +726,11 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (entitiesMigration) {
       return yield put(actions.modals.showModal(entitiesMigration.name, entitiesMigration.data))
+    }
+    if (kycUpgradeRequiredNotice) {
+      return yield put(
+        actions.modals.showModal(kycUpgradeRequiredNotice.name, kycUpgradeRequiredNotice.data)
+      )
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
@@ -799,6 +805,33 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+
+  const runKycUpgradeRequiredNoticeGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
+      current: 0
+    }) || { current: 0 }
+
+    const showKycUpgradeRequiredNotice = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    if (current < 2 && showKycUpgradeRequiredNotice) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'kycUpgradeRequiredNotice',
+          name: ModalName.VERIFY_NOTICE
+        })
+      )
+    }
+  }
+
   const runTermsAndConditionsGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(fetchUser)
@@ -894,6 +927,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'termsAndConditions':
           yield call(runTermsAndConditionsGoal, goal)
           break
+        case 'kycUpgradeRequiredNotice':
+          yield call(runKycUpgradeRequiredNoticeGoal, goal)
+          break
         default:
           break
       }
@@ -924,6 +960,10 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'entitiesMigration' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
+    // only for existing users
+    if (!firstLogin) {
+      yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
+    }
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))

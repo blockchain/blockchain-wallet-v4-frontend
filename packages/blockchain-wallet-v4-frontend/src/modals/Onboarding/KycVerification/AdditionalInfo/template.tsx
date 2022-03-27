@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
+import { IconsContainer, Title } from '../../../components'
 import { Props } from '.'
 
 const Wrapper = styled.div`
@@ -58,18 +59,6 @@ const BannerContainer = styled.div`
   padding: 16px;
 `
 
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,7 +79,7 @@ const AdditionalInfo: React.FC<Props> = (props) => {
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <IconsContainer>
-            <Title color='textBlack' size='24px' weight={600}>
+            <Title color='textBlack'>
               <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
             </Title>
             <CloseIconContainer>

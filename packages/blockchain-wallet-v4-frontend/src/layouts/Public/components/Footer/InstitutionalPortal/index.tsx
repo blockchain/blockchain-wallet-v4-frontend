@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { LoginSteps } from 'data/types'
+import { AuthUserType, LoginSteps } from 'data/types'
 
 const SubCard = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const SignUpText = styled(Text)`
 
 const InstitutionalPortal = (props) => {
   const institutionalPortalFooterClick = () => {
-    props.authActions.setProductAuthMetadata({ userType: 'institutional' })
+    props.authActions.setProductAuthMetadata({ userType: AuthUserType.INSTITUTIONAL })
     props.formActions.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL)
   }
   return (
@@ -33,8 +33,8 @@ const InstitutionalPortal = (props) => {
       <SubCard onClick={institutionalPortalFooterClick}>
         <Text size='16px' color='grey400' weight={500}>
           <FormattedMessage
-            id='layouts.wallet.footer.institutional_portal'
-            defaultMessage='Are you an institutional user?'
+            id='layouts.wallet.footer.institutional_link'
+            defaultMessage='Are you an Institutional Exchange user?'
           />
         </Text>
         &nbsp;

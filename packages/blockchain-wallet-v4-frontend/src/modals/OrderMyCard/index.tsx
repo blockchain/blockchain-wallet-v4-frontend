@@ -14,6 +14,7 @@ import CreateCardStep from './CreateCardStep'
 import FailedCreationStep from './FailedCreationStep'
 import { LoadingWrapper } from './model'
 import { getData } from './selectors'
+import SuccessCreationStep from './SuccessCreationStep'
 
 const OrderMyCard = (props: Props) => {
   const [show, setShow] = useState(true)
@@ -52,7 +53,7 @@ const OrderMyCard = (props: Props) => {
       NotAsked: () => (
         <CreateCardStep handleClose={handleClose} handleCreateCard={handleCreateCard} />
       ),
-      Success: () => <>Success</>
+      Success: () => <SuccessCreationStep handleClose={handleClose} />
     })
 
   return (

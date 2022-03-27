@@ -1,25 +1,63 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
-import { Carousel, Link, Text, TextGroup } from 'blockchain-info-components'
+import { RemoteDataType } from '@core/types'
+import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { ReportType } from 'data/components/taxCenter/types'
 
-import { Card } from './components'
+import Card from './Card'
+import List from './List'
 import {
+  AlertMessage,
   Box,
   Container,
   Content,
   Footer,
   GenerateButton,
+  GenerateReport,
+  LoadingContainer,
   MenuHeaderCentered,
+  ReportList,
   SelectGroup,
   SelectLabel,
   Slide,
   StyledSelect,
+  StyledSeparator,
+  StyledTextGroup,
   Title,
   VisitButton
 } from './model'
 
-const TaxCenter = ({ onGenerateReportClick }: Props) => (
+const ErrorMessage = () => (
+  <AlertMessage>
+    <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
+    <Text size='12px' color='orange600' weight={500}>
+      <FormattedMessage
+        id='scenes.tax.center.card.report.error.message'
+        defaultMessage='Reports not currently available. Please try again or reload the page.'
+      />
+    </Text>
+  </AlertMessage>
+)
+
+const Loader = () => (
+  <LoadingContainer>
+    <SpinningLoader width='32px' height='32px' />
+  </LoadingContainer>
+)
+
+const TaxCenter = ({
+  exchangeDomain,
+  onChange,
+  onClick,
+  onExportClick,
+  onPartnerClick,
+  onVisitClick,
+  options,
+  reportsR,
+  value
+}: Props) => (
   <Container>
     <MenuHeaderCentered>
       <Title size='40px' weight={600} color='black'>
@@ -44,8 +82,7 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
           <Text size='14px' weight={500} color='black'>
             <FormattedMessage
               id='scenes.tax.center.carousel.taxes.description'
-              defaultMessage='If you sold or converted your crypto last year, the transactions are likely subject to U.S. capital
-              gains taxes.'
+              defaultMessage='If you sold, swapped, or earned rewards on your crypto in the last year, you likely owe taxes.'
             />
           </Text>
         </Slide>
@@ -61,7 +98,7 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
               id='scenes.tax.center.carousel.file.description'
               defaultMessage='Export your transaction history then manually calculate your gains/losses using your cost
               basis. If you want to simplify the process, use our crypto tax partner CoinTracker to get free
-              tax reports for up to 1,000 transactions.'
+              tax reports for up to 500 transactions.'
             />
           </Text>
         </Slide>
@@ -72,21 +109,14 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
               defaultMessage='What if I use other crypto services?'
             />
           </Title>
-          <TextGroup inline>
-            <Text size='14px' weight={500} color='black'>
-              <FormattedMessage
-                id='scenes.tax.center.carousel.services.description'
-                defaultMessage='This file only contains your Blockchain.com Wallet activity. If you use other crypto services,
-                those transactions will not appear here. If you use the Blockchain.com Exchange, you can
-                connect your account to CoinTracker via API.'
-              />
-            </Text>
-            <Text>
-              <Link href='/' target='_blank' weight={500} size='14px'>
-                <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
-              </Link>
-            </Text>
-          </TextGroup>
+          <Text size='14px' weight={500} color='black'>
+            <FormattedMessage
+              id='scenes.tax.center.carousel.services.description'
+              defaultMessage='This file only contains your Blockchain.com Wallet activity. If you use other crypto services,
+              those transactions will not appear here. If you use the Blockchain.com Exchange, you can
+              export your Exchange transaction history by using Exchange Tax Center'
+            />
+          </Text>
         </Slide>
       </Carousel>
     </Box>
@@ -106,33 +136,66 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
       }
     >
       <Content>
-        <SelectGroup>
-          <SelectLabel size='14px' weight={600} color='black'>
-            <FormattedMessage
-              id='scenes.tax.center.card.report.select'
-              defaultMessage='Choose tax year'
+        <GenerateReport>
+          <SelectGroup>
+            <SelectLabel size='14px' weight={600} color='black'>
+              <FormattedMessage
+                id='scenes.tax.center.card.report.select'
+                defaultMessage='Choose year'
+              />
+            </SelectLabel>
+            <StyledSelect
+              value={value}
+              elements={[{ group: '', items: options }]}
+              onBlur={() => {}}
+              onChange={onChange}
             />
-          </SelectLabel>
-          <StyledSelect value='' elements={[]} onBlur={() => {}} />
-        </SelectGroup>
-        <GenerateButton
-          nature='primary'
-          data-e2e='additionalInfoUploadDocument'
-          type='button'
-          onClick={onGenerateReportClick}
-        >
-          <FormattedMessage
-            id='scenes.tax.center.card.report.button'
-            defaultMessage='Generate Report'
-          />
-        </GenerateButton>
+          </SelectGroup>
+          <GenerateButton
+            nature='primary'
+            data-e2e='additionalInfoUploadDocument'
+            type='button'
+            onClick={onClick}
+          >
+            <FormattedMessage
+              id='scenes.tax.center.card.report.button'
+              defaultMessage='Generate Export'
+            />
+          </GenerateButton>
+        </GenerateReport>
+        {reportsR.cata({
+          Failure: () => <ErrorMessage />,
+          Loading: () => <Loader />,
+          NotAsked: () => <Loader />,
+          Success: (list) => (
+            <ReportList>
+              <StyledTextGroup inline>
+                <SelectLabel size='14px' weight={600} color='black'>
+                  <FormattedMessage
+                    id='scenes.tax.center.card.report.list'
+                    defaultMessage='Generated Exports'
+                  />
+                </SelectLabel>
+                <Text size='12px' color='grey400'>
+                  {`${list.length}/5 `}
+                  <FormattedMessage
+                    id='scenes.tax.center.card.export.limit'
+                    defaultMessage='Export Limit'
+                  />
+                </Text>
+              </StyledTextGroup>
+              <StyledSeparator />
+              <List reports={list} onExportClick={onExportClick} />
+            </ReportList>
+          )
+        })}
       </Content>
     </Card>
     <Card
       description={
         <FormattedMessage
           id='scenes.tax.center.card.service.description'
-          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Get free tax reports for up to 1,000 transactions with CoinTracker or use a service provider of your choosing.'
+          defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Get free tax reports for up to 500 transactions with CoinTracker or use a service provider of your choosing.'
         />
       }
       number={2}
@@ -143,11 +206,18 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
         />
       }
     >
-      <VisitButton nature='empty-blue' data-e2e='visitButton' type='button' onClick={() => {}}>
-        <FormattedMessage
-          id='scenes.tax.center.card.service.button'
-          defaultMessage='Visit CoinTracker'
-        />
+      <VisitButton
+        nature='empty-blue'
+        data-e2e='visitButton'
+        type='button'
+        onClick={onPartnerClick}
+      >
+        <Link href='https://www.cointracker.io/blockchain' target='_blank'>
+          <FormattedMessage
+            id='scenes.tax.center.card.service.button'
+            defaultMessage='Visit CoinTracker'
+          />
+        </Link>
       </VisitButton>
     </Card>
     <Footer>
@@ -159,7 +229,13 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
           />
         </Text>
         <Text>
-          <Link href='/' target='_blank' weight={500} size='14px'>
+          <Link
+            href={`${exchangeDomain}/trade/login`}
+            target='_blank'
+            weight={500}
+            size='14px'
+            onClick={onVisitClick}
+          >
             <FormattedMessage
               id='scenes.tax.center.footer.link'
               defaultMessage='Visit Exchange Tax Center'
@@ -172,7 +248,15 @@ const TaxCenter = ({ onGenerateReportClick }: Props) => (
 )
 
 type Props = {
-  onGenerateReportClick: () => void
+  exchangeDomain: string
+  onChange: (unknown) => void
+  onClick: () => void
+  onExportClick: (number) => void
+  onPartnerClick: () => void
+  onVisitClick: () => void
+  options: Array<{ text: string; value: number }>
+  reportsR: RemoteDataType<string, ReportType[]>
+  value: number
 }
 
 export default TaxCenter

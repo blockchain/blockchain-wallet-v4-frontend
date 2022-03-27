@@ -93,12 +93,8 @@ export type LoginFormType = {
   upgradePassword?: string
 }
 
-export enum UserType {
-  EXCHANGE = 'EXCHANGE',
-  WALLET = 'WALLET',
-  WALLET_EXCHANGE_BOTH = 'WALLET_EXCHANGE_BOTH',
-  WALLET_EXCHANGE_LINKED = 'WALLET_EXCHANGE_LINKED',
-  WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
+export enum AuthUserType {
+  INSTITUTIONAL = 'INSTITUTIONAL'
 }
 
 export enum WalletPollingResponseType {
@@ -122,7 +118,7 @@ export type AuthMagicLink = {
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
-  user_type?: UserType
+  user_type?: AuthUserType
   wallet?: {
     auth_type?: number
     email: string
@@ -154,6 +150,7 @@ export type LoginErrorType =
     }
   | string
 
+// TODO: define missing types and determine if all of these types are needed/used
 export type ExchangeLoginSuccessType = {}
 
 export type ExchangeLoginFailureType = any
@@ -180,13 +177,13 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
-  userType?: string
+  userType?: AuthUserType
 }
 
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
-  authorizeVerifyDevice: RemoteDataType<any, any>
+  authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -230,7 +227,9 @@ export type MobileAuthWalletMergeMessage = {
 
 export type MobileAuthExchangeMessage = {
   data?: {
+    csrf: string
     jwt: string
+    jwtExpirationTime: number
   }
   error?: string
   status: 'error' | 'success'
