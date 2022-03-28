@@ -12,7 +12,13 @@ import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
 import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
-import { useChart, useChartBalancePanel, useTabs, useWalletsCard } from './hooks'
+import {
+  useChart,
+  useChartBalancePanel,
+  useRecurringBuyPanel,
+  useTabs,
+  useWalletsCard
+} from './hooks'
 import { HoldingsCardActions } from './model'
 import { getData } from './selectors'
 import { CoinPageContainerComponent } from './types'
@@ -30,12 +36,12 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
     sendButtonHandler
   }) => {
     const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
+    const [walletsCard] = useWalletsCard(coin)
+    const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
 
     const [chart] = useChart({
       timeRange: selectedTimeRange
     })
-
-    const [walletsCard] = useWalletsCard(coin)
 
     const [chartBalancePanel] = useChartBalancePanel({
       coin
@@ -89,6 +95,7 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
             chart={chart}
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
             chartBalancePanel={chartBalancePanel}
+            recurringBuys={recurringBuyPanel}
             // alertCard={<AlertCard content='' />}
             holdings={
               <HoldingsCard
