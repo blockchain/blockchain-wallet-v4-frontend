@@ -106,6 +106,7 @@ const NftsCollection: React.FC<Props> = ({
 
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
+  const [descriptionToggle, setDescriptionToggle] = useState(false)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
@@ -150,6 +151,10 @@ const NftsCollection: React.FC<Props> = ({
   const scrollUp = () => {
     wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
     setShowFixedHeader(false)
+  }
+
+  const toggleDescription = () => {
+    setDescriptionToggle(!descriptionToggle)
   }
 
   return (
@@ -231,23 +236,50 @@ const NftsCollection: React.FC<Props> = ({
               </Link>
             ) : null}
           </LinksContainer>
-          <Text
-            lineHeight='1.4'
-            style={{ marginTop: '16px', maxHeight: '15em', overflow: 'hidden' }}
-            size='14px'
-            color='grey600'
-            weight={500}
-          >
-            <div
-              id='preview'
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: results.data?.collection?.description
-                  ? marked.parse(results.data?.collection?.description)
-                  : results.data?.collection?.description
+          {descriptionToggle ? (
+            <Text
+              lineHeight='1.4'
+              size='14px'
+              color='grey600'
+              style={{ cursor: 'pointer' }}
+              weight={500}
+              onClick={toggleDescription}
+            >
+              <div
+                id='preview'
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: results.data?.collection?.description
+                    ? marked.parse(results.data?.collection?.description)
+                    : results.data?.collection?.description
+                }}
+              />
+            </Text>
+          ) : (
+            <Text
+              lineHeight='1.4'
+              style={{
+                cursor: 'pointer',
+                marginTop: '16px',
+                maxHeight: '15em',
+                overflow: 'hidden'
               }}
-            />
-          </Text>
+              size='14px'
+              color='grey600'
+              weight={500}
+              onClick={toggleDescription}
+            >
+              <div
+                id='preview'
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: results.data?.collection?.description
+                    ? marked.parse(results.data?.collection?.description)
+                    : results.data?.collection?.description
+                }}
+              />
+            </Text>
+          )}
         </div>
       </CollectionHeader>
       <div style={{ marginBottom: '12px' }}>
