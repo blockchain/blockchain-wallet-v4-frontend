@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/NavbarV2'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { useMedia } from 'services/styles'
 
 import { Props } from '.'
@@ -12,6 +12,7 @@ import Small from './template.small'
 
 type OwnProps = Props & {
   handleToggle: () => void
+  history: { push: (path: string) => void }
   taxCenterEnabled: boolean
 }
 
@@ -46,6 +47,17 @@ const Header = (props: OwnProps) => {
       origin: 'TradingLimits'
     })
     props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+  }, [])
+
+  const taxCenterCallback = useCallback(() => {
+    props.history.push('/tax-center')
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_CLICKED,
+      properties: {
+        origin: 'SETTINGS'
+      }
+    })
   }, [])
 
   const PrimaryNavItems = [
@@ -95,6 +107,7 @@ const Header = (props: OwnProps) => {
         receiveClickHandler={receiveCallback}
         refreshClickHandler={refreshCallback}
         sendClickHandler={sendCallback}
+        taxCenterClickHandler={taxCenterCallback}
       />
     )
   }

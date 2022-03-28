@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { defaultTo, filter, path, prop } from 'ramda'
+import { defaultTo, filter, path } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -30,7 +30,7 @@ import {
   getPaymentMethodId
 } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
+import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import {
   displayFiat,
@@ -150,11 +150,14 @@ const ToolTipText = styled.div`
   }
 `
 
-const BottomActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  flex: 1;
+const StickyFooter = styled.div`
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem;
+  justify-content: flex-start;
+  background: ${(props) => props.theme.white};
 `
 
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
@@ -176,7 +179,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
   )
-  const paymentPartner = prop('partner', bankAccount)
 
   const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
   const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
@@ -503,37 +505,37 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             </InfoTerms>
           </Info>
         )}
-
-        <BottomActions>
-          <Button
-            fullwidth
-            nature='primary'
-            data-e2e='confirmBSOrder'
-            size='16px'
-            height='48px'
-            type='submit'
-            style={{ marginTop: '28px' }}
-            disabled={props.submitting || !acceptTerms}
-          >
-            {props.submitting ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
-            ) : (
-              <FormattedMessage
-                id='buttons.buy_sell_now'
-                defaultMessage='{orderType} Now'
-                values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-              />
-            )}
-          </Button>
-
-          {props.error && (
-            <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
-              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-              Error: {props.error}
-            </ErrorCartridge>
-          )}
-        </BottomActions>
       </Bottom>
+
+      <StickyFooter>
+        <Button
+          fullwidth
+          nature='primary'
+          data-e2e='confirmBSOrder'
+          size='16px'
+          height='48px'
+          type='submit'
+          style={{ marginTop: '28px' }}
+          disabled={props.submitting || !acceptTerms}
+        >
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='buttons.buy_sell_now'
+              defaultMessage='{orderType} Now'
+              values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
+            />
+          )}
+        </Button>
+
+        {props.error && (
+          <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
+            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
+            Error: {props.error}
+          </ErrorCartridge>
+        )}
+      </StickyFooter>
     </CustomForm>
   )
 }

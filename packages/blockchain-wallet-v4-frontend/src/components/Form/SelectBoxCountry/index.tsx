@@ -259,6 +259,11 @@ export const countries: Country[] = [
     value: 'DE'
   },
   {
+    emoji: '🇨🇮',
+    text: "Cote d'ivoire",
+    value: 'CI'
+  },
+  {
     emoji: '🇩🇯',
     text: 'Djibouti',
     value: 'DJ'
@@ -962,6 +967,11 @@ export const countries: Country[] = [
     value: 'SZ'
   },
   {
+    emoji: '🇹🇳',
+    text: 'Tunisia',
+    value: 'TN'
+  },
+  {
     emoji: '🇹🇨',
     text: 'Turks and Caicos Islands',
     value: 'TC'
@@ -1087,6 +1097,11 @@ export const countries: Country[] = [
     value: 'VU'
   },
   {
+    emoji: '🇻🇪',
+    text: 'Venezuela',
+    value: 'VE'
+  },
+  {
     emoji: '🇼🇫',
     text: 'Wallis and Futuna',
     value: 'WF'
@@ -1110,6 +1125,11 @@ export const countries: Country[] = [
     emoji: '🇿🇲',
     text: 'Zambia',
     value: 'ZM'
+  },
+  {
+    emoji: '🇿🇼',
+    text: 'Zimbabwe',
+    value: 'ZW'
   }
 ]
 
