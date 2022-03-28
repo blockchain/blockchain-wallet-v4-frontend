@@ -6,7 +6,6 @@ import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
-import { DEFAULT_INVITATIONS } from '@core/redux/settings/model'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -73,7 +72,6 @@ const App = ({
   apiUrl,
   coinsWithBalance,
   history,
-  invitations,
   isAuthenticated,
   persistor,
   store,
@@ -173,7 +171,6 @@ const mapStateToProps = (state) => ({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
-  invitations: selectors.core.settings.getInvitations(state).getOrElse(DEFAULT_INVITATIONS),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)

@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { analyticsTrackingNoStore } from 'services/tracking'
+
 import {
   FontGlobalStyles,
   IconGlobalStyles,
@@ -81,6 +83,17 @@ configureStore()
       </ErrorWrapper>,
       document.getElementById('app')
     )
-    // eslint-disable-next-line no-console
-    console.info(e)
+    const data = {
+      events: [
+        {
+          name: 'Wallet Load Failure',
+          originalTimestamp: new Date(),
+          properties: {
+            error_message: e.toString()
+          }
+        }
+      ]
+    }
+    analyticsTrackingNoStore(data)
+    console.error(e)
   })
