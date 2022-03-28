@@ -229,10 +229,14 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.modules.settings.updateCurrency(currency, true))
         yield put(actions.core.settings.setCurrency(currency))
 
-        if (!isAccountReset) {
-          yield put(actions.router.push('/verify-email-step'))
-        } else {
+        if (isAccountReset) {
+          if (product === ProductAuthOptions.EXCHANGE) {
+            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            return
+          }
           yield put(actions.router.push('/home'))
+        } else {
+          yield put(actions.router.push('/verify-email-step'))
         }
       } else {
         yield put(actions.router.push('/home'))

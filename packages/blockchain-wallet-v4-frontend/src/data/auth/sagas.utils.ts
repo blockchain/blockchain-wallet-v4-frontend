@@ -57,6 +57,7 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       exchange: exchangeData,
       platform_type: platformType,
       product,
+      unified,
       wallet: walletData
     } = authMagicLink as AuthMagicLink
     // handles cases where we don't yet know which product user wants to authenticate to
@@ -70,12 +71,16 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         productAuthenticatingInto = ProductAuthOptions.WALLET
       }
     }
-    const userEmail = walletData?.email || exchangeData?.email || formValues?.email
-    const currentLoginSession = yield select(
-      selectors.session.getSession,
-      walletData?.guid,
-      userEmail
-    )
+    const userEmail =
+      product === ProductAuthOptions.WALLET
+        ? walletData?.email
+        : product === ProductAuthOptions.EXCHANGE && unified
+        ? walletData?.exchange?.email
+        : exchangeData?.email
+    const currentLoginSession =
+      product === ProductAuthOptions.EXCHANGE
+        ? yield select(selectors.session.getExchangeSessionId, userEmail)
+        : yield select(selectors.session.getWalletSessionId, walletData?.guid, userEmail)
 
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
@@ -88,17 +93,18 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
         // determine if we need to verify the login attempt from another device or
         // continue login from the same device
-        if (currentLoginSession !== authMagicLink.session_id && !skipSessionCheck) {
+        if (!skipSessionCheck) {
           // EXCHANGE DEVICE VERIFICATION
           // Exchange only logins don't require any challenges and passing
           // `true` means we can confirm device verification right away
           yield put(actions.auth.authorizeVerifyDevice(true))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
-        } else {
-          // EXCHANGE AUTHENTICATION
+        }
+        if (skipSessionCheck) {
+          // This is the tab that is polling for wallet data
           // set state with all exchange login information
-          yield put(actions.cache.exchangeEmail(exchangeData?.email))
-          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
+          yield put(actions.cache.exchangeEmail(userEmail))
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', userEmail))
           if (walletData) {
             yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
             yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
@@ -114,31 +120,37 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         }
         break
       // WALLET DEVICE VERIFICATION
-      case productAuthenticatingInto === ProductAuthOptions.WALLET &&
-        currentLoginSession !== authMagicLink.session_id:
-        yield put(actions.auth.authorizeVerifyDevice(undefined))
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
+      case productAuthenticatingInto === ProductAuthOptions.WALLET:
+        if (
+          currentLoginSession !== authMagicLink.session_id ||
+          (currentLoginSession === authMagicLink.session_id && !skipSessionCheck)
+        ) {
+          yield put(actions.auth.authorizeVerifyDevice(undefined))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
+        }
+        if (currentLoginSession === authMagicLink.session_id && skipSessionCheck) {
+          // grab all the data from the JSON wallet data
+          // store data in the cache and update form values to be used to submit login
+          yield put(actions.cache.emailStored(walletData?.email))
+          yield put(actions.cache.guidStored(walletData?.guid))
+          yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
+          yield put(actions.cache.hasCloudBackup(walletData?.has_cloud_backup))
+          yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+          yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+          yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
+          yield put(actions.auth.setMagicLinkInfo(authMagicLink))
+          yield put(
+            actions.auth.setProductAuthMetadata({
+              platform: PlatformTypes.WEB, // TODO: probably dont hardcode the platform
+              product: ProductAuthOptions.WALLET
+            })
+          )
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        }
         break
-      // WALLET AUTHENTICATION FLOW
+      // Default to send user back to enter email screen
       default:
-        // grab all the data from the JSON wallet data
-        // store data in the cache and update form values to be used to submit login
-        yield put(actions.cache.emailStored(walletData?.email))
-        yield put(actions.cache.guidStored(walletData?.guid))
-        yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
-        yield put(actions.cache.hasCloudBackup(walletData?.has_cloud_backup))
-        yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
-        yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
-        yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
-        yield put(actions.auth.setMagicLinkInfo(authMagicLink))
-        yield put(
-          actions.auth.setProductAuthMetadata({
-            platform: PlatformTypes.WEB, // TODO: probably dont hardcode the platform
-            product: ProductAuthOptions.WALLET
-          })
-        )
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        break
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
