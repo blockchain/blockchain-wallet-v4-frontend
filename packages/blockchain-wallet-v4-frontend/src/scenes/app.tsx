@@ -57,6 +57,8 @@ const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
+const BLOCKCHAIN_TITLE = 'Blockchain.com'
+
 const App = ({
   apiUrl,
   coinsWithBalance,
@@ -89,24 +91,68 @@ const App = ({
                 <Suspense fallback={<Loading />}>
                   <Switch>
                     <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
-                    <PublicLayout path='/help' component={Help} />
-                    <PublicLayout path='/help-exchange' component={HelpExchange} />
-                    <PublicLayout path='/login' component={Login} />
+                    <PublicLayout
+                      path='/help'
+                      component={Help}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                    />
+                    <PublicLayout
+                      path='/help-exchange'
+                      component={HelpExchange}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                    />
+                    <PublicLayout
+                      path='/login'
+                      component={Login}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                    />
                     <PublicLayout path='/logout' component={Logout} />
-                    <PublicLayout path='/mobile-login' component={MobileLogin} />
-                    <PublicLayout path='/recover' component={RecoverWallet} />
-                    <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
-                    <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                    <PublicLayout path='/signup' component={Signup} />
-                    <PublicLayout path='/verify-email' component={VerifyEmailToken} />
+                    <PublicLayout
+                      path='/mobile-login'
+                      component={MobileLogin}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                    />
+                    <PublicLayout
+                      path='/recover'
+                      component={RecoverWallet}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+                    />
+                    <PublicLayout
+                      path='/reset-2fa'
+                      component={ResetWallet2fa}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                    />
+                    <PublicLayout
+                      path='/reset-two-factor'
+                      component={ResetWallet2faToken}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                    />
+                    <PublicLayout
+                      path='/signup'
+                      component={Signup}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
+                    />
+                    <PublicLayout
+                      path='/verify-email'
+                      component={VerifyEmailToken}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                    />
                     <PublicLayout
                       path='/upload-document/success'
                       component={UploadDocumentsSuccess}
                       exact
                     />
                     <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
-                    <PublicLayout path='/wallet' component={Login} />
-                    <PublicLayout path='/verify-email-step' component={VerifyEmail} />
+                    <PublicLayout
+                      path='/wallet'
+                      component={Login}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                    />
+                    <PublicLayout
+                      path='/verify-email-step'
+                      component={VerifyEmail}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                    />
                     {walletDebitCardEnabled && (
                       <WalletLayout path='/debitCard' component={DebitCard} />
                     )}
