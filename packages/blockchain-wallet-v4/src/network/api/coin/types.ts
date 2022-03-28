@@ -8,6 +8,19 @@ export type BalanceResponseType = {
   }[]
 }
 
+export type BuildTxFeeType = 'LOW' | 'MEDIUM' | 'PRIORITY'
+
+export type BuildTxIntentType = {
+  additional_data?: { memo: string }
+  amount: string
+  currency: string
+  destination: string
+  fee: BuildTxFeeType | string
+  maxVerificationVersion?: number
+  source: { descriptor: 'legacy'; pubKey: string; style: 'SINGLE' }
+  type: 'PAYMENT'
+}
+
 export type BuildTxResponseType = {
   preImages: {
     descriptor: null | string
@@ -61,7 +74,7 @@ export type BuildTxResponseType = {
     }
     version: number
   }
-  txSummary: {
+  summary: {
     absoluteFeeEstimate: string
     absoluteFeeMaximum: string
     amount: string

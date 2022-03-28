@@ -5,7 +5,7 @@ import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -39,14 +39,16 @@ export default ({ api }: { api: APIType }) => {
           },
           intent: {
             amount,
-            coin,
+            currency: coin,
             destination,
             fee: 'LOW',
             source: {
-              pubKey
+              descriptor: 'legacy',
+              pubKey,
+              style: 'SINGLE'
             },
             type: 'PAYMENT'
-          }
+          } as BuildTxIntentType
         })
 
         yield put(A.buildTxSuccess(tx))
@@ -78,7 +80,7 @@ export default ({ api }: { api: APIType }) => {
         yield put(
           A.buildTxSuccess({
             // @ts-ignore
-            txSummary: {
+            summary: {
               absoluteFeeEstimate: baseCryptoFee,
               amount: baseCryptoAmt
             }
@@ -206,12 +208,18 @@ export default ({ api }: { api: APIType }) => {
         const [uuid] = yield call(api.generateUUIDs, 1)
         const prebuildTx = S.getPrebuildTx(yield select()).getOrFail('No prebuildTx')
         const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
-        const pushedTx = yield call(api.pushTx, coin, signedTx.rawTx, signedTx.preImages, {
-          guid,
-          uuid
-        })
+        const pushedTx: ReturnType<typeof api.pushTx> = yield call(
+          api.pushTx,
+          coin,
+          signedTx.rawTx,
+          signedTx.preImages,
+          {
+            guid,
+            uuid
+          }
+        )
 
-        if (pushedTx.success) {
+        if (pushedTx.txId) {
           yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amount } }))
         } else {
           throw new Error('Failed to submit transaction.')

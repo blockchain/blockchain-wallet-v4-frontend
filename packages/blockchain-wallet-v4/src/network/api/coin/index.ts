@@ -1,5 +1,6 @@
 import {
   BalanceResponseType,
+  BuildTxIntentType,
   BuildTxResponseType,
   IndexMultiResponseType,
   TickerResponseType
@@ -33,16 +34,7 @@ export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
   const buildTx = (data: {
     id: { guid: string; uuid: string }
-    intent: {
-      additional_data?: { memo: string }
-      amount: string
-      coin: string
-      destination: string
-      fee: string
-      maxVerificationVersion?: number
-      source: { pubKey: string }
-      type: 'PAYMENT'
-    }
+    intent: BuildTxIntentType
   }): BuildTxResponseType => {
     data.intent.maxVerificationVersion = 2
 
@@ -57,15 +49,15 @@ export default ({ apiUrl, get, post }) => {
 
   // TODO: SELF_CUSTODY
   const pushTx = (
-    coin: string,
+    currency: string,
     rawTx: BuildTxResponseType['rawTx'],
     signatures: BuildTxResponseType['preImages'],
     id: { guid: string; uuid: string }
-  ): BuildTxResponseType => {
+  ): { txId: string } => {
     return post({
       contentType: 'application/json',
       data: {
-        coin,
+        currency,
         id,
         rawTx,
         signatures

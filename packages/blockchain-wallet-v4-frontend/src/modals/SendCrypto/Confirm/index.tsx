@@ -107,7 +107,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <>
               <AmountWrapper>
                 <CoinDisplay coin={coin} size='32px' weight={600} color='black'>
-                  {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                  {new BigNumber(tx.summary.amount).plus(tx.summary.absoluteFeeEstimate)}
                 </CoinDisplay>
               </AmountWrapper>
               <CustomRow>
@@ -118,10 +118,10 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 </div>
                 <div>
                   <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
-                    {tx.txSummary.amount}
+                    {tx.summary.amount}
                   </CoinDisplay>
                   <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
-                    {tx.txSummary.amount}
+                    {tx.summary.amount}
                   </FiatDisplay>
                 </div>
               </CustomRow>
@@ -157,10 +157,10 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 </div>
                 <div>
                   <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
-                    {tx.txSummary.absoluteFeeEstimate}
+                    {tx.summary.absoluteFeeEstimate}
                   </CoinDisplay>
                   <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
-                    {tx.txSummary.absoluteFeeEstimate}
+                    {tx.summary.absoluteFeeEstimate}
                   </FiatDisplay>
                 </div>
               </CustomRow>
@@ -172,10 +172,10 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 </div>
                 <div>
                   <CoinDisplay coin={coin} size='16px' weight={600} color='black'>
-                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                    {new BigNumber(tx.summary.amount).plus(tx.summary.absoluteFeeEstimate)}
                   </CoinDisplay>
                   <FiatDisplay coin={coin} size='14px' weight={600} color='grey500'>
-                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                    {new BigNumber(tx.summary.amount).plus(tx.summary.absoluteFeeEstimate)}
                   </FiatDisplay>
                 </div>
               </CustomRow>
@@ -184,7 +184,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <FormattedMessage id='buttons.send' defaultMessage='Send' />
                   &nbsp;
                   <CoinDisplay coin={coin} size='16px' weight={600} color='white'>
-                    {new BigNumber(tx.txSummary.amount).plus(tx.txSummary.absoluteFeeEstimate)}
+                    {new BigNumber(tx.summary.amount).plus(tx.summary.absoluteFeeEstimate)}
                   </CoinDisplay>
                 </Button>
                 <Button
