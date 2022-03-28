@@ -13,7 +13,6 @@ import { Await, RemoteDataType } from '@core/types'
 export enum NftOrderStatusEnum {
   POST_OFFER = 'POST_OFFER',
   POST_OFFER_SUCCESS = 'POST_OFFER_SUCCESS',
-  PROXY_CONTRACT = 'PROXY_CONTRACT',
   WRAP_ETH = 'WRAP_ETH'
 }
 

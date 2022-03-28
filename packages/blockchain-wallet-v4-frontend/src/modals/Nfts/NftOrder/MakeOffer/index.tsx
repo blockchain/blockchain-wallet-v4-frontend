@@ -228,7 +228,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   >
                     {formValues.amount ? (
                       props.orderFlow.isSubmitting ? (
-                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                        <>{props.orderFlow.status}</>
                       ) : (
                         <FormattedMessage
                           id='copy.make_offer_value'

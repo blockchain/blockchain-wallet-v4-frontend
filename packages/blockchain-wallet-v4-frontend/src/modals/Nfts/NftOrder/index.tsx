@@ -18,7 +18,6 @@ import MarkForSale from './MarkForSale'
 import ShowAsset from './ShowAsset'
 import Status from './Status'
 import Transfer from './Transfer'
-// import WrapEth from './WrapEth'
 
 class NftOrder extends PureComponent<Props, State> {
   constructor(props) {
@@ -95,11 +94,6 @@ class NftOrder extends PureComponent<Props, State> {
             <Transfer {...this.props} />
           </FlyoutChild>
         )}
-        {/* {step === NftOrderStepEnum.WRAP_ETH && (
-          <FlyoutChild>
-            <WrapEth {...this.props} />
-          </FlyoutChild>
-        )} */}
         {step === NftOrderStepEnum.STATUS && (
           <FlyoutChild>
             <Status {...this.props} />

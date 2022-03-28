@@ -358,7 +358,6 @@ export default ({ api }: { api: APIType }) => {
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
-      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const signer = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
@@ -378,7 +377,7 @@ export default ({ api }: { api: APIType }) => {
         yield put(actions.core.data.eth.fetchErc20Data())
       }
 
-      yield put(A.setNftOrderStatus(NftOrderStatusEnum.PROXY_CONTRACT))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
         getNftBuyOrder,
         action.payload.asset,
@@ -393,10 +392,8 @@ export default ({ api }: { api: APIType }) => {
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
-      // yield put(A.clearAndRefetchOffersMade())
-      // yield put(A.clearAndRefetchOrders())
-      // yield put(actions.router.push('/nfts/activity'))
     } catch (e) {
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this offer.'
