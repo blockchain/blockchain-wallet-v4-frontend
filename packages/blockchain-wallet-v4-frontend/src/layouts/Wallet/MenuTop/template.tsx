@@ -33,7 +33,7 @@ const Header = (props: OwnProps) => {
   }, [])
 
   const receiveCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' })
+    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
   }, [])
 
   const fabCallback = useCallback(() => {
@@ -42,11 +42,15 @@ const Header = (props: OwnProps) => {
     })
   }, [])
 
+  const trackEventCallback = useCallback((eventName) => {
+    props.settingsActions.generalSettingsInternalRedirect(eventName)
+  }, [])
+
   const limitsCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
       origin: 'TradingLimits'
     })
-    props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+    trackEventCallback('TradingLimits')
   }, [])
 
   const taxCenterCallback = useCallback(() => {
@@ -108,6 +112,7 @@ const Header = (props: OwnProps) => {
         refreshClickHandler={refreshCallback}
         sendClickHandler={sendCallback}
         taxCenterClickHandler={taxCenterCallback}
+        trackEventCallback={trackEventCallback}
       />
     )
   }
