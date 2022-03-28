@@ -47,7 +47,9 @@ const List = ({ onExportClick, reports }) => (
       const isCompleted = status === COMPLETED_STATUS
       const isPending = status === PENDING_STATUS
       const insertedDate = new Date(insertedAt)
-      const inserted = `${insertedDate.getDate()}/${insertedDate.getMonth()}/${insertedDate.getFullYear()}`
+      const inserted = `${insertedDate.getDate()}/${
+        insertedDate.getMonth() + 1
+      }/${insertedDate.getFullYear()}`
       const timePeriod = getTimePeriod(from, to)
 
       return (
