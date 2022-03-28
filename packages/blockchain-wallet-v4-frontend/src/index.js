@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { analyticsTrackingNoStore } from 'utils/helpers'
+import { analyticsTrackingNoStore } from 'services/tracking'
 
 import {
   FontGlobalStyles,
@@ -83,25 +83,13 @@ configureStore()
       </ErrorWrapper>,
       document.getElementById('app')
     )
-    const getErrorMessage = (errorMsg) => {
-      const WALLET_OPTIONS_ERROR = 'SyntaxError: Unexpected token < in JSON at position 0'
-      const WALLET_CURRENCIES_ERROR =
-        "TypeError: Cannot read properties of undefined (reading 'reduce')"
-
-      if (errorMsg === WALLET_OPTIONS_ERROR) {
-        return `wallet-options failed to load. ${errorMsg}`
-      }
-      if (errorMsg === WALLET_CURRENCIES_ERROR) {
-        return `currencies assets failed to load. ${errorMsg}`
-      }
-    }
     const data = {
       events: [
         {
           name: 'Wallet Load Failure',
           originalTimestamp: new Date(),
           properties: {
-            error_message: getErrorMessage(e.toString())
+            error_message: e.toString()
           }
         }
       ]
