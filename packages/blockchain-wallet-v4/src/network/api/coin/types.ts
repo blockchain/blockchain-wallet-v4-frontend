@@ -1,3 +1,13 @@
+export type BalanceResponseType = {
+  results: {
+    balances: {
+      address: null | string
+      balance: string
+    }[]
+    pubKey: string
+  }[]
+}
+
 export type BuildTxResponseType = {
   preImages: {
     descriptor: null | string

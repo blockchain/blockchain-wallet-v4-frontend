@@ -28,11 +28,12 @@ export default ({ api }: { api: APIType }) => {
         list.map(function* (coin) {
           const pubKey = yield call(getPubKey, action.payload.password)
           try {
-            const { balance } = yield call(api.balance, [
+            const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
               { descriptor: 'default', pubKey, style: 'SINGLE' }
             ])
 
-            yield put(A.fetchDataSuccess(coin, balance))
+            // TODO: SELF_CUSTODY
+            yield put(A.fetchDataSuccess(coin, results[0].balances[0].balance))
           } catch (e) {
             const error = errorHandler(e)
             yield put(A.fetchDataFailure(error, coin))

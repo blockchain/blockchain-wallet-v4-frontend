@@ -1,4 +1,9 @@
-import { BuildTxResponseType, IndexMultiResponseType, TickerResponseType } from './types'
+import {
+  BalanceResponseType,
+  BuildTxResponseType,
+  IndexMultiResponseType,
+  TickerResponseType
+} from './types'
 
 export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
@@ -74,7 +79,7 @@ export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
   const balance = (
     pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
-  ): { balance: string } => {
+  ): BalanceResponseType => {
     return post({
       contentType: 'application/json',
       data: {
