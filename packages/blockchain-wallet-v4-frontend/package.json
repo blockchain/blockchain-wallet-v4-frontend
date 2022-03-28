@@ -166,7 +166,8 @@
   },
   "devDependencies": {
     "jest-styled-components": "6.3.3",
-    "@types/enzyme": "3.10.11"
+    "@types/enzyme": "3.10.11",
+    "@testing-library/react-hooks": "6.0.0"
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
