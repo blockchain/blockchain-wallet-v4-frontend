@@ -67,22 +67,21 @@ const configuredStore = async function () {
     supportedErc20s = []
   }
 
-  // hmmmm....
   window.coins = {
-    ...supportedCoins.reduce(
-      (acc, curr) => ({
+    ...supportedCoins.reduce((acc, curr) => {
+      if (curr.symbol.includes('.')) return acc
+      return {
         ...acc,
         [curr.symbol]: { coinfig: curr }
-      }),
-      {}
-    ),
-    ...supportedErc20s.reduce(
-      (acc, curr) => ({
+      }
+    }, {}),
+    ...supportedErc20s.reduce((acc, curr) => {
+      if (curr.symbol.includes('.')) return acc
+      return {
         ...acc,
         [curr.symbol]: { coinfig: curr }
-      }),
-      {}
-    )
+      }
+    }, {})
   }
 
   // TODO: remove this
