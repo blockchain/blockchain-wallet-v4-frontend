@@ -12,8 +12,8 @@ export const fetchBalances = function* () {
   yield put(actions.core.data.btc.fetchData())
   yield put(actions.core.data.xlm.fetchData())
   yield put(actions.core.data.eth.fetchData())
-  yield put(actions.core.data.eth.fetchErc20Data())
   yield put(actions.core.data.coins.fetchData())
+  yield put(actions.core.data.eth.fetchErc20Data())
   yield put(actions.components.refresh.refreshRates())
   yield put(actions.custodial.fetchRecentSwapTxs())
 }

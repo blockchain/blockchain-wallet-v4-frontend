@@ -28,7 +28,9 @@ export default ({ api }: { api: APIType }) => {
         list.map(function* (coin) {
           const pubKey = yield call(getPubKey, action.payload.password)
           try {
-            const { balance } = yield call(api.balance, pubKey)
+            const { balance } = yield call(api.balance, [
+              { descriptor: 'default', pubKey, style: 'SINGLE' }
+            ])
 
             yield put(A.fetchDataSuccess(coin, balance))
           } catch (e) {

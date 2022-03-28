@@ -72,11 +72,13 @@ export default ({ apiUrl, get, post }) => {
   }
 
   // TODO: SELF_CUSTODY
-  const balance = (pubKey: string): { balance: string } => {
+  const balance = (
+    pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
+  ): { balance: string } => {
     return post({
       contentType: 'application/json',
       data: {
-        pubKey
+        pubKeys
       },
       endPoint: `/public/balance`,
       removeDefaultPostData: true,

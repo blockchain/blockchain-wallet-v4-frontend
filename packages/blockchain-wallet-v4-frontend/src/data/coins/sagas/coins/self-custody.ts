@@ -8,7 +8,7 @@ import { promptForSecondPassword } from 'services/sagas'
 // retrieves the next receive address
 export const getNextReceiveAddress = function* (coin: CoinType, networks, index, api: APIType) {
   const password = yield call(promptForSecondPassword)
-  const pubKey = yield call(getPubKey, password)
-  const { address } = yield call(api.deriveAddress, coin, pubKey)
+  const pubKeys = yield call(getPubKey, password)
+  const { address } = yield call(api.deriveAddress, coin, pubKeys)
   return address
 }
