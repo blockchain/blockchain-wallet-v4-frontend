@@ -91,12 +91,13 @@ const authSlice = createSlice({
     authorizeVerifyDeviceSuccess: (state, action) => {
       state.authorizeVerifyDevice = Remote.Success(action.payload)
     },
-    checkForAndRunDeeplinks: (state, action) => {},
+    checkForAndRouteDeeplinks: () => {},
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
-    continueLoginProcess: (state, action) => {},
+    continueLoginProcess: () => {},
+    determinePreAuthRouteForDeeplink: () => {},
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)

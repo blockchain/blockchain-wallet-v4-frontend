@@ -25,5 +25,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.routeDeeplink.type, deeplinkSagas.routeDeeplink)
     // @ts-ignore
     yield takeLatest(actions.checkForAndRunDeeplinks.type, deeplinkSagas.checkForAndRunDeeplinks)
+    yield takeLatest(
+      actions.determinePreAuthRouteForDeeplink.type,
+      // @ts-ignore
+      deeplinkSagas.determinePreAuthRouteForDeeplink
+    )
   }
 }

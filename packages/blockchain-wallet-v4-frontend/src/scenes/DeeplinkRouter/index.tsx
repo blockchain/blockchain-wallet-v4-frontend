@@ -3,16 +3,17 @@ import qs from 'qs'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, selectors } from 'data'
+import { AppDeeplinkParams } from 'data/auth/types.deeplinks'
 
-const DeeplinkRouter = ({ authActions, pathname, routerActions, search }: Props) => {
-  // store deeplink data for use after auth flow has finished
-  const params = qs.parse(search as string, { ignoreQueryPrefix: true })
+const DeeplinkRouter = ({ authActions, pathname, search }: Props) => {
+  // parse and store deeplink data for use after auth flow has finished
+  const deeplinkParams = qs.parse(search as string, { ignoreQueryPrefix: true })
   authActions.setDeeplinkData({
-    params,
+    params: deeplinkParams as AppDeeplinkParams,
     route: pathname as string
   })
-  // push to login screen
-  routerActions.push('/login')
+  // call to route pre-auth app (login or signup)
+  authActions.determinePreAuthRouteForDeeplink()
   return null
 }
 
@@ -22,8 +23,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

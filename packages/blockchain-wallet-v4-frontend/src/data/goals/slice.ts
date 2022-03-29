@@ -7,8 +7,7 @@ import { GoalsState, GoalsType } from './types'
 const initialState: GoalsState = {
   goals: [],
   initialModalDisplayed: false,
-  initialModals: {},
-  initialRedirect: ''
+  initialModals: {}
 }
 
 type AddInitialModalPayload = {
@@ -30,9 +29,6 @@ const goalsSlice = createSlice({
   reducers: {
     addInitialModal: (state, action: PayloadAction<AddInitialModalPayload>) => {
       state.initialModals[action.payload.key] = action.payload
-    },
-    addInitialRedirect: (state, action: PayloadAction<string>) => {
-      state.initialRedirect = action.payload
     },
     defineGoals: () => {},
     deleteGoal: (state, action: PayloadAction<string>) => {

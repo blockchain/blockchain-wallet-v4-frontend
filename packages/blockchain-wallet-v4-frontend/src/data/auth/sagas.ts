@@ -17,7 +17,6 @@ import { isGuid } from 'services/forms'
 import { getFiatCurrencyFromCountry } from 'services/locales'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
-import { checkForAndRouteDeeplinks } from './sagas.deeplink'
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
   determineAuthenticationFlow,
@@ -228,10 +227,12 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.router.push('/home'))
       }
       yield call(fetchBalances)
+
       // goals/deeplinks
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
-      yield call(checkForAndRouteDeeplinks)
+      yield put(actions.auth.checkForAndRouteDeeplinks())
+
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess(true))
       yield put(actions.auth.startLogoutTimer())

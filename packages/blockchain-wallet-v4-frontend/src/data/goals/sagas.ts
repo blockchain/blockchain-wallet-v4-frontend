@@ -24,6 +24,7 @@ import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
 import { DeepLinkGoal, GoalType } from './types'
 
 const origin = 'Goals'
+const logLocation = 'goals/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const { DOC_RESUBMISSION_REASONS, KYC_STATES, TIERS } = model.profile
@@ -35,8 +36,6 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
-
-  const logLocation = 'goals/sagas'
 
   const isKycNotFinished = function* () {
     yield call(waitForUserData)
@@ -73,23 +72,6 @@ export default ({ api, coreSagas, networks }) => {
     )
     const destination = params.get('newUser') ? '/signup' : '/login'
     yield put(actions.router.push(destination))
-  }
-
-  const defineKycGoal = function* (search) {
-    // /#/open/kyc?tier={1, 2, ...}
-    const params = new URLSearchParams(search)
-
-    const tier = params.get('tier') || TIERS[2]
-
-    yield put(actions.goals.saveGoal({ data: { tier }, name: 'kyc' }))
-  }
-
-  const defineSwapGoal = function* () {
-    yield put(actions.goals.saveGoal({ data: {}, name: 'swap' }))
-  }
-
-  const defineInterestGoal = function* () {
-    yield put(actions.goals.saveGoal({ data: {}, name: 'interest' }))
   }
 
   const defineBuySellGoal = function* (search) {
@@ -147,14 +129,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineLogLevel = function* (search) {
-    const params = new URLSearchParams(search)
-    const level = params.get('level')
-    // @ts-ignore
-    window.logLevel = level
-    yield put(actions.logs.setLogLevel(level))
-  }
-
   const defineActionGoal = function* (pathname, search) {
     try {
       // Other scenarios with actions encoded in base64
@@ -180,34 +154,14 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineWalletConnectGoal, search)
     }
 
-    // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
-    if (startsWith(DeepLinkGoal.KYC, pathname)) {
-      return yield call(defineKycGoal, search)
-    }
-
     // crypto send / bitpay links
     if (includes(DeepLinkGoal.BITCOIN, pathname)) {
       return yield call(defineSendCryptoGoal, pathname, search)
     }
 
-    // /#/log-level?level=verbose
-    if (startsWith(DeepLinkGoal.LOG_LEVEL, pathname)) {
-      return yield call(defineLogLevel, search)
-    }
-
     // /#/open/simple-buy
     if (startsWith(DeepLinkGoal.SIMPLE_BUY, pathname)) {
       return yield call(defineBuySellGoal, search)
-    }
-
-    // /#/open/swap
-    if (startsWith(DeepLinkGoal.SWAP, pathname)) {
-      return yield call(defineSwapGoal)
-    }
-
-    // /#/open/rewards /#/open/interest
-    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
-      return yield call(defineInterestGoal)
     }
 
     if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
@@ -227,54 +181,6 @@ export default ({ api, coreSagas, networks }) => {
     yield take('@@router/LOCATION_CHANGE')
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
-  }
-
-  const runAirdropClaimGoal = function* (goal: GoalType) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    const showAirdropClaimModal = yield select(selectors.preferences.getShowAirdropClaimModal)
-    if (!showAirdropClaimModal) return
-
-    yield call(waitForUserData)
-    const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
-      current: 0
-    }) || { current: 0 }
-    const blockstackTag = (yield select(selectors.modules.profile.getBlockstackTag)).getOrElse(
-      false
-    )
-    if (current === TIERS[2] && !blockstackTag) {
-      yield put(
-        actions.goals.addInitialModal({
-          data: {
-            origin
-          },
-          key: 'airdropClaim',
-          name: 'AIRDROP_CLAIM_MODAL'
-        })
-      )
-    }
-  }
-
-  const runKycGoal = function* (goal: GoalType) {
-    try {
-      const { data, id } = goal
-      const { tier = TIERS[2] } = data
-      yield put(actions.goals.deleteGoal(id))
-      yield call(waitForUserData)
-      const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
-        current: 0
-      }) || { current: 0 }
-      if (current >= Number(tier)) return
-      yield put(
-        actions.components.identityVerification.verifyIdentity({
-          needMoreInfo: false,
-          origin,
-          tier
-        })
-      )
-    } catch (err) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message))
-    }
   }
 
   const runBuySellGoal = function* (goal: GoalType) {
@@ -439,38 +345,6 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runUpgradeForAirdropGoal = function* (goal: GoalType) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    const showUpgradeForAirdropModal = yield select(
-      selectors.preferences.getShowUpgradeForStxAirdropModal
-    )
-    if (!showUpgradeForAirdropModal) return
-    yield call(waitForUserData)
-    const kycNotFinished = yield call(isKycNotFinished)
-    const isRegistered = (yield select(selectors.modules.profile.getBlockstackTag)).getOrElse(false)
-
-    if (kycNotFinished && !isRegistered) {
-      return yield put(
-        actions.goals.addInitialModal({
-          data: {
-            campaign: 'BLOCKSTACK',
-            origin
-          },
-          key: 'upgradeForAirdrop',
-          name: 'UPGRADE_FOR_AIRDROP_MODAL'
-        })
-      )
-    }
-  }
-
-  const runSwapModal = function* (goal: GoalType) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    yield put(actions.goals.addInitialModal({ data: { origin }, key: 'swap', name: 'SWAP_MODAL' }))
-  }
-
   const runSwapUpgradeGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -617,12 +491,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runInterestRedirect = function* (goal: GoalType) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    yield put(actions.goals.addInitialRedirect('interest'))
-  }
   const runInterestPromo = function* (goal: GoalType) {
     // do not show modal immediately, wait 5 seconds
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
@@ -663,18 +531,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runInitialRedirect = function* () {
-    const initialRedirect = yield select(selectors.goals.getInitialRedirect)
-
-    if (initialRedirect === 'interest') {
-      return yield put(actions.router.push(`/rewards`))
-    }
-  }
-
   const showInitialModal = function* () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
-      airdropClaim,
       buySellModal,
       entitiesMigration,
       interestPromo,
@@ -682,12 +541,10 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
-      swap,
       swapGetStarted,
       swapUpgrade,
       termsAndConditions,
       transferEth,
-      upgradeForAirdrop,
       walletConnect,
       welcomeModal
     } = initialModals
@@ -712,12 +569,6 @@ export default ({ api, coreSagas, networks }) => {
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
     }
-    if (upgradeForAirdrop) {
-      return yield put(actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data))
-    }
-    if (swap) {
-      return yield put(actions.modals.showModal(swap.name, swap.data))
-    }
     if (swapGetStarted) {
       return yield put(actions.modals.showModal(swapGetStarted.name, swapGetStarted.data))
     }
@@ -734,13 +585,6 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
-    }
-    if (airdropClaim) {
-      return yield put(
-        actions.modals.showModal(airdropClaim.name, {
-          origin: 'AirdropClaimGoal'
-        })
-      )
     }
     if (buySellModal) {
       return yield put(
@@ -870,12 +714,6 @@ export default ({ api, coreSagas, networks }) => {
       // Ordering doesn't matter here
       // Try to keep in alphabetical ⬆️
       switch (goal.name) {
-        case 'airdropClaim':
-          yield call(runAirdropClaimGoal, goal)
-          break
-        case 'kyc':
-          yield call(runKycGoal, goal)
-          break
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
           break
@@ -894,9 +732,6 @@ export default ({ api, coreSagas, networks }) => {
         case 'buySell':
           yield call(runBuySellGoal, goal)
           break
-        case 'swap':
-          yield call(runSwapModal, goal)
-          break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
@@ -906,17 +741,11 @@ export default ({ api, coreSagas, networks }) => {
         case 'transferEth':
           yield call(runTransferEthGoal, goal)
           break
-        case 'upgradeForAirdrop':
-          yield call(runUpgradeForAirdropGoal, goal)
-          break
         case 'walletConnect':
           yield call(runWalletConnectGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
-          break
-        case 'interest':
-          yield call(runInterestRedirect, goal)
           break
         case 'interestPromo':
           yield call(runInterestPromo, goal)
@@ -943,7 +772,6 @@ export default ({ api, coreSagas, networks }) => {
     const goals = yield select(selectors.goals.getGoals)
     const goalTasks = yield all(map((goal) => spawn(runGoal, goal), goals))
     yield all(map(join, goalTasks))
-    yield call(runInitialRedirect)
     yield call(showInitialModal)
   }
 
@@ -964,9 +792,6 @@ export default ({ api, coreSagas, networks }) => {
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
     }
-    // when airdrops are running
-    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
-    // yield put(actions.goals.saveGoal('airdropClaim'))
   }
 
   return {

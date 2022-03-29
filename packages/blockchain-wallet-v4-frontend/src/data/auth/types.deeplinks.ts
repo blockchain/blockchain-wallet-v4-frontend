@@ -5,4 +5,14 @@ export type AppDeeplinkPayload = {
 
 export type AppDeeplinkRoute = string
 
-export type AppDeeplinkParams = unknown
+export type AppDeeplinkParams = KycDeeplinkParams | LogLevelDeeplinkParams | undefined
+
+//
+// DEEPLINK ROUTE SPECIFIC TYPES
+//
+export type LogLevelDeeplinkParams = {
+  level: 'verbose'
+}
+export type KycDeeplinkParams = {
+  tier?: 0 | 1 | 2 | 3
+}

@@ -3,26 +3,21 @@ import { ModalNameType } from 'data/modals/types'
 
 // State
 export type GoalsType =
-  | 'airdropClaim'
   | 'entitiesMigration'
   | 'kycUpgradeRequiredNotice'
   | 'termsAndConditions'
-  | 'kyc'
   | 'kycDocResubmit'
   | 'linkAccount'
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
   | 'buySell'
-  | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
   | 'syncPit'
   | 'transferEth'
-  | 'upgradeForAirdrop'
   | 'walletConnect'
   | 'welcomeModal'
-  | 'interest'
   | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
@@ -41,18 +36,12 @@ export type GoalsState = {
         [key in GoalsType]: { data: any; key: key; name: ModalNameType }
       }
     | {}
-  initialRedirect: string
 }
 
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
-  INTEREST = 'interest',
-  KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
-  LOG_LEVEL = 'log-level',
   REFERRAL = 'referral',
-  REWARDS = 'rewards',
   SIMPLE_BUY = 'simple-buy',
-  SWAP = 'swap',
   WALLET_CONNECT = 'wc'
 }
