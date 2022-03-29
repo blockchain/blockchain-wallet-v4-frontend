@@ -30,13 +30,13 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { ProductEligibilityForUser } from 'data/custodial/types'
-import { ModalName } from 'data/modals/types'
 import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  ModalName,
+  ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
 
