@@ -13,9 +13,13 @@ import {
   BankStatusType,
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
-  FastLinkType
+  FastLinkType,
+  ModalName,
+  ProductEligibilityForUser
 } from 'data/types'
 
+import { actions as custodialActions } from '../../custodial/slice'
+import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
@@ -23,7 +27,12 @@ import { OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { isTier2 } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
@@ -277,6 +286,39 @@ export default ({ api }: { api: APIType }) => {
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { modalType, origin } = payload
+
+    // get current user tier
+    const isUserTier2 = yield call(isTier2)
+
+    const showSilverRevamp = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    // check is user eligible to do sell/buy
+    // we skip this for gold users
+    if (!isUserTier2 && showSilverRevamp) {
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+      yield take([
+        custodialActions.fetchProductEligibilityForUserSuccess.type,
+        custodialActions.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+        custodialWallets: { canDepositCrypto: false, enabled: false }
+      } as ProductEligibilityForUser)
+
+      const userCanDeposit = products.custodialWallets.canDepositCrypto
+      // prompt upgrade modal in case that user can't buy more
+      if (!userCanDeposit) {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'DepositWithdrawalModal'
+          })
+        )
+        return
+      }
+    }
+
     yield put(actions.modals.showModal(modalType, { origin }))
   }
 
