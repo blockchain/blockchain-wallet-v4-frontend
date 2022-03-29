@@ -58,6 +58,9 @@ const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
+// MISC
+const DeeplinkRouter = React.lazy(() => import('./DeeplinkRouter'))
+
 const App = ({
   apiUrl,
   coinsWithBalance,
@@ -90,6 +93,9 @@ const App = ({
               <ConnectedRouter history={history}>
                 <Suspense fallback={<Loading />}>
                   <Switch>
+                    {/* deeplink handler */}
+                    <PublicLayout path='/(app|open)/' component={DeeplinkRouter} />
+                    {/* public route handlers */}
                     <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                     <PublicLayout path='/help' component={Help} />
                     <PublicLayout path='/help-exchange' component={HelpExchange} />
@@ -109,6 +115,7 @@ const App = ({
                     <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
                     <PublicLayout path='/wallet' component={Login} />
                     <PublicLayout path='/verify-email-step' component={VerifyEmail} />
+                    {/* private route handlers */}
                     {walletDebitCardEnabled && (
                       <WalletLayout path='/debitCard' component={DebitCard} />
                     )}

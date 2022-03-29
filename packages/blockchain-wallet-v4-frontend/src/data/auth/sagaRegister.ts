@@ -5,6 +5,7 @@ import { actions } from './slice'
 
 export default ({ api, coreSagas, networks }) => {
   const authSagas = sagas({ api, coreSagas, networks })
+  const deeplinkSagas = sagas({ api, coreSagas, networks })
 
   return function* authSaga() {
     yield takeLatest(actions.authorizeVerifyDevice.type, authSagas.authorizeVerifyDevice)
@@ -19,6 +20,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
     yield takeLatest(actions.exchangeResetPassword.type, authSagas.exchangeResetPassword)
-    yield takeLatest(actions.continueLoginProcess, authSagas.continueLoginProcess)
+    yield takeLatest(actions.continueLoginProcess.type, authSagas.continueLoginProcess)
+    // @ts-ignore
+    yield takeLatest(actions.routeDeeplink.type, deeplinkSagas.routeDeeplink)
+    // @ts-ignore
+    yield takeLatest(actions.checkForAndRunDeeplinks.type, deeplinkSagas.checkForAndRunDeeplinks)
   }
 }

@@ -1,6 +1,10 @@
 import { RootState } from 'data/rootReducer'
 
-import { AuthStateType } from './types'
+import { AppDeeplinkPayload, AuthStateType } from './types'
+
+export function getDeeplinkData(state: RootState): AppDeeplinkPayload | undefined {
+  return state.auth.deeplink
+}
 
 // TODO: organize these functions
 export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {

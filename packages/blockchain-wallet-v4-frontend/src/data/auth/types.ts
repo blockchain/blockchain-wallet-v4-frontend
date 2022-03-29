@@ -1,5 +1,58 @@
 import { RemoteDataType } from '@core/types'
 
+import { AppDeeplinkPayload } from './types.deeplinks'
+
+export * from './types.deeplinks'
+
+//
+// MISC
+//
+export enum AuthUserType {
+  INSTITUTIONAL = 'INSTITUTIONAL'
+}
+
+export enum ProductAuthOptions {
+  EXCHANGE = 'EXCHANGE',
+  EXPLORER = 'EXPLORER',
+  WALLET = 'WALLET'
+}
+
+export enum PlatformTypes {
+  ANDROID = 'ANDROID',
+  IOS = 'IOS',
+  WEB = 'WEB'
+}
+
+//
+// MOBILE
+//
+export type MobileAuthConnectedMessage = {
+  status: 'connected'
+}
+
+export type MobileAuthWalletMergeMessage = {
+  data?: {
+    guid: string
+    password: string
+    sessionId: string
+  }
+  error?: string
+  status: 'error' | 'success'
+}
+
+export type MobileAuthExchangeMessage = {
+  data?: {
+    csrf: string
+    jwt: string
+    jwtExpirationTime: number
+  }
+  error?: string
+  status: 'error' | 'success'
+}
+
+//
+// EXCHANGE
+//
 export enum ExchangeErrorCodes {
   EMAIL_NOT_VERIFIED = 65,
   WRONG_2FA = 10, // Incorrect 2FA code
@@ -8,12 +61,21 @@ export enum ExchangeErrorCodes {
   UNRECOGNIZED_DEVICE = 99,
   INVALID_CREDENTIALS = 8
 }
-export enum ProductAuthOptions {
-  EXCHANGE = 'EXCHANGE',
-  EXPLORER = 'EXPLORER',
-  WALLET = 'WALLET'
+
+export type ExchangeLoginType = {
+  code?: string
+  password?: string
+  username: string
 }
 
+export type ExchangeLoginSuccessType = {}
+export type ExchangeLoginFailureType = any
+export type ExchangeResetPasswordSuccessType = any
+export type ExchangeResetPasswordFailureType = any
+
+//
+// AUTH/SSO
+//
 export enum AccountUnificationFlows {
   EXCHANGE_MERGE = 'EXCHANGE_MERGE',
   EXCHANGE_UPGRADE = 'EXCHANGE_UPGRADE',
@@ -41,12 +103,6 @@ export enum LoginSteps {
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
-export enum PlatformTypes {
-  ANDROID = 'ANDROID',
-  IOS = 'IOS',
-  WEB = 'WEB'
-}
-
 export enum RecoverSteps {
   CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
@@ -72,12 +128,6 @@ export type LoginRoutinePayloadType = {
   state?: string
 }
 
-export type ExchangeLoginType = {
-  code?: string
-  password?: string
-  username: string
-}
-
 export type LoginFormType = {
   code?: string
   email?: string
@@ -93,17 +143,6 @@ export type LoginFormType = {
   upgradePassword?: string
 }
 
-export enum AuthUserType {
-  INSTITUTIONAL = 'INSTITUTIONAL'
-}
-
-export enum WalletPollingResponseType {
-  CONTINUE_POLLING = 'CONTINUE_POLLING',
-  EXCHANGE_ONLY_LOGIN = 'EXCHANGE_ONLY_LOGIN',
-  REQUEST_DENIED = 'REQUEST_DENIED',
-  WALLET_INFO_POLLED = 'WALLET_INFO_POLLED'
-}
-
 export type AuthMagicLink = {
   exchange?: {
     email?: string
@@ -114,7 +153,11 @@ export type AuthMagicLink = {
   mergeable?: boolean | null
   platform_type: PlatformTypes
   product?: ProductAuthOptions
-  response_type?: WalletPollingResponseType
+  response_type?:
+    | 'CONTINUE_POLLING'
+    | 'EXCHANGE_ONLY_LOGIN'
+    | 'REQUEST_DENIED'
+    | 'WALLET_INFO_POLLED'
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
@@ -150,29 +193,6 @@ export type LoginErrorType =
     }
   | string
 
-// TODO: define missing types and determine if all of these types are needed/used
-export type ExchangeLoginSuccessType = {}
-
-export type ExchangeLoginFailureType = any
-
-export type ExchangeResetPasswordSuccessType = any
-
-export type ExchangeResetPasswordFailureType = any
-
-export type LoginSuccessType = boolean
-
-export type LoginFailureType = string | boolean | undefined
-
-export type MetadataRestoreType = any
-
-export type RegisteringFailureType = undefined
-
-export type RegisteringSuccessType = undefined
-
-export type RestoringType = undefined
-
-export type SecureChannelLoginType = undefined
-
 export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
@@ -184,6 +204,7 @@ export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
   authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
+  deeplink?: AppDeeplinkPayload
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -208,29 +229,10 @@ export type AuthStateType = {
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
 }
 
-//
-// mobile message types
-//
-export type MobileAuthConnectedMessage = {
-  status: 'connected'
-}
-
-export type MobileAuthWalletMergeMessage = {
-  data?: {
-    guid: string
-    password: string
-    sessionId: string
-  }
-  error?: string
-  status: 'error' | 'success'
-}
-
-export type MobileAuthExchangeMessage = {
-  data?: {
-    csrf: string
-    jwt: string
-    jwtExpirationTime: number
-  }
-  error?: string
-  status: 'error' | 'success'
-}
+export type LoginSuccessType = boolean
+export type LoginFailureType = string | boolean | undefined
+export type MetadataRestoreType = any
+export type RegisteringFailureType = undefined
+export type RegisteringSuccessType = undefined
+export type RestoringType = undefined
+export type SecureChannelLoginType = undefined

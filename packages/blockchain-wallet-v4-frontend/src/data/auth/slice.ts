@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
 import {
   AccountUnificationFlows,
+  AppDeeplinkPayload,
   AuthStateType,
   AuthUserType,
   ExchangeLoginFailureType,
@@ -28,6 +30,7 @@ const initialState: AuthStateType = {
   accountUnificationFlow: undefined,
   auth_type: 0,
   authorizeVerifyDevice: Remote.NotAsked,
+  deeplink: undefined,
   exchangeAuth: {
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
@@ -88,7 +91,7 @@ const authSlice = createSlice({
     authorizeVerifyDeviceSuccess: (state, action) => {
       state.authorizeVerifyDevice = Remote.Success(action.payload)
     },
-
+    checkForAndRunDeeplinks: (state, action) => {},
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
@@ -182,6 +185,7 @@ const authSlice = createSlice({
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
     },
+    routeDeeplink: (state, action: PayloadAction<AppDeeplinkPayload>) => {},
     secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
@@ -199,6 +203,9 @@ const authSlice = createSlice({
     },
     setAuthType: (state, action) => {
       state.auth_type = action.payload
+    },
+    setDeeplinkData: (state, action: PayloadAction<AppDeeplinkPayload>) => {
+      state.deeplink = action.payload
     },
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload

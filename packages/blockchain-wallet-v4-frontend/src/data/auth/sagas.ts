@@ -17,6 +17,7 @@ import { isGuid } from 'services/forms'
 import { getFiatCurrencyFromCountry } from 'services/locales'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
+import { checkForAndRouteDeeplinks } from './sagas.deeplink'
 import { initMobileWalletAuthFlow, sendMessageToMobile } from './sagas.mobile'
 import {
   determineAuthenticationFlow,
@@ -34,8 +35,10 @@ import {
   ProductAuthOptions
 } from './types'
 
+const LOGIN_FORM = 'login'
+const logLocation = 'auth/sagas'
+
 export default ({ api, coreSagas, networks }) => {
-  const logLocation = 'auth/sagas'
   const { createUser, generateRetailToken, setSession } = profileSagas({
     api,
     coreSagas,
@@ -51,8 +54,6 @@ export default ({ api, coreSagas, networks }) => {
   })
   const { saveGoals } = goalSagas({ api, coreSagas, networks })
   const { startCoinWebsockets } = miscSagas()
-
-  const LOGIN_FORM = 'login'
 
   const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
@@ -227,14 +228,16 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.router.push('/home'))
       }
       yield call(fetchBalances)
+      // goals/deeplinks
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
+      yield call(checkForAndRouteDeeplinks)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess(true))
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
-      const guid = yield select(selectors.core.wallet.getGuid)
       // store guid and email in cache for future login
+      const guid = yield select(selectors.core.wallet.getGuid)
       yield put(actions.cache.guidEntered(guid))
       if (email) {
         yield put(actions.cache.emailStored(email))
