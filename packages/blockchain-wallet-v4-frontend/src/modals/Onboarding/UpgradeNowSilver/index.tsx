@@ -4,9 +4,9 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName, UserDataType } from 'data/types'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -60,16 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({
-    address: undefined,
-    id: '',
-    kycState: 'NONE',
-    mobile: '',
-    mobileVerified: false,
-    state: 'NONE',
-    tiers: { current: 0 }
-  } as UserDataType)
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
