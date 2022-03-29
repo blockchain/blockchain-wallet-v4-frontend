@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
+import { getBalance } from '@core/redux/data/coins/selectors'
 import {
   BSBalancesType,
   BSBalanceType,
@@ -173,6 +174,9 @@ export const getBalanceSelector = (
       return getFiatBalance(coin)
     default:
       switch (true) {
+        // TODO: SELF_CUSTODY
+        case coin === 'STX':
+          return getBalance('STX')
         case selectors.core.data.coins.getCustodialCoins().includes(coin):
           return getCoinCustodialBalance(coin)
         default:

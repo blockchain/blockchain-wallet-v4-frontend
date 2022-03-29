@@ -1,4 +1,5 @@
 import memoize from 'fast-memoize'
+import { curry } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 
@@ -43,9 +44,9 @@ export const getFiatCoins = memoize(_getFiatCoins)
 export const getAllCoins = memoize(_getAllCoins)
 export const getErc20Coins = memoize(_getErc20Coins)
 
-export const getBalance = (coin: string, state: RootState) => {
+export const getBalance = curry((coin: string, state: RootState) => {
   return state.dataPath.coins.balances[coin] || Remote.NotAsked
-}
+})
 
 export const getRates = (coin: string, state: RootState) => {
   const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
