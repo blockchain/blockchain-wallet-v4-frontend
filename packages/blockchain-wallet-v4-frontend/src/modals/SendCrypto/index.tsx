@@ -84,6 +84,7 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
   initialValues: {
     coin: state.components.sendCrypto.initialCoin,
+    fee: 'LOW',
     fix: 'CRYPTO'
   },
   isValidAddress: selectors.components.sendCrypto.getIsValidAddress(state),

@@ -20,7 +20,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import BuyMoreLine from 'components/Flyout/Banners/BuyMoreLine'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { Form } from 'components/Form'
+import { Form, SelectBox } from 'components/Form'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -307,12 +307,12 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             >
               <CustomErrorCartridge
                 onClick={() => {
-                  formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-                  formActions.change(
-                    SEND_FORM,
-                    'amount',
-                    amtError === 'ABOVE_MAX' ? maxMinusFee : min
-                  )
+                  if (amtError === 'ABOVE_MAX') {
+                    handleMax()
+                  } else {
+                    formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+                    formActions.change(SEND_FORM, 'amount', min)
+                  }
                 }}
               >
                 {amtError === 'ABOVE_MAX' && (
@@ -357,33 +357,60 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               {isAccount ? max : maxMinusFee} {coin}
             </Text>
           </Text>
-          <div>
+          <div style={{ width: '30%' }}>
             <Text color='blue600' weight={600} size='12px'>
               <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
             </Text>
-            {/* TODO: make field */}
-            <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
-              {props.feesR.cata({
-                Failure: (e) => (
-                  <CustomBlueCartridge
-                    pointer
-                    data-e2e='retryFetchFees'
-                    onClick={() =>
-                      props.sendCryptoActions.fetchWithdrawalFees({
-                        account: props.formValues.selectedAccount
-                      })
-                    }
-                  >
-                    <Text size='10px' color='blue600' weight={600}>
-                      <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-                    </Text>
-                  </CustomBlueCartridge>
-                ),
-                Loading: () => <SkeletonRectangle height='24px' width='52px' />,
-                NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
-                Success: (val) => `${val} ${coin}`
-              })}
-            </Text>
+            {isAccount ? (
+              <Field
+                component={SelectBox}
+                name='fee'
+                elements={[
+                  {
+                    group: '',
+                    items: [
+                      {
+                        text: 'Low',
+                        value: 'LOW'
+                      },
+                      {
+                        text: 'Medium',
+                        value: 'MEDIUM'
+                      },
+                      {
+                        text: 'High',
+                        value: 'PRIORITY'
+                      }
+                    ]
+                  }
+                ]}
+              >
+                <option value='LOW'>Low</option>
+              </Field>
+            ) : (
+              <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
+                {props.feesR.cata({
+                  Failure: (e) => (
+                    <CustomBlueCartridge
+                      pointer
+                      data-e2e='retryFetchFees'
+                      onClick={() =>
+                        props.sendCryptoActions.fetchWithdrawalFees({
+                          account: props.formValues.selectedAccount
+                        })
+                      }
+                    >
+                      <Text size='10px' color='blue600' weight={600}>
+                        <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                      </Text>
+                    </CustomBlueCartridge>
+                  ),
+                  Loading: () => <SkeletonRectangle height='24px' width='52px' />,
+                  NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
+                  Success: (val) => `${val} ${coin}`
+                })}
+              </Text>
+            )}
           </div>
         </Amounts>
       </FlyoutWrapper>

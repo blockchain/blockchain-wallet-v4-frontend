@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxFeeType, BuildTxResponseType } from '@core/network/api/coin/types'
 import Remote from '@core/remote'
 import {
   CrossBorderLimits,
@@ -44,6 +44,7 @@ const sendCryptoSlice = createSlice({
         account: SwapAccountType
         amount: string
         destination: string
+        fee: BuildTxFeeType
         fix: 'FIAT' | 'CRYPTO'
         rates: RatesType
         walletCurrency: keyof FiatCurrenciesType

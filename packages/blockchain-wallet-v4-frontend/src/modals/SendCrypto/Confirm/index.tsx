@@ -42,7 +42,7 @@ const CustomRow = styled(Row)`
 
 const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { formValues, rates, sendCryptoActions, walletCurrency } = props
-  const { amount, fix, selectedAccount, selectedAccount: account, to } = formValues
+  const { amount, fee, fix, selectedAccount, selectedAccount: account, to } = formValues
   const { coin } = selectedAccount
 
   const isMax = amount === 'MAX'
@@ -64,6 +64,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       account,
       amount: baseCryptoAmt,
       destination: to,
+      fee,
       fix,
       rates,
       walletCurrency
