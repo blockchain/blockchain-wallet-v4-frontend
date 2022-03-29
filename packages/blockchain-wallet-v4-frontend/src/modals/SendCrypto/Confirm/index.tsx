@@ -22,6 +22,7 @@ import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
+import InsufficientBalanceError from './InsufficientBalanceError'
 
 const Wrapper = styled(Form)`
   display: flex;
@@ -39,6 +40,22 @@ const CustomRow = styled(Row)`
     align-items: flex-end;
   }
 `
+
+const isInsufficientBalance = (e: string) => {
+  try {
+    const error = JSON.parse(e)
+    if (
+      error.errorKey === 'INSUFFICIENT_BALANCE' &&
+      error.error === 'Insufficient balance for transaction'
+    ) {
+      return true
+    }
+
+    return false
+  } catch (e) {
+    return false
+  }
+}
 
 const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { formValues, rates, sendCryptoActions, walletCurrency } = props
@@ -101,7 +118,27 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </StepHeader>
         </FlyoutWrapper>
         {props.prebuildTxR.cata({
-          Failure: (e) => <DataError message={{ message: e }} />,
+          Failure: (e) =>
+            isInsufficientBalance(e) ? (
+              <InsufficientBalanceError
+                tryAgain={() =>
+                  props.sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
+                }
+                handleMax={() =>
+                  sendCryptoActions.buildTx({
+                    account,
+                    amount: 'MAX',
+                    destination: to,
+                    fee,
+                    fix,
+                    rates,
+                    walletCurrency
+                  })
+                }
+              />
+            ) : (
+              <DataError message={{ message: e }} />
+            ),
           Loading: () => (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <SpinningLoader width='14px' height='14px' borderWidth='3px' />
