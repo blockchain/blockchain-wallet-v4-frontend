@@ -24,6 +24,7 @@ import { Form } from 'components/Form'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
@@ -136,7 +137,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   } = props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
-  const { coin } = selectedAccount
+  const { coin, type } = selectedAccount
+  const isAccount = type === SwapBaseCounterTypes.ACCOUNT
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
   const min = minR.getOrElse(0)
@@ -176,6 +178,16 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
 
   const effectiveLimit = getEffectiveLimit(sendLimits)
   const effectivePeriod = getEffectivePeriod(sendLimits)
+
+  const handleMax = () => {
+    if (isAccount) {
+      formActions.change(SEND_FORM, 'amount', 'MAX')
+      sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })
+    } else {
+      formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+      formActions.change(SEND_FORM, 'amount', maxMinusFee)
+    }
+  }
 
   return (
     <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
@@ -320,26 +332,21 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           ) : null}
         </QuoteActionContainer>
 
-        <MaxButton
-          type='Send'
-          onClick={() => {
-            formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-            formActions.change(SEND_FORM, 'amount', maxMinusFee)
-          }}
-        />
+        <MaxButton type='Send' onClick={handleMax} />
 
         <Amounts>
           <Text
             cursor='pointer'
             // @ts-ignore
             role='button'
-            onClick={() => {
-              formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-              formActions.change(SEND_FORM, 'amount', maxMinusFee)
-            }}
+            onClick={handleMax}
           >
             <Text color='blue600' weight={600} size='12px'>
-              <FormattedMessage id='copy.available' defaultMessage='Available' />
+              {isAccount ? (
+                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
+              ) : (
+                <FormattedMessage id='copy.available' defaultMessage='Available' />
+              )}
             </Text>
             <Text
               color='black'
@@ -347,7 +354,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               size='14px'
               style={{ marginTop: '4px', textAlign: 'right' }}
             >
-              {maxMinusFee} {coin}
+              {isAccount ? max : maxMinusFee} {coin}
             </Text>
           </Text>
           <div>

@@ -45,6 +45,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { amount, fix, selectedAccount, selectedAccount: account, to } = formValues
   const { coin } = selectedAccount
 
+  const isMax = amount === 'MAX'
   const standardCryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -54,7 +55,9 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           value: amount
         })
       : amount
-  const baseCryptoAmt = convertCoinToCoin({ baseToStandard: false, coin, value: standardCryptoAmt })
+  const baseCryptoAmt = isMax
+    ? 'MAX'
+    : convertCoinToCoin({ baseToStandard: false, coin, value: standardCryptoAmt })
 
   useEffect(() => {
     sendCryptoActions.buildTx({
@@ -79,7 +82,12 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           <StepHeader>
             <Icon
               cursor
-              onClick={() => sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })}
+              onClick={() => {
+                if (isMax) {
+                  props.formActions.change(SEND_FORM, 'amount', '0')
+                }
+                sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
+              }}
               name='arrow-back'
               role='button'
               color='grey600'
