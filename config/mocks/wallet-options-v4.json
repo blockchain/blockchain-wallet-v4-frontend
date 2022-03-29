@@ -35,7 +35,6 @@
         "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
-        "cEURRewards": true,
         "completeYourProfile": true,
         "developerMobilePairing": true,
         "mergeAndUpgrade": false,

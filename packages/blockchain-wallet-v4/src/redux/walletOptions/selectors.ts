@@ -71,10 +71,6 @@ export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
 
-// celoEUR sweepstake feature flag
-export const getCeloEurRewards = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
