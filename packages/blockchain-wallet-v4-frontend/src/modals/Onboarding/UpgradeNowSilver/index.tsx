@@ -4,9 +4,9 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { ModalName, UserDataType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -50,6 +50,7 @@ const UpgradeNowSilver = (props: Props) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
@@ -59,7 +60,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data: getData(state),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({
+    address: undefined,
+    id: '',
+    kycState: 'NONE',
+    mobile: '',
+    mobileVerified: false,
+    state: 'NONE',
+    tiers: { current: 0 }
+  } as UserDataType)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
