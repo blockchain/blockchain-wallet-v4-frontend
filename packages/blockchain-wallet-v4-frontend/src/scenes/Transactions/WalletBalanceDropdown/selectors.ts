@@ -86,6 +86,12 @@ export const getData = (state, ownProps: OwnProps) => {
           break
         // TODO: SELF_CUSTODY
         case coin === 'STX':
+          addressDataR = getCoinAddressData(state, {
+            coin,
+            includeSelfCustody: true
+          })
+          balanceDataR = getBalance(coin)(state)
+          break
         case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
