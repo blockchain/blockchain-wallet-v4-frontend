@@ -104,13 +104,13 @@ const App = ({
                     <PublicLayout
                       path='/login'
                       component={Login}
-                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout
                       path='/mobile-login'
                       component={MobileLogin}
-                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout
                       path='/recover'
@@ -146,7 +146,7 @@ const App = ({
                     <PublicLayout
                       path='/wallet'
                       component={Login}
-                      pageTitle={`${BLOCKCHAIN_TITLE} | Authentication`}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout
                       path='/verify-email-step'
