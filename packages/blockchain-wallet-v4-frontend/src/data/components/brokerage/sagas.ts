@@ -304,10 +304,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ])
 
       const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        exchange: { canDepositCrypto: false, enabled: false }
+        custodialWallets: { canDepositCrypto: false, enabled: false }
       } as ProductEligibilityForUser)
 
-      const userCanDeposit = products.exchange.canDepositCrypto
+      const userCanDeposit = products.custodialWallets.canDepositCrypto
       // prompt upgrade modal in case that user can't buy more
       if (!userCanDeposit) {
         yield put(
