@@ -7,8 +7,7 @@ import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
-import { ProductEligibilityForUser } from 'data/custodial/types'
+import { ProductEligibilityForUser, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { levenshteinDistanceSearch } from 'services/search'
 
 import { REQUEST_FORM } from '../model'
@@ -47,7 +46,10 @@ export const getData = createDeepEqualSelector(
       custodialWallets: { enabled: false }
     } as ProductEligibilityForUser)
 
-    const includeCustodialWallets = products.custodialWallets?.enabled
+    const includeCustodialWallets =
+      products.custodialWallets?.enabled &&
+      products.custodialWallets?.canDepositFiat &&
+      products.custodialWallets?.canDepositCrypto
 
     // @ts-ignore
     map(

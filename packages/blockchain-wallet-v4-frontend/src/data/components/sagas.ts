@@ -38,7 +38,7 @@ import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
-  brokerage: brokerage({ api }),
+  brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
   buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
