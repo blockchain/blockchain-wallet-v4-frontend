@@ -112,9 +112,12 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
           // set state with all exchange login information
           yield put(actions.cache.exchangeEmail(userEmail))
           yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', userEmail))
-          if (walletData) {
+          // if an account is unified, we are using wallet data
+          // under the hood to log the user into the exchage
+          if (unified) {
             yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
             yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+            yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
           }
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
