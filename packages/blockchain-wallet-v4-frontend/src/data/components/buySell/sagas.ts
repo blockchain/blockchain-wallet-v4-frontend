@@ -95,7 +95,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api })
+  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
 
   const generateApplePayToken = async ({
     applePayInfo,
