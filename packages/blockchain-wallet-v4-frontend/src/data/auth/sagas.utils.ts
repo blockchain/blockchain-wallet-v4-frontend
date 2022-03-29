@@ -60,6 +60,7 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       unified,
       wallet: walletData
     } = authMagicLink as AuthMagicLink
+
     // handles cases where we don't yet know which product user wants to authenticate to
     // if there's only wallet data or exchange data, we can deduce which product they want
     let productAuthenticatingInto = product
@@ -71,6 +72,12 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         productAuthenticatingInto = ProductAuthOptions.WALLET
       }
     }
+
+    if (unified) {
+      yield put(actions.cache.setUnifiedAccount(true))
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+    }
+
     const userEmail =
       product === ProductAuthOptions.WALLET
         ? walletData?.email
