@@ -6,8 +6,6 @@ import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
-import { ProductEligibilityForUser } from 'data/custodial/types'
-import { ModalName } from 'data/modals/types'
 import {
   AddBankStepType,
   BankDWStepType,
@@ -15,7 +13,9 @@ import {
   BankStatusType,
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
-  FastLinkType
+  FastLinkType,
+  ModalName,
+  ProductEligibilityForUser
 } from 'data/types'
 
 import { actions as custodialActions } from '../../custodial/slice'
