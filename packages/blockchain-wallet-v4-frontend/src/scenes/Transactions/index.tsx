@@ -326,7 +326,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
+  // TODO: SELF_CUSTODY
+  if (selectors.core.data.coins.getCustodialCoins().includes(coin) || coin === 'STX') {
     return {
       ...baseActions,
       fetchData: () => {},

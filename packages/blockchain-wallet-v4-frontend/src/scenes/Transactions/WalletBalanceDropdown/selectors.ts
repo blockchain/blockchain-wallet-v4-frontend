@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
 
 import { Exchange, Remote } from '@core'
+import { getBalance } from '@core/redux/data/coins/selectors'
 import {
   // CoinType,
   ExtractSuccess,
@@ -83,6 +84,8 @@ export const getData = (state, ownProps: OwnProps) => {
           })
           balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
           break
+        // TODO: SELF_CUSTODY
+        case coin === 'STX':
         case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
