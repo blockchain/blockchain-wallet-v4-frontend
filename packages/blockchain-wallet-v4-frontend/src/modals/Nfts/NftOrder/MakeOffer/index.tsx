@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -29,6 +29,15 @@ import NetworkFeesComponent from '../../components/networkFees'
 import { Props as OwnProps } from '..'
 import WrapEthFees from '../WrapEth/fees'
 import MakeOfferFees from './fees'
+
+const GetMoreEth = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border: 1px solid ${(props) => props.theme.blue500};
+  border-radius: 12px;
+  font-family: Inter, sans-serif;
+`
 
 const MakeOffer: React.FC<Props> = (props) => {
   const { erc20BalanceR, ethBalanceR, formValues, isAuthenticated, nftActions, orderFlow } = props
@@ -251,10 +260,39 @@ const MakeOffer: React.FC<Props> = (props) => {
                       <>You will need to Wrap {amtToWrap.toString()} ETH</>
                     </div>
                   ) : (
-                    <div>
-                      The max you can offer from this wallet is
-                      <CoinDisplay coin='WETH'>{maxOfferPossible}</CoinDisplay>
-                    </div>
+                    <>
+                      <GetMoreEth>
+                        <div style={{ display: 'flex' }}>
+                          <Icon size='32px' name='ETH' />{' '}
+                          <div style={{ display: 'block', padding: '0em 1em' }}>
+                            <Text>Get More Eth</Text>
+                            <Text>Buy 0.00 Eth</Text>
+                          </div>
+                        </div>
+                        <Button
+                          size='xsmall'
+                          small
+                          rounded
+                          nature='primary'
+                          data-e2e='buyMoreEth'
+                          onClick={() => {}}
+                        >
+                          <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Buy' />
+                        </Button>
+                      </GetMoreEth>
+                      <Text size='14px' weight={500} style={{ display: 'flex' }}>
+                        Max you can offer from this wallet:
+                        <CoinDisplay
+                          style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: 'bold' }}
+                          coin='WETH'
+                        >
+                          {maxOfferPossible}
+                        </CoinDisplay>
+                      </Text>
+                      <Text weight={500} size='14px'>
+                        Buy 0.00 ETH to offer this amount
+                      </Text>
+                    </>
                   )}
                 </>
               ) : null}

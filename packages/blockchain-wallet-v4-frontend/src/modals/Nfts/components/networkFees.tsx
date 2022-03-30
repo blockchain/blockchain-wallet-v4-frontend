@@ -33,9 +33,9 @@ const OfferFees = styled.div`
 
 const WrappedEthFees = styled(OfferFees)``
 
-const Total = styled(Top)`
-  padding: 1em 1em;
-`
+// const Total = styled(Top)`
+//   padding: 1em 1em;
+// `
 
 const NetworkFeesComponent: React.FC<Props> = (props) => {
   const [moreFees, setMoreFees] = useState(false)
@@ -76,12 +76,12 @@ const NetworkFeesComponent: React.FC<Props> = (props) => {
           </Fees>
         )}
       </Wrapper>
-      {moreFees && (
+      {/* {moreFees && (
         <Total>
           <Text weight={500}>Total</Text>
           <Text weight={500}>$0.00</Text>
         </Total>
-      )}
+      )} */}
     </>
   )
 }
