@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { CrossBorderLimits } from '@core/types'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getEffectiveLimit,
@@ -51,15 +51,7 @@ const Column = styled.div`
     margin-bottom: 4px;
   }
 `
-const PendingIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-`
+
 const Copy = styled(Text)`
   display: flex;
   align-items: flex-start;
@@ -111,13 +103,10 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
     <Wrapper>
       <Column>
         <SpacedRow>
-          <PendingIconWrapper>
-            <Image name='tier-gold' size='32px' />
-          </PendingIconWrapper>
           <Text size='16px' weight={600} color='grey900' style={{ flex: 1 }}>
             <FormattedMessage
-              id='modals.send.banner.title'
-              defaultMessage='Uprade to Gold. Send More Crypto.'
+              id='modals.send.banner.verify.title'
+              defaultMessage='Verify your identity. Send more crypto.'
             />
           </Text>
           <CloseLink data-e2e='upgradeToGoldCloseButton' onClick={closeBanner}>
@@ -128,8 +117,8 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
         <Row style={{ marginBottom: '8px' }}>
           <Copy size='14px' color='grey900' weight={500}>
             <FormattedMessage
-              id='modals.send.banner.description'
-              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
+              id='modals.send.banner.verify.description'
+              defaultMessage='Verify your ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
               values={{
                 currency: Currencies[currency].units[currency].symbol,
                 dayAmount: formatFiat(convertBaseToStandard('FIAT', suggestedLimit.limit.value), 0),
