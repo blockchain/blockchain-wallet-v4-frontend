@@ -8,7 +8,7 @@ export type BalanceResponseType = {
   }[]
 }
 
-export type BuildTxFeeType = 'LOW' | 'MEDIUM' | 'PRIORITY'
+export type BuildTxFeeType = 'LOW' | 'NORMAL' | 'PRIORITY'
 
 export type BuildTxIntentType = {
   additional_data?: { memo: string }

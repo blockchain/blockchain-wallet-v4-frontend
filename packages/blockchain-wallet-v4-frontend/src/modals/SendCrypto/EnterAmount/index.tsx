@@ -375,7 +375,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                       },
                       {
                         text: 'Medium',
-                        value: 'MEDIUM'
+                        value: 'NORMAL'
                       },
                       {
                         text: 'High',
