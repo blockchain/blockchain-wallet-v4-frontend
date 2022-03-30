@@ -25,6 +25,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import NetworkFeesComponent from '../../components/networkFees'
 import { Props as OwnProps } from '..'
 import WrapEthFees from '../WrapEth/fees'
 import MakeOfferFees from './fees'
@@ -231,23 +232,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                     onChange={(days: any) => {
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     }}
-                    component={SelectBox}
-                    elements={[
-                      {
-                        group: '',
-                        items: map(
-                          (item) => ({
-                            text: item.text,
-                            value: item.value
-                          }),
-                          [
-                            { text: 'Network Fees', value: 'network' },
-                            { text: 'Offer Fees', value: 'offer' },
-                            { text: 'Wrapped Eth Fees', value: 'weth' }
-                          ]
-                        )
-                      }
-                    ]}
+                    component={NetworkFeesComponent}
+                    props={props}
                   />
                 </Value>
               </Row>
