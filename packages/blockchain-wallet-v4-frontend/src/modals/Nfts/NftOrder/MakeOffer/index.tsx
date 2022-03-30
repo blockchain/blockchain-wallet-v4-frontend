@@ -164,7 +164,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               <Row>
                 <Title>
                   <b>
-                    <FormattedMessage id='copy.pay_with' defaultMessage='Pay With' />
+                    <FormattedMessage id='copy.offer_with' defaultMessage='Offer With' />
                   </b>
                 </Title>
                 <Value>
@@ -197,6 +197,11 @@ const MakeOffer: React.FC<Props> = (props) => {
                       }
                     ]}
                   />
+                </Value>
+                <Value>
+                  <Text size='12px'>
+                    ETH will automatically be wrapped to WETH during transaction{' '}
+                  </Text>
                 </Value>
               </Row>
               <Row>
@@ -256,9 +261,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               {needsWrap ? (
                 <>
                   {canWrap ? (
-                    <div>
-                      <>You will need to Wrap {amtToWrap.toString()} ETH</>
-                    </div>
+                    <div />
                   ) : (
                     <>
                       <GetMoreEth>
@@ -289,8 +292,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                           {maxOfferPossible}
                         </CoinDisplay>
                       </Text>
-                      <Text weight={500} size='14px'>
-                        Buy 0.00 ETH to offer this amount
+                      <Text weight={500} size='14px' style={{ display: 'flex' }}>
+                        Buy 10 eth to offer this amount
                       </Text>
                     </>
                   )}
