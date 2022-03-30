@@ -4,8 +4,9 @@ import * as AT from './actionTypes'
 import { CoinsActionTypes } from './types'
 
 // BALANCES
-export const fetchData = (password?: string) => ({
+export const fetchData = (password?: string, list?: string[]) => ({
   payload: {
+    list,
     password
   },
   type: AT.FETCH_COIN_DATA

@@ -17,7 +17,10 @@ class CoinBalance extends React.PureComponent<Props> {
     }
     const { coin } = this.props
     const { coinfig } = window.coins[coin]
-    if (coinfig.type.erc20Address) {
+    // TODO: SELF_CUSTODY
+    if (coin === 'STX') {
+      this.props.coinActions.fetchData('', ['STX'])
+    } else if (coinfig.type.erc20Address) {
       this.props.ethActions.fetchErc20Data(coin)
     } else {
       const coinLower = toLower(coin)
@@ -44,6 +47,7 @@ const mapStateToProps = (state, ownProps: OwnProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
+  coinActions: bindActionCreators(actions.core.data.coins, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
   stxActions: bindActionCreators(actions.core.data.stx, dispatch),
   xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)

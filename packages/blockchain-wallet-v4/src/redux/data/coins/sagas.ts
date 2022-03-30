@@ -20,13 +20,15 @@ export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchCoinData = function* (action: ReturnType<typeof A.fetchData>) {
+    const { list, password } = action.payload
+
     try {
       // TODO: SELF_CUSTODY
       // this 'list' will eventually come from wallet-agent
-      const list = ['STX']
+      const coins = list || ['STX']
       yield all(
-        list.map(function* (coin) {
-          const pubKey = yield call(getPubKey, action.payload.password)
+        coins.map(function* (coin) {
+          const pubKey = yield call(getPubKey, password)
           try {
             const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
               { descriptor: 'default', pubKey, style: 'SINGLE' }
@@ -92,6 +94,7 @@ export default ({ api }: { api: APIType }) => {
         payload.coin
       )
       const pubKey = yield call(getPubKey, '')
+      // TODO: SELF_CUSTODY
       const stxPage = yield call(api.txHistory, [
         { descriptor: 'default', pubKey, style: 'SINGLE' }
       ])
