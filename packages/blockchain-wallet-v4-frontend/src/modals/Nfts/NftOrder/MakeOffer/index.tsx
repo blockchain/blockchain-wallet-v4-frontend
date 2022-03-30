@@ -155,7 +155,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               <Row>
                 <Title>
                   <b>
-                    <FormattedMessage id='copy.select_coin' defaultMessage='Offer With' />
+                    <FormattedMessage id='copy.pay_with' defaultMessage='Pay With' />
                   </b>
                 </Title>
                 <Value>
@@ -225,6 +225,11 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </Value>
               </Row>
               <Row>
+                <Title>
+                  <b>
+                    <FormattedMessage id='copy.summary' defaultMessage='Summary' />
+                  </b>
+                </Title>
                 <Value>
                   <Field
                     name='networkFees'
@@ -247,8 +252,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                     </div>
                   ) : (
                     <div>
-                      You don&apos;t have enough ETH to offer {formValues.amount} WETH. The max you
-                      can offer is <CoinDisplay coin='WETH'>{maxOfferPossible}</CoinDisplay>
+                      The max you can offer from this wallet is
+                      <CoinDisplay coin='WETH'>{maxOfferPossible}</CoinDisplay>
                     </div>
                   )}
                 </>
