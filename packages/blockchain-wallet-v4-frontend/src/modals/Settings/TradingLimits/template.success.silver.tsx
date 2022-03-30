@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import Content from 'components/Flyout/Content'
-import { ModalName } from 'data/modals/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -56,6 +55,28 @@ const HeaderWrapper = styled(FlyoutWrapper)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
+  const { analyticsActions, handleClose, sddEligible, userData, userTiers } = props
+  const userCurrentTier = userData?.tiers?.current ?? 0
+
+  const sddCheckTier =
+    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
+      ? TIER_TYPES.SILVER_PLUS
+      : userCurrentTier
+  const currentTier: number | undefined =
+    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
+  const isUserTierZero = currentTier === TIER_TYPES.NONE
+
+  const onCloseModal = useCallback(() => {
+    handleClose()
+
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_DISMISSED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [analyticsActions, userCurrentTier, handleClose])
+
   const startVerification = useCallback(() => {
     props.modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
     props.modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
@@ -64,21 +85,27 @@ const Template: React.FC<Props> = (props) => {
       origin: 'Settings',
       tier: 2
     })
-  }, [props.identityVerificationActions, props.modalActions])
-  const { sddEligible, userData, userTiers } = props
+
+    // based on button send diff event
+    analyticsActions.trackEvent({
+      key: isUserTierZero
+        ? Analytics.ONBOARDING_TRADING_LIMITS_GET_BASIC_CTA_CLICKED
+        : Analytics.ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [
+    props.identityVerificationActions,
+    props.modalActions,
+    isUserTierZero,
+    analyticsActions,
+    userCurrentTier
+  ])
 
   if (!Array.isArray(userTiers)) {
     return null
   }
-
-  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
-  const sddCheckTier =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
-      ? TIER_TYPES.SILVER_PLUS
-      : userCurrentTier
-  const currentTier: number | undefined =
-    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
-  const isUserTierZero = currentTier === TIER_TYPES.NONE
 
   return (
     <Wrapper>
@@ -98,7 +125,7 @@ const Template: React.FC<Props> = (props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.handleClose}
+              onClick={onCloseModal}
             />
           </CloseIconContainer>
         </IconsContainer>

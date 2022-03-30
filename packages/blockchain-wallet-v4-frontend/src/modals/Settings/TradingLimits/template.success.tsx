@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -9,7 +8,7 @@ import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalName } from 'data/modals/types'
-import { SettingsItem, SettingsLimit } from 'data/types'
+import { Analytics, SettingsItem, SettingsLimit } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -319,7 +318,18 @@ const renderStatus = (limit: SettingsItem) => {
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { limitsAndDetails, modalActions, sddEligible, userData, userTiers } = props
+  const { analyticsActions, limitsAndDetails, modalActions, sddEligible, userData, userTiers } =
+    props
+  const userCurrentTier = userData?.tiers?.current ?? 0
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_VIEWED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [])
+
   const showUpgradeModal = useCallback(() => {
     modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
       origin: 'TradingLimits'
@@ -330,7 +340,6 @@ const Template: React.FC<Props> = (props) => {
     return null
   }
 
-  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
   const sddCheckTier =
     sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
