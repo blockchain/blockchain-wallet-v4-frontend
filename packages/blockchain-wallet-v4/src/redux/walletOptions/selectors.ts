@@ -79,6 +79,10 @@ export const getMergeAndUpgradeAccounts = (state: RootState) =>
 export const getApplePayAsNewPaymentMethod = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
 
+// google pay as new payment method feature flag
+export const getGooglePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'googlePayPaymentMethod']))
+
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))

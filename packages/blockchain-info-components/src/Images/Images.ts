@@ -104,6 +104,7 @@ import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
+import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
@@ -317,6 +318,7 @@ const Images = {
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
+  'google-pay': googlePay,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
   'grey-verified': greyVerified,
