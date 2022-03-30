@@ -63,6 +63,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
   NO_ACCOUNT,
   NO_CHECKOUT_VALUES,
@@ -81,8 +82,6 @@ import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency }
 export const logLocation = 'components/buySell/sagas'
 
 let googlePaymentsClient: google.payments.api.PaymentsClient | null = null
-
-const MERCHANT_ID = '12345678901234567890'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { createUser, isTier2, waitForUserData } = profileSagas({
@@ -756,7 +755,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           const amount = parseInt(order.inputQuantity) / 100
 
-          const parameters = JSON.parse(googlePayInfo.googlePayParameters)
+          let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
+
+          try {
+            parameters = JSON.parse(googlePayInfo.googlePayParameters)
+          } catch (e) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_MALFORMED')
+          }
+
+          if (!parameters) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_NOT_FOUND')
+          }
 
           const paymentDataRequest = {
             allowedPaymentMethods: [
@@ -781,7 +790,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantInfo: {
               // TODO change this when we receive the prod merchantId
               // this code needs to be in staging first
-              merchantId: MERCHANT_ID,
+              merchantId: GOOGLE_PAY_MERCHANT_ID,
               merchantName: 'Blockchain.com'
             },
             shippingAddressRequired: false,
