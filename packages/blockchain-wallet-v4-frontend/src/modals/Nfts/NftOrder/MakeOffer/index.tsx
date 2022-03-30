@@ -18,6 +18,7 @@ import {
   CheckBoxInput,
   HeartbeatLoader,
   Icon,
+  Image,
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
@@ -353,40 +354,52 @@ const MakeOffer: React.FC<Props> = (props) => {
               {needsWrap && <WrapEthFees {...props} />} */}
               {isAuthenticated ? (
                 <>
-                  <Button
-                    jumbo
-                    nature='primary'
-                    fullwidth
-                    data-e2e='makeOfferNft'
-                    disabled={disabled}
-                    onClick={() =>
-                      nftActions.createOffer({
-                        amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                        asset: val,
-                        offerFees,
-                        wrapFees,
-                        ...formValues
-                      })
-                    }
-                  >
-                    {formValues.amount ? (
-                      props.orderFlow.isSubmitting ? (
-                        <>{props.orderFlow.status}</>
+                  {needsWrap && !canWrap ? (
+                    <Button rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                      <Image
+                        width='16px'
+                        height='16px'
+                        name='alert-orange'
+                        style={{ marginRight: '0.5em' }}
+                      />
+                      <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
+                    </Button>
+                  ) : (
+                    <Button
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      data-e2e='makeOfferNft'
+                      disabled={disabled}
+                      onClick={() =>
+                        nftActions.createOffer({
+                          amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                          asset: val,
+                          offerFees,
+                          wrapFees,
+                          ...formValues
+                        })
+                      }
+                    >
+                      {formValues.amount ? (
+                        props.orderFlow.isSubmitting ? (
+                          <>{props.orderFlow.status}</>
+                        ) : (
+                          <FormattedMessage
+                            id='copy.make_offer_value'
+                            defaultMessage={
+                              !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                            }
+                            values={{
+                              val: `${formValues.amount} ${formValues.coin}`
+                            }}
+                          />
+                        )
                       ) : (
-                        <FormattedMessage
-                          id='copy.make_offer_value'
-                          defaultMessage={
-                            !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
-                          }
-                          values={{
-                            val: `${formValues.amount} ${formValues.coin}`
-                          }}
-                        />
-                      )
-                    ) : (
-                      <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                    )}
-                  </Button>
+                        <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                      )}
+                    </Button>
+                  )}
                 </>
               ) : (
                 <LinkContainer
