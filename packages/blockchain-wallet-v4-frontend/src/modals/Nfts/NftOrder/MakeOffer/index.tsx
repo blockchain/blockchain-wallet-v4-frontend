@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -12,7 +12,14 @@ import styled from 'styled-components'
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  Button,
+  CheckBoxInput,
+  HeartbeatLoader,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -64,12 +71,18 @@ const MakeOffer: React.FC<Props> = (props) => {
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   const disabled =
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
     props.orderFlow.isSubmitting ||
-    !(needsWrap && canWrap)
+    !(needsWrap && canWrap) ||
+    !termsAccepted
+
+  const toggleTermsAccepted = () => {
+    setTermsAccepted(!termsAccepted)
+  }
 
   return (
     <>
@@ -283,22 +296,35 @@ const MakeOffer: React.FC<Props> = (props) => {
                           <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Buy' />
                         </Button>
                       </GetMoreEth>
-                      <Text size='14px' weight={500} style={{ display: 'flex' }}>
-                        Max you can offer from this wallet:
-                        <CoinDisplay
-                          style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: 'bold' }}
-                          coin='WETH'
-                        >
-                          {maxOfferPossible}
-                        </CoinDisplay>
-                      </Text>
-                      <Text weight={500} size='14px' style={{ display: 'flex' }}>
-                        Buy 10 eth to offer this amount
-                      </Text>
+                      <div style={{ padding: '1em 0em' }}>
+                        <Text size='14px' weight={500} style={{ display: 'flex' }}>
+                          Max you can offer from this wallet:
+                          <CoinDisplay
+                            style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: 'bold' }}
+                            coin='WETH'
+                          >
+                            {maxOfferPossible}
+                          </CoinDisplay>
+                        </Text>
+                        <Text weight={500} size='14px' style={{ textAlign: 'center' }}>
+                          Buy 10 eth to offer this amount
+                        </Text>
+                      </div>
                     </>
                   )}
                 </>
               ) : null}
+              <div style={{ display: 'flex' }}>
+                <CheckBoxInput name='terms' disabled={false} onChange={toggleTermsAccepted} />
+                <Text
+                  color={colors.grey200}
+                  weight={500}
+                  size='14px'
+                  style={{ padding: '1em 0em', textAlign: 'center' }}
+                >
+                  I agree to Blockchain.com’s Terms of Service
+                </Text>
+              </div>
               {/* <div>
                 Eth Balance: <CoinDisplay coin='ETH'>{ethBalance}</CoinDisplay>
               </div>
