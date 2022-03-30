@@ -143,9 +143,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
+
           if (
-            includes('.', value as unknown as string) ||
-            (value as unknown as string).match(emojiRegex)
+            typeof value !== 'object' &&
+            (includes('.', value as unknown as string) ||
+              (value as unknown as string).match(emojiRegex))
           ) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
