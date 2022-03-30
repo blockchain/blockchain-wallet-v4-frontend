@@ -217,6 +217,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           quote={quote}
           fix={fix}
           name='amount'
+          showCounter
           validate={validate}
           validate_terms_of_service='validate_IS_PASSED_TO_reduxForm'
           onToggleFix={() => {
