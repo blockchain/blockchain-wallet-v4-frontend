@@ -80,6 +80,10 @@ import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency }
 
 export const logLocation = 'components/buySell/sagas'
 
+let googlePaymentsClient: google.payments.api.PaymentsClient | null = null
+
+const MERCHANT_ID = '12345678901234567890'
+
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { createUser, isTier2, waitForUserData } = profileSagas({
     api,
@@ -148,15 +152,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return token
   }
 
-  const generateGooglePayToken = async ({
-    googlePayInfo,
-    paymentRequest
-  }: {
-    googlePayInfo: GooglePayInfoType
-    paymentRequest: PaymentRequest
-  }) => {
-    // eslint-disable-next-line no-console
-    console.log(googlePayInfo)
+  const generateGooglePayToken = async (paymentRequest: google.payments.api.PaymentDataRequest) => {
+    if (!googlePaymentsClient) {
+      // TODO change this for prod when we get the merchant ID
+      googlePaymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' })
+    }
+
+    try {
+      const paymentData = await googlePaymentsClient.loadPaymentData(paymentRequest)
+
+      return paymentData.paymentMethodData.tokenizationData.token
+    } catch (e) {
+      throw new Error('FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN')
+    }
   }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
@@ -728,6 +736,70 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            redirectURL: paymentSuccessLink
+          }
+        }
+
+        if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+          const googlePayInfo = selectors.components.buySell.getGooglePayInfo(yield select())
+
+          if (!googlePayInfo) {
+            throw new Error('Google Pay info not found')
+          }
+
+          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          const amount = parseInt(order.inputQuantity) / 100
+
+          const parameters = JSON.parse(googlePayInfo.googlePayParameters)
+
+          const paymentDataRequest = {
+            allowedPaymentMethods: [
+              {
+                parameters: {
+                  allowedAuthMethods,
+                  allowedCardNetworks,
+                  billingAddressParameters: {
+                    format: 'FULL' as const
+                  },
+                  billingAddressRequired: false
+                },
+                tokenizationSpecification: {
+                  parameters,
+                  type: 'PAYMENT_GATEWAY' as const
+                },
+                type: 'CARD' as const
+              }
+            ],
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+              // TODO change this when we receive the prod merchantId
+              // this code needs to be in staging first
+              merchantId: MERCHANT_ID,
+              merchantName: 'Blockchain.com'
+            },
+            shippingAddressRequired: false,
+            transactionInfo: {
+              countryCode: googlePayInfo.merchantBankCountry,
+              currencyCode: order.inputCurrency,
+              totalPrice: `${amount}`,
+              totalPriceStatus: 'FINAL' as const
+            }
+          }
+
+          const token = yield call(generateGooglePayToken, paymentDataRequest)
+
+          attributes = {
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
+            googlePayPaymentToken: token,
             redirectURL: paymentSuccessLink
           }
         }

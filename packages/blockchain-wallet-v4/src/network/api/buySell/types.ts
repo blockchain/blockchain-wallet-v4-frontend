@@ -438,6 +438,6 @@ export type GooglePayInfoType = {
   apiKey: string
   beneficiaryID: string
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
-  googlePayParameters: { [key: string]: string | number | boolean }
+  googlePayParameters: string
   merchantBankCountry: string
 }
