@@ -3,10 +3,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { RemoteDataType } from '@core/types'
+import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { ExchangeAuthOriginType } from 'data/types'
 
-import Loading from '../loading.public'
 import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
@@ -37,7 +37,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
     return this.props.walletLoginData.cata({
       // TODO add proper error state
       Failure: (error) => <Error error={error} />,
-      Loading: () => <Loading />,
+      Loading: () => <SpinningLoader />,
       NotAsked: () => <Error />,
       Success: () =>
         this.props.exchangeUserConflict ? (
