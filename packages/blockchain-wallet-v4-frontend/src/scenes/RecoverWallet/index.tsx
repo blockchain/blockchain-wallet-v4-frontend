@@ -6,7 +6,7 @@ import { getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 import { RemoteDataType } from '@core/types'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
-import { RecoverFormType, RecoverSteps } from 'data/types'
+import { ProductAuthOptions, RecoverFormType, RecoverSteps } from 'data/types'
 
 import CloudRecovery from './CloudRecovery'
 import { RECOVER_FORM } from './model'
@@ -62,6 +62,7 @@ const mapStateToProps = (state) => ({
   lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   nabuId: selectors.auth.getMagicLinkData(state)?.wallet?.nabu?.user_id,
+  product: selectors.auth.getProduct(state) as ProductAuthOptions,
   registering: selectors.signup.getRegistering(state) as RemoteDataType<string, any>
 })
 

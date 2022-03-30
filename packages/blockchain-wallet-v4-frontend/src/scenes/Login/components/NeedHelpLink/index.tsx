@@ -5,9 +5,16 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'blockchain-info-components'
 import { ProductAuthOptions } from 'data/auth/types'
 
-const NeedHelpLink = (props: { authActions; origin: string; product: ProductAuthOptions }) => (
+const NeedHelpLink = (props: {
+  authActions
+  origin: string
+  product: ProductAuthOptions
+  unified?: boolean
+}) => (
   <LinkContainer
-    to={props.product === ProductAuthOptions.WALLET ? '/help' : '/help-exchange'}
+    to={
+      props.product === ProductAuthOptions.WALLET || props.unified ? '/recover' : '/help-exchange'
+    }
     onClick={() => props.authActions.analyticsNeedHelpClicked(props.origin)}
   >
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>

@@ -49,6 +49,7 @@ const RecoveryOptions = (props: Props) => {
     hasCloudBackup,
     lastGuid,
     nabuId,
+    product,
     routerActions
   } = props
 
@@ -74,13 +75,15 @@ const RecoveryOptions = (props: Props) => {
       <WrapperWithPadding>
         {emailFromMagicLink && (
           <BackArrowFormHeader
-            handleBackArrowClick={() => routerActions.push('/help')}
+            handleBackArrowClick={() => routerActions.push(`/login?product=${product}`)}
             email={emailFromMagicLink}
             guid={cachedGuid || lastGuid}
           />
         )}
         {!emailFromMagicLink && (
-          <GoBackArrow handleBackArrowClick={() => routerActions.push('/help')} />
+          <GoBackArrow
+            handleBackArrowClick={() => routerActions.push(`/login?product=${product}`)}
+          />
         )}
         <FormBody>
           <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>

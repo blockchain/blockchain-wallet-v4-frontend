@@ -28,6 +28,7 @@ const TwoFAExchange = (props: Props) => {
   const {
     authActions,
     busy,
+    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
@@ -96,6 +97,7 @@ const TwoFAExchange = (props: Props) => {
             authActions={authActions}
             origin='2FA'
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>

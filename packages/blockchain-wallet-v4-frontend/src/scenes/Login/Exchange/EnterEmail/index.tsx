@@ -29,6 +29,7 @@ const EnterEmail = (props: Props) => {
   const {
     authActions,
     busy,
+    cache,
     formValues,
     invalid,
     isBrowserSupported,
@@ -82,6 +83,7 @@ const EnterEmail = (props: Props) => {
             authActions={authActions}
             origin='IDENTIFIER'
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>

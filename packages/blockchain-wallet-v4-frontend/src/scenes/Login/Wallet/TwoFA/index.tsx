@@ -126,7 +126,7 @@ const TwoFAWallet = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.password}
+            disabled={submitting || invalid || busy || !formValues?.code}
             data-e2e='passwordButton'
             style={{ marginBottom: '16px' }}
           >

@@ -692,7 +692,10 @@ export default ({ api, coreSagas, networks }) => {
         // Passing ID type used to analytics
         const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
         yield put(actions.auth.analyticsLoginIdEntered(idType))
-      } else if (step === LoginSteps.ENTER_PASSWORD_WALLET || step === LoginSteps.TWO_FA_WALLET) {
+      } else if (
+        step === LoginSteps.ENTER_PASSWORD_WALLET ||
+        (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
+      ) {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )

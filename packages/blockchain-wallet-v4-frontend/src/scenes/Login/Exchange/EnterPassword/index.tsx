@@ -29,6 +29,7 @@ const EnterPasswordExchange = (props: Props) => {
   const {
     authActions,
     busy,
+    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
@@ -98,6 +99,7 @@ const EnterPasswordExchange = (props: Props) => {
             authActions={authActions}
             origin='PASSWORD'
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </CenteredColumn>
       </WrapperWithPadding>
