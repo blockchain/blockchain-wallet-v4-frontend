@@ -118,7 +118,7 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
           <Copy size='14px' color='grey900' weight={500}>
             <FormattedMessage
               id='modals.send.banner.verify.description'
-              defaultMessage='Verify you ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
+              defaultMessage='Verify your ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
               values={{
                 currency: Currencies[currency].units[currency].symbol,
                 dayAmount: formatFiat(convertBaseToStandard('FIAT', suggestedLimit.limit.value), 0),

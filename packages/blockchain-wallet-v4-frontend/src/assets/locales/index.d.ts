@@ -1463,7 +1463,7 @@ type MessagesType = {
   'modals.sendBch.firststep.share_tooltip': 'Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
   'modals.sendBch.firststep.towallet': 'To'
   'modals.send.banner.verify.title': 'Verify your identity. Send more crypto.'
-  'modals.send.banner.verify.description': 'Verify you ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}. Now, your limit is {currency}{limit} a {period}.'
+  'modals.send.banner.verify.description': 'Verify your ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}. Now, your limit is {currency}{limit} a {period}.'
   'modals.send.banner.get_started': 'Get Started'
   'modals.send.over_your_limit_and_period': 'Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
