@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Row } from 'blockchain-wallet-v4-frontend/src/modals/Swap/EnterAmount/Checkout'
-import memoize from 'fast-memoize'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -33,7 +32,6 @@ const AmountFieldInput: React.FC<Props> = ({
   onToggleFix,
   quote,
   showCounter,
-  validate,
   walletCurrency
 }) => {
   const [fontRatio, setRatio] = useState(1)
@@ -130,8 +128,9 @@ type Props = {
   onChange?: () => void
   onToggleFix: () => void
   quote: string
-  showCounter: boolean
-  validate: 'A VALIDATE FUNCTION SHOULD EXIST ON REDUX_FORM INIT THAT RETURNS {amount: string | false}'
+  showCounter?: boolean
+  validate: (formValues: any, props: any) => { amount: string | boolean }
+  validate_terms_of_service: 'validate_IS_PASSED_TO_reduxForm'
   walletCurrency: string
 }
 

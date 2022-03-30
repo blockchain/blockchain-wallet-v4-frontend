@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import memoize from 'fast-memoize'
 import { compose } from 'redux'
 import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
@@ -99,30 +98,9 @@ const PlusMinusIconWrapper = styled.div`
 const QuoteActionContainer = styled.div`
   height: 32px;
 `
-const QuoteRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 
 const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [fontRatio, setRatio] = useState(1)
-
-  const normalizeAmount = (value, prevValue, allValues) => {
-    if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-    return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
-  }
-
-  const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
-    if (Number(fontSizeRatio) > 0) {
-      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
-    }
-    const amountRowNode = inputNode.closest('#amount-row')
-    const currencyNode = isFiat
-      ? amountRowNode.children[0]
-      : amountRowNode.children[amountRowNode.children.length - 1]
-    currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
-  }
 
   const {
     buySellActions,
@@ -179,10 +157,6 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   const effectiveLimit = getEffectiveLimit(sendLimits)
   const effectivePeriod = getEffectivePeriod(sendLimits)
 
-  const _validate = useCallback(() => {
-    validate(formValues, props)
-  }, [formValues, props])
-
   return (
     <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
       <FlyoutWrapper>
@@ -238,14 +212,13 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       >
         <AmountFieldInput
           coin={coin}
-          // @ts-ignore
-          validate={_validate}
           walletCurrency={walletCurrency}
           amtError={amtError}
           quote={quote}
-          showCounter={false}
           fix={fix}
           name='amount'
+          validate={validate}
+          validate_terms_of_service='validate_IS_PASSED_TO_reduxForm'
           onToggleFix={() => {
             formActions.change(SEND_FORM, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
             formActions.change(SEND_FORM, 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)
@@ -525,7 +498,8 @@ const enhance = compose(
   connector,
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: SEND_FORM
+    form: SEND_FORM,
+    validate
   })
 )
 
