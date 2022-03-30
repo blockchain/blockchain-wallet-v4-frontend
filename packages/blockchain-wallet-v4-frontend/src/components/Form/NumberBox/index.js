@@ -36,6 +36,10 @@ const NumberBox = (field) => {
   return (
     <Container className={field.className}>
       <NumberInput
+        style={{
+          fontSize: '48px',
+          textAlign: 'center'
+        }}
         {...field.input}
         errorState={errorState}
         autoFocus={field.autoFocus}

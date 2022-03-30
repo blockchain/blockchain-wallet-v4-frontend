@@ -4,8 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
+import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -54,7 +56,10 @@ const MakeOffer: React.FC<Props> = (props) => {
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
 
   const disabled =
-    !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
+    !formValues.amount ||
+    Remote.Loading.is(orderFlow.fees) ||
+    props.orderFlow.isSubmitting ||
+    !(needsWrap && canWrap)
 
   return (
     <>
@@ -78,7 +83,9 @@ const MakeOffer: React.FC<Props> = (props) => {
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <Row>
-              <div style={{ alignItems: 'center', display: 'flex' }}>
+              <div
+                style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
+              >
                 <img
                   style={{
                     borderRadius: '8px',
@@ -128,10 +135,26 @@ const MakeOffer: React.FC<Props> = (props) => {
               </Value>
             </Row> */}
             <Form>
+              <>
+                <Row>
+                  <Value>
+                    <Field name='amount' component={NumberBox} />
+                  </Value>
+                  <Value style={{ paddingLeft: '10em' }}>
+                    <FiatDisplay size='16px' weight={600} coin={formValues.coin}>
+                      {convertCoinToCoin({
+                        baseToStandard: false,
+                        coin: formValues.coin,
+                        value: formValues.amount
+                      }) || 0}
+                    </FiatDisplay>
+                  </Value>
+                </Row>
+              </>
               <Row>
                 <Title>
                   <b>
-                    <FormattedMessage id='copy.select_coin' defaultMessage='Select Coin' />
+                    <FormattedMessage id='copy.select_coin' defaultMessage='Offer With' />
                   </b>
                 </Title>
                 <Value>
@@ -166,30 +189,85 @@ const MakeOffer: React.FC<Props> = (props) => {
                   />
                 </Value>
               </Row>
-              <>
-                <Row>
-                  <Title>
-                    <b>
-                      <FormattedMessage id='copy.amount' defaultMessage='Amount' />
-                    </b>
-                  </Title>
-                  <Value>
-                    <Field name='amount' component={NumberBox} />
-                  </Value>
-                  <Value>
-                    <FiatDisplay size='12px' weight={600} coin={formValues.coin}>
-                      {convertCoinToCoin({
-                        baseToStandard: false,
-                        coin: formValues.coin,
-                        value: formValues.amount
-                      }) || 0}
-                    </FiatDisplay>
-                  </Value>
-                </Row>
-              </>
+              <Row>
+                <Title>
+                  <b>
+                    <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
+                  </b>
+                </Title>
+                <Value>
+                  <Field
+                    name='expirationDays'
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(days: any) => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    }}
+                    component={SelectBox}
+                    elements={[
+                      {
+                        group: '',
+                        items: map(
+                          (item) => ({
+                            text: item.text,
+                            value: item.value
+                          }),
+                          [
+                            { text: '30 Days', value: '30' },
+                            { text: '60 Days', value: '60' },
+                            { text: '3 Months', value: '90' },
+                            { text: '6 Months', value: '180' }
+                          ]
+                        )
+                      }
+                    ]}
+                  />
+                </Value>
+              </Row>
+              <Row>
+                <Value>
+                  <Field
+                    name='networkFees'
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(days: any) => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    }}
+                    component={SelectBox}
+                    elements={[
+                      {
+                        group: '',
+                        items: map(
+                          (item) => ({
+                            text: item.text,
+                            value: item.value
+                          }),
+                          [
+                            { text: 'Network Fees', value: 'network' },
+                            { text: 'Offer Fees', value: 'offer' },
+                            { text: 'Wrapped Eth Fees', value: 'weth' }
+                          ]
+                        )
+                      }
+                    ]}
+                  />
+                </Value>
+              </Row>
             </Form>
             <StickyCTA>
-              <div>
+              {needsWrap ? (
+                <>
+                  {canWrap ? (
+                    <div>
+                      <>You will need to Wrap {amtToWrap.toString()} ETH</>
+                    </div>
+                  ) : (
+                    <div>
+                      You don&apos;t have enough ETH to offer {formValues.amount} WETH. The max you
+                      can offer is <CoinDisplay coin='WETH'>{maxOfferPossible}</CoinDisplay>
+                    </div>
+                  )}
+                </>
+              ) : null}
+              {/* <div>
                 Eth Balance: <CoinDisplay coin='ETH'>{ethBalance}</CoinDisplay>
               </div>
               {needsWrap ? (
@@ -207,7 +285,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </>
               ) : null}
               <MakeOfferFees {...props} asset={val} />
-              {needsWrap && <WrapEthFees {...props} />}
+              {needsWrap && <WrapEthFees {...props} />} */}
               {isAuthenticated ? (
                 <>
                   <Button
@@ -232,7 +310,9 @@ const MakeOffer: React.FC<Props> = (props) => {
                       ) : (
                         <FormattedMessage
                           id='copy.make_offer_value'
-                          defaultMessage='Make an Offer for {val}'
+                          defaultMessage={
+                            !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                          }
                           values={{
                             val: `${formValues.amount} ${formValues.coin}`
                           }}
@@ -283,7 +363,9 @@ const enhance = compose(
     destroyOnUnmount: false,
     form: 'nftMakeOffer',
     initialValues: {
-      coin: 'WETH'
+      coin: 'WETH',
+      expirationDays: '30',
+      networkFees: 'network'
     }
   }),
   connector
