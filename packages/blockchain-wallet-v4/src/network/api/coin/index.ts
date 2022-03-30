@@ -83,6 +83,18 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const txHistory = (pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        pubKeys
+      },
+      endPoint: `/public/txHistory`,
+      removeDefaultPostData: true,
+      url: 'http://localhost:4444'
+    })
+  }
+
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -111,6 +123,7 @@ export default ({ apiUrl, get, post }) => {
     getBtcTicker,
     getCoinPrices,
     pushTx,
+    txHistory,
     validateAddress
   }
 }

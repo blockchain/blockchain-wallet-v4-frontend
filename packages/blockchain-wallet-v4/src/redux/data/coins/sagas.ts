@@ -91,6 +91,11 @@ export default ({ api }: { api: APIType }) => {
         yield select(),
         payload.coin
       )
+      const pubKey = yield call(getPubKey, '')
+      const stxPage = yield call(api.txHistory, [
+        { descriptor: 'default', pubKey, style: 'SINGLE' }
+      ])
+      console.log(stxPage)
       const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
         fetchCustodialOrdersAndTransactions,
         txPage,
