@@ -111,6 +111,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   nftActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 

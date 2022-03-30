@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import { OrderType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -291,7 +292,13 @@ const MakeOffer: React.FC<Props> = (props) => {
                           rounded
                           nature='primary'
                           data-e2e='buyMoreEth'
-                          onClick={() => {}}
+                          width='40px'
+                          onClick={() => {
+                            props.buySellActions.showModal({
+                              orderType: OrderType.BUY,
+                              origin: 'NftsMakeOffer'
+                            })
+                          }}
                         >
                           <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Buy' />
                         </Button>
@@ -314,7 +321,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'block' }}>
                 <CheckBoxInput name='terms' disabled={false} onChange={toggleTermsAccepted} />
                 <Text
                   color={colors.grey200}
