@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import memoize from 'fast-memoize'
 import { compose } from 'redux'
 import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
@@ -21,6 +22,7 @@ import BuyMoreLine from 'components/Flyout/Banners/BuyMoreLine'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -177,6 +179,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   const effectiveLimit = getEffectiveLimit(sendLimits)
   const effectivePeriod = getEffectivePeriod(sendLimits)
 
+  const _validate = useCallback(() => {
+    validate(formValues, props)
+  }, [formValues, props])
+
   return (
     <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
       <FlyoutWrapper>
@@ -230,7 +236,22 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        <AmountRow id='amount-row' isError={!!amtError}>
+        <AmountFieldInput
+          coin={coin}
+          // @ts-ignore
+          validate={_validate}
+          walletCurrency={walletCurrency}
+          amtError={amtError}
+          quote={quote}
+          showCounter={false}
+          fix={fix}
+          name='amount'
+          onToggleFix={() => {
+            formActions.change(SEND_FORM, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
+            formActions.change(SEND_FORM, 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)
+          }}
+        />
+        {/* <AmountRow id='amount-row' isError={!!amtError}>
           {fix === 'FIAT' && (
             <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
               {Currencies[walletCurrency].units[walletCurrency].symbol}
@@ -259,9 +280,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               {coin}
             </Text>
           )}
-        </AmountRow>
+        </AmountRow> */}
         <QuoteActionContainer>
-          <QuoteRow>
+          {/* <QuoteRow>
             <div />
             <Text
               color={amtError ? 'red400' : 'grey600'}
@@ -283,7 +304,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               size='24px'
               data-e2e='sendSwitchIcon'
             />
-          </QuoteRow>
+          </QuoteRow> */}
           {amtError && amtError !== 'ABOVE_MAX_LIMIT' ? (
             <div
               style={{
@@ -504,8 +525,7 @@ const enhance = compose(
   connector,
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: SEND_FORM,
-    validate
+    form: SEND_FORM
   })
 )
 
