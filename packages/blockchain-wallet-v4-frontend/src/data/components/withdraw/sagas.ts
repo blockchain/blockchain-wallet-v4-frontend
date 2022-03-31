@@ -1,18 +1,22 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { displayFiatToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { WithdrawStepEnum } from 'data/types'
+import { ModalName, ProductEligibilityForUser, WithdrawStepEnum } from 'data/types'
 
+import { actions as custodialActions } from '../../custodial/slice'
+import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import { actions as A } from './slice'
 
 const SERVICE_NAME = 'simplebuy'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
+  const { isTier2 } = profileSagas({ api, coreSagas, networks })
+
   const handleWithdrawSubmit = function* ({ payload }: ReturnType<typeof A.handleCustodyWithdraw>) {
     const WITHDRAW_CONFIRM_FORM = 'confirmCustodyWithdraw'
 
@@ -42,6 +46,41 @@ export default ({ api }: { api: APIType }) => {
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { fiatCurrency } = payload
+
+    // get current user tier
+    const isUserTier2 = yield call(isTier2)
+
+    const showSilverRevamp = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    // check is user eligible to do withdrawal
+    // we skip this for gold users
+    if (!isUserTier2 && showSilverRevamp) {
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+      yield take([
+        custodialActions.fetchProductEligibilityForUserSuccess.type,
+        custodialActions.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+        custodialWallets: { canWithdrawCrypto: false, canWithdrawFiat: false, enabled: false }
+      } as ProductEligibilityForUser)
+
+      const userCanWithdrawal =
+        products.custodialWallets?.canWithdrawCrypto && products.custodialWallets?.canWithdrawFiat
+      // prompt upgrade modal in case that user can't buy more
+      if (!userCanWithdrawal) {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'Withdrawal'
+          })
+        )
+        // close withdrawal Modal
+        yield put(actions.modals.closeModal(ModalName.CUSTODY_WITHDRAW_MODAL))
+        return
+      }
+    }
 
     yield put(
       actions.modals.showModal('CUSTODY_WITHDRAW_MODAL', {

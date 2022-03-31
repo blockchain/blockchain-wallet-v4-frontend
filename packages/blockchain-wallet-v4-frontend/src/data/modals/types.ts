@@ -160,6 +160,7 @@ export type ModalOriginType =
   | 'WalletBalanceDropdown'
   | 'WalletConnect'
   | 'WelcomeModal'
+  | 'Withdrawal'
   | 'WithdrawModal'
   | 'CurrencyList'
   | RecurringBuyOrigins
