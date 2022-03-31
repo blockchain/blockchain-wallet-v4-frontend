@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { renderHook } from '@testing-library/react-hooks'
 
-import { ListRecurringBuyQuery, useListRecurringBuyQuery } from '.'
+import { useListRecurringBuyForCoin } from '.'
 
 jest.mock('react-redux', () => {
   const dispatch = jest.fn()
@@ -14,13 +14,13 @@ jest.mock('react-redux', () => {
   }
 })
 
-describe('useListRecurringBuyQuery()', () => {
+describe('useListRecurringBuyForCoin()', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
 
   it('Should fire the fetch actions on mount', () => {
-    renderHook(() => useListRecurringBuyQuery())
+    renderHook(() => useListRecurringBuyForCoin({ coin: 'BTC' }))
 
     const dispatch = useDispatch()
 
@@ -33,7 +33,7 @@ describe('useListRecurringBuyQuery()', () => {
   })
 
   it('Should return the data in from the selector', () => {
-    const { result } = renderHook(() => useListRecurringBuyQuery())
+    const { result } = renderHook(() => useListRecurringBuyForCoin({ coin: 'BTC' }))
 
     const { data } = result.current
 
@@ -41,16 +41,11 @@ describe('useListRecurringBuyQuery()', () => {
   })
 
   it('Should not refetch the recurring buy on coin change', () => {
-    const { rerender } = renderHook(
-      (query: ListRecurringBuyQuery) => useListRecurringBuyQuery(query),
-      {
-        initialProps: {
-          coin: {
-            equal: 'BTC'
-          }
-        }
+    const { rerender } = renderHook(useListRecurringBuyForCoin, {
+      initialProps: {
+        coin: 'BTC'
       }
-    )
+    })
 
     const dispatch = useDispatch()
 
@@ -62,9 +57,7 @@ describe('useListRecurringBuyQuery()', () => {
     })
 
     rerender({
-      coin: {
-        equal: 'ETH'
-      }
+      coin: 'ETH'
     })
 
     expect(dispatch).toHaveBeenCalledTimes(1)
