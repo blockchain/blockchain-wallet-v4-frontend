@@ -23,7 +23,7 @@ import {
 } from 'components/BuySell'
 import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'data/components/buySell/utils'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,

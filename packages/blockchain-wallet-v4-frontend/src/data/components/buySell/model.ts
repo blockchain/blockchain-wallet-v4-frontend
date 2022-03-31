@@ -17,7 +17,6 @@ import {
 
 import { BankTransferAccountType } from '../brokerage/types'
 import { convertBaseToStandard } from '../exchange/services'
-import { BSAddCardFormValuesType } from './types'
 
 export const DEFAULT_BS_BALANCE = {
   available: '0',
@@ -49,7 +48,6 @@ export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
 // FORMS
-export const FORM_BS_ADD_EVERYPAY_CARD = 'addCardEverypayForm'
 export const FORM_BS_CANCEL_ORDER = 'cancelBSOrderForm'
 export const FORM_BS_CHANGE_EMAIL = 'bsChangeEmail'
 export const FORM_BS_CHECKOUT_CONFIRM = 'bsCheckoutConfirm'
@@ -130,25 +128,6 @@ export const getSellBaseAmount = (sellOrder: SwapOrderType): string => {
 
 export const getSellCounterAmount = (sellOrder: SwapOrderType): string => {
   return convertBaseToStandard('FIAT', sellOrder.priceFunnel.outputMoney)
-}
-
-export const getNextCardExists = (
-  existingCards: Array<BSCardType>,
-  formValues: BSAddCardFormValuesType
-) => {
-  return existingCards.find((card) => {
-    if (card.state === 'BLOCKED' || card.state === 'FRAUD_REVIEW' || card.state === 'CREATED')
-      return false
-    if (!card.card) return false
-    if (card.card.number !== formValues['card-number'].slice(-4)) return false
-    if (
-      moment(`${card.card.expireMonth}/${card.card.expireYear}`, 'MM/YYYY').toString() !==
-      moment(formValues['expiry-date'], 'MM/YY').toString()
-    )
-      return false
-
-    return true
-  })
 }
 
 export const getValidPaymentMethod = (method: BSPaymentTypes) => {

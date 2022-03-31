@@ -32,15 +32,6 @@ import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
-// Types
-export type BSAddCardFormValuesType = {
-  billingaddress?: BSBillingAddressFormValuesType
-  'card-number': string
-  cvc: string
-  'expiry-date': string
-  'name-on-card': string
-  sameAsBillingAddress?: boolean
-}
 export type BSAddCardErrorType =
   | 'PENDING_CARD_AFTER_POLL'
   | 'LINK_CARD_FAILED'
@@ -132,7 +123,6 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
-  addCardError: undefined | BSAddCardErrorType
   applePayInfo: undefined | ApplePayInfoType
   balances: RemoteDataType<string, BSBalancesType>
   buyQuote: RemoteDataType<string, BuyQuoteStateType>

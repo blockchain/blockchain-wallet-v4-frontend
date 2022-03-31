@@ -1,5 +1,5 @@
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
-import { CardNameType } from 'components/Form/CreditCardBox/model'
+import { CardNameType } from 'data/components/buySell/utils'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {

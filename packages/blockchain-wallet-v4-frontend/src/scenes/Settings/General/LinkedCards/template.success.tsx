@@ -5,9 +5,9 @@ import styled from 'styled-components'
 
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Box, Button, Text } from 'blockchain-info-components'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'data/components/buySell/utils'
 import { media } from 'services/styles'
 
 import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'

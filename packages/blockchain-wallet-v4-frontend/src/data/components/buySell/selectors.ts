@@ -27,8 +27,6 @@ const hasEligibleFiatCurrency = (currency) =>
 
 export const getAddBank = (state: RootState) => state.components.buySell.addBank
 
-export const getAddCardError = (state: RootState) => state.components.buySell.addCardError
-
 export const getApplePayInfo = (state: RootState) => state.components.buySell.applePayInfo
 
 export const getGooglePayInfo = (state: RootState) => state.components.buySell.googlePayInfo
