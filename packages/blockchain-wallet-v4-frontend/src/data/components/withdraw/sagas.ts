@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
 
     yield put(
-      actions.modals.showModal('CUSTODY_WITHDRAW_MODAL', {
+      actions.modals.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
         origin: 'TransactionList'
       })
     )
