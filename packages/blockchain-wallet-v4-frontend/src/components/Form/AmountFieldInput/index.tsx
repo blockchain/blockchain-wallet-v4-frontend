@@ -27,12 +27,15 @@ const QuoteRow = styled.div`
 const AmountFieldInput: React.FC<Props> = ({
   amtError,
   coin,
+  fiatCurrency,
   fix,
   name,
+  onChange,
   onToggleFix,
   quote,
   showCounter,
-  walletCurrency
+  showToggle,
+  ...rest
 }) => {
   const [fontRatio, setRatio] = useState(1)
 
@@ -57,15 +60,16 @@ const AmountFieldInput: React.FC<Props> = ({
       <AmountRow id='amount-row' isError={!!amtError}>
         {fix === 'FIAT' && (
           <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
-            {Currencies[walletCurrency].units[walletCurrency].symbol}
+            {Currencies[fiatCurrency].units[fiatCurrency].symbol}
           </Text>
         )}
         <Field
-          data-e2e='sendAmountInput'
+          data-e2e={rest['data-e2e']}
           name={name}
           // @ts-ignore
           component={AmountTextBox}
           normalize={normalizeAmount}
+          onChange={onChange}
           // eslint-disable-next-line
           onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
           maxFontSize='56px'
@@ -93,7 +97,7 @@ const AmountFieldInput: React.FC<Props> = ({
             weight={500}
             data-e2e='sendQuoteAmount'
           >
-            {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && walletCurrency}
+            {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
           </Text>
           <Icon
             color='blue600'
@@ -105,7 +109,7 @@ const AmountFieldInput: React.FC<Props> = ({
             data-e2e='sendSwitchIcon'
           />
         </QuoteRow>
-      ) : (
+      ) : !showToggle ? null : (
         <Icon
           color='blue600'
           cursor
@@ -121,17 +125,34 @@ const AmountFieldInput: React.FC<Props> = ({
 }
 
 type Props = {
-  amtError: string | false
-  coin: string
+  amtError: string | boolean
+  'data-e2e': string
+  fiatCurrency: string
   fix: 'FIAT' | 'CRYPTO'
   name: string
   onChange?: () => void
-  onToggleFix: () => void
-  quote: string
-  showCounter?: boolean
-  validate: (formValues: any, props: any) => { amount: string | boolean }
-  validate_terms_of_service: 'validate_IS_PASSED_TO_reduxForm'
-  walletCurrency: string
-}
+} & (
+  | // FIAT <=> COIN TOGGLE
+  {
+      coin: string
+      fiatCurrency: string
+      onToggleFix: () => void
+      showToggle: true
+    }
+  // ONLY FIAT
+  | {
+      coin?: never
+      fiatCurrency: string
+      onToggleFix?: never
+      showToggle: false
+    }
+) &
+  (
+    | {
+        quote: string
+        showCounter: true
+      }
+    | { quote?: never; showCounter: false }
+  )
 
 export default AmountFieldInput
