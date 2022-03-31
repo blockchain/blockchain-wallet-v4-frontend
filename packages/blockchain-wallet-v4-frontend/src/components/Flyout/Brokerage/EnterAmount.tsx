@@ -38,6 +38,7 @@ import {
 } from 'components/Flyout/model'
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { CheckoutRow } from 'components/Rows'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -257,69 +258,31 @@ const ErrorMessage = ({ error, orderType }) => {
   return <></>
 }
 
-const renderAmount = (props) => {
-  return (
-    <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center'
-        }}
-      >
-        <Text size='56px' color={props.meta.error ? 'red400' : 'textBlack'} weight={500}>
-          {Currencies[props.fiatCurrency]?.units[props.fiatCurrency].symbol}
-        </Text>
-        <AmountTextBoxShaker {...props} />
-      </div>
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          height: '1rem',
-          justifyContent: 'center',
-          marginTop: '5px'
-        }}
-      />
-    </div>
-  )
-}
-
 const Amount = memoizer((props: AmountProps) => {
   const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
-      <AmountRow id='amount-row' isError={!!props.showError}>
-        <Field
-          data-e2e={
-            props.orderType === BrokerageOrderType.DEPOSIT
-              ? 'depositAmountInput'
-              : 'withdrawAmountInput'
-          }
-          name='amount'
-          component={renderAmount}
-          fiatCurrency={props.fiatCurrency}
-          onChange={debounceValidate(
-            props.limits,
-            props.crossBorderLimits,
-            props.orderType,
-            props.fiatCurrency,
-            props.bankText,
-            dispatch
-          )}
-          normalize={normalizeAmount}
-          maxFontSize='56px'
-          placeholder='0'
-          // leave fiatActive always to avoid 50% width in HOC?
-          fiatActive
-          {...{
-            autoFocus: true,
-            hideError: true
-          }}
-        />
-      </AmountRow>
+      <AmountFieldInput
+        fix='FIAT'
+        fiatCurrency={props.fiatCurrency}
+        amtError={props.showError}
+        name='amount'
+        data-e2e={
+          props.orderType === BrokerageOrderType.DEPOSIT
+            ? 'depositAmountInput'
+            : 'withdrawAmountInput'
+        }
+        showCounter={false}
+        showToggle={false}
+        onChange={debounceValidate(
+          props.limits,
+          props.crossBorderLimits,
+          props.orderType,
+          props.fiatCurrency,
+          props.bankText,
+          dispatch
+        )}
+      />
     </FlyoutWrapper>
   )
 })
