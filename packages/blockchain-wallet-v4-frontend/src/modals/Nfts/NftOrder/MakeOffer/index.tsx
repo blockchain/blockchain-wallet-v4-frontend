@@ -19,6 +19,7 @@ import {
   HeartbeatLoader,
   Icon,
   Image,
+  Link,
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
@@ -322,15 +323,18 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
-              <div style={{ display: 'block' }}>
-                <CheckBoxInput name='terms' disabled={false} onChange={toggleTermsAccepted} />
+              <div style={{ display: 'flex' }}>
+                <div style={{ padding: '1.2em 0em' }}>
+                  <CheckBoxInput name='terms' disabled={false} onChange={toggleTermsAccepted} />
+                </div>
                 <Text
                   color={colors.grey200}
                   weight={500}
-                  size='14px'
+                  size='16px'
                   style={{ padding: '1em 0em', textAlign: 'center' }}
                 >
-                  I agree to Blockchain.com’s Terms of Service
+                  I agree to Blockchain.com’s{' '}
+                  <Link href='https://www.blockchain.com/legal/terms'>Terms of Service</Link>
                 </Text>
               </div>
               {/* <div>
