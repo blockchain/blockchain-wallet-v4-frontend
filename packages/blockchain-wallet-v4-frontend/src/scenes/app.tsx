@@ -6,7 +6,6 @@ import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
-import { DEFAULT_INVITATIONS } from '@core/redux/settings/model'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -68,12 +67,12 @@ const DebitCard = React.lazy(() => import('./DebitCard'))
 const client = createClient({
   url: 'http://localhost:4000/graphql'
 })
+const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
   coinsWithBalance,
   history,
-  invitations,
   isAuthenticated,
   persistor,
   store,
@@ -103,32 +102,76 @@ const App = ({
                   <Suspense fallback={<Loading />}>
                     <Switch>
                       <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
-                      <AuthLayout path='/help' component={Help} />
-                      <AuthLayout path='/help-exchange' component={HelpExchange} />
-                      <AuthLayout path='/login' component={Login} />
+                      <AuthLayout
+                        path='/help'
+                        component={Help}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                      />
+                      <AuthLayout
+                        path='/help-exchange'
+                        component={HelpExchange}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                      />
+                      <AuthLayout
+                        path='/login'
+                        component={Login}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                      />
                       <AuthLayout path='/logout' component={Logout} />
-                      <AuthLayout path='/mobile-login' component={MobileLogin} />
-                      <AuthLayout path='/recover' component={RecoverWallet} />
-                      <AuthLayout path='/reset-2fa' component={ResetWallet2fa} />
-                      <AuthLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                      <AuthLayout path='/signup' component={Signup} />
-                      <AuthLayout path='/verify-email' component={VerifyEmailToken} />
+                      <AuthLayout
+                        path='/mobile-login'
+                        component={MobileLogin}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                      />
+                      <AuthLayout
+                        path='/recover'
+                        component={RecoverWallet}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+                      />
+                      <AuthLayout
+                        path='/reset-2fa'
+                        component={ResetWallet2fa}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                      />
+                      <AuthLayout
+                        path='/reset-two-factor'
+                        component={ResetWallet2faToken}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                      />
+                      <AuthLayout
+                        path='/signup'
+                        component={Signup}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
+                      />
+                      <AuthLayout
+                        path='/verify-email'
+                        component={VerifyEmailToken}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                      />
                       <AuthLayout
                         path='/upload-document/success'
                         component={UploadDocumentsSuccess}
                         exact
                       />
                       <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
-                      <AuthLayout path='/wallet' component={Login} />
-                      <AuthLayout path='/verify-email-step' component={VerifyEmail} />
+                      <AuthLayout
+                        path='/wallet'
+                        component={Login}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                      />
+                      <AuthLayout
+                        path='/verify-email-step'
+                        component={VerifyEmail}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                      />
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debitCard' component={DebitCard} />
+                      )}
                       <WalletLayout path='/nfts/activity' exact component={NftsActivity} />
                       <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />
-                      {walletDebitCardEnabled && (
-                        <WalletLayout path='/debitCard' component={DebitCard} />
-                      )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
@@ -173,7 +216,6 @@ const mapStateToProps = (state) => ({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
-  invitations: selectors.core.settings.getInvitations(state).getOrElse(DEFAULT_INVITATIONS),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)

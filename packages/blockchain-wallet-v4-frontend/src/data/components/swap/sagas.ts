@@ -10,8 +10,9 @@ import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { NabuProducts } from 'data/types'
+import { ModalName, NabuProducts, ProductEligibilityForUser } from 'data/types'
 
+import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
@@ -34,7 +35,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     coreSagas,
     networks
   })
-  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+  const { isTier2, waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   const cancelOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
@@ -456,7 +457,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { baseCurrency, counterCurrency, origin } = payload
     yield put(
-      actions.modals.showModal('SWAP_MODAL', {
+      actions.modals.showModal(ModalName.SWAP_MODAL, {
         baseCurrency,
         counterCurrency,
         origin
@@ -464,6 +465,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     )
 
     const latestPendingOrder = S.getLatestPendingSwapTrade(yield select())
+
+    // get current user tier
+    const isUserTier2 = yield call(isTier2)
+
+    const showSilverRevamp = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    // check is user eligible to do sell/buy
+    // we skip this for gold users
+    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+      yield take([
+        custodialActions.fetchProductEligibilityForUserSuccess.type,
+        custodialActions.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+        swap: { enabled: false, maxOrdersLeft: 0 }
+      } as ProductEligibilityForUser)
+
+      const userCanBuyMore = products.swap?.maxOrdersLeft > 0
+      // prompt upgrade modal in case that user can't buy more
+      if (!userCanBuyMore) {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'BuySellInit'
+          })
+        )
+        // close swap Modal
+        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+        return
+      }
+    }
 
     if (latestPendingOrder) {
       yield put(

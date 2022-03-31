@@ -8,13 +8,13 @@ import { SpinningLoader, Text } from 'blockchain-info-components'
 import Flyout, {
   duration,
   FlyoutChild,
-  FlyoutHeader,
   FlyoutWrapper,
   Row,
   StickyHeaderWrapper,
   Title,
   Value
 } from 'components/Flyout'
+import FlyoutHeader from 'components/Flyout/Header'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'

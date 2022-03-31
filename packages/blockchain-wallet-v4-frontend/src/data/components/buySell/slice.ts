@@ -22,6 +22,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  GooglePayInfoType,
   MobilePaymentType,
   PaymentValue,
   ProductTypes,
@@ -65,6 +66,7 @@ const initialState: BuySellState = {
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  googlePayInfo: undefined,
   limits: Remote.NotAsked,
   method: undefined,
   methods: Remote.NotAsked,
@@ -471,6 +473,9 @@ const buySellSlice = createSlice({
     },
     setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
+    },
+    setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
+      state.googlePayInfo = action.payload
     },
     setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
       state.method = action.payload

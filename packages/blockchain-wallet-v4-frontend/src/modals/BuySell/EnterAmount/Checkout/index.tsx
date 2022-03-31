@@ -10,6 +10,7 @@ import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
+  Analytics,
   BSCheckoutFormValuesType,
   ModalName,
   RecurringBuyPeriods,
@@ -248,7 +249,15 @@ const mapDispatchToProps = (dispatch) => ({
   showUpgradeModal: () => {
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-        origin: 'Swap'
+        origin: 'BuySellInit'
+      })
+    )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'BUY'
+        }
       })
     )
   }

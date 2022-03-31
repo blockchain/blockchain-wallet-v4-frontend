@@ -49,12 +49,33 @@ const configuredStore = async function () {
   const kvStorePath = 'wallet.kvstore'
   const { isAuthenticated } = selectors.auth
 
-  const res = await fetch('/wallet-options-v4.json')
-  const options = await res.json()
-  const assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
-  const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
-  const assets = await assetsRes.json()
-  const erc20s = await erc20Res.json()
+  let res;
+  let options;
+  let assetsRes;
+  let assets;
+  let erc20Res;
+  let erc20s;
+  
+  try {
+    res = await fetch('/wallet-options-v4.json')
+    options = await res.json()
+  } catch (error) {
+    throw new Error('wallet-options failed to load.')
+  }
+  try {
+    assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
+    assets = await assetsRes.json()
+    if(!assets.currencies) throw new Error()
+  } catch (error) {
+    throw new Error('custodial currencies failed to load.')
+  }
+  try {
+    erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
+    erc20s = await erc20Res.json()
+    if(!erc20s.currencies) throw new Error()
+  } catch (error) {
+    throw new Error('erc20 currencies failed to load.')
+  }
 
   const erc20Whitelist = options.platforms.web.erc20s
 
@@ -67,22 +88,21 @@ const configuredStore = async function () {
     supportedErc20s = []
   }
 
-  // hmmmm....
   window.coins = {
-    ...supportedCoins.reduce(
-      (acc, curr) => ({
+    ...supportedCoins.reduce((acc, curr) => {
+      if (curr.symbol.includes('.')) return acc
+      return {
         ...acc,
         [curr.symbol]: { coinfig: curr }
-      }),
-      {}
-    ),
-    ...supportedErc20s.reduce(
-      (acc, curr) => ({
+      }
+    }, {}),
+    ...supportedErc20s.reduce((acc, curr) => {
+      if (curr.symbol.includes('.')) return acc
+      return {
         ...acc,
         [curr.symbol]: { coinfig: curr }
-      }),
-      {}
-    )
+      }
+    }, {})
   }
 
   // TODO: remove this

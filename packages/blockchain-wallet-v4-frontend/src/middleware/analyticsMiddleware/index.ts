@@ -36,6 +36,8 @@ import {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  recurringBuyCancelOrigin,
+  recurringBuyDetailsClickOrigin,
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
@@ -495,6 +497,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+            let currency = state.profile.userData.getOrElse({})?.limits[0]?.currency
+            if (!currency) {
+              currency = state.settingsPath.currency
+            }
 
             const upgradeTier = action.payload.props.tier
 
@@ -502,6 +508,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
               properties: {
+                currency,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 tier: upgradeTier
@@ -567,6 +574,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
               properties: {
+                origin: 'SETTINGS',
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -798,13 +806,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.buySell.fiatCurrency
         const outputCurrency = state.components.buySell.cryptoCurrency
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(
+          state.components.buySell.method.type
+        )
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
           properties: {
             input_currency: inputCurrency,
             max_card_limit: maxCardLimit,
             originalTimestamp: getOriginalTimestamp(),
-            output_currency: outputCurrency
+            output_currency: outputCurrency,
+            payment_type: paymentType
           },
           traits: {
             email,
@@ -1216,7 +1228,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             input_type: inputType,
             network_fee_input_amount: networkFeeInputAmount,
             network_fee_input_currency: inputCurrency,
-            network_fee_output_amount: networkFeeOutputAmount,
+            network_fee_output_amount: Number(networkFeeOutputAmount),
             network_fee_output_currency: outputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_amount: outputAmount,
@@ -1725,9 +1737,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const stepName: RecurringBuyStepType = action.payload.step
-        const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
           case RecurringBuyStepType.REMOVE_CONFIRM: {
+            const origin = recurringBuyCancelOrigin(action.payload.origin)
             const {
               destinationCurrency: output_currency,
               inputCurrency: input_currency,
@@ -1739,7 +1751,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.CANCEL_RECURRING_BUY_CLICKED, {
               properties: {
                 frequency,
-                input_amount,
+                input_amount: Number(input_amount),
                 input_currency,
                 origin,
                 output_currency,
@@ -1769,6 +1781,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case RecurringBuyStepType.DETAILS: {
             const { inputCurrency: currency }: { inputCurrency: string } =
               state.components.recurringBuy.active
+            const origin = recurringBuyDetailsClickOrigin(action.payload.origin)
             analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
               properties: {
                 currency,
@@ -2878,13 +2891,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const site_redirect = state.auth.productAuthMetadata.product
-
-        const { code, message } = action.payload
+        const { code, description } = action.payload
 
         analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_FAILED, {
           properties: {
             error_code: code,
-            error_message: message,
+            error_message: description,
             originalTimestamp: getOriginalTimestamp(),
             site_redirect
           },
