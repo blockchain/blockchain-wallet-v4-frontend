@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-import MakeOfferFees from '../NftOrder/MakeOffer'
+import MakeOfferFees from '../NftOrder/MakeOffer/fees'
 import WrapEthFees from '../NftOrder/WrapEth/fees'
 
 const Wrapper = styled.div`
@@ -37,7 +37,7 @@ const WrappedEthFees = styled(OfferFees)``
 //   padding: 1em 1em;
 // `
 
-const NetworkFeesComponent: React.FC<Props> = (props) => {
+const NetworkFeesComponent: React.FC<Props> = (props, val) => {
   const [moreFees, setMoreFees] = useState(false)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
@@ -51,7 +51,6 @@ const NetworkFeesComponent: React.FC<Props> = (props) => {
           </Text>
           {!moreFees && (
             <ChevronArea>
-              $0.00
               <Icon name='chevron-right' size='24px' color='grey400' />
             </ChevronArea>
           )}
@@ -63,16 +62,10 @@ const NetworkFeesComponent: React.FC<Props> = (props) => {
         </Top>
         {moreFees && (
           <Fees>
-            <OfferFees>
-              <Text>Offer Fees</Text>
-              <div>$0.00</div>
-            </OfferFees>
-            <WrappedEthFees>
-              <Text>Wrapped Eth Fees</Text>
-              <div>$0.00</div>
-            </WrappedEthFees>
-            {/* <MakeOfferFees {...props} />
-            <WrapEthFees {...props} /> */}
+            {/* @ts-ignore */}
+            <MakeOfferFees {...props} asset={val} />
+            {/* @ts-ignore */}
+            <WrapEthFees {...props} />
           </Fees>
         )}
       </Wrapper>

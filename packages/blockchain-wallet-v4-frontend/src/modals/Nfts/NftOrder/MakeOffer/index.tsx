@@ -4,15 +4,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
+import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { convertCoinToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertCoinToFiat } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
-import { OrderType } from '@core/types'
+import { getRatesSelector } from '@core/redux/data/misc/selectors'
+import { OrderType, RatesType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -30,6 +32,7 @@ import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import { Form, NumberBox, SelectBox } from 'components/Form'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { DeepLinkGoal } from 'data/types'
@@ -69,7 +72,6 @@ const MakeOffer: React.FC<Props> = (props) => {
     coin: 'ETH',
     value: maxWrapPossible.toString()
   })
-
   const amtToWrap = new BigNumber(formValues.amount || 0).minus(standardErc20Balance)
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
@@ -85,6 +87,12 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
+  }
+
+  const validate = (formValues: SendFormType, props: Props) => {
+    return {
+      amount: needsWrap && !canWrap ? 'NOT_ENOUGH_ETH' : true
+    }
   }
 
   return (
@@ -164,16 +172,24 @@ const MakeOffer: React.FC<Props> = (props) => {
               <>
                 <Row>
                   <Value>
-                    <Field name='amount' component={NumberBox} />
-                  </Value>
-                  <Value style={{ paddingLeft: '10em' }}>
-                    <FiatDisplay size='16px' weight={600} coin={formValues.coin}>
-                      {convertCoinToCoin({
-                        baseToStandard: false,
+                    <AmountFieldInput
+                      coin={formValues.coin}
+                      walletCurrency='GBP'
+                      amtError={false}
+                      quote={convertCoinToFiat({
                         coin: formValues.coin,
-                        value: formValues.amount
-                      }) || 0}
-                    </FiatDisplay>
+                        currency: 'USD',
+                        isStandard: true,
+                        rates: props.rates,
+                        value: formValues.amount || 0
+                      })}
+                      fix='CRYPTO'
+                      name='amount'
+                      showCounter
+                      validate={validate}
+                      validate_terms_of_service='validate_IS_PASSED_TO_reduxForm'
+                      onToggleFix={() => {}}
+                    />
                   </Value>
                 </Row>
               </>
@@ -261,15 +277,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   </b>
                 </Title>
                 <Value>
-                  <Field
-                    name='networkFees'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onChange={(days: any) => {
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    }}
-                    component={NetworkFeesComponent}
-                    props={props}
-                  />
+                  <NetworkFeesComponent {...props} {...[val]} />
                 </Value>
               </Row>
             </Form>
@@ -435,7 +443,8 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string
-  }
+  },
+  rates: getRatesSelector('WETH', state).getOrElse({} as RatesType)
 })
 
 const connector = connect(mapStateToProps)
