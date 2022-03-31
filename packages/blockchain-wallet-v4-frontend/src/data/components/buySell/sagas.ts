@@ -808,7 +808,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
-            googlePayPaymentToken: token,
+            googlePayPayload: token,
             redirectURL: paymentSuccessLink
           }
         }
