@@ -9,15 +9,19 @@ import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
   AlertsState,
+  CombinedLoginSteps,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  UpgradeSteps
 } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 
 import Loading from '../loading.public'
+import UpgradeOrSkip from './AccountUpgrade/UpgradeOrSkip'
+import UpgradeOverview from './AccountUpgrade/UpgradeOverview'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -43,7 +47,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     this.initCaptcha()
   }
 
-  setStep = (step: LoginSteps) => {
+  setStep = (step: CombinedLoginSteps) => {
     this.props.formActions.change(LOGIN_FORM, 'step', step)
   }
 
@@ -161,7 +165,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
     }
-
     const { isMobileViewLogin } = loginProps
 
     return (
@@ -169,7 +172,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         {/* CONTENT */}
         <Form onSubmit={this.handleSubmit}>
           {(() => {
+            // TODO: figure out how to split the step checking into different files
             switch (step) {
+              // LOGIN STEPS
               case LoginSteps.INSTITUTIONAL_PORTAL:
                 return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
@@ -204,12 +209,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              // case LoginSteps.UPGRADE_CONFIRM:
-              //   return <MergeAccountConfirm {...loginProps} />
-              // case LoginSteps.UPGRADE_PASSWORD:
-              //   return <UpgradePassword {...loginProps} />
-              // case LoginSteps.UPGRADE_SUCCESS:
-              //   return <UpgradeSuccess {...loginProps} />
+              // UPGRADE STEPS
+              case UpgradeSteps.UPGRADE_OR_SKIP:
+                return <UpgradeOrSkip {...loginProps} />
+              case UpgradeSteps.UPGRADE_OVERVIEW:
+                return <UpgradeOverview {...loginProps} />
+              // MERGE STEPS
+              // TODO
+              // DEFAULT STEP
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -268,7 +275,7 @@ type OwnProps = {
   isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
-  setStep: (step: LoginSteps) => void
+  setStep: (step: CombinedLoginSteps) => void
   submitting: boolean
   walletError?: any
   walletTabClicked?: () => void

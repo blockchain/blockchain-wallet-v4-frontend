@@ -9,7 +9,8 @@ import {
   AuthMagicLink,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  UpgradeSteps
 } from './types'
 
 // checks if merge/upgrade flows are enabled. if they are and the user is eligible then initiate those flows
@@ -52,7 +53,7 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
 export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean) {
   try {
     const authMagicLink = yield select(selectors.auth.getMagicLinkData)
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    // const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       exchange: exchangeData,
       platform_type: platformType,
@@ -160,7 +161,8 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         break
       // Default to send user back to enter email screen
       default:
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+        // TODO: put back to LoginSteps.ENTER_EMAIL_GUID
+        yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {

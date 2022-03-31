@@ -1,5 +1,5 @@
 import base64url from 'base64url'
-import { assoc, find, propEq } from 'ramda'
+import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
@@ -10,7 +10,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { ExchangeAuthOriginType } from 'data/types'
+import { ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -80,7 +80,7 @@ export default ({ api, coreSagas, networks }) => {
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
     const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    // const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -596,7 +596,7 @@ export default ({ api, coreSagas, networks }) => {
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
             yield put(actions.router.push('/login?product=wallet'))
-            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+            yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
           }
           if (product === ProductAuthOptions.EXCHANGE) {
             if (exchangeEmail) {
@@ -648,13 +648,13 @@ export default ({ api, coreSagas, networks }) => {
       guid,
       guidOrEmail,
       password,
-      step,
-      upgradeAccountPassword
+      step
+      // upgradeAccountPassword
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const authType = yield select(selectors.auth.getAuthType)
-    const language = yield select(selectors.preferences.getLanguage)
+    // const language = yield select(selectors.preferences.getLanguage)
     const product = yield select(S.getProduct)
     try {
       // set code to uppercase if type is not yubikey
@@ -744,8 +744,8 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const { product, redirect } = yield select(selectors.auth.getProductAuthMetadata)
-    const decodedRedirect = decodeURIComponent(redirect)
+    const { product } = yield select(selectors.auth.getProductAuthMetadata)
+    // const decodedRedirect = decodeURIComponent(redirect)
     const { step } = formValues
     const { captchaToken, email } = action.payload
     yield put(startSubmit(LOGIN_FORM))

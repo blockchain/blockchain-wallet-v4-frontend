@@ -24,6 +24,8 @@ export enum AccountUnificationFlows {
   WALLET_MERGE = 'WALLET_MERGE'
 }
 
+export type CombinedLoginSteps = LoginSteps | UpgradeSteps
+
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
@@ -39,12 +41,20 @@ export enum LoginSteps {
 }
 
 export enum UpgradeSteps {
-  // Placeholders, name them as it makes sense
-  UPGRADE_CONFIRM = 'UPGRADE_CONFIRM'
-  // UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
-  // UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
+  UPGRADE_OR_SKIP = 'UPGRADE_OR_SKIP', // 2.0
+  UPGRADE_OVERVIEW = 'UPGRADE_OVERVIEW', // 3.0
+  CREATE_WALLET = 'CREATE_WALLET', // 3.1
+  ERROR_WALLET_CREATION = 'ERROR_WALLET_CREATION', // 3.1.1
+  ERROR_ACCOUNT_UPGRADE = 'ERROR_ACCOUNT_UPGRADE', // 3.1.2
+  SELECT_2FA_TYPE = 'SELECT_2FA_TYPE', // 3.2
+  GOOGLE_AUTH_SETUP = 'GOOGLE_AUTH_SETUP', // 3.3.1
+  GOOGLE_AUTH_VERIFY = 'GOOGLE_AUTH_VERIFY', // 3.3.2
+  UPGRADE_SUCCESS = 'UPGRADE_SUCCESS', // 3.5
+  YUBIKEY_SETUP = 'YUBIKEY_SETUP', // 3.4.1
+  YUBIKEY_VERIFIED = 'YUBIKEY_VERIFIED' // 3.4.2
 }
 
+// TODO
 export enum MergeSteps {}
 
 export enum PlatformTypes {
@@ -77,7 +87,7 @@ export type LoginFormType = {
   guid?: string
   guidOrEmail?: string
   password?: string
-  step?: LoginSteps
+  step?: CombinedLoginSteps
   twoFA?: number | string
   upgradePassword?: string
 }
