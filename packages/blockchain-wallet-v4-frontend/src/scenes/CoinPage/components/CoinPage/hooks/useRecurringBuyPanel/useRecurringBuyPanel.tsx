@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
 import {
-  useListRecurringBuyQuery,
+  useListRecurringBuyForCoin,
   useOpenRecurringBuyFlayout
 } from 'blockchain-wallet-v4-frontend/src/hooks'
 
@@ -10,7 +10,7 @@ import { UseRecurringBuyPanelHook } from './types'
 import { convertInputCurrencyToNumber } from './utils'
 
 export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
-  const { data } = useListRecurringBuyQuery({ coin: { equal: coin } })
+  const { data } = useListRecurringBuyForCoin({ coin })
   const [openRecurringBuy] = useOpenRecurringBuyFlayout()
 
   const recurringBuyListItems = useMemo(() => {
