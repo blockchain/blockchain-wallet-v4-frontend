@@ -73,7 +73,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (!userCanWithdrawal) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-            origin: 'Withdrawal'
+            origin: 'WithdrawModal'
           })
         )
         // close withdrawal Modal
