@@ -1817,7 +1817,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const userCanBuyMore = products.buy?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
-      if (!userCanBuyMore) {
+      // users with diff tier than 2 can't sell
+      if (!userCanBuyMore || orderType === OrderType.SELL) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
             origin: 'BuySellInit'

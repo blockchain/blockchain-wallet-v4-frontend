@@ -72,6 +72,6 @@ export default ({ api, coreSagas, networks }) => ({
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
   walletConnect: walletConnect({ coreSagas }),
-  withdraw: withdraw({ api }),
+  withdraw: withdraw({ api, coreSagas, networks }),
   xlmTransactions: xlmTransactions()
 })

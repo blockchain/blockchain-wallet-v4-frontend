@@ -519,18 +519,25 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <AlertButton>
               <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
             </AlertButton>
-            <FormattedMessage
-              id='modals.swap.cross_border_max'
-              defaultMessage='Swapping from Trade Accounts cannot exceed {amount} a {period}. You have {remainingAmount} remaining.'
-              values={{
-                amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
-                period: effectivePeriod,
-                remainingAmount: formatFiat(
-                  convertBaseToStandard('FIAT', crossBorderLimits.current?.available?.value || 0),
-                  0
-                )
-              }}
-            />
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.swap.cross_border_max'
+                defaultMessage='Swapping from Trade Accounts cannot exceed {amount} a {period}. You have {remainingAmount} remaining.'
+                values={{
+                  amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                  period: effectivePeriod,
+                  remainingAmount: formatFiat(
+                    convertBaseToStandard('FIAT', crossBorderLimits.current?.available?.value || 0),
+                    0
+                  )
+                }}
+              />
+            </Text>
           </>
         )}
 
