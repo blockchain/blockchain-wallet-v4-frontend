@@ -18,9 +18,6 @@ import {
 import { isBrowserSupported } from 'services/browser'
 
 import Loading from '../loading.public'
-import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
-import UpgradePassword from './AccountUnification/UpgradePassword'
-import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -207,12 +204,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.UPGRADE_CONFIRM:
-                return <MergeAccountConfirm {...loginProps} />
-              case LoginSteps.UPGRADE_PASSWORD:
-                return <UpgradePassword {...loginProps} />
-              case LoginSteps.UPGRADE_SUCCESS:
-                return <UpgradeSuccess {...loginProps} />
+              // case LoginSteps.UPGRADE_CONFIRM:
+              //   return <MergeAccountConfirm {...loginProps} />
+              // case LoginSteps.UPGRADE_PASSWORD:
+              //   return <UpgradePassword {...loginProps} />
+              // case LoginSteps.UPGRADE_SUCCESS:
+              //   return <UpgradeSuccess {...loginProps} />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (

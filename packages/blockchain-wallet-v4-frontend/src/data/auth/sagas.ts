@@ -106,21 +106,21 @@ export default ({ api, coreSagas, networks }) => {
       // determine login flow
       switch (true) {
         // account merge/upgrade web
-        case unificationFlowType ===
-          (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-          yield put(stopSubmit(LOGIN_FORM))
-          break
-        // account merge mobile
-        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-          yield put(stopSubmit(LOGIN_FORM))
-          break
-        // account upgrade mobile
-        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
-          yield put(stopSubmit(LOGIN_FORM))
-          break
+        // case unificationFlowType ===
+        //   (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+        //   yield put(stopSubmit(LOGIN_FORM))
+        //   break
+        // // account merge mobile
+        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        //   yield put(stopSubmit(LOGIN_FORM))
+        //   break
+        // // account upgrade mobile
+        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
+        //   yield put(stopSubmit(LOGIN_FORM))
+        //   break
         // web - institutional exchange login
         // only institutional users coming from the .com page will have
         // a redirect link. All other users coming from footer in login page
@@ -350,17 +350,17 @@ export default ({ api, coreSagas, networks }) => {
       // Check which unification flow we're running
       // to determine what we want to do after authing user
       switch (true) {
-        case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-          break
+        // case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+        //   break
         case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
           break
-        case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
-          accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-          // call action to merge account
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-          break
+        // case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+        //   accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+        //   // call action to merge account
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+        //   break
         // if account is unified, we run wallet
         // loginRoutineSaga for both. login routine
         // catches whether account is exchange or not
@@ -401,11 +401,11 @@ export default ({ api, coreSagas, networks }) => {
                 password,
                 session
               })
-              if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
-                yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-              } else {
-                yield call(loginRoutineSaga, {})
-              }
+              // if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
+              //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+              // } else {
+              yield call(loginRoutineSaga, {})
+              // }
             } catch (e) {
               // If error is that 2fa is required
               const error = e as LoginErrorType
@@ -713,17 +713,19 @@ export default ({ api, coreSagas, networks }) => {
             sharedKey: null
           })
         )
-      } else if (step === LoginSteps.UPGRADE_PASSWORD) {
-        yield put(
-          actions.signup.register({
-            country: undefined,
-            email,
-            language,
-            password: upgradeAccountPassword,
-            state: undefined
-          })
-        )
-      } else {
+      }
+      // else if (step === LoginSteps.UPGRADE_PASSWORD) {
+      //   yield put(
+      //     actions.signup.register({
+      //       country: undefined,
+      //       email,
+      //       language,
+      //       password: upgradeAccountPassword,
+      //       state: undefined
+      //     })
+      //   )
+      // }
+      else {
         // User only has an exchange account to far, and they're 'upgrading'
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
