@@ -868,10 +868,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       </FlyoutWrapper>
 
       {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
-      {(props.isSddFlow ||
-        props.userData?.tiers?.current < 2 || // silver tier
-        (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
-        amtError === 'ABOVE_LIMIT') &&
+      {props.userData?.tiers?.current < 2 && // silver tier
+        (props.isSddFlow ||
+          (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
+          amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
             <GetMoreAccess startProcess={props.showUpgradeModal} />

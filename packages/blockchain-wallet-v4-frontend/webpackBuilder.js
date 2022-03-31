@@ -222,7 +222,7 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         `script-src-elem 'nonce-${CSP_NONCE}' 'self' https://www.googletagmanager.com`,
         [
@@ -241,6 +241,7 @@ const buildDevServerConfig = (
           envConfig.OPENSEA_API,
           'http://localhost:8081',
           'http://localhost:4000',
+          'https://play.google.com/',
           'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
           'https://bitpay.com',

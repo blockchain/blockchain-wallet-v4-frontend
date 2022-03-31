@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -7,7 +7,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import Content from 'components/Flyout/Content'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { LimitsAndDetails, SettingsLimit } from 'data/types'
+import { Analytics, LimitsAndDetails, SettingsLimit } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -116,7 +116,20 @@ const renderStatus = (limits: LimitsAndDetails, settingsItem: SETTINGS_ITEMS) =>
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { limitsAndDetails } = props
+  const { analyticsActions, handleClose, limitsAndDetails, userData } = props
+  const userCurrentTier = userData?.tiers?.current ?? 0
+
+  const onCloseModal = useCallback(() => {
+    handleClose()
+
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_DISMISSED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [analyticsActions, userCurrentTier, handleClose])
+
   return (
     <Wrapper>
       <HeaderWrapper>
@@ -135,7 +148,7 @@ const Template: React.FC<Props> = (props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.handleClose}
+              onClick={onCloseModal}
             />
           </CloseIconContainer>
         </IconsContainer>
