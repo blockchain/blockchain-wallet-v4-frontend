@@ -16,6 +16,7 @@ import { CountdownTimer } from 'components/Form'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0;
+  min-width: 100%;
 `
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;

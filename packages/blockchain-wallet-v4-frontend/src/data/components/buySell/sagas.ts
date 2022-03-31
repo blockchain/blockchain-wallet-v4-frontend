@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import moment from 'moment'
-import { defaultTo, filter, prop, set } from 'ramda'
+import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -35,9 +35,12 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  ModalName,
+  ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
 
+import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -92,7 +95,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api })
+  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -506,6 +509,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // the order confirmation screen.
       if (isFlexiblePricingModel) {
         while (true) {
+          // non gold users can only make one order at a time so we need to cancel the old one
+          if (oldBuyOrder) {
+            yield call(api.cancelBSOrder, oldBuyOrder)
+          }
           // get the current order, if any
           const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
 
@@ -531,7 +538,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             // when the quote expires and a new order is created, set it it in redux and cancel the old order
             yield put(A.fetchOrders())
             yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-            yield call(api.cancelBSOrder, oldBuyOrder)
           }
 
           oldBuyOrder = buyOrder
@@ -1493,8 +1499,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-
     let error
     switch (state) {
       case 'PENDING':
@@ -1507,16 +1511,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         error = 'LINK_CARD_FAILED'
     }
 
-    yield put(A.setAddCardError(error))
+    yield put(A.createCardFailure(error))
+
+    const addCheckoutDotComPaymentProvider: boolean = (yield select(
+      selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
+    )).getOrElse(false)
 
     // LEGACY
-    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
+    if (!addCheckoutDotComPaymentProvider) {
+      yield put(A.setAddCardError(error))
 
-    yield put(
-      actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-        _error: error
-      })
-    )
+      yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
+
+      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
+
+      yield put(
+        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
+          _error: error
+        })
+      )
+    }
   }
 
   const pollBSBalances = function* () {
@@ -1668,6 +1682,39 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
 
+    // get current user tier
+    const isUserTier2 = yield call(isTier2)
+
+    const showSilverRevamp = selectors.core.walletOptions
+      .getSilverRevamp(yield select())
+      .getOrElse(null)
+
+    // check is user eligible to do sell/buy
+    // we skip this for gold users
+    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+      yield take([
+        custodialActions.fetchProductEligibilityForUserSuccess.type,
+        custodialActions.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+        buy: { enabled: false, maxOrdersLeft: 0 }
+      } as ProductEligibilityForUser)
+
+      const userCanBuyMore = products.buy?.maxOrdersLeft > 0
+      // prompt upgrade modal in case that user can't buy more
+      // users with diff tier than 2 can't sell
+      if (!userCanBuyMore || orderType === OrderType.SELL) {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'BuySellInit'
+          })
+        )
+        return
+      }
+    }
+
     // Check if there is a pending_deposit Open Banking order
     if (latestPendingOrder) {
       const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
@@ -1684,6 +1731,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // poll for the order status
     if (hasPendingOBOrder && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      yield put(
+        A.setStep({
+          order: latestPendingOrder,
+          step
+        })
+      )
+      // For all silver/silver+ users if they have pending transaction and they are from silver revamp
+      // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
+    } else if (!isUserTier2 && latestPendingOrder && showSilverRevamp) {
+      const step: T.StepActionsPayload['step'] =
+        latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({

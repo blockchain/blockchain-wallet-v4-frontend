@@ -38,6 +38,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch),
   sessionActions: bindActionCreators(actions.session, dispatch),
@@ -46,6 +47,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector> & { history: { push: (path: string) => void } }
 
 export default withRouter(connector(HeaderContainer))

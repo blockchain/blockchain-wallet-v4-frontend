@@ -1,6 +1,6 @@
 import { TermsAndConditionType } from './types'
 
-export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, rootUrl }) => {
   const exchangeSignIn = (code, password, username) => {
     return authorizedPost({
       contentType: 'application/json',

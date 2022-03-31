@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Analytics } from 'data/types'
 
+import { IconsContainer, Title } from '../../../components'
 import { Props } from '.'
 
 const Wrapper = styled.div`
@@ -58,18 +60,6 @@ const BannerContainer = styled.div`
   padding: 16px;
 `
 
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,12 +75,35 @@ const CloseIconContainer = styled.div`
 `
 
 const AdditionalInfo: React.FC<Props> = (props) => {
+  useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_VIEWED,
+      properties: {}
+    })
+  }, [])
+
+  const onClose = () => {
+    props.onClose()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_DISMISSED,
+      properties: {}
+    })
+  }
+
+  const onStartVerification = () => {
+    props.goToNextStep()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_DISMISSED,
+      properties: {}
+    })
+  }
+
   return (
     <Wrapper>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <IconsContainer>
-            <Title color='textBlack' size='24px' weight={600}>
+            <Title color='textBlack'>
               <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
             </Title>
             <CloseIconContainer>
@@ -101,7 +114,7 @@ const AdditionalInfo: React.FC<Props> = (props) => {
                 size='20px'
                 color='grey600'
                 role='button'
-                onClick={props.onClose}
+                onClick={onClose}
               />
             </CloseIconContainer>
           </IconsContainer>
@@ -179,10 +192,13 @@ const AdditionalInfo: React.FC<Props> = (props) => {
             size='16px'
             nature='primary'
             type='submit'
-            onClick={props.goToNextStep}
+            onClick={onStartVerification}
             fullwidth
           >
-            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+            <FormattedMessage
+              id='modals.kycverification.additionalinfo.start_verification'
+              defaultMessage='Start Verification'
+            />
           </Button>
         </ContentFooter>
       </MainContent>

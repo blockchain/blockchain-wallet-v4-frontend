@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 export const Wrapper = styled.div`
@@ -66,4 +66,45 @@ export const CartridgeContainer = styled.div`
   > span {
     text-transform: uppercase;
   }
+`
+
+export const Row = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const Copy = styled(Text)`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+    font-size: 12px;
+  `}
+  ${media.tablet`
+    font-size: 14px;
+  `}
+`
+
+export const IconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  border-radius: 20px;
+  margin-right: 20px;
+`
+
+export const BannerButton = styled(Button)`
+  height: 48px;
+  ${media.mobile`
+    font-size: 14px;
+    margin-top: 16px;
+    padding: 10px;
+  `}
+`
+
+export const CloseLink = styled.div`
+  margin-left: 24px;
+  cursor: pointer;
 `

@@ -5,6 +5,7 @@ import btc from './btc'
 import buySell from './buySell'
 import coin from './coin'
 import custodial from './custodial'
+import debitCard from './debitCard'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -18,6 +19,7 @@ import rates from './rates'
 import send from './send'
 import settings from './settings'
 import swap from './swap'
+import taxCenter from './taxCenter'
 import wallet from './wallet'
 import xlm from './xlm'
 
@@ -46,11 +48,18 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl,
       ...http
     }),
+    ...debitCard({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
+      ...http
+    }),
     ...eth({ apiUrl, openseaApi, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
@@ -89,6 +98,11 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),
+    ...taxCenter({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl
+    }),
     ...wallet({ rootUrl, ...http }),
     ...xlm({ apiUrl, horizonUrl, ...http })
   }
@@ -100,6 +114,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
   ReturnType<typeof custodial> &
+  ReturnType<typeof debitCard> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof kyc> &
@@ -109,5 +124,6 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof buySell> &
   ReturnType<typeof send> &
   ReturnType<typeof swap> &
+  ReturnType<typeof taxCenter> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

@@ -5,12 +5,14 @@ import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
 import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
+  Analytics,
   BSCheckoutFormValuesType,
+  ModalName,
   RecurringBuyPeriods,
   SwapBaseCounterTypes,
   UserDataType
@@ -243,7 +245,22 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+  showUpgradeModal: () => {
+    dispatch(
+      actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+        origin: 'BuySellInit'
+      })
+    )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'BUY'
+        }
+      })
+    )
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

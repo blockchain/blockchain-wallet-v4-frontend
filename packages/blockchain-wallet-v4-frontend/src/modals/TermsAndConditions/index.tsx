@@ -3,11 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import { RemoteDataType } from '@core/types'
-import Flyout, {
-  duration,
-  FlyoutChild,
-  TermsAndConditions as TermsAndConditionsContent
-} from 'components/Flyout'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import TermsAndConditionsContent from 'components/Flyout/TermsAndConditions'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics, ModalName } from 'data/types'

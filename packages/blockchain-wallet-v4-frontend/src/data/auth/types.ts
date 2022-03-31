@@ -93,15 +93,18 @@ export type LoginFormType = {
   upgradePassword?: string
 }
 
-export enum UserType {
-  EXCHANGE = 'EXCHANGE',
-  WALLET = 'WALLET',
-  WALLET_EXCHANGE_BOTH = 'WALLET_EXCHANGE_BOTH',
-  WALLET_EXCHANGE_LINKED = 'WALLET_EXCHANGE_LINKED',
-  WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
+export enum AuthUserType {
+  INSTITUTIONAL = 'INSTITUTIONAL'
 }
 
-export type WalletDataFromMagicLink = {
+export enum WalletPollingResponseType {
+  CONTINUE_POLLING = 'CONTINUE_POLLING',
+  EXCHANGE_ONLY_LOGIN = 'EXCHANGE_ONLY_LOGIN',
+  REQUEST_DENIED = 'REQUEST_DENIED',
+  WALLET_INFO_POLLED = 'WALLET_INFO_POLLED'
+}
+
+export type AuthMagicLink = {
   exchange?: {
     email?: string
     twoFaMode?: boolean
@@ -109,11 +112,13 @@ export type WalletDataFromMagicLink = {
   }
   exchange_auth_url?: string
   mergeable?: boolean | null
+  platform_type: PlatformTypes
   product?: ProductAuthOptions
+  response_type?: WalletPollingResponseType
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
-  user_type?: UserType
+  user_type?: AuthUserType
   wallet?: {
     auth_type?: number
     email: string
@@ -145,6 +150,7 @@ export type LoginErrorType =
     }
   | string
 
+// TODO: define missing types and determine if all of these types are needed/used
 export type ExchangeLoginSuccessType = {}
 
 export type ExchangeLoginFailureType = any
@@ -171,13 +177,13 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
-  userType?: string
+  userType?: AuthUserType
 }
 
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
-  authorizeVerifyDevice: RemoteDataType<any, any>
+  authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -189,7 +195,7 @@ export type AuthStateType = {
   isLoggingIn: boolean
   kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
-  magicLinkData?: WalletDataFromMagicLink
+  magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string
   manifestFile: null
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
@@ -221,7 +227,9 @@ export type MobileAuthWalletMergeMessage = {
 
 export type MobileAuthExchangeMessage = {
   data?: {
+    csrf: string
     jwt: string
+    jwtExpirationTime: number
   }
   error?: string
   status: 'error' | 'success'

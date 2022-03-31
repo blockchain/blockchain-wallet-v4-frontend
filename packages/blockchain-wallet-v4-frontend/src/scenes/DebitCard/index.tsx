@@ -9,6 +9,7 @@ import DebitCard from './template'
 const DebitCardContainer = (props: Props) => <DebitCard {...props} />
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  debitCardActions: bindActionCreators(actions.components.debitCard, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

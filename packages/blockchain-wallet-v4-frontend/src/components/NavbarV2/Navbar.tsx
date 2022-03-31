@@ -9,6 +9,7 @@ import FabButton from 'components/FabButton'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { MobileNav } from 'components/NavbarV2'
 import { Destination } from 'layouts/Wallet/components'
+import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
@@ -147,6 +148,11 @@ const NavButton = styled(Button)`
   }
 `
 
+const UpperNewCartridge = styled(NewCartridge)`
+  text-transform: uppercase;
+  margin-left: 2.5rem;
+`
+
 const Navbar = ({
   fabClickHandler,
   limitsClickHandler,
@@ -155,6 +161,7 @@ const Navbar = ({
   receiveClickHandler,
   refreshClickHandler,
   sendClickHandler,
+  taxCenterClickHandler,
   taxCenterEnabled
 }: Props) => {
   const ref = useRef(null)
@@ -237,9 +244,16 @@ const Navbar = ({
 
   if (taxCenterEnabled) {
     tertiaryNavItems.splice(0, 0, {
-      copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
-      'data-e2e': 'tax_CenterLink',
-      to: '/tax-center'
+      clickHandler: taxCenterClickHandler,
+      copy: (
+        <>
+          <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
+          <UpperNewCartridge>
+            <FormattedMessage id='buttons.new' defaultMessage='new' />
+          </UpperNewCartridge>
+        </>
+      ),
+      'data-e2e': 'tax_CenterLink'
     })
   }
 
@@ -416,6 +430,7 @@ type Props = {
   receiveClickHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
+  taxCenterClickHandler: () => void
   taxCenterEnabled: boolean
 }
 

@@ -75,9 +75,6 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 export const getCeloEurRewards = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
 
-export const getPollForMagicLinkData = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
@@ -128,9 +125,13 @@ export const getTaxCenterEnabled = (state: RootState) =>
 export const getRefreshCaptchaOnSignupError = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
 
+// use new institutional portal app
+export const getInstitutionalPortalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
+
 // show/hide silver revamp
 export const getSilverRevamp = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+  getWebOptions(state).map(path(['featureFlags', 'showSilverRevamp']))
 
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>

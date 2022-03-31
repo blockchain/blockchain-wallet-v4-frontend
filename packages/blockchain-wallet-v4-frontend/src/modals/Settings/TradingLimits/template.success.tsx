@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -9,10 +8,13 @@ import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalName } from 'data/modals/types'
-import { SettingsItem, SettingsLimit } from 'data/types'
+import { Analytics, SettingsItem, SettingsLimit } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SETTINGS_ITEM_PERIOD, SETTINGS_ITEMS, SETTINGS_ITEMS_ICONS, TIER_TYPES } from './model'
+import Gold from './template.success.gold'
+import Silver from './template.success.silver'
 
 const TextWrapper = styled(Text)`
   a {
@@ -26,18 +28,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
+
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -327,7 +318,18 @@ const renderStatus = (limit: SettingsItem) => {
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { limitsAndDetails, modalActions, sddEligible, userData, userTiers } = props
+  const { analyticsActions, limitsAndDetails, modalActions, sddEligible, userData, userTiers } =
+    props
+  const userCurrentTier = userData?.tiers?.current ?? 0
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_VIEWED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [])
+
   const showUpgradeModal = useCallback(() => {
     modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
       origin: 'TradingLimits'
@@ -338,7 +340,6 @@ const Template: React.FC<Props> = (props) => {
     return null
   }
 
-  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
   const sddCheckTier =
     sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
@@ -349,6 +350,15 @@ const Template: React.FC<Props> = (props) => {
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserTierSilver =
     currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
+
+  // show silver/silver+ settings
+  if ((isUserTierSilver || isUserTierZero) && props.showSilverRevamp) {
+    return <Silver {...props} />
+  }
+  // show gold settings
+  if (isUserGold && props.showSilverRevamp) {
+    return <Gold {...props} />
+  }
 
   return (
     <Wrapper>
@@ -367,7 +377,7 @@ const Template: React.FC<Props> = (props) => {
             />
           </CloseIconContainer>
         </IconsContainer>
-        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+        <Title color='textBlack' style={{ marginTop: '18px' }}>
           <FormattedMessage
             id='modals.limits_and_features.title'
             defaultMessage='Limits & Features'

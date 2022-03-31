@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { Uploaded } from 'components/Flyout'
+import { Uploaded } from 'components/Flyout/InterestUploadDocuments'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InterestUploadDocumentFormValueTypes } from 'data/types'

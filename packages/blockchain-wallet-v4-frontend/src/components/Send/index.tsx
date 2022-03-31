@@ -81,6 +81,6 @@ export const CustomFeeAlertBanner = styled(Banner)`
 `
 
 export const CustodyToAccountMessage = memo(({ account }: { account: CustodialFromType }) => {
-  if (account.type !== ADDRESS_TYPES.CUSTODIAL) return null
+  if (account?.type !== ADDRESS_TYPES.CUSTODIAL) return null
   return <LockTime />
 })

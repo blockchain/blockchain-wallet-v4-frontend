@@ -12,7 +12,8 @@ import {
   WalletAccountEnum,
   WalletFiatType
 } from '@core/types'
-import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
+import { EnterAmount } from 'components/Flyout/Brokerage'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -45,7 +46,7 @@ const EnterAmountContainer = (props: Props) => {
 
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankTransferAccounts()
-      props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+      props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
       props.withdrawActions.fetchWithdrawalLock({})
     }
 
@@ -61,7 +62,7 @@ const EnterAmountContainer = (props: Props) => {
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
-    props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
+    props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
   }, [props.fiatCurrency])
 
   const handleSubmit = () => {

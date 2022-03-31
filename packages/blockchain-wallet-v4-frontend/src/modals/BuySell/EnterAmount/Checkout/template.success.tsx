@@ -15,8 +15,10 @@ import {
 } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
-import { FlyoutOopsError, FlyoutWrapper } from 'components/Flyout'
-import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
+import { FlyoutWrapper } from 'components/Flyout'
+import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
+import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
 import { model } from 'data'
@@ -32,7 +34,6 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
-import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
 import {
   checkCrossBorderLimit,
@@ -179,7 +180,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     defaultMethod,
     fiatCurrency,
     method: selectedMethod,
-    orderType
+    orderType,
+    products
   } = props
 
   const [fontRatio, setFontRatio] = useState(1)
@@ -448,6 +450,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
               placeholder='0'
+              autoComplete='off'
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
               haveError={!!showError}
@@ -641,11 +644,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
+          {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
+            <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
+          )}
+
           {!showLimitError && showError && (
             <ButtonContainer>
-              <AlertButton>
-                {props.orderType === OrderType.BUY ? (
-                  amtError === 'BELOW_MIN' ? (
+              {props.orderType === OrderType.BUY ? (
+                amtError === 'BELOW_MIN' ? (
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.below_min'
                       defaultMessage='{amount} Minimum'
@@ -656,10 +663,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
-                  ) : amtError === 'ABOVE_LIMIT' ||
-                    (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
+                  </AlertButton>
+                ) : amtError === 'ABOVE_LIMIT' ||
+                  (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
+                  <AlertButton>
                     <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
-                  ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                  </AlertButton>
+                ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.not_enough_coin'
                       defaultMessage='Not Enough {coin}'
@@ -667,7 +678,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         coin: props.fiatCurrency
                       }}
                     />
-                  ) : (
+                  </AlertButton>
+                ) : (
+                  <AlertButton>
                     <FormattedMessage
                       id='copy.above_max'
                       defaultMessage='{amount} Maximum'
@@ -678,10 +691,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                             : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
-                  )
-                ) : null}
+                  </AlertButton>
+                )
+              ) : null}
 
-                {props.orderType === OrderType.SELL && (
+              {props.orderType === OrderType.SELL && (
+                <AlertButton>
                   <FormattedMessage
                     id='copy.not_enough_coin'
                     defaultMessage='Not Enough {coin}'
@@ -689,8 +704,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       coin: cryptoCurrency
                     }}
                   />
-                )}
-              </AlertButton>
+                </AlertButton>
+              )}
 
               <Text
                 size='14px'
@@ -851,25 +866,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </AnchoredActions>
       </FlyoutWrapper>
 
-      {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />}
-      {(props.isSddFlow ||
-        (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
-        amtError === 'ABOVE_LIMIT') &&
+      {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
+      {props.userData?.tiers?.current < 2 && // silver tier
+        (props.isSddFlow ||
+          (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
+          amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
-            <UpgradeToGoldLine
-              type={Flows.BUY}
-              verifyIdentity={() =>
-                props.identityVerificationActions.verifyIdentity({
-                  needMoreInfo: false,
-                  origin: 'BuySell',
-                  tier: 2
-                })
-              }
-            />
+            <GetMoreAccess startProcess={props.showUpgradeModal} />
           </FlyoutWrapper>
         )}
-
       {isSufficientEthForErc20 && (
         <Banner type='warning'>
           <FormattedMessage

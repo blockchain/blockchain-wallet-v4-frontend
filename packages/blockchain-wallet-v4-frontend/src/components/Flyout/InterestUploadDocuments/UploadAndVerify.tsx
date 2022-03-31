@@ -180,7 +180,13 @@ const UploadAndVerify: React.FC<Props> = (props) => {
       </Header>
       <Content mode='top'>
         <ContentWrapper>
-          <Text color='grey900' lineHeight='20px' size='14px' weight={500}>
+          <Text
+            color='grey900'
+            lineHeight='20px'
+            size='14px'
+            weight={500}
+            style={{ marginBottom: '45px' }}
+          >
             <FormattedMessage
               id='modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload'
               defaultMessage='Please upload a high resolution file ({files}) of each item below. Max file size is {maxSize}MB each.'

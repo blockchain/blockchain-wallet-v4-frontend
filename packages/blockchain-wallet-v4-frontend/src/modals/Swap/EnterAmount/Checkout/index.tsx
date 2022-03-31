@@ -13,6 +13,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
+import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -234,6 +235,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
   const showBalanceError = showError && amtError === 'ABOVE_BALANCE'
 
+  const showSilverRevampBanner = props.silverRevamp && props.products?.swap?.maxOrdersLeft > 0
+
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
       <StyledForm onSubmit={handleSubmit}>
@@ -443,6 +446,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </Button>
         )}
 
+        {showSilverRevampBanner && (
+          <TransactionsLeft remaining={props.products.buy.maxOrdersLeft} />
+        )}
+
         {!showLimitError && !showBalanceError && showError && (
           <ButtonContainer>
             <AlertButton>
@@ -512,18 +519,25 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <AlertButton>
               <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
             </AlertButton>
-            <FormattedMessage
-              id='modals.swap.cross_border_max'
-              defaultMessage='Swapping from Trade Accounts cannot exceed {amount} a {period}. You have {remainingAmount} remaining.'
-              values={{
-                amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
-                period: effectivePeriod,
-                remainingAmount: formatFiat(
-                  convertBaseToStandard('FIAT', crossBorderLimits.current?.available?.value || 0),
-                  0
-                )
-              }}
-            />
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.swap.cross_border_max'
+                defaultMessage='Swapping from Trade Accounts cannot exceed {amount} a {period}. You have {remainingAmount} remaining.'
+                values={{
+                  amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                  period: effectivePeriod,
+                  remainingAmount: formatFiat(
+                    convertBaseToStandard('FIAT', crossBorderLimits.current?.available?.value || 0),
+                    0
+                  )
+                }}
+              />
+            </Text>
           </>
         )}
 

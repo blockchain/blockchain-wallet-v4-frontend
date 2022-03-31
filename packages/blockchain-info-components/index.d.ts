@@ -283,7 +283,7 @@ export const SelectInput: FunctionComponent<{
   grouped?: boolean,
   label?: string | unknown,
   onBlur?: () => void,
-  onChange?: () => void,
+  onChange?: (unknown) => void,
   onFocus?: () => void,
   opened?: boolean,
   searchEnabled?: boolean,

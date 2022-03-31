@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -15,7 +15,7 @@ import Success from './template.success'
 class BankPicker extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      this.props.custodialActions.fetchCustodialBeneficiaries(this.props.fiatCurrency)
+      this.props.custodialActions.fetchCustodialBeneficiaries({ currency: this.props.fiatCurrency })
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }

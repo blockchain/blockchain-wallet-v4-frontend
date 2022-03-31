@@ -7,7 +7,12 @@ import styled from 'styled-components'
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
