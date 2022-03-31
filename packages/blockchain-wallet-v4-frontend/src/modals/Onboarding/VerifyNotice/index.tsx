@@ -22,14 +22,15 @@ const GroupHeader = styled(Text)`
 const GroupDescription = styled(Text)`
   font-size: 14px;
   font-weight: 500;
+  height: 40px;
   color: ${(props) => props.theme.grey600};
   text-align: center;
 `
-
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 18px;
 `
 const Header = styled.div`
   display: flex;
@@ -38,7 +39,6 @@ const Header = styled.div`
   padding: 16px;
   justify-content: flex-end;
 `
-
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
