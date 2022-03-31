@@ -16,6 +16,7 @@ const getData = (state) => {
   } as InvitationsType)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const applePayEnabledR = selectors.core.walletOptions.getApplePayAsNewPaymentMethod(state)
+  const googlePayEnabledR = selectors.core.walletOptions.getGooglePayAsNewPaymentMethod(state)
   const isInternalTesterR = selectors.modules.profile.isInternalTester(state)
 
   return lift(
@@ -25,6 +26,7 @@ const getData = (state) => {
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       cards: ExtractSuccess<typeof cardsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
+      googlePayEnabled: ExtractSuccess<typeof googlePayEnabledR>,
       isInternalTester: ExtractSuccess<typeof isInternalTesterR>,
       pairs: ExtractSuccess<typeof pairsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
@@ -35,6 +37,7 @@ const getData = (state) => {
       bankTransferAccounts,
       cards,
       eligibility,
+      googlePayEnabled,
       isInternalTester,
       pairs,
       paymentMethods:
@@ -56,6 +59,7 @@ const getData = (state) => {
     bankTransferAccountsR,
     cardsR,
     eligibilityR,
+    googlePayEnabledR,
     isInternalTesterR,
     pairsR,
     paymentMethodsR,

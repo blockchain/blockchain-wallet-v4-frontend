@@ -314,6 +314,11 @@ const LoadingWrapper = styled.div`
   flex-direction: column;
 `
 
+const DetailsAndOffers = styled.div`
+  position: 'absolute';
+  width: '38em';
+`
+
 const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
@@ -699,7 +704,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     </CustomTabMenu>
                     <Spacing style={{ marginTop: '2em' }} />
                     {Tab === 'details' && (
-                      <>
+                      <DetailsAndOffers>
                         <CreatorOwnerBox>
                           <div style={{ display: 'block', width: '50%' }}>
                             <Text weight={600} size='14px'>
@@ -866,10 +871,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             </Detail>
                           </AdditionalDetails>
                         </AdditionalDetailsWrapper>
-                      </>
+                      </DetailsAndOffers>
                     )}
-                    {Tab === 'offers' && (
-                      <>
+                    {Tab === 'offers' && bidsAndOffers.length > 0 && (
+                      <DetailsAndOffers>
                         <div
                           style={{
                             color: colors.grey600,
@@ -887,7 +892,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           <div style={{ paddingLeft: '1em', width: '5em' }}>From</div>
                         </div>
                         <Divider style={{ marginBottom: '1em' }} />
-                      </>
+                      </DetailsAndOffers>
                     )}
                     {Tab === 'offers' &&
                       (bidsAndOffers.length ? (

@@ -15,6 +15,7 @@ import type {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  GooglePayInfoType,
   MobilePaymentType,
   NabuAddressType,
   PaymentValue,
@@ -147,6 +148,7 @@ export type BuySellState = {
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  googlePayInfo: undefined | GooglePayInfoType
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method: undefined | BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
