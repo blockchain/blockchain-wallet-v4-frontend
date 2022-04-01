@@ -22,7 +22,7 @@ const Explore: React.FC<Props> = (props) => {
         Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         NotAsked: () => null,
         Success: (val) =>
-          val.splice(0, 10).map((collection) => <div key={collection.name}>{collection.name}</div>)
+          val.slice(0, 9).map((collection) => <div key={collection.name}>{collection.name}</div>)
       })}
     </NftPageV2>
   )
