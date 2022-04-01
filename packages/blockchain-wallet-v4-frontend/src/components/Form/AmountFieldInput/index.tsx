@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Row } from 'blockchain-wallet-v4-frontend/src/modals/Swap/EnterAmount/Checkout'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -7,8 +7,6 @@ import Currencies from '@core/exchange/currencies'
 import { Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { formatTextAmount } from 'services/forms'
-
-import { ResizeableFontInput } from '../ResizeableFontInput'
 
 const AmountContainer = styled.div`
   display: flex;
