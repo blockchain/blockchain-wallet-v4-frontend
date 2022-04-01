@@ -20,7 +20,7 @@ const BaseNavbar = styled.div`
   background-color: inherit;
 `
 
-const Navbar = ({ children, height = '60px', ...rest }) => {
+const PublicNavbar = ({ children, height = '60px', ...rest }) => {
   return (
     <Wrapper height={height}>
       <BaseNavbar {...rest}>{children}</BaseNavbar>
@@ -28,8 +28,8 @@ const Navbar = ({ children, height = '60px', ...rest }) => {
   )
 }
 
-Navbar.propTypes = {
+PublicNavbar.propTypes = {
   height: PropTypes.string.isRequired
 }
 
-export default Navbar
+export default PublicNavbar

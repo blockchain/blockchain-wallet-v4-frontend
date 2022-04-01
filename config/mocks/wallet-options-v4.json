@@ -41,7 +41,6 @@
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": false,
         "institutionalPortal": true,
-        "isRedesignEnabled": true,
         "mergeAndUpgrade": false,
         "recurringBuys": true,
         "refreshCaptchaWithSignupError": true,

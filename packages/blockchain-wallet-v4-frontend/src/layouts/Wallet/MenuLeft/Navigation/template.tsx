@@ -73,31 +73,29 @@ const DebitCardNavItem = () => (
 )
 
 const Navigation = (props: OwnProps & Props) => {
-  const { coinList, isRedesignEnabled, lockboxDevices, walletDebitCardEnabled, ...rest } = props
+  const { coinList, lockboxDevices, walletDebitCardEnabled, ...rest } = props
 
   return (
     <Wrapper {...rest}>
-      {!isRedesignEnabled && (
-        <>
-          <Divider />
-          <LinkContainer to='/home' activeClassName='active'>
-            <MenuItem data-e2e='dashboardLink'>
-              <MenuIcon className='icon' name='home' size='24px' />
-              <Destination>
-                <FormattedMessage id='copy.home' defaultMessage='Home' />
-              </Destination>
-            </MenuItem>
-          </LinkContainer>
-          <LinkContainer to='/prices' activeClassName='active'>
-            <MenuItem data-e2e='pricesLink'>
-              <MenuIcon className='icon' name='compass' size='24px' />
-              <Destination>
-                <FormattedMessage id='copy.prices' defaultMessage='Prices' />
-              </Destination>
-            </MenuItem>
-          </LinkContainer>
-        </>
-      )}
+      <>
+        <Divider />
+        <LinkContainer to='/home' activeClassName='active'>
+          <MenuItem data-e2e='dashboardLink'>
+            <MenuIcon className='icon' name='home' size='24px' />
+            <Destination>
+              <FormattedMessage id='copy.home' defaultMessage='Home' />
+            </Destination>
+          </MenuItem>
+        </LinkContainer>
+        <LinkContainer to='/prices' activeClassName='active'>
+          <MenuItem data-e2e='pricesLink'>
+            <MenuIcon className='icon' name='compass' size='24px' />
+            <Destination>
+              <FormattedMessage id='copy.prices' defaultMessage='Prices' />
+            </Destination>
+          </MenuItem>
+        </LinkContainer>
+      </>
       {coinList.cata({
         Failure: () => null,
         Loading: () => <Loading />,
