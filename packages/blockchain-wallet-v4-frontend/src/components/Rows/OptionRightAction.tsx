@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
 import { Icon } from '@blockchain-com/constellation'
 import { rgba } from 'polished'
 import styled from 'styled-components'
 
 import { Tooltip, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { IconChevronRight } from '@blockchain-com/icons'
 
 const Row = styled.div`
   padding: 16px 40px;
@@ -54,9 +55,7 @@ const IconWrapper = styled.div`
 const OptionRightActionRow = ({
   children,
   disabled,
-  iconColor,
-  iconComponent,
-  iconName,
+  icon,
   onClick,
   toolTip
 }: Props) => {
@@ -69,24 +68,18 @@ const OptionRightActionRow = ({
   const date = Date.now() // some randomness in case of multiple disabled rows
   const disabledId = `disabledRow${date}`
 
+  const wrappedChildren = useMemo(() => (
+    <div className={disabled ? 'disabledText' : ''}>{children}</div>
+  ), [disabled, children]);
+
   return (
     <FlexWrapper disabled={disabled} role='button' onClick={onClickCallback}>
-      {iconComponent ? (
+      {icon ? (
         <IconWrapper>
-          {iconComponent()}
-          <div className={disabled ? 'disabledText' : ''}>{children}</div>
+          {icon}
+          {wrappedChildren}
         </IconWrapper>
-      ) : iconName && iconColor ? (
-        <IconWrapper>
-          {
-            // @ts-ignore
-            <Icon name={iconName} color={iconColor} size='md' />
-          }
-          <div className={disabled ? 'disabledText' : ''}>{children}</div>
-        </IconWrapper>
-      ) : (
-        <div className={disabled ? 'disabledText' : ''}>{children}</div>
-      )}
+      ) : wrappedChildren}
       {disabled ? (
         <div style={{ height: 'auto' }}>
           <Tooltip id={disabledId}>
@@ -97,8 +90,9 @@ const OptionRightActionRow = ({
           </TooltipHost>
         </div>
       ) : (
-        // @ts-ignore grey400
-        <Icon name='chevron-right' color='#98A1B2' size='md' />
+        <Icon label='chevron-right' color='grey400' size='md'>
+          <IconChevronRight />
+        </Icon>
       )}
     </FlexWrapper>
   )
@@ -107,9 +101,7 @@ const OptionRightActionRow = ({
 export type Props = {
   children: React.ReactNode
   disabled?: boolean
-  iconColor?: string
-  iconComponent?: () => void
-  iconName?: string
+  icon?: ReactNode
   onClick: () => void
   toolTip?: React.ReactNode
 }
