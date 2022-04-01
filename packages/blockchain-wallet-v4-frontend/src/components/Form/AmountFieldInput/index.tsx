@@ -8,13 +8,33 @@ import { Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { formatTextAmount } from 'services/forms'
 
+import { ResizeableFontInput } from '../ResizeableFontInput'
+
+const AmountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+`
+
 const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
   padding: 24px;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   border: 0;
-  > input {
-    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
+  width: 100%;
+
+  & #amount-row {
+    max-width: 95%;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    & > input {
+      color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
+    }
   }
 `
 
@@ -56,49 +76,40 @@ const AmountFieldInput: React.FC<Props> = ({
   }
 
   return (
-    <div>
-      <AmountRow id='amount-row' isError={!!amtError}>
-        {fix === 'FIAT' && (
-          <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
-            {Currencies[fiatCurrency].units[fiatCurrency].symbol}
-          </Text>
-        )}
-        <Field
-          data-e2e={rest['data-e2e']}
-          name={name}
-          // @ts-ignore
-          component={AmountTextBox}
-          normalize={normalizeAmount}
-          onChange={onChange}
-          // eslint-disable-next-line
-          onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
-          maxFontSize='56px'
-          placeholder='0'
-          // leave fiatActive always to avoid 50% width in HOC?
-          fiatActive
-          haveError={!!amtError}
-          {...{
-            autoFocus: true,
-            hideError: true
-          }}
-        />
-        {fix === 'CRYPTO' && (
-          <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
-            {coin}
-          </Text>
-        )}
-      </AmountRow>
-      {showCounter ? (
-        <QuoteRow>
-          <div />
-          <Text
-            color={amtError ? 'red400' : 'grey600'}
-            size='14px'
-            weight={500}
-            data-e2e='sendQuoteAmount'
-          >
-            {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
-          </Text>
+    <AmountContainer>
+      <AmountRow isError={!!amtError}>
+        <div id='amount-row'>
+          {fix === 'FIAT' && (
+            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
+              {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+            </Text>
+          )}
+          <Field
+            data-e2e={rest['data-e2e']}
+            name={name}
+            // @ts-ignore
+            component={ResizeableFontInput(AmountTextBox)}
+            normalize={normalizeAmount}
+            onChange={onChange}
+            // eslint-disable-next-line
+            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
+            maxFontSize='56px'
+            placeholder='0'
+            // leave fiatActive always to avoid 50% width in HOC?
+            fiatActive
+            haveError={!!amtError}
+            {...{
+              autoFocus: true,
+              hideError: true
+            }}
+          />
+          {fix === 'CRYPTO' && (
+            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
+              {coin}
+            </Text>
+          )}
+        </div>
+        {!showCounter && showToggle && (
           <Icon
             color='blue600'
             cursor
@@ -108,23 +119,39 @@ const AmountFieldInput: React.FC<Props> = ({
             size='24px'
             data-e2e='sendSwitchIcon'
           />
-        </QuoteRow>
-      ) : !showToggle ? null : (
-        <Icon
-          color='blue600'
-          cursor
-          name='up-down-chevron'
-          onClick={onToggleFix}
-          role='button'
-          size='24px'
-          data-e2e='sendSwitchIcon'
-        />
-      )}
-    </div>
+        )}
+      </AmountRow>
+      <QuoteRow>
+        <div />
+        {showCounter && (
+          <>
+            <Text
+              color={amtError ? 'red400' : 'grey600'}
+              size='14px'
+              weight={500}
+              data-e2e='sendQuoteAmount'
+            >
+              {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
+            </Text>
+            {showToggle && (
+              <Icon
+                color='blue600'
+                cursor
+                name='up-down-chevron'
+                onClick={onToggleFix}
+                role='button'
+                size='24px'
+                data-e2e='sendSwitchIcon'
+              />
+            )}
+          </>
+        )}
+      </QuoteRow>
+    </AmountContainer>
   )
 }
 
-type Props = {
+export type Props = {
   amtError: string | boolean
   'data-e2e': string
   fiatCurrency: string
