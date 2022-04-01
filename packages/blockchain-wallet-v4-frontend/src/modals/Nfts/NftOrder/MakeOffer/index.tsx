@@ -152,9 +152,20 @@ const MakeOffer: React.FC<Props> = (props) => {
                       </Text>
                     </div>
                   </div>
-                  <Text style={{ marginTop: '6px' }} size='14px' color='grey900' weight={600}>
+                  <Text
+                    style={{ marginTop: '6px', paddingLeft: '1em' }}
+                    size='14px'
+                    color='grey900'
+                    weight={600}
+                  >
                     {val?.name}
                   </Text>
+                </div>
+                <div style={{ marginTop: '6px', paddingLeft: '1em' }}>
+                  <Text style={{ textAlign: 'right' }} weight={600}>
+                    0.001 WETH
+                  </Text>
+                  <Text style={{ textAlign: 'right' }}>$40</Text>
                 </div>
               </div>
             </Row>
@@ -178,7 +189,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       amtError={false}
                       quote={convertCoinToFiat({
                         coin: formValues.coin,
-                        currency: 'USD',
+                        currency: 'GBP',
                         isStandard: true,
                         rates: props.rates,
                         value: formValues.amount || 0
@@ -259,9 +270,11 @@ const MakeOffer: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
-                            { text: '30 Days', value: '30' },
-                            { text: '60 Days', value: '60' },
-                            { text: '3 Months', value: '90' },
+                            { text: '1 Day', value: '1' },
+                            { text: '3 Days', value: '3' },
+                            { text: '7 Days', value: '7' },
+                            { text: '1 Months', value: '180' },
+                            { text: '3 Months', value: '180' },
                             { text: '6 Months', value: '180' }
                           ]
                         )
@@ -271,11 +284,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </Value>
               </Row>
               <Row>
-                <Title>
-                  <b>
-                    <FormattedMessage id='copy.summary' defaultMessage='Summary' />
-                  </b>
-                </Title>
                 <Value>
                   <NetworkFeesComponent {...props} {...[val]} />
                 </Value>
@@ -455,7 +463,7 @@ const enhance = compose(
     form: 'nftMakeOffer',
     initialValues: {
       coin: 'WETH',
-      expirationDays: '30',
+      expirationDays: '1',
       networkFees: 'network'
     }
   }),
