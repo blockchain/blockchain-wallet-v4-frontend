@@ -14,7 +14,8 @@ export const minMaxAmount = (
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
   amount: string,
-  bankText: string
+  bankText: string,
+  formActions
 ) => {
   const max = convertBaseToStandard('FIAT', limits.max)
   const min = convertBaseToStandard('FIAT', limits.min)
@@ -40,7 +41,11 @@ export const minMaxAmount = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change('brokerageTx', 'amount', max)
+            }}
+          >
             {orderType === BrokerageOrderType.DEPOSIT ? (
               <FormattedMessage
                 id='copy.above_max'
@@ -103,7 +108,11 @@ export const minMaxAmount = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change('brokerageTx', 'amount', min)
+            }}
+          >
             <FormattedMessage
               id='copy.below_min'
               defaultMessage='{amount} Minimum'
@@ -133,7 +142,8 @@ export const checkCrossBorderLimit = (
   amount: string,
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
-  bankText: string
+  bankText: string,
+  formActions
 ) => {
   if (!crossBorderLimits?.current) {
     return false
@@ -153,7 +163,11 @@ export const checkCrossBorderLimit = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change('brokerageTx', 'amount', effectiveLimit?.limit.value.toString())
+            }}
+          >
             <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
           </AlertButton>
           <Text
