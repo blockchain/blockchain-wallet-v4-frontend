@@ -5,6 +5,7 @@ import { AlertButton } from 'blockchain-wallet-v4-frontend/src/modals/components
 import { fiatToString } from '@core/exchange/utils'
 import { CrossBorderLimits, FiatType } from '@core/types'
 import { Text } from 'blockchain-info-components'
+import { BROKERAGE_FORM } from 'data/components/brokerage/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BrokerageOrderType } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -43,7 +44,7 @@ export const minMaxAmount = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change('brokerageTx', 'amount', max)
+              formActions.change(BROKERAGE_FORM, 'amount', max)
             }}
           >
             {orderType === BrokerageOrderType.DEPOSIT ? (
@@ -110,7 +111,7 @@ export const minMaxAmount = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change('brokerageTx', 'amount', min)
+              formActions.change(BROKERAGE_FORM, 'amount', min)
             }}
           >
             <FormattedMessage
@@ -165,7 +166,7 @@ export const checkCrossBorderLimit = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change('brokerageTx', 'amount', effectiveLimit?.limit.value.toString())
+              formActions.change(BROKERAGE_FORM, 'amount', effectiveLimit?.limit.value.toString())
             }}
           >
             <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />

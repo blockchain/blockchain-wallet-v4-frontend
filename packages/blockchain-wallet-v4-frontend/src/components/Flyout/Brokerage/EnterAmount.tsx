@@ -242,7 +242,6 @@ const debounceValidate = (
     if (limitError) {
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
-    return
 
     const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText, formActions)
     if (error) {

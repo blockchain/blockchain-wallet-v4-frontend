@@ -9,3 +9,5 @@ export const POLLING = {
   RETRY_AMOUNT: 30,
   SECONDS: 10
 }
+
+export const BROKERAGE_FORM = 'brokerageTx'
