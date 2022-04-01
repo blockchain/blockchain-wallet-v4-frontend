@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 const Page = styled.div`
   box-sizing: border-box;
   height: calc(100% - ${FIXED_HEADER_HEIGHT}px);
+  background: ${(props) => props.theme.white};
   overflow: auto;
   > div:first-child {
     padding-top: 20px;

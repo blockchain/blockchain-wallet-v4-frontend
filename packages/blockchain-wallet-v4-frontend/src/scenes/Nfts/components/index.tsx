@@ -15,6 +15,11 @@ export const NftPage = styled.div`
   background: ${(props) => props.theme.white};
 `
 
+export const NftPageV2 = styled.div`
+  width: 100%;
+  padding: 24px;
+`
+
 export const LeftColWrapper = styled.div`
   position: sticky;
   height: 100%;
