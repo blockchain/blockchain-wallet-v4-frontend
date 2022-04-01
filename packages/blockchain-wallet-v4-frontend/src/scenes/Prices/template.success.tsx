@@ -15,7 +15,7 @@ const NoResultsWrapper = styled.div`
   margin-top: 120px;
 `
 
-const TableBodyWrapper = styled.div`
+export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
 `
 

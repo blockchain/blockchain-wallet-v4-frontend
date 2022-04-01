@@ -8,8 +8,6 @@ import styled from 'styled-components'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
-import { WalletConnectStep } from 'data/components/walletConnect/types'
-import { ModalName } from 'data/modals/types'
 
 import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
 
