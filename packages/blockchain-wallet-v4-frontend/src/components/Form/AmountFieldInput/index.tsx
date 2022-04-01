@@ -88,7 +88,7 @@ const AmountFieldInput: React.FC<Props> = ({
             data-e2e={rest['data-e2e']}
             name={name}
             // @ts-ignore
-            component={ResizeableFontInput(AmountTextBox)}
+            component={AmountTextBox}
             normalize={normalizeAmount}
             onChange={onChange}
             // eslint-disable-next-line
