@@ -55,7 +55,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
-  email: selectors.auth.getRegisterEmail(state) as string,
+  email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
