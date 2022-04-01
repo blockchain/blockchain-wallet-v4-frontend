@@ -5,6 +5,7 @@ import { AlertButton } from 'blockchain-wallet-v4-frontend/src/modals/components
 import { fiatToString } from '@core/exchange/utils'
 import { CrossBorderLimits, FiatType } from '@core/types'
 import { Text } from 'blockchain-info-components'
+import { BROKERAGE_FORM } from 'data/components/brokerage/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BrokerageOrderType } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -14,7 +15,8 @@ export const minMaxAmount = (
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
   amount: string,
-  bankText: string
+  bankText: string,
+  formActions
 ) => {
   const max = convertBaseToStandard('FIAT', limits.max)
   const min = convertBaseToStandard('FIAT', limits.min)
@@ -40,7 +42,11 @@ export const minMaxAmount = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change(BROKERAGE_FORM, 'amount', max)
+            }}
+          >
             {orderType === BrokerageOrderType.DEPOSIT ? (
               <FormattedMessage
                 id='copy.above_max'
@@ -103,7 +109,11 @@ export const minMaxAmount = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change(BROKERAGE_FORM, 'amount', min)
+            }}
+          >
             <FormattedMessage
               id='copy.below_min'
               defaultMessage='{amount} Minimum'
@@ -133,7 +143,8 @@ export const checkCrossBorderLimit = (
   amount: string,
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
-  bankText: string
+  bankText: string,
+  formActions
 ) => {
   if (!crossBorderLimits?.current) {
     return false
@@ -153,7 +164,11 @@ export const checkCrossBorderLimit = (
     return {
       amount: (
         <>
-          <AlertButton>
+          <AlertButton
+            onClick={() => {
+              formActions.change(BROKERAGE_FORM, 'amount', effectiveLimit?.limit.value.toString())
+            }}
+          >
             <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
           </AlertButton>
           <Text

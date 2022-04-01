@@ -220,7 +220,15 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
 // to type without running validation on every keystroke. It waits 750 ms after
 // the user has stopped typing to run validation and manually dispatches the error
 // if needed. This makes for a nice error UX when typing
-const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, bankText, dispatch) =>
+const debounceValidate = (
+  limits,
+  crossBorderLimits,
+  orderType,
+  fiatCurrency,
+  bankText,
+  formActions,
+  dispatch
+) =>
   debounce((event, newValue) => {
     // check cross border limits
     const limitError = checkCrossBorderLimit(
@@ -228,13 +236,14 @@ const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, ba
       newValue,
       orderType,
       fiatCurrency,
-      bankText
+      bankText,
+      formActions
     )
     if (limitError) {
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
 
-    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText)
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText, formActions)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
@@ -244,6 +253,7 @@ type AmountProps = {
   bankText: string
   crossBorderLimits: Props['crossBorderLimits']
   fiatCurrency: Props['fiatCurrency']
+  formActions: typeof actions.form
   limits: Props['paymentMethod']['limits']
   orderType: Props['orderType']
   showError: boolean
@@ -307,6 +317,7 @@ const Amount = memoizer((props: AmountProps) => {
             props.orderType,
             props.fiatCurrency,
             props.bankText,
+            props.formActions,
             dispatch
           )}
           normalize={normalizeAmount}
@@ -435,6 +446,7 @@ const EnterAmount = ({
               orderType={orderType}
               crossBorderLimits={crossBorderLimits}
               showError={showError}
+              formActions={formActions}
               bankText={
                 orderType === BrokerageOrderType.DEPOSIT ? renderBankFullName(paymentAccount) : ''
               }
