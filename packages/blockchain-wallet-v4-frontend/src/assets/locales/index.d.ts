@@ -2443,7 +2443,7 @@ type MessagesType = {
   'scenes.login.wallet.connected.add_a_new_device': 'Add a New Device'
   'scenes.login.welcome': 'Welcome back!'
   'scenes.login.wrong_password': 'Error decrypting wallet. Wrong password'
-  'scenes.login.wrong_password_recover': 'Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+  'scenes.login.wrong_password': 'Wrong password.'
   'scenes.login.yubikey': 'Yubikey'
   'scenes.login.yubikey_confirm': 'Confirm your login with your Yubikey to continue'
   'scenes.login.yubikey_verify': 'Verify with your Yubikey'
