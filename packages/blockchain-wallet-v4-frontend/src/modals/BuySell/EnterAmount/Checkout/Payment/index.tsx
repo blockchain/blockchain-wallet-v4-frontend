@@ -44,6 +44,40 @@ const Payment: React.FC<Props> = (props: Props) => {
 
   const isApplePay = props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY
 
+  const isGooglePay = props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY
+
+  const renderIcon = () => {
+    if (isApplePay) {
+      return <Image name='apple-pay' height='18px' />
+    }
+
+    if (isGooglePay) {
+      return <Image name='google-pay' height='18px' />
+    }
+
+    return getIcon(props.method, props.isSddFlow)
+  }
+
+  const renderText = () => {
+    if (isApplePay) {
+      return (
+        <DisplayValue>
+          <FormattedMessage id='modals.simplebuy.applepay' defaultMessage='Apple Pay' />
+        </DisplayValue>
+      )
+    }
+
+    if (isGooglePay) {
+      return (
+        <DisplayValue>
+          <FormattedMessage id='modals.simplebuy.googlepay' defaultMessage='Google Pay' />
+        </DisplayValue>
+      )
+    }
+
+    return getText(props.method, props.sbBalances, props.isSddFlow)
+  }
+
   return (
     <>
       <SectionTitle color='grey900' size='14px' weight={500}>
@@ -55,20 +89,10 @@ const Payment: React.FC<Props> = (props: Props) => {
         )}
       </SectionTitle>
       <Box role='button' data-e2e='paymentMethodSelect' onClick={onPaymentMethodClick}>
-        <DisplayPaymentIcon showBackground={!props.method}>
-          {isApplePay ? (
-            <Image name='apple-pay' height='18px' />
-          ) : (
-            getIcon(props.method, props.isSddFlow)
-          )}
-        </DisplayPaymentIcon>
-        <PaymentText isMethod={!!props.method}>
-          {isApplePay ? (
-            <DisplayValue>Apple Pay</DisplayValue>
-          ) : (
-            getText(props.method, props.sbBalances, props.isSddFlow)
-          )}
-        </PaymentText>
+        <DisplayPaymentIcon showBackground={!props.method}>{renderIcon()}</DisplayPaymentIcon>
+
+        <PaymentText isMethod={!!props.method}>{renderText()}</PaymentText>
+
         {!props.isSddFlow && (
           <PaymentArrowContainer>
             <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />

@@ -9,7 +9,6 @@ import { UserDataType } from 'data/types'
 
 import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
-import CeloEURRewards from './CeloEURRewards'
 import CoinRename from './CoinRename'
 import CompleteYourProfile from './CompleteYourProfile'
 import ContinueToGold from './ContinueToGold'
@@ -89,12 +88,6 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <ContinueToGold />
-          </BannerWrapper>
-        )
-      case 'celoEURRewards':
-        return (
-          <BannerWrapper>
-            <CeloEURRewards />
           </BannerWrapper>
         )
       case 'completeYourProfile':

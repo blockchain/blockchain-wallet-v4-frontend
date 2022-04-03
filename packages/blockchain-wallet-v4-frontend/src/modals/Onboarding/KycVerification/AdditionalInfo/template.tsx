@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Analytics } from 'data/types'
 
 import { IconsContainer, Title } from '../../../components'
 import { Props } from '.'
@@ -74,6 +75,29 @@ const CloseIconContainer = styled.div`
 `
 
 const AdditionalInfo: React.FC<Props> = (props) => {
+  useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_VIEWED,
+      properties: {}
+    })
+  }, [])
+
+  const onClose = () => {
+    props.onClose()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_DISMISSED,
+      properties: {}
+    })
+  }
+
+  const onStartVerification = () => {
+    props.goToNextStep()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_PRE_VERIFICATION_DISMISSED,
+      properties: {}
+    })
+  }
+
   return (
     <Wrapper>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -90,7 +114,7 @@ const AdditionalInfo: React.FC<Props> = (props) => {
                 size='20px'
                 color='grey600'
                 role='button'
-                onClick={props.onClose}
+                onClick={onClose}
               />
             </CloseIconContainer>
           </IconsContainer>
@@ -168,10 +192,13 @@ const AdditionalInfo: React.FC<Props> = (props) => {
             size='16px'
             nature='primary'
             type='submit'
-            onClick={props.goToNextStep}
+            onClick={onStartVerification}
             fullwidth
           >
-            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+            <FormattedMessage
+              id='modals.kycverification.additionalinfo.start_verification'
+              defaultMessage='Start Verification'
+            />
           </Button>
         </ContentFooter>
       </MainContent>

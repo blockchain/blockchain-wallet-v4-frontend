@@ -431,3 +431,13 @@ export type ValidateApplePayMerchantRequest = {
 export type ValidateApplePayMerchantResponse = {
   applePayPayload: string
 }
+
+export type GooglePayInfoType = {
+  allowCreditCards: boolean
+  allowPrepaidCards: boolean
+  apiKey: string
+  beneficiaryID: string
+  cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
+  googlePayParameters: string
+  merchantBankCountry: string
+}
