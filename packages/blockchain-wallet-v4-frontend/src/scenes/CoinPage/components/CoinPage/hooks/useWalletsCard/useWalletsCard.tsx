@@ -48,6 +48,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
                   key={label}
                   bottomLeftText={label}
                   bottomRightText={totalCryptoFormatted}
+                  onClick={() => {}}
                   topLeftText={label}
                   topRightText={totalFiatFormatted}
                   icon={

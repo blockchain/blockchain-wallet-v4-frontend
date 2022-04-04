@@ -174,22 +174,23 @@ const App = ({
                     )}
                     <WalletLayout path='/prices' component={Prices} />
                     {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
-                    {coinViewV2 &&
-                      values(
-                        map((coinModel) => {
-                          const { coinfig } = coinModel
-                          return (
-                            <WalletLayout
-                              path={`/coin/${coinfig.symbol}`}
-                              component={CoinPage}
-                              coinViewV2={coinViewV2}
-                              coinfig={coinfig}
-                              coin={coinfig.symbol}
-                              key={coinfig.symbol}
-                            />
-                          )
-                        }, coinsWithBalance)
-                      )}
+                    {/** New Coinview with new url /coins/BTC */}
+                    {values(
+                      map((coinModel) => {
+                        const { coinfig } = coinModel
+                        return (
+                          <WalletLayout
+                            path={`/coins/${coinfig.symbol}`}
+                            component={CoinPage}
+                            coinViewV2={coinViewV2}
+                            coinfig={coinfig}
+                            coin={coinfig.symbol}
+                            key={coinfig.symbol}
+                          />
+                        )
+                      }, coinsWithBalance)
+                    )}
+                    {/** Old Coinview  */}
                     {values(
                       map((coinModel) => {
                         const { coinfig } = coinModel
