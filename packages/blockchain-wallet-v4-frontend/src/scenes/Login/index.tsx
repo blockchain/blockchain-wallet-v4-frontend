@@ -20,8 +20,17 @@ import {
 import { isBrowserSupported } from 'services/browser'
 
 import Loading from '../loading.public'
-import UpgradeOrSkip from './AccountUpgrade/UpgradeOrSkip'
-import UpgradeOverview from './AccountUpgrade/UpgradeOverview'
+import UpgradeOrSkip from './AccountUpgrade/2_0_UpgradeOrSkip'
+import UpgradeOverview from './AccountUpgrade/3_0_UpgradeOverview'
+import ErrorWalletCreation from './AccountUpgrade/3_1_1_ErrorWalletCreation'
+import ErrorAccountUpgrade from './AccountUpgrade/3_1_2_ErrorAccountUpgrade'
+import CreateWallet from './AccountUpgrade/3_1_CreateWallet'
+import Select2faType from './AccountUpgrade/3_2_Select2faType'
+import GoogleAuthSetup from './AccountUpgrade/3_3_1_GoogleAuthSetup'
+import GoogleAuthVerify from './AccountUpgrade/3_3_2_GoogleAuthVerify'
+import YubiKeySetup from './AccountUpgrade/3_4_1_YubiKeySetup'
+import YubiKeyVerified from './AccountUpgrade/3_4_2_YubiKeyVerified'
+import UpgradeSuccess from './AccountUpgrade/3_5_UpgradeSuccess'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -214,6 +223,24 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <UpgradeOrSkip {...loginProps} />
               case UpgradeSteps.UPGRADE_OVERVIEW:
                 return <UpgradeOverview {...loginProps} />
+              case UpgradeSteps.CREATE_WALLET:
+                return <CreateWallet {...loginProps} />
+              case UpgradeSteps.ERROR_WALLET_CREATION:
+                return <ErrorWalletCreation {...loginProps} />
+              case UpgradeSteps.ERROR_ACCOUNT_UPGRADE:
+                return <ErrorAccountUpgrade {...loginProps} />
+              case UpgradeSteps.SELECT_2FA_TYPE:
+                return <Select2faType {...loginProps} />
+              case UpgradeSteps.GOOGLE_AUTH_SETUP:
+                return <GoogleAuthSetup {...loginProps} />
+              case UpgradeSteps.GOOGLE_AUTH_VERIFY:
+                return <GoogleAuthVerify {...loginProps} />
+              case UpgradeSteps.UPGRADE_SUCCESS:
+                return <UpgradeSuccess {...loginProps} />
+              case UpgradeSteps.YUBIKEY_SETUP:
+                return <YubiKeySetup {...loginProps} />
+              case UpgradeSteps.YUBIKEY_VERIFIED:
+                return <YubiKeyVerified {...loginProps} />
               // MERGE STEPS
               // TODO
               // DEFAULT STEP
