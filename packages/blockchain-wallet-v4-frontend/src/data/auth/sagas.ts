@@ -231,10 +231,14 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            // yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
             return
           }
-          yield put(actions.router.push('/home'))
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.router.push('/home'))
+          } else {
+            yield put(actions.router.push('/select-product'))
+          }
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }

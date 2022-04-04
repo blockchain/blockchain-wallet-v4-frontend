@@ -4,7 +4,7 @@ import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { AuthMagicLink, LoginSteps } from 'data/types'
+import { AuthMagicLink, ExchangeAuthOriginType, ProductAuthOptions } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api, coreSagas, networks }) => {
@@ -173,6 +173,12 @@ export default ({ api, coreSagas, networks }) => {
           exchangeLifetimeToken
         )
       )
+      // if user is resetting their account and
+      // want to go to the Exchange
+      if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
+        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+        return
+      }
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
       yield put(actions.signup.resetAccountSuccess())
