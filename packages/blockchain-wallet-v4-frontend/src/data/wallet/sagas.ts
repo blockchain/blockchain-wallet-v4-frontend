@@ -198,11 +198,13 @@ export default ({ coreSagas }) => {
     })
 
     if (!isValidReceive) {
-      yield put(actions.auth.logWrongReceiveCache())
+      // TODO: use new analytics
+      // yield put(actions.auth.logWrongReceiveCache())
     }
 
     if (!isValidChange) {
-      yield put(actions.auth.logWrongChangeCache())
+      // TODO: use new analytics
+      // yield put(actions.auth.logWrongChangeCache())
     }
   }
 

@@ -71,7 +71,6 @@ const signupSlice = createSlice({
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
-
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload
     },
@@ -83,8 +82,7 @@ const signupSlice = createSlice({
     },
     setResetLogin: (state, action: PayloadAction<SignupStateType['resetAccount']>) => {
       state.resetAccount = action.payload
-    },
-    signupDetailsEntered: (state, action) => {}
+    }
   }
 })
 

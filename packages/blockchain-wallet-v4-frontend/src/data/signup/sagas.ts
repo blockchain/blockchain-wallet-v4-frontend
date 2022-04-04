@@ -46,7 +46,8 @@ export default ({ api, coreSagas, networks }) => {
       // } else {
       // TODO: want to pull user country off of exchange profile
       // For account upgrade
-      yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
+      // TODO: convert to new analytics
+      // yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
       yield call(loginRoutineSaga, {
         country,
         email,

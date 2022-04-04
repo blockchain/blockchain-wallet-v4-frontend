@@ -524,8 +524,6 @@ export default ({ api, coreSagas, networks }) => {
     // TODO: just for dev purposes, remove before release
     // yield put(actions.session.clearSessions())
     try {
-      // set loading
-      yield put(actions.auth.initializeLoginLoading())
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
@@ -621,12 +619,8 @@ export default ({ api, coreSagas, networks }) => {
           // check querystring to determine if mobile has already completed the device polling
           yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
       }
-
-      // hide loading and ensure latest app version
-      yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.misc.pingManifestFile())
     } catch (e) {
-      yield put(actions.auth.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }
   }
@@ -739,13 +733,11 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const { product, redirect } = yield select(selectors.auth.getProductAuthMetadata)
-    const decodedRedirect = decodeURIComponent(redirect)
+    const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
     const { captchaToken, email } = action.payload
     yield put(startSubmit(LOGIN_FORM))
     try {
-      yield put(actions.auth.triggerWalletMagicLinkLoading())
       let sessionToken
       if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
         sessionToken = yield select(selectors.session.getSession, null, email)
@@ -767,12 +759,10 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
-      yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload
       yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
-      yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
       yield put(actions.auth.analyticsLoginIdentifierFailed(e))

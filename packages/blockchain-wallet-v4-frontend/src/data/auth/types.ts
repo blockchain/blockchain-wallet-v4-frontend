@@ -185,6 +185,24 @@ export type AuthStateType = {
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
 }
 
+export type MagicLinkRequestPayloadType = {
+  captchaToken: string
+  email: string
+}
+
+export type ContinueLoginProcessPayloadType = {
+  captchaToken?: string
+  initCaptcha: () => void
+}
+
+export type LoginPayloadType = {
+  code?: string
+  guid: string
+  mobileLogin: boolean | null
+  password: string
+  sharedKey: string | null
+}
+
 //
 // mobile message types
 //
