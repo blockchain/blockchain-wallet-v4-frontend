@@ -32,10 +32,8 @@ const BackArrowHeader = (props: {
   marginTop?: string
   product?: ProductAuthOptions
 }) => {
-  const email =
-    props.product === ProductAuthOptions.EXCHANGE
-      ? props.formValues.exchangeEmail
-      : props.formValues.email
+  const isExchangeLogin = props.product === ProductAuthOptions.EXCHANGE
+  const email = isExchangeLogin ? props.formValues.exchangeEmail : props.formValues.email
   const guid = props.formValues?.guid
   const firstPartGuid = guid && guid.slice(0, 4)
   const lastPartGuid = guid && guid.slice(-4)
@@ -58,7 +56,7 @@ const BackArrowHeader = (props: {
           </Text>
         </BackArrow>
         <EmailAndGuid>
-          {props.hideGuid || email || (email && isMobile()) ? (
+          {props.hideGuid || email || (email && isMobile()) || isExchangeLogin ? (
             <Text
               color='blue600'
               size='12px'
@@ -76,7 +74,8 @@ const BackArrowHeader = (props: {
           {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
             props.formValues.email &&
             !props.hideGuid &&
-            !isMobile() && (
+            !isMobile() &&
+            !isExchangeLogin && (
               <Text size='12px' weight={500} color='grey400'>
                 ({firstPartGuid}...{lastPartGuid})
               </Text>
