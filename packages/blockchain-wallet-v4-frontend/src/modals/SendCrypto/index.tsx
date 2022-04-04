@@ -111,7 +111,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   ModalEnhancer(ModalName.SEND_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({

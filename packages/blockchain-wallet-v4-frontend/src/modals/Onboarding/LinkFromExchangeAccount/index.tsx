@@ -22,8 +22,8 @@ type OwnPropsType = {
 export type LinkStatePropsType = {
   email: string
   emailVerified: boolean
-  linkFromExchangeAccountStatus: any
-  userTiers: RemoteDataType<any, UserTiersType>
+  linkFromExchangeAccountStatus: RemoteDataType<string, { email: string; walletGuid: string }>
+  userTiers: RemoteDataType<string, UserTiersType>
   walletId: string
 }
 

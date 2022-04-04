@@ -130,7 +130,9 @@ export type AuthMagicLink = {
   }
 }
 
-export type LoginErrorType =
+export type LoginSuccessType = boolean
+export type LoginFailureType = string | boolean | undefined
+export type LoginApiErrorType =
   | {
       auth_type: number
       authorization_required: boolean
@@ -145,14 +147,6 @@ export type ExchangeLoginSuccessType = {}
 export type ExchangeLoginFailureType = any
 
 export type ExchangeResetPasswordSuccessType = any
-
-export type ExchangeResetPasswordFailureType = any
-
-export type LoginSuccessType = boolean
-
-export type LoginFailureType = string | boolean | undefined
-
-export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
   platform?: PlatformTypes
@@ -182,7 +176,7 @@ export type AuthStateType = {
   productAuthMetadata: ProductAuthMetadata
   registerEmail?: string
   resetAccount: boolean
-  secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
+  secureChannelLogin: RemoteDataType<string, undefined>
 }
 
 export type MagicLinkRequestPayloadType = {

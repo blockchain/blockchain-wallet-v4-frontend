@@ -85,7 +85,7 @@ type FormProps = {
 export type Props = ConnectedProps<typeof connector> & FormProps
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   reduxForm({
     destroyOnUnmount: false,
     form: RECOVER_FORM

@@ -938,46 +938,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      // case actions.auth.logWrongChangeCache.type: {
-      //   const state = store.getState()
-      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-      //   const email = state.profile.userData.getOrElse({})?.emailVerified
-      //     ? state.profile.userData.getOrElse({})?.email
-      //     : null
-      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-      //
-      //   analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
-      //     properties: {
-      //       originalTimestamp: getOriginalTimestamp()
-      //     },
-      //     traits: {
-      //       email,
-      //       nabuId,
-      //       tier
-      //     }
-      //   })
-      //   break
-      // }
-      // case actions.auth.logWrongReceiveCache.type: {
-      //   const state = store.getState()
-      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-      //   const email = state.profile.userData.getOrElse({})?.emailVerified
-      //     ? state.profile.userData.getOrElse({})?.email
-      //     : null
-      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-      //
-      //   analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
-      //     properties: {
-      //       originalTimestamp: getOriginalTimestamp()
-      //     },
-      //     traits: {
-      //       email,
-      //       nabuId,
-      //       tier
-      //     }
-      //   })
-      //   break
-      // }
       case actions.components.swap.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null

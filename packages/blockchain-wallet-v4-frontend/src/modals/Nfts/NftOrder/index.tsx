@@ -114,7 +114,7 @@ type OwnProps = ModalPropsType
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 // 👋 Order of composition is important, do not change!
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.NFT_ORDER, { transition: duration }),
   connector
 )

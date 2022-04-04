@@ -27,7 +27,7 @@ import {
   AccountUnificationFlows,
   AuthMagicLink,
   AuthUserType,
-  LoginErrorType,
+  LoginApiErrorType,
   LoginSteps,
   PlatformTypes,
   ProductAuthOptions
@@ -377,7 +377,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
-      const error = e as LoginErrorType
+      const error = e as LoginApiErrorType
       const initialError = typeof error !== 'string' && error.initial_error
       const errorString = typeof error === 'string' && error
       switch (true) {
@@ -403,7 +403,7 @@ export default ({ api, coreSagas, networks }) => {
               // }
             } catch (e) {
               // If error is that 2fa is required
-              const error = e as LoginErrorType
+              const error = e as LoginApiErrorType
               if (typeof error !== 'string' && error?.auth_type > 0) {
                 yield put(actions.auth.setAuthType(error.auth_type))
                 yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
@@ -553,6 +553,7 @@ export default ({ api, coreSagas, networks }) => {
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
       const exchangeWalletGuid = yield select(selectors.cache.getExchangeWalletGuid)
+      const DEFAULT_WALLET_LOGIN = '/login?product=wallet'
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
       // initialize login form and/or set initial auth step
@@ -571,7 +572,7 @@ export default ({ api, coreSagas, networks }) => {
           !walletGuidOrMagicLinkFromUrl &&
           product === ProductAuthOptions.WALLET:
           // change product param in url to make it clear to user
-          yield put(actions.router.push('/login?product=wallet'))
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
@@ -588,7 +589,7 @@ export default ({ api, coreSagas, networks }) => {
         // url is just /login, take them to enter guid or email
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/login?product=wallet'))
+            yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
             yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
           }
           if (product === ProductAuthOptions.EXCHANGE) {
@@ -605,7 +606,7 @@ export default ({ api, coreSagas, networks }) => {
           break
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
-          yield put(actions.router.push('/login?product=wallet'))
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break

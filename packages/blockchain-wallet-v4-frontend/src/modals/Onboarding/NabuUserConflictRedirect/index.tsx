@@ -78,7 +78,7 @@ type Props = ConnectedProps<typeof connector> & {
   errorMessage: string
 }
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   connect(null, mapDispatchToProps),
   modalEnhancer('NABU_USER_CONFLICT_REDIRECT'),
   connector

@@ -42,7 +42,7 @@ const Analytics = {
   ...TaxCenterEvents
 }
 
-// queevent properties
+// event properties
 type AnalyticsProperties =
   | OnboardingAndVerificationAnalyticsProperties
   | ViewAndClickAnalyticsProperties

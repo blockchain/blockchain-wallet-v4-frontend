@@ -108,7 +108,11 @@ const App = ({
                       pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout path='/logout' component={Logout} />
-                    <PublicLayout path='/select-product' component={ProductPicker} pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`} />
+                    <PublicLayout
+                      path='/select-product'
+                      component={ProductPicker}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
+                    />
                     <PublicLayout
                       path='/mobile-login'
                       component={MobileLogin}

@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { LOGIN_FORM } from 'data/auth/model'
 import { ProductAuthOptions } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
@@ -33,11 +32,9 @@ const EnterEmailOrGuid = (props: Props) => {
     authActions,
     busy,
     exchangeTabClicked,
-    formActions,
     formValues,
     invalid,
     isBrowserSupported,
-    routerActions,
     submitting,
     walletError
   } = props

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
+import { RemoteDataType } from '@core/remote/types'
 
 import {
   AccountUnificationFlows,
@@ -10,7 +12,6 @@ import {
   ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
-  ExchangeResetPasswordFailureType,
   ExchangeResetPasswordSuccessType,
   LoginFailureType,
   LoginPayloadType,
@@ -18,8 +19,7 @@ import {
   MagicLinkRequestPayloadType,
   PlatformTypes,
   ProductAuthMetadata,
-  ProductAuthOptions,
-  SecureChannelLoginType
+  ProductAuthOptions
 } from './types'
 
 const initialState: AuthStateType = {
@@ -91,10 +91,7 @@ const authSlice = createSlice({
       state.exchangeAuth.exchangeLogin = Remote.Success(action.payload)
     },
     exchangeResetPassword: (state, action: PayloadAction<string>) => {},
-    exchangeResetPasswordFailure: (
-      state,
-      action: PayloadAction<ExchangeResetPasswordFailureType>
-    ) => {
+    exchangeResetPasswordFailure: (state, action: PayloadAction<TypeError>) => {
       state.exchangeAuth.resetPassword = Remote.Failure(action.payload)
     },
     exchangeResetPasswordLoading: (state) => {
@@ -140,7 +137,10 @@ const authSlice = createSlice({
     secureChannelLoginNotAsked: (state) => {
       state.secureChannelLogin = Remote.NotAsked
     },
-    secureChannelLoginSuccess: (state, action: PayloadAction<SecureChannelLoginType>) => {
+    secureChannelLoginSuccess: (
+      state,
+      action: PayloadAction<RemoteDataType<string, undefined>>
+    ) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
