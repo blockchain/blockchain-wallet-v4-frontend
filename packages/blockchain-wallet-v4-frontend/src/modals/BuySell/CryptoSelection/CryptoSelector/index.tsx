@@ -10,7 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { getPreferredCurrency } from 'data/components/buySell/utils'
-import { SwapAccountType } from 'data/types'
+import { ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
@@ -72,7 +72,21 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   shouldComponentUpdate = (nextProps, nextState) =>
     !equals(this.props, nextProps) || !equals(this.state, nextState)
 
-  setOrderType = (orderType: OrderType) => this.setState({ orderType })
+  setOrderType = (orderType: OrderType) => {
+    if (orderType === OrderType.SELL && this.props.showSilverRevamp) {
+      const userCurrentTier = this.props.userData?.tiers?.current ?? 0
+
+      // non T2 users can't sell
+      if (userCurrentTier !== 2) {
+        this.props.modalsActions.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: 'BSEnterAmountCheckout'
+        })
+        return
+      }
+    }
+
+    this.setState({ orderType })
+  }
 
   handleBuy = (pair: BSPairType) => {
     const currentTier = this.props.userData?.tiers?.current

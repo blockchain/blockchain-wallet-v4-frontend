@@ -833,7 +833,7 @@ export default ({ api, coreSagas, networks }) => {
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { exchange, product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
@@ -848,6 +848,9 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        if (product === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.cache.exchangeEmail(exchange?.email))
+        }
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
       // @ts-ignore

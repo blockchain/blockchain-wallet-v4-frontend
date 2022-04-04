@@ -73,6 +73,10 @@ const AddCardCheckoutDotCom = (props: Props) => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.buySellActions.fetchFiatEligible(props.fiatCurrency)
     }
+
+    if (props.fiatCurrency) {
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+    }
   }, [])
 
   if (isError) {
