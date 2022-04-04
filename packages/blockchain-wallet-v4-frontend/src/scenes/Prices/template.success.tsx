@@ -86,6 +86,7 @@ const PricesTable = (props: Props) => {
     ({ index, style }) => {
       const row = rows[index]
       prepareRow(row)
+      console.log(row)
       return (
         <div key={`row-${row.id}`} {...row.getRowProps({ style })} className='tr'>
           {row.cells.map((cell) => (

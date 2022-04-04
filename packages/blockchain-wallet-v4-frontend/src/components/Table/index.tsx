@@ -5,6 +5,7 @@ import { Text } from 'blockchain-info-components'
 export const TableWrapper = styled.div`
   display: block;
   max-width: 100%;
+  width: 100%;
 
   .tableWrap {
     display: block;
