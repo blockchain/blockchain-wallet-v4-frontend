@@ -35,7 +35,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions 
 
   return (
     <TableWrapper>
-      <div {...getTableProps({ style: { height: '400px', overflow: 'scroll' } })} className='table'>
+      <div {...getTableProps({ style: { height: '360px', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
