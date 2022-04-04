@@ -26,9 +26,17 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getDCToken = (cardId) =>
+    authorizedPost({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/cards/${cardId}/marqeta-card-widget-token`,
+      url: nabuUrl
+    })
+
   return {
     createDCOrder,
     getDCCreated,
-    getDCProducts
+    getDCProducts,
+    getDCToken
   }
 }

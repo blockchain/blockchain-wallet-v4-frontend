@@ -12,3 +12,5 @@ export const isDebitCardModuleEnabledForAccount = (state: RootState): boolean =>
 }
 
 export const getCards = (state: RootState) => state.components.debitCard.cards
+
+export const getCardToken = (state: RootState) => state.components.debitCard.cardToken

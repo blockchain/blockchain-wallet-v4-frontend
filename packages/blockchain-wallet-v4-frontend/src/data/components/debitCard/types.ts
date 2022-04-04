@@ -3,6 +3,7 @@ import { RemoteDataType } from '@core/remote/types'
 
 export type DebitCardState = {
   cardCreationData: RemoteDataType<string, string>
+  cardToken: string
   cards: Array<DebitCardType>
   products: Array<ProductType>
 }
@@ -19,10 +20,10 @@ export type ProductType = {
 
 export type DebitCardType = {
   brand: string
-  cardId: string
   cardStatus: string
   createdAt: string
   expiry: string
+  id: string
   last4: string
   orderStatus: [
     {
