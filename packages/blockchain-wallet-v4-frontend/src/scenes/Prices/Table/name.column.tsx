@@ -20,9 +20,7 @@ const CellWrapper = styled(HeaderWrapper)`
     cursor: pointer;
   }
 `
-const CoinIcon = styled(Icon)`
-  margin-right: 16px;
-`
+const CoinIcon = styled(Icon)``
 
 export const getNameColumn = (modalActions: TableColumnsType['modalActions']) => ({
   Cell: ({ row: { original: values } }) => {

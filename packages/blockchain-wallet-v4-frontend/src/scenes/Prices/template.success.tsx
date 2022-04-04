@@ -5,7 +5,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
-import { CellText, HeaderText, TableWrapper } from 'components/Table'
+import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -86,7 +86,6 @@ const PricesTable = (props: Props) => {
     ({ index, style }) => {
       const row = rows[index]
       prepareRow(row)
-      console.log(row)
       return (
         <div key={`row-${row.id}`} {...row.getRowProps({ style })} className='tr'>
           {row.cells.map((cell) => (
@@ -133,9 +132,9 @@ const PricesTable = (props: Props) => {
                       <div>
                         {column.isSorted ? (
                           column.isSortedDesc ? (
-                            <span>▾</span>
+                            <HeaderToggle>▾</HeaderToggle>
                           ) : (
-                            <span>▴</span>
+                            <HeaderToggle>▴</HeaderToggle>
                           )
                         ) : (
                           ''

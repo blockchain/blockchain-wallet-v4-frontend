@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
 
 import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
-import { HeaderText, TableWrapper } from 'components/Table'
+import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
 
 import { getFloorPriceColumn } from './floor_price'
 import { getNameColumn } from './name.column'
@@ -34,11 +34,11 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
 
   return (
     <TableWrapper>
-      <div {...getTableProps()} className='table'>
-        <div>
+      <div {...getTableProps({ style: { height: '435px', overflow: 'scroll' } })} className='table'>
+        <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
-            <div {...headerGroup.getHeaderGroupProps()} className='tr'>
+            <div {...headerGroup.getHeaderGroupProps({})} className='tr'>
               {headerGroup.headers.map((column) => (
                 <div
                   key={column.key}
@@ -48,14 +48,22 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
                   <HeaderText>
                     {column.render('Header')}
                     <div>
-                      {column.isSorted ? column.isSortedDesc ? <span>▾</span> : <span>▴</span> : ''}
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <HeaderToggle>▾</HeaderToggle>
+                        ) : (
+                          <HeaderToggle>▴</HeaderToggle>
+                        )
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </HeaderText>
                 </div>
               ))}
             </div>
           ))}
-        </div>
+        </StickyTableHeader>
         <div {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row)

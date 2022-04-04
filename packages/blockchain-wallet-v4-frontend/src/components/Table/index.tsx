@@ -5,7 +5,9 @@ import { Text } from 'blockchain-info-components'
 export const TableWrapper = styled.div`
   display: block;
   max-width: 100%;
+  height: 100%;
   width: 100%;
+  min-width: 1200px;
 
   .tableWrap {
     display: block;
@@ -16,18 +18,18 @@ export const TableWrapper = styled.div`
 
   .table {
     display: block;
-    width: calc(100% - 1px);
+    height: 100%;
     border-spacing: 0;
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
 
     .th {
       display: table-header-group;
-      padding: 16px 8px;
     }
 
     .th,
     .td {
+      padding: 16px;
       vertical-align: middle;
       display: table-cell;
       margin: 0;
@@ -38,7 +40,8 @@ export const TableWrapper = styled.div`
     .td {
       border-top: 1px solid ${(props) => props.theme.grey100};
       height: 75px;
-      padding: 0;
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
     .tr {
@@ -47,13 +50,18 @@ export const TableWrapper = styled.div`
     }
   }
 `
-
+export const StickyTableHeader = styled.div`
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid ${(props) => props.theme.grey100};
+  background: ${(props) => props.theme.white};
+`
 export const CellHeaderText = styled(Text)`
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: ${(props) => props.theme.black};
+  color: ${(props) => props.theme.grey500};
 `
 export const CellText = styled(Text)`
   font-style: normal;
@@ -71,4 +79,7 @@ export const HeaderText = styled.div`
     margin-left: 8px;
     margin-top: -2px;
   }
+`
+export const HeaderToggle = styled.span`
+  color: ${(props) => props.theme.grey500};
 `

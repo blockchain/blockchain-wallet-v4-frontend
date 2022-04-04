@@ -1,7 +1,3 @@
-import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
-
 import { getActionsColumn } from './actions.column'
 import { getLinkColumn } from './link.column'
 import { getNameColumn } from './name.column'
