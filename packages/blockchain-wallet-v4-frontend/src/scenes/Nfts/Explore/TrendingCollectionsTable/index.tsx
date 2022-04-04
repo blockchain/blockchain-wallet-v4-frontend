@@ -4,24 +4,25 @@ import { useSortBy, useTable } from 'react-table'
 import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
 
+import { Props as OwnProps } from '..'
 import { getFloorPriceColumn } from './floor_price'
 import { getNameColumn } from './name.column'
 import { getOwnersColumn } from './owners'
 import { getTotalSupplyColumn } from './supply'
 import { getVolumeColumn } from './volume.column'
 
-export const getTableColumns = () => [
-  getNameColumn(),
+export const getTableColumns = (routerActions) => [
+  getNameColumn(routerActions),
   getVolumeColumn(),
   getFloorPriceColumn(),
   getOwnersColumn(),
   getTotalSupplyColumn()
 ]
 
-const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
+const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
-      columns: useMemo(() => getTableColumns(), []),
+      columns: useMemo(() => getTableColumns(routerActions), []),
       data: useMemo(() => collections, [collections]),
       disableMultiSort: true,
       disableSortRemove: true,
@@ -34,7 +35,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
 
   return (
     <TableWrapper>
-      <div {...getTableProps({ style: { height: '435px', overflow: 'scroll' } })} className='table'>
+      <div {...getTableProps({ style: { height: '400px', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
@@ -83,7 +84,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   )
 }
 
-type Props = {
+type Props = OwnProps & {
   collections: ExplorerGatewayNftCollectionType[]
 }
 

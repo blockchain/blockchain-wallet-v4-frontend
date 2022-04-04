@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { CellHeaderText, CellText } from 'components/Table'
+import { actions } from 'data'
 
 const NameCell = styled(CellText)`
   display: flex;
@@ -17,10 +18,10 @@ const Logo = styled.img`
   margin-right: 8px;
 `
 
-export const getNameColumn = () => ({
+export const getNameColumn = (routerActions: typeof actions.router) => ({
   Cell: ({ row: { original: values } }) => {
     return (
-      <NameCell>
+      <NameCell onClick={() => routerActions.push(`/nfts/collection/${values.slug}`)}>
         <Logo src={values.image_url} />
         {values.name.length < 24 ? values.name : `${values.name.slice(0, 20)}...`}
       </NameCell>
