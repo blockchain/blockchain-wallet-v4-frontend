@@ -28,7 +28,6 @@ const LoginWrapper = styled(Wrapper)`
 const EnterPasswordExchange = (props: Props) => {
   const {
     authActions,
-    busy,
     cache,
     exchangeError,
     formValues,
@@ -83,11 +82,11 @@ const EnterPasswordExchange = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.exchangePassword}
+            disabled={submitting || invalid || !formValues?.exchangePassword}
             data-e2e='passwordButton'
             style={{ marginBottom: '16px' }}
           >
-            {submitting || busy ? (
+            {submitting ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <Text color='whiteFade900' size='16px' weight={600}>
