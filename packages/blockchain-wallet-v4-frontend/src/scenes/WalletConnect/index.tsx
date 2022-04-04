@@ -7,9 +7,10 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
+import { CellText, HeaderText, TableWrapper } from 'components/Table'
 import { actions, selectors } from 'data'
 
-import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
+import { getTableColumns } from './Table'
 
 const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);

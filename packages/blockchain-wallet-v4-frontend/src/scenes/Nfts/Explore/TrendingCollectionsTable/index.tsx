@@ -1,14 +1,22 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { FixedSizeList as List } from 'react-window'
-import { HeaderText } from 'blockchain-wallet-v4-frontend/src/scenes/Prices/Table'
 
 import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
+import { HeaderText, TableWrapper } from 'components/Table'
 
+import { getFloorPriceColumn } from './floor_price'
 import { getNameColumn } from './name.column'
+import { getOwnersColumn } from './owners'
+import { getTotalSupplyColumn } from './supply'
+import { getVolumeColumn } from './volume.column'
 
-export const getTableColumns = () => [getNameColumn()]
+export const getTableColumns = () => [
+  getNameColumn(),
+  getVolumeColumn(),
+  getFloorPriceColumn(),
+  getOwnersColumn(),
+  getTotalSupplyColumn()
+]
 
 const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
@@ -18,50 +26,52 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
       disableMultiSort: true,
       disableSortRemove: true,
       initialState: {
-        sortBy: [{ id: 'name' }]
+        sortBy: [{ desc: true, id: 'one_day_volume' }]
       }
     },
     useSortBy
   )
 
   return (
-    <div {...getTableProps()} className='table'>
-      <div>
-        {headerGroups.map((headerGroup) => (
-          // eslint-disable-next-line react/jsx-key
-          <div {...headerGroup.getHeaderGroupProps()} className='tr'>
-            {headerGroup.headers.map((column) => (
-              <div
-                key={column.key}
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                className='th'
-              >
-                <HeaderText>
-                  {column.render('Header')}
-                  <div>
-                    {column.isSorted ? column.isSortedDesc ? <span>▾</span> : <span>▴</span> : ''}
-                  </div>
-                </HeaderText>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <div style={{ height: '100%' }}>
-        {rows.map((row) => {
-          prepareRow(row)
-          return (
-            <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
-              {row.cells.map((cell) => (
-                <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
-                  {cell.render('Cell')}
+    <TableWrapper>
+      <div {...getTableProps()} className='table'>
+        <div>
+          {headerGroups.map((headerGroup) => (
+            // eslint-disable-next-line react/jsx-key
+            <div {...headerGroup.getHeaderGroupProps()} className='tr'>
+              {headerGroup.headers.map((column) => (
+                <div
+                  key={column.key}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className='th'
+                >
+                  <HeaderText>
+                    {column.render('Header')}
+                    <div>
+                      {column.isSorted ? column.isSortedDesc ? <span>▾</span> : <span>▴</span> : ''}
+                    </div>
+                  </HeaderText>
                 </div>
               ))}
             </div>
-          )
-        })}
+          ))}
+        </div>
+        <div {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row)
+            return (
+              <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
+                {row.cells.map((cell) => (
+                  <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
+                    {cell.render('Cell')}
+                  </div>
+                ))}
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </TableWrapper>
   )
 }
 

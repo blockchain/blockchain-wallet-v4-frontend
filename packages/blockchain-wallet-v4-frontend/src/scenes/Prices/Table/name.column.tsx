@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
+import { CellHeaderText, CellText } from 'components/Table'
 
 import { TableColumnsType } from '..'
-import { CellHeaderText, CellText } from '.'
 
 const HeaderWrapper = styled.div`
   display: flex;

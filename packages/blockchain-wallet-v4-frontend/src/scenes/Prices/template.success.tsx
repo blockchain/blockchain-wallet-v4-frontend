@@ -5,8 +5,10 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
+import { CellText, HeaderText, TableWrapper } from 'components/Table'
+
 import { Props as _P, SuccessStateType as _S } from '.'
-import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
+import { getTableColumns } from './Table'
 
 const NoResultsWrapper = styled.div`
   display: flex;

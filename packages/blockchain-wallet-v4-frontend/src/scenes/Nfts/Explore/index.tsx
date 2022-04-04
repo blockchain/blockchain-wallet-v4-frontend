@@ -6,7 +6,6 @@ import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { TableWrapper } from '../../Prices/Table'
 import { NftPageV2 } from '../components'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
 
@@ -25,10 +24,6 @@ const Explore: React.FC<Props> = (props) => {
         NotAsked: () => null,
         Success: (val) => {
           return <TrendingCollectionsTable collections={val} />
-
-          return val
-            .slice(0, 9)
-            .map((collection) => <div key={collection.name}>{collection.name}</div>)
         }
       })}
     </NftPageV2>

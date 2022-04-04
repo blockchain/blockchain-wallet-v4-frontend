@@ -3,15 +3,15 @@ import { FormattedMessage } from 'react-intl'
 
 import { CellHeaderText, CellText } from 'components/Table'
 
-export const getNameColumn = () => ({
+export const getVolumeColumn = () => ({
   Cell: ({ row: { original: values } }) => {
-    return <CellText>{values.name}</CellText>
+    return <CellText>{values.one_day_volume}</CellText>
   },
   Header: () => (
     <CellHeaderText>
-      <FormattedMessage id='copy.collection' defaultMessage='Collection' />
+      <FormattedMessage id='copy.24h_volume' defaultMessage='24 Hour Volume' />
     </CellHeaderText>
   ),
-  accessor: 'name',
+  accessor: 'one_day_volume',
   disableGlobalFilter: true
 })

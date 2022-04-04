@@ -3,15 +3,15 @@ import { FormattedMessage } from 'react-intl'
 
 import { CellHeaderText, CellText } from 'components/Table'
 
-export const getNameColumn = () => ({
+export const getFloorPriceColumn = () => ({
   Cell: ({ row: { original: values } }) => {
-    return <CellText>{values.name}</CellText>
+    return <CellText>{values.floor_price}</CellText>
   },
   Header: () => (
     <CellHeaderText>
-      <FormattedMessage id='copy.collection' defaultMessage='Collection' />
+      <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
     </CellHeaderText>
   ),
-  accessor: 'name',
+  accessor: 'floor_price',
   disableGlobalFilter: true
 })
