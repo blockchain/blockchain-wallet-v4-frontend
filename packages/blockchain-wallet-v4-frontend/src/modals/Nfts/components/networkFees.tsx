@@ -46,7 +46,7 @@ const NetworkFeesComponent: React.FC<Props> = (props, val) => {
     <>
       <Wrapper>
         <Top onClick={toggleDropdown}>
-          <Text weight={500} color='#353F52'>
+          <Text weight={500} color='#353F52' lineHeight='24px'>
             Network Fees
           </Text>
           {!moreFees && (

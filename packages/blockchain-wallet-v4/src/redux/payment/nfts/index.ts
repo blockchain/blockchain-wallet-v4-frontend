@@ -99,7 +99,7 @@ export const fulfillNftOrder = async ({
 export const getNftBuyOrder = async (
   asset: NftAsset,
   signer: Signer,
-  expirationTime = 0,
+  expirationTime,
   startAmount: number,
   paymentTokenAddress: string,
   network: 'mainnet' | 'rinkeby'

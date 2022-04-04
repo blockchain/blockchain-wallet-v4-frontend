@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import moment from 'moment'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -270,12 +271,12 @@ const MakeOffer: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
-                            { text: '1 Day', value: '1' },
-                            { text: '3 Days', value: '3' },
-                            { text: '7 Days', value: '7' },
-                            { text: '1 Months', value: '180' },
-                            { text: '3 Months', value: '180' },
-                            { text: '6 Months', value: '180' }
+                            { text: '1 Day', value: 1 },
+                            { text: '3 Days', value: 3 },
+                            { text: '7 Days', value: 7 },
+                            { text: '1 Months', value: 30 },
+                            { text: '3 Months', value: 90 },
+                            { text: '6 Months', value: 180 }
                           ]
                         )
                       }
@@ -395,6 +396,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
+                          expirationTime: moment().add(formValues.expirationDays, 'day').valueOf(),
                           offerFees,
                           wrapFees,
                           ...formValues
@@ -451,6 +453,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string
+    expirationDays: string
   },
   rates: getRatesSelector('WETH', state).getOrElse({} as RatesType)
 })
@@ -463,7 +466,7 @@ const enhance = compose(
     form: 'nftMakeOffer',
     initialValues: {
       coin: 'WETH',
-      expirationDays: '1',
+      expirationDays: 1,
       networkFees: 'network'
     }
   }),
