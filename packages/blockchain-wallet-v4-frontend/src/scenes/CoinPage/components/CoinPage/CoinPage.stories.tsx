@@ -3,6 +3,9 @@ import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import moment from 'moment'
 
+import { Icon } from 'blockchain-info-components'
+import { IconCircularBackground } from 'components/IconCircularBackground'
+import { StandardRow } from 'components/Rows'
 import { Tab, Tabs } from 'components/Tabs'
 
 import { defaultAboutSectionActions } from '../../mocks/defaultAboutSectionActions'
@@ -15,6 +18,7 @@ import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
 import { ResponsiveCoinChart } from '../ResponsiveCoinChart'
+import { WalletsCard } from '../WalletsCard'
 import { CoinPage } from './CoinPage'
 import { CoinPageComponent } from './types'
 
@@ -181,7 +185,33 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       defaultValue: null
     },
     wallets: {
-      defaultValue: null
+      defaultValue: (
+        <WalletsCard>
+          <StandardRow
+            key={0}
+            icon={
+              <IconCircularBackground color='orange400'>
+                <Icon name='key' size='8px' color='white' />
+              </IconCircularBackground>
+            }
+            topLeftText='Private Key Wallet'
+            topRightText='$7,926.43'
+            bottomLeftText='Non-custodial'
+            bottomRightText='0.00039387 BTC'
+            onClick={() => null}
+          />
+
+          <StandardRow
+            key={1}
+            icon={<Icon name='arrow-top-right-bottom-left-circle' size='24px' color='orange400' />}
+            topLeftText='Trading Account'
+            topRightText='$201.20'
+            bottomLeftText='Custodial'
+            bottomRightText='0.00000093 BTC'
+            onClick={() => null}
+          />
+        </WalletsCard>
+      )
     }
   },
   component: CoinPage,
@@ -198,9 +228,7 @@ Default.args = {
   favoriteButton: null,
   header: 'Bitcoin',
   holdings: 'BitcoinWithBalance',
-  promoCard: null,
-  recurringBuys: null,
-  wallets: null
+  promoCard: null
 }
 
 export const NotTradable = Template.bind({})
@@ -210,8 +238,6 @@ NotTradable.args = {
   alertCard: 'not_tradable',
   favoriteButton: null,
   header: 'Solana',
-  promoCard: null,
-  recurringBuys: null,
-  wallets: null
+  promoCard: null
 }
 export default coinPageStoriesMeta
