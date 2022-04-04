@@ -10,6 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  Analytics,
   InitSwapFormValuesType,
   SwapAccountType,
   SwapBaseCounterTypes,
@@ -241,7 +242,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  verifyIdentity: () =>
+  verifyIdentity: () => {
     dispatch(
       actions.components.identityVerification.verifyIdentity({
         needMoreInfo: false,
@@ -249,6 +250,15 @@ const mapDispatchToProps = (dispatch) => ({
         tier: 2
       })
     )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'SWAP'
+        }
+      })
+    )
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

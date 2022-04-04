@@ -143,17 +143,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
-          if (
-            includes('.', value as unknown as string) ||
-            (value as unknown as string).match(emojiRegex)
-          ) {
-            yield put(
-              actions.components.send.fetchUnstoppableDomainResults(
-                value as unknown as string,
-                coin
+          if (typeof value === 'string') {
+            if (includes('.', value) || (value as string).match(emojiRegex)) {
+              yield put(
+                actions.components.send.fetchUnstoppableDomainResults(
+                  value as unknown as string,
+                  coin
+                )
               )
-            )
-            return
+              return
+            }
           }
           // @ts-ignore
           payment = yield payment.to(value)

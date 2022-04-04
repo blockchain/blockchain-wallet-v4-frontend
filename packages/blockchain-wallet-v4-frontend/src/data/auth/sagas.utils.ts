@@ -161,6 +161,7 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       // Default to send user back to enter email screen
       default:
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+        break
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {

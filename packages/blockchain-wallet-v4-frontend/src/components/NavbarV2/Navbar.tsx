@@ -161,7 +161,9 @@ const Navbar = ({
   receiveClickHandler,
   refreshClickHandler,
   sendClickHandler,
-  taxCenterEnabled
+  taxCenterClickHandler,
+  taxCenterEnabled,
+  trackEventCallback
 }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
@@ -198,6 +200,9 @@ const Navbar = ({
 
   const tertiaryNavItems = [
     {
+      clickHandler: () => {
+        trackEventCallback('General')
+      },
       copy: <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
       'data-e2e': 'settings_generalLink',
       to: '/settings/general'
@@ -218,6 +223,9 @@ const Navbar = ({
       'data-e2e': 'settings_profileLink'
     },
     {
+      clickHandler: () => {
+        trackEventCallback('Preferences')
+      },
       copy: (
         <FormattedMessage id='layouts.wallet.header.preferences' defaultMessage='Preferences' />
       ),
@@ -225,6 +233,9 @@ const Navbar = ({
       to: '/settings/preferences'
     },
     {
+      clickHandler: () => {
+        trackEventCallback('Preferences')
+      },
       copy: (
         <FormattedMessage
           id='layouts.wallet.header.walletsaddresses'
@@ -243,6 +254,7 @@ const Navbar = ({
 
   if (taxCenterEnabled) {
     tertiaryNavItems.splice(0, 0, {
+      clickHandler: taxCenterClickHandler,
       copy: (
         <>
           <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
@@ -251,8 +263,7 @@ const Navbar = ({
           </UpperNewCartridge>
         </>
       ),
-      'data-e2e': 'tax_CenterLink',
-      to: '/tax-center'
+      'data-e2e': 'tax_CenterLink'
     })
   }
 
@@ -307,17 +318,17 @@ const Navbar = ({
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
-              {tertiaryNavItems.map(({ clickHandler, copy, 'data-e2e': e2e, to }) => {
-                if (clickHandler) {
+              {tertiaryNavItems.map(({ clickHandler = () => {}, copy, 'data-e2e': e2e, to }) => {
+                if (!to && clickHandler) {
                   return (
-                    <DropdownMenuItem key={to} onClick={clickHandler} data-e2e={e2e}>
+                    <DropdownMenuItem key={e2e} onClick={clickHandler} data-e2e={e2e}>
                       <Destination>{copy}</Destination>
                     </DropdownMenuItem>
                   )
                 }
                 return (
-                  <DropdownNavLink key={to} to={to}>
-                    <DropdownMenuItem data-e2e={e2e}>
+                  <DropdownNavLink key={e2e} to={to}>
+                    <DropdownMenuItem data-e2e={e2e} onClick={clickHandler}>
                       <Destination>{copy}</Destination>
                     </DropdownMenuItem>
                   </DropdownNavLink>
@@ -429,7 +440,9 @@ type Props = {
   receiveClickHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
+  taxCenterClickHandler: () => void
   taxCenterEnabled: boolean
+  trackEventCallback: (eventName: string) => void
 }
 
 export default Navbar
