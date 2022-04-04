@@ -2042,7 +2042,7 @@ type MessagesType = {
   'scenes.authorizelogin.error.msg': 'Error: {error}'
   'scenes.authorizelogin.error.uhoh': 'Uh Oh. Something went wrong.'
   'scenes.authorizelogin.ipaddress': 'IP Address: '
-  'scenes.authorizelogin.loading.approved.content': 'Please return to your previous tab to view your wallet.'
+  'scenes.authorizelogin.loading.approved': 'Please return to your previous tab to continue login.'
   'scenes.authorizelogin.loading.approved.title': 'Login Approved!'
   'scenes.authorizelogin.loading.rejected.content': 'Please contact our support team if you have any questions or concerns.'
   'scenes.authorizelogin.loading.rejected.title': 'Login Attempt Rejected!'
