@@ -10,6 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  Analytics,
   InitSwapFormValuesType,
   SwapAccountType,
   SwapBaseCounterTypes,
@@ -109,6 +110,9 @@ class EnterAmount extends PureComponent<Props> {
 
     const { coinfig: baseCoinfig } = window.coins[BASE.coin]
     const { coinfig: counterCoinfig } = window.coins[COUNTER.coin]
+
+    const showSilverRevampBanner =
+      this.props.silverRevamp && this.props.products?.swap?.maxOrdersLeft > 0
 
     return (
       <>
@@ -216,7 +220,9 @@ class EnterAmount extends PureComponent<Props> {
                   <Border />
                 </Options>
                 <Checkout {...val} {...this.props} BASE={BASE} COUNTER={COUNTER} />
-                {userData.tiers.current === 1 && <Upgrade {...this.props} />}
+                {(showSilverRevampBanner || userData.tiers.current === 1) && (
+                  <Upgrade {...this.props} />
+                )}
               </>
             )
           })}
@@ -236,7 +242,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  verifyIdentity: () =>
+  verifyIdentity: () => {
     dispatch(
       actions.components.identityVerification.verifyIdentity({
         needMoreInfo: false,
@@ -244,6 +250,15 @@ const mapDispatchToProps = (dispatch) => ({
         tier: 2
       })
     )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'SWAP'
+        }
+      })
+    )
+  }
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

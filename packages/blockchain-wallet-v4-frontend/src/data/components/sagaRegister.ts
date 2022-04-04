@@ -41,7 +41,7 @@ import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function* componentsSaga() {
-    yield fork(brokerage({ api }))
+    yield fork(brokerage({ api, coreSagas, networks }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(coinTransactions())
@@ -77,6 +77,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(taxCenter({ api }))
     yield fork(uploadDocuments({ api }))
     yield fork(walletConnect({ coreSagas }))
-    yield fork(withdraw({ api }))
+    yield fork(withdraw({ api, coreSagas, networks }))
     yield fork(veriff({ api, coreSagas }))
   }

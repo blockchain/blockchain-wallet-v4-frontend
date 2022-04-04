@@ -40,7 +40,8 @@ export const LIMIT_FACTOR = 100 // we get 10000 from API
 
 export const SDD_TIER = 3
 
-export const NO_CHECKOUT_VALUES = 'No checkout values'
+// ERRORS
+export const NO_CHECKOUT_VALUES = 'NO_CHECKOUT_VALUES'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_ACCOUNT = 'NO_ACCOUNT'
 export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
@@ -158,3 +159,6 @@ export const getValidPaymentMethod = (method: BSPaymentTypes) => {
 }
 
 export const isFiatCurrencySupported = (currency: FiatType) => currency in WalletFiatEnum
+
+// TODO change this when I have access to the merchant ID
+export const GOOGLE_PAY_MERCHANT_ID = '12345678901234567890'

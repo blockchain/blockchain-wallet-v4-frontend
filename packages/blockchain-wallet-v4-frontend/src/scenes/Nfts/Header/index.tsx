@@ -8,6 +8,7 @@ import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
+import WorkInProgressComponent from '../components/workInProgressBanner'
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -62,6 +63,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   return (
     <Wrapper>
       <OpenSeaStatusComponent {...props} />
+      <WorkInProgressComponent />
       <InnerContainer>
         <TabsContainer>
           <TabMenu>

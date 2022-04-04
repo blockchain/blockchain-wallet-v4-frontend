@@ -167,7 +167,31 @@ export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_EMAIL_STEP
 })
 
-export const saveInfoAndResidentialData = (checkSddEligibility, onCompletionCallback) => ({
-  payload: { checkSddEligibility, onCompletionCallback },
+export const saveInfoAndResidentialData = (
+  checkSddEligibility,
+  onCompletionCallback,
+  skipExtraFields = true
+) => ({
+  payload: { checkSddEligibility, onCompletionCallback, skipExtraFields },
   type: AT.SAVE_INFO_AND_RESIDENTIAL_DATA
+})
+
+export const saveKYCExtraQuestions = () => ({
+  type: AT.SAVE_KYC_EXTRA_QUESTIONS
+})
+
+// extra KYC
+export const fetchExtraKYC = () => ({
+  type: AT.FETCH_KYC_EXTRA_QUESTIONS
+})
+export const fetchExtraKYCLoading = (): IdentityVerificationActionTypes => ({
+  type: AT.FETCH_KYC_EXTRA_QUESTIONS_LOADING
+})
+export const fetchExtraKYCSuccess = (questions): IdentityVerificationActionTypes => ({
+  payload: { questions },
+  type: AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS
+})
+export const fetchExtraKYCFailure = (e): IdentityVerificationActionTypes => ({
+  payload: { e },
+  type: AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE
 })

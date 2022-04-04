@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
@@ -6,22 +6,11 @@ import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { BlueCartridge, GreyCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer } from 'components/Flyout/Layout'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
+import { IconsContainer, Title } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
 
-const Title = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-`
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
 const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;
@@ -131,15 +120,52 @@ const CloseIconContainer = styled.div`
 type Props = OwnProps & SuccessStateType
 
 const Template = (props: Props) => {
-  const { identityVerificationActions, modalActions, userTiers } = props
+  useEffect(() => {
+    const userCurrentTier = props.userData?.tiers?.current ?? 0
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_VIEWED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [])
+
+  const {
+    analyticsActions,
+    handleClose,
+    identityVerificationActions,
+    modalActions,
+    userData,
+    userTiers
+  } = props
+  const userCurrentTier = userData?.tiers?.current ?? 0
+
   const startVerification = useCallback(() => {
     modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
-    modalActions.closeModal(ModalName.UPGRADE_NOW_MODAL)
+    modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
-      origin: 'Settings'
+      origin: 'UpgradeNowSilver'
     })
-  }, [identityVerificationActions, modalActions])
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [identityVerificationActions, modalActions, analyticsActions, userCurrentTier])
+
+  const onCloseModal = useCallback(() => {
+    handleClose()
+
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_TRADING_LIMITS_DISMISSED,
+      properties: {
+        tier: userCurrentTier
+      }
+    })
+  }, [analyticsActions, userCurrentTier, handleClose])
+
   if (!Array.isArray(userTiers)) {
     return null
   }
@@ -148,7 +174,7 @@ const Template = (props: Props) => {
     <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainer>
-          <Title color='textBlack' size='24px' weight={600}>
+          <Title color='textBlack'>
             <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
           </Title>
           <CloseIconContainer>
@@ -159,7 +185,7 @@ const Template = (props: Props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.onClose}
+              onClick={onCloseModal}
             />
           </CloseIconContainer>
         </IconsContainer>

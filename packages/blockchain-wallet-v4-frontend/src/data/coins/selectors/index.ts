@@ -60,7 +60,7 @@ export const getInterestBalance = (coin: CoinType, state) => {
 // generic selector that should be used by all features to request their desired
 // account types for their coins
 export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
-  const getCoinAccountsR = (state) => {
+  const getCoinAccountsR = (state: RootState) => {
     const coinList = ownProps?.coins
 
     // dynamically create account selectors via passed in coin list
@@ -82,7 +82,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     return Remote.of(
       map(
         (coinAccounts: RemoteDataType<any, typeof accounts>) =>
-          (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
+          (isEmpty(coinAccounts) && []) || (coinAccounts ? coinAccounts.getOrElse([]) : []),
         accounts
       ) as any
     )
@@ -91,7 +91,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
   const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
     getCoinAccountsR(state)
 
-  const accounts = accountsR.getOrElse({})
+  const accounts = accountsR?.getOrElse({}) || {}
 
   return accounts
 }

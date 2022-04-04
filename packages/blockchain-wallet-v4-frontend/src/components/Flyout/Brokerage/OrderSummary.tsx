@@ -228,7 +228,7 @@ const OrderSummary: React.FC<Props> = ({
                       <span>
                         <FormattedMessage
                           id='modals.simplebuy.summary.complete_card_info_additional'
-                          defaultMessage='In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
+                          defaultMessage='In the meantime, you can sell into cash, swap, and trade within Blockchain.com.'
                         />{' '}
                         <a
                           href='https://support.blockchain.com/hc/en-us/articles/360048200392'

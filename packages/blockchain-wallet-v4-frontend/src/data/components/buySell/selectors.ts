@@ -31,6 +31,8 @@ export const getAddCardError = (state: RootState) => state.components.buySell.ad
 
 export const getApplePayInfo = (state: RootState) => state.components.buySell.applePayInfo
 
+export const getGooglePayInfo = (state: RootState) => state.components.buySell.googlePayInfo
+
 export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
 export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS
@@ -74,81 +76,85 @@ export const getDefaultPaymentMethod = (state: RootState) => {
       return order.outputCurrency in FiatTypeEnum
     })
 
-    switch (actionType) {
-      case 'SELL':
-        let fiatCurrencyToUse = fiatCurrency
-        if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
-          const currenciesToUse = [FiatTypeEnum.USD, FiatTypeEnum.GBP, FiatTypeEnum.EUR]
-          const balancesToUse = Object.keys(sbBalances)
-            .filter((key) => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
-            .reduce((acc, key) => {
-              acc[key] = sbBalances[key]
-              return acc
-            }, {})
-          if (!isEmpty(balancesToUse)) {
-            fiatCurrencyToUse = Object.keys(balancesToUse).reduce((a, b) =>
-              balancesToUse[a].available > balancesToUse[b].available ? a : b
-            ) as FiatType
+    if (actionType === 'SELL') {
+      let fiatCurrencyToUse = fiatCurrency
+      if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
+        const currenciesToUse = [FiatTypeEnum.USD, FiatTypeEnum.GBP, FiatTypeEnum.EUR]
+        const balancesToUse = Object.keys(sbBalances)
+          .filter((key) => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
+          .reduce((acc, key) => {
+            acc[key] = sbBalances[key]
+            return acc
+          }, {})
+        if (!isEmpty(balancesToUse)) {
+          fiatCurrencyToUse = Object.keys(balancesToUse).reduce((a, b) =>
+            balancesToUse[a].available > balancesToUse[b].available ? a : b
+          ) as FiatType
+        }
+      }
+
+      return sbMethods.methods.find(
+        (method) => method.type === BSPaymentTypes.FUNDS && method.currency === fiatCurrencyToUse
+      )
+    }
+
+    if (!lastOrder) return undefined
+
+    const methodsOfType = sbMethods.methods.filter(
+      (method) => method.type === lastOrder.paymentType
+    )
+    const method = head(methodsOfType)
+
+    switch (lastOrder.paymentType) {
+      case BSPaymentTypes.USER_CARD:
+      case BSPaymentTypes.PAYMENT_CARD:
+        if (!method) return
+        const cards = getBSCards(state).getOrElse([])
+        let card = cards.find(
+          (value) =>
+            value.id === lastOrder.paymentMethodId && value.state === BSCardStateEnum.ACTIVE
+        )
+
+        if (!card) {
+          const randomActiveCard = cards.find((value) => value.state === BSCardStateEnum.ACTIVE)
+
+          card = randomActiveCard
+
+          if (!card) return undefined
+        }
+
+        return {
+          ...method,
+          ...card,
+          card: card?.card || undefined,
+          type: BSPaymentTypes.USER_CARD
+        }
+      case BSPaymentTypes.FUNDS:
+        return methodsOfType.find((method) => {
+          return (
+            method.currency === lastOrder.inputCurrency &&
+            method.currency === fiatCurrency &&
+            (sbBalances[method?.currency]?.available || 0) > 0
+          )
+        })
+      case BSPaymentTypes.LINK_BANK:
+      case BSPaymentTypes.BANK_TRANSFER:
+        if (!method) return
+        const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
+        if (bankAccount && bankAccount.state === 'ACTIVE') {
+          return {
+            ...method,
+            ...bankAccount,
+            state: 'ACTIVE',
+            type: lastOrder.paymentType as BSPaymentTypes
           }
         }
-
-        return sbMethods.methods.find(
-          (method) => method.type === BSPaymentTypes.FUNDS && method.currency === fiatCurrencyToUse
-        )
+        return undefined
+      case BSPaymentTypes.BANK_ACCOUNT:
+      case undefined:
+        return undefined
       default:
-        if (!lastOrder) return undefined
-
-        const methodsOfType = sbMethods.methods.filter(
-          (method) => method.type === lastOrder.paymentType
-        )
-        const method = head(methodsOfType)
-
-        switch (lastOrder.paymentType) {
-          case BSPaymentTypes.USER_CARD:
-          case BSPaymentTypes.PAYMENT_CARD:
-            if (!method) return
-            const sbCards = getBSCards(state).getOrElse([])
-            const sbCard = sbCards.find(
-              (value) =>
-                value.id === lastOrder.paymentMethodId && value.state === BSCardStateEnum.ACTIVE
-            )
-            const card = sbCard?.card || undefined
-
-            if (!card) return undefined
-
-            return {
-              ...method,
-              ...sbCard,
-              card,
-              type: BSPaymentTypes.USER_CARD
-            }
-          case BSPaymentTypes.FUNDS:
-            return methodsOfType.find((method) => {
-              return (
-                method.currency === lastOrder.inputCurrency &&
-                method.currency === fiatCurrency &&
-                (sbBalances[method?.currency]?.available || 0) > 0
-              )
-            })
-          case BSPaymentTypes.LINK_BANK:
-          case BSPaymentTypes.BANK_TRANSFER:
-            if (!method) return
-            const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
-            if (bankAccount && bankAccount.state === 'ACTIVE') {
-              return {
-                ...method,
-                ...bankAccount,
-                state: 'ACTIVE',
-                type: lastOrder.paymentType as BSPaymentTypes
-              }
-            }
-            return undefined
-          case BSPaymentTypes.BANK_ACCOUNT:
-          case undefined:
-            return undefined
-          default:
-            break
-        }
+        break
     }
   }
 

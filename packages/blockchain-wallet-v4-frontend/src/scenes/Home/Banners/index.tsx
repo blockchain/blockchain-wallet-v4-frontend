@@ -9,7 +9,6 @@ import { UserDataType } from 'data/types'
 
 import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
-import CeloEURRewards from './CeloEURRewards'
 import CoinRename from './CoinRename'
 import CompleteYourProfile from './CompleteYourProfile'
 import ContinueToGold from './ContinueToGold'
@@ -19,6 +18,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
+import TaxCenter from './TaxCenter'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -90,12 +90,6 @@ class Banners extends React.PureComponent<Props> {
             <ContinueToGold />
           </BannerWrapper>
         )
-      case 'celoEURRewards':
-        return (
-          <BannerWrapper>
-            <CeloEURRewards />
-          </BannerWrapper>
-        )
       case 'completeYourProfile':
         return (
           <BannerWrapper>
@@ -106,6 +100,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <RecurringBuys />
+          </BannerWrapper>
+        )
+      case 'taxCenter':
+        return (
+          <BannerWrapper>
+            <TaxCenter />
           </BannerWrapper>
         )
       default:

@@ -4,7 +4,7 @@ import { WalletOptionsType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
-import { FIRST_YEAR } from './model'
+import { BECH32_PREFIX, FIRST_YEAR, XPUB_PREFIX } from './model'
 
 type BtcContext = {
   addresses: Array<string>
@@ -49,11 +49,17 @@ export const getAddressesAndXpubs = createDeepEqualSelector(
       const bchContext = selectors.core.data.bch.getWalletContext(state)
 
       return {
-        bchAddresses: filter((x: string) => not(startsWith('xpub', x)), bchContext),
-        bchXPubs: filter((x: string) => startsWith('xpub', x), bchContext),
-        btcBech32ImportedAddresses: btcContext.addresses,
+        bchAddresses: filter((x: string) => not(startsWith(XPUB_PREFIX, x)), bchContext),
+        bchXPubs: filter((x: string) => startsWith(XPUB_PREFIX, x), bchContext),
+        btcBech32ImportedAddresses: filter(
+          (x: string) => startsWith(BECH32_PREFIX, x),
+          btcContext.addresses
+        ),
         btcBech32XPubs: btcContext.bech32,
-        btcLegacyImportedAddresses: btcContext.addresses,
+        btcLegacyImportedAddresses: filter(
+          (x: string) => not(startsWith(BECH32_PREFIX, x)),
+          btcContext.addresses
+        ),
         btcLegacyXPubs: btcContext.legacy,
         ethAddresses: [ethAccount],
         xlmAddresses: [xlmAccount]

@@ -51,29 +51,35 @@ const ProgressWrapper = styled.div`
   border-radius: 20px;
 `
 
-const TransactionsLeft = ({ current, limit }: Props) => {
-  const percentage = (current * 100) / limit
+const TransactionsLeft = ({ remaining }: Props) => {
   return (
     <Wrapper>
       <ProgressRow>
         <ProgressWrapper>
-          <CircularProgressBar percentage={percentage} strokeWidth={12}>
+          <CircularProgressBar percentage={0} strokeWidth={12}>
             <Text size='16px' color='blue600' weight={600}>
-              {`${current}/${limit}`}
+              {remaining}
             </Text>
           </CircularProgressBar>
         </ProgressWrapper>
       </ProgressRow>
       <Column>
         <Text size='16px' weight={600} color='grey900'>
-          <FormattedMessage
-            id='scenes.home.banners.transactions_left.title'
-            defaultMessage='Transactions Left'
-          />
+          {remaining > 1 ? (
+            <FormattedMessage
+              id='scenes.home.banners.transactions_left.title'
+              defaultMessage='Transactions Left'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.home.banners.transaction_left.title'
+              defaultMessage='Transaction Left'
+            />
+          )}
         </Text>
         <Text size='12px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
           <FormattedMessage
-            id='scenes.home.banners.transactions_left.description'
+            id='scenes.home.banners.transaction_left.description'
             defaultMessage='Unlimited trades and higher limits'
           />
         </Text>
@@ -82,6 +88,6 @@ const TransactionsLeft = ({ current, limit }: Props) => {
   )
 }
 
-type Props = { current: number; limit: number }
+type Props = { remaining: number }
 
 export default TransactionsLeft

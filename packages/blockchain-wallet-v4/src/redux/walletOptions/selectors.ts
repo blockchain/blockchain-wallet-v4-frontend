@@ -71,10 +71,6 @@ export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
 
-// celoEUR sweepstake feature flag
-export const getCeloEurRewards = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
@@ -82,6 +78,10 @@ export const getMergeAndUpgradeAccounts = (state: RootState) =>
 // apple pay as new payment method feature flag
 export const getApplePayAsNewPaymentMethod = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
+
+// google pay as new payment method feature flag
+export const getGooglePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'googlePayPaymentMethod']))
 
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
@@ -131,7 +131,7 @@ export const getInstitutionalPortalEnabled = (state: RootState) =>
 
 // show/hide silver revamp
 export const getSilverRevamp = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'silverRevamp']))
+  getWebOptions(state).map(path(['featureFlags', 'showSilverRevamp']))
 
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>

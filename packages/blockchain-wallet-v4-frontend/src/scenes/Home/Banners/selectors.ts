@@ -22,15 +22,16 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
-  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
+  | 'taxCenter'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
+export const getTaxCenterAnnouncement = () => `tax-center-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
   return (
@@ -43,7 +44,6 @@ const showBanner = (flag: boolean, banner: string, announcementState) => {
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
-
   let isVerifiedId = false
   let isBankOrCardLinked = false
   let isBuyCrypto = false
@@ -74,6 +74,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const userData = userDataR.getOrElse({
+    address: { country: '' },
     tiers: { current: 0 }
   } as UserDataType)
 
@@ -110,18 +111,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
 
-  // cEUR Rewards
-  const cEURAnnouncement = selectors.core.walletOptions
-    .getCeloEurRewards(state)
-    .getOrElse(false) as boolean
-  const cEURAnnouncementAnnouncement = 'ceur-rewards'
-  const showCEURBanner =
-    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
-    userData &&
-    userData.address &&
-    userData.address.country &&
-    ['US', 'DE', 'IT', 'FR', 'NL'].indexOf(userData.address.country) === -1
-
   const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
@@ -152,17 +141,25 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   }
 
+  // tax center
+  const isCountryUS = userData?.address?.country === 'US'
+  const taxCenterAnnouncement = getTaxCenterAnnouncement()
+  const taxCenterEnabled = selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean
+  const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
+
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
-  if (showCompleteYourProfileBanner && !isProfileCompleted) {
+  if (showTaxCenterBanner && taxCenterEnabled) {
+    bannerToShow = 'taxCenter'
+  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showCEURBanner) {
-    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {

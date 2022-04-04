@@ -1,6 +1,6 @@
-import { SDDEligibleType, SDDVerifiedType } from './types'
+import { ExtraQuestionsType, SDDEligibleType, SDDVerifiedType } from './types'
 
-export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post }) => {
   const getSupportedCountries = () =>
     get({
       data: { scope: 'kyc' },
@@ -111,7 +111,25 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
       url: nabuUrl
     })
 
+  const fetchKYCExtraQuestions = (): ExtraQuestionsType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/kyc/extra-questions',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const updateKYCExtraQuestions = (extraQuestions: ExtraQuestionsType): SDDVerifiedType =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { nodes: extraQuestions.nodes },
+      endPoint: '/kyc/extra-questions',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
+    fetchKYCExtraQuestions,
     fetchKycAddresses,
     fetchKycConfig,
     fetchPreIdvData,
@@ -126,6 +144,7 @@ export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
     selectTier,
     sendDeeplink,
     syncVeriff,
+    updateKYCExtraQuestions,
     uploadDocuments
   }
 }

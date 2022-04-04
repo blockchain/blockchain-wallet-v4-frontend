@@ -35,6 +35,7 @@ enum AnalyticsKey {
   LINK_BANK_CLICKED = 'Link Bank Clicked',
   LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
+  LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
   LOGIN_METHOD_SELECTED = 'Login Method Selected',
   LOGIN_PASSWORD_DENIED = 'Login Password Denied',
   LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
@@ -379,6 +380,11 @@ type LoginIdentifierEnteredPayload = BasePayload & {
   identifier_type: 'EMAIL' | 'WALLET_ID'
 }
 
+type LoginIdentifierFailedPayload = BasePayload & {
+  error_code: string
+  error_message: string
+}
+
 type LoginMethodSelectedPayload = BasePayload & {
   login_method: 'PASSWORD' | 'SECURE_CHANNEL'
 }
@@ -450,7 +456,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   frequency: RecurringBuyPeriods
   input_amount: number
   input_currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'TRANSACTION_DETAILS' | 'RECURRING_BUY_DETAILS'
   output_currency: string
   payment_method: BSPaymentTypes
 }
@@ -461,7 +467,7 @@ export type RecurringBuyClickedPayload = BasePayload & {
 
 export type RecurringBuyDetailsClickedPayload = BasePayload & {
   currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'CURRENCY_PAGE' | 'TRANSACTION_LIST'
 }
 
 type SellAmountEnteredPayload = BasePayload & {
@@ -545,7 +551,7 @@ type SettingsHyperlinkClickedPayload = BasePayload & {
 type SettingsTabClickedDestination =
   | 'GENERAL'
   | 'PREFERENCES'
-  | 'TRADING_LIMITS_MODAL'
+  | 'TRADING_LIMITS'
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {
@@ -641,6 +647,7 @@ type UpgradeVerificationClickedOrigin =
   | 'UNKNOWN'
 
 type UpgradeVerificationClickedPayload = BasePayload & {
+  currency: string
   origin: UpgradeVerificationClickedOrigin
   tier: number
 }
@@ -716,6 +723,7 @@ type AnalyticsProperties =
   | LinkBankClickedPayload
   | LoginHelpClickedPayload
   | LoginIdentifierEnteredPayload
+  | LoginIdentifierFailedPayload
   | LoginMethodSelectedPayload
   | LoginRequestPayload
   | LoginRequestApprovedOrFailedPayload

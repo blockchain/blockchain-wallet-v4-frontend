@@ -65,6 +65,7 @@ const mapStateToProps = (state: RootState) => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  modalsActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch)
 })
 

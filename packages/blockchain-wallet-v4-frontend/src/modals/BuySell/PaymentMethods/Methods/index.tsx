@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
+  CardFundSourceType,
   MobilePaymentType,
   OrderType,
   WalletCurrencyType,
@@ -19,6 +20,7 @@ import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
 import BankWire from './BankWire'
+import GooglePay from './GooglePay'
 import LinkBank from './LinkBank'
 import PaymentCard from './PaymentCard'
 
@@ -53,6 +55,7 @@ export type Props = OwnProps & SuccessStateType
 
 const Methods = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
+  const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -74,22 +77,66 @@ const Methods = (props: Props) => {
           />
         )
       case BSPaymentTypes.PAYMENT_CARD:
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+        ) {
+          return (
+            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
+          )
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+        ) {
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.paymentcard.credit'
+              defaultMessage='Credit Card'
+            />
+          )
+        }
+
         return (
           <FormattedMessage
-            id='modals.simplebuy.paymentcard'
+            id='modals.simplebuy.paymentcard.debit_and_credit'
             defaultMessage='Credit or Debit Card'
           />
         )
       case BSPaymentTypes.USER_CARD:
-        return value && value.card ? (
-          value.card.label ? (
-            value.card.label
-          ) : (
-            value.card.type
+        if (value?.card) {
+          if (value.card.label) {
+            return value.card.label
+          }
+
+          return value.card.type
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+        ) {
+          return (
+            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
           )
-        ) : (
+        }
+
+        if (
+          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+        ) {
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.paymentcard.credit'
+              defaultMessage='Credit Card'
+            />
+          )
+        }
+
+        return (
           <FormattedMessage
-            id='modals.simplebuy.paymentcard'
+            id='modals.simplebuy.paymentcard.debit_and_credit'
             defaultMessage='Credit or Debit Card'
           />
         )
@@ -184,6 +231,11 @@ const Methods = (props: Props) => {
       method.value.mobilePayment?.includes(MobilePaymentType.APPLE_PAY) &&
       orderType === OrderType.BUY
   )
+  const googlePay = defaultMethods.find(
+    (method) =>
+      method.value.mobilePayment?.includes(MobilePaymentType.GOOGLE_PAY) &&
+      orderType === OrderType.BUY
+  )
 
   const cardMethods = availableCards.map((card) => ({
     text: card.card ? (card.card.label ? card.card.label : card.card.type) : 'Credit or Debit Card',
@@ -200,7 +252,12 @@ const Methods = (props: Props) => {
   }))
 
   const anyAvailableMethod =
-    funds.length || cardMethods.length || !!paymentCard || !!bankAccount || !!applePay
+    funds.length ||
+    cardMethods.length ||
+    !!paymentCard ||
+    !!bankAccount ||
+    !!applePay ||
+    !!googlePay
 
   useEffect(() => {
     if (
@@ -210,7 +267,15 @@ const Methods = (props: Props) => {
     ) {
       setApplePayAvailable(true)
     }
-  }, [props.applePayEnabled, props.isInternalTester])
+
+    if (
+      (window as any).google &&
+      (window as any).google.payments.api &&
+      (props.googlePayEnabled || props.isInternalTester)
+    ) {
+      setGooglePayAvailable(true)
+    }
+  }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
 
   return (
     <Wrapper>
@@ -273,6 +338,17 @@ const Methods = (props: Props) => {
                 handlePaymentMethodSelect({
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
+                })
+              }}
+            />
+          ) : null}
+
+          {googlePay && isGooglePayAvailable ? (
+            <GooglePay
+              onClick={() => {
+                handlePaymentMethodSelect({
+                  method: googlePay.value,
+                  mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
               }}
             />

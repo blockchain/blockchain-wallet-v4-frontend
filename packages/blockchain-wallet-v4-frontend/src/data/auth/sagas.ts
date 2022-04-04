@@ -3,7 +3,6 @@ import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -27,6 +26,7 @@ import * as S from './selectors'
 import {
   AccountUnificationFlows,
   AuthMagicLink,
+  AuthUserType,
   LoginErrorType,
   LoginSteps,
   PlatformTypes,
@@ -82,7 +82,7 @@ export default ({ api, coreSagas, networks }) => {
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
-    const { comRoot: institutionalDomain, exchange: exchangeDomain } = selectors.core.walletOptions
+    const { exchange: exchangeDomain } = selectors.core.walletOptions
       .getDomains(yield select())
       .getOrElse({
         exchange: 'https://exchange.blockchain.com'
@@ -121,10 +121,10 @@ export default ({ api, coreSagas, networks }) => {
           yield put(stopSubmit(LOGIN_FORM))
           break
         // web - institutional exchange login
-        // only insitutional users coming from the .com page will have
+        // only institutional users coming from the .com page will have
         // a redirect link. All other users coming from footer in login page
         // should be redirected to regular exchange app in the default case
-        case userType === 'institutional' && institutionalPortalEnabled && redirect:
+        case userType === AuthUserType.INSTITUTIONAL && !!redirect && institutionalPortalEnabled:
           window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
         // mobile - exchange sso login
@@ -185,11 +185,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
-      const invitations = selectors.core.settings
-        .getInvitations(yield select())
-        .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
+      if (!isLatestVersion) {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
@@ -620,7 +616,7 @@ export default ({ api, coreSagas, networks }) => {
       // get product param or default to wallet
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
-      const userType = queryParams.get('userType') as string
+      const userType = (queryParams.get('userType')?.toUpperCase() || undefined) as AuthUserType
       const redirect = queryParams.get('redirect') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
@@ -648,7 +644,7 @@ export default ({ api, coreSagas, networks }) => {
           yield call(initMobileWalletAuthFlow)
           break
         // institutional login portal for Prime exchange users
-        case userType === 'institutional':
+        case userType === AuthUserType.INSTITUTIONAL:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
           break
         // no guid on path, use cached/stored guid if exists
@@ -829,6 +825,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
@@ -836,7 +833,7 @@ export default ({ api, coreSagas, networks }) => {
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { exchange, product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
@@ -851,6 +848,9 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        if (product === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.cache.exchangeEmail(exchange?.email))
+        }
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
       // @ts-ignore
