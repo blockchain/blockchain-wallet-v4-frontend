@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
+import { colors, Icon, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -14,6 +14,7 @@ import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
 import MobileDropdown from './MobileDropdown'
+import { IconClose, IconMenu, IconRefresh, IconUser } from '@blockchain-com/icons'
 
 export type PrimaryNavItem = {
   dest: string
@@ -24,7 +25,7 @@ export type PrimaryNavItem = {
 const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white1};
+  background-color: ${colors.white100};
   display: flex;
   justify-content: space-between;
   padding: 0 22px;
@@ -92,7 +93,7 @@ const ListStyles = styled.ul`
 
     &:hover,
     &.active {
-      background-color: ${colors.blue0};
+      background-color: ${colors.blue000};
       color: ${colors.blue600};
     }
   }
@@ -306,7 +307,9 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color={colors.grey400} name={IconName.REFRESH} size='sm' />
+          <Icon color='grey400' label='refresh' size='sm'>
+            <IconRefresh />
+          </Icon>
         </NavButton>
       ),
       name: 'Refresh'
@@ -314,12 +317,14 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color={colors.grey400} name={IconName.USER} size='sm' />
+          <Icon color='grey400' label='open-menu' size='sm'>
+            <IconUser />
+          </Icon>
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
               {tertiaryNavItems.map(({ clickHandler = () => {}, copy, 'data-e2e': e2e, to }) => {
-                if (!to && clickHandler) {
+                if (!to) {
                   return (
                     <DropdownMenuItem key={e2e} onClick={clickHandler} data-e2e={e2e}>
                       <Destination>{copy}</Destination>
@@ -402,17 +407,16 @@ const Navbar = ({
               </li>
               <li>
                 {isMobileNavOpen ? (
-                  <Icon
-                    color={colors.grey600}
-                    data-e2e='closeMobileNav'
-                    name={IconName.CLOSE}
-                    role='button'
-                    size='md'
-                    onClick={closeMobileNavCallback}
-                  />
+                  <div role='button' onClick={closeMobileNavCallback} data-e2e='closeMobileNav'>
+                    <Icon color='grey600' label='close-menu' size='md'>
+                      <IconClose />
+                    </Icon>
+                  </div>
                 ) : (
                   <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                    <Icon name={IconName.MENU} color={colors.blue500} size='md' />
+                    <Icon label='open-menu' color='blue500' size='md'>
+                      <IconMenu />
+                    </Icon>
                   </NavButton>
                 )}
               </li>
