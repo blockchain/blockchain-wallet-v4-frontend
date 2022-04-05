@@ -20,6 +20,9 @@ export const Label = styled.div`
 
 export const CenteredTitle = styled(Text)`
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 export const Items = styled.div`
@@ -74,4 +77,13 @@ export const SubHeaderWrapper = styled.div`
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
+`
+
+export const TextToRightWrapper = styled.div`
+  width: 100%;
+  text-align: right;
+`
+
+export const ErrorMsgWrapper = styled(Text)`
+  margin-top: 8px;
 `

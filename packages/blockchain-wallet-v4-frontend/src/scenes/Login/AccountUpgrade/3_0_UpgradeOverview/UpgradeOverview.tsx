@@ -121,7 +121,7 @@ const UpgradeOverview = (props) => {
           height='48px'
           onClick={() => {}}
         >
-          <FormattedMessage id='scenes.login.upgrade.3.0.button_1' defaultMessage='Next' />
+          <FormattedMessage id='scenes.login.upgrade.3.0.button' defaultMessage='Next' />
         </ButtonNext>
       </Wrapper>
       <StyledTemporaryButton
