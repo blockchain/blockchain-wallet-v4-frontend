@@ -136,11 +136,7 @@ const InstitutionalPortal = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.EXCHANGE}
-          />
+          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.EXCHANGE} />
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink />

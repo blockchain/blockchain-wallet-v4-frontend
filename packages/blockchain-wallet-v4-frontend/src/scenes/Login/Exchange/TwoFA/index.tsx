@@ -94,7 +94,6 @@ const TwoFAExchange = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='2FA'
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}

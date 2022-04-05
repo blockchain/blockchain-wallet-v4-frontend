@@ -147,7 +147,7 @@ export type Props = OwnProps &
   ConnectedProps<typeof connector>
 
 // 👋 Order of composition is important, do not change!
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.REQUEST_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({

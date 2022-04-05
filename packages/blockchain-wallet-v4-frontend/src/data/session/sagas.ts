@@ -2,6 +2,7 @@ import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
+import { Analytics } from 'data/types'
 
 export default ({ api }) => {
   const logLocation = 'session/sagas'
@@ -33,6 +34,14 @@ export default ({ api }) => {
       } else {
         yield call(logoutClearReduxStore)
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_OUT,
+          properties: {
+            site_redirect: 'WALLET'
+          }
+        })
+      )
     }
   }
 

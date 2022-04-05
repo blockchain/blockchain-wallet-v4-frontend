@@ -95,7 +95,6 @@ const EnterPasswordExchange = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='PASSWORD'
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}

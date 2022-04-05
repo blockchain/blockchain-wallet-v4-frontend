@@ -1,50 +1,42 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
+import { RemoteDataType } from '@core/remote/types'
 
 import {
   AccountUnificationFlows,
   AuthStateType,
   AuthUserType,
+  ContinueLoginProcessPayloadType,
   ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
-  ExchangeResetPasswordFailureType,
   ExchangeResetPasswordSuccessType,
   LoginFailureType,
-  LoginRoutinePayloadType,
+  LoginPayloadType,
   LoginSuccessType,
+  MagicLinkRequestPayloadType,
   PlatformTypes,
   ProductAuthMetadata,
-  ProductAuthOptions,
-  SecureChannelLoginType
+  ProductAuthOptions
 } from './types'
 
 const initialState: AuthStateType = {
-  accountUnificationFlow: undefined,
   auth_type: 0,
   authorizeVerifyDevice: Remote.NotAsked,
   exchangeAuth: {
-    exchangeAccountConflict: undefined,
     exchangeLogin: Remote.NotAsked,
-    exchangeLoginError: undefined,
-    jwtToken: undefined,
     resetPassword: Remote.NotAsked
   },
   isAuthenticated: false,
   isLoggingIn: false,
   login: Remote.NotAsked,
-  magicLinkData: undefined,
-  magicLinkDataEncoded: undefined,
   manifestFile: null,
-
   mobileLoginStarted: false,
   productAuthMetadata: {
-    platform: PlatformTypes.WEB,
-    product: undefined,
-    redirect: undefined
+    platform: PlatformTypes.WEB
   },
-  registerEmail: undefined,
   resetAccount: false,
   secureChannelLogin: Remote.NotAsked
 }
@@ -53,21 +45,6 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
-    analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
-    analyticsAuthorizeVerifyDeviceSuccess: () => {},
-    analyticsLoginIdEntered: (state, action) => {},
-    analyticsLoginIdentifierFailed: (state, action) => {},
-    analyticsLoginMethodSelected: (state, action) => {},
-    analyticsLoginPasswordDenied: () => {},
-    analyticsLoginPasswordEntered: () => {},
-    analyticsLoginTwoStepVerificationDenied: () => {},
-    analyticsLoginTwoStepVerificationEntered: () => {},
-    analyticsMagicLinkParsed: () => {},
-    analyticsNeedHelpClicked: (state, action) => {},
-    analyticsRecoveryOptionSelected: (state, action) => {},
-    analyticsRecoveryPhraseEntered: () => {},
-    analyticsResetAccountCancelled: (state, action) => {},
-    analyticsResetAccountClicked: (state, action) => {},
     authenticate: (state) => {
       state.isAuthenticated = true
     },
@@ -81,12 +58,11 @@ const authSlice = createSlice({
     authorizeVerifyDeviceSuccess: (state, action) => {
       state.authorizeVerifyDevice = Remote.Success(action.payload)
     },
-
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
-    continueLoginProcess: (state, action) => {},
+    continueLoginProcess: (state, action: PayloadAction<ContinueLoginProcessPayloadType>) => {},
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)
@@ -98,10 +74,7 @@ const authSlice = createSlice({
       state.exchangeAuth.exchangeLogin = Remote.Success(action.payload)
     },
     exchangeResetPassword: (state, action: PayloadAction<string>) => {},
-    exchangeResetPasswordFailure: (
-      state,
-      action: PayloadAction<ExchangeResetPasswordFailureType>
-    ) => {
+    exchangeResetPasswordFailure: (state, action: PayloadAction<TypeError>) => {
       state.exchangeAuth.resetPassword = Remote.Failure(action.payload)
     },
     exchangeResetPasswordLoading: (state) => {
@@ -117,12 +90,7 @@ const authSlice = createSlice({
       state.exchangeAuth.resetPassword = Remote.Success(action.payload)
     },
     initializeLogin: () => {},
-    initializeLoginFailure: () => {},
-    initializeLoginLoading: () => {},
-    initializeLoginSuccess: () => {},
-    logWrongChangeCache: () => {},
-    logWrongReceiveCache: () => {},
-    login: (state, action) => {
+    login: (state, action: PayloadAction<LoginPayloadType>) => {
       state.isLoggingIn = true
     },
     loginFailure: (state, action: PayloadAction<LoginFailureType>) => {
@@ -131,7 +99,6 @@ const authSlice = createSlice({
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    loginRoutine: (state, action: PayloadAction<LoginRoutinePayloadType>) => {},
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },
@@ -142,7 +109,7 @@ const authSlice = createSlice({
     mobileLoginStarted: (state) => {
       state.mobileLoginStarted = true
     },
-    resendSmsCode: (state, action) => {},
+    resendSmsCode: (state, action: PayloadAction<{ email?: string; guid?: string }>) => {},
     secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
@@ -152,7 +119,10 @@ const authSlice = createSlice({
     secureChannelLoginNotAsked: (state) => {
       state.secureChannelLogin = Remote.NotAsked
     },
-    secureChannelLoginSuccess: (state, action: PayloadAction<SecureChannelLoginType>) => {
+    secureChannelLoginSuccess: (
+      state,
+      action: PayloadAction<RemoteDataType<string, undefined>>
+    ) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
@@ -161,7 +131,6 @@ const authSlice = createSlice({
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
-    setCachedWalletData: () => {},
     setExchangeAccountConflict: (
       state,
       action: PayloadAction<AuthStateType['exchangeAuth']['exchangeAccountConflict']>
@@ -189,14 +158,8 @@ const authSlice = createSlice({
         userType: userType?.toUpperCase() as AuthUserType
       }
     },
-
-    signupDetailsEntered: (state, action) => {},
     startLogoutTimer: () => {},
-    triggerWalletMagicLink: (state, action) => {},
-    triggerWalletMagicLinkFailure: () => {},
-    triggerWalletMagicLinkLoading: () => {},
-    triggerWalletMagicLinkNotAsked: () => {},
-    triggerWalletMagicLinkSuccess: () => {}
+    triggerWalletMagicLink: (state, action: PayloadAction<MagicLinkRequestPayloadType>) => {}
   }
 })
 

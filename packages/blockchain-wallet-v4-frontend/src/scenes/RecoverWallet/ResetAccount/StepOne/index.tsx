@@ -1,9 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { RecoverSteps } from 'data/types'
+import { actions } from 'data'
+import { Analytics, RecoverSteps } from 'data/types'
 
 import { ActionButton, BackArrowFormHeader, CircleBackground } from '../../model'
 import { Props as OwnProps } from '..'
@@ -17,27 +20,55 @@ class StepOne extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
-      firstResetAcccountPrompt: true
+      firstResetAccountPrompt: true
     }
   }
 
   handleResetAccountClick = () => {
-    if (this.state.firstResetAcccountPrompt === true) {
-      this.setState({ firstResetAcccountPrompt: false })
-      this.props.authActions.analyticsResetAccountClicked('RESET_CONFIRMATION')
+    const { analyticsActions, setFormStep } = this.props
+
+    if (this.state.firstResetAccountPrompt) {
+      this.setState({ firstResetAccountPrompt: false })
+      analyticsActions.trackEvent({
+        key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
+        properties: {
+          origin: 'RESET_CONFIRMATION',
+          site_redirect: 'WALLET'
+        }
+      })
     } else {
-      this.props.setFormStep()
-      this.props.authActions.analyticsResetAccountClicked('RESET_FINAL_WARNING')
+      setFormStep()
+      analyticsActions.trackEvent({
+        key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
+        properties: {
+          origin: 'RESET_FINAL_WARNING',
+          site_redirect: 'WALLET'
+        }
+      })
     }
   }
 
   handleGoBackClick = () => {
-    if (this.state.firstResetAcccountPrompt === true) {
-      this.props.setStep(RecoverSteps.RECOVERY_OPTIONS)
-      this.props.authActions.analyticsResetAccountCancelled('RESET_CONFIRMATION')
+    const { analyticsActions, setStep } = this.props
+
+    if (this.state.firstResetAccountPrompt) {
+      setStep(RecoverSteps.RECOVERY_OPTIONS)
+      analyticsActions.trackEvent({
+        key: Analytics.RECOVERY_RESET_ACCOUNT_CANCELLED,
+        properties: {
+          origin: 'RESET_CONFIRMATION',
+          site_redirect: 'WALLET'
+        }
+      })
     } else {
-      this.setState({ firstResetAcccountPrompt: true })
-      this.props.authActions.analyticsResetAccountCancelled('RESET_FINAL_WARNING')
+      this.setState({ firstResetAccountPrompt: true })
+      analyticsActions.trackEvent({
+        key: Analytics.RECOVERY_RESET_ACCOUNT_CANCELLED,
+        properties: {
+          origin: 'RESET_FINAL_WARNING',
+          site_redirect: 'WALLET'
+        }
+      })
     }
   }
 
@@ -50,7 +81,7 @@ class StepOne extends React.PureComponent<Props, State> {
           email={emailFromMagicLink}
           step={RecoverSteps.RESET_ACCOUNT}
         />
-        {this.state.firstResetAcccountPrompt && (
+        {this.state.firstResetAccountPrompt && (
           <FormBody>
             <CircleBackground color='blue600' size='40px' style={{ marginTop: '16px' }}>
               <Icon name='sync-regular' color='white' size='20px' />
@@ -78,7 +109,7 @@ class StepOne extends React.PureComponent<Props, State> {
             </Text>
           </FormBody>
         )}
-        {!this.state.firstResetAcccountPrompt && (
+        {!this.state.firstResetAccountPrompt && (
           <FormBody>
             <CircleBackground color='orange600' size='40px' style={{ marginTop: '16px' }}>
               <Icon name='alert-filled' color='white' size='20px' style={{ marginBottom: '2px' }} />
@@ -91,7 +122,7 @@ class StepOne extends React.PureComponent<Props, State> {
               style={{ margin: '8px 0', textAlign: 'center' }}
             >
               <FormattedMessage
-                id='sscenes.recovery.reset_warning_title'
+                id='scenes.recovery.reset_warning_title'
                 defaultMessage='Resetting Account May Result in Lost Funds'
               />
             </Text>
@@ -124,10 +155,17 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 }
 
-type State = { firstResetAcccountPrompt: boolean }
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type State = { firstResetAccountPrompt: boolean }
 
 type Props = {
   setFormStep: () => void
-} & OwnProps
+} & OwnProps &
+  ConnectedProps<typeof connector>
 
-export default StepOne
+export default connector(StepOne)

@@ -54,7 +54,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch)
 })
 

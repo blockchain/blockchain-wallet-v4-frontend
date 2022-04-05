@@ -99,7 +99,7 @@ const CloudRecovery = (props: Props) => {
               </Text>
             </TextColumn>
           )}
-          {props.secureChannelLoginState.cata({
+          {props.secureChannelLoginStateR.cata({
             Failure: (e) => (
               <Text>
                 {typeof e === 'string' ? (
@@ -162,7 +162,10 @@ const CloudRecovery = (props: Props) => {
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
   qrData: selectors.cache.getChannelPrivKeyForQrData(state),
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>
+  secureChannelLoginStateR: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<
+    string,
+    undefined
+  >
 })
 
 const mapDispatchToProps = (dispatch) => ({

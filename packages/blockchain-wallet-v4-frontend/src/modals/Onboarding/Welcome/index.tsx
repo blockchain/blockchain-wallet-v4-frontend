@@ -185,7 +185,7 @@ type LinkDispatchPropsType = {
 
 type Props = OwnPropsType & LinkDispatchPropsType & ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.WELCOME_MODAL, { transition: duration }),
   connector
 )

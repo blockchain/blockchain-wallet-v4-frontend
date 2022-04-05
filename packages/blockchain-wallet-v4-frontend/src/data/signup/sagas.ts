@@ -1,10 +1,10 @@
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { AuthMagicLink, ExchangeAuthOriginType, ProductAuthOptions } from 'data/types'
+import { Analytics, AuthMagicLink, ExchangeAuthOriginType, ProductAuthOptions } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api, coreSagas, networks }) => {
@@ -44,17 +44,22 @@ export default ({ api, coreSagas, networks }) => {
       // if (formValues?.step === LoginSteps.UPGRADE_PASSWORD) {
       //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
       // } else {
-      // TODO: want to pull user country off of exchange profile
-      // For account upgrade
-      yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
       yield call(loginRoutineSaga, {
         country,
         email,
         firstLogin: true,
         state
       })
-      // }
       yield put(actions.signup.registerSuccess(undefined))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+          properties: {
+            country,
+            country_state: state
+          }
+        })
+      )
     } catch (e) {
       yield put(actions.signup.registerFailure(undefined))
       yield put(actions.auth.loginFailure(e))
@@ -145,7 +150,6 @@ export default ({ api, coreSagas, networks }) => {
   const resetAccount = function* (action) {
     // if user is resetting their custodial account
     // create a new wallet and assign an existing custodial account to that wallet
-    yield put(actions.signup.resetAccountLoading())
     try {
       const { email, language, password } = action.payload
       // get recovery token and nabu ID
@@ -181,9 +185,16 @@ export default ({ api, coreSagas, networks }) => {
       }
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
-      yield put(actions.signup.resetAccountSuccess())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.RECOVERY_PASSWORD_RESET,
+          properties: {
+            account_type: 'CUSTODIAL',
+            site_redirect: 'WALLET'
+          }
+        })
+      )
     } catch (e) {
-      yield put(actions.signup.resetAccountFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
     }
