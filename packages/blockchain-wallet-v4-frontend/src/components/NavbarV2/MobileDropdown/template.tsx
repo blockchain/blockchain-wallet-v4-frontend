@@ -1,13 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { colors, Icon, useClickOutside } from '@blockchain-com/constellation'
+import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
 import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/NavbarDropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
-
-import Switch from './Switch'
-import { IconPhone } from '@blockchain-com/icons'
 
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
 const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
@@ -21,6 +18,7 @@ const CustomDropdownMenu = styled(DropdownMenu)`
   right: -8px;
   padding: 16px;
   border-radius: 8px;
+
   &:hover {
     cursor: default;
   }
@@ -33,6 +31,7 @@ const NavbarButton = styled.button`
   padding: 0;
   border: 0;
   height: 16px;
+
   &:hover {
     cursor: pointer;
   }
@@ -63,11 +62,7 @@ const MobileDropdown = () => {
 
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
-      <div onClick={handleMenuToggle}>
-        <Icon color='grey400' label='open-menu' size='sm'>
-          <IconPhone />
-        </Icon>
-      </div>
+      <Icon color={colors.grey400} name={IconName.PHONE} size='sm' onClick={handleMenuToggle} />
       {isMenuOpen && (
         <CustomDropdownMenu>
           <DropdownMenuArrow />

@@ -1,17 +1,10 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon as ConsIcon } from '@blockchain-com/constellation'
+import { colors, Icon as ConsIcon, IconName } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { OptionRightActionRow } from 'components/Rows'
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconMinusCircle,
-  IconPlusCircle,
-  IconSwap
-} from '@blockchain-com/icons'
 
 const Column = styled.div`
   display: flex;
@@ -82,12 +75,9 @@ const rows = ({
     ),
     handleClick: handleBuy,
     header: <FormattedMessage id='buttons.buy' defaultMessage='Buy' />,
-    key: '0',
-    icon: (
+    iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon label='buy' color='blue100' size='md'>
-          <IconPlusCircle />
-        </ConsIcon>
+        <ConsIcon name={IconName.PLUS_CIRCLE} color={colors.blue100} size='md' />
         <IconBG />
       </CustomIconWrapper>
     )
@@ -101,12 +91,9 @@ const rows = ({
     ),
     handleClick: handleSell,
     header: <FormattedMessage id='buttons.sell' defaultMessage='Sell' />,
-    key: '1',
-    icon: (
+    iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon label='sell' color='blue100' size='md'>
-          <IconMinusCircle />
-        </ConsIcon>
+        <ConsIcon name={IconName.MINUS_CIRCLE} color={colors.blue100} size='md' />
         <IconBG />
       </CustomIconWrapper>
     )
@@ -120,12 +107,9 @@ const rows = ({
     ),
     handleClick: handleSwap,
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
-    key: '2',
-    icon: (
+    iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon label='swap' color='blue600' size='md'>
-          <IconSwap />
-        </ConsIcon>
+        <ConsIcon name={IconName.ARROW_BI_DIRECTIONAL} color={colors.blue600} size='md' />
       </CustomIconWrapper>
     )
   },
@@ -138,12 +122,9 @@ const rows = ({
     ),
     handleClick: handleDeposit,
     header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
-    key: '3',
-    icon: (
+    iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon label='deposit' color='blue600' size='md'>
-          <IconArrowDown />
-        </ConsIcon>
+        <ConsIcon name={IconName.ARROW_DOWN} color={colors.blue600} size='md' />
       </CustomIconWrapper>
     )
   },
@@ -156,12 +137,9 @@ const rows = ({
     ),
     handleClick: handleWithdraw,
     header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
-    key: '4',
-    icon: (
+    iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon label='withdraw' color='blue600' size='md'>
-          <IconArrowUp />
-        </ConsIcon>
+        <ConsIcon name={IconName.ARROW_UP} color={colors.blue600} size='md' />
       </CustomIconWrapper>
     )
   }
@@ -186,8 +164,14 @@ const Trade = ({
 
       <ContentContainer>
         {rows({ handleBuy, handleDeposit, handleSell, handleSwap, handleWithdraw }).map(
-          ({ description, handleClick, header, icon, key }) => (
-            <OptionRightActionRow icon={icon} key={key} onClick={handleClick}>
+          ({ description, handleClick, header, iconColor, iconComponent, iconName }) => (
+            <OptionRightActionRow
+              iconComponent={iconComponent}
+              iconColor={iconColor}
+              iconName={iconName}
+              key={iconName}
+              onClick={handleClick}
+            >
               <Text color='grey900' weight={600}>
                 {header}
               </Text>
@@ -212,11 +196,12 @@ type Props = {
 }
 
 type RowType = {
-  key: string
   description: JSX.Element
   handleClick: () => void
   header: JSX.Element
-  icon?: ReactNode
+  iconColor?: string
+  iconComponent?: () => void
+  iconName?: string
 }
 
 export default Trade

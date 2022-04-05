@@ -7,11 +7,36 @@ import { BSPaymentTypes } from '@core/types'
 import { TextBox } from 'components/Form'
 
 import { Props as AddCardProps } from '../../../modals/BuySell/AddCardEverypay/template.success'
-import { DEFAULT_CARD_SVG_LOGO, getCardTypeByValue } from './model'
-
-export { normalizeCreditCard } from './utils'
+import { DEFAULT_CARD_FORMAT, DEFAULT_CARD_SVG_LOGO, getCardTypeByValue } from './model'
 
 const duration = 250
+export const normalizeCreditCard = (value, previousValue) => {
+  if (!value) return value
+
+  const { format, maxCardNumberLength } = getCardTypeByValue(value) || {
+    format: DEFAULT_CARD_FORMAT,
+    maxCardNumberLength: 16
+  }
+
+  if (value.replace(/[^\d]/g, '').length > maxCardNumberLength) {
+    return previousValue
+  }
+
+  if (format.global) {
+    const match = value.match(format)
+    return match ? match.join(' ') : ''
+  }
+
+  const execResult = format.exec(value.split(' ').join(''))
+  if (execResult) {
+    return execResult
+      .splice(1, 3)
+      .filter((x) => x)
+      .join(' ')
+  }
+
+  return value
+}
 
 export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   const cardType = getCardTypeByValue(value)
