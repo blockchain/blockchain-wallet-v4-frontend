@@ -40,8 +40,15 @@ export const deriveAddressFromXpub = (xpub) => {
   return ethers.utils.computeAddress(ethPublic)
 }
 
-export const calculateFee = (gasPrice: string, gasLimit: string, toWei: boolean): string => {
-  const feeGWei = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).toString()
+export const calculateFee = (
+  gasPrice: string,
+  gasLimit: string,
+  toWei: boolean,
+  extraGasForMemo = 0
+): string => {
+  const feeGWei = new BigNumber(gasPrice)
+    .multipliedBy(new BigNumber(gasLimit).plus(extraGasForMemo))
+    .toString()
 
   if (toWei) {
     return convertGweiToWei(feeGWei)
