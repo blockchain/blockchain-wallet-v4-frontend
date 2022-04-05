@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconAlert } from '@blockchain-com/icons'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 
 import { RemoteDataType } from '@core/types'
 import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
@@ -32,9 +31,7 @@ import {
 
 const ErrorMessage = () => (
   <AlertMessage>
-    <Icon label='reports' color='orange600' size='sm'>
-      <IconAlert />
-    </Icon>
+    <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
     <Text size='12px' color='orange600' weight={500}>
       <FormattedMessage
         id='scenes.tax.center.card.report.error.message'

@@ -1,14 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink, withRouter } from 'react-router-dom'
-import { colors, Icon } from '@blockchain-com/constellation'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 
 import { PrimaryNavItem } from './Navbar'
-import { IconCheckCircle } from '@blockchain-com/icons'
 
 const MobileNavList = styled.ul`
   margin: 0;
@@ -27,10 +26,10 @@ const StyledLi = styled.li<{ selected?: boolean }>`
     margin: 10px 8px;
   }
 
-  background: ${({ selected }) => (selected ? colors.blue000 : '')};
+  background: ${({ selected }) => (selected ? colors.blue0 : '')};
 
   &:hover {
-    background: ${colors.blue000};
+    background: ${colors.blue0};
   }
 `
 
@@ -75,9 +74,7 @@ const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }:
                       {item.text}
                     </Text>
                     {location?.pathname?.includes(item.dest) && (
-                      <Icon label='icon' color='blue600' size='sm'>
-                        <IconCheckCircle />
-                      </Icon>
+                      <Icon name={IconName.CHECK_CIRCLE} color={colors.blue600} size='sm' />
                     )}
                   </StyledNavLink>
                 </div>
@@ -97,9 +94,7 @@ const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }:
                         {copy}
                       </Text>
                       {location?.pathname?.includes(to) && (
-                        <Icon label='icon' color='blue600' size='sm'>
-                          <IconCheckCircle />
-                        </Icon>
+                        <Icon name={IconName.CHECK_CIRCLE} color={colors.blue600} size='sm' />
                       )}
                     </StyledNavLink>
                   </div>
