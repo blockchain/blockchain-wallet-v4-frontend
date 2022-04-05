@@ -22,6 +22,11 @@ const ProductImageRow = styled.div`
 const ProductImage = styled(Image)`
   margin: 0 1.5rem;
   cursor: pointer;
+  height: 400px;
+  transition: height 0.5s;
+  &:hover {
+    height: 424px;
+  }
 `
 const WhiteCircle = styled.div`
   display: flex;
@@ -55,10 +60,10 @@ const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
       </TitleWrapper>
       <ProductImageRow>
         <Link onClick={walletRedirect}>
-          <ProductImage name='product-redirect-wallet' height='400px' />
+          <ProductImage name='product-redirect-wallet' />
         </Link>
         <Link onClick={exchangeRedirect}>
-          <ProductImage name='product-redirect-exchange' height='400px' />
+          <ProductImage name='product-redirect-exchange' />
         </Link>
       </ProductImageRow>
     </>

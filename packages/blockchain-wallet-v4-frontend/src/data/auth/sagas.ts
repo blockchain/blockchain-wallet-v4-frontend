@@ -243,8 +243,9 @@ export default ({ api, coreSagas, networks }) => {
       yield delay(3000)
       // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
-        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
-        return
+        return yield put(
+          actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
+        )
       }
       if (firstLogin) {
         const countryCode = country || 'US'
@@ -255,10 +256,14 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            // yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
             return
           }
-          yield put(actions.router.push('/home'))
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.router.push('/home'))
+          } else {
+            yield put(actions.router.push('/select-product'))
+          }
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }
@@ -416,7 +421,13 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
-      yield put(stopSubmit(LOGIN_FORM))
+      // Solves the problem of from submit stopping
+      // before exchange login is complete for unified accounts
+      // heartbeat loader would stop for a second before
+      // opening exchange window
+      if (product !== ProductAuthOptions.EXCHANGE) {
+        yield put(stopSubmit(LOGIN_FORM))
+      }
     } catch (e) {
       const error = e as LoginApiErrorType
       const initialError = typeof error !== 'string' && error.initial_error
