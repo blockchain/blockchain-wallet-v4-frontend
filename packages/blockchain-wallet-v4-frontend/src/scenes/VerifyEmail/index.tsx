@@ -14,9 +14,17 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     this.state = {}
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  // When feature flag to create unified accounts is off
+  // We don't want to direct the user to /select-product
+  // rather take them straight to home screen of the wallet
+
+  static getDerivedStateFromProps(nextProps, props) {
     if (nextProps.isEmailVerified) {
-      nextProps.routerActions.push('/select-product')
+      if (props.createExchangeUserFlag) {
+        nextProps.routerActions.push('/select-product')
+      } else {
+        nextProps.routerActions.push('/home')
+      }
     }
     return null
   }
@@ -29,7 +37,11 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   skipVerification = () => {
     const { email } = this.props
     this.props.securityCenterActions.skipVerifyEmail(email)
-    this.props.routerActions.push('/select-product')
+    if (this.props.createExchangeUserFlag) {
+      this.props.routerActions.push('/select-product')
+    } else {
+      this.props.routerActions.push('/home')
+    }
   }
 
   render() {
@@ -45,6 +57,9 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
+  createExchangeUserFlag: selectors.core.walletOptions
+    .getCreateExchangeUserOnSignupOrLogin(state)
+    .getOrElse(false),
   email: selectors.signup.getRegisterEmail(state) as string,
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false)
 })
