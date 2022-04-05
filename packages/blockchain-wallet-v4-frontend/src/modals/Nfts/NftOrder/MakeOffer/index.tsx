@@ -395,7 +395,22 @@ const MakeOffer: React.FC<Props> = (props) => {
                     >
                       {formValues.amount ? (
                         props.orderFlow.isSubmitting ? (
-                          <>{props.orderFlow.status}</>
+                          <>
+                            {props.orderFlow.status &&
+                              (props.orderFlow.status === 'WRAP_ETH' ? (
+                                <>
+                                  <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+                                  <div style={{ paddingLeft: '1em' }}>
+                                    <FormattedMessage
+                                      id='copy.wrap_eth'
+                                      defaultMessage='Wrapping Eth...'
+                                    />
+                                  </div>
+                                </>
+                              ) : (
+                                <>{props.orderFlow.status}</>
+                              ))}
+                          </>
                         ) : (
                           <FormattedMessage
                             id='copy.make_offer_value'
