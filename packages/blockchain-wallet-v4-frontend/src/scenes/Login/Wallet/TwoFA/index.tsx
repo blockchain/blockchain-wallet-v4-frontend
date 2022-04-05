@@ -62,6 +62,7 @@ const TwoFAWallet = (props: Props) => {
           {...props}
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
+          product={props.productAuthMetadata.product}
         />
         {authType > 0 && (
           <FormGroup>
@@ -138,11 +139,7 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='2FA'
-            product={ProductAuthOptions.WALLET}
-          />
+          <NeedHelpLink origin='2FA' product={ProductAuthOptions.WALLET} />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignupLink />

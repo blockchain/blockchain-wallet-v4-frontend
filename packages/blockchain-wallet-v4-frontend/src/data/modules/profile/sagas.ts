@@ -1,10 +1,12 @@
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -347,6 +349,7 @@ export default ({ api, coreSagas, networks }) => {
       )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(stopSubmit(LOGIN_FORM))
     }
   }
   const createUser = function* () {

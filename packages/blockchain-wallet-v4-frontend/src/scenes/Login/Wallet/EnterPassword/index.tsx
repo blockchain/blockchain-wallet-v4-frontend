@@ -156,19 +156,9 @@ const EnterPasswordWallet = (props: Props) => {
               {passwordError && (
                 <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
                   <FormattedMessage
-                    id='scenes.login.wrong_password_recover'
-                    defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+                    id='scenes.login.wrong_password'
+                    defaultMessage='Wrong password.'
                   />
-                  {'  '}
-                  <LinkContainer to='/recover'>
-                    <Link size='12px' data-e2e='loginRecover'>
-                      <FormattedMessage
-                        id='scenes.login.recover_account'
-                        defaultMessage='Recover account'
-                      />
-                      .
-                    </Link>
-                  </LinkContainer>
                 </FormError>
               )}
               {accountLocked && (
@@ -194,11 +184,7 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink
-              authActions={authActions}
-              origin='PASSWORD'
-              product={ProductAuthOptions.WALLET}
-            />
+            <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignupLink />

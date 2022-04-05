@@ -324,6 +324,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       }
     }
   }
+
   const handleMaxClick = () => {
     const maxMin: string = getMaxMin(
       'max',
@@ -341,6 +342,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.limits
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
+    if (props.orderType === OrderType.SELL) {
+      props.buySellActions.handleSellMaxAmountClick({ amount: value, coin: conversionCoinType })
+    } else if (props.orderType === OrderType.BUY) {
+      props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
+    }
+  }
+
+  const handleCustomMinMaxClick = (value) => {
     if (props.orderType === OrderType.SELL) {
       props.buySellActions.handleSellMaxAmountClick({ amount: value, coin: conversionCoinType })
     } else if (props.orderType === OrderType.BUY) {
@@ -645,7 +654,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
-          {props.orderType === OrderType.BUY && products?.buy && products.buy.enabled === false && (
+          {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
             <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
           )}
 
@@ -653,7 +662,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <ButtonContainer>
               {props.orderType === OrderType.BUY ? (
                 amtError === 'BELOW_MIN' ? (
-                  <AlertButton>
+                  <AlertButton onClick={handleMinMaxClick}>
                     <FormattedMessage
                       id='copy.below_min'
                       defaultMessage='{amount} Minimum'
@@ -667,11 +676,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </AlertButton>
                 ) : amtError === 'ABOVE_LIMIT' ||
                   (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
-                  <AlertButton>
+                  <AlertButton onClick={handleMaxClick}>
                     <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
                   </AlertButton>
                 ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
-                  <AlertButton>
+                  <AlertButton onClick={handleMaxClick}>
                     <FormattedMessage
                       id='copy.not_enough_coin'
                       defaultMessage='Not Enough {coin}'
@@ -681,7 +690,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     />
                   </AlertButton>
                 ) : (
-                  <AlertButton>
+                  <AlertButton onClick={handleMaxClick}>
                     <FormattedMessage
                       id='copy.above_max'
                       defaultMessage='{amount} Maximum'
@@ -696,17 +705,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 )
               ) : null}
 
-              {props.orderType === OrderType.SELL && (
-                <AlertButton>
-                  <FormattedMessage
-                    id='copy.not_enough_coin'
-                    defaultMessage='Not Enough {coin}'
-                    values={{
-                      coin: cryptoCurrency
-                    }}
-                  />
-                </AlertButton>
-              )}
+              {props.orderType === OrderType.SELL &&
+                (amtError === 'BELOW_MIN' ? (
+                  <AlertButton onClick={handleMinMaxClick}>
+                    <FormattedMessage
+                      id='copy.below_min'
+                      defaultMessage='{amount} Minimum'
+                      values={{
+                        amount: `${getValue(min)} ${cryptoCurrency}`
+                      }}
+                    />
+                  </AlertButton>
+                ) : (
+                  <AlertButton onClick={handleMaxClick}>
+                    <FormattedMessage
+                      id='copy.not_enough_coin'
+                      defaultMessage='Not Enough {coin}'
+                      values={{
+                        coin: cryptoCurrency
+                      }}
+                    />
+                  </AlertButton>
+                ))}
 
               <Text
                 size='14px'
@@ -821,7 +841,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             effectiveLimit &&
             (props.orderType === OrderType.BUY ? (
               <>
-                <AlertButton>
+                <AlertButton
+                  onClick={() => {
+                    handleCustomMinMaxClick(effectiveLimit.limit.value.toString())
+                  }}
+                >
                   <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
                 </AlertButton>
                 <FormattedMessage
@@ -834,7 +858,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </>
             ) : (
               <>
-                <AlertButton>
+                <AlertButton
+                  onClick={() => {
+                    handleCustomMinMaxClick(effectiveLimit.limit.value.toString())
+                  }}
+                >
                   <FormattedMessage
                     id='copy.not_enough_coin'
                     defaultMessage='Not Enough {coin}'
@@ -868,10 +896,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       </FlyoutWrapper>
 
       {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
-      {(props.isSddFlow ||
-        props.userData?.tiers?.current < 2 || // silver tier
-        (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
-        amtError === 'ABOVE_LIMIT') &&
+      {props.userData?.tiers?.current < 2 && // silver tier
+        (props.isSddFlow ||
+          (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
+          amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
             <GetMoreAccess startProcess={props.showUpgradeModal} />

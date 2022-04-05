@@ -34,6 +34,7 @@ import {
   BuyQuoteType,
   CardAcquirer,
   FiatEligibleType,
+  GooglePayInfoType,
   NabuAddressType,
   TradesAccumulatedResponse,
   ValidateApplePayMerchantRequest,
@@ -553,6 +554,14 @@ export default ({
       url: nabuUrl
     })
 
+  const getGooglePayInfo = (currency: FiatType): GooglePayInfoType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/google-pay/info?currency=${currency}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -582,6 +591,7 @@ export default ({
     getBankTransferAccounts,
     getBuyQuote,
     getCardAcquirers,
+    getGooglePayInfo,
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,

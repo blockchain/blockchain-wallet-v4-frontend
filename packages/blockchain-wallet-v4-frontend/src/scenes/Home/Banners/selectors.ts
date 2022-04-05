@@ -22,7 +22,6 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
-  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
   | 'taxCenter'
@@ -112,18 +111,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
 
-  // cEUR Rewards
-  const cEURAnnouncement = selectors.core.walletOptions
-    .getCeloEurRewards(state)
-    .getOrElse(false) as boolean
-  const cEURAnnouncementAnnouncement = 'ceur-rewards'
-  const showCEURBanner =
-    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
-    userData &&
-    userData.address &&
-    userData.address.country &&
-    ['US', 'DE', 'IT', 'FR', 'NL'].indexOf(userData.address.country) === -1
-
   const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
@@ -157,12 +144,15 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // tax center
   const isCountryUS = userData?.address?.country === 'US'
   const taxCenterAnnouncement = getTaxCenterAnnouncement()
+  const taxCenterEnabled = selectors.core.walletOptions
+    .getTaxCenterEnabled(state)
+    .getOrElse(false) as boolean
   const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
-  if (showTaxCenterBanner) {
+  if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
@@ -170,8 +160,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showCEURBanner) {
-    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {

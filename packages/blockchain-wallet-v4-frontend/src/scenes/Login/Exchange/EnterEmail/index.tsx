@@ -80,7 +80,6 @@ const EnterEmail = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='IDENTIFIER'
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}

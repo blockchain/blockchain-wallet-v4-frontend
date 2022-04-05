@@ -9,9 +9,7 @@ export const trackEvent = function* ({ payload }: ReturnType<typeof trackEventAc
   const nabuId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrFail()
   const email = yield select(selectors.core.settings.getEmailVerified)
   const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
-
   const originalTimestamp = new Date().toISOString()
-
   const properties = { originalTimestamp, ...payload.properties }
 
   analytics.push(payload.key, {

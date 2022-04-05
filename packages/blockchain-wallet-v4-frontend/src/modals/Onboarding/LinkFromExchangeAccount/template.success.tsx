@@ -68,7 +68,9 @@ const ListText = styled(Text)`
   }
 `
 
-const Success: React.FC<Props & { close: () => void; data: any }> = (props) => {
+const Success: React.FC<
+  Props & { close: () => void; data: { email: string; walletGuid: string } }
+> = (props) => {
   const { close, userTiers } = props
 
   // @ts-ignore

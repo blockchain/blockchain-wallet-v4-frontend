@@ -7,7 +7,7 @@ const { FORM_BS_CHANGE_EMAIL } = model.components.buySell
 export const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHANGE_EMAIL)(state)
 
-  const emailAuth = selectors.auth.getRegisterEmail(state)
+  const emailAuth = selectors.signup.getRegisterEmail(state)
   const emailFromSettings = selectors.core.settings.getEmail(state).getOrElse(null)
   const isUserSddEligibleR = selectors.components.buySell.isUserSddEligible(state)
 

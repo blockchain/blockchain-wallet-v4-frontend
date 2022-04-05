@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Image, Link, Text } from 'blockchain-info-components'
+import { Image, Link } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
 import { media } from 'services/styles'

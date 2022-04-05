@@ -67,7 +67,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
@@ -85,7 +85,7 @@ type FormProps = {
 export type Props = ConnectedProps<typeof connector> & FormProps
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   reduxForm({
     destroyOnUnmount: false,
     form: RECOVER_FORM
