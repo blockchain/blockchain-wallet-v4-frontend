@@ -1,12 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { RecoverSteps } from 'data/types'
+import { actions } from 'data'
+import { Analytics, RecoverSteps } from 'data/types'
 import { media } from 'services/styles'
 
-import { Props } from '..'
+import { Props as OwnProps } from '..'
 import {
   BackArrowFormHeader,
   CircleBackground,
@@ -23,7 +26,6 @@ const FormBody = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const IconTextRow = styled.div`
   display: flex;
   align-items: center;
@@ -36,13 +38,13 @@ const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
   margin-bottom: 16px;
   `}
 `
-
 const TextStack = styled.div`
   max-width: 312px;
 `
+
 const RecoveryOptions = (props: Props) => {
   const {
-    authActions,
+    analyticsActions,
     cachedGuid,
     emailFromMagicLink,
     formActions,
@@ -52,24 +54,42 @@ const RecoveryOptions = (props: Props) => {
     product,
     routerActions
   } = props
-
   const optionDisabledColor = hasCloudBackup ? 'grey900' : 'grey100'
 
   const cloudRecoveryClicked = () => {
     if (hasCloudBackup) {
       formActions.change(RECOVER_FORM, 'step', RecoverSteps.CLOUD_RECOVERY)
-      authActions.analyticsRecoveryOptionSelected('CLOUD_BACKUP')
+      analyticsActions.trackEvent({
+        key: Analytics.LOGIN_RECOVERY_OPTION_SELECTED,
+        properties: {
+          recovery_type: 'CLOUD_BACKUP',
+          site_redirect: 'WALLET'
+        }
+      })
     }
   }
   const recoveryPhraseClicked = () => {
     formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
-    authActions.analyticsRecoveryOptionSelected('RECOVERY_PHRASE')
+    analyticsActions.trackEvent({
+      key: Analytics.LOGIN_RECOVERY_OPTION_SELECTED,
+      properties: {
+        recovery_type: 'RECOVERY_PHRASE',
+        site_redirect: 'WALLET'
+      }
+    })
   }
 
   const resetAccountClicked = () => {
     formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_ACCOUNT)
-    authActions.analyticsResetAccountClicked('RECOVERY_OPTIONS')
+    analyticsActions.trackEvent({
+      key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
+      properties: {
+        recovery_type: 'RECOVERY_OPTIONS',
+        site_redirect: 'WALLET'
+      }
+    })
   }
+
   return (
     <OuterWrapper>
       <WrapperWithPadding>
@@ -179,4 +199,12 @@ const RecoveryOptions = (props: Props) => {
   )
 }
 
-export default RecoveryOptions
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(RecoveryOptions)

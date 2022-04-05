@@ -1,4 +1,8 @@
 import {
+  Events as AccountRecoveryEvents,
+  TrackEventAction as AccountRecoveryTrackEventAction
+} from './accountRecovery'
+import {
   AnalyticsProperties as DepositWithdrawalClientProperties,
   Events as DepositWithdrawalClientEvents,
   TrackEventAction as DepositWithdrawalClientEventAction
@@ -28,6 +32,7 @@ import {
 const TRACK_EVENT = 'trackEvent'
 
 type AnalyticsKey =
+  | AccountRecoveryEvents
   | OnboardingAndVerificationEvents
   | ViewAndClickEvents
   | LoginEvents
@@ -35,7 +40,9 @@ type AnalyticsKey =
   | InterestClientEvents
   | DepositWithdrawalClientEvents
   | TaxCenterEvents
+
 const Analytics = {
+  ...AccountRecoveryEvents,
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
   ...LoginEvents,
@@ -52,6 +59,17 @@ type AnalyticsProperties =
   | InterestClientProperties
   | DepositWithdrawalClientProperties
 
+// event actions
+type TrackEventAction =
+  | AccountRecoveryTrackEventAction
+  | OnboardingAndVerificationTrackEventAction
+  | ViewAndClickTrackEventAction
+  | LoginTrackEventAction
+  | MiscTrackEventAction
+  | InterestClientTrackEventAction
+  | DepositWithdrawalClientEventAction
+  | TaxCenterTrackEventAction
+
 type AnalyticsTraits = {
   email?: string
   nabuId: string
@@ -67,14 +85,5 @@ type RawEvent = {
   key: AnalyticsKey
   payload: AnalyticsValue
 }
-
-type TrackEventAction =
-  | OnboardingAndVerificationTrackEventAction
-  | ViewAndClickTrackEventAction
-  | LoginTrackEventAction
-  | MiscTrackEventAction
-  | InterestClientTrackEventAction
-  | DepositWithdrawalClientEventAction
-  | TaxCenterTrackEventAction
 
 export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }

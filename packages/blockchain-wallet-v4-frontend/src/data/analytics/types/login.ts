@@ -4,14 +4,24 @@ export enum Events {
   LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
   LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
+  LOGIN_PASSWORD_DENIED = 'Login Password Denied',
+  LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
+  LOGIN_RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
   LOGIN_REQUEST_APPROVED = 'Login Request Approved',
   LOGIN_REQUEST_DENIED = 'Login Request Denied',
   LOGIN_TERMS_AND_CONDITIONS_ACCEPTED = 'T&C Accepted',
-  LOGIN_TERMS_AND_CONDITIONS_VIEWED = 'T&C Viewed'
+  LOGIN_TERMS_AND_CONDITIONS_VIEWED = 'T&C Viewed',
+  LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
+  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered'
 }
 
-type TermsAndConditionsActions = {
+type LoginActions = {
   key:
+    | Events.LOGIN_PASSWORD_ENTERED
+    | Events.LOGIN_TWO_STEP_VERIFICATION_DENIED
+    | Events.LOGIN_TWO_STEP_VERIFICATION_ENTERED
+    | Events.LOGIN_RECOVERY_OPTION_SELECTED
+    | Events.LOGIN_PASSWORD_DENIED
     | Events.LOGIN_HELP_CLICKED
     | Events.LOGIN_DEVICE_VERIFIED
     | Events.LOGIN_IDENTIFIER_ENTERED
@@ -24,4 +34,4 @@ type TermsAndConditionsActions = {
 }
 
 // track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction = TermsAndConditionsActions
+export type TrackEventAction = LoginActions

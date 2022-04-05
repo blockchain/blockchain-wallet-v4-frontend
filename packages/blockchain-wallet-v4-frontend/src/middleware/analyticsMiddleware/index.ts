@@ -2567,95 +2567,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      // LOGIN EVENTS
-      case actions.auth.analyticsLoginPasswordDenied.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginPasswordEntered.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginTwoStepVerificationDenied.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginTwoStepVerificationEntered.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
       case actions.signup.resetAccountSuccess.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -2678,30 +2589,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      // TODO - every time code is scanned, can we distinguish if for recovery or not?
-      // Commenting out until I have a good solution to distinguish from regular login
-      // case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
-      //   const state = store.getState()
-      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-      //   const email = state.profile.userData.getOrElse({})?.emailVerified
-      //     ? state.profile.userData.getOrElse({})?.email
-      //     : null
-      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-      //   analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
-      //     properties: {
-      //
-      //       originalTimestamp: getOriginalTimestamp(),
-      //       site_redirect: 'WALLET'
-      //     },
-      //     traits: {
-      //       email,
-      //       nabuId,
-      //       tier
-      //     }
-      //   })
-      //   break
-      // }
       case actions.signup.resetAccount.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -2713,30 +2600,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
           properties: {
             originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsRecoveryOptionSelected.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const recoveryType = action.payload
-
-        analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            recovery_type: recoveryType,
             site_redirect: 'WALLET'
           },
           traits: {
@@ -2768,81 +2631,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.analyticsResetAccountCancelled.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const origin = action.payload
-
-        analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsResetAccountClicked.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const origin = action.payload
-
-        analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      // case actions.auth.signupDetailsEntered.type: {
-      //   const state = store.getState()
-      //   const { country, countryState } = action.payload
-      //
-      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-      //   analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_SELECTED, {
-      //     properties: {
-      //       country,
-      //       originalTimestamp: getOriginalTimestamp()
-      //     },
-      //     traits: {
-      //       nabuId
-      //     }
-      //   })
-      //   if (countryState) {
-      //     analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_STATE_SELECTED, {
-      //       properties: {
-      //         country_state: countryState,
-      //         originalTimestamp: getOriginalTimestamp()
-      //       },
-      //       traits: {
-      //         nabuId
-      //       }
-      //     })
-      //   }
-      //   break
-      // }
       case actions.components.nfts.nftOrderFlowOpen.type: {
         const state = store.getState()
 

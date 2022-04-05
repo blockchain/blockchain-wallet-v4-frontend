@@ -1,5 +1,5 @@
 import base64url from 'base64url'
-import { assoc, find, propEq } from 'ramda'
+import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
@@ -78,7 +78,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, product, redirect, userType } = yield select(
+      selectors.auth.getProductAuthMetadata
+    )
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
@@ -91,11 +93,24 @@ export default ({ api, coreSagas, networks }) => {
       selectors.core.walletOptions.getInstitutionalPortalEnabled
     )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
-    // analytics
     if (code) {
-      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } else {
-      yield put(actions.auth.analyticsLoginPasswordEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_PASSWORD_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     }
     // start signin flow
     try {
@@ -151,10 +166,24 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
       }
       if (e.code && e.code === 10) {
-        yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
+            properties: {
+              site_redirect: product
+            }
+          })
+        )
       }
       if (e.code && e.code === 8) {
-        yield put(actions.auth.analyticsLoginPasswordDenied())
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_PASSWORD_DENIED,
+            properties: {
+              site_redirect: product
+            }
+          })
+        )
       }
       yield put(stopSubmit(LOGIN_FORM))
     }
@@ -307,13 +336,25 @@ export default ({ api, coreSagas, networks }) => {
       product === ProductAuthOptions.EXCHANGE
         ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
         : yield select(selectors.session.getWalletSessionId, guid, email)
-    // JUST FOR ANALYTICS PURPOSES
     if (code) {
-      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } else {
-      yield put(actions.auth.analyticsLoginPasswordEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_PASSWORD_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     }
-    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit(LOGIN_FORM))
     try {
       if (!session) {
@@ -428,14 +469,20 @@ export default ({ api, coreSagas, networks }) => {
           break
         // Wrong wallet password error is just returned as a string
         case errorString && errorString.includes('wrong_wallet_password'):
-          // remove 2fa if password is wrong by setting auth type to zero
-          // TODO: check on why we do this
+          // remove 2fa by setting auth type to zero
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
-          yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_PASSWORD_DENIED,
+              properties: {
+                site_redirect: product
+              }
+            })
+          )
           break
         // Valid wallet ID format but it doesn't exist in bc
         case initialError && initialError.includes('Unknown Wallet Identifier'):
@@ -447,7 +494,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
           break
-        // Account locked due to too many failed 2fa attemps
+        // Account locked due to too many failed 2fa attempts
         case errorString && errorString.includes('is locked'):
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
           yield put(actions.auth.loginFailure(errorString))
@@ -459,7 +506,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'code'))
           yield put(actions.form.focus(LOGIN_FORM, 'code'))
           yield put(actions.auth.loginFailure(errorString))
-          yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
+              properties: {
+                site_redirect: product
+              }
+            })
+          )
           break
         // Catch all to show whatever error string is returned
         case errorString:

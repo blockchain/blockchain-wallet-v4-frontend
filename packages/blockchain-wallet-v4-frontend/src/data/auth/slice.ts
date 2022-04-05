@@ -45,16 +45,6 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
-    // TODO: upgrade to new analytics flow
-    analyticsLoginPasswordDenied: () => {},
-    analyticsLoginPasswordEntered: () => {},
-    analyticsLoginTwoStepVerificationDenied: () => {},
-    analyticsLoginTwoStepVerificationEntered: () => {},
-    analyticsRecoveryOptionSelected: (state, action) => {},
-    analyticsRecoveryPhraseEntered: () => {},
-    analyticsResetAccountCancelled: (state, action) => {},
-    analyticsResetAccountClicked: (state, action) => {},
-    // TODO: ^ upgrade to new analytics flow
     authenticate: (state) => {
       state.isAuthenticated = true
     },
@@ -109,7 +99,6 @@ const authSlice = createSlice({
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    // loginRoutine: (state, action: PayloadAction<LoginRoutinePayloadType>) => {},
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },

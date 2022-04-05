@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Exchange, Remote } from '@core'
+import { Remote } from '@core'
 
 import {
   ExchangeUrlDataType,
@@ -26,9 +26,6 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
-    analyticsRecoveryPhraseEntered: () => {},
-    analyticsResetAccountCancelled: (state, action) => {},
-    analyticsResetAccountClicked: (state, action) => {},
     initializeSignup: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {

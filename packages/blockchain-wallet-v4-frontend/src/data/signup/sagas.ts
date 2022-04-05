@@ -1,10 +1,10 @@
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { AuthMagicLink, LoginSteps } from 'data/types'
+import { Analytics, AuthMagicLink } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api, coreSagas, networks }) => {
@@ -45,9 +45,15 @@ export default ({ api, coreSagas, networks }) => {
       //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
       // } else {
       // TODO: want to pull user country off of exchange profile
-      // For account upgrade
-      // TODO: convert to new analytics
-      // yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+          properties: {
+            country,
+            country_state: state
+          }
+        })
+      )
       yield call(loginRoutineSaga, {
         country,
         email,
