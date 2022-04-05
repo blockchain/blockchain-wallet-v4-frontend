@@ -158,3 +158,5 @@ export const getValidPaymentMethod = (method: BSPaymentTypes) => {
 }
 
 export const isFiatCurrencySupported = (currency: FiatType) => currency in WalletFiatEnum
+
+export const GOOGLE_PAY_MERCHANT_ID = 'BCR2DN4TVCIZ3Q2I'

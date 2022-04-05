@@ -145,6 +145,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return token
   }
 
+  const generateGooglePayToken = async (
+    paymentRequest: google.payments.api.PaymentDataRequest
+  ): Promise<string> => {
+    const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'TEST'
+
+    if (!googlePaymentsClient) {
+      googlePaymentsClient = new google.payments.api.PaymentsClient({ environment })
+    }
+
+    try {
+      const paymentData = await googlePaymentsClient.loadPaymentData(paymentRequest)
+
+      return paymentData.paymentMethodData.tokenizationData.token
+    } catch (e) {
+      throw new Error('FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN')
+    }
+  }
+
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
       const { cvv, paymentMethodTokens } = payload
@@ -699,6 +717,78 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            redirectURL: paymentSuccessLink
+          }
+        }
+
+        if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+          const googlePayInfo = selectors.components.buySell.getGooglePayInfo(yield select())
+
+          if (!googlePayInfo) {
+            throw new Error('Google Pay info not found')
+          }
+
+          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          const amount = parseInt(order.inputQuantity) / 100
+
+          let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
+
+          try {
+            parameters = JSON.parse(googlePayInfo.googlePayParameters)
+          } catch (e) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_MALFORMED')
+          }
+
+          if (!parameters) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_NOT_FOUND')
+          }
+
+          const paymentDataRequest = {
+            allowedPaymentMethods: [
+              {
+                parameters: {
+                  allowedAuthMethods,
+                  allowedCardNetworks,
+                  billingAddressParameters: {
+                    format: 'FULL' as const
+                  },
+                  billingAddressRequired: false
+                },
+                tokenizationSpecification: {
+                  parameters,
+                  type: 'PAYMENT_GATEWAY' as const
+                },
+                type: 'CARD' as const
+              }
+            ],
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+              merchantId: GOOGLE_PAY_MERCHANT_ID,
+              merchantName: 'Blockchain.com'
+            },
+            shippingAddressRequired: false,
+            transactionInfo: {
+              countryCode: googlePayInfo.merchantBankCountry,
+              currencyCode: order.inputCurrency,
+              totalPrice: `${amount}`,
+              totalPriceStatus: 'FINAL' as const
+            }
+          }
+
+          const token = yield call(generateGooglePayToken, paymentDataRequest)
+
+          attributes = {
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
+            googlePayPayload: token,
             redirectURL: paymentSuccessLink
           }
         }
