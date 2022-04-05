@@ -21,7 +21,10 @@ const CreateWallet = (props) => {
           style={{ marginTop: '8px' }}
           lineHeight='1.5'
         >
-          <FormattedMessage id='scenes.login.upgrade.upsell.header' defaultMessage='What´s Next' />
+          <FormattedMessage
+            id='scenes.login.upgrade.upsell.header'
+            defaultMessage='Create a New Password'
+          />
         </CenteredTitle>
       </Wrapper>
       <StyledTemporaryButton
