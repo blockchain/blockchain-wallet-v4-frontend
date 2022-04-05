@@ -17,11 +17,18 @@ import {
 const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
 
-const getReportTitle = (from, to) => {
-  const isAllTimeReport =
-    Math.round((Number(new Date(to)) - Number(new Date(from))) / 1000 / 60 / 60 / 24 / 365) > 1
+const isAllTimeReport = (from, to) =>
+  Math.round((Number(new Date(to)) - Number(new Date(from))) / 1000 / 60 / 60 / 24 / 365) > 1
 
-  if (!isAllTimeReport) {
+const getTimePeriod = (from, to) => {
+  if (!isAllTimeReport(from, to)) {
+    return new Date(to).getFullYear()
+  }
+  return 0
+}
+
+const getReportTitle = (from, to) => {
+  if (!isAllTimeReport(from, to)) {
     return new Date(to).getFullYear()
   }
 
@@ -33,14 +40,17 @@ const getReportTitle = (from, to) => {
   )
 }
 
-const List = ({ reports }) => (
+const List = ({ onExportClick, reports }) => (
   <>
     {!reports?.length && <EmptyReportList />}
     {reports.map(({ filePath, from, id, insertedAt, status, to }) => {
       const isCompleted = status === COMPLETED_STATUS
       const isPending = status === PENDING_STATUS
       const insertedDate = new Date(insertedAt)
-      const inserted = `${insertedDate.getDate()}/${insertedDate.getMonth()}/${insertedDate.getFullYear()}`
+      const inserted = `${insertedDate.getDate()}/${
+        insertedDate.getMonth() + 1
+      }/${insertedDate.getFullYear()}`
+      const timePeriod = getTimePeriod(from, to)
 
       return (
         <ReportItem key={id}>
@@ -55,7 +65,7 @@ const List = ({ reports }) => (
             </Description>
           </Content>
           {isCompleted && (
-            <Link href={filePath} target='_blank'>
+            <Link href={filePath} target='_blank' onClick={() => onExportClick(timePeriod)}>
               <Button nature='empty-blue' data-e2e='exportButton' type='button'>
                 <StyledIcon name={IconName.DOWNLOAD} color={colors.blue600} size='sm' />
                 <FormattedMessage

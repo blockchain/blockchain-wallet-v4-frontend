@@ -31,6 +31,8 @@ export const getAddCardError = (state: RootState) => state.components.buySell.ad
 
 export const getApplePayInfo = (state: RootState) => state.components.buySell.applePayInfo
 
+export const getGooglePayInfo = (state: RootState) => state.components.buySell.googlePayInfo
+
 export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
 export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS

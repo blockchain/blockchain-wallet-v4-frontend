@@ -104,6 +104,7 @@ import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
+import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
@@ -159,8 +160,8 @@ import nft from './img/nft.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import printer from './img/printer.svg'
-import productRedirectExchange from './img/product-redirect-exchange.svg'
-import productRedirectWallet from './img/product-redirect-wallet.svg'
+import productRedirectExchange from './img/product-redirect-exchange.png'
+import productRedirectWallet from './img/product-redirect-wallet.png'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
 import qrCodeNew from './img/qr-code.svg'
@@ -319,6 +320,7 @@ const Images = {
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
+  'google-pay': googlePay,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
   'grey-verified': greyVerified,

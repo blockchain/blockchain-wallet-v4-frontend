@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { RecoverSteps } from 'data/types'
+import { ProductAuthOptions, RecoverSteps } from 'data/types'
 import { media } from 'services/styles'
 
 export const RECOVER_FORM = 'recover'
@@ -160,6 +160,7 @@ export const BackArrowFormHeader = (props: {
   email: string
   guid?: string
   handleBackArrowClick: () => void
+  product?: ProductAuthOptions
   step?: RecoverSteps
 }) => {
   const firstPartGuid = props.guid && props.guid.slice(0, 4)
@@ -191,11 +192,12 @@ export const BackArrowFormHeader = (props: {
           >
             {props.email}
           </Text>
-          {props.step !== RecoverSteps.RESET_ACCOUNT && (
-            <Text size='12px' weight={500} color='grey400'>
-              ({firstPartGuid}...{lastPartGuid})
-            </Text>
-          )}
+          {props.step !== RecoverSteps.RESET_ACCOUNT ||
+            (props.product === ProductAuthOptions.EXCHANGE && (
+              <Text size='12px' weight={500} color='grey400'>
+                ({firstPartGuid}...{lastPartGuid})
+              </Text>
+            ))}
         </EmailAndGuid>
       </BackArrowWrapper>
     </>

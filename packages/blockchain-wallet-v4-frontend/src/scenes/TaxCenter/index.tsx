@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { getFirstAndLastDaysOfYear } from './model'
 import { getAddressesAndXpubs, getExchangeDomain, getReportYearOptions } from './selectors'
 import TaxCenter from './template'
 
 const TaxCenterContainer = ({
+  analyticsActions,
   exchangeDomain,
   modalActions,
   options,
@@ -24,27 +25,79 @@ const TaxCenterContainer = ({
 
     taxCenterActions.createReport({ walletData: walletDataR, ...limits })
     modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
+
+    analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_REPORT_EXPORT_CLICKED,
+      properties: {
+        origin: 'SETTINGS',
+        time_period: !option ? 'ALL_TIME' : String(option)
+      }
+    })
   }
 
   const handleChange = (value) => setOption(value)
 
+  const handlePartnerClick = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_PARTNER_CLICKED,
+      properties: { partner: 'COIN_TRACKER' }
+    })
+  }
+
+  const handleExportClick = (timePeriod) => {
+    analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_REPORT_CLICKED,
+      properties: {
+        origin: 'SETTINGS',
+        time_period: !timePeriod ? 'ALL_TIME' : String(timePeriod)
+      }
+    })
+  }
+
+  const handleVisitClick = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_LINK_EXCHANGE_CLICKED,
+      properties: {
+        origin: 'WALLET_TAX_CENTER'
+      }
+    })
+  }
+
   useEffect(() => {
+    const { href, pathname, search } = window.location
+    const { referrer, title } = document
+
+    analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_VIEWED,
+      properties: {
+        path: pathname,
+        referrer,
+        search,
+        title,
+        url: href
+      }
+    })
+
     taxCenterActions.getReports()
   }, [])
 
   return (
     <TaxCenter
       exchangeDomain={exchangeDomain}
+      onPartnerClick={handlePartnerClick}
       value={option}
       onChange={handleChange}
       options={options}
       reportsR={reportsR}
       onClick={handleClick}
+      onExportClick={handleExportClick}
+      onVisitClick={handleVisitClick}
     />
   )
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   taxCenterActions: bindActionCreators(actions.components.taxCenter, dispatch)
 })

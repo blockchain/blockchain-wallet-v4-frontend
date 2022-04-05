@@ -24,7 +24,7 @@ export function getRestoring(state: RootState): SignupStateType['restoring'] {
 }
 
 export function getRegisterEmail(state: RootState): SignupStateType['registerEmail'] {
-  return state.auth.registerEmail
+  return state.signup.registerEmail
 }
 
 export function getMetadataRestore(state: RootState): SignupStateType['metadataRestore'] {

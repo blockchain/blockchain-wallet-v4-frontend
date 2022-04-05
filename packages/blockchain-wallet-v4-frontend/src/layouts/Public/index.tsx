@@ -66,8 +66,11 @@ const PublicLayoutContainer = ({
   component: Component,
   exact = false,
   formValues,
+  pageTitle,
   path
 }: Props) => {
+  if (pageTitle) document.title = pageTitle
+
   return (
     <Route
       path={path}
@@ -108,6 +111,7 @@ const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> & {
   component: ComponentType<any>
   exact?: boolean
+  pageTitle?: string
   path: string
 }
 

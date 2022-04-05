@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Modal, ModalBody, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { ModalName } from 'data/modals/types'
+import { Analytics, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Group = styled.div`
@@ -22,14 +22,15 @@ const GroupHeader = styled(Text)`
 const GroupDescription = styled(Text)`
   font-size: 14px;
   font-weight: 500;
+  height: 40px;
   color: ${(props) => props.theme.grey600};
   text-align: center;
 `
-
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 18px;
 `
 const Header = styled.div`
   display: flex;
@@ -38,7 +39,6 @@ const Header = styled.div`
   padding: 16px;
   justify-content: flex-end;
 `
-
 const CloseIconContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,18 +53,33 @@ const CloseIconContainer = styled.div`
   }
 `
 
-const VerifyNotice = ({ cacheActions, close, modalActions }) => {
+const VerifyNotice = ({ analyticsActions, cacheActions, close, modalActions }) => {
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_VERIFY_NOW_POPUP_VIEWED,
+      properties: {}
+    })
+  }, [])
+
   const handleCloseClick = useCallback(() => {
     cacheActions.announcementDismissed('verify-notice')
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_VERIFY_NOW_POPUP_DISMISSED,
+      properties: {}
+    })
     close()
-  }, [cacheActions, close])
+  }, [cacheActions, close, analyticsActions])
 
   const verifyNowClick = useCallback(() => {
     close()
     modalActions.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
       origin: 'VerifyNotice'
     })
-  }, [modalActions, close])
+    analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_VERIFY_NOW_POPUP_CTA_CLICKED,
+      properties: {}
+    })
+  }, [modalActions, close, analyticsActions])
 
   return (
     <Modal>
@@ -119,6 +134,7 @@ const VerifyNotice = ({ cacheActions, close, modalActions }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

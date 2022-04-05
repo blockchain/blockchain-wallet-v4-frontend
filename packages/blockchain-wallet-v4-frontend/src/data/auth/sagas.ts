@@ -3,14 +3,13 @@ import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
+import { Analytics, ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -28,7 +27,7 @@ import {
   AccountUnificationFlows,
   AuthMagicLink,
   AuthUserType,
-  LoginErrorType,
+  LoginApiErrorType,
   LoginSteps,
   PlatformTypes,
   ProductAuthOptions
@@ -79,7 +78,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { platform, product, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     // const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
@@ -92,11 +91,24 @@ export default ({ api, coreSagas, networks }) => {
       selectors.core.walletOptions.getInstitutionalPortalEnabled
     )).getOrElse(false)
     yield put(startSubmit(LOGIN_FORM))
-    // analytics
     if (code) {
-      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } else {
-      yield put(actions.auth.analyticsLoginPasswordEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_PASSWORD_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     }
     // start signin flow
     try {
@@ -145,6 +157,14 @@ export default ({ api, coreSagas, networks }) => {
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
       // @ts-ignore
     } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
@@ -152,10 +172,24 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
       }
       if (e.code && e.code === 10) {
-        yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
+            properties: {
+              site_redirect: product
+            }
+          })
+        )
       }
       if (e.code && e.code === 8) {
-        yield put(actions.auth.analyticsLoginPasswordDenied())
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_PASSWORD_DENIED,
+            properties: {
+              site_redirect: product
+            }
+          })
+        )
       }
       yield put(stopSubmit(LOGIN_FORM))
     }
@@ -190,11 +224,7 @@ export default ({ api, coreSagas, networks }) => {
       )).getOrElse(false)
       const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
-      const invitations = selectors.core.settings
-        .getInvitations(yield select())
-        .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
+      if (!isLatestVersion) {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
@@ -219,8 +249,9 @@ export default ({ api, coreSagas, networks }) => {
       yield delay(3000)
       // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
-        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
-        return
+        return yield put(
+          actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
+        )
       }
       if (firstLogin) {
         const countryCode = country || 'US'
@@ -231,10 +262,14 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            // yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
             return
           }
-          yield put(actions.router.push('/home'))
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.router.push('/home'))
+          } else {
+            yield put(actions.router.push('/select-product'))
+          }
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }
@@ -294,6 +329,14 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -312,13 +355,25 @@ export default ({ api, coreSagas, networks }) => {
       product === ProductAuthOptions.EXCHANGE
         ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
         : yield select(selectors.session.getWalletSessionId, guid, email)
-    // JUST FOR ANALYTICS PURPOSES
     if (code) {
-      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } else {
-      yield put(actions.auth.analyticsLoginPasswordEntered())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_PASSWORD_ENTERED,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     }
-    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit(LOGIN_FORM))
     try {
       if (!session) {
@@ -380,9 +435,15 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
-      yield put(stopSubmit(LOGIN_FORM))
+      // Solves the problem of from submit stopping
+      // before exchange login is complete for unified accounts
+      // heartbeat loader would stop for a second before
+      // opening exchange window
+      if (product !== ProductAuthOptions.EXCHANGE) {
+        yield put(stopSubmit(LOGIN_FORM))
+      }
     } catch (e) {
-      const error = e as LoginErrorType
+      const error = e as LoginApiErrorType
       const initialError = typeof error !== 'string' && error.initial_error
       const errorString = typeof error === 'string' && error
       switch (true) {
@@ -408,7 +469,7 @@ export default ({ api, coreSagas, networks }) => {
               // }
             } catch (e) {
               // If error is that 2fa is required
-              const error = e as LoginErrorType
+              const error = e as LoginApiErrorType
               if (typeof error !== 'string' && error?.auth_type > 0) {
                 yield put(actions.auth.setAuthType(error.auth_type))
                 yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
@@ -433,14 +494,20 @@ export default ({ api, coreSagas, networks }) => {
           break
         // Wrong wallet password error is just returned as a string
         case errorString && errorString.includes('wrong_wallet_password'):
-          // remove 2fa if password is wrong by setting auth type to zero
-          // TODO: check on why we do this
+          // remove 2fa by setting auth type to zero
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
-          yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_PASSWORD_DENIED,
+              properties: {
+                site_redirect: product
+              }
+            })
+          )
           break
         // Valid wallet ID format but it doesn't exist in bc
         case initialError && initialError.includes('Unknown Wallet Identifier'):
@@ -452,7 +519,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
           yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
           break
-        // Account locked due to too many failed 2fa attemps
+        // Account locked due to too many failed 2fa attempts
         case errorString && errorString.includes('is locked'):
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'locked'))
           yield put(actions.auth.loginFailure(errorString))
@@ -464,7 +531,14 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'code'))
           yield put(actions.form.focus(LOGIN_FORM, 'code'))
           yield put(actions.auth.loginFailure(errorString))
-          yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
+              properties: {
+                site_redirect: product
+              }
+            })
+          )
           break
         // Catch all to show whatever error string is returned
         case errorString:
@@ -529,8 +603,6 @@ export default ({ api, coreSagas, networks }) => {
     // TODO: just for dev purposes, remove before release
     // yield put(actions.session.clearSessions())
     try {
-      // set loading
-      yield put(actions.auth.initializeLoginLoading())
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
@@ -560,6 +632,7 @@ export default ({ api, coreSagas, networks }) => {
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
       const exchangeWalletGuid = yield select(selectors.cache.getExchangeWalletGuid)
+      const DEFAULT_WALLET_LOGIN = '/login?product=wallet'
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
       // initialize login form and/or set initial auth step
@@ -578,7 +651,7 @@ export default ({ api, coreSagas, networks }) => {
           !walletGuidOrMagicLinkFromUrl &&
           product === ProductAuthOptions.WALLET:
           // change product param in url to make it clear to user
-          yield put(actions.router.push('/login?product=wallet'))
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
@@ -595,7 +668,7 @@ export default ({ api, coreSagas, networks }) => {
         // url is just /login, take them to enter guid or email
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/login?product=wallet'))
+            yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
             yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
           }
           if (product === ProductAuthOptions.EXCHANGE) {
@@ -612,7 +685,7 @@ export default ({ api, coreSagas, networks }) => {
           break
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
-          yield put(actions.router.push('/login?product=wallet'))
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break
@@ -626,12 +699,8 @@ export default ({ api, coreSagas, networks }) => {
           // check querystring to determine if mobile has already completed the device polling
           yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
       }
-
-      // hide loading and ensure latest app version
-      yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.misc.pingManifestFile())
     } catch (e) {
-      yield put(actions.auth.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }
   }
@@ -689,9 +758,15 @@ export default ({ api, coreSagas, networks }) => {
           )
           initCaptcha()
         }
-        // Passing ID type used to analytics
-        const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
-        yield put(actions.auth.analyticsLoginIdEntered(idType))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_IDENTIFIER_ENTERED,
+            properties: {
+              identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
+              site_redirect: product
+            }
+          })
+        )
       } else if (
         step === LoginSteps.ENTER_PASSWORD_WALLET ||
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
@@ -750,7 +825,6 @@ export default ({ api, coreSagas, networks }) => {
     const { captchaToken, email } = action.payload
     yield put(startSubmit(LOGIN_FORM))
     try {
-      yield put(actions.auth.triggerWalletMagicLinkLoading())
       let sessionToken
       if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
         sessionToken = yield select(selectors.session.getSession, null, email)
@@ -772,23 +846,30 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
-      yield put(actions.auth.triggerWalletMagicLinkSuccess())
       yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload
       yield call(pollForSessionFromAuthPayload, api, sessionToken)
     } catch (e) {
-      yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_IDENTIFIER_FAILED,
+          properties: {
+            error_code: e.code,
+            error_message: e.description,
+            site_redirect: product
+          }
+        })
+      )
     }
   }
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { exchange, product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
@@ -803,7 +884,18 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
+        if (product === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.cache.exchangeEmail(exchange?.email))
+        }
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_APPROVED,
+            properties: {
+              method: 'MAGIC_LINK',
+              request_platform: product
+            }
+          })
+        )
       }
       // @ts-ignore
     } catch (e: { confirmation_required: boolean; status?: number }) {
@@ -811,13 +903,38 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
       } else if (e && e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_REQUEST_DENIED,
+          properties: {
+            error: 'REJECTED',
+            method: 'MAGIC_LINK',
+            request_platform: product
+          }
+        })
       } else if (e && e.status === 400 && e.link_expired) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_DENIED,
+            properties: {
+              error: 'EXPIRED',
+              method: 'MAGIC_LINK',
+              request_platform: product
+            }
+          })
+        )
       } else {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_DENIED,
+            properties: {
+              error: 'UNKNOWN',
+              method: 'MAGIC_LINK',
+              request_platform: product
+            }
+          })
+        )
       }
     }
   }

@@ -1,6 +1,10 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/analytics/types'
+import analytics from 'middleware/analyticsMiddleware/analytics'
+import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
+import { getOriginalTimestamp } from 'middleware/analyticsMiddleware/utils'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
@@ -161,10 +165,17 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         break
       // Default to send user back to enter email screen
       default:
-        // TODO: put back to LoginSteps.ENTER_EMAIL_GUID
-        yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+        break
     }
-    yield put(actions.auth.analyticsMagicLinkParsed())
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.LOGIN_DEVICE_VERIFIED,
+        properties: {
+          site_redirect: product
+        }
+      })
+    )
   } catch (e) {
     yield put(actions.logs.logErrorMessage('auth/sagas.utils', 'parseLink', e))
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -192,7 +203,16 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
   if (n === 0) {
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
     yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
-    yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.LOGIN_REQUEST_DENIED,
+        properties: {
+          error: 'TIMED_OUT',
+          method: 'MAGIC_LINK',
+          request_platform: 'WALLET'
+        }
+      })
+    )
     return false
   }
   try {

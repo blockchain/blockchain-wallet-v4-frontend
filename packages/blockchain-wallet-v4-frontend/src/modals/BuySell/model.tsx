@@ -153,6 +153,10 @@ export const getPaymentMethod = ({
     return <FormattedMessage id='apple_pay' defaultMessage='Apple Pay' />
   }
 
+  if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+    return <FormattedMessage id='apple_pay' defaultMessage='Google Pay' />
+  }
+
   const baseCurrency = getBaseCurrency(order)
   const counterCurrency = getCounterCurrency(order)
   const orderType = getOrderType(order)

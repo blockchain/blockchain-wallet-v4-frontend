@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Exchange, Remote } from '@core'
+import { Remote } from '@core'
 
 import {
   ExchangeUrlDataType,
@@ -26,9 +26,6 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
-    analyticsRecoveryPhraseEntered: () => {},
-    analyticsResetAccountCancelled: (state, action) => {},
-    analyticsResetAccountClicked: (state, action) => {},
     initializeSignup: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
@@ -41,9 +38,6 @@ const signupSlice = createSlice({
       state.registering = Remote.Success(action.payload)
     },
     resetAccount: (state, action) => {},
-    resetAccountFailure: () => {},
-    resetAccountLoading: () => {},
-    resetAccountSuccess: () => {},
     restore: (state, action) => {},
     restoreFailure: () => {},
     restoreFromMetadata: (state, action) => {},
@@ -71,7 +65,6 @@ const signupSlice = createSlice({
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
-
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload
     },
@@ -83,8 +76,7 @@ const signupSlice = createSlice({
     },
     setResetLogin: (state, action: PayloadAction<SignupStateType['resetAccount']>) => {
       state.resetAccount = action.payload
-    },
-    signupDetailsEntered: (state, action) => {}
+    }
   }
 })
 

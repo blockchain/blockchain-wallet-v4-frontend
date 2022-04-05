@@ -36,6 +36,8 @@ import {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  recurringBuyCancelOrigin,
+  recurringBuyDetailsClickOrigin,
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
@@ -495,6 +497,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+            let currency = state.profile.userData.getOrElse({})?.limits[0]?.currency
+            if (!currency) {
+              currency = state.settingsPath.currency
+            }
 
             const upgradeTier = action.payload.props.tier
 
@@ -502,6 +508,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
               properties: {
+                currency,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 tier: upgradeTier
@@ -567,6 +574,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
               properties: {
+                origin: 'SETTINGS',
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -798,13 +806,17 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.buySell.fiatCurrency
         const outputCurrency = state.components.buySell.cryptoCurrency
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(
+          state.components.buySell.method.type
+        )
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
           properties: {
             input_currency: inputCurrency,
             max_card_limit: maxCardLimit,
             originalTimestamp: getOriginalTimestamp(),
-            output_currency: outputCurrency
+            output_currency: outputCurrency,
+            payment_type: paymentType
           },
           traits: {
             email,
@@ -855,108 +867,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             originalTimestamp: getOriginalTimestamp(),
             payment_type: paymentType
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.signup.registerSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.WALLET_SIGNED_UP, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.auth.loginSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.SIGNED_IN, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.session.logout.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.SIGNED_OUT, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.logWrongChangeCache.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.logWrongReceiveCache.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
           },
           traits: {
             email,
@@ -1216,7 +1126,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             input_type: inputType,
             network_fee_input_amount: networkFeeInputAmount,
             network_fee_input_currency: inputCurrency,
-            network_fee_output_amount: networkFeeOutputAmount,
+            network_fee_output_amount: Number(networkFeeOutputAmount),
             network_fee_output_currency: outputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_amount: outputAmount,
@@ -1725,9 +1635,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const stepName: RecurringBuyStepType = action.payload.step
-        const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
           case RecurringBuyStepType.REMOVE_CONFIRM: {
+            const origin = recurringBuyCancelOrigin(action.payload.origin)
             const {
               destinationCurrency: output_currency,
               inputCurrency: input_currency,
@@ -1739,7 +1649,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.CANCEL_RECURRING_BUY_CLICKED, {
               properties: {
                 frequency,
-                input_amount,
+                input_amount: Number(input_amount),
                 input_currency,
                 origin,
                 output_currency,
@@ -1769,6 +1679,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case RecurringBuyStepType.DETAILS: {
             const { inputCurrency: currency }: { inputCurrency: string } =
               state.components.recurringBuy.active
+            const origin = recurringBuyDetailsClickOrigin(action.payload.origin)
             analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
               properties: {
                 currency,
@@ -2592,495 +2503,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         })
 
-        break
-      }
-      // LOGIN EVENTS
-      case actions.auth.analyticsMagicLinkParsed.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsNeedHelpClicked.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        const origin = action.payload
-
-        analytics.push(AnalyticsKey.LOGIN_HELP_CLICKED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginIdEntered.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        const idType = action.payload
-        analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
-          properties: {
-            identifier_type: idType,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginMethodSelected.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const loginMethod = action.payload
-
-        analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
-          properties: {
-            login_method: loginMethod,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginPasswordDenied.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginPasswordEntered.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.secureChannelLoginSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
-          properties: {
-            method: 'SECURE_CHANNEL',
-            originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.secureChannelLoginFailure.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
-          properties: {
-            method: 'SECURE_CHANNEL',
-            originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-
-      case actions.auth.analyticsAuthorizeVerifyDeviceSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const request_platform = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
-          properties: {
-            method: 'MAGIC_LINK',
-            originalTimestamp: getOriginalTimestamp(),
-            request_platform
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-
-      case actions.auth.analyticsAuthorizeVerifyDeviceFailure.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const error = action.payload
-        const request_platform = state.auth.productAuthMetadata.product
-        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
-          properties: {
-            error,
-            method: 'MAGIC_LINK',
-            originalTimestamp: getOriginalTimestamp(),
-            request_platform
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginTwoStepVerificationDenied.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginTwoStepVerificationEntered.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsLoginIdentifierFailed.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.productAuthMetadata.product
-
-        const { code, message } = action.payload
-
-        analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_FAILED, {
-          properties: {
-            error_code: code,
-            error_message: message,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.signup.resetAccountSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.ACCOUNT_PASSWORD_RESET, {
-          properties: {
-            account_type: AccountType.CUSTODIAL,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      // TODO - every time code is scanned, can we distinguish if for recovery or not?
-      // Commenting out until I have a good solution to distinguish from regular login
-      // case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
-      //   const state = store.getState()
-      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-      //   const email = state.profile.userData.getOrElse({})?.emailVerified
-      //     ? state.profile.userData.getOrElse({})?.email
-      //     : null
-      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-      //   analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
-      //     properties: {
-      //
-      //       originalTimestamp: getOriginalTimestamp(),
-      //       site_redirect: 'WALLET'
-      //     },
-      //     traits: {
-      //       email,
-      //       nabuId,
-      //       tier
-      //     }
-      //   })
-      //   break
-      // }
-      case actions.signup.resetAccount.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsRecoveryOptionSelected.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const recoveryType = action.payload
-
-        analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            recovery_type: recoveryType,
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.signup.restoreFromMetadata.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.RECOVERY_PHRASE_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsResetAccountCancelled.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const origin = action.payload
-
-        analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.analyticsResetAccountClicked.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const origin = action.payload
-
-        analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.auth.signupDetailsEntered.type: {
-        const state = store.getState()
-        const { country, countryState } = action.payload
-
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_SELECTED, {
-          properties: {
-            country,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            nabuId
-          }
-        })
-        if (countryState) {
-          analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_STATE_SELECTED, {
-            properties: {
-              country_state: countryState,
-              originalTimestamp: getOriginalTimestamp()
-            },
-            traits: {
-              nabuId
-            }
-          })
-        }
         break
       }
       case actions.components.nfts.nftOrderFlowOpen.type: {

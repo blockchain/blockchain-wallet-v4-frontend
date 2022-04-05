@@ -28,6 +28,9 @@ class RequestCrypto extends PureComponent<Props, State> {
   componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
+    if (this.props.showSilverRevamp) {
+      this.props.custodialActions.fetchProductEligibilityForUser()
+    }
   }
 
   componentWillUnmount() {
@@ -99,6 +102,9 @@ const mapStateToProps = (state, ownProps): LinkStatePropsType => {
   if (coinFromExternal) {
     coinSearch = window.coins[coinFromExternal].coinfig.name
   }
+  const showSilverRevamp = Boolean(
+    selectors.core.walletOptions.getSilverRevamp(state).getOrElse(false)
+  )
 
   return {
     formValues: selectors.form.getFormValues(REQUEST_FORM)(state) as RequestFormType,
@@ -108,11 +114,13 @@ const mapStateToProps = (state, ownProps): LinkStatePropsType => {
       step: RequestSteps.COIN_SELECT
     },
     requestableCoins: getData(),
+    showSilverRevamp,
     walletCurrency: currencyDisplay
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
@@ -130,6 +138,7 @@ type LinkStatePropsType = {
     step: RequestSteps
   }
   requestableCoins: Array<string>
+  showSilverRevamp: boolean
   walletCurrency: FiatType
 }
 export type Props = OwnProps &
@@ -138,7 +147,7 @@ export type Props = OwnProps &
   ConnectedProps<typeof connector>
 
 // 👋 Order of composition is important, do not change!
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.REQUEST_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({

@@ -6,7 +6,7 @@ import { ExtractSuccess, SwapOrderType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -168,6 +168,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
         origin: 'Swap'
+      })
+    )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'SWAP'
+        }
       })
     )
   },

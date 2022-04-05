@@ -50,6 +50,7 @@ const UpgradeNowSilver = (props: Props) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,

@@ -2,7 +2,6 @@ import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
-  ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
   ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
   AMOUNT_SWITCHED = 'Amount Switched',
@@ -22,7 +21,6 @@ enum AnalyticsKey {
   DEPOSIT_CLICKED = 'Deposit Clicked',
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
-  DEVICE_VERIFIED = 'Device Verified',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
@@ -33,28 +31,14 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
-  LOGIN_HELP_CLICKED = 'Login Help Clicked',
-  LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
-  LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
-  LOGIN_METHOD_SELECTED = 'Login Method Selected',
-  LOGIN_PASSWORD_DENIED = 'Login Password Denied',
-  LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
-  LOGIN_REQUEST_APPROVED = 'Login Request Approved',
-  LOGIN_REQUEST_DENIED = 'Login Request Denied',
-  LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
-  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
   LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NEW_ACCOUNT_PASSWORD_ENTERED = 'New Account Password Entered',
   NFT_ORDER_CREATED = 'NFT Order Created',
-  NFT_ORDER_FAILED = 'NFT Order Failed',
-  NFT_ORDER_SUCCEEDED = 'NFT Order Succeeded',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
-  PEEKSHEET_DISMISSED = 'Peeksheet Dismissed',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
-  RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
   RECOVERY_PHRASE_ENTERED = 'Recovery Phrase Entered',
   RECURRING_BUY_ACTIVATED = 'Recurring Buy Activated',
   RECURRING_BUY_CANCELLED = 'Recurring Buy Cancelled',
@@ -65,8 +49,6 @@ enum AnalyticsKey {
   RECURRING_BUY_PERIOD_SELECTED = 'Recurring Buy Period Selected',
   RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
   RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
-  RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
-  RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -78,10 +60,6 @@ enum AnalyticsKey {
   SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
   SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
-  SIGNED_IN = 'Signed In',
-  SIGNED_OUT = 'Signed Out',
-  SIGN_UP_COUNTRY_SELECTED = 'Sign Up Country Selected',
-  SIGN_UP_COUNTRY_STATE_SELECTED = 'Sign Up Country State Selected',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -91,16 +69,10 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
-  TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
-  WALLET_SIGNED_UP = 'Wallet Signed Up',
-  WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
-  WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked',
   WITHDRAWAL_CLICKED = 'Withdrawal Clicked',
   WITHDRAWAL_METHOD_SELECTED = 'Withdrawal Method Selected',
-  WITHDRAWAL_VIEWED = 'Withdrawal Viewed',
-  WRONG_CHANGE_CACHE = 'Wrong Change Cache',
-  WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
+  WITHDRAWAL_VIEWED = 'Withdrawal Viewed'
 }
 
 type AnalyticsTraits = {
@@ -456,7 +428,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   frequency: RecurringBuyPeriods
   input_amount: number
   input_currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'TRANSACTION_DETAILS' | 'RECURRING_BUY_DETAILS'
   output_currency: string
   payment_method: BSPaymentTypes
 }
@@ -467,7 +439,7 @@ export type RecurringBuyClickedPayload = BasePayload & {
 
 export type RecurringBuyDetailsClickedPayload = BasePayload & {
   currency: string
-  origin: keyof typeof RecurringBuyOrigins
+  origin: 'CURRENCY_PAGE' | 'TRANSACTION_LIST'
 }
 
 type SellAmountEnteredPayload = BasePayload & {
@@ -551,7 +523,7 @@ type SettingsHyperlinkClickedPayload = BasePayload & {
 type SettingsTabClickedDestination =
   | 'GENERAL'
   | 'PREFERENCES'
-  | 'TRADING_LIMITS_MODAL'
+  | 'TRADING_LIMITS'
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {
@@ -647,6 +619,7 @@ type UpgradeVerificationClickedOrigin =
   | 'UNKNOWN'
 
 type UpgradeVerificationClickedPayload = BasePayload & {
+  currency: string
   origin: UpgradeVerificationClickedOrigin
   tier: number
 }

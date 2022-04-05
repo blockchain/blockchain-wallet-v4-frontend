@@ -1,5 +1,7 @@
 // Onboarding and Verification Events
 export enum Events {
+  ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED = 'Account Info Screen Viewed',
+  ONBOARDING_ACCOUNT_INFO_SUBMITTED = 'Account Info Submitted',
   ONBOARDING_ADDRESS_ENTERED = 'Address Information Entered',
   ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED = 'Peeksheet Process Clicked',
   ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED = 'Peeksheet Selection Clicked',
@@ -9,22 +11,36 @@ export enum Events {
   ONBOARDING_EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   ONBOARDING_EMAIL_VERIFIED = 'Email Verified',
   ONBOARDING_EXCHANGE_SIGNED_UP = 'Exchange Signed Up',
+  ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY = 'Get More Access When You Verify Clicked',
+  ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY_DISMISSED = 'Get More Access When You Verify Dismissed',
   ONBOARDING_MANUAL_VERIFICATION_REQUIRED = 'Manual Verification Required',
   ONBOARDING_PERSONAL_INFORMATION_CLICKED = 'Personal Information Entered',
+  ONBOARDING_PRE_VERIFICATION_CTA_CLICKED = 'Pre Verification CTA Clicked',
+  ONBOARDING_PRE_VERIFICATION_DISMISSED = 'Pre Verification Dismissed',
+  ONBOARDING_PRE_VERIFICATION_VIEWED = 'Pre Verification Viewed',
   ONBOARDING_SIGNED_UP = 'Signed Up',
   ONBOARDING_SIGNUP_CLICKED = 'Sign Up Clicked',
   ONBOARDING_SIGNUP_COUNTRY_SELECTED = 'Sign Up Country Selected',
   ONBOARDING_SIGNUP_COUNTRY_STATE_SELECTED = 'Sign Up Country State Selected',
+  ONBOARDING_TRADING_LIMITS_DISMISSED = 'Trading Limits Dismissed',
+  ONBOARDING_TRADING_LIMITS_GET_BASIC_CTA_CLICKED = 'Trading Limits Get Basic CTA Clicked',
+  ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED = 'Trading Limits Get Verified CTA Clicked',
+  ONBOARDING_TRADING_LIMITS_VIEWED = 'Trading Limits Viewed',
   ONBOARDING_UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   ONBOARDING_VERIFICATION_COMPLETED = 'Verification Completed',
   ONBOARDING_VERIFICATION_REJECTED = 'Verification Rejected',
   ONBOARDING_VERIFICATION_STARTED = 'Verification Started',
   ONBOARDING_VERIFICATION_SUBMISSION_FAILED = 'Verification Submission Failed',
+  ONBOARDING_VERIFY_NOW_POPUP_CTA_CLICKED = 'Verify Now Pop Up CTA Clicked',
+  ONBOARDING_VERIFY_NOW_POPUP_DISMISSED = 'Verify Now Pop Up Dismissed',
+  ONBOARDING_VERIFY_NOW_POPUP_VIEWED = 'Verify Now Pop Up Viewed',
   ONBOARDING_WALLET_SIGNED_UP = 'Wallet Signed Up'
 }
 
 type OriginProductFlow = 'SECURITY' | 'SIGN_UP' | 'VERIFICATION'
 type CompleteProfileSteps = 'BUY_CRYPTO' | 'LINK_PAYMENT' | 'VERIFY'
+
+type FlowSteps = 'BUY' | 'SWAP'
 
 type OriginVerification =
   | 'AIRDROP'
@@ -96,6 +112,13 @@ type EmailVerifiedAction = {
 type ExchangeSignedUpAction = {
   key: Events.ONBOARDING_EXCHANGE_SIGNED_UP
   properties: {}
+}
+
+type GetMoreAccessWhenYouVerify = {
+  key: Events.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY
+  properties: {
+    flow_step: FlowSteps
+  }
 }
 
 type ManualVerificationRequiredAction = {
@@ -217,13 +240,84 @@ type WalletSignedUpAction = {
   }
 }
 
+type VerificationNowCtaClicked = {
+  key: Events.ONBOARDING_VERIFY_NOW_POPUP_CTA_CLICKED
+  properties: {}
+}
+
+type VerificationNowDismissed = {
+  key: Events.ONBOARDING_VERIFY_NOW_POPUP_DISMISSED
+  properties: {}
+}
+
+type VerificationNowViewed = {
+  key: Events.ONBOARDING_VERIFY_NOW_POPUP_VIEWED
+  properties: {}
+}
+
+type TradingLimitsViewed = {
+  key: Events.ONBOARDING_TRADING_LIMITS_VIEWED
+  properties: {
+    tier: number
+  }
+}
+
+type TradingLimitsVerifiedCtaClicked = {
+  key: Events.ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED
+  properties: {
+    tier: number
+  }
+}
+
+type TradingLimitsBasicCtaClicked = {
+  key: Events.ONBOARDING_TRADING_LIMITS_GET_BASIC_CTA_CLICKED
+  properties: {
+    tier: number
+  }
+}
+
+type TradingLimitsDismissed = {
+  key: Events.ONBOARDING_TRADING_LIMITS_DISMISSED
+  properties: {
+    tier: number
+  }
+}
+
+type PreVerificationCtaClicked = {
+  key: Events.ONBOARDING_PRE_VERIFICATION_CTA_CLICKED
+  properties: {}
+}
+
+type PreVerificationDismissed = {
+  key: Events.ONBOARDING_PRE_VERIFICATION_DISMISSED
+  properties: {}
+}
+
+type PreVerificationViewed = {
+  key: Events.ONBOARDING_PRE_VERIFICATION_VIEWED
+  properties: {}
+}
+
+type AccountInfoScreenViewed = {
+  key: Events.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED
+  properties: {}
+}
+
+type AccountInfoScreenSubmitted = {
+  key: Events.ONBOARDING_ACCOUNT_INFO_SUBMITTED
+  properties: {}
+}
+
 // track event actions to be used inside codebase when we do trigger event
 export type TrackEventAction =
   | AddressEnteredAction
+  | AccountInfoScreenViewed
+  | AccountInfoScreenSubmitted
   | EmailVerificationRequestAction
   | EmailVerificationSkippedAction
   | EmailVerifiedAction
   | ExchangeSignedUpAction
+  | GetMoreAccessWhenYouVerify
   | ManualVerificationRequiredAction
   | CompleteProfileDismissAction
   | CompleteProfileModalViewedAction
@@ -234,11 +328,21 @@ export type TrackEventAction =
   | CountrySelectedAction
   | CountryStateSelectedAction
   | SignedUpAction
+  | TradingLimitsViewed
+  | TradingLimitsDismissed
+  | TradingLimitsVerifiedCtaClicked
+  | TradingLimitsBasicCtaClicked
+  | PreVerificationCtaClicked
+  | PreVerificationDismissed
+  | PreVerificationViewed
   | UpgradeVerificationClickedAction
   | VerificationCompletedAction
   | VerificationRejectedAction
   | VerificationStartedAction
   | VerificationSubmissionFailedAction
+  | VerificationNowCtaClicked
+  | VerificationNowDismissed
+  | VerificationNowViewed
   | WalletSignedUpAction
 
 // shared types
