@@ -1,3 +1,2 @@
-export * from './Padding'
-export * from './PaddingAll'
-export * from './PaddingSymetric'
+export { Padding } from './Padding'
+export type { PaddingComponent, PaddingProps } from './types'

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text } from 'blockchain-info-components'
 import { Tooltip } from 'components/Chart'
-import { PaddingAll } from 'components/Padding'
+import { Padding } from 'components/Padding'
 
 import { CoinChartTooltipComponent } from './types'
 
@@ -16,7 +16,7 @@ export const CoinChartTooltip: CoinChartTooltipComponent = ({
 }) => {
   return (
     <Tooltip top={top} left={left} offsetLeft={offsetLeft} offsetTop={offsetTop}>
-      <PaddingAll size={12}>
+      <Padding all={12}>
         <Text size='12px' lineHeight='16px' color='white' weight={600}>
           {title}
         </Text>
@@ -24,7 +24,7 @@ export const CoinChartTooltip: CoinChartTooltipComponent = ({
         <Text size='12px' lineHeight='16px' color='white' weight={600}>
           {subtitle}
         </Text>
-      </PaddingAll>
+      </Padding>
     </Tooltip>
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { PaddingSymetric } from 'components/Padding'
+import { Padding } from 'components/Padding'
 
 import { Badge, Container } from './styles'
 import { TabComponent } from './types'
@@ -10,7 +10,7 @@ import { TabComponent } from './types'
 export const Tab: TabComponent = ({ badgeColor, children, onClick, selected = false }) => {
   return (
     <Container selected={selected} onClick={onClick}>
-      <PaddingSymetric vertical={4} horizontal={12}>
+      <Padding vertical={4} horizontal={12}>
         <Flex gap={6} alignItems='center'>
           {badgeColor ? <Badge $color={badgeColor} /> : null}
 
@@ -18,7 +18,7 @@ export const Tab: TabComponent = ({ badgeColor, children, onClick, selected = fa
             {children}
           </Text>
         </Flex>
-      </PaddingSymetric>
+      </Padding>
     </Container>
   )
 }
