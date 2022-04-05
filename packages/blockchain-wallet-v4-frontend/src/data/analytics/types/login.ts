@@ -9,6 +9,8 @@ export enum Events {
   LOGIN_RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
   LOGIN_REQUEST_APPROVED = 'Login Request Approved',
   LOGIN_REQUEST_DENIED = 'Login Request Denied',
+  LOGIN_SIGNED_IN = 'Signed In',
+  LOGIN_SIGNED_OUT = 'Signed Out',
   LOGIN_TERMS_AND_CONDITIONS_ACCEPTED = 'T&C Accepted',
   LOGIN_TERMS_AND_CONDITIONS_VIEWED = 'T&C Viewed',
   LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
@@ -17,6 +19,8 @@ export enum Events {
 
 type LoginActions = {
   key:
+    | Events.LOGIN_SIGNED_OUT
+    | Events.LOGIN_SIGNED_IN
     | Events.LOGIN_PASSWORD_ENTERED
     | Events.LOGIN_TWO_STEP_VERIFICATION_DENIED
     | Events.LOGIN_TWO_STEP_VERIFICATION_ENTERED

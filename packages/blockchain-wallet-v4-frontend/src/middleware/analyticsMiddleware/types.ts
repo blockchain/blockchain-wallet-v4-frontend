@@ -2,7 +2,6 @@ import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
-  ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
   ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
   AMOUNT_SWITCHED = 'Amount Switched',
@@ -61,8 +60,6 @@ enum AnalyticsKey {
   SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
   SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
-  SIGNED_IN = 'Signed In',
-  SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -73,7 +70,6 @@ enum AnalyticsKey {
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
-  WALLET_SIGNED_UP = 'Wallet Signed Up',
   WITHDRAWAL_CLICKED = 'Withdrawal Clicked',
   WITHDRAWAL_METHOD_SELECTED = 'Withdrawal Method Selected',
   WITHDRAWAL_VIEWED = 'Withdrawal Viewed'

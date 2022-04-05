@@ -159,6 +159,14 @@ export default ({ api, coreSagas, networks }) => {
           window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
       // @ts-ignore
     } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
@@ -323,6 +331,14 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            site_redirect: product
+          }
+        })
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification

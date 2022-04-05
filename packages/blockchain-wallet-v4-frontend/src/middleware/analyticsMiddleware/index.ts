@@ -876,68 +876,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.signup.registerSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.WALLET_SIGNED_UP, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.auth.loginSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.SIGNED_IN, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.session.logout.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.SIGNED_OUT, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
       case actions.components.swap.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -2565,70 +2503,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         })
 
-        break
-      }
-      case actions.signup.resetAccountSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.ACCOUNT_PASSWORD_RESET, {
-          properties: {
-            account_type: AccountType.CUSTODIAL,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.signup.resetAccount.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
-      case actions.signup.restoreFromMetadata.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.RECOVERY_PHRASE_ENTERED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
         break
       }
       case actions.components.nfts.nftOrderFlowOpen.type: {
