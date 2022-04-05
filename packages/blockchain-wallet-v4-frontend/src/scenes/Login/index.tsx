@@ -277,7 +277,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  jwtToken: selectors.auth.getJwtToken(state),
+  jwtToken: selectors.auth.getExchangeSessionToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>

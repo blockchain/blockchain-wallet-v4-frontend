@@ -263,6 +263,20 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const upgradeExchangeUserAccount = (exchangeSessionToken, retailToken) => {
+    return authorizedPost({
+      contentType: 'application/json',
+      data: {
+        retailToken
+      },
+      endPoint: '/users/account/upgrade',
+      headers: {
+        Authorization: `Bearer ${exchangeSessionToken}`
+      },
+      url: nabuUrl
+    })
+  }
+
   return {
     createExchangeUser,
     createLinkAccountId,
@@ -289,6 +303,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     signUserTermsAndConditionsLast,
     syncUserWithWallet,
     updateUser,
-    updateUserAddress
+    updateUserAddress,
+    upgradeExchangeUserAccount
   }
 }

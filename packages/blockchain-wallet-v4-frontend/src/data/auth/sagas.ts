@@ -78,8 +78,10 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
-    const { platform, product, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
-    // const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const { platform, product, redirect, userType } = yield select(
+      selectors.auth.getProductAuthMetadata
+    )
+    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -117,22 +119,25 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
       switch (true) {
-        // account merge/upgrade web
-        // case unificationFlowType ===
-        //   (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
-        // // account merge mobile
-        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
-        // // account upgrade mobile
-        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
+        // account upgrade web
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account merge web
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
+          // TODO: determine step for merge
+          break
+        // account merge mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account upgrade mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
         // web - institutional exchange login
         // only institutional users coming from the .com page will have
         // a redirect link. All other users coming from footer in login page
@@ -669,7 +674,7 @@ export default ({ api, coreSagas, networks }) => {
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
             yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
-            yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
           }
           if (product === ProductAuthOptions.EXCHANGE) {
             if (exchangeEmail) {

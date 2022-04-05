@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 
 import {
+  AccountUpgradePayload,
   ExchangeUrlDataType,
   MetadataRestoreType,
   RegisteringFailureType,
@@ -26,6 +27,10 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
+    createWalletForExchangeAccountUpgrade: (
+      state,
+      action: PayloadAction<AccountUpgradePayload>
+    ) => {},
     initializeSignup: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {

@@ -2436,6 +2436,7 @@ type MessagesType = {
   'scenes.login.upgrade.header': 'Upgrade to a Unified Account'
   'scenes.login.upgrade.greatersecurity': 'Secure your investments across all Blockchain.com products.'
   'scenes.login.upgrade.greatersecurity.header': 'Greater Security Across Accounts'
+  'scenes.login.upgarde.newpassword': 'Create a New Password'
   'scenes.login.upgrade.onelogin': 'Easily access your Blockchain.com Wallet and the Exchange with a single login.'
   'scenes.login.upgrade.onelogin.header': 'One Login for All Accounts'
   'scenes.login.upgrade.password.header': 'Upgrade Your Password'

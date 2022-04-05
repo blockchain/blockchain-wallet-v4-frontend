@@ -123,7 +123,9 @@ const UpgradeOrSkip = (props) => {
           data-e2e='obContinueBankStatus'
           fullwidth
           height='48px'
-          onClick={() => {}}
+          onClick={() =>
+            props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)
+          }
         >
           <FormattedMessage
             id='scenes.login.upgrade.upsell.button_1'

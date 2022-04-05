@@ -56,7 +56,9 @@ export function isAuthenticated(state: RootState): AuthStateType['isAuthenticate
   return state.auth.isAuthenticated
 }
 
-export function getJwtToken(state: RootState): AuthStateType['exchangeAuth']['jwtToken'] {
+export function getExchangeSessionToken(
+  state: RootState
+): AuthStateType['exchangeAuth']['jwtToken'] {
   return state.auth.exchangeAuth.jwtToken
 }
 export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded

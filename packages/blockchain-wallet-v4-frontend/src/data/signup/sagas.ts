@@ -4,8 +4,15 @@ import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, AuthMagicLink, ExchangeAuthOriginType, ProductAuthOptions } from 'data/types'
+import {
+  Analytics,
+  AuthMagicLink,
+  ExchangeAuthOriginType,
+  ProductAuthOptions,
+  UpgradeSteps
+} from 'data/types'
 import * as C from 'services/alerts'
+import { askSecondPasswordEnhancer } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -21,6 +28,37 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const LOGIN_FORM = 'login'
+
+  const createWalletForExchangeAccountUpgrade = function* (action) {
+    // start some sort of form submit so state is loading
+    try {
+      const { captchaToken, password } = action.payload
+      const magicLinkData = yield select(selectors.auth.getMagicLinkData)
+      const { email } = magicLinkData.exchange
+      const language = yield select(selectors.preferences.getLanguage)
+      const exchangeSessionToken = yield select(selectors.auth.getExchangeSessionToken)
+      yield call(coreSagas.wallet.createWalletSaga, { captchaToken, email, language, password })
+      const retailToken = yield call(generateRetailToken)
+      const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
+        api.upgradeExchangeUserAccount,
+        exchangeSessionToken,
+        retailToken
+      )
+      yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield put(
+        actions.core.kvStore.userCredentials.setUnifiedAccountCredentials(
+          userId,
+          nabuToken,
+          userCredentialsId,
+          mercuryToken
+        )
+      )
+      yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.SELECT_2FA_TYPE))
+    } catch (e) {
+      // Handle Errors
+    }
+  }
 
   const register = function* (action) {
     const { country, email, initCaptcha, state } = action.payload
@@ -170,7 +208,7 @@ export default ({ api, coreSagas, networks }) => {
       } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
       // set new lifetime tokens for nabu and exchange for user in metadata
       yield put(
-        actions.core.kvStore.userCredentials.setUnifiedAccountResetCredentials(
+        actions.core.kvStore.userCredentials.setUnifiedAccountCredentials(
           userId,
           lifetimeToken,
           exchangeUserId,
@@ -213,6 +251,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    createWalletForExchangeAccountUpgrade,
     initializeSignUp,
     register,
     resetAccount,

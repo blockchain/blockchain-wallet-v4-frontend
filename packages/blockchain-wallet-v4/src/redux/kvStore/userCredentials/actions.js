@@ -29,7 +29,7 @@ export const setExchangeUserCredentials = (exchange_user_id, exchange_lifetime_t
   type: AT.SET_EXCHANGE_USER_CREDENTIALS
 })
 
-export const setUnifiedAccountResetCredentials = (
+export const setUnifiedAccountCredentials = (
   user_id,
   lifetime_token,
   exchange_user_id,
