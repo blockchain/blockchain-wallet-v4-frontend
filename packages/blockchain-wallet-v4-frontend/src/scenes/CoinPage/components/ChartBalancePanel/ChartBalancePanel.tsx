@@ -1,8 +1,7 @@
 import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
 
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
 import { ChartBalancePanelComponent } from './types'
@@ -16,11 +15,11 @@ export const ChartBalancePanel: ChartBalancePanelComponent = ({
 }) => {
   const arrowIcon: ReactNode = useMemo(() => {
     if (isPositive === true) {
-      return <Icon name='arrowUp' size='sm' color='green600' />
+      return <Icon name='arrow-up' size='22px' color='green600' />
     }
 
     if (isPositive === false) {
-      return <Icon name='arrowDown' size='sm' color='red600' />
+      return <Icon name='arrow-down' size='22px' color='red600' />
     }
   }, [isPositive])
 
