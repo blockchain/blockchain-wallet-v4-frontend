@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Image, Text, Tooltip } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -53,9 +53,6 @@ const UpgradeOrSkip = (props) => {
                   id='scenes.login.upgrade.upsell.item_1.text'
                   defaultMessage='Self custody your funds in the world’s most popular crypto wallet.'
                 />
-                <Tooltip id='coming-soon'>
-                  <FormattedMessage id='tooltip.comingsoon' defaultMessage='Coming soon.' />
-                </Tooltip>
               </Text>
             </TierDescription>
           </Item>
@@ -120,7 +117,7 @@ const UpgradeOrSkip = (props) => {
 
         <ButtonNext
           nature='primary'
-          data-e2e='obContinueBankStatus'
+          data-e2e='nextButton'
           fullwidth
           height='48px'
           onClick={() => {}}
@@ -131,7 +128,7 @@ const UpgradeOrSkip = (props) => {
           />
         </ButtonNext>
         <ButtonLater
-          data-e2e='obContinueBankStatus'
+          data-e2e='LaterButton'
           color='blue600'
           fullwidth
           height='48px'
