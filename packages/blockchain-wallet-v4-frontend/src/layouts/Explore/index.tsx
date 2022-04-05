@@ -20,7 +20,7 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
       <Route
         path={path}
         render={() => (
-          <ExploreLayout>
+          <ExploreLayout {...this.props}>
             <Component computedMatch={rest.computedMatch} {...rest} />
           </ExploreLayout>
         )}
@@ -34,12 +34,13 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector> & {
+export type Props = ConnectedProps<typeof connector> & {
   coin?: CoinType
   coinfig?: CoinfigType
   component: React.ComponentType<any>

@@ -10,6 +10,8 @@ import { Button, Image, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 
+import { Props as OwnProps } from '..'
+
 export const FIXED_HEADER_HEIGHT = 56
 
 const FixedNav = styled(NavContainer)`
@@ -40,7 +42,7 @@ const NavLinkButton = styled(NavLink)`
   }
 `
 
-const ExploreHeader: React.FC<Props> = () => {
+const ExploreHeader: React.FC<Props> = ({ routerActions }) => {
   return (
     <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
       <FixedNav>
@@ -50,17 +52,21 @@ const ExploreHeader: React.FC<Props> = () => {
               <Image width='25px' name='blockchain-icon' />
             </NavLink>
           </Logo>
-          <LinkContainer to='/home' style={{ marginLeft: '24px' }}>
-            <Button small data-e2e='back' nature='empty-blue'>
-              <Icon
-                name={IconName.ARROW_LEFT}
-                style={{ marginRight: '4px' }}
-                size='sm'
-                color={colors.grey300}
-              />
-              <FormattedMessage id='buttons.signup' defaultMessage='Back' />
-            </Button>
-          </LinkContainer>
+          <Button
+            small
+            data-e2e='back'
+            nature='empty-blue'
+            onClick={() => routerActions.goBack()}
+            style={{ marginLeft: '24px' }}
+          >
+            <Icon
+              name={IconName.ARROW_LEFT}
+              style={{ marginRight: '4px' }}
+              size='sm'
+              color={colors.grey300}
+            />
+            <FormattedMessage id='buttons.signup' defaultMessage='Back' />
+          </Button>
         </NavLeft>
         <NavCenter>
           <NavLinkButton to='/nfts' activeClassName='active'>
@@ -87,6 +93,6 @@ const ExploreHeader: React.FC<Props> = () => {
   )
 }
 
-type Props = {}
+type Props = OwnProps
 
-export default reduxForm({ form: 'nftSearch' })(ExploreHeader)
+export default reduxForm<{}, Props>({ form: 'nftSearch' })(ExploreHeader)

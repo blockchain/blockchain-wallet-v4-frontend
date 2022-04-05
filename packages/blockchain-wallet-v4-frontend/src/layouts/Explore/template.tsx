@@ -6,6 +6,7 @@ import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
 import Modals from '../../modals'
+import { Props as OwnProps } from '.'
 import Header, { FIXED_HEADER_HEIGHT } from './Header'
 
 const Wrapper = styled.div`
@@ -29,18 +30,18 @@ const Page = styled.div`
   `}
 `
 
-const ExploreTemplate: React.FC<Props> = ({ children }) => {
+const ExploreTemplate: React.FC<Props> = (props) => {
   return (
     <ErrorBoundary>
       <Wrapper>
-        <Header />
+        <Header {...props} />
         <Modals />
-        <Page>{children}</Page>
+        <Page>{props.children}</Page>
       </Wrapper>
     </ErrorBoundary>
   )
 }
 
-type Props = {}
+type Props = OwnProps
 
 export default ExploreTemplate
