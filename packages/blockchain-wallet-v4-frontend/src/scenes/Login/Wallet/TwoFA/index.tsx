@@ -138,11 +138,7 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='2FA'
-            product={ProductAuthOptions.WALLET}
-          />
+          <NeedHelpLink origin='2FA' product={ProductAuthOptions.WALLET} />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignupLink />

@@ -9,7 +9,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { ExchangeAuthOriginType } from 'data/types'
+import { Analytics, ExchangeAuthOriginType } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -679,9 +679,15 @@ export default ({ api, coreSagas, networks }) => {
           )
           initCaptcha()
         }
-        // Passing ID type used to analytics
-        const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
-        yield put(actions.auth.analyticsLoginIdEntered(idType))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_IDENTIFIER_ENTERED,
+            properties: {
+              identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
+              site_redirect: product
+            }
+          })
+        )
       } else if (
         step === LoginSteps.ENTER_PASSWORD_WALLET ||
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
@@ -766,8 +772,17 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-      yield put(actions.auth.analyticsLoginIdentifierFailed(e))
       yield put(stopSubmit(LOGIN_FORM))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_IDENTIFIER_FAILED,
+          properties: {
+            error_code: e.code,
+            error_message: e.description,
+            site_redirect: product
+          }
+        })
+      )
     }
   }
 
@@ -792,7 +807,15 @@ export default ({ api, coreSagas, networks }) => {
         if (product === ProductAuthOptions.EXCHANGE) {
           yield put(actions.cache.exchangeEmail(exchange?.email))
         }
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_APPROVED,
+            properties: {
+              method: 'MAGIC_LINK',
+              request_platform: 'WALLET'
+            }
+          })
+        )
       }
       // @ts-ignore
     } catch (e: { confirmation_required: boolean; status?: number }) {
@@ -800,13 +823,38 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
       } else if (e && e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_REQUEST_DENIED,
+          properties: {
+            error: 'REJECTED',
+            method: 'MAGIC_LINK',
+            request_platform: product
+          }
+        })
       } else if (e && e.status === 400 && e.link_expired) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_DENIED,
+            properties: {
+              error: 'EXPIRED',
+              method: 'MAGIC_LINK',
+              request_platform: product
+            }
+          })
+        )
       } else {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
-        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.LOGIN_REQUEST_DENIED,
+            properties: {
+              error: 'UNKNOWN',
+              method: 'MAGIC_LINK',
+              request_platform: product
+            }
+          })
+        )
       }
     }
   }

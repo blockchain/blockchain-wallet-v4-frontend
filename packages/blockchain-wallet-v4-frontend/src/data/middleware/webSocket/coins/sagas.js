@@ -4,10 +4,11 @@ import { call, put, select } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
+import { Analytics } from 'data/types'
 import * as T from 'services/alerts'
 
-import { WALLET_TX_SEARCH } from '../../../form/model'
+import { getOriginalTimestamp } from '../../../../middleware/analyticsMiddleware/utils'
 import {
   btcTransaction,
   ethReceivedConfirmed,
@@ -15,6 +16,8 @@ import {
   ethSentConfirmed,
   header
 } from './messageTypes'
+
+const { WALLET_TX_SEARCH } = model.form
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -273,8 +276,8 @@ export default ({ api, socket }) => {
           // check if message is an email verification update
 
           let payload = {}
-          // secure channel/mobile app login data is recevied as a JSON
-          // this is why we're parsing message.msg first and assigining it
+          // secure channel/mobile app login data is received as a JSON
+          // this is why we're parsing message.msg first and assigning it
           // to payload
           try {
             if (message.msg) {
@@ -288,6 +291,16 @@ export default ({ api, socket }) => {
             if (!payload.success) {
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_REQUEST_DENIED,
+                  properties: {
+                    error: 'Phone declined',
+                    method: 'SECURE_CHANNEL',
+                    request_platform: 'WALLET'
+                  }
+                })
+              )
               yield put(actions.alerts.displayError(T.MOBILE_LOGIN_DECLINED))
               return
             }
@@ -309,7 +322,6 @@ export default ({ api, socket }) => {
               if (decrypted.remember) {
                 yield put(actions.cache.channelPhoneConnected(pubkey.toString('hex')))
               }
-              yield put(actions.auth.secureChannelLoginSuccess())
               yield put(actions.alerts.displaySuccess(T.MOBILE_LOGIN_SUCCESS))
               yield put(actions.form.change('login', 'guid', decrypted.guid))
               yield put(actions.form.change('login', 'password', decrypted.password))
@@ -320,6 +332,15 @@ export default ({ api, socket }) => {
                   guid: decrypted.guid,
                   password: decrypted.password,
                   sharedKey: decrypted.sharedKey
+                })
+              )
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_REQUEST_APPROVED,
+                  properties: {
+                    method: 'SECURE_CHANNEL',
+                    request_platform: 'WALLET'
+                  }
                 })
               )
             }

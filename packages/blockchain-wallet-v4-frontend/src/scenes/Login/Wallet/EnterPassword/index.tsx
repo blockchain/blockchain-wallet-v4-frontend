@@ -184,11 +184,7 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink
-              authActions={authActions}
-              origin='PASSWORD'
-              product={ProductAuthOptions.WALLET}
-            />
+            <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignupLink />

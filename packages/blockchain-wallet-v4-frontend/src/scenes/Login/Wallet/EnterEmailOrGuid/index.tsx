@@ -94,11 +94,7 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.WALLET}
-          />
+          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.WALLET} />
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink />

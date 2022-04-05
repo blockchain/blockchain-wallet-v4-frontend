@@ -4,6 +4,7 @@ import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote, Types } from '@core'
 import { actions, actionTypes, selectors } from 'data'
+import { Analytics } from 'data/analytics/types'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -198,13 +199,21 @@ export default ({ coreSagas }) => {
     })
 
     if (!isValidReceive) {
-      // TODO: use new analytics
-      // yield put(actions.auth.logWrongReceiveCache())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.WRONG_RECEIVE_CACHE,
+          properties: {}
+        })
+      )
     }
 
     if (!isValidChange) {
-      // TODO: use new analytics
-      // yield put(actions.auth.logWrongChangeCache())
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.WRONG_CHANGE_CACHE,
+          properties: {}
+        })
+      )
     }
   }
 

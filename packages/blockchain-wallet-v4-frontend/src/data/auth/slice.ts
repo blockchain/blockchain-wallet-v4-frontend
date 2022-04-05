@@ -46,17 +46,10 @@ const authSlice = createSlice({
   name: 'auth',
   reducers: {
     // TODO: upgrade to new analytics flow
-    analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
-    analyticsAuthorizeVerifyDeviceSuccess: () => {},
-    analyticsLoginIdEntered: (state, action) => {},
-    analyticsLoginIdentifierFailed: (state, action) => {},
-    analyticsLoginMethodSelected: (state, action) => {},
     analyticsLoginPasswordDenied: () => {},
     analyticsLoginPasswordEntered: () => {},
     analyticsLoginTwoStepVerificationDenied: () => {},
     analyticsLoginTwoStepVerificationEntered: () => {},
-    analyticsMagicLinkParsed: () => {},
-    analyticsNeedHelpClicked: (state, action) => {},
     analyticsRecoveryOptionSelected: (state, action) => {},
     analyticsRecoveryPhraseEntered: () => {},
     analyticsResetAccountCancelled: (state, action) => {},

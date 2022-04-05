@@ -9,6 +9,7 @@ import {
   TrackEventAction as InterestClientTrackEventAction
 } from './interestClient'
 import { Events as LoginEvents, TrackEventAction as LoginTrackEventAction } from './login'
+import { Events as MiscEvents, TrackEventAction as MiscTrackEventAction } from './misc'
 import {
   AnalyticsProperties as OnboardingAndVerificationAnalyticsProperties,
   Events as OnboardingAndVerificationEvents,
@@ -30,6 +31,7 @@ type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | ViewAndClickEvents
   | LoginEvents
+  | MiscEvents
   | InterestClientEvents
   | DepositWithdrawalClientEvents
   | TaxCenterEvents
@@ -37,6 +39,7 @@ const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
   ...LoginEvents,
+  ...MiscEvents,
   ...InterestClientEvents,
   ...DepositWithdrawalClientEvents,
   ...TaxCenterEvents
@@ -69,6 +72,7 @@ type TrackEventAction =
   | OnboardingAndVerificationTrackEventAction
   | ViewAndClickTrackEventAction
   | LoginTrackEventAction
+  | MiscTrackEventAction
   | InterestClientTrackEventAction
   | DepositWithdrawalClientEventAction
   | TaxCenterTrackEventAction
