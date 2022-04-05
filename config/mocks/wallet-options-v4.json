@@ -36,7 +36,7 @@
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "completeYourProfile": true,
-        "createExchangeUserOnSignupOrLogin": true,
+        "createExchangeUserOnSignupOrLogin": false,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
