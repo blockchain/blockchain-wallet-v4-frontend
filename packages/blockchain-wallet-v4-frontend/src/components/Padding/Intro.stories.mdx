@@ -7,32 +7,42 @@ import { Padding } from './'
 
 ---
 
-This component is build to provide a simple component to add padding to an section
+This component is build to provide a simple way to apply padding
 
 ## Example
 
 This example is adding a padding of 10px on all directions
 
 ```jsx
-<Padding.Symetric top={10} left={10} bottom={10} right={10}>
+<Padding all={10}>
   <span>Padding content</span>
-</Padding.Symetric>
+</Padding>
 ```
 
 <Canvas>
-  <Story id='components-padding--sample' />
+  <Story id='components-padding--padding-all' />
 </Canvas>
 
 ## Symetric
 
-You can use the helper component to simplify how to create symetric padding
-
 ```jsx
-<Padding.Symetric horizontal={16} vertical={10}>
+<Padding horizontal={16} vertical={10}>
   <span>Padding content</span>
-</Padding.Symetric>
+</Padding>
 ```
 
 <Canvas>
-  <Story id='components-padding-symetric--horizontal-16-vertical-10' />
+  <Story id='components-padding--padding-symetric' />
+</Canvas>
+
+## Specific directions
+
+```jsx
+<Padding top={10} left={20} right={30} bottom={40}>
+  <span>Padding content</span>
+</Padding>
+```
+
+<Canvas>
+  <Story id='components-padding--padding-edge-inset' />
 </Canvas>
