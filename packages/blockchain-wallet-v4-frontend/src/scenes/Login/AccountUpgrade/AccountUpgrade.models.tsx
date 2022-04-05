@@ -62,3 +62,16 @@ export const ButtonLater = styled(Button)`
 export const StyledTemporaryButton = styled.button`
   margin: 20px 0 0;
 `
+
+export const BackArrow = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`
+
+export const SubHeaderWrapper = styled.div`
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+`
