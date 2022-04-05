@@ -4,6 +4,7 @@ import {
   useOpenRecurringBuyFlayout
 } from 'blockchain-wallet-v4-frontend/src/hooks'
 
+import { LearnAboutRecurringBuyPanel } from '../../../LearnAboutRecurringBuyPanel/LearnAboutRecurringBuyPanel'
 import { RecurringBuyListItem } from '../../../RecurringBuyListItem'
 import { RecurringBuyPanel } from '../../../RecurringBuyPanel'
 import { UseRecurringBuyPanelHook } from './types'
@@ -29,8 +30,10 @@ export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
   }, [data, openRecurringBuy])
 
   const recurringBuysNode: ReactNode = useMemo(() => {
+    if (!recurringBuyListItems) return null
+
     if (recurringBuyListItems.length === 0) {
-      return null
+      return <LearnAboutRecurringBuyPanel />
     }
 
     return <RecurringBuyPanel>{recurringBuyListItems}</RecurringBuyPanel>
