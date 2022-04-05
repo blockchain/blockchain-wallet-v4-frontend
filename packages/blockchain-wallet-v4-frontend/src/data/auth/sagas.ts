@@ -893,7 +893,7 @@ export default ({ api, coreSagas, networks }) => {
             key: Analytics.LOGIN_REQUEST_APPROVED,
             properties: {
               method: 'MAGIC_LINK',
-              request_platform: 'WALLET'
+              request_platform: product
             }
           })
         )

@@ -8,7 +8,6 @@ import { actions, model, selectors } from 'data'
 import { Analytics } from 'data/types'
 import * as T from 'services/alerts'
 
-import { getOriginalTimestamp } from '../../../../middleware/analyticsMiddleware/utils'
 import {
   btcTransaction,
   ethReceivedConfirmed,
