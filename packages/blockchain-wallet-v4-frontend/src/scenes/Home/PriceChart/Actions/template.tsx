@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { CoinType } from '@core/types'
+import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
@@ -24,7 +24,7 @@ const BuyTradeButton = styled(Button)`
   }
 `
 
-const Actions = ({ buySellActions, coinName, swapActions }: Props) => {
+const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Props) => {
   return (
     <Wrapper>
       <BuyTradeButton
@@ -33,7 +33,8 @@ const Actions = ({ buySellActions, coinName, swapActions }: Props) => {
         nature='primary'
         onClick={() =>
           buySellActions.showModal({
-            orderType: 'BUY',
+            cryptoCurrency,
+            orderType: OrderType.BUY,
             origin: 'PriceChart'
           })
         }
