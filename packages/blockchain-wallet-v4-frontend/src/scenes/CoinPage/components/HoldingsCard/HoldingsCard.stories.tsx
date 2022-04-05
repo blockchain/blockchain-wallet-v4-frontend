@@ -25,7 +25,7 @@ const holdingsCardStoriesMeta: ComponentMeta<HoldingsCardComponent> = {
   title: 'Pages/CoinPage/HoldingsCard'
 }
 
-export const Template: ComponentStory<HoldingsCardComponent> = (args) => <HoldingsCard {...args} />
+const Template: ComponentStory<HoldingsCardComponent> = (args) => <HoldingsCard {...args} />
 
 export const Bitcoin = Template.bind({})
 Bitcoin.args = {

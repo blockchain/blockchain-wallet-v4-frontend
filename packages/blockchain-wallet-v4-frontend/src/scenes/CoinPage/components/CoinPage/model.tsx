@@ -1,9 +1,9 @@
-import React, { ReactElement, useCallback } from 'react'
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
-import { product } from 'ramda'
+import { IconCart, IconQrCode, IconSell, IconSend } from '@blockchain-com/icons'
 
-import { CoinfigType, CoinType } from '@core/types'
+import { CoinfigType } from '@core/types'
 import { Button } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
@@ -32,7 +32,9 @@ export const HoldingsCardActions = ({
       onClick={sendButtonCallback}
     >
       <Flex gap={10} alignItems='center'>
-        <Icon name='send' color='white900' size='sm' />
+        <Icon label='send' color='white900' size='sm'>
+          <IconSend />
+        </Icon>
         <FormattedMessage id='buttons.send' defaultMessage='Send' />
       </Flex>
     </Button>
@@ -40,7 +42,9 @@ export const HoldingsCardActions = ({
   const ReceiveButton = (): ReactElement => (
     <Button nature='dark-grey' data-e2e='receiveButton' fullwidth onClick={receiveButtonCallback}>
       <Flex gap={10} alignItems='center'>
-        <Icon color='white900' name='qrCode' size='sm' />
+        <Icon color='white900' label='qrCode' size='sm'>
+          <IconQrCode />
+        </Icon>
         <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
       </Flex>
     </Button>
@@ -48,7 +52,9 @@ export const HoldingsCardActions = ({
   const BuyButton = (): ReactElement => (
     <Button nature='primary' key={1} data-e2e='buyButton' fullwidth onClick={buyButtonCallback}>
       <Flex gap={10} alignItems='center'>
-        <Icon name='cart' color='white900' size='sm' />
+        <Icon label='cart' color='white900' size='sm'>
+          <IconCart />
+        </Icon>
         <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
       </Flex>
     </Button>
@@ -63,7 +69,9 @@ export const HoldingsCardActions = ({
       onClick={sellButtonCallback}
     >
       <Flex gap={10} alignItems='center'>
-        <Icon name='sell' color='white900' size='sm' />
+        <Icon label='sell' color='white900' size='sm'>
+          <IconSell />
+        </Icon>
         <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
       </Flex>
     </Button>

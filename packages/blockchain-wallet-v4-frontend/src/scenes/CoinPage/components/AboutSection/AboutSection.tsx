@@ -7,7 +7,7 @@ import { Flex } from '../../../../components/Flex'
 import { PaddingAll } from '../../../../components/Padding'
 import { AboutSectionComponent } from './types'
 
-export const AboutSection: AboutSectionComponent = ({ actions, content, title }) => {
+export const AboutSection: AboutSectionComponent = ({ actions = [], content, title }) => {
   return (
     <Card>
       <PaddingAll size={16}>

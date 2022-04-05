@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react'
 
 export type AboutSectionProps = {
-  actions: ReactElement[]
+  actions?: ReactElement[]
   content: string
   title: string
 }

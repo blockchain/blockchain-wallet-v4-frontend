@@ -16,7 +16,7 @@ const alertCardStoriesMeta: ComponentMeta<AlertCardComponent> = {
   title: 'Pages/CoinPage/AlertCard'
 }
 
-export const Template: ComponentStory<AlertCardComponent> = (args) => <AlertCard {...args} />
+const Template: ComponentStory<AlertCardComponent> = (args) => <AlertCard {...args} />
 
 export const NotTradable = Template.bind({})
 NotTradable.args = {

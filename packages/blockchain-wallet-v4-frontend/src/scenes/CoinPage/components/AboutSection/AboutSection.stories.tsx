@@ -21,7 +21,7 @@ const aboutSectionStoriesMeta: ComponentMeta<AboutSectionComponent> = {
   title: 'Pages/CoinPage/AboutSection'
 }
 
-export const Template: ComponentStory<AboutSectionComponent> = (args) => <AboutSection {...args} />
+const Template: ComponentStory<AboutSectionComponent> = (args) => <AboutSection {...args} />
 
 export const Solana = Template.bind({})
 Solana.args = {

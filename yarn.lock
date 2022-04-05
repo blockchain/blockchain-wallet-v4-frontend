@@ -1319,10 +1319,10 @@
     "@radix-ui/react-tooltip" "0.1.3"
     "@stitches/react" "1.2.6"
 
-"@blockchain-com/icons@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/icons/-/icons-0.0.2.tgz#028d25bd9b965cd6da0411450dce4fec5da83bd1"
-  integrity sha512-C3tRbUMke5pcISOr9yRF+pG47bNVBr5ocr+demfg5RmJl/GCB/SL5MZxYh/+BZFuv1sVSjvkvD1tOGFpmiptNQ==
+"@blockchain-com/icons@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/icons/-/icons-0.0.3.tgz#466c594087db28930c6823c063cf410cce578aa2"
+  integrity sha512-NyXBvBJ7b1f+Y/xA4wubLx/h/at6m/Pud3RWfRt5UBnxDgneE0Y27yDCU9nnIMR686YU5co2D8jZa1xeJt79cg==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"

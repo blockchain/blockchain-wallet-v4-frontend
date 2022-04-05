@@ -24,7 +24,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
     value
   })
 
-  const title = useRecord<RecurringBuyPeriods, ReactNode>(period, {
+  const [title] = useRecord<RecurringBuyPeriods, ReactNode>(period, {
     BI_WEEKLY: (
       <FormattedMessage
         id='copy.twice_a_month'

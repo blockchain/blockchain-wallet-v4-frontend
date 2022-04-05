@@ -1,6 +1,6 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
+import { IconArrowDown, IconArrowUp } from '@blockchain-com/icons'
 import { mount, shallow } from 'enzyme'
 
 import { ChartBalancePanel } from '.'
@@ -38,7 +38,7 @@ describe('ChartBalancePanel', () => {
         />
       )
 
-      expect(component.contains(<Icon name='arrowUp' size='sm' color='green600' />)).toBe(true)
+      expect(component.contains(<IconArrowUp />)).toBe(true)
     })
   })
 
@@ -54,7 +54,7 @@ describe('ChartBalancePanel', () => {
         />
       )
 
-      expect(component.contains(<Icon name='arrowDown' size='sm' color='red600' />)).toBe(true)
+      expect(component.contains(<IconArrowDown />)).toBe(true)
     })
   })
 })
