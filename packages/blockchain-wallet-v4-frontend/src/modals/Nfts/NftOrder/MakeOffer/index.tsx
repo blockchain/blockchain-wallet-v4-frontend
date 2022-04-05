@@ -6,6 +6,7 @@ import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import moment from 'moment'
+import { border, borderRadius } from 'polished'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -29,7 +30,7 @@ import {
 import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import { StickyHeaderWrapper, Title, width } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import { Form, NumberBox, SelectBox } from 'components/Form'
@@ -125,44 +126,33 @@ const MakeOffer: React.FC<Props> = (props) => {
                   style={{
                     borderRadius: '8px',
                     height: '64px',
-                    marginRight: '24px',
+                    marginRight: '12px',
                     width: 'auto'
                   }}
                   alt='nft-asset'
                   src={val.image_url.replace(/=s\d*/, '')}
                 />
                 <div>
-                  <div>
-                    <div
-                      style={{
-                        alignItems: 'center',
-                        background: colors.grey100,
-                        borderRadius: '24px',
-                        display: 'flex',
-                        padding: '6px 12px 6px 6px',
-                        width: 'fit-content'
-                      }}
-                    >
-                      <img
-                        src={val.collection.image_url}
-                        style={{ borderRadius: '999px', height: '24px', marginRight: '8px' }}
-                        alt='nft-collection'
-                      />
-                      <Text size='14px' color='grey900' weight={600}>
-                        {val?.collection?.name}
-                      </Text>
-                    </div>
-                  </div>
-                  <Text
-                    style={{ marginTop: '6px', paddingLeft: '1em' }}
-                    size='14px'
-                    color='grey900'
-                    weight={600}
-                  >
+                  <Text style={{ marginTop: '6px' }} size='18px' color='grey900' weight={600}>
                     {val?.name}
                   </Text>
+                  <Text
+                    size='14px'
+                    weight={700}
+                    lineHeight='16px'
+                    color='orange600'
+                    style={{
+                      background: colors.orange100,
+                      borderRadius: '8px',
+                      padding: '5px 8px',
+                      textAlign: 'center',
+                      width: '60%'
+                    }}
+                  >
+                    Not Verified
+                  </Text>
                 </div>
-                <div style={{ marginTop: '6px', paddingLeft: '1em' }}>
+                <div style={{ marginTop: '6px', paddingLeft: '3em' }}>
                   <Text style={{ textAlign: 'right' }} weight={600}>
                     0.001 WETH
                   </Text>
