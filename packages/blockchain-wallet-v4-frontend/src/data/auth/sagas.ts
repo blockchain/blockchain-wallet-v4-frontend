@@ -674,7 +674,7 @@ export default ({ api, coreSagas, networks }) => {
         case !walletGuidOrMagicLinkFromUrl:
           if (product === ProductAuthOptions.WALLET) {
             yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
-            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+            yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
           }
           if (product === ProductAuthOptions.EXCHANGE) {
             if (exchangeEmail) {

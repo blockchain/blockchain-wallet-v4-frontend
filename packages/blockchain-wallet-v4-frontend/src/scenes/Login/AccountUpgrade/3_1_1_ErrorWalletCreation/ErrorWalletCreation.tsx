@@ -11,8 +11,8 @@ import { UpgradeSteps } from 'data/auth/types'
 
 import {
   ButtonNext,
+  CenteredMsgWrapper,
   CenteredTitle,
-  ErrorMsgWrapper,
   StyledTemporaryButton,
   TextToRightWrapper
 } from '../AccountUpgrade.models'
@@ -45,12 +45,12 @@ const ErrorWalletCreation = (props) => {
             id='scenes.login.upgrade.3.1.1.header'
             defaultMessage='Something Didn´t Work'
           />
-          <ErrorMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
             <FormattedMessage
               id='scenes.login.upgrade.3.1.1.text'
               defaultMessage='Don’t worry, you can still login with original credentials. You can retry the upgrade the next time you login.'
             />
-          </ErrorMsgWrapper>
+          </CenteredMsgWrapper>
         </CenteredTitle>
         <ButtonNext
           nature='primary'

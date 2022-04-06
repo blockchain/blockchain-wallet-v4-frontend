@@ -13,11 +13,10 @@ import {
   BackArrow,
   ButtonLater,
   ButtonNext,
+  CenteredMsgWrapper,
   CenteredTitle,
-  ErrorMsgWrapper,
   StyledTemporaryButton,
-  SubHeaderWrapper,
-  TextToRightWrapper
+  SubHeaderWrapper
 } from '../AccountUpgrade.models'
 
 const ErrorAccountUpgrade = (props) => {
@@ -63,12 +62,12 @@ const ErrorAccountUpgrade = (props) => {
             id='scenes.login.upgrade.3.1.2.header'
             defaultMessage='Something Didn´t Work'
           />
-          <ErrorMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
             <FormattedMessage
               id='scenes.login.upgrade.3.1.2.text'
               defaultMessage='Don’t worry, you can still login with original credentials. You can retry the upgrade the next time you login.'
             />
-          </ErrorMsgWrapper>
+          </CenteredMsgWrapper>
         </CenteredTitle>
         <ButtonNext
           nature='primary'
