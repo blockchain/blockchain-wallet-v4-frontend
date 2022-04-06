@@ -6,8 +6,6 @@ export type CoinPageContainerProps = {
   coin: CoinType
 }
 
-export type CoinPageContainerComponent<T> = FC<CoinPageContainerProps & T>
-
 export type CoinPageProps = {
   about?: ReactNode
   activity?: ReactNode

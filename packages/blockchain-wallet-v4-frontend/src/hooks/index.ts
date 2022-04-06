@@ -1,4 +1,5 @@
 export * from './useCoinIconColor'
+export * from './useCoinRates'
 export * from './useDate'
 export * from './useDateFomatter'
 export * from './useEffectOnce'

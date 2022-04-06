@@ -1,159 +1,51 @@
-import React, { memo, useCallback, useMemo } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from '@reduxjs/toolkit'
-
-import { Exchange } from '@core'
-import { fiatToString } from '@core/exchange/utils'
-import { CoinType, OrderType } from '@core/types'
-import { actions } from 'data'
-import { ModalName } from 'data/types'
+import React, { FC, useMemo } from 'react'
 
 import { CoinHeader } from '..'
 import { AboutSection } from '../AboutSection'
-import { HoldingsCard } from '../HoldingsCard'
 import { CoinPage } from './CoinPage'
 import {
   useChart,
   useChartBalancePanel,
+  useHoldingsCard,
   useRecurringBuyPanel,
   useTabs,
   useWalletsCard
 } from './hooks'
-import { HoldingsCardActions } from './model'
-import { getData } from './selectors'
-import { CoinPageContainerComponent } from './types'
 
 export type { CoinPageComponent, CoinPageProps } from './types'
 
-const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
-  ({
-    buyButtonHandler,
-    coin,
-    currency,
-    data,
-    receiveButtonHandler,
-    sellButtonHandler,
-    sendButtonHandler
-  }) => {
-    const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
-    const [walletsCard] = useWalletsCard(coin)
-    const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
+const CoinPageContainer: FC<{ coin: string }> = ({ coin }) => {
+  const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
+  const [walletsCard] = useWalletsCard(coin)
+  const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
 
-    const [chart] = useChart({
-      timeRange: selectedTimeRange
-    })
+  const [chart] = useChart({
+    timeRange: selectedTimeRange
+  })
 
-    const [chartBalancePanel] = useChartBalancePanel({
-      coin
-    })
+  const [chartBalancePanel] = useChartBalancePanel({
+    coin
+  })
 
-    const { coinfig } = useMemo(() => window.coins[coin], [coin])
-    const displayName = useMemo(() => coinfig.name, [coinfig.name])
+  const [holdingsCard] = useHoldingsCard({
+    coin
+  })
 
-    const buyButtonCallback = useCallback(() => buyButtonHandler(coin), [buyButtonHandler, coin])
-    const sellButtonCallback = useCallback(() => sellButtonHandler(coin), [sellButtonHandler, coin])
-    const sendButtonCallback = useCallback(() => sendButtonHandler(coin), [sendButtonHandler, coin])
-    const receiveButtonCallback = useCallback(
-      () => receiveButtonHandler(coin),
-      [receiveButtonHandler, coin]
-    )
+  const { coinfig } = useMemo(() => window.coins[coin], [coin])
+  const displayName = useMemo(() => coinfig.name, [coinfig.name])
 
-    return data.cata({
-      Failure: () => <>Failure</>,
-      Loading: () => <>Loading...</>,
-      NotAsked: () => <>Not Asked</>,
-      Success: (value) => {
-        const { balanceData, rates } = value
-        const { products } = coinfig
-        const totalFiatAmount = Exchange.convertCoinToFiat({
-          coin,
-          currency,
-          isStandard: false,
-          rates,
-          value: balanceData
-        })
-        const totalFiatFormatted = fiatToString({ unit: currency, value: totalFiatAmount })
-        const coinTotalAmount = Exchange.displayCoinToCoin({
-          coin,
-          isFiat: coinfig.type.name === 'FIAT',
-          value: balanceData
-        })
+  return (
+    <CoinPage
+      chartTabs={tabsNode}
+      about={<AboutSection content='' title={coin} actions={[<></>]} />}
+      chart={chart}
+      header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
+      chartBalancePanel={chartBalancePanel}
+      recurringBuys={recurringBuyPanel}
+      holdings={holdingsCard}
+      wallets={walletsCard}
+    />
+  )
+}
 
-        const holdingsCardActions = HoldingsCardActions({
-          amount: Number(coinTotalAmount),
-          buyButtonCallback,
-          products,
-          receiveButtonCallback,
-          sellButtonCallback,
-          sendButtonCallback
-        })
-
-        return (
-          <CoinPage
-            chartTabs={tabsNode}
-            about={<AboutSection content='' title={coin} actions={[<></>]} />}
-            chart={chart}
-            header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
-            chartBalancePanel={chartBalancePanel}
-            recurringBuys={recurringBuyPanel}
-            // alertCard={<AlertCard content='' />}
-            holdings={
-              <HoldingsCard
-                actions={holdingsCardActions}
-                total={totalFiatFormatted}
-                coinCode={coin}
-                coinTotal={coinTotalAmount}
-              />
-            }
-            wallets={walletsCard}
-          />
-        )
-      }
-    })
-  }
-)
-
-const mapStateToProps = (state, ownProps) => getData(state, ownProps)
-
-const mapDispatchToProps = (dispatch) => ({
-  buyButtonHandler: (coin: CoinType) => {
-    dispatch(
-      actions.components.buySell.showModal({
-        cryptoCurrency: coin,
-        orderType: OrderType.BUY,
-        origin: 'CoinPageHoldings'
-      })
-    )
-  },
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  receiveButtonHandler: (coin: CoinType) => {
-    dispatch(
-      actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
-        origin: 'CoinPageHoldings',
-        preselectedCoin: coin
-      })
-    )
-  },
-  sellButtonHandler: (coin: CoinType) => {
-    dispatch(
-      actions.components.buySell.showModal({
-        cryptoCurrency: coin,
-        orderType: OrderType.SELL,
-        origin: 'CoinPageHoldings'
-      })
-    )
-  },
-  sendButtonHandler: (coin: CoinType) => {
-    dispatch(
-      actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, {
-        coin,
-        origin: 'CoinPageHoldings'
-      })
-    )
-  }
-})
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(CoinPageContainer)
+export default CoinPageContainer
