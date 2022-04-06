@@ -33,30 +33,35 @@ const FilterHeaderText = styled(Text)<{ isOpen: boolean }>`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
 `
 
-const TraitList = styled.div`
-  max-height: 200px;
+const TraitWrapper = styled.div`
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid ${colors.grey100};
+`
+
+const TraitList = styled.div<{ isActive: boolean }>`
+  transition: all 0.3s ease;
+  max-height: ${(props) => (props.isActive ? '200px' : '0px')};
   overflow: auto;
-  border-bottom: 1px solid ${colors.grey100};
-  border-radius: 0 0 8px 8px;
 `
 
 const TraitHeader = styled.div`
-  margin-top: 8px;
   padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px 8px 0 0;
-  border: 1px solid ${(props) => props.theme.grey000};
 `
 
 const TraitItem = styled.div`
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-top: 0px;
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+  box-sizing: border-box;
   padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  &:first-child {
+    border-top: 1px solid ${(props) => props.theme.grey000};
+  }
   &:last-child {
     border-bottom: 0;
   }
@@ -64,6 +69,7 @@ const TraitItem = styled.div`
 
 const NftFilter: React.FC<Props> = ({ collection }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeTraits, setActiveTraits] = useState<string[]>([])
 
   return (
     <Wrapper isOpen={isOpen}>
@@ -111,15 +117,28 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                 <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
               </Text>
               {Object.keys(val.traits).map((trait) => {
+                const isActive = activeTraits.indexOf(trait) > -1
+
                 return (
-                  <div key={trait}>
-                    <TraitHeader>
+                  <TraitWrapper key={trait}>
+                    <TraitHeader
+                      onClick={() => {
+                        if (activeTraits.indexOf(trait) === -1) {
+                          setActiveTraits([...activeTraits, trait])
+                        } else {
+                          setActiveTraits(activeTraits.filter((t) => t !== trait))
+                        }
+                      }}
+                    >
                       <Text size='14px' weight={500} color='black'>
                         {trait}
                       </Text>
-                      <Icon name={IconName.CHEVRON_DOWN} color={colors.grey400} />
+                      <Icon
+                        name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
+                        color={colors.grey400}
+                      />
                     </TraitHeader>
-                    <TraitList>
+                    <TraitList isActive={isActive}>
                       {Object.keys(val.traits[trait])
                         .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
                         .map((value) => {
@@ -173,7 +192,7 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                           )
                         })}
                     </TraitList>
-                  </div>
+                  </TraitWrapper>
                 )
               })}
             </div>
