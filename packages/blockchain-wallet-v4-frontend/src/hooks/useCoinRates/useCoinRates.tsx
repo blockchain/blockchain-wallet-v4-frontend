@@ -15,7 +15,7 @@ export const useCoinRates: CoinRatesHook = ({ coin }) => {
 
     const coinRateData: CoinRatesHookData = {
       price: rateData.price,
-      timestamp: new Date(rateData.timestamp * 1000),
+      timestamp: rateData.timestamp * 1000,
       volume24h: rateData.volume24h
     }
 

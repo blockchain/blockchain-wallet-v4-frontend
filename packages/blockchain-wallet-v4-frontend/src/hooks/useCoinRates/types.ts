@@ -1,6 +1,6 @@
 export type CoinRatesHookData = {
   price: number
-  timestamp: Date
+  timestamp: number
   volume24h: number
 }
 export type CoinRatesHookProps = {

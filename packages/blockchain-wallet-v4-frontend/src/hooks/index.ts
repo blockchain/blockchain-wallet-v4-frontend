@@ -1,3 +1,4 @@
+export * from './useCoinBalance'
 export * from './useCoinConfig'
 export * from './useCoinIconColor'
 export * from './useCoinRates'

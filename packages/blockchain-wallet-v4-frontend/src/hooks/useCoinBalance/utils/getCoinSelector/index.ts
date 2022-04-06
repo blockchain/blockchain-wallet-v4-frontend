@@ -1,0 +1,1 @@
+export { getCoinSelector } from './getCoinSelector'
