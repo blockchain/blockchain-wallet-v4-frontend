@@ -39,7 +39,7 @@ const UpgradeOrSkip = (props) => {
         </CenteredTitle>
         <Items>
           <Item>
-            <Icon name='wallet' color='blue600' size='18px' />
+            <Icon name='pending' color='blue600' size='18px' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -57,7 +57,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Image name='identification' color='blue600' size='18px' height='100%' />
+            <Icon name='pending' color='blue600' size='18px' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -75,7 +75,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='shield' color='blue600' size='18px' />
+            <Icon name='pending' color='blue600' size='18px' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -93,7 +93,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='portfolio' color='blue600' size='18px' />
+            <Icon name='pending' color='blue600' size='18px' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
