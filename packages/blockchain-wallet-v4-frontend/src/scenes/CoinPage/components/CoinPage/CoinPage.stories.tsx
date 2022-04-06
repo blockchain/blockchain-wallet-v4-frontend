@@ -17,6 +17,7 @@ import { liveDataCopy, serie_ascending_1, serie_descending_1 } from '../CoinChar
 import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
+import { LearnAboutRecurringBuyPanel } from '../LearnAboutRecurringBuyPanel/LearnAboutRecurringBuyPanel'
 import { ResponsiveCoinChart } from '../ResponsiveCoinChart'
 import { WalletsCard } from '../WalletsCard'
 import { CoinPage } from './CoinPage'
@@ -182,7 +183,7 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       defaultValue: null
     },
     recurringBuys: {
-      defaultValue: null
+      defaultValue: <LearnAboutRecurringBuyPanel />
     },
     wallets: {
       defaultValue: (
