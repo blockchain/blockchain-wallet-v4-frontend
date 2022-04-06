@@ -198,6 +198,7 @@ export default ({ api }: { api: APIType }) => {
       *fee(value, origin, coin) {
         let contract
         let account = origin
+        let extraGasForMemo = 0
 
         if (p.from && p.from.type === 'CUSTODIAL') {
           const feeInGwei = Exchange.convertCoinToCoin({
@@ -212,6 +213,10 @@ export default ({ api }: { api: APIType }) => {
               feeInGwei
             })
           )
+        }
+
+        if (p.to && p.to.type === 'CUSTODIAL') {
+          extraGasForMemo = 600
         }
 
         if (origin === null || origin === undefined || origin === '') {
@@ -229,7 +234,7 @@ export default ({ api }: { api: APIType }) => {
           p.isErc20 || p.isContract
             ? path(['fees', 'gasLimitContract'], p)
             : path(['fees', 'gasLimit'], p)
-        const fee = calculateFee(feeInGwei, gasLimit as string, true)
+        const fee = calculateFee(feeInGwei, gasLimit as string, true, extraGasForMemo)
         const isSufficientEthForErc20 = yield call(calculateIsSufficientEthForErc20, fee)
 
         const data = p.isErc20
