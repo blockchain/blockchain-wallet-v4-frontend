@@ -102,16 +102,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
-  // DEPRECATED
-  const getNftCollectionInfo = (slug: string) => {
-    return get({
-      endPoint: `/collection/${slug}/`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-  // DEPRECATED
-
   const getNftCollection = (slug): { collection: NftCollection } => {
     return get({
       endPoint: `/collection/${slug}`,
@@ -169,7 +159,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     getAssetContract,
     getNftAssets,
     getNftCollection,
-    getNftCollectionInfo,
     getNftCollections,
     getNftOffersForAsset,
     getNftOrders,

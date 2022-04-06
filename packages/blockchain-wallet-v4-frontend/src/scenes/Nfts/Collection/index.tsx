@@ -7,15 +7,23 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { Button, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  Link,
+  SkeletonRectangle,
+  SpinningLoader,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { CollectionBanner, Grid, NftPage } from '../components'
+import { CollectionBanner, Grid, GridWrapper, NftPageV2 } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
+import NftFilter from '../NftFilter'
 import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
@@ -152,7 +160,7 @@ const NftsCollection: React.FC<Props> = ({
   }
 
   return (
-    <NftPage ref={wrapperRef}>
+    <NftPageV2 ref={wrapperRef}>
       <OpenSeaStatusComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
@@ -252,20 +260,33 @@ const NftsCollection: React.FC<Props> = ({
           color='grey400'
         />
       </div>
-      <Grid>
-        {pageVariables.length
-          ? pageVariables.map(({ page }) => (
-              <ResultsPage
-                page={page}
-                key={page}
-                slug={slug}
-                isBuyNow={collectionFilter.isBuyNow}
-                setNextPageFetchError={setNextPageFetchError}
-                setIsFetchingNextPage={setIsFetchingNextPage}
-              />
-            ))
-          : null}
-      </Grid>
+      <GridWrapper>
+        <NftFilter collection={collection} />
+        <Grid>
+          {pageVariables.length
+            ? pageVariables.map(({ page }) => (
+                <ResultsPage
+                  page={page}
+                  key={page}
+                  slug={slug}
+                  isBuyNow={collectionFilter.isBuyNow}
+                  setNextPageFetchError={setNextPageFetchError}
+                  setIsFetchingNextPage={setIsFetchingNextPage}
+                />
+              ))
+            : null}
+          <>
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+            <SkeletonRectangle height='200px' />
+          </>
+        </Grid>
+      </GridWrapper>
       <Centered>
         <Error error={errorFetchingNextPage} />
         {isFetchingNextPage || results.fetching ? (
@@ -284,7 +305,7 @@ const NftsCollection: React.FC<Props> = ({
           </Button>
         )}
       </Centered>
-    </NftPage>
+    </NftPageV2>
   )
 }
 

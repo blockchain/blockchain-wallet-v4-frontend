@@ -62,17 +62,30 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
   `}
 `
 
+export const GridWrapper = styled.div`
+  display: flex;
+`
+
 export const Grid = styled.div`
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
   ${media.atLeastTablet`
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-top: 20px;
+  padding-left: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-left: 1px solid ${(props) => props.theme.grey000};
+  `}
+  ${media.atLeastLaptop`
+    grid-template-columns: repeat(3, minmax(0, 1fr));  
   `}
   ${media.atLeastLaptopL`
-    grid-template-columns: repeat(3, minmax(0, 1fr));  
+    grid-template-columns: repeat(4, minmax(0, 1fr));  
   `}
 `
 

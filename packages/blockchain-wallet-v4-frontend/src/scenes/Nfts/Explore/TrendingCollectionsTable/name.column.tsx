@@ -24,7 +24,7 @@ export const getNameColumn = (routerActions: typeof actions.router) => ({
       <NameCell
         cursor='pointer'
         role='button'
-        onClick={() => routerActions.push(`/nfts/collection/${values.slug}`)}
+        onClick={() => routerActions.push(`/nfts/${values.slug}`)}
       >
         <Logo src={values.image_url} />
         {values.name.length < 24 ? values.name : `${values.name.slice(0, 20)}...`}
