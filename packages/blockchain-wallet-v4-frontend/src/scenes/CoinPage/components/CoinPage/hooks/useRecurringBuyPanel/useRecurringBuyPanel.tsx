@@ -1,8 +1,9 @@
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
 import {
   useListRecurringBuyForCoin,
   useOpenRecurringBuyFlayout,
-  useRecurringBuyBannerFlyout
+  useRecurringBuyBannerFlyout,
+  useRecurringBuyTracker
 } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { LearnAboutRecurringBuyPanel } from '../../../LearnAboutRecurringBuyPanel'
@@ -15,6 +16,7 @@ export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
   const { data } = useListRecurringBuyForCoin({ coin })
   const [openRecurringBuy] = useOpenRecurringBuyFlayout()
   const [openRecurringBuyBanner] = useRecurringBuyBannerFlyout()
+  const { trackOnClickLearnMore } = useRecurringBuyTracker()
 
   const recurringBuyListItems = useMemo(() => {
     if (!data) return []
@@ -31,15 +33,22 @@ export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
     ))
   }, [data, openRecurringBuy])
 
+  const handleOnClickOpenRecurringBuyBanner = useCallback(() => {
+    openRecurringBuyBanner()
+    trackOnClickLearnMore({
+      origin: 'COIN_PAGE'
+    })
+  }, [openRecurringBuyBanner, trackOnClickLearnMore])
+
   const recurringBuysNode: ReactNode = useMemo(() => {
     if (!recurringBuyListItems) return null
 
     if (recurringBuyListItems.length === 0) {
-      return <LearnAboutRecurringBuyPanel onClick={openRecurringBuyBanner} />
+      return <LearnAboutRecurringBuyPanel onClick={handleOnClickOpenRecurringBuyBanner} />
     }
 
     return <RecurringBuyPanel>{recurringBuyListItems}</RecurringBuyPanel>
-  }, [recurringBuyListItems, openRecurringBuyBanner])
+  }, [recurringBuyListItems, handleOnClickOpenRecurringBuyBanner])
 
   return [recurringBuysNode]
 }
