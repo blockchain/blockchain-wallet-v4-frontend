@@ -6,14 +6,14 @@ import { Button, Text } from 'blockchain-info-components'
 import { Card } from 'components/Card'
 import { Flex } from 'components/Flex'
 import { IconCircularBackground } from 'components/IconCircularBackground'
-import { PaddingAll } from 'components/Padding'
+import { Padding } from 'components/Padding'
 
 import { LearnAboutRecurringBuyPanelComponent } from './types'
 
 export const LearnAboutRecurringBuyPanel: LearnAboutRecurringBuyPanelComponent = ({ onClick }) => {
   return (
     <Card elevation={1}>
-      <PaddingAll size={16}>
+      <Padding all={16}>
         <Flex flexDirection='column' gap={12}>
           <IconCircularBackground color='blue0'>
             <Icon name={IconName.REPEAT} size='sm' color='#0C6CF2' />
@@ -46,7 +46,7 @@ export const LearnAboutRecurringBuyPanel: LearnAboutRecurringBuyPanelComponent =
             />
           </Button>
         </Flex>
-      </PaddingAll>
+      </Padding>
     </Card>
   )
 }
