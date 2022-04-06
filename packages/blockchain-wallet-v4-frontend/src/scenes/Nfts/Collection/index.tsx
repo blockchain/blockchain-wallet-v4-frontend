@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, IconName, Switch } from '@blockchain-com/constellation'
+import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
@@ -21,7 +21,7 @@ import { ModalName } from 'data/types'
 import { useCollectionQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { CollectionBanner, Grid, GridWrapper, NftPageV2 } from '../components'
+import { CollectionBanner, Grid, GridWrapper } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import NftFilter from '../NftFilter'
 import Error from './error'
@@ -31,7 +31,7 @@ import Stats from './Stats'
 const CollectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-bottom: 24px;
+  padding: 24px;
   gap: 24px;
   ${media.tabletL`
     flex-direction: column;
@@ -103,6 +103,7 @@ const Centered = styled.div`
 const NftsCollection: React.FC<Props> = ({
   collection,
   collectionFilter,
+  formValues,
   modalActions,
   nftsActions,
   ...rest
@@ -160,7 +161,7 @@ const NftsCollection: React.FC<Props> = ({
   }
 
   return (
-    <NftPageV2 ref={wrapperRef}>
+    <div ref={wrapperRef}>
       <OpenSeaStatusComponent />
       {showFixedHeader ? (
         <CollectionHeaderFixed>
@@ -249,43 +250,35 @@ const NftsCollection: React.FC<Props> = ({
           </Text>
         </div>
       </CollectionHeader>
-      <div style={{ marginBottom: '12px' }}>
-        <Icon
-          onClick={() =>
-            modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
-          }
-          style={{ cursor: 'pointer' }}
-          role='button'
-          name={IconName.FILTER}
-          color='grey400'
-        />
-      </div>
       <GridWrapper>
         <NftFilter collection={collection} />
-        <Grid>
-          {pageVariables.length
-            ? pageVariables.map(({ page }) => (
-                <ResultsPage
-                  page={page}
-                  key={page}
-                  slug={slug}
-                  isBuyNow={collectionFilter.isBuyNow}
-                  setNextPageFetchError={setNextPageFetchError}
-                  setIsFetchingNextPage={setIsFetchingNextPage}
-                />
-              ))
-            : null}
-          <>
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-            <SkeletonRectangle height='200px' />
-          </>
-        </Grid>
+        <div style={{ height: '100%', width: '100%' }}>
+          {JSON.stringify(formValues)}
+          <Grid>
+            {pageVariables.length
+              ? pageVariables.map(({ page }) => (
+                  <ResultsPage
+                    page={page}
+                    key={page}
+                    slug={slug}
+                    isBuyNow={collectionFilter.isBuyNow}
+                    setNextPageFetchError={setNextPageFetchError}
+                    setIsFetchingNextPage={setIsFetchingNextPage}
+                  />
+                ))
+              : null}
+            <>
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+              <SkeletonRectangle height='200px' />
+            </>
+          </Grid>
+        </div>
       </GridWrapper>
       <Centered>
         <Error error={errorFetchingNextPage} />
@@ -305,14 +298,15 @@ const NftsCollection: React.FC<Props> = ({
           </Button>
         )}
       </Centered>
-    </NftPageV2>
+    </div>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
   collection: selectors.components.nfts.getNftCollection(state),
   collectionFilter: selectors.components.nfts.getNftCollectionFilter(state),
-  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  formValues: selectors.form.getFormValues('nftFilter')(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -64,22 +64,19 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 
 export const GridWrapper = styled.div`
   display: flex;
+  padding: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 export const Grid = styled.div`
   width: 100%;
-  height: 100%;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
   ${media.atLeastTablet`
-  padding-top: 20px;
-  padding-left: 20px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid ${(props) => props.theme.grey000};
-  border-left: 1px solid ${(props) => props.theme.grey000};
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
   ${media.atLeastLaptop`
     grid-template-columns: repeat(3, minmax(0, 1fr));  

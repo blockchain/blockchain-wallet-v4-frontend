@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
-import { reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Form, NumberBox } from 'components/Form'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   transition: all 0.3s ease;
   padding: 0 10px;
-  width: ${(props) => (props.isOpen ? '300px' : '80px')};
+  width: ${(props) => (props.isOpen ? '240px' : '80px')};
   margin-right: 20px;
   ${media.tablet`
     display: none;
@@ -50,6 +51,7 @@ const TraitHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `
 
 const TraitItem = styled.div`
@@ -97,108 +99,131 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
           )}
         </IconWrapper>
       </FilterHeader>
-      {collection.cata({
-        Failure: () => (
-          <Text size='12px' weight={500}>
-            Error: You must select a collection!
-          </Text>
-        ),
-        Loading: () => (
-          <Text size='12px' weight={500}>
-            Error: You must select a collection!
-          </Text>
-        ),
-        NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
-        Success: (val) => (
-          <div style={{ display: isOpen ? 'block' : 'none' }}>
-            <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-            <div style={{ marginTop: '16px' }}>
-              <Text size='14px' weight={600} color='black'>
-                <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
-              </Text>
-              {Object.keys(val.traits).map((trait) => {
-                const isActive = activeTraits.indexOf(trait) > -1
+      <Form>
+        {collection.cata({
+          Failure: () => (
+            <Text size='12px' weight={500}>
+              Error: You must select a collection!
+            </Text>
+          ),
+          Loading: () => (
+            <Text size='12px' weight={500}>
+              Error: You must select a collection!
+            </Text>
+          ),
+          NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
+          Success: (val) => (
+            <div style={{ display: isOpen ? 'block' : 'none' }}>
+              <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+              <div style={{ marginTop: '24px' }}>
+                <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
+                  <FormattedMessage id='copy.price' defaultMessage='Price' />
+                </Text>
+                <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
+                  <Field name='min' component={NumberBox} placeholder='Min' />
+                  <Field name='max' component={NumberBox} placeholder='Max' />
+                  <ComponentIcon size='18px' name='ETH' />
+                </div>
+                <Button
+                  style={{ marginTop: '8px' }}
+                  fullwidth
+                  nature='empty-blue'
+                  data-e2e='applyNftPrice'
+                >
+                  <FormattedMessage id='copy.apply' defaultMessage='Apply' />
+                </Button>
+              </div>
+              <div style={{ marginTop: '24px' }}>
+                <Text size='14px' weight={600} color='black'>
+                  <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
+                </Text>
+                {Object.keys(val.traits).map((trait) => {
+                  const isActive = activeTraits.indexOf(trait) > -1
 
-                return (
-                  <TraitWrapper key={trait}>
-                    <TraitHeader
-                      onClick={() => {
-                        if (activeTraits.indexOf(trait) === -1) {
-                          setActiveTraits([...activeTraits, trait])
-                        } else {
-                          setActiveTraits(activeTraits.filter((t) => t !== trait))
-                        }
-                      }}
-                    >
-                      <Text size='14px' weight={500} color='black'>
-                        {trait}
-                      </Text>
-                      <Icon
-                        name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
-                        color={colors.grey400}
-                      />
-                    </TraitHeader>
-                    <TraitList isActive={isActive}>
-                      {Object.keys(val.traits[trait])
-                        .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
-                        .map((value) => {
-                          return (
-                            <TraitItem key={value}>
-                              <div style={{ alignItems: 'center', display: 'flex' }}>
-                                <input
-                                  // onChange={() => handleTraitChange(trait, value)}
-                                  type='checkbox'
-                                  // checked={
-                                  //   props.collectionFilter.traits[trait] &&
-                                  //   props.collectionFilter.traits[trait][value]
-                                  // }
-                                  id={value}
-                                />
-                                <label
-                                  htmlFor={value}
-                                  style={{
-                                    alignItems: 'center',
-                                    display: 'flex',
-                                    whiteSpace: 'nowrap'
-                                  }}
-                                >
-                                  <Text
-                                    style={{ marginLeft: '4px' }}
-                                    size='12px'
-                                    weight={600}
-                                    color='black'
-                                    capitalize
+                  return (
+                    <TraitWrapper key={trait}>
+                      <TraitHeader
+                        role='button'
+                        onClick={() => {
+                          if (activeTraits.indexOf(trait) === -1) {
+                            setActiveTraits([...activeTraits, trait])
+                          } else {
+                            setActiveTraits(activeTraits.filter((t) => t !== trait))
+                          }
+                        }}
+                      >
+                        <Text size='14px' weight={500} color='black'>
+                          {trait}
+                        </Text>
+                        <Icon
+                          name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
+                          color={colors.grey400}
+                        />
+                      </TraitHeader>
+                      <TraitList isActive={isActive}>
+                        {Object.keys(val.traits[trait])
+                          .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
+                          .map((value) => {
+                            return (
+                              <TraitItem key={value}>
+                                <div style={{ alignItems: 'center', display: 'flex' }}>
+                                  <Field
+                                    component='input'
+                                    name={`${trait}.${value}`}
+                                    // onChange={() => handleTraitChange(trait, value)}
+                                    type='checkbox'
+                                    // checked={
+                                    //   props.collectionFilter.traits[trait] &&
+                                    //   props.collectionFilter.traits[trait][value]
+                                    // }
+                                    id={value}
+                                  />
+                                  <label
+                                    htmlFor={value}
+                                    style={{
+                                      alignItems: 'center',
+                                      display: 'flex',
+                                      whiteSpace: 'nowrap'
+                                    }}
                                   >
-                                    {value}
+                                    <Text
+                                      style={{ marginLeft: '4px' }}
+                                      size='12px'
+                                      weight={600}
+                                      color='black'
+                                      capitalize
+                                    >
+                                      {value}
+                                    </Text>
+                                  </label>
+                                </div>
+                                <div style={{ alignItems: 'center', display: 'flex' }}>
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    {val.traits[trait][value]}
                                   </Text>
-                                </label>
-                              </div>
-                              <div style={{ alignItems: 'center', display: 'flex' }}>
-                                <Text size='12px' weight={500} color='grey500'>
-                                  {val.traits[trait][value]}
-                                </Text>
-                                &nbsp;
-                                <Text size='12px' weight={500} color='grey500'>
-                                  (
-                                  {(
-                                    (Number(val.traits[trait][value]) /
-                                      Number(val.stats.total_supply)) *
-                                    100
-                                  ).toFixed(2)}
-                                  %)
-                                </Text>
-                              </div>
-                            </TraitItem>
-                          )
-                        })}
-                    </TraitList>
-                  </TraitWrapper>
-                )
-              })}
+                                  &nbsp;
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    (
+                                    {(
+                                      (Number(val.traits[trait][value]) /
+                                        Number(val.stats.total_supply)) *
+                                      100
+                                    ).toFixed(2)}
+                                    %)
+                                  </Text>
+                                </div>
+                              </TraitItem>
+                            )
+                          })}
+                      </TraitList>
+                    </TraitWrapper>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </Form>
     </Wrapper>
   )
 }
