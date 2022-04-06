@@ -29,9 +29,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   coinList: getCoinsSortedByBalance(state),
-  isRedesignEnabled: selectors.core.walletOptions
-    .getRedesignEnabled(state)
-    .getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 

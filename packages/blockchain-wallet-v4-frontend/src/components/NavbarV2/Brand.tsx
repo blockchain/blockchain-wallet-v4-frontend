@@ -20,10 +20,10 @@ const BaseBrand = styled.div`
   `}
 `
 
-const NavbarBrand = (props) => {
+const Brand = (props) => {
   const { children, ...rest } = props
 
   return <BaseBrand {...rest}>{children}</BaseBrand>
 }
 
-export default NavbarBrand
+export default Brand
