@@ -96,7 +96,7 @@ class NftOrder extends PureComponent<Props, State> {
         )}
         {step === NftOrderStepEnum.STATUS && (
           <FlyoutChild>
-            <Status {...this.props} />
+            <Status {...this.props} {...orderFlow.asset} />
           </FlyoutChild>
         )}
       </Flyout>
