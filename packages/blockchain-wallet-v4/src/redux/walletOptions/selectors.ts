@@ -71,9 +71,6 @@ export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
 
-// merge and upgrade wallet + exchange accounts
-export const getMergeAndUpgradeAccounts = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
 // login for unified accounts
 export const getUnifiedAccountLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'unifiedAccountLogin']))
@@ -144,3 +141,12 @@ export const getShowTermsAndConditions = (state: RootState) =>
 // for all wallet logins and signup
 export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'createExchangeUserOnSignupOrLogin']))
+
+// SSO Upgrade account feature flag
+export const getUpgradeAccount = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'upgradeAccounts']))
+
+// SSO Merge account geature flag
+
+export const getMergeAccount = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'mergeAccounts']))

@@ -28,8 +28,10 @@ export type CampaignInfoType = {
 
 export enum ExchangeAuthOriginType {
   Login = 'login',
+  Merge = 'merge',
   SideMenu = 'sideMenu',
-  Signup = 'signup'
+  Signup = 'signup',
+  Upgrade = 'upgrade'
 }
 
 export type KycStateType = 'NONE' | 'PENDING' | 'UNDER_REVIEW' | 'REJECTED' | 'VERIFIED' | 'EXPIRED'

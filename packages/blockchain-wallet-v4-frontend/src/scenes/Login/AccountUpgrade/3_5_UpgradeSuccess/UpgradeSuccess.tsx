@@ -3,10 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Button } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { UpgradeSteps } from 'data/auth/types'
+import { ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
 
@@ -26,6 +27,15 @@ const UpgradeSuccess = (props) => {
             defaultMessage='UPGRADE_SUCCESS'
           />
         </CenteredTitle>
+        <Button
+          nature='primary'
+          data-e2e='createWalletUpgradeAccount'
+          fullwidth
+          height='48px'
+          onClick={() => props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.Upgrade)}
+        >
+          Go To Exchange
+        </Button>
       </Wrapper>
       <StyledTemporaryButton
         onClick={() =>
@@ -46,7 +56,8 @@ const UpgradeSuccess = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)
