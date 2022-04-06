@@ -386,7 +386,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
-                          expirationTime: moment().add(formValues.expirationDays, 'day').valueOf(),
+                          expirationTime: moment().add(formValues.expirationDays, 'day').unix(),
                           offerFees,
                           wrapFees,
                           ...formValues
