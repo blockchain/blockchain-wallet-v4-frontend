@@ -1,7 +1,7 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC } from 'react'
+import { useCoinConfig } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { CoinHeader } from '..'
-import { AboutSection } from '../AboutSection'
 import { CoinPage } from './CoinPage'
 import {
   useChart,
@@ -31,13 +31,11 @@ const CoinPageContainer: FC<{ coin: string }> = ({ coin }) => {
     coin
   })
 
-  const { coinfig } = useMemo(() => window.coins[coin], [coin])
-  const displayName = useMemo(() => coinfig.name, [coinfig.name])
+  const { name: displayName } = useCoinConfig({ coin })
 
   return (
     <CoinPage
       chartTabs={tabsNode}
-      about={<AboutSection content='' title={coin} actions={[<></>]} />}
       chart={chart}
       header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
       chartBalancePanel={chartBalancePanel}
