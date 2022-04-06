@@ -45,7 +45,7 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
         )
       )
     }
-    if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable) {
+    if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable && runMergeAccount) {
       // send them to exchange password screen
       yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE))
     }

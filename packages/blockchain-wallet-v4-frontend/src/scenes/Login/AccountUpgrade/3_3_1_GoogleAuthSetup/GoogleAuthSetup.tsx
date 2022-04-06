@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { UpgradeSteps } from 'data/auth/types'
+import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
 
@@ -28,14 +28,16 @@ const GoogleAuthSetup = (props) => {
         </CenteredTitle>
       </Wrapper>
       <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.SELECT_2FA_TYPE)}
+        onClick={() =>
+          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE)
+        }
         type='button'
       >
         Prev Step
       </StyledTemporaryButton>
       <StyledTemporaryButton
         onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.GOOGLE_AUTH_VERIFY)
+          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_VERIFY)
         }
         type='button'
       >

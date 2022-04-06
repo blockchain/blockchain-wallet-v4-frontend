@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { UpgradeSteps } from 'data/auth/types'
+import { TwoFASetupSteps, UpgradeSteps } from 'data/auth/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
 
@@ -34,7 +34,9 @@ const YubiKeySetup = (props) => {
         Prev Step
       </StyledTemporaryButton>
       <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.YUBIKEY_VERIFIED)}
+        onClick={() =>
+          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.YUBIKEY_VERIFIED)
+        }
         type='button'
       >
         Next Step

@@ -9,7 +9,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
+import { Analytics, ExchangeAuthOriginType, MergeSteps, UpgradeSteps } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -410,12 +410,12 @@ export default ({ api, coreSagas, networks }) => {
       // Check which unification flow we're running
       // to determine what we want to do after authing user
       switch (true) {
-        // case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        //   break
-        case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+        case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.MERGE_OR_SKIP))
           break
+        // case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+        //   break
         // case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
         //   accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
         //   // call action to merge account

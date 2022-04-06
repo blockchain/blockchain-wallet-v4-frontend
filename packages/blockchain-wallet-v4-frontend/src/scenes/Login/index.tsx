@@ -13,13 +13,19 @@ import {
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
+  MergeSteps,
   PlatformTypes,
   ProductAuthOptions,
+  TwoFASetupSteps,
   UpgradeSteps
 } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 
 import Loading from '../loading.public'
+import AuthSecondAccount from './AccountMerge/AuthSecondAccount'
+import ConfirmTwoFA from './AccountMerge/ConfirmTwoFA'
+import CreateNewPassword from './AccountMerge/CreateNewPassword'
+import ErrorMerge from './AccountMerge/ErrorMerge'
 import UpgradeOrSkip from './AccountUpgrade/2_0_UpgradeOrSkip'
 import UpgradeOverview from './AccountUpgrade/3_0_UpgradeOverview'
 import ErrorWalletCreation from './AccountUpgrade/3_1_1_ErrorWalletCreation'
@@ -229,17 +235,17 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <ErrorWalletCreation {...loginProps} />
               case UpgradeSteps.ERROR_ACCOUNT_UPGRADE:
                 return <ErrorAccountUpgrade {...loginProps} />
-              case UpgradeSteps.SELECT_2FA_TYPE:
+              case TwoFASetupSteps.SELECT_2FA_TYPE:
                 return <Select2faType {...loginProps} />
-              case UpgradeSteps.GOOGLE_AUTH_SETUP:
+              case TwoFASetupSteps.GOOGLE_AUTH_SETUP:
                 return <GoogleAuthSetup {...loginProps} />
-              case UpgradeSteps.GOOGLE_AUTH_VERIFY:
+              case TwoFASetupSteps.GOOGLE_AUTH_VERIFY:
                 return <GoogleAuthVerify {...loginProps} />
               case UpgradeSteps.UPGRADE_SUCCESS:
                 return <UpgradeSuccess {...loginProps} />
-              case UpgradeSteps.YUBIKEY_SETUP:
+              case TwoFASetupSteps.YUBIKEY_SETUP:
                 return <YubiKeySetup {...loginProps} />
-              case UpgradeSteps.YUBIKEY_VERIFIED:
+              case TwoFASetupSteps.YUBIKEY_VERIFIED:
                 return <YubiKeyVerified {...loginProps} />
               // MERGE STEPS
               // TODO

@@ -9,6 +9,7 @@ import {
   AuthMagicLink,
   ExchangeAuthOriginType,
   ProductAuthOptions,
+  TwoFASetupSteps,
   UpgradeSteps
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -54,7 +55,7 @@ export default ({ api, coreSagas, networks }) => {
           mercuryToken
         )
       )
-      yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.SELECT_2FA_TYPE))
+      yield put(actions.form.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE))
     } catch (e) {
       // Handle Errors
     }

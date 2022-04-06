@@ -6,11 +6,11 @@ import { bindActionCreators } from 'redux'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { TwoFASetupSteps, UpgradeSteps } from 'data/auth/types'
+import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
-import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
+import { CenteredTitle, StyledTemporaryButton } from '../../AccountUpgrade/AccountUpgrade.models'
 
-const ErrorAccountUpgrade = (props) => {
+const MergeWhatsNext = (props) => {
   return (
     <>
       <Wrapper>
@@ -21,15 +21,12 @@ const ErrorAccountUpgrade = (props) => {
           style={{ marginTop: '8px' }}
           lineHeight='1.5'
         >
-          <FormattedMessage
-            id='scenes.login.upgrade.upsell.header'
-            defaultMessage='ERROR_ACCOUNT_UPGRADE'
-          />
+          MergeWhatsNext
         </CenteredTitle>
       </Wrapper>
       <StyledTemporaryButton
         onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.ERROR_WALLET_CREATION)
+          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.ERROR_ACCOUNT_UPGRADE)
         }
         type='button'
       >
@@ -37,7 +34,7 @@ const ErrorAccountUpgrade = (props) => {
       </StyledTemporaryButton>
       <StyledTemporaryButton
         onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE)
+          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_SETUP)
         }
         type='button'
       >
@@ -55,4 +52,4 @@ const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connect(null, mapDispatchToProps)(ErrorAccountUpgrade)
+export default connect(null, mapDispatchToProps)(MergeWhatsNext)

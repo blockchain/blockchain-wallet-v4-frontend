@@ -7,7 +7,7 @@ import { Button } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { ExchangeAuthOriginType, UpgradeSteps } from 'data/types'
+import { ExchangeAuthOriginType, TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
 
@@ -39,14 +39,14 @@ const UpgradeSuccess = (props) => {
       </Wrapper>
       <StyledTemporaryButton
         onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.GOOGLE_AUTH_VERIFY)
+          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_VERIFY)
         }
         type='button'
       >
         Prev Step
       </StyledTemporaryButton>
       <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.YUBIKEY_SETUP)}
+        onClick={() => props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.YUBIKEY_SETUP)}
         type='button'
       >
         Next Step
