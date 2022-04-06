@@ -23,10 +23,11 @@ const IconWrapper = styled.div<{ isOpen: boolean }>`
   display: flex;
   justify-content: ${(props) => (props.isOpen ? 'flex-end' : 'center')};
 `
-const FilterHeader = styled.div`
+const FilterHeader = styled.div<{ isOpen: boolean }>`
   display: flex;
-  padding-bottom: 8px;
-  border-bottom: ${(props) => props.theme.grey000};
+  padding-bottom: 16px;
+  border-bottom: ${(props) => (props.isOpen ? `1px solid ${props.theme.grey000}` : '')};
+  margin-bottom: 24px;
 `
 const FilterHeaderText = styled(Text)<{ isOpen: boolean }>`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
@@ -36,6 +37,29 @@ const TraitList = styled.div`
   max-height: 200px;
   overflow: auto;
   border-bottom: 1px solid ${colors.grey100};
+  border-radius: 0 0 8px 8px;
+`
+
+const TraitHeader = styled.div`
+  margin-top: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid ${(props) => props.theme.grey000};
+`
+
+const TraitItem = styled.div`
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-top: 0px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:last-child {
+    border-bottom: 0;
+  }
 `
 
 const NftFilter: React.FC<Props> = ({ collection }) => {
@@ -43,7 +67,7 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
 
   return (
     <Wrapper isOpen={isOpen}>
-      <FilterHeader>
+      <FilterHeader isOpen={isOpen}>
         <FilterHeaderText isOpen={isOpen} size='20px' weight={500} color='black'>
           <FormattedMessage defaultMessage='Filter' id='copy.filter' />
         </FilterHeaderText>
@@ -82,73 +106,77 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
         Success: (val) => (
           <div style={{ display: isOpen ? 'block' : 'none' }}>
             <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-            {Object.keys(val.traits).map((trait) => {
-              return (
-                <div key={trait}>
-                  <Text size='14px' weight={500} color='black'>
-                    {trait}
-                  </Text>
-                  <TraitList>
-                    {Object.keys(val.traits[trait])
-                      .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
-                      .map((value) => {
-                        return (
-                          <div
-                            key={value}
-                            style={{
-                              alignItems: 'center',
-                              display: 'flex',
-                              marginBottom: '4px'
-                            }}
-                          >
-                            <input
-                              // onChange={() => handleTraitChange(trait, value)}
-                              type='checkbox'
-                              // checked={
-                              //   props.collectionFilter.traits[trait] &&
-                              //   props.collectionFilter.traits[trait][value]
-                              // }
-                              id={value}
-                            />
-                            <label
-                              htmlFor={value}
-                              style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              <Text
-                                style={{ marginLeft: '4px' }}
-                                size='12px'
-                                weight={600}
-                                color='black'
-                                capitalize
-                              >
-                                {value}
-                              </Text>
-                              &nbsp;
-                              <Text size='12px' weight={500} color='grey500'>
-                                {val.traits[trait][value]}
-                              </Text>
-                              &nbsp;
-                              <Text size='12px' weight={500} color='grey500'>
-                                (
-                                {(
-                                  (Number(val.traits[trait][value]) /
-                                    Number(val.stats.total_supply)) *
-                                  100
-                                ).toFixed(2)}
-                                %)
-                              </Text>
-                            </label>
-                          </div>
-                        )
-                      })}
-                  </TraitList>
-                </div>
-              )
-            })}
+            <div style={{ marginTop: '16px' }}>
+              <Text size='14px' weight={600} color='black'>
+                <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
+              </Text>
+              {Object.keys(val.traits).map((trait) => {
+                return (
+                  <div key={trait}>
+                    <TraitHeader>
+                      <Text size='14px' weight={500} color='black'>
+                        {trait}
+                      </Text>
+                      <Icon name={IconName.CHEVRON_DOWN} color={colors.grey400} />
+                    </TraitHeader>
+                    <TraitList>
+                      {Object.keys(val.traits[trait])
+                        .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
+                        .map((value) => {
+                          return (
+                            <TraitItem key={value}>
+                              <div style={{ alignItems: 'center', display: 'flex' }}>
+                                <input
+                                  // onChange={() => handleTraitChange(trait, value)}
+                                  type='checkbox'
+                                  // checked={
+                                  //   props.collectionFilter.traits[trait] &&
+                                  //   props.collectionFilter.traits[trait][value]
+                                  // }
+                                  id={value}
+                                />
+                                <label
+                                  htmlFor={value}
+                                  style={{
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                    whiteSpace: 'nowrap'
+                                  }}
+                                >
+                                  <Text
+                                    style={{ marginLeft: '4px' }}
+                                    size='12px'
+                                    weight={600}
+                                    color='black'
+                                    capitalize
+                                  >
+                                    {value}
+                                  </Text>
+                                </label>
+                              </div>
+                              <div style={{ alignItems: 'center', display: 'flex' }}>
+                                <Text size='12px' weight={500} color='grey500'>
+                                  {val.traits[trait][value]}
+                                </Text>
+                                &nbsp;
+                                <Text size='12px' weight={500} color='grey500'>
+                                  (
+                                  {(
+                                    (Number(val.traits[trait][value]) /
+                                      Number(val.stats.total_supply)) *
+                                    100
+                                  ).toFixed(2)}
+                                  %)
+                                </Text>
+                              </div>
+                            </TraitItem>
+                          )
+                        })}
+                    </TraitList>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         )
       })}
