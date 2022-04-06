@@ -1,15 +1,5 @@
 import { createOnClickLearnMoreTracker } from './createOnClickLearnMoreTracker'
 
-jest.mock('react-redux', () => {
-  const dispatch = jest.fn()
-  const originalModule = jest.requireActual('react-redux')
-
-  return {
-    ...originalModule,
-    useDispatch: jest.fn(() => dispatch)
-  }
-})
-
 describe('createOnClickLearnMoreTracker()', () => {
   it('Should dispatch the learnMoreLinkClicked action', () => {
     const dispatch = jest.fn()
@@ -20,7 +10,9 @@ describe('createOnClickLearnMoreTracker()', () => {
 
     expect(dispatch).not.toHaveBeenCalled()
 
-    trackOnClickLearnMore()
+    trackOnClickLearnMore({
+      origin: 'DASHBOARD_PROMO'
+    })
 
     expect(dispatch).toHaveBeenCalledWith({
       payload: 'DASHBOARD_PROMO',

@@ -6,8 +6,8 @@ import { OnClickLearnMoreTracker } from './types'
 
 export const createOnClickLearnMoreTracker: RecurringBuyTracker<OnClickLearnMoreTracker> =
   ({ dispatch }) =>
-  () => {
+  ({ origin }) => {
     return dispatch(
-      actions.components.recurringBuy.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
+      actions.components.recurringBuy.learnMoreLinkClicked(RecurringBuyOrigins[origin])
     )
   }
