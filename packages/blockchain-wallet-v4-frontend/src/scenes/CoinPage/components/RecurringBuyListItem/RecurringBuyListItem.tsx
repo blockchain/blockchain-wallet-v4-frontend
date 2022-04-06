@@ -6,7 +6,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { ClickableArea } from 'components/ClickableArea'
 import { Expanded, Flex } from 'components/Flex'
 import { IconCircularBackground } from 'components/IconCircularBackground'
-import { PaddingAll, PaddingSymetric } from 'components/Padding'
+import { Padding } from 'components/Padding'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { useFormatFiat } from '../CoinPage/hooks'
@@ -81,7 +81,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
 
   return (
     <ClickableArea onClick={onClick}>
-      <PaddingAll size={16}>
+      <Padding all={16}>
         <Flex>
           <Flex alignItems='center' justifyContent='center'>
             <IconCircularBackground color='orange400'>
@@ -90,7 +90,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
           </Flex>
 
           <Expanded>
-            <PaddingSymetric horizontal={16}>
+            <Padding horizontal={16}>
               <Flex flexDirection='column'>
                 <Text color='grey900' weight={600} size='16px' lineHeight='24px'>
                   {title}
@@ -100,14 +100,14 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
                   {subtitle}
                 </Text>
               </Flex>
-            </PaddingSymetric>
+            </Padding>
           </Expanded>
 
           <Flex alignItems='center' justifyContent='center'>
             <Icon name='chevron-right' size='24px' color='grey400' />
           </Flex>
         </Flex>
-      </PaddingAll>
+      </Padding>
     </ClickableArea>
   )
 }

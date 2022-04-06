@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { ClickableArea } from 'components/ClickableArea'
 import { Flex } from 'components/Flex'
-import { PaddingAll } from 'components/Padding'
+import { Padding } from 'components/Padding'
 
 const LoadingTextDark = styled.div`
   background-color: ${(props) => props.theme.grey100};
@@ -41,7 +41,7 @@ const StandardRow = memo<Props>(
 
     return (
       <ClickableArea onClick={onClick}>
-        <PaddingAll size={16}>
+        <Padding all={16}>
           <Flex gap={16} justifyContent='space-between'>
             <Flex gap={16} flexDirection='row'>
               <Flex alignItems='center' justifyContent='center'>
@@ -66,7 +66,7 @@ const StandardRow = memo<Props>(
               </Text>
             </Flex>
           </Flex>
-        </PaddingAll>
+        </Padding>
       </ClickableArea>
     )
   }

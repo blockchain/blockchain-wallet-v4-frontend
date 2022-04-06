@@ -4,14 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { Card } from 'components/Card'
 import { Flex } from 'components/Flex'
-import { PaddingAll } from 'components/Padding'
+import { Padding } from 'components/Padding'
 
 import { HoldingsCardComponent } from './types'
 
 export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTotal, total }) => {
   return (
     <Card>
-      <PaddingAll size={16}>
+      <Padding all={16}>
         <Flex flexDirection='column' gap={16}>
           <Text color='grey600' size='14px' weight={500} lineHeight='20px'>
             <FormattedMessage
@@ -35,7 +35,7 @@ export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTot
 
           <Flex gap={8}>{actions}</Flex>
         </Flex>
-      </PaddingAll>
+      </Padding>
     </Card>
   )
 }
