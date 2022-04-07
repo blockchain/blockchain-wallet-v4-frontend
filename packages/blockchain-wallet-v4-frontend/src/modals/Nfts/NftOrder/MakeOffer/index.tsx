@@ -45,7 +45,7 @@ import { Props as OwnProps } from '..'
 import WrapEthFees from '../WrapEth/fees'
 import MakeOfferFees from './fees'
 
-const GetMoreEth = styled.div`
+const MoreEth = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1em;
@@ -287,7 +287,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     <div />
                   ) : (
                     <>
-                      <GetMoreEth>
+                      <MoreEth>
                         <div style={{ display: 'flex' }}>
                           <Icon size='32px' name='ETH' />{' '}
                           <div style={{ display: 'block', padding: '0em 1em' }}>
@@ -311,7 +311,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                         >
                           <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Buy' />
                         </Button>
-                      </GetMoreEth>
+                      </MoreEth>
                       <div style={{ padding: '1em 0em' }}>
                         <Text size='14px' weight={500} style={{ display: 'flex' }}>
                           Max you can offer from this wallet:

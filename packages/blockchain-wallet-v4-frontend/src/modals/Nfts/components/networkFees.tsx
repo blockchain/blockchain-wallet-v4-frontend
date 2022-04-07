@@ -38,7 +38,7 @@ const WrappedEthFees = styled(OfferFees)``
 // `
 
 const NetworkFeesComponent: React.FC<Props> = (props, val) => {
-  const [moreFees, setMoreFees] = useState(false)
+  const [moreFees, setMoreFees] = useState(true)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
   }
