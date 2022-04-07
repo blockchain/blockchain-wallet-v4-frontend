@@ -102,6 +102,8 @@ const authSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },
+    mergeAccounts: () => {},
+    mergeChangePassword: () => {},
     mobileLogin: (state, action) => {},
     mobileLoginFinish: (state) => {
       state.mobileLoginStarted = false
@@ -110,6 +112,7 @@ const authSlice = createSlice({
       state.mobileLoginStarted = true
     },
     resendSmsCode: (state, action: PayloadAction<{ email?: string; guid?: string }>) => {},
+    secondAuthenticationForMerge: () => {},
     secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },

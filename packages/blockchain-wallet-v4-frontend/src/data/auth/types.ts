@@ -74,10 +74,12 @@ export enum MergeSteps {
   // 3.3
   ERROR = 'ERROR',
   MERGE_OR_SKIP = 'MERGE_OR_SKIP',
+  // 4.6.1
+  MERGE_SUCCESS = 'MERGE_SUCCESS',
   // 2.0
   MERGE_WHATS_NEXT = 'MERGE_WHATS_NEXT',
   // 3.1.1 && 4.1.1
-  TWO_FA_SECOND_ACCOUNT = 'TWO_FA_SECOND_ACCOUNT' // 4.6.1
+  TWO_FA_SECOND_ACCOUNT = 'TWO_FA_SECOND_ACCOUNT'
 }
 
 export enum PlatformTypes {
@@ -109,6 +111,7 @@ export type LoginFormType = {
   exchangeTwoFA?: string
   guid?: string
   guidOrEmail?: string
+  mergePassword?: string
   password?: string
   step?: CombinedLoginSteps
   twoFA?: number | string

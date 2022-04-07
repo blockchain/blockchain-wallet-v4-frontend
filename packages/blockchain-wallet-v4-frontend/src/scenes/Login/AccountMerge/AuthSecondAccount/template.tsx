@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
+import { AccountUnificationFlows, MergeSteps, TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../../AccountUpgrade/AccountUpgrade.models'
 
@@ -25,17 +25,13 @@ const AuthSecondAccount = (props) => {
         </CenteredTitle>
       </Wrapper>
       <StyledTemporaryButton
-        onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.ERROR_ACCOUNT_UPGRADE)
-        }
+        onClick={() => props.formActions.change(LOGIN_FORM, 'step', MergeSteps.MERGE_WHATS_NEXT)}
         type='button'
       >
         Prev Step
       </StyledTemporaryButton>
       <StyledTemporaryButton
-        onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_SETUP)
-        }
+        onClick={() => props.authActions.secondAuthenticationForMerge()}
         type='button'
       >
         Next Step

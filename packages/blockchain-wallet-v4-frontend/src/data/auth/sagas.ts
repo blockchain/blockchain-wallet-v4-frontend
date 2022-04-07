@@ -28,6 +28,7 @@ import {
   AuthMagicLink,
   AuthUserType,
   LoginApiErrorType,
+  LoginFormType,
   LoginSteps,
   PlatformTypes,
   ProductAuthOptions
@@ -35,7 +36,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser } = profileSagas({
+  const { createExchangeUser, createUser, generateRetailToken } = profileSagas({
     api,
     coreSagas,
     networks
@@ -43,6 +44,7 @@ export default ({ api, coreSagas, networks }) => {
   const {
     checkDataErrors,
     checkXpubCacheLegitimacy,
+    forceSyncWallet,
     updateMnemonicBackup,
     upgradeAddressLabelsSaga
   } = walletSagas({
@@ -126,7 +128,12 @@ export default ({ api, coreSagas, networks }) => {
           break
         // account merge web
         case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
-          // TODO: determine step for merge
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.MERGE_OR_SKIP))
+          break
+        // account merge intended product is wallet
+        case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.CREATE_NEW_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
           break
         // account merge mobile
         case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
@@ -821,6 +828,75 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const secondAuthenticationForMerge = function* (action) {
+    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
+    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    try {
+      const { code, exchangePassword, exchangeTwoFA, guid, password } = formValues
+      const authType = yield select(selectors.auth.getAuthType)
+      // set code to uppercase if type is not yubikey
+      let auth = code
+      if (auth && authType !== 1) {
+        auth = auth.toUpperCase()
+      }
+      switch (true) {
+        case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
+          yield put(
+            actions.auth.exchangeLogin({
+              code: exchangeTwoFA,
+              password: 'Exchange123$',
+              username: magicLinkData.exchange?.email as string
+            })
+          )
+          break
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
+          yield put(
+            actions.auth.login({ code, guid, mobileLogin: null, password, sharedKey: null })
+          )
+          break
+        default:
+          break
+      }
+    } catch (e) {
+      // TODO: handle error
+    }
+  }
+
+  const mergeAccounts = function* () {
+    try {
+      const exchangeSessionToken = yield select(selectors.auth.getExchangeSessionToken)
+      const retailToken = yield call(generateRetailToken)
+      const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
+        api.mergeUserAccount,
+        exchangeSessionToken,
+        retailToken
+      )
+      yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield put(
+        actions.core.kvStore.userCredentials.setUnifiedAccountCredentials(
+          userId,
+          nabuToken,
+          userCredentialsId,
+          mercuryToken
+        )
+      )
+    } catch (e) {
+      // TODO: Handle error
+    }
+  }
+
+  const mergeChangePassword = function* () {
+    try {
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM)) as LoginFormType
+      yield put(actions.wallet.setMainPassword(formValues.mergePassword))
+      yield call(forceSyncWallet)
+    } catch (e) {
+      // TODO Handle error
+    }
+  }
+
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
@@ -953,8 +1029,11 @@ export default ({ api, coreSagas, networks }) => {
     initializeLogin,
     login,
     loginRoutineSaga,
+    mergeAccounts,
+    mergeChangePassword,
     mobileLogin,
     resendSmsLoginCode,
+    secondAuthenticationForMerge,
     triggerWalletMagicLink
   }
 }

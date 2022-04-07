@@ -14,7 +14,6 @@ import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { LoginSteps, ProductAuthOptions, SettingsGoalDataType } from 'data/types'
 import Settings from 'layouts/Wallet/MenuTop/Settings/template'
-import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 

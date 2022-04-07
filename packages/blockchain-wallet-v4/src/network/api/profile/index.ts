@@ -277,6 +277,20 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
+  const mergeUserAccount = (exchangeSessionToken, retailToken) => {
+    return authorizedPost({
+      contentType: 'application/json',
+      data: {
+        retailToken
+      },
+      endPoint: '/users/account/merge',
+      headers: {
+        Authorization: `Bearer ${exchangeSessionToken}`
+      },
+      url: nabuUrl
+    })
+  }
+
   return {
     createExchangeUser,
     createLinkAccountId,
@@ -294,6 +308,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,
+    mergeUserAccount,
     recoverUser,
     registerUserCampaign,
     resetUserAccount,

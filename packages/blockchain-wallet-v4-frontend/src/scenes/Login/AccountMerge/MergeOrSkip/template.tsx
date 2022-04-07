@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
+import { MergeSteps, TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import { CenteredTitle, StyledTemporaryButton } from '../../AccountUpgrade/AccountUpgrade.models'
 
@@ -24,18 +24,9 @@ const MergeOrSkip = (props) => {
           MergeOrSkip
         </CenteredTitle>
       </Wrapper>
+      <StyledTemporaryButton type='button'>Prev Step</StyledTemporaryButton>
       <StyledTemporaryButton
-        onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.ERROR_ACCOUNT_UPGRADE)
-        }
-        type='button'
-      >
-        Prev Step
-      </StyledTemporaryButton>
-      <StyledTemporaryButton
-        onClick={() =>
-          props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_SETUP)
-        }
+        onClick={() => props.formActions.change(LOGIN_FORM, 'step', MergeSteps.MERGE_WHATS_NEXT)}
         type='button'
       >
         Next Step

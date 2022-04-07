@@ -26,6 +26,10 @@ import AuthSecondAccount from './AccountMerge/AuthSecondAccount'
 import ConfirmTwoFA from './AccountMerge/ConfirmTwoFA'
 import CreateNewPassword from './AccountMerge/CreateNewPassword'
 import ErrorMerge from './AccountMerge/ErrorMerge'
+import MergeOrSkip from './AccountMerge/MergeOrSkip'
+import MergeSuccess from './AccountMerge/MergeSuccess'
+import MergeWhatsNext from './AccountMerge/MergeWhatsNext'
+import TwoFASecondAccount from './AccountMerge/TwoFASecondAccount'
 import UpgradeOrSkip from './AccountUpgrade/2_0_UpgradeOrSkip'
 import UpgradeOverview from './AccountUpgrade/3_0_UpgradeOverview'
 import ErrorWalletCreation from './AccountUpgrade/3_1_1_ErrorWalletCreation'
@@ -248,7 +252,22 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case TwoFASetupSteps.YUBIKEY_VERIFIED:
                 return <YubiKeyVerified {...loginProps} />
               // MERGE STEPS
-              // TODO
+              case MergeSteps.AUTH_SECOND_ACCOUNT:
+                return <AuthSecondAccount {...loginProps} />
+              case MergeSteps.CONFIRM_TWO_FA:
+                return <ConfirmTwoFA {...loginProps} />
+              case MergeSteps.CREATE_NEW_PASSWORD:
+                return <CreateNewPassword {...loginProps} />
+              case MergeSteps.ERROR:
+                return <ErrorMerge {...loginProps} />
+              case MergeSteps.MERGE_OR_SKIP:
+                return <MergeOrSkip {...loginProps} />
+              case MergeSteps.MERGE_WHATS_NEXT:
+                return <MergeWhatsNext {...loginProps} />
+              case MergeSteps.MERGE_SUCCESS:
+                return <MergeSuccess {...loginProps} />
+              case MergeSteps.TWO_FA_SECOND_ACCOUNT:
+                return <TwoFASecondAccount {...loginProps} />
               // DEFAULT STEP
               case LoginSteps.ENTER_EMAIL_GUID:
               default:

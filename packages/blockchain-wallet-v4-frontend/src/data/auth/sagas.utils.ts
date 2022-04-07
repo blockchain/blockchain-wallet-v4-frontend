@@ -39,11 +39,7 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
   if (!unified && (mergeable || upgradeable)) {
     if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable && runMergeAccount) {
       // send them to wallet password screen
-      yield put(
-        actions.auth.setAccountUnificationFlowType(
-          AccountUnificationFlows.WALLET_MERGE && runMergeAccount
-        )
-      )
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
     }
     if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable && runMergeAccount) {
       // send them to exchange password screen
