@@ -261,14 +261,18 @@ const upgradeVerificationClickedOriginDictionary = (
   }
 }
 
-const utmParser = (query: string): { [key: string]: string } => {
+// parses and combines utm codes from both the search and hash portions of the url
+// if a duplicate utm key name is found in both search and hash portions of url
+// the value of the specific utm will be taken from the hash
+const utmParser = () => {
   const regexp = /(?!&)utm_[^=]*=[^&]*/g
 
-  const matches = query.match(regexp)
+  const qsMatches = window.location.search.match(regexp) || []
+  const hashMatches = window.location.hash.match(regexp) || []
 
-  if (!matches) return {}
+  if (!qsMatches && !hashMatches) return {}
 
-  const values = matches.reduce((obj, param) => {
+  return [...qsMatches, ...hashMatches].reduce((obj, param) => {
     const keyValue = param.split('=')
 
     let key = keyValue[0].slice(keyValue[0].indexOf('_') + 1)
@@ -281,8 +285,6 @@ const utmParser = (query: string): { [key: string]: string } => {
 
     return { ...obj, [key]: value }
   }, {})
-
-  return values
 }
 
 export {
