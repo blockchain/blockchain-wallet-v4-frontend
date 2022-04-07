@@ -249,6 +249,9 @@ export default ({ api, coreSagas, networks }) => {
       // TODO solve this for real
       // Use yield take to wait for the right action to finish
       yield delay(3000)
+      const existingUserCountryCode = (yield select(
+        selectors.modules.profile.getUserCountryCode
+      )).getOrElse('US')
       // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
@@ -322,7 +325,11 @@ export default ({ api, coreSagas, networks }) => {
       // and then syncing that information with new Wallet Account model
       // being used for SSO
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
-        yield fork(createExchangeUser)
+        if (firstLogin) {
+          yield fork(createExchangeUser, country)
+        } else {
+          yield fork(createExchangeUser, existingUserCountryCode)
+        }
       }
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct

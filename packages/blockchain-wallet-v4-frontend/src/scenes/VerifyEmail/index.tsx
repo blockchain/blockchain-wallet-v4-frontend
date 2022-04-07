@@ -18,9 +18,9 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
 
-  static getDerivedStateFromProps(nextProps, props) {
+  static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
-      if (props.createExchangeUserFlag) {
+      if (nextProps.createExchangeUserFlag) {
         nextProps.routerActions.push('/select-product')
       } else {
         nextProps.routerActions.push('/home')
