@@ -91,6 +91,10 @@ const MakeOffer: React.FC<Props> = (props) => {
     setTermsAccepted(!termsAccepted)
   }
 
+  const acceptTerms = () => {
+    setTermsAccepted(true)
+  }
+
   const validate = (formValues: SendFormType, props: Props) => {
     return {
       amount: needsWrap && !canWrap ? 'NOT_ENOUGH_ETH' : true
@@ -154,9 +158,9 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </div>
                 <div style={{ marginTop: '6px', paddingLeft: '3em' }}>
                   <Text style={{ textAlign: 'right' }} weight={600}>
-                    0.001 WETH
+                    0.01 ETH
                   </Text>
-                  <Text style={{ textAlign: 'right' }}>$40</Text>
+                  <Text style={{ textAlign: 'right' }}>$9.27</Text>
                 </div>
               </div>
             </Row>
@@ -332,7 +336,12 @@ const MakeOffer: React.FC<Props> = (props) => {
               ) : null}
               <div style={{ display: 'flex' }}>
                 <div style={{ padding: '1.2em 0em' }}>
-                  <CheckBoxInput name='terms' disabled={false} onChange={toggleTermsAccepted} />
+                  <CheckBoxInput
+                    name='terms'
+                    disabled={false}
+                    onChange={toggleTermsAccepted}
+                    checked={termsAccepted}
+                  />
                 </div>
                 <Text
                   color={colors.grey200}
@@ -341,7 +350,13 @@ const MakeOffer: React.FC<Props> = (props) => {
                   style={{ padding: '1em 0em', textAlign: 'center' }}
                 >
                   I agree to Blockchain.com’s{' '}
-                  <Link href='https://www.blockchain.com/legal/terms'>Terms of Service</Link>
+                  <Link
+                    onClick={acceptTerms}
+                    href='https://www.blockchain.com/legal/terms'
+                    target='_blank'
+                  >
+                    Terms of Service
+                  </Link>
                 </Text>
               </div>
               {/* <div>
