@@ -131,9 +131,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <Row>
-              <div
-                style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
-              >
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <img
                   style={{
                     borderRadius: '8px',
@@ -145,30 +143,37 @@ const MakeOffer: React.FC<Props> = (props) => {
                   src={val.image_url.replace(/=s\d*/, '')}
                 />
                 <div>
-                  <Text style={{ marginTop: '6px' }} size='18px' color='grey900' weight={600}>
+                  <Text style={{ marginTop: '6px' }} size='16px' color='grey900' weight={600}>
                     {val?.name}
                   </Text>
                   <Text
-                    size='14px'
-                    weight={700}
+                    size='16px'
+                    weight={600}
                     lineHeight='16px'
                     color='orange600'
                     style={{
                       background: colors.orange100,
                       borderRadius: '8px',
                       padding: '5px 8px',
-                      textAlign: 'center',
-                      width: '60%'
+                      textAlign: 'center'
                     }}
                   >
                     Not Verified
                   </Text>
                 </div>
-                <div style={{ marginTop: '6px', paddingLeft: '3em' }}>
-                  <Text style={{ textAlign: 'right' }} weight={600}>
-                    123
-                  </Text>
-                  <Text style={{ textAlign: 'right' }}>$9.27</Text>
+                <div style={{ fontFamily: 'Inter', marginTop: '6px', paddingLeft: '3em' }}>
+                  <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                    {val.last_sale.total_price}
+                  </CoinDisplay>
+                  <FiatDisplay
+                    size='14px'
+                    color={colors.grey600}
+                    weight={600}
+                    coin='ETH'
+                    style={{ fontFamily: 'Inter', marginLeft: '2.6em' }}
+                  >
+                    {val.last_sale.total_price}
+                  </FiatDisplay>
                 </div>
               </div>
             </Row>
