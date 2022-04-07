@@ -44,7 +44,7 @@ const Select2faType = (props) => {
           </BackArrow>
           <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
             <FormattedMessage
-              id='scenes.login.upgrade.3.1.1.steps'
+              id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
               values={{
                 actualStep: 2,
@@ -60,10 +60,10 @@ const Select2faType = (props) => {
           style={{ marginTop: '8px' }}
           lineHeight='1.5'
         >
-          <FormattedMessage id='scenes.login.upgrade.3.2.header' defaultMessage='Set Up 2FA' />
+          <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />
           <CenteredMsgWrapper color='textBlack' lineHeight='20px' size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.login.upgrade.3.2.text'
+              id='scenes.login.upgrade.2fa.text'
               defaultMessage='Protect your accounts from unauthorized access by enabling 2FA. When you access your Blockchain account, enter your Google Auth code or insert a YubiKey.'
             />
           </CenteredMsgWrapper>
@@ -72,7 +72,7 @@ const Select2faType = (props) => {
           <Column>
             <Text size='16px' weight={500} lineHeight='24px' color='grey900'>
               <FormattedMessage
-                id='scenes.login.upgrade.3.2.item_1.title'
+                id='scenes.login.upgrade.2fa.item_1.title'
                 defaultMessage='Google Authenticator'
               />
             </Text>
@@ -87,7 +87,7 @@ const Select2faType = (props) => {
               </IconWrapper>
               <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.2.item_1.text'
+                  id='scenes.login.upgrade.2fa.item_1.text'
                   defaultMessage='Generate a second step of verification when you sign in.'
                 />
               </Text>
@@ -104,7 +104,7 @@ const Select2faType = (props) => {
           <Column>
             <Text size='16px' weight={500} lineHeight='24px' color='grey900'>
               <FormattedMessage
-                id='scenes.login.upgrade.3.2.item_2.title'
+                id='scenes.login.upgrade.2fa.item_2.title'
                 defaultMessage='YubiKey'
               />
             </Text>
@@ -114,7 +114,7 @@ const Select2faType = (props) => {
               </IconWrapper>
               <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.2.item_2.text'
+                  id='scenes.login.upgrade.2fa.item_2.text'
                   defaultMessage='Secure your wallet with a physical key or device.'
                 />
               </Text>
