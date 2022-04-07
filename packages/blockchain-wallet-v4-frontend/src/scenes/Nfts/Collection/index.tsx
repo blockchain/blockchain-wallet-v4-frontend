@@ -100,9 +100,37 @@ const Centered = styled.div`
   gap: 8px;
 `
 
+const ActiveTraitFilter = styled.div`
+  align-items: center;
+  background: ${colors.blue0};
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  padding: 12px 16px;
+`
+
+const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
+  display: grid;
+  gap: 6px;
+  margin-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
+  grid-template-columns: repeat(2, 1fr);
+  ${media.atLeastMobile`
+    grid-template-columns: repeat(3, 1fr);
+  `}
+  ${media.atLeastTablet`
+    grid-template-columns: repeat(4, 1fr);
+  `}
+  ${media.atLeastLaptop`
+    grid-template-columns: repeat(6, 1fr);
+  `}
+`
+
 const NftsCollection: React.FC<Props> = ({
   collection,
   collectionFilter,
+  formActions,
   formValues,
   modalActions,
   nftsActions,
@@ -159,6 +187,9 @@ const NftsCollection: React.FC<Props> = ({
     wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
     setShowFixedHeader(false)
   }
+
+  const hasSomeFilters =
+    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
   return (
     <div ref={wrapperRef}>
@@ -251,9 +282,78 @@ const NftsCollection: React.FC<Props> = ({
         </div>
       </CollectionHeader>
       <GridWrapper>
-        <NftFilter collection={collection} />
+        <NftFilter formActions={formActions} collection={collection} />
         <div style={{ height: '100%', width: '100%' }}>
-          {JSON.stringify(formValues)}
+          <TraitGrid hasSomeFilters={hasSomeFilters}>
+            {formValues
+              ? Object.keys(formValues)
+                  .filter((val) => val === 'min' || val === 'max')
+                  .map((key) => {
+                    return (
+                      <div key={key} style={{ height: '100%' }}>
+                        <ActiveTraitFilter>
+                          <Text size='14px' color='black' weight={500} capitalize>
+                            {key}: {formValues[key]} ETH
+                          </Text>
+                          <div
+                            style={{
+                              background: 'white',
+                              borderRadius: '50%',
+                              lineHeight: '0',
+                              marginLeft: '8px'
+                            }}
+                          >
+                            <Icon
+                              role='button'
+                              cursor='pointer'
+                              onClick={() => formActions.change('nftFilter', key, undefined)}
+                              color={colors.blue600}
+                              name={IconName.CLOSE_CIRCLE}
+                            />
+                          </div>
+                        </ActiveTraitFilter>
+                      </div>
+                    )
+                  })
+              : null}
+            {formValues
+              ? Object.keys(formValues)
+                  .filter((val) => val !== 'min' && val !== 'max')
+                  .map((trait) => {
+                    return Object.keys(formValues[trait])
+                      .filter((val) => !!formValues[trait][val])
+                      .map((value) => {
+                        return (
+                          <div key={value} style={{ height: '100%' }}>
+                            <ActiveTraitFilter>
+                              <Text size='14px' color='black' weight={500} capitalize>
+                                {trait}: {value}
+                              </Text>
+                              <div
+                                style={{
+                                  background: 'white',
+                                  borderRadius: '50%',
+                                  lineHeight: '0',
+                                  marginLeft: '8px'
+                                }}
+                              >
+                                <Icon
+                                  role='button'
+                                  cursor='pointer'
+                                  onClick={() =>
+                                    formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                                  }
+                                  color={colors.blue600}
+                                  name={IconName.CLOSE_CIRCLE}
+                                />
+                              </div>
+                            </ActiveTraitFilter>
+                          </div>
+                        )
+                      })
+                  })
+              : null}
+          </TraitGrid>
           <Grid>
             {pageVariables.length
               ? pageVariables.map(({ page }) => (
@@ -310,6 +410,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })

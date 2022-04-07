@@ -8,12 +8,13 @@ import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
 import { Button, Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
+import { actions } from 'data'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   transition: all 0.3s ease;
   padding: 0 10px;
-  width: ${(props) => (props.isOpen ? '240px' : '80px')};
+  width: ${(props) => (props.isOpen ? '300px' : '80px')};
   margin-right: 20px;
   ${media.tablet`
     display: none;
@@ -70,7 +71,7 @@ const TraitItem = styled.div`
 `
 
 const NftFilter: React.FC<Props> = ({ collection }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
 
   return (
@@ -124,14 +125,6 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                   <Field name='max' component={NumberBox} placeholder='Max' />
                   <ComponentIcon size='18px' name='ETH' />
                 </div>
-                <Button
-                  style={{ marginTop: '8px' }}
-                  fullwidth
-                  nature='empty-blue'
-                  data-e2e='applyNftPrice'
-                >
-                  <FormattedMessage id='copy.apply' defaultMessage='Apply' />
-                </Button>
               </div>
               <div style={{ marginTop: '24px' }}>
                 <Text size='14px' weight={600} color='black'>
@@ -166,16 +159,13 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                           .map((value) => {
                             return (
                               <TraitItem key={value}>
-                                <div style={{ alignItems: 'center', display: 'flex' }}>
+                                <div
+                                  style={{ alignItems: 'center', display: 'flex', width: '100%' }}
+                                >
                                   <Field
                                     component='input'
                                     name={`${trait}.${value}`}
-                                    // onChange={() => handleTraitChange(trait, value)}
                                     type='checkbox'
-                                    // checked={
-                                    //   props.collectionFilter.traits[trait] &&
-                                    //   props.collectionFilter.traits[trait][value]
-                                    // }
                                     id={value}
                                   />
                                   <label
@@ -183,7 +173,9 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                                     style={{
                                       alignItems: 'center',
                                       display: 'flex',
-                                      whiteSpace: 'nowrap'
+                                      justifyContent: 'space-between',
+                                      whiteSpace: 'nowrap',
+                                      width: '100%'
                                     }}
                                   >
                                     <Text
@@ -195,22 +187,22 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                                     >
                                       {value}
                                     </Text>
+                                    <div style={{ alignItems: 'center', display: 'flex' }}>
+                                      <Text size='12px' weight={500} color='grey500'>
+                                        {val.traits[trait][value]}
+                                      </Text>
+                                      &nbsp;
+                                      <Text size='12px' weight={500} color='grey500'>
+                                        (
+                                        {(
+                                          (Number(val.traits[trait][value]) /
+                                            Number(val.stats.total_supply)) *
+                                          100
+                                        ).toFixed(2)}
+                                        %)
+                                      </Text>
+                                    </div>
                                   </label>
-                                </div>
-                                <div style={{ alignItems: 'center', display: 'flex' }}>
-                                  <Text size='12px' weight={500} color='grey500'>
-                                    {val.traits[trait][value]}
-                                  </Text>
-                                  &nbsp;
-                                  <Text size='12px' weight={500} color='grey500'>
-                                    (
-                                    {(
-                                      (Number(val.traits[trait][value]) /
-                                        Number(val.stats.total_supply)) *
-                                      100
-                                    ).toFixed(2)}
-                                    %)
-                                  </Text>
                                 </div>
                               </TraitItem>
                             )
@@ -230,6 +222,7 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
 
 type Props = {
   collection: RemoteDataType<string, NftCollection>
+  formActions: typeof actions.form
 }
 
 export default reduxForm<{}, Props>({ form: 'nftFilter' })(NftFilter)
