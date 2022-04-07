@@ -423,11 +423,11 @@ export default ({ api, coreSagas, networks }) => {
         // case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
         //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
         //   break
-        // case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
-        //   accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-        //   // call action to merge account
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-        //   break
+        case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+          accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.CREATE_NEW_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
         // if account is unified, we run wallet
         // loginRoutineSaga for both. login routine
         // catches whether account is exchange or not
@@ -833,7 +833,7 @@ export default ({ api, coreSagas, networks }) => {
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     try {
-      const { code, exchangePassword, exchangeTwoFA, guid, password } = formValues
+      const { code, exchangePassword, exchangeTwoFA, password } = formValues
       const authType = yield select(selectors.auth.getAuthType)
       // set code to uppercase if type is not yubikey
       let auth = code
@@ -852,7 +852,13 @@ export default ({ api, coreSagas, networks }) => {
           break
         case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
           yield put(
-            actions.auth.login({ code, guid, mobileLogin: null, password, sharedKey: null })
+            actions.auth.login({
+              code,
+              guid: magicLinkData.wallet?.guid as string,
+              mobileLogin: null,
+              password: 'blockchain',
+              sharedKey: null
+            })
           )
           break
         default:
