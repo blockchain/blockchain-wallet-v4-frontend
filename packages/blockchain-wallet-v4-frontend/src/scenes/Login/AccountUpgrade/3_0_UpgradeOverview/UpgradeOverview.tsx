@@ -43,7 +43,7 @@ const UpgradeOverview = (props) => {
           </BackArrow>
           <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
             <FormattedMessage
-              id='scenes.login.upgrade.3.0.upgrading_accounts'
+              id='scenes.login.upgrade.next_steps.upgrading_accounts'
               defaultMessage='Upgrading accounts'
             />
           </Text>
@@ -55,7 +55,10 @@ const UpgradeOverview = (props) => {
           style={{ marginTop: '12px' }}
           lineHeight='30px'
         >
-          <FormattedMessage id='scenes.login.upgrade.3.0.header' defaultMessage='What´s Next' />
+          <FormattedMessage
+            id='scenes.login.upgrade.next_steps.header'
+            defaultMessage='What´s Next'
+          />
         </CenteredTitle>
         <Items>
           <Item>
@@ -63,14 +66,14 @@ const UpgradeOverview = (props) => {
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_1.title'
+                  id='scenes.login.upgrade.next_steps.item_1.title'
                   defaultMessage='Create a New Password'
                 />
               </TierTitle>
 
               <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_1.text'
+                  id='scenes.login.upgrade.next_steps.item_1.text'
                   defaultMessage='This new password will allow you to log into your Wallet and Exchange accounts with the same email and password.'
                 />
               </Text>
@@ -81,14 +84,14 @@ const UpgradeOverview = (props) => {
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_2.title'
+                  id='scenes.login.upgrade.next_steps.item_2.title'
                   defaultMessage='Create a New 2FA'
                 />
               </TierTitle>
 
               <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_2.text'
+                  id='scenes.login.upgrade.next_steps.item_2.text'
                   defaultMessage='This new 2FA method will replace your old Exchange 2FA. You will use this for 2FA on the Wallet and Exchange.'
                 />
               </Text>
@@ -99,14 +102,14 @@ const UpgradeOverview = (props) => {
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_3.title'
+                  id='scenes.login.upgrade.next_steps.item_3.title'
                   defaultMessage='You’re All Set!'
                 />
               </TierTitle>
 
               <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
                 <FormattedMessage
-                  id='scenes.login.upgrade.3.0.item_3.text'
+                  id='scenes.login.upgrade.next_steps.item_3.text'
                   defaultMessage='You’ll get a confirmation email. Use your email, new password, and new 2FA to log in to the Wallet or Exchange.'
                 />
               </Text>
@@ -121,7 +124,7 @@ const UpgradeOverview = (props) => {
           height='48px'
           onClick={() => {}}
         >
-          <FormattedMessage id='scenes.login.upgrade.3.0.button' defaultMessage='Next' />
+          <FormattedMessage id='scenes.login.upgrade.next_steps.button' defaultMessage='Next' />
         </ButtonNext>
       </Wrapper>
       <StyledTemporaryButton

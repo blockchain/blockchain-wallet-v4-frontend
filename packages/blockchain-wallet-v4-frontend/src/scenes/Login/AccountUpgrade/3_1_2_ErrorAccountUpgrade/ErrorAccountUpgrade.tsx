@@ -13,11 +13,10 @@ import {
   BackArrow,
   ButtonLater,
   ButtonNext,
+  CenteredMsgWrapper,
   CenteredTitle,
-  ErrorMsgWrapper,
   StyledTemporaryButton,
-  SubHeaderWrapper,
-  TextToRightWrapper
+  SubHeaderWrapper
 } from '../AccountUpgrade.models'
 
 const ErrorAccountUpgrade = (props) => {
@@ -42,7 +41,7 @@ const ErrorAccountUpgrade = (props) => {
           </BackArrow>
           <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
             <FormattedMessage
-              id='scenes.login.upgrade.3.1.1.steps'
+              id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
               values={{
                 actualStep: 3,
@@ -60,15 +59,15 @@ const ErrorAccountUpgrade = (props) => {
         >
           <Icon name='close-circle' color='red600' size='40px' />
           <FormattedMessage
-            id='scenes.login.upgrade.3.1.2.header'
+            id='scenes.login.upgrade.able_retry.header'
             defaultMessage='Something Didn´t Work'
           />
-          <ErrorMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
             <FormattedMessage
-              id='scenes.login.upgrade.3.1.2.text'
+              id='scenes.login.upgrade.able_retry.text'
               defaultMessage='Don’t worry, you can still login with original credentials. You can retry the upgrade the next time you login.'
             />
-          </ErrorMsgWrapper>
+          </CenteredMsgWrapper>
         </CenteredTitle>
         <ButtonNext
           nature='primary'
@@ -78,7 +77,7 @@ const ErrorAccountUpgrade = (props) => {
           onClick={() => {}}
         >
           <FormattedMessage
-            id='scenes.login.upgrade.3.1.2.button_1'
+            id='scenes.login.upgrade.able_retry.button_1'
             defaultMessage='Retry Upgrade'
           />
         </ButtonNext>
@@ -90,7 +89,7 @@ const ErrorAccountUpgrade = (props) => {
           onClick={() => {}}
         >
           <FormattedMessage
-            id='scenes.login.upgrade.3.1.2.button_2'
+            id='scenes.login.upgrade.able_retry.button_2'
             defaultMessage='I’ll Try Again Later'
           />
         </ButtonLater>

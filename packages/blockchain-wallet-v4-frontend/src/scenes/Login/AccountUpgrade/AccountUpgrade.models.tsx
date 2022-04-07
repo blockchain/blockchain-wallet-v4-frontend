@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 export const Label = styled.div`
   background-color: ${(props) => props.theme.green000};
@@ -84,6 +84,40 @@ export const TextToRightWrapper = styled.div`
   text-align: right;
 `
 
-export const ErrorMsgWrapper = styled(Text)`
+export const CenteredMsgWrapper = styled(Text)`
   margin-top: 8px;
+`
+
+export const PanelButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 8px;
+  padding: 24px 18px;
+  margin: 24px 0 0;
+  cursor: pointer;
+  position: relative;
+`
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+`
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const IconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const ButtonLine = styled(Icon)`
+  align-items: center;
 `
