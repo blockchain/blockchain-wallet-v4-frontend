@@ -6,12 +6,12 @@ const Iframe = styled.iframe`
   height: 200px;
 `
 
-const CardDashboard = ({ cardToken, domains }) => {
+const CardDashboard = ({ cardToken, domains, last4 }) => {
   return (
     <>
       <Iframe
         id='marqeta-card-iframe'
-        src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}`}
+        src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}`}
       />
     </>
   )
