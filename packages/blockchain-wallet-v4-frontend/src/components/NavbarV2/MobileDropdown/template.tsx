@@ -3,7 +3,7 @@ import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
-import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/NavbarDropdown'
+import { DropdownMenu, DropdownMenuArrow } from 'components/NavbarV2/Dropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'

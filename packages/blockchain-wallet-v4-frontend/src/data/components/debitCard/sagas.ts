@@ -8,10 +8,27 @@ import { selectors } from 'data'
 import { actions as A } from './slice'
 
 export default ({ api }: { api: APIType }) => {
+  const getCardToken = function* (cardId) {
+    try {
+      const data = yield call(api.getDCToken, cardId)
+
+      yield put(A.setCardToken(data.token))
+    } catch (e) {
+      console.error('Failed to get card token', errorHandler(e))
+    }
+  }
+
+  const filterTerminatedCards = (cards) => cards.filter((card) => card.status !== 'TERMINATED')
+
   const getCards = function* () {
     try {
-      const data = yield call(api.getDCCreated)
-      yield put(A.getCardsSuccess(data))
+      let cards = yield call(api.getDCCreated)
+
+      cards = filterTerminatedCards(cards)
+      if (cards.length > 0) {
+        yield call(getCardToken, cards[0].id)
+      }
+      yield put(A.getCardsSuccess(cards))
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
       yield put(A.getCardsFailure())

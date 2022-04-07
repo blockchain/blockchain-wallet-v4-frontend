@@ -75,7 +75,7 @@ const App = ({
   const Loading = isAuthenticated ? WalletLoading : PublicLoading
 
   useEffect(() => {
-    const utm = utmParser(window.location.hash)
+    const utm = utmParser()
 
     sessionStorage.setItem(UTM, JSON.stringify(utm))
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -9,25 +9,13 @@ import { RootState } from 'data/rootReducer'
 
 import Header from './template'
 
-class HeaderContainer extends React.PureComponent<Props> {
-  render() {
-    return (
-      <Header
-        handleToggle={() => this.props.actions.layoutWalletMenuToggleClicked()}
-        {...this.props}
-      />
-    )
-  }
-}
+const HeaderContainer: FC<Props> = (props) => <Header {...props} />
 
 const mapStateToProps = (state: RootState) => ({
   featureFlags: selectors.core.walletOptions
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
-  isRedesignEnabled: selectors.core.walletOptions
-    .getRedesignEnabled(state)
-    .getOrElse(false) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)
     .getOrElse(false) as boolean,
@@ -37,7 +25,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch),

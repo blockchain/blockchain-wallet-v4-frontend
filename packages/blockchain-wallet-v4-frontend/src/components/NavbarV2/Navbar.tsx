@@ -6,13 +6,13 @@ import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { MobileNav } from 'components/NavbarV2'
 import { Destination } from 'layouts/Wallet/components'
 import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
 import MobileDropdown from './MobileDropdown'
 
 export type PrimaryNavItem = {
