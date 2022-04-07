@@ -33,12 +33,12 @@ const OfferFees = styled.div`
 
 const WrappedEthFees = styled(OfferFees)``
 
-// const Total = styled(Top)`
-//   padding: 1em 1em;
-// `
+const Total = styled(Top)`
+  margin-left: 10em;
+`
 
-const NetworkFeesComponent: React.FC<Props> = (props, val) => {
-  const [moreFees, setMoreFees] = useState(true)
+const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
+  const [moreFees, setMoreFees] = useState(false)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
   }
@@ -49,6 +49,7 @@ const NetworkFeesComponent: React.FC<Props> = (props, val) => {
           <Text weight={500} color='#353F52' lineHeight='24px'>
             Network Fees
           </Text>
+          <Total>$0.00</Total>
           {!moreFees && (
             <ChevronArea>
               <Icon name='chevron-right' size='24px' color='grey400' />
@@ -60,14 +61,12 @@ const NetworkFeesComponent: React.FC<Props> = (props, val) => {
             </ChevronArea>
           )}
         </Top>
-        {moreFees && (
-          <Fees>
-            {/* @ts-ignore */}
-            <MakeOfferFees {...props} asset={val} />
-            {/* @ts-ignore */}
-            <WrapEthFees {...props} />
-          </Fees>
-        )}
+        <Fees style={moreFees ? {} : { display: 'none' }}>
+          {/* @ts-ignore */}
+          <MakeOfferFees {...props} asset={val} />
+          {/* @ts-ignore */}
+          <WrapEthFees {...props} />
+        </Fees>
       </Wrapper>
       {/* {moreFees && (
         <Total>

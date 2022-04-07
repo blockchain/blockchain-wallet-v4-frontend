@@ -35,7 +35,7 @@ const Fees: React.FC<Props> = (props) => {
           return (
             <>
               <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Title style={{ display: 'flex' }}>
+                <Title style={{ display: 'flex', lineHeight: '38px' }}>
                   <FormattedMessage id='copy.wrap_eth_fees' defaultMessage='Wrapped Eth Fees' />
                 </Title>
                 <Value>

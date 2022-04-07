@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
 import { Props as OwnProps } from '..'
@@ -30,13 +30,11 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
   const returnToMarketPlace = () => {
     props.close()
   }
+  const viewSubmittedOffer = () => {
+    props.close()
+  }
   return (
     <div>
-      {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
-        <Wrapper>
-          <div>Wrapping ETH...</div>
-        </Wrapper>
-      )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER && (
         <Wrapper>
           <img
@@ -87,19 +85,24 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
                 />
               </Text>
             </Button>
-            <Button
-              nature='empty-blue'
-              height='56px'
-              onClick={returnToMarketPlace}
-              size='large'
-              width='20em'
-              margin='0.5em 0em'
-              data-e2e='submitProfileDetails'
-            >
-              <Text color={colors.blue600} size='16px' weight={500}>
-                <FormattedMessage id='modals.prompt.button' defaultMessage='View Submitted Offer' />
-              </Text>
-            </Button>
+            <Link href={props.data.permalink} target='_blank'>
+              <Button
+                nature='empty-blue'
+                height='56px'
+                size='large'
+                width='20em'
+                margin='0.5em 0em'
+                onClick={viewSubmittedOffer}
+                data-e2e='submitProfileDetails'
+              >
+                <Text color={colors.blue600} size='16px' weight={500}>
+                  <FormattedMessage
+                    id='modals.prompt.button'
+                    defaultMessage='View Submitted Offer'
+                  />
+                </Text>
+              </Button>
+            </Link>
           </ButtonWrapper>
         </>
       )}
