@@ -164,5 +164,8 @@
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
+  },
+  "devDependencies": {
+    "@testing-library/react-hooks": "6.0.0"
   }
 }
