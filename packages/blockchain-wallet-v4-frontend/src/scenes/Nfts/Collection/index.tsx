@@ -18,7 +18,7 @@ import {
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
-import { useCollectionQuery } from 'generated/graphql'
+import { CollectionFields, FilterOperators, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { CollectionBanner, Grid, GridWrapper } from '../components'
@@ -147,7 +147,9 @@ const NftsCollection: React.FC<Props> = ({
   )
   const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
 
-  const [results] = useCollectionQuery({ variables: { filter: { slug } } })
+  const [results] = useCollectionsQuery({
+    variables: { filter: [{ field: CollectionFields.Slug, value: slug }] }
+  })
 
   useEffect(() => {
     setIsFetchingNextPage(true)
@@ -191,6 +193,10 @@ const NftsCollection: React.FC<Props> = ({
   const hasSomeFilters =
     formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
+  const collectionData = results.data?.collections ? results.data.collections[0] : undefined
+
+  if (!collectionData) return null
+
   return (
     <div ref={wrapperRef}>
       <OpenSeaStatusComponent />
@@ -207,9 +213,9 @@ const NftsCollection: React.FC<Props> = ({
               color='grey400'
               role='button'
             />
-            <CollectionImageSmall src={results.data?.collection?.image_url || ''} />{' '}
+            <CollectionImageSmall src={collectionData.image_url || ''} />{' '}
             <Text size='14px' weight={500} color='grey900'>
-              {results.data?.collection?.name}
+              {collectionData.name}
             </Text>
             <Icon
               onClick={() =>
@@ -233,14 +239,14 @@ const NftsCollection: React.FC<Props> = ({
           <CollectionBanner
             large
             style={{ marginTop: '12px' }}
-            background={`url(${results.data?.collection?.banner_image_url})`}
+            background={`url(${collectionData.banner_image_url})`}
           />
-          <CollectionImage src={results.data?.collection?.image_url || ''} />
+          <CollectionImage src={collectionData.image_url || ''} />
           <Stats collection={collection} />
         </CollectionBannerWrapper>
         <div style={{ width: '100%' }}>
           <Text size='40px' color='grey900' weight={600}>
-            {results.data?.collection?.name}
+            {collectionData.name}
           </Text>
           <TextGroup inline style={{ marginTop: '16px' }}>
             <Text size='14px' color='grey300' weight={600}>
@@ -251,21 +257,21 @@ const NftsCollection: React.FC<Props> = ({
             </Text>
           </TextGroup>
           <LinksContainer>
-            {results.data?.collection?.external_url ? (
-              <Link target='_blank' href={results.data?.collection?.external_url}>
+            {collectionData.external_url ? (
+              <Link target='_blank' href={collectionData.external_url}>
                 <Icon name={IconName.GLOBE} color='grey400' />
               </Link>
             ) : null}
-            {results.data?.collection?.instagram_username ? (
+            {collectionData.instagram_username ? (
               <Link
                 target='_blank'
-                href={`https://instagram.com/${results.data?.collection?.instagram_username}`}
+                href={`https://instagram.com/${collectionData.instagram_username}`}
               >
                 <Icon name={IconName.CAMERA} color='grey400' />
               </Link>
             ) : null}
-            {results.data?.collection?.discord_url ? (
-              <Link target='_blank' href={`${results.data?.collection?.discord_url}`}>
+            {collectionData.discord_url ? (
+              <Link target='_blank' href={`${collectionData.discord_url}`}>
                 <Icon name={IconName.COMPUTER} color='grey400' />
               </Link>
             ) : null}
@@ -277,7 +283,7 @@ const NftsCollection: React.FC<Props> = ({
             color='grey600'
             weight={500}
           >
-            {results.data?.collection?.description}
+            {collectionData.description}
           </Text>
         </div>
       </CollectionHeader>

@@ -1,5 +1,5 @@
-query Collection($filter: CollectionFilter) {
-  collection(filter: $filter) {
+query Collections($filter: [CollectionFilter]) {
+  collections(filter: $filter) {
     chat_url
     discord_url
     external_url

@@ -7,7 +7,7 @@ import { CombinedError } from 'urql'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { useAssetsQuery } from 'generated/graphql'
+import { AssetFields, useAssetsQuery } from 'generated/graphql'
 
 import {
   Asset,
@@ -30,13 +30,8 @@ const ResultsPage: React.FC<Props> = ({
 }) => {
   const [result] = useAssetsQuery({
     variables: {
-      eventsFilter: {
-        event_type: 'created',
-        is_active_listing: isBuyNow ? 'true' : 'false'
-      },
-      filter: {
-        collection_slug: slug
-      },
+      filter: [{ field: AssetFields.CollectionSlug, value: slug }],
+      forSale: !!isBuyNow,
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT
     }
@@ -55,7 +50,7 @@ const ResultsPage: React.FC<Props> = ({
       {result?.data?.assets?.map((asset) => {
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
-            <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+            <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
               <AssetImageContainer
                 background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
                 // backgroundColor={`#${asset?.}` || '#fff'}
@@ -78,9 +73,9 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
+                  {isBuyNow ? (
                     <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                      <StyledCoinDisplay
+                      {/* <StyledCoinDisplay
                         size='14px'
                         color='black'
                         weight={600}
@@ -97,7 +92,7 @@ const ResultsPage: React.FC<Props> = ({
                         coin={asset.events[0].payment_token?.symbol}
                       >
                         {asset.events[0].starting_price}
-                      </FiatDisplay>
+                      </FiatDisplay> */}
                     </Text>
                   ) : (
                     <Text
@@ -116,7 +111,7 @@ const ResultsPage: React.FC<Props> = ({
                     </Text>
                   )}
                 </div>
-                <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+                <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
                   <Button data-e2e='nftAssetPage' nature='primary' small>
                     <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                   </Button>

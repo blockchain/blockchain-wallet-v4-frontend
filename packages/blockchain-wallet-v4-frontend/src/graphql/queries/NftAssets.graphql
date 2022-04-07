@@ -1,26 +1,18 @@
-query Assets($limit: Int, $eventsFilter: EventFilter, $filter: AssetFilter, $orderBy: AssetOrderBy, $offset: Int) {
-  assets(limit: $limit, eventsFilter: $eventsFilter, filter: $filter, orderBy: $orderBy, offset: $offset) {
+query Assets($filter: [AssetFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
+  assets(filter: $filter, sort: $sort, forSale: $forSale, limit: $limit, offset: $offset) {
     name
     token_id
-    contract_address
+    contract {
+      address
+    }
     image_url
     permalink
-    owner_address
+    owners {
+      address
+    }
     collection {
       name
       image_url
-    }
-    events(filter: $eventsFilter) {
-      id
-      contract_address
-      event_type
-      starting_price
-      duration
-      listing_time
-      is_active_listing
-      payment_token {
-        symbol
-      }
     }
   }
 }

@@ -4,7 +4,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import { useAssetQuery, useAssetsQuery } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import {
+  AssetFields,
+  useAssetQuery,
+  useAssetsQuery
+} from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -323,10 +327,15 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
   const [asset] = useAssetQuery({
-    variables: { filter: { contract_address: contract, token_id: id } }
+    variables: {
+      filter: [
+        { field: AssetFields.ContractAddress, value: contract },
+        { field: AssetFields.Id, value: id }
+      ]
+    }
   })
   const [assets] = useAssetsQuery({
-    variables: { filter: { contract_address: contract } }
+    variables: { filter: [{ field: AssetFields.ContractAddress, value: contract }] }
   })
   const [Tab, setTab] = useState('details')
   const [Countdown, setCountdown] = useState('')
@@ -335,10 +344,16 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
-      address: asset?.data?.asset?.contract_address || contract,
-      token_id: asset.data?.asset?.token_id || id
+      address: contract,
+      token_id: id
     })
   }, [])
+
+  const currentAsset = asset.data?.assets[0]
+  const owner = currentAsset?.owners ? currentAsset.owners[0] : null
+
+  if (!currentAsset) return null
+
   return (
     <Wrapper>
       {rest.openSeaAsset.cata({
@@ -440,7 +455,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         marginBottom: '0.5rem',
                         padding: '10px'
                       }}
-                      src={asset?.data?.asset?.image_url || ''}
+                      src={currentAsset.image_url || ''}
                     />
                     <PriceHistoryTitle>Price History</PriceHistoryTitle>
                     <Spacing />
@@ -455,7 +470,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         justifyContent: 'space-between'
                       }}
                     >
-                      <CustomLink to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
+                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
                         <CollectionName>
                           <img
                             alt='Dapp Logo'
@@ -465,48 +480,48 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               borderRadius: '50%',
                               paddingRight: '2px'
                             }}
-                            src={asset?.data?.asset?.collection?.image_url || ''}
+                            src={currentAsset.collection?.image_url || ''}
                           />
                           <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                            {asset?.data?.asset?.collection?.name}
+                            {currentAsset.collection?.name}
                           </div>
                         </CollectionName>
                       </CustomLink>
                       <SocialLinksWrap>
-                        {asset?.data?.asset?.collection?.telegram_url && (
-                          <SocialLinks href={asset?.data?.asset?.collection?.telegram_url}>
+                        {currentAsset.collection?.telegram_url && (
+                          <SocialLinks href={currentAsset.collection?.telegram_url}>
                             <Icon name={IconName.PHONE} color='grey400' />
                           </SocialLinks>
                         )}
-                        {asset?.data?.asset?.collection?.twitter_username && (
+                        {currentAsset.collection?.twitter_username && (
                           <SocialLinks
                             href={`${'https://twitter.com/'}${
-                              asset?.data?.asset?.collection?.twitter_username
+                              currentAsset.collection?.twitter_username
                             }`}
                           >
                             <Icon name={IconName.CLIPBOARD} color='grey400' />
                           </SocialLinks>
                         )}
-                        {asset?.data?.asset?.collection?.instagram_username && (
+                        {currentAsset.collection?.instagram_username && (
                           <SocialLinks
                             href={`${'http://instagram.com/'}${
-                              asset?.data?.asset?.collection?.instagram_username
+                              currentAsset.collection?.instagram_username
                             }`}
                           >
                             <Icon name={IconName.CHECK_CIRCLE} color='grey400' />
                           </SocialLinks>
                         )}
-                        {asset?.data?.asset?.collection?.wiki_url && (
+                        {currentAsset.collection?.wiki_url && (
                           <SocialLinks
                             href={`${'https://en.wikipedia.org/wiki/'}${
-                              asset?.data?.asset?.collection?.wiki_url
+                              currentAsset.collection?.wiki_url
                             }`}
                           >
                             <Icon name={IconName.CHEVRON_LEFT} color='grey400' />
                           </SocialLinks>
                         )}
-                        {asset?.data?.asset?.collection?.external_url && (
-                          <SocialLinks href={asset?.data?.asset?.collection?.external_url}>
+                        {currentAsset.collection?.external_url && (
+                          <SocialLinks href={currentAsset.collection?.external_url}>
                             <Icon name={IconName.GLOBE} color='grey400' />
                           </SocialLinks>
                         )}
@@ -514,9 +529,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     </div>
                     <Spacing />
                     <AssetName>
-                      {asset?.data?.asset?.name || `${asset?.data?.asset?.collection?.name}${' #'}`}
+                      {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}
                     </AssetName>
-                    <Description>{asset?.data?.asset?.collection?.description}</Description>
+                    <Description>{currentAsset.collection?.description}</Description>
                     <CurrentPriceBox>
                       {highest_bid ? (
                         <>
@@ -718,24 +733,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 minHeight: '32px'
                               }}
                             >
-                              {asset?.data?.asset?.creator?.profile_img_url && (
+                              {currentAsset.creator?.profile_img_url && (
                                 <img
                                   alt='Creator Logo'
                                   height='30px'
                                   width='auto'
                                   style={{ borderRadius: '50%', marginRight: '4px' }}
-                                  src={asset?.data?.asset?.creator?.profile_img_url}
+                                  src={currentAsset.creator?.profile_img_url}
                                 />
                               )}
-                              {asset?.data?.asset?.creator?.address ? (
+                              {currentAsset.creator?.address ? (
                                 <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset.data.asset.creator.address}`}
+                                  href={`https://www.blockchain.com/eth/address/${currentAsset.creator.address}`}
                                   target='_blank'
                                 >
                                   <CreatorOwnerAddress>
-                                    {asset.data.asset.creator.address.slice(0, 6)}...
-                                    {asset?.data?.asset?.creator?.address?.substring(
-                                      asset?.data?.asset?.creator?.address.length - 4
+                                    {currentAsset.creator.address.slice(0, 6)}...
+                                    {currentAsset.creator?.address?.substring(
+                                      currentAsset.creator?.address.length - 4
                                     )}
                                   </CreatorOwnerAddress>
                                 </Link>
@@ -763,19 +778,17 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 height='30px'
                                 width='auto'
                                 style={{ borderRadius: '50%', marginRight: '4px' }}
-                                src={asset?.data?.asset?.owner?.profile_img_url || ''}
+                                src={owner?.profile_img_url || ''}
                               />{' '}
-                              {asset?.data?.asset?.owner?.address ? (
+                              {owner?.address ? (
                                 <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset.data.asset.owner.address}`}
+                                  href={`https://www.blockchain.com/eth/address/${owner?.address}`}
                                   target='_blank'
                                 >
                                   <CreatorOwnerAddress>
-                                    {asset.data.asset.owner.address.slice(0, 6)}
+                                    {owner?.address.slice(0, 6)}
                                     ...
-                                    {asset?.data?.asset?.owner?.address?.substring(
-                                      asset?.data?.asset?.owner?.address.length - 4
-                                    )}
+                                    {owner?.address?.substring(owner?.address.length - 4)}
                                   </CreatorOwnerAddress>
                                 </Link>
                               ) : (
@@ -786,13 +799,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                             </div>
                           </div>
                         </CreatorOwnerBox>
-                        {asset?.data?.asset?.traits?.length ? (
+                        {currentAsset.traits?.length ? (
                           <TraitsWrapper>
                             <Text size='14px' weight={600}>
                               Traits
                             </Text>
                             <TraitCell>
-                              {asset?.data?.asset?.traits.map((traits, index) => (
+                              {currentAsset.traits.map((traits, index) => (
                                 // eslint-disable-next-line react/no-array-index-key
                                 <Traits key={index}>
                                   <Text capitalize color='grey500' size='12px' weight={500}>
@@ -826,15 +839,15 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 Contract Address:
                               </Text>
 
-                              {asset?.data?.asset?.contract_address ? (
+                              {currentAsset.contract?.address ? (
                                 <Link
-                                  href={`https://www.blockchain.com/eth/address/${asset?.data?.asset?.contract_address}`}
+                                  href={`https://www.blockchain.com/eth/address/${currentAsset.contract?.address}`}
                                   target='_blank'
                                 >
                                   <CreatorOwnerAddressLinkText>
-                                    {asset?.data?.asset?.contract_address.slice(0, 6)}...
-                                    {asset?.data?.asset?.contract_address?.substring(
-                                      asset?.data?.asset?.contract_address.length - 4
+                                    {currentAsset.contract?.address.slice(0, 6)}...
+                                    {currentAsset.contract?.address?.substring(
+                                      currentAsset.contract?.address.length - 4
                                     )}
                                   </CreatorOwnerAddressLinkText>
                                 </Link>
@@ -850,7 +863,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                               </Text>
 
                               <TokenDisplay size='16px' weight={600} color={colors.grey900}>
-                                {asset?.data?.asset?.token_id}{' '}
+                                {currentAsset.token_id}{' '}
                               </TokenDisplay>
                             </Detail>
                             <Detail>
@@ -858,7 +871,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 Token Standard:
                               </Text>{' '}
                               <Text size='16px' weight={600} color={colors.grey900}>
-                                {asset?.data?.asset?.asset_contract?.schema_name}
+                                {currentAsset.contract?.schema_name}
                               </Text>
                             </Detail>
                             <Detail>
@@ -967,7 +980,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                       >
                         More from this collection
                       </Text>
-                      <CustomLink to={`/nfts/${asset.data?.asset?.collection?.slug}`}>
+                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
                         <Button
                           data-e2e='goToCollection'
                           nature='empty-blue'
@@ -981,7 +994,9 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                     <MoreAssetsList>
                       {assets?.data?.assets?.length // @ts-ignore
                         ? assets?.data?.assets?.slice(0, 10).map((asset, index) => {
-                            const link = `${'/nfts/'}${asset?.contract_address}/${asset?.token_id}`
+                            const link = `${'/nfts/'}${currentAsset.contract?.address}/${
+                              currentAsset.token_id
+                            }`
                             return (
                               <CustomLink
                                 // eslint-disable-next-line react/no-array-index-key
@@ -989,8 +1004,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                 to={link}
                                 onClick={() => {
                                   nftsActions.fetchOpenseaAsset({
-                                    address: asset?.contract_address || '',
-                                    token_id: asset?.token_id || ''
+                                    address: currentAsset.contract?.address || '',
+                                    token_id: currentAsset.token_id || ''
                                   })
                                 }}
                                 style={{
@@ -1017,10 +1032,10 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                         marginBottom: '0.5rem',
                                         paddingRight: '2px'
                                       }}
-                                      src={asset?.collection?.image_url || ''}
+                                      src={currentAsset.collection?.image_url || ''}
                                     />
                                     <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                                      {asset?.collection?.name}
+                                      {currentAsset.collection?.name}
                                     </div>
                                   </CollectionName>
                                   <img
@@ -1032,7 +1047,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                       boxSizing: 'border-box',
                                       marginBottom: '0.5rem'
                                     }}
-                                    src={asset?.image_url || ''}
+                                    src={currentAsset.image_url || ''}
                                   />
                                   <Text
                                     style={{ textAlign: 'center' }}
@@ -1040,7 +1055,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                                     weight={600}
                                     capitalize
                                   >
-                                    {asset?.name || asset?.token_id}
+                                    {currentAsset.name || currentAsset.token_id}
                                   </Text>
                                 </div>
                               </CustomLink>
