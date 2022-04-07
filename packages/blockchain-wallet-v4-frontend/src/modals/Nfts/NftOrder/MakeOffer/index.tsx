@@ -166,7 +166,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </div>
                 <div style={{ marginTop: '6px', paddingLeft: '3em' }}>
                   <Text style={{ textAlign: 'right' }} weight={600}>
-                    0.01 ETH
+                    123
                   </Text>
                   <Text style={{ textAlign: 'right' }}>$9.27</Text>
                 </div>
@@ -315,7 +315,22 @@ const MakeOffer: React.FC<Props> = (props) => {
                                 <Text size='12px' weight={400}>
                                   Get More ETH
                                 </Text>
-                                <Text weight={600}>Buy 0.00 ETH</Text>
+                                <Text weight={600}>
+                                  {orderFlow?.wrapEthFees?.data?.totalFees && (
+                                    <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                                      {Number(formValues.amount) > 0 &&
+                                        new BigNumber(
+                                          1000000000000000000 * Number(formValues.amount)
+                                        )
+                                          .minus(
+                                            new BigNumber(
+                                              10000 * orderFlow.wrapEthFees.data.totalFees
+                                            ).multipliedBy(orderFlow.wrapEthFees.data.gasPrice)
+                                          )
+                                          .toString()}
+                                    </CoinDisplay>
+                                  )}
+                                </Text>
                               </>
                             )}
                           </div>
@@ -352,11 +367,15 @@ const MakeOffer: React.FC<Props> = (props) => {
                         )}
                       </MoreEth>
                       <div style={{ padding: '1em 0em' }}>
-                        <Text size='14px' weight={500} style={{ display: 'flex' }}>
-                          Max you can offer from this wallet:
+                        <Text
+                          size='14px'
+                          weight={500}
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                          The max you can offer from this wallet is&nbsp;
                           <CoinDisplay
-                            style={{ fontFamily: 'Inter', fontSize: '14px', fontWeight: 'bold' }}
-                            coin='WETH'
+                            style={{ fontFamily: 'Inter', fontSize: '13px', fontWeight: 'bold' }}
+                            coin='ETH'
                           >
                             {maxOfferPossible}
                           </CoinDisplay>
@@ -366,8 +385,23 @@ const MakeOffer: React.FC<Props> = (props) => {
                             Send 0 ETH now to offer this amount
                           </Text>
                         ) : (
-                          <Text weight={500} size='14px' style={{ textAlign: 'center' }}>
-                            Buy 0 ETH now to offer this amount
+                          <Text weight={500} style={{ display: 'flex', justifyContent: 'center' }}>
+                            {orderFlow?.wrapEthFees?.data?.totalFees && (
+                              <>
+                                Buy&nbsp;
+                                <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                                  {Number(formValues.amount) > 0 &&
+                                    new BigNumber(1000000000000000000 * Number(formValues.amount))
+                                      .minus(
+                                        new BigNumber(
+                                          10000 * orderFlow.wrapEthFees.data.totalFees
+                                        ).multipliedBy(orderFlow.wrapEthFees.data.gasPrice)
+                                      )
+                                      .toString()}
+                                </CoinDisplay>
+                                &nbsp; now to offer this amount.
+                              </>
+                            )}
                           </Text>
                         )}
                       </div>

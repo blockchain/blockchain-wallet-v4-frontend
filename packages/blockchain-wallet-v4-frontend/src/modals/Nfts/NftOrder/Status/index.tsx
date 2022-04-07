@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
 import { Props as OwnProps } from '..'
@@ -35,6 +35,11 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
   }
   return (
     <div>
+      {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
+        <Wrapper>
+          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        </Wrapper>
+      )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER && (
         <Wrapper>
           <img
