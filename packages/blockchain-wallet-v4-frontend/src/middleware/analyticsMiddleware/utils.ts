@@ -261,7 +261,7 @@ const upgradeVerificationClickedOriginDictionary = (
   }
 }
 
-// pares and combines utm codes from both the search and hash portions of the url
+// parses and combines utm codes from both the search and hash portions of the url
 // if a duplicate utm key name is found in both search and hash portions of url
 // the value of the specific utm will be taken from the hash
 const utmParser = () => {
