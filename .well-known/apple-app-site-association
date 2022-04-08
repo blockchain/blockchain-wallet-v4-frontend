@@ -52,7 +52,7 @@
             "comment": "Matches any URL whose path starts with /deeplink/alpha/#/signup/"
           }
         ]
-      }
+      },
       {
         "appID": "NZ6PH75U7K.com.blockchain.exchangeapp",
         "paths": ["/exchange*"]
