@@ -1,5 +1,5 @@
-query Assets($filter: [AssetFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
-  assets(filter: $filter, sort: $sort, forSale: $forSale, limit: $limit, offset: $offset) {
+query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
+  assets(filter: $filter, traitFilter: $traitFilter, sort: $sort, forSale: $forSale, limit: $limit, offset: $offset) {
     name
     token_id
     contract {
@@ -9,6 +9,10 @@ query Assets($filter: [AssetFilter], $sort: AssetSort, $forSale: Boolean, $limit
     permalink
     owners {
       address
+    }
+    listing {
+      payment_token_symbol
+      total_price
     }
     collection {
       name

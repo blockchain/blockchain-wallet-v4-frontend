@@ -22,18 +22,36 @@ import {
 const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({
+  formValues,
   isBuyNow,
   page,
   setIsFetchingNextPage,
   setNextPageFetchError,
   slug
 }) => {
+  const traits = formValues
+    ? Object.keys(formValues).filter((key) => key !== 'min' && key !== 'max')
+    : []
+
+  const traitFilter = traits.reduce((acc, trait) => {
+    Object.keys(formValues[trait]).map((value) => {
+      if (formValues[trait][value]) {
+        acc.push({ trait_type: trait, value })
+      }
+
+      return acc
+    })
+
+    return acc
+  }, [] as { trait_type: string; value: string }[])
+
   const [result] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFields.CollectionSlug, value: slug }],
       forSale: !!isBuyNow,
       limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT
+      offset: page * NFT_ORDER_PAGE_LIMIT,
+      traitFilter
     }
   })
 
@@ -51,10 +69,7 @@ const ResultsPage: React.FC<Props> = ({
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
             <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
-              <AssetImageContainer
-                background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
-                // backgroundColor={`#${asset?.}` || '#fff'}
-              />
+              <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
             <AssetDetails>
               <div>
@@ -73,15 +88,15 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {isBuyNow ? (
+                  {asset.listing ? (
                     <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                      {/* <StyledCoinDisplay
+                      <StyledCoinDisplay
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={asset.events[0].payment_token?.symbol}
+                        coin={asset.listing.payment_token_symbol}
                       >
-                        {asset.events[0].starting_price}
+                        {asset.listing.total_price}
                       </StyledCoinDisplay>
                       &nbsp;-&nbsp;
                       <FiatDisplay
@@ -89,10 +104,10 @@ const ResultsPage: React.FC<Props> = ({
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={asset.events[0].payment_token?.symbol}
+                        coin={asset.listing.payment_token_symbol}
                       >
-                        {asset.events[0].starting_price}
-                      </FiatDisplay> */}
+                        {asset.listing.total_price}
+                      </FiatDisplay>
                     </Text>
                   ) : (
                     <Text
@@ -142,6 +157,11 @@ const ResultsPage: React.FC<Props> = ({
 }
 
 type Props = {
+  formValues: { max: string; min: string } & {
+    [key: string]: {
+      [key: string]: boolean
+    }
+  }
   isBuyNow: boolean
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void

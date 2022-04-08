@@ -17,8 +17,7 @@ import {
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
-import { CollectionFields, FilterOperators, useCollectionsQuery } from 'generated/graphql'
+import { CollectionFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { CollectionBanner, Grid, GridWrapper } from '../components'
@@ -43,18 +42,6 @@ const CollectionBannerWrapper = styled.div`
   width: 100%;
 `
 
-const CollectionHeaderFixed = styled.div`
-  position: sticky;
-  z-index: 1;
-  top: 0px;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0px;
-  background: ${(props) => props.theme.white};
-`
-
 const CollectionImage = styled.img`
   height: 100px;
   width: 100px;
@@ -63,13 +50,6 @@ const CollectionImage = styled.img`
   left: calc(50% - 50px);
   border-radius: 50%;
   border: 2px solid ${(props) => props.theme.grey100};
-`
-
-const CollectionImageSmall = styled.img`
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  margin-right: 8px;
 `
 
 const LinksContainer = styled.div`
@@ -112,9 +92,15 @@ const ActiveTraitFilter = styled.div`
 `
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
-  display: grid;
+  display: ${(props) => (props.hasSomeFilters ? 'grid' : 'none')};
+  position: sticky;
   gap: 6px;
-  margin-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
+  top: 0px;
+  background: ${(props) => props.theme.white};
+  margin-top: -8px;
+  padding-top: ${(props) => (props.hasSomeFilters ? '8px' : '0px')};
+  padding-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
+  z-index: 10;
   grid-template-columns: repeat(2, 1fr);
   ${media.atLeastMobile`
     grid-template-columns: repeat(3, 1fr);
@@ -132,11 +118,9 @@ const NftsCollection: React.FC<Props> = ({
   collectionFilter,
   formActions,
   formValues,
-  modalActions,
   nftsActions,
   ...rest
 }) => {
-  const wrapperRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
   const { slug } = rest.computedMatch.params
 
@@ -145,7 +129,6 @@ const NftsCollection: React.FC<Props> = ({
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
-  const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
 
   const [results] = useCollectionsQuery({
     variables: { filter: [{ field: CollectionFields.Slug, value: slug }] }
@@ -157,38 +140,11 @@ const NftsCollection: React.FC<Props> = ({
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 1000)
-  }, [slug, collectionFilter.isBuyNow])
-
-  useEffect(() => {
-    if (wrapperRef.current) {
-      // eslint-disable-next-line
-      const handleScroll = (e: any) => {
-        // @ts-ignore
-        if (headerRef.current?.getBoundingClientRect()?.bottom < 0) {
-          setShowFixedHeader(true)
-        } else {
-          setShowFixedHeader(false)
-        }
-      }
-
-      wrapperRef.current.addEventListener('mousewheel', handleScroll)
-      wrapperRef.current.addEventListener('scroll', handleScroll)
-
-      return () => {
-        wrapperRef.current?.removeEventListener('mousewheel', handleScroll)
-        wrapperRef.current?.removeEventListener('scroll', handleScroll)
-      }
-    }
-  }, [])
+  }, [slug, formValues])
 
   useEffect(() => {
     nftsActions.fetchNftCollection({ slug })
   }, [slug, nftsActions])
-
-  const scrollUp = () => {
-    wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
-    setShowFixedHeader(false)
-  }
 
   const hasSomeFilters =
     formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
@@ -198,39 +154,8 @@ const NftsCollection: React.FC<Props> = ({
   if (!collectionData) return null
 
   return (
-    <div ref={wrapperRef}>
+    <div>
       <OpenSeaStatusComponent />
-      {showFixedHeader ? (
-        <CollectionHeaderFixed>
-          <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-            <LinkContainer role='button' cursor='pointer' to='/nfts'>
-              <Icon name={IconName.ARROW_LEFT} color='grey400' />
-            </LinkContainer>
-            <Icon
-              style={{ cursor: 'pointer' }}
-              onClick={scrollUp}
-              name={IconName.ARROW_UP}
-              color='grey400'
-              role='button'
-            />
-            <CollectionImageSmall src={collectionData.image_url || ''} />{' '}
-            <Text size='14px' weight={500} color='grey900'>
-              {collectionData.name}
-            </Text>
-            <Icon
-              onClick={() =>
-                modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
-              }
-              style={{ cursor: 'pointer' }}
-              role='button'
-              name={IconName.FILTER}
-              color='grey400'
-              height={16}
-              width={16}
-            />
-          </div>
-        </CollectionHeaderFixed>
-      ) : null}
       <CollectionHeader ref={headerRef}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
           <LinkContainer role='button' cursor='pointer' to='/nfts'>
@@ -365,6 +290,8 @@ const NftsCollection: React.FC<Props> = ({
               ? pageVariables.map(({ page }) => (
                   <ResultsPage
                     page={page}
+                    // @ts-ignore
+                    formValues={formValues}
                     key={page}
                     slug={slug}
                     isBuyNow={collectionFilter.isBuyNow}

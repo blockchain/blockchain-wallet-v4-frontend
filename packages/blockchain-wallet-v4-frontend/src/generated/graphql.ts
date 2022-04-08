@@ -354,6 +354,7 @@ export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'A
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
+  traitFilter?: InputMaybe<Array<InputMaybe<TraitFilter>> | InputMaybe<TraitFilter>>;
   sort?: InputMaybe<AssetSort>;
   forSale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -361,7 +362,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listing?: { __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -2095,9 +2096,10 @@ export function useAssetQuery(options?: Omit<Urql.UseQueryArgs<AssetQueryVariabl
   return Urql.useQuery<AssetQuery>({ query: AssetDocument, ...options });
 };
 export const AssetsDocument = gql`
-    query Assets($filter: [AssetFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
+    query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
   assets(
     filter: $filter
+    traitFilter: $traitFilter
     sort: $sort
     forSale: $forSale
     limit: $limit
@@ -2112,6 +2114,10 @@ export const AssetsDocument = gql`
     permalink
     owners {
       address
+    }
+    listing {
+      payment_token_symbol
+      total_price
     }
     collection {
       name
