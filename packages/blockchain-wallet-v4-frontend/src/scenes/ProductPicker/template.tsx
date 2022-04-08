@@ -23,9 +23,10 @@ const ProductImage = styled(Image)`
   margin: 0 1.5rem;
   cursor: pointer;
   height: 400px;
-  transition: height 0.5s;
+  transition: transform 0.5s ease 0s, box-shadow 0.5s ease 0s;
   &:hover {
-    height: 424px;
+    transform: scale(1.05);
+    box-shadow: #000 0 8px 16px 8px, #000 0 2px 8px 2px;
   }
 `
 const WhiteCircle = styled.div`
