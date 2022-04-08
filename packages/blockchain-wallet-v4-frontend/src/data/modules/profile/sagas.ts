@@ -345,7 +345,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       window.open(
         `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-        '_self',
+        '_blank',
         'noreferrer'
       )
     } catch (e) {
