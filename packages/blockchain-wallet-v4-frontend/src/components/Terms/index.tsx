@@ -80,7 +80,7 @@ const Terms = (props) => {
             data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
-              id='scenes.register.registerform.blockchain.default.terms'
+              id='scenes.register.registerform.blockchain.terms'
               defaultMessage='Terms of Service'
             />
           </Link>

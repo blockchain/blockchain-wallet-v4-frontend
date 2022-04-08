@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+import { SubviewProps } from '../../types'
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -36,20 +38,37 @@ const SubHeader = styled(Text)`
   `}
 `
 
-const Header = () => (
+const Header = (props: SubviewProps) => (
   <Wrapper>
     <Column>
       <HeaderText color='whiteFade900' weight={700} data-e2e='signupSecureHeader'>
-        <FormattedMessage
-          id='scenes.register.securelybuy'
-          defaultMessage='Securely Buy, Sell, and Store Crypto.'
-        />
+        {!props.isLatam && (
+          <FormattedMessage
+            id='scenes.register.securelybuy'
+            defaultMessage='Securely Buy, Sell, and Store Crypto.'
+          />
+        )}
+        {props.isLatam && (
+          <FormattedMessage
+            id='scenes.register.sendReceiveEarn'
+            defaultMessage='Envía, recibe y obtén hasta un 14% de ganancias con tus criptos.'
+          />
+        )}
       </HeaderText>
+      
       <SubHeader color='whiteFade800' weight={500} data-e2e='signupSecureSubHeader'>
+      {!props.isLatam && (
         <FormattedMessage
           id='scenes.register.getstarted'
           defaultMessage='Get Started by Signing Up Now.'
         />
+      )}
+      {props.isLatam && (
+        <FormattedMessage
+          id='scenes.register.createAccountVerify'
+          defaultMessage='Crea tu cuenta y verifica tu perfil para comenzar a operar.'
+        />
+      )}
       </SubHeader>
     </Column>
   </Wrapper>
