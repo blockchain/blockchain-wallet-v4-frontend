@@ -88,7 +88,7 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {asset.listing ? (
+                  {asset.listing && asset.listing.total_price ? (
                     <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                       <StyledCoinDisplay
                         size='14px'

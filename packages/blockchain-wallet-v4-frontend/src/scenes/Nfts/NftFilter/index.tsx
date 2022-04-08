@@ -6,16 +6,20 @@ import styled from 'styled-components'
 
 import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
-import { Button, Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
+  top: 20px;
+  position: sticky;
   transition: all 0.3s ease;
   padding: 0 10px;
   width: ${(props) => (props.isOpen ? '300px' : '80px')};
   margin-right: 20px;
+  height: calc(100vh - 76px);
+  overflow: scroll;
   ${media.tablet`
     display: none;
   `}

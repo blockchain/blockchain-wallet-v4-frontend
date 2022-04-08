@@ -330,7 +330,7 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
     variables: {
       filter: [
         { field: AssetFields.ContractAddress, value: contract },
-        { field: AssetFields.Id, value: id }
+        { field: AssetFields.TokenId, value: id }
       ]
     }
   })

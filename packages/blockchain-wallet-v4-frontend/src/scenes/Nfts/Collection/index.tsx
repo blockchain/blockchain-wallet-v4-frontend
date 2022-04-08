@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -134,13 +134,19 @@ const NftsCollection: React.FC<Props> = ({
     variables: { filter: [{ field: CollectionFields.Slug, value: slug }] }
   })
 
+  const formTraits = useMemo(() => (formValues ? Object.keys(formValues) : []), [formValues])
+  const formTraitValues = useMemo(
+    () => (formValues ? Object.keys(formValues).map((key) => formValues[key]) : []),
+    [formValues]
+  )
+
   useEffect(() => {
     setIsFetchingNextPage(true)
     setPageVariables([])
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 1000)
-  }, [slug, formValues])
+  }, [slug, formTraits, formTraitValues])
 
   useEffect(() => {
     nftsActions.fetchNftCollection({ slug })
@@ -300,16 +306,6 @@ const NftsCollection: React.FC<Props> = ({
                   />
                 ))
               : null}
-            <>
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-              <SkeletonRectangle height='200px' />
-            </>
           </Grid>
         </div>
       </GridWrapper>
