@@ -53,6 +53,14 @@
           }
         ]
       }
+      {
+        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp",
+        "paths": ["/exchange*"]
+      },
+      {
+        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp.alpha",
+        "paths": ["/exchange*"]
+      }
     ]
   },
   "webcredentials": {
