@@ -361,8 +361,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         Loading: () => (
           <>
             <LoadingWrapper>
-              <SpinningLoader />
-              <Text weight={600} color='grey600' style={{ marginLeft: '8px' }}>
+              <SpinningLoader width='28px' height='28px' borderWidth='6px' />
+              <Text weight={600} size='14px' color='grey600' style={{ marginTop: '12px' }}>
                 <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
               </Text>
             </LoadingWrapper>
@@ -371,8 +371,8 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
         NotAsked: () => (
           <>
             <LoadingWrapper>
-              <SpinningLoader />
-              <Text weight={600} color='grey600' style={{ marginLeft: '8px' }}>
+              <SpinningLoader width='28px' height='28px' borderWidth='6px' />
+              <Text weight={600} size='14px' color='grey600' style={{ marginTop: '12px' }}>
                 <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
               </Text>
             </LoadingWrapper>

@@ -220,7 +220,7 @@ const NftsCollection: React.FC<Props> = ({
       </CollectionHeader>
       <GridWrapper>
         <NftFilter formActions={formActions} collection={collection} />
-        <div style={{ height: '100%', width: '100%' }}>
+        <div style={{ height: 'fit-content', width: '100%' }}>
           <TraitGrid hasSomeFilters={hasSomeFilters}>
             {formValues
               ? Object.keys(formValues)
@@ -307,26 +307,26 @@ const NftsCollection: React.FC<Props> = ({
                 ))
               : null}
           </Grid>
+          <Centered>
+            <Error error={errorFetchingNextPage} />
+            {isFetchingNextPage || results.fetching ? (
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            ) : (
+              <Button
+                onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
+                nature='primary'
+                data-e2e='loadMoreNfts'
+              >
+                {errorFetchingNextPage ? (
+                  <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                ) : (
+                  <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
+                )}
+              </Button>
+            )}
+          </Centered>
         </div>
       </GridWrapper>
-      <Centered>
-        <Error error={errorFetchingNextPage} />
-        {isFetchingNextPage || results.fetching ? (
-          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-        ) : (
-          <Button
-            onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-            nature='primary'
-            data-e2e='loadMoreNfts'
-          >
-            {errorFetchingNextPage ? (
-              <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-            ) : (
-              <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
-            )}
-          </Button>
-        )}
-      </Centered>
     </div>
   )
 }
