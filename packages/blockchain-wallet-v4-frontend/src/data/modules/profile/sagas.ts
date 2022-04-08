@@ -343,11 +343,20 @@ export default ({ api, coreSagas, networks }) => {
         exchangeUserId,
         retailToken
       )
-      window.open(
-        `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-        '_blank',
-        'noreferrer'
-      )
+
+      if (origin === ExchangeAuthOriginType.SideMenu) {
+        window.open(
+          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
+          '_blank',
+          'noreferrer'
+        )
+      } else {
+        window.open(
+          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
+          '_self',
+          'noreferrer'
+        )
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
       yield put(stopSubmit(LOGIN_FORM))
