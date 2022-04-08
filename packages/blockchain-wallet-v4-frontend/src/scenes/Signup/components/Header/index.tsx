@@ -49,10 +49,7 @@ const Header = (props: SubviewProps) => (
           />
         )}
         {props.isLatam && (
-          <FormattedMessage
-            id='scenes.register.sendReceiveEarn'
-            defaultMessage='Envía, recibe y obtén hasta un 14% de ganancias con tus criptos.'
-          />
+          `Envía, recibe y obtén hasta un 14g% de ganancias con tus criptos.`
         )}
       </HeaderText>
       
@@ -64,10 +61,7 @@ const Header = (props: SubviewProps) => (
         />
       )}
       {props.isLatam && (
-        <FormattedMessage
-          id='scenes.register.createAccountVerify'
-          defaultMessage='Crea tu cuenta y verifica tu perfil para comenzar a operar.'
-        />
+        `Crea tu cuenta y verifica tu perfil para comenzar a operar.`
       )}
       </SubHeader>
     </Column>
