@@ -27,12 +27,12 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterEmail = (props: Props) => {
   const {
-    authActions,
     busy,
     cache,
     formValues,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     submitting,
     walletTabClicked
   } = props
@@ -86,7 +86,7 @@ const EnterEmail = (props: Props) => {
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

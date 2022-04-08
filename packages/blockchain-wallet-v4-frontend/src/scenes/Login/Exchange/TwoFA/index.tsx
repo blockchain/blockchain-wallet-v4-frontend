@@ -33,6 +33,7 @@ const TwoFAExchange = (props: Props) => {
     formValues,
     handleBackArrowClickExchange,
     invalid,
+    magicLinkData,
     submitting
   } = props
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
@@ -40,7 +41,12 @@ const TwoFAExchange = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClickExchange} hideGuid />
+        <BackArrowHeader
+          {...props}
+          handleBackArrowClick={handleBackArrowClickExchange}
+          hideGuid
+          platform={magicLinkData?.platform_type}
+        />
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
@@ -100,7 +106,7 @@ const TwoFAExchange = (props: Props) => {
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

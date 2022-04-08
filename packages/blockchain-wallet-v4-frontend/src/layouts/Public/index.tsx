@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { platform } from 'process'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -67,10 +68,10 @@ const PublicLayoutContainer = ({
   exact = false,
   formValues,
   pageTitle,
-  path
+  path,
+  platform
 }: Props) => {
   if (pageTitle) document.title = pageTitle
-
   return (
     <Route
       path={path}
@@ -92,7 +93,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer authProduct={authProduct} formValues={formValues} />
+              <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -103,7 +104,8 @@ const PublicLayoutContainer = ({
 
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
+  platform: selectors.auth.getMagicLinkData(state)?.platform_type
 })
 
 const connector = connect(mapStateToProps)

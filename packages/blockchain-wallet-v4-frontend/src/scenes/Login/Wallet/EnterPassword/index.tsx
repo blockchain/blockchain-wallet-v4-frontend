@@ -79,7 +79,6 @@ const SettingsGoalText = styled.div`
 
 const EnterPasswordWallet = (props: Props) => {
   const {
-    authActions,
     busy,
     exchangeTabClicked,
     formValues,
@@ -87,6 +86,7 @@ const EnterPasswordWallet = (props: Props) => {
     handleBackArrowClickWallet,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     qrData,
     submitting,
     walletError
@@ -115,6 +115,7 @@ const EnterPasswordWallet = (props: Props) => {
             <BackArrowHeader
               {...props}
               handleBackArrowClick={handleBackArrowClickWallet}
+              platform={magicLinkData?.platform_type}
               marginTop='28px'
             />
           )}
@@ -184,7 +185,7 @@ const EnterPasswordWallet = (props: Props) => {
             <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
           </CenteredColumn>
         </WrapperWithPadding>
-        <SignupLink />
+        <SignupLink platform={magicLinkData?.platform_type} />
       </FormWrapper>
       {!isMobile() && (
         <SideWrapper>
