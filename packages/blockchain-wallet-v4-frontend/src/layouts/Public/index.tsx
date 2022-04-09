@@ -26,8 +26,8 @@ const FooterContainer = styled.div`
     margin-top: 8px;
   `}
 `
-const QsParams = new URLSearchParams(window.location.hash)
-const isLatam = QsParams.has('latam')
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
 
 const Wrapper = styled.div<{ authProduct?: string }>`
   background-color: ${(props) =>
@@ -86,7 +86,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header authProduct={authProduct} urlParams={matchProps.location} />
+              <Header authProduct={authProduct}/>
             </HeaderContainer>
 
             <Modals />

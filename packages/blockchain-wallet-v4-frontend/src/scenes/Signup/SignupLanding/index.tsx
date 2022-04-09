@@ -45,7 +45,7 @@ const ExchangeCardWrapper = styled.div<{ $showForm: boolean }>`
   ${({ $showForm }) => $showForm && 'margin-left: 24px;'}
 `
 
-const LatamPhone = styled.div<{ $isLatam: boolean }>`
+const LatamPhone = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 100px;
@@ -57,7 +57,7 @@ const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
     <Header {...props} />
     <CardsWrapper>
       <SignupCard {...props} />
-      {!props.isLatam && (
+      {!props.isLatam ?
       <ExchangeCardWrapper $showForm={props.showForm}>
         <CardsWrapper>
           <Card>
@@ -171,12 +171,11 @@ const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
           </SubCard>
         </Link>
       </ExchangeCardWrapper>
-      )}
-      {props.isLatam && (
-       <LatamPhone $isLatam={props.isLatam}>
+      :
+       <LatamPhone>
         <Image width='569px' name='latam-signup-phone' />
        </LatamPhone>
-      )}
+      }
     </CardsWrapper>
   </>
 )

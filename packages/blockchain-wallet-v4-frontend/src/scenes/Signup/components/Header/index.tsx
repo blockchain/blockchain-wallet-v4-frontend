@@ -49,7 +49,7 @@ const Header = (props: SubviewProps) => (
           />
         )}
         {props.isLatam && (
-          `Envía, recibe y obtén hasta un 14g% de ganancias con tus criptos.`
+          `Envía, recibe y obtén hasta un 14% de ganancias con tus criptos.`
         )}
       </HeaderText>
       
