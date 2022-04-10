@@ -33,10 +33,6 @@ const initialState: NftsStateType = {
     page: 0
   },
   collection: Remote.NotAsked,
-  collectionFilter: {
-    isBuyNow: false,
-    traits: {}
-  },
   collectionSearch: [],
   collections: Remote.NotAsked,
   offersMade: {
@@ -321,12 +317,6 @@ const nftsSlice = createSlice({
         state.orderFlow.orderToMatch = action.payload.order
       }
     },
-    resetCollectionFilter: (state) => {
-      state.collectionFilter = {
-        isBuyNow: false,
-        traits: {}
-      }
-    },
     resetNftAssets: (state) => {
       state.assets.atBound = false
       state.assets.page = 0
@@ -377,22 +367,6 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
-    },
-    updateCollectionFilter: (
-      state,
-      action: PayloadAction<{ isBuyNow: boolean; trait?: { name: string; value: string } }>
-    ) => {
-      const { isBuyNow, trait } = action.payload
-      state.collectionFilter.isBuyNow = isBuyNow
-
-      if (!trait) return
-      const { name, value } = trait
-
-      if (state.collectionFilter.traits[name]) {
-        state.collectionFilter.traits[name][value] = !state.collectionFilter.traits[name][value]
-      } else {
-        state.collectionFilter.traits[name] = { [value]: true }
-      }
     }
   }
 })

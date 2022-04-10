@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { NftCollection } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
-import { Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
 import { media } from 'services/styles'
+
+import { NftFilterFormValuesType } from '../Collection'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 20px;
@@ -74,7 +76,7 @@ const TraitItem = styled.div`
   }
 `
 
-const NftFilter: React.FC<Props> = ({ collection }) => {
+const NftFilter: React.FC<Props> = ({ collection, formActions, formValues }) => {
   const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
 
@@ -115,7 +117,15 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
           NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
           Success: (val) => (
             <div style={{ display: isOpen ? 'block' : 'none' }}>
-              <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+              <div>
+                <Button
+                  onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
+                  nature={formValues?.forSale ? 'primary' : 'empty-blue'}
+                  data-e2e='buyNowToggle'
+                >
+                  <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+                </Button>
+              </div>
               <div style={{ marginTop: '24px' }}>
                 <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
                   <FormattedMessage id='copy.price' defaultMessage='Price' />
@@ -223,6 +233,7 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
 type Props = {
   collection: RemoteDataType<string, NftCollection>
   formActions: typeof actions.form
+  formValues: NftFilterFormValuesType
 }
 
 export default NftFilter

@@ -108,10 +108,10 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   z-index: 10;
 `
 
+const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale']
+
 export const getTraitFilters = (formValues: NftFilterFormValuesType) =>
-  formValues
-    ? Object.keys(formValues).filter((val) => val !== 'min' && val !== 'max' && val !== 'sortBy')
-    : null
+  formValues ? Object.keys(formValues).filter((val) => nonTraitFilters.indexOf(val) === -1) : null
 
 export const getMinMaxFilters = (formValues: NftFilterFormValuesType) =>
   formValues ? Object.keys(formValues).filter((val) => val === 'min' || val === 'max') : null
@@ -120,7 +120,6 @@ export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.so
 
 const NftsCollection: React.FC<Props> = ({
   collection,
-  collectionFilter,
   formActions,
   formValues,
   nftsActions,
@@ -136,7 +135,6 @@ const NftsCollection: React.FC<Props> = ({
 
   useWhyDidYouUpdate('NftsCollection', {
     collection,
-    collectionFilter,
     formActions,
     formValues,
     nftsActions,
@@ -223,7 +221,7 @@ const NftsCollection: React.FC<Props> = ({
         </div>
       </CollectionHeader>
       <GridWrapper>
-        <NftFilter formActions={formActions} collection={collection} />
+        <NftFilter formActions={formActions} formValues={formValues} collection={collection} />
         <div style={{ width: '100%' }}>
           <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
             <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
@@ -321,7 +319,6 @@ const NftsCollection: React.FC<Props> = ({
                     formValues={formValues}
                     key={page}
                     slug={slug}
-                    isBuyNow={collectionFilter.isBuyNow}
                     setNextPageFetchError={setNextPageFetchError}
                     setIsFetchingNextPage={setIsFetchingNextPage}
                   />
@@ -354,7 +351,6 @@ const NftsCollection: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   collection: selectors.components.nfts.getNftCollection(state),
-  collectionFilter: selectors.components.nfts.getNftCollectionFilter(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftFilter')(state) as NftFilterFormValuesType
 })
@@ -367,13 +363,21 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(reduxForm<{}, Props>({ form: 'nftFilter' }), connector)
+const enhance = compose(
+  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
+  connector
+)
 
 export type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { slug: string } }
 }
 
-export type NftFilterFormValuesType = { max: string; min: string } & { sortBy: string } & {
+export type NftFilterFormValuesType = {
+  forSale: boolean
+  max: string
+  min: string
+  sortBy: string
+} & {
   [key: string]: {
     [key: string]: boolean
   }

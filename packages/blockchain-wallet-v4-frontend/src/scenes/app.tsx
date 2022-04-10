@@ -64,9 +64,6 @@ const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
-const client = createClient({
-  url: 'https://api.dev.blockchain.info/explorer-gateway/graphql/'
-})
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
@@ -90,6 +87,10 @@ const App = ({
 
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  const client = createClient({
+    url: `${apiUrl}/explorer-gateway/graphql/`
+  })
 
   return (
     <UrqlProvider value={client}>

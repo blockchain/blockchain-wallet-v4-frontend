@@ -23,7 +23,6 @@ const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({
   formValues,
-  isBuyNow,
   page,
   setIsFetchingNextPage,
   setNextPageFetchError,
@@ -50,12 +49,12 @@ const ResultsPage: React.FC<Props> = ({
         by: formValues.sortBy.split('-')[0] as AssetFields,
         direction: formValues.sortBy.split('-')[1] as SortDirection
       }
-    : {}
+    : null
 
   const [result] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFields.CollectionSlug, value: slug }],
-      forSale: !!isBuyNow || formValues?.sortBy?.includes('price'),
+      forSale: !!formValues?.forSale || formValues?.sortBy?.includes('price'),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
       sort,
@@ -147,7 +146,6 @@ const ResultsPage: React.FC<Props> = ({
 
 type Props = {
   formValues: NftFilterFormValuesType
-  isBuyNow: boolean
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void

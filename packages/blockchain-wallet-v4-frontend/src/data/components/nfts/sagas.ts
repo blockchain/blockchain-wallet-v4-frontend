@@ -83,7 +83,6 @@ export default ({ api }: { api: APIType }) => {
         action.payload.slug
       )
       yield put(A.fetchNftCollectionSuccess(collection))
-      yield put(A.resetCollectionFilter())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftCollectionFailure(error))
