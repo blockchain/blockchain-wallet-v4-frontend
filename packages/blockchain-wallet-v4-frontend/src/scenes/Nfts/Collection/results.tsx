@@ -5,19 +5,19 @@ import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { AssetFields, useAssetsQuery } from 'generated/graphql'
+import { AssetFields, SortDirection, useAssetsQuery } from 'generated/graphql'
 
 import {
   Asset,
   AssetCollection,
   AssetDetails,
   AssetImageContainer,
-  CTAWrapper,
   PriceCTA,
   StyledCoinDisplay
 } from '../components'
+import { NftFilterFormValuesType } from '.'
 
 const MarketplaceAsset = styled(Asset)``
 
@@ -45,12 +45,20 @@ const ResultsPage: React.FC<Props> = ({
     return acc
   }, [] as { trait_type: string; value: string }[])
 
+  const sort = formValues?.sortBy
+    ? {
+        by: formValues.sortBy.split('-')[0] as AssetFields,
+        direction: formValues.sortBy.split('-')[1] as SortDirection
+      }
+    : {}
+
   const [result] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFields.CollectionSlug, value: slug }],
-      forSale: !!isBuyNow,
+      forSale: !!isBuyNow || formValues?.sortBy?.includes('price'),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
+      sort,
       traitFilter
     }
   })
@@ -116,10 +124,7 @@ const ResultsPage: React.FC<Props> = ({
                       weight={600}
                       style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
                     >
-                      <FormattedMessage
-                        id='copy.not_for_sale'
-                        defaultMessage='This asset is not for sale.'
-                      />
+                      <FormattedMessage id='copy.not_for_sale' defaultMessage='Not for sale' />
                       <TooltipHost id='tooltip.nft_asset_not_for_sale'>
                         <TooltipIcon name='question-in-circle-filled' />
                       </TooltipHost>
@@ -133,22 +138,6 @@ const ResultsPage: React.FC<Props> = ({
                 </LinkContainer>
               </PriceCTA>
             </AssetDetails>
-            <CTAWrapper>
-              <Link
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  marginTop: '14px',
-                  textAlign: 'center',
-                  width: '100%'
-                }}
-                size='11px'
-                href={asset?.permalink || ''}
-                target='_blank'
-              >
-                View on OpenSea
-              </Link>
-            </CTAWrapper>
           </MarketplaceAsset>
         ) : null
       })}
@@ -157,11 +146,7 @@ const ResultsPage: React.FC<Props> = ({
 }
 
 type Props = {
-  formValues: { max: string; min: string } & {
-    [key: string]: {
-      [key: string]: boolean
-    }
-  }
+  formValues: NftFilterFormValuesType
   isBuyNow: boolean
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void

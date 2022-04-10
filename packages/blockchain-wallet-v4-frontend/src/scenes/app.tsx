@@ -65,7 +65,7 @@ const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const client = createClient({
-  url: 'http://localhost:4000/graphql'
+  url: 'https://api.dev.blockchain.info/explorer-gateway/graphql/'
 })
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 

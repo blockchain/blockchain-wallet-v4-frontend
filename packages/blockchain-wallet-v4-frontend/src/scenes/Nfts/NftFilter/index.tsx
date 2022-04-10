@@ -16,7 +16,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   position: sticky;
   transition: all 0.3s ease;
   padding: 0 10px;
-  width: ${(props) => (props.isOpen ? '300px' : '80px')};
+  width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
   height: calc(100vh - 76px);
   overflow: scroll;
@@ -111,11 +111,7 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
               Error: You must select a collection!
             </Text>
           ),
-          Loading: () => (
-            <Text size='12px' weight={500}>
-              Error: You must select a collection!
-            </Text>
-          ),
+          Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
           NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
           Success: (val) => (
             <div style={{ display: isOpen ? 'block' : 'none' }}>
@@ -170,10 +166,10 @@ const NftFilter: React.FC<Props> = ({ collection }) => {
                                     component='input'
                                     name={`${trait}.${value}`}
                                     type='checkbox'
-                                    id={value}
+                                    id={`${trait}.${value}`}
                                   />
                                   <label
-                                    htmlFor={value}
+                                    htmlFor={`${trait}.${value}`}
                                     style={{
                                       alignItems: 'center',
                                       display: 'flex',
@@ -229,4 +225,4 @@ type Props = {
   formActions: typeof actions.form
 }
 
-export default reduxForm<{}, Props>({ form: 'nftFilter' })(NftFilter)
+export default NftFilter
