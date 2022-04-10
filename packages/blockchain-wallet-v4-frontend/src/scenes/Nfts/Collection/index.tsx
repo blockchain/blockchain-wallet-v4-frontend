@@ -154,7 +154,6 @@ const NftsCollection: React.FC<Props> = ({
   }, [slug, formValues])
 
   useEffect(() => {
-    formActions.reset('nftFilter')
     nftsActions.fetchNftCollection({ slug })
   }, [formActions, nftsActions, slug])
 

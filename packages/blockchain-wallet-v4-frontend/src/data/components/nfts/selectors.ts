@@ -1,5 +1,6 @@
 import { RootState } from 'data/rootReducer'
 
+export const getActiveSlug = (state: RootState) => state.components.nfts.activeSlug
 export const getNftAssets = (state: RootState) => state.components.nfts.assets
 export const getNftCollection = (state: RootState) => state.components.nfts.collection
 export const getNftCollections = (state: RootState) => state.components.nfts.collections

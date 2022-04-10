@@ -1,6 +1,8 @@
 import { actionTypes } from 'redux-form'
 import { takeEvery, takeLatest } from 'redux-saga/effects'
 
+import * as routerActionTypes from 'data/router/actionTypes'
+
 import sagas from './sagas'
 import { actions } from './slice'
 
@@ -27,6 +29,7 @@ export default ({ api }) => {
     yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.searchNftAssetContract, nftsSagas.searchNftAssetContract)
+    yield takeLatest(routerActionTypes.LOCATION_CHANGE, nftsSagas.handleRouterChange)
     yield takeEvery(actionTypes.CHANGE, nftsSagas.formChanged)
   }
 }

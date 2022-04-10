@@ -1,3 +1,4 @@
+import { routerActions } from 'connected-react-router'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
@@ -588,6 +589,23 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // watch router change so we know if we need to reset nft trait filter form
+  const handleRouterChange = function* (action) {
+    if (action.payload.location.pathname.includes('/nfts/')) {
+      const regex = /\/nfts\/[^/]*$/g
+      const activeSlug = S.getActiveSlug(yield select())
+      const match = action.payload?.location?.pathname?.match(regex)
+      if (match) {
+        const nextSlug = match[0].split('/nfts/')[1]
+        if (nextSlug !== activeSlug && activeSlug) {
+          yield put(actions.form.reset('nftFilter'))
+        }
+
+        yield put(A.setActiveSlug({ slug: nextSlug }))
+      }
+    }
+  }
+
   return {
     acceptOffer,
     cancelListing,
@@ -606,6 +624,7 @@ export default ({ api }: { api: APIType }) => {
     fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
+    handleRouterChange,
     nftOrderFlowClose,
     nftOrderFlowOpen,
     searchNftAssetContract

@@ -337,6 +337,9 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
+    setActiveSlug: (state, action: PayloadAction<{ slug: string }>) => {
+      state.activeSlug = action.payload.slug
+    },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },
