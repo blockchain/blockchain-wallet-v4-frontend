@@ -676,7 +676,6 @@ export default ({ api, coreSagas, networks }) => {
     const {
       airdropClaim,
       buySellModal,
-      entitiesMigration,
       interestPromo,
       kycDocResubmit,
       kycUpgradeRequiredNotice,
@@ -724,9 +723,6 @@ export default ({ api, coreSagas, networks }) => {
     if (swapUpgrade) {
       return yield put(actions.modals.showModal(swapUpgrade.name, swapUpgrade.data))
     }
-    if (entitiesMigration) {
-      return yield put(actions.modals.showModal(entitiesMigration.name, entitiesMigration.data))
-    }
     if (kycUpgradeRequiredNotice) {
       return yield put(
         actions.modals.showModal(kycUpgradeRequiredNotice.name, kycUpgradeRequiredNotice.data)
@@ -770,39 +766,6 @@ export default ({ api, coreSagas, networks }) => {
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
-    }
-  }
-
-  const runEntitiesMigrationGoal = function* (goal: GoalType) {
-    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    yield call(fetchUser)
-    yield call(waitForUserData)
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    const userData = (yield select(selectors.modules.profile.getUserData)).getOrElse({
-      address: undefined,
-      id: '',
-      kycState: 'NONE',
-      mobile: '',
-      mobileVerified: false,
-      state: 'NONE',
-      tiers: { current: 0 }
-    } as UserDataType)
-    const announcementState = selectors.cache.getLastAnnouncementState(yield select())
-    const showModal =
-      !announcementState ||
-      !announcementState['entities-migration'] ||
-      (announcementState['entities-migration'] &&
-        !announcementState['entities-migration'].dismissed)
-    if (userData?.address?.country === 'GB' && showModal) {
-      yield put(
-        actions.goals.addInitialModal({
-          data: { origin },
-          key: 'entitiesMigration',
-          name: ModalName.ENTITIES_MIGRATION_MODAL
-        })
-      )
     }
   }
 
@@ -921,9 +884,6 @@ export default ({ api, coreSagas, networks }) => {
         case 'interestPromo':
           yield call(runInterestPromo, goal)
           break
-        case 'entitiesMigration':
-          yield call(runEntitiesMigrationGoal, goal)
-          break
         case 'termsAndConditions':
           yield call(runTermsAndConditionsGoal, goal)
           break
@@ -958,7 +918,6 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'entitiesMigration' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
     // only for existing users
     if (!firstLogin) {
