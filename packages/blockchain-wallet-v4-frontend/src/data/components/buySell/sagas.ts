@@ -151,10 +151,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return token
   }
 
-  const generateGooglePayToken = async (paymentRequest: google.payments.api.PaymentDataRequest) => {
+  const generateGooglePayToken = async (
+    paymentRequest: google.payments.api.PaymentDataRequest
+  ): Promise<string> => {
+    const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'TEST'
+
     if (!googlePaymentsClient) {
-      // TODO change this for prod when we get the merchant ID
-      googlePaymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' })
+      googlePaymentsClient = new google.payments.api.PaymentsClient({ environment })
     }
 
     try {
@@ -788,8 +791,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             apiVersion: 2,
             apiVersionMinor: 0,
             merchantInfo: {
-              // TODO change this when we receive the prod merchantId
-              // this code needs to be in staging first
               merchantId: GOOGLE_PAY_MERCHANT_ID,
               merchantName: 'Blockchain.com'
             },
