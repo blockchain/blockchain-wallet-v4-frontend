@@ -297,7 +297,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </Value>
               </Row>
             </Form>
-            <StickyCTA>
+            <StickyCTA style={{ bottom: 0, margin: '0em 1em', position: 'absolute' }}>
               {needsWrap ? (
                 <>
                   {canWrap ? (
