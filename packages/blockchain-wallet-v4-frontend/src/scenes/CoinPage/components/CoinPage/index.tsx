@@ -96,7 +96,6 @@ const CoinPageContainer: CoinPageContainerComponent<Props> = memo(
             header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
             chartBalancePanel={chartBalancePanel}
             recurringBuys={recurringBuyPanel}
-            // alertCard={<AlertCard content='' />}
             holdings={
               <HoldingsCard
                 actions={holdingsCardActions}
