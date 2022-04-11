@@ -15,6 +15,7 @@ import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
+import NotVerified from './NotVerified'
 import ShowAsset from './ShowAsset'
 import Status from './Status'
 import Transfer from './Transfer'
@@ -97,6 +98,11 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.STATUS && (
           <FlyoutChild>
             <Status {...this.props} {...orderFlow.asset} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.NOT_VERIFIED && (
+          <FlyoutChild>
+            <NotVerified {...this.props} {...orderFlow.asset} />
           </FlyoutChild>
         )}
       </Flyout>
