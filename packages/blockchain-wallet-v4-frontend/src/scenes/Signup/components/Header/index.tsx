@@ -49,20 +49,26 @@ const Header = (props: SubviewProps) => (
           />
         )}
         {props.isLatam && (
-          `Envía, recibe y obtén hasta un 14% de ganancias con tus criptos.`
+          <FormattedMessage
+            id='scenes.register.sendreceiveearn'
+            defaultMessage='Send, receive and get up to 14% profit with your cryptos.'
+          />
         )}
       </HeaderText>
-      
+
       <SubHeader color='whiteFade800' weight={500} data-e2e='signupSecureSubHeader'>
-      {!props.isLatam && (
-        <FormattedMessage
-          id='scenes.register.getstarted'
-          defaultMessage='Get Started by Signing Up Now.'
-        />
-      )}
-      {props.isLatam && (
-        `Crea tu cuenta y verifica tu perfil para comenzar a operar.`
-      )}
+        {!props.isLatam && (
+          <FormattedMessage
+            id='scenes.register.getstarted'
+            defaultMessage='Get Started by Signing Up Now.'
+          />
+        )}
+        {props.isLatam && (
+          <FormattedMessage
+            id='scenes.register.getstartedandverify'
+            defaultMessage='Get Started by Signing Up and verify your profile.'
+          />
+        )}
       </SubHeader>
     </Column>
   </Wrapper>
