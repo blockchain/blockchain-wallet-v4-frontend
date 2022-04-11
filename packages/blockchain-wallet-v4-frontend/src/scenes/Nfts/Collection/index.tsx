@@ -14,8 +14,7 @@ import {
   SpinningLoader,
   TabMenu,
   TabMenuItem,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 import { actions, selectors } from 'data'
@@ -23,53 +22,62 @@ import { RootState } from 'data/rootReducer'
 import { AssetFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { CollectionBanner, Grid, GridWrapper } from '../components'
+import { Grid, GridWrapper } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import NftFilter from '../NftFilter'
 import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
 
-const CollectionHeader = styled.div`
+const CollectionHeader = styled.div<{ bgUrl: string }>`
+  height: 300px;
   display: flex;
   justify-content: space-between;
-  padding: 24px;
-  gap: 24px;
+  background-size: cover;
+  background-image: url(${(props) => props.bgUrl});
+  position: relative;
   ${media.tabletL`
     flex-direction: column;
   `}
 `
 
 const CollectionBannerWrapper = styled.div`
-  position: relative;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
   width: 100%;
+  padding: 24px 40px;
+`
+
+const CollectionInfo = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const CollectionImage = styled.img`
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  top: 140px;
-  left: calc(50% - 50px);
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
   border: 2px solid ${(props) => props.theme.grey100};
 `
 
 const LinksContainer = styled.div`
-  background: ${colors.grey100};
-  border-radius: 40px;
-  display: inline-flex;
-  gap: 8px;
-  margin: 8px 0;
-  padding: 6px 12px;
-  a {
-    line-height: 1;
+  display: flex;
+  > div {
+    padding: 10px;
+    border: 1px solid ${(props) => props.theme.white};
   }
-  a:hover {
-    path {
-      fill: ${colors.blue600};
-      transition: fill 0.3s;
-    }
+  > &:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  > &:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 `
 
@@ -168,56 +176,40 @@ const NftsCollection: React.FC<Props> = ({
   if (!collectionData) return null
 
   return (
-    <div>
+    <div style={{ paddingTop: '0px', position: 'relative' }}>
       <OpenSeaStatusComponent />
-      <CollectionHeader>
+      <CollectionHeader bgUrl={collectionData.banner_image_url || ''}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
-          <CollectionBanner large background={`url(${collectionData.banner_image_url})`} />
-          <CollectionImage src={collectionData.image_url || ''} />
+          <CollectionInfo>
+            <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
+              <CollectionImage src={collectionData.image_url || ''} />
+              <Text color='white' size='32px' weight={600}>
+                {collectionData.name}
+              </Text>
+            </div>
+            <LinksContainer>
+              {collectionData.external_url ? (
+                <Link target='_blank' href={collectionData.external_url}>
+                  <Icon name={IconName.GLOBE} color='grey400' />
+                </Link>
+              ) : null}
+              {collectionData.instagram_username ? (
+                <Link
+                  target='_blank'
+                  href={`https://instagram.com/${collectionData.instagram_username}`}
+                >
+                  <Icon name={IconName.CAMERA} color='grey400' />
+                </Link>
+              ) : null}
+              {collectionData.discord_url ? (
+                <Link target='_blank' href={`${collectionData.discord_url}`}>
+                  <Icon name={IconName.COMPUTER} color='grey400' />
+                </Link>
+              ) : null}
+            </LinksContainer>
+          </CollectionInfo>
           <Stats collection={collection} />
         </CollectionBannerWrapper>
-        <div style={{ width: '100%' }}>
-          <Text size='40px' color='grey900' weight={600}>
-            {collectionData.name}
-          </Text>
-          <TextGroup inline style={{ marginTop: '16px' }}>
-            <Text size='14px' color='grey300' weight={600}>
-              <FormattedMessage id='copy.created_by' defaultMessage='Created by' />
-            </Text>
-            <Text size='14px' color='blue600' weight={600}>
-              -
-            </Text>
-          </TextGroup>
-          <LinksContainer>
-            {collectionData.external_url ? (
-              <Link target='_blank' href={collectionData.external_url}>
-                <Icon name={IconName.GLOBE} color='grey400' />
-              </Link>
-            ) : null}
-            {collectionData.instagram_username ? (
-              <Link
-                target='_blank'
-                href={`https://instagram.com/${collectionData.instagram_username}`}
-              >
-                <Icon name={IconName.CAMERA} color='grey400' />
-              </Link>
-            ) : null}
-            {collectionData.discord_url ? (
-              <Link target='_blank' href={`${collectionData.discord_url}`}>
-                <Icon name={IconName.COMPUTER} color='grey400' />
-              </Link>
-            ) : null}
-          </LinksContainer>
-          <Text
-            lineHeight='1.4'
-            style={{ marginTop: '16px' }}
-            size='14px'
-            color='grey600'
-            weight={500}
-          >
-            {collectionData.description}
-          </Text>
-        </div>
       </CollectionHeader>
       <GridWrapper>
         <NftFilter formActions={formActions} formValues={formValues} collection={collection} />

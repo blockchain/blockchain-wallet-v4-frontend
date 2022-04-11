@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors } from '@blockchain-com/constellation'
 import * as numeral from 'numeral'
 import styled from 'styled-components'
 
@@ -11,24 +10,17 @@ import { media, useMedia } from 'services/styles'
 
 const StatsWrapper = styled.div`
   display: flex;
+  gap: 8px;
 `
 
 const Stat = styled.div`
-  width: 25%;
   padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  &:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
-  &:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-  border: 1px solid ${colors.grey100};
+  border-radius: 8px;
+  gap: 16px;
+  background: ${(props) => props.theme.greyFade100};
   ${media.tabletL`
     padding: 10px;
     > div {
@@ -41,7 +33,7 @@ const Stats: React.FC<Props> = ({ collection }) => {
   const tabletL = useMedia('tabletL')
 
   return (
-    <div style={{ marginTop: '42px' }}>
+    <div style={{ marginTop: '24px' }}>
       {collection.cata({
         Failure: () => null,
         Loading: () => (
@@ -63,7 +55,7 @@ const Stats: React.FC<Props> = ({ collection }) => {
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage id='copy.items' defaultMessage='Items' />
               </Text>
-              <Text style={{ marginTop: '4px' }} size='20px' color='black' weight={600}>
+              <Text size='16px' color='white' weight={600}>
                 {numeral(val.stats.count).format('0,0')}
               </Text>
             </Stat>
@@ -71,7 +63,7 @@ const Stats: React.FC<Props> = ({ collection }) => {
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
               </Text>
-              <Text style={{ marginTop: '4px' }} size='20px' color='black' weight={600}>
+              <Text size='16px' color='white' weight={600}>
                 {val.stats.floor_price} ETH
               </Text>
             </Stat>
@@ -79,7 +71,7 @@ const Stats: React.FC<Props> = ({ collection }) => {
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage id='copy.owners' defaultMessage='Owners' />
               </Text>
-              <Text style={{ marginTop: '4px' }} size='20px' color='black' weight={600}>
+              <Text size='16px' color='white' weight={600}>
                 {numeral(val.stats.num_owners).format('0,0')}
               </Text>
             </Stat>
@@ -87,7 +79,7 @@ const Stats: React.FC<Props> = ({ collection }) => {
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
               </Text>
-              <Text style={{ marginTop: '4px' }} size='20px' color='black' weight={600}>
+              <Text size='16px' color='white' weight={600}>
                 {numeral(val.stats.total_volume).format('0a')}
               </Text>
             </Stat>
