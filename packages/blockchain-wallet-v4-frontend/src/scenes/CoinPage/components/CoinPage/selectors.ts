@@ -10,11 +10,6 @@ export const getData = (state, ownProps: CoinPageContainerProps) => {
   const { coin } = ownProps
   let balanceDataR
 
-  // const accounts = getCoinAccounts(state, {
-  //   coins: [coin],
-  //   ...ALL_ACCOUNTS_SELECTOR
-  // } as CoinAccountSelectorType)[coin as CoinType]
-
   switch (coin) {
     case 'BTC':
       balanceDataR = balanceSelectors.getBtcBalance(state)
