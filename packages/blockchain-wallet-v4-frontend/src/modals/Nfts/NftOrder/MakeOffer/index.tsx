@@ -41,19 +41,11 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import GetMoreEthComponent from '../../components/getMoreEth'
 import NetworkFeesComponent from '../../components/networkFees'
 import { Props as OwnProps } from '..'
 import WrapEthFees from '../WrapEth/fees'
 import MakeOfferFees from './fees'
-
-const MoreEth = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 1em;
-  border: 1px solid ${(props) => props.theme.blue500};
-  border-radius: 12px;
-  font-family: Inter, sans-serif;
-`
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
@@ -161,7 +153,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     Not Verified
                   </Text>
                 </div>
-                <div style={{ fontFamily: 'Inter', marginTop: '6px', paddingLeft: '3em' }}>
+                <div style={{ fontFamily: 'Inter', marginTop: '6px', paddingLeft: '5em' }}>
                   <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
                     {val.last_sale.total_price}
                   </CoinDisplay>
@@ -304,82 +296,21 @@ const MakeOffer: React.FC<Props> = (props) => {
                     <div />
                   ) : (
                     <>
-                      <MoreEth>
-                        <div style={{ display: 'flex' }}>
-                          <Icon size='32px' name='ETH' />{' '}
-                          <div style={{ display: 'block', padding: '0em 1em' }}>
-                            {ETHBalances[1] !== 0 ? (
-                              <>
-                                <Text size='12px' weight={400}>
-                                  Send ETH from Trading Wallet
-                                </Text>
-                                <Text weight={600}>Send 0.00 ETH</Text>
-                              </>
-                            ) : (
-                              <>
-                                <Text size='12px' weight={400}>
-                                  Get More ETH
-                                </Text>
-                                <Text weight={600}>
-                                  {orderFlow?.wrapEthFees?.data?.totalFees && (
-                                    <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                                      {Number(formValues.amount) > 0 &&
-                                        new BigNumber(
-                                          1000000000000000000 * Number(formValues.amount)
-                                        )
-                                          .minus(
-                                            new BigNumber(
-                                              10000 * orderFlow.wrapEthFees.data.totalFees
-                                            ).multipliedBy(orderFlow.wrapEthFees.data.gasPrice)
-                                          )
-                                          .toString()}
-                                    </CoinDisplay>
-                                  )}
-                                </Text>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                        {ETHBalances[1] !== 0 ? (
-                          <Button
-                            size='xsmall'
-                            small
-                            rounded
-                            nature='primary'
-                            data-e2e='buyMoreEth'
-                            width='40px'
-                            onClick={() => {}}
-                          >
-                            <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Send' />
-                          </Button>
-                        ) : (
-                          <Button
-                            size='xsmall'
-                            small
-                            rounded
-                            nature='primary'
-                            data-e2e='buyMoreEth'
-                            width='40px'
-                            onClick={() => {
-                              props.buySellActions.showModal({
-                                orderType: OrderType.BUY,
-                                origin: 'NftsMakeOffer'
-                              })
-                            }}
-                          >
-                            <FormattedMessage id='modal.nfts.buy_more_eth' defaultMessage='Buy' />
-                          </Button>
-                        )}
-                      </MoreEth>
+                      <GetMoreEthComponent
+                        {...props}
+                        {...ETHBalances}
+                        {...formValues}
+                        {...orderFlow}
+                      />
                       <div style={{ padding: '1em 0em' }}>
                         <Text
-                          size='14px'
+                          size='12px'
                           weight={500}
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
                           The max you can offer from this wallet is&nbsp;
                           <CoinDisplay
-                            style={{ fontFamily: 'Inter', fontSize: '13px', fontWeight: 'bold' }}
+                            style={{ fontFamily: 'Inter', fontSize: '12px', fontWeight: 'bold' }}
                             coin='ETH'
                           >
                             {maxOfferPossible}

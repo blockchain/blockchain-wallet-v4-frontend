@@ -23,7 +23,8 @@ const Wrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: block;
   margin-left: 4em;
-  padding-top: 20em;
+  position: absolute;
+  bottom: 2em;
 `
 
 const NftOrderStatus: React.FC<Props> = (props: any) => {
