@@ -6,12 +6,16 @@ import Announcements from 'components/Announcements'
 import { Brand, Public } from 'components/NavbarV2'
 import { media } from 'services/styles'
 
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
+
 const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
   box-sizing: border-box;
   background-color: ${(props) =>
-    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : props.theme.grey900};
-  background-image: ${(props) => props.authProduct !== 'EXCHANGE' && `url('/img/bg-pattern.svg')`};
+    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : (isLatam) ? '#020109' : props.theme.grey900};
+  background-image: ${(props) => 
+    props.authProduct !== 'EXCHANGE' && (isLatam) ? 'none' : `url('/img/bg-pattern.svg')`};
 `
 const NavbarBrandStyled = styled(Brand)`
   display: flex;
@@ -47,7 +51,7 @@ const Header = (props) => {
         <NavbarBrandStyled>
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
-              <BlockchainLogoImage name='blockchain-logo' height='24px' />
+            {isLatam ? <BlockchainLogoImage name='sesocio-to-blockchain-logo' height='70px' /> : <BlockchainLogoImage name='blockchain-logo' height='24px' />}
             </HeaderLink>
           </PublicBrand>
         </NavbarBrandStyled>
