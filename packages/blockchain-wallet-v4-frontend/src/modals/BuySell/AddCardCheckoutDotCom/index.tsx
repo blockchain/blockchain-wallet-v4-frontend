@@ -82,9 +82,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
   if (isError) {
     return <DataError />
   }
-  if (props.addCardError) {
-    return <DataError message={{ message: props.addCardError }} />
-  }
 
   return props.data.cata({
     Failure: (e) => (
@@ -118,7 +115,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  addCardError: selectors.components.buySell.getAddCardError(state),
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
