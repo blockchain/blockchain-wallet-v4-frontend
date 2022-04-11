@@ -29,7 +29,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
   const {
     api: apiUrl,
     bitpay: bitpayUrl,
-    everypay: everypayUrl,
     horizon: horizonUrl,
     ledger: ledgerUrl,
     opensea: openseaApi,
@@ -87,7 +86,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
-      everypayUrl,
       nabuUrl,
       ...http
     }),

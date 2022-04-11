@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Icon, Link, Text, TextGroup, Image } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 import {
@@ -45,12 +45,19 @@ const ExchangeCardWrapper = styled.div<{ $showForm: boolean }>`
   ${({ $showForm }) => $showForm && 'margin-left: 24px;'}
 `
 
+const LatamPhone = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  color: white;
+`
+
 const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
   <>
-    <Header />
+    <Header {...props} />
     <CardsWrapper>
       <SignupCard {...props} />
-
+      {!props.isLatam ?
       <ExchangeCardWrapper $showForm={props.showForm}>
         <CardsWrapper>
           <Card>
@@ -164,6 +171,11 @@ const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => (
           </SubCard>
         </Link>
       </ExchangeCardWrapper>
+      :
+       <LatamPhone>
+        <Image width='569px' name='latam-signup-phone' />
+       </LatamPhone>
+      }
     </CardsWrapper>
   </>
 )
