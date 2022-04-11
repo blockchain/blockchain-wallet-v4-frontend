@@ -112,7 +112,7 @@ export const getEthBalances = createDeepEqualSelector(
   (balancesR, custodialBalanceR) => {
     const custodialBalance = custodialBalanceR.getOrElse(0)
 
-    return Remote.of([new BigNumber(balancesR.getOrElse(0)), custodialBalance])
+    return Remote.of([new BigNumber(balancesR.getOrElse(new BigNumber(0))), custodialBalance])
   }
 )
 
