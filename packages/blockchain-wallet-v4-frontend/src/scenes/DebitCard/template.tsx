@@ -16,7 +16,7 @@ import CardDashboard from './CardDashboard'
 import CardOrder from './CardOrder'
 import { Wrapper } from './model'
 
-const DebitCard = ({ cards, debitCardActions, domains, modalActions, cardToken }: Props) => {
+const DebitCard = ({ cardToken, cards, debitCardActions, domains, modalActions }: Props) => {
   useEffect(() => {
     // Need to load cards again in case of card created in different platform while user already logged in
     debitCardActions.getCards()

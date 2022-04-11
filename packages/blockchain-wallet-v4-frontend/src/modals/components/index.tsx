@@ -464,9 +464,24 @@ const MaxButtonWrapper = styled.div`
   width: 100%;
 `
 
+const MaxButtonStyled = styled.span`
+  background-color: ${(props) => props.theme.white};
+  border: 1px solid ${(props) => props.theme.grey100};
+  color: ${(props) => props.theme.blue600};
+  cursor: pointer;
+  margin-left: 10px;
+  text-transform: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+`
+
 const MaxButton = ({ onClick, type }) => (
   <MaxButtonWrapper>
-    <GreyBlueCartridge role='button' data-e2e={`${type}MaxButton`} onClick={onClick}>
+    <MaxButtonStyled role='button' data-e2e={`${type}MaxButton`} onClick={onClick}>
       <FormattedMessage
         id='modals.simplebuy.checkout.maxbuysell'
         defaultMessage='{orderType} Max'
@@ -474,7 +489,7 @@ const MaxButton = ({ onClick, type }) => (
           orderType: type
         }}
       />
-    </GreyBlueCartridge>
+    </MaxButtonStyled>
   </MaxButtonWrapper>
 )
 
