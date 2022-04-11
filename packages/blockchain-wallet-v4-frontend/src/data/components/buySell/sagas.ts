@@ -12,12 +12,10 @@ import {
   ApplePayInfoType,
   BSAccountType,
   BSCardStateType,
-  BSCardType,
   BSOrderType,
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
-  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -54,7 +52,6 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
-  FORM_BS_ADD_EVERYPAY_CARD,
   FORM_BS_CANCEL_ORDER,
   FORM_BS_CHECKOUT,
   FORM_BS_CHECKOUT_CONFIRM,
@@ -62,7 +59,6 @@ import {
   FORMS_BS_BILLING_ADDRESS,
   getCoinFromPair,
   getFiatFromPair,
-  getNextCardExists,
   GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
   NO_ACCOUNT,
@@ -238,125 +234,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.activateCardFailure(error))
     }
   }
-
-  // TODO remove once EveryPay is deprecated
-  // START LEGACY CARD CREATION
-  const createBSCardSDD = function* (billingAddress: T.BSBillingAddressFormValuesType) {
-    try {
-      yield put(A.createCardLoading())
-      const state = yield select()
-      let currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
-      const origin = S.getOrigin(state)
-      if (origin !== 'SettingsGeneral') {
-        const order = S.getBSLatestPendingOrder(state)
-        if (!order) throw new Error(NO_ORDER_EXISTS)
-        currency = getFiatFromPair(order.pair)
-        if (!currency) throw new Error(NO_FIAT_CURRENCY)
-      }
-
-      const userDataR = selectors.modules.profile.getUserData(state)
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-
-      if (!billingAddress) throw new Error('NO_USER_ADDRESS')
-
-      const card = yield call(api.createBSCard, {
-        address: billingAddress,
-        currency,
-        email: userData.email
-      })
-      yield put(A.createCardSuccess(card))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.createCardFailure(error))
-    }
-  }
-
-  const addCardDetails = function* () {
-    try {
-      // Get card
-      const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues(FORM_BS_ADD_EVERYPAY_CARD)
-      )
-
-      // Check if card exists
-      const existingCardsR = S.getBSCards(yield select())
-      const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
-      const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
-
-      if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
-
-      // 3DS validation
-      yield put(
-        A.setStep({
-          step: '3DS_HANDLER_EVERYPAY'
-        })
-      )
-      yield put(A.addCardLoading())
-
-      let waitForAction = true
-      if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
-        yield call(createBSCardSDD, formValues.billingaddress)
-        waitForAction = false
-      } else {
-        yield put(A.createCard({}))
-      }
-      if (waitForAction) {
-        yield take([A.createCardSuccess.type, A.createCardFailure.type])
-      }
-      const cardR = S.getBSCard(yield select())
-      const card = cardR.getOrFail('CARD_CREATION_FAILED')
-
-      // Activate card
-      yield put(A.activateCard({ card, cvv: formValues.cvc }))
-      yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
-
-      const providerDetailsR = S.getBSProviderDetails(yield select())
-      const providerDetails = providerDetailsR.getOrFail('CARD_ACTIVATION_FAILED')
-
-      if (!providerDetails.everypay) {
-        throw new Error('CARD_ACTIVATION_FAILED')
-      }
-
-      const [nonce] = yield call(api.generateUUIDs, 1)
-
-      const response: { data: Everypay3DSResponseType } = yield call(
-        // @ts-ignore
-        api.submitBSCardDetailsToEverypay,
-        {
-          accessToken: providerDetails.everypay.mobileToken,
-          apiUserName: providerDetails.everypay.apiUsername,
-          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-          cvc: formValues.cvc,
-          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-          holderName: formValues['name-on-card'],
-          nonce
-        }
-      )
-      yield put(A.addCardSuccess(response.data))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(
-        A.setStep({
-          step: 'ADD_CARD_EVERYPAY'
-        })
-      )
-      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
-      yield put(
-        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-          _error: error as T.BSAddCardErrorType
-        })
-      )
-      yield put(A.addCardFailure(error))
-    }
-  }
-
-  const addCardFinished = function* () {
-    // This is primarily used in general settings to short circuit
-    // the BS flow when adding a new card but not buying crypto
-    yield take(A.fetchCardsSuccess.type)
-    yield put(actions.modals.closeAllModals())
-  }
-  // END LEGACY CARD CREATION
 
   const cancelBSOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
@@ -1624,25 +1501,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(A.createCardFailure(error))
-
-    const addCheckoutDotComPaymentProvider: boolean = (yield select(
-      selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
-    )).getOrElse(false)
-
-    // LEGACY
-    if (!addCheckoutDotComPaymentProvider) {
-      yield put(A.setAddCardError(error))
-
-      yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-
-      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
-
-      yield put(
-        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-          _error: error
-        })
-      )
-    }
   }
 
   const pollBSBalances = function* () {
@@ -1729,33 +1587,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
-      const addCheckoutDotComPaymentProvider: boolean = (yield select(
-        selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
-      )).getOrElse(false)
-
-      if (!addCheckoutDotComPaymentProvider) {
-        yield put(
-          A.setStep({
-            step: 'ADD_CARD_EVERYPAY'
-          })
-        )
-
-        return
-      }
-
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
         (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
-      if (checkoutAcquirers.length === 0) {
-        yield put(
-          A.setStep({
-            step: 'ADD_CARD_EVERYPAY'
-          })
-        )
 
-        return
+      if (checkoutAcquirers.length === 0) {
+        throw new Error('CHECKOUTDOTCOM_NOT_FOUND')
       }
 
       const checkoutDotComAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
@@ -2007,14 +1846,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   return {
     activateBSCard,
-    addCardDetails,
-    addCardFinished,
     cancelBSOrder,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
     createBSCard,
-    createBSCardSDD,
     createBSOrder,
     deleteBSCard,
     fetchAccumulatedTrades,

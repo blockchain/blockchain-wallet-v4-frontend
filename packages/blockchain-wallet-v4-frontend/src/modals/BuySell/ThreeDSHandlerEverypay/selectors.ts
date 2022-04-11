@@ -9,7 +9,6 @@ export const getData = (state: RootState) => {
   const cardR = selectors.components.buySell.getBSCard(state)
   const providerDetailsR = selectors.components.buySell.getBSProviderDetails(state)
   const order = selectors.components.buySell.getBSOrder(state)
-  const threeDSDetailsR = selectors.components.buySell.getEverypay3DSDetails(state)
   const domains = selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains'])
@@ -22,14 +21,13 @@ export const getData = (state: RootState) => {
     })
   }
 
-  const transform = (card, providerDetails, threeDSDetails) => ({
+  const transform = (card, providerDetails) => ({
     card,
     domains,
     order,
     providerDetails,
-    threeDSDetails,
     type: 'CARD'
   })
 
-  return lift(transform)(cardR, providerDetailsR, threeDSDetailsR)
+  return lift(transform)(cardR, providerDetailsR)
 }
