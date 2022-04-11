@@ -15,6 +15,9 @@ const debitCardSlice = createSlice({
   initialState,
   name: 'debitCard',
   reducers: {
+    cleanCardToken: (state) => {
+      state.cardToken = ''
+    },
     createCard: (state, action: PayloadAction<string>) => {},
     createCardFailure: (state, action: PayloadAction<string>) => {
       state.cardCreationData = Remote.Failure(action.payload)
