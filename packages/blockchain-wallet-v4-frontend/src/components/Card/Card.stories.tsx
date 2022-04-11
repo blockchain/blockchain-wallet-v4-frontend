@@ -17,7 +17,7 @@ NoElevation.args = {
 }
 
 export const ElevationOne = Template.bind({})
-Elevation1.args = {
+ElevationOne.args = {
   children: <span>elevation 1</span>,
   elevation: 1
 }
