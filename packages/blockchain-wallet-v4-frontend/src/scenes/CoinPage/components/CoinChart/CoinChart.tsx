@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { AxisBottom } from '@visx/axis'
 import { curveBasis } from '@visx/curve'
 import { LinearGradient } from '@visx/gradient'
 import { Group } from '@visx/group'
 import { Bar, Circle } from '@visx/shape'
 import { Numeric } from 'd3-array'
+import { useTheme } from 'styled-components'
 
 import {
   AnimatedLinePath,
-  AxisBottom,
-  useLast,
+  // AxisBottom,
   useLinearScale,
   useTimeScale,
   useTooltipHandlers,
@@ -49,7 +50,7 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
     width
   })
 
-  const lastDataPoint: DATA = useLast(data)
+  const lastDataPoint: DATA = useMemo(() => data[data.length - 1], [data])
   const xScale = useTimeScale({ data, getX, range: [layout.canvas.left, layout.canvas.right] })
   const yScale = useLinearScale({ data, getY, range: [layout.canvas.bottom, layout.canvas.top] })
 
@@ -116,10 +117,21 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
 
         <AxisBottom
           scale={xScale}
+          hideAxisLine
+          hideTicks
+          hideZero
           numTicks={numTicks}
           tickFormat={(xValue) => xFormatter?.(xValue as DATA[keyof DATA]) ?? xValue.toString()}
           top={layout.bottomAxis.top}
-          textColor={textColor}
+          tickLabelProps={() => ({
+            fill: textColor,
+            fontFamily: 'Inter',
+            fontSize: 14,
+            fontWeight: 600,
+            lineHeight: 22,
+            textAnchor: 'middle',
+            verticalAnchor: 'middle'
+          })}
         />
 
         <Bar

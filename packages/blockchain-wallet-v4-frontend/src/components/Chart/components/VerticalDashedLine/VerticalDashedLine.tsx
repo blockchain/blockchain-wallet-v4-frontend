@@ -10,6 +10,6 @@ export const VerticalDashedLine: VerticalDashedLineComponent = ({ bottom, color,
     stroke={color}
     strokeWidth={1}
     pointerEvents='none'
-    strokeDasharray='5,2'
+    strokeDasharray='4,2'
   />
 )
