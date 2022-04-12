@@ -102,14 +102,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
-  const getNftCollection = (slug): { collection: NftCollection } => {
-    return get({
-      endPoint: `/collection/${slug}`,
-      ignoreQueryParams: true,
-      url: openseaUrl
-    })
-  }
-
   const getNftOrders = (
     limit = NFT_ORDER_PAGE_LIMIT,
     asset_contract_address: string,
@@ -158,7 +150,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
   return {
     getAssetContract,
     getNftAssets,
-    getNftCollection,
     getNftCollections,
     getNftOffersForAsset,
     getNftOrders,
