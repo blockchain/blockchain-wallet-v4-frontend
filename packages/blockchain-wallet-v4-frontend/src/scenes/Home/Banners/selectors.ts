@@ -73,6 +73,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
+  // use this to prevent rendering of complete profile banner
+  const isUserDataLoaded = userDataR.cata({
+    Failure: () => true,
+    Loading: () => false,
+    NotAsked: () => false,
+    Success: () => true
+  })
   const userData = userDataR.getOrElse({
     address: { country: '' },
     tiers: { current: 0 }
@@ -154,7 +161,12 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
-  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
+  } else if (
+    showCompleteYourProfileBanner &&
+    !isProfileCompleted &&
+    userData?.tiers?.current !== TIER_TYPES.GOLD &&
+    isUserDataLoaded
+  ) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
