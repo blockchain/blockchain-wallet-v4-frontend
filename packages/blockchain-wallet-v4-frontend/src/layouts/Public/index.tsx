@@ -29,9 +29,6 @@ const FooterContainer = styled.div`
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
 
-const qsParams = new URLSearchParams(window.location.hash)
-const isLatam = qsParams.has('latam')
-
 const Wrapper = styled.div<{ authProduct?: string }>`
   background-color: ${(props) =>
     props.authProduct === 'EXCHANGE'

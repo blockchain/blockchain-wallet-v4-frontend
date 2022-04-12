@@ -9,7 +9,7 @@ import { media } from 'services/styles'
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
 
-const NavbarStyled = styled(Navbar)<{ authProduct: string }>`
+const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
   box-sizing: border-box;
   background-color: ${(props) =>
