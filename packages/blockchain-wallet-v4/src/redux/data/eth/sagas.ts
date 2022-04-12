@@ -288,58 +288,7 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
-        [
-          {
-            accountHash: '0xd12d16d6f2d6b2c3eefa8c945c092a73fff4db90',
-            balance: '45000000000000000000',
-            decimals: 18,
-            tokenHash: '0x4e15361fd6b4bb609fa63c81a2be19d873717870',
-            tokenSymbol: 'FTM',
-            totalReceived: '45000000000000000000',
-            totalSent: '0',
-            transferCount: '1'
-          },
-          {
-            accountHash: '0xd12d16d6f2d6b2c3eefa8c945c092a73fff4db90',
-            balance: '1900000000000000000',
-            decimals: 18,
-            tokenHash: '0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9',
-            tokenSymbol: 'FTX Token',
-            totalReceived: '1900000000000000000',
-            totalSent: '0',
-            transferCount: '1'
-          },
-          {
-            accountHash: '0xd12d16d6f2d6b2c3eefa8c945c092a73fff4db90',
-            balance: '225376880000000000',
-            decimals: 18,
-            tokenHash: '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-            tokenSymbol: 'AAVE',
-            totalReceived: '319485660000000000',
-            totalSent: '94108780000000000',
-            transferCount: '3'
-          },
-          {
-            accountHash: '0xd12d16d6f2d6b2c3eefa8c945c092a73fff4db90',
-            balance: '4211443520000000000',
-            decimals: 18,
-            tokenHash: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
-            tokenSymbol: 'PAX',
-            totalReceived: '24211443520000000000',
-            totalSent: '20000000000000000000',
-            transferCount: '4'
-          },
-          {
-            accountHash: '0xd12d16d6f2d6b2c3eefa8c945c092a73fff4db90',
-            balance: '20002197',
-            decimals: 6,
-            tokenHash: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            tokenSymbol: 'USDT',
-            totalReceived: '43012197',
-            totalSent: '23010000',
-            transferCount: '4'
-          }
-        ].map(function* (val) {
+        data.tokenAccounts.map(function* (val) {
           const symbol = Object.keys(window.coins).find(
             (coin: string) =>
               window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
