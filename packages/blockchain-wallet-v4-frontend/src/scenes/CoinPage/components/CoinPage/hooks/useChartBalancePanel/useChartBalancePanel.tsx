@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react'
+import { useCoinPrice, useCurrency } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { ChartBalancePanel } from '../../../ChartBalancePanel'
-import { useCoinPrice } from '../useCoinPrice'
-import { useCurrency } from '../useCurrency'
 import { useFormatFiat } from '../useFormatFiat'
 import { UseChartBalancePanel } from './types'
 
 export const useChartBalancePanel: UseChartBalancePanel = ({ coin }) => {
   const currency = useCurrency()
 
-  const coinPrice = useCoinPrice({ coin })
+  const { data: coinPrice } = useCoinPrice({ coin, range: 'WEEK' })
 
   const currentPrice = coinPrice?.currentPrice
 

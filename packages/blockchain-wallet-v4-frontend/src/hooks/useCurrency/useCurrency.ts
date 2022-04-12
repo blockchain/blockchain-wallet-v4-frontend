@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux'
 
 import { selectors } from 'data'
 
-import { UseCurrency } from './types'
+import { CurrencyHook } from './types'
 
-export const useCurrency: UseCurrency = () => {
+export const useCurrency: CurrencyHook = () => {
   return useSelector((state) => {
     return selectors.core.settings.getCurrency(state).getOrElse('USD')
   })

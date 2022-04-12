@@ -1,65 +1,65 @@
-import { useDispatch } from 'react-redux'
 import { renderHook } from '@testing-library/react-hooks'
 
+import { BSPaymentTypes } from '@core/types'
+import { RecurringBuyItemState, RecurringBuyPeriods, RecurringBuyRegisteredList } from 'data/types'
+
+import { useListRecurringBuy } from '../useListRecurringBuy'
+import { createRemoteSuccessState } from '../useRemote'
 import { useListRecurringBuyForCoin } from '.'
 
-jest.mock('react-redux', () => {
-  const dispatch = jest.fn()
-  const originalModule = jest.requireActual('react-redux')
+jest.mock('../useListRecurringBuy', () => ({
+  useListRecurringBuy: jest.fn()
+}))
 
-  return {
-    ...originalModule,
-    useDispatch: jest.fn(() => dispatch),
-    useSelector: jest.fn(() => [])
-  }
-})
+const btcRecurringBuy: RecurringBuyRegisteredList = {
+  destinationCurrency: 'BTC',
+  id: '1',
+  inputCurrency: 'AUD',
+  inputValue: '100',
+  insertedAt: '',
+  nextPayment: '',
+  paymentMethod: BSPaymentTypes.BANK_ACCOUNT,
+  paymentMethodId: '',
+  period: RecurringBuyPeriods.WEEKLY,
+  state: RecurringBuyItemState.ACTIVE,
+  updatedAt: '',
+  userId: ''
+}
+
+const ethRecurringBuy: RecurringBuyRegisteredList = {
+  destinationCurrency: 'ETH',
+  id: '1',
+  inputCurrency: 'AUD',
+  inputValue: '100',
+  insertedAt: '',
+  nextPayment: '',
+  paymentMethod: BSPaymentTypes.BANK_ACCOUNT,
+  paymentMethodId: '',
+  period: RecurringBuyPeriods.WEEKLY,
+  state: RecurringBuyItemState.ACTIVE,
+  updatedAt: '',
+  userId: ''
+}
 
 describe('useListRecurringBuyForCoin()', () => {
+  const useListRecurringBuyMock = useListRecurringBuy as jest.Mock
+
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  it('Should fire the fetch actions on mount', () => {
-    renderHook(() => useListRecurringBuyForCoin({ coin: 'BTC' }))
+  it('Should return the recurring buys for BTC', () => {
+    useListRecurringBuyMock.mockImplementation(() =>
+      createRemoteSuccessState<string, RecurringBuyRegisteredList[]>([
+        btcRecurringBuy,
+        ethRecurringBuy
+      ])
+    )
 
-    const dispatch = useDispatch()
-
-    expect(dispatch).toHaveBeenCalledTimes(1)
-
-    expect(dispatch).toHaveBeenCalledWith({
-      payload: undefined,
-      type: 'recurringBuy/fetchRegisteredList'
-    })
-  })
-
-  it('Should return the data in from the selector', () => {
     const { result } = renderHook(() => useListRecurringBuyForCoin({ coin: 'BTC' }))
 
     const { data } = result.current
 
-    expect(data).toEqual([])
-  })
-
-  it('Should not refetch the recurring buy on coin change', () => {
-    const { rerender } = renderHook(useListRecurringBuyForCoin, {
-      initialProps: {
-        coin: 'BTC'
-      }
-    })
-
-    const dispatch = useDispatch()
-
-    expect(dispatch).toHaveBeenCalledTimes(1)
-
-    expect(dispatch).toHaveBeenCalledWith({
-      payload: undefined,
-      type: 'recurringBuy/fetchRegisteredList'
-    })
-
-    rerender({
-      coin: 'ETH'
-    })
-
-    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(data).toEqual([btcRecurringBuy])
   })
 })

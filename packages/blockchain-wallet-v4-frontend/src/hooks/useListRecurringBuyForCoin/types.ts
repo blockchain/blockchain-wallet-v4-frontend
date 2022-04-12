@@ -1,5 +1,7 @@
 import { RecurringBuyRegisteredList } from 'data/types'
 
-export type useListRecurringBuyForCoinHook = (props: { coin?: string }) => {
-  data: RecurringBuyRegisteredList[] | undefined
-}
+import { RemoteHookState } from '../useRemote'
+
+export type ListRecurringBuyForCoinHook = (props: {
+  coin?: string
+}) => RemoteHookState<string, RecurringBuyRegisteredList[]>

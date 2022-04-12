@@ -1,2 +1,2 @@
-export type { useListRecurringBuyForCoinHook } from './types'
+export type { ListRecurringBuyForCoinHook } from './types'
 export { useListRecurringBuyForCoin } from './useListRecurringBuyForCoin'
