@@ -350,7 +350,6 @@ const Navbar = ({
     ({ name }) => name !== 'Mobile App' && name !== 'Refresh' && name !== 'Settings'
   )
 
-  // @ts-ignore
   return (
     <NavContainer>
       {isMobileNavOpen && (
