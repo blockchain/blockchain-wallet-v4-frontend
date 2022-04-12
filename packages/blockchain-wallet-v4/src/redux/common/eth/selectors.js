@@ -64,7 +64,6 @@ export const getErc20AccountBalances = (state, token) => {
       {
         address: head(keys(ethAccount)),
         balance: erc20Balance,
-        // TODO: erc20 phase 2, key off hash not symbol
         coin: toUpper(token),
         label: `${coinfig.displaySymbol} Private Key Wallet`,
         type: ADDRESS_TYPES.ACCOUNT
