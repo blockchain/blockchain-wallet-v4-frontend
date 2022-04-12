@@ -1,12 +1,13 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
+import { colors, Icon, Text } from '@blockchain-com/constellation'
+import { IconClose, IconMenu, IconRefresh, IconUser } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { MobileNav } from 'components/NavbarV2'
+import { MobileNav } from 'components/Navbar'
 import { Destination } from 'layouts/Wallet/components'
 import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
@@ -24,7 +25,7 @@ export type PrimaryNavItem = {
 const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white1};
+  background-color: ${colors.white100};
   display: flex;
   justify-content: space-between;
   padding: 0 22px;
@@ -92,7 +93,7 @@ const ListStyles = styled.ul`
 
     &:hover,
     &.active {
-      background-color: ${colors.blue0};
+      background-color: ${colors.blue000};
       color: ${colors.blue600};
     }
   }
@@ -306,7 +307,9 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color={colors.grey400} name={IconName.REFRESH} size='sm' />
+          <Icon label='refresh' size='sm' color='grey400'>
+            <IconRefresh />
+          </Icon>
         </NavButton>
       ),
       name: 'Refresh'
@@ -314,7 +317,9 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color={colors.grey400} name={IconName.USER} size='sm' />
+          <Icon label='user' size='sm' color='grey400'>
+            <IconUser />
+          </Icon>
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
@@ -345,6 +350,7 @@ const Navbar = ({
     ({ name }) => name !== 'Mobile App' && name !== 'Refresh' && name !== 'Settings'
   )
 
+  // @ts-ignore
   return (
     <NavContainer>
       {isMobileNavOpen && (
@@ -403,16 +409,21 @@ const Navbar = ({
               <li>
                 {isMobileNavOpen ? (
                   <Icon
-                    color={colors.grey600}
+                    color='grey600'
                     data-e2e='closeMobileNav'
-                    name={IconName.CLOSE}
+                    label='close'
+                    // @ts-ignore
                     role='button'
                     size='md'
                     onClick={closeMobileNavCallback}
-                  />
+                  >
+                    <IconClose />
+                  </Icon>
                 ) : (
                   <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                    <Icon name={IconName.MENU} color={colors.blue500} size='md' />
+                    <Icon label='menu' size='md' color='blue500'>
+                      <IconMenu />
+                    </Icon>
                   </NavButton>
                 )}
               </li>

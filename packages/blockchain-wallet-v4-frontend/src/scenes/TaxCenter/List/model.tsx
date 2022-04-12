@@ -22,10 +22,6 @@ export const Description = styled.div`
   margin-left: 16px;
 `
 
-export const StyledIcon = styled(Icon)`
-  margin-right: 8px;
-`
-
 export const StyledLoading = styled(SpinningLoader)`
   margin-top: 4px;
 `

@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com/constellation'
+import { colors, Icon, Switch, useClickOutside } from '@blockchain-com/constellation'
+import { IconPhone } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
-import { DropdownMenu, DropdownMenuArrow } from 'components/NavbarV2/Dropdown'
+import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/Dropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
@@ -62,12 +63,16 @@ const MobileDropdown = () => {
 
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
-      <Icon color={colors.grey400} name={IconName.PHONE} size='sm' onClick={handleMenuToggle} />
+      {/* @ts-ignore */}
+      <Icon label='phone' size='sm' color='grey400' onClick={handleMenuToggle}>
+        <IconPhone />
+      </Icon>
       {isMenuOpen && (
         <CustomDropdownMenu>
           <DropdownMenuArrow />
           <StyledSwitch
             css={{ backgroundColor: 'red' }}
+            // @ts-ignore
             firstItem='iOS'
             secondItem='Android'
             handleFirstItemClicked={handleFirstItemClicked}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CopyToClipboard } from '@blockchain-com/constellation'
+// import { CopyToClipboard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -35,9 +35,9 @@ const TextInputWithClipboard: React.FC<Props> = ({ value }) => {
   return (
     <Wrapper>
       <StyledInput disabled value={value} />
-      <IconWrapper>
-        <CopyToClipboard color='blue400' value={value} />
-      </IconWrapper>
+      {/* <IconWrapper> */}
+      {/*  <CopyToClipboard color='blue400' value={value} /> */}
+      {/* </IconWrapper> */}
     </Wrapper>
   )
 }

@@ -1,16 +1,23 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon as ConsIcon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconClose,
+  IconMinusCircle,
+  IconPlusCircle,
+  IconSwap
+} from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { OptionRightActionRow } from 'components/Rows'
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const HeaderText = styled(Text)`
   position: absolute;
   top: 40px;
@@ -40,7 +47,6 @@ const ContentContainer = styled(Column)`
     width: 100%;
   }
 `
-
 const CustomIconWrapper = styled.div<{ background?: string }>`
   background: ${({ background }) => background || colors.blue100};
   position: relative;
@@ -51,7 +57,6 @@ const CustomIconWrapper = styled.div<{ background?: string }>`
     margin-left: 0;
   }
 `
-
 const IconBG = styled.div`
   background: ${colors.blue600};
   border-radius: 50%;
@@ -60,6 +65,11 @@ const IconBG = styled.div`
   width: 16px;
   left: 4px;
   z-index: -1;
+`
+const HoverIcon = styled(Icon)`
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const rows = ({
@@ -77,7 +87,9 @@ const rows = ({
     header: <FormattedMessage id='buttons.buy' defaultMessage='Buy' />,
     iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon name={IconName.PLUS_CIRCLE} color={colors.blue100} size='md' />
+        <Icon label='circle plus' size='md' color='blue100'>
+          <IconPlusCircle />
+        </Icon>
         <IconBG />
       </CustomIconWrapper>
     )
@@ -93,7 +105,9 @@ const rows = ({
     header: <FormattedMessage id='buttons.sell' defaultMessage='Sell' />,
     iconComponent: () => (
       <CustomIconWrapper background='transparent'>
-        <ConsIcon name={IconName.MINUS_CIRCLE} color={colors.blue100} size='md' />
+        <Icon label='circle minus' size='md' color='blue100'>
+          <IconMinusCircle />
+        </Icon>
         <IconBG />
       </CustomIconWrapper>
     )
@@ -109,7 +123,9 @@ const rows = ({
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_BI_DIRECTIONAL} color={colors.blue600} size='md' />
+        <Icon label='swap' size='md' color='blue100'>
+          <IconSwap />
+        </Icon>
       </CustomIconWrapper>
     )
   },
@@ -124,7 +140,9 @@ const rows = ({
     header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_DOWN} color={colors.blue600} size='md' />
+        <Icon label='arrow down' size='md' color='blue600'>
+          <IconArrowDown />
+        </Icon>
       </CustomIconWrapper>
     )
   },
@@ -139,7 +157,9 @@ const rows = ({
     header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
     iconComponent: () => (
       <CustomIconWrapper>
-        <ConsIcon name={IconName.ARROW_UP} color={colors.blue600} size='md' />
+        <Icon label='arrow up' size='md' color='blue600'>
+          <IconArrowUp />
+        </Icon>
       </CustomIconWrapper>
     )
   }
@@ -159,7 +179,10 @@ const Trade = ({
         <FormattedMessage id='modals.trade.header' defaultMessage='Shortcuts' />
       </HeaderText>
       <IconWrapper onClick={handleClose}>
-        <Icon name='close' color='grey600' role='button' data-e2e='close' size='24px' cursor />
+        {/* @ts-ignore */}
+        <HoverIcon data-e2e='close' label='arrow up' size='md' color='grey600' role='button'>
+          <IconClose />
+        </HoverIcon>
       </IconWrapper>
 
       <ContentContainer>

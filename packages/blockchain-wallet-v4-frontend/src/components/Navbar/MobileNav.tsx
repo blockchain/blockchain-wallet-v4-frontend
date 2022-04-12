@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink, withRouter } from 'react-router-dom'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconCheckCircle } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -26,10 +27,10 @@ const StyledLi = styled.li<{ selected?: boolean }>`
     margin: 10px 8px;
   }
 
-  background: ${({ selected }) => (selected ? colors.blue0 : '')};
+  background: ${({ selected }) => (selected ? colors.blue000 : '')};
 
   &:hover {
-    background: ${colors.blue0};
+    background: ${colors.blue000};
   }
 `
 
@@ -74,7 +75,9 @@ const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }:
                       {item.text}
                     </Text>
                     {location?.pathname?.includes(item.dest) && (
-                      <Icon name={IconName.CHECK_CIRCLE} color={colors.blue600} size='sm' />
+                      <Icon label='circle check' size='sm' color='blue600'>
+                        <IconCheckCircle />
+                      </Icon>
                     )}
                   </StyledNavLink>
                 </div>
@@ -94,7 +97,9 @@ const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }:
                         {copy}
                       </Text>
                       {location?.pathname?.includes(to) && (
-                        <Icon name={IconName.CHECK_CIRCLE} color={colors.blue600} size='sm' />
+                        <Icon label='circle check' size='sm' color='blue600'>
+                          <IconCheckCircle />
+                        </Icon>
                       )}
                     </StyledNavLink>
                   </div>
