@@ -32,6 +32,7 @@ class SignupContainer extends React.PureComponent<
     super(props)
     this.state = {
       captchaToken: undefined,
+      isLatam: props.search.includes('latam'),
       showForm: props.search.includes('showWallet'),
       isLatam: props.search.includes('latam'),
       showState: false
@@ -122,6 +123,7 @@ class SignupContainer extends React.PureComponent<
 
     const subviewProps = {
       isFormSubmitting,
+      isLatam: this.state.isLatam,
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
       onSignupSubmit: this.onSubmit,
@@ -129,6 +131,7 @@ class SignupContainer extends React.PureComponent<
       showForm: this.state.showForm,
       isLatam: this.state.isLatam,
       showState: this.state.showState,
+      toggleLatamVisibility: this.toggleLatamVisibility,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
       toggleLatamVisibility: this.toggleLatamVisibility,
       ...this.props, // order here matters as we may need to override initial form values!
@@ -179,6 +182,7 @@ type LinkStatePropsType = {
 }
 type StateProps = {
   captchaToken?: string
+  isLatam: boolean
   showForm: boolean
   isLatam: boolean
   showState: boolean

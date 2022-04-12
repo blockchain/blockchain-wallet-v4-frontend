@@ -393,6 +393,8 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'sesocio-bc-signup-bg': ssBcSignupBg,
+  'sesocio-to-blockchain-logo': ssBcLogo,
   'silver-approved': silverApproved,
   smartphone,
   'source-of-wealth': sourceOfWealth,
