@@ -383,6 +383,7 @@ export type Transaction = {
 
 export type AssetQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
+  limit?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -406,6 +407,15 @@ export type CollectionsQueryVariables = Exact<{
 
 
 export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, stats?: { __typename?: 'Stats', total_supply?: number | null, floor_price?: number | null, total_volume?: number | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+
+export type OwnerQueryVariables = Exact<{
+  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null }> };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -2103,8 +2113,8 @@ export default {
 } as unknown as IntrospectionQuery;
 
 export const AssetDocument = gql`
-    query Asset($filter: [AssetFilter]) {
-  assets(filter: $filter) {
+    query Asset($filter: [AssetFilter], $limit: Int) {
+  assets(filter: $filter, limit: $limit) {
     name
     image_url
     contract {
@@ -2213,4 +2223,31 @@ export const CollectionsDocument = gql`
 
 export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<CollectionsQueryVariables>, 'query'>) {
   return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options });
+};
+export const OwnerDocument = gql`
+    query Owner($filter: [AssetFilter], $limit: Int, $offset: Int) {
+  assets(filter: $filter, limit: $limit, offset: $offset) {
+    name
+    image_url
+    animation_original_url
+    collection {
+      name
+      slug
+      image_url
+    }
+    contract {
+      address
+    }
+    last_sale {
+      payment_token_symbol
+      total_price
+    }
+    token_id
+    permalink
+  }
+}
+    `;
+
+export function useOwnerQuery(options?: Omit<Urql.UseQueryArgs<OwnerQueryVariables>, 'query'>) {
+  return Urql.useQuery<OwnerQuery>({ query: OwnerDocument, ...options });
 };

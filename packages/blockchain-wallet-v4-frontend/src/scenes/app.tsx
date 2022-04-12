@@ -169,7 +169,7 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       <WalletLayout path='/nfts/activity' exact component={NftsActivity} />
-                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
+                      <ExploreLayout path='/nfts/address/:address' exact component={NftsAssets} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />

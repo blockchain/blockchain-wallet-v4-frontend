@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
@@ -23,8 +22,6 @@ import {
   StyledCoinDisplay
 } from '../components'
 import { NftFilterFormValuesType } from '.'
-
-const MarketplaceAsset = styled(Asset)``
 
 const ResultsPage: React.FC<Props> = ({
   formValues,
@@ -83,7 +80,7 @@ const ResultsPage: React.FC<Props> = ({
           : null
 
         return asset ? (
-          <MarketplaceAsset key={asset?.token_id}>
+          <Asset key={asset?.token_id}>
             <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
               <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
@@ -146,7 +143,7 @@ const ResultsPage: React.FC<Props> = ({
                 </LinkContainer>
               </PriceCTA>
             </AssetDetails>
-          </MarketplaceAsset>
+          </Asset>
         ) : null
       })}
     </>

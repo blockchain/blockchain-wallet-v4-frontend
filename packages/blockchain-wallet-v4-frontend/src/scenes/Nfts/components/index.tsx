@@ -184,3 +184,13 @@ export const CollectionImage = styled.img`
     left: calc(50% - 20px);
   `}
 `
+
+export const Centered = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+  gap: 8px;
+`

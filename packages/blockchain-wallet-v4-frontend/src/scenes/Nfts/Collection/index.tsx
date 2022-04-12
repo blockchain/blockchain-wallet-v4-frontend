@@ -22,10 +22,10 @@ import { RootState } from 'data/rootReducer'
 import { AssetSortFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { Grid, GridWrapper } from '../components'
+import { Centered, Grid, GridWrapper } from '../components'
+import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import NftFilter from '../NftFilter'
-import Error from './error'
 import ResultsPage from './results'
 import Stats from './Stats'
 
@@ -79,16 +79,6 @@ const LinksContainer = styled.div`
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
   }
-`
-
-const Centered = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 40px;
-  gap: 8px;
 `
 
 const ActiveTraitFilter = styled.div`
@@ -310,7 +300,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               : null}
           </Grid>
           <Centered>
-            <Error error={errorFetchingNextPage} />
+            <GraphqlError error={errorFetchingNextPage} />
             {isFetchingNextPage || results.fetching ? (
               <SpinningLoader width='14px' height='14px' borderWidth='3px' />
             ) : (

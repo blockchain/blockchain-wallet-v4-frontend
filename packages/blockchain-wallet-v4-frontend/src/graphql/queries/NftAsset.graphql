@@ -1,6 +1,6 @@
-query Asset($filter: [AssetFilter]) {
-  assets(filter: $filter) {
-    name
+query Asset($filter: [AssetFilter], $limit: Int) {
+  assets(filter: $filter, limit: $limit) {
+		name
     image_url
     contract {
       schema_name
