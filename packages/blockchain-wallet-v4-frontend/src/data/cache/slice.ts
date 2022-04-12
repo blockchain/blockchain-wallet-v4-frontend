@@ -85,6 +85,7 @@ const cacheSlice = createSlice({
       state.lastGuid = undefined
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
+      state.unifiedAccount = undefined
     },
     setUnifiedAccount: (state, action) => {
       state.unifiedAccount = action.payload

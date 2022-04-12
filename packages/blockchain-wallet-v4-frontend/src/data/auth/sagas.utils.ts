@@ -27,10 +27,6 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
 
     // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
     // CREATED FROM UNIFIED SIGN UP
-    if (unified) {
-      yield put(actions.cache.setUnifiedAccount(true))
-      return yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
-    }
 
     if (!unified && (mergeable || upgradeable)) {
       if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable) {
@@ -75,6 +71,11 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       if (walletData && !exchangeData) {
         productAuthenticatingInto = ProductAuthOptions.WALLET
       }
+    }
+
+    if (unified) {
+      yield put(actions.cache.setUnifiedAccount(true))
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
     }
 
     const userEmail =
