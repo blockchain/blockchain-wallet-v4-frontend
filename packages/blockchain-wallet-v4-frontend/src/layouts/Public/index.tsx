@@ -31,7 +31,11 @@ const isLatam = qsParams.has('latam')
 
 const Wrapper = styled.div<{ authProduct?: string }>`
   background-color: ${(props) =>
-    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : (isLatam) ? 'none' : props.theme.grey900};
+    props.authProduct === 'EXCHANGE'
+      ? props.theme.exchangeLogin
+      : isLatam
+      ? 'none'
+      : props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;

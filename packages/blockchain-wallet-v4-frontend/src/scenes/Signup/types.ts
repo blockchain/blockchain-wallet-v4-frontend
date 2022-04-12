@@ -30,12 +30,12 @@ export type GoalDataType = Array<{
 // common props used by all subviews
 export type SubviewProps = {
   isFormSubmitting: boolean
+  isLatam: boolean
   isLinkAccountGoal: boolean
   onCountrySelect: (e: React.ChangeEvent<any> | undefined, value: string) => void
   onSignupSubmit: (e: React.SyntheticEvent, value: string) => void
   showForm: boolean
-  isLatam: boolean
   showState: boolean
-  toggleSignupFormVisibility: () => void
   toggleLatamVisibility: () => void
+  toggleSignupFormVisibility: () => void
 } & OwnProps

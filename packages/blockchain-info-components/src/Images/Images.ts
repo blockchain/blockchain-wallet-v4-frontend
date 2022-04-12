@@ -149,7 +149,6 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
-import ssBcLogo from './img/ss-bc-logo.svg'
 import logo96 from './img/logo-96.png'
 import logo144 from './img/logo-144.png'
 import logo192 from './img/logo-192.png'
@@ -178,6 +177,7 @@ import sendCrypto from './img/send-crypto.svg'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
+import ssBcLogo from './img/ss-bc-logo.svg'
 import ssBcSignupBg from './img/ss-bc-signup-bg.jpg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import subtractCheckCircle from './img/subtract-check-circle.png'
@@ -393,11 +393,11 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'sesocio-bc-signup-bg': ssBcSignupBg,
+  'sesocio-to-blockchain-logo': ssBcLogo,
   'silver-approved': silverApproved,
   smartphone,
   'source-of-wealth': sourceOfWealth,
-  'sesocio-to-blockchain-logo': ssBcLogo,
-  'sesocio-bc-signup-bg': ssBcSignupBg,
   'starfield-banner-bg': starfieldBannerBg,
   'subtract-check-circle': subtractCheckCircle,
   swap,
