@@ -1,4 +1,5 @@
 import React, { memo, MouseEventHandler } from 'react'
+import { Icon } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -30,7 +31,16 @@ const LoadingIcon = styled.div`
 `
 
 const StandardRow = memo<Props>(
-  ({ bottomLeftText, bottomRightText, icon, loading, onClick, topLeftText, topRightText }) => {
+  ({
+    bottomLeftText,
+    bottomRightText,
+    icon,
+    loading,
+    onClick,
+    rightAction,
+    topLeftText,
+    topRightText
+  }) => {
     if (loading) {
       bottomLeftText = <LoadingTextLight />
       bottomRightText = <LoadingTextLight />
@@ -57,13 +67,20 @@ const StandardRow = memo<Props>(
               </Flex>
             </Flex>
 
-            <Flex gap={1} flexDirection='column'>
-              <Text weight={600} size='16px' color='grey900' style={{ textAlign: 'right' }}>
-                {topRightText}
-              </Text>
-              <Text weight={500} size='14px' color='grey600' style={{ textAlign: 'right' }}>
-                {bottomRightText}
-              </Text>
+            <Flex gap={1} flexDirection='column' alignItems='flex-end' justifyContent='center'>
+              {rightAction ? (
+                // @ts-ignore grey400
+                <Icon name='chevron-right' color='#98A1B2' size='md' />
+              ) : (
+                <>
+                  <Text weight={600} size='16px' color='grey900'>
+                    {topRightText}
+                  </Text>
+                  <Text weight={500} size='14px' color='grey600'>
+                    {bottomRightText}
+                  </Text>
+                </>
+              )}
             </Flex>
           </Flex>
         </Padding>
@@ -72,13 +89,15 @@ const StandardRow = memo<Props>(
   }
 )
 
-export type Props =
+export type Props = {
+  onClick?: MouseEventHandler<HTMLDivElement>
+} & (
   | {
       bottomLeftText: string | React.ReactNode
       bottomRightText: string | React.ReactNode
       icon: React.ReactNode
       loading?: never
-      onClick?: MouseEventHandler<HTMLDivElement>
+      rightAction?: never
       topLeftText: string | React.ReactNode
       topRightText: string | React.ReactNode
     }
@@ -87,9 +106,28 @@ export type Props =
       bottomRightText?: never
       icon?: never
       loading: true
-      onClick?: MouseEventHandler<HTMLDivElement>
+      rightAction?: never
       topLeftText?: never
       topRightText?: never
     }
+  | {
+      bottomLeftText?: never
+      bottomRightText?: never
+      icon?: never
+      loading: true
+      rightAction: true
+      topLeftText?: never
+      topRightText?: never
+    }
+  | {
+      bottomLeftText: string | React.ReactNode
+      bottomRightText?: never
+      icon: React.ReactNode
+      loading?: never
+      rightAction: true
+      topLeftText: string | React.ReactNode
+      topRightText?: never
+    }
+)
 
 export default StandardRow

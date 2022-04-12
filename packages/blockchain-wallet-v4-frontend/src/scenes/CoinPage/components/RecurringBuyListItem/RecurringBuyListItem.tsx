@@ -2,11 +2,9 @@ import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDateFomatter, useIsToday, useRecord } from 'blockchain-wallet-v4-frontend/src/hooks'
 
-import { Icon, Text } from 'blockchain-info-components'
-import { ClickableArea } from 'components/ClickableArea'
-import { Expanded, Flex } from 'components/Flex'
+import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
-import { Padding } from 'components/Padding'
+import { StandardRow } from 'components/Rows'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { useFormatFiat } from '../CoinPage/hooks'
@@ -80,34 +78,16 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
   }, [isToday, formattedDate])
 
   return (
-    <ClickableArea onClick={onClick}>
-      <Padding all={16}>
-        <Flex>
-          <Flex alignItems='center' justifyContent='center'>
-            <IconCircularBackground color='orange400'>
-              <Icon name='sync-regular' size='12px' color='white' />
-            </IconCircularBackground>
-          </Flex>
-
-          <Expanded>
-            <Padding horizontal={16}>
-              <Flex flexDirection='column'>
-                <Text color='grey900' weight={600} size='16px' lineHeight='24px'>
-                  {title}
-                </Text>
-
-                <Text color='grey600' weight={500} size='14px' lineHeight='20px'>
-                  {subtitle}
-                </Text>
-              </Flex>
-            </Padding>
-          </Expanded>
-
-          <Flex alignItems='center' justifyContent='center'>
-            <Icon name='chevron-right' size='24px' color='grey400' />
-          </Flex>
-        </Flex>
-      </Padding>
-    </ClickableArea>
+    <StandardRow
+      onClick={onClick}
+      icon={
+        <IconCircularBackground color='orange400'>
+          <Icon name='sync-regular' size='12px' color='white' />
+        </IconCircularBackground>
+      }
+      rightAction
+      bottomLeftText={subtitle}
+      topLeftText={title}
+    />
   )
 }
