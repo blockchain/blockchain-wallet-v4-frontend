@@ -13,7 +13,7 @@ import { UseRecurringBuyPanelHook } from './types'
 import { convertInputCurrencyToNumber } from './utils'
 
 export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
-  const { data } = useListRecurringBuyForCoin({ coin })
+  const { data, isLoading } = useListRecurringBuyForCoin({ coin })
   const [openRecurringBuy] = useOpenRecurringBuyFlayout()
   const [openRecurringBuyBanner] = useRecurringBuyBannerFlyout()
   const { trackOnClickLearnMore } = useRecurringBuyTracker()
@@ -41,14 +41,14 @@ export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
   }, [openRecurringBuyBanner, trackOnClickLearnMore])
 
   const recurringBuysNode: ReactNode = useMemo(() => {
-    if (!recurringBuyListItems) return null
+    if (isLoading) return null
 
     if (recurringBuyListItems.length === 0) {
       return <LearnAboutRecurringBuyPanel onClick={handleOnClickOpenRecurringBuyBanner} />
     }
 
     return <RecurringBuyPanel>{recurringBuyListItems}</RecurringBuyPanel>
-  }, [recurringBuyListItems, handleOnClickOpenRecurringBuyBanner])
+  }, [recurringBuyListItems, handleOnClickOpenRecurringBuyBanner, isLoading])
 
   return [recurringBuysNode]
 }
