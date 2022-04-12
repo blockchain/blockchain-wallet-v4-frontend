@@ -1791,7 +1791,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return bankAccount
   }
 
+  const cleanupCancellableOrders = function* () {
+    const order = S.getCancelableOrder(yield select())
+    if (order) {
+      yield call(api.cancelBSOrder, order)
+      yield put(A.fetchOrders())
+      yield take(A.fetchOrdersSuccess.type)
+    }
+  }
+
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
+    // When opening the buy modal if there are any existing orders that are cancellable, cancel them
+    yield call(cleanupCancellableOrders)
+
     const { cryptoCurrency, orderType, origin } = payload
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
