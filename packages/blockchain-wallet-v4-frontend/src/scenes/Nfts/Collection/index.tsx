@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
@@ -19,7 +19,7 @@ import {
 import { SelectBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AssetFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
+import { AssetSortFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { Grid, GridWrapper } from '../components'
@@ -126,13 +126,7 @@ export const getMinMaxFilters = (formValues: NftFilterFormValuesType) =>
 
 export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.sortBy
 
-const NftsCollection: React.FC<Props> = ({
-  collection,
-  formActions,
-  formValues,
-  nftsActions,
-  ...rest
-}) => {
+const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
 
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
@@ -142,10 +136,8 @@ const NftsCollection: React.FC<Props> = ({
   )
 
   useWhyDidYouUpdate('NftsCollection', {
-    collection,
     formActions,
     formValues,
-    nftsActions,
     ...rest
   })
 
@@ -161,58 +153,59 @@ const NftsCollection: React.FC<Props> = ({
     }, 100)
   }, [slug, formValues])
 
-  useEffect(() => {
-    nftsActions.fetchNftCollection({ slug })
-  }, [formActions, nftsActions, slug])
-
   const maxMinFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
 
   const hasSomeFilters =
     formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
-  const collectionData = results.data?.collections ? results.data.collections[0] : undefined
+  const collection = results.data?.collections ? results.data.collections[0] : undefined
 
-  if (!collectionData) return null
+  if (!collection) return null
 
   return (
     <div style={{ paddingTop: '0px', position: 'relative' }}>
       <OpenSeaStatusComponent />
-      <CollectionHeader bgUrl={collectionData.banner_image_url || ''}>
+      <CollectionHeader bgUrl={collection.banner_image_url || ''}>
         <CollectionBannerWrapper style={{ width: '100%' }}>
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              <CollectionImage src={collectionData.image_url || ''} />
+              <CollectionImage src={collection.image_url || ''} />
               <Text color='white' size='32px' weight={600}>
-                {collectionData.name}
+                {collection.name}
               </Text>
             </div>
             <LinksContainer>
-              {collectionData.external_url ? (
-                <Link target='_blank' href={collectionData.external_url}>
+              {collection.external_url ? (
+                <Link target='_blank' href={collection.external_url}>
                   <Icon name={IconName.GLOBE} color='grey400' />
                 </Link>
               ) : null}
-              {collectionData.instagram_username ? (
+              {collection.instagram_username ? (
                 <Link
                   target='_blank'
-                  href={`https://instagram.com/${collectionData.instagram_username}`}
+                  href={`https://instagram.com/${collection.instagram_username}`}
                 >
                   <Icon name={IconName.CAMERA} color='grey400' />
                 </Link>
               ) : null}
-              {collectionData.discord_url ? (
-                <Link target='_blank' href={`${collectionData.discord_url}`}>
+              {collection.discord_url ? (
+                <Link target='_blank' href={`${collection.discord_url}`}>
                   <Icon name={IconName.COMPUTER} color='grey400' />
                 </Link>
               ) : null}
             </LinksContainer>
           </CollectionInfo>
-          <Stats collection={collection} />
+          <Stats stats={collection.stats} />
         </CollectionBannerWrapper>
       </CollectionHeader>
       <GridWrapper>
-        <NftFilter formActions={formActions} formValues={formValues} collection={collection} />
+        <NftFilter
+          formActions={formActions}
+          formValues={formValues}
+          stats={collection.stats}
+          traits={collection.traits}
+        />
         <div style={{ width: '100%' }}>
           <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
             <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
@@ -226,9 +219,9 @@ const NftsCollection: React.FC<Props> = ({
                   {
                     group: '',
                     items: [
-                      { text: 'Price: Low to High', value: `${AssetFields.Price}-ASC` },
-                      { text: 'Price: High to Low', value: `${AssetFields.Price}-DESC` },
-                      { text: 'Recently Listed', value: `${AssetFields.ListingDate}-DESC` }
+                      { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                      { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                      { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
                     ]
                   }
                 ]}
@@ -341,15 +334,13 @@ const NftsCollection: React.FC<Props> = ({
 }
 
 const mapStateToProps = (state: RootState) => ({
-  collection: selectors.components.nfts.getNftCollection(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftFilter')(state) as NftFilterFormValuesType
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  nftsActions: bindActionCreators(actions.components.nfts, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

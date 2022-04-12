@@ -4,11 +4,10 @@ import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { NftCollection } from '@core/network/api/nfts/types'
-import { RemoteDataType } from '@core/types'
-import { Button, Icon as ComponentIcon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
+import { CollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { NftFilterFormValuesType } from '../Collection'
@@ -76,9 +75,32 @@ const TraitItem = styled.div`
   }
 `
 
-const NftFilter: React.FC<Props> = ({ collection, formActions, formValues }) => {
+const NftFilter: React.FC<Props> = ({ formActions, formValues, stats, traits }) => {
   const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
+
+  if (!traits) return null
+
+  const organizedTraits = traits.reduce(
+    (acc, curr) => {
+      if (curr && curr?.trait_type && curr?.value && curr.count) {
+        return {
+          ...acc,
+          [curr.trait_type]: {
+            ...acc[curr.trait_type],
+            [curr.value]: curr.count
+          }
+        }
+      }
+
+      return acc
+    },
+    {} as {
+      [key: string]: {
+        [key: string]: number
+      }
+    }
+  )
 
   return (
     <Wrapper isOpen={isOpen}>
@@ -107,133 +129,124 @@ const NftFilter: React.FC<Props> = ({ collection, formActions, formValues }) => 
         </IconWrapper>
       </FilterHeader>
       <Form>
-        {collection.cata({
-          Failure: () => (
-            <Text size='12px' weight={500}>
-              Error: You must select a collection!
+        <div style={{ display: isOpen ? 'block' : 'none' }}>
+          <div>
+            <Button
+              onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
+              nature={formValues?.forSale ? 'primary' : 'empty-blue'}
+              data-e2e='buyNowToggle'
+            >
+              <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+            </Button>
+          </div>
+          <div style={{ marginTop: '24px' }}>
+            <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
+              <FormattedMessage id='copy.price' defaultMessage='Price' />
             </Text>
-          ),
-          Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
-          NotAsked: () => <SpinningLoader height='14px' width='14px' borderWidth='3px' />,
-          Success: (val) => (
-            <div style={{ display: isOpen ? 'block' : 'none' }}>
-              <div>
-                <Button
-                  onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
-                  nature={formValues?.forSale ? 'primary' : 'empty-blue'}
-                  data-e2e='buyNowToggle'
-                >
-                  <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-                </Button>
-              </div>
-              <div style={{ marginTop: '24px' }}>
-                <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
-                  <FormattedMessage id='copy.price' defaultMessage='Price' />
-                </Text>
-                <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
-                  <Field name='min' component={NumberBox} placeholder='Min' />
-                  <Field name='max' component={NumberBox} placeholder='Max' />
-                  <ComponentIcon size='18px' name='ETH' />
-                </div>
-              </div>
-              <div style={{ marginTop: '24px' }}>
-                <Text size='14px' weight={600} color='black'>
-                  <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
-                </Text>
-                {Object.keys(val.traits).map((trait) => {
-                  const isActive = activeTraits.indexOf(trait) > -1
-
-                  return (
-                    <TraitWrapper key={trait}>
-                      <TraitHeader
-                        role='button'
-                        onClick={() => {
-                          if (activeTraits.indexOf(trait) === -1) {
-                            setActiveTraits([...activeTraits, trait])
-                          } else {
-                            setActiveTraits(activeTraits.filter((t) => t !== trait))
-                          }
-                        }}
-                      >
-                        <Text size='14px' weight={500} color='black'>
-                          {trait}
-                        </Text>
-                        <Icon
-                          name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
-                          color={colors.grey400}
-                        />
-                      </TraitHeader>
-                      <TraitList isActive={isActive}>
-                        {Object.keys(val.traits[trait])
-                          .sort((a, b) => (val.traits[trait][a] < val.traits[trait][b] ? 1 : -1))
-                          .map((value) => {
-                            return (
-                              <TraitItem key={value}>
-                                <div
-                                  style={{ alignItems: 'center', display: 'flex', width: '100%' }}
-                                >
-                                  <Field
-                                    component='input'
-                                    name={`${trait}.${value}`}
-                                    type='checkbox'
-                                    id={`${trait}.${value}`}
-                                  />
-                                  <label
-                                    htmlFor={`${trait}.${value}`}
-                                    style={{
-                                      alignItems: 'center',
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                      whiteSpace: 'nowrap',
-                                      width: '100%'
-                                    }}
-                                  >
-                                    <Text
-                                      style={{ marginLeft: '4px' }}
-                                      size='12px'
-                                      weight={600}
-                                      color='black'
-                                      capitalize
-                                    >
-                                      {value}
-                                    </Text>
-                                    <div style={{ alignItems: 'center', display: 'flex' }}>
-                                      <Text size='12px' weight={500} color='grey500'>
-                                        {val.traits[trait][value]}
-                                      </Text>
-                                      &nbsp;
-                                      <Text size='12px' weight={500} color='grey500'>
-                                        (
-                                        {(
-                                          (Number(val.traits[trait][value]) /
-                                            Number(val.stats.total_supply)) *
-                                          100
-                                        ).toFixed(2)}
-                                        %)
-                                      </Text>
-                                    </div>
-                                  </label>
-                                </div>
-                              </TraitItem>
-                            )
-                          })}
-                      </TraitList>
-                    </TraitWrapper>
-                  )
-                })}
-              </div>
+            <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
+              <Field name='min' component={NumberBox} placeholder='Min' />
+              <Field name='max' component={NumberBox} placeholder='Max' />
+              <ComponentIcon size='18px' name='ETH' />
             </div>
-          )
-        })}
+          </div>
+          <div style={{ marginTop: '24px' }}>
+            <Text size='14px' weight={600} color='black'>
+              <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
+            </Text>
+            {Object.keys(organizedTraits).map((trait) => {
+              const isActive = activeTraits.indexOf(trait) > -1
+
+              return (
+                <TraitWrapper key={trait}>
+                  <TraitHeader
+                    role='button'
+                    onClick={() => {
+                      if (activeTraits.indexOf(trait) === -1) {
+                        setActiveTraits([...activeTraits, trait])
+                      } else {
+                        setActiveTraits(activeTraits.filter((t) => t !== trait))
+                      }
+                    }}
+                  >
+                    <Text size='14px' weight={500} color='black'>
+                      {trait}
+                    </Text>
+                    <Icon
+                      name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
+                      color={colors.grey400}
+                    />
+                  </TraitHeader>
+                  <TraitList isActive={isActive}>
+                    {Object.keys(organizedTraits[trait])
+                      .sort((a, b) =>
+                        organizedTraits[trait][a] < organizedTraits[trait][b] ? 1 : -1
+                      )
+                      .map((value) => {
+                        return (
+                          <TraitItem key={value}>
+                            <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
+                              <Field
+                                component='input'
+                                name={`${trait}.${value}`}
+                                type='checkbox'
+                                id={`${trait}.${value}`}
+                              />
+                              <label
+                                htmlFor={`${trait}.${value}`}
+                                style={{
+                                  alignItems: 'center',
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  whiteSpace: 'nowrap',
+                                  width: '100%'
+                                }}
+                              >
+                                <Text
+                                  style={{ marginLeft: '4px' }}
+                                  size='12px'
+                                  weight={600}
+                                  color='black'
+                                  capitalize
+                                >
+                                  {value}
+                                </Text>
+                                <div style={{ alignItems: 'center', display: 'flex' }}>
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    {organizedTraits[trait][value]}
+                                  </Text>
+                                  &nbsp;
+                                  <Text size='12px' weight={500} color='grey500'>
+                                    {stats?.total_supply
+                                      ? `(${(
+                                          (Number(organizedTraits[trait][value]) /
+                                            Number(stats?.total_supply)) *
+                                          100
+                                        ).toFixed(2)}%)`
+                                      : null}
+                                  </Text>
+                                </div>
+                              </label>
+                            </div>
+                          </TraitItem>
+                        )
+                      })}
+                  </TraitList>
+                </TraitWrapper>
+              )
+            })}
+          </div>
+        </div>
+        )
       </Form>
     </Wrapper>
   )
 }
 
 type Props = {
-  collection: RemoteDataType<string, NftCollection>
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  stats: CollectionsQuery['collections'][0]['stats']
+  traits: CollectionsQuery['collections'][0]['traits']
 }
 
 export default NftFilter

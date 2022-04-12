@@ -76,20 +76,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchNftCollection = function* (action: ReturnType<typeof A.fetchNftCollection>) {
-    try {
-      yield put(A.fetchNftCollectionLoading())
-      const { collection }: ReturnType<typeof api.getNftCollection> = yield call(
-        api.getNftCollection,
-        action.payload.slug
-      )
-      yield put(A.fetchNftCollectionSuccess(collection))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftCollectionFailure(error))
-    }
-  }
-
   const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
     try {
       const collections = S.getNftCollections(yield select())
@@ -618,7 +604,6 @@ export default ({ api }: { api: APIType }) => {
     createTransfer,
     fetchFees,
     fetchNftAssets,
-    fetchNftCollection,
     fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenseaAsset,

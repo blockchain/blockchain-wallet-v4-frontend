@@ -10,5 +10,15 @@ query Collections($filter: [CollectionFilter]) {
     description
     created_date
     name
+    stats {
+      total_supply
+      floor_price
+			total_volume
+    }
+    traits {
+      count
+      value
+      trait_type
+    }
   }
 }

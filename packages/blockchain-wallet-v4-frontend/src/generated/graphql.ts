@@ -45,7 +45,7 @@ export type Asset = {
   is_nsfw: Scalars['Boolean'];
   is_presale: Scalars['Boolean'];
   last_sale?: Maybe<Event>;
-  listing?: Maybe<Event>;
+  listing?: Maybe<Array<Maybe<Event>>>;
   name?: Maybe<Scalars['String']>;
   num_sales: Scalars['Int'];
   offers?: Maybe<Array<Maybe<Event>>>;
@@ -60,7 +60,13 @@ export type Asset = {
   transfer_fee_symbol: Scalars['String'];
 };
 
-export enum AssetFields {
+export type AssetFilter = {
+  field: AssetFilterFields;
+  operator?: InputMaybe<FilterOperators>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+export enum AssetFilterFields {
   AnimationOriginalUrl = 'animation_original_url',
   AnimationUrl = 'animation_url',
   AssetBundleSlug = 'asset_bundle_slug',
@@ -79,9 +85,9 @@ export enum AssetFields {
   ImageUrl = 'image_url',
   IsNsfw = 'is_nsfw',
   IsPresale = 'is_presale',
-  ListingDate = 'listing_date',
   Name = 'name',
   NumSales = 'num_sales',
+  OwnerAddress = 'owner_address',
   Permalink = 'permalink',
   Price = 'price',
   SupportsWyvern = 'supports_wyvern',
@@ -92,16 +98,44 @@ export enum AssetFields {
   TransferFeeSymbol = 'transfer_fee_symbol'
 }
 
-export type AssetFilter = {
-  field: AssetFields;
-  operator?: InputMaybe<FilterOperators>;
-  value?: InputMaybe<Scalars['String']>;
-};
-
 export type AssetSort = {
-  by?: InputMaybe<AssetFields>;
+  by?: InputMaybe<AssetSortFields>;
   direction?: InputMaybe<SortDirection>;
 };
+
+export enum AssetSortFields {
+  AnimationOriginalUrl = 'animation_original_url',
+  AnimationUrl = 'animation_url',
+  AssetBundleSlug = 'asset_bundle_slug',
+  BackgroundColor = 'background_color',
+  CollectionSlug = 'collection_slug',
+  ContractAddress = 'contract_address',
+  CreatorAddress = 'creator_address',
+  DateIngested = 'date_ingested',
+  Decimals = 'decimals',
+  Description = 'description',
+  EndingTime = 'ending_time',
+  ExternalLink = 'external_link',
+  Id = 'id',
+  ImageOriginalUrl = 'image_original_url',
+  ImagePreviewUrl = 'image_preview_url',
+  ImageThumbnailUrl = 'image_thumbnail_url',
+  ImageUrl = 'image_url',
+  IsNsfw = 'is_nsfw',
+  IsPresale = 'is_presale',
+  ListingDate = 'listing_date',
+  Name = 'name',
+  NumSales = 'num_sales',
+  OwnerAddress = 'owner_address',
+  Permalink = 'permalink',
+  Price = 'price',
+  SupportsWyvern = 'supports_wyvern',
+  TokenId = 'token_id',
+  TokenMetadata = 'token_metadata',
+  TransferFee = 'transfer_fee',
+  TransferFeeAddress = 'transfer_fee_address',
+  TransferFeeSymbol = 'transfer_fee_symbol'
+}
 
 export type Collection = {
   __typename?: 'Collection';
@@ -226,6 +260,7 @@ export type Event = {
   date_ingested: Scalars['String'];
   duration?: Maybe<Scalars['Int']>;
   ending_price?: Maybe<Scalars['String']>;
+  ending_time?: Maybe<Scalars['String']>;
   event_type?: Maybe<Scalars['String']>;
   from_account_address: Scalars['String'];
   id: Scalars['ID'];
@@ -273,6 +308,7 @@ export type Query = {
 
 
 export type QueryAssetsArgs = {
+  endingSoon?: InputMaybe<Scalars['Boolean']>;
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>>>;
   forSale?: InputMaybe<Scalars['Boolean']>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -362,14 +398,14 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listing?: { __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listing?: Array<{ __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, stats?: { __typename?: 'Stats', total_supply?: number | null, floor_price?: number | null, total_volume?: number | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -620,9 +656,12 @@ export default {
           {
             "name": "listing",
             "type": {
-              "kind": "OBJECT",
-              "name": "Event",
-              "ofType": null
+              "kind": "LIST",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Event",
+                "ofType": null
+              }
             },
             "args": []
           },
@@ -1355,6 +1394,14 @@ export default {
             "args": []
           },
           {
+            "name": "ending_time",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "event_type",
             "type": {
               "kind": "SCALAR",
@@ -1622,6 +1669,13 @@ export default {
               }
             },
             "args": [
+              {
+                "name": "endingSoon",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
               {
                 "name": "filter",
                 "type": {
@@ -2143,6 +2197,16 @@ export const CollectionsDocument = gql`
     description
     created_date
     name
+    stats {
+      total_supply
+      floor_price
+      total_volume
+    }
+    traits {
+      count
+      value
+      trait_type
+    }
   }
 }
     `;

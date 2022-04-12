@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import {
-  AssetFields,
+  AssetFilterFields,
   useAssetQuery,
   useAssetsQuery
 } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
@@ -329,13 +329,13 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
   const [asset] = useAssetQuery({
     variables: {
       filter: [
-        { field: AssetFields.ContractAddress, value: contract },
-        { field: AssetFields.TokenId, value: id }
+        { field: AssetFilterFields.ContractAddress, value: contract },
+        { field: AssetFilterFields.TokenId, value: id }
       ]
     }
   })
   const [assets] = useAssetsQuery({
-    variables: { filter: [{ field: AssetFields.ContractAddress, value: contract }] }
+    variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }] }
   })
   const [Tab, setTab] = useState('details')
   const [Countdown, setCountdown] = useState('')

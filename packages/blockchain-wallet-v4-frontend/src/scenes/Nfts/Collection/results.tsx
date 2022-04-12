@@ -7,7 +7,12 @@ import { CombinedError } from 'urql'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { AssetFields, SortDirection, useAssetsQuery } from 'generated/graphql'
+import {
+  AssetFilterFields,
+  AssetSortFields,
+  SortDirection,
+  useAssetsQuery
+} from 'generated/graphql'
 
 import {
   Asset,
@@ -46,14 +51,14 @@ const ResultsPage: React.FC<Props> = ({
 
   const sort = formValues?.sortBy
     ? {
-        by: formValues.sortBy.split('-')[0] as AssetFields,
+        by: formValues.sortBy.split('-')[0] as AssetSortFields,
         direction: formValues.sortBy.split('-')[1] as SortDirection
       }
     : null
 
   const [result] = useAssetsQuery({
     variables: {
-      filter: [{ field: AssetFields.CollectionSlug, value: slug }],
+      filter: [{ field: AssetFilterFields.CollectionSlug, value: slug }],
       forSale: !!formValues?.forSale || formValues?.sortBy?.includes('price'),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
@@ -73,6 +78,10 @@ const ResultsPage: React.FC<Props> = ({
   return (
     <>
       {result?.data?.assets?.map((asset) => {
+        const highestListing = asset.listing
+          ? asset.listing.sort((a, b) => Number(b?.total_price) - Number(a?.total_price))[0]
+          : null
+
         return asset ? (
           <MarketplaceAsset key={asset?.token_id}>
             <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
@@ -95,15 +104,15 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {asset.listing && asset.listing.total_price ? (
+                  {highestListing && highestListing.total_price ? (
                     <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                       <StyledCoinDisplay
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={asset.listing.payment_token_symbol}
+                        coin={highestListing.payment_token_symbol}
                       >
-                        {asset.listing.total_price}
+                        {highestListing.total_price}
                       </StyledCoinDisplay>
                       &nbsp;-&nbsp;
                       <FiatDisplay
@@ -111,9 +120,9 @@ const ResultsPage: React.FC<Props> = ({
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={asset.listing.payment_token_symbol}
+                        coin={highestListing.payment_token_symbol}
                       >
-                        {asset.listing.total_price}
+                        {highestListing.total_price}
                       </FiatDisplay>
                     </Text>
                   ) : (
