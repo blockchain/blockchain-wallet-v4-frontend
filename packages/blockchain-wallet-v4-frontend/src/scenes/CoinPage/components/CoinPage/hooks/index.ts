@@ -1,7 +1,6 @@
 export * from './useChart'
 export * from './useChartBalancePanel'
 export * from './useFormatFiat'
-export * from './usePriceIndexSeries'
 export * from './useRecurringBuyPanel'
 export * from './useTabs'
 export * from './useWalletsCard'
