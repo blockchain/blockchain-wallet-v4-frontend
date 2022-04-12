@@ -1,4 +1,3 @@
-import { routerActions } from 'connected-react-router'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
@@ -40,40 +39,9 @@ const INSUFFICIENT_FUNDS = 'insufficient funds'
 export default ({ api }: { api: APIType }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
 
-  const clearAndRefetchAssets = function* () {
-    yield put(A.resetNftAssets())
-    yield put(A.fetchNftAssets())
-  }
-
   const clearAndRefetchOffersMade = function* () {
     yield put(A.resetNftOffersMade())
     yield put(A.fetchNftOffersMade())
-  }
-
-  const fetchNftAssets = function* () {
-    try {
-      const assets = S.getNftAssets(yield select())
-      if (assets.atBound) return
-      yield put(A.fetchNftAssetsLoading())
-      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
-      const ethAddr = ethAddrR.getOrFail('No ETH address.')
-      const nfts: ReturnType<typeof api.getNftAssets> = yield call(
-        api.getNftAssets,
-        ethAddr,
-        assets.page
-      )
-
-      if (nfts.length < NFT_ORDER_PAGE_LIMIT) {
-        yield put(A.setAssetBounds({ atBound: true }))
-      } else {
-        yield put(A.setAssetData({ page: assets.page + 1 }))
-      }
-
-      yield put(A.fetchNftAssetsSuccess(nfts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftAssetsFailure(error))
-    }
   }
 
   const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
@@ -145,7 +113,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchNftOffersMadeLoading())
-      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(api.getOpenSeaStatus)
+      const res: ReturnType<typeof api.getOpenseaStatus> = yield call(api.getOpenseaStatus)
       yield put(A.fetchOpenseaStatusSuccess(res))
     } catch (e) {
       yield put(A.fetchOpenseaStatusFailure(e))
@@ -309,7 +277,6 @@ export default ({ api }: { api: APIType }) => {
       const { buy, gasData, sell } = action.payload
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
-      yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
     } catch (e) {
       let error = errorHandler(e)
@@ -596,14 +563,12 @@ export default ({ api }: { api: APIType }) => {
     acceptOffer,
     cancelListing,
     cancelOffer,
-    clearAndRefetchAssets,
     clearAndRefetchOffersMade,
     createOffer,
     createOrder,
     createSellOrder,
     createTransfer,
     fetchFees,
-    fetchNftAssets,
     fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenseaAsset,

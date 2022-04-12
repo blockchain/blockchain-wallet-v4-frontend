@@ -173,18 +173,6 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
-    fetchNftAssets: () => {},
-    fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
-      state.assets.isFailure = true
-    },
-    fetchNftAssetsLoading: (state) => {
-      state.assets.isLoading = true
-    },
-    fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType>) => {
-      state.assets.isFailure = false
-      state.assets.isLoading = false
-      state.assets.list = [...state.assets.list, ...action.payload]
-    },
     fetchNftCollections: (
       state,
       action: PayloadAction<{
