@@ -4,7 +4,8 @@ import {
   BuildTxResponseType,
   DeriveAddressResponseType,
   IndexMultiResponseType,
-  TickerResponseType
+  TickerResponseType,
+  TxHistoryResponseType
 } from './types'
 
 export default ({ apiUrl, get, post }) => {
@@ -84,7 +85,9 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const txHistory = (pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]) => {
+  const txHistory = (
+    pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
+  ): TxHistoryResponseType => {
     return post({
       contentType: 'application/json',
       data: {

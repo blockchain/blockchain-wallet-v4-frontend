@@ -109,3 +109,28 @@ export type TickerResponseType = {
     symbol: string
   }
 }
+
+export type TxHistoryResponseType = {
+  addresses: {
+    [key in string]: {
+      descriptor: string
+      pubKey: string
+      style: 'SINGLE'
+    }
+  }
+  history: SelfCustodyTxType[]
+}
+
+export type SelfCustodyTxType = {
+  extraData: {}
+  fee: string
+  movements: {
+    address: string
+    amount: string
+    currency: 'native'
+    type: 'SENT' | 'RECEIVED'
+  }[]
+  status: 'PENDING' | 'CONFIRMING' | 'COMPLETED' | 'FAILED'
+  timestamp: number
+  txId: string
+}

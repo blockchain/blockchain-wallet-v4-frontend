@@ -93,12 +93,6 @@ export default ({ api }: { api: APIType }) => {
         yield select(),
         payload.coin
       )
-      const pubKey = yield call(getPubKey, '')
-      // TODO: SELF_CUSTODY
-      const stxPage = yield call(api.txHistory, [
-        { descriptor: 'default', pubKey, style: 'SINGLE' }
-      ])
-      console.log(stxPage)
       const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
         fetchCustodialOrdersAndTransactions,
         txPage,
@@ -107,8 +101,20 @@ export default ({ api }: { api: APIType }) => {
         payload.coin,
         reset ? null : nextBSTransactionsURL
       )
-      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      const txList = [txPage, custodialPage.orders]
+      if (payload.coin === 'STX') {
+        const pubKey = yield call(getPubKey, '')
+        // TODO: SELF_CUSTODY
+        const stxPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
+          { descriptor: 'default', pubKey, style: 'SINGLE' }
+        ])
+        txList.push(stxPage.history)
+      }
+      const page = flatten(txList).sort((a, b) => {
+        return (
+          moment(b.insertedAt || b.timestamp).valueOf() -
+          moment(a.insertedAt || a.timestamp).valueOf()
+        )
       })
       const atBounds = page.length < TX_PER_PAGE
       yield put(A.transactionsAtBound(payload.coin, atBounds))

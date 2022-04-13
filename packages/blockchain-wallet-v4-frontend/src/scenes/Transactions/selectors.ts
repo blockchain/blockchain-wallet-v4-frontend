@@ -98,6 +98,10 @@ const coinSelectorMap = (
   if (selectors.core.common[toLower(coin)]) {
     return selectors.core.common[toLower(coin)].getWalletTransactions
   }
+  // TODO: SELF_CUSTODY
+  if (coin === 'STX') {
+    return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
+  }
 
   // default to fiat
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
