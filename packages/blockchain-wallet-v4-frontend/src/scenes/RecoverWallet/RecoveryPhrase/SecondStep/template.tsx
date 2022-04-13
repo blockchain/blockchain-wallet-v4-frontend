@@ -120,12 +120,6 @@ class SecondStep extends React.PureComponent<Props, State> {
                     name='recoverPassword'
                     validate={[required, validStrongPassword]}
                     component={PasswordBox}
-                    showPasswordScore
-                    passwordScore={
-                      has('zxcvbn', window)
-                        ? window.zxcvbn(formValues.recoverPassword || '').score
-                        : 0
-                    }
                   />
                 </FormGroup>
                 <FormGroup>

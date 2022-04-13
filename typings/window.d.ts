@@ -14,6 +14,5 @@ declare global {
     grecaptcha: any // google recaptcha sets this on window
     receiveMessageFromMobile: (any) => void // mobile <-> web messaging
     webkit: any // iOS <-> web messaging
-    zxcvbn?: any // TODO: delete this once password strength checker is gone
   }
 }

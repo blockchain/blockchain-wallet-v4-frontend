@@ -19,7 +19,7 @@ export {
   TextAreaInput,
   TextInput
 } from './Form'
-export { ConfirmationGauge, PasswordGauge, SecurityGauge } from './Gauges'
+export { ConfirmationGauge, SecurityGauge } from './Gauges'
 export { CoinAccountIcon, Icon } from './Icons'
 export { Background, Image } from './Images'
 export { Link } from './Links'

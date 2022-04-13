@@ -58,7 +58,7 @@ export const validEmailNotAllowed = (value) =>
   isEmail(value) ? <M.ValidEmailNotAllowed /> : undefined
 
 export const validMnemonic = (value) =>
-  bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
+  BIP39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
 
 // TODO SSO: remove with new flow
 export const validWalletId = (value) => (isGuid(value) ? undefined : <M.InvalidWalletIdMessage />)
@@ -73,10 +73,9 @@ export const validIpList = (ipList) => {
   return !ipList || all(isIpValid)(ipList.split(',')) ? undefined : <M.InvalidIpListMessage />
 }
 
+// TODO: what are new password requirements?
 export const validStrongPassword = (value) => {
-  return value !== undefined && window.zxcvbn && window.zxcvbn(value).score > 1 ? undefined : (
-    <M.InvalidStrongPassword />
-  )
+  return value !== undefined && value.length > 8 ? undefined : <M.InvalidStrongPassword />
 }
 
 export const validPasswordConfirmation = (passwordFieldName) => (value, allValues) =>

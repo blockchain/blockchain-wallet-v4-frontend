@@ -42,10 +42,6 @@ const SecondStep = (props: Props) => {
           name='resetAccountPassword'
           validate={[required, validStrongPassword]}
           component={PasswordBox}
-          showPasswordScore
-          passwordScore={
-            has('zxcvbn', window) ? window.zxcvbn(formValues.resetAccountPassword || '').score : 0
-          }
         />
       </FormGroup>
       <FormGroup>

@@ -87,10 +87,6 @@ const Settings = (props) => {
                 name='newPassword'
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
-                showPasswordScore
-                passwordScore={
-                  has('zxcvbn', window) ? window.zxcvbn(newWalletPasswordValue).score : 0
-                }
                 data-e2e='newPasswordInput'
               />
             </FormItemSpaced>

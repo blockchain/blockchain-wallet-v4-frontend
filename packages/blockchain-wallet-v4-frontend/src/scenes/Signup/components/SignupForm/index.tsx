@@ -76,7 +76,6 @@ const SignupForm = (props: Props) => {
     signupCountryEnabled
   } = props
   const { password = '' } = formValues || {}
-  const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -117,35 +116,9 @@ const SignupForm = (props: Props) => {
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            passwordScore={passwordScore}
-            showPasswordScore
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {password.length > 0 && (
-          <div>
-            <PasswordTip size='12px' weight={400}>
-              {passwordScore <= 1 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.weak'
-                  defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore >= 2 && passwordScore < 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.medium'
-                  defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore === 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.great'
-                  defaultMessage='Great password.'
-                />
-              )}
-            </PasswordTip>
-          </div>
-        )}
       </FormGroup>
       <FormGroup>
         <FormItem>
