@@ -34,8 +34,6 @@ export type SubviewProps = {
   onCountrySelect: (e: React.ChangeEvent<any> | undefined, value: string) => void
   onSignupSubmit: (e: React.SyntheticEvent, value: string) => void
   showForm: boolean
-  isLatam: boolean
   showState: boolean
   toggleSignupFormVisibility: () => void
-  toggleLatamVisibility: () => void
 } & OwnProps
