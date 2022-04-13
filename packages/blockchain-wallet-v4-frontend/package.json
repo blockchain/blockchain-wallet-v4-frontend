@@ -159,7 +159,8 @@
     "sanitize-html": "2.3.3",
     "slick-carousel": "1.8.1",
     "styled-components": "4.4.1",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "web-worker": "1.2.0"
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
