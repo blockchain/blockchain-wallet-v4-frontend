@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 
 export { normalizeCreditCardExpiry } from './utils'
 
