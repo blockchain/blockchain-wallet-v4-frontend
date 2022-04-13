@@ -52,3 +52,21 @@ export const Loading = Template.bind({})
 Loading.args = {
   loading: true
 }
+
+export const RightAction = Template.bind({})
+RightAction.args = {
+  bottomLeftText: 'Non-custodial',
+  icon: (
+    <IconCircularBackground color='orange400'>
+      <Icon name='key' size='8px' color='white' />
+    </IconCircularBackground>
+  ),
+  rightAction: true,
+  topLeftText: 'Private Key Wallet'
+}
+
+export const RightActionLoading = Template.bind({})
+RightActionLoading.args = {
+  loading: true,
+  rightAction: true
+}

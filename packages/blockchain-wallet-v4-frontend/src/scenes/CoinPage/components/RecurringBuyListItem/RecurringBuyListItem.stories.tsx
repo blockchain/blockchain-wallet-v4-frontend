@@ -28,8 +28,10 @@ const Template: ComponentStory<RecurringBuyListItemComponent> = (args) => {
 
 export const NextBuyToday = Template.bind({})
 NextBuyToday.args = {
+  currency: 'USD',
   date: new Date(),
-  period: RecurringBuyPeriods.MONTHLY
+  period: RecurringBuyPeriods.MONTHLY,
+  value: 1000
 }
 
 const now = new Date()
@@ -38,32 +40,42 @@ const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
 
 export const NextBuyTomorrow = Template.bind({})
 NextBuyTomorrow.args = {
+  currency: 'USD',
   date: tomorrow,
-  period: RecurringBuyPeriods.MONTHLY
+  period: RecurringBuyPeriods.MONTHLY,
+  value: 1000
 }
 
 export const MonthlyBuy = Template.bind({})
 MonthlyBuy.args = {
+  currency: 'USD',
   date: new Date(),
-  period: RecurringBuyPeriods.MONTHLY
+  period: RecurringBuyPeriods.MONTHLY,
+  value: 1000
 }
 
 export const DailyBuy = Template.bind({})
 DailyBuy.args = {
+  currency: 'USD',
   date: new Date(),
-  period: RecurringBuyPeriods.DAILY
+  period: RecurringBuyPeriods.DAILY,
+  value: 1000
 }
 
 export const BiWeeklyBuy = Template.bind({})
 BiWeeklyBuy.args = {
+  currency: 'USD',
   date: new Date(),
-  period: RecurringBuyPeriods.BI_WEEKLY
+  period: RecurringBuyPeriods.BI_WEEKLY,
+  value: 1000
 }
 
 export const WeeklyBuy = Template.bind({})
 WeeklyBuy.args = {
+  currency: 'USD',
   date: new Date(),
-  period: RecurringBuyPeriods.WEEKLY
+  period: RecurringBuyPeriods.WEEKLY,
+  value: 1000
 }
 
 export default recurringBuyListItemStoriesMeta
