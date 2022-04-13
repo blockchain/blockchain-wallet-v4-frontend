@@ -2,13 +2,14 @@ import {
   BalanceResponseType,
   BuildTxIntentType,
   BuildTxResponseType,
+  DeriveAddressResponseType,
   IndexMultiResponseType,
   TickerResponseType
 } from './types'
 
 export default ({ apiUrl, get, post }) => {
   // TODO: SELF_CUSTODY
-  const deriveAddress = (coin: string, pubKey: string) => {
+  const deriveAddress = (coin: string, pubKey: string): DeriveAddressResponseType => {
     return post({
       contentType: 'application/json',
       data: {

@@ -9,6 +9,11 @@ import { promptForSecondPassword } from 'services/sagas'
 export const getNextReceiveAddress = function* (coin: CoinType, networks, index, api: APIType) {
   const password = yield call(promptForSecondPassword)
   const pubKeys = yield call(getPubKey, password)
-  const { address } = yield call(api.deriveAddress, coin, pubKeys)
-  return address
+  const { results }: ReturnType<typeof api.deriveAddress> = yield call(
+    api.deriveAddress,
+    coin,
+    pubKeys
+  )
+  const address = results.find(({ default: isDefault }) => isDefault)
+  return address?.address
 }

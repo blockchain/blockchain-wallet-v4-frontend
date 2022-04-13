@@ -83,6 +83,15 @@ export type BuildTxResponseType = {
   }
 }
 
+export type DeriveAddressResponseType = {
+  results: {
+    address: string
+    default: boolean
+    format: string
+    pubKey: string
+  }[]
+}
+
 export type IndexMultiResponseType = {
   [key in string]: {
     price: number
