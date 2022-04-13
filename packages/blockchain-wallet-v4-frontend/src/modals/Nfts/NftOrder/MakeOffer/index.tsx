@@ -84,7 +84,6 @@ const MakeOffer: React.FC<Props> = (props) => {
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
     props.orderFlow.isSubmitting ||
-    !(needsWrap && canWrap) ||
     !termsAccepted
 
   const toggleTermsAccepted = () => {
