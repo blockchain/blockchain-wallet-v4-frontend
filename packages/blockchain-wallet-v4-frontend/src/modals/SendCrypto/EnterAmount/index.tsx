@@ -209,14 +209,14 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       >
         <AmountFieldInput
           coin={coin}
-          walletCurrency={walletCurrency}
+          fiatCurrency={walletCurrency}
           amtError={amtError}
           quote={quote}
+          data-e2e='sendAmountInput'
           fix={fix}
           name='amount'
           showCounter
-          validate={validate}
-          validate_terms_of_service='validate_IS_PASSED_TO_reduxForm'
+          showToggle
           onToggleFix={() => {
             formActions.change(SEND_FORM, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
             formActions.change(SEND_FORM, 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)

@@ -24,7 +24,6 @@ class LinkedCards extends PureComponent<Props> {
     await this.props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-    await this.props.buySellActions.addCardFinished()
   }
 
   proceedToUserVerification = () => {
