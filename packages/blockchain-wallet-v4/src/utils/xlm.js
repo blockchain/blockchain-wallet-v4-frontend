@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import queryString from 'query-string'
 import { assoc } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'

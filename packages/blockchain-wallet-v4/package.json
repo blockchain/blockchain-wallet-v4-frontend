@@ -62,7 +62,7 @@
     "bignumber.js": "8.0.2",
     "bip32": "2.0.6",
     "bip32-path": "0.4.2",
-    "bip39": "2.5.0",
+    "bip39-light": "1.0.7",
     "bip69": "2.1.4",
     "bitcoinforksjs-lib": "https://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "5.2.0",

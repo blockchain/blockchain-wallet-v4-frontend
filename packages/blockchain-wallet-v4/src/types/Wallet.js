@@ -1,4 +1,4 @@
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import Base58 from 'bs58'
 import Either from 'data.either'

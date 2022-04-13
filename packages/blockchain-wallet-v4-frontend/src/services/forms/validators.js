@@ -1,5 +1,5 @@
 import React from 'react'
-import bip39 from 'bip39'
+import BIP39 from 'bip39-light'
 import { isValidBIC, isValidIBAN } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
 import { validate } from 'postal-codes-js'
