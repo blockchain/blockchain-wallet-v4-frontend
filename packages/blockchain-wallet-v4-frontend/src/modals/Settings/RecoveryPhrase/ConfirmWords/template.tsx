@@ -5,7 +5,8 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 
 import { Props } from '../index'

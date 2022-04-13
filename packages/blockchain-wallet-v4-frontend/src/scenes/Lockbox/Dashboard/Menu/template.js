@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { CreatableInputField } from 'components/Form'
+import CreatableInputField from 'components/Form/CreatableInputField'
 
 import CurrencyList from './CurrencyList'
 import DeviceTitle from './DeviceTitle'

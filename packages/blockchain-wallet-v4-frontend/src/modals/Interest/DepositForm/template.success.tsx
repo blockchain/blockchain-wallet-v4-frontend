@@ -17,7 +17,9 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import CoinBalanceDropdown from 'components/Form/CoinBalanceDropdown'
+import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'

@@ -9,18 +9,16 @@ import styled from 'styled-components'
 import { Banner, Button, Image, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
-import {
-  CountdownTimer,
-  FiatConverter,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBoxBchAddresses,
-  SelectBoxCoin,
-  TextAreaDebounced,
-  TextBox
-} from 'components/Form'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import FiatConverter from 'components/Form/FiatConverter'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBoxBchAddresses from 'components/Form/SelectBoxBchAddresses'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import TextAreaDebounced from 'components/Form/TextAreaDebounced'
+import TextBox from 'components/Form/TextBox'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
@@ -62,7 +60,6 @@ const ImageInInputContainer = styled.div`
 
 const FirstStep = (props) => {
   const {
-    amount,
     excludeHDWallets,
     excludeLockbox,
     from,

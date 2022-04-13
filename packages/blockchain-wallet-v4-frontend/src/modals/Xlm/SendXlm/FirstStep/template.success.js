@@ -10,16 +10,14 @@ import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
-import {
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBoxCoin,
-  SelectBoxXlmAddresses,
-  TextAreaDebounced,
-  TextBox
-} from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import SelectBoxXlmAddresses from 'components/Form/SelectBoxXlmAddresses'
+import TextAreaDebounced from 'components/Form/TextAreaDebounced'
+import TextBox from 'components/Form/TextBox'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'

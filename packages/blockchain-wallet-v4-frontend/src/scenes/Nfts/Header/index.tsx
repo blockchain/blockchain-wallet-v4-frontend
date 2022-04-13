@@ -3,7 +3,9 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
-import { Form, SelectBox, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import SelectBox from 'components/Form/SelectBox'
+import TextBox from 'components/Form/TextBox'
 import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'

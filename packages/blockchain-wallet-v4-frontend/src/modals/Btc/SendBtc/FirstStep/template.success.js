@@ -17,20 +17,18 @@ import {
 } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
-import {
-  CountdownTimer,
-  FiatConverter,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  NumberBoxDebounced,
-  SelectBox,
-  SelectBoxBtcAddresses,
-  SelectBoxCoin,
-  TextAreaDebounced,
-  TextBox
-} from 'components/Form'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import FiatConverter from 'components/Form/FiatConverter'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import NumberBoxDebounced from 'components/Form/NumberBoxDebounced'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxBtcAddresses from 'components/Form/SelectBoxBtcAddresses'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import TextAreaDebounced from 'components/Form/TextAreaDebounced'
+import TextBox from 'components/Form/TextBox'
 import QRCodeCapture from 'components/QRCode/Capture'
 import {
   ColLeft,
@@ -100,7 +98,6 @@ const FirstStep = (props) => {
   } = props
 
   const {
-    amount,
     autofilled,
     excludeHDWallets,
     excludeLockbox,

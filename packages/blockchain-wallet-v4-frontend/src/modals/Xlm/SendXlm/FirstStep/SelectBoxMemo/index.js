@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SelectBox } from 'components/Form'
+import SelectBox from 'components/Form/SelectBox'
 
 const elements = [
   {

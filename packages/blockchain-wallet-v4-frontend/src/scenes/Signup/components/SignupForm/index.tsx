@@ -4,18 +4,16 @@ import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
-import {
-  CheckBox,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  PasswordBox,
-  SelectBox,
-  SelectBoxCountry,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxCountry from 'components/Form/SelectBoxCountry'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
 import { isBrowserSupported } from 'services/browser'
 import {

@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
 
 import { Remote } from '@core'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecoverSteps } from 'data/types'

@@ -5,7 +5,10 @@ import styled, { DefaultTheme } from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
 import { required, validEmail } from 'services/forms'
 

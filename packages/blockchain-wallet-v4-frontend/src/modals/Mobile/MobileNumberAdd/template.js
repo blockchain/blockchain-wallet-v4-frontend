@@ -12,7 +12,8 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form, PhoneNumberBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import PhoneNumberBox from 'components/Form/PhoneNumberBox'
 import { required, validMobileNumber } from 'services/forms'
 import { spacing } from 'services/styles'
 

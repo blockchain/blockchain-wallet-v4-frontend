@@ -11,18 +11,16 @@ import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
-import {
-  FiatConverter,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  NumberBoxDebounced,
-  SelectBox,
-  SelectBoxCoin,
-  SelectBoxEthAddresses,
-  TextAreaDebounced
-} from 'components/Form'
+import FiatConverter from 'components/Form/FiatConverter'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import NumberBoxDebounced from 'components/Form/NumberBoxDebounced'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import SelectBoxEthAddresses from 'components/Form/SelectBoxEthAddresses'
+import TextAreaDebounced from 'components/Form/TextAreaDebounced'
 import QRCodeCapture from 'components/QRCode/Capture'
 import {
   ColLeft,

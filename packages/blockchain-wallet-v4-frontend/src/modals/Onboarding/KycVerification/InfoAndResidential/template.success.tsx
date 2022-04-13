@@ -6,16 +6,14 @@ import styled from 'styled-components'
 
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  DateInputBox,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBox,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import DateInputBox from 'components/Form/DateInputBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import {

@@ -15,7 +15,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { AmountWrapper, StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 

@@ -12,14 +12,12 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import {
-  DateBoxDebounced,
-  Form,
-  SelectBoxBchAddresses,
-  SelectBoxBtcAddresses,
-  SelectBoxEthAddresses,
-  SelectBoxXlmAddresses
-} from 'components/Form'
+import DateBoxDebounced from 'components/Form/DateBoxDebounced'
+import Form from 'components/Form/Form'
+import SelectBoxBchAddresses from 'components/Form/SelectBoxBchAddresses'
+import SelectBoxBtcAddresses from 'components/Form/SelectBoxBtcAddresses'
+import SelectBoxEthAddresses from 'components/Form/SelectBoxEthAddresses'
+import SelectBoxXlmAddresses from 'components/Form/SelectBoxXlmAddresses'
 import { required } from 'services/forms'
 
 import { OwnProps, StateProps } from '.'

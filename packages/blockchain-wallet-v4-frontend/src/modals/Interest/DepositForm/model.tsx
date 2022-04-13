@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { CustomCartridge } from 'components/Cartridge'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 export const FORM_NAME = 'interestDepositForm'
 

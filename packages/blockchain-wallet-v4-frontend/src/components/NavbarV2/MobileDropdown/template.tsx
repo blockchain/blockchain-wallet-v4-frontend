@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { TextInputWithClipboard } from 'components/Form'
+import TextInputWithClipboard from 'components/Form/TextInputWithClipboard'
 import { DropdownMenu, DropdownMenuArrow } from 'components/NavbarV2/Dropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 

@@ -12,7 +12,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
 import { required } from 'services/forms'
 
 const Wrapper = styled.div`

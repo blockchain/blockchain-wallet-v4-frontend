@@ -11,7 +11,9 @@ import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { Form, NumberBox, SelectBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import NumberBox from 'components/Form/NumberBox'
+import SelectBox from 'components/Form/SelectBox'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 

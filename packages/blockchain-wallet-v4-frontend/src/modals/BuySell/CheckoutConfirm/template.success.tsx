@@ -19,7 +19,7 @@ import {
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { model } from 'data'
 import {
   getBaseAmount,

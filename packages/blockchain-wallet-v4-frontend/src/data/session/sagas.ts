@@ -1,8 +1,8 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import * as C from 'services/alerts'
 import { Analytics } from 'data/types'
+import * as C from 'services/alerts'
 
 export default ({ api }) => {
   const logLocation = 'session/sagas'

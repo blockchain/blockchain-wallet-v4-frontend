@@ -7,7 +7,9 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import PhoneNumberBox from 'components/Form/PhoneNumberBox'
+import TextBox from 'components/Form/TextBox'
 import { required, validMobileNumber } from 'services/forms'
 import { media } from 'services/styles'
 

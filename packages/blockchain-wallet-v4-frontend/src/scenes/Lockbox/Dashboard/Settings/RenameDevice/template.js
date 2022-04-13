@@ -5,7 +5,10 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import {
   SettingComponent,
   SettingContainer,

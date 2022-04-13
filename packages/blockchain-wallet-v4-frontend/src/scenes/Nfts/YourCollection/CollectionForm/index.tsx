@@ -7,7 +7,7 @@ import { NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay/'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { actions, model } from 'data'
 import { CampaignsType } from 'data/types'
 

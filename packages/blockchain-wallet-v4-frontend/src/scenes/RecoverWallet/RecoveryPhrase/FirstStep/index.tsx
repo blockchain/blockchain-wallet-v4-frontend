@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { TextArea } from 'components/Form'
+import TextArea from 'components/Form/TextArea'
 import { Analytics, RecoverSteps } from 'data/types'
 import { required, validMnemonic } from 'services/forms'
 
