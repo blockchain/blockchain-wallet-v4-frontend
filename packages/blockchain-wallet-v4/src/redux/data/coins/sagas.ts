@@ -108,7 +108,11 @@ export default ({ api }: { api: APIType }) => {
         const stxPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
           { descriptor: 'default', pubKey, style: 'SINGLE' }
         ])
-        txList.push(stxPage.history)
+        const history = stxPage.history.map((val) => ({
+          ...val,
+          type: val.movements[0].type
+        }))
+        txList.push(history)
       }
       const page = flatten(txList).sort((a, b) => {
         return (

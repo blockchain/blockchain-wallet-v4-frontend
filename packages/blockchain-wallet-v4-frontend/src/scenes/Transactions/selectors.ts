@@ -45,7 +45,9 @@ const filterTransactions = curry(
           filter === '' ||
           (x && toUpper(x) === toUpper(filter)) ||
           (x === 'DEPOSIT' && filter === 'received') ||
-          (x === 'WITHDRAWAL' && filter === 'sent'),
+          (x === 'WITHDRAWAL' && filter === 'sent') ||
+          (x === 'RECEIVED' && filter === 'received') ||
+          (x === 'SENT' && filter === 'sent'),
         'type',
         tx
       )

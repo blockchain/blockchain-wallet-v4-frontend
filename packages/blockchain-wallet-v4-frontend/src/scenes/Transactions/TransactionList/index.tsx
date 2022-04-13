@@ -57,7 +57,7 @@ class TransactionList extends PureComponent<Props> {
             ) : 'pair' in tx ? (
               <BuySellListItem key={tx.id} order={tx} />
             ) : 'movements' in tx ? (
-              <SelfCustodyTx />
+              <SelfCustodyTx key={tx.txId} tx={tx} />
             ) : (
               <CustodialTxListItem
                 key={tx.id}
