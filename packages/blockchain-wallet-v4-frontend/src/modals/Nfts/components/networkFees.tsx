@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { colors } from '@blockchain-com/constellation'
+import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import MakeOfferFees from '../NftOrder/MakeOffer/fees'
 import WrapEthFees from '../NftOrder/WrapEth/fees'
@@ -33,8 +36,10 @@ const OfferFees = styled.div`
 
 const WrappedEthFees = styled(OfferFees)``
 
-const Total = styled(Top)`
+const Total = styled(FiatDisplay)`
   margin-left: 10em;
+  display: flex;
+  justify-content: space-between;
 `
 
 const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
@@ -42,14 +47,34 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
   }
+
+  const getTotalFees = () => {
+    const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
+      .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
+      .plus(
+        new BigNumber(props?.orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
+          props?.orderFlow?.wrapEthFees?.data?.gasPrice
+        )
+      )
+    return !totalFees.isNaN() ? totalFees.toString() : 0
+  }
+
   return (
     <>
       <Wrapper>
         <Top onClick={toggleDropdown}>
-          <Text weight={500} color='#353F52' lineHeight='24px'>
+          <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
             Network Fees
           </Text>
-          <Total>$0.00</Total>
+          <Total
+            size='14px'
+            color={colors.grey600}
+            weight={600}
+            coin='ETH'
+            style={{ fontFamily: 'Inter', marginLeft: '2.6em' }}
+          >
+            {getTotalFees()}
+          </Total>
           {!moreFees && (
             <ChevronArea>
               <Icon name='chevron-right' size='24px' color='grey400' />
