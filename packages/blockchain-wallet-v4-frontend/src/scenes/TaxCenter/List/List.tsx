@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
-import styled from 'styled-components'
+import { Icon } from '@blockchain-com/constellation'
+import { IconClipboard, IconDownload } from '@blockchain-com/icons'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 
@@ -56,7 +56,11 @@ const List = ({ onExportClick, reports }) => (
         <ReportItem key={id}>
           <Content>
             {isPending && <StyledLoading borderWidth='4px' width='16px' height='16px' />}
-            {!isPending && <Icon name={IconName.CLIPBOARD} color={colors.blue600} size='md' />}
+            {!isPending && (
+              <Icon label='copy' color='blue600' size='md'>
+                <IconClipboard />
+              </Icon>
+            )}
             <Description>
               <Text size='16px' weight={600}>
                 {getReportTitle(from, to)}
@@ -67,7 +71,9 @@ const List = ({ onExportClick, reports }) => (
           {isCompleted && (
             <Link href={filePath} target='_blank' onClick={() => onExportClick(timePeriod)}>
               <Button nature='empty-blue' data-e2e='exportButton' type='button'>
-                <StyledIcon name={IconName.DOWNLOAD} color={colors.blue600} size='sm' />
+                <StyledIcon label='download' color='blue600' size='sm'>
+                  <IconDownload />
+                </StyledIcon>
                 <FormattedMessage
                   id='scenes.tax.center.list.component.export'
                   defaultMessage='Export'

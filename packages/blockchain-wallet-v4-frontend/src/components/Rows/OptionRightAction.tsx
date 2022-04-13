@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
 import { Icon } from '@blockchain-com/constellation'
+import { IconChevronRight } from '@blockchain-com/icons'
 import { rgba } from 'polished'
 import styled from 'styled-components'
 
@@ -32,34 +33,19 @@ const FlexWrapper = styled(Row)<{ disabled?: boolean }>`
     justify-content: center;
   }
 `
-const IconWrapper = styled.div`
+const ChildrenLayout = styled.div`
   display: flex;
   flex-direction: row !important;
   justify-content: center;
   align-items: center;
+  gap: 16px;
 
   & > div.disabledText > div {
     color: ${(props) => rgba(props.theme.grey900, 0.5)};
   }
-
-  & > div {
-    display: flex;
-    height: 5rem;
-    margin-left: 16px;
-    flex-direction: column;
-    justify-content: center;
-  }
 `
 
-const OptionRightActionRow = ({
-  children,
-  disabled,
-  iconColor,
-  iconComponent,
-  iconName,
-  onClick,
-  toolTip
-}: Props) => {
+const OptionRightActionRow = ({ children, disabled, icon, onClick, toolTip }: Props) => {
   const onClickCallback = useCallback(() => {
     if (!disabled) {
       onClick()
@@ -69,23 +55,20 @@ const OptionRightActionRow = ({
   const date = Date.now() // some randomness in case of multiple disabled rows
   const disabledId = `disabledRow${date}`
 
+  const wrappedChildren = useMemo(
+    () => <div className={disabled ? 'disabledText' : ''}>{children}</div>,
+    [disabled, children]
+  )
+
   return (
     <FlexWrapper disabled={disabled} role='button' onClick={onClickCallback}>
-      {iconComponent ? (
-        <IconWrapper>
-          {iconComponent()}
-          <div className={disabled ? 'disabledText' : ''}>{children}</div>
-        </IconWrapper>
-      ) : iconName && iconColor ? (
-        <IconWrapper>
-          {
-            // @ts-ignore
-            <Icon name={iconName} color={iconColor} size='md' />
-          }
-          <div className={disabled ? 'disabledText' : ''}>{children}</div>
-        </IconWrapper>
+      {icon ? (
+        <ChildrenLayout>
+          {icon}
+          {wrappedChildren}
+        </ChildrenLayout>
       ) : (
-        <div className={disabled ? 'disabledText' : ''}>{children}</div>
+        wrappedChildren
       )}
       {disabled ? (
         <div style={{ height: 'auto' }}>
@@ -97,8 +80,9 @@ const OptionRightActionRow = ({
           </TooltipHost>
         </div>
       ) : (
-        // @ts-ignore grey400
-        <Icon name='chevron-right' color='#98A1B2' size='md' />
+        <Icon label='chevron-right' color='grey400' size='md'>
+          <IconChevronRight />
+        </Icon>
       )}
     </FlexWrapper>
   )
@@ -107,9 +91,7 @@ const OptionRightActionRow = ({
 export type Props = {
   children: React.ReactNode
   disabled?: boolean
-  iconColor?: string
-  iconComponent?: () => void
-  iconName?: string
+  icon?: ReactNode
   onClick: () => void
   toolTip?: React.ReactNode
 }
