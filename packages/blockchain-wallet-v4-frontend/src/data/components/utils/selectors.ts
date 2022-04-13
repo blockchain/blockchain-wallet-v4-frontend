@@ -23,6 +23,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
+  // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
 
   const transform = (
@@ -39,7 +40,6 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
         'USD',
         'EUR',
         'GBP',
-        // TODO: SELF_CUSTODY
         'BTC',
         'ETH',
         'BCH',

@@ -15,8 +15,7 @@ const getSaga = (coin: CoinType) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return 'ERC20'
   }
-  // TODO: SELF_CUSTODY
-  if (coin === 'STX') {
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return 'SELF_CUSTODY'
   }
   return coin

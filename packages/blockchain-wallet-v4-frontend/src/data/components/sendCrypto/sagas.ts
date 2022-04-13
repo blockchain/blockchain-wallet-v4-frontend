@@ -146,8 +146,10 @@ export default ({ api }: { api: APIType }) => {
 
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
-      // TODO: SELF_CUSTODY
-      if (selectors.core.data.coins.getCustodialCoins().includes(payload) || payload === 'STX') {
+      if (
+        selectors.core.data.coins.getCustodialCoins().includes(payload) ||
+        selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)
+      ) {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin

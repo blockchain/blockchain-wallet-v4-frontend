@@ -7,7 +7,7 @@ export type CoinfigType = {
   displaySymbol: string
   name: string
   precision: number
-  products: ('CustodialWalletBalance' | 'PrivateKey')[]
+  products: ('CustodialWalletBalance' | 'PrivateKey' | 'DynamicSelfCustody')[]
   symbol: string
   type: {
     erc20Address?: string

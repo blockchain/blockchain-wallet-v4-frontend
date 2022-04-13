@@ -174,9 +174,8 @@ export const getBalanceSelector = (
       return getFiatBalance(coin)
     default:
       switch (true) {
-        // TODO: SELF_CUSTODY
-        case coin === 'STX':
-          return getBalance('STX')
+        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
+          return getBalance(coin)
         case selectors.core.data.coins.getCustodialCoins().includes(coin):
           return getCoinCustodialBalance(coin)
         default:
@@ -297,9 +296,7 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           (coin) =>
             getBalanceSelector(coin)(state).getOrElse(0) <= 0 &&
             window.coins[coin].coinfig.type.name !== 'FIAT' &&
-            coin !== 'BTC' &&
-            // TODO: SELF_CUSTODY
-            coin !== 'STX',
+            coin !== 'BTC',
           Object.keys(window.coins)
         )
       )

@@ -97,12 +97,11 @@ const coinSelectorMap = (
   if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
     return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
   }
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+    return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
+  }
   if (selectors.core.common[toLower(coin)]) {
     return selectors.core.common[toLower(coin)].getWalletTransactions
-  }
-  // TODO: SELF_CUSTODY
-  if (coin === 'STX') {
-    return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
   }
 
   // default to fiat

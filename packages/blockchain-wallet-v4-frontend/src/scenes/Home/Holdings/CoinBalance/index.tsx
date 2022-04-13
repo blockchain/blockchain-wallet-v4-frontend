@@ -4,7 +4,7 @@ import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -17,9 +17,8 @@ class CoinBalance extends React.PureComponent<Props> {
     }
     const { coin } = this.props
     const { coinfig } = window.coins[coin]
-    // TODO: SELF_CUSTODY
-    if (coin === 'STX') {
-      this.props.coinActions.fetchData('', ['STX'])
+    if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+      this.props.coinActions.fetchData('', [coin])
     } else if (coinfig.type.erc20Address) {
       this.props.ethActions.fetchErc20Data(coin)
     } else {

@@ -4,6 +4,8 @@ import { fork, join, put, select, take } from 'redux-saga/effects'
 import { Remote } from '@core'
 import { actions, actionTypes, selectors } from 'data'
 
+import * as SelfCustodySelectors from '../coins/selectors/coins/self-custody'
+
 export const logLocation = 'balances'
 export const balancePath = ['payload', 'info', 'final_balance']
 
@@ -12,10 +14,15 @@ export const fetchBalances = function* () {
   yield put(actions.core.data.btc.fetchData())
   yield put(actions.core.data.xlm.fetchData())
   yield put(actions.core.data.eth.fetchData())
-  yield put(actions.core.data.coins.fetchData())
   yield put(actions.core.data.eth.fetchErc20Data())
   yield put(actions.components.refresh.refreshRates())
   yield put(actions.custodial.fetchRecentSwapTxs())
+
+  // TODO: SELF_CUSTODY, remove
+  const stxEligibility = SelfCustodySelectors.getStxSelfCustodyAvailablity(yield select())
+  if (stxEligibility) {
+    yield put(actions.core.data.coins.fetchData())
+  }
 }
 
 export const getEthBalance = function* () {

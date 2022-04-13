@@ -39,7 +39,7 @@ export const getStxSelfCustodyAvailablity = createDeepEqualSelector(
       stxSelfCustodyEnableAll: false
     })
     const tag = tagsR.getOrElse(false)
-    const invitations = invitationsR.getOrElse({ stxSelfCustody: false } as InvitationsType)
+    const invitations = invitationsR.getOrElse({ stxSelfCustody: true } as InvitationsType)
 
     if (invitations.stxSelfCustody) {
       if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {

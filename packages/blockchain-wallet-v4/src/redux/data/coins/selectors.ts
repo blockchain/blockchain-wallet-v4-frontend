@@ -38,6 +38,13 @@ const _getFiatCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'FIAT')
 }
 
+const _getDynamicSelfCustodyCoins = () => {
+  return Object.keys(window.coins).filter((coin) =>
+    window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
+  )
+}
+
+export const getDynamicSelfCustodyCoins = memoize(_getDynamicSelfCustodyCoins)
 export const getCustodialCoins = memoize(_getCustodialCoins)
 export const getNonCustodialCoins = memoize(_getNonCustodialCoins)
 export const getFiatCoins = memoize(_getFiatCoins)

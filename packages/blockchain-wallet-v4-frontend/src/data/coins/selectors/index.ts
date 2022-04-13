@@ -39,8 +39,7 @@ export const getSelector = (coinfig: CoinfigType) => {
   if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
     return 'CUSTODIAL'
   }
-  // TODO: SELF_CUSTODY
-  if (coinfig.symbol === 'STX') {
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coinfig.symbol)) {
     return 'SELF_CUSTODY'
   }
   return coinfig.symbol

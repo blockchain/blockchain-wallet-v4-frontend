@@ -5,8 +5,7 @@ export const getData = () => {
       (!products.includes('PrivateKey') &&
         products.includes('CustodialWalletBalance') &&
         type.name !== 'FIAT') ||
-      // TODO: SELF_CUSTODY
-      value === 'STX'
+      products.includes('DynamicSelfCustody')
     )
   })
 }

@@ -84,8 +84,7 @@ export const getData = (state, ownProps: OwnProps) => {
           })
           balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
           break
-        // TODO: SELF_CUSTODY
-        case coin === 'STX':
+        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
             includeSelfCustody: true

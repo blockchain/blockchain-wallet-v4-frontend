@@ -102,13 +102,12 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const txList = [txPage, custodialPage.orders]
-      if (payload.coin === 'STX') {
+      if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
         const pubKey = yield call(getPubKey, '')
-        // TODO: SELF_CUSTODY
-        const stxPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
+        const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
           { descriptor: 'default', pubKey, style: 'SINGLE' }
         ])
-        const history = stxPage.history.map((val) => ({
+        const history = selfCustodyPage.history.map((val) => ({
           ...val,
           type: val.movements[0].type
         }))

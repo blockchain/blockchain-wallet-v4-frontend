@@ -13,8 +13,7 @@ export const getData = (state) => {
         return (
           (products.includes('PrivateKey') ||
             products.includes('CustodialWalletBalance') ||
-            // TODO: SELF_CUSTODY
-            coinfig.symbol === 'STX') &&
+            products.includes('DynamicSelfCustody')) &&
           coinfig.type.name !== 'FIAT'
         )
       })
