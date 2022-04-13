@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -78,14 +78,15 @@ const Select2faType = (props) => {
             </Text>
             <Row>
               <IconWrapper>
-                <Icon
-                  name='close-circle'
-                  size='32px'
-                  color='blue600'
-                  style={{ marginRight: '8px' }}
-                />
+                <Image name='google-auth-logo' style={{ marginRight: '16px' }} />
               </IconWrapper>
-              <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+              <Text
+                size='16px'
+                weight={500}
+                lineHeight='24px'
+                color='grey600'
+                style={{ paddingRight: '4px' }}
+              >
                 <FormattedMessage
                   id='scenes.login.upgrade.2fa.item_1.text'
                   defaultMessage='Generate a second step of verification when you sign in.'
@@ -110,9 +111,15 @@ const Select2faType = (props) => {
             </Text>
             <Row>
               <IconWrapper>
-                <Icon name='hardware' size='32px' color='blue600' style={{ marginRight: '8px' }} />
+                <Image name='yubikey-logo' style={{ marginRight: '16px' }} />
               </IconWrapper>
-              <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+              <Text
+                size='16px'
+                weight={500}
+                lineHeight='24px'
+                color='grey600'
+                style={{ paddingRight: '4px' }}
+              >
                 <FormattedMessage
                   id='scenes.login.upgrade.2fa.item_2.text'
                   defaultMessage='Secure your wallet with a physical key or device.'

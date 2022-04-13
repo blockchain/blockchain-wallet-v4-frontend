@@ -14,6 +14,8 @@ import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import applePay from './img/apple-pay-icon.svg'
 import arrowLeft from './img/arrow-left.svg'
+import badgeAndroidPlaystore from './img/badge-android-playstore.svg'
+import badgeIosAppstore from './img/badge-ios-appstore.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
 import bankEmptyBlue from './img/bank-empty-blue.svg'
@@ -103,6 +105,7 @@ import globe from './img/globe.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
+import googleAuthLogo from './img/google-auth-logo.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
@@ -213,6 +216,7 @@ import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
+import yubikeyLogo from './img/yubikey-logo.svg'
 
 const Images = {
   ...coins,
@@ -232,6 +236,8 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
+  'badge-android-playstore': badgeAndroidPlaystore,
+  'badge-ios-appstore': badgeIosAppstore,
   bank,
   'bank-empty': bankEmpty,
   'bank-empty-blue': bankEmptyBlue,
@@ -319,6 +325,7 @@ const Images = {
   'gold-approved': goldApproved,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
+  'google-auth-logo': googleAuthLogo,
   'google-authenticator': googleAuthenticator,
   'google-pay': googlePay,
   'google-play-badge': googlePlayBadge,
@@ -430,7 +437,8 @@ const Images = {
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
   'yodlee-connect': yodleeConnect,
-  yubikey
+  yubikey,
+  'yubikey-logo': yubikeyLogo
 }
 
 export type ImageType = typeof Images
