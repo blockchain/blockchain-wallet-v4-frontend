@@ -1,11 +1,25 @@
 import { useEffect, useState } from 'react'
-import useClientHydrated from '@charlietango/use-client-hydrated'
+
+let clientHydrated = false
+
+/**
+ * Returns false when serverside rendering and during the first render pass (hydration) in the client.
+ * Use this to modify behavior of components when they can be certain they are running client side.
+ * Like check a media query during the initial render.
+ * */
+function useClientHydrated() {
+  useEffect(() => {
+    if (!clientHydrated) clientHydrated = true
+  }, [])
+
+  return clientHydrated
+}
 
 export enum ScriptStatus {
+  ERROR = 'error',
   IDLE = 'idle',
   LOADING = 'loading',
-  READY = 'ready',
-  ERROR = 'error',
+  READY = 'ready'
 }
 
 /**
@@ -15,18 +29,19 @@ export enum ScriptStatus {
  * @param options {} options for hook
  * @param options.attributes {} attributes object for Script tag attributes
  * */
-export default function useScript(url?: string, options?: {
-  attributes?: {
-    [k: string]: string
+export default function useScript(
+  url?: string,
+  options?: {
+    attributes?: {
+      [k: string]: string
+    }
   }
-}): [boolean, ScriptStatus] {
+): [boolean, ScriptStatus] {
   const clientHydrated = useClientHydrated()
   const attributes = options?.attributes
   const [status, setStatus] = useState<ScriptStatus>(() => {
     if (clientHydrated) {
-      const script: HTMLScriptElement | null = document.querySelector(
-        `script[src="${url}"]`,
-      )
+      const script: HTMLScriptElement | null = document.querySelector(`script[src="${url}"]`)
       if (script && script.hasAttribute('data-status')) {
         return script.getAttribute('data-status') as ScriptStatus
       }
@@ -40,9 +55,7 @@ export default function useScript(url?: string, options?: {
       return
     }
 
-    let script: HTMLScriptElement | null = document.querySelector(
-      `script[src="${url}"]`,
-    )
+    let script: HTMLScriptElement | null = document.querySelector(`script[src="${url}"]`)
 
     if (!script) {
       script = document.createElement('script')
@@ -50,7 +63,7 @@ export default function useScript(url?: string, options?: {
       script.async = true
       script.setAttribute('data-status', ScriptStatus.LOADING)
       if (attributes) {
-        Object.keys(attributes).forEach(key => {
+        Object.keys(attributes).forEach((key) => {
           script?.setAttribute(key, attributes[key])
         })
       }
