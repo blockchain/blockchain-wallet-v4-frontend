@@ -42,7 +42,7 @@ const NavLinkButton = styled(NavLink)`
   }
 `
 
-const ExploreHeader: React.FC<Props> = ({ routerActions }) => {
+const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActions }) => {
   return (
     <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
       <FixedNav>
@@ -77,16 +77,27 @@ const ExploreHeader: React.FC<Props> = ({ routerActions }) => {
           <Field component={TextBox} placeholder='Collections or items' />
         </NavCenter>
         <NavRight>
-          <LinkContainer style={{ marginRight: '8px' }} to='/login' data-e2e='loginLink'>
-            <Button small data-e2e='signup' nature='empty-blue'>
-              <FormattedMessage id='scenes.login.login' defaultMessage='Login' />
-            </Button>
-          </LinkContainer>
-          <LinkContainer to='/signup' data-e2e='signupLink'>
-            <Button small data-e2e='signup' nature='primary'>
-              <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
-            </Button>
-          </LinkContainer>
+          {isAuthenticated ? (
+            <Icon
+              cursor='pointer'
+              name={IconName.USER}
+              color={colors.grey300}
+              onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
+            />
+          ) : (
+            <>
+              <LinkContainer style={{ marginRight: '8px' }} to='/login' data-e2e='loginLink'>
+                <Button small data-e2e='signup' nature='empty-blue'>
+                  <FormattedMessage id='scenes.login.login' defaultMessage='Login' />
+                </Button>
+              </LinkContainer>
+              <LinkContainer to='/signup' data-e2e='signupLink'>
+                <Button small data-e2e='signup' nature='primary'>
+                  <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
+                </Button>
+              </LinkContainer>
+            </>
+          )}
         </NavRight>
       </FixedNav>
     </div>

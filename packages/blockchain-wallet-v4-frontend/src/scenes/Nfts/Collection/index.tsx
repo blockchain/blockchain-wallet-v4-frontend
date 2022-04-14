@@ -22,7 +22,7 @@ import { RootState } from 'data/rootReducer'
 import { AssetSortFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { Centered, Grid, GridWrapper } from '../components'
+import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
 import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import NftFilter from '../NftFilter'
@@ -39,16 +39,6 @@ const CollectionHeader = styled.div<{ bgUrl: string }>`
   ${media.tabletL`
     flex-direction: column;
   `}
-`
-
-const CollectionBannerWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
-  box-sizing: border-box;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 24px 40px;
 `
 
 const CollectionInfo = styled.div`
@@ -157,7 +147,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
     <div style={{ paddingTop: '0px', position: 'relative' }}>
       <OpenSeaStatusComponent />
       <CollectionHeader bgUrl={collection.banner_image_url || ''}>
-        <CollectionBannerWrapper style={{ width: '100%' }}>
+        <NftBannerWrapper>
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
               <CollectionImage src={collection.image_url || ''} />
@@ -187,7 +177,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             </LinksContainer>
           </CollectionInfo>
           <Stats stats={collection.stats} />
-        </CollectionBannerWrapper>
+        </NftBannerWrapper>
       </CollectionHeader>
       <GridWrapper>
         <NftFilter

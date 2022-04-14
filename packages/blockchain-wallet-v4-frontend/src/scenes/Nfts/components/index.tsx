@@ -194,3 +194,13 @@ export const Centered = styled.div`
   min-height: 40px;
   gap: 8px;
 `
+
+export const NftBannerWrapper = styled.div`
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 24px 40px;
+`

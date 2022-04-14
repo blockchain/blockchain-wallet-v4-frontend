@@ -9,7 +9,7 @@ import { AssetFilterFields, useOwnerQuery } from 'generated/graphql'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
 
-const OwnerAssetsResults: React.FC<Props> = ({
+const NftAddressResults: React.FC<Props> = ({
   address,
   page,
   setIsFetchingNextPage,
@@ -77,4 +77,4 @@ type Props = {
   setNextPageFetchError: (error: CombinedError | undefined) => void
 }
 
-export default OwnerAssetsResults
+export default NftAddressResults
