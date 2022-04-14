@@ -46,7 +46,6 @@
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,
         "signupCountry": true,
-        "silverRevamp": true,
         "stxSelfCustodyEnableAll": false,
         "stxSelfCustodyEnableAirdrop": true,
         "showSilverRevamp": true,
