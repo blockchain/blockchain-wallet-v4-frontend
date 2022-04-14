@@ -2,6 +2,7 @@ import { BSPaymentTypes, PaymentValue } from '@core/types'
 import {
   BrokerageModalOriginType,
   BSShowModalOriginType,
+  RecurringBuyOrigins,
   VerifyIdentityOriginType
 } from 'data/types'
 import type {
@@ -129,6 +130,36 @@ const manageTabSelectionClickedSelectionDictionary = (
   }
 }
 
+const recurringBuyDetailsClickOrigin = (
+  rawOrigin: RecurringBuyOrigins
+): 'CURRENCY_PAGE' | 'TRANSACTION_LIST' => {
+  // Users can't currently click on RB details from anywhere accept the coin page
+  switch (rawOrigin) {
+    case RecurringBuyOrigins.COIN_PAGE:
+      return 'CURRENCY_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
+  }
+}
+
+const recurringBuyCancelOrigin = (
+  rawOrigin: RecurringBuyOrigins
+): 'TRANSACTION_DETAILS' | 'RECURRING_BUY_DETAILS' => {
+  switch (rawOrigin) {
+    case RecurringBuyOrigins.BUY_CONFIRMATION:
+    case RecurringBuyOrigins.RECURRING_BUYS_FREQUENCY_SCREEN:
+      return 'TRANSACTION_DETAILS'
+    case RecurringBuyOrigins.COIN_PAGE:
+    case RecurringBuyOrigins.DASHBOARD_PROMO:
+    case RecurringBuyOrigins.RECURRING_BUYS_BANNER:
+      return 'RECURRING_BUY_DETAILS'
+    default: {
+      throw new Error('Origin not found')
+    }
+  }
+}
+
 const sendReceiveClickedOriginDictionary = (rawOrigin: string): SendReceiveClickedOrigin => {
   switch (rawOrigin) {
     case 'FeaturesTopNav':
@@ -172,7 +203,7 @@ const settingsTabClickedDestinationDictionary = (
     case 'Preferences':
       return 'PREFERENCES'
     case 'TradingLimits':
-      return 'TRADING_LIMITS_MODAL'
+      return 'TRADING_LIMITS'
     case 'WalletAndAddresses':
       return 'WALLETS&ADDRESSES'
     default: {
@@ -206,6 +237,7 @@ const upgradeVerificationClickedOriginDictionary = (
   rawOrigin: VerifyIdentityOriginType
 ): UpgradeVerificationClickedOrigin => {
   switch (rawOrigin) {
+    case 'CompleteProfile':
     case 'DashboardPromo':
       return 'DASHBOARD_PROMO'
     case 'Goals':
@@ -229,14 +261,18 @@ const upgradeVerificationClickedOriginDictionary = (
   }
 }
 
-const utmParser = (query: string): { [key: string]: string } => {
+// parses and combines utm codes from both the search and hash portions of the url
+// if a duplicate utm key name is found in both search and hash portions of url
+// the value of the specific utm will be taken from the hash
+const utmParser = () => {
   const regexp = /(?!&)utm_[^=]*=[^&]*/g
 
-  const matches = query.match(regexp)
+  const qsMatches = window.location.search.match(regexp) || []
+  const hashMatches = window.location.hash.match(regexp) || []
 
-  if (!matches) return {}
+  if (!qsMatches && !hashMatches) return {}
 
-  const values = matches.reduce((obj, param) => {
+  return [...qsMatches, ...hashMatches].reduce((obj, param) => {
     const keyValue = param.split('=')
 
     let key = keyValue[0].slice(keyValue[0].indexOf('_') + 1)
@@ -249,8 +285,6 @@ const utmParser = (query: string): { [key: string]: string } => {
 
     return { ...obj, [key]: value }
   }, {})
-
-  return values
 }
 
 export {
@@ -261,6 +295,8 @@ export {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  recurringBuyCancelOrigin,
+  recurringBuyDetailsClickOrigin,
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,

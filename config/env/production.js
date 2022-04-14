@@ -3,7 +3,6 @@ module.exports = {
   BITPAY_URL: 'https://bitpay.com',
   COM_ROOT: 'https://blockchain.com',
   COM_WALLET_APP: 'https://login.blockchain.com',
-  EVERYPAY_URL: 'https://pay.every-pay.eu',
   EXCHANGE_URL: 'https://exchange.blockchain.com',
   HORIZON_URL: 'https://api.blockchain.info/stellar',
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',

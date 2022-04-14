@@ -12,14 +12,13 @@ import {
   ApplePayInfoType,
   BSAccountType,
   BSCardStateType,
-  BSCardType,
   BSOrderType,
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
-  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  GooglePayInfoType,
   MobilePaymentType,
   OrderType,
   ProductTypes,
@@ -30,13 +29,13 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { ProductEligibilityForUser } from 'data/custodial/types'
-import { ModalName } from 'data/modals/types'
 import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  ModalName,
+  ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
 
@@ -53,7 +52,6 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
-  FORM_BS_ADD_EVERYPAY_CARD,
   FORM_BS_CANCEL_ORDER,
   FORM_BS_CHECKOUT,
   FORM_BS_CHECKOUT_CONFIRM,
@@ -61,7 +59,7 @@ import {
   FORMS_BS_BILLING_ADDRESS,
   getCoinFromPair,
   getFiatFromPair,
-  getNextCardExists,
+  GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
   NO_ACCOUNT,
   NO_CHECKOUT_VALUES,
@@ -79,6 +77,8 @@ import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency }
 
 export const logLocation = 'components/buySell/sagas'
 
+let googlePaymentsClient: google.payments.api.PaymentsClient | null = null
+
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { createUser, isTier2, waitForUserData } = profileSagas({
     api,
@@ -95,7 +95,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api })
+  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -145,6 +145,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     })
 
     return token
+  }
+
+  const generateGooglePayToken = async (
+    paymentRequest: google.payments.api.PaymentDataRequest
+  ): Promise<string> => {
+    const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'TEST'
+
+    if (!googlePaymentsClient) {
+      googlePaymentsClient = new google.payments.api.PaymentsClient({ environment })
+    }
+
+    try {
+      const paymentData = await googlePaymentsClient.loadPaymentData(paymentRequest)
+
+      return paymentData.paymentMethodData.tokenizationData.token
+    } catch (e) {
+      throw new Error('FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN')
+    }
   }
 
   const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
@@ -216,125 +234,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.activateCardFailure(error))
     }
   }
-
-  // TODO remove once EveryPay is deprecated
-  // START LEGACY CARD CREATION
-  const createBSCardSDD = function* (billingAddress: T.BSBillingAddressFormValuesType) {
-    try {
-      yield put(A.createCardLoading())
-      const state = yield select()
-      let currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
-      const origin = S.getOrigin(state)
-      if (origin !== 'SettingsGeneral') {
-        const order = S.getBSLatestPendingOrder(state)
-        if (!order) throw new Error(NO_ORDER_EXISTS)
-        currency = getFiatFromPair(order.pair)
-        if (!currency) throw new Error(NO_FIAT_CURRENCY)
-      }
-
-      const userDataR = selectors.modules.profile.getUserData(state)
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-
-      if (!billingAddress) throw new Error('NO_USER_ADDRESS')
-
-      const card = yield call(api.createBSCard, {
-        address: billingAddress,
-        currency,
-        email: userData.email
-      })
-      yield put(A.createCardSuccess(card))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.createCardFailure(error))
-    }
-  }
-
-  const addCardDetails = function* () {
-    try {
-      // Get card
-      const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues(FORM_BS_ADD_EVERYPAY_CARD)
-      )
-
-      // Check if card exists
-      const existingCardsR = S.getBSCards(yield select())
-      const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
-      const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
-
-      if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
-
-      // 3DS validation
-      yield put(
-        A.setStep({
-          step: '3DS_HANDLER_EVERYPAY'
-        })
-      )
-      yield put(A.addCardLoading())
-
-      let waitForAction = true
-      if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
-        yield call(createBSCardSDD, formValues.billingaddress)
-        waitForAction = false
-      } else {
-        yield put(A.createCard({}))
-      }
-      if (waitForAction) {
-        yield take([A.createCardSuccess.type, A.createCardFailure.type])
-      }
-      const cardR = S.getBSCard(yield select())
-      const card = cardR.getOrFail('CARD_CREATION_FAILED')
-
-      // Activate card
-      yield put(A.activateCard({ card, cvv: formValues.cvc }))
-      yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
-
-      const providerDetailsR = S.getBSProviderDetails(yield select())
-      const providerDetails = providerDetailsR.getOrFail('CARD_ACTIVATION_FAILED')
-
-      if (!providerDetails.everypay) {
-        throw new Error('CARD_ACTIVATION_FAILED')
-      }
-
-      const [nonce] = yield call(api.generateUUIDs, 1)
-
-      const response: { data: Everypay3DSResponseType } = yield call(
-        // @ts-ignore
-        api.submitBSCardDetailsToEverypay,
-        {
-          accessToken: providerDetails.everypay.mobileToken,
-          apiUserName: providerDetails.everypay.apiUsername,
-          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-          cvc: formValues.cvc,
-          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-          holderName: formValues['name-on-card'],
-          nonce
-        }
-      )
-      yield put(A.addCardSuccess(response.data))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(
-        A.setStep({
-          step: 'ADD_CARD_EVERYPAY'
-        })
-      )
-      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
-      yield put(
-        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-          _error: error as T.BSAddCardErrorType
-        })
-      )
-      yield put(A.addCardFailure(error))
-    }
-  }
-
-  const addCardFinished = function* () {
-    // This is primarily used in general settings to short circuit
-    // the BS flow when adding a new card but not buying crypto
-    yield take(A.fetchCardsSuccess.type)
-    yield put(actions.modals.closeAllModals())
-  }
-  // END LEGACY CARD CREATION
 
   const cancelBSOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
@@ -507,10 +406,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setApplePayInfo(applePayInfo))
       }
 
+      if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+        const googlePayInfo: GooglePayInfoType = yield call(api.getGooglePayInfo, fiat)
+
+        yield put(A.setGooglePayInfo(googlePayInfo))
+      }
+
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
       if (isFlexiblePricingModel) {
         while (true) {
+          // non gold users can only make one order at a time so we need to cancel the old one
+          if (oldBuyOrder) {
+            yield call(api.cancelBSOrder, oldBuyOrder)
+          }
           // get the current order, if any
           const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
 
@@ -536,7 +445,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             // when the quote expires and a new order is created, set it it in redux and cancel the old order
             yield put(A.fetchOrders())
             yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-            yield call(api.cancelBSOrder, oldBuyOrder)
           }
 
           oldBuyOrder = buyOrder
@@ -707,6 +615,78 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            redirectURL: paymentSuccessLink
+          }
+        }
+
+        if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+          const googlePayInfo = selectors.components.buySell.getGooglePayInfo(yield select())
+
+          if (!googlePayInfo) {
+            throw new Error('Google Pay info not found')
+          }
+
+          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          const amount = parseInt(order.inputQuantity) / 100
+
+          let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
+
+          try {
+            parameters = JSON.parse(googlePayInfo.googlePayParameters)
+          } catch (e) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_MALFORMED')
+          }
+
+          if (!parameters) {
+            throw new Error('GOOGLE_PAY_PARAMETERS_NOT_FOUND')
+          }
+
+          const paymentDataRequest = {
+            allowedPaymentMethods: [
+              {
+                parameters: {
+                  allowedAuthMethods,
+                  allowedCardNetworks,
+                  billingAddressParameters: {
+                    format: 'FULL' as const
+                  },
+                  billingAddressRequired: false
+                },
+                tokenizationSpecification: {
+                  parameters,
+                  type: 'PAYMENT_GATEWAY' as const
+                },
+                type: 'CARD' as const
+              }
+            ],
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            merchantInfo: {
+              merchantId: GOOGLE_PAY_MERCHANT_ID,
+              merchantName: 'Blockchain.com'
+            },
+            shippingAddressRequired: false,
+            transactionInfo: {
+              countryCode: googlePayInfo.merchantBankCountry,
+              currencyCode: order.inputCurrency,
+              totalPrice: `${amount}`,
+              totalPriceStatus: 'FINAL' as const
+            }
+          }
+
+          const token = yield call(generateGooglePayToken, paymentDataRequest)
+
+          attributes = {
+            everypay: {
+              customerUrl: paymentSuccessLink
+            },
+            googlePayPayload: token,
             redirectURL: paymentSuccessLink
           }
         }
@@ -1521,25 +1501,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(A.createCardFailure(error))
-
-    const addCheckoutDotComPaymentProvider: boolean = (yield select(
-      selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
-    )).getOrElse(false)
-
-    // LEGACY
-    if (!addCheckoutDotComPaymentProvider) {
-      yield put(A.setAddCardError(error))
-
-      yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
-
-      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
-
-      yield put(
-        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
-          _error: error
-        })
-      )
-    }
   }
 
   const pollBSBalances = function* () {
@@ -1626,33 +1587,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
-      const addCheckoutDotComPaymentProvider: boolean = (yield select(
-        selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
-      )).getOrElse(false)
-
-      if (!addCheckoutDotComPaymentProvider) {
-        yield put(
-          A.setStep({
-            step: 'ADD_CARD_EVERYPAY'
-          })
-        )
-
-        return
-      }
-
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
         (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
-      if (checkoutAcquirers.length === 0) {
-        yield put(
-          A.setStep({
-            step: 'ADD_CARD_EVERYPAY'
-          })
-        )
 
-        return
+      if (checkoutAcquirers.length === 0) {
+        throw new Error('CHECKOUTDOTCOM_NOT_FOUND')
       }
 
       const checkoutDotComAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
@@ -1688,17 +1630,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return bankAccount
   }
 
+  const cleanupCancellableOrders = function* () {
+    const order = S.getCancelableOrder(yield select())
+    if (order) {
+      yield call(api.cancelBSOrder, order)
+      yield put(A.fetchOrders())
+      yield take(A.fetchOrdersSuccess.type)
+    }
+  }
+
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
+    // When opening the buy modal if there are any existing orders that are cancellable, cancel them
+    yield call(cleanupCancellableOrders)
+
     const { cryptoCurrency, orderType, origin } = payload
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
+
+    // get current user tier
+    const isUserTier2 = yield call(isTier2)
 
     const showSilverRevamp = selectors.core.walletOptions
       .getSilverRevamp(yield select())
       .getOrElse(null)
 
     // check is user eligible to do sell/buy
-    if (showSilverRevamp) {
+    // we skip this for gold users
+    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
       yield put(actions.custodial.fetchProductEligibilityForUser())
       yield take([
         custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -1711,7 +1669,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const userCanBuyMore = products.buy?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
-      if (!userCanBuyMore) {
+      // users with diff tier than 2 can't sell
+      if (!userCanBuyMore || orderType === OrderType.SELL) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
             origin: 'BuySellInit'
@@ -1737,6 +1696,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // poll for the order status
     if (hasPendingOBOrder && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+      yield put(
+        A.setStep({
+          order: latestPendingOrder,
+          step
+        })
+      )
+      // For all silver/silver+ users if they have pending transaction and they are from silver revamp
+      // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
+    } else if (!isUserTier2 && latestPendingOrder && showSilverRevamp) {
+      const step: T.StepActionsPayload['step'] =
+        latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
@@ -1886,14 +1858,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   return {
     activateBSCard,
-    addCardDetails,
-    addCardFinished,
     cancelBSOrder,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
     createBSCard,
-    createBSCardSDD,
     createBSOrder,
     deleteBSCard,
     fetchAccumulatedTrades,

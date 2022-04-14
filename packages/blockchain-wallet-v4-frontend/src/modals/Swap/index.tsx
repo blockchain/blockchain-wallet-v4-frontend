@@ -6,7 +6,7 @@ import { ExtractSuccess, SwapOrderType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -47,7 +47,6 @@ class Swap extends PureComponent<Props, State> {
   }
 
   handleCloseOrPromoteUpgrade = () => {
-    this.handleClose()
     this.props.showUpgradeModal()
   }
 
@@ -165,9 +164,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   showUpgradeModal: () => {
+    dispatch(actions.modals.closeModal(ModalName.SWAP_MODAL))
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
         origin: 'Swap'
+      })
+    )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY,
+        properties: {
+          flow_step: 'SWAP'
+        }
       })
     )
   },

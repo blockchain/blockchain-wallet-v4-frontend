@@ -1,5 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { Form, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -14,12 +18,12 @@ import {
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
 import BankWire from './BankWire'
+import GooglePay from './GooglePay'
 import LinkBank from './LinkBank'
 import PaymentCard from './PaymentCard'
 
@@ -54,6 +58,7 @@ export type Props = OwnProps & SuccessStateType
 
 const Methods = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
+  const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -229,6 +234,11 @@ const Methods = (props: Props) => {
       method.value.mobilePayment?.includes(MobilePaymentType.APPLE_PAY) &&
       orderType === OrderType.BUY
   )
+  const googlePay = defaultMethods.find(
+    (method) =>
+      method.value.mobilePayment?.includes(MobilePaymentType.GOOGLE_PAY) &&
+      orderType === OrderType.BUY
+  )
 
   const cardMethods = availableCards.map((card) => ({
     text: card.card ? (card.card.label ? card.card.label : card.card.type) : 'Credit or Debit Card',
@@ -245,7 +255,12 @@ const Methods = (props: Props) => {
   }))
 
   const anyAvailableMethod =
-    funds.length || cardMethods.length || !!paymentCard || !!bankAccount || !!applePay
+    funds.length ||
+    cardMethods.length ||
+    !!paymentCard ||
+    !!bankAccount ||
+    !!applePay ||
+    !!googlePay
 
   useEffect(() => {
     if (
@@ -255,10 +270,15 @@ const Methods = (props: Props) => {
     ) {
       setApplePayAvailable(true)
     }
-  }, [props.applePayEnabled, props.isInternalTester])
 
-  // eslint-disable-next-line no-console
-  console.log(paymentCard)
+    if (
+      (window as any).google &&
+      (window as any).google.payments.api &&
+      (props.googlePayEnabled || props.isInternalTester)
+    ) {
+      setGooglePayAvailable(true)
+    }
+  }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
 
   return (
     <Wrapper>
@@ -321,6 +341,17 @@ const Methods = (props: Props) => {
                 handlePaymentMethodSelect({
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
+                })
+              }}
+            />
+          ) : null}
+
+          {googlePay && isGooglePayAvailable ? (
+            <GooglePay
+              onClick={() => {
+                handlePaymentMethodSelect({
+                  method: googlePay.value,
+                  mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
               }}
             />

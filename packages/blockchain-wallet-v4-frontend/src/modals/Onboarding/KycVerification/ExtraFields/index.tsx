@@ -6,7 +6,7 @@ import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ExtraKeyFieldsFormValuesType, ModalName } from 'data/types'
+import { Analytics, ExtraKeyFieldsFormValuesType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -21,6 +21,10 @@ const KYCExtraQuestionnaire = (props: Props) => {
 
   useEffect(() => {
     props.identityVerificationActions.fetchExtraKYC()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED,
+      properties: {}
+    })
   }, [])
 
   const handleClose = () => {
@@ -32,6 +36,10 @@ const KYCExtraQuestionnaire = (props: Props) => {
 
   const handleSubmit = () => {
     props.identityVerificationActions.saveKYCExtraQuestions()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_ACCOUNT_INFO_SUBMITTED,
+      properties: {}
+    })
   }
 
   return (
@@ -61,6 +69,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })

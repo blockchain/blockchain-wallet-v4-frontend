@@ -87,7 +87,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     return Remote.of(
       map(
         (coinAccounts: RemoteDataType<any, typeof accounts>) =>
-          (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
+          (isEmpty(coinAccounts) && []) || (coinAccounts ? coinAccounts.getOrElse([]) : []),
         accounts
       ) as any
     )
@@ -96,7 +96,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
   const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
     getCoinAccountsR(state)
 
-  const accounts = accountsR.getOrElse({})
+  const accounts = accountsR?.getOrElse({}) || {}
 
   return accounts
 }

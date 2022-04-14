@@ -49,7 +49,6 @@ export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
 // FORMS
-export const FORM_BS_ADD_EVERYPAY_CARD = 'addCardEverypayForm'
 export const FORM_BS_CANCEL_ORDER = 'cancelBSOrderForm'
 export const FORM_BS_CHANGE_EMAIL = 'bsChangeEmail'
 export const FORM_BS_CHECKOUT_CONFIRM = 'bsCheckoutConfirm'
@@ -132,25 +131,6 @@ export const getSellCounterAmount = (sellOrder: SwapOrderType): string => {
   return convertBaseToStandard('FIAT', sellOrder.priceFunnel.outputMoney)
 }
 
-export const getNextCardExists = (
-  existingCards: Array<BSCardType>,
-  formValues: BSAddCardFormValuesType
-) => {
-  return existingCards.find((card) => {
-    if (card.state === 'BLOCKED' || card.state === 'FRAUD_REVIEW' || card.state === 'CREATED')
-      return false
-    if (!card.card) return false
-    if (card.card.number !== formValues['card-number'].slice(-4)) return false
-    if (
-      moment(`${card.card.expireMonth}/${card.card.expireYear}`, 'MM/YYYY').toString() !==
-      moment(formValues['expiry-date'], 'MM/YY').toString()
-    )
-      return false
-
-    return true
-  })
-}
-
 export const getValidPaymentMethod = (method: BSPaymentTypes) => {
   if (method === BSPaymentTypes.USER_CARD) return BSPaymentTypes.PAYMENT_CARD
   if (method === BSPaymentTypes.BANK_ACCOUNT) return BSPaymentTypes.FUNDS
@@ -159,3 +139,5 @@ export const getValidPaymentMethod = (method: BSPaymentTypes) => {
 }
 
 export const isFiatCurrencySupported = (currency: FiatType) => currency in WalletFiatEnum
+
+export const GOOGLE_PAY_MERCHANT_ID = 'BCR2DN4TVCIZ3Q2I'

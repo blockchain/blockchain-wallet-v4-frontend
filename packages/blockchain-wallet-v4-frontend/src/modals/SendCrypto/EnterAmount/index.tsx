@@ -15,18 +15,17 @@ import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-component
 import { DisplayContainer } from 'components/BuySell'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
-import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import BuyMoreLine from 'components/Flyout/Banners/BuyMoreLine'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form, SelectBox } from 'components/Form'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
-import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
@@ -98,30 +97,9 @@ const PlusMinusIconWrapper = styled.div`
 const QuoteActionContainer = styled.div`
   height: 32px;
 `
-const QuoteRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 
 const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [fontRatio, setRatio] = useState(1)
-
-  const normalizeAmount = (value, prevValue, allValues) => {
-    if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-    return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
-  }
-
-  const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
-    if (Number(fontSizeRatio) > 0) {
-      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
-    }
-    const amountRowNode = inputNode.closest('#amount-row')
-    const currencyNode = isFiat
-      ? amountRowNode.children[0]
-      : amountRowNode.children[amountRowNode.children.length - 1]
-    currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
-  }
 
   const {
     buySellActions,
@@ -242,60 +220,22 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        <AmountRow id='amount-row' isError={!!amtError}>
-          {fix === 'FIAT' && (
-            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
-              {Currencies[walletCurrency].units[walletCurrency].symbol}
-            </Text>
-          )}
-          <Field
-            data-e2e='sendAmountInput'
-            name='amount'
-            // @ts-ignore
-            component={AmountTextBox}
-            normalize={normalizeAmount}
-            // eslint-disable-next-line
-            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
-            maxFontSize='56px'
-            placeholder='0'
-            // leave fiatActive always to avoid 50% width in HOC?
-            fiatActive
-            haveError={!!amtError}
-            {...{
-              autoFocus: true,
-              hideError: true
-            }}
-          />
-          {fix === 'CRYPTO' && (
-            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
-              {coin}
-            </Text>
-          )}
-        </AmountRow>
+        <AmountFieldInput
+          coin={coin}
+          fiatCurrency={walletCurrency}
+          amtError={amtError}
+          quote={quote}
+          data-e2e='sendAmountInput'
+          fix={fix}
+          name='amount'
+          showCounter
+          showToggle
+          onToggleFix={() => {
+            formActions.change(SEND_FORM, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
+            formActions.change(SEND_FORM, 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)
+          }}
+        />
         <QuoteActionContainer>
-          <QuoteRow>
-            <div />
-            <Text
-              color={amtError ? 'red400' : 'grey600'}
-              size='14px'
-              weight={500}
-              data-e2e='sendQuoteAmount'
-            >
-              {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && walletCurrency}
-            </Text>
-            <Icon
-              color='blue600'
-              cursor
-              name='up-down-chevron'
-              onClick={() => {
-                formActions.change(SEND_FORM, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
-                formActions.change(SEND_FORM, 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)
-              }}
-              role='button'
-              size='24px'
-              data-e2e='sendSwitchIcon'
-            />
-          </QuoteRow>
           {amtError && amtError !== 'ABOVE_MAX_LIMIT' ? (
             <div
               style={{

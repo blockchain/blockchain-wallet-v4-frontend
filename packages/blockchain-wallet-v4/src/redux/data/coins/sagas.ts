@@ -1,3 +1,4 @@
+import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 import { flatten, last, length } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
@@ -31,11 +32,18 @@ export default ({ api }: { api: APIType }) => {
           const pubKey = yield call(getPubKey, password)
           try {
             const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
-              { descriptor: 'default', pubKey, style: 'SINGLE' }
+              { descriptor: 'legacy', pubKey, style: 'SINGLE' }
             ])
 
             // TODO: SELF_CUSTODY
-            yield put(A.fetchDataSuccess(coin, results[0].balances[0].balance))
+            yield put(
+              A.fetchDataSuccess(
+                coin,
+                results[0].balances
+                  .reduce((acc, curr) => acc.plus(curr.balance), new BigNumber(0))
+                  .toString()
+              )
+            )
           } catch (e) {
             const error = errorHandler(e)
             yield put(A.fetchDataFailure(error, coin))

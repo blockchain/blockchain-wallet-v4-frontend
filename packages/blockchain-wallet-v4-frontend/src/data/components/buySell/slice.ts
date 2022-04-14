@@ -19,9 +19,9 @@ import {
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
-  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  GooglePayInfoType,
   MobilePaymentType,
   PaymentValue,
   ProductTypes,
@@ -44,13 +44,12 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSAddCardErrorType, BuySellState } from './types'
+import { BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
   accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
-  addCardError: undefined,
   applePayInfo: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
@@ -62,9 +61,9 @@ const initialState: BuySellState = {
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
-  everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  googlePayInfo: undefined,
   limits: Remote.NotAsked,
   method: undefined,
   methods: Remote.NotAsked,
@@ -164,19 +163,6 @@ const buySellSlice = createSlice({
     activateCardSuccess: (state, action: PayloadAction<ProviderDetailsType>) => {
       state.providerDetails = Remote.Success(action.payload)
     },
-    // START LEGACY EVERYPAY
-    addCard: () => {},
-    addCardFailure: (state, action: PayloadAction<string>) => {
-      state.everypay3DS = Remote.Failure(action.payload)
-    },
-    addCardFinished: () => {},
-    addCardLoading: (state) => {
-      state.everypay3DS = Remote.Loading
-    },
-    addCardSuccess: (state, action: PayloadAction<Everypay3DSResponseType>) => {
-      state.everypay3DS = Remote.Success(action.payload)
-    },
-    // END LEGACY EVERYPAY
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
@@ -459,9 +445,6 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
-    setAddCardError: (state, action: PayloadAction<undefined | BSAddCardErrorType>) => {
-      state.addCardError = action.payload
-    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
@@ -471,6 +454,9 @@ const buySellSlice = createSlice({
     },
     setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
+    },
+    setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
+      state.googlePayInfo = action.payload
     },
     setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
       state.method = action.payload

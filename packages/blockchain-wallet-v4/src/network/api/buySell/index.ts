@@ -34,6 +34,7 @@ import {
   BuyQuoteType,
   CardAcquirer,
   FiatEligibleType,
+  GooglePayInfoType,
   NabuAddressType,
   TradesAccumulatedResponse,
   ValidateApplePayMerchantRequest,
@@ -45,7 +46,6 @@ export default ({
   authorizedGet,
   authorizedPost,
   authorizedPut,
-  everypayUrl,
   get,
   nabuUrl
 }) => {
@@ -443,48 +443,6 @@ export default ({
       url: nabuUrl
     })
 
-  const submitBSCardDetailsToEverypay = ({
-    accessToken,
-    apiUserName,
-    ccNumber,
-    cvc,
-    expirationDate,
-    holderName,
-    nonce
-  }: {
-    accessToken: string
-    apiUserName: string
-    ccNumber: string
-    cvc: string
-    expirationDate: Moment
-    holderName: string
-    nonce: string
-  }) =>
-    axios({
-      data: {
-        api_username: apiUserName,
-        cc_details: {
-          cc_number: ccNumber,
-
-          cvc,
-
-          holder_name: holderName,
-          // months are 0 indexed
-          month: expirationDate.month() + 1,
-          year: expirationDate.year()
-        },
-        nonce: nonce.slice(0, 8),
-        timestamp: new Date().toISOString(),
-        token_consented: true
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      url: `${everypayUrl}/api/v3/mobile_payments/card_details`
-    })
-
   const withdrawBSFunds = (
     address: string,
     currency: string,
@@ -553,6 +511,14 @@ export default ({
       url: nabuUrl
     })
 
+  const getGooglePayInfo = (currency: FiatType): GooglePayInfoType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/google-pay/info?currency=${currency}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -582,11 +548,11 @@ export default ({
     getBankTransferAccounts,
     getBuyQuote,
     getCardAcquirers,
+    getGooglePayInfo,
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,
     getUnifiedSellTrades,
-    submitBSCardDetailsToEverypay,
     updateBankAccountLink,
     validateApplePayMerchant,
     withdrawBSFunds

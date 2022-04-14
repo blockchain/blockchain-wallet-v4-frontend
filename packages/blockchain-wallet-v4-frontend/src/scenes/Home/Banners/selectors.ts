@@ -22,7 +22,6 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
-  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
   | 'stxAirdropFundsAvailable'
@@ -114,18 +113,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
 
-  // cEUR Rewards
-  const cEURAnnouncement = selectors.core.walletOptions
-    .getCeloEurRewards(state)
-    .getOrElse(false) as boolean
-  const cEURAnnouncementAnnouncement = 'ceur-rewards'
-  const showCEURBanner =
-    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
-    userData &&
-    userData.address &&
-    userData.address.country &&
-    ['US', 'DE', 'IT', 'FR', 'NL'].indexOf(userData.address.country) === -1
-
   const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
@@ -179,8 +166,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showCEURBanner) {
-    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {

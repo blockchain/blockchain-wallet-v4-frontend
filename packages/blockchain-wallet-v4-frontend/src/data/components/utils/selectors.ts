@@ -1,4 +1,4 @@
-import { lift, mapObjIndexed, toUpper, values } from 'ramda'
+import { lift, mapObjIndexed, values } from 'ramda'
 
 import {
   AccountTokensBalancesResponseType,
@@ -45,18 +45,23 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
         'XLM',
         ...selfCustodials,
         ...custodials,
-        // ...coins.rest // erc20s
-        // TODO: erc20 phase 2, key off hash not symbol
-        ...erc20s.map(({ tokenSymbol }) => toUpper(tokenSymbol)),
+        ...(erc20s
+          .map(({ tokenHash }) => {
+            return Object.keys(window.coins)
+              .find(
+                (coin) =>
+                  window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+                  tokenHash.toLowerCase()
+              )
+              ?.toUpperCase()
+          })
+          .filter(Boolean) as string[]),
         ...custodialErc20s,
         ...coinsInRecentSwaps
       ])
     ]
-      .map((coin) => window.coins[coin])
-      // TODO: erc20 phase 2, remove
-      // reject coins that have not been attached to window
-      // maybe erc20s that have been sent to users account
       .filter(Boolean)
+      .map((coin) => window.coins[coin])
 
     return values(
       mapObjIndexed((coin: { coinfig: CoinfigType }) => {

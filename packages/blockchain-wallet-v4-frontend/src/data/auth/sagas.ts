@@ -3,7 +3,6 @@ import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -186,11 +185,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
-      const invitations = selectors.core.settings
-        .getInvitations(yield select())
-        .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
+      if (!isLatestVersion) {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
@@ -838,7 +833,7 @@ export default ({ api, coreSagas, networks }) => {
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { exchange, product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
 
     try {
@@ -853,6 +848,9 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        if (product === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.cache.exchangeEmail(exchange?.email))
+        }
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
       // @ts-ignore

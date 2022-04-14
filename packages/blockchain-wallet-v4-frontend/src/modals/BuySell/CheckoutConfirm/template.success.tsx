@@ -387,8 +387,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     ? displayFiat(props.order, props.order.fee)
                     : props.order.fee && props.formValues?.fix === 'CRYPTO'
                     ? coinToString({
-                        unit: { symbol: props.order.outputCurrency },
-                        value: convertBaseToStandard(props.order.outputCurrency, props.order.fee)
+                        unit: { symbol: props.order.inputCurrency },
+                        value: convertBaseToStandard(props.order.inputCurrency, props.order.fee)
                       })
                     : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
                 </RowText>

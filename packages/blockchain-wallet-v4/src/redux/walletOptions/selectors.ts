@@ -59,10 +59,6 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
 
-// redesign feature flag
-export const getRedesignEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isRedesignEnabled']))
-
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
@@ -71,10 +67,6 @@ export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
 
-// celoEUR sweepstake feature flag
-export const getCeloEurRewards = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
-
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
@@ -82,6 +74,10 @@ export const getMergeAndUpgradeAccounts = (state: RootState) =>
 // apple pay as new payment method feature flag
 export const getApplePayAsNewPaymentMethod = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'applePayPaymentMethod']))
+
+// google pay as new payment method feature flag
+export const getGooglePayAsNewPaymentMethod = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'googlePayPaymentMethod']))
 
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>

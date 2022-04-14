@@ -3,51 +3,50 @@ import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/NavbarV2'
 import { Analytics, ModalName } from 'data/types'
-import { useMedia } from 'services/styles'
 
 import { Props } from '.'
-import Large from './template.large'
-import Medium from './template.medium'
-import Small from './template.small'
 
 type OwnProps = Props & {
-  handleToggle: () => void
   history: { push: (path: string) => void }
   taxCenterEnabled: boolean
 }
 
 const Header = (props: OwnProps) => {
-  const isLaptop = useMedia('laptop')
-  const isTablet = useMedia('tablet')
-
   const refreshCallback = useCallback(() => {
     props.refreshActions.refreshClicked()
-  }, [])
+  }, [props.refreshActions])
 
   const logoutCallback = useCallback(() => {
     props.sessionActions.logout()
-  }, [])
+  }, [props.sessionActions])
 
   const sendCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
-  }, [])
+  }, [props.modalActions])
 
   const receiveCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' })
-  }, [])
+    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
+  }, [props.modalActions])
 
   const fabCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.TRADE_MODAL, {
       origin: 'Header'
     })
-  }, [])
+  }, [props.modalActions])
+
+  const trackEventCallback = useCallback(
+    (eventName) => {
+      props.settingsActions.generalSettingsInternalRedirect(eventName)
+    },
+    [props.settingsActions]
+  )
 
   const limitsCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
       origin: 'TradingLimits'
     })
-    props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
-  }, [])
+    trackEventCallback('TradingLimits')
+  }, [props.modalActions, trackEventCallback])
 
   const taxCenterCallback = useCallback(() => {
     props.history.push('/tax-center')
@@ -58,7 +57,7 @@ const Header = (props: OwnProps) => {
         origin: 'SETTINGS'
       }
     })
-  }, [])
+  }, [props.analyticsActions, props.history])
 
   const PrimaryNavItems = [
     {
@@ -96,23 +95,19 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (props.isRedesignEnabled) {
-    return (
-      <Navbar
-        primaryNavItems={PrimaryNavItems}
-        fabClickHandler={fabCallback}
-        taxCenterEnabled={props.taxCenterEnabled}
-        limitsClickHandler={limitsCallback}
-        logoutClickHandler={logoutCallback}
-        receiveClickHandler={receiveCallback}
-        refreshClickHandler={refreshCallback}
-        sendClickHandler={sendCallback}
-        taxCenterClickHandler={taxCenterCallback}
-      />
-    )
-  }
   return (
-    <>{isTablet ? <Small {...props} /> : isLaptop ? <Medium {...props} /> : <Large {...props} />}</>
+    <Navbar
+      primaryNavItems={PrimaryNavItems}
+      fabClickHandler={fabCallback}
+      taxCenterEnabled={props.taxCenterEnabled}
+      limitsClickHandler={limitsCallback}
+      logoutClickHandler={logoutCallback}
+      receiveClickHandler={receiveCallback}
+      refreshClickHandler={refreshCallback}
+      sendClickHandler={sendCallback}
+      taxCenterClickHandler={taxCenterCallback}
+      trackEventCallback={trackEventCallback}
+    />
   )
 }
 

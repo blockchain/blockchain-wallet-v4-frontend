@@ -71,7 +71,7 @@ export default ({ apiUrl, get, post }) => {
   }
 
   const balance = (
-    pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
+    pubKeys: { descriptor: 'default' | 'legacy'; pubKey: string; style: 'SINGLE' }[]
   ): BalanceResponseType => {
     return post({
       contentType: 'application/json',
@@ -86,7 +86,7 @@ export default ({ apiUrl, get, post }) => {
   }
 
   const txHistory = (
-    pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
+    pubKeys: { descriptor: 'default' | 'legacy'; pubKey: string; style: 'SINGLE' }[]
   ): TxHistoryResponseType => {
     return post({
       contentType: 'application/json',
