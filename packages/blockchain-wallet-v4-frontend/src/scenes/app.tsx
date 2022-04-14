@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
-import useScript from '@charlietango/use-script'
 import { ConnectedRouter } from 'connected-react-router'
 import { map, values } from 'ramda'
 import { Store } from 'redux'
@@ -74,10 +73,6 @@ const App = ({
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : PublicLoading
-
-  // lazy load google captcha and google tag manager
-  useScript(`https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`)
-  useScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ')
 
   // parse and log UTMs
   useEffect(() => {
