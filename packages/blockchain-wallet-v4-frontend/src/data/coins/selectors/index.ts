@@ -1,7 +1,7 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from '@core'
-import { CoinfigType, CoinType, RemoteDataType } from '@core/types'
+import { CoinfigType, CoinType, InvitationsType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
@@ -99,4 +99,30 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
   const accounts = accountsR.getOrElse({})
 
   return accounts
+}
+
+export const getStxSelfCustodyAvailablity = (state): boolean => {
+  const featureFlagsR = selectors.core.walletOptions.getFeatureFlags(state)
+  const tagsR = selectors.modules.profile.getBlockstackTag(state)
+  const invitationsR = selectors.core.settings.getInvitations(state)
+
+  const featureFlags = featureFlagsR.getOrElse({
+    stxSelfCustodyEnableAirdrop: false,
+    stxSelfCustodyEnableAll: false
+  })
+  const tag = tagsR.getOrElse(false)
+  const invitations = invitationsR.getOrElse({ stxSelfCustody: true } as InvitationsType)
+
+  if (invitations.stxSelfCustody) {
+    if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {
+      return true
+    }
+    if (featureFlags.stxSelfCustodyEnableAll) {
+      return true
+    }
+
+    return false
+  }
+
+  return false
 }

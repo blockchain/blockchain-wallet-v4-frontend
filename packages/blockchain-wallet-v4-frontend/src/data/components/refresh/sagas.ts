@@ -3,8 +3,6 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 
-import * as SelfCustodySelectors from '../../coins/selectors/coins/self-custody'
-
 export default () => {
   const refreshBchTransactions = function* () {
     const onlyShow = yield select(selectors.components.bchTransactions.selectOnlyShow)
@@ -61,11 +59,7 @@ export default () => {
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
-      // TODO: SELF_CUSTODY, remove
-      const stxEligibility = SelfCustodySelectors.getStxSelfCustodyAvailablity(yield select())
-      if (stxEligibility) {
-        yield put(actions.core.data.coins.fetchData())
-      }
+      yield put(actions.core.data.coins.fetchData())
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates

@@ -1,11 +1,8 @@
 import { lift } from 'ramda'
 
 import { getBalance } from '@core/redux/data/coins/selectors'
-import { InvitationsType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateSelfCustodyAccount } from 'data/coins/utils'
-
-import * as selectors from '../../../selectors'
 
 export const getTransactionPageHeaderText = () => null
 
@@ -24,34 +21,5 @@ export const getAccounts = createDeepEqualSelector(
     }
 
     return lift(transform)(balanceR)
-  }
-)
-
-export const getStxSelfCustodyAvailablity = createDeepEqualSelector(
-  [
-    selectors.core.walletOptions.getFeatureFlags,
-    selectors.modules.profile.getBlockstackTag,
-    selectors.core.settings.getInvitations
-  ],
-  (featureFlagsR, tagsR, invitationsR): boolean => {
-    const featureFlags = featureFlagsR.getOrElse({
-      stxSelfCustodyEnableAirdrop: false,
-      stxSelfCustodyEnableAll: false
-    })
-    const tag = tagsR.getOrElse(false)
-    const invitations = invitationsR.getOrElse({ stxSelfCustody: true } as InvitationsType)
-
-    if (invitations.stxSelfCustody) {
-      if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {
-        return true
-      }
-      if (featureFlags.stxSelfCustodyEnableAll) {
-        return true
-      }
-
-      return false
-    }
-
-    return false
   }
 )

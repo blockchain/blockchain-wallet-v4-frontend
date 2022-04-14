@@ -126,6 +126,18 @@ describe('App Store Config', () => {
           minimumOnChainConfirmations: 1,
           name: 'COIN'
         }
+      },
+      {
+        name: 'Blockstack',
+        precision: 7,
+        products: ['MercuryDeposits', 'MercuryWithdrawals'],
+        symbol: 'STX',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/stx/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
       }
     ]
   }

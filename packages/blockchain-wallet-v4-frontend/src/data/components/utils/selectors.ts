@@ -10,14 +10,13 @@ import {
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import * as SelfCustodySelectors from '../../coins/selectors/coins/self-custody'
 import { getOutputFromPair } from '../swap/model'
 
 // eslint-disable-next-line import/prefer-default-export
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO: SELF_CUSTODY, remove this
-  const stxEligibility = SelfCustodySelectors.getStxSelfCustodyAvailablity(state)
+  const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
