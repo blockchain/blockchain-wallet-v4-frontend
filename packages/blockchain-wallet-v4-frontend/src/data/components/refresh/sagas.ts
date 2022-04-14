@@ -59,7 +59,11 @@ export default () => {
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
-      yield put(actions.core.data.coins.fetchData())
+      // TODO: SELF_CUSTODY, remove
+      const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(yield select())
+      if (stxEligibility) {
+        yield put(actions.core.data.coins.fetchData())
+      }
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates

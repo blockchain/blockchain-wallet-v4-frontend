@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import { media } from 'services/styles'
 
 import { BannerButton, IconWrapper } from '../styles'
@@ -47,7 +50,13 @@ const Copy = styled(Text)`
   font-size: 12px;
 `
 
-class StxAirdropFundsAvailable extends PureComponent {
+class StxAirdropFundsAvailable extends PureComponent<Props> {
+  componentDidMount() {
+    // TODO: SELF_CUSTODY move to fetchBalances
+    // I already left it there, just need to uncomment it
+    this.props.coinsActions.fetchData()
+  }
+
   render() {
     return (
       <Wrapper>
@@ -84,4 +93,12 @@ class StxAirdropFundsAvailable extends PureComponent {
   }
 }
 
-export default StxAirdropFundsAvailable
+const mapDispatchToProps = (dispatch) => ({
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(StxAirdropFundsAvailable)
