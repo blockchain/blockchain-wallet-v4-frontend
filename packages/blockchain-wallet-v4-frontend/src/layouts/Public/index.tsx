@@ -1,8 +1,8 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled from 'styled-components'
 import useScript from '@charlietango/use-script'
+import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
