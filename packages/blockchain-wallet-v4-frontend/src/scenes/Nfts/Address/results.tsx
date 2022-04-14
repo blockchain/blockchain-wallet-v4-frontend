@@ -5,13 +5,14 @@ import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text } from 'blockchain-info-components'
-import { AssetFilterFields, useOwnerQuery } from 'generated/graphql'
+import { AssetFilterFields, CollectionsQuery, OwnerQuery, useOwnerQuery } from 'generated/graphql'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
 
 const NftAddressResults: React.FC<Props> = ({
   address,
   page,
+  setCollections,
   setIsFetchingNextPage,
   setNextPageFetchError
 }) => {
@@ -33,6 +34,24 @@ const NftAddressResults: React.FC<Props> = ({
   useEffect(() => {
     setIsFetchingNextPage(result.fetching)
   }, [result.fetching])
+
+  useEffect(() => {
+    setCollections((collections) => {
+      const newAssetCollections = result.data?.assets.filter(({ collection: newCollection }) => {
+        if (collections.find((collection) => collection.slug === newCollection.slug)) {
+          return false
+        }
+
+        return true
+      })
+
+      const newCollections = collections.concat(
+        newAssetCollections?.map(({ collection }) => collection) ?? []
+      )
+
+      return [...new Map(newCollections.map((item) => [item.slug, item])).values()]
+    })
+  }, [result.data])
 
   return (
     <>
@@ -72,7 +91,18 @@ const NftAddressResults: React.FC<Props> = ({
 
 type Props = {
   address: string
+  collections: OwnerQuery['assets'][0]['collection'][]
   page: number
+  setCollections: React.Dispatch<
+    React.SetStateAction<
+      {
+        __typename?: 'Collection' | undefined
+        image_url?: string | null | undefined
+        name: string
+        slug: string
+      }[]
+    >
+  >
   setIsFetchingNextPage: (isFetching: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
 }

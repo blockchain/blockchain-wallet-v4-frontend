@@ -7,10 +7,8 @@ import styled from 'styled-components'
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
-import { CollectionsQuery } from 'generated/graphql'
+import { CollectionsQuery, OwnerQuery, OwnerQueryVariables } from 'generated/graphql'
 import { media } from 'services/styles'
-
-import { NftFilterFormValuesType } from '../Collection'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 20px;
@@ -75,7 +73,7 @@ const TraitItem = styled.div`
   }
 `
 
-const NftFilter: React.FC<Props> = ({ formActions, formValues, stats, traits }) => {
+const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stats, traits }) => {
   const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
 
@@ -149,100 +147,158 @@ const NftFilter: React.FC<Props> = ({ formActions, formValues, stats, traits }) 
               <ComponentIcon size='18px' name='ETH' />
             </div>
           </div>
-          <div style={{ marginTop: '24px' }}>
-            <Text size='14px' weight={600} color='black'>
-              <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
-            </Text>
-            {Object.keys(organizedTraits).map((trait) => {
-              const isActive = activeTraits.indexOf(trait) > -1
-
-              return (
-                <TraitWrapper key={trait}>
-                  <TraitHeader
-                    role='button'
-                    onClick={() => {
-                      if (activeTraits.indexOf(trait) === -1) {
-                        setActiveTraits([...activeTraits, trait])
-                      } else {
-                        setActiveTraits(activeTraits.filter((t) => t !== trait))
-                      }
-                    }}
-                  >
-                    <Text size='14px' weight={500} color='black'>
-                      {trait}
-                    </Text>
-                    <Icon
-                      name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
-                      color={colors.grey400}
-                    />
-                  </TraitHeader>
-                  <TraitList isActive={isActive}>
-                    {Object.keys(organizedTraits[trait])
-                      .sort((a, b) =>
-                        organizedTraits[trait][a] < organizedTraits[trait][b] ? 1 : -1
-                      )
-                      .map((value) => {
-                        return (
-                          <TraitItem key={value}>
-                            <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
-                              <Field
-                                component='input'
-                                name={`${trait}.${value}`}
-                                type='checkbox'
-                                id={`${trait}.${value}`}
-                              />
-                              <label
-                                htmlFor={`${trait}.${value}`}
-                                style={{
-                                  alignItems: 'center',
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  whiteSpace: 'nowrap',
-                                  width: '100%'
-                                }}
+          {collections.length ? (
+            <div style={{ marginTop: '24px' }}>
+              <Text size='14px' weight={600} color='black'>
+                <FormattedMessage id='copy.collections' defaultMessage='Collections' />
+                <TraitWrapper>
+                  <TraitList isActive>
+                    {collections.map((collection) => {
+                      return (
+                        <TraitItem key={collection.name}>
+                          <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
+                            <Field
+                              component='input'
+                              name={`collection.${collection.name}`}
+                              type='checkbox'
+                              id={`collection.${collection.name}`}
+                            />
+                            <label
+                              htmlFor={`collection.${collection.name}`}
+                              style={{
+                                alignItems: 'center',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                whiteSpace: 'nowrap',
+                                width: '100%'
+                              }}
+                            >
+                              <Text
+                                style={{ marginLeft: '4px' }}
+                                size='12px'
+                                weight={600}
+                                color='black'
+                                capitalize
                               >
-                                <Text
-                                  style={{ marginLeft: '4px' }}
-                                  size='12px'
-                                  weight={600}
-                                  color='black'
-                                  capitalize
-                                >
-                                  {value}
-                                </Text>
-                                <div style={{ alignItems: 'center', display: 'flex' }}>
-                                  <Text size='12px' weight={500} color='grey500'>
-                                    {organizedTraits[trait][value]}
-                                  </Text>
-                                  &nbsp;
-                                  <Text size='12px' weight={500} color='grey500'>
-                                    {stats?.total_supply
-                                      ? `(${(
-                                          (Number(organizedTraits[trait][value]) /
-                                            Number(stats?.total_supply)) *
-                                          100
-                                        ).toFixed(2)}%)`
-                                      : null}
-                                  </Text>
-                                </div>
-                              </label>
-                            </div>
-                          </TraitItem>
-                        )
-                      })}
+                                {collection.name}
+                              </Text>
+                            </label>
+                          </div>
+                        </TraitItem>
+                      )
+                    })}
                   </TraitList>
                 </TraitWrapper>
-              )
-            })}
-          </div>
+              </Text>
+            </div>
+          ) : null}
+          {organizedTraits.length ? (
+            <div style={{ marginTop: '24px' }}>
+              <Text size='14px' weight={600} color='black'>
+                <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
+              </Text>
+              {Object.keys(organizedTraits).map((trait) => {
+                const isActive = activeTraits.indexOf(trait) > -1
+
+                return (
+                  <TraitWrapper key={trait}>
+                    <TraitHeader
+                      role='button'
+                      onClick={() => {
+                        if (activeTraits.indexOf(trait) === -1) {
+                          setActiveTraits([...activeTraits, trait])
+                        } else {
+                          setActiveTraits(activeTraits.filter((t) => t !== trait))
+                        }
+                      }}
+                    >
+                      <Text size='14px' weight={500} color='black'>
+                        {trait}
+                      </Text>
+                      <Icon
+                        name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
+                        color={colors.grey400}
+                      />
+                    </TraitHeader>
+                    <TraitList isActive={isActive}>
+                      {Object.keys(organizedTraits[trait])
+                        .sort((a, b) =>
+                          organizedTraits[trait][a] < organizedTraits[trait][b] ? 1 : -1
+                        )
+                        .map((value) => {
+                          return (
+                            <TraitItem key={value}>
+                              <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
+                                <Field
+                                  component='input'
+                                  name={`${trait}.${value}`}
+                                  type='checkbox'
+                                  id={`${trait}.${value}`}
+                                />
+                                <label
+                                  htmlFor={`${trait}.${value}`}
+                                  style={{
+                                    alignItems: 'center',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    whiteSpace: 'nowrap',
+                                    width: '100%'
+                                  }}
+                                >
+                                  <Text
+                                    style={{ marginLeft: '4px' }}
+                                    size='12px'
+                                    weight={600}
+                                    color='black'
+                                    capitalize
+                                  >
+                                    {value}
+                                  </Text>
+                                  <div style={{ alignItems: 'center', display: 'flex' }}>
+                                    <Text size='12px' weight={500} color='grey500'>
+                                      {organizedTraits[trait][value]}
+                                    </Text>
+                                    &nbsp;
+                                    <Text size='12px' weight={500} color='grey500'>
+                                      {stats?.total_supply
+                                        ? `(${(
+                                            (Number(organizedTraits[trait][value]) /
+                                              Number(stats?.total_supply)) *
+                                            100
+                                          ).toFixed(2)}%)`
+                                        : null}
+                                    </Text>
+                                  </div>
+                                </label>
+                              </div>
+                            </TraitItem>
+                          )
+                        })}
+                    </TraitList>
+                  </TraitWrapper>
+                )
+              })}
+            </div>
+          ) : null}
         </div>
-        )
       </Form>
     </Wrapper>
   )
 }
 
+export type NftFilterFormValuesType = {
+  forSale: boolean
+  max: string
+  min: string
+  sortBy: string
+} & {
+  [key: string]: {
+    [key: string]: boolean
+  }
+}
+
 type Props = {
+  collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   stats: CollectionsQuery['collections'][0]['stats']

@@ -1,6 +1,6 @@
 query Owner($filter: [AssetFilter], $limit: Int, $offset: Int) {
   assets(filter: $filter, limit: $limit, offset: $offset) {
-	name
+	  name
     image_url
     animation_original_url
     collection {

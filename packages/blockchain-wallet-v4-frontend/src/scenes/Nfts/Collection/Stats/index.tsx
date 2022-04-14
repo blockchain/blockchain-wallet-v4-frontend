@@ -1,34 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import * as numeral from 'numeral'
-import styled from 'styled-components'
 
-import { NftCollection } from '@core/network/api/nfts/types'
-import { RemoteDataType } from '@core/types'
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { CollectionsQuery } from 'generated/graphql'
-import { media, useMedia } from 'services/styles'
 
-const StatsWrapper = styled.div`
-  display: flex;
-  gap: 8px;
-`
-
-const Stat = styled.div`
-  padding: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  gap: 16px;
-  background: ${(props) => props.theme.greyFade100};
-  ${media.tabletL`
-    padding: 10px;
-    > div {
-      font-size: 12px;
-    }
-  `}
-`
+import { Stat, StatsWrapper } from '../../components'
 
 const Stats: React.FC<Props> = ({ stats }) => {
   return (

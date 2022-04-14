@@ -196,11 +196,32 @@ export const Centered = styled.div`
 `
 
 export const NftBannerWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(6px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
   width: 100%;
   padding: 24px 40px;
+`
+
+export const StatsWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+export const Stat = styled.div`
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  gap: 16px;
+  background: ${(props) => props.theme.greyFade200};
+  ${media.tabletL`
+    padding: 10px;
+    > div {
+      font-size: 12px;
+    }
+  `}
 `

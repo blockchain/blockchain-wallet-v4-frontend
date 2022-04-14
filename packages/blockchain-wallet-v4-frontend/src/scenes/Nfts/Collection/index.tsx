@@ -25,7 +25,7 @@ import { media } from 'services/styles'
 import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
 import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
-import NftFilter from '../NftFilter'
+import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import ResultsPage from './results'
 import Stats from './Stats'
 
@@ -115,12 +115,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
     undefined
   )
 
-  useWhyDidYouUpdate('NftsCollection', {
-    formActions,
-    formValues,
-    ...rest
-  })
-
   const [results] = useCollectionsQuery({
     variables: { filter: [{ field: CollectionFields.Slug, value: slug }] }
   })
@@ -181,6 +175,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
       </CollectionHeader>
       <GridWrapper>
         <NftFilter
+          collections={[]}
           formActions={formActions}
           formValues={formValues}
           stats={collection.stats}
@@ -332,17 +327,6 @@ const enhance = compose(
 
 export type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { slug: string } }
-}
-
-export type NftFilterFormValuesType = {
-  forSale: boolean
-  max: string
-  min: string
-  sortBy: string
-} & {
-  [key: string]: {
-    [key: string]: boolean
-  }
 }
 
 export default enhance(NftsCollection) as React.FC<{ computedMatch: { params: { slug: string } } }>

@@ -21,7 +21,7 @@ import {
   PriceCTA,
   StyledCoinDisplay
 } from '../components'
-import { NftFilterFormValuesType } from '.'
+import { NftFilterFormValuesType } from '../NftFilter'
 
 const ResultsPage: React.FC<Props> = ({
   formValues,
