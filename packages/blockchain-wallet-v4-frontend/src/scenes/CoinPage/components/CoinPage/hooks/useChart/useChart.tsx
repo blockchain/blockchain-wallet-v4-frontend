@@ -25,7 +25,7 @@ export const useChart = ({ timeRange }: UseChartArgs): [ReactNode] => {
     return (
       <ResponsiveCoinChart
         data={data}
-        backgroundColor={colors.white60}
+        backgroundColor={colors.white060}
         primaryColor={colors.blue600}
         textColor={colors.grey400}
         x='timestamp'

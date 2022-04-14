@@ -1,8 +1,9 @@
 import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from '@blockchain-com/constellation'
+import { IconRepeat } from '@blockchain-com/icons'
 import { useDateFomatter, useIsToday, useRecord } from 'blockchain-wallet-v4-frontend/src/hooks'
 
-import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
 import { RecurringBuyPeriods } from 'data/types'
@@ -22,7 +23,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
     value
   })
 
-  const title = useRecord<RecurringBuyPeriods, ReactNode>(period, {
+  const [title] = useRecord<RecurringBuyPeriods, ReactNode>(period, {
     BI_WEEKLY: (
       <FormattedMessage
         id='copy.twice_a_month'
@@ -82,7 +83,9 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
       onClick={onClick}
       icon={
         <IconCircularBackground color='orange400'>
-          <Icon name='sync-regular' size='12px' color='white' />
+          <Icon size='sm' color='white900' label='icon'>
+            <IconRepeat />
+          </Icon>
         </IconCircularBackground>
       }
       rightAction
