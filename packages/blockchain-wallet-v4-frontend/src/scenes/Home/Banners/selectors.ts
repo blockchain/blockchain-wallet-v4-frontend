@@ -74,6 +74,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
+  // use this to prevent rendering of complete profile banner
+  const isUserDataLoaded = userDataR.cata({
+    Failure: () => true,
+    Loading: () => false,
+    NotAsked: () => false,
+    Success: () => true
+  })
   const userData = userDataR.getOrElse({
     address: { country: '' },
     tags: {},
@@ -164,6 +171,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (
+    showCompleteYourProfileBanner &&
+    !isProfileCompleted &&
+    userData?.tiers?.current !== TIER_TYPES.GOLD &&
+    isUserDataLoaded
+  ) {
+    bannerToShow = 'completeYourProfile'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {

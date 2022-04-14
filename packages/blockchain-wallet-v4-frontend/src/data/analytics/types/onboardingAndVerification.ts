@@ -14,7 +14,7 @@ export enum Events {
   ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY = 'Get More Access When You Verify Clicked',
   ONBOARDING_GET_MORE_ACCESS_WHEN_YOU_VERIFY_DISMISSED = 'Get More Access When You Verify Dismissed',
   ONBOARDING_MANUAL_VERIFICATION_REQUIRED = 'Manual Verification Required',
-  ONBOARDING_PERSONAL_INFORMATION_CLICKED = 'Personal Information Entered',
+  ONBOARDING_PERSONAL_INFORMATION_ENTERED = 'Personal Information Entered',
   ONBOARDING_PRE_VERIFICATION_CTA_CLICKED = 'Pre Verification CTA Clicked',
   ONBOARDING_PRE_VERIFICATION_DISMISSED = 'Pre Verification Dismissed',
   ONBOARDING_PRE_VERIFICATION_VIEWED = 'Pre Verification Viewed',
@@ -80,6 +80,8 @@ type FailureReason =
   | 'VIDEO_FAILED'
 
 type LunchByPromo = 'NUX_LAUNCH_PROMO_BUY_CRYPTO' // this is defined as single enum
+
+type EnteredInformation = 'SETTINGS'
 
 type Provider = 'BLOCKCHAIN' | 'VERIFF'
 
@@ -158,9 +160,11 @@ type CompleteProfileBannerClickedAction = {
   }
 }
 
-type PersonalInformationClickedAction = {
-  key: Events.ONBOARDING_PERSONAL_INFORMATION_CLICKED
-  properties: {}
+type PersonalInformationEnteredAction = {
+  key: Events.ONBOARDING_PERSONAL_INFORMATION_ENTERED
+  properties: {
+    origin: EnteredInformation
+  }
 }
 
 type SignUpClickedAction = {
@@ -323,7 +327,7 @@ export type TrackEventAction =
   | CompleteProfileModalViewedAction
   | CompleteProfileModalButtonClickedAction
   | CompleteProfileBannerClickedAction
-  | PersonalInformationClickedAction
+  | PersonalInformationEnteredAction
   | SignUpClickedAction
   | CountrySelectedAction
   | CountryStateSelectedAction
