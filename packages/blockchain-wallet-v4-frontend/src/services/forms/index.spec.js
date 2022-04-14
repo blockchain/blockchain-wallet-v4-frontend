@@ -68,7 +68,7 @@ describe('FormHelper', () => {
     })
 
     it('returns undefined if valid mnemonic given', () => {
-      expect(FormHelper.validMnemonic(bip39.generateMnemonic())).toBeUndefined()
+      expect(FormHelper.validMnemonic(BIP39.generateMnemonic())).toBeUndefined()
     })
   })
 
