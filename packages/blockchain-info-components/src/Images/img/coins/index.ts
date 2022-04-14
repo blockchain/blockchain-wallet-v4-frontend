@@ -1,3 +1,4 @@
+import ars from './ars.png'
 import bch from './bch.png'
 import bsv from './bsv.png'
 import btc from './btc.png'
@@ -17,6 +18,7 @@ import xlm from './xlm.png'
 import zrx from './zrx.png'
 
 export default {
+  ars,
   bch,
   bsv,
   btc,

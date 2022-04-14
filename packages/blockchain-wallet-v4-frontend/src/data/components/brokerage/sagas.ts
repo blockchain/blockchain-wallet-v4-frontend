@@ -221,13 +221,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
 
     const paymentMethods: BSPaymentMethodType[] = yield call(api.getBSPaymentMethods, payload, true)
-
+    
     const eligibleMethods = paymentMethods.filter(
       (method) =>
         method.currency === payload &&
         (method.type === BSPaymentTypes.BANK_ACCOUNT ||
           method.type === BSPaymentTypes.BANK_TRANSFER)
     )
+
+    console.log('eligibleMethods', eligibleMethods)
 
     if (eligibleMethods.length === 0) {
       return yield put(
