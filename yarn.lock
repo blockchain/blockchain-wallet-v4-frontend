@@ -1324,18 +1324,6 @@
   resolved "https://registry.yarnpkg.com/@blockchain-com/icons/-/icons-0.0.3.tgz#466c594087db28930c6823c063cf410cce578aa2"
   integrity sha512-NyXBvBJ7b1f+Y/xA4wubLx/h/at6m/Pud3RWfRt5UBnxDgneE0Y27yDCU9nnIMR686YU5co2D8jZa1xeJt79cg==
 
-"@charlietango/use-client-hydrated@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@charlietango/use-client-hydrated/-/use-client-hydrated-1.9.0.tgz#e348536f1a3a8fbd66f77e6ac97018a5f5e456dd"
-  integrity sha512-QLM2B+B9jTl9UGZ03IMHC6G7JZRCD71G8iWG92i2WUTnYylsYjccfECIxAR+KcCVU6te8w0DxcHx/n6cMNDbpA==
-
-"@charlietango/use-script@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@charlietango/use-script/-/use-script-2.2.0.tgz#6aaa06e5f245e295048dc79bbc43f5141c2c804a"
-  integrity sha512-TVmovh1l5Ye0HfXwvbcJdpxdR6TdjaeVfJCDDv4xD+/1u6+cuIDnEWCjT4e69Jim3nqNsGXbw4Ds8+y0nxBM6g==
-  dependencies:
-    "@charlietango/use-client-hydrated" "^1.9.0"
-
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
