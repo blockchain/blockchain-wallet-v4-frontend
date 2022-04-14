@@ -161,6 +161,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
+  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
+    bannerToShow = 'resubmit'
   } else if (
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&
@@ -168,8 +170,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     isUserDataLoaded
   ) {
     bannerToShow = 'completeYourProfile'
-  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
-    bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
