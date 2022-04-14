@@ -19,7 +19,7 @@ export const getSeed = function* (password?: string) {
 export const getPubKey = function* (password?: string) {
   const seed = yield call(getSeed, password)
   // TODO: SELF_CUSTODY
-  const { publicKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0`)
+  const { publicKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0/0`)
   const pubkey = publicKey.toString('hex')
 
   return pubkey
@@ -28,7 +28,7 @@ export const getPubKey = function* (password?: string) {
 export const getPrivKey = function* (password?: string) {
   const seed = yield call(getSeed, password)
   // TODO: SELF_CUSTODY
-  const { privateKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0`)
+  const { privateKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0/0`)
   const privkey = privateKey?.toString('hex')
 
   return privkey

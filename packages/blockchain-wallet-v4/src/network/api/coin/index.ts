@@ -9,31 +9,30 @@ import {
 } from './types'
 
 export default ({ apiUrl, get, post }) => {
-  // TODO: SELF_CUSTODY
   const deriveAddress = (coin: string, pubKey: string): DeriveAddressResponseType => {
     return post({
       contentType: 'application/json',
       data: {
         pubKey
       },
-      endPoint: `/public/deriveAddress`,
-      url: 'http://localhost:4444'
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/deriveAddress`,
+      url: apiUrl
     })
   }
 
-  // TODO: SELF_CUSTODY
   const validateAddress = (coin: string, address: string): { success: boolean } => {
     return post({
       contentType: 'application/json',
       data: {
         address
       },
-      endPoint: `/public/validateAddress`,
-      url: 'http://localhost:4444'
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/validateAddress`,
+      url: apiUrl
     })
   }
 
-  // TODO: SELF_CUSTODY
   const buildTx = (data: {
     id: { guid: string; uuid: string }
     intent: BuildTxIntentType
@@ -43,13 +42,13 @@ export default ({ apiUrl, get, post }) => {
     return post({
       contentType: 'application/json',
       data,
-      endPoint: `/public/buildTx`,
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/buildTx`,
       removeDefaultPostData: true,
-      url: 'http://localhost:4444'
+      url: apiUrl
     })
   }
 
-  // TODO: SELF_CUSTODY
   const pushTx = (
     currency: string,
     rawTx: BuildTxResponseType['rawTx'],
@@ -64,13 +63,13 @@ export default ({ apiUrl, get, post }) => {
         rawTx,
         signatures
       },
-      endPoint: `/public/pushTx`,
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/pushTx`,
       removeDefaultPostData: true,
-      url: 'http://localhost:4444'
+      url: apiUrl
     })
   }
 
-  // TODO: SELF_CUSTODY
   const balance = (
     pubKeys: { descriptor: 'default'; pubKey: string; style: 'SINGLE' }[]
   ): BalanceResponseType => {
@@ -79,9 +78,10 @@ export default ({ apiUrl, get, post }) => {
       data: {
         pubKeys
       },
-      endPoint: `/public/balance`,
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/balance`,
       removeDefaultPostData: true,
-      url: 'http://localhost:4444'
+      url: apiUrl
     })
   }
 
@@ -93,9 +93,10 @@ export default ({ apiUrl, get, post }) => {
       data: {
         pubKeys
       },
-      endPoint: `/public/txHistory`,
+      // TODO: SELF_CUSTODY
+      endPoint: `/currency/stx/txHistory`,
       removeDefaultPostData: true,
-      url: 'http://localhost:4444'
+      url: apiUrl
     })
   }
 
