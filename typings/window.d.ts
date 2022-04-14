@@ -5,13 +5,13 @@ declare global {
     APP_VERSION: string // build injected app version
     BCAndroidSSI: any // android <-> web messaging
     CAPTCHA_KEY: string // build injected recaptcha key
-    NONCE: string // build/server injected recaptcha key
     coins: {
       [key in string]: {
         coinfig: CoinfigType // all coin configs for app
       }
     }
     grecaptcha: any // google recaptcha sets this on window
+    nonce: string // build/server injected recaptcha key
     receiveMessageFromMobile: (any) => void // mobile <-> web messaging
     webkit: any // iOS <-> web messaging
   }
