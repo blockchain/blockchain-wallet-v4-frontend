@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, IconName } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCart } from '@blockchain-com/icons'
 
 import { Button } from '../Button'
 import { BuyButtonComponent } from './BuyButton.types'
@@ -11,7 +12,11 @@ export const BuyButton: BuyButtonComponent = ({ onClick }) => (
     key={1}
     data-e2e='buyButton'
     onClick={onClick}
-    icon={<Icon name={IconName.CART} color='white' size='sm' />}
+    icon={
+      <Icon label='cart' color='white900' size='sm'>
+        <IconCart />
+      </Icon>
+    }
   >
     <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
   </Button>
