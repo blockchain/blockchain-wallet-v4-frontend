@@ -196,12 +196,28 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-      const { amount, selectedAccount, to } = formValues
+      const { amount, fix, selectedAccount, to } = formValues
       const { coin } = selectedAccount
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
       const fee = feesR.getOrElse(undefined)
 
-      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
+      const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+
+      const rates = selectors.core.data.misc
+        .getRatesSelector(coin, yield select())
+        .getOrFail('Failed to get rates')
+
+      const amountToSend =
+        fix === 'FIAT'
+          ? convertFiatToCoin({
+              coin,
+              currency: walletCurrency,
+              rates,
+              value: amount
+            })
+          : amount
+
+      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amountToSend })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
