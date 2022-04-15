@@ -28,159 +28,275 @@ export enum Events {
   NFT_RECENTLY_LISTED_CLICKED = 'NFT Recently Listed Clicked',
   NFT_REFRESH_METADATA_CLICKED = 'NFT Refresh Metadata Clicked',
   NFT_RETURN_TO_MARKETPLACE_CLICKED = 'NFT Return To Marketplace Clicked',
+  NFT_SELL_ITEM_CLICKED = 'NFT Sell Item Clicked',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
   NFT_VIEW_BUTTON_VIEWED = 'NFT View Button Viewed',
   NFT_VIEW_SUBMITTED_OFFER_CLICKED = 'NFT View Submitted Offer Clicked'
 }
 
+type Accounts = 'USDT' | 'WETH'
+
+type Platform = 'EXCHANGE'
+
+type Origin = 'NFT_EXPLORER' | 'COLLECTION_PAGE' | 'HOME_PAGE' | 'BUY_NOW' | 'MAKE_OFFER'
+
+type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
+
+type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
+
 type AcceptedAccountsAction = {
   key: Events.NFT_ACCEPTED_ACCOUNTS
-  properties: {}
+  properties: {
+    accounts: Accounts
+  }
 }
 
 type ActivityCancelClickedAction = {
   key: Events.NFT_ACTIVITY_CANCEL_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type ActivityChartEngagedAction = {
   key: Events.NFT_ACTIVITY_CHART_ENGAGED
-  properties: {}
+  properties: {
+    currency: string
+    origin: Origin
+    platform: Platform
+    time_interval: object
+  }
 }
 
 type AmountEnteredSwitchedAction = {
   key: Events.NFT_AMOUNT_ENTERED_SWITCHED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type AttributesClickedAction = {
   key: Events.NFT_ATTRIBUTES_CLICKED
-  properties: {}
+  properties: {
+    background: object
+    clothes: object
+    eyes: object
+    hat: object
+    platform: Platform
+  }
 }
 
 type BuyNowClickedAction = {
   key: Events.NFT_BUY_NOW_CLICKED
-  properties: {}
+  properties: {
+    collection: string
+    collection_id: string
+    platform: Platform
+  }
 }
 
 type ClickedAction = {
   key: Events.NFT_CLICKED
-  properties: {}
+  properties: {
+    collection_name: string
+    image_logo: boolean
+    name_click: boolean
+    platform: Platform
+  }
 }
 
 type CloseAndViewItemClickedAction = {
   key: Events.NFT_CLOSE_AND_VIEW_ITEM_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type ContractAddressClickedAction = {
   key: Events.NFT_CONTRACT_ADDRESS_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type EnteredAmountAction = {
   key: Events.NFT_ENTERED_AMOUNT
-  properties: {}
+  properties: {
+    amount_usd: number
+    currency: string
+    input_amount: number
+    platform: Platform
+  }
 }
 
 type ExplorerClickedAction = {
   key: Events.NFT_EXPLORER_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type FilterClearAllClickedAction = {
   key: Events.NFT_FILTER_CLEAR_ALL_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type FilterListingTypeAction = {
   key: Events.NFT_FILTER_LISTING_TYPE
-  properties: {}
+  properties: {
+    buy_only: TurnOffOn
+    lazy_minted: TurnOffOn
+    platform: Platform
+    verified_only: TurnOffOn
+  }
 }
 
 type FilterPriceAppliedAction = {
   key: Events.NFT_FILTER_PRICE_APPLIED
-  properties: {}
+  properties: {
+    currency: string
+    max_amount: number
+    min_amount: number
+    platform: Platform
+  }
 }
 
 type FilterRemovedAction = {
   key: Events.NFT_FILTER_REMOVED
-  properties: {}
+  properties: {
+    filter_characteristic: string
+    platform: Platform
+  }
 }
 
 type GoToPortfolioClickedAction = {
   key: Events.NFT_GO_TO_PORTFOLIO_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type LeftMenuClosedAction = {
   key: Events.NFT_LEFT_MENU_CLOSED
-  properties: {}
+  properties: {
+    origin: Origin
+    platform: Platform
+  }
 }
 
 type LeftMenuExpandedAction = {
   key: Events.NFT_LEFT_MENU_EXPANDED
-  properties: {}
+  properties: {
+    origin: Origin
+    platform: Platform
+  }
 }
 
 type LoadMoreClickedAction = {
   key: Events.NFT_LOAD_MORE_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type MakeAnOfferClickedAction = {
   key: Events.NFT_MAKE_AN_OFFER_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type MakeAnOfferViewedAction = {
   key: Events.NFT_MAKE_AN_OFFER_VIEWED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type MarkForSaleAction = {
   key: Events.NFT_MARK_FOR_SALE
-  properties: {}
+  properties: {
+    collection: string
+    collection_id: string
+  }
 }
 
 type MoreClickedAction = {
   key: Events.NFT_MORE_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
+
 type OfferWithClickedAction = {
   key: Events.NFT_OFFER_WITH_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
+
 type OwnerclickedAction = {
   key: Events.NFT_OWNER_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
+
 type RecentlyListedClickedAction = {
   key: Events.NFT_RECENTLY_LISTED_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
+
 type RefreshMetadataClickedAction = {
   key: Events.NFT_REFRESH_METADATA_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
+
 type ReturnToMarketplaceClickedAction = {
   key: Events.NFT_RETURN_TO_MARKETPLACE_CLICKED
-  properties: {}
+  properties: {
+    origin: Origin
+    platform: Platform
+  }
+}
+
+type SellItemClickedAction = {
+  key: Events.NFT_SELL_ITEM_CLICKED
+  properties: {
+    amount: number
+    collection: string
+    collection_id: string
+    platform: Platform
+    selling_fees: number
+    type: SaleType
+  }
 }
 
 type ShareClickedAction = {
   key: Events.NFT_SHARE_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type ViewButtonViewedAction = {
   key: Events.NFT_VIEW_BUTTON_VIEWED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 type ViewSubmittedOfferClickedAction = {
   key: Events.NFT_VIEW_SUBMITTED_OFFER_CLICKED
-  properties: {}
+  properties: {
+    platform: Platform
+  }
 }
 
 export type TrackEventAction =
@@ -212,6 +328,7 @@ export type TrackEventAction =
   | RecentlyListedClickedAction
   | RefreshMetadataClickedAction
   | ReturnToMarketplaceClickedAction
+  | SellItemClickedAction
   | ShareClickedAction
   | ViewButtonViewedAction
   | ViewSubmittedOfferClickedAction
