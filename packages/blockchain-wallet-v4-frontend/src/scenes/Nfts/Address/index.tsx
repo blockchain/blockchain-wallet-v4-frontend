@@ -68,7 +68,6 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           collections={collections}
           formActions={formActions}
           formValues={formValues}
-          stats={{}}
           traits={[]}
         />
         <div style={{ width: '100%' }}>

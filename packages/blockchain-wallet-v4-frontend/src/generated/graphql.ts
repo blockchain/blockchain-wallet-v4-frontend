@@ -159,6 +159,7 @@ export type Collection = {
   large_image_url?: Maybe<Scalars['String']>;
   medium_username?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  num_owners?: Maybe<Scalars['Int']>;
   only_proxied_transfers: Scalars['Boolean'];
   opensea_buyer_fee_basis_points: Scalars['String'];
   opensea_seller_fee_basis_points: Scalars['String'];
@@ -172,12 +173,19 @@ export type Collection = {
   slug: Scalars['ID'];
   stats?: Maybe<Stats>;
   telegram_url?: Maybe<Scalars['String']>;
+  total_supply?: Maybe<Scalars['Int']>;
   traits?: Maybe<Array<Maybe<CollectionTrait>>>;
   twitter_username?: Maybe<Scalars['String']>;
   wiki_url?: Maybe<Scalars['String']>;
 };
 
-export enum CollectionFields {
+export type CollectionFilter = {
+  field: CollectionFilterFields;
+  operator?: InputMaybe<FilterOperators>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+export enum CollectionFilterFields {
   BannerImageUrl = 'banner_image_url',
   BuyerFeeBasisPoints = 'buyer_fee_basis_points',
   ChatUrl = 'chat_url',
@@ -200,6 +208,7 @@ export enum CollectionFields {
   LargeImageUrl = 'large_image_url',
   MediumUsername = 'medium_username',
   Name = 'name',
+  NumOwners = 'num_owners',
   OnlyProxiedTransfers = 'only_proxied_transfers',
   OpenseaBuyerFeeBasisPoints = 'opensea_buyer_fee_basis_points',
   OpenseaSellerFeeBasisPoints = 'opensea_seller_fee_basis_points',
@@ -210,21 +219,57 @@ export enum CollectionFields {
   ShortDescription = 'short_description',
   Slug = 'slug',
   TelegramUrl = 'telegram_url',
+  TotalSupply = 'total_supply',
   TwitterUsername = 'twitter_username',
   UpdateLockTime = 'update_lock_time',
   WikiUrl = 'wiki_url'
 }
 
-export type CollectionFilter = {
-  field: CollectionFields;
-  operator?: InputMaybe<FilterOperators>;
-  value?: InputMaybe<Scalars['String']>;
-};
-
 export type CollectionSort = {
-  by?: InputMaybe<CollectionFields>;
+  by?: InputMaybe<CollectionSortFields>;
   direction?: InputMaybe<SortDirection>;
 };
+
+export enum CollectionSortFields {
+  BannerImageUrl = 'banner_image_url',
+  BuyerFeeBasisPoints = 'buyer_fee_basis_points',
+  ChatUrl = 'chat_url',
+  CreatedDate = 'created_date',
+  DateIngested = 'date_ingested',
+  DateUpdated = 'date_updated',
+  DefaultToFiat = 'default_to_fiat',
+  Deleted = 'deleted',
+  Description = 'description',
+  DevBuyerFeeBasisPoints = 'dev_buyer_fee_basis_points',
+  DevSellerFeeBasisPoints = 'dev_seller_fee_basis_points',
+  DiscordUrl = 'discord_url',
+  ExternalUrl = 'external_url',
+  Featured = 'featured',
+  FeaturedImageUrl = 'featured_image_url',
+  Hidden = 'hidden',
+  ImageUrl = 'image_url',
+  InstagramUsername = 'instagram_username',
+  IsSubjectToWhitelist = 'is_subject_to_whitelist',
+  LargeImageUrl = 'large_image_url',
+  MediumUsername = 'medium_username',
+  Name = 'name',
+  NumOwners = 'num_owners',
+  OneDayVolume = 'one_day_volume',
+  OnlyProxiedTransfers = 'only_proxied_transfers',
+  OpenseaBuyerFeeBasisPoints = 'opensea_buyer_fee_basis_points',
+  OpenseaSellerFeeBasisPoints = 'opensea_seller_fee_basis_points',
+  PayoutAddress = 'payout_address',
+  RequireEmail = 'require_email',
+  SafelistRequestStatus = 'safelist_request_status',
+  SellerFeeBasisPoints = 'seller_fee_basis_points',
+  ShortDescription = 'short_description',
+  Slug = 'slug',
+  TelegramUrl = 'telegram_url',
+  TotalSupply = 'total_supply',
+  TwitterUsername = 'twitter_username',
+  UpdateLockTime = 'update_lock_time',
+  WikiUrl = 'wiki_url'
+}
 
 export type CollectionTrait = {
   __typename?: 'CollectionTrait';
@@ -332,23 +377,19 @@ export enum SortDirection {
 
 export type Stats = {
   __typename?: 'Stats';
-  average_price?: Maybe<Scalars['Float']>;
-  floor_price?: Maybe<Scalars['Float']>;
-  one_day_average_price?: Maybe<Scalars['Float']>;
-  one_day_change?: Maybe<Scalars['Int']>;
+  average_price?: Maybe<Scalars['String']>;
+  floor_price?: Maybe<Scalars['String']>;
+  one_day_average_price?: Maybe<Scalars['String']>;
   one_day_sales?: Maybe<Scalars['Int']>;
-  one_day_volume?: Maybe<Scalars['Float']>;
-  seven_day_average_price?: Maybe<Scalars['Float']>;
-  seven_day_change?: Maybe<Scalars['Int']>;
+  one_day_volume?: Maybe<Scalars['String']>;
+  seven_day_average_price?: Maybe<Scalars['String']>;
   seven_day_sales?: Maybe<Scalars['Int']>;
-  seven_day_volume?: Maybe<Scalars['Float']>;
-  thirty_day_average_price?: Maybe<Scalars['Float']>;
-  thirty_day_change?: Maybe<Scalars['Int']>;
+  seven_day_volume?: Maybe<Scalars['String']>;
+  thirty_day_average_price?: Maybe<Scalars['String']>;
   thirty_day_sales?: Maybe<Scalars['Int']>;
-  thirty_day_volume?: Maybe<Scalars['Float']>;
+  thirty_day_volume?: Maybe<Scalars['String']>;
   total_sales?: Maybe<Scalars['Int']>;
-  total_supply?: Maybe<Scalars['Int']>;
-  total_volume?: Maybe<Scalars['Float']>;
+  total_volume?: Maybe<Scalars['String']>;
 };
 
 export type Trait = {
@@ -406,7 +447,7 @@ export type CollectionsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, stats?: { __typename?: 'Stats', total_supply?: number | null, floor_price?: number | null, total_volume?: number | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -999,6 +1040,14 @@ export default {
             "args": []
           },
           {
+            "name": "num_owners",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "only_proxied_transfers",
             "type": {
               "kind": "NON_NULL",
@@ -1126,6 +1175,14 @@ export default {
           },
           {
             "name": "telegram_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "total_supply",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -1818,14 +1875,6 @@ export default {
             "args": []
           },
           {
-            "name": "one_day_change",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
             "name": "one_day_sales",
             "type": {
               "kind": "SCALAR",
@@ -1843,14 +1892,6 @@ export default {
           },
           {
             "name": "seven_day_average_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "seven_day_change",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -1882,14 +1923,6 @@ export default {
             "args": []
           },
           {
-            "name": "thirty_day_change",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
             "name": "thirty_day_sales",
             "type": {
               "kind": "SCALAR",
@@ -1907,14 +1940,6 @@ export default {
           },
           {
             "name": "total_sales",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
-          },
-          {
-            "name": "total_supply",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
@@ -2207,8 +2232,8 @@ export const CollectionsDocument = gql`
     description
     created_date
     name
+    total_supply
     stats {
-      total_supply
       floor_price
       total_volume
     }

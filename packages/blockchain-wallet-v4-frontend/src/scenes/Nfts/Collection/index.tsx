@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon, IconName } from '@blockchain-com/constellation'
-import { useWhyDidYouUpdate } from 'blockchain-wallet-v4-frontend/src/hooks/debug'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -19,7 +18,7 @@ import {
 import { SelectBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AssetSortFields, CollectionFields, useCollectionsQuery } from 'generated/graphql'
+import { AssetSortFields, CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
@@ -116,7 +115,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   )
 
   const [results] = useCollectionsQuery({
-    variables: { filter: [{ field: CollectionFields.Slug, value: slug }] }
+    variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
   })
 
   useEffect(() => {
@@ -170,7 +169,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               ) : null}
             </LinksContainer>
           </CollectionInfo>
-          <Stats stats={collection.stats} />
+          <Stats total_supply={collection.total_supply} stats={collection.stats} />
         </NftBannerWrapper>
       </CollectionHeader>
       <GridWrapper>
@@ -178,7 +177,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           collections={[]}
           formActions={formActions}
           formValues={formValues}
-          stats={collection.stats}
+          total_supply={collection.total_supply}
           traits={collection.traits}
         />
         <div style={{ width: '100%' }}>

@@ -7,7 +7,7 @@ import { CollectionsQuery } from 'generated/graphql'
 
 import { Stat, StatsWrapper } from '../../components'
 
-const Stats: React.FC<Props> = ({ stats }) => {
+const Stats: React.FC<Props> = ({ stats, total_supply }) => {
   return (
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>
@@ -16,7 +16,7 @@ const Stats: React.FC<Props> = ({ stats }) => {
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </Text>
           <Text size='16px' color='white' weight={600}>
-            {numeral(stats?.total_supply).format('0,0')}
+            {numeral(total_supply).format('0,0')}
           </Text>
         </Stat>
         <Stat>
@@ -50,6 +50,7 @@ const Stats: React.FC<Props> = ({ stats }) => {
 
 type Props = {
   stats: CollectionsQuery['collections'][0]['stats']
+  total_supply: CollectionsQuery['collections'][0]['total_supply']
 }
 
 export default Stats

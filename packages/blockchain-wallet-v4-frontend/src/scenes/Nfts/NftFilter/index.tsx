@@ -73,7 +73,13 @@ const TraitItem = styled.div`
   }
 `
 
-const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stats, traits }) => {
+const NftFilter: React.FC<Props> = ({
+  collections,
+  formActions,
+  formValues,
+  total_supply,
+  traits
+}) => {
   const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
 
@@ -147,7 +153,7 @@ const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stat
               <ComponentIcon size='18px' name='ETH' />
             </div>
           </div>
-          {collections.length ? (
+          {collections?.length ? (
             <div style={{ marginTop: '24px' }}>
               <Text size='14px' weight={600} color='black'>
                 <FormattedMessage id='copy.collections' defaultMessage='Collections' />
@@ -261,10 +267,10 @@ const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stat
                                     </Text>
                                     &nbsp;
                                     <Text size='12px' weight={500} color='grey500'>
-                                      {stats?.total_supply
+                                      {total_supply
                                         ? `(${(
                                             (Number(organizedTraits[trait][value]) /
-                                              Number(stats?.total_supply)) *
+                                              Number(total_supply)) *
                                             100
                                           ).toFixed(2)}%)`
                                         : null}
@@ -300,11 +306,11 @@ export type NftFilterFormValuesType = {
 }
 
 type Props = {
-  collections: OwnerQuery['assets'][0]['collection'][]
+  collections?: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
-  stats: CollectionsQuery['collections'][0]['stats']
-  traits: CollectionsQuery['collections'][0]['traits']
+  total_supply?: CollectionsQuery['collections'][0]['total_supply']
+  traits?: CollectionsQuery['collections'][0]['traits']
 }
 
 export default NftFilter

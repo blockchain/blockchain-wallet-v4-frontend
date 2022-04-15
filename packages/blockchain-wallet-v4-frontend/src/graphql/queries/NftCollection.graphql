@@ -10,8 +10,8 @@ query Collections($filter: [CollectionFilter]) {
     description
     created_date
     name
+    total_supply
     stats {
-      total_supply
       floor_price
 			total_volume
     }
