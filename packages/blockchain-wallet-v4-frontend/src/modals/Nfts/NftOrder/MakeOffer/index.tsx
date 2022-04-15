@@ -122,7 +122,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                 <img
                   style={{
                     borderRadius: '8px',
