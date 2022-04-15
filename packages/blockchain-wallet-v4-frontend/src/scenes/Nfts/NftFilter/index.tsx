@@ -159,12 +159,13 @@ const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stat
                           <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
                             <Field
                               component='input'
-                              name={`collection.${collection.name}`}
-                              type='checkbox'
-                              id={`collection.${collection.name}`}
+                              name='collection'
+                              type='radio'
+                              id={collection.slug}
+                              value={collection.slug}
                             />
                             <label
-                              htmlFor={`collection.${collection.name}`}
+                              htmlFor={collection.slug}
                               style={{
                                 alignItems: 'center',
                                 display: 'flex',
@@ -287,6 +288,7 @@ const NftFilter: React.FC<Props> = ({ collections, formActions, formValues, stat
 }
 
 export type NftFilterFormValuesType = {
+  collection: string
   forSale: boolean
   max: string
   min: string

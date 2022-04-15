@@ -5,23 +5,32 @@ import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text } from 'blockchain-info-components'
-import { AssetFilterFields, CollectionsQuery, OwnerQuery, useOwnerQuery } from 'generated/graphql'
+import { AssetFilterFields, OwnerQuery, useOwnerQuery } from 'generated/graphql'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
+import { NftFilterFormValuesType } from '../NftFilter'
 
 const NftAddressResults: React.FC<Props> = ({
   address,
+  formValues,
   page,
   setCollections,
   setIsFetchingNextPage,
   setNextPageFetchError
 }) => {
+  const activeCollections = formValues?.collection
+    ? [{ field: AssetFilterFields.CollectionSlug, value: formValues.collection }]
+    : []
+
   const [result] = useOwnerQuery({
     variables: {
-      filter: {
-        field: AssetFilterFields.OwnerAddress,
-        value: address
-      },
+      filter: [
+        {
+          field: AssetFilterFields.OwnerAddress,
+          value: address
+        },
+        ...activeCollections
+      ],
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT
     }
@@ -92,6 +101,7 @@ const NftAddressResults: React.FC<Props> = ({
 type Props = {
   address: string
   collections: OwnerQuery['assets'][0]['collection'][]
+  formValues: NftFilterFormValuesType
   page: number
   setCollections: React.Dispatch<
     React.SetStateAction<

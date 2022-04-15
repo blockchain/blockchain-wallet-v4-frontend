@@ -77,6 +77,7 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
               ? pageVariables.map(({ page }) => (
                   <ResultsPage
                     page={page}
+                    formValues={formValues}
                     collections={collections}
                     setCollections={setCollections}
                     key={page}
