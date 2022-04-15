@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { Icon, IconName } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import {
-  Button,
-  Link,
-  SpinningLoader,
-  TabMenu,
-  TabMenuItem,
-  Text
-} from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AssetSortFields, CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
+import { CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
@@ -26,6 +18,7 @@ import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
+import { getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import ResultsPage from './results'
 import Stats from './Stats'
 
@@ -70,16 +63,6 @@ const LinksContainer = styled.div`
     border-bottom-right-radius: 8px;
   }
 `
-
-const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale']
-
-export const getTraitFilters = (formValues: NftFilterFormValuesType) =>
-  formValues ? Object.keys(formValues).filter((val) => nonTraitFilters.indexOf(val) === -1) : null
-
-export const getMinMaxFilters = (formValues: NftFilterFormValuesType) =>
-  formValues ? Object.keys(formValues).filter((val) => val === 'min' || val === 'max') : null
-
-export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.sortBy
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params

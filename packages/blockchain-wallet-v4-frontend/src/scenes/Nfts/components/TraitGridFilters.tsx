@@ -36,6 +36,7 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 `
 
 const TraitGridFilters: React.FC<Props> = ({
+  collectionFilter,
   formActions,
   formValues,
   hasSomeFilters,
@@ -66,6 +67,31 @@ const TraitGridFilters: React.FC<Props> = ({
         </div>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
+        {collectionFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='14px' color='black' weight={500} capitalize>
+                Collection: {collectionFilter}
+              </Text>
+              <div
+                style={{
+                  background: 'white',
+                  borderRadius: '50%',
+                  lineHeight: '0',
+                  marginLeft: '8px'
+                }}
+              >
+                <Icon
+                  role='button'
+                  cursor='pointer'
+                  onClick={() => formActions.change('nftFilter', 'collection', undefined)}
+                  color={colors.blue600}
+                  name={IconName.CLOSE_CIRCLE}
+                />
+              </div>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
         {minMaxFilters
           ? minMaxFilters.map((key) => {
               return (
@@ -136,6 +162,7 @@ const TraitGridFilters: React.FC<Props> = ({
 }
 
 type Props = {
+  collectionFilter?: string | null
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   hasSomeFilters: boolean

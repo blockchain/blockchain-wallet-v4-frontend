@@ -6,14 +6,16 @@ import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import { CombinedError } from 'urql'
 
-import { Button, SpinningLoader, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { OwnerQuery } from 'generated/graphql'
 
 import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
 import GraphqlError from '../components/GraphqlError'
+import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
+import { getCollectionFilter, getMinMaxFilters } from '../utils/NftUtils'
 import ResultsPage from './results'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
@@ -25,6 +27,12 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
+
+  const minMaxFilters = getMinMaxFilters(formValues)
+  const collectionFilter = getCollectionFilter(formValues, collections)
+
+  const hasSomeFilters =
+    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
   useEffect(() => {
     setIsFetchingNextPage(true)
@@ -71,13 +79,14 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           traits={[]}
         />
         <div style={{ width: '100%' }}>
-          <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-            <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-              <TabMenuItem selected>Items</TabMenuItem>
-            </TabMenu>
-          </div>
-        </div>
-        <div style={{ width: '100%' }}>
+          <TraitGridFilters
+            traitFilters={[]}
+            formActions={formActions}
+            formValues={formValues}
+            minMaxFilters={minMaxFilters}
+            hasSomeFilters={hasSomeFilters}
+            collectionFilter={collectionFilter}
+          />
           <Grid>
             {pageVariables.length
               ? pageVariables.map(({ page }) => (
