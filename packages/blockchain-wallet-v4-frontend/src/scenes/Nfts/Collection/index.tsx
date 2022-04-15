@@ -24,6 +24,7 @@ import { media } from 'services/styles'
 import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
 import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
+import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import ResultsPage from './results'
 import Stats from './Stats'
@@ -70,31 +71,6 @@ const LinksContainer = styled.div`
   }
 `
 
-const ActiveTraitFilter = styled.div`
-  align-items: center;
-  background: ${colors.blue0};
-  border: 1px solid ${colors.blue200};
-  border-radius: 8px;
-  box-sizing: border-box;
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  padding: 12px 16px;
-`
-
-const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
-  display: ${(props) => (props.hasSomeFilters ? 'flex' : 'none')};
-  flex-wrap: wrap;
-  position: sticky;
-  gap: 6px;
-  top: 0px;
-  background: ${(props) => props.theme.white};
-  margin-top: -8px;
-  padding-top: ${(props) => (props.hasSomeFilters ? '8px' : '0px')};
-  padding-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
-  z-index: 10;
-`
-
 const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale']
 
 export const getTraitFilters = (formValues: NftFilterFormValuesType) =>
@@ -126,7 +102,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
     }, 100)
   }, [slug, formValues])
 
-  const maxMinFilters = getMinMaxFilters(formValues)
+  const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
 
   const hasSomeFilters =
@@ -181,93 +157,13 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           traits={collection.traits}
         />
         <div style={{ width: '100%' }}>
-          <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-            <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-              <TabMenuItem selected>Items</TabMenuItem>
-            </TabMenu>
-            <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
-              <Field
-                name='sortBy'
-                component={SelectBox}
-                elements={[
-                  {
-                    group: '',
-                    items: [
-                      { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                      { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                      { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                    ]
-                  }
-                ]}
-              />
-            </div>
-          </div>
-          <TraitGrid hasSomeFilters={hasSomeFilters}>
-            {maxMinFilters
-              ? maxMinFilters.map((key) => {
-                  return (
-                    <div key={key} style={{ height: '100%' }}>
-                      <ActiveTraitFilter>
-                        <Text size='14px' color='black' weight={500} capitalize>
-                          {key}: {formValues[key]} ETH
-                        </Text>
-                        <div
-                          style={{
-                            background: 'white',
-                            borderRadius: '50%',
-                            lineHeight: '0',
-                            marginLeft: '8px'
-                          }}
-                        >
-                          <Icon
-                            role='button'
-                            cursor='pointer'
-                            onClick={() => formActions.change('nftFilter', key, undefined)}
-                            color={colors.blue600}
-                            name={IconName.CLOSE_CIRCLE}
-                          />
-                        </div>
-                      </ActiveTraitFilter>
-                    </div>
-                  )
-                })
-              : null}
-            {traitFilters
-              ? traitFilters.map((trait) => {
-                  return Object.keys(formValues[trait])
-                    .filter((val) => !!formValues[trait][val])
-                    .map((value) => {
-                      return (
-                        <div key={value} style={{ height: '100%' }}>
-                          <ActiveTraitFilter>
-                            <Text size='14px' color='black' weight={500} capitalize>
-                              {trait}: {value}
-                            </Text>
-                            <div
-                              style={{
-                                background: 'white',
-                                borderRadius: '50%',
-                                lineHeight: '0',
-                                marginLeft: '8px'
-                              }}
-                            >
-                              <Icon
-                                role='button'
-                                cursor='pointer'
-                                onClick={() =>
-                                  formActions.change('nftFilter', `${trait}.${value}`, undefined)
-                                }
-                                color={colors.blue600}
-                                name={IconName.CLOSE_CIRCLE}
-                              />
-                            </div>
-                          </ActiveTraitFilter>
-                        </div>
-                      )
-                    })
-                })
-              : null}
-          </TraitGrid>
+          <TraitGridFilters
+            traitFilters={traitFilters}
+            formValues={formValues}
+            formActions={formActions}
+            hasSomeFilters={hasSomeFilters}
+            minMaxFilters={minMaxFilters}
+          />
           <Grid>
             {pageVariables.length
               ? pageVariables.map(({ page }) => (

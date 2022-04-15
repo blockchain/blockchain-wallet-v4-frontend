@@ -6,7 +6,7 @@ import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import { CombinedError } from 'urql'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { OwnerQuery } from 'generated/graphql'
@@ -70,6 +70,13 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           formValues={formValues}
           traits={[]}
         />
+        <div style={{ width: '100%' }}>
+          <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
+            <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
+              <TabMenuItem selected>Items</TabMenuItem>
+            </TabMenu>
+          </div>
+        </div>
         <div style={{ width: '100%' }}>
           <Grid>
             {pageVariables.length

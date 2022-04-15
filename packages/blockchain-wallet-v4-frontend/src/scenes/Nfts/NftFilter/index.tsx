@@ -162,7 +162,14 @@ const NftFilter: React.FC<Props> = ({
                     {collections.map((collection) => {
                       return (
                         <TraitItem key={collection.name}>
-                          <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
+                          <div
+                            style={{
+                              alignItems: 'center',
+                              display: 'flex',
+                              overflow: 'hidden',
+                              width: '100%'
+                            }}
+                          >
                             <Field
                               component='input'
                               name='collection'
@@ -199,7 +206,7 @@ const NftFilter: React.FC<Props> = ({
               </Text>
             </div>
           ) : null}
-          {organizedTraits.length ? (
+          {Object.keys(organizedTraits).length ? (
             <div style={{ marginTop: '24px' }}>
               <Text size='14px' weight={600} color='black'>
                 <FormattedMessage id='copy.attributes' defaultMessage='Attributes' />
@@ -235,7 +242,14 @@ const NftFilter: React.FC<Props> = ({
                         .map((value) => {
                           return (
                             <TraitItem key={value}>
-                              <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
+                              <div
+                                style={{
+                                  alignItems: 'center',
+                                  display: 'flex',
+                                  overflow: 'hidden',
+                                  width: '100%'
+                                }}
+                              >
                                 <Field
                                   component='input'
                                   name={`${trait}.${value}`}
