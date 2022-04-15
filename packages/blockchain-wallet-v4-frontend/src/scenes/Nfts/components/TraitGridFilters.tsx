@@ -53,6 +53,12 @@ const TraitGridFilters: React.FC<Props> = ({
           <Field
             name='sortBy'
             component={SelectBox}
+            onChange={(e) => {
+              if (e.includes('price')) {
+                formActions.change('nftFilter', 'forSale', true)
+              }
+            }}
+            // @ts-ignore
             elements={[
               {
                 group: '',

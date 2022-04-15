@@ -5,7 +5,13 @@ import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text } from 'blockchain-info-components'
-import { AssetFilterFields, OwnerQuery, useOwnerQuery } from 'generated/graphql'
+import {
+  AssetFilterFields,
+  AssetSortFields,
+  OwnerQuery,
+  SortDirection,
+  useOwnerQuery
+} from 'generated/graphql'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
 import { NftFilterFormValuesType } from '../NftFilter'
@@ -22,6 +28,13 @@ const NftAddressResults: React.FC<Props> = ({
     ? [{ field: AssetFilterFields.CollectionSlug, value: formValues.collection }]
     : []
 
+  const sort = formValues?.sortBy
+    ? {
+        by: formValues.sortBy.split('-')[0] as AssetSortFields,
+        direction: formValues.sortBy.split('-')[1] as SortDirection
+      }
+    : null
+
   const [result] = useOwnerQuery({
     variables: {
       filter: [
@@ -32,7 +45,8 @@ const NftAddressResults: React.FC<Props> = ({
         ...activeCollections
       ],
       limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT
+      offset: page * NFT_ORDER_PAGE_LIMIT,
+      sort
     }
   })
 

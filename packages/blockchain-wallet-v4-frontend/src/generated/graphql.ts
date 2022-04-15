@@ -451,6 +451,7 @@ export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __ty
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
+  sort?: InputMaybe<AssetSort>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 }>;
@@ -2250,8 +2251,8 @@ export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<Collections
   return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options });
 };
 export const OwnerDocument = gql`
-    query Owner($filter: [AssetFilter], $limit: Int, $offset: Int) {
-  assets(filter: $filter, limit: $limit, offset: $offset) {
+    query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
+  assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
     name
     image_url
     animation_original_url

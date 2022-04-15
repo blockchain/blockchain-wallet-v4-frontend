@@ -56,7 +56,7 @@ const ResultsPage: React.FC<Props> = ({
   const [result] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFilterFields.CollectionSlug, value: slug }],
-      forSale: !!formValues?.forSale || formValues?.sortBy?.includes('price'),
+      forSale: !!formValues?.forSale,
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
       sort,

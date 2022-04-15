@@ -1,5 +1,5 @@
-query Owner($filter: [AssetFilter], $limit: Int, $offset: Int) {
-  assets(filter: $filter, limit: $limit, offset: $offset) {
+query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
+  assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
 	  name
     image_url
     animation_original_url
