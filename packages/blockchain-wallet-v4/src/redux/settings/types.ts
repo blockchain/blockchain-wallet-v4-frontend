@@ -7,5 +7,6 @@ export type InvitationsType = {
   nfts: boolean
   openBanking: boolean
   segwit: boolean
+  stxSelfCustody: boolean
   withdrawalLocksFundsOnHold: boolean
 }

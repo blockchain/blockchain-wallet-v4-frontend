@@ -24,6 +24,7 @@ export type BannerType =
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
+  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
   | null
 
@@ -82,6 +83,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   })
   const userData = userDataR.getOrElse({
     address: { country: '' },
+    tags: {},
     tiers: { current: 0 }
   } as UserDataType)
 
@@ -158,9 +160,15 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
+  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
+
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
+  } else if (isStxSelfCustodyAvailable && userData.tags.BLOCKSTACK) {
+    bannerToShow = 'stxAirdropFundsAvailable'
+  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
+    bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (

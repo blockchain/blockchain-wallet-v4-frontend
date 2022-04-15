@@ -47,6 +47,8 @@
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,
         "signupCountry": true,
+        "stxSelfCustodyEnableAll": false,
+        "stxSelfCustodyEnableAirdrop": true,
         "showSilverRevamp": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,

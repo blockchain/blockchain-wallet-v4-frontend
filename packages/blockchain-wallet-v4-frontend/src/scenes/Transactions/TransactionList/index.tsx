@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
+import { SelfCustodyTxType } from '@core/network/api/coin/types'
 import {
   BSOrderType,
   BSTransactionType,
@@ -16,6 +17,7 @@ import DataError from 'components/DataError'
 import BuySellListItem from '../BSOrderTx'
 import CustodialTxListItem from '../CustodialTx'
 import NonCustodialTxListItem from '../NonCustodialTx'
+import SelfCustodyTx from '../SelfCustodyTx'
 import SwapOrderTx from '../SwapOrderTx'
 import Loading from './template.loading'
 
@@ -54,6 +56,8 @@ class TransactionList extends PureComponent<Props> {
               <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
               <BuySellListItem key={tx.id} order={tx} />
+            ) : 'movements' in tx ? (
+              <SelfCustodyTx key={tx.txId} tx={tx} />
             ) : (
               <CustodialTxListItem
                 key={tx.id}
@@ -79,6 +83,8 @@ export type Props = {
   sourceType?: string
 }
 
-export type SuccessStateType = Array<BSOrderType | BSTransactionType | ProcessedTxType>
+export type SuccessStateType = Array<
+  BSOrderType | BSTransactionType | ProcessedTxType | SelfCustodyTxType
+>
 
 export default TransactionList
