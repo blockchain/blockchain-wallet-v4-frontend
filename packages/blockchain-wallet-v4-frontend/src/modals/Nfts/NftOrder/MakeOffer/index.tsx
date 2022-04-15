@@ -123,15 +123,15 @@ const MakeOffer: React.FC<Props> = (props) => {
             </StickyHeaderWrapper>
 
             <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '89%',
-                justifyContent: 'space-between'
-              }}
+            // style={{
+            //   display: 'flex',
+            //   flexDirection: 'column',
+            //   height: '89%',
+            //   justifyContent: 'space-evenly'
+            // }}
             >
               <Row>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                   <img
                     style={{
                       borderRadius: '8px',
@@ -200,7 +200,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 )}
               </Value>
             </Row> */}
-              <Form>
+              <Form style={{ paddingTop: '1em' }}>
                 <>
                   <Row>
                     <Value>
@@ -369,7 +369,13 @@ const MakeOffer: React.FC<Props> = (props) => {
                     )}
                   </>
                 ) : null}
-                <div style={{ display: 'flex' }}>
+                <div
+                  style={
+                    needsWrap && !canWrap
+                      ? { display: 'flex' }
+                      : { display: 'flex', paddingTop: '4em' }
+                  }
+                >
                   <div style={{ padding: '1.2em 0em' }}>
                     <CheckBoxInput
                       name='terms'
