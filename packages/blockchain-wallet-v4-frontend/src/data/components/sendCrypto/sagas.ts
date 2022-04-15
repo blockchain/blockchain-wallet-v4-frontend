@@ -2,7 +2,7 @@ import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/m
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
 
-import { convertCoinToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -80,12 +80,28 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-      const { amount, selectedAccount, to } = formValues
+      const { amount, fix, selectedAccount, to } = formValues
       const { coin } = selectedAccount
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
       const fee = feesR.getOrElse(undefined)
 
-      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
+      const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+
+      const rates = selectors.core.data.misc
+        .getRatesSelector(coin, yield select())
+        .getOrFail('Failed to get rates')
+
+      const amountToSend =
+        fix === 'FIAT'
+          ? convertFiatToCoin({
+              coin,
+              currency: walletCurrency,
+              rates,
+              value: amount
+            })
+          : amount
+
+      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amountToSend })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
       const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
