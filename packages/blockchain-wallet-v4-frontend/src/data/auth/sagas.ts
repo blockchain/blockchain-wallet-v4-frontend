@@ -357,13 +357,15 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
-    let session =
-      product === ProductAuthOptions.EXCHANGE
-        ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
-        : yield select(selectors.session.getWalletSessionId, guid, email)
+    let session = unified
+      ? yield select(selectors.session.getUnifiedSessionId, guid, email)
+      : product === ProductAuthOptions.EXCHANGE
+      ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
+      : yield select(selectors.session.getWalletSessionId, guid, email)
     if (code) {
       yield put(
         actions.analytics.trackEvent({
@@ -387,7 +389,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
-        if (product === ProductAuthOptions.EXCHANGE) {
+        if (unified) {
+          yield put(actions.session.saveUnifiedSession({ email, guid, id: session }))
+        } else if (product === ProductAuthOptions.EXCHANGE) {
           yield put(actions.session.saveExchangeSession({ email: exchangeEmail, id: session }))
         } else {
           yield put(actions.session.saveWalletSession({ email, guid, id: session }))
