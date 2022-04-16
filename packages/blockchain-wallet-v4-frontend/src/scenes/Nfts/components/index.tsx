@@ -217,7 +217,7 @@ export const Stat = styled.div`
   align-items: center;
   border-radius: 8px;
   gap: 16px;
-  background: ${(props) => props.theme.greyFade200};
+  background: rgba(255, 255, 255, 0.08);
   ${media.tabletL`
     padding: 10px;
     > div {

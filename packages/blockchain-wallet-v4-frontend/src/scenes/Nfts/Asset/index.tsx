@@ -220,11 +220,12 @@ const TokenDisplay = styled(Text)`
   text-align: right;
 `
 
-const AdditionalDetailsWrapper = styled(TraitsWrapper)``
-
-const AdditionalDetails = styled.div`
-  padding-top: 1em;
+const AdditionalDetailsWrapper = styled.div`
+  border: 1px solid ${colors.grey0};
+  border-radius: 8px;
+  margin-top: 24px;
 `
+
 const Detail = styled(Text)`
   display: flex;
   justify-content: space-between;
@@ -233,6 +234,9 @@ const Detail = styled(Text)`
   border-bottom: 1px solid ${colors.grey0};
   font-size: 16px;
   font-weight: 500;
+  &:last-child {
+    border-bottom: none;
+  }
 `
 
 const LoadingWrapper = styled.div`
@@ -662,66 +666,51 @@ const NftAsset: React.FC<Props> = ({
                           </TraitsWrapper>
                         ) : null}
                         <AdditionalDetailsWrapper>
-                          <Text
-                            size='14px'
-                            weight={600}
-                            style={{
-                              borderBottom: `1px solid ${colors.grey0}`,
-                              paddingBottom: '8px'
-                            }}
-                          >
-                            Additional Details
-                          </Text>
-                          <AdditionalDetails>
-                            <Detail>
-                              <Text size='16px' weight={500} color='grey900'>
-                                Contract Address:
-                              </Text>
+                          <Detail>
+                            <Text size='16px' weight={500} color='grey900'>
+                              Blockchain
+                            </Text>{' '}
+                            <Text size='16px' weight={600} color={colors.grey900}>
+                              Ethereum
+                            </Text>
+                          </Detail>
+                          <Detail>
+                            <Text size='16px' weight={500} color='grey900'>
+                              Contract Address
+                            </Text>
 
-                              {currentAsset.contract?.address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${currentAsset.contract?.address}`}
-                                  target='_blank'
-                                >
-                                  <CreatorOwnerAddressLinkText>
-                                    {currentAsset.contract?.address.slice(0, 6)}...
-                                    {currentAsset.contract?.address?.substring(
-                                      currentAsset.contract?.address.length - 4
-                                    )}
-                                  </CreatorOwnerAddressLinkText>
-                                </Link>
-                              ) : (
-                                <Text size='16px' weight={500}>
-                                  Not Available
-                                </Text>
-                              )}
-                            </Detail>
-                            <Detail>
-                              <Text size='16px' weight={500} color='grey900'>
-                                Token ID:
+                            {currentAsset.contract?.address ? (
+                              <Link
+                                href={`https://www.blockchain.com/eth/address/${currentAsset.contract?.address}`}
+                                target='_blank'
+                              >
+                                <CreatorOwnerAddressLinkText>
+                                  <CryptoAddress>{currentAsset.contract?.address}</CryptoAddress>
+                                </CreatorOwnerAddressLinkText>
+                              </Link>
+                            ) : (
+                              <Text size='16px' weight={500}>
+                                Not Available
                               </Text>
+                            )}
+                          </Detail>
+                          <Detail>
+                            <Text size='16px' weight={500} color='grey900'>
+                              Token ID
+                            </Text>
 
-                              <TokenDisplay size='16px' weight={600} color={colors.grey900}>
-                                {currentAsset.token_id}{' '}
-                              </TokenDisplay>
-                            </Detail>
-                            <Detail>
-                              <Text size='16px' weight={500} color='grey900'>
-                                Token Standard:
-                              </Text>{' '}
-                              <Text size='16px' weight={600} color={colors.grey900}>
-                                {currentAsset.contract?.schema_name}
-                              </Text>
-                            </Detail>
-                            <Detail>
-                              <Text size='16px' weight={500} color='grey900'>
-                                Blockchain:
-                              </Text>{' '}
-                              <Text size='16px' weight={600} color={colors.grey900}>
-                                Ethereum
-                              </Text>
-                            </Detail>
-                          </AdditionalDetails>
+                            <TokenDisplay size='16px' weight={600} color={colors.grey900}>
+                              {currentAsset.token_id}{' '}
+                            </TokenDisplay>
+                          </Detail>
+                          <Detail>
+                            <Text size='16px' weight={500} color='grey900'>
+                              Token Standard
+                            </Text>{' '}
+                            <Text size='16px' weight={600} color={colors.grey900}>
+                              {currentAsset.contract?.schema_name}
+                            </Text>
+                          </Detail>
                         </AdditionalDetailsWrapper>
                       </DetailsAndOffers>
                     )}
@@ -832,7 +821,7 @@ const NftAsset: React.FC<Props> = ({
                     </div>
                     <MoreAssetsList>
                       {assets?.data?.assets?.length // @ts-ignore
-                        ? assets?.data?.assets?.slice(0, 10).map((asset, index) => {
+                        ? assets?.data?.assets?.slice(0, 5).map((asset, index) => {
                             const link = `${'/nfts/'}${currentAsset.contract?.address}/${
                               currentAsset.token_id
                             }`
