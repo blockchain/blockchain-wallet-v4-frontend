@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import {
   AssetFilterFields,
@@ -22,8 +22,10 @@ import {
   SpinningLoader,
   TabMenu,
   TabMenuItem,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
+import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, selectors } from 'data'
@@ -133,29 +135,15 @@ const AssetName = styled(Text)`
   font-size: 40px;
   display: flex;
   align-items: left;
+  margin-top: 30px;
   color: ${colors.grey900};
-`
-
-const PriceHistoryTitle = styled(AssetName)`
-  font-size: 24px;
-  margin-top: 2em;
-`
-
-const PriceHistory = styled(PriceHistoryTitle)`
-  font-size: 14px;
-  background: ${colors.grey0};
-  opacity: 0.2;
-  padding: 2em;
-  border: 1px solid ${colors.grey0};
-  box-sizing: border-box;
-  border-radius: 8px;
-  height: 40em;
 `
 
 const CurrentPriceBox = styled.div`
   border: 1px solid ${colors.grey0};
   box-sizing: border-box;
   border-radius: 8px;
+  margin-top: 20px;
   padding: 1.2em;
 `
 const Highest = styled(Text)`
@@ -167,7 +155,7 @@ const Highest = styled(Text)`
 
 const CustomTabMenu = styled(TabMenu)`
   color: ${colors.grey900};
-  margin: 1em 0em 1em 0em;
+  margin: 24px 0;
   background: white;
 `
 
@@ -182,28 +170,16 @@ const EthText = styled(Highest)`
 const CountdownText = styled(EthText)`
   font-size: 20px;
 `
-const CreatorOwnerBox = styled(CurrentPriceBox)`
-  margin-top: 2em;
-  padding: 1.2em;
-  display: flex;
-`
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
   color: ${colors.grey700};
   display: flex;
 `
+
 const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
   color: ${colors.blue600};
   font-weight: 600;
-`
-
-const Spacing = styled.div`
-  margin-bottom: 2em;
-  position: static;
-  width: 100%;
-  left: 48px;
-  top: 51px;
 `
 
 const Divider = styled.hr`
@@ -212,32 +188,22 @@ const Divider = styled.hr`
   color: ${colors.grey0};
 `
 
-const Description = styled(Text)`
-  padding: 1.5em 0em 1.5em 0em;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: ${colors.grey600};
-`
-
 const TraitsWrapper = styled.div`
   margin-top: 1.5em;
-`
-const TraitCell = styled.div`
-  margin-top: 1em;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 `
 
-const Traits = styled.div`
+const Trait = styled.div`
   display: flex;
+  cursor: pointer;
   padding: 0.5em 1em;
   flex-direction: column;
-  gap: 8px;
-  background: ${(props) => props.theme.greyFade000};
+  gap: 6px;
   border-radius: 8px;
+  background: ${(props) => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue600};
 `
 
 const AddressDisplay = styled.div`
@@ -269,46 +235,6 @@ const Detail = styled(Text)`
   font-weight: 500;
 `
 
-const SocialLinksWrap = styled.div`
-  background: ${colors.grey100};
-  border-radius: 40px;
-  display: inline-flex;
-  gap: 8px;
-  margin: 8px 0;
-  padding: 6px 12px;
-  a {
-    line-height: 1;
-  }
-  a:hover {
-    path {
-      fill: ${colors.blue600};
-      transition: fill 0.3s;
-    }
-  }
-`
-
-const SocialLinks = styled.a.attrs({
-  target: '_blank'
-})`
-  display: flex;
-  height: 1.5rem;
-  width: 1.5rem;
-  border-radius: 100%;
-  color: white;
-  transition: all 0.5s;
-  margin-right: 0.5rem;
-  justify-content: center;
-
-  .social-icons {
-    opacity: 0.5;
-  }
-
-  &:hover {
-    .social-icons {
-      opacity: 1;
-    }
-  }
-`
 const LoadingWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -323,7 +249,18 @@ const DetailsAndOffers = styled.div`
   width: '38em';
 `
 
-const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => {
+const StickyWrapper = styled.div`
+  position: sticky;
+  top: 20px;
+`
+
+const NftAsset: React.FC<Props> = ({
+  defaultEthAddr,
+  formActions,
+  nftsActions,
+  routerActions,
+  ...rest
+}) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
   const [asset] = useAssetQuery({
@@ -436,33 +373,24 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
             <>
               <div style={{ display: 'block' }}>
                 <Top>
-                  <LinkContainer
-                    role='button'
-                    cursor='pointer'
-                    to={`/nfts/${assetFromDirectCall.collection.slug}`}
-                  >
-                    <Icon name={IconName.ARROW_LEFT} color='grey400' />
-                  </LinkContainer>
                   <LeftColWrapper>
-                    <img
-                      alt='Asset Logo'
-                      width='100%'
-                      style={{
-                        border: `1px solid ${colors.grey100}`,
-                        borderRadius: '10%',
-                        borderWidth: '1px',
-                        boxSizing: 'border-box',
-                        marginBottom: '0.5rem',
-                        padding: '10px'
-                      }}
-                      src={currentAsset.image_url || ''}
-                    />
-                    <PriceHistoryTitle>Price History</PriceHistoryTitle>
-                    <Spacing />
-                    <PriceHistory />
+                    <StickyWrapper>
+                      <img
+                        alt='Asset Logo'
+                        width='100%'
+                        style={{
+                          border: `1px solid ${colors.grey100}`,
+                          borderRadius: '10%',
+                          borderWidth: '1px',
+                          boxSizing: 'border-box',
+                          marginBottom: '0.5rem',
+                          padding: '10px'
+                        }}
+                        src={currentAsset.image_url || ''}
+                      />
+                    </StickyWrapper>
                   </LeftColWrapper>
                   <RightColWrapper>
-                    <Spacing style={{ marginBottom: '1em' }} />
                     <div
                       style={{
                         alignItems: 'center',
@@ -487,51 +415,25 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                           </div>
                         </CollectionName>
                       </CustomLink>
-                      <SocialLinksWrap>
-                        {currentAsset.collection?.telegram_url && (
-                          <SocialLinks href={currentAsset.collection?.telegram_url}>
-                            <Icon name={IconName.PHONE} color='grey400' />
-                          </SocialLinks>
-                        )}
-                        {currentAsset.collection?.twitter_username && (
-                          <SocialLinks
-                            href={`${'https://twitter.com/'}${
-                              currentAsset.collection?.twitter_username
-                            }`}
-                          >
-                            <Icon name={IconName.CLIPBOARD} color='grey400' />
-                          </SocialLinks>
-                        )}
-                        {currentAsset.collection?.instagram_username && (
-                          <SocialLinks
-                            href={`${'http://instagram.com/'}${
-                              currentAsset.collection?.instagram_username
-                            }`}
-                          >
-                            <Icon name={IconName.CHECK_CIRCLE} color='grey400' />
-                          </SocialLinks>
-                        )}
-                        {currentAsset.collection?.wiki_url && (
-                          <SocialLinks
-                            href={`${'https://en.wikipedia.org/wiki/'}${
-                              currentAsset.collection?.wiki_url
-                            }`}
-                          >
-                            <Icon name={IconName.CHEVRON_LEFT} color='grey400' />
-                          </SocialLinks>
-                        )}
-                        {currentAsset.collection?.external_url && (
-                          <SocialLinks href={currentAsset.collection?.external_url}>
-                            <Icon name={IconName.GLOBE} color='grey400' />
-                          </SocialLinks>
-                        )}
-                      </SocialLinksWrap>
                     </div>
-                    <Spacing />
                     <AssetName>
                       {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}
                     </AssetName>
-                    <Description>{currentAsset.collection?.description}</Description>
+                    {owner?.address ? (
+                      <TextGroup inline style={{ marginTop: '24px' }}>
+                        <Text size='16px' color='grey600' weight={600}>
+                          <FormattedMessage id='copy.owner' defaultMessage='Owner' />
+                        </Text>
+                        <Text
+                          color='blue600'
+                          weight={600}
+                          cursor='pointer'
+                          onClick={() => routerActions.push(`/nfts/address/${owner.address}`)}
+                        >
+                          <CryptoAddress>{owner.address}</CryptoAddress>
+                        </Text>
+                      </TextGroup>
+                    ) : null}
                     <CurrentPriceBox>
                       {highest_bid ? (
                         <>
@@ -693,7 +595,6 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         )}
                       </Button>
                     </CurrentPriceBox>
-                    <Spacing style={{ marginTop: '2em' }} />
                     <CustomTabMenu>
                       <TabMenuItem
                         width='33%'
@@ -717,109 +618,47 @@ const NftAsset: React.FC<Props> = ({ defaultEthAddr, nftsActions, ...rest }) => 
                         <FormattedMessage id='copy.week' defaultMessage='History' />
                       </TabMenuItem>
                     </CustomTabMenu>
-                    <Spacing style={{ marginTop: '2em' }} />
                     {Tab === 'details' && (
                       <DetailsAndOffers>
-                        <CreatorOwnerBox>
-                          <div style={{ display: 'block', width: '50%' }}>
-                            <Text weight={600} size='14px'>
-                              Creator
-                            </Text>
-                            <div
-                              style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                marginTop: '8px',
-                                minHeight: '32px'
-                              }}
-                            >
-                              {currentAsset.creator?.profile_img_url && (
-                                <img
-                                  alt='Creator Logo'
-                                  height='30px'
-                                  width='auto'
-                                  style={{ borderRadius: '50%', marginRight: '4px' }}
-                                  src={currentAsset.creator?.profile_img_url}
-                                />
-                              )}
-                              {currentAsset.creator?.address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${currentAsset.creator.address}`}
-                                  target='_blank'
-                                >
-                                  <CreatorOwnerAddress>
-                                    {currentAsset.creator.address.slice(0, 6)}...
-                                    {currentAsset.creator?.address?.substring(
-                                      currentAsset.creator?.address.length - 4
-                                    )}
-                                  </CreatorOwnerAddress>
-                                </Link>
-                              ) : (
-                                <Text size='16px' weight={500}>
-                                  Not Available
-                                </Text>
-                              )}
-                            </div>
-                          </div>
-                          <div style={{ display: 'block', width: '50%' }}>
-                            <Text weight={600} size='14px'>
-                              Owner
-                            </Text>
-                            <div
-                              style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                marginTop: '8px',
-                                minHeight: '32px'
-                              }}
-                            >
-                              <img
-                                alt='Owner Logo'
-                                height='30px'
-                                width='auto'
-                                style={{ borderRadius: '50%', marginRight: '4px' }}
-                                src={owner?.profile_img_url || ''}
-                              />{' '}
-                              {owner?.address ? (
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${owner?.address}`}
-                                  target='_blank'
-                                >
-                                  <CreatorOwnerAddress>
-                                    {owner?.address.slice(0, 6)}
-                                    ...
-                                    {owner?.address?.substring(owner?.address.length - 4)}
-                                  </CreatorOwnerAddress>
-                                </Link>
-                              ) : (
-                                <Text size='16px' weight={500}>
-                                  Not Available
-                                </Text>
-                              )}
-                            </div>
-                          </div>
-                        </CreatorOwnerBox>
                         {currentAsset.traits?.length ? (
                           <TraitsWrapper>
-                            <Text size='14px' weight={600}>
-                              Traits
-                            </Text>
-                            <TraitCell>
-                              {currentAsset.traits.map((traits, index) => (
-                                // eslint-disable-next-line react/no-array-index-key
-                                <Traits key={index}>
-                                  <Text capitalize color='grey500' size='12px' weight={500}>
-                                    <b>{traits?.trait_type}</b>
+                            {currentAsset.traits.map((trait) => {
+                              if (!trait) return null
+
+                              const assetTraits = assetFromDirectCall.traits.find(
+                                (t) => t.trait_type === trait.trait_type
+                              )
+                              const traitCount = assetTraits?.trait_count
+                              const traitMaxVal = assetTraits?.trait_max_value
+                              const rarity =
+                                traitCount && traitMaxVal
+                                  ? `${(traitCount / traitMaxVal) * 100}%`
+                                  : 'N/A'
+
+                              return (
+                                <Trait
+                                  key={trait.value}
+                                  onClick={() => {
+                                    routerActions.push(`/nfts/${currentAsset.collection.slug}`)
+                                    formActions.change(
+                                      'nftFilter',
+                                      `${trait.trait_type}.${trait.value}`,
+                                      true
+                                    )
+                                  }}
+                                >
+                                  <Text capitalize color='blue400' size='12px' weight={400}>
+                                    <b>{trait?.trait_type}</b>
                                   </Text>
                                   <Text capitalize color='blue600' size='14px' weight={600}>
-                                    {traits?.value}
+                                    {trait?.value}
                                   </Text>
-                                  <Text capitalize color='grey400' size='12px' weight={500}>
-                                    0.1% Rarity
+                                  <Text capitalize color='grey900' size='12px' weight={500}>
+                                    {rarity}
                                   </Text>
-                                </Traits>
-                              ))}
-                            </TraitCell>
+                                </Trait>
+                              )
+                            })}
                           </TraitsWrapper>
                         ) : null}
                         <AdditionalDetailsWrapper>
@@ -1081,7 +920,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  nftsActions: bindActionCreators(actions.components.nfts, dispatch)
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

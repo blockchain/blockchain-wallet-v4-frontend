@@ -6,7 +6,7 @@ const BaseTextGroup = styled.div`
   ${(props) => (props.nowrap ? '& > * { white-space: nowrap }' : '& > * { white-space: normal }')};
   ${(props) =>
     props.inline
-      ? '& > * { display: inline; margin-right: 2px; }'
+      ? '& > * { display: inline; margin-right: 0px; }'
       : '& > * { display: block; margin-bottom: 10px; }'};
 `
 const TextGroup = (props) => {

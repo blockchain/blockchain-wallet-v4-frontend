@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
+import { add } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import { CombinedError } from 'urql'
@@ -41,6 +42,8 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
       setPageVariables([{ page: 0 }])
     }, 100)
   }, [address])
+
+  if (!address) return null
 
   return (
     <div style={{ paddingTop: '0px', position: 'relative' }}>

@@ -677,6 +677,7 @@ export interface NftAsset {
   traits: [
     {
       trait_count: number
+      trait_max_value: number
       trait_type: string
       value: string
     }

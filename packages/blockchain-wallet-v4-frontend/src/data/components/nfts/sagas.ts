@@ -339,7 +339,6 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/nfts/collection'))
       yield put(
         actions.alerts.displaySuccess(
           `Successfully created order! It may take a few minutes to appear in your collection.`
