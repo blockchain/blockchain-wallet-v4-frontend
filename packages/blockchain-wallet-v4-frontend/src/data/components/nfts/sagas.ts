@@ -494,7 +494,7 @@ export default ({ api }: { api: APIType }) => {
   // explorer-gateway v2
   // With the introduction of the explorer-gateway graphql API the flow will need to change a bit
   // we should require:
-  // 1. operation (buy, sell, make offer)
+  // 1. operation (a.k.a step) (buy, sell, make offer, transfer)
   // 2. token_id
   // 3. contract_address
   const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {

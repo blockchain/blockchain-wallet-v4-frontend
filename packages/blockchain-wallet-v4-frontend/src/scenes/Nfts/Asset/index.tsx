@@ -15,6 +15,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
+import { WalletOptionsType } from '@core/types'
 import {
   Button,
   Icon as BlockchainIcon,
@@ -286,6 +287,7 @@ const StickyWrapper = styled.div`
 
 const NftAsset: React.FC<Props> = ({
   defaultEthAddr,
+  domains,
   formActions,
   nftsActions,
   routerActions,
@@ -423,11 +425,23 @@ const NftAsset: React.FC<Props> = ({
                           <SocialLink>
                             <CopyClipboardButton
                               color='grey600'
-                              textToCopy={`https://blockchain.com/nfts/${contract}/${id}`}
+                              textToCopy={`${domains.comWalletApp}/#/nfts/${contract}/${id}`}
                             />
                           </SocialLink>
                           <SocialLink>
-                            <BlockchainIcon color='grey600' name='send' />
+                            <BlockchainIcon
+                              onClick={() => {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.TRANSFER,
+                                  token_id: id,
+                                  walletUserIsAssetOwnerHack: false
+                                })
+                              }}
+                              cursor
+                              color='grey600'
+                              name='send'
+                            />
                           </SocialLink>
                         </Socials>
                       </div>
@@ -873,7 +887,6 @@ const NftAsset: React.FC<Props> = ({
                                     boxSizing: 'border-box',
                                     justifyContent: 'center',
                                     margin: '1em',
-                                    marginBottom: '0.5rem',
                                     padding: '10px'
                                   }}
                                 >
@@ -935,6 +948,9 @@ const NftAsset: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    comWalletApp: 'https://login.blockchain.com'
+  } as WalletOptionsType['domains']),
   openSeaAsset: selectors.components.nfts.getOpenSeaAsset(state)
 })
 
