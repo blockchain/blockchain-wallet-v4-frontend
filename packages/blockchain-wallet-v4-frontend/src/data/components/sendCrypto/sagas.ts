@@ -200,7 +200,6 @@ export default ({ api }: { api: APIType }) => {
       const { coin } = selectedAccount
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
       const fee = feesR.getOrElse(undefined)
-
       const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
       const rates = selectors.core.data.misc
@@ -238,7 +237,7 @@ export default ({ api }: { api: APIType }) => {
         )
 
         if (pushedTx.txId) {
-          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amount } }))
+          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amountToSend } }))
         } else {
           throw new Error('Failed to submit transaction.')
         }
