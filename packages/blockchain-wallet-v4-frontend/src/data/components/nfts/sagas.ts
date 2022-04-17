@@ -362,8 +362,7 @@ export default ({ api }: { api: APIType }) => {
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
-      // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const { expirationTime } = action.payload
 
       if (action.payload.amtToWrap && action.payload.wrapFees) {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))

@@ -123,6 +123,7 @@ export type ModalOriginType =
   | 'KycRequiredStep'
   | 'LoginSaga'
   | 'NabuUserAuth'
+  | 'NftsMakeOffer'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'

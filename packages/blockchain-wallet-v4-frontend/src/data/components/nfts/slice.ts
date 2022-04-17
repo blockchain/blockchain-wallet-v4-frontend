@@ -90,6 +90,7 @@ const nftsSlice = createSlice({
         amtToWrap?: string
         asset: NftAsset
         coin?: string
+        expirationTime: number
         offerFees: GasDataI
         wrapFees?: GasDataI
       }>

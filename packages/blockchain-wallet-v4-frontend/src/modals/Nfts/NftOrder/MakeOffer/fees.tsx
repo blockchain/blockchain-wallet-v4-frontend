@@ -12,7 +12,7 @@ import { Value } from 'components/Flyout/model'
 import { CTARow } from '../../components'
 import { Props as OwnProps } from '..'
 
-const Fees: React.FC<Props> = (props) => {
+const Fees: React.FC<Props> = (props: any) => {
   const { nftActions, orderFlow } = props
 
   // Default to WETH
@@ -21,7 +21,7 @@ const Fees: React.FC<Props> = (props) => {
 
   useEffect(() => {
     nftActions.fetchFees({
-      asset: props.asset,
+      asset: props[0],
       offer: '0.0001',
       operation: GasCalculationOperations.CreateOffer,
       paymentTokenAddress: WETH
@@ -41,8 +41,8 @@ const Fees: React.FC<Props> = (props) => {
         Success: (val) => {
           return (
             <>
-              <CTARow>
-                <Title style={{ display: 'flex' }}>
+              <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Title style={{ display: 'flex', lineHeight: '38px' }}>
                   <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
                   {val.approvalFees > 0 ? (
                     <TooltipHost id='tooltip.opensea_offer_approval_fees'>
@@ -51,12 +51,11 @@ const Fees: React.FC<Props> = (props) => {
                   ) : null}
                 </Title>
                 <Value>
-                  <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'block' }}>
                     <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
                       {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
                     </CoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
+                    <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
                       {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
                     </FiatDisplay>
                   </div>
