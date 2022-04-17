@@ -1,5 +1,3 @@
-import { formValues } from 'redux-form'
-
 import { OwnerQuery } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'

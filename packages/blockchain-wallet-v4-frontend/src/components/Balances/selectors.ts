@@ -107,6 +107,15 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
+export const getEthBalances = createDeepEqualSelector(
+  [getEthNonCustodialBalance, getCoinCustodialBalance('ETH')],
+  (balancesR, custodialBalanceR) => {
+    const custodialBalance = custodialBalanceR.getOrElse(0)
+
+    return Remote.of([new BigNumber(balancesR.getOrElse(new BigNumber(0))), custodialBalance])
+  }
+)
+
 export const getErc20Balance = (coin: string) =>
   createDeepEqualSelector(
     [getErc20NonCustodialBalance(coin), getCoinCustodialBalance(coin)],

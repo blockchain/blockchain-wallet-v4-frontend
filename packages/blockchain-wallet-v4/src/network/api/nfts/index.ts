@@ -2,8 +2,6 @@ import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
   NftAsset,
-  NftAssetsType,
-  NftCollection,
   NftOrdersType,
   OfferEventsType,
   OpenSeaStatus

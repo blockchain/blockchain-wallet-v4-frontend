@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { Contract, ethers } from 'ethers'
 import moment from 'moment'
 import {
   addIndex,
@@ -23,6 +24,8 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
+import { WETH_ABI } from '@core/redux/payment/nfts/abis'
+import { WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { EthProcessedTxType } from '@core/transactions/types'
 import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -285,7 +288,38 @@ export default ({ api }: { api: APIType }) => {
         api.getAccountTokensBalances,
         ethAddr
       )
-
+      const tokenAddress = window.coins.WETH.coinfig.type.erc20Address || ''
+      if (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY) {
+        const abi = [
+          {
+            constant: true,
+            inputs: [
+              {
+                name: '_owner',
+                type: 'address'
+              }
+            ],
+            name: 'balanceOf',
+            outputs: [
+              {
+                name: 'balance',
+                type: 'uint256'
+              }
+            ],
+            payable: false,
+            type: 'function'
+          }
+        ]
+        const contract = new Contract(tokenAddress, abi, api.ethProvider)
+        const balance = yield call(contract.balanceOf, ethAddr)
+        const balanceString = balance.toString()
+        yield put(
+          A.fetchErc20DataSuccess(
+            'WETH',
+            constructDefaultErc20Data(ethAddr, tokenAddress, balanceString)
+          )
+        )
+      }
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
@@ -297,12 +331,17 @@ export default ({ api }: { api: APIType }) => {
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
-          yield put(
-            A.fetchErc20DataSuccess(
-              symbol,
-              tokenData || constructDefaultErc20Data(ethAddr, contract)
+          if (
+            tokenAddress.toLowerCase() !== WETH_CONTRACT_RINKEBY ||
+            (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY && symbol !== 'WETH')
+          ) {
+            yield put(
+              A.fetchErc20DataSuccess(
+                symbol,
+                tokenData || constructDefaultErc20Data(ethAddr, contract)
+              )
             )
-          )
+          }
         })
       )
     } catch (e) {

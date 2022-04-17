@@ -1,4 +1,4 @@
-import { Signer } from 'ethers'
+import { ethers, Signer } from 'ethers'
 
 import {
   GasCalculationOperations,
@@ -8,7 +8,8 @@ import {
   RawOrder
 } from '@core/network/api/nfts/types'
 
-import { NULL_ADDRESS } from './constants'
+import { WETH_ABI } from './abis'
+import { NULL_ADDRESS, WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from './constants'
 import {
   atomicMatch,
   buyOrderValidationAndApprovals,
@@ -18,10 +19,12 @@ import {
   calculateProxyApprovalFees,
   calculateProxyFees,
   calculateTransferFees,
+  calculateWrapEthFees,
   cancelOrder,
   createBuyOrder,
   createMatchingOrders,
   createSellOrder,
+  getNetwork,
   sellOrderValidationAndApprovals,
   transferAsset,
   verifyTransfered
@@ -96,7 +99,7 @@ export const fulfillNftOrder = async ({
 export const getNftBuyOrder = async (
   asset: NftAsset,
   signer: Signer,
-  expirationTime = 0,
+  expirationTime,
   startAmount: number,
   paymentTokenAddress: string,
   network: 'mainnet' | 'rinkeby'
@@ -178,6 +181,8 @@ export const calculateGasFees = async (
       approvalFees === 0 && buyOrder.paymentToken === NULL_ADDRESS
         ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
         : 350_000
+  } else if (operation === GasCalculationOperations.WrapEth) {
+    gasFees = (await calculateWrapEthFees(signer)).toNumber()
   } else {
     throw new Error('Invalid operation type or arguments provided.')
   }
@@ -192,6 +197,9 @@ export const calculateGasFees = async (
   }
 }
 
+// https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts
+// metamask https://etherscan.io/tx/0xb52c163434d85e79a63e34cadbfb980d928e4e70129284ae084d9ad992ba9778
+// bc.com https://etherscan.io/tx/0xdb0620e6e1b186f4f84e4740b2453506b61416d79fd7de01a6e7ed2f9e5e3623
 export const fulfillTransfer = async (
   asset: NftAsset,
   signer: Signer,
@@ -204,6 +212,17 @@ export const fulfillTransfer = async (
     throw new Error('Asset transfer failed!')
   }
 }
-// https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts
-// metamask https://etherscan.io/tx/0xb52c163434d85e79a63e34cadbfb980d928e4e70129284ae084d9ad992ba9778
-// bc.com https://etherscan.io/tx/0xdb0620e6e1b186f4f84e4740b2453506b61416d79fd7de01a6e7ed2f9e5e3623
+
+export const executeWrapEth = async (signer: Signer, amount: string, gasData: GasDataI) => {
+  const wrapEthAddr =
+    getNetwork(signer) === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+  const wrapEthContract = new ethers.Contract(wrapEthAddr, WETH_ABI, signer)
+
+  const wrap = await wrapEthContract.deposit({
+    gasLimit: gasData.gasFees,
+    gasPrice: gasData.gasPrice,
+    value: amount
+  })
+
+  await wrap.wait()
+}

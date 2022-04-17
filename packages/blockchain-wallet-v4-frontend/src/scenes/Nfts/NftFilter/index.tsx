@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
-import { CollectionsQuery, OwnerQuery, OwnerQueryVariables } from 'generated/graphql'
+import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`

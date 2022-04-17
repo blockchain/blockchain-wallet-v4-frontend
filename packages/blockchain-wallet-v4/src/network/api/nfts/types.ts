@@ -414,7 +414,8 @@ export enum GasCalculationOperations {
   Cancel = 'cancel',
   CreateOffer = 'create-offer',
   Sell = 'sell',
-  Transfer = 'transfer'
+  Transfer = 'transfer',
+  WrapEth = 'wrap-eth'
 }
 
 export interface GasDataI {

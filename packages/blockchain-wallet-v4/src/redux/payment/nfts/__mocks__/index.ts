@@ -3,6 +3,8 @@ import { ethers } from 'ethers'
 
 import { UnhashedOrder, WyvernSchemaName } from '@core/network/api/nfts/types'
 
+import { WETH_CONTRACT_MAINNET } from '../constants'
+
 // staging wallet (no funds)
 // 0bd645c6-4b5b-44c5-a857-3233c2a01c79 / blockchain
 // yard struggle suffer grass bean festival thrive episode pony wet atom minimum
@@ -41,7 +43,7 @@ export const MockUnhashedOrder: UnhashedOrder = {
     },
     schema: WyvernSchemaName.ERC721
   },
-  paymentToken: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  paymentToken: WETH_CONTRACT_MAINNET,
   quantity: new BigNumber('1'),
   replacementPattern:
     '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',

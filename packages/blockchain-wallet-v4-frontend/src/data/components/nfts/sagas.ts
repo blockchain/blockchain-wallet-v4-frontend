@@ -3,6 +3,7 @@ import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
 import { Remote } from '@core'
+import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -14,6 +15,7 @@ import {
 import {
   calculateGasFees,
   cancelNftOrder,
+  executeWrapEth,
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
@@ -30,6 +32,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -259,6 +262,8 @@ export default ({ api }: { api: APIType }) => {
           action.payload.asset,
           action.payload.to
         )
+      } else {
+        throw new Error('Invalid gas operation')
       }
 
       yield put(A.fetchFeesSuccess(fees as GasDataI))
@@ -267,6 +272,20 @@ export default ({ api }: { api: APIType }) => {
       console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
+    }
+  }
+
+  const fetchFeesWrapEth = function* () {
+    try {
+      yield put(A.fetchFeesWrapEthLoading())
+      const signer: Signer = yield call(getEthSigner)
+      const fees = yield call(calculateGasFees, GasCalculationOperations.WrapEth, signer)
+      yield put(A.fetchFeesWrapEthSuccess(fees as GasDataI))
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+      const error = errorHandler(e)
+      yield put(A.fetchFeesWrapEthFailure(error))
     }
   }
 
@@ -296,8 +315,21 @@ export default ({ api }: { api: APIType }) => {
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
-      // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const { expirationTime } = action.payload
+
+      if (action.payload.amtToWrap && action.payload.wrapFees) {
+        yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
+        const amount = convertCoinToCoin({
+          baseToStandard: false,
+          coin: 'WETH',
+          value: action.payload.amtToWrap
+        })
+        yield call(executeWrapEth, signer, amount, action.payload.wrapFees)
+        yield put(actions.core.data.eth.fetchData())
+        yield put(actions.core.data.eth.fetchErc20Data())
+      }
+
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
         getNftBuyOrder,
         action.payload.asset,
@@ -307,21 +339,13 @@ export default ({ api }: { api: APIType }) => {
         coinfig.type.erc20Address,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
-      const gasData: GasDataI = yield call(
-        calculateGasFees,
-        GasCalculationOperations.CreateOffer,
-        signer,
-        undefined,
-        buy
-      )
+      const gasData = action.payload.offerFees
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
-      yield put(actions.modals.closeAllModals())
-      yield put(A.clearAndRefetchOffersMade())
-      yield put(A.clearAndRefetchOrders())
-      yield put(actions.router.push('/nfts/activity'))
-      yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
     } catch (e) {
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this offer.'
@@ -568,6 +592,7 @@ export default ({ api }: { api: APIType }) => {
     createSellOrder,
     createTransfer,
     fetchFees,
+    fetchFeesWrapEth,
     fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenseaAsset,
