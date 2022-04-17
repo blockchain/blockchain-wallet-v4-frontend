@@ -3,25 +3,21 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import moment from 'moment'
-import { border, borderRadius } from 'polished'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { convertCoinToCoin, convertCoinToFiat } from '@core/exchange'
+import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
-import { OrderType, RatesType } from '@core/types'
+import { RatesType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
-  HeartbeatLoader,
-  Icon,
   Image,
   Link,
   SpinningLoader,
@@ -31,12 +27,12 @@ import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { StickyHeaderWrapper, Title, width } from 'components/Flyout'
+import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
-import { Form, NumberBox, SelectBox } from 'components/Form'
+import { Form, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { DeepLinkGoal } from 'data/types'
 
@@ -44,19 +40,21 @@ import { AssetDesc, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/getMoreEth'
 import NetworkFeesComponent from '../../components/networkFees'
 import { Props as OwnProps } from '..'
-import WrapEthFees from '../WrapEth/fees'
-import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
     erc20BalanceR,
     ethBalanceR,
     ethBalances,
+    formActions,
     formValues,
     isAuthenticated,
     nftActions,
-    orderFlow
+    orderFlow,
+    rates,
+    walletCurrency
   } = props
+  const { amount, coin, fix } = formValues
   const ETHBalances = ethBalances.data
   const wrapFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const offerFees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
@@ -86,18 +84,33 @@ const MakeOffer: React.FC<Props> = (props) => {
     props.orderFlow.isSubmitting ||
     !termsAccepted
 
+  const cryptoAmt =
+    fix === 'FIAT'
+      ? convertFiatToCoin({
+          coin,
+          currency: walletCurrency,
+          maxPrecision: 8,
+          rates,
+          value: amount
+        })
+      : amount
+  const fiatAmt =
+    fix === 'CRYPTO'
+      ? convertCoinToFiat({
+          coin,
+          currency: walletCurrency,
+          isStandard: true,
+          rates,
+          value: amount || 0
+        })
+      : amount
+
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
   }
 
   const acceptTerms = () => {
     setTermsAccepted(true)
-  }
-
-  const validate = (formValues: SendFormType, props: Props) => {
-    return {
-      amount: needsWrap && !canWrap ? 'NOT_ENOUGH_ETH' : true
-    }
   }
 
   return (
@@ -199,19 +212,24 @@ const MakeOffer: React.FC<Props> = (props) => {
                       coin={formValues.coin}
                       fiatCurrency='GBP'
                       amtError={false}
-                      quote={convertCoinToFiat({
-                        coin: formValues.coin,
-                        currency: 'GBP',
-                        isStandard: true,
-                        rates: props.rates,
-                        value: formValues.amount || 0
-                      })}
+                      quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
                       fix='CRYPTO'
                       name='amount'
                       showCounter
                       showToggle
                       data-e2e='amountField'
-                      onToggleFix={() => {}}
+                      onToggleFix={() => {
+                        formActions.change(
+                          'nftMakeOffer',
+                          'fix',
+                          formValues.fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
+                        )
+                        formActions.change(
+                          'nftMakeOffer',
+                          'amount',
+                          formValues.fix === 'CRYPTO' ? fiatAmt : cryptoAmt
+                        )
+                      }}
                     />
                   </Value>
                 </Row>
@@ -395,25 +413,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </div>
-              {/* <div>
-                Eth Balance: <CoinDisplay coin='ETH'>{ethBalance}</CoinDisplay>
-              </div>
-              {needsWrap ? (
-                <>
-                  {canWrap ? (
-                    <div>
-                      <>You will need to Wrap {amtToWrap.toString()} ETH</>
-                    </div>
-                  ) : (
-                    <div>
-                      You don&apos;t have enough ETH to offer {formValues.amount} WETH. The max you
-                      can offer is <CoinDisplay coin='WETH'>{maxOfferPossible}</CoinDisplay>
-                    </div>
-                  )}
-                </>
-              ) : null}
-              <MakeOfferFees {...props} asset={val} />
-              {needsWrap && <WrapEthFees {...props} />} */}
               {isAuthenticated ? (
                 <>
                   {needsWrap && !canWrap ? (
@@ -511,11 +510,17 @@ const mapStateToProps = (state) => ({
     amount: string
     coin: string
     expirationDays: string
+    fix: string
   },
-  rates: getRatesSelector('WETH', state).getOrElse({} as RatesType)
+  rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   reduxForm<{}, OwnProps>({
@@ -524,6 +529,7 @@ const enhance = compose(
     initialValues: {
       coin: 'WETH',
       expirationDays: 1,
+      fix: 'CRYPTO',
       networkFees: 'network'
     }
   }),
