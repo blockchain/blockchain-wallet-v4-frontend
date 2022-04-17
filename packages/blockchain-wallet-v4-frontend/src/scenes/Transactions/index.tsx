@@ -186,6 +186,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       width='100px'
                       onClick={() => {
                         this.props.buySellActions.showModal({
+                          cryptoCurrency: coin as CoinType,
                           orderType: OrderType.BUY,
                           origin: 'TransactionList'
                         })
@@ -329,7 +330,10 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
+  if (
+    selectors.core.data.coins.getCustodialCoins().includes(coin) ||
+    selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)
+  ) {
     return {
       ...baseActions,
       fetchData: () => {},

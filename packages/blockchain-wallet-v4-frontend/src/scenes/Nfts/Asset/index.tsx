@@ -167,7 +167,7 @@ const AssetName = styled(Text)`
 `
 
 const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.grey0};
+  border: 1px solid ${colors.grey000};
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 20px;
@@ -212,7 +212,7 @@ const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
 const Divider = styled.hr`
   margin-bottom: unset;
   opacity: 0.3;
-  color: ${colors.grey0};
+  color: ${colors.grey000};
 `
 
 const TraitsWrapper = styled.div`
@@ -248,7 +248,7 @@ const TokenDisplay = styled(Text)`
 `
 
 const AdditionalDetailsWrapper = styled.div`
-  border: 1px solid ${colors.grey0};
+  border: 1px solid ${colors.grey000};
   border-radius: 8px;
   margin-top: 24px;
 `
@@ -258,7 +258,7 @@ const Detail = styled(Text)`
   justify-content: space-between;
   color: ${colors.grey900};
   padding: 1em 1.5em;
-  border-bottom: 1px solid ${colors.grey0};
+  border-bottom: 1px solid ${colors.grey000};
   font-size: 16px;
   font-weight: 500;
   &:last-child {

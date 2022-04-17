@@ -47,7 +47,8 @@ describe('App Store Config', () => {
     domains: { api: 'MOCK_API', root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
-        erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
+        erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI'],
+        featureFlags: {}
       }
     }
   }
@@ -122,6 +123,18 @@ describe('App Store Config', () => {
         type: {
           logoPngUrl:
             'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/stellar/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Blockstack',
+        precision: 7,
+        products: ['MercuryDeposits', 'MercuryWithdrawals'],
+        symbol: 'STX',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/stx/info/logo.png',
           minimumOnChainConfirmations: 1,
           name: 'COIN'
         }

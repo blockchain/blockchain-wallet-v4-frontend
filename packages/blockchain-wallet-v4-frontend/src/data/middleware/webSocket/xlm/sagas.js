@@ -34,7 +34,7 @@ export default () => {
       }
       yield put(actions.core.data.xlm.fetchData())
       const pathname = yield select(selectors.router.getPathname)
-      if (includes(pathname, ['/xlm/transactions', '/home'])) yield call(addWalletTransaction, tx)
+      if (includes(pathname, ['/transactions/XLM', '/home'])) yield call(addWalletTransaction, tx)
       if (test(/\/lockbox\/dashboard\//, pathname))
         yield call(
           addLockboxTransaction,

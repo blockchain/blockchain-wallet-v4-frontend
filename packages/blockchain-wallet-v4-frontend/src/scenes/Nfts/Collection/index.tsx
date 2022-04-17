@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, IconName } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -110,7 +111,9 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             <LinksContainer>
               {collection.external_url ? (
                 <Link target='_blank' href={collection.external_url}>
-                  <Icon name={IconName.GLOBE} color='grey400' />
+                  <Icon label='globe' color='grey400'>
+                    <IconGlobe />
+                  </Icon>
                 </Link>
               ) : null}
               {collection.instagram_username ? (
@@ -118,12 +121,16 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
                   target='_blank'
                   href={`https://instagram.com/${collection.instagram_username}`}
                 >
-                  <Icon name={IconName.CAMERA} color='grey400' />
+                  <Icon label='camera' color='grey400'>
+                    <IconCamera />
+                  </Icon>
                 </Link>
               ) : null}
               {collection.discord_url ? (
                 <Link target='_blank' href={`${collection.discord_url}`}>
-                  <Icon name={IconName.COMPUTER} color='grey400' />
+                  <Icon label='computer' color='grey400'>
+                    <IconComputer />
+                  </Icon>
                 </Link>
               ) : null}
             </LinksContainer>

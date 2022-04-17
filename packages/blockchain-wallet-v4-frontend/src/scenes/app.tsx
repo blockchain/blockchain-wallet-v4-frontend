@@ -26,6 +26,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
+const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -68,6 +69,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
+  coinViewV2,
   coinsWithBalance,
   history,
   isAuthenticated,
@@ -81,7 +83,7 @@ const App = ({
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
   useEffect(() => {
-    const utm = utmParser(window.location.hash)
+    const utm = utmParser()
 
     sessionStorage.setItem(UTM, JSON.stringify(utm))
 
@@ -190,7 +192,18 @@ const App = ({
                       {taxCenterEnabled && (
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                       )}
-                      <WalletLayout path='/transactions/:coin' component={Transactions} />
+                      {/** New Coinview with new url /coins/BTC */}
+                      <WalletLayout
+                        path='/coins/:coin'
+                        component={CoinPage}
+                        coinViewV2={coinViewV2}
+                      />
+                      {/** Old Coinview with new url /transactions/BTC */}
+                      <WalletLayout
+                        path='/transactions/:coin'
+                        component={coinViewV2 ? CoinPage : Transactions}
+                        coinViewV2={coinViewV2}
+                      />
                       {isAuthenticated ? (
                         coinsWithBalance.length ? (
                           <Redirect to='/home' />
@@ -216,6 +229,7 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions

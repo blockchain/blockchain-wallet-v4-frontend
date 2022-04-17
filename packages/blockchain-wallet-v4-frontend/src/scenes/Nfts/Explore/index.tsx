@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, IconName } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
+import { IconBlockchain } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -40,7 +41,9 @@ const Explore: React.FC<Props> = (props) => {
       <Banner>
         <div>
           <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
-            <Icon name={IconName.BLOCKCHAIN} />
+            <Icon label='logo'>
+              <IconBlockchain />
+            </Icon>
             &nbsp;|&nbsp;
             <Text color='black' size='20px' weight={600}>
               NFT

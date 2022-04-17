@@ -323,14 +323,19 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
-          const symbol = toUpper(val.tokenSymbol)
-          if (!window.coins[symbol]) return
+          const symbol = Object.keys(window.coins).find(
+            (coin: string) =>
+              window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+              toLower(val.tokenHash)
+          )
+          if (!symbol) return
           const { coinfig } = window.coins[symbol]
-          if (!coinfig.type.erc20Address) return
           const contract = coinfig.type.erc20Address
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
+          if (!contract) return
+
           if (
             tokenAddress.toLowerCase() !== WETH_CONTRACT_RINKEBY ||
             (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY && symbol !== 'WETH')
@@ -342,6 +347,10 @@ export default ({ api }: { api: APIType }) => {
               )
             )
           }
+
+          yield put(
+            A.fetchErc20DataSuccess(symbol, val || constructDefaultErc20Data(ethAddr, contract))
+          )
         })
       )
     } catch (e) {

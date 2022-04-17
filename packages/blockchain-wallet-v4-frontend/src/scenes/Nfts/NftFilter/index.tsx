@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconCloseCircleV2,
+  IconFilter
+} from '@blockchain-com/icons'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -114,21 +120,13 @@ const NftFilter: React.FC<Props> = ({
         </FilterHeaderText>
         <IconWrapper isOpen={isOpen}>
           {isOpen ? (
-            <Icon
-              cursor='pointer'
-              name={IconName.CLOSE_CIRCLE_V2}
-              color={colors.grey500}
-              role='button'
-              onClick={() => setIsOpen(false)}
-            />
+            <Icon label='filter-control' color='grey500'>
+              <IconCloseCircleV2 role='button' onClick={() => setIsOpen(false)} cursor='pointer' />
+            </Icon>
           ) : (
-            <Icon
-              cursor='pointer'
-              name={IconName.FILTER}
-              color={colors.grey500}
-              role='button'
-              onClick={() => setIsOpen(true)}
-            />
+            <Icon label='filter-control' color='grey500'>
+              <IconFilter role='button' onClick={() => setIsOpen(true)} cursor='pointer' />
+            </Icon>
           )}
         </IconWrapper>
       </FilterHeader>
@@ -229,10 +227,9 @@ const NftFilter: React.FC<Props> = ({
                       <Text size='14px' weight={500} color='black'>
                         {trait}
                       </Text>
-                      <Icon
-                        name={isActive ? IconName.CHEVRON_UP : IconName.CHEVRON_DOWN}
-                        color={colors.grey400}
-                      />
+                      <Icon label='control' color='grey400'>
+                        {isActive ? <IconChevronUp /> : <IconChevronDown />}
+                      </Icon>
                     </TraitHeader>
                     <TraitList isActive={isActive}>
                       {Object.keys(organizedTraits[trait])

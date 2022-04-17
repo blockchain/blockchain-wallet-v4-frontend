@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconArrowLeft, IconUser } from '@blockchain-com/icons'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -17,6 +18,7 @@ export const FIXED_HEADER_HEIGHT = 56
 const FixedNav = styled(NavContainer)`
   position: fixed;
   z-index: 3;
+  background-color: ${colors.white900};
   top: 0;
   display: flex;
   justify-content: space-between;
@@ -59,12 +61,9 @@ const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerAct
             onClick={() => routerActions.goBack()}
             style={{ marginLeft: '24px' }}
           >
-            <Icon
-              name={IconName.ARROW_LEFT}
-              style={{ marginRight: '4px' }}
-              size='sm'
-              color={colors.grey300}
-            />
+            <Icon label='arrow-left' size='sm' color='grey300'>
+              <IconArrowLeft style={{ marginRight: '4px' }} />
+            </Icon>
             <FormattedMessage id='buttons.signup' defaultMessage='Back' />
           </Button>
         </NavLeft>
@@ -78,12 +77,13 @@ const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerAct
         </NavCenter>
         <NavRight>
           {isAuthenticated ? (
-            <Icon
-              cursor='pointer'
-              name={IconName.USER}
-              color={colors.grey300}
-              onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
-            />
+            <Icon label='user' color='grey300'>
+              <IconUser
+                cursor='pointer'
+                onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
+                style={{ marginLeft: '4px' }}
+              />
+            </Icon>
           ) : (
             <>
               <LinkContainer style={{ marginRight: '8px' }} to='/login' data-e2e='loginLink'>

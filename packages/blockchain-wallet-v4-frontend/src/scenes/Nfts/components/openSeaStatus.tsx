@@ -12,7 +12,7 @@ const ItemWrapper = styled.div`
   align-items: center;
   margin-bottom: 2px;
   border-color: rgb(242, 153, 74);
-  background: rgb(239 166 101);
+  background: ${(props) => props.theme.red300};
   height: 3em;
   border-radius: 8px;
 `

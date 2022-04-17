@@ -114,6 +114,8 @@ const configuredStore = async function () {
     window.coins.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
   }
 
+  window.coins.STX.coinfig.products.push('DynamicSelfCustody')
+
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon

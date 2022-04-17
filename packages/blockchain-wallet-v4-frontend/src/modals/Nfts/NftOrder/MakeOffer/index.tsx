@@ -197,7 +197,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   <Value>
                     <AmountFieldInput
                       coin={formValues.coin}
-                      walletCurrency='GBP'
+                      fiatCurrency='GBP'
                       amtError={false}
                       quote={convertCoinToFiat({
                         coin: formValues.coin,
@@ -209,8 +209,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                       fix='CRYPTO'
                       name='amount'
                       showCounter
-                      validate={validate}
-                      validate_terms_of_service='validate_IS_PASSED_TO_reduxForm'
+                      showToggle
+                      data-e2e='amountField'
                       onToggleFix={() => {}}
                     />
                   </Value>

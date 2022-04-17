@@ -1,5 +1,6 @@
 import React from 'react'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconCloseCircle } from '@blockchain-com/icons'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -12,7 +13,7 @@ import { NftFilterFormValuesType } from '../NftFilter'
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
-  background: ${colors.blue0};
+  background: ${colors.blue000};
   border: 1px solid ${colors.blue200};
   border-radius: 8px;
   box-sizing: border-box;
@@ -87,13 +88,13 @@ const TraitGridFilters: React.FC<Props> = ({
                   marginLeft: '8px'
                 }}
               >
-                <Icon
-                  role='button'
-                  cursor='pointer'
-                  onClick={() => formActions.change('nftFilter', 'collection', undefined)}
-                  color={colors.blue600}
-                  name={IconName.CLOSE_CIRCLE}
-                />
+                <Icon label='close-circle' color='blue600'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', 'collection', undefined)}
+                  />
+                </Icon>
               </div>
             </ActiveTraitFilter>
           </div>
@@ -114,13 +115,13 @@ const TraitGridFilters: React.FC<Props> = ({
                         marginLeft: '8px'
                       }}
                     >
-                      <Icon
-                        role='button'
-                        cursor='pointer'
-                        onClick={() => formActions.change('nftFilter', key, undefined)}
-                        color={colors.blue600}
-                        name={IconName.CLOSE_CIRCLE}
-                      />
+                      <Icon label='close' color='blue600'>
+                        <IconCloseCircle
+                          role='button'
+                          cursor='pointer'
+                          onClick={() => formActions.change('nftFilter', key, undefined)}
+                        />
+                      </Icon>
                     </div>
                   </ActiveTraitFilter>
                 </div>
@@ -146,15 +147,15 @@ const TraitGridFilters: React.FC<Props> = ({
                             marginLeft: '8px'
                           }}
                         >
-                          <Icon
-                            role='button'
-                            cursor='pointer'
-                            onClick={() =>
-                              formActions.change('nftFilter', `${trait}.${value}`, undefined)
-                            }
-                            color={colors.blue600}
-                            name={IconName.CLOSE_CIRCLE}
-                          />
+                          <Icon label='close' color='blue600'>
+                            <IconCloseCircle
+                              role='button'
+                              cursor='pointer'
+                              onClick={() =>
+                                formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                              }
+                            />
+                          </Icon>
                         </div>
                       </ActiveTraitFilter>
                     </div>

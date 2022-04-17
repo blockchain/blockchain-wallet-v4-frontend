@@ -18,9 +18,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const filterTerminatedCards = (cards) => cards.filter((card) => card.status !== 'TERMINATED')
+
   const getCards = function* () {
     try {
-      const cards = yield call(api.getDCCreated)
+      let cards = yield call(api.getDCCreated)
+
+      cards = filterTerminatedCards(cards)
       if (cards.length > 0) {
         yield call(getCardToken, cards[0].id)
       }
