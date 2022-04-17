@@ -25,6 +25,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -100,6 +101,24 @@ const RightColWrapper = styled.div`
   display: block;
 `
 
+const Socials = styled.div`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+`
+
+const SocialLink = styled.div`
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid ${(props) => props.theme.grey000};
+  &:last-child {
+    border-right: 0;
+  }
+`
+
 const MoreAssets = styled.div`
   width: 100%;
   position: sticky;
@@ -110,7 +129,14 @@ const MoreAssets = styled.div`
 const MoreAssetsList = styled.div`
   display: flex;
   width: 100%;
-  overflow-x: scroll;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
+`
+
+const MoreAssetsListItem = styled.div`
+  width: 25%;
+  ${media.tabletL`width: 100%;`}
 `
 
 const CollectionName = styled.div`
@@ -276,7 +302,7 @@ const NftAsset: React.FC<Props> = ({
     }
   })
   const [assets] = useAssetsQuery({
-    variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }] }
+    variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }], limit: 4 }
   })
   const [Tab, setTab] = useState('details')
   const [Countdown, setCountdown] = useState('')
@@ -392,6 +418,19 @@ const NftAsset: React.FC<Props> = ({
                         }}
                         src={currentAsset.image_url || ''}
                       />
+                      <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Socials>
+                          <SocialLink>
+                            <CopyClipboardButton
+                              color='grey600'
+                              textToCopy={`https://blockchain.com/nfts/${contract}/${id}`}
+                            />
+                          </SocialLink>
+                          <SocialLink>
+                            <BlockchainIcon color='grey600' name='send' />
+                          </SocialLink>
+                        </Socials>
+                      </div>
                     </StickyWrapper>
                   </LeftColWrapper>
                   <RightColWrapper>
@@ -796,97 +835,89 @@ const NftAsset: React.FC<Props> = ({
                   <MoreAssets>
                     <div
                       style={{
+                        alignItems: 'center',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        padding: '5em 1em 1em 1em'
+                        marginTop: '40px'
                       }}
                     >
-                      <Text
-                        color={colors.grey700}
-                        capitalize
-                        style={{ fontWeight: 'bold', padding: '1em', width: 'fit-content' }}
-                      >
+                      <Text color={colors.grey700} weight={600} capitalize>
                         More from this collection
                       </Text>
                       <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
-                        <Button
-                          data-e2e='goToCollection'
-                          nature='empty-blue'
-                          width='10%'
-                          padding='1em'
-                        >
+                        <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
                           See All
                         </Button>
                       </CustomLink>
                     </div>
                     <MoreAssetsList>
-                      {assets?.data?.assets?.length // @ts-ignore
-                        ? assets?.data?.assets?.slice(0, 5).map((asset, index) => {
+                      {assets?.data?.assets?.length
+                        ? assets?.data?.assets?.map((asset) => {
                             const link = `${'/nfts/'}${currentAsset.contract?.address}/${
-                              currentAsset.token_id
+                              asset.token_id
                             }`
                             return (
-                              <CustomLink
-                                // eslint-disable-next-line react/no-array-index-key
-                                key={index}
-                                to={link}
-                                onClick={() => {
-                                  nftsActions.fetchOpenseaAsset({
-                                    address: currentAsset.contract?.address || '',
-                                    token_id: currentAsset.token_id || ''
-                                  })
-                                }}
-                                style={{
-                                  border: `1px solid ${colors.grey100}`,
-                                  borderRadius: '10%',
-                                  borderWidth: '1px',
-                                  boxSizing: 'border-box',
-                                  justifyContent: 'center',
-                                  margin: '1em',
-                                  marginBottom: '0.5rem',
-                                  padding: '10px'
-                                }}
-                              >
-                                <div>
-                                  <CollectionName
-                                    style={{ justifyContent: 'center', paddingBottom: 'unset' }}
-                                  >
+                              <MoreAssetsListItem key={asset.token_id}>
+                                <CustomLink
+                                  to={link}
+                                  onClick={() => {
+                                    nftsActions.fetchOpenseaAsset({
+                                      address: asset.contract?.address || '',
+                                      token_id: asset.token_id || ''
+                                    })
+                                  }}
+                                  style={{
+                                    border: `1px solid ${colors.grey100}`,
+                                    borderRadius: '10%',
+                                    borderWidth: '1px',
+                                    boxSizing: 'border-box',
+                                    justifyContent: 'center',
+                                    margin: '1em',
+                                    marginBottom: '0.5rem',
+                                    padding: '10px'
+                                  }}
+                                >
+                                  <div>
+                                    <CollectionName
+                                      style={{ justifyContent: 'center', paddingBottom: 'unset' }}
+                                    >
+                                      <img
+                                        alt='Dapp Logo'
+                                        height='30px'
+                                        width='auto'
+                                        style={{
+                                          borderRadius: '50%',
+                                          marginBottom: '0.5rem',
+                                          paddingRight: '2px'
+                                        }}
+                                        src={asset.collection?.image_url || ''}
+                                      />
+                                      <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                                        {asset.collection?.name}
+                                      </div>
+                                    </CollectionName>
                                     <img
-                                      alt='Dapp Logo'
-                                      height='30px'
-                                      width='auto'
+                                      alt='Asset Logo'
+                                      width='100%'
+                                      height='auto'
                                       style={{
-                                        borderRadius: '50%',
-                                        marginBottom: '0.5rem',
-                                        paddingRight: '2px'
+                                        borderRadius: '10%',
+                                        boxSizing: 'border-box',
+                                        marginBottom: '0.5rem'
                                       }}
-                                      src={currentAsset.collection?.image_url || ''}
+                                      src={asset.image_url || ''}
                                     />
-                                    <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                                      {currentAsset.collection?.name}
-                                    </div>
-                                  </CollectionName>
-                                  <img
-                                    alt='Asset Logo'
-                                    height='200px'
-                                    width='auto'
-                                    style={{
-                                      borderRadius: '10%',
-                                      boxSizing: 'border-box',
-                                      marginBottom: '0.5rem'
-                                    }}
-                                    src={currentAsset.image_url || ''}
-                                  />
-                                  <Text
-                                    style={{ textAlign: 'center' }}
-                                    size='14px'
-                                    weight={600}
-                                    capitalize
-                                  >
-                                    {currentAsset.name || currentAsset.token_id}
-                                  </Text>
-                                </div>
-                              </CustomLink>
+                                    <Text
+                                      style={{ textAlign: 'center' }}
+                                      size='14px'
+                                      weight={600}
+                                      capitalize
+                                    >
+                                      {asset.name || asset.token_id}
+                                    </Text>
+                                  </div>
+                                </CustomLink>
+                              </MoreAssetsListItem>
                             )
                           })
                         : null}

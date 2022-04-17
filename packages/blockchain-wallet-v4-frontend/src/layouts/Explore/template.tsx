@@ -2,6 +2,7 @@ import React from 'react'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import Alerts from 'components/Alerts'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
@@ -35,6 +36,7 @@ const ExploreTemplate: React.FC<Props> = (props) => {
   return (
     <ErrorBoundary>
       <Wrapper>
+        <Alerts />
         <Header {...props} />
         <Tooltips />
         <Modals />
