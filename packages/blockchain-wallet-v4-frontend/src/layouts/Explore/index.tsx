@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import { CoinfigType, CoinType } from '@core/types'
 import { actions, selectors } from 'data'
 
-import WalletLayout from '../Wallet'
 import ExploreLayout from './template'
 
 class ExploreLayoutContainer extends React.PureComponent<Props> {
@@ -15,15 +14,13 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { component: Component, isAuthenticated, path, ...rest } = this.props
+    const { component: Component, path, ...rest } = this.props
 
-    return isAuthenticated ? (
-      <WalletLayout path={path} exact component={Component} {...rest} />
-    ) : (
+    return (
       <Route
         path={path}
         render={() => (
-          <ExploreLayout>
+          <ExploreLayout {...this.props}>
             <Component computedMatch={rest.computedMatch} {...rest} />
           </ExploreLayout>
         )}
@@ -33,16 +30,18 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
+  ethAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector> & {
+export type Props = ConnectedProps<typeof connector> & {
   coin?: CoinType
   coinfig?: CoinfigType
   component: React.ComponentType<any>

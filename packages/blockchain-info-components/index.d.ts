@@ -217,7 +217,9 @@ export const SpinningLoader: FunctionComponent<{
   height?: string
   borderWidth?: string
 }>
-export const TabMenu: FunctionComponent<{}>
+export const TabMenu: FunctionComponent<{
+  style?: CSSProperties
+}>
 export const TabMenuItem: FunctionComponent<{
   activeClassName?: string
   role?: string

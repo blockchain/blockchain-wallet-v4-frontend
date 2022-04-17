@@ -1,133 +1,94 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Icon, IconName } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import Spacer from 'components/Spacer'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { media, useMedia } from 'services/styles'
+import { media } from 'services/styles'
 
-import { Collection, CollectionBanner, CollectionImage, Grid, NftPage } from '../components'
+import { NftPageV2 } from '../components'
+import TrendingCollectionsTable from './TrendingCollectionsTable'
 
-const Stats = styled.div`
+const Banner = styled.div`
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
-  > div {
-    display: flex;
+  padding: 100px 64px;
+  ${media.mobile`
     flex-direction: column;
-    align-items: center;
-  }
-  ${media.tabletL`
-    flex-direction: column;
-    > div:not(:last-child) {
-      margin-bottom: 16px;
-    }
+    padding: 30px 16px;
   `}
 `
 
 const Explore: React.FC<Props> = (props) => {
-  const laptopL = useMedia('laptopL')
   useEffect(() => {
     props.nftsActions.fetchNftCollections({})
   }, [])
 
   return (
-    <NftPage>
-      <Grid>
-        {props.collections.cata({
-          Failure: () => null,
-          Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
-          NotAsked: () => null,
-          Success: (val) =>
-            val.map((collection) => (
-              <Collection
-                onClick={() => props.routerActions.push(`/nfts/${collection.slug}`)}
-                key={collection.collection_data.image_url}
-              >
-                <CollectionBanner
-                  background={`url(${collection.collection_data.banner_image_url})`}
-                />
-                <CollectionImage src={collection.collection_data.image_url} />
-                <Text
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: laptopL ? '24px' : '38px',
-                    minHeight: '26px',
-                    textAlign: 'center'
-                  }}
-                  size={
-                    collection.name.length < 26
-                      ? laptopL
-                        ? '16px'
-                        : '22px'
-                      : laptopL
-                      ? '12px'
-                      : '16px'
-                  }
-                  weight={600}
-                  color='grey900'
-                >
-                  {collection.name}
-                </Text>
-                <Stats>
-                  <div>
-                    <Text size='12px' weight={600} color='grey700'>
-                      <FormattedMessage defaultMessage='Floor Price' id='copy.floor_price' />
-                    </Text>
-                    <Text
-                      size='16px'
-                      weight={600}
-                      color='grey900'
-                      style={{ alignItems: 'center', display: 'flex', marginTop: '4px' }}
-                    >
-                      {collection.collection_data.stats.floor_price}{' '}
-                      <Icon name='ETH' style={{ marginLeft: '3px' }} />
-                    </Text>
-                  </div>
-                  {laptopL ? null : <Spacer />}
-                  <div>
-                    <Text size='12px' weight={600} color='grey700'>
-                      <FormattedMessage defaultMessage='One Day Volume' id='copy.one_day_vol' />
-                    </Text>
-                    <Text
-                      size='16px'
-                      weight={600}
-                      color='grey900'
-                      style={{ alignItems: 'center', display: 'flex', marginTop: '4px' }}
-                    >
-                      {Number(collection.collection_data.stats.one_day_volume).toFixed(2)}
-                      <Icon name='ETH' style={{ marginLeft: '3px' }} />
-                    </Text>
-                  </div>
-                  {laptopL ? null : <Spacer />}
-                  <div>
-                    <Text size='12px' weight={600} color='grey700'>
-                      <FormattedMessage defaultMessage='7 Day Sales' id='copy.seven_day_sales' />
-                    </Text>
-                    <Text size='16px' weight={600} color='grey900' style={{ marginTop: '4px' }}>
-                      {collection.collection_data.stats.seven_day_sales}
-                    </Text>
-                  </div>
-                </Stats>
-              </Collection>
-            ))
-        })}
-      </Grid>
-    </NftPage>
+    <NftPageV2>
+      <Banner>
+        <div>
+          <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
+            <Icon name={IconName.BLOCKCHAIN} />
+            &nbsp;|&nbsp;
+            <Text color='black' size='20px' weight={600}>
+              NFT
+            </Text>
+          </div>
+          <Text size='32px' weight={600} color='black'>
+            Discover, Collect & Create NFTs.
+          </Text>
+          <Text
+            style={{ marginTop: '8px', maxWidth: '500px' }}
+            size='20px'
+            weight={500}
+            color='grey400'
+          >
+            Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+          </Text>
+          <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
+            <Button jumbo nature='primary' data-e2e='Explore'>
+              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+            </Button>
+          </LinkContainer>
+        </div>
+      </Banner>
+      <Text
+        color='black'
+        style={{ marginBottom: '16px', marginTop: '24px' }}
+        size='24px'
+        weight={600}
+      >
+        Trending Collections
+      </Text>
+      {props.collectionsR.cata({
+        Failure: () => null,
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
+        NotAsked: () => null,
+        Success: (val) => {
+          return <TrendingCollectionsTable collections={val} {...props} />
+        }
+      })}
+    </NftPageV2>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  collections: selectors.components.nfts.getNftCollections(state)
+  collectionsR: selectors.components.nfts.getNftCollections(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

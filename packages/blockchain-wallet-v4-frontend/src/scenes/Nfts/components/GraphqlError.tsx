@@ -3,7 +3,7 @@ import { CombinedError } from 'urql'
 
 import { Text } from 'blockchain-info-components'
 
-const Error: React.FC<Props> = ({ error }) => {
+const GraphqlError: React.FC<Props> = ({ error }) => {
   return error ? (
     <div>
       {error.graphQLErrors.map((val) => (
@@ -21,4 +21,4 @@ type Props = {
   error: CombinedError | undefined
 }
 
-export default Error
+export default GraphqlError

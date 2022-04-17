@@ -77,6 +77,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(taxCenter({ api }))
     yield fork(uploadDocuments({ api }))
     yield fork(walletConnect({ coreSagas }))
-    yield fork(withdraw({ api }))
+    yield fork(withdraw({ api, coreSagas, networks }))
     yield fork(veriff({ api, coreSagas }))
   }

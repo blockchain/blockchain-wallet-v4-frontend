@@ -56,7 +56,7 @@ const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const NftsActivity = React.lazy(() => import('./Nfts/Activity'))
-const NftsAssets = React.lazy(() => import('./Nfts/Assets'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -64,9 +64,6 @@ const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
-const client = createClient({
-  url: 'http://localhost:4000/graphql'
-})
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
@@ -90,6 +87,10 @@ const App = ({
 
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  const client = createClient({
+    url: `${apiUrl}/explorer-gateway/graphql/`
+  })
 
   return (
     <UrqlProvider value={client}>
@@ -168,7 +169,7 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       <WalletLayout path='/nfts/activity' exact component={NftsActivity} />
-                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
+                      <ExploreLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />

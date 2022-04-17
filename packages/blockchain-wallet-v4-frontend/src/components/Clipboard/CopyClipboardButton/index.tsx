@@ -8,7 +8,6 @@ import * as C from 'services/alerts'
 import CopyClipboard from './template'
 
 export interface OwnProps {
-  alertActions: any
   color?: string
   onClick?: Function
   size?: string
@@ -47,6 +46,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   render() {
     return (
       <CopyClipboard
+        alertActions={this.props.alertActions}
         active={this.state.active}
         color={this.props.color}
         handleClick={this.handleClick}

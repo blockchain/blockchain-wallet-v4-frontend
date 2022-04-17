@@ -31,6 +31,7 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
+  activeSlug?: string
   activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
@@ -41,14 +42,6 @@ export type NftsStateType = {
     page: number
   }
   collection: RemoteDataType<string, NftCollection>
-  collectionFilter: {
-    isBuyNow: boolean
-    traits: {
-      [key in string]: {
-        [key in string]: boolean
-      }
-    }
-  }
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   offersMade: {

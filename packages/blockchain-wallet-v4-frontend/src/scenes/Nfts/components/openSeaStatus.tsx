@@ -68,7 +68,7 @@ const OpenSeaStatusComponent: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  openSeaStatus: selectors.components.nfts.getOpenSeaStatus(state)
+  openSeaStatus: selectors.components.nfts.getOpenseaStatus(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

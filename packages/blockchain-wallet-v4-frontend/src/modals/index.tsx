@@ -46,7 +46,6 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // NFTS
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
-const NftCollectionFilter = React.lazy(() => import('./Nfts/NftCollectionFilter'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -337,9 +336,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
-        {props.modals.find((modal) => modal.type === ModalName.NFT_COLLECTION_FILTER) ? (
-          <NftCollectionFilter fixed />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
           <ExtraFields />
         ) : null}

@@ -1,5 +1,5 @@
-query Collection($filter: CollectionFilter) {
-  collection(filter: $filter) {
+query Collections($filter: [CollectionFilter]) {
+  collections(filter: $filter) {
     chat_url
     discord_url
     external_url
@@ -10,5 +10,15 @@ query Collection($filter: CollectionFilter) {
     description
     created_date
     name
+    total_supply
+    stats {
+      floor_price
+			total_volume
+    }
+    traits {
+      count
+      value
+      trait_type
+    }
   }
 }

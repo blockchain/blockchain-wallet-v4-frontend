@@ -1,44 +1,66 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { useAssetsQuery } from 'generated/graphql'
+import {
+  AssetFilterFields,
+  AssetSortFields,
+  SortDirection,
+  useAssetsQuery
+} from 'generated/graphql'
 
 import {
   Asset,
   AssetCollection,
   AssetDetails,
   AssetImageContainer,
-  CTAWrapper,
   PriceCTA,
   StyledCoinDisplay
 } from '../components'
-
-const MarketplaceAsset = styled(Asset)``
+import { NftFilterFormValuesType } from '../NftFilter'
 
 const ResultsPage: React.FC<Props> = ({
-  isBuyNow,
+  formValues,
   page,
   setIsFetchingNextPage,
   setNextPageFetchError,
   slug
 }) => {
+  const traits = formValues
+    ? Object.keys(formValues).filter((key) => key !== 'min' && key !== 'max')
+    : []
+
+  const traitFilter = traits.reduce((acc, trait) => {
+    Object.keys(formValues[trait]).map((value) => {
+      if (formValues[trait][value]) {
+        acc.push({ trait_type: trait, value })
+      }
+
+      return acc
+    })
+
+    return acc
+  }, [] as { trait_type: string; value: string }[])
+
+  const sort = formValues?.sortBy
+    ? {
+        by: formValues.sortBy.split('-')[0] as AssetSortFields,
+        direction: formValues.sortBy.split('-')[1] as SortDirection
+      }
+    : null
+
   const [result] = useAssetsQuery({
     variables: {
-      eventsFilter: {
-        event_type: 'created',
-        is_active_listing: isBuyNow ? 'true' : 'false'
-      },
-      filter: {
-        collection_slug: slug
-      },
+      filter: [{ field: AssetFilterFields.CollectionSlug, value: slug }],
+      forSale: !!formValues?.forSale,
       limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT
+      offset: page * NFT_ORDER_PAGE_LIMIT,
+      sort,
+      traitFilter
     }
   })
 
@@ -53,13 +75,14 @@ const ResultsPage: React.FC<Props> = ({
   return (
     <>
       {result?.data?.assets?.map((asset) => {
+        const highestListing = asset.listing
+          ? asset.listing.sort((a, b) => Number(b?.total_price) - Number(a?.total_price))[0]
+          : null
+
         return asset ? (
-          <MarketplaceAsset key={asset?.token_id}>
-            <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
-              <AssetImageContainer
-                background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
-                // backgroundColor={`#${asset?.}` || '#fff'}
-              />
+          <Asset key={asset?.token_id}>
+            <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
+              <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
             <AssetDetails>
               <div>
@@ -78,15 +101,15 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {asset?.events && asset.events[0] && asset.events[0].is_active_listing ? (
+                  {highestListing && highestListing.total_price ? (
                     <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                       <StyledCoinDisplay
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={asset.events[0].payment_token?.symbol}
+                        coin={highestListing.payment_token_symbol}
                       >
-                        {asset.events[0].starting_price}
+                        {highestListing.total_price}
                       </StyledCoinDisplay>
                       &nbsp;-&nbsp;
                       <FiatDisplay
@@ -94,9 +117,9 @@ const ResultsPage: React.FC<Props> = ({
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={asset.events[0].payment_token?.symbol}
+                        coin={highestListing.payment_token_symbol}
                       >
-                        {asset.events[0].starting_price}
+                        {highestListing.total_price}
                       </FiatDisplay>
                     </Text>
                   ) : (
@@ -106,40 +129,21 @@ const ResultsPage: React.FC<Props> = ({
                       weight={600}
                       style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
                     >
-                      <FormattedMessage
-                        id='copy.not_for_sale'
-                        defaultMessage='This asset is not for sale.'
-                      />
+                      <FormattedMessage id='copy.not_for_sale' defaultMessage='Not for sale' />
                       <TooltipHost id='tooltip.nft_asset_not_for_sale'>
                         <TooltipIcon name='question-in-circle-filled' />
                       </TooltipHost>
                     </Text>
                   )}
                 </div>
-                <LinkContainer to={`/nfts/${asset.contract_address}/${asset.token_id}`}>
+                <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
                   <Button data-e2e='nftAssetPage' nature='primary' small>
                     <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                   </Button>
                 </LinkContainer>
               </PriceCTA>
             </AssetDetails>
-            <CTAWrapper>
-              <Link
-                style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  marginTop: '14px',
-                  textAlign: 'center',
-                  width: '100%'
-                }}
-                size='11px'
-                href={asset?.permalink || ''}
-                target='_blank'
-              >
-                View on OpenSea
-              </Link>
-            </CTAWrapper>
-          </MarketplaceAsset>
+          </Asset>
         ) : null
       })}
     </>
@@ -147,7 +151,7 @@ const ResultsPage: React.FC<Props> = ({
 }
 
 type Props = {
-  isBuyNow: boolean
+  formValues: NftFilterFormValuesType
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
