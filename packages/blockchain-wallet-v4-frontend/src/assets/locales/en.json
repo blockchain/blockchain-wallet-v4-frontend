@@ -471,7 +471,7 @@
   "copy.num_owners_over_total": "Number of Owners / Total Supply",
   "copy.number_of_business_days": "{first} to {second} Business Days",
   "copy.offer": "Offer",
-  "copt.offer_with": "Offer With",
+  "copy.offer_with": "Offer With",
   "copy.ok": "Ok",
   "copy.on_chain_txs": "On-chain transactions only",
   "copy.on_hold": "On Hold",
