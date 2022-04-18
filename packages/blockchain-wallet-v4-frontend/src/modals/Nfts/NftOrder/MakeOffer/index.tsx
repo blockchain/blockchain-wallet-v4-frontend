@@ -139,41 +139,42 @@ const MakeOffer: React.FC<Props> = (props) => {
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <img
-                  style={{
-                    borderRadius: '8px',
-                    height: '64px',
-                    marginRight: '12px',
-                    width: 'auto'
-                  }}
-                  alt='nft-asset'
-                  src={val.image_url.replace(/=s\d*/, '')}
-                />
-                <div>
-                  <Text style={{ marginTop: '6px' }} size='16px' color='grey900' weight={600}>
-                    {val?.name}
-                  </Text>
-                  <Text
-                    size='16px'
-                    weight={600}
-                    lineHeight='16px'
-                    color='orange600'
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex' }}>
+                  <img
                     style={{
-                      background: colors.orange100,
                       borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center'
+                      height: '64px',
+                      marginRight: '12px',
+                      width: 'auto'
                     }}
-                  >
-                    Not Verified
-                  </Text>
+                    alt='nft-asset'
+                    src={val.image_url.replace(/=s\d*/, '')}
+                  />
+                  <div>
+                    <Text size='16px' color='grey900' weight={600}>
+                      {val?.name}
+                    </Text>
+                    <Text
+                      size='14px'
+                      weight={600}
+                      color='orange600'
+                      style={{
+                        background: colors.orange100,
+                        borderRadius: '8px',
+                        padding: '5px 8px',
+                        textAlign: 'center',
+                        width: 'fit-content'
+                      }}
+                    >
+                      Not Verified
+                    </Text>
+                  </div>
                 </div>
                 <div
                   style={{
                     fontFamily: 'Inter',
                     justifyContent: 'right',
-                    marginTop: '6px',
                     paddingLeft: '5em'
                   }}
                 >
@@ -182,7 +183,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     color='black'
                     weight={600}
                     coin='ETH'
-                    style={{ fontFamily: 'Inter', justifyContent: 'right' }}
+                    style={{ justifyContent: 'right' }}
                   >
                     {val.last_sale?.total_price || 0}
                   </CoinDisplay>
@@ -191,7 +192,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     color={colors.grey600}
                     weight={600}
                     coin='ETH'
-                    style={{ fontFamily: 'Inter', justifyContent: 'right' }}
+                    style={{ justifyContent: 'right' }}
                   >
                     {val.last_sale?.total_price || 0}
                   </FiatDisplay>
