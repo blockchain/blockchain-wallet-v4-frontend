@@ -155,20 +155,37 @@ const MakeOffer: React.FC<Props> = (props) => {
                     <Text size='16px' color='grey900' weight={600}>
                       {val?.name}
                     </Text>
-                    <Text
-                      size='14px'
-                      weight={600}
-                      color='orange600'
-                      style={{
-                        background: colors.orange100,
-                        borderRadius: '8px',
-                        padding: '5px 8px',
-                        textAlign: 'center',
-                        width: 'fit-content'
-                      }}
-                    >
-                      Not Verified
-                    </Text>
+                    {val.collection.safelist_request_status === 'verified' ? (
+                      <Text
+                        size='14px'
+                        weight={600}
+                        color='green600'
+                        style={{
+                          background: colors.green100,
+                          borderRadius: '8px',
+                          padding: '5px 8px',
+                          textAlign: 'center',
+                          width: 'fit-content'
+                        }}
+                      >
+                        Verified
+                      </Text>
+                    ) : (
+                      <Text
+                        size='14px'
+                        weight={600}
+                        color='orange600'
+                        style={{
+                          background: colors.orange100,
+                          borderRadius: '8px',
+                          padding: '5px 8px',
+                          textAlign: 'center',
+                          width: 'fit-content'
+                        }}
+                      >
+                        Not Verified
+                      </Text>
+                    )}
                   </div>
                 </div>
                 <div
@@ -199,16 +216,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </div>
               </div>
             </Row>
-            {/* <Row>
-              <Title>
-                <FormattedMessage id='copy.description' defaultMessage='Description' />
-              </Title>
-              <Value>
-                {val?.description || (
-                  <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
-                )}
-              </Value>
-            </Row> */}
             <Form>
               <>
                 <Row>
@@ -351,30 +358,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                             {Math.max(maxOfferPossible.toNumber(), 0)}
                           </CoinDisplay>
                         </Text>
-                        {custodialBalance !== 0 ? (
-                          <Text weight={500} size='14px' style={{ textAlign: 'center' }}>
-                            Send 0 ETH now to offer this amount
-                          </Text>
-                        ) : (
-                          <Text weight={500} style={{ display: 'flex', justifyContent: 'center' }}>
-                            {orderFlow?.wrapEthFees?.data?.totalFees && (
-                              <>
-                                Buy&nbsp;
-                                <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                                  {Number(formValues.amount) > 0 &&
-                                    new BigNumber(1000000000000000000 * Number(formValues.amount))
-                                      .minus(
-                                        new BigNumber(10000 * wrapFees.totalFees).multipliedBy(
-                                          wrapFees.gasPrice
-                                        )
-                                      )
-                                      .toString()}
-                                </CoinDisplay>
-                                &nbsp; now to offer this amount.
-                              </>
-                            )}
-                          </Text>
-                        )}
                       </div>
                     </>
                   )}
