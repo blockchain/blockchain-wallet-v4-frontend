@@ -188,9 +188,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                     )}
                   </div>
                 </div>
-                <div
+                <Text
                   style={{
-                    fontFamily: 'Inter',
                     justifyContent: 'right',
                     paddingLeft: '5em'
                   }}
@@ -213,7 +212,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   >
                     {val.last_sale?.total_price || 0}
                   </FiatDisplay>
-                </div>
+                </Text>
               </div>
             </Row>
             <Form>
@@ -351,10 +350,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
                           The max you can offer from this wallet is&nbsp;
-                          <CoinDisplay
-                            style={{ fontFamily: 'Inter', fontSize: '12px', fontWeight: 'bold' }}
-                            coin='WETH'
-                          >
+                          <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
                             {Math.max(maxOfferPossible.toNumber(), 0)}
                           </CoinDisplay>
                         </Text>
