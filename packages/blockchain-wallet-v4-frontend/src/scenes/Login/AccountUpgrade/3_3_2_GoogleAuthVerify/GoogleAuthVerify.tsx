@@ -84,7 +84,7 @@ const GoogleAuthVerify = (props) => {
           height='48px'
           onClick={() => {}}
         >
-          <FormattedMessage id='scenes.login.upgrade.googleAuth.button' defaultMessage='Next' />
+          <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </ButtonNext>
       </Wrapper>
       <StyledTemporaryButton
