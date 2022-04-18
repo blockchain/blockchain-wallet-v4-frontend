@@ -79,8 +79,8 @@ const GoogleAuthSetup = (props) => {
             {/* <CopyClipboard address={PLACEHOLDER} active={uiState.notificationActive} /> */}
           </ClipboardWrapper>
           <BadgesWrapper>
-            <Image name='badge-ios-appstore' width='160px' />
-            <Image name='badge-android-playstore' width='160px' />
+            <Image name='apple-app-store-badge' width='160px' />
+            <Image name='google-play-badge' width='160px' />
           </BadgesWrapper>
         </CenteredTitle>
 

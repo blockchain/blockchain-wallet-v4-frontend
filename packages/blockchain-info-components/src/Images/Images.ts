@@ -14,8 +14,6 @@ import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import applePay from './img/apple-pay-icon.svg'
 import arrowLeft from './img/arrow-left.svg'
-import badgeAndroidPlaystore from './img/badge-android-playstore.svg'
-import badgeIosAppstore from './img/badge-ios-appstore.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
 import bankEmptyBlue from './img/bank-empty-blue.svg'
@@ -236,8 +234,6 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
-  'badge-android-playstore': badgeAndroidPlaystore,
-  'badge-ios-appstore': badgeIosAppstore,
   bank,
   'bank-empty': bankEmpty,
   'bank-empty-blue': bankEmptyBlue,
