@@ -367,7 +367,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
-        yield put(actions.router.push('/bch/transactions'))
+        yield put(actions.router.push('/coins/BCH'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
             coinName: 'Bitcoin Cash'
