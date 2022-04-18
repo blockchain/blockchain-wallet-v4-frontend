@@ -241,14 +241,15 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      // TODO find out if it's ok to call this here
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      // TODO solve this for real
-      // Use yield take to wait for the right action to finish
-      yield delay(3000)
+      // waits for nabu auth to complete
+      // We need this to finish in order to get the exchange login token
       const existingUserCountryCode = (yield select(
         selectors.modules.profile.getUserCountryCode
       )).getOrElse('US')
@@ -327,6 +328,9 @@ export default ({ api, coreSagas, networks }) => {
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
           yield fork(createExchangeUser, country)
+          yield put(actions.cache.exchangeEmail(email))
+          yield put(actions.cache.exchangeWalletGuid(guid))
+          yield put(actions.cache.setUnifiedAccount(true))
         } else {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
