@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from 'react'
+import { RouteComponentProps } from 'react-router'
 import { useCoinConfig } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { Flex } from 'components/Flex'
@@ -17,7 +18,8 @@ import {
 
 export type { CoinPageComponent, CoinPageProps } from './types'
 
-const CoinPageContainer: FC<{ coin: string }> = ({ coin }) => {
+const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
+  const { coin } = computedMatch.params
   const [holdingsCard] = useHoldingsCard({ coin })
   const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
   const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
