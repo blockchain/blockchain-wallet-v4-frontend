@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 15em;
+  padding-top: calc(35vh);
   font-family: Inter, sans-serif;
   font-style: normal;
   font-weight: 600;

@@ -190,8 +190,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </div>
                 <Text
                   style={{
-                    justifyContent: 'right',
-                    paddingLeft: '5em'
+                    justifyContent: 'right'
                   }}
                 >
                   <CoinDisplay
