@@ -22,9 +22,11 @@ const Wrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   display: block;
-  margin-left: 4em;
+  padding: 0 40px;
   position: absolute;
   bottom: 2em;
+  width: 100%;
+  box-sizing: border-box;
 `
 
 const NftOrderStatus: React.FC<Props> = (props: any) => {
@@ -78,35 +80,21 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
           <ButtonWrapper>
             <Button
               nature='primary'
-              height='56px'
               onClick={returnToMarketPlace}
-              size='large'
-              width='20em'
-              data-e2e='submitProfileDetails'
+              fullwidth
+              data-e2e='returnToMarketPlace'
             >
-              <Text color='white' size='16px' weight={500}>
-                <FormattedMessage
-                  id='modals.prompt.button'
-                  defaultMessage='Return To Marketplace'
-                />
-              </Text>
+              <FormattedMessage id='modals.prompt.button' defaultMessage='Return To Marketplace' />
             </Button>
             <Link href={props.data.permalink} target='_blank'>
               <Button
                 nature='empty-blue'
-                height='56px'
-                size='large'
-                width='20em'
+                fullwidth
                 margin='0.5em 0em'
                 onClick={viewSubmittedOffer}
-                data-e2e='submitProfileDetails'
+                data-e2e='viewOffer'
               >
-                <Text color={colors.blue600} size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.prompt.button'
-                    defaultMessage='View Submitted Offer'
-                  />
-                </Text>
+                <FormattedMessage id='modals.prompt.button' defaultMessage='View Submitted Offer' />
               </Button>
             </Link>
           </ButtonWrapper>
