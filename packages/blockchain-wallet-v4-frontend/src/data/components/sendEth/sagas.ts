@@ -335,7 +335,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
-        yield put(actions.router.push(`/${coin}/transactions`))
+        yield put(actions.router.push(`/coins/${coin}`))
         if (coin === ETH) {
           yield put(actions.core.data.eth.fetchTransactions(null, true))
         } else {

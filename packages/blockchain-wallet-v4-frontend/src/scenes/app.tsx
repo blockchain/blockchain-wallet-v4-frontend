@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -176,25 +175,9 @@ const App = ({
                     {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
                     <WalletLayout
                       path='/coins/:coin'
-                      component={CoinPage}
+                      component={coinViewV2 ? CoinPage : Transactions}
                       coinViewV2={coinViewV2}
                     />
-                    {/** Old Coinview  */}
-                    {values(
-                      map((coinModel) => {
-                        const { coinfig } = coinModel
-                        return (
-                          <WalletLayout
-                            path={`/${coinfig.symbol}/transactions`}
-                            component={coinViewV2 ? CoinPage : Transactions}
-                            coinViewV2={coinViewV2}
-                            coinfig={coinfig}
-                            coin={coinfig.symbol}
-                            key={coinfig.symbol}
-                          />
-                        )
-                      }, coinsWithBalance)
-                    )}
                     {isAuthenticated ? (
                       coinsWithBalance.length ? (
                         <Redirect to='/home' />
