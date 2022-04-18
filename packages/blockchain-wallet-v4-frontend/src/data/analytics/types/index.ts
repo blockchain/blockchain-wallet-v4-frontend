@@ -8,6 +8,10 @@ import {
   TrackEventAction as DepositWithdrawalClientEventAction
 } from './depositWithdrawalClient'
 import {
+  Events as ClientErrorEvents,
+  TrackEventAction as ClientErrorTrackEventAction
+} from './errors'
+import {
   AnalyticsProperties as InterestClientProperties,
   Events as InterestClientEvents,
   TrackEventAction as InterestClientTrackEventAction
@@ -33,6 +37,7 @@ const TRACK_EVENT = 'trackEvent'
 
 type AnalyticsKey =
   | AccountRecoveryEvents
+  | ClientErrorEvents
   | OnboardingAndVerificationEvents
   | ViewAndClickEvents
   | LoginEvents
@@ -42,7 +47,7 @@ type AnalyticsKey =
   | TaxCenterEvents
 
 const Analytics = {
-  ...AccountRecoveryEvents,
+  ...ClientErrorEvents,
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
   ...LoginEvents,
@@ -62,6 +67,7 @@ type AnalyticsProperties =
 // event actions
 type TrackEventAction =
   | AccountRecoveryTrackEventAction
+  | ClientErrorTrackEventAction
   | OnboardingAndVerificationTrackEventAction
   | ViewAndClickTrackEventAction
   | LoginTrackEventAction

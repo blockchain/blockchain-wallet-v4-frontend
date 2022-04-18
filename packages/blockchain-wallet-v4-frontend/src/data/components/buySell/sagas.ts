@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import moment from 'moment'
@@ -31,6 +32,7 @@ import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -1124,6 +1126,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchBuyQuoteFailure(error))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.CLIENT_ERROR,
+            properties: {
+              device: 'WEB',
+              error: 'OOPS_ERROR',
+              network_endpoint: '/brokerage/quote',
+              network_error_code: e.code,
+              network_error_description: error,
+              platform: 'WALLET',
+              source: 'NABU',
+              title: 'Oops! Something went wrong'
+            }
+          })
+        )
         yield delay(FALLBACK_DELAY)
         yield put(A.startPollBuyQuote(payload))
       }
