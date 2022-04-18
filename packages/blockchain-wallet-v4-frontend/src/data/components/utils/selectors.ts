@@ -20,14 +20,13 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
-  
-  //const userData = selectors.modules.profile.getUserData(state)
-  
-  // provisorio
-  let fiatCoins = ['USD', 'EUR', 'GPB']
-  //if (userData?.data.address.country === 'AR') {
-    //fiatCoins = ['ARS']
-  //}
+
+  const userCountryCode = selectors.core.settings.getCountryCode(state).getOrElse(null)
+  const countryCurrencies = {
+    AR: ['ARS'],
+    default: ['USD', 'EUR', 'GBP']
+  }
+  const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
@@ -40,7 +39,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
     const coinOrder = [
       ...new Set([
-        ...fiatCoins,
+        ...fiatCurrencies,
         'BTC',
         'ETH',
         'BCH',
