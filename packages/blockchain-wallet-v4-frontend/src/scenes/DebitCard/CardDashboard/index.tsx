@@ -1,19 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import ManageCardBox from './ManageCardBox'
+import { BoxContainer } from './model'
+
 const Iframe = styled.iframe`
   border: 0;
-  height: 200px;
+  width: 340px;
+  height: 220px;
 `
 
-const CardDashboard = ({ cardToken, domains, last4 }) => {
+const CardDashboard = ({ cardToken, cards, debitCardActions, domains, last4, modalActions }) => {
   return (
-    <>
-      <Iframe
-        id='marqeta-card-iframe'
-        src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}`}
+    <div>
+      <BoxContainer>
+        <Iframe
+          id='marqeta-card-iframe'
+          src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}`}
+        />
+      </BoxContainer>
+      <ManageCardBox
+        modalActions={modalActions}
+        debitCardActions={debitCardActions}
+        cards={cards}
       />
-    </>
+    </div>
   )
 }
 

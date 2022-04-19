@@ -48,7 +48,14 @@ const DebitCard = ({ cardToken, cards, debitCardActions, domains, modalActions }
       {cards.length === 0 ? (
         <CardOrder handleOpenOrderMyCard={handleOpenOrderMyCard} />
       ) : (
-        <CardDashboard domains={domains} cardToken={cardToken} last4={cards[0].last4} />
+        <CardDashboard
+          domains={domains}
+          cardToken={cardToken}
+          last4={cards[0].last4}
+          cards={cards}
+          debitCardActions={debitCardActions}
+          modalActions={modalActions}
+        />
       )}
     </Wrapper>
   )

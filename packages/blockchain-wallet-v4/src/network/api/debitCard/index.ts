@@ -1,6 +1,6 @@
 import { DebitCardType, ProductType } from 'data/components/debitCard/types'
 
-export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+export default ({ authorizedDelete, authorizedGet, authorizedPost, nabuUrl }) => {
   const createDCOrder = (productCode: string): DebitCardType =>
     authorizedPost({
       contentType: 'application/json',
@@ -33,10 +33,18 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const terminateDC = (cardId) =>
+    authorizedDelete({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/cards/${cardId}`,
+      url: nabuUrl
+    })
+
   return {
     createDCOrder,
     getDCCreated,
     getDCProducts,
-    getDCToken
+    getDCToken,
+    terminateDC
   }
 }
