@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { RouteComponentProps } from 'react-router'
 import { path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
@@ -134,7 +135,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
-      coin,
+      computedMatch,
       currency,
       hasTxResults,
       isInvited,
@@ -145,6 +146,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       recurringBuys,
       sourceType
     } = this.props
+    const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
 
     return (
@@ -307,14 +309,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => {
-  return getData(state, ownProps)
-}
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
+  getData(
+    state,
+    ownProps.computedMatch.params.coin,
+    window.coins[ownProps.computedMatch.params.coin].coinfig
+  )
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  const { coin } = ownProps
+  const { coin } = ownProps.computedMatch.params
   const { coinfig } = window.coins[coin]
-
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
@@ -364,8 +368,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  coin: string
-}
+  coin: WalletCurrencyType
+  coinfig: CoinfigType
+} & RouteComponentProps
 
 export type SuccessStateType = {
   currency: FiatType
