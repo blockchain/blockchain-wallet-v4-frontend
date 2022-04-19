@@ -192,15 +192,8 @@ const App = ({
                       {taxCenterEnabled && (
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                       )}
-                      {/** New Coinview with new url /coins/BTC */}
                       <WalletLayout
                         path='/coins/:coin'
-                        component={CoinPage}
-                        coinViewV2={coinViewV2}
-                      />
-                      {/** Old Coinview with new url /transactions/BTC */}
-                      <WalletLayout
-                        path='/transactions/:coin'
                         component={coinViewV2 ? CoinPage : Transactions}
                         coinViewV2={coinViewV2}
                       />

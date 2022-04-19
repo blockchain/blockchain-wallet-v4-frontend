@@ -189,7 +189,7 @@ export default ({ api, socket }) => {
       )
     yield put(actions.components.buySell.fetchBalance({ isLoading: true }))
     const pathname = yield select(selectors.router.getPathname)
-    if (equals(pathname, `/transactions/${coin}`)) {
+    if (equals(pathname, `/coins/${coin}`)) {
       const formValues = yield select(selectors.form.getFormValues(WALLET_TX_SEARCH))
       const source = prop('source', formValues)
       const onlyShow = equals(source, 'all') ? '' : prop('xpub', source) || prop('address', source)
