@@ -345,7 +345,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
-        yield put(actions.router.push('/transactions/XLM'))
+        yield put(actions.router.push('/coins/XLM'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
             coinName: 'Stellar'

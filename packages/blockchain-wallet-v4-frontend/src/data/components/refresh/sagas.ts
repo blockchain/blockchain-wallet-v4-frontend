@@ -63,19 +63,16 @@ export default () => {
       const maybeCoin = toUpper(pathname.split('/')[1])
 
       switch (true) {
-        case contains('/nfts/activity', pathname):
-          yield put(actions.components.nfts.fetchNftOffersMade())
-          break
-        case contains('/transactions/bch', pathname):
+        case contains('coins/BCH', pathname):
           yield call(refreshBchTransactions)
           break
-        case contains('/transactions/btc', pathname):
+        case contains('coins/BTC', pathname):
           yield call(refreshBtcTransactions)
           break
-        case contains('/transactions/eth', pathname):
+        case contains('coins/ETH', pathname):
           yield call(refreshEthTransactions)
           break
-        case contains('/transactions/xlm', pathname):
+        case contains('coins/XLM', pathname):
           yield call(refreshXlmTransactions)
           break
         case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
@@ -84,13 +81,13 @@ export default () => {
         case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break
-        case contains('/transactions/eur', pathname):
+        case contains('coins/EUR', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
           break
-        case contains('/transactions/gbp', pathname):
+        case contains('coins/GBP', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
           break
-        case contains('/transactions/usd', pathname):
+        case contains('coins/USD', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
           break
         case contains('/lockbox/', pathname):
