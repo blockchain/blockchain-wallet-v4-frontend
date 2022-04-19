@@ -89,6 +89,18 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         ? yield select(selectors.session.getExchangeSessionId, userEmail)
         : yield select(selectors.session.getWalletSessionId, walletData?.guid, userEmail)
 
+    if (unified) {
+      yield put(actions.cache.setUnifiedAccount(true))
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+      yield put(
+        actions.session.saveUnifiedSession({
+          email: userEmail,
+          guid: walletData?.guid,
+          id: currentLoginSession
+        })
+      )
+    }
+
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
 

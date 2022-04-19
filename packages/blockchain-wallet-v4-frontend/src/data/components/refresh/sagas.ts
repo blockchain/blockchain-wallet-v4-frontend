@@ -59,6 +59,11 @@ export default () => {
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
+      // TODO: SELF_CUSTODY, remove
+      const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(yield select())
+      if (stxEligibility) {
+        yield put(actions.core.data.coins.fetchData())
+      }
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates
@@ -70,16 +75,16 @@ export default () => {
       const maybeCoin = toUpper(pathname.split('/')[1])
 
       switch (true) {
-        case contains('/bch/transactions', pathname):
+        case contains('coins/BCH', pathname):
           yield call(refreshBchTransactions)
           break
-        case contains('/btc/transactions', pathname):
+        case contains('coins/BTC', pathname):
           yield call(refreshBtcTransactions)
           break
-        case contains('/eth/transactions', pathname):
+        case contains('coins/ETH', pathname):
           yield call(refreshEthTransactions)
           break
-        case contains('/xlm/transactions', pathname):
+        case contains('coins/XLM', pathname):
           yield call(refreshXlmTransactions)
           break
         case contains('/nfts', pathname):
@@ -91,13 +96,13 @@ export default () => {
         case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break
-        case contains('/eur/transactions', pathname):
+        case contains('coins/EUR', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
           break
-        case contains('/gbp/transactions', pathname):
+        case contains('coins/GBP', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
           break
-        case contains('/usd/transactions', pathname):
+        case contains('coins/USD', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
           break
         case contains('/lockbox/', pathname):

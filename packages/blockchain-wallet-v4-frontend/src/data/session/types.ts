@@ -1,18 +1,13 @@
 export type SessionStateType = { [key: string]: string }
 
 export type SessionStatePOCType = {
-  exchange?: ExchangeSessionType
-  wallet?: WalletSessionType
+  exchange?: AccountSessionType
+  unified?: AccountSessionType
+  wallet?: AccountSessionType
 }
 
-export type WalletSessionType = {
+export type AccountSessionType = {
   email?: string
-  guid?: string
-  id: string
-}
-
-export type ExchangeSessionType = {
-  email: string
   guid?: string
   id: string
 }

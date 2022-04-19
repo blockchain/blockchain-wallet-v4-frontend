@@ -90,6 +90,7 @@ export enum BuySellStepType {
   'VERIFY_EMAIL'
 }
 export type BSShowModalOriginType =
+  | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
   | 'EmptyFeed'

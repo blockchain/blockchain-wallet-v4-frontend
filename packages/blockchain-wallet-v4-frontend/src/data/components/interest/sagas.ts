@@ -45,6 +45,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     getNextReceiveAddressForCoin,
     getOrUpdateProvisionalPaymentForCoin
   } = coinSagas({
+    api,
     coreSagas,
     networks
   })
@@ -381,7 +382,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const routeToTxHash = function* ({ payload }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    yield put(actions.router.push(`/${coin}/transactions`))
+    yield put(actions.router.push(`/coins/${coin}`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }

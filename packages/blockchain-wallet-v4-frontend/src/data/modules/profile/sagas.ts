@@ -343,7 +343,6 @@ export default ({ api, coreSagas, networks }) => {
         exchangeUserId,
         retailToken
       )
-
       if (origin === ExchangeAuthOriginType.SideMenu) {
         window.open(
           `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,

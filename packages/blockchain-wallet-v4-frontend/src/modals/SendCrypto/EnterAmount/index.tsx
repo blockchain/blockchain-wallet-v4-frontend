@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
+import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
@@ -20,15 +21,18 @@ import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGol
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import Form from 'components/Form/Form'
+import SelectBox from 'components/Form/SelectBox'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
 import { AlertButton, MaxButton } from '../../components'
 import { TIER_TYPES } from '../../Settings/TradingLimits/model'
+import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
 import { validate } from './validation'
@@ -101,7 +105,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   } = props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
-  const { coin } = selectedAccount
+  const { coin, type } = selectedAccount
+  const isAccount = type === SwapBaseCounterTypes.ACCOUNT
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
   const min = minR.getOrElse(0)
@@ -141,6 +146,16 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
 
   const effectiveLimit = getEffectiveLimit(sendLimits)
   const effectivePeriod = getEffectivePeriod(sendLimits)
+
+  const handleMax = () => {
+    if (isAccount) {
+      formActions.change(SEND_FORM, 'amount', 'MAX')
+      sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })
+    } else {
+      formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+      formActions.change(SEND_FORM, 'amount', maxMinusFee)
+    }
+  }
 
   return (
     <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
@@ -222,12 +237,12 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             >
               <CustomErrorCartridge
                 onClick={() => {
-                  formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-                  formActions.change(
-                    SEND_FORM,
-                    'amount',
-                    amtError === 'ABOVE_MAX' ? maxMinusFee : min
-                  )
+                  if (amtError === 'ABOVE_MAX') {
+                    handleMax()
+                  } else {
+                    formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+                    formActions.change(SEND_FORM, 'amount', min)
+                  }
                 }}
               >
                 {amtError === 'ABOVE_MAX' && (
@@ -247,26 +262,21 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           ) : null}
         </QuoteActionContainer>
 
-        <MaxButton
-          type='Send'
-          onClick={() => {
-            formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-            formActions.change(SEND_FORM, 'amount', maxMinusFee)
-          }}
-        />
+        <MaxButton type='Send' onClick={handleMax} />
 
         <Amounts>
           <Text
             cursor='pointer'
             // @ts-ignore
             role='button'
-            onClick={() => {
-              formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-              formActions.change(SEND_FORM, 'amount', maxMinusFee)
-            }}
+            onClick={handleMax}
           >
             <Text color='blue600' weight={600} size='12px'>
-              <FormattedMessage id='copy.available' defaultMessage='Available' />
+              {isAccount ? (
+                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
+              ) : (
+                <FormattedMessage id='copy.available' defaultMessage='Available' />
+              )}
             </Text>
             <Text
               color='black'
@@ -274,32 +284,63 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               size='14px'
               style={{ marginTop: '4px', textAlign: 'right' }}
             >
-              {maxMinusFee} {coin}
+              {isAccount ? max : maxMinusFee} {coin}
             </Text>
           </Text>
-          <div>
+          <div style={{ width: '30%' }}>
             <Text color='blue600' weight={600} size='12px'>
               <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
             </Text>
-            {/* TODO: make field */}
-            <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
-              {props.feesR.cata({
-                Failure: () => (
-                  <CustomBlueCartridge
-                    pointer
-                    data-e2e='retryFetchFees'
-                    onClick={() => props.sendCryptoActions.fetchWithdrawalFees()}
-                  >
-                    <Text size='10px' color='blue600' weight={600}>
-                      <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-                    </Text>
-                  </CustomBlueCartridge>
-                ),
-                Loading: () => <SkeletonRectangle height='24px' width='52px' />,
-                NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
-                Success: (val) => `${val} ${coin}`
-              })}
-            </Text>
+            {isAccount ? (
+              <Field
+                component={SelectBox}
+                name='fee'
+                elements={[
+                  {
+                    group: '',
+                    items: [
+                      {
+                        text: 'Low',
+                        value: 'LOW'
+                      },
+                      {
+                        text: 'Medium',
+                        value: 'NORMAL'
+                      },
+                      {
+                        text: 'High',
+                        value: 'PRIORITY'
+                      }
+                    ]
+                  }
+                ]}
+              >
+                <option value='LOW'>Low</option>
+              </Field>
+            ) : (
+              <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
+                {props.feesR.cata({
+                  Failure: (e) => (
+                    <CustomBlueCartridge
+                      pointer
+                      data-e2e='retryFetchFees'
+                      onClick={() =>
+                        props.sendCryptoActions.fetchWithdrawalFees({
+                          account: props.formValues.selectedAccount
+                        })
+                      }
+                    >
+                      <Text size='10px' color='blue600' weight={600}>
+                        <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                      </Text>
+                    </CustomBlueCartridge>
+                  ),
+                  Loading: () => <SkeletonRectangle height='24px' width='52px' />,
+                  NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
+                  Success: (val) => `${val} ${coin}`
+                })}
+              </Text>
+            )}
           </div>
         </Amounts>
       </FlyoutWrapper>

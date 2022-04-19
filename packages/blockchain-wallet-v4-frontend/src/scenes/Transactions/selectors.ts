@@ -45,7 +45,9 @@ const filterTransactions = curry(
           filter === '' ||
           (x && toUpper(x) === toUpper(filter)) ||
           (x === 'DEPOSIT' && filter === 'received') ||
-          (x === 'WITHDRAWAL' && filter === 'sent'),
+          (x === 'WITHDRAWAL' && filter === 'sent') ||
+          (x === 'RECEIVED' && filter === 'received') ||
+          (x === 'SENT' && filter === 'sent'),
         'type',
         tx
       )
@@ -93,6 +95,9 @@ const coinSelectorMap = (
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
+    return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
+  }
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {

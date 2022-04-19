@@ -50,11 +50,14 @@ export default ({ api, coreSagas, networks }) => {
     const params = new URLSearchParams(search)
     const guid = params.get('guid')
     const settingsChange = params.get('change')
+    const email = decodeURIComponent(params.get('email') as string)
     yield put(actions.cache.removeStoredLogin())
     yield put(actions.cache.guidStored(guid))
+    yield put(actions.cache.exchangeEmail(email))
     yield put(
       actions.goals.saveGoal({
         data: {
+          email,
           guid,
           settingsChange
         },

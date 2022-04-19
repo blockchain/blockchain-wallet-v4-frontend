@@ -44,6 +44,9 @@ addEventListener('message', ({ data }) => {
       // TODO: remove this once backend adds flags
       assets.XLM.coinfig.type.isMemoBased = true
 
+      // TODO: remove once backend returns this
+      assets.STX.coinfig.products.push('DynamicSelfCustody')
+
       // if opensea is on rinkeby, modify contract addresses
       if (openSeaApi && openSeaApi.includes('rinkeby')) {
         assets.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'

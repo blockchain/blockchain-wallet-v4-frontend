@@ -90,6 +90,8 @@
     "@visx/scale": "1.7.0",
     "@visx/shape": "1.8.0",
     "@visx/tooltip": "1.7.2",
+    "@visx/axis": "2.6.0",
+    "@types/d3-array": "3.0.2",
     "@walletconnect/client": "1.6.5",
     "@walletconnect/types": "1.6.5",
     "@walletconnect/utils": "1.6.5",
@@ -146,6 +148,7 @@
     "react-use-measure": "2.0.4",
     "react-virtualized-auto-sizer": "1.0.6",
     "react-window": "1.8.6",
+    "react-spring": "9.4.4",
     "read-blob": "1.1.2",
     "redux": "4.0.5",
     "redux-form": "8.3.7",
@@ -162,10 +165,12 @@
     "uuid": "8.3.2",
     "web-worker": "1.2.0"
   },
+  "devDependencies": {
+    "jest-styled-components": "6.3.3",
+    "@types/enzyme": "3.10.11",
+    "@testing-library/react-hooks": "6.0.0"
+  },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
-  },
-  "devDependencies": {
-    "@testing-library/react-hooks": "6.0.0"
   }
 }

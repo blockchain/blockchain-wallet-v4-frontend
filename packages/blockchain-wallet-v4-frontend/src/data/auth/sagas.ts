@@ -241,14 +241,15 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      // TODO find out if it's ok to call this here
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      // TODO solve this for real
-      // Use yield take to wait for the right action to finish
-      yield delay(3000)
+      // waits for nabu auth to complete
+      // We need this to finish in order to get the exchange login token
       const existingUserCountryCode = (yield select(
         selectors.modules.profile.getUserCountryCode
       )).getOrElse('US')
@@ -327,6 +328,9 @@ export default ({ api, coreSagas, networks }) => {
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
           yield fork(createExchangeUser, country)
+          yield put(actions.cache.exchangeEmail(email))
+          yield put(actions.cache.exchangeWalletGuid(guid))
+          yield put(actions.cache.setUnifiedAccount(true))
         } else {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
@@ -357,13 +361,15 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
-    let session =
-      product === ProductAuthOptions.EXCHANGE
-        ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
-        : yield select(selectors.session.getWalletSessionId, guid, email)
+    let session = unified
+      ? yield select(selectors.session.getUnifiedSessionId, guid, email)
+      : product === ProductAuthOptions.EXCHANGE
+      ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
+      : yield select(selectors.session.getWalletSessionId, guid, email)
     if (code) {
       yield put(
         actions.analytics.trackEvent({
@@ -387,7 +393,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
-        if (product === ProductAuthOptions.EXCHANGE) {
+        if (unified) {
+          yield put(actions.session.saveUnifiedSession({ email, guid, id: session }))
+        } else if (product === ProductAuthOptions.EXCHANGE) {
           yield put(actions.session.saveExchangeSession({ email: exchangeEmail, id: session }))
         } else {
           yield put(actions.session.saveWalletSession({ email, guid, id: session }))
