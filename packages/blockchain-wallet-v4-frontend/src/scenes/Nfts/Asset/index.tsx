@@ -405,6 +405,21 @@ const NftAsset: React.FC<Props> = ({
                       <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Socials>
                           <SocialLink>
+                            <BlockchainIcon
+                              onClick={() => {
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_REFRESH_METADATA_CLICKED,
+                                  properties: {}
+                                })
+                                // refreshMetadata()
+                              }}
+                              cursor
+                              color='grey600'
+                              name='refresh'
+                              size='24px'
+                            />
+                          </SocialLink>
+                          <SocialLink>
                             <CopyClipboardButton
                               color='grey600'
                               textToCopy={`${domains.comWalletApp}/#/nfts/${contract}/${id}`}
@@ -433,6 +448,21 @@ const NftAsset: React.FC<Props> = ({
                               cursor
                               color='grey600'
                               name='send'
+                            />
+                          </SocialLink>
+                          <SocialLink>
+                            <BlockchainIcon
+                              onClick={() => {
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_MORE_CLICKED,
+                                  properties: {}
+                                })
+                                // more
+                              }}
+                              cursor
+                              color='grey600'
+                              name='ellipsis'
+                              size='4px'
                             />
                           </SocialLink>
                         </Socials>
