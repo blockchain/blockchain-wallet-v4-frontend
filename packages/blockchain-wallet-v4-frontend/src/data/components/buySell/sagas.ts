@@ -1141,8 +1141,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           })
         )
-        yield delay(FALLBACK_DELAY)
-        yield put(A.startPollBuyQuote(payload))
+        // stop fetching new quote until user does retry action
+        yield put(A.stopPollBuyQuote())
       }
     }
   }
