@@ -29,8 +29,8 @@ PaddingEdgeInset.args = {
   top: 10
 }
 
-export const PaddingSymetric = Template.bind({})
-PaddingSymetric.args = {
+export const PaddingSymmetric = Template.bind({})
+PaddingSymmetric.args = {
   horizontal: 20,
   vertical: 10
 }
