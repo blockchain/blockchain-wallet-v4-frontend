@@ -30,6 +30,7 @@ export enum Events {
   NFT_RETURN_TO_MARKETPLACE_CLICKED = 'NFT Return To Marketplace Clicked',
   NFT_SELL_ITEM_CLICKED = 'NFT Sell Item Clicked',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
+  NFT_TRANSFER_CLICKED = 'NFT Transfer Clicked',
   NFT_VIEW_BUTTON_VIEWED = 'NFT View Button Viewed',
   NFT_VIEW_SUBMITTED_OFFER_CLICKED = 'NFT View Submitted Offer Clicked'
 }
@@ -230,6 +231,11 @@ type ShareClickedAction = {
   properties: {}
 }
 
+type TransferClickedAction = {
+  key: Events.NFT_TRANSFER_CLICKED
+  properties: {}
+}
+
 type ViewButtonViewedAction = {
   key: Events.NFT_VIEW_BUTTON_VIEWED
   properties: {}
@@ -271,5 +277,6 @@ export type TrackEventAction =
   | ReturnToMarketplaceClickedAction
   | SellItemClickedAction
   | ShareClickedAction
+  | TransferClickedAction
   | ViewButtonViewedAction
   | ViewSubmittedOfferClickedAction

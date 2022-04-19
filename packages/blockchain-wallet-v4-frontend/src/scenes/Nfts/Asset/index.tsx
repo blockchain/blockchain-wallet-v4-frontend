@@ -33,6 +33,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
@@ -118,26 +119,6 @@ const SocialLink = styled.div`
   &:last-child {
     border-right: 0;
   }
-`
-
-const MoreAssets = styled.div`
-  width: 100%;
-  position: sticky;
-  height: 100%;
-  top: 64px;
-`
-
-const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
-`
-
-const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tabletL`width: 100%;`}
 `
 
 const CollectionName = styled.div`
@@ -286,6 +267,7 @@ const StickyWrapper = styled.div`
 `
 
 const NftAsset: React.FC<Props> = ({
+  analyticsActions,
   defaultEthAddr,
   domains,
   formActions,
@@ -306,7 +288,7 @@ const NftAsset: React.FC<Props> = ({
   const [assets] = useAssetsQuery({
     variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }], limit: 4 }
   })
-  const [Tab, setTab] = useState('details')
+  const [Tab, setTab] = useState('about')
   const [Countdown, setCountdown] = useState('')
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -426,11 +408,21 @@ const NftAsset: React.FC<Props> = ({
                             <CopyClipboardButton
                               color='grey600'
                               textToCopy={`${domains.comWalletApp}/#/nfts/${contract}/${id}`}
+                              onClick={() =>
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_SHARE_CLICKED,
+                                  properties: {}
+                                })
+                              }
                             />
                           </SocialLink>
                           <SocialLink>
                             <BlockchainIcon
                               onClick={() => {
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_TRANSFER_CLICKED,
+                                  properties: {}
+                                })
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
                                   step: NftOrderStepEnum.TRANSFER,
@@ -479,13 +471,19 @@ const NftAsset: React.FC<Props> = ({
                     {owner?.address ? (
                       <TextGroup inline style={{ marginTop: '24px' }}>
                         <Text size='16px' color='grey600' weight={600}>
-                          <FormattedMessage id='copy.owner' defaultMessage='Owner' />
+                          <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                         </Text>
                         <Text
                           color='blue600'
                           weight={600}
                           cursor='pointer'
-                          onClick={() => routerActions.push(`/nfts/address/${owner.address}`)}
+                          onClick={() => {
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_OWNER_CLICKED,
+                              properties: {}
+                            })
+                            routerActions.push(`/nfts/address/${owner.address}`)
+                          }}
                         >
                           <CryptoAddress>{owner.address}</CryptoAddress>
                         </Text>
@@ -637,6 +635,10 @@ const NftAsset: React.FC<Props> = ({
                               token_id: id,
                               walletUserIsAssetOwnerHack: false
                             })
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
+                              properties: {}
+                            })
                           }
                         }}
                       >
@@ -655,10 +657,17 @@ const NftAsset: React.FC<Props> = ({
                     <CustomTabMenu>
                       <TabMenuItem
                         width='33%'
-                        onClick={() => setTab('details')}
-                        selected={Tab === 'details'}
+                        onClick={() => setTab('about')}
+                        selected={Tab === 'about'}
                       >
-                        <FormattedMessage id='copy.day' defaultMessage='Details' />
+                        <FormattedMessage id='copy.day' defaultMessage='About' />
+                      </TabMenuItem>
+                      <TabMenuItem
+                        width='33%'
+                        onClick={() => setTab('activity')}
+                        selected={Tab === 'activity'}
+                      >
+                        <FormattedMessage id='copy.week' defaultMessage='Activity' />
                       </TabMenuItem>
                       <TabMenuItem
                         width='33%'
@@ -667,15 +676,8 @@ const NftAsset: React.FC<Props> = ({
                       >
                         <FormattedMessage id='copy.week' defaultMessage='Offers' />
                       </TabMenuItem>
-                      <TabMenuItem
-                        width='33%'
-                        onClick={() => setTab('history')}
-                        selected={Tab === 'history'}
-                      >
-                        <FormattedMessage id='copy.week' defaultMessage='History' />
-                      </TabMenuItem>
                     </CustomTabMenu>
-                    {Tab === 'details' && (
+                    {Tab === 'about' && (
                       <DetailsAndOffers>
                         {currentAsset.traits?.length ? (
                           <TraitsWrapper>
@@ -789,154 +791,58 @@ const NftAsset: React.FC<Props> = ({
                       </DetailsAndOffers>
                     )}
                     {Tab === 'offers' &&
-                      (bidsAndOffers.length ? (
-                        bidsAndOffers?.map((offer, index) => {
-                          const coin = Exchange.convertCoinToCoin({
-                            coin: offer.payment_token_contract.symbol || 'ETH',
-                            value: offer?.base_price
-                          })
-                          return (
-                            <div
-                              style={{
-                                color: colors.grey600,
-                                display: 'flex',
-                                fontFamily: 'Inter, sans-serif',
-                                fontStyle: 'normal',
-                                fontWeight: 600,
-                                gap: '4em',
-                                padding: '0.5em'
-                              }}
-                              // eslint-disable-next-line react/no-array-index-key
-                              key={index}
-                            >
-                              <div style={{ display: 'flex', paddingRight: '0.2em', width: '5em' }}>
-                                <AddressDisplay>{coin}</AddressDisplay>{' '}
-                                {offer?.payment_token_contract?.address === WETH_ADDRESS
-                                  ? 'WETH'
-                                  : 'ETH'}
-                              </div>
-                              <div style={{ width: '5em' }}>
-                                <FiatDisplay
-                                  weight={500}
-                                  currency='USD'
-                                  size='16px'
-                                  coin={offer.payment_token_contract.symbol}
-                                >
-                                  {offer.base_price}
-                                </FiatDisplay>
-                              </div>
-                              <div style={{ width: '7em' }}>
-                                {moment(offer?.expiration_time * 1000).from(moment())}{' '}
-                              </div>
-                              <div style={{ width: '5em' }}>
-                                <Link
-                                  href={`https://www.blockchain.com/eth/address/${offer?.maker?.address}`}
-                                  target='_blank'
-                                >
-                                  <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
-                                </Link>
-                              </div>
-                            </div>
-                          )
+                      bidsAndOffers.length > 0 &&
+                      bidsAndOffers?.map((offer, index) => {
+                        const coin = Exchange.convertCoinToCoin({
+                          coin: offer.payment_token_contract.symbol || 'ETH',
+                          value: offer?.base_price
                         })
-                      ) : (
-                        <Text>No offers made on this asset (yet!)</Text>
-                      ))}
-                    {Tab === 'history' && <Text>No history available for this asset.</Text>}
+                        return (
+                          <div
+                            style={{
+                              color: colors.grey600,
+                              display: 'flex',
+                              fontFamily: 'Inter, sans-serif',
+                              fontStyle: 'normal',
+                              fontWeight: 600,
+                              gap: '4em',
+                              padding: '0.5em'
+                            }}
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={index}
+                          >
+                            <div style={{ display: 'flex', paddingRight: '0.2em', width: '5em' }}>
+                              <AddressDisplay>{coin}</AddressDisplay>{' '}
+                              {offer?.payment_token_contract?.address === WETH_ADDRESS
+                                ? 'WETH'
+                                : 'ETH'}
+                            </div>
+                            <div style={{ width: '5em' }}>
+                              <FiatDisplay
+                                weight={500}
+                                currency='USD'
+                                size='16px'
+                                coin={offer.payment_token_contract.symbol}
+                              >
+                                {offer.base_price}
+                              </FiatDisplay>
+                            </div>
+                            <div style={{ width: '7em' }}>
+                              {moment(offer?.expiration_time * 1000).from(moment())}{' '}
+                            </div>
+                            <div style={{ width: '5em' }}>
+                              <Link
+                                href={`https://www.blockchain.com/eth/address/${offer?.maker?.address}`}
+                                target='_blank'
+                              >
+                                <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
+                              </Link>
+                            </div>
+                          </div>
+                        )
+                      })}
                   </RightColWrapper>
                 </Top>
-                <div style={{ display: 'flex' }}>
-                  <MoreAssets>
-                    <div
-                      style={{
-                        alignItems: 'center',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        marginTop: '40px'
-                      }}
-                    >
-                      <Text color={colors.grey700} weight={600} capitalize>
-                        More from this collection
-                      </Text>
-                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
-                        <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
-                          See All
-                        </Button>
-                      </CustomLink>
-                    </div>
-                    <MoreAssetsList>
-                      {assets?.data?.assets?.length
-                        ? assets?.data?.assets?.map((asset) => {
-                            const link = `${'/nfts/'}${currentAsset.contract?.address}/${
-                              asset.token_id
-                            }`
-                            return (
-                              <MoreAssetsListItem key={asset.token_id}>
-                                <CustomLink
-                                  to={link}
-                                  onClick={() => {
-                                    nftsActions.fetchOpenseaAsset({
-                                      address: asset.contract?.address || '',
-                                      token_id: asset.token_id || ''
-                                    })
-                                  }}
-                                  style={{
-                                    border: `1px solid ${colors.grey100}`,
-                                    borderRadius: '10%',
-                                    borderWidth: '1px',
-                                    boxSizing: 'border-box',
-                                    justifyContent: 'center',
-                                    margin: '1em',
-                                    padding: '10px'
-                                  }}
-                                >
-                                  <div>
-                                    <CollectionName
-                                      style={{ justifyContent: 'center', paddingBottom: 'unset' }}
-                                    >
-                                      <img
-                                        alt='Dapp Logo'
-                                        height='30px'
-                                        width='auto'
-                                        style={{
-                                          borderRadius: '50%',
-                                          marginBottom: '0.5rem',
-                                          paddingRight: '2px'
-                                        }}
-                                        src={asset.collection?.image_url || ''}
-                                      />
-                                      <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                                        {asset.collection?.name}
-                                      </div>
-                                    </CollectionName>
-                                    <img
-                                      alt='Asset Logo'
-                                      width='100%'
-                                      height='auto'
-                                      style={{
-                                        borderRadius: '10%',
-                                        boxSizing: 'border-box',
-                                        marginBottom: '0.5rem'
-                                      }}
-                                      src={asset.image_url || ''}
-                                    />
-                                    <Text
-                                      style={{ textAlign: 'center' }}
-                                      size='14px'
-                                      weight={600}
-                                      capitalize
-                                    >
-                                      {asset.name || asset.token_id}
-                                    </Text>
-                                  </div>
-                                </CustomLink>
-                              </MoreAssetsListItem>
-                            )
-                          })
-                        : null}
-                    </MoreAssetsList>
-                  </MoreAssets>
-                </div>
               </div>
             </>
           )
@@ -955,6 +861,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)

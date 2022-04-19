@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -53,7 +53,12 @@ const MakeOffer: React.FC<Props> = (props) => {
     walletCurrency
   } = props
   const [termsAccepted, setTermsAccepted] = useState(false)
-
+  useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.NFT_MAKE_AN_OFFER_VIEWED,
+      properties: {}
+    })
+  }, [])
   const { amount, coin, fix } = formValues
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
@@ -404,7 +409,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='makeOfferNft'
                       disabled={disabled}
-                      onClick={() => {
+                      onClick={() =>
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
@@ -413,11 +418,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                           wrapFees,
                           ...formValues
                         })
-                        props.analyticsActions.trackEvent({
-                          key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
-                          properties: {}
-                        })
-                      }}
+                      }
                     >
                       {formValues.amount ? (
                         props.orderFlow.isSubmitting ? (
