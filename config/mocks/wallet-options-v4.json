@@ -68,8 +68,6 @@
     "comWalletApp": "https://login.blockchain.com",
     "exchange": "https://exchange.blockchain.com",
     "horizon": "https://horizon.stellar.org",
-    "ledger": "https://manager.api.live.ledger.com",
-    "ledgerSocket": "wss://api.ledgerwallet.com",
     "opensea": "https://api.opensea.io",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",

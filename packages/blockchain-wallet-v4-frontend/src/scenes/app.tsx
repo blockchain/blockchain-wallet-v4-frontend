@@ -46,7 +46,6 @@ const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
-const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const Nfts = React.lazy(() => import('./Nfts'))
@@ -166,7 +165,6 @@ const App = ({
                     <WalletLayout path='/rewards' component={Interest} exact />
                     <WalletLayout path='/rewards/history' component={InterestHistory} />
                     <WalletLayout path='/nfts' component={Nfts} />
-                    <WalletLayout path='/lockbox' component={Lockbox} />
                     <WalletLayout path='/security-center' component={SecurityCenter} />
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />

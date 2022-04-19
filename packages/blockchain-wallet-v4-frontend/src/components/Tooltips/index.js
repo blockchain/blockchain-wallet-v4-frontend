@@ -19,12 +19,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
         </Tooltip>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
-        <Tooltip id='lockbox.exportkeyswarning'>
-          <FormattedMessage
-            id='modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip'
-            defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
-          />
-        </Tooltip>
         <Tooltip id='import.privatekeys'>
           <FormattedMessage
             id='modals.import.privatekeys.tooltip'
@@ -212,12 +206,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.verifymessage.tooltip'
             defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
-          />
-        </Tooltip>
-        <Tooltip id='lockboxRequired'>
-          <FormattedMessage
-            id='lockboxrequired.tooltip'
-            defaultMessage='Hardware device is required'
           />
         </Tooltip>
         <Tooltip id='txlist.change.tooltip'>

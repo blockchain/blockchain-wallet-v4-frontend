@@ -25,14 +25,12 @@ const INITIAL_STATE: PreferencesState = {
   showInterestInfoBox: true,
   showKycCompleted: true,
   showKycGetStarted: true,
-  showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showUpgradeForAirdropModal: false,
   showUpgradeForStxAirdropModal: true,
   theme: 'default',
   totalBalancesDropdown: {
-    lockbox: false,
     pending: false,
     wallet: true
   }
@@ -106,13 +104,6 @@ export function preferencesReducer(
       return {
         ...state,
         showKycCompleted: false
-      }
-    }
-    // @ts-ignore
-    case AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD: {
-      return {
-        ...state,
-        showLockboxSoftwareDownload: false
       }
     }
     // @ts-ignore

@@ -4,7 +4,7 @@ import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { BchTxType } from '@core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType, HDAccountList } from '@core/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
@@ -12,7 +12,6 @@ import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { addFromToAccountNames } from '../../../utils/accounts'
 import { BCH_FORK_TIME, convertFromCashAddrIfCashAddr, TX_PER_PAGE } from '../../../utils/bch'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
-import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import * as selectors from '../../selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import custodialSagas from '../custodial/sagas'
@@ -39,13 +38,6 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchDataSuccess(bchData))
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
-    }
-  }
-
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
     }
   }
 
@@ -96,6 +88,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const __processTxs = function* (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
@@ -103,19 +102,13 @@ export default ({ api }: { api: APIType }) => {
     const walletR = Remote.of(wallet)
     const accountList = (yield select(getAccountsList)).getOrElse([])
     const txNotes = (yield select(getBchTxNotes)).getOrElse({})
-    const lockboxAccountList = (yield select(getLockboxBchAccounts))
-      .map(HDAccountList.fromJS)
-      .getOrElse([])
 
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
-      map(
-        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), lockboxAccountList, txNotes),
-        txList
-      )
+    const ProcessTxs = (wallet, txList, txNotes) =>
+      map(transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), [], txNotes), txList)
     // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
+    const processedTxs = ProcessTxs(walletR, txs, txNotes)
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 

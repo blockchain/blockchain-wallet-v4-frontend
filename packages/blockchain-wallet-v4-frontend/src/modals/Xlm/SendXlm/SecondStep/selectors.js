@@ -1,4 +1,4 @@
-import { curry, prop } from 'ramda'
+import { curry } from 'ramda'
 
 import { utils } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
@@ -13,11 +13,6 @@ const xlmFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.xlm.getAccountLabel(state, from.address).getOrElse(from.address)
     case ADDRESS_TYPES.CUSTODIAL:
       return from.address
-    case ADDRESS_TYPES.LOCKBOX:
-      return selectors.core.kvStore.lockbox
-        .getLockboxXlmAccount(state, from.address)
-        .map(prop('label'))
-        .getOrElse(from.address)
     default:
       return from.address
   }

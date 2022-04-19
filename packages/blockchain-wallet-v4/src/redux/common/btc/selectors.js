@@ -5,7 +5,6 @@ import {
   isNil,
   keys,
   lensProp,
-  lift,
   map,
   max,
   path,
@@ -25,7 +24,6 @@ import { set } from 'ramda-lens'
 import Remote from '../../../remote'
 import { HDAccount, HDAccountList, HDWallet } from '../../../types'
 import { getAddresses, getChangeIndex, getReceiveIndex } from '../../data/btc/selectors'
-import { getLockboxBtcAccount, getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import * as walletSelectors from '../../wallet/selectors'
 
@@ -112,21 +110,6 @@ const flattenAccount = (acc) => {
 // getAccountsBalances :: state => Remote([])
 export const getAccountsBalances = (state) => map(map(flattenAccount), getHDAccounts(state))
 
-export const getLockboxBtcBalances = (state) => {
-  const digest = (addresses, account) => {
-    const xpub = prop('xpub', account.derivations.find(propEq('type', 'legacy')))
-    return {
-      address: xpub,
-      balance: path([xpub, 'final_balance'], addresses),
-      coin: 'BTC',
-      label: account.label,
-      type: ADDRESS_TYPES.LOCKBOX,
-      xpub
-    }
-  }
-  const balances = Remote.of(getAddresses(state).getOrElse([]))
-  return map(lift(digest)(balances), getLockboxBtcAccounts(state))
-}
 // getActiveAccountsBalances :: state => Remote([])
 export const getActiveAccountsBalances = (state) =>
   map(map(flattenAccount), getActiveHDAccounts(state))
@@ -211,25 +194,4 @@ export const getNextAvailableReceiveIndex = curry((network, accountIndex, deriva
 export const getNextAvailableReceiveAddress = curry((network, accountIndex, derivation, state) => {
   const receiveIndex = getNextAvailableReceiveIndex(network, accountIndex, derivation, state)
   return receiveIndex.map((x) => getAddress(network, `${accountIndex}/${0}/${x}`, state))
-})
-
-export const getNextAvailableReceiveIndexLockbox = curry((network, xpub, state) => {
-  const index = getReceiveIndex(xpub)(state)
-  // TODO(salome): implement btc address labels for lockbox.
-  // const labels = getLockboxBtcAddressLabels(state).getOrElse([])
-  // const maxLabel = labels.maxBy(label => label.index)
-  // const maxLabelIndex = maxLabel ? maxLabel.index : -1
-  // return index.map(x => max(x - 1, maxLabelIndex) + 1)
-  return index
-})
-
-export const getNextAvailableReceiveAddressLockbox = curry((network, xpub, state) => {
-  const receiveIndex = getNextAvailableReceiveIndexLockbox(network, xpub, state)
-  return receiveIndex.map((x) => getAddressLockbox(network, xpub, x, state))
-})
-
-export const getAddressLockbox = curry((network, xpub, index, state) => {
-  const account = getLockboxBtcAccount(state, xpub)
-  const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
-  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
 })

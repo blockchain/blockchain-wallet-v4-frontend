@@ -30,7 +30,6 @@ const kvStoreMiddleware =
           T.eth.FETCH_METADATA_ETH_SUCCESS,
           T.bch.FETCH_METADATA_BCH_SUCCESS,
           T.btc.FETCH_METADATA_BTC_SUCCESS,
-          T.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS,
           T.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
           T.xlm.FETCH_METADATA_XLM_SUCCESS,
           T.walletCredentials.FETCH_METADATA_WALLET_CREDENTIALS_SUCCESS
@@ -41,7 +40,6 @@ const kvStoreMiddleware =
           [C.ETH]: A.eth.fetchMetadataEthSuccess,
           [C.BCH]: A.bch.fetchMetadataBchSuccess,
           [C.BTC]: A.btc.fetchMetadataBtcSuccess,
-          [C.LOCKBOX]: A.lockbox.fetchMetadataLockboxSuccess,
           [C.USER_CREDENTIALS]: A.userCredentials.fetchMetadataUserCredentialsSuccess,
           [C.XLM]: A.xlm.fetchMetadataXlmSuccess,
           [C.WALLET_CREDENTIALS]: A.walletCredentials.fetchMetadataWalletCredentialsSuccess

@@ -29,8 +29,6 @@ export const getShowAirdropClaimModal = (state: RootState) =>
 export const getShowInterestInfoBox = (state: RootState) => state.preferences.showInterestInfoBox
 export const getShowKycCompleted = (state: RootState) => state.preferences.showKycCompleted
 export const getShowKycGetStarted = (state: RootState) => state.preferences.showKycGetStarted
-export const getShowLockboxSoftwareDownload = (state: RootState) =>
-  state.preferences.showLockboxSoftwareDownload
 export const getShowSwapBanner = (state: RootState) => state.preferences.showSwapBanner
 export const getShowSwapUpgrade = (state: RootState) => state.preferences.showSwapUpgradeModal
 export const getShowUpgradeForAirdropModal = (state: RootState) =>

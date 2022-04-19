@@ -206,7 +206,7 @@ export const getTime = (tx) => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, accountList, txNotes, tx) => {
+export const _transformTx = (wallet, accountList = [], txNotes, tx) => {
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(tagCoin(wallet, accountList), unpackInput)
   const outputTagger = tagCoin(wallet, accountList)

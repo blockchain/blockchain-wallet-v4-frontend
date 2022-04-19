@@ -21,7 +21,6 @@ export const getData = (state, coin: CoinType) => {
     case 'BTC':
       coinSelector = getBtcAddressData
       coinWalletParams = {
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial: true,
         includeInterest: true
@@ -31,7 +30,6 @@ export const getData = (state, coin: CoinType) => {
       coinSelector = getBchAddressData
       coinWalletParams = {
         coin: 'BCH',
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       }
@@ -39,7 +37,6 @@ export const getData = (state, coin: CoinType) => {
     case 'ETH':
       coinSelector = getEthAddressData
       coinWalletParams = {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       }
@@ -47,7 +44,6 @@ export const getData = (state, coin: CoinType) => {
     case 'XLM':
       coinSelector = getXlmAddressData
       coinWalletParams = {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       }

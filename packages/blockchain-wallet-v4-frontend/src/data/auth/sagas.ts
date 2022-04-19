@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
@@ -240,8 +240,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
-      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      // TODO find out if it's ok to call this here
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)

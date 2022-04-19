@@ -230,13 +230,6 @@ const productsList = [
     )
   },
   {
-    desc: <FormattedMessage id='header.data.lockbox-desc' defaultMessage='Hardware Wallet' />,
-    event: 'header_lockbox',
-    link: '/lockbox',
-    locale: LOCALE,
-    title: <FormattedMessage id='header.products.lockbox' defaultMessage='Lockbox' />
-  },
-  {
     desc: <FormattedMessage id='header.products.developers-desc' defaultMessage='Access our API' />,
     event: 'header_developers',
     link: '/api',
@@ -294,9 +287,9 @@ const dataList = [
 const ListWrap = (items) => (
   <DropdownWrap>
     <ul>
-      {items.map((item, index) => {
+      {items.map((item) => {
         return (
-          <li key={index}>
+          <li key={item.title}>
             <Link href={item.link} event={item.event} locale={item.locale}>
               <h5 className='title'>{item.title}</h5>
               <p className='desc'>{item.desc}</p>
@@ -460,13 +453,13 @@ class Header extends PureComponent {
     return undefined
   }
 
-  handleResize = throttle((e) => {
+  handleResize = throttle(() => {
     if (window.innerWidth > 768) {
       this.setState({ menuActive: false })
     }
   }, 200)
 
-  handleScroll = throttle((e) => {
+  handleScroll = throttle(() => {
     const scrollTop = this.getScrollTop()
     if (scrollTop === undefined) {
       return

@@ -60,16 +60,11 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function* (password, transaction, transport, scrambleKey, fromType) {
-    switch (fromType) {
-      case ADDRESS_TYPES.ACCOUNT:
-        if (!transaction) throw new Error(NO_TX_ERROR)
-        const mnemonicT = yield select(S.wallet.getMnemonic, password)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        return yield call(xlmSigner.sign, { transaction }, mnemonic)
-      case ADDRESS_TYPES.LOCKBOX:
-        return yield call(xlmSigner.signWithLockbox, transport, transaction, scrambleKey)
-    }
+  const calculateSignature = function* (password, transaction) {
+    if (!transaction) throw new Error(NO_TX_ERROR)
+    const mnemonicT = yield select(S.wallet.getMnemonic, password)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    return yield call(xlmSigner.sign, { transaction }, mnemonic)
   }
 
   const calculateFee = function* (fee, fees) {
@@ -177,6 +172,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           makeChain(function* () {
             return yield f(yield gen())
           })
@@ -289,17 +285,10 @@ export default ({ api }) => {
         return makePayment(merge(p, { destinationAccountExists }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      *sign(password) {
         try {
           const transaction = prop('transaction', p)
-          const signed = yield call(
-            calculateSignature,
-            password,
-            transaction,
-            transport,
-            scrambleKey,
-            path(['from', 'type'], p)
-          )
+          const signed = yield call(calculateSignature, password, transaction)
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')

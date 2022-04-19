@@ -231,8 +231,6 @@ const buildDevServerConfig = (
           'data:',
           envConfig.API_DOMAIN,
           envConfig.HORIZON_URL,
-          envConfig.LEDGER_SOCKET_URL,
-          envConfig.LEDGER_URL,
           envConfig.ROOT_URL,
           envConfig.VERIFF_URL,
           envConfig.WALLET_HELPER_DOMAIN,
@@ -247,7 +245,6 @@ const buildDevServerConfig = (
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
           'wss://localhost:8080',
-          'wss://api.ledgerwallet.com',
           'wss://*.walletconnect.org'
         ].join(' '),
         "object-src 'none'",
@@ -268,8 +265,6 @@ const buildDevServerConfig = (
           comWalletApp: localhostUrl,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           opensea: envConfig.OPENSEA_API,
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
@@ -287,15 +282,7 @@ const buildDevServerConfig = (
         res.json(mockWalletOptions)
       })
     },
-    port: 8080,
-    proxy: {
-      '/ledger': {
-        target: envConfig.LEDGER_URL,
-        secure: false,
-        changeOrigin: true,
-        pathRewrite: { '^/ledger': '' }
-      }
-    }
+    port: 8080
   }
 }
 

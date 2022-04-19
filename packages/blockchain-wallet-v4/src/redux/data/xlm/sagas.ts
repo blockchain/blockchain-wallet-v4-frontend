@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   addIndex,
   compose,
-  concat,
   equals,
   filter,
   flatten,
@@ -29,7 +28,6 @@ import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
 import { xlm } from '../../../transactions'
-import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import * as selectors from '../../selectors'
 import buySellSagas from '../custodial/sagas'
@@ -101,16 +99,14 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
   const __processTxs = function* (txList) {
     const walletAccounts = (yield select(getAccounts)).getOrElse([])
-    const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
     const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
-    const accounts = concat(walletAccounts, lockboxAccounts)
     return unnest(
       map((tx) => {
         const operations = decodeOperations(tx)
         return compose(
           // @ts-ignore
           filter(prop('belongsToWallet')),
-          map(transformTx(accounts, txNotes, tx)),
+          map(transformTx(walletAccounts, txNotes, tx)),
           // @ts-ignore
           filter(isLumenOperation)
           // @ts-ignore
