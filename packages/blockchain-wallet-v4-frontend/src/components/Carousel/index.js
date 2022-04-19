@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import CarouselTemplate from './template.js'
+import CarouselTemplate from './template'
 
 class Carousel extends React.PureComponent {
   constructor(props) {
@@ -26,16 +25,6 @@ class Carousel extends React.PureComponent {
     }
   }
 
-  getPreviousIndex() {
-    const { index, total } = this.state
-    return index === 0 ? total : index - 1
-  }
-
-  getNextIndex() {
-    const { index, total } = this.state
-    return index === total ? 0 : index + 1
-  }
-
   handleClick(index) {
     this.setState({ index })
   }
@@ -46,6 +35,16 @@ class Carousel extends React.PureComponent {
 
   handleNext() {
     this.setState({ index: this.getNextIndex() })
+  }
+
+  getPreviousIndex() {
+    const { index, total } = this.state
+    return index === 0 ? total : index - 1
+  }
+
+  getNextIndex() {
+    const { index, total } = this.state
+    return index === total ? 0 : index + 1
   }
 
   render() {
@@ -64,15 +63,6 @@ class Carousel extends React.PureComponent {
       </CarouselTemplate>
     )
   }
-}
-
-Carousel.propTypes = {
-  arrows: PropTypes.bool,
-  auto: PropTypes.bool,
-  chips: PropTypes.bool,
-  delay: PropTypes.number,
-  height: PropTypes.number,
-  nextButton: PropTypes.bool
 }
 
 Carousel.defaultProps = {

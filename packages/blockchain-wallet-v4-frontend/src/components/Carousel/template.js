@@ -1,13 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import { range } from 'ramda'
 import styled from 'styled-components'
 
-import { Button } from '../../Buttons'
-import { Color } from '../../Colors/index.ts'
-import { Icon } from '../../Icons'
-import { Text } from '../../Text'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,7 +53,6 @@ const Control = styled.div`
   border-radius: 5px;
   background-color: ${(props) => (props.active ? props.theme.blue600 : props.theme.grey500)};
   cursor: pointer;
-  z-index: ;
 `
 const Arrow = styled(Icon).attrs({
   color: 'grey800',
@@ -75,7 +70,7 @@ const Arrow = styled(Icon).attrs({
   z-index: 1;
 
   &:hover {
-    color: ${Color('blue600')}!important;
+    color: ${(props) => props.theme.blue600}!important;
   }
 `
 const FooterWrapper = styled.div`
@@ -113,8 +108,9 @@ const Carousel = (props) => {
       </Content>
       {chips && (
         <Controls>
-          {range(0, total + 1).map((value, arrayIndex) => (
-            <Control key={arrayIndex} onClick={() => handleClick(value)} active={index === value} />
+          {range(0, total + 1).map((value, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Control key={i} onClick={() => handleClick(value)} active={index === value} />
           ))}
         </Controls>
       )}
@@ -137,15 +133,6 @@ const Carousel = (props) => {
       )}
     </Wrapper>
   )
-}
-
-Carousel.propTypes = {
-  arrows: PropTypes.bool.isRequired,
-  chips: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  height: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired
 }
 
 export default Carousel

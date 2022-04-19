@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Carousel, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
+import Carousel from 'components/Carousel'
 import { CustomBox } from 'components/Layout'
 
 const Slide = styled.div`
