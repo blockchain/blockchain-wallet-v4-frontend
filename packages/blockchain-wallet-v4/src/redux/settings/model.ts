@@ -6,10 +6,10 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   ETH: true,
   XLM: true,
   achDepositWithdrawal: false,
-  isRedesignEnabled: false,
   nfts: false,
   openBanking: false,
   segwit: true,
+  stxSelfCustody: false,
   withdrawalLocksFundsOnHold: true
 }
 

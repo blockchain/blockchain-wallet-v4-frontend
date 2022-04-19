@@ -59,10 +59,6 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
 
-// redesign feature flag
-export const getRedesignEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isRedesignEnabled']))
-
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
@@ -136,3 +132,6 @@ export const getSilverRevamp = (state: RootState) =>
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))
+
+export const getCoinViewV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))

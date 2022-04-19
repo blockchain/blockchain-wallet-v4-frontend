@@ -14,6 +14,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   // const logLocation = 'components/request/sagas'
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
   const { getNextReceiveAddressForCoin } = coinSagas({
+    api,
     coreSagas,
     networks
   })

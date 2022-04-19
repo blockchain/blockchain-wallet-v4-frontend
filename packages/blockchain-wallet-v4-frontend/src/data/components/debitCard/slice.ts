@@ -6,6 +6,7 @@ import { DebitCardState, DebitCardType, ProductType } from './types'
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
+  cardToken: '',
   cards: [],
   products: []
 }
@@ -14,6 +15,9 @@ const debitCardSlice = createSlice({
   initialState,
   name: 'debitCard',
   reducers: {
+    cleanCardToken: (state) => {
+      state.cardToken = ''
+    },
     createCard: (state, action: PayloadAction<string>) => {},
     createCardFailure: (state, action: PayloadAction<string>) => {
       state.cardCreationData = Remote.Failure(action.payload)
@@ -40,6 +44,9 @@ const debitCardSlice = createSlice({
     },
     resetCreateCardState: (state) => {
       state.cardCreationData = Remote.NotAsked
+    },
+    setCardToken: (state, action: PayloadAction<string>) => {
+      state.cardToken = action.payload
     }
   }
 })

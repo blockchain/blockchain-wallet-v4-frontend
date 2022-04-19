@@ -24,6 +24,7 @@ export type BannerType =
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
+  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
   | null
 
@@ -73,8 +74,16 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
+  // use this to prevent rendering of complete profile banner
+  const isUserDataLoaded = userDataR.cata({
+    Failure: () => true,
+    Loading: () => false,
+    NotAsked: () => false,
+    Success: () => true
+  })
   const userData = userDataR.getOrElse({
     address: { country: '' },
+    tags: {},
     tiers: { current: 0 }
   } as UserDataType)
 
@@ -151,13 +160,24 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
+  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
+
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
+  } else if (isStxSelfCustodyAvailable && userData.tags.BLOCKSTACK) {
+    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (
+    showCompleteYourProfileBanner &&
+    !isProfileCompleted &&
+    userData?.tiers?.current !== TIER_TYPES.GOLD &&
+    isUserDataLoaded
+  ) {
+    bannerToShow = 'completeYourProfile'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {

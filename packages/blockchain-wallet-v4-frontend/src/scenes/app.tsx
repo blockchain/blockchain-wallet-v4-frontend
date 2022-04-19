@@ -26,6 +26,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
+const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -56,7 +57,7 @@ const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const NftsActivity = React.lazy(() => import('./Nfts/Activity'))
-const NftsAssets = React.lazy(() => import('./Nfts/Assets'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -64,13 +65,11 @@ const Transactions = React.lazy(() => import('./Transactions'))
 const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
-const client = createClient({
-  url: 'http://localhost:4000/graphql'
-})
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
+  coinViewV2,
   coinsWithBalance,
   history,
   isAuthenticated,
@@ -84,12 +83,16 @@ const App = ({
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
   useEffect(() => {
-    const utm = utmParser(window.location.hash)
+    const utm = utmParser()
 
     sessionStorage.setItem(UTM, JSON.stringify(utm))
 
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  const client = createClient({
+    url: `${apiUrl}/explorer-gateway/graphql/`
+  })
 
   return (
     <UrqlProvider value={client}>
@@ -168,7 +171,7 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       <WalletLayout path='/nfts/activity' exact component={NftsActivity} />
-                      <WalletLayout path='/nfts/assets' exact component={NftsAssets} />
+                      <ExploreLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       <ExploreLayout path='/nfts/:contract/:id' exact component={NftsAsset} />
                       <ExploreLayout path='/nfts/:slug' exact component={NftsCollection} />
                       <ExploreLayout path='/nfts' exact component={NftsExplorer} />
@@ -189,7 +192,18 @@ const App = ({
                       {taxCenterEnabled && (
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                       )}
-                      <WalletLayout path='/transactions/:coin' component={Transactions} />
+                      {/** New Coinview with new url /coins/BTC */}
+                      <WalletLayout
+                        path='/coins/:coin'
+                        component={CoinPage}
+                        coinViewV2={coinViewV2}
+                      />
+                      {/** Old Coinview with new url /transactions/BTC */}
+                      <WalletLayout
+                        path='/transactions/:coin'
+                        component={coinViewV2 ? CoinPage : Transactions}
+                        coinViewV2={coinViewV2}
+                      />
                       {isAuthenticated ? (
                         coinsWithBalance.length ? (
                           <Redirect to='/home' />
@@ -215,6 +229,7 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions

@@ -1,106 +1,71 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon, IconName, Switch } from '@blockchain-com/constellation'
-import { bindActionCreators } from 'redux'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
+import { bindActionCreators, compose } from 'redux'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { Button, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
-import { useCollectionQuery } from 'generated/graphql'
+import { CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { CollectionBanner, Grid, NftPage } from '../components'
+import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
+import GraphqlError from '../components/GraphqlError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
-import Error from './error'
+import TraitGridFilters from '../components/TraitGridFilters'
+import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
+import { getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import ResultsPage from './results'
 import Stats from './Stats'
 
-const CollectionHeader = styled.div`
+const CollectionHeader = styled.div<{ bgUrl: string }>`
+  height: 300px;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 24px;
-  gap: 24px;
+  background-size: cover;
+  background-image: url(${(props) => props.bgUrl});
+  position: relative;
   ${media.tabletL`
     flex-direction: column;
   `}
 `
 
-const CollectionBannerWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`
-
-const CollectionHeaderFixed = styled.div`
-  position: sticky;
-  z-index: 1;
-  top: 0px;
-  left: 0;
+const CollectionInfo = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 12px 0px;
-  background: ${(props) => props.theme.white};
+  align-items: center;
 `
 
 const CollectionImage = styled.img`
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  top: 140px;
-  left: calc(50% - 50px);
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
   border: 2px solid ${(props) => props.theme.grey100};
 `
 
-const CollectionImageSmall = styled.img`
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  margin-right: 8px;
-`
-
 const LinksContainer = styled.div`
-  background: ${colors.grey100};
-  border-radius: 40px;
-  display: inline-flex;
-  gap: 8px;
-  margin: 8px 0;
-  padding: 6px 12px;
-  a {
-    line-height: 1;
-  }
-  a:hover {
-    path {
-      fill: ${colors.blue600};
-      transition: fill 0.3s;
-    }
-  }
-`
-
-const Centered = styled.div`
-  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 40px;
-  gap: 8px;
+  > div {
+    padding: 10px;
+    border: 1px solid ${(props) => props.theme.white};
+  }
+  > &:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  > &:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
 `
 
-const NftsCollection: React.FC<Props> = ({
-  collection,
-  collectionFilter,
-  modalActions,
-  nftsActions,
-  ...rest
-}) => {
-  const wrapperRef = useRef<HTMLDivElement | null>(null)
-  const headerRef = useRef<HTMLDivElement | null>(null)
+const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
 
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
@@ -108,201 +73,145 @@ const NftsCollection: React.FC<Props> = ({
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
-  const [showFixedHeader, setShowFixedHeader] = useState<boolean>(false)
 
-  const [results] = useCollectionQuery({ variables: { filter: { slug } } })
+  const [results] = useCollectionsQuery({
+    variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
+  })
 
   useEffect(() => {
     setIsFetchingNextPage(true)
     setPageVariables([])
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
-    }, 1000)
-  }, [slug, collectionFilter.isBuyNow])
+    }, 100)
+  }, [slug, formValues])
 
-  useEffect(() => {
-    if (wrapperRef.current) {
-      // eslint-disable-next-line
-      const handleScroll = (e: any) => {
-        // @ts-ignore
-        if (headerRef.current?.getBoundingClientRect()?.bottom < 0) {
-          setShowFixedHeader(true)
-        } else {
-          setShowFixedHeader(false)
-        }
-      }
+  const minMaxFilters = getMinMaxFilters(formValues)
+  const traitFilters = getTraitFilters(formValues)
 
-      wrapperRef.current.addEventListener('mousewheel', handleScroll)
-      wrapperRef.current.addEventListener('scroll', handleScroll)
+  const hasSomeFilters =
+    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
-      return () => {
-        wrapperRef.current?.removeEventListener('mousewheel', handleScroll)
-        wrapperRef.current?.removeEventListener('scroll', handleScroll)
-      }
-    }
-  }, [])
+  const collection = results.data?.collections ? results.data.collections[0] : undefined
 
-  useEffect(() => {
-    nftsActions.fetchNftCollection({ slug })
-  }, [slug, nftsActions])
-
-  const scrollUp = () => {
-    wrapperRef.current?.parentElement?.scrollTo({ behavior: 'smooth', top: 0 })
-    setShowFixedHeader(false)
-  }
+  if (!collection) return null
 
   return (
-    <NftPage ref={wrapperRef}>
+    <div style={{ paddingTop: '0px', position: 'relative' }}>
       <OpenSeaStatusComponent />
-      {showFixedHeader ? (
-        <CollectionHeaderFixed>
-          <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-            <LinkContainer role='button' cursor='pointer' to='/nfts'>
-              <Icon name={IconName.ARROW_LEFT} color='grey400' />
-            </LinkContainer>
-            <Icon
-              style={{ cursor: 'pointer' }}
-              onClick={scrollUp}
-              name={IconName.ARROW_UP}
-              color='grey400'
-              role='button'
-            />
-            <CollectionImageSmall src={results.data?.collection?.image_url || ''} />{' '}
-            <Text size='14px' weight={500} color='grey900'>
-              {results.data?.collection?.name}
-            </Text>
-            <Icon
-              onClick={() =>
-                modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
-              }
-              style={{ cursor: 'pointer' }}
-              role='button'
-              name={IconName.FILTER}
-              color='grey400'
-              height={16}
-              width={16}
-            />
-          </div>
-        </CollectionHeaderFixed>
-      ) : null}
-      <CollectionHeader ref={headerRef}>
-        <CollectionBannerWrapper style={{ width: '100%' }}>
-          <LinkContainer role='button' cursor='pointer' to='/nfts'>
-            <Icon name={IconName.ARROW_LEFT} color='grey400' />
-          </LinkContainer>
-          <CollectionBanner
-            large
-            style={{ marginTop: '12px' }}
-            background={`url(${results.data?.collection?.banner_image_url})`}
-          />
-          <CollectionImage src={results.data?.collection?.image_url || ''} />
-          <Stats collection={collection} />
-        </CollectionBannerWrapper>
-        <div style={{ width: '100%' }}>
-          <Text size='40px' color='grey900' weight={600}>
-            {results.data?.collection?.name}
-          </Text>
-          <TextGroup inline style={{ marginTop: '16px' }}>
-            <Text size='14px' color='grey300' weight={600}>
-              <FormattedMessage id='copy.created_by' defaultMessage='Created by' />
-            </Text>
-            <Text size='14px' color='blue600' weight={600}>
-              -
-            </Text>
-          </TextGroup>
-          <LinksContainer>
-            {results.data?.collection?.external_url ? (
-              <Link target='_blank' href={results.data?.collection?.external_url}>
-                <Icon name={IconName.GLOBE} color='grey400' />
-              </Link>
-            ) : null}
-            {results.data?.collection?.instagram_username ? (
-              <Link
-                target='_blank'
-                href={`https://instagram.com/${results.data?.collection?.instagram_username}`}
-              >
-                <Icon name={IconName.CAMERA} color='grey400' />
-              </Link>
-            ) : null}
-            {results.data?.collection?.discord_url ? (
-              <Link target='_blank' href={`${results.data?.collection?.discord_url}`}>
-                <Icon name={IconName.COMPUTER} color='grey400' />
-              </Link>
-            ) : null}
-          </LinksContainer>
-          <Text
-            lineHeight='1.4'
-            style={{ marginTop: '16px' }}
-            size='14px'
-            color='grey600'
-            weight={500}
-          >
-            {results.data?.collection?.description}
-          </Text>
-        </div>
+      <CollectionHeader bgUrl={collection.banner_image_url || ''}>
+        <NftBannerWrapper>
+          <CollectionInfo>
+            <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
+              <CollectionImage src={collection.image_url || ''} />
+              <Text color='white' size='32px' weight={600}>
+                {collection.name}
+              </Text>
+            </div>
+            <LinksContainer>
+              {collection.external_url ? (
+                <Link target='_blank' href={collection.external_url}>
+                  <Icon label='globe' color='grey400'>
+                    <IconGlobe />
+                  </Icon>
+                </Link>
+              ) : null}
+              {collection.instagram_username ? (
+                <Link
+                  target='_blank'
+                  href={`https://instagram.com/${collection.instagram_username}`}
+                >
+                  <Icon label='camera' color='grey400'>
+                    <IconCamera />
+                  </Icon>
+                </Link>
+              ) : null}
+              {collection.discord_url ? (
+                <Link target='_blank' href={`${collection.discord_url}`}>
+                  <Icon label='computer' color='grey400'>
+                    <IconComputer />
+                  </Icon>
+                </Link>
+              ) : null}
+            </LinksContainer>
+          </CollectionInfo>
+          <Stats total_supply={collection.total_supply} stats={collection.stats} />
+        </NftBannerWrapper>
       </CollectionHeader>
-      <div style={{ marginBottom: '12px' }}>
-        <Icon
-          onClick={() =>
-            modalActions.showModal(ModalName.NFT_COLLECTION_FILTER, { origin: 'Unknown' })
-          }
-          style={{ cursor: 'pointer' }}
-          role='button'
-          name={IconName.FILTER}
-          color='grey400'
+      <GridWrapper>
+        <NftFilter
+          collections={[]}
+          formActions={formActions}
+          formValues={formValues}
+          total_supply={collection.total_supply}
+          traits={collection.traits}
         />
-      </div>
-      <Grid>
-        {pageVariables.length
-          ? pageVariables.map(({ page }) => (
-              <ResultsPage
-                page={page}
-                key={page}
-                slug={slug}
-                isBuyNow={collectionFilter.isBuyNow}
-                setNextPageFetchError={setNextPageFetchError}
-                setIsFetchingNextPage={setIsFetchingNextPage}
-              />
-            ))
-          : null}
-      </Grid>
-      <Centered>
-        <Error error={errorFetchingNextPage} />
-        {isFetchingNextPage || results.fetching ? (
-          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-        ) : (
-          <Button
-            onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-            nature='primary'
-            data-e2e='loadMoreNfts'
-          >
-            {errorFetchingNextPage ? (
-              <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+        <div style={{ width: '100%' }}>
+          <TraitGridFilters
+            traitFilters={traitFilters}
+            formValues={formValues}
+            formActions={formActions}
+            hasSomeFilters={hasSomeFilters}
+            minMaxFilters={minMaxFilters}
+          />
+          <Grid>
+            {pageVariables.length
+              ? pageVariables.map(({ page }) => (
+                  <ResultsPage
+                    page={page}
+                    // @ts-ignore
+                    formValues={formValues}
+                    key={page}
+                    slug={slug}
+                    setNextPageFetchError={setNextPageFetchError}
+                    setIsFetchingNextPage={setIsFetchingNextPage}
+                  />
+                ))
+              : null}
+          </Grid>
+          <Centered>
+            <GraphqlError error={errorFetchingNextPage} />
+            {isFetchingNextPage || results.fetching ? (
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
             ) : (
-              <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
+              <Button
+                onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
+                nature='primary'
+                data-e2e='loadMoreNfts'
+              >
+                {errorFetchingNextPage ? (
+                  <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                ) : (
+                  <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
+                )}
+              </Button>
             )}
-          </Button>
-        )}
-      </Centered>
-    </NftPage>
+          </Centered>
+        </div>
+      </GridWrapper>
+    </div>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  collection: selectors.components.nfts.getNftCollection(state),
-  collectionFilter: selectors.components.nfts.getNftCollectionFilter(state),
-  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  formValues: selectors.form.getFormValues('nftFilter')(state) as NftFilterFormValuesType
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  nftsActions: bindActionCreators(actions.components.nfts, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+
+const enhance = compose(
+  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
+  connector
+)
 
 export type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { slug: string } }
 }
 
-export default connector(NftsCollection)
+export default enhance(NftsCollection) as React.FC<{ computedMatch: { params: { slug: string } } }>

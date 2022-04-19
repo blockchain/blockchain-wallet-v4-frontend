@@ -33,10 +33,6 @@ const initialState: NftsStateType = {
     page: 0
   },
   collection: Remote.NotAsked,
-  collectionFilter: {
-    isBuyNow: false,
-    traits: {}
-  },
   collectionSearch: [],
   collections: Remote.NotAsked,
   offersMade: {
@@ -90,6 +86,7 @@ const nftsSlice = createSlice({
         amtToWrap?: string
         asset: NftAsset
         coin?: string
+        expirationTime: number
         offerFees: GasDataI
         wrapFees?: GasDataI
       }>
@@ -198,33 +195,6 @@ const nftsSlice = createSlice({
       action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
     ) => {
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
-    },
-    fetchNftAssets: () => {},
-    fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
-      state.assets.isFailure = true
-    },
-    fetchNftAssetsLoading: (state) => {
-      state.assets.isLoading = true
-    },
-    fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType>) => {
-      state.assets.isFailure = false
-      state.assets.isLoading = false
-      state.assets.list = [...state.assets.list, ...action.payload]
-    },
-    fetchNftCollection: (
-      state,
-      action: PayloadAction<{
-        slug: string
-      }>
-    ) => {},
-    fetchNftCollectionFailure: (state, action: PayloadAction<string>) => {
-      state.collection = Remote.Failure(action.payload)
-    },
-    fetchNftCollectionLoading: (state) => {
-      state.collection = Remote.Loading
-    },
-    fetchNftCollectionSuccess: (state, action: PayloadAction<NftCollection>) => {
-      state.collection = Remote.Success(action.payload)
     },
     fetchNftCollections: (
       state,
@@ -344,12 +314,6 @@ const nftsSlice = createSlice({
         state.orderFlow.orderToMatch = action.payload.order
       }
     },
-    resetCollectionFilter: (state) => {
-      state.collectionFilter = {
-        isBuyNow: false,
-        traits: {}
-      }
-    },
     resetNftAssets: (state) => {
       state.assets.atBound = false
       state.assets.page = 0
@@ -370,6 +334,9 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
+    setActiveSlug: (state, action: PayloadAction<{ slug: string }>) => {
+      state.activeSlug = action.payload.slug
+    },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },
@@ -403,22 +370,6 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
-    },
-    updateCollectionFilter: (
-      state,
-      action: PayloadAction<{ isBuyNow: boolean; trait?: { name: string; value: string } }>
-    ) => {
-      const { isBuyNow, trait } = action.payload
-      state.collectionFilter.isBuyNow = isBuyNow
-
-      if (!trait) return
-      const { name, value } = trait
-
-      if (state.collectionFilter.traits[name]) {
-        state.collectionFilter.traits[name][value] = !state.collectionFilter.traits[name][value]
-      } else {
-        state.collectionFilter.traits[name] = { [value]: true }
-      }
     }
   }
 })

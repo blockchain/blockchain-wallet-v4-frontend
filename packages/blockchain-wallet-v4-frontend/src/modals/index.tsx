@@ -46,7 +46,6 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // NFTS
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
-const NftCollectionFilter = React.lazy(() => import('./Nfts/NftCollectionFilter'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -114,7 +113,6 @@ const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
-const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 
 // BROKERAGE
@@ -179,9 +177,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.ENTITIES_MIGRATION_MODAL) ? (
-          <EntitiesMigration />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
@@ -337,9 +332,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
-        {props.modals.find((modal) => modal.type === ModalName.NFT_COLLECTION_FILTER) ? (
-          <NftCollectionFilter fixed />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
           <ExtraFields />
         ) : null}

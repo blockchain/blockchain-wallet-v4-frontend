@@ -47,7 +47,6 @@ class Swap extends PureComponent<Props, State> {
   }
 
   handleCloseOrPromoteUpgrade = () => {
-    this.handleClose()
     this.props.showUpgradeModal()
   }
 
@@ -165,6 +164,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   showUpgradeModal: () => {
+    dispatch(actions.modals.closeModal(ModalName.SWAP_MODAL))
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
         origin: 'Swap'

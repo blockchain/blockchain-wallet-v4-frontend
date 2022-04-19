@@ -120,6 +120,7 @@ import introSendGif from './img/intro-send.gif'
 import introSend from './img/intro-send.png'
 import introSwapGif from './img/intro-swap.gif'
 import introSwap from './img/intro-swap.png'
+import latamSignupPhone from './img/latam_signup_phone.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import lockOpen from './img/lock-open.svg'
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -177,6 +178,8 @@ import sendCrypto from './img/send-crypto.svg'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
+import ssBcLogo from './img/ss-bc-logo.svg'
+import ssBcSignupBg from './img/ss-bc-signup-bg.jpg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import subtractCheckCircle from './img/subtract-check-circle.png'
 import swap from './img/swap.svg'
@@ -337,6 +340,7 @@ const Images = {
   'intro-send-gif': introSendGif,
   'intro-swap': introSwap,
   'intro-swap-gif': introSwapGif,
+  'latam-signup-phone': latamSignupPhone,
   'ledger-lockbox': ledgerLockbox,
   'ledger-lockbox2': ledgerLockbox2,
   'ledger-lockbox3': ledgerLockbox3,
@@ -391,6 +395,8 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'sesocio-bc-signup-bg': ssBcSignupBg,
+  'sesocio-to-blockchain-logo': ssBcLogo,
   'silver-approved': silverApproved,
   smartphone,
   'source-of-wealth': sourceOfWealth,

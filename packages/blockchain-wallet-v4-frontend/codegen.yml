@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:4000/graphql"
+schema: "https://api.dev.blockchain.info/explorer-gateway/graphql/"
 documents: "src/**/*.graphql"
 generates:
   src/generated/graphql.ts:

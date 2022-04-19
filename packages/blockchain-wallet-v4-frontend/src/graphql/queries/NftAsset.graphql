@@ -1,16 +1,13 @@
-query Asset($filter: AssetFilter) {
-  asset(filter: $filter) {
-    name
+query Asset($filter: [AssetFilter], $limit: Int) {
+  assets(filter: $filter, limit: $limit) {
+		name
     image_url
-    events {
-      event_type
-    }
-    asset_contract {
+    contract {
       schema_name
     }
-    owner {
+    owners {
       address
-      profile_img_url
+      profile_img_url 
     }
     creator {
       address
@@ -30,7 +27,9 @@ query Asset($filter: AssetFilter) {
       external_url
     }
     animation_url
-    contract_address
+    contract {
+      address
+    }
     permalink
     token_id
     traits {

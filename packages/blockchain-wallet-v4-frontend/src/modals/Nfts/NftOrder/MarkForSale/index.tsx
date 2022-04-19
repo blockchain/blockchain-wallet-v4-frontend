@@ -157,6 +157,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <Field
                         name='amount'
                         component={NumberBox}
+                        props={{ center: 'center', size: '48px' }}
                         onChange={(e) =>
                           nftActions.fetchFees({
                             asset: val,

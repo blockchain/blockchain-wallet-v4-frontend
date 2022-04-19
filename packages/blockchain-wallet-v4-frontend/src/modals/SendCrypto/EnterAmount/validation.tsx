@@ -1,5 +1,6 @@
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { SwapBaseCounterTypes } from 'data/types'
 
 import { SendFormType } from '../types'
 import { Props } from '.'
@@ -33,7 +34,9 @@ export const validate = (formValues: SendFormType, props: Props) => {
   const { amount, fix, selectedAccount } = formValues
   const { coin } = selectedAccount
 
-  const fee = feesR.getOrElse(0) || 0
+  const fee = selectedAccount.type === SwapBaseCounterTypes.ACCOUNT ? 0 : feesR.getOrElse(0) || 0
+  const min = minR.getOrElse(0) || 0
+
   const cryptoStandardAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -55,7 +58,7 @@ export const validate = (formValues: SendFormType, props: Props) => {
     value: fee
   })
 
-  const isBelowMin = minimumAmount(cryptoStandardAmt, minR.getOrElse(0) || 0)
+  const isBelowMin = minimumAmount(cryptoStandardAmt, min)
   let isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
 
   // do this only for seamless limits and if amount is below current balance

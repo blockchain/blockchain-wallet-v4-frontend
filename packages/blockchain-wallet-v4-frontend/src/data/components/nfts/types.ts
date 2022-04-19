@@ -23,6 +23,7 @@ export enum NftOrderStepEnum {
   CANCEL_OFFER = 'CANCEL_OFFER',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
+  NOT_VERIFIED = 'NOT_VERIFIED',
   SHOW_ASSET = 'SHOW_ASSET',
   STATUS = 'STATUS',
   TRANSFER = 'TRANSFER',
@@ -30,6 +31,7 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
+  activeSlug?: string
   activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
@@ -40,14 +42,6 @@ export type NftsStateType = {
     page: number
   }
   collection: RemoteDataType<string, NftCollection>
-  collectionFilter: {
-    isBuyNow: boolean
-    traits: {
-      [key in string]: {
-        [key in string]: boolean
-      }
-    }
-  }
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   offersMade: {

@@ -1,5 +1,12 @@
 import { Remote } from '@core'
-import { CoinType, RatesType, RemoteDataType, TimeRange, WalletCurrencyType } from '@core/types'
+import {
+  CoinType,
+  PriceChangeType,
+  RatesType,
+  RemoteDataType,
+  TimeRange,
+  WalletCurrencyType
+} from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import * as selectors from '../../selectors'
@@ -14,7 +21,11 @@ export const handle2FAReset = (state: RootState) => state.dataPath.misc.handle_2
 
 export const verifyEmailToken = (state: RootState) => state.dataPath.misc.verify_email_token
 
-export const getPriceChange = (coin: CoinType, range: TimeRange, state: RootState) =>
+export const getPriceChange = (
+  coin: CoinType,
+  range: TimeRange,
+  state: RootState
+): RemoteDataType<string, PriceChangeType> | undefined =>
   state.dataPath.misc.price_change[range][coin] || Remote.NotAsked
 
 export const getRatesSelector = (

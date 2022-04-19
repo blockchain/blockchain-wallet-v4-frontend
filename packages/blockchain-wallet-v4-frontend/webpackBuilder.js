@@ -230,7 +230,6 @@ const buildDevServerConfig = (
           "'self'",
           'data:',
           envConfig.API_DOMAIN,
-          envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
           envConfig.LEDGER_SOCKET_URL,
           envConfig.LEDGER_URL,
@@ -240,7 +239,6 @@ const buildDevServerConfig = (
           envConfig.WEB_SOCKET_URL,
           envConfig.OPENSEA_API,
           'http://localhost:8081',
-          'http://localhost:4000',
           'https://play.google.com/',
           'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
@@ -268,7 +266,6 @@ const buildDevServerConfig = (
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: localhostUrl,
-          everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy

@@ -42,55 +42,9 @@ const INSUFFICIENT_FUNDS = 'insufficient funds'
 export default ({ api }: { api: APIType }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
 
-  const clearAndRefetchAssets = function* () {
-    yield put(A.resetNftAssets())
-    yield put(A.fetchNftAssets())
-  }
-
   const clearAndRefetchOffersMade = function* () {
     yield put(A.resetNftOffersMade())
     yield put(A.fetchNftOffersMade())
-  }
-
-  const fetchNftAssets = function* () {
-    try {
-      const assets = S.getNftAssets(yield select())
-      if (assets.atBound) return
-      yield put(A.fetchNftAssetsLoading())
-      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
-      const ethAddr = ethAddrR.getOrFail('No ETH address.')
-      const nfts: ReturnType<typeof api.getNftAssets> = yield call(
-        api.getNftAssets,
-        ethAddr,
-        assets.page
-      )
-
-      if (nfts.length < NFT_ORDER_PAGE_LIMIT) {
-        yield put(A.setAssetBounds({ atBound: true }))
-      } else {
-        yield put(A.setAssetData({ page: assets.page + 1 }))
-      }
-
-      yield put(A.fetchNftAssetsSuccess(nfts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftAssetsFailure(error))
-    }
-  }
-
-  const fetchNftCollection = function* (action: ReturnType<typeof A.fetchNftCollection>) {
-    try {
-      yield put(A.fetchNftCollectionLoading())
-      const { collection }: ReturnType<typeof api.getNftCollection> = yield call(
-        api.getNftCollection,
-        action.payload.slug
-      )
-      yield put(A.fetchNftCollectionSuccess(collection))
-      yield put(A.resetCollectionFilter())
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftCollectionFailure(error))
-    }
   }
 
   const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
@@ -162,7 +116,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchNftOffersMadeLoading())
-      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(api.getOpenSeaStatus)
+      const res: ReturnType<typeof api.getOpenseaStatus> = yield call(api.getOpenseaStatus)
       yield put(A.fetchOpenseaStatusSuccess(res))
     } catch (e) {
       yield put(A.fetchOpenseaStatusFailure(e))
@@ -342,7 +296,6 @@ export default ({ api }: { api: APIType }) => {
       const { buy, gasData, sell } = action.payload
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
-      yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
     } catch (e) {
       let error = errorHandler(e)
@@ -362,8 +315,7 @@ export default ({ api }: { api: APIType }) => {
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
-      // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const { expirationTime } = action.payload
 
       if (action.payload.amtToWrap && action.payload.wrapFees) {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
@@ -411,7 +363,6 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/nfts/collection'))
       yield put(
         actions.alerts.displaySuccess(
           `Successfully created order! It may take a few minutes to appear in your collection.`
@@ -567,7 +518,7 @@ export default ({ api }: { api: APIType }) => {
   // explorer-gateway v2
   // With the introduction of the explorer-gateway graphql API the flow will need to change a bit
   // we should require:
-  // 1. operation (buy, sell, make offer)
+  // 1. operation (a.k.a step) (buy, sell, make offer, transfer)
   // 2. token_id
   // 3. contract_address
   const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
@@ -614,11 +565,27 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // watch router change so we know if we need to reset nft trait filter form
+  const handleRouterChange = function* (action) {
+    if (action.payload.location.pathname.includes('/nfts/')) {
+      const regex = /\/nfts\/[^/]*$/g
+      const activeSlug = S.getActiveSlug(yield select())
+      const match = action.payload?.location?.pathname?.match(regex)
+      if (match) {
+        const nextSlug = match[0].split('/nfts/')[1]
+        if (nextSlug !== activeSlug && activeSlug) {
+          yield put(actions.form.reset('nftFilter'))
+        }
+
+        yield put(A.setActiveSlug({ slug: nextSlug }))
+      }
+    }
+  }
+
   return {
     acceptOffer,
     cancelListing,
     cancelOffer,
-    clearAndRefetchAssets,
     clearAndRefetchOffersMade,
     createOffer,
     createOrder,
@@ -626,13 +593,12 @@ export default ({ api }: { api: APIType }) => {
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
-    fetchNftAssets,
-    fetchNftCollection,
     fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
+    handleRouterChange,
     nftOrderFlowClose,
     nftOrderFlowOpen,
     searchNftAssetContract

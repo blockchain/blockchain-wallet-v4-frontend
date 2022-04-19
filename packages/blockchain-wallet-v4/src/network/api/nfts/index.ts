@@ -2,8 +2,6 @@ import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
   NftAsset,
-  NftAssetsType,
-  NftCollection,
   NftOrdersType,
   OfferEventsType,
   OpenSeaStatus
@@ -13,28 +11,13 @@ import {
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openseaApi, post }) => {
-  const explorerUrl = 'http://localhost:8081/nft' // local testnet only
-  // const explorerUrl = `${apiUrl}/explorer-gateway/nft`
+  // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
+  const explorerUrl = `${apiUrl}/explorer-gateway/nft`
   const openseaUrl = `${openseaApi}/api/v1`
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
       endPoint: `/asset-contract/${asset_contract_address}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
-  const getNftAssets = (
-    owner: string /* = JAYZ_ADDRESS */,
-    offset = 0,
-    limit = NFT_ORDER_PAGE_LIMIT,
-    order_direction: 'asc' | 'desc' = 'desc'
-  ): NftAssetsType => {
-    return get({
-      endPoint: `/assets?owner=${owner}&direction=${order_direction}&offset=${
-        offset * NFT_ORDER_PAGE_LIMIT
-      }&limit=${limit}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -49,22 +32,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
       endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
         NFT_ORDER_PAGE_LIMIT * offset
       }&account_address=${account_address}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
-  const getNftOffersForAsset = (
-    eth_addr: string,
-    asset_contract_address: string,
-    token_id: string,
-    offset = 0,
-    limit = NFT_ORDER_PAGE_LIMIT
-  ): OfferEventsType => {
-    return get({
-      endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
-        NFT_ORDER_PAGE_LIMIT * offset
-      }&asset_contract_address=${asset_contract_address}&token_id=${token_id}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -102,24 +69,6 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
-  // DEPRECATED
-  const getNftCollectionInfo = (slug: string) => {
-    return get({
-      endPoint: `/collection/${slug}/`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-  // DEPRECATED
-
-  const getNftCollection = (slug): { collection: NftCollection } => {
-    return get({
-      endPoint: `/collection/${slug}`,
-      ignoreQueryParams: true,
-      url: openseaUrl
-    })
-  }
-
   const getNftOrders = (
     limit = NFT_ORDER_PAGE_LIMIT,
     asset_contract_address: string,
@@ -146,7 +95,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     })
   }
 
-  const getOpenSeaStatus = (): OpenSeaStatus => {
+  const getOpenseaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
@@ -167,16 +116,12 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   return {
     getAssetContract,
-    getNftAssets,
-    getNftCollection,
-    getNftCollectionInfo,
     getNftCollections,
-    getNftOffersForAsset,
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
     getOpenSeaAsset,
-    getOpenSeaStatus,
+    getOpenseaStatus,
     postNftOrder,
     searchNftCollectionInfo
   }

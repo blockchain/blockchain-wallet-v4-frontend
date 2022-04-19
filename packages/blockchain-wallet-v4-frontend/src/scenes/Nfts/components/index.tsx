@@ -15,6 +15,12 @@ export const NftPage = styled.div`
   background: ${(props) => props.theme.white};
 `
 
+export const NftPageV2 = styled.div`
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+`
+
 export const LeftColWrapper = styled.div`
   position: sticky;
   height: 100%;
@@ -56,7 +62,14 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
   `}
 `
 
+export const GridWrapper = styled.div`
+  display: flex;
+  padding: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+`
+
 export const Grid = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
@@ -65,8 +78,11 @@ export const Grid = styled.div`
   ${media.atLeastTablet`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
-  ${media.atLeastLaptopL`
+  ${media.atLeastLaptop`
     grid-template-columns: repeat(3, minmax(0, 1fr));  
+  `}
+  ${media.atLeastLaptopL`
+    grid-template-columns: repeat(4, minmax(0, 1fr));  
   `}
 `
 
@@ -166,5 +182,46 @@ export const CollectionImage = styled.img`
     width: 40px;
     top: 60px;
     left: calc(50% - 20px);
+  `}
+`
+
+export const Centered = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+  gap: 8px;
+`
+
+export const NftBannerWrapper = styled.div`
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 24px 40px;
+`
+
+export const StatsWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`
+
+export const Stat = styled.div`
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  ${media.tabletL`
+    padding: 10px;
+    > div {
+      font-size: 12px;
+    }
   `}
 `

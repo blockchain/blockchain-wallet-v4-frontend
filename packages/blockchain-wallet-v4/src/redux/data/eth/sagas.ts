@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { ethers } from 'ethers'
+import { Contract, ethers } from 'ethers'
 import moment from 'moment'
 import {
   addIndex,
@@ -288,43 +288,68 @@ export default ({ api }: { api: APIType }) => {
         api.getAccountTokensBalances,
         ethAddr
       )
-      // REMOVE!
-      const network = api.ethProvider.network.name
-      const contract = new ethers.Contract(
-        network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET,
-        WETH_ABI,
-        api.ethProvider
-      )
-      const wethBalance = yield call(contract.balanceOf, ethAddr)
-      // REMOVE!
-      yield put(
-        A.fetchErc20DataSuccess(
-          'WETH',
-          constructDefaultErc20Data(
-            ethAddr,
-            window.coins.WETH.coinfig.type.erc20Address!,
-            wethBalance.toString()
+      const tokenAddress = window.coins.WETH.coinfig.type.erc20Address || ''
+      if (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY) {
+        const abi = [
+          {
+            constant: true,
+            inputs: [
+              {
+                name: '_owner',
+                type: 'address'
+              }
+            ],
+            name: 'balanceOf',
+            outputs: [
+              {
+                name: 'balance',
+                type: 'uint256'
+              }
+            ],
+            payable: false,
+            type: 'function'
+          }
+        ]
+        const contract = new Contract(tokenAddress, abi, api.ethProvider)
+        const balance = yield call(contract.balanceOf, ethAddr)
+        const balanceString = balance.toString()
+        yield put(
+          A.fetchErc20DataSuccess(
+            'WETH',
+            constructDefaultErc20Data(ethAddr, tokenAddress, balanceString)
           )
         )
-      )
-
+      }
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
-          const symbol = toUpper(val.tokenSymbol)
-          if (!window.coins[symbol]) return
+          const symbol = Object.keys(window.coins).find(
+            (coin: string) =>
+              window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+              toLower(val.tokenHash)
+          )
+          if (!symbol) return
           const { coinfig } = window.coins[symbol]
-          if (!coinfig.type.erc20Address) return
           const contract = coinfig.type.erc20Address
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
+          if (!contract) return
+
+          if (
+            tokenAddress.toLowerCase() !== WETH_CONTRACT_RINKEBY ||
+            (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY && symbol !== 'WETH')
+          ) {
+            yield put(
+              A.fetchErc20DataSuccess(
+                symbol,
+                tokenData || constructDefaultErc20Data(ethAddr, contract)
+              )
+            )
+          }
 
           yield put(
-            A.fetchErc20DataSuccess(
-              symbol,
-              tokenData || constructDefaultErc20Data(ethAddr, contract)
-            )
+            A.fetchErc20DataSuccess(symbol, val || constructDefaultErc20Data(ethAddr, contract))
           )
         })
       )

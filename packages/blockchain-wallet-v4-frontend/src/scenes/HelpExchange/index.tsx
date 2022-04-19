@@ -148,7 +148,7 @@ class Help extends React.PureComponent<Props, State> {
             </Right>
           </IconTextRow>
           <Link
-            href='https://exchange-support.blockchain.com/hc/en-us/articles/360029748191-How-can-I-reset-my-2-Factor-Authentication-2FA-'
+            href='https://support.blockchain.com/hc/en-us/articles/4555574488476-How-can-I-reset-my-two-factor-authentication-2FA-'
             target='_blank'
           >
             <IconTextRow>
@@ -190,7 +190,7 @@ class Help extends React.PureComponent<Props, State> {
             </Text>
             &nbsp;
             <ContactSupportText
-              href='https://exchange-support.blockchain.com/'
+              href='https://support.blockchain.com/hc/en-us/categories/4416667483796-Exchange'
               target='_blank'
               size='16px'
               color='blue600'
