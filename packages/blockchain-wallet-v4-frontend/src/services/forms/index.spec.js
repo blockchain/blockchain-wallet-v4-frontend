@@ -1,5 +1,4 @@
 import React from 'react'
-import BIP39 from 'bip39-light'
 import { networks } from 'bitcoinjs-lib'
 
 import * as FormHelper from './index.js'
@@ -62,16 +61,6 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validateMnemonic()', () => {
-    it('returns correct string if invalid mnemonic passed', () => {
-      expect(FormHelper.validMnemonic('zz')).toEqual(<M.InvalidPassphraseMessage />)
-    })
-
-    it('returns undefined if valid mnemonic given', () => {
-      expect(FormHelper.validMnemonic(BIP39.generateMnemonic())).toBeUndefined()
-    })
-  })
-
   describe('validWalletId()', () => {
     it('returns correct string if invalid walletId passed', () => {
       expect(FormHelper.validWalletId('zz')).toEqual(<M.InvalidWalletIdMessage />)
@@ -79,16 +68,6 @@ describe('FormHelper', () => {
 
     it('returns undefined if valid walletId is given', () => {
       expect(FormHelper.validWalletId('7e7db3ea-cd5f-4322-9728-39d9ecef1ee8')).toBeUndefined()
-    })
-  })
-
-  describe('validMobileNumber()', () => {
-    it('returns correct string if invalid phone number passed', () => {
-      expect(FormHelper.validMobileNumber(123)).toEqual(<M.InvalidMobileNumberMessage />)
-    })
-
-    it('returns undefined if valid phone number is given', () => {
-      expect(FormHelper.validMobileNumber('+1-213-373-4253')).toBeUndefined()
     })
   })
 

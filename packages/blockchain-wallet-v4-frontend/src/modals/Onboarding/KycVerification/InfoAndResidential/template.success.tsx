@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { defaultTo, map, replace } from 'ramda'
+import { validate } from 'postal-codes-js'
+// @ts-ignore
+import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
+import { defaultTo, map, path, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -16,17 +19,29 @@ import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
-import {
-  ageOverEighteen,
-  countryUsesPostalCode,
-  countryUsesZipcode,
-  required,
-  requiredDOB,
-  requiredZipCode
-} from 'services/forms'
+import { ageOverEighteen, countryUsesZipcode, required, requiredDOB } from 'services/forms'
 import { getStateNameFromAbbreviation } from 'services/locales'
 
 import { Props as OwnProps, SuccessStateType } from '.'
+
+const countryUsesPostalCode = (countryCode) => {
+  return path([countryCode, 'postalCodeFormat'], postalCodes)
+}
+
+const requiredZipCode = (value, allVals) => {
+  const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
+  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!value)
+    return (
+      <div data-e2e='requiredMessage'>
+        <FormattedMessage id='formhelper.required' defaultMessage='Required' />
+      </div>
+    )
+
+  return validate(countryCode, value) === true ? undefined : (
+    <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
+  )
+}
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 

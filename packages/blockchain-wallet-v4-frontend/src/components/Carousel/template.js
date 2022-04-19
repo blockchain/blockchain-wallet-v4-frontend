@@ -70,7 +70,7 @@ const Arrow = styled(Icon).attrs({
   z-index: 1;
 
   &:hover {
-    color: ${(props) => props.theme.blue600}!important;
+    color: ${(props) => props.theme.blue600} !important;
   }
 `
 const FooterWrapper = styled.div`
