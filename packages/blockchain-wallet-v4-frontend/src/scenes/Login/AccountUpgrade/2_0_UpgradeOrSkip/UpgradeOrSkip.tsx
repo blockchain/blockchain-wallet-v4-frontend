@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, IconName, Text } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -13,9 +13,9 @@ import {
   ButtonLater,
   ButtonNext,
   CenteredTitle,
+  GreenLabel,
   Item,
   Items,
-  Label,
   StyledTemporaryButton,
   TierDescription,
   TierTitle
@@ -39,7 +39,7 @@ const UpgradeOrSkip = (props) => {
         </CenteredTitle>
         <Items>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <Icon name={IconName.WALLET} color='blue600' size='md' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -48,7 +48,7 @@ const UpgradeOrSkip = (props) => {
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' size={12}>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_1.text'
                   defaultMessage='Self custody your funds in the world’s most popular crypto wallet.'
@@ -57,7 +57,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <Icon name={IconName.IDENTIFICATION} color='blue600' size='md' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -66,7 +66,7 @@ const UpgradeOrSkip = (props) => {
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' size={12}>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_2.text'
                   defaultMessage='Easily access the Wallet and Exchange with the same credentials.'
@@ -75,7 +75,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <Icon name={IconName.SECURITY} color='blue600' size='md' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -84,7 +84,7 @@ const UpgradeOrSkip = (props) => {
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' size={12}>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_3.text'
                   defaultMessage='Protect your investments across both accounts with two-factor authentication.'
@@ -93,7 +93,7 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <Icon name={IconName.PORTFOLIO} color='blue600' size='md' />
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -102,15 +102,15 @@ const UpgradeOrSkip = (props) => {
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' size={12}>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_4.text'
                   defaultMessage='View and manage all your funds across both the Wallet and Exchange.'
                 />
               </Text>
-              <Label>
+              <GreenLabel>
                 <FormattedMessage id='tooltip.comingsoon' defaultMessage='Coming Soon' />
-              </Label>
+              </GreenLabel>
             </TierDescription>
           </Item>
         </Items>

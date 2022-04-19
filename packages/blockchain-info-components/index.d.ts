@@ -294,3 +294,21 @@ export const SelectInput: FunctionComponent<{
   searchEnabled?: boolean
   value: string | boolean | number
 }>
+export const TextInput: FunctionComponent<{
+  active?: boolean
+  borderColor?: string
+  borderRightNone?: boolean
+  disabled?: boolean
+  errorState?: string
+  focusedBorderColor?: string
+  height?: string
+  icon?: string
+  iconSize?: string
+  maxLength?: string
+  minHeight?: string
+  name: string
+  onChange?: () => void
+  placeholder?: string
+  type: string
+  value?: any
+}>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 
-export const Label = styled.div`
+export const GreenLabel = styled.div`
   background-color: ${(props) => props.theme.green000};
   color: ${(props) => props.theme.green600};
   text-transform: none;
@@ -23,6 +23,7 @@ export const CenteredTitle = styled(Text)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 8px;
 `
 
 export const Items = styled.div`
@@ -120,4 +121,43 @@ export const IconWrapper = styled.div`
 
 export const ButtonLine = styled(Icon)`
   align-items: center;
+`
+
+export const QrWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 8px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const ClipboardWrapper = styled.div`
+  max-width: 90%;
+`
+
+export const BadgesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  margin-top: 24px;
+
+  img:not(:last-child) {
+    margin-right: 16px;
+  }
+`
+
+export const Label = styled(Text)`
+  display: inline-block;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+`
+
+export const InputWrapper = styled.div`
+  margin-top: 24px;
 `
