@@ -33,7 +33,7 @@ import { Form, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { DeepLinkGoal } from 'data/types'
+import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/getMoreEth'
@@ -404,7 +404,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='makeOfferNft'
                       disabled={disabled}
-                      onClick={() =>
+                      onClick={() => {
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
@@ -413,7 +413,11 @@ const MakeOffer: React.FC<Props> = (props) => {
                           wrapFees,
                           ...formValues
                         })
-                      }
+                        props.analyticsActions.trackEvent({
+                          key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
+                          properties: {}
+                        })
+                      }}
                     >
                       {formValues.amount ? (
                         props.orderFlow.isSubmitting ? (

@@ -36,10 +36,6 @@ export enum Events {
 
 type Accounts = 'USDT' | 'WETH'
 
-type Platform = 'EXCHANGE'
-
-type Origin = 'NFT_EXPLORER' | 'COLLECTION_PAGE' | 'HOME_PAGE' | 'BUY_NOW' | 'MAKE_OFFER'
-
 type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
@@ -53,26 +49,20 @@ type AcceptedAccountsAction = {
 
 type ActivityCancelClickedAction = {
   key: Events.NFT_ACTIVITY_CANCEL_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type ActivityChartEngagedAction = {
   key: Events.NFT_ACTIVITY_CHART_ENGAGED
   properties: {
     currency: string
-    origin: Origin
-    platform: Platform
     time_interval: object
   }
 }
 
 type AmountEnteredSwitchedAction = {
   key: Events.NFT_AMOUNT_ENTERED_SWITCHED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type AttributesClickedAction = {
@@ -82,7 +72,6 @@ type AttributesClickedAction = {
     clothes: object
     eyes: object
     hat: object
-    platform: Platform
   }
 }
 
@@ -91,7 +80,6 @@ type BuyNowClickedAction = {
   properties: {
     collection: string
     collection_id: string
-    platform: Platform
   }
 }
 
@@ -101,22 +89,17 @@ type ClickedAction = {
     collection_name: string
     image_logo: boolean
     name_click: boolean
-    platform: Platform
   }
 }
 
 type CloseAndViewItemClickedAction = {
   key: Events.NFT_CLOSE_AND_VIEW_ITEM_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type ContractAddressClickedAction = {
   key: Events.NFT_CONTRACT_ADDRESS_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type EnteredAmountAction = {
@@ -125,22 +108,17 @@ type EnteredAmountAction = {
     amount_usd: number
     currency: string
     input_amount: number
-    platform: Platform
   }
 }
 
 type ExplorerClickedAction = {
   key: Events.NFT_EXPLORER_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type FilterClearAllClickedAction = {
   key: Events.NFT_FILTER_CLEAR_ALL_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type FilterListingTypeAction = {
@@ -148,7 +126,6 @@ type FilterListingTypeAction = {
   properties: {
     buy_only: TurnOffOn
     lazy_minted: TurnOffOn
-    platform: Platform
     verified_only: TurnOffOn
   }
 }
@@ -159,7 +136,6 @@ type FilterPriceAppliedAction = {
     currency: string
     max_amount: number
     min_amount: number
-    platform: Platform
   }
 }
 
@@ -167,52 +143,37 @@ type FilterRemovedAction = {
   key: Events.NFT_FILTER_REMOVED
   properties: {
     filter_characteristic: string
-    platform: Platform
   }
 }
 
 type GoToPortfolioClickedAction = {
   key: Events.NFT_GO_TO_PORTFOLIO_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type LeftMenuClosedAction = {
   key: Events.NFT_LEFT_MENU_CLOSED
-  properties: {
-    origin: Origin
-    platform: Platform
-  }
+  properties: {}
 }
 
 type LeftMenuExpandedAction = {
   key: Events.NFT_LEFT_MENU_EXPANDED
-  properties: {
-    origin: Origin
-    platform: Platform
-  }
+  properties: {}
 }
 
 type LoadMoreClickedAction = {
   key: Events.NFT_LOAD_MORE_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type MakeAnOfferClickedAction = {
   key: Events.NFT_MAKE_AN_OFFER_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type MakeAnOfferViewedAction = {
   key: Events.NFT_MAKE_AN_OFFER_VIEWED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type MarkForSaleAction = {
@@ -225,45 +186,32 @@ type MarkForSaleAction = {
 
 type MoreClickedAction = {
   key: Events.NFT_MORE_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type OfferWithClickedAction = {
   key: Events.NFT_OFFER_WITH_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type OwnerclickedAction = {
   key: Events.NFT_OWNER_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type RecentlyListedClickedAction = {
   key: Events.NFT_RECENTLY_LISTED_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type RefreshMetadataClickedAction = {
   key: Events.NFT_REFRESH_METADATA_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type ReturnToMarketplaceClickedAction = {
   key: Events.NFT_RETURN_TO_MARKETPLACE_CLICKED
-  properties: {
-    origin: Origin
-    platform: Platform
-  }
+  properties: {}
 }
 
 type SellItemClickedAction = {
@@ -272,7 +220,6 @@ type SellItemClickedAction = {
     amount: number
     collection: string
     collection_id: string
-    platform: Platform
     selling_fees: number
     type: SaleType
   }
@@ -280,23 +227,17 @@ type SellItemClickedAction = {
 
 type ShareClickedAction = {
   key: Events.NFT_SHARE_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type ViewButtonViewedAction = {
   key: Events.NFT_VIEW_BUTTON_VIEWED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 type ViewSubmittedOfferClickedAction = {
   key: Events.NFT_VIEW_SUBMITTED_OFFER_CLICKED
-  properties: {
-    platform: Platform
-  }
+  properties: {}
 }
 
 export type TrackEventAction =
