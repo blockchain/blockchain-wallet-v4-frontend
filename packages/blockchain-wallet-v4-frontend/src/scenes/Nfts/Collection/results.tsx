@@ -107,7 +107,7 @@ const ResultsPage: React.FC<Props> = ({
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={highestListing.payment_token_symbol}
+                        coin={highestListing.payment_token?.symbol || 'ETH'}
                       >
                         {highestListing.total_price}
                       </StyledCoinDisplay>
@@ -117,7 +117,7 @@ const ResultsPage: React.FC<Props> = ({
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={highestListing.payment_token_symbol}
+                        coin={highestListing.payment_token?.symbol || 'ETH'}
                       >
                         {highestListing.total_price}
                       </FiatDisplay>

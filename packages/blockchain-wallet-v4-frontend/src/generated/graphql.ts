@@ -294,12 +294,11 @@ export type Contract = {
 
 export type Event = {
   __typename?: 'Event';
-  asset_bundle_slug: Scalars['String'];
-  asset_id: Scalars['String'];
+  asset?: Maybe<Asset>;
   auction_type?: Maybe<Scalars['String']>;
   bid_amount?: Maybe<Scalars['String']>;
-  collection_slug?: Maybe<Scalars['String']>;
-  contract_address: Scalars['String'];
+  collection?: Maybe<Collection>;
+  contract?: Maybe<Contract>;
   created_date: Scalars['String'];
   custom_event_name?: Maybe<Scalars['String']>;
   date_ingested: Scalars['String'];
@@ -307,21 +306,91 @@ export type Event = {
   ending_price?: Maybe<Scalars['String']>;
   ending_time?: Maybe<Scalars['String']>;
   event_type?: Maybe<Scalars['String']>;
-  from_account_address: Scalars['String'];
+  from_account?: Maybe<Account>;
   id: Scalars['ID'];
   is_private: Scalars['Boolean'];
   listing_time?: Maybe<Scalars['String']>;
-  owner_account_address: Scalars['String'];
-  payment_token_address: Scalars['String'];
-  payment_token_symbol: Scalars['String'];
+  owner_account?: Maybe<Account>;
+  payment_token?: Maybe<PaymentToken>;
   quantity: Scalars['Int'];
-  seller_account_address: Scalars['String'];
+  seller_account: Account;
   starting_price?: Maybe<Scalars['String']>;
-  to_account_address: Scalars['String'];
+  to_account?: Maybe<Account>;
   total_price?: Maybe<Scalars['String']>;
-  transaction_id?: Maybe<Scalars['Int']>;
-  winner_account_address: Scalars['String'];
+  tx?: Maybe<Transaction>;
+  winner_account?: Maybe<Account>;
 };
+
+export type EventFilter = {
+  field: EventFilterFields;
+  operator?: InputMaybe<FilterOperators>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+export enum EventFilterFields {
+  AssetBundleSlug = 'asset_bundle_slug',
+  AssetId = 'asset_id',
+  AuctionType = 'auction_type',
+  BidAmount = 'bid_amount',
+  CollectionSlug = 'collection_slug',
+  ContractAddress = 'contract_address',
+  CreatedDate = 'created_date',
+  CustomEventName = 'custom_event_name',
+  DateIngested = 'date_ingested',
+  Duration = 'duration',
+  EndingPrice = 'ending_price',
+  EndingTime = 'ending_time',
+  EventType = 'event_type',
+  FromAccountAddress = 'from_account_address',
+  Id = 'id',
+  IsPrivate = 'is_private',
+  ListingTime = 'listing_time',
+  OwnerAccountAddress = 'owner_account_address',
+  PaymentTokenAddress = 'payment_token_address',
+  PaymentTokenSymbol = 'payment_token_symbol',
+  Quantity = 'quantity',
+  SellerAccountAddress = 'seller_account_address',
+  StartingPrice = 'starting_price',
+  ToAccountAddress = 'to_account_address',
+  TotalPrice = 'total_price',
+  TransactionId = 'transaction_id',
+  WinnerAccountAddress = 'winner_account_address'
+}
+
+export type EventSort = {
+  by?: InputMaybe<EventSortFields>;
+  direction?: InputMaybe<SortDirection>;
+};
+
+export enum EventSortFields {
+  AssetBundleSlug = 'asset_bundle_slug',
+  AssetId = 'asset_id',
+  AuctionType = 'auction_type',
+  BidAmount = 'bid_amount',
+  CollectionSlug = 'collection_slug',
+  ContractAddress = 'contract_address',
+  CreatedDate = 'created_date',
+  CustomEventName = 'custom_event_name',
+  DateIngested = 'date_ingested',
+  Duration = 'duration',
+  EndingPrice = 'ending_price',
+  EndingTime = 'ending_time',
+  EventType = 'event_type',
+  FromAccountAddress = 'from_account_address',
+  Id = 'id',
+  IsPrivate = 'is_private',
+  ListingTime = 'listing_time',
+  OwnerAccountAddress = 'owner_account_address',
+  PaymentTokenAddress = 'payment_token_address',
+  PaymentTokenSymbol = 'payment_token_symbol',
+  Quantity = 'quantity',
+  SellerAccountAddress = 'seller_account_address',
+  StartingPrice = 'starting_price',
+  ToAccountAddress = 'to_account_address',
+  TotalPrice = 'total_price',
+  TransactionId = 'transaction_id',
+  WinnerAccountAddress = 'winner_account_address'
+}
 
 export enum FilterOperators {
   Eq = 'eq',
@@ -349,6 +418,7 @@ export type Query = {
   __typename?: 'Query';
   assets: Array<Asset>;
   collections: Array<Collection>;
+  events: Array<Event>;
 };
 
 
@@ -368,6 +438,14 @@ export type QueryCollectionsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<CollectionSort>;
+};
+
+
+export type QueryEventsArgs = {
+  filter?: InputMaybe<Array<InputMaybe<EventFilter>>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<EventSort>;
 };
 
 export enum SortDirection {
@@ -414,13 +492,37 @@ export type Transaction = {
   block_hash?: Maybe<Scalars['String']>;
   block_number: Scalars['Int'];
   date_ingested: Scalars['String'];
-  from_account_address: Scalars['String'];
+  from_account: Account;
   id: Scalars['ID'];
   timestamp?: Maybe<Scalars['String']>;
-  to_account_address: Scalars['String'];
+  to_account: Account;
   transaction_hash: Scalars['String'];
   transaction_index: Scalars['Int'];
 };
+
+export enum TransactionFilterFields {
+  BlockHash = 'block_hash',
+  BlockNumber = 'block_number',
+  DateIngested = 'date_ingested',
+  FromAccountAddress = 'from_account_address',
+  Id = 'id',
+  Timestamp = 'timestamp',
+  ToAccountAddress = 'to_account_address',
+  TransactionHash = 'transaction_hash',
+  TransactionIndex = 'transaction_index'
+}
+
+export enum TransactionSortFields {
+  BlockHash = 'block_hash',
+  BlockNumber = 'block_number',
+  DateIngested = 'date_ingested',
+  FromAccountAddress = 'from_account_address',
+  Id = 'id',
+  Timestamp = 'timestamp',
+  ToAccountAddress = 'to_account_address',
+  TransactionHash = 'transaction_hash',
+  TransactionIndex = 'transaction_index'
+}
 
 export type AssetQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -440,7 +542,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listing?: Array<{ __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listing?: Array<{ __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -457,7 +559,7 @@ export type OwnerQueryVariables = Exact<{
 }>;
 
 
-export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'Event', payment_token_symbol: string, total_price?: string | null } | null }> };
+export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null }> };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -1359,24 +1461,11 @@ export default {
         "name": "Event",
         "fields": [
           {
-            "name": "asset_bundle_slug",
+            "name": "asset",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "asset_id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Asset",
+              "ofType": null
             },
             "args": []
           },
@@ -1397,21 +1486,20 @@ export default {
             "args": []
           },
           {
-            "name": "collection_slug",
+            "name": "collection",
             "type": {
-              "kind": "SCALAR",
-              "name": "Any"
+              "kind": "OBJECT",
+              "name": "Collection",
+              "ofType": null
             },
             "args": []
           },
           {
-            "name": "contract_address",
+            "name": "contract",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Contract",
+              "ofType": null
             },
             "args": []
           },
@@ -1478,13 +1566,11 @@ export default {
             "args": []
           },
           {
-            "name": "from_account_address",
+            "name": "from_account",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": []
           },
@@ -1519,35 +1605,20 @@ export default {
             "args": []
           },
           {
-            "name": "owner_account_address",
+            "name": "owner_account",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": []
           },
           {
-            "name": "payment_token_address",
+            "name": "payment_token",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "payment_token_symbol",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "PaymentToken",
+              "ofType": null
             },
             "args": []
           },
@@ -1563,12 +1634,13 @@ export default {
             "args": []
           },
           {
-            "name": "seller_account_address",
+            "name": "seller_account",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+                "kind": "OBJECT",
+                "name": "Account",
+                "ofType": null
               }
             },
             "args": []
@@ -1582,13 +1654,11 @@ export default {
             "args": []
           },
           {
-            "name": "to_account_address",
+            "name": "to_account",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": []
           },
@@ -1601,21 +1671,20 @@ export default {
             "args": []
           },
           {
-            "name": "transaction_id",
+            "name": "tx",
             "type": {
-              "kind": "SCALAR",
-              "name": "Any"
+              "kind": "OBJECT",
+              "name": "Transaction",
+              "ofType": null
             },
             "args": []
           },
           {
-            "name": "winner_account_address",
+            "name": "winner_account",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": []
           }
@@ -1805,6 +1874,56 @@ export default {
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "Collection",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "filter",
+                "type": {
+                  "kind": "LIST",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "limit",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "offset",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "sort",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "events",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Event",
                     "ofType": null
                   }
                 }
@@ -2064,12 +2183,13 @@ export default {
             "args": []
           },
           {
-            "name": "from_account_address",
+            "name": "from_account",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+                "kind": "OBJECT",
+                "name": "Account",
+                "ofType": null
               }
             },
             "args": []
@@ -2094,12 +2214,13 @@ export default {
             "args": []
           },
           {
-            "name": "to_account_address",
+            "name": "to_account",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+                "kind": "OBJECT",
+                "name": "Account",
+                "ofType": null
               }
             },
             "args": []
@@ -2206,7 +2327,9 @@ export const AssetsDocument = gql`
       address
     }
     listing {
-      payment_token_symbol
+      payment_token {
+        symbol
+      }
       total_price
     }
     collection {
@@ -2265,7 +2388,9 @@ export const OwnerDocument = gql`
       address
     }
     last_sale {
-      payment_token_symbol
+      payment_token {
+        symbol
+      }
       total_price
     }
     token_id

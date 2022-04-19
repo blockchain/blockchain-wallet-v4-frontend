@@ -11,7 +11,9 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
       address
     }
     listing {
-      payment_token_symbol
+      payment_token {
+        symbol
+      }
       total_price
     }
     collection {
