@@ -11,16 +11,15 @@ import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
+import PublicLoading from 'layouts/Public/template.loading'
 import WalletLayout from 'layouts/Wallet'
+import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
 import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
-
-import PublicLoading from './loading.public'
-import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
@@ -63,7 +62,6 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 const App = ({
   apiUrl,
   coinViewV2,
-  coinsWithBalance,
   history,
   isAuthenticated,
   persistor,
@@ -183,13 +181,7 @@ const App = ({
                       component={coinViewV2 ? CoinPage : Transactions}
                       coinViewV2={coinViewV2}
                     />
-                    {isAuthenticated ? (
-                      coinsWithBalance.length ? (
-                        <Redirect to='/home' />
-                      ) : null
-                    ) : (
-                      <Redirect to='/login' />
-                    )}
+                    {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                   </Switch>
                 </Suspense>
               </ConnectedRouter>
@@ -208,7 +200,6 @@ const mapStateToProps = (state) => ({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
-  coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)

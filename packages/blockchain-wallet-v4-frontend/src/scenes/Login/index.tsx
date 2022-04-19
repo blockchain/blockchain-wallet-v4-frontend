@@ -15,9 +15,9 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
+import Loading from 'layouts/Public/template.loading'
 import { isBrowserSupported } from 'services/browser'
 
-import Loading from '../loading.public'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
