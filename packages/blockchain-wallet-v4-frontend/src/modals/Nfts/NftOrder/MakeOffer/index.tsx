@@ -23,7 +23,6 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -44,8 +43,7 @@ import { Props as OwnProps } from '..'
 const MakeOffer: React.FC<Props> = (props) => {
   const {
     erc20BalanceR,
-    ethBalanceR,
-    ethBalances,
+    ethBalancesR,
     formActions,
     formValues,
     isAuthenticated,
@@ -54,36 +52,13 @@ const MakeOffer: React.FC<Props> = (props) => {
     rates,
     walletCurrency
   } = props
-  const { amount, coin, fix } = formValues
-  const ETHBalances = ethBalances.data
-  const wrapFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
-  const offerFees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
-  const ethBalance = ethBalanceR.getOrElse(new BigNumber(0))
-  const erc20Balance = erc20BalanceR.getOrElse(0)
-  const maxWrapPossible = ethBalance
-    .minus(offerFees.totalFees * offerFees.gasPrice)
-    .minus(wrapFees.totalFees * offerFees.gasPrice)
-  const maxOfferPossible = maxWrapPossible.plus(erc20Balance)
-  const standardErc20Balance = convertCoinToCoin({
-    coin: formValues.coin || 'WETH',
-    value: erc20Balance
-  })
-  const standardMaxWrapPossible = convertCoinToCoin({
-    coin: 'ETH',
-    value: maxWrapPossible.toString()
-  })
-  const amtToWrap = new BigNumber(formValues.amount || 0).minus(standardErc20Balance)
-  const canWrap =
-    amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
-  const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
   const [termsAccepted, setTermsAccepted] = useState(false)
 
-  const disabled =
-    !formValues.amount ||
-    Remote.Loading.is(orderFlow.fees) ||
-    props.orderFlow.isSubmitting ||
-    !termsAccepted
-
+  const { amount, coin, fix } = formValues
+  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
+    new BigNumber(0),
+    new BigNumber(0)
+  ])
   const cryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -104,6 +79,35 @@ const MakeOffer: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
+  const wrapFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const offerFees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const ethBalance = new BigNumber(selfCustodyBalance)
+  const erc20Balance = erc20BalanceR.getOrElse(0)
+  const maxWrapPossible = ethBalance
+    .minus(offerFees.totalFees * offerFees.gasPrice)
+    .minus(wrapFees.totalFees * offerFees.gasPrice)
+  const maxOfferPossible = maxWrapPossible.plus(erc20Balance)
+  const amtToBuy = maxOfferPossible
+    .times(-1)
+    .plus(convertCoinToCoin({ baseToStandard: false, coin, value: cryptoAmt }))
+  const standardErc20Balance = convertCoinToCoin({
+    coin: formValues.coin || 'WETH',
+    value: erc20Balance
+  })
+  const standardMaxWrapPossible = convertCoinToCoin({
+    coin: 'ETH',
+    value: maxWrapPossible.toString()
+  })
+  const amtToWrap = new BigNumber(cryptoAmt || 0).minus(standardErc20Balance)
+  const canWrap =
+    amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
+  const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
+
+  const disabled =
+    !formValues.amount ||
+    Remote.Loading.is(orderFlow.fees) ||
+    props.orderFlow.isSubmitting ||
+    !termsAccepted
 
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
@@ -135,42 +139,58 @@ const MakeOffer: React.FC<Props> = (props) => {
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <img
-                  style={{
-                    borderRadius: '8px',
-                    height: '64px',
-                    marginRight: '12px',
-                    width: 'auto'
-                  }}
-                  alt='nft-asset'
-                  src={val.image_url.replace(/=s\d*/, '')}
-                />
-                <div>
-                  <Text style={{ marginTop: '6px' }} size='16px' color='grey900' weight={600}>
-                    {val?.name}
-                  </Text>
-                  <Text
-                    size='16px'
-                    weight={600}
-                    lineHeight='16px'
-                    color='orange600'
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex' }}>
+                  <img
                     style={{
-                      background: colors.orange100,
                       borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center'
+                      height: '64px',
+                      marginRight: '12px',
+                      width: 'auto'
                     }}
-                  >
-                    Not Verified
-                  </Text>
+                    alt='nft-asset'
+                    src={val.image_url.replace(/=s\d*/, '')}
+                  />
+                  <div>
+                    <Text size='16px' color='grey900' weight={600}>
+                      {val?.name}
+                    </Text>
+                    {val.collection.safelist_request_status === 'verified' ? (
+                      <Text
+                        size='14px'
+                        weight={600}
+                        color='green600'
+                        style={{
+                          background: colors.green100,
+                          borderRadius: '8px',
+                          padding: '5px 8px',
+                          textAlign: 'center',
+                          width: 'fit-content'
+                        }}
+                      >
+                        Verified
+                      </Text>
+                    ) : (
+                      <Text
+                        size='14px'
+                        weight={600}
+                        color='orange600'
+                        style={{
+                          background: colors.orange100,
+                          borderRadius: '8px',
+                          padding: '5px 8px',
+                          textAlign: 'center',
+                          width: 'fit-content'
+                        }}
+                      >
+                        Not Verified
+                      </Text>
+                    )}
+                  </div>
                 </div>
-                <div
+                <Text
                   style={{
-                    fontFamily: 'Inter',
-                    justifyContent: 'right',
-                    marginTop: '6px',
-                    paddingLeft: '5em'
+                    justifyContent: 'right'
                   }}
                 >
                   <CoinDisplay
@@ -178,7 +198,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     color='black'
                     weight={600}
                     coin='ETH'
-                    style={{ fontFamily: 'Inter', justifyContent: 'right' }}
+                    style={{ justifyContent: 'right' }}
                   >
                     {val.last_sale?.total_price || 0}
                   </CoinDisplay>
@@ -187,33 +207,23 @@ const MakeOffer: React.FC<Props> = (props) => {
                     color={colors.grey600}
                     weight={600}
                     coin='ETH'
-                    style={{ fontFamily: 'Inter', justifyContent: 'right' }}
+                    style={{ justifyContent: 'right' }}
                   >
                     {val.last_sale?.total_price || 0}
                   </FiatDisplay>
-                </div>
+                </Text>
               </div>
             </Row>
-            {/* <Row>
-              <Title>
-                <FormattedMessage id='copy.description' defaultMessage='Description' />
-              </Title>
-              <Value>
-                {val?.description || (
-                  <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
-                )}
-              </Value>
-            </Row> */}
             <Form>
               <>
                 <Row>
                   <Value>
                     <AmountFieldInput
-                      coin={formValues.coin}
+                      coin={coin}
                       fiatCurrency='GBP'
                       amtError={false}
                       quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
-                      fix='CRYPTO'
+                      fix={fix as 'CRYPTO' | 'FIAT'}
                       name='amount'
                       showCounter
                       showToggle
@@ -222,12 +232,12 @@ const MakeOffer: React.FC<Props> = (props) => {
                         formActions.change(
                           'nftMakeOffer',
                           'fix',
-                          formValues.fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
+                          fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
                         )
                         formActions.change(
                           'nftMakeOffer',
                           'amount',
-                          formValues.fix === 'CRYPTO' ? fiatAmt : cryptoAmt
+                          fix === 'CRYPTO' ? fiatAmt : cryptoAmt
                         )
                       }}
                     />
@@ -319,13 +329,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </Value>
               </Row>
             </Form>
-            <StickyCTA
-              style={
-                needsWrap && !canWrap
-                  ? { bottom: 0, margin: '0em 1em', paddingTop: '4em' }
-                  : { bottom: 0, margin: '0em 1em', position: 'absolute' }
-              }
-            >
+            <StickyCTA>
               {needsWrap ? (
                 <>
                   {canWrap ? (
@@ -333,10 +337,10 @@ const MakeOffer: React.FC<Props> = (props) => {
                   ) : (
                     <>
                       <GetMoreEthComponent
-                        {...props}
-                        {...ETHBalances}
-                        {...formValues}
-                        {...orderFlow}
+                        amount={cryptoAmt}
+                        amtToBuy={amtToBuy}
+                        selfCustodyBalance={new BigNumber(selfCustodyBalance)}
+                        custodialBalance={new BigNumber(custodialBalance)}
                       />
                       <div style={{ padding: '1em 0em' }}>
                         <Text
@@ -345,49 +349,16 @@ const MakeOffer: React.FC<Props> = (props) => {
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
                           The max you can offer from this wallet is&nbsp;
-                          <CoinDisplay
-                            style={{ fontFamily: 'Inter', fontSize: '12px', fontWeight: 'bold' }}
-                            coin='ETH'
-                          >
-                            {maxOfferPossible}
+                          <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
+                            {Math.max(maxOfferPossible.toNumber(), 0)}
                           </CoinDisplay>
                         </Text>
-                        {ETHBalances[1] !== 0 ? (
-                          <Text weight={500} size='14px' style={{ textAlign: 'center' }}>
-                            Send 0 ETH now to offer this amount
-                          </Text>
-                        ) : (
-                          <Text weight={500} style={{ display: 'flex', justifyContent: 'center' }}>
-                            {orderFlow?.wrapEthFees?.data?.totalFees && (
-                              <>
-                                Buy&nbsp;
-                                <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                                  {Number(formValues.amount) > 0 &&
-                                    new BigNumber(1000000000000000000 * Number(formValues.amount))
-                                      .minus(
-                                        new BigNumber(
-                                          10000 * orderFlow.wrapEthFees.data.totalFees
-                                        ).multipliedBy(orderFlow.wrapEthFees.data.gasPrice)
-                                      )
-                                      .toString()}
-                                </CoinDisplay>
-                                &nbsp; now to offer this amount.
-                              </>
-                            )}
-                          </Text>
-                        )}
                       </div>
                     </>
                   )}
                 </>
               ) : null}
-              <div
-                style={
-                  needsWrap && !canWrap
-                    ? { display: 'flex' }
-                    : { display: 'flex', paddingTop: '4em' }
-                }
-              >
+              <div style={{ display: 'flex' }}>
                 {' '}
                 <div style={{ padding: '1.2em 0em' }}>
                   <CheckBoxInput
@@ -504,8 +475,7 @@ const mapStateToProps = (state) => ({
     // @ts-ignore
     selectors.form.getFormValues('nftMakeOffer')(state)?.coin || 'WETH'
   ),
-  ethBalanceR: getEthBalance(state),
-  ethBalances: getEthBalances(state),
+  ethBalancesR: getEthBalances(state),
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string

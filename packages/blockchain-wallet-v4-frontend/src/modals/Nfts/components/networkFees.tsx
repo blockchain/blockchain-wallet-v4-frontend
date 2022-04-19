@@ -66,15 +66,11 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
           <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
             Network Fees
           </Text>
-          <Total
-            size='14px'
-            color={colors.grey600}
-            weight={600}
-            coin='ETH'
-            style={{ fontFamily: 'Inter', marginLeft: '2.6em' }}
-          >
-            {getTotalFees()}
-          </Total>
+          <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
+            <Total color={colors.grey600} weight={600} size='14px' coin='ETH'>
+              {getTotalFees()}
+            </Total>
+          </Text>
           {!moreFees && (
             <ChevronArea>
               <Icon name='chevron-right' size='24px' color='grey400' />
