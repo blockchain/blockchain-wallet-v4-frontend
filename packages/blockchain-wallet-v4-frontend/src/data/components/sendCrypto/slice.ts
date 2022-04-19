@@ -42,7 +42,7 @@ const sendCryptoSlice = createSlice({
       state,
       action: PayloadAction<{
         account: SwapAccountType
-        amount: string
+        baseCryptoAmt: string
         destination: string
         fee: BuildTxFeeType
         fix: 'FIAT' | 'CRYPTO'
