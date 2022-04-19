@@ -81,7 +81,7 @@ const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; d
   const yScale = useMemo(
     () =>
       scaleLinear({
-        domain: [min(data, getXValue), max(data, getXValue) || 0],
+        domain: [min(data, getXValue) || 0, max(data, getXValue) || 0],
         nice: true,
         range: [height, 0]
       }),

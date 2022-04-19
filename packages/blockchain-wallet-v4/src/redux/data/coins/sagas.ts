@@ -1,6 +1,7 @@
+import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 import { flatten, last, length } from 'ramda'
-import { call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
@@ -9,6 +10,7 @@ import { errorHandler } from '@core/utils'
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
 import custodialSagas from '../custodial/sagas'
+import { getPubKey } from '../self-custody/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -17,6 +19,42 @@ const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
+
+  const fetchCoinData = function* (action: ReturnType<typeof A.fetchData>) {
+    const { list, password } = action.payload
+
+    try {
+      // TODO: SELF_CUSTODY
+      // this 'list' will eventually come from wallet-agent
+      const coins = list || ['STX']
+      yield all(
+        coins.map(function* (coin) {
+          const pubKey = yield call(getPubKey, password)
+          try {
+            const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
+              { descriptor: 'legacy', pubKey, style: 'SINGLE' }
+            ])
+
+            // TODO: SELF_CUSTODY
+            yield put(
+              A.fetchDataSuccess(
+                coin,
+                results[0].balances
+                  .reduce((acc, curr) => acc.plus(curr.balance), new BigNumber(0))
+                  .toString()
+              )
+            )
+          } catch (e) {
+            const error = errorHandler(e)
+            yield put(A.fetchDataFailure(error, coin))
+          }
+        })
+      )
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+    }
+  }
 
   const fetchCoinsRates = function* () {
     const coins = S.getAllCoins()
@@ -71,8 +109,23 @@ export default ({ api }: { api: APIType }) => {
         payload.coin,
         reset ? null : nextBSTransactionsURL
       )
-      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      const txList = [txPage, custodialPage.orders]
+      if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
+        const pubKey = yield call(getPubKey, '')
+        const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
+          { descriptor: 'default', pubKey, style: 'SINGLE' }
+        ])
+        const history = selfCustodyPage.history.map((val) => ({
+          ...val,
+          type: val.movements[0].type
+        }))
+        txList.push(history)
+      }
+      const page = flatten(txList).sort((a, b) => {
+        return (
+          moment(b.insertedAt || b.timestamp).valueOf() -
+          moment(a.insertedAt || a.timestamp).valueOf()
+        )
       })
       const atBounds = page.length < TX_PER_PAGE
       yield put(A.transactionsAtBound(payload.coin, atBounds))
@@ -91,6 +144,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    fetchCoinData,
     fetchCoinsRates,
     fetchTransactions,
     watchTransactions

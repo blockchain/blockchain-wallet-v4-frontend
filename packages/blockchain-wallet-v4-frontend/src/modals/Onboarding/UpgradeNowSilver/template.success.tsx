@@ -117,6 +117,10 @@ const CloseIconContainer = styled.div`
   }
 `
 
+const IconsContainerRight = styled(IconsContainer)`
+  justify-content: flex-end;
+`
+
 type Props = OwnProps & SuccessStateType
 
 const Template = (props: Props) => {
@@ -173,10 +177,7 @@ const Template = (props: Props) => {
   return (
     <FlyoutContainer>
       <HeaderWrapper>
-        <IconsContainer>
-          <Title color='textBlack'>
-            <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />
-          </Title>
+        <IconsContainerRight>
           <CloseIconContainer>
             <Icon
               cursor
@@ -188,7 +189,7 @@ const Template = (props: Props) => {
               onClick={onCloseModal}
             />
           </CloseIconContainer>
-        </IconsContainer>
+        </IconsContainerRight>
 
         <Image width='32px' name='blue-verified' style={{ marginTop: '8px' }} />
         <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>

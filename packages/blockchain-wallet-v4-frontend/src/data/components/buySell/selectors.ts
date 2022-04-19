@@ -196,6 +196,11 @@ export const getBSLatestPendingOrder = (state: RootState) =>
     return order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
   })
 
+export const getCancelableOrder = createSelector(getBSOrders, (ordersR) => {
+  const orders = ordersR.getOrElse([])
+  return orders.find((order) => order.state === 'PENDING_CONFIRMATION')
+})
+
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote

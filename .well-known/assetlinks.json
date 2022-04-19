@@ -1,26 +1,38 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "piuk.blockchain.android.dev",
-      "sha256_cert_fingerprints": ["87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"]
+      "sha256_cert_fingerprints": [
+        "87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"
+      ]
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "piuk.blockchain.android.staging",
-      "sha256_cert_fingerprints": ["87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"]
+      "sha256_cert_fingerprints": [
+        "87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"
+      ]
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "piuk.blockchain.android",
-      "sha256_cert_fingerprints": ["87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"]
+      "sha256_cert_fingerprints": [
+        "87:A6:E8:9E:2E:45:84:8C:1D:DC:43:02:1E:95:81:2A:AE:70:B0:B5:4C:6C:32:0C:71:DB:4D:FF:83:F7:B6:A0"
+      ]
     }
   },
   {
@@ -36,7 +48,9 @@
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange",
@@ -44,8 +58,10 @@
       ["23:FB:3D:61:B6:AF:B0:B9:4A:CD:8C:66:4E:35:F5:EB:66:68:F0:59:3D:29:69:9F:10:FB:CC:80:67:FD:E7:2D"]
     }
   },
-    {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange.staging",
@@ -53,8 +69,10 @@
       ["BD:F4:E9:C2:57:3F:06:27:C1:18:BF:18:EB:6A:29:72:E4:4D:D7:5D:D8:E8:03:71:E0:18:60:A8:18:8D:77:84"]
     }
   },
-    {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange.internal",

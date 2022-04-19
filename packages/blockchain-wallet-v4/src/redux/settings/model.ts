@@ -9,6 +9,7 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   nfts: false,
   openBanking: false,
   segwit: true,
+  stxSelfCustody: false,
   withdrawalLocksFundsOnHold: true
 }
 

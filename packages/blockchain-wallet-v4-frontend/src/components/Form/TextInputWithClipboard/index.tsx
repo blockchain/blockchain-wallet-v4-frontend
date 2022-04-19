@@ -1,6 +1,9 @@
-import React from 'react'
-import { CopyToClipboard } from '@blockchain-com/constellation'
+import React, { useCallback, useMemo, useState } from 'react'
+import { Icon, useCopyToClipboard } from '@blockchain-com/constellation'
+import { IconCheck, IconClipboard } from '@blockchain-com/icons'
 import styled from 'styled-components'
+
+import { debounce } from 'utils/helpers'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -29,14 +32,33 @@ const IconWrapper = styled.div`
   top: 0;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
 
 const TextInputWithClipboard: React.FC<Props> = ({ value }) => {
+  const [v, copy] = useCopyToClipboard()
+  const [showCopiedIcon, setShowCopiedIcon] = useState<boolean>(false)
+
+  const hideCopiedIconDebounce = useMemo(
+    () => debounce(() => setShowCopiedIcon(false), 300),
+    [setShowCopiedIcon]
+  )
+
+  const handleOnClickToCopyText = useCallback(() => {
+    copy(value)
+
+    setShowCopiedIcon(true)
+
+    hideCopiedIconDebounce()
+  }, [copy, value, hideCopiedIconDebounce])
+
   return (
     <Wrapper>
       <StyledInput disabled value={value} />
-      <IconWrapper>
-        <CopyToClipboard color='blue400' value={value} />
+      <IconWrapper onClick={handleOnClickToCopyText}>
+        <Icon label='copy' color={showCopiedIcon ? 'green600' : 'blue600'}>
+          {showCopiedIcon ? <IconCheck /> : <IconClipboard />}
+        </Icon>
       </IconWrapper>
     </Wrapper>
   )

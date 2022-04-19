@@ -47,9 +47,11 @@ import sendSagas from '../send/sagas'
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
 import swapSagas from '../swap/sagas'
 import { SwapBaseCounterTypes } from '../swap/types'
-import { getRate, NO_QUOTE } from '../swap/utils'
+import { getRate } from '../swap/utils'
 import { selectReceiveAddress } from '../utils/sagas'
 import {
+  BS_ERROR,
+  CARD_ERROR_CODE,
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
   FORM_BS_CANCEL_ORDER,
@@ -61,12 +63,6 @@ import {
   getFiatFromPair,
   GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
-  NO_ACCOUNT,
-  NO_CHECKOUT_VALUES,
-  NO_FIAT_CURRENCY,
-  NO_ORDER_EXISTS,
-  NO_PAIR_SELECTED,
-  NO_PAYMENT_TYPE,
   POLLING,
   SDD_TIER
 } from './model'
@@ -105,7 +101,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
   }) => {
     if (!ApplePaySession) {
-      throw new Error('APPLE_PAY_SESSION_NOT_SUPPORTED')
+      throw new Error(BS_ERROR.APPLE_PAY_INFO_NOT_FOUND)
     }
 
     const token = await new Promise((resolve, reject) => {
@@ -123,7 +119,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         } catch (e) {
           session.abort()
 
-          reject(new Error('FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT'))
+          reject(new Error(BS_ERROR.FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT))
         }
       }
 
@@ -138,7 +134,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       session.oncancel = () => {
-        reject(new Error('USER_CANCELLED_APPLE_PAY'))
+        reject(new Error(BS_ERROR.USER_CANCELLED_APPLE_PAY))
       }
 
       session.begin()
@@ -161,7 +157,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       return paymentData.paymentMethodData.tokenizationData.token
     } catch (e) {
-      throw new Error('FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN')
+      throw new Error(BS_ERROR.FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN)
     }
   }
 
@@ -172,10 +168,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const userData = userDataR.getOrFail(BS_ERROR.NO_USER_DATA)
       const address = billingAddressForm || userData.address
 
-      if (!address) throw new Error('NO_USER_ADDRESS')
+      if (!address) throw new Error(BS_ERROR.NO_ADDRESS)
 
       // We always use CHECKOUTDOTCOM for now
       // and we need 3DS to create a card
@@ -187,7 +183,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // Check if the card was created
       const cardR = S.getBSCard(yield select())
-      const card = cardR.getOrFail('CARD_CREATION_FAILED')
+      const card = cardR.getOrFail(BS_ERROR.CARD_CREATION_FAILED)
 
       // This is for the 0 dollar payment
       yield put(A.activateCard({ card, cvv }))
@@ -288,8 +284,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const pair = S.getBSPair(yield select())
 
-      if (!values) throw new Error(NO_CHECKOUT_VALUES)
-      if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!values) throw new Error(BS_ERROR.NO_CHECKOUT_VALUES)
+      if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -299,7 +295,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
         if (isFlexiblePricingModel) {
-          buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+          buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
         }
         yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
@@ -319,8 +315,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // TODO: use swap2 quote for buy AND sell
       if (orderType === OrderType.SELL) {
         const from = S.getSwapAccount(yield select())
-        const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
-        if (!from) throw new Error(NO_ACCOUNT)
+        const quote = S.getSellQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
+        if (!from) throw new Error(BS_ERROR.NO_ACCOUNT)
 
         const direction = getDirection(from)
         const cryptoAmt =
@@ -367,7 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return yield put(actions.components.swap.fetchTrades())
       }
 
-      if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
+      if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
       if (isFlexiblePricingModel) {
         // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
         // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
@@ -421,7 +417,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield call(api.cancelBSOrder, oldBuyOrder)
           }
           // get the current order, if any
-          const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+          const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
           buyOrder = yield call(
             api.createBSOrder,
@@ -520,7 +516,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     }
-    throw new Error('RETRYING_TO_GET_AUTH_URL')
+    throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
   }
 
   const orderConfirmCheck = function* (orderId) {
@@ -529,7 +525,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
     }
-    throw new Error('Order verification timed out. It will continue in the background.')
+
+    throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
@@ -546,7 +543,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let { order } = payload
 
     try {
-      if (!order) throw new Error(NO_ORDER_EXISTS)
+      if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
@@ -582,7 +579,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const applePayInfo = selectors.components.buySell.getApplePayInfo(yield select())
 
           if (!applePayInfo) {
-            throw new Error('Apple Pay info not found')
+            throw new Error(BS_ERROR.APPLE_PAY_INFO_NOT_FOUND)
           }
 
           const merchantCapabilities: ApplePayJS.ApplePayMerchantCapability[] = [
@@ -623,7 +620,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const googlePayInfo = selectors.components.buySell.getGooglePayInfo(yield select())
 
           if (!googlePayInfo) {
-            throw new Error('Google Pay info not found')
+            throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
           }
 
           const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
@@ -640,11 +637,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           try {
             parameters = JSON.parse(googlePayInfo.googlePayParameters)
           } catch (e) {
-            throw new Error('GOOGLE_PAY_PARAMETERS_MALFORMED')
+            throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_MALFORMED)
           }
 
           if (!parameters) {
-            throw new Error('GOOGLE_PAY_PARAMETERS_NOT_FOUND')
+            throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_NOT_FOUND)
           }
 
           const paymentDataRequest = {
@@ -700,11 +697,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const freshOrder = S.getBSOrder(yield select())
 
         if (!freshOrder) {
-          throw new Error('ORDER_NOT_FOUND')
+          throw new Error(BS_ERROR.ORDER_NOT_FOUND)
         }
 
         if (freshOrder.inputQuantity !== order.inputQuantity) {
-          throw new Error('ORDER_VALUE_CHANGED')
+          throw new Error(BS_ERROR.ORDER_VALUE_CHANGED)
         }
 
         order = freshOrder
@@ -772,7 +769,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
-        throw new Error('UNHANDLED_PAYMENT_STATE')
+        throw new Error(BS_ERROR.UNHANDLED_PAYMENT_STATE)
       }
 
       yield put(A.fetchOrders())
@@ -791,7 +788,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmBSFundsOrder = function* () {
     try {
       const order = S.getBSOrder(yield select())
-      if (!order) throw new Error(NO_ORDER_EXISTS)
+      if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as BSOrderType)
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
@@ -836,17 +833,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.createCardLoading())
       const currency = S.getFiatCurrency(yield select())
-      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      if (!currency) throw new Error(BS_ERROR.NO_FIAT_CURRENCY)
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
         selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
-      const userData = userDataR.getOrFail('NO_USER_DATA')
+      const userData = userDataR.getOrFail(BS_ERROR.NO_USER_DATA)
       const address = billingAddressForm || userData.address
 
-      if (!address) throw new Error('NO_USER_ADDRESS')
+      if (!address) throw new Error(BS_ERROR.NO_ADDRESS)
 
       const card = yield call(api.createBSCard, {
         address,
@@ -1005,7 +1002,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchPaymentAccountLoading())
       const fiatCurrency = S.getFiatCurrency(yield select())
-      if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
+      if (!fiatCurrency) throw new Error(BS_ERROR.NO_FIAT_CURRENCY)
       const account: BSAccountType = yield call(api.getBSPaymentAccount, fiatCurrency)
       yield put(A.fetchPaymentAccountSuccess(account))
     } catch (e) {
@@ -1186,7 +1183,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const paymentR = S.getPayment(yield select())
       const quoteR = S.getSellQuote(yield select())
-      const quote = quoteR.getOrFail(NO_QUOTE)
+      const quote = quoteR.getOrFail(BS_ERROR.NO_QUOTE)
 
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
@@ -1288,7 +1285,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
     const pair = S.getBSPair(yield select())
     const swapAccount = S.getSwapAccount(yield select())
-    if (!pair) return NO_PAIR_SELECTED
+    if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
     const isUserTier2 = yield call(isTier2)
 
     if (!isUserTier2) {
@@ -1414,9 +1411,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield call(waitForUserData)
       const fiatCurrency = S.getFiatCurrency(yield select())
-      if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
+      if (!fiatCurrency) throw new Error(BS_ERROR.NO_FIAT_CURRENCY)
       const pair = S.getBSPair(yield select())
-      if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
         const isFlexiblePricingModel = (yield select(
@@ -1441,14 +1438,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         }
       } else {
-        if (!account) throw NO_ACCOUNT
+        if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
         yield race({
           failure: take(A.fetchSellQuoteFailure.type),
           success: take(A.fetchSellQuoteSuccess.type)
         })
-        const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
+        const quote = S.getSellQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
           const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
@@ -1491,13 +1488,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let error
     switch (state) {
       case 'PENDING':
-        error = 'PENDING_CARD_AFTER_POLL'
+        error = CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL
         break
       case 'BLOCKED':
-        error = 'BLOCKED_CARD_AFTER_POLL'
+        error = CARD_ERROR_CODE.BLOCKED_CARD_AFTER_POLL
         break
       default:
-        error = 'LINK_CARD_FAILED'
+        error = CARD_ERROR_CODE.LINK_CARD_FAILED
     }
 
     yield put(A.createCardFailure(error))
@@ -1594,7 +1591,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
 
       if (checkoutAcquirers.length === 0) {
-        throw new Error('CHECKOUTDOTCOM_NOT_FOUND')
+        throw new Error(BS_ERROR.CHECKOUTDOTCOM_NOT_FOUND)
       }
 
       const checkoutDotComAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
@@ -1630,7 +1627,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return bankAccount
   }
 
+  const cleanupCancellableOrders = function* () {
+    const order = S.getCancelableOrder(yield select())
+    if (order) {
+      yield call(api.cancelBSOrder, order)
+      yield put(A.fetchOrders())
+      yield take(A.fetchOrdersSuccess.type)
+    }
+  }
+
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
+    // When opening the buy modal if there are any existing orders that are cancellable, cancel them
+    yield call(cleanupCancellableOrders)
+
     const { cryptoCurrency, orderType, origin } = payload
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
