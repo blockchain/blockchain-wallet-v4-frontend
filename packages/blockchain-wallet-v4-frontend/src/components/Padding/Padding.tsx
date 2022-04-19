@@ -1,4 +1,4 @@
-import React, { CSSProperties, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { PaddingComponent } from './types'
 
