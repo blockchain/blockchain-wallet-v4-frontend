@@ -381,13 +381,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
-              <div
-                style={
-                  needsWrap && !canWrap
-                    ? { display: 'flex' }
-                    : { display: 'flex', paddingTop: '4em' }
-                }
-              >
+              <div style={needsWrap && !canWrap ? { display: 'flex' } : { display: 'flex' }}>
                 {' '}
                 <div style={{ padding: '1.2em 0em' }}>
                   <CheckBoxInput
@@ -517,6 +511,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

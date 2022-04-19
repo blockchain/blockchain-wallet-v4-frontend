@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import moment from 'moment'
 import { map } from 'ramda'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -15,7 +15,7 @@ import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
 import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
@@ -438,7 +438,12 @@ const mapStateToProps = (state) => ({
   }
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   reduxForm<{}, OwnProps>({
