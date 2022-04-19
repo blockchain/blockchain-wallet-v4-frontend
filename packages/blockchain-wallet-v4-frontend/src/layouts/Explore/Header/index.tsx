@@ -3,13 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconArrowLeft, IconUser } from '@blockchain-com/icons'
+import { IconArrowLeft, IconUser, IconWallet } from '@blockchain-com/icons'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { TextBox } from 'components/Form'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
+import { ModalName } from 'data/types'
 
 import { Props as OwnProps } from '..'
 
@@ -44,7 +46,12 @@ const NavLinkButton = styled(NavLink)`
   }
 `
 
-const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActions }) => {
+const ExploreHeader: React.FC<Props> = ({
+  ethAddress,
+  isAuthenticated,
+  modalActions,
+  routerActions
+}) => {
   return (
     <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
       <FixedNav>
@@ -61,10 +68,12 @@ const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerAct
             onClick={() => routerActions.goBack()}
             style={{ marginLeft: '24px' }}
           >
-            <Icon label='arrow-left' size='sm' color='grey300'>
+            <Icon label='arrow-left' size='sm' color='blue600'>
               <IconArrowLeft style={{ marginRight: '4px' }} />
             </Icon>
-            <FormattedMessage id='buttons.signup' defaultMessage='Back' />
+            <span style={{ marginLeft: '4px' }}>
+              <FormattedMessage id='buttons.signup' defaultMessage='Back' />
+            </span>
           </Button>
         </NavLeft>
         <NavCenter>
@@ -77,13 +86,30 @@ const ExploreHeader: React.FC<Props> = ({ ethAddress, isAuthenticated, routerAct
         </NavCenter>
         <NavRight>
           {isAuthenticated ? (
-            <Icon label='user' color='grey300'>
-              <IconUser
-                cursor='pointer'
-                onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
-                style={{ marginLeft: '4px' }}
-              />
-            </Icon>
+            <Flex gap={8} alignItems='center'>
+              <Button
+                small
+                data-e2e='back'
+                nature='empty-blue'
+                onClick={() =>
+                  modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
+                }
+              >
+                <Icon label='arrow-left' size='sm' color='blue600'>
+                  <IconWallet />
+                </Icon>
+                <span style={{ marginLeft: '4px' }}>
+                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+                </span>
+              </Button>
+              <Icon color='grey400' label='user-page' size='sm'>
+                <IconUser
+                  cursor='pointer'
+                  onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
+                  style={{ marginLeft: '4px' }}
+                />
+              </Icon>
+            </Flex>
           ) : (
             <>
               <LinkContainer style={{ marginRight: '8px' }} to='/login' data-e2e='loginLink'>

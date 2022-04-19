@@ -310,11 +310,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
-  getData(
-    state,
-    ownProps.computedMatch.params.coin,
-    window.coins[ownProps.computedMatch.params.coin].coinfig
-  )
+  getData(state, ownProps.computedMatch.params.coin)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin } = ownProps.computedMatch.params

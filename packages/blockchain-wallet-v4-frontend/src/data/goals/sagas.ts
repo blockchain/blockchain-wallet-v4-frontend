@@ -1011,8 +1011,8 @@ export default ({ api, coreSagas, networks }) => {
 
   // watch for /open calls and run the goals
   const routerChanged = function* () {
-    yield call(defineGoals)
-    yield call(runGoals)
+    // yield call(defineGoals)
+    // yield call(runGoals)
   }
 
   return {
