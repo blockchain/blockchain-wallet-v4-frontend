@@ -270,7 +270,12 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
   return { image, text, title }
 }
 
-const getDefaultMethod = (defaultMethod, bankAccounts: BankTransferAccountType[]) => {
+const getDefaultMethod = (
+  defaultMethod,
+  bankAccounts: BankTransferAccountType[]
+):
+  | ({ type: BSPaymentTypes.BANK_TRANSFER } & (BankTransferAccountType | BeneficiaryType))
+  | undefined => {
   if (defaultMethod) {
     return { ...defaultMethod, type: BSPaymentTypes.BANK_TRANSFER }
   }
