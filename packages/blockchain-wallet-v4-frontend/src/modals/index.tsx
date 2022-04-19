@@ -7,6 +7,8 @@ import { ModalName } from 'data/types'
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
 
+const ShowWalletModal = React.lazy(() => import('./ShowWalletModal'))
+
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
 const ShowUsedAddresses = React.lazy(() => import('./Addresses/ShowUsedAddresses'))
@@ -225,6 +227,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PROMPT_INPUT_MODAL) ? (
           <PromptInput />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SHOW_WALLET) ? (
+          <ShowWalletModal />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.QR_CODE_MODAL) ? <QRCode /> : null}
         {props.modals.find((modal) => modal.type === ModalName.RECOVERY_PHRASE_MODAL) ? (

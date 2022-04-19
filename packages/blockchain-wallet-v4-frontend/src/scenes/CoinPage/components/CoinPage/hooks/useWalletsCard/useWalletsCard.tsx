@@ -1,5 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { useOpenShowWalletModal } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
@@ -11,6 +12,8 @@ import { formatValues } from './model'
 import { getData } from './selectors'
 
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
+  const [open] = useOpenShowWalletModal()
+
   const data = useSelector((state) => getData(state, coin))
   const walletsCard = useMemo(() => {
     return (
@@ -34,7 +37,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
             </>
           ),
           Success: ({ addressData, currency, rates }) => {
-            return addressData.map(({ value: { available, balance, label } }) => {
+            return addressData.map(({ value: { address, available, balance, label } }) => {
               const [totalCryptoFormatted, totalFiatFormatted] = formatValues(
                 coin,
                 available,
@@ -48,7 +51,12 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
                   key={label}
                   bottomLeftText={label}
                   bottomRightText={totalCryptoFormatted}
-                  onClick={() => {}}
+                  onClick={() => {
+                    open({
+                      address,
+                      origin: 'CoinPageHoldings'
+                    })
+                  }}
                   topLeftText={label}
                   topRightText={totalFiatFormatted}
                   icon={
