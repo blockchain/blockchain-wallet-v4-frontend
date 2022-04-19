@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
@@ -20,41 +20,6 @@ import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
-
-// PUBLIC
-const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
-const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
-const Help = React.lazy(() => import('./Help'))
-const HelpExchange = React.lazy(() => import('./HelpExchange'))
-const Login = React.lazy(() => import('./Login'))
-const Logout = React.lazy(() => import('./Logout'))
-const MobileLogin = React.lazy(() => import('./MobileLogin'))
-const ProductPicker = React.lazy(() => import('./ProductPicker'))
-const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
-const Signup = React.lazy(() => import('./Signup'))
-const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
-const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
-const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
-const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
-const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
-const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
-
-// WALLET
-const Addresses = React.lazy(() => import('./Settings/Addresses'))
-const Airdrops = React.lazy(() => import('./Airdrops'))
-const General = React.lazy(() => import('./Settings/General'))
-const Home = React.lazy(() => import('./Home'))
-const Interest = React.lazy(() => import('./Interest'))
-const InterestHistory = React.lazy(() => import('./InterestHistory'))
-const Preferences = React.lazy(() => import('./Settings/Preferences'))
-const Prices = React.lazy(() => import('./Prices'))
-const Nfts = React.lazy(() => import('./Nfts'))
-const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
-const TaxCenter = React.lazy(() => import('./TaxCenter'))
-const TheExchange = React.lazy(() => import('./TheExchange'))
-const Transactions = React.lazy(() => import('./Transactions'))
-const WalletConnect = React.lazy(() => import('./WalletConnect'))
-const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
@@ -88,95 +53,138 @@ const App = ({
               <ConnectedRouter history={history}>
                 <Suspense fallback={<Loading />}>
                   <Switch>
-                    <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
+                    <PublicLayout
+                      path='/authorize-approve'
+                      component={lazy(() => import('./AuthorizeLogin'))}
+                    />
                     <PublicLayout
                       path='/help'
-                      component={Help}
+                      component={lazy(() => import('./Help'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
                     />
                     <PublicLayout
                       path='/help-exchange'
-                      component={HelpExchange}
+                      component={lazy(() => import('./HelpExchange'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
                     />
                     <PublicLayout
                       path='/login'
-                      component={Login}
+                      component={lazy(() => import('./Login'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
-                    <PublicLayout path='/logout' component={Logout} />
+                    <PublicLayout path='/logout' component={lazy(() => import('./Logout'))} />
                     <PublicLayout
                       path='/select-product'
-                      component={ProductPicker}
+                      component={lazy(() => import('./ProductPicker'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
                     />
                     <PublicLayout
                       path='/mobile-login'
-                      component={MobileLogin}
+                      component={lazy(() => import('./MobileLogin'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout
                       path='/recover'
-                      component={RecoverWallet}
+                      component={lazy(() => import('./RecoverWallet'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
                     />
                     <PublicLayout
                       path='/reset-2fa'
-                      component={ResetWallet2fa}
+                      component={lazy(() => import('./ResetWallet2fa'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
                     />
                     <PublicLayout
                       path='/reset-two-factor'
-                      component={ResetWallet2faToken}
+                      component={lazy(() => import('./ResetWallet2faToken'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
                     />
                     <PublicLayout
                       path='/signup'
-                      component={Signup}
+                      component={lazy(() => import('./Signup'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
                     />
                     <PublicLayout
                       path='/verify-email'
-                      component={VerifyEmailToken}
+                      component={lazy(() => import('./VerifyEmailToken'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                     />
                     <PublicLayout
                       path='/upload-document/success'
-                      component={UploadDocumentsSuccess}
+                      component={lazy(() => import('./UploadDocuments/Success'))}
                       exact
                     />
-                    <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
+                    <PublicLayout
+                      path='/upload-document/:token'
+                      component={lazy(() => import('./UploadDocuments'))}
+                    />
                     <PublicLayout
                       path='/wallet'
-                      component={Login}
+                      component={lazy(() => import('./Login'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                     />
                     <PublicLayout
                       path='/verify-email-step'
-                      component={VerifyEmail}
+                      component={lazy(() => import('./VerifyEmail'))}
                       pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                     />
                     {walletDebitCardEnabled && (
-                      <WalletLayout path='/debitCard' component={DebitCard} />
+                      <WalletLayout
+                        path='/debitCard'
+                        component={lazy(() => import('./DebitCard'))}
+                      />
                     )}
-                    <WalletLayout path='/airdrops' component={Airdrops} />
-                    <WalletLayout path='/exchange' component={TheExchange} />
-                    <WalletLayout path='/home' component={Home} />
-                    <WalletLayout path='/rewards' component={Interest} exact />
-                    <WalletLayout path='/rewards/history' component={InterestHistory} />
-                    <WalletLayout path='/nfts' component={Nfts} />
-                    <WalletLayout path='/security-center' component={SecurityCenter} />
-                    <WalletLayout path='/settings/addresses' component={Addresses} />
-                    <WalletLayout path='/settings/general' component={General} />
-                    <WalletLayout path='/settings/preferences' component={Preferences} />
+                    <WalletLayout path='/airdrops' component={lazy(() => import('./Airdrops'))} />
+                    <WalletLayout
+                      path='/exchange'
+                      component={lazy(() => import('./TheExchange'))}
+                    />
+                    <WalletLayout path='/home' component={lazy(() => import('./Home'))} />
+                    <WalletLayout
+                      path='/rewards'
+                      component={lazy(() => import('./Interest'))}
+                      exact
+                    />
+                    <WalletLayout
+                      path='/rewards/history'
+                      component={lazy(() => import('./InterestHistory'))}
+                    />
+                    <WalletLayout path='/nfts' component={lazy(() => import('./Nfts'))} />
+                    <WalletLayout
+                      path='/security-center'
+                      component={lazy(() => import('./SecurityCenter'))}
+                    />
+                    <WalletLayout
+                      path='/settings/addresses'
+                      component={lazy(() => import('./Settings/Addresses'))}
+                    />
+                    <WalletLayout
+                      path='/settings/general'
+                      component={lazy(() => import('./Settings/General'))}
+                    />
+                    <WalletLayout
+                      path='/settings/preferences'
+                      component={lazy(() => import('./Settings/Preferences'))}
+                    />
                     {walletConnectEnabled && (
-                      <WalletLayout path='/dapps' component={WalletConnect} />
+                      <WalletLayout
+                        path='/dapps'
+                        component={lazy(() => import('./WalletConnect'))}
+                      />
                     )}
-                    <WalletLayout path='/prices' component={Prices} />
-                    {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
+                    <WalletLayout path='/prices' component={lazy(() => import('./Prices'))} />
+                    {taxCenterEnabled && (
+                      <WalletLayout
+                        path='/tax-center'
+                        component={lazy(() => import('./TaxCenter'))}
+                      />
+                    )}
                     <WalletLayout
                       path='/coins/:coin'
-                      component={coinViewV2 ? CoinPage : Transactions}
+                      component={
+                        coinViewV2
+                          ? lazy(() => import('./CoinPage/components/CoinPage'))
+                          : lazy(() => import('./Transactions'))
+                      }
                       coinViewV2={coinViewV2}
                     />
                     {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
