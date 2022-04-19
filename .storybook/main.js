@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  stories: ['../packages/blockchain-wallet-v4-frontend/src/components/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../packages/blockchain-wallet-v4-frontend/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

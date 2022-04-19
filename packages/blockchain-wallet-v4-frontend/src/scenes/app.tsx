@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -25,6 +24,7 @@ import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
+const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -61,6 +61,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
+  coinViewV2,
   coinsWithBalance,
   history,
   isAuthenticated,
@@ -172,20 +173,11 @@ const App = ({
                     )}
                     <WalletLayout path='/prices' component={Prices} />
                     {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
-                    {values(
-                      map((coinModel) => {
-                        const { coinfig } = coinModel
-                        return (
-                          <WalletLayout
-                            path={`/${coinfig.symbol}/transactions`}
-                            component={Transactions}
-                            coinfig={coinfig}
-                            coin={coinfig.symbol}
-                            key={coinfig.symbol}
-                          />
-                        )
-                      }, coinsWithBalance)
-                    )}
+                    <WalletLayout
+                      path='/coins/:coin'
+                      component={coinViewV2 ? CoinPage : Transactions}
+                      coinViewV2={coinViewV2}
+                    />
                     {isAuthenticated ? (
                       coinsWithBalance.length ? (
                         <Redirect to='/home' />
@@ -210,6 +202,7 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   taxCenterEnabled: selectors.core.walletOptions

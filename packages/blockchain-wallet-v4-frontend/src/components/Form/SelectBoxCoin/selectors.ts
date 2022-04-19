@@ -11,7 +11,9 @@ export const getData = (state) => {
       .filter((coinfig) => {
         const { products } = coinfig
         return (
-          (products.includes('PrivateKey') || products.includes('CustodialWalletBalance')) &&
+          (products.includes('PrivateKey') ||
+            products.includes('CustodialWalletBalance') ||
+            products.includes('DynamicSelfCustody')) &&
           coinfig.type.name !== 'FIAT'
         )
       })

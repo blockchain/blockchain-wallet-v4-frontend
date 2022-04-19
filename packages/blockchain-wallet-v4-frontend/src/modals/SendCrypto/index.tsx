@@ -31,7 +31,7 @@ class SendCrypto extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.sendCryptoActions.fetchWithdrawalFees()
+    this.props.sendCryptoActions.fetchWithdrawalFees({})
     this.props.sendCryptoActions.fetchWithdrawalLocks()
   }
 
@@ -84,8 +84,10 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
   initialValues: {
     coin: state.components.sendCrypto.initialCoin,
+    fee: 'LOW',
     fix: 'CRYPTO'
   },
+  isValidAddress: selectors.components.sendCrypto.getIsValidAddress(state),
   sendLimits: selectors.components.sendCrypto
     .getSendLimits(state)
     .getOrElse({} as CrossBorderLimits),

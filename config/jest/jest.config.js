@@ -67,7 +67,20 @@ window.coins = {
         parentChain: 'XLM'
       }
     }
-  }
+  },
+  USD: {
+    coinfig: {
+      symbol: "USD",
+      "displaySymbol": "USD",
+      "name": "US Dollar",
+      "precision": 2,
+      "type": {
+        "name": "FIAT",
+        "logoPngUrl": "",
+        websiteUrl: ""
+      },
+    }
+  },
 }
 
 module.exports = {

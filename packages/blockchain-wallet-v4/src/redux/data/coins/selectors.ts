@@ -1,4 +1,5 @@
 import memoize from 'fast-memoize'
+import { curry } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 
@@ -37,11 +38,22 @@ const _getFiatCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'FIAT')
 }
 
+const _getDynamicSelfCustodyCoins = () => {
+  return Object.keys(window.coins).filter((coin) =>
+    window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
+  )
+}
+
+export const getDynamicSelfCustodyCoins = memoize(_getDynamicSelfCustodyCoins)
 export const getCustodialCoins = memoize(_getCustodialCoins)
 export const getNonCustodialCoins = memoize(_getNonCustodialCoins)
 export const getFiatCoins = memoize(_getFiatCoins)
 export const getAllCoins = memoize(_getAllCoins)
 export const getErc20Coins = memoize(_getErc20Coins)
+
+export const getBalance = curry((coin: string, state: RootState) => {
+  return state.dataPath.coins.balances[coin] || Remote.NotAsked
+})
 
 export const getRates = (coin: string, state: RootState) => {
   const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
