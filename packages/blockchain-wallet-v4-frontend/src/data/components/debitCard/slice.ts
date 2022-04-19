@@ -47,7 +47,8 @@ const debitCardSlice = createSlice({
     },
     setCardToken: (state, action: PayloadAction<string>) => {
       state.cardToken = action.payload
-    }
+    },
+    terminateCard: (state, action: PayloadAction<string>) => {}
   }
 })
 
