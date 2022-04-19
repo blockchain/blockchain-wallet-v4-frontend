@@ -1,10 +1,22 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { Icon } from '@blockchain-com/constellation'
+import { IconRefresh } from '@blockchain-com/icons'
+import { compose } from 'redux'
 
-import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { displayFiatToFiat } from '@core/exchange'
+import {
+  Button,
+  Icon as BlockchainIcon,
+  SkeletonRectangle,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { Flex } from 'components/Flex'
+import Flyout, { duration, FlyoutChild, FlyoutWrapper, Row, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
@@ -34,7 +46,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
   }
 
   render() {
-    const { close, position, total, userClickedOutside } = this.props
+    const { close, data, position, total, userClickedOutside } = this.props
     const { show } = this.state
 
     return (
@@ -48,8 +60,117 @@ class EthWalletBalance extends PureComponent<Props, State> {
       >
         <FlyoutChild>
           <FlyoutHeader data-e2e='closeEthBalances' onClick={() => close()} mode='back'>
-            <FormattedMessage id='copy.my_wallet' defaultMessage='My Wallet' />
+            <FormattedMessage id='copy.my_wallet' defaultMessage='My ETH Wallet' />
           </FlyoutHeader>
+          <FlyoutWrapper>
+            <Flex justifyContent='space-between'>
+              <div>
+                <Text color='black' size='12px' weight={600}>
+                  <FormattedMessage
+                    id='copy.your_total_balance'
+                    defaultMessage='Your Total Balance'
+                  />
+                </Text>
+                {data.cata({
+                  Failure: () => (
+                    <Text size='24px' weight={600} color='red'>
+                      Error
+                    </Text>
+                  ),
+                  Loading: () => <SkeletonRectangle />,
+                  NotAsked: () => <SkeletonRectangle />,
+                  Success: ({ total }) => (
+                    <Text size='24px' weight={600} color='black'>
+                      {displayFiatToFiat({ value: total })}
+                    </Text>
+                  )
+                })}
+              </div>
+              <Button small data-e2e='refresh' nature='empty-blue'>
+                <Icon label='refresh' size='sm' color='blue600'>
+                  <IconRefresh />
+                </Icon>
+                <span style={{ marginLeft: '4px' }}>
+                  <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                </span>
+              </Button>
+            </Flex>
+          </FlyoutWrapper>
+          {data.cata({
+            Failure: () => <>error</>,
+            Loading: () => <SpinningLoader />,
+            NotAsked: () => <SpinningLoader />,
+            Success: ({ erc20Balances, ethBalance }) => (
+              <>
+                <Row>
+                  <Flex justifyContent='space-between' alignItems='center'>
+                    <Flex gap={16} alignItems='center'>
+                      <BlockchainIcon size='24px' name='ETH' />
+                      <Flex gap={2} flexDirection='column'>
+                        <Text color='black' weight={600}>
+                          {window.coins.ETH.coinfig.name}
+                        </Text>
+                        <Text size='14px' color='grey500' weight={500}>
+                          {window.coins.ETH.coinfig.displaySymbol} Private Key Wallet
+                        </Text>
+                      </Flex>
+                    </Flex>
+                    <Flex gap={2} flexDirection='column'>
+                      <Flex justifyContent='flex-end'>
+                        <FiatDisplay coin='ETH' color='black' weight={600}>
+                          {ethBalance}
+                        </FiatDisplay>
+                      </Flex>
+                      <Flex justifyContent='flex-end'>
+                        <CoinDisplay coin='ETH' size='14px' color='grey500' weight={500}>
+                          {ethBalance}
+                        </CoinDisplay>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </Row>
+                {erc20Balances.map(({ tokenSymbol }) => (
+                  <Row key={tokenSymbol}>
+                    <Flex justifyContent='space-between' alignItems='center'>
+                      <Flex gap={16} alignItems='center'>
+                        <BlockchainIcon size='24px' name={tokenSymbol} />
+                        <Flex gap={2} flexDirection='column'>
+                          <Text color='black' weight={600}>
+                            {window.coins[tokenSymbol].coinfig.name}
+                          </Text>
+                          <Text size='14px' color='grey500' weight={500}>
+                            {window.coins[tokenSymbol].coinfig.displaySymbol} Private Key Wallet
+                          </Text>
+                        </Flex>
+                      </Flex>
+                      <Flex gap={2} flexDirection='column'>
+                        <Flex justifyContent='flex-end'>
+                          <FiatDisplay coin={tokenSymbol} color='black' weight={600}>
+                            {ethBalance}
+                          </FiatDisplay>
+                        </Flex>
+                        <Flex justifyContent='flex-end'>
+                          <CoinDisplay coin={tokenSymbol} size='14px' color='grey500' weight={500}>
+                            {ethBalance}
+                          </CoinDisplay>
+                        </Flex>
+                      </Flex>
+                    </Flex>
+                  </Row>
+                ))}
+              </>
+            )
+          })}
+          <FlyoutWrapper>
+            <Flex gap={8}>
+              <Button fullwidth data-e2e='addFunds' nature='primary'>
+                Add Funds
+              </Button>
+              <Button fullwidth data-e2e='wrapEth' nature='empty-blue'>
+                Wrap ETH
+              </Button>
+            </Flex>
+          </FlyoutWrapper>
         </FlyoutChild>
       </Flyout>
     )
