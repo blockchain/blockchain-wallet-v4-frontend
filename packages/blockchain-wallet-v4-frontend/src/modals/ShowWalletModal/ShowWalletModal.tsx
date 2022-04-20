@@ -1,15 +1,13 @@
 import React from 'react'
 
-import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 
 import { ShowWalletModalComponent } from './ShowWalletModal.types'
 
 export const ShowWalletModal: ShowWalletModalComponent = () => {
   return (
-    <Modal size='large'>
-      <ModalHeader />
-
-      <ModalBody />
-    </Modal>
+    <Flyout isOpen position={0} onClose={() => null} total={1}>
+      <div></div>
+    </Flyout>
   )
 }
