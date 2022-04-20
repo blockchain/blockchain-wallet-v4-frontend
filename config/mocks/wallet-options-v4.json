@@ -35,7 +35,7 @@
         "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
-        "coinViewV2": true,
+        "coinViewV2": false,
         "completeYourProfile": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
