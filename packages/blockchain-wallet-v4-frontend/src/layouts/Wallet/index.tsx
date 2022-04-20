@@ -14,9 +14,12 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
       component: Component,
       computedMatch,
       isAuthenticated,
+      pageTitle,
       path,
       ...rest
     } = this.props
+
+    if (pageTitle) document.title = pageTitle
 
     return isAuthenticated ? (
       <Route
@@ -46,6 +49,7 @@ type Props = ConnectedProps<typeof connector> & {
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean
+  pageTitle?: string
   path: string
 }
 
