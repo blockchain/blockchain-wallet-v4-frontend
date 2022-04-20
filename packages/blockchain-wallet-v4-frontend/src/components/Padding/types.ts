@@ -1,9 +1,5 @@
 import { FC } from 'react'
 
-type Never<T> = {
-  [Key in keyof T]?: never
-}
-
 export type PaddingVertical =
   | {
       all?: never

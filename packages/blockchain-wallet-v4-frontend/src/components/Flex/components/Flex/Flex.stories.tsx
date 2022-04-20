@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { ComponentMeta } from '@storybook/react'
 
 import { Flex, FlexComponent } from '.'
 
@@ -7,8 +7,6 @@ const flexStory: ComponentMeta<FlexComponent> = {
   component: Flex,
   title: 'Components/Flex'
 }
-
-const Template: ComponentStory<FlexComponent> = (args) => <Flex {...args} />
 
 const GreyCircle = () => (
   <div style={{ background: 'grey', borderRadius: 12, height: 24, width: 24 }} />

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SelfCustodyTxType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import { Text } from 'blockchain-info-components'
 
 import {
@@ -18,8 +18,6 @@ import {
 import { TransactionType } from './SelfCustodyTxModel'
 
 const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
-  const movement = tx.movements[0]
-
   // TODO: SELF_CUSTODY
   const coin = 'STX'
 
@@ -30,32 +28,23 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
     >
       <TxRow>
         <Row width='30%'>
-          <IconTx
-            type={movement.type}
-            coin={movement.type === 'RECEIVED' ? 'green400' : 'red500'}
-          />
+          <IconTx type={tx.type} coin={tx.type === 'RECEIVED' ? 'green400' : 'red500'} />
           <StatusAndType data-e2e='txStatusColumn'>
             <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-              <TransactionType txType={movement.type} /> {coin}
+              <TransactionType txType={tx.type} /> {coin}
             </Text>
             <Timestamp time={tx.timestamp * 1000} />
           </StatusAndType>
         </Row>
         <Col width='50%'>
           <Addresses
-            from={
-              movement.type === 'RECEIVED' ? (
-                <>{movement.address}</>
-              ) : (
-                <>{coin} Private Key Wallet</>
-              )
-            }
-            to={movement.type === 'SENT' ? <>{movement.address}</> : <>{coin} Private Key Wallet</>}
+            from={tx.type === 'RECEIVED' ? <>{coin} Private Key Wallet</> : <>{tx.from}</>}
+            to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coin} Private Key Wallet</>}
           />
         </Col>
         <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>
           <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
-            {movement.amount}
+            {tx.amount}
           </StyledCoinDisplay>
           <StyledFiatDisplay
             size='14px'
@@ -64,7 +53,7 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
             color='grey600'
             data-e2e='orderFiatAmt'
           >
-            {movement.amount}
+            {tx.amount}
           </StyledFiatDisplay>
         </Col>
       </TxRow>
@@ -72,6 +61,6 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
   )
 }
 
-type Props = { tx: SelfCustodyTxType }
+type Props = { tx: IngestedSelfCustodyType }
 
 export default SelfCustodyTx

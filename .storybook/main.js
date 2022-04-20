@@ -25,9 +25,10 @@ module.exports = {
     config.resolve.alias = {
       '@core': path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/components/'),
-      middleware: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/middleware/'),
       data: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/data/'),
+      hooks: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/hooks/'),
       layouts: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/layouts/'),
+      middleware: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/middleware/'),
       providers: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/providers/'),
       services: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/services/'),
       utils: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/utils/')

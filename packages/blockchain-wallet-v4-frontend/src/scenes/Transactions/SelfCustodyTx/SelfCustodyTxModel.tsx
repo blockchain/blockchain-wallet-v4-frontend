@@ -1,12 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { SelfCustodyTxType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 
 export const TransactionType = ({
   txType
 }: {
-  txType: SelfCustodyTxType['movements'][0]['type']
+  txType: IngestedSelfCustodyType['movements'][0]['type']
 }) => {
   switch (txType) {
     case 'RECEIVED':

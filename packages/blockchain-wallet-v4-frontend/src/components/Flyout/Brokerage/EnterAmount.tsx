@@ -453,38 +453,32 @@ const EnterAmount = ({
   )
 }
 
-export type OwnProps =
+export type OwnProps = {
+  crossBorderLimits: CrossBorderLimits
+  fiatCurrency: FiatType
+  // formErrors: FormErrors<{ amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }, string> | undefined
+  formActions: typeof actions.form
+  formErrors: FormErrors<{}, string> | undefined
+  handleBack: () => void
+  handleMethodClick: () => void
+  paymentAccount?: BankTransferAccountType | BeneficiaryType
+  paymentMethod: BSPaymentMethodType
+} & (
   | {
-      crossBorderLimits: CrossBorderLimits
       fee?: never
-      fiatCurrency: FiatType
-      formActions: typeof actions.form
-      // formErrors: FormErrors<{ amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }, string> | undefined
-      formErrors: FormErrors<{}, string> | undefined
-      handleBack: () => void
-      handleMethodClick: () => void
       minWithdrawAmount?: never
       onMaxButtonClicked?: never
       orderType: BrokerageOrderType.DEPOSIT
-      paymentAccount?: BankTransferAccountType | BeneficiaryType
-      paymentMethod: BSPaymentMethodType
       withdrawableBalance?: never
     }
   | {
-      crossBorderLimits: CrossBorderLimits
       fee: string
-      fiatCurrency: FiatType
-      formActions: typeof actions.form
-      formErrors: FormErrors<{}, string> | undefined
-      handleBack: () => void
-      handleMethodClick: () => void
       minWithdrawAmount: string
       onMaxButtonClicked: () => void
       orderType: BrokerageOrderType.WITHDRAW
-      paymentAccount?: BankTransferAccountType | BeneficiaryType
-      paymentMethod: BSPaymentMethodType
       withdrawableBalance: string
     } // add another union type here when moving buy sell enter amount screens over
+)
 
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>
 

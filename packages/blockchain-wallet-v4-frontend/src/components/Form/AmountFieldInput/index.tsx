@@ -83,6 +83,7 @@ const AmountFieldInput: React.FC<Props> = ({
             </Text>
           )}
           <Field
+            autoComplete='off'
             data-e2e={rest['data-e2e']}
             name={name}
             // @ts-ignore
