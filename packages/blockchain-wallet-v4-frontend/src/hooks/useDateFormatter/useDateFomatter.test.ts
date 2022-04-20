@@ -1,15 +1,15 @@
 import { renderHook } from '@testing-library/react-hooks'
 
-import { useDateFomatter } from '.'
+import { useDateFormatter } from '.'
 
-describe('useDateFomatter()', () => {
-  it('Should format the date with parttern DD/MM/yyyy', () => {
+describe('useDateFormatter()', () => {
+  it('Should format the date with pattern dd/mm/yyyy', () => {
     const { result } = renderHook(
-      ({ date, pattern }: { date: Date; pattern: string }) => useDateFomatter(date, pattern),
+      ({ date, pattern }: { date: Date; pattern: string }) => useDateFormatter(date, pattern),
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/mm/yyyy'
         }
       }
     )
@@ -19,11 +19,11 @@ describe('useDateFomatter()', () => {
 
   it('Should update the result when the pattern changes', () => {
     const { rerender, result } = renderHook(
-      ({ date, pattern }: { date: Date; pattern: string }) => useDateFomatter(date, pattern),
+      ({ date, pattern }: { date: Date; pattern: string }) => useDateFormatter(date, pattern),
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/MM/yyyy'
         }
       }
     )
@@ -32,7 +32,7 @@ describe('useDateFomatter()', () => {
 
     rerender({
       date: new Date(2022, 1, 18),
-      pattern: 'DD - MM - yyyy'
+      pattern: 'dd - MM - yyyy'
     })
 
     expect(result.current).toEqual('18 - 02 - 2022')
@@ -40,11 +40,11 @@ describe('useDateFomatter()', () => {
 
   it('Should update the result when the date changes', () => {
     const { rerender, result } = renderHook(
-      ({ date, pattern }: { date: Date; pattern: string }) => useDateFomatter(date, pattern),
+      ({ date, pattern }: { date: Date; pattern: string }) => useDateFormatter(date, pattern),
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/MM/yyyy'
         }
       }
     )
@@ -53,7 +53,7 @@ describe('useDateFomatter()', () => {
 
     rerender({
       date: new Date(2020, 4, 16),
-      pattern: 'DD/MM/yyyy'
+      pattern: 'dd/MM/yyyy'
     })
 
     expect(result.current).toEqual('16/05/2020')

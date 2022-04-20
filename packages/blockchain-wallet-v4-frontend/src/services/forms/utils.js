@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { isValid } from 'date-fns'
 
 import { CRYPTO_DECIMALS, FIAT_DECIMALS } from './constants'
 
@@ -83,7 +83,7 @@ const isValidSSN = (val) => {
 const isDOB = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
-    return cleaned.length === 8 && moment(val).isValid()
+    return cleaned.length === 8 && isValid(new Date(val))
   }
   return val
 }

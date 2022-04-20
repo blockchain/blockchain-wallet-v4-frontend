@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { format } from 'date-fns'
 import {
   compose,
   curry,
@@ -49,7 +49,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
   const from = prop('source_account', tx)
   const type = getType({ from, to }, addresses)
   const fee = prop('fee_charged', tx)
-  const time = moment(prop('created_at', tx)).format('X')
+  const time = format(new Date(tx.created_at), 't')
   const hash = prop('hash', tx)
   const memo = prop('memo', tx)
   const memoType = prop('memo_type', tx)

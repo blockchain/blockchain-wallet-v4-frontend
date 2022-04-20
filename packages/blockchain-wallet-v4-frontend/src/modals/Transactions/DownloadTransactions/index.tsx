@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import locale from 'browser-locale'
-import * as moment from 'moment'
-import { prop } from 'ramda'
+import { endOfDay, format, startOfDay, subDays } from 'date-fns'
 import { compose, Dispatch } from 'redux'
 
 import { CoinType } from '@core/types'
@@ -13,8 +11,6 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
 import DownloadTransactions from './template'
-
-moment.locale(locale())
 
 export type StateProps = {
   filename: string
@@ -33,7 +29,7 @@ type LinkStatePropsType = {
 type LinkDispatchPropsType = {
   clearTransactions: () => void
   fetchTransactions: (address: string, startDate: string, endDate: string) => void
-  initForm: (formDefaults: { end: moment.Moment; from: 'all'; start: moment.Moment }) => void
+  initForm: (formDefaults: { end: Date; from: 'all'; start: Date }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -45,14 +41,11 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 
   componentDidMount() {
     const { initForm } = this.props
+    const today = new Date()
     initForm({
-      // @ts-ignore
-      end: moment().endOf('day'),
-
+      end: endOfDay(today),
       from: 'all',
-
-      // @ts-ignore
-      start: moment().startOf('day').subtract(7, 'day')
+      start: subDays(startOfDay(today), 7)
     })
   }
 
@@ -62,9 +55,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 
   onFetchHistory = () => {
     const { coin, fetchTransactions, formValues } = this.props
-    const from = prop('from', formValues)
-    const startDate = prop('start', formValues)
-    const endDate = prop('end', formValues)
+    const { end, from, start } = formValues
     const addressDerivations =
       from.derivations &&
       from.derivations.map((derivation) => ({
@@ -72,9 +63,13 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
         type: derivation.type
       }))
     const address = from && (addressDerivations || from.xpub || from.address || from)
-    const filename = `${coin}_${startDate.format('MM-DD-YYYY')}_${endDate.format('MM-DD-YYYY')}.csv`
+    // start/end are moment objects due to react-datetime :(
+    const filename = `${coin}_${format(new Date(start.toString()), 'MM-dd-yyyy')}_${format(
+      new Date(end.toString()),
+      'MM-dd-yyyy'
+    )}.csv`
     this.setState({ filename, generating: true })
-    fetchTransactions(address, startDate, endDate)
+    fetchTransactions(address, start, end)
   }
 
   render() {

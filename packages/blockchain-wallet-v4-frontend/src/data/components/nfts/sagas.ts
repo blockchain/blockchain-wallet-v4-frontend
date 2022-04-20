@@ -1,10 +1,8 @@
-import BigNumber from 'bignumber.js'
+import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import moment from 'moment'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
-import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -12,7 +10,6 @@ import {
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
-  OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import {
@@ -25,7 +22,7 @@ import {
   getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { NULL_ADDRESS, OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
+import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -326,12 +323,12 @@ export default ({ api }: { api: APIType }) => {
         const listingTime = action.payload.listingTime
           ? new Date(action.payload.listingTime).getTime() / 1000 > new Date().getTime() / 1000
             ? new Date(action.payload.listingTime).getTime() / 1000
-            : moment().add(10, 'minutes').unix()
+            : getUnixTime(addMinutes(new Date(), 10))
           : undefined
         const expirationTime =
           action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
             ? new Date(action.payload.expirationTime).getTime() / 1000
-            : moment().add(7, 'day').unix()
+            : getUnixTime(addDays(new Date(), 7))
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
@@ -402,7 +399,7 @@ export default ({ api }: { api: APIType }) => {
       const { coinfig } = window.coins[action.payload.coin]
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const expirationTime = getUnixTime(addDays(new Date(), 7))
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
         getNftBuyOrder,
         action.payload.asset,
@@ -471,12 +468,12 @@ export default ({ api }: { api: APIType }) => {
       const listingTime = action.payload.listingTime
         ? new Date(action.payload.listingTime).getTime() / 1000 > new Date().getTime() / 1000
           ? new Date(action.payload.listingTime).getTime() / 1000
-          : moment().add(10, 'minutes').unix()
+          : getUnixTime(addMinutes(new Date(), 10))
         : undefined
       const expirationTime =
         action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
           ? new Date(action.payload.expirationTime).getTime() / 1000
-          : moment().add(7, 'day').unix()
+          : getUnixTime(addDays(new Date(), 7))
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(

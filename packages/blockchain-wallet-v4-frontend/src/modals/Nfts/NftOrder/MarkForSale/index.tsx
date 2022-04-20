@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -445,7 +445,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      listingTime: moment().format('MM/DD/YYYY'),
+      listingTime: format(new Date(), 'MM/dd/yyyy'),
       'sale-type': 'fixed-price',
       timedAuctionType: 'decliningPrice'
     }

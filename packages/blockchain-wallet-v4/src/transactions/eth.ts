@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format, getUnixTime, isSameYear } from 'date-fns'
 import { curry, equals, includes, lift, map, toLower } from 'ramda'
 
 import { EthRawTxType } from '@core/network/api/eth/types'
@@ -16,10 +16,10 @@ import Remote from '../remote'
 // Shared Utils
 //
 export const getTime = (timeStamp) => {
-  const date = moment.unix(timeStamp).local()
-  return equals(date.year(), moment().year())
-    ? date.format('MMMM D @ h:mm A')
-    : date.format('MMMM D YYYY @ h:mm A')
+  const date = new Date(getUnixTime(timeStamp) * 1000)
+  return isSameYear(date, new Date())
+    ? format(date, 'MMMM d @ h:mm a')
+    : format(date, 'MMMM d yyyy @ h:mm a')
 }
 
 const getType = (tx, addresses) => {
@@ -77,7 +77,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx: EthRawT
     insertedAt: Number(time) * 1000,
     state: tx.state,
     time,
-    timeFormatted: getTime(time),
+    timeFormatted: getTime(new Date(time * 1000)),
     to: getLabel(tx.to, state),
     type
   }
