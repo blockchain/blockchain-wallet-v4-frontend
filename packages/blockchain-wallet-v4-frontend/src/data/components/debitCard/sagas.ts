@@ -55,6 +55,7 @@ export default ({ api }: { api: APIType }) => {
       }
     }
   }
+
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
     try {
       yield put(A.createCardLoading())
@@ -69,9 +70,21 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const terminateCard = function* (action: ReturnType<typeof A.terminateCard>) {
+    try {
+      const { payload } = action
+      yield call(api.terminateDC, payload)
+
+      yield call(getCards)
+    } catch (e) {
+      console.error('Failed to terminate card', errorHandler(e))
+    }
+  }
+
   return {
     createCard,
     getCards,
-    getProducts
+    getProducts,
+    terminateCard
   }
 }

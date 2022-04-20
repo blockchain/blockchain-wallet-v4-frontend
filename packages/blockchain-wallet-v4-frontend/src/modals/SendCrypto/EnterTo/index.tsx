@@ -17,7 +17,6 @@ import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
 import { FormLabelWithBorder, SEND_FORM } from '../model'
-import { INVALID_ADDR } from './validation'
 
 const Wrapper = styled(Form)`
   display: flex;
@@ -136,11 +135,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
   }
 }
 
-type Props = OwnProps & {
-  formErrors: {
-    to?: typeof INVALID_ADDR | boolean
-  }
-}
+type Props = OwnProps
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,

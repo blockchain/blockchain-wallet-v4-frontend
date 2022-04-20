@@ -22,7 +22,7 @@ export default ({ api }: { api: APIType }) => {
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
     try {
       yield put(A.buildTxLoading())
-      const { account, amount, destination, fee, fix, rates, walletCurrency } = action.payload
+      const { account, baseCryptoAmt, destination, fee } = action.payload
       const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
@@ -38,7 +38,7 @@ export default ({ api }: { api: APIType }) => {
             uuid
           },
           intent: {
-            amount,
+            amount: baseCryptoAmt,
             currency: coin,
             destination,
             fee,
@@ -53,22 +53,6 @@ export default ({ api }: { api: APIType }) => {
 
         yield put(A.buildTxSuccess(tx))
       } else {
-        // amt
-        const standardCryptoAmt =
-          fix === 'FIAT'
-            ? convertFiatToCoin({
-                coin,
-                currency: walletCurrency,
-                rates,
-                value: amount
-              })
-            : amount
-        const baseCryptoAmt = convertCoinToCoin({
-          baseToStandard: false,
-          coin,
-          value: standardCryptoAmt
-        })
-
         // fee
         const standardCryptoFee = feesR.getOrElse(0) || 0
         const baseCryptoFee = convertCoinToCoin({
@@ -284,7 +268,15 @@ export default ({ api }: { api: APIType }) => {
 
   const validateAddress = function* ({ payload }: ReturnType<typeof A.validateAddress>) {
     const { address, coin } = payload
+
+    const isDynamicSelfCustody = window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
+
     try {
+      if (!isDynamicSelfCustody) {
+        yield put(A.validateAddressSuccess(!!address.match(/[a-zA-Z0-9]{15,}/)))
+        return
+      }
+
       const response: ReturnType<typeof api.validateAddress> = yield call(
         api.validateAddress,
         coin,

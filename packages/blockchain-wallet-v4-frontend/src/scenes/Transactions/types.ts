@@ -1,4 +1,4 @@
-import { SelfCustodyTxType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import {
   BSOrderType,
   BSTransactionType,
@@ -12,4 +12,4 @@ export type TxType =
   | BSOrderType
   | ProcessedTxType
   | FiatBSAndSwapTransactionType
-  | SelfCustodyTxType
+  | IngestedSelfCustodyType

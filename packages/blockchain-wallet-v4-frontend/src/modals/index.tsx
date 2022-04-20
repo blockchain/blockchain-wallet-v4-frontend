@@ -6,6 +6,7 @@ import { ModalName } from 'data/types'
 
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
+import CustomizableConfirm from "./CustomizableConfirm";
 
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
@@ -155,6 +156,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CONFIRM_DISABLE_2FA) ? (
           <ConfirmDisable2FA />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.CUSTOMIZABLE_CONFIRM_MODAL) ? (
+          <CustomizableConfirm />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />

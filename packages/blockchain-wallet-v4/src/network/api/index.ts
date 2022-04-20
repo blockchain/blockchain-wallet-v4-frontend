@@ -46,6 +46,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...debitCard({
+      authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       nabuUrl,

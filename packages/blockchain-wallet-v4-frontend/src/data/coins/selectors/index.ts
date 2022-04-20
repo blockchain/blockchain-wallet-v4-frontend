@@ -102,6 +102,9 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
 }
 
 export const getStxSelfCustodyAvailablity = (state): boolean => {
+  const isDoubleEncrypted = selectors.core.wallet.isSecondPasswordOn(state) as boolean
+  if (isDoubleEncrypted) return false
+
   const featureFlagsR = selectors.core.walletOptions.getFeatureFlags(state)
   const tagsR = selectors.modules.profile.getBlockstackTag(state)
   const invitationsR = selectors.core.settings.getInvitations(state)

@@ -79,7 +79,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   useEffect(() => {
     sendCryptoActions.buildTx({
       account,
-      amount: baseCryptoAmt,
+      baseCryptoAmt,
       destination: to,
       fee,
       fix,
@@ -127,7 +127,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 handleMax={() =>
                   sendCryptoActions.buildTx({
                     account,
-                    amount: 'MAX',
+                    baseCryptoAmt: 'MAX',
                     destination: to,
                     fee,
                     fix,
