@@ -24,6 +24,7 @@ export const CenteredTitle = styled(Text)`
   flex-direction: column;
   align-items: center;
   margin-top: 8px;
+  margin-bottom: 24px;
 `
 
 export const Items = styled.div`
@@ -152,7 +153,6 @@ export const BadgesWrapper = styled.div`
 
 export const Label = styled(Text)`
   display: inline-block;
-  color: inherit;
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
@@ -160,4 +160,19 @@ export const Label = styled(Text)`
 
 export const InputWrapper = styled.div`
   margin-top: 24px;
+`
+
+export const DataReference = styled.div`
+  border-radius: 8px;
+  border: 1px solid #dfe3eb;
+  margin-bottom: 24px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const FootNote = styled(Text)`
+  margin: 24px 0;
 `

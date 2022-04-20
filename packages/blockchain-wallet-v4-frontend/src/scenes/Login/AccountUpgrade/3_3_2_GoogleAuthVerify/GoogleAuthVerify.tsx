@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -20,6 +20,7 @@ import {
 } from '../AccountUpgrade.models'
 
 const GoogleAuthVerify = (props) => {
+  const { formatMessage } = useIntl()
   return (
     <>
       <Wrapper>
@@ -75,7 +76,14 @@ const GoogleAuthVerify = (props) => {
               defaultMessage='6 digit code'
             />
           </Label>
-          <TextInput name='6digitcode' type='text' placeholder='Enter 6 digit code' />
+          <TextInput
+            name='6digitcode'
+            type='text'
+            placeholder={formatMessage({
+              defaultMessage: 'Enter 6 digit code',
+              id: 'scenes.login.upgrade.googleAuthVerify.6digitcode.placeholder'
+            })}
+          />
         </InputWrapper>
         <ButtonNext
           nature='primary'
