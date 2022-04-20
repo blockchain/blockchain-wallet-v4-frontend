@@ -405,7 +405,7 @@ type LinkStatePropsType =
       step: 'LINKED_PAYMENT_ACCOUNTS'
     }
 
-type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector> & { children: never }
 type State = { show: boolean }
 
 export default enhance(BuySell)
