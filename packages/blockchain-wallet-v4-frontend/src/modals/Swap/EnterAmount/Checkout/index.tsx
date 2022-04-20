@@ -257,6 +257,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
+            autoComplete='off'
             fiatActive={false}
             haveError={!!showError}
             {...{
