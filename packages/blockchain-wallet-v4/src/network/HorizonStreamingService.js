@@ -1,12 +1,12 @@
 import { assoc, difference, dissoc, forEach, isEmpty, keys, prop } from 'ramda'
-import * as StellarSDK from 'stellar-sdk'
+import { Server } from 'stellar-sdk'
 
 // refetch transactions / attempt stream reconnect every 6 minutes
 export const RECONNECT_TIMEOUT = 360000
 
 export default class HorizonStreamingService {
   constructor({ url }) {
-    this.server = new StellarSDK.Server(url)
+    this.server = new Server(url)
   }
 
   streams = {}

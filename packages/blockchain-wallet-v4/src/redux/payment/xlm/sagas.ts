@@ -1,6 +1,6 @@
 import { contains, merge, path, prop, values } from 'ramda'
 import { call, select } from 'redux-saga/effects'
-import * as StellarSdk from 'stellar-sdk'
+import { Account, Asset, Memo, Networks, Operation, TransactionBuilder } from 'stellar-sdk'
 
 import { convertCoinToCoin } from '../../../exchange'
 import { xlm as xlmSigner } from '../../../signer'
@@ -85,13 +85,13 @@ export default ({ api }) => {
       value
     })
     if (destinationAccountExists)
-      return StellarSdk.Operation.payment({
+      return Operation.payment({
         amount,
-        asset: StellarSdk.Asset.native(),
+        asset: Asset.native(),
         destination: to
       })
 
-    return StellarSdk.Operation.createAccount({
+    return Operation.createAccount({
       destination: to,
       startingBalance: amount
     })
@@ -121,7 +121,7 @@ export default ({ api }) => {
       const { id } = account
       const data = yield call(api.getXlmAccount, id)
       const { sequence } = data
-      return new StellarSdk.Account(id, sequence)
+      return new Account(id, sequence)
     } catch (e) {
       throw new Error(e)
     }
@@ -156,15 +156,15 @@ export default ({ api }) => {
         account = yield call(getAccountAndSequenceNumber, account)
         const timeout = (yield select(S.walletOptions.getXlmSendTimeOutSeconds)).getOrElse(300)
         const timebounds = yield call(api.getTimebounds, timeout)
-        const txBuilder = new StellarSdk.TransactionBuilder(account, {
+        const txBuilder = new TransactionBuilder(account, {
           fee,
-          networkPassphrase: StellarSdk.Networks.PUBLIC, // TODO: pass in app config to detect env and thus add testnet support
+          networkPassphrase: Networks.PUBLIC, // TODO: pass in app config to detect env and thus add testnet support
           timebounds
         })
         const operation = yield call(createOperation, to, amount, destinationAccountExists)
         txBuilder.addOperation(operation)
         if (memo && memoType) {
-          txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
+          txBuilder.addMemo(Memo[memoType](memo))
         }
         const transaction = txBuilder.build()
         return makePayment(merge(p, { transaction }))

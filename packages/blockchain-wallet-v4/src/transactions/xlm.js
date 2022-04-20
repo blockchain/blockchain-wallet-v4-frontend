@@ -13,7 +13,7 @@ import {
   prop,
   propEq
 } from 'ramda'
-import * as StellarSdk from 'stellar-sdk'
+import { StrKey, xdr } from 'stellar-sdk'
 
 import Remote from '../remote'
 
@@ -30,7 +30,7 @@ const getAmount = (operation) => {
   return '0'
 }
 export const getDestination = (operation) =>
-  StellarSdk.StrKey.encodeEd25519PublicKey(operation.destination().value())
+  StrKey.encodeEd25519PublicKey(operation.destination().value())
 
 const getLabel = (accounts, address) =>
   compose(defaultTo(address), prop('label'), find(propEq('publicKey', address)))(accounts)
@@ -79,5 +79,5 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
 export const decodeOperations = (tx) =>
   map(
     (operation) => operation.body().value(),
-    StellarSdk.xdr.TransactionEnvelope.fromXDR(tx.envelope_xdr, 'base64').value().tx().operations()
+    xdr.TransactionEnvelope.fromXDR(tx.envelope_xdr, 'base64').value().tx().operations()
   )
