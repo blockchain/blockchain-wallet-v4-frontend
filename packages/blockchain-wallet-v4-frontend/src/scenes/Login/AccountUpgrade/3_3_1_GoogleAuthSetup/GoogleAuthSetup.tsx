@@ -22,11 +22,7 @@ import {
   SubHeaderWrapper
 } from '../AccountUpgrade.models'
 
-const PLACEHOLDER = 'SBAT5VDS7TAA56R3CEWXFAQ'
-
 const GoogleAuthSetup = (props) => {
-  const { data, uiState } = props
-
   return (
     <>
       <Wrapper>
