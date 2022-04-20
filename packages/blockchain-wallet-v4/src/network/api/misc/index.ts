@@ -17,7 +17,11 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getPriceIndex = (base: CoinType, quote: FiatType, time: number | string): PriceIndexResponseType =>
+  const getPriceIndex = (
+    base: CoinType,
+    quote: FiatType,
+    time: number | string
+  ): PriceIndexResponseType =>
     get({
       data: { base, quote, time: getUnixTime(new Date(time)) },
       endPoint: '/price/index',

@@ -80,7 +80,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
                 unit: amount.currency as FiatType,
                 value: convertBaseToStandard('FIAT', amount.amount)
               })}
-              title={format(new Date(expiresAt), 'MMMM Do yyyy')}
+              title={format(new Date(expiresAt), 'MMMM do yyyy')}
             />
           )
         })}

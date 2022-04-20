@@ -412,7 +412,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
   }
 
   // @ts-ignore
-  date = format(date, 'EEE, LLLL do')
+  date = format(date, 'EEE, MMMM do')
 
   switch (action) {
     default:

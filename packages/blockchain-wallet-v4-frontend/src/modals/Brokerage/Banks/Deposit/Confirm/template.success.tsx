@@ -87,7 +87,7 @@ const Success = (props: Props) => {
                 defaultMessage='Funds Will Arrive'
               />
             </Text>
-            <LineItemText>{format(addDays(new Date(), 3), 'EEEE, MMM Do, yyyy')}</LineItemText>
+            <LineItemText>{format(addDays(new Date(), 3), 'EEEE, MMM do, yyyy')}</LineItemText>
           </Row>
         )}
         <Row>

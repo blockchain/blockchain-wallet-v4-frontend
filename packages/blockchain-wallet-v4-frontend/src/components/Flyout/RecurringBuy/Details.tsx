@@ -76,7 +76,7 @@ const RecurringBuyDetails = ({
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
         />
         <CheckoutRow
-          subTitle={format(new Date(nextPayment), 'EEE, MMMM Do')}
+          subTitle={format(new Date(nextPayment), 'EEE, MMMM do')}
           title={<FormattedMessage id='copy.next_buy' defaultMessage='Next Buy' />}
         />
       </Content>
