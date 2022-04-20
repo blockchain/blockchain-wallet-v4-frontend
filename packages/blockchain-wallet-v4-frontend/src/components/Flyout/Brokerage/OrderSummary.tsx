@@ -279,7 +279,6 @@ const OrderSummary: React.FC<Props> = ({
             height='48px'
             nature='primary'
             onClick={handleOkButton}
-            style={{ marginBottom: '16px' }}
           >
             <FormattedMessage id='buttons.ok' defaultMessage='OK' />
           </Button>

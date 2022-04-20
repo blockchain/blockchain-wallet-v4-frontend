@@ -2,7 +2,6 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
@@ -174,38 +173,11 @@ const App = ({
                     )}
                     <WalletLayout path='/prices' component={Prices} />
                     {taxCenterEnabled && <WalletLayout path='/tax-center' component={TaxCenter} />}
-                    {/** New Coinview with new url /coins/BTC */}
-                    {values(
-                      map((coinModel) => {
-                        const { coinfig } = coinModel
-                        return (
-                          <WalletLayout
-                            path={`/coins/${coinfig.symbol}`}
-                            component={CoinPage}
-                            coinViewV2={coinViewV2}
-                            coinfig={coinfig}
-                            coin={coinfig.symbol}
-                            key={coinfig.symbol}
-                          />
-                        )
-                      }, coinsWithBalance)
-                    )}
-                    {/** Old Coinview  */}
-                    {values(
-                      map((coinModel) => {
-                        const { coinfig } = coinModel
-                        return (
-                          <WalletLayout
-                            path={`/${coinfig.symbol}/transactions`}
-                            component={coinViewV2 ? CoinPage : Transactions}
-                            coinViewV2={coinViewV2}
-                            coinfig={coinfig}
-                            coin={coinfig.symbol}
-                            key={coinfig.symbol}
-                          />
-                        )
-                      }, coinsWithBalance)
-                    )}
+                    <WalletLayout
+                      path='/coins/:coin'
+                      component={coinViewV2 ? CoinPage : Transactions}
+                      coinViewV2={coinViewV2}
+                    />
                     {isAuthenticated ? (
                       coinsWithBalance.length ? (
                         <Redirect to='/home' />

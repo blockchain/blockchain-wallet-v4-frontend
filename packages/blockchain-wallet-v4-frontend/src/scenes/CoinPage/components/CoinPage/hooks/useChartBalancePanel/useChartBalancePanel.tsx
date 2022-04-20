@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useCoinPrice, useCurrency } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { useCoinPrice, useCurrency } from 'hooks'
 
 import { ChartBalancePanel } from '../../../ChartBalancePanel'
 import { useFormatFiat } from '../useFormatFiat'

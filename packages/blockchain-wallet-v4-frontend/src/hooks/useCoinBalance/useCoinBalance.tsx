@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { getBalance } from '@core/redux/data/coins/selectors'
 import {
   getBchBalance,
   getBtcBalance,
@@ -22,6 +23,10 @@ export const useCoinBalance: CoinBalanceHook = ({ coin }) => {
   )
   const isCustodialCoin = useMemo(
     () => selectors.core.data.coins.getCustodialCoins().includes(coin),
+    [coin]
+  )
+  const isDynamicSelfCustody = useMemo(
+    () => selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin),
     [coin]
   )
   const isEUR = coin === 'EUR'
@@ -55,6 +60,10 @@ export const useCoinBalance: CoinBalanceHook = ({ coin }) => {
 
     if (isCustodialCoin) {
       return getCoinCustodialBalance(coin)(state)
+    }
+
+    if (isDynamicSelfCustody) {
+      return getBalance(coin, state)
     }
 
     throw Error(`Coin "${coin}" not supported by useCoinBalance`)

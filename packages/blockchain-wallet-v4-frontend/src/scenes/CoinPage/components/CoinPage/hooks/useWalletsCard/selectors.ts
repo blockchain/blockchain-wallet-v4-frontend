@@ -1,4 +1,4 @@
-import { flatten, lift, map } from 'ramda'
+import { flatten, lift } from 'ramda'
 
 import { Remote } from '@core'
 import { CoinType, ExtractSuccess } from '@core/types'
@@ -55,7 +55,7 @@ export const getData = (state, coin: CoinType) => {
     case 'EUR':
     case 'GBP':
     case 'USD':
-      coinSelector = Remote.Success({ data: [] })
+      coinSelector = () => Remote.Success({ data: [] })
       break
     default:
       switch (true) {
@@ -73,6 +73,13 @@ export const getData = (state, coin: CoinType) => {
             coin,
             includeCustodial: true,
             includeInterest: true
+          }
+          break
+        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
+          coinSelector = getCoinAddressData
+          coinWalletParams = {
+            coin,
+            includeSelfCustody: true
           }
           break
         default:

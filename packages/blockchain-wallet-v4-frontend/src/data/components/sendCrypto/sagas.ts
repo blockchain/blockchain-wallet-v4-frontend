@@ -22,7 +22,7 @@ export default ({ api }: { api: APIType }) => {
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
     try {
       yield put(A.buildTxLoading())
-      const { account, amount, destination, fee, fix, rates, walletCurrency } = action.payload
+      const { account, baseCryptoAmt, destination, fee } = action.payload
       const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
@@ -38,7 +38,7 @@ export default ({ api }: { api: APIType }) => {
             uuid
           },
           intent: {
-            amount,
+            amount: baseCryptoAmt,
             currency: coin,
             destination,
             fee,
@@ -53,22 +53,6 @@ export default ({ api }: { api: APIType }) => {
 
         yield put(A.buildTxSuccess(tx))
       } else {
-        // amt
-        const standardCryptoAmt =
-          fix === 'FIAT'
-            ? convertFiatToCoin({
-                coin,
-                currency: walletCurrency,
-                rates,
-                value: amount
-              })
-            : amount
-        const baseCryptoAmt = convertCoinToCoin({
-          baseToStandard: false,
-          coin,
-          value: standardCryptoAmt
-        })
-
         // fee
         const standardCryptoFee = feesR.getOrElse(0) || 0
         const baseCryptoFee = convertCoinToCoin({
@@ -196,12 +180,27 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-      const { amount, selectedAccount, to } = formValues
+      const { amount, fix, selectedAccount, to } = formValues
       const { coin } = selectedAccount
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
       const fee = feesR.getOrElse(undefined)
+      const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
-      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
+      const rates = selectors.core.data.misc
+        .getRatesSelector(coin, yield select())
+        .getOrFail('Failed to get rates')
+
+      const amountToSend =
+        fix === 'FIAT'
+          ? convertFiatToCoin({
+              coin,
+              currency: walletCurrency,
+              rates,
+              value: amount
+            })
+          : amount
+
+      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amountToSend })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
@@ -222,7 +221,7 @@ export default ({ api }: { api: APIType }) => {
         )
 
         if (pushedTx.txId) {
-          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amount } }))
+          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amountToSend } }))
         } else {
           throw new Error('Failed to submit transaction.')
         }
@@ -269,7 +268,15 @@ export default ({ api }: { api: APIType }) => {
 
   const validateAddress = function* ({ payload }: ReturnType<typeof A.validateAddress>) {
     const { address, coin } = payload
+
+    const isDynamicSelfCustody = window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
+
     try {
+      if (!isDynamicSelfCustody) {
+        yield put(A.validateAddressSuccess(!!address.match(/[a-zA-Z0-9]{15,}/)))
+        return
+      }
+
       const response: ReturnType<typeof api.validateAddress> = yield call(
         api.validateAddress,
         coin,
