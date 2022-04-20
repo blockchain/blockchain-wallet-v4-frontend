@@ -238,16 +238,14 @@ export const StyledBuyFiatDisplay = styled.div`
 export const StatusAndType = styled.div`
   margin-left: 16px;
 `
-export const Timestamp = ({ time }: { time: string | number }) => {
-  return (
-    <Text
-      size='13px'
-      weight={500}
-      color='grey600'
-      style={{ marginTop: '4px' }}
-      data-e2e='txTimeOrStatus'
-    >
-      {format(new Date(time), 'h:mm a on D MMM yyyy')}
-    </Text>
-  )
-}
+export const Timestamp = ({ time }: { time: string | number }) => (
+  <Text
+    size='13px'
+    weight={500}
+    color='grey600'
+    style={{ marginTop: '4px' }}
+    data-e2e='txTimeOrStatus'
+  >
+    {format(new Date(time), "h:mm a 'on' d MMM yyyy")}
+  </Text>
+)

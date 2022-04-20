@@ -320,7 +320,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           new BigNumber(convertStandardToBase(BASE.coin, 1))
         )
         yield put(A.fetchQuoteSuccess({ quote, rate }))
-        const refresh = -differenceInMilliseconds(new Date(), new Date(quote.expiresAt))
+        const refresh = Math.abs(differenceInMilliseconds(new Date(), new Date(quote.expiresAt)))
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)

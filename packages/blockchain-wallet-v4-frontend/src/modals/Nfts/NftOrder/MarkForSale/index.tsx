@@ -442,7 +442,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      listingTime: format(new Date(), 'MM/DD/yyyy'),
+      listingTime: format(new Date(), 'MM/dd/yyyy'),
       'sale-type': 'fixed-price',
       timedAuctionType: 'decliningPrice'
     }

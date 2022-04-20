@@ -3,13 +3,13 @@ import { renderHook } from '@testing-library/react-hooks'
 import { useDateFormatter } from '.'
 
 describe('useDateFormatter()', () => {
-  it('Should format the date with parttern DD/MM/yyyy', () => {
+  it('Should format the date with pattern dd/mm/yyyy', () => {
     const { result } = renderHook(
       ({ date, pattern }: { date: Date; pattern: string }) => useDateFormatter(date, pattern),
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/mm/yyyy'
         }
       }
     )
@@ -23,7 +23,7 @@ describe('useDateFormatter()', () => {
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/MM/yyyy'
         }
       }
     )
@@ -32,7 +32,7 @@ describe('useDateFormatter()', () => {
 
     rerender({
       date: new Date(2022, 1, 18),
-      pattern: 'DD - MM - yyyy'
+      pattern: 'dd - MM - yyyy'
     })
 
     expect(result.current).toEqual('18 - 02 - 2022')
@@ -44,7 +44,7 @@ describe('useDateFormatter()', () => {
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'DD/MM/yyyy'
+          pattern: 'dd/MM/yyyy'
         }
       }
     )
@@ -53,7 +53,7 @@ describe('useDateFormatter()', () => {
 
     rerender({
       date: new Date(2020, 4, 16),
-      pattern: 'DD/MM/yyyy'
+      pattern: 'dd/MM/yyyy'
     })
 
     expect(result.current).toEqual('16/05/2020')

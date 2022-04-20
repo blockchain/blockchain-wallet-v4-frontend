@@ -375,7 +375,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
                 {parseInt(account.balance, 10) > 0 || (stepMetadata && stepMetadata.depositSuccess)
-                  ? format(startOfMonth(addMonths(new Date(), 1)), 'MMMM D, yyyy')
+                  ? format(startOfMonth(addMonths(new Date(), 1)), 'MMMM d, yyyy')
                   : '---'}
               </Text>
             ) : (

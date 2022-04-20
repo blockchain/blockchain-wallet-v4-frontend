@@ -174,7 +174,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: format(getUnixTime(prop('time', tx)), 'YYYY-MM-DD'),
+        date: format(getUnixTime(prop('time', tx)), 'yyyy-MM-dd'),
         // @ts-ignore
         description: prop('description', tx),
 

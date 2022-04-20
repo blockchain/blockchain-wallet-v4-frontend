@@ -55,7 +55,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 
   onFetchHistory = () => {
     const { coin, fetchTransactions, formValues } = this.props
-    const { endDate, from, startDate } = formValues
+    const { end, from, start } = formValues
     const addressDerivations =
       from.derivations &&
       from.derivations.map((derivation) => ({
@@ -63,12 +63,13 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
         type: derivation.type
       }))
     const address = from && (addressDerivations || from.xpub || from.address || from)
-    const filename = `${coin}_${format(startDate, 'MM-DD-yyyy')}_${format(
-      endDate,
-      'MM-DD-yyyy'
+    // start/end are moment objects due to react-datetime :(
+    const filename = `${coin}_${format(new Date(start.toString()), 'MM-dd-yyyy')}_${format(
+      new Date(end.toString()),
+      'MM-dd-yyyy'
     )}.csv`
     this.setState({ filename, generating: true })
-    fetchTransactions(address, startDate, endDate)
+    fetchTransactions(address, start, end)
   }
 
   render() {

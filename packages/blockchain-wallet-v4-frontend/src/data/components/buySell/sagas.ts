@@ -1119,9 +1119,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             rate: parseInt(quote.price)
           })
         )
-        const refresh = -differenceInMilliseconds(
-          new Date(quote.quoteExpiresAt),
-          addSeconds(new Date(), 10)
+        const refresh = Math.abs(
+          differenceInMilliseconds(new Date(quote.quoteExpiresAt), addSeconds(new Date(), 10))
         )
         yield delay(refresh)
       } catch (e) {
@@ -1159,9 +1158,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
         yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = -differenceInMilliseconds(
-          new Date(quote.expiresAt),
-          addSeconds(new Date(), 10)
+        const refresh = Math.abs(
+          differenceInMilliseconds(new Date(quote.expiresAt), addSeconds(new Date(), 10))
         )
         yield delay(refresh)
       } catch (e) {

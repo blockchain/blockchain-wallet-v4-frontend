@@ -165,7 +165,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
       yield call(renewApiSockets)
-      const expiresIn = differenceInMilliseconds(new Date(), subSeconds(new Date(expiresAt), 5))
+      const expiresIn = Math.abs(
+        differenceInMilliseconds(subSeconds(new Date(expiresAt), 5), new Date())
+      )
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('status', e) === 409) {

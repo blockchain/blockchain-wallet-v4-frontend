@@ -121,8 +121,8 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
-    const startDate = format(new Date(start), 'DD/MM/YYYY')
-    const endDate = format(new Date(end), 'DD/MM/YYYY')
+    const startDate = format(new Date(start), 'dd/MM/yyyy')
+    const endDate = format(new Date(end), 'dd/MM/yyyy')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)

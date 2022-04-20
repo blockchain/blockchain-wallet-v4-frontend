@@ -91,7 +91,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx: EthRawT
     insertedAt: Number(time) * 1000,
     state: tx.state,
     time,
-    timeFormatted: getTime(time),
+    timeFormatted: getTime(new Date(time * 1000)),
     to: getLabel(tx.to, state),
     type
   }
