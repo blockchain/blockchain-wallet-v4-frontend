@@ -316,6 +316,7 @@ export default ({ api, coreSagas, networks }) => {
   const getExchangeLoginToken = function* (action) {
     const { origin } = action.payload
     try {
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       const retailToken = yield call(generateRetailToken)
       const exchangeLifetimeTokenR = yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
