@@ -4,7 +4,7 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
-import moment, { Moment } from 'moment'
+import { addWeeks, format, isToday } from 'date-fns'
 import styled, { css } from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -323,24 +323,24 @@ const getPeriodSubTitleText = (
   date: string | number = Date.now()
 ): React.ReactNode => {
   let text
-  const startDate = moment(date)
+  const startDate = new Date(date)
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
       text = <></>
       break
     case RecurringBuyPeriods.WEEKLY:
-      text = <>On {startDate.format('dddd')}s</>
+      text = <>On {format(startDate, 'EEEE')}s</>
       break
     case RecurringBuyPeriods.BI_WEEKLY:
       text = (
         <>
-          On the {startDate.format('Do')} and {startDate.add(2, 'weeks').format('Do')}
+          On the {format(startDate, 'do')} and {format(addWeeks(startDate, 2), 'do')}
         </>
       )
       break
     case RecurringBuyPeriods.MONTHLY:
-      text = <>On the {startDate.format('Do')}</>
+      text = <>On the {format(startDate, 'do')}</>
       break
   }
   return text
@@ -351,14 +351,14 @@ const getPeriodForSuccess = (
   date: string | number = Date.now()
 ): React.ReactNode => {
   let text
-  const startDate = moment(date)
+  const startDate = new Date(date)
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
       text = <>every day</>
       break
     case RecurringBuyPeriods.WEEKLY:
-      text = <>every {startDate.format('dddd')}</>
+      text = <>every {format(startDate, 'EEEE')}</>
       break
     case RecurringBuyPeriods.BI_WEEKLY:
       text = (
@@ -403,20 +403,21 @@ const getPeriodText = (period: RecurringBuyPeriods): React.ReactNode => {
 
 const getActionText = (action: ActionEnum, nextDate: string | number) => {
   let text
-  let isToday = false
-  let date: Moment | string = moment()
+  let isTimeToday = false
+  let date = new Date()
 
   if (nextDate) {
-    isToday = moment(nextDate).calendar().startsWith('Today')
-    date = moment(nextDate)
+    isTimeToday = isToday(new Date(nextDate))
+    date = new Date(nextDate)
   }
 
-  date = date.format('ddd, MMMM Do')
+  // @ts-ignore
+  date = format(date, 'EEE, LLLL do')
 
   switch (action) {
     default:
     case ActionEnum.BUY:
-      text = isToday ? (
+      text = isTimeToday ? (
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_buy_is_today'
           defaultMessage='Next Buy is Today'
