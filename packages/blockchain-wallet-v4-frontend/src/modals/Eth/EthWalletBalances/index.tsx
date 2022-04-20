@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconRefresh } from '@blockchain-com/icons'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { displayFiatToFiat } from '@core/exchange'
 import {
@@ -46,7 +46,16 @@ class EthWalletBalance extends PureComponent<Props, State> {
   }
 
   render() {
-    const { close, data, position, total, userClickedOutside } = this.props
+    const {
+      buySellActions,
+      close,
+      data,
+      ethActions,
+      fetchErc20Balances,
+      position,
+      total,
+      userClickedOutside
+    } = this.props
     const { show } = this.state
 
     return (
@@ -77,8 +86,16 @@ class EthWalletBalance extends PureComponent<Props, State> {
                       Error
                     </Text>
                   ),
-                  Loading: () => <SkeletonRectangle />,
-                  NotAsked: () => <SkeletonRectangle />,
+                  Loading: () => (
+                    <div style={{ marginTop: '4px' }}>
+                      <SkeletonRectangle height='32px' width='100px' />
+                    </div>
+                  ),
+                  NotAsked: () => (
+                    <div style={{ marginTop: '4px' }}>
+                      <SkeletonRectangle height='32px' width='100px' />
+                    </div>
+                  ),
                   Success: ({ total }) => (
                     <Text size='24px' weight={600} color='black'>
                       {displayFiatToFiat({ value: total })}
@@ -86,7 +103,16 @@ class EthWalletBalance extends PureComponent<Props, State> {
                   )
                 })}
               </div>
-              <Button small data-e2e='refresh' nature='empty-blue'>
+              <Button
+                small
+                data-e2e='refresh'
+                nature='empty-blue'
+                onClick={() => {
+                  fetchErc20Balances()
+                  ethActions.fetchDataLoading()
+                  ethActions.fetchData()
+                }}
+              >
                 <Icon label='refresh' size='sm' color='blue600'>
                   <IconRefresh />
                 </Icon>
@@ -98,8 +124,16 @@ class EthWalletBalance extends PureComponent<Props, State> {
           </FlyoutWrapper>
           {data.cata({
             Failure: () => <>error</>,
-            Loading: () => <SpinningLoader />,
-            NotAsked: () => <SpinningLoader />,
+            Loading: () => (
+              <Flex justifyContent='center'>
+                <SpinningLoader height='20px' width='20px' borderWidth='3px' />
+              </Flex>
+            ),
+            NotAsked: () => (
+              <Flex justifyContent='center'>
+                <SpinningLoader height='20px' width='20px' borderWidth='3px' />
+              </Flex>
+            ),
             Success: ({ erc20Balances, ethBalance }) => (
               <>
                 <Row>
@@ -163,11 +197,19 @@ class EthWalletBalance extends PureComponent<Props, State> {
           })}
           <FlyoutWrapper>
             <Flex gap={8}>
-              <Button fullwidth data-e2e='addFunds' nature='primary'>
-                Add Funds
-              </Button>
-              <Button fullwidth data-e2e='wrapEth' nature='empty-blue'>
-                Wrap ETH
+              <Button
+                fullwidth
+                data-e2e='addFunds'
+                nature='primary'
+                onClick={() => {
+                  buySellActions.showModal({
+                    cryptoCurrency: 'ETH',
+                    orderType: 'BUY',
+                    origin: 'Nfts'
+                  })
+                }}
+              >
+                <FormattedMessage id='buttons.add_funds' defaultMessage='Add Funds' />
               </Button>
             </Flex>
           </FlyoutWrapper>
@@ -182,7 +224,11 @@ const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
 
-const mapDispatchToProps = (dispatch) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
+  fetchErc20Balances: bindActionCreators(actions.core.data.eth.fetchErc20Data, dispatch)
+})
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
