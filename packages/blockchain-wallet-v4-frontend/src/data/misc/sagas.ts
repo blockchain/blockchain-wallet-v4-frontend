@@ -72,9 +72,6 @@ export default () => {
       const lang = tryParseLanguageFromUrl()
       if (lang?.language) {
         yield put(actions.preferences.setLanguage(lang.language, false))
-        if (lang.cultureCode) {
-          yield put(actions.preferences.setCulture(lang.cultureCode))
-        }
       }
     } catch (e) {
       // do nothing, app will fallback to english
