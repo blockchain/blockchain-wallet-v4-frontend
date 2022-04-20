@@ -1,5 +1,4 @@
 const { concat, prepend } = require('ramda')
-const Webpack = require('webpack')
 // node
 const chalk = require('chalk')
 const path = require('path')
@@ -139,10 +138,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         }
       ]),
       new NodePolyfillPlugin(),
-      new Webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/
-      }),
       new FaviconsWebpackPlugin({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',

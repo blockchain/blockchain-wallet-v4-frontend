@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { CoinType, IOType, ProcessedTxType } from '@core/types'
@@ -247,7 +247,7 @@ export const Timestamp = ({ time }: { time: string | number }) => {
       style={{ marginTop: '4px' }}
       data-e2e='txTimeOrStatus'
     >
-      {moment(time).local().format('h:mm a on D MMM YYYY')}
+      {format(new Date(time), 'h:mm a on D MMM yyyy')}
     </Text>
   )
 }
