@@ -2,18 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
-import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { NftAsset } from '@core/network/api/nfts/types'
-import {
-  Button,
-  SpinningLoader,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Text
-} from 'blockchain-info-components'
+import { Button, Table, TableCell, TableHeader, TableRow, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { Props as OwnProps } from '../..'

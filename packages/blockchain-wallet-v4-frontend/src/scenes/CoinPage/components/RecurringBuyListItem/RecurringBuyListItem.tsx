@@ -2,7 +2,7 @@ import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconRepeat } from '@blockchain-com/icons'
-import { useDateFomatter, useIsToday, useRecord } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { useDateFormatter, useIsToday, useRecord } from 'blockchain-wallet-v4-frontend/src/hooks'
 
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
@@ -56,8 +56,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
   })
 
   const isToday = useIsToday(date)
-
-  const formattedDate = useDateFomatter(date, 'ddd, MMMM Do')
+  const formattedDate = useDateFormatter(date, 'EEE, MMMM do')
 
   const subtitle: ReactNode = useMemo(() => {
     if (isToday) {

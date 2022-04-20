@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { differenceInMilliseconds, subSeconds } from 'date-fns'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
@@ -165,7 +165,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
       yield call(renewApiSockets)
-      const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
+      const expiresIn = differenceInMilliseconds(new Date(), subSeconds(new Date(expiresAt), 5))
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('status', e) === 409) {

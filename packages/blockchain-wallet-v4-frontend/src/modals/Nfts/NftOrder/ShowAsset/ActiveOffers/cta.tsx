@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { formatDistanceToNow } from 'date-fns'
 
-import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { Button, Table, TableCell, TableHeader, TableRow, Text } from 'blockchain-info-components'
@@ -55,7 +54,9 @@ const CTA: React.FC<Props> = (props) => {
                 </TableCell>
                 <TableCell>
                   <Text size='14px' weight={600}>
-                    {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
+                    {offer.closing_date
+                      ? formatDistanceToNow(new Date(offer.closing_date), { addSuffix: true })
+                      : '-'}
                   </Text>
                 </TableCell>
                 <TableCell style={{ justifyContent: 'center' }}>
