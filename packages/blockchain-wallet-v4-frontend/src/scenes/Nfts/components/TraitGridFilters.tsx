@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
 import { Field } from 'redux-form'
@@ -48,7 +49,12 @@ const TraitGridFilters: React.FC<Props> = ({
     <>
       <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
         <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem selected>Items</TabMenuItem>
+          <TabMenuItem selected>
+            <FormattedMessage id='copy.items' defaultMessage='Items' />
+          </TabMenuItem>
+          <TabMenuItem>
+            <FormattedMessage id='copy.activity' defaultMessage='Activity' />
+          </TabMenuItem>
         </TabMenu>
         <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
           <Field

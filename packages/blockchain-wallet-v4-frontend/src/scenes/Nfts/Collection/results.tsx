@@ -75,8 +75,8 @@ const ResultsPage: React.FC<Props> = ({
   return (
     <>
       {result?.data?.assets?.map((asset) => {
-        const highestListing = asset.listing
-          ? asset.listing.sort((a, b) => Number(b?.total_price) - Number(a?.total_price))[0]
+        const highestListing = asset.listings
+          ? asset.listings.sort((a, b) => Number(b?.total_price) - Number(a?.total_price))[0]
           : null
 
         return asset ? (

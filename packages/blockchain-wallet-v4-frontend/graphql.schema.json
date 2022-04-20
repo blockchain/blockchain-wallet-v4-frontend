@@ -351,7 +351,7 @@
             "deprecationReason": null
           },
           {
-            "name": "listing",
+            "name": "listings",
             "description": null,
             "args": [],
             "type": {
@@ -2491,7 +2491,7 @@
             "deprecationReason": null
           },
           {
-            "name": "from_account",
+            "name": "from",
             "description": null,
             "args": [],
             "type": {
@@ -2547,7 +2547,7 @@
             "deprecationReason": null
           },
           {
-            "name": "owner_account",
+            "name": "owner",
             "description": null,
             "args": [],
             "type": {
@@ -2587,7 +2587,7 @@
             "deprecationReason": null
           },
           {
-            "name": "seller_account",
+            "name": "seller",
             "description": null,
             "args": [],
             "type": {
@@ -2615,7 +2615,7 @@
             "deprecationReason": null
           },
           {
-            "name": "to_account",
+            "name": "to",
             "description": null,
             "args": [],
             "type": {
@@ -2651,7 +2651,7 @@
             "deprecationReason": null
           },
           {
-            "name": "winner_account",
+            "name": "winner",
             "description": null,
             "args": [],
             "type": {

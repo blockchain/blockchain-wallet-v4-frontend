@@ -10,7 +10,7 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
     owners {
       address
     }
-    listing {
+    listings {
       payment_token {
         symbol
       }

@@ -13,6 +13,12 @@ query Asset($filter: [AssetFilter], $limit: Int) {
       address
       profile_img_url
     }
+    listings {
+      payment_token {
+        symbol
+      }
+      total_price
+    }
     animation_original_url
     collection {
       name
