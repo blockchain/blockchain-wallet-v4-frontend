@@ -70,7 +70,7 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
           </PendingIconWrapper>
           <Column>
             <Text size='20px' weight={600} color='grey800'>
-              {tags.BLOCKSTACK ? (
+              {tags?.BLOCKSTACK ? (
                 <FormattedMessage
                   id='copy.stx_airdrop_avail'
                   defaultMessage='STX Airdrop is Available'
@@ -80,7 +80,7 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
               )}
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
-              {tags.BLOCKSTACK ? (
+              {tags?.BLOCKSTACK ? (
                 <FormattedMessage
                   id='copy.stx_supported_added'
                   defaultMessage='STX support has been added to the Blockchain.com Web Wallet. You can now send any STX received via the airdrop.'
