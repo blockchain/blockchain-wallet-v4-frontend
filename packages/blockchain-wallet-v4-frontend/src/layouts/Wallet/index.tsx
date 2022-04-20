@@ -7,6 +7,8 @@ import { selectors } from 'data'
 
 import WalletLayout from './template'
 
+const PAGE_TITLE = 'Blockchain.com Wallet'
+
 class WalletLayoutContainer extends React.PureComponent<Props> {
   render() {
     const {
@@ -14,12 +16,11 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
       component: Component,
       computedMatch,
       isAuthenticated,
-      pageTitle,
       path,
       ...rest
     } = this.props
 
-    if (pageTitle) document.title = pageTitle
+    document.title = PAGE_TITLE
 
     return isAuthenticated ? (
       <Route
@@ -49,7 +50,6 @@ type Props = ConnectedProps<typeof connector> & {
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean
-  pageTitle?: string
   path: string
 }
 

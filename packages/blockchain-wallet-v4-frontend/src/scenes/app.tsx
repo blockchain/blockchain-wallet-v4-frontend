@@ -144,7 +144,11 @@ const App = ({
                       exact
                     />
                     <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
-                    <PublicLayout path='/wallet' component={Login} pageTitle={BLOCKCHAIN_TITLE} />
+                    <PublicLayout
+                      path='/wallet'
+                      component={Login}
+                      pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                    />
                     <PublicLayout
                       path='/verify-email-step'
                       component={VerifyEmail}
@@ -155,7 +159,7 @@ const App = ({
                     )}
                     <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout path='/exchange' component={TheExchange} />
-                    <WalletLayout pageTitle={BLOCKCHAIN_TITLE} path='/home' component={Home} />
+                    <WalletLayout path='/home' component={Home} />
                     <WalletLayout path='/rewards' component={Interest} exact />
                     <WalletLayout path='/rewards/history' component={InterestHistory} />
                     <WalletLayout path='/nfts' component={Nfts} />
