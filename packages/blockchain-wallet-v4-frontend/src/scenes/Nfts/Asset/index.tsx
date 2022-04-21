@@ -302,6 +302,7 @@ const NftAsset: React.FC<Props> = ({
 
   const currentAsset = asset.data?.assets[0]
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
+  const collectionName = currentAsset?.collection?.name || ''
 
   if (!currentAsset) return null
 
@@ -658,6 +659,13 @@ const NftAsset: React.FC<Props> = ({
                               token_id: id,
                               walletUserIsAssetOwnerHack: false
                             })
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_BUY_NOW_CLICKED,
+                              properties: {
+                                collection: collectionName,
+                                collection_id: id
+                              }
+                            })
                           } else {
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
@@ -768,6 +776,12 @@ const NftAsset: React.FC<Props> = ({
                               <Link
                                 href={`https://www.blockchain.com/eth/address/${currentAsset.contract?.address}`}
                                 target='_blank'
+                                onClick={() =>
+                                  analyticsActions.trackEvent({
+                                    key: Analytics.NFT_CONTRACT_ADDRESS_CLICKED,
+                                    properties: {}
+                                  })
+                                }
                               >
                                 <CreatorOwnerAddressLinkText>
                                   <CryptoAddress>{currentAsset.contract?.address}</CryptoAddress>
