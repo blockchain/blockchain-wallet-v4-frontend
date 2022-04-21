@@ -1,41 +1,49 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
+import { Icon } from '@blockchain-com/constellation'
+import { IconChevronDown } from '@blockchain-com/icons'
 
-import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
+import { EventsQuery } from 'generated/graphql'
 
-import { Props as OwnProps } from '..'
-import { getFloorPriceColumn } from './floor_price'
-import { getNameColumn } from './name.column'
-import { getOwnersColumn } from './owners.column'
-import { getTotalSupplyColumn } from './supply.column'
-import { getVolumeColumn } from './volume.column'
+import { getDateColumn } from './Table/date.column'
+import { getEventTypeColumn } from './Table/event_type.column'
+import { getFromColumn } from './Table/from.column'
+import { getItemColumn } from './Table/item.column'
+import { getPriceColumn } from './Table/price.column'
+import { getToColumn } from './Table/to.column'
 
-export const getTableColumns = (routerActions) => [
-  getNameColumn(routerActions),
-  getVolumeColumn(),
-  getFloorPriceColumn(),
-  getOwnersColumn(),
-  getTotalSupplyColumn()
+const getTableColumns = () => [
+  getEventTypeColumn(),
+  getItemColumn(),
+  getPriceColumn(),
+  getFromColumn(),
+  getToColumn(),
+  getDateColumn()
 ]
 
-const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions }) => {
+const CollectionEventsTable: React.FC<Props> = ({ events }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
-      columns: useMemo(() => getTableColumns(routerActions), []),
-      data: useMemo(() => collections, [collections]),
+      autoResetExpanded: false,
+      autoResetFilters: false,
+      autoResetGroupBy: false,
+      autoResetPage: false,
+      autoResetRowState: false,
+      autoResetSelectedRows: false,
+      autoResetSortBy: false,
+      columns: useMemo(() => getTableColumns(), []),
+      data: useMemo(() => events, [events]),
       disableMultiSort: true,
       disableSortRemove: true,
-      initialState: {
-        sortBy: [{ desc: true, id: 'one_day_volume' }]
-      }
+      initialState: {}
     },
     useSortBy
   )
 
   return (
     <TableWrapper>
-      <div {...getTableProps({ style: { height: '360px', overflow: 'scroll' } })} className='table'>
+      <div {...getTableProps({ style: { height: '600px', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
@@ -51,9 +59,17 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions 
                     <div>
                       {column.isSorted ? (
                         column.isSortedDesc ? (
-                          <HeaderToggle>▾</HeaderToggle>
+                          <HeaderToggle>
+                            <Icon label='sort-desc'>
+                              <IconChevronDown />
+                            </Icon>
+                          </HeaderToggle>
                         ) : (
-                          <HeaderToggle>▴</HeaderToggle>
+                          <HeaderToggle>
+                            <Icon label='sort-asc'>
+                              <IconChevronDown />
+                            </Icon>
+                          </HeaderToggle>
                         )
                       ) : (
                         ''
@@ -84,8 +100,8 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions 
   )
 }
 
-type Props = OwnProps & {
-  collections: ExplorerGatewayNftCollectionType[]
+type Props = {
+  events: EventsQuery['events']
 }
 
-export default TrendingCollectionsTable
+export default CollectionEventsTable

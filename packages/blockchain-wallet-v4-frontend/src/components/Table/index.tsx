@@ -7,8 +7,6 @@ export const TableWrapper = styled.div`
   max-width: 100%;
   height: 100%;
   width: 100%;
-  min-width: 1200px;
-
   .tableWrap {
     display: block;
     max-width: 100%;

@@ -3,14 +3,16 @@ import { FormattedMessage } from 'react-intl'
 import { CombinedError, UseQueryState } from 'urql'
 
 import { Button, SpinningLoader } from 'blockchain-info-components'
-import { CollectionsQuery } from 'generated/graphql'
+import { CollectionsQuery, EventsQuery } from 'generated/graphql'
 
 import { Centered, Grid } from '../../components'
 import GraphqlError from '../../components/GraphqlError'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import ResultsPage from './CollectionEvents.results'
+import CollectionEventsTable from './CollectionEvents.table'
 
 const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
+  const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
@@ -36,12 +38,14 @@ const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug 
                 formValues={formValues}
                 key={page}
                 slug={slug}
+                setEvents={setEvents}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />
             ))
           : null}
       </Grid>
+      <CollectionEventsTable events={events} />
       <Centered>
         <GraphqlError error={errorFetchingNextPage} />
         {isFetchingNextPage || collectionsQuery.fetching ? (
