@@ -9,10 +9,16 @@ import styled from 'styled-components'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  Button,
+  DateInput,
+  HeartbeatLoader,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import DateBoxDebounced from 'components/Form/DateBoxDebounced'
 import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
 import SelectBox from 'components/Form/SelectBox'
@@ -302,20 +308,13 @@ const MarkForSale: React.FC<Props> = (props) => {
                   </EndDateLabel>
                 </DateSelectRow>
                 <DateSelectRow>
-                  <Field
-                    dateFormat='MM/DD/YYYY'
-                    fullwidth
-                    name='listingTime'
-                    validate={[required]}
-                    component={DateBoxDebounced}
-                  />
+                  <Field fullwidth name='listingTime' validate={[required]} component={DateInput} />
                   <DateDivider />
                   <Field
-                    dateFormat='MM/DD/YYYY'
                     fullwidth
                     name='expirationTime'
                     validate={[required]}
-                    component={DateBoxDebounced}
+                    component={DateInput}
                   />
                 </DateSelectRow>
               </Row>
@@ -445,7 +444,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      listingTime: format(new Date(), 'MM/dd/yyyy'),
+      listingTime: format(new Date(), 'yyyy-MM-dd'),
       'sale-type': 'fixed-price',
       timedAuctionType: 'decliningPrice'
     }

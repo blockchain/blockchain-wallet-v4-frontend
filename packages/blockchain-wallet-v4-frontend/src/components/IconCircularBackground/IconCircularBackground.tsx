@@ -5,7 +5,7 @@ import { IconCircularBackgroundComponent, IconCircularBackgroundSizes } from './
 
 export const IconCircularBackground: IconCircularBackgroundComponent = ({
   children,
-  color = 'defualt',
+  color = 'default',
   size = 'default'
 }) => {
   const sizeToPixels: Record<IconCircularBackgroundSizes, number> = {

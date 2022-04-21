@@ -29,7 +29,7 @@ type LinkStatePropsType = {
 type LinkDispatchPropsType = {
   clearTransactions: () => void
   fetchTransactions: (address: string, startDate: string, endDate: string) => void
-  initForm: (formDefaults: { end: Date; from: 'all'; start: Date }) => void
+  initForm: (formDefaults: { end: string; from: 'all'; start: string }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -43,9 +43,9 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const { initForm } = this.props
     const today = new Date()
     initForm({
-      end: endOfDay(today),
+      end: format(endOfDay(today), 'yyyy-MM-dd'),
       from: 'all',
-      start: subDays(startOfDay(today), 7)
+      start: format(subDays(startOfDay(today), 7), 'yyyy-MM-dd')
     })
   }
 

@@ -115,7 +115,6 @@
     "history": "4.10.1",
     "ibantools": "2.2.0",
     "libphonenumber-js": "0.4.40",
-    "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.2",
     "polished": "4.1.3",
     "postal-codes-js": "2.5.2",
