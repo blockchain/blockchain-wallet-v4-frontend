@@ -504,20 +504,37 @@ const NftAsset: React.FC<Props> = ({
                         <Text size='16px' color='grey600' weight={600}>
                           <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                         </Text>
-                        <Text
-                          color='blue600'
-                          weight={600}
-                          cursor='pointer'
-                          onClick={() => {
-                            analyticsActions.trackEvent({
-                              key: Analytics.NFT_OWNER_CLICKED,
-                              properties: {}
-                            })
-                            routerActions.push(`/nfts/address/${owner.address}`)
-                          }}
-                        >
-                          <CryptoAddress>{owner.address}</CryptoAddress>
-                        </Text>
+                        {owner?.address === defaultEthAddr ? (
+                          <Text
+                            color='blue600'
+                            weight={600}
+                            cursor='pointer'
+                            onClick={() => {
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_OWNER_CLICKED,
+                                properties: {}
+                              })
+                              routerActions.push(`/nfts/address/${owner.address}`)
+                            }}
+                          >
+                            <CryptoAddress>{owner.address}</CryptoAddress>
+                          </Text>
+                        ) : (
+                          <Text
+                            color='blue600'
+                            weight={600}
+                            cursor='pointer'
+                            onClick={() => {
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_OWNER_CLICKED,
+                                properties: {}
+                              })
+                              routerActions.push(`/nfts/address/${owner.address}`)
+                            }}
+                          >
+                            You
+                          </Text>
+                        )}
                       </TextGroup>
                     ) : null}
                     <CurrentPriceBox>
