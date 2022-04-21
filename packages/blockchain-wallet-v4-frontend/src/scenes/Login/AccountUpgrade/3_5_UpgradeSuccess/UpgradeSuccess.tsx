@@ -13,7 +13,6 @@ import {
   BackArrow,
   CenteredMsgWrapper,
   CenteredTitle,
-  DataReference,
   FootNote,
   InputWrapper,
   Label,

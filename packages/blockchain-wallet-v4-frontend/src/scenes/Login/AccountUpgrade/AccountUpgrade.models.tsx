@@ -162,17 +162,6 @@ export const InputWrapper = styled.div`
   margin-top: 24px;
 `
 
-export const DataReference = styled.div`
-  border-radius: 8px;
-  border: 1px solid #dfe3eb;
-  margin-bottom: 24px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-`
-
 export const FootNote = styled(Text)`
   margin: 24px 0;
 `
