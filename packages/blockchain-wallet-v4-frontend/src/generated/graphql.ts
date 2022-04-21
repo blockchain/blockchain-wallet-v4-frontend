@@ -313,7 +313,7 @@ export type Event = {
   owner?: Maybe<Account>;
   payment_token?: Maybe<PaymentToken>;
   quantity: Scalars['Int'];
-  seller: Account;
+  seller?: Maybe<Account>;
   starting_price?: Maybe<Scalars['String']>;
   to?: Maybe<Account>;
   total_price?: Maybe<Scalars['String']>;
@@ -558,7 +558,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -1645,12 +1645,9 @@ export default {
           {
             "name": "seller",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Account",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Account",
+              "ofType": null
             },
             "args": []
           },
@@ -2398,10 +2395,17 @@ export const EventsDocument = gql`
       image_url
     }
     total_price
+    bid_amount
     from {
       address
     }
     to {
+      address
+    }
+    winner {
+      address
+    }
+    seller {
       address
     }
     created_date

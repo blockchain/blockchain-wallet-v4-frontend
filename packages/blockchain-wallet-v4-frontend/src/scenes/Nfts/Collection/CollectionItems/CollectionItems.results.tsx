@@ -22,6 +22,7 @@ import {
   StyledCoinDisplay
 } from '../../components'
 import { NftFilterFormValuesType } from '../../NftFilter'
+import { getTraitFilters } from '../../utils/NftUtils'
 
 const CollectionItemsResults: React.FC<Props> = ({
   formValues,
@@ -30,11 +31,9 @@ const CollectionItemsResults: React.FC<Props> = ({
   setNextPageFetchError,
   slug
 }) => {
-  const traits = formValues
-    ? Object.keys(formValues).filter((key) => key !== 'min' && key !== 'max')
-    : []
+  const traits = getTraitFilters(formValues)
 
-  const traitFilter = traits.reduce((acc, trait) => {
+  const traitFilter = traits?.reduce((acc, trait) => {
     Object.keys(formValues[trait]).map((value) => {
       if (formValues[trait][value]) {
         acc.push({ trait_type: trait, value })

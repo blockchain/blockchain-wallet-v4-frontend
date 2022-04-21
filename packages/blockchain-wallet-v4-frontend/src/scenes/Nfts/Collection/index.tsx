@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
@@ -13,10 +13,10 @@ import { CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { event_types, GridWrapper, NftBannerWrapper } from '../components'
-import OpenSeaStatusComponent from '../components/OpenSeaStatus'
+import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
+import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import CollectionEvents from './CollectionEvents/CollectionEvents'
 import CollectionItems from './CollectionItems/CollectionItems'
 import Stats from './Stats'
@@ -74,6 +74,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
 
   const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
+  const eventFilter = getEventFilter(formValues)
 
   const hasSomeFilters =
     formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
@@ -146,6 +147,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             setActiveTab={setActiveTab}
             hasSomeFilters={hasSomeFilters}
             minMaxFilters={minMaxFilters}
+            eventFilter={eventFilter}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems

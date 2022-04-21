@@ -8,7 +8,7 @@ export const getToColumn = () => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellText>
-        <CryptoAddress>{values.to?.address}</CryptoAddress>
+        <CryptoAddress>{values.to?.address || values.winner?.address}</CryptoAddress>
       </CellText>
     )
   },

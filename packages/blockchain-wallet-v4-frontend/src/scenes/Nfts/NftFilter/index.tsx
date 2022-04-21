@@ -182,10 +182,10 @@ const NftFilter: React.FC<Props> = ({
                         >
                           <Field
                             component='input'
-                            name='event_type'
+                            name='event'
                             type='radio'
-                            id={event}
                             value={event}
+                            id={event}
                           />
                           <label
                             htmlFor={event}
@@ -371,6 +371,7 @@ const NftFilter: React.FC<Props> = ({
 
 export type NftFilterFormValuesType = {
   collection: string
+  event: string
   forSale: boolean
   max: string
   min: string

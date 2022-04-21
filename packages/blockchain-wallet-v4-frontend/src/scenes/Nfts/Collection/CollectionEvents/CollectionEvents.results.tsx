@@ -5,17 +5,23 @@ import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { EventFilterFields, EventsQuery, useEventsQuery } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../../NftFilter'
+import { getEventFilter } from '../../utils/NftUtils'
 
 const CollectionEventsResults: React.FC<Props> = ({
+  formValues,
   page,
   setEvents,
   setIsFetchingNextPage,
   setNextPageFetchError,
   slug
 }) => {
+  const eventFilter = getEventFilter(formValues)
+    ? [{ field: EventFilterFields.EventType, value: getEventFilter(formValues) }]
+    : []
+
   const [result] = useEventsQuery({
     variables: {
-      filter: [{ field: EventFilterFields.CollectionSlug, value: slug }],
+      filter: [{ field: EventFilterFields.CollectionSlug, value: slug }, ...eventFilter],
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT
     }

@@ -8,9 +8,9 @@ export const getPriceColumn = () => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellText>
-        {values.total_price ? (
+        {values.total_price || values.bid_amount ? (
           <CoinDisplay coin='ETH' weight={600} size='14px' color='grey900'>
-            {values.total_price}
+            {values.total_price || values.bid_amount}
           </CoinDisplay>
         ) : null}
       </CellText>
@@ -21,6 +21,9 @@ export const getPriceColumn = () => ({
       <FormattedMessage id='copy.price' defaultMessage='Price' />
     </CellHeaderText>
   ),
-  accessor: 'total_price',
-  disableGlobalFilter: true
+  accessor: (row) => {
+    return row.total_price || row.bid_amount
+  },
+  disableGlobalFilter: true,
+  id: 'price'
 })

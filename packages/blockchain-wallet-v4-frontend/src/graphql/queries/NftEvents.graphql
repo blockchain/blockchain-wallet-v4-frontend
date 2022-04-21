@@ -7,10 +7,17 @@ query Events($filter: [EventFilter], $limit:Int, $offset: Int) {
       image_url
     }
     total_price
+    bid_amount
     from {
       address
     }
     to {
+      address
+    }
+    winner {
+      address
+    }
+    seller {
       address
     }
     created_date

@@ -23,10 +23,11 @@ const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug 
   useEffect(() => {
     setIsFetchingNextPage(true)
     setPageVariables([])
+    setEvents([])
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
-  }, [slug, formValues])
+  }, [formValues])
 
   return (
     <>
@@ -47,7 +48,7 @@ const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug 
           : null}
       </Grid>
       <TableWrapper>
-        <CollectionEventsTable events={events} />
+        {events.length ? <CollectionEventsTable events={events} /> : null}
         <Centered>
           <GraphqlError error={errorFetchingNextPage} />
           {isFetchingNextPage || collectionsQuery.fetching ? (
