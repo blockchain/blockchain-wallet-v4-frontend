@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
@@ -362,7 +362,6 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
-    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
@@ -477,9 +476,6 @@ export default ({ api, coreSagas, networks }) => {
                 password,
                 session
               })
-              // if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
-              //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-              // } else {
               yield call(loginRoutineSaga, {})
               // }
             } catch (e) {
@@ -621,8 +617,6 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeLogin = function* () {
-    // TODO: just for dev purposes, remove before release
-    // yield put(actions.session.clearSessions())
     try {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
