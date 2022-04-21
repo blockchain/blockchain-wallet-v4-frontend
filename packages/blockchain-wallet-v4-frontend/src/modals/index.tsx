@@ -4,9 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { ModalName } from 'data/types'
 
+import CustomizableConfirm from './CustomizableConfirm'
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
-import CustomizableConfirm from "./CustomizableConfirm";
 
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
