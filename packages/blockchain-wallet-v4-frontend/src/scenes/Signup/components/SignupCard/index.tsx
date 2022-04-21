@@ -19,14 +19,6 @@ import {
 } from '..'
 import SignupForm from '../SignupForm'
 
-const Line = styled.div<{ showForm: boolean }>`
-  height: 1px;
-  width: 12.5rem;
-  margin: ${(props) => (props.showForm ? '1.5rem auto 0' : '0')};
-  background-color: ${(props) => props.theme.grey000};
-  visibility: ${(props) => (props.showForm ? 'visible' : 'hidden')};
-  transition: all 0.5s ease;
-`
 const AppButtons = styled.footer<{ showForm: boolean }>`
   display: flex;
   flex-direction: column;

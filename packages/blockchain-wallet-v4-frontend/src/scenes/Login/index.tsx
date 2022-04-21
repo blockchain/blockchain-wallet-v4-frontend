@@ -210,12 +210,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              // case LoginSteps.UPGRADE_CONFIRM:
-              //   return <MergeAccountConfirm {...loginProps} />
-              // case LoginSteps.UPGRADE_PASSWORD:
-              //   return <UpgradePassword {...loginProps} />
-              // case LoginSteps.UPGRADE_SUCCESS:
-              //   return <UpgradeSuccess {...loginProps} />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (

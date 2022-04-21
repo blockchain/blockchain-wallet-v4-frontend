@@ -46,6 +46,7 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
   }
 
+  // TODO: use new world deeplinking once merged
   const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
     const guid = params.get('guid')
@@ -279,6 +280,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  // TODO: use new world deeplinking once merged
   const runSettingsDeeplinkRedirect = function* (goal: GoalType) {
     const { data, id } = goal
     const { settingsChange } = data

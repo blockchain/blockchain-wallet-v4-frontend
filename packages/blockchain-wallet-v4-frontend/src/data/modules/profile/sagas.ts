@@ -292,38 +292,32 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  // TODO: USE THIS TO CHECK IF INFORMATION IS ALREADY IN STORE
-  // IF YES, DON'T REWRITE
-
   const createExchangeUser = function* (countryCode) {
     try {
-      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
-      const exchangeLifetimeTokenR = yield select(
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
+      const exchangeLifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )
-      const exchangeUserId = exchangeUserIdR.getOrElse(null)
-      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
+      )).getOrElse(null)
       if (!exchangeUserId || !exchangeLifetimeToken) {
         yield call(generateExchangeAuthCredentials, countryCode)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
     }
-
-    // From here we call nabu/authorize to get login token
   }
 
   const getExchangeLoginToken = function* (action) {
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
-      const exchangeLifetimeTokenR = yield select(
+      const exchangeLifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )
-      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
-
-      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
-      const exchangeUserId = exchangeUserIdR.getOrElse(null)
+      )).getOrElse(null)
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (origin === ExchangeAuthOriginType.Signup) {

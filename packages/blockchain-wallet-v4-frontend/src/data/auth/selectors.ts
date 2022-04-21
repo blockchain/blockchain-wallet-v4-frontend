@@ -2,8 +2,6 @@ import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
 
-// TODO: organize these functions
-
 export function getAccountUnificationFlowType(
   state: RootState
 ): AuthStateType['accountUnificationFlow'] {
