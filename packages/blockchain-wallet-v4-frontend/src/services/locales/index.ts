@@ -71,6 +71,23 @@ export const loadLocaleData = (locale, callback) => {
         'i18n-es'
       )
       break
+    case 'es-LA':
+      require.ensure(
+        [
+          'moment/locale/es.js',
+          '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
+          '../../assets/locales/es-LA.json'
+        ],
+        (require) => {
+          require('moment/locale/es.js')
+          setLocaleData(
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            require('../../assets/locales/es-LA.json')
+          )
+        },
+        'i18n-es-LA'
+      )
+      break
     case 'fr':
       require.ensure(
         [
@@ -103,6 +120,23 @@ export const loadLocaleData = (locale, callback) => {
           )
         },
         'i18n-pt'
+      )
+      break
+    case 'pt-BR':
+      require.ensure(
+        [
+          'moment/locale/pt-br.js',
+          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
+          '../../assets/locales/pt-BR.json'
+        ],
+        (require) => {
+          require('moment/locale/pt-br.js')
+          setLocaleData(
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            require('../../assets/locales/pt-BR.json')
+          )
+        },
+        'i18n-pt-BR'
       )
       break
     case 'ru':
