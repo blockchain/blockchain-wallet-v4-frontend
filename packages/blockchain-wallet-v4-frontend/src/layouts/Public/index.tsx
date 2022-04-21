@@ -78,7 +78,6 @@ const PublicLayoutContainer = ({
   platform
 }: Props) => {
   if (pageTitle) document.title = pageTitle
-  // useEffect(() => { document.body.style.backgroundImage = `url('/img/ss-bc-signup-bg.jpg')`, document.body.style.backgroundSize = 'cover', document.body.style.backgroundRepeat = 'no-repeat' }, [])
   return (
     <Route
       path={path}
