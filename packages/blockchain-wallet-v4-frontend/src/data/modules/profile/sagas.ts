@@ -4,9 +4,10 @@ import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
-import { ExtractSuccess } from '@core/types'
+import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
+import { AuthMagicLink } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -312,6 +313,16 @@ export default ({ api, coreSagas, networks }) => {
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
+      const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
+      const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
+      const exchangeAuthUrl = magicLinkData?.exchange_auth_url
+      const { exchange: exchangeDomain } = selectors.core.walletOptions
+        .getDomains(yield select())
+        .getOrElse({
+          exchange: 'https://exchange.blockchain.com'
+        } as WalletOptionsType['domains'])
+
+      const exchangeUrlFromLink = exchangeAuthUrl || redirect
       const exchangeLifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
       )).getOrElse(null)
@@ -324,11 +335,7 @@ export default ({ api, coreSagas, networks }) => {
           return
         }
         if (origin === ExchangeAuthOriginType.SideMenu) {
-          return window.open(
-            `https://exchange.staging.blockchain.info/trade/`,
-            '_blank',
-            'noreferrer'
-          )
+          return window.open(`${exchangeDomain}`, '_blank', 'noreferrer')
         }
       }
       const { token } = yield call(
@@ -338,17 +345,11 @@ export default ({ api, coreSagas, networks }) => {
         retailToken
       )
       if (origin === ExchangeAuthOriginType.SideMenu) {
-        window.open(
-          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-          '_blank',
-          'noreferrer'
-        )
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
+      } else if (exchangeUrlFromLink) {
+        window.open(`${exchangeUrlFromLink}${token}`, '_self', 'noreferrer')
       } else {
-        window.open(
-          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-          '_self',
-          'noreferrer'
-        )
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_self', 'noreferrer')
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
