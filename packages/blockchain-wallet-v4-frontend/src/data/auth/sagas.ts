@@ -512,7 +512,13 @@ export default ({ api, coreSagas, networks }) => {
           // remove 2fa by setting auth type to zero
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          }
+          if (product === ProductAuthOptions.EXCHANGE) {
+            yield put(actions.auth.exchangeLoginFailure(8))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+          }
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.loginFailure(errorString))
           yield put(
