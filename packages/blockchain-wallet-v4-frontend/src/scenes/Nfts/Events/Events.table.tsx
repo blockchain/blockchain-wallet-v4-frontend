@@ -13,7 +13,7 @@ import {
   getItemColumn,
   getPriceColumn,
   getToColumn
-} from './CollectionEventsTable'
+} from './EventsTableColumns'
 
 const getTableColumns = () => [
   getEventTypeColumn(),

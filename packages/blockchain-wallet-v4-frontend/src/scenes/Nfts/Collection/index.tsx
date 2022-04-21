@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
@@ -15,9 +15,9 @@ import { media } from 'services/styles'
 import { event_types, GridWrapper, NftBannerWrapper } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
+import Events from '../Events/Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
-import CollectionEvents from './CollectionEvents/CollectionEvents'
 import CollectionItems from './CollectionItems/CollectionItems'
 import Stats from './Stats'
 
@@ -156,11 +156,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               slug={slug}
             />
           ) : (
-            <CollectionEvents
-              collectionsQuery={collectionsQuery}
-              formValues={formValues}
-              slug={slug}
-            />
+            <Events collectionsQuery={collectionsQuery} formValues={formValues} slug={slug} />
           )}
         </div>
       </GridWrapper>

@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import { Flex } from 'components/Flex'
 import { CellHeaderText, CellText } from 'components/Table'
 
-import EventTypeIcon from '../../../components/EventTypeIcon'
-import EventTypeName from '../../../components/EventTypeName'
+import EventTypeIcon from '../../components/EventTypeIcon'
+import EventTypeName from '../../components/EventTypeName'
 
 const NameCell = styled(CellText)`
   display: flex;

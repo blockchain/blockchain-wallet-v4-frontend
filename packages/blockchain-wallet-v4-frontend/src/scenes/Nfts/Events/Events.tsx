@@ -6,13 +6,13 @@ import { Button, SpinningLoader } from 'blockchain-info-components'
 import { TableWrapper } from 'components/Table'
 import { CollectionsQuery, EventsQuery } from 'generated/graphql'
 
-import { Centered, Grid } from '../../components'
-import GraphqlError from '../../components/GraphqlError'
-import { NftFilterFormValuesType } from '../../NftFilter'
-import ResultsPage from './CollectionEvents.results'
-import CollectionEventsTable from './CollectionEvents.table'
+import { Centered, Grid } from '../components'
+import GraphqlError from '../components/GraphqlError'
+import { NftFilterFormValuesType } from '../NftFilter'
+import EventsResults from './Events.results'
+import EventsTable from './Events.table'
 
-const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
+const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -34,7 +34,7 @@ const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug 
       <Grid>
         {pageVariables.length
           ? pageVariables.map(({ page }) => (
-              <ResultsPage
+              <EventsResults
                 page={page}
                 // @ts-ignore
                 formValues={formValues}
@@ -48,26 +48,29 @@ const CollectionEvents: React.FC<Props> = ({ collectionsQuery, formValues, slug 
           : null}
       </Grid>
       <TableWrapper>
-        {events.length ? <CollectionEventsTable events={events} /> : null}
-        <Centered>
-          <GraphqlError error={errorFetchingNextPage} />
-          {isFetchingNextPage || collectionsQuery.fetching ? (
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          ) : (
-            <Button
-              style={{ marginTop: '16px' }}
-              onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-              nature='primary'
-              data-e2e='loadMoreNfts'
-            >
-              {errorFetchingNextPage ? (
-                <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-              ) : (
-                <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
-              )}
-            </Button>
-          )}
-        </Centered>
+        {events.length ? (
+          <EventsTable events={events} />
+        ) : (
+          <Centered>
+            <GraphqlError error={errorFetchingNextPage} />
+            {isFetchingNextPage || collectionsQuery.fetching ? (
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            ) : (
+              <Button
+                style={{ marginTop: '16px' }}
+                onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
+                nature='primary'
+                data-e2e='loadMoreNfts'
+              >
+                {errorFetchingNextPage ? (
+                  <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                ) : (
+                  <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
+                )}
+              </Button>
+            )}
+          </Centered>
+        )}
       </TableWrapper>
     </>
   )
@@ -79,4 +82,4 @@ type Props = {
   slug: string
 }
 
-export default CollectionEvents
+export default Events

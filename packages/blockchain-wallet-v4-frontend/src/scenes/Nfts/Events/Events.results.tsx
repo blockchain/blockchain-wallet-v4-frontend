@@ -4,10 +4,10 @@ import { CombinedError } from 'urql'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { EventFilterFields, EventsQuery, useEventsQuery } from 'generated/graphql'
 
-import { NftFilterFormValuesType } from '../../NftFilter'
-import { getEventFilter } from '../../utils/NftUtils'
+import { NftFilterFormValuesType } from '../NftFilter'
+import { getEventFilter } from '../utils/NftUtils'
 
-const CollectionEventsResults: React.FC<Props> = ({
+const EventsResults: React.FC<Props> = ({
   formValues,
   page,
   setEvents,
@@ -50,4 +50,4 @@ type Props = {
   slug: string
 }
 
-export default CollectionEventsResults
+export default EventsResults
