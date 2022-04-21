@@ -12,8 +12,8 @@ import { RootState } from 'data/rootReducer'
 import { CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { GridWrapper, NftBannerWrapper } from '../components'
-import OpenSeaStatusComponent from '../components/openSeaStatus'
+import { event_types, GridWrapper, NftBannerWrapper } from '../components'
+import OpenSeaStatusComponent from '../components/OpenSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import { getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
@@ -132,7 +132,10 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           formActions={formActions}
           formValues={formValues}
           total_supply={collection.total_supply}
-          traits={collection.traits}
+          traits={activeTab === 'ITEMS' ? collection.traits : []}
+          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          minMaxPriceFilter={activeTab === 'ITEMS'}
+          forSaleFilter={activeTab === 'ITEMS'}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters

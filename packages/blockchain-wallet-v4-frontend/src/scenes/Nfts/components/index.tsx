@@ -6,6 +6,8 @@ import { media } from 'services/styles'
 
 export const maxWidth = '1200px'
 
+export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
+
 export const NftPage = styled.div`
   width: 100%;
   max-width: ${maxWidth};

@@ -1,17 +1,24 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
 import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown } from '@blockchain-com/icons'
+import {
+  IconChevronDown,
+  IconChevronDownV2,
+  IconChevronUp,
+  IconChevronUpV2
+} from '@blockchain-com/icons'
 
-import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
+import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 import { EventsQuery } from 'generated/graphql'
 
-import { getDateColumn } from './Table/date.column'
-import { getEventTypeColumn } from './Table/event_type.column'
-import { getFromColumn } from './Table/from.column'
-import { getItemColumn } from './Table/item.column'
-import { getPriceColumn } from './Table/price.column'
-import { getToColumn } from './Table/to.column'
+import {
+  getDateColumn,
+  getEventTypeColumn,
+  getFromColumn,
+  getItemColumn,
+  getPriceColumn,
+  getToColumn
+} from './CollectionEventsTable'
 
 const getTableColumns = () => [
   getEventTypeColumn(),
@@ -61,14 +68,14 @@ const CollectionEventsTable: React.FC<Props> = ({ events }) => {
                     {column.isSorted ? (
                       column.isSortedDesc ? (
                         <HeaderToggle>
-                          <Icon label='sort-desc'>
-                            <IconChevronDown />
+                          <Icon size='sm' label='sort-desc'>
+                            <IconChevronDownV2 />
                           </Icon>
                         </HeaderToggle>
                       ) : (
                         <HeaderToggle>
-                          <Icon label='sort-asc'>
-                            <IconChevronDown />
+                          <Icon size='sm' label='sort-asc'>
+                            <IconChevronUpV2 />
                           </Icon>
                         </HeaderToggle>
                       )

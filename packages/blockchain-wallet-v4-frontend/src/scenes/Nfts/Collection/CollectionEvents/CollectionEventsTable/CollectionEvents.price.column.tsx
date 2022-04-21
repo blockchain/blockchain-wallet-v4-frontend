@@ -8,9 +8,11 @@ export const getPriceColumn = () => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellText>
-        <CoinDisplay coin='ETH' weight={600} size='14px' color='grey900'>
-          {values.total_price}
-        </CoinDisplay>
+        {values.total_price ? (
+          <CoinDisplay coin='ETH' weight={600} size='14px' color='grey900'>
+            {values.total_price}
+          </CoinDisplay>
+        ) : null}
       </CellText>
     )
   },

@@ -80,6 +80,8 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           collections={collections}
           formActions={formActions}
           formValues={formValues}
+          minMaxPriceFilter
+          forSaleFilter
           traits={[]}
         />
         <div style={{ width: '100%' }}>

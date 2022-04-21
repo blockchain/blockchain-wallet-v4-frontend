@@ -16,6 +16,8 @@ import { actions } from 'data'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
+import EventTypeName from '../components/EventTypeName'
+
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 20px;
   position: sticky;
@@ -81,8 +83,11 @@ const TraitItem = styled.div`
 
 const NftFilter: React.FC<Props> = ({
   collections,
+  event_types,
+  forSaleFilter,
   formActions,
   formValues,
+  minMaxPriceFilter,
   total_supply,
   traits
 }) => {
@@ -132,25 +137,85 @@ const NftFilter: React.FC<Props> = ({
       </FilterHeader>
       <Form>
         <div style={{ display: isOpen ? 'block' : 'none' }}>
-          <div>
-            <Button
-              onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
-              nature={formValues?.forSale ? 'primary' : 'empty-blue'}
-              data-e2e='buyNowToggle'
-            >
-              <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-            </Button>
-          </div>
-          <div style={{ marginTop: '24px' }}>
-            <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
-              <FormattedMessage id='copy.price' defaultMessage='Price' />
-            </Text>
-            <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
-              <Field name='min' component={NumberBox} placeholder='Min' />
-              <Field name='max' component={NumberBox} placeholder='Max' />
-              <ComponentIcon size='18px' name='ETH' />
+          {forSaleFilter ? (
+            <div>
+              <Button
+                onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
+                nature={formValues?.forSale ? 'primary' : 'empty-blue'}
+                data-e2e='buyNowToggle'
+              >
+                <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+              </Button>
             </div>
-          </div>
+          ) : null}
+          {minMaxPriceFilter ? (
+            <div style={{ marginTop: '24px' }}>
+              <Text style={{ marginBottom: '8px' }} size='14px' weight={600} color='black'>
+                <FormattedMessage id='copy.price' defaultMessage='Price' />
+              </Text>
+              <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
+                <Field name='min' component={NumberBox} placeholder='Min' />
+                <Field name='max' component={NumberBox} placeholder='Max' />
+                <ComponentIcon size='18px' name='ETH' />
+              </div>
+            </div>
+          ) : null}
+          {event_types?.length ? (
+            <div style={{ marginTop: '24px' }}>
+              <TraitWrapper>
+                <TraitHeader>
+                  <Text size='14px' weight={500} color='black'>
+                    <FormattedMessage id='copy.events' defaultMessage='Events' />
+                  </Text>
+                </TraitHeader>
+                <TraitList isActive>
+                  {event_types.map((event) => {
+                    return (
+                      <TraitItem key={event}>
+                        <div
+                          style={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            overflow: 'hidden',
+                            width: '100%'
+                          }}
+                        >
+                          <Field
+                            component='input'
+                            name='event_type'
+                            type='radio'
+                            id={event}
+                            value={event}
+                          />
+                          <label
+                            htmlFor={event}
+                            style={{
+                              alignItems: 'center',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              whiteSpace: 'nowrap',
+                              width: '100%'
+                            }}
+                          >
+                            <Text
+                              style={{ marginLeft: '4px' }}
+                              size='12px'
+                              weight={600}
+                              color='black'
+                              capitalize
+                            >
+                              {/* @ts-ignore */}
+                              <EventTypeName event_type={event} />
+                            </Text>
+                          </label>
+                        </div>
+                      </TraitItem>
+                    )
+                  })}
+                </TraitList>
+              </TraitWrapper>
+            </div>
+          ) : null}
           {collections?.length ? (
             <div style={{ marginTop: '24px' }}>
               <Text size='14px' weight={600} color='black'>
@@ -318,8 +383,11 @@ export type NftFilterFormValuesType = {
 
 type Props = {
   collections?: OwnerQuery['assets'][0]['collection'][]
+  event_types?: string[]
+  forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  minMaxPriceFilter: boolean
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }
