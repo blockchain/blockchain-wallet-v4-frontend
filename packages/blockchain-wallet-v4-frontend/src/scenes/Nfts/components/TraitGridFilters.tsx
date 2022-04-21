@@ -101,7 +101,7 @@ const TraitGridFilters: React.FC<Props> = ({
                       analyticsActions.trackEvent({
                         key: Analytics.NFT_FILTER_REMOVED,
                         properties: {
-                          filter_characteristic: ''
+                          filter_characteristic: 'collection'
                         }
                       })
                     }}
@@ -144,7 +144,7 @@ const TraitGridFilters: React.FC<Props> = ({
                             analyticsActions.trackEvent({
                               key: Analytics.NFT_FILTER_REMOVED,
                               properties: {
-                                filter_characteristic: ''
+                                filter_characteristic: key
                               }
                             })
                           }}
