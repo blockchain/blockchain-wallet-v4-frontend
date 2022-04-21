@@ -4,7 +4,7 @@ import {
   useOpenRecurringBuyFlayout,
   useRecurringBuyBannerFlyout,
   useRecurringBuyTracker
-} from 'blockchain-wallet-v4-frontend/src/hooks'
+} from 'hooks'
 
 import { StandardRow } from 'components/Rows'
 

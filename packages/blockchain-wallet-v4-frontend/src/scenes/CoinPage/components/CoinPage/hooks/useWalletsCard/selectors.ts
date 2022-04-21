@@ -75,6 +75,13 @@ export const getData = (state, coin: CoinType) => {
             includeInterest: true
           }
           break
+        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
+          coinSelector = getCoinAddressData
+          coinWalletParams = {
+            coin,
+            includeSelfCustody: true
+          }
+          break
         default:
       }
   }

@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
-import { usePriceIndexSeries } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { usePriceIndexSeries } from 'hooks'
 
 import { createCoinChartTooltipBuilder } from '../../../CoinChartTooltip'
 import { ResponsiveCoinChart } from '../../../ResponsiveCoinChart'

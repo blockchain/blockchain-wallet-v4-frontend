@@ -10,5 +10,6 @@ export default ({ api }) => {
     yield takeLatest(actions.getProducts.type, debitCardSagas.getProducts)
     yield takeLatest(actions.createCard.type, debitCardSagas.createCard)
     yield takeLatest(actions.getCards.type, debitCardSagas.getCards)
+    yield takeLatest(actions.terminateCard.type, debitCardSagas.terminateCard)
   }
 }

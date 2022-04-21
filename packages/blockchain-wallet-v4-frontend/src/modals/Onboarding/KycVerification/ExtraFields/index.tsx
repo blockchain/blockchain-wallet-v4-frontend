@@ -53,7 +53,9 @@ const KYCExtraQuestionnaire = (props: Props) => {
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
-          Success: (val) => <Success {...props} {...val} onSubmit={handleSubmit} />
+          Success: (val) => (
+            <Success {...props} {...val} onSubmit={handleSubmit} onClose={handleClose} />
+          )
         })}
       </FlyoutChild>
     </Flyout>

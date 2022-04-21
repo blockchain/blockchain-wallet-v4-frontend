@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react'
 import { RouteComponentProps } from 'react-router'
-import { useCoinConfig } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { useCoinConfig } from 'hooks'
 
 import { Flex } from 'components/Flex'
 
