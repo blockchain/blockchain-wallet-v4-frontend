@@ -234,29 +234,28 @@ export default ({ api, coreSagas, networks }) => {
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.signup.setFirstLogin(firstLogin))
+      // root and wallet are neccessary
+      // to auth into the exchange
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+      // If user is logging into a unified exchange account
+
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
       yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      // waits for nabu auth to complete
-      // We need this to finish in order to get the exchange login token
-      const existingUserCountryCode = (yield select(
-        selectors.modules.profile.getUserCountryCode
-      )).getOrElse('US')
-      // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
           actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
         )
       }
+
       if (firstLogin) {
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
@@ -330,6 +329,9 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.cache.exchangeWalletGuid(guid))
           yield put(actions.cache.setUnifiedAccount(true))
         } else {
+          const existingUserCountryCode = (yield select(
+            selectors.modules.profile.getUserCountryCode
+          )).getOrElse('US')
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }
