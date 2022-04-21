@@ -5,7 +5,7 @@ import { Divider, DividerComponent } from '.'
 
 const dividerStoriesMeta: ComponentMeta<DividerComponent> = {
   component: Divider,
-  title: 'Components/Divider'
+  title: 'Structural/Divider'
 }
 
 const Template: ComponentStory<DividerComponent> = (args) => <Divider {...args} />
