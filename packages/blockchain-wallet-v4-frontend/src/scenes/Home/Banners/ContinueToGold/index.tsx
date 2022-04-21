@@ -76,16 +76,16 @@ const ContinueToGold = ({ verifyIdentity }: Props) => (
         </Text>
         <Copy size='16px' color='grey600' weight={500}>
           <FormattedMessage
-            id='scenes.home.banner.continue_to_gold.description'
-            defaultMessage='Continue your verification to become Gold level and increase your limits and payment methods'
+            id='scenes.home.banner.continue_to_full_access.description'
+            defaultMessage='Continue your verification to become Full Access level and increase your limits and payment methods'
           />
         </Copy>
       </Column>
     </Row>
     <BannerButton onClick={verifyIdentity} jumbo data-e2e='continueToGoldSDD' nature='primary'>
       <FormattedMessage
-        id='scenes.home.banner.continue_to_gold.button'
-        defaultMessage='Continue to Gold'
+        id='scenes.home.banner.continue_to_full_access.button'
+        defaultMessage='Continue to Full Access'
       />
     </BannerButton>
   </Wrapper>

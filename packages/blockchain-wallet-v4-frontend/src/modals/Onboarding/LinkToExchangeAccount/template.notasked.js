@@ -201,8 +201,8 @@ const LinkToExchangeAccountNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint'
-                        defaultMessage='Share your Gold or Silver Level status'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.to.point'
+                        defaultMessage='Share your Full Access or Limited Access Level status'
                       />
                     </Text>
                   </RightPointRow>

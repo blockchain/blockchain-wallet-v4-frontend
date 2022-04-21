@@ -46,15 +46,15 @@ const Failure: React.FC<{
       <Image name='gold-notice' width='70' height='66' />
       <Title color='black' size='24px' weight={600}>
         <FormattedMessage
-          id='identityverification.failure.header'
-          defaultMessage='Gold Unavailable At This Time'
+          id='identityverification.failure.header_full_access'
+          defaultMessage='Full Access Unavailable At This Time'
         />
       </Title>
       <Content>
         <Text color='grey800' size='14px'>
           <FormattedMessage
-            id='identityverification.failure.content1'
-            defaultMessage="We're sorry but we can't verify you for Gold at this time. This can be for a number of reasons, for example your country might not be supported right now. If you're Silver verified you can still Buy, Sell or Swap a limited amount of crypto now."
+            id='identityverification.failure.content_1'
+            defaultMessage="We're sorry but we can't verify you for Full Access at this time. This can be for a number of reasons, for example your country might not be supported right now. If you're Limited Access verified you can still Buy, Sell or Swap a limited amount of crypto now."
           />
         </Text>
         <Text color='grey800' size='14px'>

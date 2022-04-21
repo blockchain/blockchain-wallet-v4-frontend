@@ -129,8 +129,8 @@ class UpgradeForAirdrop extends React.PureComponent {
           <CopyContainer>
             <Copy size='16px'>
               <FormattedMessage
-                id='modals.upgradeforairdrop.goldprofilelevel1'
-                defaultMessage='Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).'
+                id='modals.upgradeforairdrop.full_access_profilelevel1'
+                defaultMessage='Upgrade your profile to Full Access Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).'
               />
             </Copy>
             <FooterButton

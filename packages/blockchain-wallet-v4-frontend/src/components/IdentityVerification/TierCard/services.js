@@ -7,14 +7,14 @@ import { Text } from 'blockchain-info-components'
 export const headers = {
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.gold'
-      defaultMessage='Gold Level'
+      id='components.identityverification.tiercard.full_access'
+      defaultMessage='Full Access Level'
     />
   ),
   SILVER: (
     <FormattedMessage
-      id='components.identityverification.tiercard.silver'
-      defaultMessage='Silver Level'
+      id='components.identityverification.tiercard.limited_access'
+      defaultMessage='Limited Access Level'
     />
   )
 }
@@ -22,14 +22,14 @@ export const headers = {
 export const levelName = {
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.goldlevelname'
-      defaultMessage='Gold'
+      id='components.identityverification.tiercard.full_access_levelname'
+      defaultMessage='Full Access'
     />
   ),
   SILVER: (
     <FormattedMessage
-      id='components.identityverification.tiercard.silverlevelname'
-      defaultMessage='Silver'
+      id='components.identityverification.tiercard.limit_access_levelname'
+      defaultMessage='Limited Access'
     />
   )
 }
@@ -80,8 +80,8 @@ export const messages = {
   TIER1: (
     <Text size='12px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.silverplus'
-        defaultMessage='Silver Level +'
+        id='components.identityverification.tiercard.limited_access'
+        defaultMessage='Limited Access Level'
       />
     </Text>
   )
@@ -168,16 +168,16 @@ export const ctas = {
   GOLD: (
     <span data-e2e='unlockGoldBtn'>
       <FormattedMessage
-        id='components.identityverification.tiercard.goldctamedal'
-        defaultMessage='Unlock Gold 🥇'
+        id='components.identityverification.tiercard.full_access_ctamedal'
+        defaultMessage='Unlock Full Access 🥇'
       />
     </span>
   ),
   SILVER: (
     <span data-e2e='unlockSilverBtn'>
       <FormattedMessage
-        id='components.identityverification.tiercard.silvercta'
-        defaultMessage='Unlock Silver'
+        id='components.identityverification.tiercard.limited_access_cta'
+        defaultMessage='Unlock Limited Access'
       />
     </span>
   )

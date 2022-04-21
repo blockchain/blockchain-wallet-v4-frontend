@@ -357,8 +357,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         selectedTier={1}
         subHeaderCopy={
           <FormattedMessage
-            id='copy.swap_get_access'
-            defaultMessage='Get access to swap in seconds by completing your profile and getting Silver access.'
+            id='copy.swap_get_access_limited_access'
+            defaultMessage='Get access to swap in seconds by completing your profile and getting Limited Access access.'
           />
         }
         subHeaderTitle={

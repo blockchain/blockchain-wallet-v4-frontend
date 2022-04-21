@@ -319,7 +319,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <UpgradePrompt>
                 <BlueCartridge style={{ marginBottom: '26px' }}>
                   <FormattedMessage
-                    id='copy.above_swap_max_silver'
+                    id='copy.above_swap_max_limited_access'
                     defaultMessage='Upgrade your profile to swap this amount.'
                   />
                 </BlueCartridge>

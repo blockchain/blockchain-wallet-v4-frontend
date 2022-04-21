@@ -52,8 +52,8 @@ const IncreaseLimits: React.FC<Props> = () => (
       </HeaderContainer>
       <InfoText color='grey600'>
         <FormattedMessage
-          id='modals.simplebuy.checkout.larger_amount.info'
-          defaultMessage='After completing this transaction, upgrade to Gold level to unlock higher transaction limits and more payment methods.'
+          id='modals.simplebuy.checkout.larger_amount.info_full_access'
+          defaultMessage='After completing this transaction, upgrade to Full Access level to unlock higher transaction limits and more payment methods.'
         />
       </InfoText>
     </Container>

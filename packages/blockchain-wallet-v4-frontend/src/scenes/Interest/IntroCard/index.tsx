@@ -270,8 +270,8 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 <Icon name='percentage' color='blue600' size='32px' />
                 <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
-                    id='scenes.interest.earnupgrade.header'
-                    defaultMessage='Upgrade to Gold Level so you can earn rewards on your crypto.'
+                    id='scenes.interest.earnupgrade._full_access_header'
+                    defaultMessage='Upgrade to Full Access Level so you can earn rewards on your crypto.'
                   />
                 </Text>
                 <Text
@@ -281,8 +281,8 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                   style={{ lineHeight: 1.5, marginTop: '10px' }}
                 >
                   <FormattedMessage
-                    id='scenes.interest.earnbody.access'
-                    defaultMessage='Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.'
+                    id='scenes.interest.earnbody.full_access'
+                    defaultMessage='Upgrade to Full Access Level and access benefits like earning up to {highestRate}% annually on your crypto.'
                     values={{ highestRate }}
                   />
                 </Text>
@@ -301,8 +301,8 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 >
                   {userData.kycState === 'UNDER_REVIEW' || userData.kycState === 'PENDING' ? (
                     <FormattedMessage
-                      id='scenes.interest.kycunderreview'
-                      defaultMessage='Gold Verification In Review'
+                      id='scenes.interest.kyc_underreview'
+                      defaultMessage='Full Access Verification In Review'
                     />
                   ) : (
                     <FormattedMessage id='scenes.interest.verifyid' defaultMessage='Upgrade Now' />

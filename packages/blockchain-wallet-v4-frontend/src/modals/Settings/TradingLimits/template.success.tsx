@@ -156,8 +156,8 @@ const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
           <FormattedMessage id='copy.upgrade_your_wallet' defaultMessage='Upgrade Your Wallet' />
         ) : (
           <FormattedMessage
-            id='modals.tradinglimits.upgrade.tier.silver.title'
-            defaultMessage='Upgrade to Gold Limits'
+            id='modals.tradinglimits.upgrade.tier.limited_access.title'
+            defaultMessage='Upgrade to Full Access Limits'
           />
         )}
       </TierTitle>
@@ -169,7 +169,7 @@ const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
           />
         ) : (
           <FormattedMessage
-            id='modals.tradinglimits.upgrade.tier.silver.description'
+            id='modals.tradinglimits.upgrade.tier.limited_access.description'
             defaultMessage='Verify your ID and link your bank to Buy & Sell Crypto straight from your wallet.'
           />
         )}
@@ -397,7 +397,7 @@ const Template: React.FC<Props> = (props) => {
           )}
           {isUserTierSilver && (
             <FormattedMessage
-              id='modals.limits_and_features.subtitle.silver'
+              id='modals.limits_and_features.subtitle.limited_access'
               defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
             />
           )}
@@ -429,8 +429,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.silver_limits'
-                    defaultMessage='Silver Limits'
+                    id='modals.tradinglimits.upgrade.limited_access_limits'
+                    defaultMessage='Limited Access Limits'
                   />
                 </ItemTitle>
               </ItemTitleWrapper>
@@ -450,8 +450,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.gold_limits'
-                    defaultMessage='Gold Limits'
+                    id='modals.tradinglimits.upgrade.full_access_limits'
+                    defaultMessage='Full Access Limits'
                   />
                 </ItemTitle>
                 <ItemSubtitle>

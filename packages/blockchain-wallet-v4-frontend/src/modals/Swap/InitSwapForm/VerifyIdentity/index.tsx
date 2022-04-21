@@ -38,8 +38,8 @@ const VerifyIdentity: React.FC<Props> = (props) => {
         </Text>
         <Text size='14px' color='grey600' weight={500} style={{ marginBottom: '30px' }}>
           <FormattedMessage
-            id='copy.swap_get_access'
-            defaultMessage='Get access to swap in seconds by completing your profile and getting Silver access.'
+            id='copy.swap_get_access_limited_access'
+            defaultMessage='Get access to swap in seconds by completing your profile and getting Limited Access access.'
           />
         </Text>
         <FlexStartRow style={{ marginBottom: '28px' }}>

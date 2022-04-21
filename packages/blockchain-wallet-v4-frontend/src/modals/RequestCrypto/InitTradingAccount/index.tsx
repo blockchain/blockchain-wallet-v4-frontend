@@ -13,8 +13,8 @@ const InitTradingAccount: React.FC<Props> = (props) => {
       goBack={() => props.setStep(RequestSteps.COIN_SELECT)}
       subHeaderCopy={
         <FormattedMessage
-          id='copy.trading_get_access'
-          defaultMessage='Get access to the Trading Account in seconds by completing your profile and getting Silver access.'
+          id='copy.trading_get_limited_access'
+          defaultMessage='Get access to the Trading Account in seconds by completing your profile and getting Limited access access.'
         />
       }
       subHeaderTitle={

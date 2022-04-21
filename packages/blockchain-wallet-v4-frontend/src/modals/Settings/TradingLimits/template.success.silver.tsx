@@ -162,8 +162,8 @@ const Template: React.FC<Props> = (props) => {
               <Image name='grey-verified' size='20px' />
               <RowItemTitle>
                 <FormattedMessage
-                  id='modals.onboarding.upgrade_now.basic_level'
-                  defaultMessage='Basic Level'
+                  id='modals.onboarding.upgrade_now.limited_access_level'
+                  defaultMessage='Limited Access Level'
                 />
               </RowItemTitle>
               <StatusCartridge>
@@ -227,8 +227,8 @@ const Template: React.FC<Props> = (props) => {
                   onClick={startVerification}
                 >
                   <FormattedMessage
-                    id='modals.onboarding.upgrade_now.get_basic'
-                    defaultMessage='Get Basic'
+                    id='modals.onboarding.upgrade_now.get_limited_access'
+                    defaultMessage='Get Limited Access'
                   />
                 </Button>
               </div>
@@ -240,8 +240,8 @@ const Template: React.FC<Props> = (props) => {
               <Image name='white-verified' size='20px' />
               <RowItemTitleWhite>
                 <FormattedMessage
-                  id='modals.onboarding.upgrade_now.verified_level'
-                  defaultMessage='Verified Level'
+                  id='modals.onboarding.upgrade_now.full_access_level'
+                  defaultMessage='Full Access Level'
                 />
               </RowItemTitleWhite>
               <StatusCartridgeBlue>
@@ -332,8 +332,8 @@ const Template: React.FC<Props> = (props) => {
           <Disclaimer>
             <RowItemSubTitle>
               <FormattedMessage
-                id='modals.onboarding.upgrade_now.disclaimer'
-                defaultMessage='Verified level includes all basic level features'
+                id='modals.onboarding.upgrade_now.disclaimer_limited'
+                defaultMessage='Full Access level includes all limited access level features'
               />
             </RowItemSubTitle>
           </Disclaimer>
