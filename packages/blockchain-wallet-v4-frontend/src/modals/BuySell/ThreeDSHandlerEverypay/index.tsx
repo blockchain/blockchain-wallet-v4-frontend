@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { BSCardType, BSOrderType, Everypay3DSResponseType, ProviderDetailsType } from '@core/types'
+import { BSCardType, BSOrderType, ProviderDetailsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -82,7 +82,6 @@ export type SuccessStateType =
       domains: { walletHelper: string }
       order: BSOrderType
       providerDetails: ProviderDetailsType
-      threeDSDetails: Everypay3DSResponseType
       type: 'CARD'
     }
 type LinkStatePropsType = {

@@ -99,11 +99,17 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   handleBackArrowClickWallet = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeWalletLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeExchangeLogin()
+    }
   }
 
   handleBackArrowClickExchange = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeExchangeLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeWalletLogin()
+    }
   }
 
   exchangeTabClicked = () => {

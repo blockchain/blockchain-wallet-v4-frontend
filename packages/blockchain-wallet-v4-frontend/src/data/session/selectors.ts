@@ -2,7 +2,7 @@ import { compose, curry, defaultTo, lift, path, prop } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 
-import { ExchangeSessionType, WalletSessionType } from './types'
+import { AccountSessionType } from './types'
 
 export const getSession = curry((state, guid, email) => {
   const guidSession = path(['session', guid], state)

@@ -244,27 +244,29 @@ export default ({ api, coreSagas, networks }) => {
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.signup.setFirstLogin(firstLogin))
+      // root and wallet are neccessary
+      // to auth into the exchange
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+      // If user is logging into a unified exchange account
+
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
       yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      // TODO solve this for real
-      // Use yield take to wait for the right action to finish
-      yield delay(3000)
-      // If user is logging into a unified exchange account
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
           actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
         )
       }
+
       if (firstLogin) {
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
@@ -332,7 +334,17 @@ export default ({ api, coreSagas, networks }) => {
       // and then syncing that information with new Wallet Account model
       // being used for SSO
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
-        yield fork(createExchangeUser)
+        if (firstLogin) {
+          yield fork(createExchangeUser, country)
+          yield put(actions.cache.exchangeEmail(email))
+          yield put(actions.cache.exchangeWalletGuid(guid))
+          yield put(actions.cache.setUnifiedAccount(true))
+        } else {
+          const existingUserCountryCode = (yield select(
+            selectors.modules.profile.getUserCountryCode
+          )).getOrElse('US')
+          yield fork(createExchangeUser, existingUserCountryCode)
+        }
       }
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
@@ -360,6 +372,7 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)

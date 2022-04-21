@@ -46,7 +46,7 @@ const WithdrawalDetails = ({ fiatCurrency, handleClose, withdrawal }: Props) => 
       </IconContainer>
       <Title weight={600} size='20px'>
         {fiatToString({
-          unit: withdrawal.amount.symbol,
+          unit: withdrawal.amount.symbol as WalletFiatType,
           value: withdrawal.amount.value
         })}{' '}
         {withdrawal.amount.symbol}

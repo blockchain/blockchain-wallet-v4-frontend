@@ -82,12 +82,13 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     alias: {
       '@core': path.resolve(__dirname, '../blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, 'src/components/'),
-      middleware: path.resolve(__dirname, 'src/middleware/'),
       data: path.resolve(__dirname, 'src/data/'),
+      hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
+      middleware: path.resolve(__dirname, 'src/middleware/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
+      utils: path.resolve(__dirname, 'src/utils/'),
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
@@ -229,7 +230,6 @@ const buildDevServerConfig = (
           "'self'",
           'data:',
           envConfig.API_DOMAIN,
-          envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
           envConfig.LEDGER_SOCKET_URL,
           envConfig.LEDGER_URL,
@@ -266,7 +266,6 @@ const buildDevServerConfig = (
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: localhostUrl,
-          everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy

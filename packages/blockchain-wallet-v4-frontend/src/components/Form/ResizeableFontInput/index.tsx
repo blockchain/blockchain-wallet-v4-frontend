@@ -5,7 +5,7 @@ const fontSizeToNumber = (fontSize) => Number(fontSize.replace(/px/, ''))
 
 // Empirical constant
 const getFontSizeToCharWidth = (fontSize) => {
-  if (/px/.test(fontSize)) return 0.62
+  if (/px/.test(fontSize)) return 0.65
   return 0
 }
 
@@ -28,6 +28,7 @@ const getValueLength = (value) => {
  */
 export const ResizeableFontInput = (Component) =>
   class ResizeableInput extends React.PureComponent {
+    // eslint-disable-next-line react/static-property-placement
     static defaultProps = {
       onUpdate: () => {}
     }
@@ -35,6 +36,15 @@ export const ResizeableFontInput = (Component) =>
     state = {
       fontRatio: 1
     }
+
+    /**
+     * putting valueLength in state causes an unneccessary rerender upon setState
+     * which moves caret to the end
+     * although being a react anti-pattern attribute works best here
+     */
+    valueLength = 0
+
+    componentRef = React.createRef()
 
     componentDidMount() {
       window.addEventListener('resize', this.resizeInputFont)
@@ -51,27 +61,6 @@ export const ResizeableFontInput = (Component) =>
     componentWillUnmount() {
       window.removeEventListener('resizes', this.resizeInputFont)
     }
-
-    selectInput() {
-      const ref = this.componentRef.current
-      if (!ref) return
-
-      // @ts-ignore
-      const node = findDOMNode(ref)
-      if (!node) return
-
-      // @ts-ignore
-      return node.querySelector('input')
-    }
-
-    /**
-     * putting valueLength in state causes an unneccessary rerender upon setState
-     * which moves caret to the end
-     * although being a react anti-pattern attribute works best here
-     */
-    valueLength = 0
-
-    componentRef = React.createRef()
 
     resizeInputFont = () => {
       const input = this.selectInput()
@@ -108,6 +97,19 @@ export const ResizeableFontInput = (Component) =>
       // @ts-ignore
       this.props.input.onChange(e)
       requestAnimationFrame(this.updateValueLength)
+    }
+
+    selectInput() {
+      const ref = this.componentRef.current
+      if (!ref) return
+
+      // @ts-ignore
+      // eslint-disable-next-line react/no-find-dom-node
+      const node = findDOMNode(ref)
+      if (!node) return
+
+      // @ts-ignore
+      return node.querySelector('input')
     }
 
     render() {

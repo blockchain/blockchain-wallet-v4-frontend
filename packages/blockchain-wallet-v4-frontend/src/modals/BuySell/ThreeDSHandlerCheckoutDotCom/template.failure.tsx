@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
+import { CARD_ERROR_CODE } from 'data/components/buySell/model'
 
 import CardErrorBankDecline from './CardErrorBankDecline'
 import CardErrorCreateFailed from './CardErrorCreateFailed'
@@ -23,23 +24,6 @@ const Wrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   text-align: center;
 `
-
-enum CARD_ERROR_CODE {
-  INTERNAL_SERVER_ERROR = 1,
-  INSUFFICIENT_FUNDS = 10000,
-  BANK_DECLINE = 10001,
-  DUPLICATE = 10002,
-  BLOCKCHAIN_DECLINE = 10003,
-  ACQUIRER_DECLINE = 10004,
-  PAYMENT_NOT_SUPPORTED = 10005,
-  CREATE_FAILED = 10006,
-  PAYMENT_FAILED = 10007,
-  CREATE_DEBIT_ONLY = 10011,
-  PAYMENT_DEBIT_ONLY = 10012,
-  PENDING_CARD_AFTER_POLL = 'PENDING_CARD_AFTER_POLL',
-  BLOCKED_CARD_AFTER_POLL = 'BLOCKED_CARD_AFTER_POLL',
-  LINK_CARD_FAILED = 'LINK_CARD_FAILED'
-}
 
 const Failure = ({ code, handleBack, handleReset, handleRetry }: Props) => {
   const renderError = () => {
@@ -68,7 +52,7 @@ const Failure = ({ code, handleBack, handleReset, handleRetry }: Props) => {
         return <CardErrorProblemCollecting handleReset={handleReset} handleRetry={handleRetry} />
       case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
       default:
-        return <DataError message={{ message: `Error code: ${code}` }} />
+        return <DataError message={{ message: `${code}` }} />
     }
   }
 

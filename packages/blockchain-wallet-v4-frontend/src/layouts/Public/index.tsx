@@ -67,10 +67,10 @@ const PublicLayoutContainer = ({
   exact = false,
   formValues,
   pageTitle,
-  path
+  path,
+  platform
 }: Props) => {
   if (pageTitle) document.title = pageTitle
-
   return (
     <Route
       path={path}
@@ -92,7 +92,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer authProduct={authProduct} formValues={formValues} />
+              <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -103,7 +103,8 @@ const PublicLayoutContainer = ({
 
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
+  platform: selectors.auth.getMagicLinkData(state)?.platform_type
 })
 
 const connector = connect(mapStateToProps)

@@ -60,7 +60,7 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
     isLinkAccountGoal,
     onSignupSubmit,
     showForm,
-    toggleSignupFormVisibility
+    toggleSignupFormVisibility,
   } = props
   const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
 

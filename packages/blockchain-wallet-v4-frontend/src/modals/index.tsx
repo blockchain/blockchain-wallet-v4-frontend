@@ -6,6 +6,7 @@ import { ModalName } from 'data/types'
 
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
+import CustomizableConfirm from "./CustomizableConfirm";
 
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
@@ -113,7 +114,6 @@ const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
-const EntitiesMigration = React.lazy(() => import('./EntitiesMigration'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 
 // BROKERAGE
@@ -164,6 +164,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.CONFIRM_DISABLE_2FA) ? (
           <ConfirmDisable2FA />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.CUSTOMIZABLE_CONFIRM_MODAL) ? (
+          <CustomizableConfirm />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />
         ) : null}
@@ -178,9 +181,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.ENTITIES_MIGRATION_MODAL) ? (
-          <EntitiesMigration />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />

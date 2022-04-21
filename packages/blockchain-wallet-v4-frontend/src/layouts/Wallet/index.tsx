@@ -7,15 +7,26 @@ import { selectors } from 'data'
 
 import WalletLayout from './template'
 
+const PAGE_TITLE = 'Blockchain.com Wallet'
+
 class WalletLayoutContainer extends React.PureComponent<Props> {
   render() {
-    const { component: Component, computedMatch, isAuthenticated, path, ...rest } = this.props
+    const {
+      coinViewV2,
+      component: Component,
+      computedMatch,
+      isAuthenticated,
+      path,
+      ...rest
+    } = this.props
+
+    document.title = PAGE_TITLE
 
     return isAuthenticated ? (
       <Route
         path={path}
         render={(props) => (
-          <WalletLayout location={props.location} coin={this.props.coin}>
+          <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={this.props.coin}>
             <Component computedMatch={computedMatch} {...rest} />
           </WalletLayout>
         )}
@@ -34,6 +45,7 @@ const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   coin?: CoinType
+  coinViewV2?: boolean
   coinfig?: CoinfigType
   component: React.ComponentType<any>
   computedMatch?: any

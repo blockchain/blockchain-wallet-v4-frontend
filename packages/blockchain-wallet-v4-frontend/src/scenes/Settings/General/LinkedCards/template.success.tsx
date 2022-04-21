@@ -1,11 +1,14 @@
 import React, { SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Box, Button, Text } from 'blockchain-info-components'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
 import { media } from 'services/styles'

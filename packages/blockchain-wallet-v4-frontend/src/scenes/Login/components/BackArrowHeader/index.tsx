@@ -3,12 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/auth/types'
+import { LoginFormType, LoginSteps, PlatformTypes, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
 
-const BackArrowWrapper = styled.div<{ marginTop?: string }>`
+const BackArrowWrapper = styled.div<{ hideBackArrow?: boolean; marginTop?: string }>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) => (props.hideBackArrow ? 'flex-end' : 'space-between')};
   margin-bottom: 24px;
   align-items: center;
   margin-top: ${(props) => (props.marginTop ? props.marginTop : 'auto')};
@@ -27,9 +27,9 @@ const EmailAndGuid = styled.div`
 const BackArrowHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
-  hideBackArrow?: boolean
   hideGuid?: boolean
   marginTop?: string
+  platform?: PlatformTypes
   product?: ProductAuthOptions
 }) => {
   const isExchangeLogin = props.product === ProductAuthOptions.EXCHANGE
@@ -37,11 +37,13 @@ const BackArrowHeader = (props: {
   const guid = props.formValues?.guid
   const firstPartGuid = guid && guid.slice(0, 4)
   const lastPartGuid = guid && guid.slice(-4)
+  const hideBackArrow =
+    props.platform === PlatformTypes.ANDROID || props.platform === PlatformTypes.IOS
   return (
     <>
-      <BackArrowWrapper marginTop={props.marginTop}>
-        <BackArrow onClick={props.handleBackArrowClick}>
-          {!props.hideBackArrow && (
+      <BackArrowWrapper marginTop={props.marginTop} hideBackArrow={hideBackArrow}>
+        {!hideBackArrow && (
+          <BackArrow onClick={props.handleBackArrowClick}>
             <Icon
               data-e2e='signupBack'
               name='arrow-back'
@@ -50,11 +52,12 @@ const BackArrowHeader = (props: {
               style={{ marginRight: '8px' }}
               role='button'
             />
-          )}
-          <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
-            <FormattedMessage id='copy.back' defaultMessage='Back' />
-          </Text>
-        </BackArrow>
+
+            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+              <FormattedMessage id='copy.back' defaultMessage='Back' />
+            </Text>
+          </BackArrow>
+        )}
         <EmailAndGuid>
           {props.hideGuid || email || (email && isMobile()) || isExchangeLogin ? (
             <Text

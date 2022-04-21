@@ -98,6 +98,11 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         ? yield select(selectors.session.getExchangeSessionId, userEmail)
         : yield select(selectors.session.getWalletSessionId, walletData?.guid, userEmail)
 
+    if (unified) {
+      yield put(actions.cache.setUnifiedAccount(true))
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+    }
+
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
 
@@ -127,6 +132,8 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
             yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
             yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
             yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
+            yield put(actions.cache.guidStored(walletData?.guid))
+            yield put(actions.cache.emailStored(userEmail))
           }
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
@@ -140,6 +147,10 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         break
       // WALLET DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.WALLET:
+        if (unified) {
+          yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
+          yield put(actions.cache.exchangeEmail(userEmail))
+        }
         if (
           currentLoginSession !== authMagicLink.session_id ||
           (currentLoginSession === authMagicLink.session_id && !skipSessionCheck)

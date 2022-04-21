@@ -1,11 +1,7 @@
-import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
-import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
+import { CardNameType } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 
-export type Everypay3DSResponseType = {
-  payment_state: null | 'waiting_for_3DS_response'
-  processing_errors: null
-}
+import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
+import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type IBSAccountType = {
   address: string

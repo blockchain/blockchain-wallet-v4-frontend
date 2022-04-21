@@ -55,10 +55,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
-  const createExchangeUser = (referrerUsername, retailToken, tuneTid) => {
+  const createExchangeUser = (countryCode, referrerUsername, retailToken, tuneTid) => {
     return post({
       contentType: 'application/json',
       data: {
+        countryCode,
         referrerUsername,
         retailToken,
         tuneTid

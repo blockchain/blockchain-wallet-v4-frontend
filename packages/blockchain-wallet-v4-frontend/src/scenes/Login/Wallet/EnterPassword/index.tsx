@@ -1,13 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
@@ -81,7 +80,6 @@ const SettingsGoalText = styled.div`
 
 const EnterPasswordWallet = (props: Props) => {
   const {
-    authActions,
     busy,
     exchangeTabClicked,
     formValues,
@@ -89,6 +87,7 @@ const EnterPasswordWallet = (props: Props) => {
     handleBackArrowClickWallet,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     qrData,
     submitting,
     walletError
@@ -117,6 +116,7 @@ const EnterPasswordWallet = (props: Props) => {
             <BackArrowHeader
               {...props}
               handleBackArrowClick={handleBackArrowClickWallet}
+              platform={magicLinkData?.platform_type}
               marginTop='28px'
             />
           )}
@@ -186,7 +186,7 @@ const EnterPasswordWallet = (props: Props) => {
             <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
           </CenteredColumn>
         </WrapperWithPadding>
-        <SignupLink />
+        <SignupLink platform={magicLinkData?.platform_type} />
       </FormWrapper>
       {!isMobile() && (
         <SideWrapper>

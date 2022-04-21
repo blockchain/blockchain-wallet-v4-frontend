@@ -1,5 +1,9 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import moment, { Moment } from 'moment'
 import styled, { css } from 'styled-components'
 
@@ -23,7 +27,6 @@ import {
 } from 'components/BuySell'
 import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
@@ -267,7 +270,12 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
   return { image, text, title }
 }
 
-const getDefaultMethod = (defaultMethod, bankAccounts: BankTransferAccountType[]) => {
+const getDefaultMethod = (
+  defaultMethod,
+  bankAccounts: BankTransferAccountType[]
+):
+  | ({ type: BSPaymentTypes.BANK_TRANSFER } & (BankTransferAccountType | BeneficiaryType))
+  | undefined => {
   if (defaultMethod) {
     return { ...defaultMethod, type: BSPaymentTypes.BANK_TRANSFER }
   }

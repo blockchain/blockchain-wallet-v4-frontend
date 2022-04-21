@@ -267,12 +267,13 @@ export default ({ api, coreSagas, networks }) => {
     return { lifetimeToken, userId }
   }
 
-  const generateExchangeAuthCredentials = function* () {
+  const generateExchangeAuthCredentials = function* (countryCode) {
     try {
       const { referrerUsername, tuneTid } = yield select(selectors.signup.getExchangeUrlData)
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
+        countryCode,
         referrerUsername,
         retailToken,
         tuneTid
@@ -294,7 +295,7 @@ export default ({ api, coreSagas, networks }) => {
   // TODO: USE THIS TO CHECK IF INFORMATION IS ALREADY IN STORE
   // IF YES, DON'T REWRITE
 
-  const createExchangeUser = function* () {
+  const createExchangeUser = function* (countryCode) {
     try {
       const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
       const exchangeLifetimeTokenR = yield select(
@@ -303,7 +304,7 @@ export default ({ api, coreSagas, networks }) => {
       const exchangeUserId = exchangeUserIdR.getOrElse(null)
       const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
       if (!exchangeUserId || !exchangeLifetimeToken) {
-        yield call(generateExchangeAuthCredentials)
+        yield call(generateExchangeAuthCredentials, countryCode)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
@@ -342,11 +343,19 @@ export default ({ api, coreSagas, networks }) => {
         exchangeUserId,
         retailToken
       )
-      window.open(
-        `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-        '_self',
-        'noreferrer'
-      )
+      if (origin === ExchangeAuthOriginType.SideMenu) {
+        window.open(
+          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
+          '_blank',
+          'noreferrer'
+        )
+      } else {
+        window.open(
+          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
+          '_self',
+          'noreferrer'
+        )
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
       yield put(stopSubmit(LOGIN_FORM))

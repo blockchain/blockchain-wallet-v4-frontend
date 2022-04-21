@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { dissoc } from 'ramda'
 
-import { ExchangeSessionType, SessionStatePOCType, WalletSessionType } from './types'
+import { AccountSessionType, SessionStatePOCType } from './types'
 
 const initialState: SessionStatePOCType = {
   exchange: undefined,
@@ -13,7 +13,8 @@ const sessionSlice = createSlice({
   name: 'session',
   reducers: {
     clearSessions: (state) => {
-      state = { exchange: undefined, wallet: undefined }
+      state.wallet = undefined
+      state.exchange = undefined
     },
     deauthorizeBrowser: () => {},
     logout: () => {},
@@ -21,10 +22,10 @@ const sessionSlice = createSlice({
     removeSession: (state, action: PayloadAction<string>) => {
       dissoc(action.payload, state)
     },
-    saveExchangeSession: (state, action: PayloadAction<ExchangeSessionType>) => {
+    saveExchangeSession: (state, action: PayloadAction<AccountSessionType>) => {
       state.exchange = action.payload
     },
-    saveWalletSession: (state, action: PayloadAction<WalletSessionType>) => {
+    saveWalletSession: (state, action: PayloadAction<AccountSessionType>) => {
       state.wallet = action.payload
     }
   }

@@ -21,10 +21,11 @@
       "@core": ["blockchain-wallet-v4/src"],
       "@core/*": ["blockchain-wallet-v4/src/*"],
       "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
-      "middleware/*": ["blockchain-wallet-v4-frontend/src/middleware/*"],
       "data": ["blockchain-wallet-v4-frontend/src/data"],
       "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
+      "hooks": ["blockchain-wallet-v4-frontend/src/hooks"],
       "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
+      "middleware/*": ["blockchain-wallet-v4-frontend/src/middleware/*"],
       "providers/*": ["blockchain-wallet-v4-frontend/src/providers/*"],
       "services/*": ["blockchain-wallet-v4-frontend/src/services/*"],
       "utils/*": ["blockchain-wallet-v4-frontend/src/utils/*"]

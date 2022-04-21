@@ -29,12 +29,12 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterEmailOrGuid = (props: Props) => {
   const {
-    authActions,
     busy,
     exchangeTabClicked,
     formValues,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     submitting,
     walletError
   } = props
@@ -97,7 +97,7 @@ const EnterEmailOrGuid = (props: Props) => {
           <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.WALLET} />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }
