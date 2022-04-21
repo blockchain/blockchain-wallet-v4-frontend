@@ -7,10 +7,12 @@ import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { RemoteDataType, WalletOptionsType } from '@core/types'
+import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import BuyGoal from './BuyGoal'
+import Header from './components/Header'
 import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
@@ -22,7 +24,32 @@ const SignupWrapper = styled.div`
   align-items: center;
 `
 
+const LatamPhone = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  color: white;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    position: relative;
+    top: 50px;
+    align-items: center;
+  }
+`
+
+const LatamWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`
+
 const SIGNUP_FORM = 'register'
+
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
 
 class SignupContainer extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props,
@@ -131,9 +158,18 @@ class SignupContainer extends React.PureComponent<
 
     return (
       <SignupWrapper>
+        {isLatam && <Header />}
         {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
         {isBuyGoal && <BuyGoal {...subviewProps} />}
-        {!isLinkAccountGoal && !isBuyGoal && <SignupCard {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+          <LatamWrapper>
+            <SignupCard {...subviewProps} />
+            <LatamPhone>
+              <Image width='569px' name='latam-signup-phone' />
+            </LatamPhone>
+          </LatamWrapper>
+        )}
       </SignupWrapper>
     )
   }

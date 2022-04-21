@@ -47,6 +47,7 @@ import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
+import bgPatternLatam from './img/bg-pattern-latam.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
@@ -180,7 +181,6 @@ import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
-import ssBcSignupBg from './img/ss-bc-signup-bg.jpg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import subtractCheckCircle from './img/subtract-check-circle.png'
 import swap from './img/swap.svg'
@@ -266,6 +266,7 @@ const Images = {
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
+  'bg-pattern-latam': bgPatternLatam,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-gold': blockchainGold,
@@ -398,7 +399,6 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
-  'sesocio-bc-signup-bg': ssBcSignupBg,
   'sesocio-to-blockchain-logo': ssBcLogo,
   'silver-approved': silverApproved,
   smartphone,

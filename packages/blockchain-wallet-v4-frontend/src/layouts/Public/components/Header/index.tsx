@@ -16,10 +16,12 @@ const NavbarStyled = styled(Public)<{ authProduct: string }>`
     props.authProduct === 'EXCHANGE'
       ? props.theme.exchangeLogin
       : isLatam
-      ? '#020109'
+      ? '#04001F'
       : props.theme.grey900};
   background-image: ${(props) =>
-    props.authProduct !== 'EXCHANGE' && isLatam ? 'none' : `url('/img/bg-pattern.svg')`};
+    props.authProduct !== 'EXCHANGE' && isLatam
+      ? `url('/img/bg-pattern-latam.svg')`
+      : `url('/img/bg-pattern.svg')`};
 `
 const NavbarBrandStyled = styled(Brand)`
   display: flex;
