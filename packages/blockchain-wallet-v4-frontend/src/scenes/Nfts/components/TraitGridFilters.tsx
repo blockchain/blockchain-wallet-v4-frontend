@@ -179,16 +179,15 @@ const TraitGridFilters: React.FC<Props> = ({
                             <IconCloseCircle
                               role='button'
                               cursor='pointer'
-                              onClick={
-                                () =>
-                                  formActions.change('nftFilter', `${trait}.${value}`, undefined)
-                                // analyticsActions.trackEvent({
-                                //   key: Analytics.NFT_FILTER_REMOVED,
-                                //   properties: {
-                                //     filter_characteristic: '',
-                                //   }
-                                // })
-                              }
+                              onClick={() => {
+                                formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_FILTER_REMOVED,
+                                  properties: {
+                                    filter_characteristic: `${trait}.${value}`
+                                  }
+                                })
+                              }}
                             />
                           </Icon>
                         </div>
