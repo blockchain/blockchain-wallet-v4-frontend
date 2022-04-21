@@ -1,10 +1,1 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="32" cy="32" r="32" fill="#ECF5FE"/>
-<path d="M45.75 14.5H18.25C16.1789 14.5 14.5 16.1789 14.5 18.25V45.75C14.5 47.8211 16.1789 49.5 18.25 49.5H45.75C47.8211 49.5 49.5 47.8211 49.5 45.75V18.25C49.5 16.1789 47.8211 14.5 45.75 14.5Z" fill="white" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M45.75 20.75L49.5 19.5V46.5C49.5 48.1569 48.1569 49.5 46.5 49.5H17.5C15.8431 49.5 14.5 48.1569 14.5 46.5V43.25L18.25 34.5L23.25 35.75L32 25.75L40.75 24.5L45.75 20.75Z" fill="#0C6CF2" fill-opacity="0.36" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M32 32V49.5" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round"/>
-<path d="M23.25 39.5V49.5" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round"/>
-<path d="M32 14.5V19.5" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round"/>
-<path d="M40.75 29.5V49.5" stroke="#0C6CF2" stroke-width="2" stroke-linecap="round"/>
-<path d="M32 28.25C33.3807 28.25 34.5 27.1307 34.5 25.75C34.5 24.3693 33.3807 23.25 32 23.25C30.6193 23.25 29.5 24.3693 29.5 25.75C29.5 27.1307 30.6193 28.25 32 28.25Z" fill="white" stroke="#0C6CF2" stroke-width="2"/>
-</svg>
+<svg fill="none" height="64" viewBox="0 0 64 64" width="64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" fill="#ecf5fe" r="32"/><g stroke="#0c6cf2" stroke-width="2"><path d="m45.75 14.5h-27.5c-2.0711 0-3.75 1.6789-3.75 3.75v27.5c0 2.0711 1.6789 3.75 3.75 3.75h27.5c2.0711 0 3.75-1.6789 3.75-3.75v-27.5c0-2.0711-1.6789-3.75-3.75-3.75z" fill="#fff" stroke-linecap="round" stroke-linejoin="round"/><path d="m45.75 20.75 3.75-1.25v27c0 1.6569-1.3431 3-3 3h-29c-1.6569 0-3-1.3431-3-3v-3.25l3.75-8.75 5 1.25 8.75-10 8.75-1.25z" fill="#0c6cf2" fill-opacity=".36" stroke-linecap="round" stroke-linejoin="round"/><path d="m32 32v17.5" stroke-linecap="round"/><path d="m23.25 39.5v10" stroke-linecap="round"/><path d="m32 14.5v5" stroke-linecap="round"/><path d="m40.75 29.5v20" stroke-linecap="round"/><path d="m32 28.25c1.3807 0 2.5-1.1193 2.5-2.5s-1.1193-2.5-2.5-2.5-2.5 1.1193-2.5 2.5 1.1193 2.5 2.5 2.5z" fill="#fff"/></g></svg>
