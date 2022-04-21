@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import {
   IconChevronDown,
@@ -7,12 +8,14 @@ import {
   IconCloseCircleV2,
   IconFilter
 } from '@blockchain-com/icons'
+import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
 import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
@@ -80,6 +83,7 @@ const TraitItem = styled.div`
 `
 
 const NftFilter: React.FC<Props> = ({
+  analyticsActions,
   collections,
   formActions,
   formValues,
@@ -121,11 +125,31 @@ const NftFilter: React.FC<Props> = ({
         <IconWrapper isOpen={isOpen}>
           {isOpen ? (
             <Icon label='filter-control' color='grey500'>
-              <IconCloseCircleV2 role='button' onClick={() => setIsOpen(false)} cursor='pointer' />
+              <IconCloseCircleV2
+                role='button'
+                onClick={() => {
+                  setIsOpen(false)
+                  analyticsActions.trackEvent({
+                    key: Analytics.NFT_LEFT_MENU_CLOSED,
+                    properties: {}
+                  })
+                }}
+                cursor='pointer'
+              />
             </Icon>
           ) : (
             <Icon label='filter-control' color='grey500'>
-              <IconFilter role='button' onClick={() => setIsOpen(true)} cursor='pointer' />
+              <IconFilter
+                role='button'
+                onClick={() => {
+                  setIsOpen(true)
+                  analyticsActions.trackEvent({
+                    key: Analytics.NFT_LEFT_MENU_EXPANDED,
+                    properties: {}
+                  })
+                }}
+                cursor='pointer'
+              />
             </Icon>
           )}
         </IconWrapper>
@@ -316,12 +340,18 @@ export type NftFilterFormValuesType = {
   }
 }
 
-type Props = {
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+const connector = connect(null, mapDispatchToProps)
+
+type OwnProps = {
   collections?: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default NftFilter
+export default connector(NftFilter)

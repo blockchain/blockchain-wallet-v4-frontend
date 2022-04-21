@@ -1,12 +1,15 @@
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { AssetSortFields } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'
@@ -37,6 +40,7 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 `
 
 const TraitGridFilters: React.FC<Props> = ({
+  analyticsActions,
   collectionFilter,
   formActions,
   formValues,
@@ -92,7 +96,15 @@ const TraitGridFilters: React.FC<Props> = ({
                   <IconCloseCircle
                     role='button'
                     cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', 'collection', undefined)}
+                    onClick={() => {
+                      formActions.change('nftFilter', 'collection', undefined)
+                      analyticsActions.trackEvent({
+                        key: Analytics.NFT_FILTER_REMOVED,
+                        properties: {
+                          filter_characteristic: ''
+                        }
+                      })
+                    }}
                   />
                 </Icon>
               </div>
@@ -101,6 +113,14 @@ const TraitGridFilters: React.FC<Props> = ({
         ) : null}
         {minMaxFilters
           ? minMaxFilters.map((key) => {
+              analyticsActions.trackEvent({
+                key: Analytics.NFT_FILTER_PRICE_APPLIED,
+                properties: {
+                  currency: '',
+                  max_amount: 0,
+                  min_amount: 0
+                }
+              })
               return (
                 <div key={key} style={{ height: '100%' }}>
                   <ActiveTraitFilter>
@@ -119,7 +139,15 @@ const TraitGridFilters: React.FC<Props> = ({
                         <IconCloseCircle
                           role='button'
                           cursor='pointer'
-                          onClick={() => formActions.change('nftFilter', key, undefined)}
+                          onClick={() => {
+                            formActions.change('nftFilter', key, undefined)
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_FILTER_REMOVED,
+                              properties: {
+                                filter_characteristic: ''
+                              }
+                            })
+                          }}
                         />
                       </Icon>
                     </div>
@@ -151,8 +179,15 @@ const TraitGridFilters: React.FC<Props> = ({
                             <IconCloseCircle
                               role='button'
                               cursor='pointer'
-                              onClick={() =>
-                                formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                              onClick={
+                                () =>
+                                  formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                                // analyticsActions.trackEvent({
+                                //   key: Analytics.NFT_FILTER_REMOVED,
+                                //   properties: {
+                                //     filter_characteristic: '',
+                                //   }
+                                // })
                               }
                             />
                           </Icon>
@@ -163,12 +198,20 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
+        {/* analyticsActions.trackEvent({
+                  key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
+                  properties: {}
+                  }) */}
       </TraitGrid>
     </>
   )
 }
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+const connector = connect(null, mapDispatchToProps)
 
-type Props = {
+type OwnProps = {
   collectionFilter?: string | null
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
@@ -176,5 +219,6 @@ type Props = {
   minMaxFilters: string[] | null
   traitFilters: string[] | null
 }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default TraitGridFilters
+export default connector(TraitGridFilters)
