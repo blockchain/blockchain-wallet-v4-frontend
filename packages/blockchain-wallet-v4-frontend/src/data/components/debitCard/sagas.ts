@@ -70,6 +70,20 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
+    try {
+      yield put(A.handleCardLockLoading())
+      const { id, newLockState } = action.payload
+
+      const lockAction = newLockState ? 'lock' : 'unlock'
+
+      yield call(api.handleDCLock, id, lockAction)
+      yield put(A.handleCardLockSuccess(newLockState))
+    } catch (e) {
+      yield put(A.handleCardLockFailure(e))
+    }
+  }
+
   const terminateCard = function* (action: ReturnType<typeof A.terminateCard>) {
     try {
       const { payload } = action
@@ -85,6 +99,7 @@ export default ({ api }: { api: APIType }) => {
     createCard,
     getCards,
     getProducts,
+    handleCardLock,
     terminateCard
   }
 }

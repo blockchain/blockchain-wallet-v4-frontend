@@ -3,6 +3,7 @@ import { RemoteDataType } from '@core/remote/types'
 
 export type DebitCardState = {
   cardCreationData: RemoteDataType<string, string>
+  cardLock: RemoteDataType<string, boolean>
   cardToken: string
   cards: Array<DebitCardType>
   products: Array<ProductType>
@@ -32,4 +33,9 @@ export type DebitCardType = {
     }
   ]
   type: string
+}
+
+export type CardActionType = {
+  id: string
+  newLockState: boolean
 }

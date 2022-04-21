@@ -51,6 +51,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
