@@ -42,61 +42,65 @@ const CollectionEventsTable: React.FC<Props> = ({ events }) => {
   )
 
   return (
-    <TableWrapper>
-      <div {...getTableProps({ style: { height: '600px', overflow: 'scroll' } })} className='table'>
-        <StickyTableHeader>
-          {headerGroups.map((headerGroup) => (
-            // eslint-disable-next-line react/jsx-key
-            <div {...headerGroup.getHeaderGroupProps({})} className='tr'>
-              {headerGroup.headers.map((column) => (
-                <div
-                  key={column.key}
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className='th'
-                >
-                  <HeaderText>
-                    {column.render('Header')}
-                    <div>
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <HeaderToggle>
-                            <Icon label='sort-desc'>
-                              <IconChevronDown />
-                            </Icon>
-                          </HeaderToggle>
-                        ) : (
-                          <HeaderToggle>
-                            <Icon label='sort-asc'>
-                              <IconChevronDown />
-                            </Icon>
-                          </HeaderToggle>
-                        )
+    <div {...getTableProps({ style: { height: 'auto' } })} className='table'>
+      <StickyTableHeader>
+        {headerGroups.map((headerGroup) => (
+          // eslint-disable-next-line react/jsx-key
+          <div {...headerGroup.getHeaderGroupProps({})} className='tr'>
+            {headerGroup.headers.map((column) => (
+              <div
+                key={column.key}
+                {...column.getHeaderProps(
+                  column.getSortByToggleProps({ style: { width: '16.667%' } })
+                )}
+                className='th'
+              >
+                <HeaderText>
+                  {column.render('Header')}
+                  <div>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <HeaderToggle>
+                          <Icon label='sort-desc'>
+                            <IconChevronDown />
+                          </Icon>
+                        </HeaderToggle>
                       ) : (
-                        ''
-                      )}
-                    </div>
-                  </HeaderText>
+                        <HeaderToggle>
+                          <Icon label='sort-asc'>
+                            <IconChevronDown />
+                          </Icon>
+                        </HeaderToggle>
+                      )
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </HeaderText>
+              </div>
+            ))}
+          </div>
+        ))}
+      </StickyTableHeader>
+      <div {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row)
+          return (
+            <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
+              {row.cells.map((cell) => (
+                <div
+                  key={`cell-${cell.row.id}`}
+                  {...cell.getCellProps({ style: { width: '16.667%' } })}
+                  className='td'
+                >
+                  {cell.render('Cell')}
                 </div>
               ))}
             </div>
-          ))}
-        </StickyTableHeader>
-        <div {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row)
-            return (
-              <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
-                {row.cells.map((cell) => (
-                  <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
-                    {cell.render('Cell')}
-                  </div>
-                ))}
-              </div>
-            )
-          })}
-        </div>
+          )
+        })}
       </div>
-    </TableWrapper>
+    </div>
   )
 }
 
