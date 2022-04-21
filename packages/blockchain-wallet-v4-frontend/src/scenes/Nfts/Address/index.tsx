@@ -21,6 +21,8 @@ import ResultsPage from './results'
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const address = pathname.split('/nfts/address/')[1]
 
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
+
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -82,12 +84,14 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
+            activeTab={activeTab}
             traitFilters={[]}
             formActions={formActions}
             formValues={formValues}
             minMaxFilters={minMaxFilters}
             hasSomeFilters={hasSomeFilters}
             collectionFilter={collectionFilter}
+            setActiveTab={setActiveTab}
           />
           <Grid>
             {pageVariables.length

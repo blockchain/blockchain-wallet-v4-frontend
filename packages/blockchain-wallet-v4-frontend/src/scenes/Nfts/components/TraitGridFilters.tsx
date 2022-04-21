@@ -38,21 +38,23 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 `
 
 const TraitGridFilters: React.FC<Props> = ({
+  activeTab,
   collectionFilter,
   formActions,
   formValues,
   hasSomeFilters,
   minMaxFilters,
+  setActiveTab,
   traitFilters
 }) => {
   return (
     <>
       <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
         <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem selected>
+          <TabMenuItem selected={activeTab === 'ITEMS'} onClick={() => setActiveTab('ITEMS')}>
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </TabMenuItem>
-          <TabMenuItem>
+          <TabMenuItem selected={activeTab === 'EVENTS'} onClick={() => setActiveTab('EVENTS')}>
             <FormattedMessage id='copy.activity' defaultMessage='Activity' />
           </TabMenuItem>
         </TabMenu>
@@ -175,11 +177,13 @@ const TraitGridFilters: React.FC<Props> = ({
 }
 
 type Props = {
+  activeTab: 'ITEMS' | 'EVENTS'
   collectionFilter?: string | null
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   hasSomeFilters: boolean
   minMaxFilters: string[] | null
+  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
   traitFilters: string[] | null
 }
 

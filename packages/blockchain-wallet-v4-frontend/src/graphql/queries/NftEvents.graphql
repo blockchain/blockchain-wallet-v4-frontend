@@ -1,0 +1,18 @@
+query Events($filter: [EventFilter], $limit:Int, $offset: Int) {
+  events(filter: $filter, limit: $limit, offset: $offset) {
+    event_type
+    asset {
+      name
+      token_id
+      image_url
+    }
+    total_price
+    from {
+      address
+    }
+    to {
+      address
+    }
+    created_date
+  }
+}

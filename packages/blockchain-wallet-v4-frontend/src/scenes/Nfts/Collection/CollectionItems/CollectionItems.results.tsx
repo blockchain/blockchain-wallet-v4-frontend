@@ -20,10 +20,10 @@ import {
   AssetImageContainer,
   PriceCTA,
   StyledCoinDisplay
-} from '../components'
-import { NftFilterFormValuesType } from '../NftFilter'
+} from '../../components'
+import { NftFilterFormValuesType } from '../../NftFilter'
 
-const ResultsPage: React.FC<Props> = ({
+const CollectionItemsResults: React.FC<Props> = ({
   formValues,
   page,
   setIsFetchingNextPage,
@@ -158,4 +158,4 @@ type Props = {
   slug: string
 }
 
-export default ResultsPage
+export default CollectionItemsResults

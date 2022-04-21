@@ -551,6 +551,15 @@ export type CollectionsQueryVariables = Exact<{
 
 export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
+export type EventsQueryVariables = Exact<{
+  filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null }> };
+
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
   sort?: InputMaybe<AssetSort>;
@@ -2378,6 +2387,30 @@ export const CollectionsDocument = gql`
 
 export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<CollectionsQueryVariables>, 'query'>) {
   return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options });
+};
+export const EventsDocument = gql`
+    query Events($filter: [EventFilter], $limit: Int, $offset: Int) {
+  events(filter: $filter, limit: $limit, offset: $offset) {
+    event_type
+    asset {
+      name
+      token_id
+      image_url
+    }
+    total_price
+    from {
+      address
+    }
+    to {
+      address
+    }
+    created_date
+  }
+}
+    `;
+
+export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
+  return Urql.useQuery<EventsQuery>({ query: EventsDocument, ...options });
 };
 export const OwnerDocument = gql`
     query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
