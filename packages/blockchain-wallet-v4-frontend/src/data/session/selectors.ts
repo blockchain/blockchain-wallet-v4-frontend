@@ -20,18 +20,6 @@ export const getExchangeSessionId = (state: RootState, email) => {
   }
 }
 
-export const getUnifiedSessions = (state: RootState) => {
-  return state.session.unified
-}
-
-export const getUnifiedSessionId = (state: RootState, guid, email) => {
-  const guidMatches = guid && getUnifiedSessions(state)?.guid === guid
-  const emailMatches = email && getUnifiedSessions(state)?.email === email
-  if (guidMatches || emailMatches) {
-    return getUnifiedSessions(state)?.id
-  }
-}
-
 export const getWalletSessions = (state: RootState) => {
   return state.session.wallet
 }

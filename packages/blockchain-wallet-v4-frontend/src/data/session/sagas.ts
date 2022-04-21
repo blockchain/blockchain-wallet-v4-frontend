@@ -50,9 +50,7 @@ export default ({ api }) => {
       const guid = yield select(selectors.core.wallet.getGuid)
       const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
       const unified = yield select(selectors.cache.getUnifiedAccountStatus)
-      const sessionToken = unified
-        ? yield select(selectors.session.getUnifiedSessionId, guid, email)
-        : yield select(selectors.session.getWalletSessionId, guid, email)
+      const sessionToken = yield select(selectors.session.getWalletSessionId, guid, email)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.cache.removeStoredLogin())
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
