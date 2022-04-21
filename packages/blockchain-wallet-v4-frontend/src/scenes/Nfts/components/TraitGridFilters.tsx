@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
@@ -113,14 +113,6 @@ const TraitGridFilters: React.FC<Props> = ({
         ) : null}
         {minMaxFilters
           ? minMaxFilters.map((key) => {
-              analyticsActions.trackEvent({
-                key: Analytics.NFT_FILTER_PRICE_APPLIED,
-                properties: {
-                  currency: '',
-                  max_amount: 0,
-                  min_amount: 0
-                }
-              })
               return (
                 <div key={key} style={{ height: '100%' }}>
                   <ActiveTraitFilter>
