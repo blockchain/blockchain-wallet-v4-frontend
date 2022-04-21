@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentType, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
@@ -13,6 +13,9 @@ import Modals from '../../modals'
 import Footer from './components/Footer'
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import Header from './components/Header'
+
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
 
 const FooterContainer = styled.div`
   display: flex;
@@ -29,7 +32,11 @@ const FooterContainer = styled.div`
 
 const Wrapper = styled.div<{ authProduct?: string }>`
   background-color: ${(props) =>
-    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : props.theme.grey900};
+    props.authProduct === 'EXCHANGE'
+      ? props.theme.exchangeLogin
+      : isLatam
+      ? '#04001F'
+      : props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -71,6 +78,7 @@ const PublicLayoutContainer = ({
   platform
 }: Props) => {
   if (pageTitle) document.title = pageTitle
+  // useEffect(() => { document.body.style.backgroundImage = `url('/img/ss-bc-signup-bg.jpg')`, document.body.style.backgroundSize = 'cover', document.body.style.backgroundRepeat = 'no-repeat' }, [])
   return (
     <Route
       path={path}
