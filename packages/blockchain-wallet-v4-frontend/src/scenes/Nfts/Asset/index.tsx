@@ -120,6 +120,25 @@ const SocialLink = styled.div`
     border-right: 0;
   }
 `
+const MoreAssets = styled.div`
+  width: 100%;
+  position: sticky;
+  height: 100%;
+  top: 64px;
+`
+
+const MoreAssetsList = styled.div`
+  display: flex;
+  width: 100%;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
+`
+
+const MoreAssetsListItem = styled.div`
+  width: 25%;
+  ${media.tabletL`width: 100%;`}
+`
 
 const CollectionName = styled.div`
   font-family: Inter, sans-serif;
@@ -432,25 +451,27 @@ const NftAsset: React.FC<Props> = ({
                               }
                             />
                           </SocialLink>
-                          <SocialLink>
-                            <BlockchainIcon
-                              onClick={() => {
-                                analyticsActions.trackEvent({
-                                  key: Analytics.NFT_TRANSFER_CLICKED,
-                                  properties: {}
-                                })
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  step: NftOrderStepEnum.TRANSFER,
-                                  token_id: id,
-                                  walletUserIsAssetOwnerHack: false
-                                })
-                              }}
-                              cursor
-                              color='grey600'
-                              name='send'
-                            />
-                          </SocialLink>
+                          {owner?.address === defaultEthAddr && (
+                            <SocialLink>
+                              <BlockchainIcon
+                                onClick={() => {
+                                  analyticsActions.trackEvent({
+                                    key: Analytics.NFT_TRANSFER_CLICKED,
+                                    properties: {}
+                                  })
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.TRANSFER,
+                                    token_id: id,
+                                    walletUserIsAssetOwnerHack: false
+                                  })
+                                }}
+                                cursor
+                                color='grey600'
+                                name='send'
+                              />
+                            </SocialLink>
+                          )}
                           <SocialLink>
                             <BlockchainIcon
                               onClick={() => {
@@ -504,7 +525,7 @@ const NftAsset: React.FC<Props> = ({
                         <Text size='16px' color='grey600' weight={600}>
                           <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                         </Text>
-                        {owner?.address === defaultEthAddr ? (
+                        {owner?.address !== defaultEthAddr ? (
                           <Text
                             color='blue600'
                             weight={600}
@@ -904,6 +925,98 @@ const NftAsset: React.FC<Props> = ({
                       })}
                   </RightColWrapper>
                 </Top>
+                <div style={{ display: 'flex' }}>
+                  <MoreAssets>
+                    <div
+                      style={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginTop: '40px'
+                      }}
+                    >
+                      <Text color={colors.grey700} weight={600} capitalize>
+                        More from this collection
+                      </Text>
+                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
+                        <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
+                          See All
+                        </Button>
+                      </CustomLink>
+                    </div>
+                    <MoreAssetsList>
+                      {assets?.data?.assets?.length
+                        ? assets?.data?.assets?.map((asset) => {
+                            const link = `${'/nfts/'}${currentAsset.contract?.address}/${
+                              asset.token_id
+                            }`
+                            return (
+                              <MoreAssetsListItem key={asset.token_id}>
+                                <CustomLink
+                                  to={link}
+                                  onClick={() => {
+                                    nftsActions.fetchOpenseaAsset({
+                                      address: asset.contract?.address || '',
+                                      token_id: asset.token_id || ''
+                                    })
+                                  }}
+                                  style={{
+                                    border: `1px solid ${colors.grey100}`,
+                                    borderRadius: '10%',
+                                    borderWidth: '1px',
+                                    boxSizing: 'border-box',
+                                    justifyContent: 'center',
+                                    margin: '1em',
+                                    padding: '10px'
+                                  }}
+                                >
+                                  <div>
+                                    <CollectionName
+                                      style={{ justifyContent: 'center', paddingBottom: 'unset' }}
+                                    >
+                                      <img
+                                        alt='Dapp Logo'
+                                        height='30px'
+                                        width='auto'
+                                        style={{
+                                          borderRadius: '50%',
+                                          marginBottom: '0.5rem',
+                                          paddingRight: '2px'
+                                        }}
+                                        src={asset.collection?.image_url || ''}
+                                      />
+                                      <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                                        {asset.collection?.name}
+                                      </div>
+                                    </CollectionName>
+                                    <img
+                                      alt='Asset Logo'
+                                      width='100%'
+                                      height='auto'
+                                      style={{
+                                        borderRadius: '10%',
+                                        boxSizing: 'border-box',
+                                        marginBottom: '0.5rem'
+                                      }}
+                                      src={asset.image_url || ''}
+                                    />
+                                    <Text
+                                      style={{ textAlign: 'center' }}
+                                      size='14px'
+                                      weight={600}
+                                      capitalize
+                                    >
+                                      {asset.name || asset.token_id}
+                                    </Text>
+                                  </div>
+                                </CustomLink>
+                              </MoreAssetsListItem>
+                            )
+                          })
+                        : null}
+                    </MoreAssetsList>
+                  </MoreAssets>
+                </div>
               </div>
             </>
           )
