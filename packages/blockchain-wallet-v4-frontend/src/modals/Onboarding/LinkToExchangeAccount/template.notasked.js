@@ -143,7 +143,6 @@ const LinkToExchangeAccountNotAsked = ({
             </div>
             <LeftColumnPoints>
               <PointRow>
-                <Image name='coins' width='24px' height='24px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.left.point1-2'
