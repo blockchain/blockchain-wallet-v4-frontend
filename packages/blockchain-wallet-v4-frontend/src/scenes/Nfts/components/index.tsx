@@ -59,7 +59,7 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
   }
   ${media.atLeastLaptopL`
     > div {
-      grid-template-columns: repeat(3, minmax(0, 1fr));  
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   `}
 `
@@ -81,10 +81,10 @@ export const Grid = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
   ${media.atLeastLaptop`
-    grid-template-columns: repeat(3, minmax(0, 1fr));  
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   `}
   ${media.atLeastLaptopL`
-    grid-template-columns: repeat(4, minmax(0, 1fr));  
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   `}
 `
 
@@ -99,6 +99,10 @@ export const Asset = styled.div`
   display: flex;
   flex-direction: column;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
+  &:hover {
+    transform: scale(1.02);
+    -webkit-transition: transform 0.1s ease-in-out;
+  }
 `
 
 export const InfoStatsWrapper = styled.div`

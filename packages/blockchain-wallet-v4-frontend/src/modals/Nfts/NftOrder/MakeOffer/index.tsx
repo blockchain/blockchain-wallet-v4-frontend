@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -33,7 +33,7 @@ import { Form, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { DeepLinkGoal } from 'data/types'
+import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/getMoreEth'
@@ -53,7 +53,12 @@ const MakeOffer: React.FC<Props> = (props) => {
     walletCurrency
   } = props
   const [termsAccepted, setTermsAccepted] = useState(false)
-
+  useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.NFT_MAKE_AN_OFFER_VIEWED,
+      properties: {}
+    })
+  }, [])
   const { amount, coin, fix } = formValues
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
@@ -358,6 +363,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
+
               <div style={{ display: 'flex' }}>
                 {' '}
                 <div style={{ padding: '1.2em 0em' }}>
@@ -487,6 +493,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

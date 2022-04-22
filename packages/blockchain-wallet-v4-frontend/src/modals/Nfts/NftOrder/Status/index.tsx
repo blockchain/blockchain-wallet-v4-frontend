@@ -1,9 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
 import { Props as OwnProps } from '..'
@@ -34,6 +38,10 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
     props.close()
   }
   const viewSubmittedOffer = () => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.NFT_VIEW_SUBMITTED_OFFER_CLICKED,
+      properties: {}
+    })
     props.close()
   }
   return (
@@ -104,6 +112,12 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
   )
 }
 
-type Props = OwnProps
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
 
-export default NftOrderStatus
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(NftOrderStatus)

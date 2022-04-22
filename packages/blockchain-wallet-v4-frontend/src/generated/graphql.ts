@@ -1,71 +1,73 @@
-import gql from 'graphql-tag';
-import * as Urql from 'urql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+import { IntrospectionQuery } from 'graphql'
+import gql from 'graphql-tag'
+import * as Urql from 'urql'
+
+export type Maybe<T> = T | null
+export type InputMaybe<T> = Maybe<T>
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-};
+  Boolean: boolean
+  Float: number
+  ID: string
+  Int: number
+  String: string
+}
 
 export type Account = {
-  __typename?: 'Account';
-  address: Scalars['ID'];
-  config: Scalars['String'];
-  date_ingested: Scalars['String'];
-  profile_img_url: Scalars['String'];
-  username?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Account'
+  address: Scalars['ID']
+  config: Scalars['String']
+  date_ingested: Scalars['String']
+  profile_img_url: Scalars['String']
+  username?: Maybe<Scalars['String']>
+}
 
 export type Asset = {
-  __typename?: 'Asset';
-  animation_original_url?: Maybe<Scalars['String']>;
-  animation_url?: Maybe<Scalars['String']>;
-  asset_bundle_slug: Scalars['String'];
-  background_color?: Maybe<Scalars['String']>;
-  collection: Collection;
-  contract?: Maybe<Contract>;
-  creator?: Maybe<Account>;
-  date_ingested: Scalars['String'];
-  decimals?: Maybe<Scalars['Int']>;
-  description?: Maybe<Scalars['String']>;
-  external_link?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  image_original_url?: Maybe<Scalars['String']>;
-  image_preview_url?: Maybe<Scalars['String']>;
-  image_thumbnail_url?: Maybe<Scalars['String']>;
-  image_url?: Maybe<Scalars['String']>;
-  is_nsfw: Scalars['Boolean'];
-  is_presale: Scalars['Boolean'];
-  last_sale?: Maybe<Event>;
-  listings?: Maybe<Array<Maybe<Event>>>;
-  name?: Maybe<Scalars['String']>;
-  num_sales: Scalars['Int'];
-  offers?: Maybe<Array<Maybe<Event>>>;
-  owners?: Maybe<Array<Maybe<Account>>>;
-  permalink: Scalars['String'];
-  supports_wyvern: Scalars['Boolean'];
-  token_id: Scalars['String'];
-  token_metadata?: Maybe<Scalars['String']>;
-  traits?: Maybe<Array<Maybe<Trait>>>;
-  transfer_fee?: Maybe<Scalars['String']>;
-  transfer_fee_address: Scalars['String'];
-  transfer_fee_symbol: Scalars['String'];
-};
+  __typename?: 'Asset'
+  animation_original_url?: Maybe<Scalars['String']>
+  animation_url?: Maybe<Scalars['String']>
+  asset_bundle_slug: Scalars['String']
+  background_color?: Maybe<Scalars['String']>
+  collection: Collection
+  contract?: Maybe<Contract>
+  creator?: Maybe<Account>
+  date_ingested: Scalars['String']
+  decimals?: Maybe<Scalars['Int']>
+  description?: Maybe<Scalars['String']>
+  external_link?: Maybe<Scalars['String']>
+  id: Scalars['ID']
+  image_original_url?: Maybe<Scalars['String']>
+  image_preview_url?: Maybe<Scalars['String']>
+  image_thumbnail_url?: Maybe<Scalars['String']>
+  image_url?: Maybe<Scalars['String']>
+  is_nsfw: Scalars['Boolean']
+  is_presale: Scalars['Boolean']
+  last_sale?: Maybe<Event>
+  listings?: Maybe<Array<Maybe<Event>>>
+  name?: Maybe<Scalars['String']>
+  num_sales: Scalars['Int']
+  offers?: Maybe<Array<Maybe<Event>>>
+  owners?: Maybe<Array<Maybe<Account>>>
+  permalink: Scalars['String']
+  supports_wyvern: Scalars['Boolean']
+  token_id: Scalars['String']
+  token_metadata?: Maybe<Scalars['String']>
+  traits?: Maybe<Array<Maybe<Trait>>>
+  transfer_fee?: Maybe<Scalars['String']>
+  transfer_fee_address: Scalars['String']
+  transfer_fee_symbol: Scalars['String']
+}
 
 export type AssetFilter = {
-  chain_operator?: InputMaybe<ChainOperators>;
-  field: AssetFilterFields;
-  operator?: InputMaybe<FilterOperators>;
-  value?: InputMaybe<Scalars['String']>;
-};
+  chain_operator?: InputMaybe<ChainOperators>
+  field: AssetFilterFields
+  operator?: InputMaybe<FilterOperators>
+  value?: InputMaybe<Scalars['String']>
+}
 
 export enum AssetFilterFields {
   Animation = 'animation_',
@@ -101,9 +103,9 @@ export enum AssetFilterFields {
 }
 
 export type AssetSort = {
-  by?: InputMaybe<AssetSortFields>;
-  direction?: InputMaybe<SortDirection>;
-};
+  by?: InputMaybe<AssetSortFields>
+  direction?: InputMaybe<SortDirection>
+}
 
 export enum AssetSortFields {
   AnimationOriginalUrl = 'animation_original_url',
@@ -145,53 +147,53 @@ export enum ChainOperators {
 }
 
 export type Collection = {
-  __typename?: 'Collection';
-  banner_image_url?: Maybe<Scalars['String']>;
-  buyer_fee_basis_points: Scalars['String'];
-  chat_url?: Maybe<Scalars['String']>;
-  created_date: Scalars['String'];
-  date_ingested: Scalars['String'];
-  default_to_fiat: Scalars['Boolean'];
-  description?: Maybe<Scalars['String']>;
-  dev_buyer_fee_basis_points: Scalars['String'];
-  dev_seller_fee_basis_points: Scalars['String'];
-  discord_url?: Maybe<Scalars['String']>;
-  external_url?: Maybe<Scalars['String']>;
-  featured: Scalars['Boolean'];
-  featured_image_url?: Maybe<Scalars['String']>;
-  hidden: Scalars['Boolean'];
-  image_url?: Maybe<Scalars['String']>;
-  instagram_username?: Maybe<Scalars['String']>;
-  is_subject_to_whitelist: Scalars['Boolean'];
-  large_image_url?: Maybe<Scalars['String']>;
-  medium_username?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  num_owners?: Maybe<Scalars['Int']>;
-  only_proxied_transfers: Scalars['Boolean'];
-  opensea_buyer_fee_basis_points: Scalars['String'];
-  opensea_seller_fee_basis_points: Scalars['String'];
-  payment_tokens?: Maybe<Array<Maybe<PaymentToken>>>;
-  payout_address?: Maybe<Scalars['String']>;
-  primary_asset_contracts?: Maybe<Array<Maybe<Contract>>>;
-  require_email: Scalars['Boolean'];
-  safelist_request_status: Scalars['String'];
-  seller_fee_basis_points: Scalars['String'];
-  short_description?: Maybe<Scalars['String']>;
-  slug: Scalars['ID'];
-  stats?: Maybe<Stats>;
-  telegram_url?: Maybe<Scalars['String']>;
-  total_supply?: Maybe<Scalars['Int']>;
-  traits?: Maybe<Array<Maybe<CollectionTrait>>>;
-  twitter_username?: Maybe<Scalars['String']>;
-  wiki_url?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Collection'
+  banner_image_url?: Maybe<Scalars['String']>
+  buyer_fee_basis_points: Scalars['String']
+  chat_url?: Maybe<Scalars['String']>
+  created_date: Scalars['String']
+  date_ingested: Scalars['String']
+  default_to_fiat: Scalars['Boolean']
+  description?: Maybe<Scalars['String']>
+  dev_buyer_fee_basis_points: Scalars['String']
+  dev_seller_fee_basis_points: Scalars['String']
+  discord_url?: Maybe<Scalars['String']>
+  external_url?: Maybe<Scalars['String']>
+  featured: Scalars['Boolean']
+  featured_image_url?: Maybe<Scalars['String']>
+  hidden: Scalars['Boolean']
+  image_url?: Maybe<Scalars['String']>
+  instagram_username?: Maybe<Scalars['String']>
+  is_subject_to_whitelist: Scalars['Boolean']
+  large_image_url?: Maybe<Scalars['String']>
+  medium_username?: Maybe<Scalars['String']>
+  name: Scalars['String']
+  num_owners?: Maybe<Scalars['Int']>
+  only_proxied_transfers: Scalars['Boolean']
+  opensea_buyer_fee_basis_points: Scalars['String']
+  opensea_seller_fee_basis_points: Scalars['String']
+  payment_tokens?: Maybe<Array<Maybe<PaymentToken>>>
+  payout_address?: Maybe<Scalars['String']>
+  primary_asset_contracts?: Maybe<Array<Maybe<Contract>>>
+  require_email: Scalars['Boolean']
+  safelist_request_status: Scalars['String']
+  seller_fee_basis_points: Scalars['String']
+  short_description?: Maybe<Scalars['String']>
+  slug: Scalars['ID']
+  stats?: Maybe<Stats>
+  telegram_url?: Maybe<Scalars['String']>
+  total_supply?: Maybe<Scalars['Int']>
+  traits?: Maybe<Array<Maybe<CollectionTrait>>>
+  twitter_username?: Maybe<Scalars['String']>
+  wiki_url?: Maybe<Scalars['String']>
+}
 
 export type CollectionFilter = {
-  chain_operator?: InputMaybe<ChainOperators>;
-  field: CollectionFilterFields;
-  operator?: InputMaybe<FilterOperators>;
-  value?: InputMaybe<Scalars['String']>;
-};
+  chain_operator?: InputMaybe<ChainOperators>
+  field: CollectionFilterFields
+  operator?: InputMaybe<FilterOperators>
+  value?: InputMaybe<Scalars['String']>
+}
 
 export enum CollectionFilterFields {
   BannerImageUrl = 'banner_image_url',
@@ -234,9 +236,9 @@ export enum CollectionFilterFields {
 }
 
 export type CollectionSort = {
-  by?: InputMaybe<CollectionSortFields>;
-  direction?: InputMaybe<SortDirection>;
-};
+  by?: InputMaybe<CollectionSortFields>
+  direction?: InputMaybe<SortDirection>
+}
 
 export enum CollectionSortFields {
   BannerImageUrl = 'banner_image_url',
@@ -280,61 +282,61 @@ export enum CollectionSortFields {
 }
 
 export type CollectionTrait = {
-  __typename?: 'CollectionTrait';
-  count?: Maybe<Scalars['Int']>;
-  trait_type?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-};
+  __typename?: 'CollectionTrait'
+  count?: Maybe<Scalars['Int']>
+  trait_type?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
+}
 
 export type Contract = {
-  __typename?: 'Contract';
-  address: Scalars['ID'];
-  asset_contract_type: Scalars['String'];
-  created_date: Scalars['String'];
-  date_ingested: Scalars['String'];
-  nft_version?: Maybe<Scalars['String']>;
-  opensea_version?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['Int']>;
-  schema_name?: Maybe<Scalars['String']>;
-  symbol: Scalars['String'];
-  total_supply?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Contract'
+  address: Scalars['ID']
+  asset_contract_type: Scalars['String']
+  created_date: Scalars['String']
+  date_ingested: Scalars['String']
+  nft_version?: Maybe<Scalars['String']>
+  opensea_version?: Maybe<Scalars['String']>
+  owner?: Maybe<Scalars['Int']>
+  schema_name?: Maybe<Scalars['String']>
+  symbol: Scalars['String']
+  total_supply?: Maybe<Scalars['String']>
+}
 
 export type Event = {
-  __typename?: 'Event';
-  asset?: Maybe<Asset>;
-  auction_type?: Maybe<Scalars['String']>;
-  bid_amount?: Maybe<Scalars['String']>;
-  collection?: Maybe<Collection>;
-  contract_address?: Maybe<Scalars['String']>;
-  created_date: Scalars['String'];
-  custom_event_name?: Maybe<Scalars['String']>;
-  date_ingested: Scalars['String'];
-  duration?: Maybe<Scalars['Int']>;
-  ending_price?: Maybe<Scalars['String']>;
-  ending_time?: Maybe<Scalars['String']>;
-  event_type?: Maybe<Scalars['String']>;
-  from?: Maybe<Account>;
-  id: Scalars['ID'];
-  is_private: Scalars['Boolean'];
-  listing_time?: Maybe<Scalars['String']>;
-  owner?: Maybe<Account>;
-  payment_token?: Maybe<PaymentToken>;
-  quantity: Scalars['Int'];
-  seller?: Maybe<Account>;
-  starting_price?: Maybe<Scalars['String']>;
-  to?: Maybe<Account>;
-  total_price?: Maybe<Scalars['String']>;
-  tx?: Maybe<Transaction>;
-  winner?: Maybe<Account>;
-};
+  __typename?: 'Event'
+  asset?: Maybe<Asset>
+  auction_type?: Maybe<Scalars['String']>
+  bid_amount?: Maybe<Scalars['String']>
+  collection?: Maybe<Collection>
+  contract_address?: Maybe<Scalars['String']>
+  created_date: Scalars['String']
+  custom_event_name?: Maybe<Scalars['String']>
+  date_ingested: Scalars['String']
+  duration?: Maybe<Scalars['Int']>
+  ending_price?: Maybe<Scalars['String']>
+  ending_time?: Maybe<Scalars['String']>
+  event_type?: Maybe<Scalars['String']>
+  from?: Maybe<Account>
+  id: Scalars['ID']
+  is_private: Scalars['Boolean']
+  listing_time?: Maybe<Scalars['String']>
+  owner?: Maybe<Account>
+  payment_token?: Maybe<PaymentToken>
+  quantity: Scalars['Int']
+  seller?: Maybe<Account>
+  starting_price?: Maybe<Scalars['String']>
+  to?: Maybe<Account>
+  total_price?: Maybe<Scalars['String']>
+  tx?: Maybe<Transaction>
+  winner?: Maybe<Account>
+}
 
 export type EventFilter = {
-  chain_operator?: InputMaybe<ChainOperators>;
-  field: EventFilterFields;
-  operator?: InputMaybe<FilterOperators>;
-  value?: InputMaybe<Scalars['String']>;
-};
+  chain_operator?: InputMaybe<ChainOperators>
+  field: EventFilterFields
+  operator?: InputMaybe<FilterOperators>
+  value?: InputMaybe<Scalars['String']>
+}
 
 export enum EventFilterFields {
   AssetBundleSlug = 'asset_bundle_slug',
@@ -367,9 +369,9 @@ export enum EventFilterFields {
 }
 
 export type EventSort = {
-  by?: InputMaybe<EventSortFields>;
-  direction?: InputMaybe<SortDirection>;
-};
+  by?: InputMaybe<EventSortFields>
+  direction?: InputMaybe<SortDirection>
+}
 
 export enum EventSortFields {
   AssetBundleSlug = 'asset_bundle_slug',
@@ -411,51 +413,48 @@ export enum FilterOperators {
 }
 
 export type PaymentToken = {
-  __typename?: 'PaymentToken';
-  address: Scalars['ID'];
-  date_ingested: Scalars['String'];
-  date_updated?: Maybe<Scalars['String']>;
-  decimals: Scalars['Int'];
-  eth_price?: Maybe<Scalars['String']>;
-  image_url: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  symbol: Scalars['String'];
-  usd_price?: Maybe<Scalars['String']>;
-};
+  __typename?: 'PaymentToken'
+  address: Scalars['ID']
+  date_ingested: Scalars['String']
+  date_updated?: Maybe<Scalars['String']>
+  decimals: Scalars['Int']
+  eth_price?: Maybe<Scalars['String']>
+  image_url: Scalars['String']
+  name?: Maybe<Scalars['String']>
+  symbol: Scalars['String']
+  usd_price?: Maybe<Scalars['String']>
+}
 
 export type Query = {
-  __typename?: 'Query';
-  assets: Array<Asset>;
-  collections: Array<Collection>;
-  events: Array<Event>;
-};
-
+  __typename?: 'Query'
+  assets: Array<Asset>
+  collections: Array<Collection>
+  events: Array<Event>
+}
 
 export type QueryAssetsArgs = {
-  endingSoon?: InputMaybe<Scalars['Boolean']>;
-  filter?: InputMaybe<Array<InputMaybe<AssetFilter>>>;
-  forSale?: InputMaybe<Scalars['Boolean']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<AssetSort>;
-  traitFilter?: InputMaybe<Array<InputMaybe<TraitFilter>>>;
-};
-
+  endingSoon?: InputMaybe<Scalars['Boolean']>
+  filter?: InputMaybe<Array<InputMaybe<AssetFilter>>>
+  forSale?: InputMaybe<Scalars['Boolean']>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  sort?: InputMaybe<AssetSort>
+  traitFilter?: InputMaybe<Array<InputMaybe<TraitFilter>>>
+}
 
 export type QueryCollectionsArgs = {
-  filter?: InputMaybe<Array<InputMaybe<CollectionFilter>>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<CollectionSort>;
-};
-
+  filter?: InputMaybe<Array<InputMaybe<CollectionFilter>>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  sort?: InputMaybe<CollectionSort>
+}
 
 export type QueryEventsArgs = {
-  filter?: InputMaybe<Array<InputMaybe<EventFilter>>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<EventSort>;
-};
+  filter?: InputMaybe<Array<InputMaybe<EventFilter>>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  sort?: InputMaybe<EventSort>
+}
 
 export enum SortDirection {
   Asc = 'ASC',
@@ -463,51 +462,51 @@ export enum SortDirection {
 }
 
 export type Stats = {
-  __typename?: 'Stats';
-  average_price?: Maybe<Scalars['String']>;
-  floor_price?: Maybe<Scalars['String']>;
-  one_day_average_price?: Maybe<Scalars['String']>;
-  one_day_sales?: Maybe<Scalars['Int']>;
-  one_day_volume?: Maybe<Scalars['String']>;
-  seven_day_average_price?: Maybe<Scalars['String']>;
-  seven_day_sales?: Maybe<Scalars['Int']>;
-  seven_day_volume?: Maybe<Scalars['String']>;
-  thirty_day_average_price?: Maybe<Scalars['String']>;
-  thirty_day_sales?: Maybe<Scalars['Int']>;
-  thirty_day_volume?: Maybe<Scalars['String']>;
-  total_sales?: Maybe<Scalars['Int']>;
-  total_volume?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Stats'
+  average_price?: Maybe<Scalars['String']>
+  floor_price?: Maybe<Scalars['String']>
+  one_day_average_price?: Maybe<Scalars['String']>
+  one_day_sales?: Maybe<Scalars['Int']>
+  one_day_volume?: Maybe<Scalars['String']>
+  seven_day_average_price?: Maybe<Scalars['String']>
+  seven_day_sales?: Maybe<Scalars['Int']>
+  seven_day_volume?: Maybe<Scalars['String']>
+  thirty_day_average_price?: Maybe<Scalars['String']>
+  thirty_day_sales?: Maybe<Scalars['Int']>
+  thirty_day_volume?: Maybe<Scalars['String']>
+  total_sales?: Maybe<Scalars['Int']>
+  total_volume?: Maybe<Scalars['String']>
+}
 
 export type Trait = {
-  __typename?: 'Trait';
-  collection_slug?: Maybe<Scalars['String']>;
-  date_ingested?: Maybe<Scalars['String']>;
-  display_type?: Maybe<Scalars['String']>;
-  max_value?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['String']>;
-  token_id?: Maybe<Scalars['String']>;
-  trait_type?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
-};
+  __typename?: 'Trait'
+  collection_slug?: Maybe<Scalars['String']>
+  date_ingested?: Maybe<Scalars['String']>
+  display_type?: Maybe<Scalars['String']>
+  max_value?: Maybe<Scalars['String']>
+  order?: Maybe<Scalars['String']>
+  token_id?: Maybe<Scalars['String']>
+  trait_type?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
+}
 
 export type TraitFilter = {
-  trait_type?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['String']>;
-};
+  trait_type?: InputMaybe<Scalars['String']>
+  value?: InputMaybe<Scalars['String']>
+}
 
 export type Transaction = {
-  __typename?: 'Transaction';
-  block_hash?: Maybe<Scalars['String']>;
-  block_number: Scalars['Int'];
-  date_ingested: Scalars['String'];
-  from_account: Account;
-  id: Scalars['ID'];
-  timestamp?: Maybe<Scalars['String']>;
-  to_account: Account;
-  transaction_hash: Scalars['String'];
-  transaction_index: Scalars['Int'];
-};
+  __typename?: 'Transaction'
+  block_hash?: Maybe<Scalars['String']>
+  block_number: Scalars['Int']
+  date_ingested: Scalars['String']
+  from_account: Account
+  id: Scalars['ID']
+  timestamp?: Maybe<Scalars['String']>
+  to_account: Account
+  transaction_hash: Scalars['String']
+  transaction_index: Scalars['Int']
+}
 
 export enum TransactionFilterFields {
   BlockHash = 'block_hash',
@@ -534,1925 +533,2051 @@ export enum TransactionSortFields {
 }
 
 export type AssetQueryVariables = Exact<{
-  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
-  limit?: InputMaybe<Scalars['Int']>;
-}>;
+  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>
+  limit?: InputMaybe<Scalars['Int']>
+}>
 
-
-export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address: string, profile_img_url: string } | null> | null, creator?: { __typename?: 'Account', address: string, profile_img_url: string } | null, listings?: Array<{ __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null }> };
+export type AssetQuery = {
+  __typename?: 'Query'
+  assets: Array<{
+    __typename?: 'Asset'
+    animation_original_url?: string | null
+    animation_url?: string | null
+    collection: {
+      __typename?: 'Collection'
+      description?: string | null
+      discord_url?: string | null
+      external_url?: string | null
+      image_url?: string | null
+      instagram_username?: string | null
+      name: string
+      slug: string
+      telegram_url?: string | null
+      twitter_username?: string | null
+      wiki_url?: string | null
+    }
+    contract?: { __typename?: 'Contract'; address: string; schema_name?: string | null } | null
+    creator?: { __typename?: 'Account'; address: string; profile_img_url: string } | null
+    image_url?: string | null
+    listings?: Array<{
+      __typename?: 'Event'
+      payment_token?: { __typename?: 'PaymentToken'; symbol: string } | null
+      total_price?: string | null
+    } | null> | null
+    name?: string | null
+    owners?: Array<{
+      __typename?: 'Account'
+      address: string
+      profile_img_url: string
+    } | null> | null
+    permalink: string
+    token_id: string
+    traits?: Array<{
+      __typename?: 'Trait'
+      max_value?: string | null
+      trait_type?: string | null
+      value?: string | null
+    } | null> | null
+  }>
+}
 
 export type AssetsQueryVariables = Exact<{
-  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
-  traitFilter?: InputMaybe<Array<InputMaybe<TraitFilter>> | InputMaybe<TraitFilter>>;
-  sort?: InputMaybe<AssetSort>;
-  forSale?: InputMaybe<Scalars['Boolean']>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-}>;
+  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>
+  forSale?: InputMaybe<Scalars['Boolean']>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  sort?: InputMaybe<AssetSort>
+  traitFilter?: InputMaybe<Array<InputMaybe<TraitFilter>> | InputMaybe<TraitFilter>>
+}>
 
-
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Event', starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = {
+  __typename?: 'Query'
+  assets: Array<{
+    __typename?: 'Asset'
+    collection: { __typename?: 'Collection'; image_url?: string | null; name: string }
+    contract?: { __typename?: 'Contract'; address: string } | null
+    image_url?: string | null
+    listings?: Array<{
+      __typename?: 'Event'
+      payment_token?: { __typename?: 'PaymentToken'; symbol: string } | null
+      starting_price?: string | null
+    } | null> | null
+    name?: string | null
+    owners?: Array<{ __typename?: 'Account'; address: string } | null> | null
+    permalink: string
+    token_id: string
+  }>
+}
 
 export type CollectionsQueryVariables = Exact<{
-  filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
-}>;
+  filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>
+}>
 
-
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = {
+  __typename?: 'Query'
+  collections: Array<{
+    __typename?: 'Collection'
+    banner_image_url?: string | null
+    chat_url?: string | null
+    created_date: string
+    description?: string | null
+    discord_url?: string | null
+    external_url?: string | null
+    image_url?: string | null
+    instagram_username?: string | null
+    name: string
+    short_description?: string | null
+    stats?: {
+      __typename?: 'Stats'
+      floor_price?: string | null
+      total_volume?: string | null
+    } | null
+    total_supply?: number | null
+    traits?: Array<{
+      __typename?: 'CollectionTrait'
+      count?: number | null
+      trait_type?: string | null
+      value?: string | null
+    } | null> | null
+  }>
+}
 
 export type EventsQueryVariables = Exact<{
-  filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-}>;
+  filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+}>
 
-
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, contract?: { __typename?: 'Contract', address: string } | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
+export type EventsQuery = {
+  __typename?: 'Query'
+  events: Array<{
+    __typename?: 'Event'
+    asset?: {
+      __typename?: 'Asset'
+      contract?: { __typename?: 'Contract'; address: string } | null
+      image_url?: string | null
+      name?: string | null
+      token_id: string
+    } | null
+    bid_amount?: string | null
+    created_date: string
+    event_type?: string | null
+    from?: { __typename?: 'Account'; address: string } | null
+    seller?: { __typename?: 'Account'; address: string } | null
+    to?: { __typename?: 'Account'; address: string } | null
+    total_price?: string | null
+    winner?: { __typename?: 'Account'; address: string } | null
+  }>
+}
 
 export type OwnerQueryVariables = Exact<{
-  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
-  sort?: InputMaybe<AssetSort>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-}>;
+  filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  sort?: InputMaybe<AssetSort>
+}>
 
+export type OwnerQuery = {
+  __typename?: 'Query'
+  assets: Array<{
+    __typename?: 'Asset'
+    animation_original_url?: string | null
+    collection: { __typename?: 'Collection'; image_url?: string | null; name: string; slug: string }
+    contract?: { __typename?: 'Contract'; address: string } | null
+    image_url?: string | null
+    last_sale?: {
+      __typename?: 'Event'
+      payment_token?: { __typename?: 'PaymentToken'; symbol: string } | null
+      total_price?: string | null
+    } | null
+    name?: string | null
+    permalink: string
+    token_id: string
+  }>
+}
 
-export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null }> };
-
-import { IntrospectionQuery } from 'graphql';
 export default {
-  "__schema": {
-    "queryType": {
-      "name": "Query"
+  __schema: {
+    directives: [],
+    mutationType: null,
+    queryType: {
+      name: 'Query'
     },
-    "mutationType": null,
-    "subscriptionType": null,
-    "types": [
+    subscriptionType: null,
+    types: [
       {
-        "kind": "OBJECT",
-        "name": "Account",
-        "fields": [
+        fields: [
           {
-            "name": "address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'address',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "config",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'config',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "profile_img_url",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'profile_img_url',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "username",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'username',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Account'
       },
       {
-        "kind": "OBJECT",
-        "name": "Asset",
-        "fields": [
+        fields: [
           {
-            "name": "animation_original_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'animation_original_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "animation_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'animation_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "asset_bundle_slug",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'asset_bundle_slug',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "background_color",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'background_color',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "collection",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Collection",
-                "ofType": null
+            args: [],
+            name: 'collection',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Collection',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "contract",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Contract",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'contract',
+            type: {
+              kind: 'OBJECT',
+              name: 'Contract',
+              ofType: null
+            }
           },
           {
-            "name": "creator",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'creator',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "decimals",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'decimals',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "description",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'description',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "external_link",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'external_link',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "image_original_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'image_original_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "image_preview_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'image_preview_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "image_thumbnail_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'image_thumbnail_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "image_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'image_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "is_nsfw",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'is_nsfw',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "is_presale",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'is_presale',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "last_sale",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Event",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'last_sale',
+            type: {
+              kind: 'OBJECT',
+              name: 'Event',
+              ofType: null
+            }
           },
           {
-            "name": "listings",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Event",
-                "ofType": null
+            args: [],
+            name: 'listings',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Event',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'name',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "num_sales",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'num_sales',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "offers",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Event",
-                "ofType": null
+            args: [],
+            name: 'offers',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Event',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "owners",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Account",
-                "ofType": null
+            args: [],
+            name: 'owners',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Account',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "permalink",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'permalink',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "supports_wyvern",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'supports_wyvern',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "token_id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'token_id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "token_metadata",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'token_metadata',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "traits",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Trait",
-                "ofType": null
+            args: [],
+            name: 'traits',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Trait',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "transfer_fee",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'transfer_fee',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "transfer_fee_address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'transfer_fee_address',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "transfer_fee_symbol",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'transfer_fee_symbol',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Asset'
       },
       {
-        "kind": "OBJECT",
-        "name": "Collection",
-        "fields": [
+        fields: [
           {
-            "name": "banner_image_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'banner_image_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "buyer_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'buyer_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "chat_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'chat_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "created_date",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'created_date',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "default_to_fiat",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'default_to_fiat',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "description",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'description',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "dev_buyer_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'dev_buyer_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "dev_seller_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'dev_seller_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "discord_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'discord_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "external_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'external_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "featured",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'featured',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "featured_image_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'featured_image_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "hidden",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'hidden',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "image_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'image_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "instagram_username",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'instagram_username',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "is_subject_to_whitelist",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'is_subject_to_whitelist',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "large_image_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'large_image_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "medium_username",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'medium_username',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "name",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'name',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "num_owners",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'num_owners',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "only_proxied_transfers",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'only_proxied_transfers',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "opensea_buyer_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'opensea_buyer_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "opensea_seller_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'opensea_seller_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "payment_tokens",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "PaymentToken",
-                "ofType": null
+            args: [],
+            name: 'payment_tokens',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'PaymentToken',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "payout_address",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'payout_address',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "primary_asset_contracts",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Contract",
-                "ofType": null
+            args: [],
+            name: 'primary_asset_contracts',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Contract',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "require_email",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'require_email',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "safelist_request_status",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'safelist_request_status',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "seller_fee_basis_points",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'seller_fee_basis_points',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "short_description",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'short_description',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "slug",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'slug',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "stats",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Stats",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'stats',
+            type: {
+              kind: 'OBJECT',
+              name: 'Stats',
+              ofType: null
+            }
           },
           {
-            "name": "telegram_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'telegram_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "total_supply",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'total_supply',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "traits",
-            "type": {
-              "kind": "LIST",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CollectionTrait",
-                "ofType": null
+            args: [],
+            name: 'traits',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'CollectionTrait',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "twitter_username",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'twitter_username',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "wiki_url",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'wiki_url',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Collection'
       },
       {
-        "kind": "OBJECT",
-        "name": "CollectionTrait",
-        "fields": [
+        fields: [
           {
-            "name": "count",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'count',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "trait_type",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'trait_type',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "value",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'value',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'CollectionTrait'
       },
       {
-        "kind": "OBJECT",
-        "name": "Contract",
-        "fields": [
+        fields: [
           {
-            "name": "address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'address',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "asset_contract_type",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'asset_contract_type',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "created_date",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'created_date',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "nft_version",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'nft_version',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "opensea_version",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'opensea_version',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "owner",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'owner',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "schema_name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'schema_name',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "symbol",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'symbol',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "total_supply",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'total_supply',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Contract'
       },
       {
-        "kind": "OBJECT",
-        "name": "Event",
-        "fields": [
+        fields: [
           {
-            "name": "asset",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Asset",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'asset',
+            type: {
+              kind: 'OBJECT',
+              name: 'Asset',
+              ofType: null
+            }
           },
           {
-            "name": "auction_type",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'auction_type',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "bid_amount",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'bid_amount',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "collection",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Collection",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'collection',
+            type: {
+              kind: 'OBJECT',
+              name: 'Collection',
+              ofType: null
+            }
           },
           {
-            "name": "contract_address",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'contract_address',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "created_date",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'created_date',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "custom_event_name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'custom_event_name',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "duration",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'duration',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "ending_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'ending_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "ending_time",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'ending_time',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "event_type",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'event_type',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "from",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'from',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           },
           {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "is_private",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'is_private',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "listing_time",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'listing_time',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "owner",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'owner',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           },
           {
-            "name": "payment_token",
-            "type": {
-              "kind": "OBJECT",
-              "name": "PaymentToken",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'payment_token',
+            type: {
+              kind: 'OBJECT',
+              name: 'PaymentToken',
+              ofType: null
+            }
           },
           {
-            "name": "quantity",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'quantity',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "seller",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'seller',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           },
           {
-            "name": "starting_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'starting_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "to",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'to',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           },
           {
-            "name": "total_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'total_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "tx",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Transaction",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'tx',
+            type: {
+              kind: 'OBJECT',
+              name: 'Transaction',
+              ofType: null
+            }
           },
           {
-            "name": "winner",
-            "type": {
-              "kind": "OBJECT",
-              "name": "Account",
-              "ofType": null
-            },
-            "args": []
+            args: [],
+            name: 'winner',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Event'
       },
       {
-        "kind": "OBJECT",
-        "name": "PaymentToken",
-        "fields": [
+        fields: [
           {
-            "name": "address",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'address',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_updated",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'date_updated',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "decimals",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'decimals',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "eth_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'eth_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "image_url",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'image_url',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "name",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'name',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "symbol",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'symbol',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "usd_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'usd_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'PaymentToken'
       },
       {
-        "kind": "OBJECT",
-        "name": "Query",
-        "fields": [
+        fields: [
           {
-            "name": "assets",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Asset",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": [
+            args: [
               {
-                "name": "endingSoon",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'endingSoon',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "filter",
-                "type": {
-                  "kind": "LIST",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
+                name: 'filter',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any'
                   }
                 }
               },
               {
-                "name": "forSale",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'forSale',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "limit",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'limit',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "offset",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "sort",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'sort',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "traitFilter",
-                "type": {
-                  "kind": "LIST",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
+                name: 'traitFilter',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any'
                   }
                 }
               }
-            ]
+            ],
+            name: 'assets',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'Asset',
+                    ofType: null
+                  }
+                }
+              }
+            }
           },
           {
-            "name": "collections",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Collection",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": [
+            args: [
               {
-                "name": "filter",
-                "type": {
-                  "kind": "LIST",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
+                name: 'filter',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any'
                   }
                 }
               },
               {
-                "name": "limit",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'limit',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "offset",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "sort",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'sort',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               }
-            ]
+            ],
+            name: 'collections',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'Collection',
+                    ofType: null
+                  }
+                }
+              }
+            }
           },
           {
-            "name": "events",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "LIST",
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Event",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "args": [
+            args: [
               {
-                "name": "filter",
-                "type": {
-                  "kind": "LIST",
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "Any"
+                name: 'filter',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any'
                   }
                 }
               },
               {
-                "name": "limit",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'limit',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "offset",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               },
               {
-                "name": "sort",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Any"
+                name: 'sort',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any'
                 }
               }
-            ]
+            ],
+            name: 'events',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'Event',
+                    ofType: null
+                  }
+                }
+              }
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Query'
       },
       {
-        "kind": "OBJECT",
-        "name": "Stats",
-        "fields": [
+        fields: [
           {
-            "name": "average_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'average_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "floor_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'floor_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "one_day_average_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'one_day_average_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "one_day_sales",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'one_day_sales',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "one_day_volume",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'one_day_volume',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "seven_day_average_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'seven_day_average_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "seven_day_sales",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'seven_day_sales',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "seven_day_volume",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'seven_day_volume',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "thirty_day_average_price",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'thirty_day_average_price',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "thirty_day_sales",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'thirty_day_sales',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "thirty_day_volume",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'thirty_day_volume',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "total_sales",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'total_sales',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "total_volume",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'total_volume',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Stats'
       },
       {
-        "kind": "OBJECT",
-        "name": "Trait",
-        "fields": [
+        fields: [
           {
-            "name": "collection_slug",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'collection_slug',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "display_type",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'display_type',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "max_value",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'max_value',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "order",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'order',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "token_id",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'token_id',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "trait_type",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'trait_type',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "value",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'value',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Trait'
       },
       {
-        "kind": "OBJECT",
-        "name": "Transaction",
-        "fields": [
+        fields: [
           {
-            "name": "block_hash",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'block_hash',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "block_number",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'block_number',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "date_ingested",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'date_ingested',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "from_account",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Account",
-                "ofType": null
+            args: [],
+            name: 'from_account',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Account',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "id",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "timestamp",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Any"
-            },
-            "args": []
+            args: [],
+            name: 'timestamp',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any'
+            }
           },
           {
-            "name": "to_account",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Account",
-                "ofType": null
+            args: [],
+            name: 'to_account',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'Account',
+                ofType: null
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "transaction_hash",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'transaction_hash',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           },
           {
-            "name": "transaction_index",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
+            args: [],
+            name: 'transaction_index',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any'
               }
-            },
-            "args": []
+            }
           }
         ],
-        "interfaces": []
+        interfaces: [],
+        kind: 'OBJECT',
+        name: 'Transaction'
       },
       {
-        "kind": "SCALAR",
-        "name": "Any"
+        kind: 'SCALAR',
+        name: 'Any'
       }
-    ],
-    "directives": []
+    ]
   }
-} as unknown as IntrospectionQuery;
+} as unknown as IntrospectionQuery
 
 export const AssetDocument = gql`
-    query Asset($filter: [AssetFilter], $limit: Int) {
-  assets(filter: $filter, limit: $limit) {
-    name
-    image_url
-    contract {
-      schema_name
-    }
-    owners {
-      address
-      profile_img_url
-    }
-    creator {
-      address
-      profile_img_url
-    }
-    listings {
-      payment_token {
-        symbol
+  query Asset($filter: [AssetFilter], $limit: Int) {
+    assets(filter: $filter, limit: $limit) {
+      name
+      image_url
+      contract {
+        schema_name
       }
-      total_price
-    }
-    animation_original_url
-    collection {
-      name
-      slug
-      description
-      image_url
-      discord_url
-      telegram_url
-      twitter_username
-      instagram_username
-      wiki_url
-      external_url
-    }
-    animation_url
-    contract {
-      address
-    }
-    permalink
-    token_id
-    traits {
-      value
-      trait_type
-      max_value
-    }
-  }
-}
-    `;
-
-export function useAssetQuery(options?: Omit<Urql.UseQueryArgs<AssetQueryVariables>, 'query'>) {
-  return Urql.useQuery<AssetQuery>({ query: AssetDocument, ...options });
-};
-export const AssetsDocument = gql`
-    query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
-  assets(
-    filter: $filter
-    traitFilter: $traitFilter
-    sort: $sort
-    forSale: $forSale
-    limit: $limit
-    offset: $offset
-  ) {
-    name
-    token_id
-    contract {
-      address
-    }
-    image_url
-    permalink
-    owners {
-      address
-    }
-    listings {
-      payment_token {
-        symbol
+      owners {
+        address
+        profile_img_url
       }
-      starting_price
-    }
-    collection {
-      name
-      image_url
-    }
-  }
-}
-    `;
-
-export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVariables>, 'query'>) {
-  return Urql.useQuery<AssetsQuery>({ query: AssetsDocument, ...options });
-};
-export const CollectionsDocument = gql`
-    query Collections($filter: [CollectionFilter]) {
-  collections(filter: $filter) {
-    chat_url
-    discord_url
-    external_url
-    instagram_username
-    image_url
-    banner_image_url
-    short_description
-    description
-    created_date
-    name
-    total_supply
-    stats {
-      floor_price
-      total_volume
-    }
-    traits {
-      count
-      value
-      trait_type
-    }
-  }
-}
-    `;
-
-export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<CollectionsQueryVariables>, 'query'>) {
-  return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options });
-};
-export const EventsDocument = gql`
-    query Events($filter: [EventFilter], $limit: Int, $offset: Int) {
-  events(filter: $filter, limit: $limit, offset: $offset) {
-    event_type
-    asset {
-      name
-      token_id
-      image_url
+      creator {
+        address
+        profile_img_url
+      }
+      listings {
+        payment_token {
+          symbol
+        }
+        total_price
+      }
+      animation_original_url
+      collection {
+        name
+        slug
+        description
+        image_url
+        discord_url
+        telegram_url
+        twitter_username
+        instagram_username
+        wiki_url
+        external_url
+      }
+      animation_url
       contract {
         address
       }
+      permalink
+      token_id
+      traits {
+        value
+        trait_type
+        max_value
+      }
     }
-    total_price
-    bid_amount
-    from {
-      address
-    }
-    to {
-      address
-    }
-    winner {
-      address
-    }
-    seller {
-      address
-    }
-    created_date
   }
-}
-    `;
+`
 
-export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
-  return Urql.useQuery<EventsQuery>({ query: EventsDocument, ...options });
-};
-export const OwnerDocument = gql`
-    query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
-  assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
-    name
-    image_url
-    animation_original_url
-    collection {
+export function useAssetQuery(options?: Omit<Urql.UseQueryArgs<AssetQueryVariables>, 'query'>) {
+  return Urql.useQuery<AssetQuery>({ query: AssetDocument, ...options })
+}
+export const AssetsDocument = gql`
+  query Assets(
+    $filter: [AssetFilter]
+    $traitFilter: [TraitFilter]
+    $sort: AssetSort
+    $forSale: Boolean
+    $limit: Int
+    $offset: Int
+  ) {
+    assets(
+      filter: $filter
+      traitFilter: $traitFilter
+      sort: $sort
+      forSale: $forSale
+      limit: $limit
+      offset: $offset
+    ) {
       name
-      slug
+      token_id
+      contract {
+        address
+      }
       image_url
+      permalink
+      owners {
+        address
+      }
+      listings {
+        payment_token {
+          symbol
+        }
+        starting_price
+      }
+      collection {
+        name
+        image_url
+      }
     }
-    contract {
-      address
+  }
+`
+
+export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AssetsQuery>({ query: AssetsDocument, ...options })
+}
+export const CollectionsDocument = gql`
+  query Collections($filter: [CollectionFilter]) {
+    collections(filter: $filter) {
+      chat_url
+      discord_url
+      external_url
+      instagram_username
+      image_url
+      banner_image_url
+      short_description
+      description
+      created_date
+      name
+      total_supply
+      stats {
+        floor_price
+        total_volume
+      }
+      traits {
+        count
+        value
+        trait_type
+      }
     }
-    last_sale {
-      payment_token {
-        symbol
+  }
+`
+
+export function useCollectionsQuery(
+  options?: Omit<Urql.UseQueryArgs<CollectionsQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options })
+}
+export const EventsDocument = gql`
+  query Events($filter: [EventFilter], $limit: Int, $offset: Int) {
+    events(filter: $filter, limit: $limit, offset: $offset) {
+      event_type
+      asset {
+        name
+        token_id
+        image_url
+        contract {
+          address
+        }
       }
       total_price
+      bid_amount
+      from {
+        address
+      }
+      to {
+        address
+      }
+      winner {
+        address
+      }
+      seller {
+        address
+      }
+      created_date
     }
-    token_id
-    permalink
   }
+`
+
+export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
+  return Urql.useQuery<EventsQuery>({ query: EventsDocument, ...options })
 }
-    `;
+export const OwnerDocument = gql`
+  query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
+    assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
+      name
+      image_url
+      animation_original_url
+      collection {
+        name
+        slug
+        image_url
+      }
+      contract {
+        address
+      }
+      last_sale {
+        payment_token {
+          symbol
+        }
+        total_price
+      }
+      token_id
+      permalink
+    }
+  }
+`
 
 export function useOwnerQuery(options?: Omit<Urql.UseQueryArgs<OwnerQueryVariables>, 'query'>) {
-  return Urql.useQuery<OwnerQuery>({ query: OwnerDocument, ...options });
-};
+  return Urql.useQuery<OwnerQuery>({ query: OwnerDocument, ...options })
+}
