@@ -174,11 +174,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
             paymentType={order.paymentType}
             frequencyText={frequencyText}
           >
-            {getOrderType(order) === OrderType.BUY &&
-              (order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
-                order.paymentType === BSPaymentTypes.USER_CARD ||
-                order.paymentType === BSPaymentTypes.BANK_TRANSFER ||
-                order.paymentType === BSPaymentTypes.FUNDS)}
             {val.interestAfterTransaction.show ? (
               <InterestBanner handleClose={this.props.handleClose} />
             ) : null}

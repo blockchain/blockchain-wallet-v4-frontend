@@ -223,8 +223,8 @@ const Template = (props: Props) => {
             <Image name='grey-verified' size='20px' />
             <RowItemTitle>
               <FormattedMessage
-                id='modals.onboarding.upgrade_now.basic_level'
-                defaultMessage='Basic Level'
+                id='modals.onboarding.upgrade_now.limited_access'
+                defaultMessage='Limited Access'
               />
             </RowItemTitle>
             <StatusCartridge>
@@ -276,15 +276,15 @@ const Template = (props: Props) => {
             <Image name='white-verified' size='20px' />
             <RowItemTitleWhite>
               <FormattedMessage
-                id='modals.onboarding.upgrade_now.verified_level'
-                defaultMessage='Verified Level'
+                id='modals.onboarding.upgrade_now.full_access'
+                defaultMessage='Full Access'
               />
             </RowItemTitleWhite>
             <StatusCartridgeBlue>
               <Text color='white' size='12px' weight={500}>
                 <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
+                  id='modals.onboarding.upgrade_now.apply_now'
+                  defaultMessage='Apply Now'
                 />
               </Text>
             </StatusCartridgeBlue>
@@ -368,8 +368,8 @@ const Template = (props: Props) => {
         <Disclaimer>
           <RowItemSubTitle>
             <FormattedMessage
-              id='modals.onboarding.upgrade_now.disclaimer'
-              defaultMessage='Verified level includes all basic level features'
+              id='modals.onboarding.upgrade_now.disclaimer_full_access'
+              defaultMessage='Full Access includes all limited access features'
             />
           </RowItemSubTitle>
         </Disclaimer>

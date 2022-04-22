@@ -6,6 +6,8 @@ import { selectors } from 'data'
 
 import WalletLayout from './template'
 
+const PAGE_TITLE = 'Blockchain.com Wallet'
+
 class WalletLayoutContainer extends React.PureComponent<Props> {
   render() {
     const {
@@ -23,6 +25,8 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
       coin = computedMatch.params.coin
       if (!window.coins[coin]) isValid = false
     }
+
+    document.title = PAGE_TITLE
 
     return isAuthenticated && isValid ? (
       <Route

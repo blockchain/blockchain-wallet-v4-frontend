@@ -32,6 +32,7 @@ const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
+const ProductPicker = React.lazy(() => import('./ProductPicker'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
@@ -121,6 +122,11 @@ const App = ({
                         pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                       />
                       <AuthLayout path='/logout' component={Logout} />
+                      <AuthLayout
+                        path='/select-product'
+                        component={ProductPicker}
+                        pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
+                      />
                       <AuthLayout
                         path='/mobile-login'
                         component={MobileLogin}

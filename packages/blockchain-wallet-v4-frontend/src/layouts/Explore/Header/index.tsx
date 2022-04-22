@@ -50,6 +50,7 @@ const ExploreHeader: React.FC<Props> = ({
   ethAddress,
   isAuthenticated,
   modalActions,
+  pathname,
   routerActions
 }) => {
   return (
@@ -112,12 +113,16 @@ const ExploreHeader: React.FC<Props> = ({
             </Flex>
           ) : (
             <>
-              <LinkContainer style={{ marginRight: '8px' }} to='/login' data-e2e='loginLink'>
-                <Button small data-e2e='signup' nature='empty-blue'>
+              <LinkContainer
+                style={{ marginRight: '8px' }}
+                to={`/open${pathname}`}
+                data-e2e='loginLink'
+              >
+                <Button small data-e2e='login' nature='empty-blue'>
                   <FormattedMessage id='scenes.login.login' defaultMessage='Login' />
                 </Button>
               </LinkContainer>
-              <LinkContainer to='/signup' data-e2e='signupLink'>
+              <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
                 <Button small data-e2e='signup' nature='primary'>
                   <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
                 </Button>

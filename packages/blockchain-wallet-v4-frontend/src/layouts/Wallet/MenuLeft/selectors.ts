@@ -7,7 +7,7 @@ import { selectors } from 'data'
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getMenuOpened,
-    selectors.auth.getFirstLogin,
+    selectors.signup.getFirstLogin,
     selectors.router.getPathname,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,

@@ -7,12 +7,14 @@ import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { RemoteDataType, WalletOptionsType } from '@core/types'
+import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import BuyGoal from './BuyGoal'
+import Header from './components/Header'
+import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
-import SignupLanding from './SignupLanding'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
@@ -22,7 +24,32 @@ const SignupWrapper = styled.div`
   align-items: center;
 `
 
+const LatamPhone = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  color: white;
+  @media (max-width: 768px) {
+    margin-left: 0;
+    position: relative;
+    top: 50px;
+    align-items: center;
+  }
+`
+
+const LatamWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`
+
 const SIGNUP_FORM = 'register'
+
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
 
 class SignupContainer extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props,
@@ -32,16 +59,16 @@ class SignupContainer extends React.PureComponent<
     super(props)
     this.state = {
       captchaToken: undefined,
-      isLatam: props.search.includes('latam'),
-      showForm: props.search.includes('showWallet'),
+      showForm: true,
       showState: false
     }
   }
 
   componentDidMount() {
-    const { websocketActions } = this.props
+    const { signupActions, websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
+    signupActions.initializeSignup()
     this.initCaptcha()
   }
 
@@ -71,18 +98,18 @@ class SignupContainer extends React.PureComponent<
   onSubmit = (e) => {
     e.preventDefault()
     const { captchaToken } = this.state
-    const { authActions, formValues, language } = this.props
+    const { formValues, language, signupActions } = this.props
     const { country, email, password, state } = formValues
 
     // sometimes captcha doesn't mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!captchaToken) {
       return this.initCaptcha(
-        authActions.register({ captchaToken, country, email, language, password, state })
+        signupActions.register({ captchaToken, country, email, language, password, state })
       )
     }
     // we have a captcha token, continue Signup process
-    authActions.register({
+    signupActions.register({
       captchaToken,
       country,
       email,
@@ -106,10 +133,6 @@ class SignupContainer extends React.PureComponent<
     this.setState({ showForm: true })
   }
 
-  toggleLatamVisibility = () => {
-    this.setState({ isLatam: true })
-  }
-
   render() {
     const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
@@ -122,14 +145,12 @@ class SignupContainer extends React.PureComponent<
 
     const subviewProps = {
       isFormSubmitting,
-      isLatam: this.state.isLatam,
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
       onSignupSubmit: this.onSubmit,
       setDefaultCountry: this.setCountryOnLoad,
       showForm: this.state.showForm,
       showState: this.state.showState,
-      toggleLatamVisibility: this.toggleLatamVisibility,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
       ...this.props, // order here matters as we may need to override initial form values!
       initialValues: signupInitialValues
@@ -137,9 +158,18 @@ class SignupContainer extends React.PureComponent<
 
     return (
       <SignupWrapper>
+        {isLatam && <Header />}
         {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
         {isBuyGoal && <BuyGoal {...subviewProps} />}
-        {!isLinkAccountGoal && !isBuyGoal && <SignupLanding {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+          <LatamWrapper>
+            <SignupCard {...subviewProps} />
+            <LatamPhone>
+              <Image width='569px' name='latam-signup-phone' />
+            </LatamPhone>
+          </LatamWrapper>
+        )}
       </SignupWrapper>
     )
   }
@@ -151,7 +181,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
-  isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, undefined>,
+  isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
   signupCountryEnabled: selectors.core.walletOptions
@@ -163,6 +193,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })
 
@@ -179,7 +210,6 @@ type LinkStatePropsType = {
 }
 type StateProps = {
   captchaToken?: string
-  isLatam: boolean
   showForm: boolean
   showState: boolean
 }

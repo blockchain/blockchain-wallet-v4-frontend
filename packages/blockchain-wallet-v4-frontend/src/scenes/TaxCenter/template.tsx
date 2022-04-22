@@ -25,7 +25,6 @@ import {
   Slide,
   StyledSelect,
   StyledSeparator,
-  StyledTextGroup,
   Title,
   VisitButton
 } from './model'
@@ -172,21 +171,12 @@ const TaxCenter = ({
           NotAsked: () => <Loader />,
           Success: (list) => (
             <ReportList>
-              <StyledTextGroup inline>
-                <SelectLabel size='14px' weight={600} color='black'>
-                  <FormattedMessage
-                    id='scenes.tax.center.card.report.list'
-                    defaultMessage='Generated Exports'
-                  />
-                </SelectLabel>
-                <Text size='12px' color='grey400'>
-                  {`${list.length}/5 `}
-                  <FormattedMessage
-                    id='scenes.tax.center.card.export.limit'
-                    defaultMessage='Export Limit'
-                  />
-                </Text>
-              </StyledTextGroup>
+              <SelectLabel size='14px' weight={600} color='black'>
+                <FormattedMessage
+                  id='scenes.tax.center.card.report.list'
+                  defaultMessage='Generated Exports'
+                />
+              </SelectLabel>
               <StyledSeparator />
               <List reports={list} onExportClick={onExportClick} />
             </ReportList>

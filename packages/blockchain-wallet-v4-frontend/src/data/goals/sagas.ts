@@ -19,7 +19,6 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
-import { UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -46,6 +45,27 @@ export default ({ api, coreSagas, networks }) => {
       .getUserKYCState(yield select())
       .map(equals(NONE))
       .getOrElse(false)
+  }
+
+  // TODO: use new world deeplinking once merged
+  const defineExchangeSettingsGoal = function* (search) {
+    const params = new URLSearchParams(search)
+    const guid = params.get('guid')
+    const settingsChange = params.get('change')
+    const email = decodeURIComponent(params.get('email') as string)
+    yield put(actions.cache.removeStoredLogin())
+    yield put(actions.cache.guidStored(guid))
+    yield put(actions.cache.exchangeEmail(email))
+    yield put(
+      actions.goals.saveGoal({
+        data: {
+          email,
+          guid,
+          settingsChange
+        },
+        name: 'settings'
+      })
+    )
   }
 
   const defineLinkAccountGoal = function* (search) {
@@ -86,7 +106,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: { tier }, name: 'kyc' }))
   }
 
-  const defineMakeOfferNFTGoal = function* (search) {
+  const defineMakeOfferNftGoal = function* (search) {
     // /#/open/make-offer-nft?contract_address=0x123&token_id=456
     const params = new URLSearchParams(search)
 
@@ -101,7 +121,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const defineBuyNFTGoal = function* (search) {
+  const defineBuyNftGoal = function* (search) {
     // /#/open/buy-nft?contract_address=0x123&token_id=456&order={order}
     const params = new URLSearchParams(search)
 
@@ -113,6 +133,15 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.saveGoal({
         data: { contract_address, order, token_id },
         name: DeepLinkGoal.BUY_NFT
+      })
+    )
+  }
+
+  const defineDeeplinkNftsGoal = function* (pathname) {
+    yield put(
+      actions.goals.saveGoal({
+        data: { pathname },
+        name: DeepLinkGoal.NFTS
       })
     )
   }
@@ -214,13 +243,21 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
-      return yield call(defineMakeOfferNFTGoal, search)
+      return yield call(defineMakeOfferNftGoal, search)
     }
 
     if (startsWith(DeepLinkGoal.BUY_NFT, pathname)) {
-      return yield call(defineBuyNFTGoal, search)
+      return yield call(defineBuyNftGoal, search)
     }
 
+    if (startsWith(DeepLinkGoal.NFTS, pathname)) {
+      return yield call(defineDeeplinkNftsGoal, pathname)
+    }
+
+    // exchange deeplink to chanage password /#/open/change-password
+    if (startsWith(DeepLinkGoal.SETTINGS, pathname)) {
+      return yield call(defineExchangeSettingsGoal, search)
+    }
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
     if (startsWith(DeepLinkGoal.KYC, pathname)) {
       return yield call(defineKycGoal, search)
@@ -292,6 +329,25 @@ export default ({ api, coreSagas, networks }) => {
           name: 'AIRDROP_CLAIM_MODAL'
         })
       )
+    }
+  }
+
+  // TODO: use new world deeplinking once merged
+  const runSettingsDeeplinkRedirect = function* (goal: GoalType) {
+    const { data, id } = goal
+    const { settingsChange } = data
+    yield put(actions.goals.deleteGoal(id))
+    switch (settingsChange) {
+      case 'password':
+        yield put(actions.goals.addInitialRedirect('changePassword'))
+        break
+      case 'email':
+        yield put(actions.goals.addInitialRedirect('changeEmail'))
+        break
+      case '2fa':
+        yield put(actions.goals.addInitialRedirect('change2fa'))
+        break
+      default:
     }
   }
 
@@ -611,7 +667,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
     // Check if new wallet is from regular new registration
     // or nabu account reset
-    const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
+    const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     if (firstLogin && !isAccountReset) {
       yield put(
         actions.goals.addInitialModal({
@@ -657,7 +713,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runMakeOfferNFTGoal = function* (goal: GoalType) {
+  const runMakeOfferNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
       actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
@@ -672,7 +728,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runBuyNFTGoal = function* (goal: GoalType) {
+  const runBuyNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
       actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
@@ -686,6 +742,11 @@ export default ({ api, coreSagas, networks }) => {
         walletUserIsAssetOwnerHack: false
       })
     )
+  }
+
+  const runDeeplinkNftGoal = function* (goal: GoalType) {
+    yield take(actions.auth.loginSuccess)
+    yield put(actions.router.push(`/${goal.data.pathname}`))
   }
 
   const runInterestRedirect = function* (goal: GoalType) {
@@ -739,6 +800,12 @@ export default ({ api, coreSagas, networks }) => {
 
     if (initialRedirect === 'interest') {
       return yield put(actions.router.push(`/rewards`))
+    }
+    if (initialRedirect === 'changeEmail' || initialRedirect === 'change2fa') {
+      return yield put(actions.router.push(`/security-center/basic`))
+    }
+    if (initialRedirect === 'changePassword') {
+      return yield put(actions.router.push(`/security-center/advanced`))
     }
   }
 
@@ -910,6 +977,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'buySell':
           yield call(runBuySellGoal, goal)
           break
+        case 'settings':
+          yield call(runSettingsDeeplinkRedirect, goal)
+          break
         case 'kyc':
           yield call(runKycGoal, goal)
           break
@@ -923,10 +993,13 @@ export default ({ api, coreSagas, networks }) => {
           yield call(runInterestPromo, goal)
           break
         case 'make-offer-nft':
-          yield call(runMakeOfferNFTGoal, goal)
+          yield call(runMakeOfferNftGoal, goal)
           break
         case 'buy-nft':
-          yield call(runBuyNFTGoal, goal)
+          yield call(runBuyNftGoal, goal)
+          break
+        case 'nfts':
+          yield call(runDeeplinkNftGoal, goal)
           break
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)
@@ -1013,10 +1086,12 @@ export default ({ api, coreSagas, networks }) => {
     // yield put(actions.goals.saveGoal('airdropClaim'))
   }
 
-  // watch for /open calls and run the goals
-  const routerChanged = function* () {
-    // yield call(defineGoals)
-    // yield call(runGoals)
+  // watch for /open/nft calls and run the goals
+  const routerChanged = function* (action) {
+    if (action?.payload?.location?.pathname?.includes('open')) {
+      yield call(defineGoals)
+      yield call(runGoals)
+    }
   }
 
   return {
