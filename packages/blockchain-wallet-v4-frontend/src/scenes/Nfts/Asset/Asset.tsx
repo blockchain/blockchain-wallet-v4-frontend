@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import { OpenSeaOrder } from '@core/network/api/nfts/types'
+import { OpenSeaOrder, RawOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import {
@@ -355,16 +355,16 @@ const NftAsset: React.FC<Props> = ({
         ),
         Success: (assetFromDirectCall) => {
           let bids =
-            assetFromDirectCall.orders?.filter((x) => {
+            openSeaOrders.data?.filter((x) => {
               return x.side === 0 && x.taker.address !== NULL_ADDRESS
             }, []) || []
           // Offers have taker as null address
           let offers =
-            assetFromDirectCall.orders?.filter((x) => {
+            openSeaOrders.data?.filter((x) => {
               return x.side === 0 && x.taker.address === NULL_ADDRESS
             }, []) || []
           const sellOrders =
-            assetFromDirectCall.orders?.filter((x) => {
+            openSeaOrders.data?.filter((x) => {
               return x.side === 1
             }) || []
           bids = bids.length
@@ -631,7 +631,7 @@ const NftAsset: React.FC<Props> = ({
                           if (lowest_order) {
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
-                              order: lowest_order,
+                              order: lowest_order as RawOrder,
                               step: NftOrderStepEnum.BUY,
                               token_id: id,
                               walletUserIsAssetOwnerHack: false

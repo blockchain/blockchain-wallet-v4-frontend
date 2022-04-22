@@ -437,7 +437,7 @@ export interface RawOrder {
   bounty_multiple: string
   calldata: string
   cancelled: boolean
-  closing_date: null
+  closing_date: string | null
   closing_extendable: boolean
   created_date: string
   current_bounty: string
@@ -526,7 +526,6 @@ export interface PaymentTokenContractType {
   address: string
   decimals: number
   eth_price: string
-  id: number
   image_url: string
   name: string
   symbol: string
@@ -880,15 +879,7 @@ export interface OpenSeaOrder {
   }
   order_hash: string
   payment_token: string
-  payment_token_contract: {
-    address: string
-    decimals: number
-    eth_price: string
-    image_url: string
-    name: null
-    symbol: string
-    usd_price: string
-  }
+  payment_token_contract: PaymentTokenContractType
   prefixed_hash: string
   quantity: string
   r: string
