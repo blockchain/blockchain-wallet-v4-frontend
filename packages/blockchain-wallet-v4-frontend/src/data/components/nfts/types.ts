@@ -5,6 +5,7 @@ import {
   NftCollection,
   NftOrder,
   OfferEventsType,
+  OpenSeaOrder,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -52,6 +53,7 @@ export type NftsStateType = {
     page: number
   }
   openSeaAsset: RemoteDataType<string, NftAsset>
+  openSeaOrders: RemoteDataType<string, OpenSeaOrder[]>
   openSeaStatus: RemoteDataType<
     string,
     {

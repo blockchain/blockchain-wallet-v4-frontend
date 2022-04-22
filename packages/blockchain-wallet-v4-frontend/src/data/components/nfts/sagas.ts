@@ -105,7 +105,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchOpenseaAssetLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
-        action.payload.address,
+        action.payload.asset_contract_address,
         action.payload.token_id
       )
       yield put(A.fetchOpenseaAssetSuccess(res))
@@ -113,13 +113,28 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchOpenseaAssetFailure(e))
     }
   }
+
   const fetchOpenseaStatus = function* () {
     try {
-      yield put(A.fetchNftOffersMadeLoading())
-      const res: ReturnType<typeof api.getOpenseaStatus> = yield call(api.getOpenseaStatus)
+      yield put(A.fetchOpenseaStatusLoading())
+      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(api.getOpenSeaStatus)
       yield put(A.fetchOpenseaStatusSuccess(res))
     } catch (e) {
       yield put(A.fetchOpenseaStatusFailure(e))
+    }
+  }
+
+  const fetchOpenSeaOrders = function* (action: ReturnType<typeof A.fetchOpenSeaOrders>) {
+    try {
+      yield put(A.fetchOpenSeaOrdersLoading())
+      const res: ReturnType<typeof api.getOpenSeaOrders> = yield call(
+        api.getOpenSeaOrders,
+        action.payload.asset_contract_address,
+        action.payload.token_id
+      )
+      yield put(A.fetchOpenSeaOrdersSuccess(res.orders))
+    } catch (e) {
+      yield put(A.fetchOpenSeaOrdersFailure(e))
     }
   }
 
@@ -595,6 +610,7 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesWrapEth,
     fetchNftCollections,
     fetchNftOffersMade,
+    fetchOpenSeaOrders,
     fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,

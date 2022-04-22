@@ -9,13 +9,15 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
+import { useRemote } from 'blockchain-wallet-v4-frontend/src/hooks'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
+import { OpenSeaOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
-import { WalletOptionsType } from '@core/types'
+import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import {
   Button,
   Icon as BlockchainIcon,
@@ -306,17 +308,21 @@ const NftAsset: React.FC<Props> = ({
   const [assets] = useAssetsQuery({
     variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }], limit: 4 }
   })
+  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+
   const [Tab, setTab] = useState('details')
   const [Countdown, setCountdown] = useState('')
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const WETH_ADDRESS = window.coins.WETH.coinfig.type.erc20Address!
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
-      address: contract,
+      asset_contract_address: contract,
       token_id: id
     })
-  }, [])
+    nftsActions.fetchOpenSeaOrders({
+      asset_contract_address: contract,
+      token_id: id
+    })
+  }, [contract, id, nftsActions])
 
   const currentAsset = asset.data?.assets[0]
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
@@ -325,7 +331,7 @@ const NftAsset: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      {rest.openSeaAsset.cata({
+      {rest.openSeaAssetR.cata({
         Failure: () => <Text size='40px'>404 Not Found</Text>,
         Loading: () => (
           <>
@@ -811,9 +817,7 @@ const NftAsset: React.FC<Props> = ({
                             >
                               <div style={{ display: 'flex', paddingRight: '0.2em', width: '5em' }}>
                                 <AddressDisplay>{coin}</AddressDisplay>{' '}
-                                {offer?.payment_token_contract?.address === WETH_ADDRESS
-                                  ? 'WETH'
-                                  : 'ETH'}
+                                {offer?.payment_token_contract?.symbol}
                               </div>
                               <div style={{ width: '5em' }}>
                                 <FiatDisplay
@@ -876,7 +880,7 @@ const NftAsset: React.FC<Props> = ({
                                   to={link}
                                   onClick={() => {
                                     nftsActions.fetchOpenseaAsset({
-                                      address: asset.contract?.address || '',
+                                      asset_contract_address: asset.contract?.address || '',
                                       token_id: asset.token_id || ''
                                     })
                                   }}
@@ -951,7 +955,7 @@ const mapStateToProps = (state: RootState) => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     comWalletApp: 'https://login.blockchain.com'
   } as WalletOptionsType['domains']),
-  openSeaAsset: selectors.components.nfts.getOpenSeaAsset(state)
+  openSeaAssetR: selectors.components.nfts.getOpenSeaAsset(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
