@@ -135,3 +135,6 @@ export const getShowTermsAndConditions = (state: RootState) =>
 
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
+
+export const getNftExplorer = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))

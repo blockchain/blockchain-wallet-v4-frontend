@@ -14,7 +14,8 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { component: Component, path, ...rest } = this.props
+    const { component: Component, pageTitle, path, ...rest } = this.props
+    if (pageTitle) document.title = pageTitle
 
     return (
       <Route
@@ -48,6 +49,7 @@ export type Props = ConnectedProps<typeof connector> & {
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean
+  pageTitle?: string
   path: string
 }
 

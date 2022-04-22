@@ -80,7 +80,7 @@ const CollectionItemsResults: React.FC<Props> = ({
 
         return asset ? (
           <Asset key={asset?.token_id}>
-            <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
+            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
               <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
             <AssetDetails>
@@ -134,7 +134,7 @@ const CollectionItemsResults: React.FC<Props> = ({
                     </Text>
                   )}
                 </div>
-                <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
+                <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
                   <Button data-e2e='nftAssetPage' nature='primary' small>
                     <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                   </Button>

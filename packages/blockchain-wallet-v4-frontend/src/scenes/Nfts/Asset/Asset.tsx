@@ -461,7 +461,7 @@ const NftAsset: React.FC<Props> = ({
                         justifyContent: 'space-between'
                       }}
                     >
-                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
+                      <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
                         <CollectionName>
                           <img
                             alt='Dapp Logo'
@@ -702,7 +702,9 @@ const NftAsset: React.FC<Props> = ({
                                 <Trait
                                   key={trait.value}
                                   onClick={() => {
-                                    routerActions.push(`/nfts/${currentAsset.collection.slug}`)
+                                    routerActions.push(
+                                      `/nfts/collection/${currentAsset.collection.slug}`
+                                    )
                                     formActions.change(
                                       'nftFilter',
                                       `${trait.trait_type}.${trait.value}`,
@@ -862,7 +864,7 @@ const NftAsset: React.FC<Props> = ({
                       <Text color={colors.grey700} weight={600} capitalize>
                         More from this collection
                       </Text>
-                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
+                      <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
                         <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
                           See All
                         </Button>
@@ -871,9 +873,7 @@ const NftAsset: React.FC<Props> = ({
                     <MoreAssetsList>
                       {assets?.data?.assets?.length
                         ? assets?.data?.assets?.map((asset) => {
-                            const link = `${'/nfts/'}${currentAsset.contract?.address}/${
-                              asset.token_id
-                            }`
+                            const link = `/nfts/asset/${currentAsset.contract?.address}/${asset.token_id}`
                             return (
                               <MoreAssetsListItem key={asset.token_id}>
                                 <CustomLink
