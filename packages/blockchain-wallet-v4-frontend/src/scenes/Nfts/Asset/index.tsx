@@ -426,21 +426,6 @@ const NftAsset: React.FC<Props> = ({
                       <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Socials>
                           <SocialLink>
-                            <BlockchainIcon
-                              onClick={() => {
-                                analyticsActions.trackEvent({
-                                  key: Analytics.NFT_REFRESH_METADATA_CLICKED,
-                                  properties: {}
-                                })
-                                // refreshMetadata()
-                              }}
-                              cursor
-                              color='grey600'
-                              name='refresh'
-                              size='24px'
-                            />
-                          </SocialLink>
-                          <SocialLink>
                             <CopyClipboardButton
                               color='grey600'
                               textToCopy={`${domains.comWalletApp}/#/nfts/${contract}/${id}`}
@@ -697,7 +682,7 @@ const NftAsset: React.FC<Props> = ({
                           </EthText>
                         </>
                       ) : null}
-                      {owner?.address !== defaultEthAddr && (
+                      {owner?.address === defaultEthAddr && (
                         <Button
                           data-e2e='openNftFlow'
                           nature='primary'
