@@ -266,7 +266,9 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            // yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login))
+            yield put(
+              actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+            )
             return
           }
           if (product === ProductAuthOptions.WALLET) {
