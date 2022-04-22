@@ -1,74 +1,79 @@
 {
-  "applinks": {
-    "details": [
+  "applinks":{
+    "details":[
       {
-        "appIDs": [
+        "appIDs":[
           "NZ6PH75U7K.com.rainydayapps.Blockchain",
           "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
           "NZ6PH75U7K.com.rainydayapps.Blockchain.dev"
         ],
-        "components": [
+        "components":[
           {
-            "/": "/deeplink/login/*",
-            "comment": "Matches any URL whose path starts with /deeplink/login/"
+            "/":"/deeplink/login/*",
+            "comment":"Matches any URL whose path starts with /deeplink/login/"
           },
           {
-            "/": "/deeplink/",
-            "#": "*login*",
-            "comment": "Matches any URL whose path starts with /deeplink/#/login/"
+            "/":"/deeplink/",
+            "#":"*login*",
+            "comment":"Matches any URL whose path starts with /deeplink/#/login/"
           },
           {
-            "/": "/deeplink/signup/*",
-            "comment": "Matches any URL whose path starts with /deeplink/signup/"
+            "/":"/deeplink/signup/*",
+            "comment":"Matches any URL whose path starts with /deeplink/signup/"
           },
           {
-            "/": "/deeplink/",
-            "#": "*signup*",
-            "comment": "Matches any URL whose path starts with /deeplink/#/signup/"
+            "/":"/deeplink/",
+            "#":"*signup*",
+            "comment":"Matches any URL whose path starts with /deeplink/#/signup/"
           }
         ]
       },
       {
-        "appIDs": [
+        "appIDs":[
           "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
         ],
-        "components": [
+        "components":[
           {
-            "/": "/deeplink/alpha/login/*",
-            "comment": "Matches any URL whose path starts with /deeplink/alpha/login/"
+            "/":"/deeplink/alpha/login/*",
+            "comment":"Matches any URL whose path starts with /deeplink/alpha/login/"
           },
           {
-            "/": "/deeplink/alpha/",
-            "#": "*login*",
-            "comment": "Matches any URL whose path starts with /deeplink/alpha/#/login/"
+            "/":"/deeplink/alpha/",
+            "#":"*login*",
+            "comment":"Matches any URL whose path starts with /deeplink/alpha/#/login/"
           },
           {
-            "/": "/deeplink/alpha/signup/*",
-            "comment": "Matches any URL whose path starts with /deeplink/alpha/signup/"
+            "/":"/deeplink/alpha/signup/*",
+            "comment":"Matches any URL whose path starts with /deeplink/alpha/signup/"
           },
           {
-            "/": "/deeplink/alpha/",
-            "#": "*signup*",
-            "comment": "Matches any URL whose path starts with /deeplink/alpha/#/signup/"
+            "/":"/deeplink/alpha/",
+            "#":"*signup*",
+            "comment":"Matches any URL whose path starts with /deeplink/alpha/#/signup/"
           }
         ]
       },
       {
-        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp",
-        "paths": ["NOT /exchange/alpha*", "/exchange*"]
+        "appID":"NZ6PH75U7K.com.blockchain.exchangeapp",
+        "paths":[
+          "NOT /exchange/alpha*",
+          "/exchange*"
+        ]
       },
       {
-        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp.alpha",
-        "paths": ["/exchange/alpha*"]
+        "appID":"NZ6PH75U7K.com.blockchain.exchangeapp.alpha",
+        "paths":[
+          "/exchange/alpha*"
+        ]
       }
     ]
   },
-  "webcredentials": {
-    "apps": [
-        "NZ6PH75U7K.com.rainydayapps.Blockchain",
-        "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
-        "NZ6PH75U7K.com.rainydayapps.Blockchain.dev",
-        "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
+  "webcredentials":{
+    "apps":[
+      "NZ6PH75U7K.com.rainydayapps.Blockchain",
+      "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
+      "NZ6PH75U7K.com.rainydayapps.Blockchain.dev",
+      "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
     ]
   }
 }
