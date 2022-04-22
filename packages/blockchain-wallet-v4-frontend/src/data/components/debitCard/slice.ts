@@ -6,9 +6,9 @@ import { CardActionType, DebitCardState, DebitCardType, ProductType } from './ty
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
-  cardLock: Remote.NotAsked,
   cardToken: '',
   cards: [],
+  lockHandler: Remote.NotAsked,
   products: []
 }
 
@@ -45,13 +45,13 @@ const debitCardSlice = createSlice({
     },
     handleCardLock: (state, action: PayloadAction<CardActionType>) => {},
     handleCardLockFailure: (state, action: PayloadAction<string>) => {
-      state.cardLock = Remote.Failure(action.payload)
+      state.lockHandler = Remote.Failure(action.payload)
     },
     handleCardLockLoading: (state) => {
-      state.cardLock = Remote.Loading
+      state.lockHandler = Remote.Loading
     },
     handleCardLockSuccess: (state, action: PayloadAction<boolean>) => {
-      state.cardLock = Remote.Success(action.payload)
+      state.lockHandler = Remote.Success(action.payload)
     },
     resetCreateCardState: (state) => {
       state.cardCreationData = Remote.NotAsked

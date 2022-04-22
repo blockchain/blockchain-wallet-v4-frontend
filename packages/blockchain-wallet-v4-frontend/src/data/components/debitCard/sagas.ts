@@ -4,6 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
+import { CardStateType } from 'data/components/debitCard/types'
 
 import { actions as A } from './slice'
 
@@ -18,7 +19,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const filterTerminatedCards = (cards) => cards.filter((card) => card.status !== 'TERMINATED')
+  const filterTerminatedCards = (cards) =>
+    cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
   const getCards = function* () {
     try {

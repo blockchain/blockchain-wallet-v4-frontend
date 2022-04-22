@@ -3,7 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { Switch } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Button, Icon } from 'blockchain-info-components'
+import { CardStateType } from 'data/components/debitCard/types'
 import { ModalName } from 'data/modals/types'
 
 import {
@@ -22,8 +24,9 @@ const SwitchWrapper = styled.div`
   margin: auto;
 `
 
-const ManageCardBox = ({ cards, debitCardActions, modalActions }) => {
-  const [isCardLocked, setCardLocked] = useState(false)
+const ManageCardBox = ({ cards, debitCardActions, lockHandler, modalActions }) => {
+  const activeCard = cards[0]
+  const [isCardLocked, setCardLocked] = useState(activeCard.status === CardStateType.LOCKED)
 
   const onTerminate = () => {
     modalActions.showModal(ModalName.CUSTOMIZABLE_CONFIRM_MODAL, {
@@ -33,12 +36,13 @@ const ManageCardBox = ({ cards, debitCardActions, modalActions }) => {
           defaultMessage='Terminate Card?'
         />
       ),
-      onConfirm: () => debitCardActions.terminateCard(cards[0].id)
+      onConfirm: () => debitCardActions.terminateCard(activeCard.id),
+      origin: 'DebitCardDashboard'
     })
   }
 
   const toggleLock = () => {
-    debitCardActions.handleCardLock({ id: cards[0].id, newLockState: !isCardLocked })
+    debitCardActions.handleCardLock({ id: activeCard.id, newLockState: !isCardLocked })
     setCardLocked(!isCardLocked)
   }
 
@@ -66,7 +70,11 @@ const ManageCardBox = ({ cards, debitCardActions, modalActions }) => {
           </BoxRowItemSubTitle>
         </BoxRowItemTitle>
         <SwitchWrapper>
-          <Switch checked={isCardLocked} onClick={toggleLock} />
+          <Switch
+            checked={isCardLocked}
+            onClick={toggleLock}
+            disabled={lockHandler === Remote.Loading}
+          />
         </SwitchWrapper>
       </BoxRowWithBorder>
       <BoxRow>
