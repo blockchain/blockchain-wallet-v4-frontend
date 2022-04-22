@@ -1,7 +1,8 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, IconName, Text } from '@blockchain-com/constellation'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconIdentification, IconPortfolio, IconShield, IconWallet } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
 import { Wrapper } from 'components/Public'
@@ -22,6 +23,7 @@ import {
 } from '../AccountUpgrade.models'
 
 const UpgradeOrSkip = (props) => {
+  const { formatMessage } = useIntl()
   return (
     <>
       <Wrapper>
@@ -39,7 +41,16 @@ const UpgradeOrSkip = (props) => {
         </CenteredTitle>
         <Items>
           <Item>
-            <Icon name={IconName.WALLET} color='blue600' size='md' />
+            <Icon
+              label={formatMessage({
+                defaultMessage: 'Blockchain.com Wallet',
+                id: 'scenes.login.upgrade.upsell.item_1.title'
+              })}
+              color='blue600'
+              size='lg'
+            >
+              <IconWallet />
+            </Icon>
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -57,7 +68,16 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name={IconName.IDENTIFICATION} color='blue600' size='md' />
+            <Icon
+              label={formatMessage({
+                defaultMessage: 'Simplified Login',
+                id: 'scenes.login.upgrade.upsell.item_2.title'
+              })}
+              color='blue600'
+              size='lg'
+            >
+              <IconIdentification />
+            </Icon>
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -75,7 +95,16 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name={IconName.SECURITY} color='blue600' size='md' />
+            <Icon
+              label={formatMessage({
+                defaultMessage: 'Enhanced Security',
+                id: 'scenes.login.upgrade.upsell.item_3.title'
+              })}
+              color='blue600'
+              size='lg'
+            >
+              <IconShield />
+            </Icon>
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
@@ -93,7 +122,16 @@ const UpgradeOrSkip = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name={IconName.PORTFOLIO} color='blue600' size='md' />
+            <Icon
+              label={formatMessage({
+                defaultMessage: 'Full Portfolio Access',
+                id: 'scenes.login.upgrade.upsell.item_4.title'
+              })}
+              color='blue600'
+              size='lg'
+            >
+              <IconPortfolio />
+            </Icon>
             <TierDescription>
               <TierTitle>
                 <FormattedMessage
