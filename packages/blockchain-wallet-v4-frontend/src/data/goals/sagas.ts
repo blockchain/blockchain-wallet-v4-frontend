@@ -19,7 +19,6 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
-import { UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -107,7 +106,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: { tier }, name: 'kyc' }))
   }
 
-  const defineMakeOfferNFTGoal = function* (search) {
+  const defineMakeOfferNftGoal = function* (search) {
     // /#/open/make-offer-nft?contract_address=0x123&token_id=456
     const params = new URLSearchParams(search)
 
@@ -122,7 +121,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const defineBuyNFTGoal = function* (search) {
+  const defineBuyNftGoal = function* (search) {
     // /#/open/buy-nft?contract_address=0x123&token_id=456&order={order}
     const params = new URLSearchParams(search)
 
@@ -134,6 +133,15 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.saveGoal({
         data: { contract_address, order, token_id },
         name: DeepLinkGoal.BUY_NFT
+      })
+    )
+  }
+
+  const defineDeeplinkNftsGoal = function* (pathname) {
+    yield put(
+      actions.goals.saveGoal({
+        data: { pathname },
+        name: DeepLinkGoal.NFTS
       })
     )
   }
@@ -235,11 +243,15 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
-      return yield call(defineMakeOfferNFTGoal, search)
+      return yield call(defineMakeOfferNftGoal, search)
     }
 
     if (startsWith(DeepLinkGoal.BUY_NFT, pathname)) {
-      return yield call(defineBuyNFTGoal, search)
+      return yield call(defineBuyNftGoal, search)
+    }
+
+    if (startsWith(DeepLinkGoal.NFTS, pathname)) {
+      return yield call(defineDeeplinkNftsGoal, pathname)
     }
 
     // exchange deeplink to chanage password /#/open/change-password
@@ -701,7 +713,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runMakeOfferNFTGoal = function* (goal: GoalType) {
+  const runMakeOfferNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
       actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
@@ -716,7 +728,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runBuyNFTGoal = function* (goal: GoalType) {
+  const runBuyNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
       actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
@@ -730,6 +742,11 @@ export default ({ api, coreSagas, networks }) => {
         walletUserIsAssetOwnerHack: false
       })
     )
+  }
+
+  const runDeeplinkNftGoal = function* (goal: GoalType) {
+    yield take(actions.auth.loginSuccess)
+    yield put(actions.router.push(`/${goal.data.pathname}`))
   }
 
   const runInterestRedirect = function* (goal: GoalType) {
@@ -976,10 +993,13 @@ export default ({ api, coreSagas, networks }) => {
           yield call(runInterestPromo, goal)
           break
         case 'make-offer-nft':
-          yield call(runMakeOfferNFTGoal, goal)
+          yield call(runMakeOfferNftGoal, goal)
           break
         case 'buy-nft':
-          yield call(runBuyNFTGoal, goal)
+          yield call(runBuyNftGoal, goal)
+          break
+        case 'nfts':
+          yield call(runDeeplinkNftGoal, goal)
           break
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)
@@ -1066,10 +1086,12 @@ export default ({ api, coreSagas, networks }) => {
     // yield put(actions.goals.saveGoal('airdropClaim'))
   }
 
-  // watch for /open calls and run the goals
-  const routerChanged = function* () {
-    // yield call(defineGoals)
-    // yield call(runGoals)
+  // watch for /open/nft calls and run the goals
+  const routerChanged = function* (action) {
+    if (action?.payload?.location?.pathname?.includes('open')) {
+      yield call(defineGoals)
+      yield call(runGoals)
+    }
   }
 
   return {

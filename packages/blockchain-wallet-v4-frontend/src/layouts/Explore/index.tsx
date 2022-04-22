@@ -32,7 +32,8 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   ethAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  pathname: selectors.router.getPathname(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

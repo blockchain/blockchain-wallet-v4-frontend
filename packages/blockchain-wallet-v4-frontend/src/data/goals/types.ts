@@ -16,6 +16,7 @@ export type GoalsType =
   | 'buySell'
   | 'buy-nft'
   | 'make-offer-nft'
+  | 'nfts'
   | 'settings'
   | 'swap'
   | 'swapGetStarted'
@@ -65,6 +66,7 @@ export enum DeepLinkGoal {
   LINK_ACCOUNT = 'link-account',
   LOG_LEVEL = 'log-level',
   MAKE_OFFER_NFT = 'make-offer-nft',
+  NFTS = 'nfts',
   REFERRAL = 'referral',
   REWARDS = 'rewards',
   SETTINGS = 'settings',
