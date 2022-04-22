@@ -697,28 +697,87 @@ const NftAsset: React.FC<Props> = ({
                           </EthText>
                         </>
                       ) : null}
-                      <Button
-                        data-e2e='openNftFlow'
-                        nature='primary'
-                        jumbo
-                        fullwidth
-                        onClick={() => {
-                          if (lowest_order) {
+                      {owner?.address !== defaultEthAddr && (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          onClick={() => {
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
-                              order: lowest_order,
-                              step: NftOrderStepEnum.BUY,
+                              step: NftOrderStepEnum.MARK_FOR_SALE,
                               token_id: id,
                               walletUserIsAssetOwnerHack: false
                             })
                             analyticsActions.trackEvent({
-                              key: Analytics.NFT_BUY_NOW_CLICKED,
+                              key: Analytics.NFT_MARK_FOR_SALE,
                               properties: {
                                 collection: collectionName,
                                 collection_id: id
                               }
                             })
-                          } else {
+                          }}
+                        >
+                          <FormattedMessage id='copy.buy' defaultMessage='Mark For Sale' />
+                        </Button>
+                      )}
+                      {lowest_order ? (
+                        <div style={{ display: 'flex' }}>
+                          <Button
+                            data-e2e='openNftFlow'
+                            nature='primary'
+                            jumbo
+                            style={{ marginRight: '1em', width: '10em' }}
+                            onClick={() => {
+                              nftsActions.nftOrderFlowOpen({
+                                asset_contract_address: contract,
+                                order: lowest_order,
+                                step: NftOrderStepEnum.BUY,
+                                token_id: id,
+                                walletUserIsAssetOwnerHack: false
+                              })
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_BUY_NOW_CLICKED,
+                                properties: {
+                                  collection: collectionName,
+                                  collection_id: id
+                                }
+                              })
+                            }}
+                          >
+                            <FormattedMessage id='copy.buy' defaultMessage='Buy Now' />
+                          </Button>
+                          <Button
+                            data-e2e='openNftFlow'
+                            nature='dark'
+                            jumbo
+                            style={{ width: '10em' }}
+                            onClick={() => {
+                              nftsActions.nftOrderFlowOpen({
+                                asset_contract_address: contract,
+                                step: NftOrderStepEnum.MAKE_OFFER,
+                                token_id: id,
+                                walletUserIsAssetOwnerHack: false
+                              })
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
+                                properties: {}
+                              })
+                            }}
+                          >
+                            <FormattedMessage
+                              id='copy.make_an_offer'
+                              defaultMessage='Make an Offer'
+                            />
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          style={{ width: '20em' }}
+                          onClick={() => {
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
                               step: NftOrderStepEnum.MAKE_OFFER,
@@ -729,20 +788,14 @@ const NftAsset: React.FC<Props> = ({
                               key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
                               properties: {}
                             })
-                          }
-                        }}
-                      >
-                        {highest_bid ? (
-                          <FormattedMessage id='copy.place_an_bid' defaultMessage='Place Bid' />
-                        ) : lowest_order ? (
-                          <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-                        ) : (
+                          }}
+                        >
                           <FormattedMessage
                             id='copy.make_an_offer'
                             defaultMessage='Make an Offer'
                           />
-                        )}
-                      </Button>
+                        </Button>
+                      )}
                     </CurrentPriceBox>
                     <CustomTabMenu>
                       <TabMenuItem

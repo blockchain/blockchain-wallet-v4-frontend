@@ -69,8 +69,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.amount = ''
     formValues.starting = ''
     formValues.ending = ''
-    formValues.listingTime = ''
-    formValues.expirationTime = ''
+    formValues.expirationDays = 1
     formValues.timedAuctionType = 'decliningPrice'
   }
 
@@ -161,8 +160,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         onChange={(e) =>
                           nftActions.fetchFees({
                             asset: val,
-                            expirationTime: formValues.expirationTime,
-                            listingTime: formValues.listingTime,
+                            expirationDays: formValues.expirationDays,
                             operation: GasCalculationOperations.Sell,
                             startPrice: e.target.value
                           })
@@ -263,8 +261,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                             nftActions.fetchFees({
                               asset: val,
                               endPrice: undefined,
-                              expirationTime: formValues.expirationTime,
-                              listingTime: formValues.listingTime,
+                              expirationDays: formValues.expirationDays,
                               operation: GasCalculationOperations.Sell,
                               paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                               startPrice: Number(formValues.starting)
@@ -286,37 +283,40 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </>
               )}
               <Row>
-                <DateSelectRow>
-                  <DateLabel size='14px' weight={500} capitalize>
-                    <FormattedMessage
-                      id='modals.transactions.report.startdate'
-                      defaultMessage='start date'
-                    />
-                  </DateLabel>
-                  <EndDateLabel size='14px' weight={500} capitalize>
-                    <FormattedMessage
-                      id='modals.transactions.report.enddate'
-                      defaultMessage='end date'
-                    />
-                  </EndDateLabel>
-                </DateSelectRow>
-                <DateSelectRow>
+                <Title>
+                  <b>
+                    <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
+                  </b>
+                </Title>
+                <Value>
                   <Field
-                    dateFormat='MM/DD/YYYY'
-                    fullwidth
-                    name='listingTime'
-                    validate={[required]}
-                    component={DateBoxDebounced}
+                    name='expirationDays'
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(days: any) => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    }}
+                    component={SelectBox}
+                    elements={[
+                      {
+                        group: '',
+                        items: map(
+                          (item) => ({
+                            text: item.text,
+                            value: item.value
+                          }),
+                          [
+                            { text: '1 Day', value: 1 },
+                            { text: '3 Days', value: 3 },
+                            { text: '7 Days', value: 7 },
+                            { text: '1 Months', value: 30 },
+                            { text: '3 Months', value: 90 },
+                            { text: '6 Months', value: 180 }
+                          ]
+                        )
+                      }
+                    ]}
                   />
-                  <DateDivider />
-                  <Field
-                    dateFormat='MM/DD/YYYY'
-                    fullwidth
-                    name='expirationTime'
-                    validate={[required]}
-                    component={DateBoxDebounced}
-                  />
-                </DateSelectRow>
+                </Value>
               </Row>
               <Row>
                 <Value asTitle>
@@ -361,9 +361,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.amount),
                           waitForHighestBid: false
@@ -376,9 +375,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: true
@@ -389,9 +387,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: Number(formValues.ending),
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: false
@@ -431,8 +428,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMarkForSale')(state) as {
     amount: string
     ending: string
-    expirationTime: string
-    listingTime: string
+    expirationDays: number
     starting: string
     timedAuctionType: string
   }
