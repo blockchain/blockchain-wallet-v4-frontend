@@ -60,6 +60,7 @@ const Wrapper = styled(NftPage)`
 const Top = styled.div`
   ${media.atLeastTabletL`
   display: flex;
+  padding-top: 3em;
   `}
   display: block;
 `
@@ -78,7 +79,6 @@ const LeftColWrapper = styled.div`
   `}
   }
   padding-right: 3em;
-  margin-right: 2em;
 
   top: 64px;
   background: ${(props) => props.theme.white};
@@ -183,7 +183,7 @@ const Highest = styled(Text)`
 const CustomTabMenu = styled(TabMenu)`
   color: ${colors.grey900};
   margin: 24px 0;
-  background: white;
+  background: ${colors.grey000};
 `
 
 const EthText = styled(Highest)`
@@ -414,11 +414,12 @@ const NftAsset: React.FC<Props> = ({
                         width='100%'
                         style={{
                           border: `1px solid ${colors.grey100}`,
-                          borderRadius: '10%',
+                          borderRadius: '8px',
                           borderWidth: '1px',
+                          boxShadow: `inset 0px 0px 10px 0px  ${colors.grey000}`,
                           boxSizing: 'border-box',
                           marginBottom: '0.5rem',
-                          padding: '10px'
+                          padding: '30px'
                         }}
                         src={currentAsset.image_url || ''}
                       />
@@ -499,23 +500,36 @@ const NftAsset: React.FC<Props> = ({
                         justifyContent: 'space-between'
                       }}
                     >
-                      <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
-                        <CollectionName>
-                          <img
-                            alt='Dapp Logo'
-                            height='30px'
-                            width='auto'
-                            style={{
-                              borderRadius: '50%',
-                              paddingRight: '2px'
-                            }}
-                            src={currentAsset.collection?.image_url || ''}
-                          />
-                          <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                            {currentAsset.collection?.name}
-                          </div>
-                        </CollectionName>
-                      </CustomLink>
+                      <div style={{ display: 'block' }}>
+                        <Text
+                          size='14px'
+                          weight={600}
+                          style={{
+                            alignItems: 'center',
+                            lineHeight: '20px',
+                            padding: '0em 0em 1em 0em'
+                          }}
+                        >
+                          Collection
+                        </Text>
+                        <CustomLink to={`/nfts/${currentAsset.collection?.slug}`}>
+                          <CollectionName>
+                            <img
+                              alt='Dapp Logo'
+                              height='30px'
+                              width='auto'
+                              style={{
+                                borderRadius: '50%',
+                                paddingRight: '2px'
+                              }}
+                              src={currentAsset.collection?.image_url || ''}
+                            />
+                            <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
+                              {currentAsset.collection?.name}
+                            </div>
+                          </CollectionName>
+                        </CustomLink>
+                      </div>
                     </div>
                     <AssetName>
                       {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}
@@ -801,7 +815,7 @@ const NftAsset: React.FC<Props> = ({
                             <Text size='16px' weight={500} color='grey900'>
                               Blockchain
                             </Text>{' '}
-                            <Text size='16px' weight={600} color={colors.grey900}>
+                            <Text size='16px' weight={500} color='grey600'>
                               Ethereum
                             </Text>
                           </Detail>
@@ -836,7 +850,7 @@ const NftAsset: React.FC<Props> = ({
                               Token ID
                             </Text>
 
-                            <TokenDisplay size='16px' weight={600} color={colors.grey900}>
+                            <TokenDisplay size='16px' weight={600} color='grey600'>
                               {currentAsset.token_id}{' '}
                             </TokenDisplay>
                           </Detail>
@@ -844,7 +858,7 @@ const NftAsset: React.FC<Props> = ({
                             <Text size='16px' weight={500} color='grey900'>
                               Token Standard
                             </Text>{' '}
-                            <Text size='16px' weight={600} color={colors.grey900}>
+                            <Text size='16px' weight={600} color='grey600'>
                               {currentAsset.contract?.schema_name}
                             </Text>
                           </Detail>
