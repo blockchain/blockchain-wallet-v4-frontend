@@ -253,7 +253,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
-          actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
+          actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
 
@@ -266,7 +266,7 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            // yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            // yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login))
             return
           }
           if (product === ProductAuthOptions.WALLET) {
@@ -434,16 +434,8 @@ export default ({ api, coreSagas, networks }) => {
         // loginRoutineSaga for both. login routine
         // catches whether account is exchange or not
         case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
-          // if (product === ProductAuthOptions.WALLET) {
           yield call(loginRoutineSaga, {})
-          // } else if (product === ProductAuthOptions.EXCHANGE) {
-          //   // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
-          //   // HOW DO WE RETRIEVE KV STORE
-          //   yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
-          // } else {
-          //   // If product is undefined, show user product picker to choose
-          //   actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
-          // }
+
           break
         default:
           yield call(loginRoutineSaga, {})

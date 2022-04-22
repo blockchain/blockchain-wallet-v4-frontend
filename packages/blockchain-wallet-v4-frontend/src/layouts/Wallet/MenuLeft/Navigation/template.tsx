@@ -160,7 +160,9 @@ const Navigation = (props: OwnProps & Props) => {
       </LinkContainer>
       <ExchangeMenuItem
         data-e2e='exchangeLink'
-        onClick={() => props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.SideMenu)}
+        onClick={() =>
+          props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu)
+        }
       >
         <ExchangeNavItem {...props} />
       </ExchangeMenuItem>

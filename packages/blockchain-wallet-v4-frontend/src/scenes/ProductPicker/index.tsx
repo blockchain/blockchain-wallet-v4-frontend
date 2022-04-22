@@ -22,7 +22,7 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
 
   const exchangeRedirect = () => {
     props.signupActions.setRegisterEmail(undefined)
-    props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.Signup)
+    props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
   }
 
   return props.walletLoginData.cata({

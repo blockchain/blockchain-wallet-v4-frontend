@@ -309,7 +309,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const getExchangeLoginToken = function* (action) {
+  const authAndRouteToExchangeAction = function* (action) {
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
@@ -566,6 +566,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,
     createUser,
@@ -576,7 +577,6 @@ export default ({ api, coreSagas, networks }) => {
     generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
-    getExchangeLoginToken,
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,

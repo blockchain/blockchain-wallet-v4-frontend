@@ -177,7 +177,9 @@ export default ({ api, coreSagas, networks }) => {
       // if user is resetting their account and
       // want to go to the Exchange
       if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
-        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+        yield put(
+          actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+        )
         return
       }
       // fetch user in new wallet
