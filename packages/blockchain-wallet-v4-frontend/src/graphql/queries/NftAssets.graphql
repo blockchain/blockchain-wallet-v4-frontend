@@ -14,7 +14,7 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
       payment_token {
         symbol
       }
-      total_price
+      starting_price
     }
     collection {
       name

@@ -542,7 +542,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Event', starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -558,7 +558,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, contract?: { __typename?: 'Contract', address: string } | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -2342,7 +2342,7 @@ export const AssetsDocument = gql`
       payment_token {
         symbol
       }
-      total_price
+      starting_price
     }
     collection {
       name
@@ -2393,6 +2393,9 @@ export const EventsDocument = gql`
       name
       token_id
       image_url
+      contract {
+        address
+      }
     }
     total_price
     bid_amount

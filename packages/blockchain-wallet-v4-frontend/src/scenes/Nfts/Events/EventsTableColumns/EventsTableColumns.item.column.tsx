@@ -1,7 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
+import { Link } from 'blockchain-info-components'
 import { CellHeaderText, CellText } from 'components/Table'
 
 const ItemCell = styled(CellText)`
@@ -17,10 +19,16 @@ const AssetImage = styled.img`
 
 export const getItemColumn = () => ({
   Cell: ({ row: { original: values } }) => {
+    if (!values.asset?.name) return null
+
     return (
       <ItemCell>
         <AssetImage alt='asset' src={values.asset?.image_url} />
-        {values.asset?.name}
+        <LinkContainer to={`/nfts/${values.asset?.contract?.address}/${values.asset?.token_id}`}>
+          <Link size='14px' weight={600} color='grey900'>
+            {values.asset?.name}
+          </Link>
+        </LinkContainer>
       </ItemCell>
     )
   },

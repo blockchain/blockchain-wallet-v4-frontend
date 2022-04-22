@@ -5,6 +5,9 @@ query Events($filter: [EventFilter], $limit:Int, $offset: Int) {
       name
       token_id
       image_url
+      contract {
+        address
+      }
     }
     total_price
     bid_amount

@@ -129,6 +129,11 @@ export const AssetImageContainer = styled.div<{
 `
 export const AssetDetails = styled.div`
   padding: 12px 8px;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: ${(props) => props.theme.white};
   ${media.laptopL`
     padding-bottom: 4px;
