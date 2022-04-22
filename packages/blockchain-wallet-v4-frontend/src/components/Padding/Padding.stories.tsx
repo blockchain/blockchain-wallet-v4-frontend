@@ -10,12 +10,12 @@ const paddingStoriesMeta: ComponentMeta<PaddingComponent> = {
     }
   },
   component: Padding,
-  title: 'Components/Padding'
+  title: 'Structural/Padding'
 }
 
-const Template: ComponentStory<PaddingComponent> = ({ bottom, children, left, right, top }) => (
+const Template: ComponentStory<PaddingComponent> = ({ children, ...rest }) => (
   <div style={{ backgroundColor: 'blue', color: 'white' }}>
-    <Padding top={top} bottom={bottom} left={left} right={right}>
+    <Padding {...rest}>
       <div style={{ backgroundColor: 'red' }}>{children}</div>
     </Padding>
   </div>
