@@ -17,7 +17,7 @@ export type BuildTxIntentType = {
   destination: string
   fee: BuildTxFeeType | string
   maxVerificationVersion?: number
-  source: { descriptor: 'legacy'; pubKey: string; style: 'SINGLE' }
+  sources: [{ descriptor: 'legacy'; pubKey: string; style: 'SINGLE' }]
   type: 'PAYMENT'
 }
 
