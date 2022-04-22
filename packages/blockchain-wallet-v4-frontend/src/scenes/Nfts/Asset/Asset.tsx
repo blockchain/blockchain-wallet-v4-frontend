@@ -61,7 +61,6 @@ const Wrapper = styled(NftPage)`
 const Top = styled.div`
   ${media.atLeastTabletL`
   display: flex;
-  padding-top: 3em;
   `}
   display: block;
 `
@@ -435,7 +434,7 @@ const NftAsset: React.FC<Props> = ({
                         />
                       </SocialLink>
                     )}
-                    <SocialLink>
+                    {/* <SocialLink>
                       <BlockchainIcon
                         onClick={() => {
                           analyticsActions.trackEvent({
@@ -449,7 +448,7 @@ const NftAsset: React.FC<Props> = ({
                         name='ellipsis'
                         size='4px'
                       />
-                    </SocialLink>
+                    </SocialLink> */}
                   </Socials>
                 </div>
               </StickyWrapper>
@@ -662,7 +661,7 @@ const NftAsset: React.FC<Props> = ({
                       })
                     }}
                   >
-                    <FormattedMessage id='copy.buy' defaultMessage='Mark For Sale' />
+                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark For Sale' />
                   </Button>
                 )}
                 {lowest_order ? (
@@ -689,7 +688,7 @@ const NftAsset: React.FC<Props> = ({
                         })
                       }}
                     >
-                      <FormattedMessage id='copy.buy' defaultMessage='Buy Now' />
+                      <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                     </Button>
                     <Button
                       data-e2e='openNftFlow'
@@ -737,21 +736,21 @@ const NftAsset: React.FC<Props> = ({
               </CurrentPriceBox>
               <CustomTabMenu>
                 <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
-                  <FormattedMessage id='copy.day' defaultMessage='About' />
+                  <FormattedMessage id='copy.about' defaultMessage='About' />
                 </TabMenuItem>
                 <TabMenuItem
                   width='33%'
                   onClick={() => setTab('activity')}
                   selected={Tab === 'activity'}
                 >
-                  <FormattedMessage id='copy.week' defaultMessage='Activity' />
+                  <FormattedMessage id='copy.activity' defaultMessage='Activity' />
                 </TabMenuItem>
                 <TabMenuItem
                   width='33%'
                   onClick={() => setTab('offers')}
                   selected={Tab === 'offers'}
                 >
-                  <FormattedMessage id='copy.week' defaultMessage='Offers' />
+                  <FormattedMessage id='copy.offers' defaultMessage='Offers' />
                 </TabMenuItem>
               </CustomTabMenu>
               {Tab === 'about' && (
