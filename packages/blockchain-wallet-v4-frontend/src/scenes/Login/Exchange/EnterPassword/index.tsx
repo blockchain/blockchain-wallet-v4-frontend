@@ -27,18 +27,17 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterPasswordExchange = (props: Props) => {
   const {
-    authActions,
-    busy,
+    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     submitting,
     walletTabClicked
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
-
   return (
     <LoginWrapper>
       <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
@@ -48,6 +47,7 @@ const EnterPasswordExchange = (props: Props) => {
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
           marginTop='28px'
+          platform={magicLinkData?.platform_type}
           product={ProductAuthOptions.EXCHANGE}
         />
         <FormGroup>
@@ -82,11 +82,11 @@ const EnterPasswordExchange = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.exchangePassword}
+            disabled={submitting || invalid || !formValues?.exchangePassword}
             data-e2e='passwordButton'
             style={{ marginBottom: '16px' }}
           >
-            {submitting || busy ? (
+            {submitting ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <Text color='whiteFade900' size='16px' weight={600}>
@@ -95,13 +95,13 @@ const EnterPasswordExchange = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='PASSWORD'
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

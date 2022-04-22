@@ -388,7 +388,7 @@ type LinkStatePropsType = SuccessStateType
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   reduxForm({
     form: model.form.WALLET_TX_SEARCH,
     initialValues: { source: 'all' }

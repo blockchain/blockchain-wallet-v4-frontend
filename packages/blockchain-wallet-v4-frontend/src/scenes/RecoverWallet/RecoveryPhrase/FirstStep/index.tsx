@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { TextArea } from 'components/Form'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import { required, validMnemonic } from 'services/forms'
 
 import { Props } from '../..'
@@ -25,10 +25,16 @@ const FormBody = styled.div`
 `
 
 const FirstStep = (props: Props) => {
-  const { formActions, invalid, nabuId, setStep, submitting } = props
+  const { analyticsActions, formActions, invalid, nabuId, setStep, submitting } = props
   const resetAccountClicked = () => {
     formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_ACCOUNT)
-    props.authActions.analyticsResetAccountClicked('RECOVERY_PHRASE')
+    analyticsActions.trackEvent({
+      key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
+      properties: {
+        origin: 'RECOVERY_PHRASE',
+        site_redirect: 'WALLET'
+      }
+    })
   }
   return (
     <OuterWrapper>

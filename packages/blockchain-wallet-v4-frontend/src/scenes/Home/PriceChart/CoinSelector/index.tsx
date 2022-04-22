@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose<any>(reduxForm({ form: 'priceChartCoin' }), connector)
+const enhance = compose<React.ComponentType>(reduxForm({ form: 'priceChartCoin' }), connector)
 
 type Props = ConnectedProps<typeof connector>
 

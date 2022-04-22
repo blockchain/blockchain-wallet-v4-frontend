@@ -11,7 +11,7 @@ export const getData = (state: RootState): { currentStep: number } => {
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
-  const isFirstLogin = selectors.auth.getFirstLogin(state)
+  const isFirstLogin = selectors.signup.getFirstLogin(state)
 
   if (isFirstLogin || isKycStateNone) {
     return { currentStep }

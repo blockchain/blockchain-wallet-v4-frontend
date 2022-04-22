@@ -37,6 +37,7 @@
         "addStripePaymentProvider": false,
         "coinViewV2": true,
         "completeYourProfile": true,
+        "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
@@ -54,8 +55,9 @@
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
-        "walletDebitCardEnabled": true,
-        "withdrawalLocksFundsOnHold": true
+        "withdrawalLocksFundsOnHold": true,
+        "unifiedAccountLogin": true,
+        "walletDebitCardEnabled": true
       }
     }
   },

@@ -18,9 +18,6 @@ import {
 import { isBrowserSupported } from 'services/browser'
 
 import Loading from '../loading.public'
-import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
-import UpgradePassword from './AccountUnification/UpgradePassword'
-import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -79,11 +76,17 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   handleBackArrowClickWallet = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeWalletLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeExchangeLogin()
+    }
   }
 
   handleBackArrowClickExchange = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeExchangeLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeWalletLogin()
+    }
   }
 
   exchangeTabClicked = () => {
@@ -133,18 +136,18 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { exchangeLoginData, formValues, productAuthMetadata, walletLoginData } = this.props
+    const { exchangeLoginDataR, formValues, productAuthMetadata, walletLoginDataR } = this.props
     const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
 
-    const { exchangeError } = exchangeLoginData.cata({
+    const { exchangeError } = exchangeLoginDataR.cata({
       Failure: (val) => ({ busy: false, exchangeError: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, exchangeError: null }),
       Success: () => ({ busy: false, exchangeError: null })
     })
 
-    const { busy, walletError } = walletLoginData.cata({
+    const { busy, walletError } = walletLoginDataR.cata({
       Failure: (val) => ({ busy: false, walletError: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, walletError: null }),
@@ -207,12 +210,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.UPGRADE_CONFIRM:
-                return <MergeAccountConfirm {...loginProps} />
-              case LoginSteps.UPGRADE_PASSWORD:
-                return <UpgradePassword {...loginProps} />
-              case LoginSteps.UPGRADE_SUCCESS:
-                return <UpgradeSuccess {...loginProps} />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -240,15 +237,16 @@ const mapStateToProps = (state) => ({
   authType: selectors.auth.getAuthType(state) as Number,
   cache: selectors.cache.getCache(state),
   data: getData(state),
-  exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
+  exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
+  goals: selectors.goals.getGoals(state),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
-  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
+  walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -272,7 +270,7 @@ type OwnProps = {
   pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
-  walletError?: any
+  walletError?: string
   walletTabClicked?: () => void
 }
 
@@ -281,6 +279,6 @@ type StateProps = {
 }
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
-const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
+const enhance = compose<React.ComponentType>(reduxForm({ form: LOGIN_FORM }), connector)
 
 export default enhance(Login)

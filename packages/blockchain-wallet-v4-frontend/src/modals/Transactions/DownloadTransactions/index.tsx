@@ -23,7 +23,7 @@ export type StateProps = {
 export type OwnProps = {
   closeAll: () => void
   coin: CoinType
-  csvData: any
+  csvData: Array<string>
   position: number
   total: number
 }
@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
   }
 }
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.TRANSACTION_REPORT_MODAL),
   connect(mapStateToProps, mapDispatchToProps)
 )

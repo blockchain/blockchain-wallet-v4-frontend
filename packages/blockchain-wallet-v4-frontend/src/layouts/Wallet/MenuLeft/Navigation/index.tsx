@@ -24,7 +24,8 @@ const mapDispatchToProps = (dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   getCardProductsAction: bindActionCreators(actions.components.debitCard.getProducts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const mapStateToProps = (state) => ({

@@ -9,10 +9,12 @@ export type GoalsType =
   | 'kyc'
   | 'kycDocResubmit'
   | 'linkAccount'
+  | 'changePassword'
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
   | 'buySell'
+  | 'settings'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
@@ -30,6 +32,16 @@ export type BuySellWidgetGoalDataType = {
   crypto: CoinType
   email?: string
   fiatCurrency: WalletFiatType
+}
+
+enum SettingsChangeType {
+  EMAIL = 'email',
+  PASSWORD = 'password',
+  TWOFA = '2fa'
+}
+export type SettingsGoalDataType = {
+  guid: string
+  settingsChange: SettingsChangeType
 }
 
 export type GoalsState = {
@@ -51,6 +63,7 @@ export enum DeepLinkGoal {
   LOG_LEVEL = 'log-level',
   REFERRAL = 'referral',
   REWARDS = 'rewards',
+  SETTINGS = 'settings',
   SIMPLE_BUY = 'simple-buy',
   SWAP = 'swap',
   WALLET_CONNECT = 'wc'

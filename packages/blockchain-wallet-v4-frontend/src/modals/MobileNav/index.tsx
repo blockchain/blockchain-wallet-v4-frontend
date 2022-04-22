@@ -39,6 +39,6 @@ type OwnPropsType = {
 
 type Props = OwnPropsType
 
-const enhance = compose<any>(modalEnhancer(ModalName.MOBILE_NAV))
+const enhance = compose<React.ComponentType>(modalEnhancer(ModalName.MOBILE_NAV))
 
 export default enhance(MobileNavContainer)

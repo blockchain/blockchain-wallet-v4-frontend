@@ -35,33 +35,15 @@ export enum LoginSteps {
   PRODUCT_PICKER_BEFORE_AUTHENTICATION = 'PRODUCT_PICKER_BEFORE_AUTHENTICATION',
   TWO_FA_EXCHANGE = 'TWO_FA_EXCHANGE',
   TWO_FA_WALLET = 'TWO_FA_WALLET',
-  UPGRADE_CONFIRM = 'UPGRADE_CONFIRM',
-  UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
-  UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
+
+export enum MergeSteps {}
 
 export enum PlatformTypes {
   ANDROID = 'ANDROID',
   IOS = 'IOS',
   WEB = 'WEB'
-}
-
-export enum RecoverSteps {
-  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
-  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
-  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
-  RESET_ACCOUNT = 'RESET_ACCOUNT',
-  RESET_PASSWORD = 'RESET_PASSWORD'
-}
-
-export type RecoverFormType = {
-  email?: string
-  mnemonic?: string
-  password: string
-  recoverPassword?: string
-  resetAccountPassword?: string
-  step: RecoverSteps
 }
 
 export type LoginRoutinePayloadType = {
@@ -141,7 +123,9 @@ export type AuthMagicLink = {
   }
 }
 
-export type LoginErrorType =
+export type LoginSuccessType = boolean
+export type LoginFailureType = string | boolean | undefined
+export type LoginApiErrorType =
   | {
       auth_type: number
       authorization_required: boolean
@@ -157,22 +141,6 @@ export type ExchangeLoginFailureType = any
 
 export type ExchangeResetPasswordSuccessType = any
 
-export type ExchangeResetPasswordFailureType = any
-
-export type LoginSuccessType = boolean
-
-export type LoginFailureType = string | boolean | undefined
-
-export type MetadataRestoreType = any
-
-export type RegisteringFailureType = undefined
-
-export type RegisteringSuccessType = undefined
-
-export type RestoringType = undefined
-
-export type SecureChannelLoginType = undefined
-
 export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
@@ -185,27 +153,41 @@ export type AuthStateType = {
   auth_type: number
   authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
   exchangeAuth: {
+    exchangeAccountConflict?: boolean
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
     jwtToken?: string
     resetPassword?: RemoteDataType<string, string>
   }
-  firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean
-  kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
   magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string
   manifestFile: null
-  metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
   productAuthMetadata: ProductAuthMetadata
   registerEmail?: string
-  registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean
-  restoring: RemoteDataType<string, RestoringType>
-  secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
+  secureChannelLogin: RemoteDataType<string, undefined>
+}
+
+export type MagicLinkRequestPayloadType = {
+  captchaToken: string
+  email: string
+}
+
+export type ContinueLoginProcessPayloadType = {
+  captchaToken?: string
+  initCaptcha: () => void
+}
+
+export type LoginPayloadType = {
+  code?: string
+  guid: string
+  mobileLogin: boolean | null
+  password: string
+  sharedKey: string | null
 }
 
 //
