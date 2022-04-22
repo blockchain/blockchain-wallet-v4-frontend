@@ -71,7 +71,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     token_id: string
   ): { orders: OpenSeaOrder[] } => {
     return get({
-      endPoint: `/orders/${asset_contract_address}/${token_id}`,
+      endPoint: `/orders?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
