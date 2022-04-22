@@ -5,6 +5,7 @@ import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import {
   AssetFilterFields,
@@ -18,23 +19,21 @@ import {
   AssetCollection,
   AssetDetails,
   AssetImageContainer,
-  PriceCTA,
-  StyledCoinDisplay
-} from '../components'
-import { NftFilterFormValuesType } from '../NftFilter'
+  PriceCTA
+} from '../../components'
+import { NftFilterFormValuesType } from '../../NftFilter'
+import { getTraitFilters } from '../../utils/NftUtils'
 
-const ResultsPage: React.FC<Props> = ({
+const CollectionItemsResults: React.FC<Props> = ({
   formValues,
   page,
   setIsFetchingNextPage,
   setNextPageFetchError,
   slug
 }) => {
-  const traits = formValues
-    ? Object.keys(formValues).filter((key) => key !== 'min' && key !== 'max')
-    : []
+  const traits = getTraitFilters(formValues)
 
-  const traitFilter = traits.reduce((acc, trait) => {
+  const traitFilter = traits?.reduce((acc, trait) => {
     Object.keys(formValues[trait]).map((value) => {
       if (formValues[trait][value]) {
         acc.push({ trait_type: trait, value })
@@ -75,13 +74,13 @@ const ResultsPage: React.FC<Props> = ({
   return (
     <>
       {result?.data?.assets?.map((asset) => {
-        const highestListing = asset.listing
-          ? asset.listing.sort((a, b) => Number(b?.total_price) - Number(a?.total_price))[0]
+        const lowestListing = asset.listings
+          ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
           : null
 
         return asset ? (
           <Asset key={asset?.token_id}>
-            <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
+            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
               <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
             <AssetDetails>
@@ -101,25 +100,24 @@ const ResultsPage: React.FC<Props> = ({
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  {highestListing && highestListing.total_price ? (
-                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                      <StyledCoinDisplay
+                  {lowestListing && lowestListing.starting_price ? (
+                    <Text color='black' style={{ marginTop: '4px', textAlign: 'left' }}>
+                      <CoinDisplay
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={highestListing.payment_token_symbol}
+                        coin={lowestListing.payment_token?.symbol || 'ETH'}
                       >
-                        {highestListing.total_price}
-                      </StyledCoinDisplay>
-                      &nbsp;-&nbsp;
+                        {lowestListing.starting_price}
+                      </CoinDisplay>
                       <FiatDisplay
                         size='12px'
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={highestListing.payment_token_symbol}
+                        coin={lowestListing.payment_token?.symbol || 'ETH'}
                       >
-                        {highestListing.total_price}
+                        {lowestListing.starting_price}
                       </FiatDisplay>
                     </Text>
                   ) : (
@@ -136,7 +134,7 @@ const ResultsPage: React.FC<Props> = ({
                     </Text>
                   )}
                 </div>
-                <LinkContainer to={`/nfts/${asset.contract?.address}/${asset.token_id}`}>
+                <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
                   <Button data-e2e='nftAssetPage' nature='primary' small>
                     <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                   </Button>
@@ -158,4 +156,4 @@ type Props = {
   slug: string
 }
 
-export default ResultsPage
+export default CollectionItemsResults

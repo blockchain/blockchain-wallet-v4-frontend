@@ -6,6 +6,8 @@ import { media } from 'services/styles'
 
 export const maxWidth = '1200px'
 
+export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
+
 export const NftPage = styled.div`
   width: 100%;
   max-width: ${maxWidth};
@@ -57,7 +59,7 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
   }
   ${media.atLeastLaptopL`
     > div {
-      grid-template-columns: repeat(3, minmax(0, 1fr));  
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   `}
 `
@@ -79,10 +81,10 @@ export const Grid = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
   ${media.atLeastLaptop`
-    grid-template-columns: repeat(3, minmax(0, 1fr));  
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   `}
   ${media.atLeastLaptopL`
-    grid-template-columns: repeat(4, minmax(0, 1fr));  
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   `}
 `
 
@@ -97,6 +99,10 @@ export const Asset = styled.div`
   display: flex;
   flex-direction: column;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
+  &:hover {
+    transform: scale(1.02);
+    -webkit-transition: transform 0.1s ease-in-out;
+  }
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -127,6 +133,11 @@ export const AssetImageContainer = styled.div<{
 `
 export const AssetDetails = styled.div`
   padding: 12px 8px;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: ${(props) => props.theme.white};
   ${media.laptopL`
     padding-bottom: 4px;

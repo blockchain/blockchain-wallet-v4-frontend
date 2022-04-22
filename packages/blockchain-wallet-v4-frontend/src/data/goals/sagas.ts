@@ -659,7 +659,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const runMakeOfferNFTGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
-    yield put(actions.router.push(`/nfts/${goal.data.contract_address}/${goal.data.token_id}`))
+    yield put(
+      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+    )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
@@ -672,7 +674,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const runBuyNFTGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
-    yield put(actions.router.push(`/nfts/${goal.data.contract_address}/${goal.data.token_id}`))
+    yield put(
+      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+    )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
@@ -1011,8 +1015,8 @@ export default ({ api, coreSagas, networks }) => {
 
   // watch for /open calls and run the goals
   const routerChanged = function* () {
-    yield call(defineGoals)
-    yield call(runGoals)
+    // yield call(defineGoals)
+    // yield call(runGoals)
   }
 
   return {

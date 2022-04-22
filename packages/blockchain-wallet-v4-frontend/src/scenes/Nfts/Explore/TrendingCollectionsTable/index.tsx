@@ -7,8 +7,8 @@ import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'compo
 import { Props as OwnProps } from '..'
 import { getFloorPriceColumn } from './floor_price'
 import { getNameColumn } from './name.column'
-import { getOwnersColumn } from './owners'
-import { getTotalSupplyColumn } from './supply'
+import { getOwnersColumn } from './owners.column'
+import { getTotalSupplyColumn } from './supply.column'
 import { getVolumeColumn } from './volume.column'
 
 export const getTableColumns = (routerActions) => [

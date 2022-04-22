@@ -259,10 +259,11 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
     selectors.components.utils.getCoinsWithBalanceOrMethod,
+    selectors.core.settings.getCurrency,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, state: RootState) => {
-    const transform = (coins: ExtractSuccess<typeof coinsR>) => {
+  (recentSwapTxsR, coinsR, currencyR, state: RootState) => {
+    const transform = (coins: ExtractSuccess<typeof coinsR>, currency) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
         if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
@@ -270,8 +271,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
 
         const coinA = a.symbol
         const coinB = b.symbol
-        // doesnt really matter
-        const currency = 'USD'
 
         const defaultRate = { price: 1 }
 
@@ -327,6 +326,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
       return [...coinsWithBalance, ...coinsWithoutBalanceToTrack].sort(coinSort) as CoinfigType[]
     }
 
-    return lift(transform)(coinsR)
+    return lift(transform)(coinsR, currencyR)
   }
 )

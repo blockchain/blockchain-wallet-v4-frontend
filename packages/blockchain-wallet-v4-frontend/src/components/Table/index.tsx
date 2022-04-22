@@ -7,8 +7,6 @@ export const TableWrapper = styled.div`
   max-width: 100%;
   height: 100%;
   width: 100%;
-  min-width: 1200px;
-
   .tableWrap {
     display: block;
     max-width: 100%;
@@ -38,21 +36,26 @@ export const TableWrapper = styled.div`
     }
 
     .td {
-      border-top: 1px solid ${(props) => props.theme.grey100};
       height: 75px;
       padding-top: 0;
       padding-bottom: 0;
     }
 
     .tr {
+      border-top: 1px solid ${(props) => props.theme.grey100};
       display: table;
       width: 100%;
+      &:first-child {
+        border-top: 0px;
+      }
     }
   }
 `
 export const StickyTableHeader = styled.div`
   position: sticky;
   top: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   border-bottom: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
 `
@@ -74,11 +77,6 @@ export const HeaderText = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  > :last-child {
-    margin-left: 8px;
-    margin-top: -2px;
-  }
 `
 export const HeaderToggle = styled.span`
   color: ${(props) => props.theme.grey500};

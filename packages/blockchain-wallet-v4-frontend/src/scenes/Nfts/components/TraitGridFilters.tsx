@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
@@ -13,6 +14,7 @@ import { Analytics } from 'data/types'
 import { AssetSortFields } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'
+import EventTypeName from './EventTypeName'
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
@@ -40,42 +42,52 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 `
 
 const TraitGridFilters: React.FC<Props> = ({
+  activeTab,
   analyticsActions,
   collectionFilter,
+  eventFilter,
   formActions,
   formValues,
   hasSomeFilters,
   minMaxFilters,
+  setActiveTab,
   traitFilters
 }) => {
   return (
     <>
       <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
         <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem selected>Items</TabMenuItem>
+          <TabMenuItem selected={activeTab === 'ITEMS'} onClick={() => setActiveTab('ITEMS')}>
+            <FormattedMessage id='copy.items' defaultMessage='Items' />
+          </TabMenuItem>
+          <TabMenuItem selected={activeTab === 'EVENTS'} onClick={() => setActiveTab('EVENTS')}>
+            <FormattedMessage id='copy.activity' defaultMessage='Activity' />
+          </TabMenuItem>
         </TabMenu>
-        <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
-          <Field
-            name='sortBy'
-            component={SelectBox}
-            onChange={(e) => {
-              if (e.includes('price')) {
-                formActions.change('nftFilter', 'forSale', true)
-              }
-            }}
-            // @ts-ignore
-            elements={[
-              {
-                group: '',
-                items: [
-                  { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                  { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                  { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                ]
-              }
-            ]}
-          />
-        </div>
+        {activeTab === 'ITEMS' ? (
+          <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
+            <Field
+              name='sortBy'
+              component={SelectBox}
+              onChange={(e) => {
+                if (e.includes('price')) {
+                  formActions.change('nftFilter', 'forSale', true)
+                }
+              }}
+              // @ts-ignore
+              elements={[
+                {
+                  group: '',
+                  items: [
+                    { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                    { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                    { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                  ]
+                }
+              ]}
+            />
+          </div>
+        ) : null}
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
         {collectionFilter ? (
@@ -105,6 +117,36 @@ const TraitGridFilters: React.FC<Props> = ({
                         }
                       })
                     }}
+                  />
+                </Icon>
+              </div>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
+        {eventFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='14px' color='black' weight={500} capitalize>
+                Event:{' '}
+                <EventTypeName
+                  event_type={
+                    eventFilter as 'successful' | 'transfer' | 'offer_entered' | 'created'
+                  }
+                />
+              </Text>
+              <div
+                style={{
+                  background: 'white',
+                  borderRadius: '50%',
+                  lineHeight: '0',
+                  marginLeft: '8px'
+                }}
+              >
+                <Icon label='close' color='blue600'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', `event`, undefined)}
                   />
                 </Icon>
               </div>
@@ -203,11 +245,14 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
+  activeTab: 'ITEMS' | 'EVENTS'
   collectionFilter?: string | null
+  eventFilter?: string | null
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   hasSomeFilters: boolean
   minMaxFilters: string[] | null
+  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
   traitFilters: string[] | null
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

@@ -10,9 +10,11 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
     owners {
       address
     }
-    listing {
-      payment_token_symbol
-      total_price
+    listings {
+      payment_token {
+        symbol
+      }
+      starting_price
     }
     collection {
       name
