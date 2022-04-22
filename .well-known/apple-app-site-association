@@ -55,19 +55,11 @@
       },
       {
         "appID": "NZ6PH75U7K.com.blockchain.exchangeapp",
-        "paths": ["/exchange*"]
+        "paths": ["NOT /exchange/alpha*", "/exchange*"]
       },
       {
         "appID": "NZ6PH75U7K.com.blockchain.exchangeapp.alpha",
-        "paths": ["/exchange*"]
-      },
-      {
-        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp",
-        "paths": ["/exchange*"]
-      },
-      {
-        "appID": "NZ6PH75U7K.com.blockchain.exchangeapp.alpha",
-        "paths": ["/exchange*"]
+        "paths": ["/exchange/alpha*"]
       }
     ]
   },
@@ -80,8 +72,3 @@
     ]
   }
 }
-
-      "NZ6PH75U7K.com.rainydayapps.Blockchain",
-      "NZ6PH75U7K.com.rainydayapps.Blockchain.staging",
-      "NZ6PH75U7K.com.rainydayapps.Blockchain.dev",
-      "NZ6PH75U7K.com.rainydayapps.Blockchain.alpha"
