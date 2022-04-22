@@ -110,6 +110,7 @@ import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
+import instagram from './img/instagram.svg'
 import interest from './img/interest.svg'
 import introBankGif from './img/intro-bank.gif'
 import introCartGif from './img/intro-cart.gif'
@@ -331,6 +332,7 @@ const Images = {
   'grey-verified': greyVerified,
   identification,
   'identity-verification': identityVerification,
+  instagram,
   interest,
   'intro-bank-gif': introBankGif,
   'intro-card': introCard,

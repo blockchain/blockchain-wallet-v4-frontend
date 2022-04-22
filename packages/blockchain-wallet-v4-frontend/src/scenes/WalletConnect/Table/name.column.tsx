@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { CellHeaderText, CellText } from '.'
+import { CellHeaderText, CellText } from 'components/Table'
 
 const HeaderWrapper = styled.div`
   display: flex;

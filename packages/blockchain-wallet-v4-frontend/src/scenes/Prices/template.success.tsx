@@ -5,8 +5,10 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
+import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
+
 import { Props as _P, SuccessStateType as _S } from '.'
-import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
+import { getTableColumns } from './Table'
 
 const NoResultsWrapper = styled.div`
   display: flex;
@@ -15,7 +17,7 @@ const NoResultsWrapper = styled.div`
   margin-top: 120px;
 `
 
-const TableBodyWrapper = styled.div`
+export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
 `
 
@@ -130,9 +132,9 @@ const PricesTable = (props: Props) => {
                       <div>
                         {column.isSorted ? (
                           column.isSortedDesc ? (
-                            <span>▾</span>
+                            <HeaderToggle>▾</HeaderToggle>
                           ) : (
-                            <span>▴</span>
+                            <HeaderToggle>▴</HeaderToggle>
                           )
                         ) : (
                           ''

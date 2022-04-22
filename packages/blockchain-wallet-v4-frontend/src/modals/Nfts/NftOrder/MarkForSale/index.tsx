@@ -11,7 +11,8 @@ import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Row, Title, Value } from 'components/Flyout/model'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
 import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { selectors } from 'data'
@@ -156,6 +157,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <Field
                         name='amount'
                         component={NumberBox}
+                        props={{ center: 'center', size: '48px' }}
                         onChange={(e) =>
                           nftActions.fetchFees({
                             asset: val,

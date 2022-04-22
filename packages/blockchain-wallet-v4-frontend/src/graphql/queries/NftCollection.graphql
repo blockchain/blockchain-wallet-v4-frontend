@@ -1,0 +1,24 @@
+query Collections($filter: [CollectionFilter]) {
+  collections(filter: $filter) {
+    chat_url
+    discord_url
+    external_url
+    instagram_username
+    image_url
+    banner_image_url
+    short_description
+    description
+    created_date
+    name
+    total_supply
+    stats {
+      floor_price
+			total_volume
+    }
+    traits {
+      count
+      value
+      trait_type
+    }
+  }
+}

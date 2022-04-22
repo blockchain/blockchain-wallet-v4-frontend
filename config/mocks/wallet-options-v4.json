@@ -44,6 +44,7 @@
         "googlePayPaymentMethod": false,
         "institutionalPortal": true,
         "mergeAndUpgrade": false,
+        "nftExplorer": true,
         "recurringBuys": true,
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,

@@ -15,6 +15,11 @@ class TranslationsProvider extends React.Component {
     }
   }
 
+  // Can cause child components very far down to re-render if check is not in place
+  shouldComponentUpdate(nextProps) {
+    return this.props.locale !== nextProps.locale
+  }
+
   // ⚠️ HACK ALERT ⚠️
   // Since email auth/magic links invalidate themselves when rendered more than once,
   // updating the default language (english) to the users actual language causes

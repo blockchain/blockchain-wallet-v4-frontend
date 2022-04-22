@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { string } from 'prop-types'
 
 import { Remote } from '@core'
 import {
@@ -9,20 +10,18 @@ import {
   GasDataI,
   NftAsset,
   NftAssetsType,
+  NftCollection,
   NftOrder,
   NftOrdersType,
   OfferEventsType,
+  OpenSeaOrder,
   OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
 
-import { NftOrderStepEnum, NftsStateType } from './types'
-
-// TODO
-// remove acceptOffer, cancelListing, cancelOffer, sellOrder, transfer, orderFlow.order (clean up state when modal closed)
-// break up orderFlow (offerToCancel, activeOrder, listingToCancel, offerToAccept) by gas calc op type?
+import { NftOrderStatusEnum, NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
   activeTab: 'explore',
@@ -34,16 +33,9 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
+  collection: Remote.NotAsked,
   collectionSearch: [],
   collections: Remote.NotAsked,
-  marketplace: {
-    atBound: false,
-    isFailure: false,
-    isLoading: true,
-    list: [],
-    page: 0,
-    token_ids_queried: []
-  },
   offersMade: {
     atBound: false,
     isFailure: false,
@@ -51,16 +43,25 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
+  openSeaAsset: Remote.NotAsked,
+  openSeaOrders: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
-    activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
     isSubmitting: false,
     listingToCancel: null,
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
-    step: NftOrderStepEnum.SHOW_ASSET
+    orderToMatch: null,
+    status: null,
+    step: NftOrderStepEnum.SHOW_ASSET,
+    // This is a hack because sometimes opensea sets the owner address
+    // to NULL_ADDRESS (if contract is opensea storefront)
+    // will be fixed by explorer-gateway eventually
+    walletUserIsAssetOwnerHack: false,
+
+    wrapEthFees: Remote.NotAsked
   }
 }
 
@@ -84,8 +85,12 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         amount?: string
+        amtToWrap?: string
         asset: NftAsset
         coin?: string
+        expirationTime: number
+        offerFees: GasDataI
+        wrapFees?: GasDataI
       }>
     ) => {},
     createOrder: (
@@ -164,6 +169,22 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.fees = Remote.Success(action.payload)
     },
+    fetchFeesWrapEth: (
+      state,
+      action: PayloadAction<{ operation: GasCalculationOperations.WrapEth }>
+    ) => {},
+    fetchFeesWrapEthFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.wrapEthFees = Remote.Failure(action.payload)
+    },
+    fetchFeesWrapEthLoading: (state) => {
+      state.orderFlow.wrapEthFees = Remote.Loading
+    },
+    fetchFeesWrapEthSuccess: (
+      state,
+      action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
+    ) => {
+      state.orderFlow.wrapEthFees = Remote.Success(action.payload)
+    },
     fetchMatchingOrder: (state) => {},
     fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.matchingOrder = Remote.Failure(action.payload)
@@ -176,18 +197,6 @@ const nftsSlice = createSlice({
       action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
     ) => {
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
-    },
-    fetchNftAssets: () => {},
-    fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
-      state.assets.isFailure = true
-    },
-    fetchNftAssetsLoading: (state) => {
-      state.assets.isLoading = true
-    },
-    fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType>) => {
-      state.assets.isFailure = false
-      state.assets.isLoading = false
-      state.assets.list = [...state.assets.list, ...action.payload]
     },
     fetchNftCollections: (
       state,
@@ -230,18 +239,34 @@ const nftsSlice = createSlice({
     fetchNftOrderAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.orderFlow.asset = Remote.Success(action.payload)
     },
-    fetchNftOrders: () => {},
-    fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
-      state.marketplace.isLoading = false
-      state.marketplace.isFailure = true
+    fetchOpenSeaOrders: (
+      state,
+      action: PayloadAction<{ asset_contract_address: string; token_id: string }>
+    ) => {},
+    fetchOpenSeaOrdersFailure: (state, action: PayloadAction<string>) => {
+      state.openSeaOrders = Remote.Failure(action.payload)
     },
-    fetchNftOrdersLoading: (state) => {
-      state.marketplace.isLoading = true
+    fetchOpenSeaOrdersLoading: (state) => {
+      state.openSeaOrders = Remote.Loading
     },
-    fetchNftOrdersSuccess: (state, action: PayloadAction<NftOrdersType['orders']>) => {
-      state.marketplace.isFailure = false
-      state.marketplace.isLoading = false
-      state.marketplace.list = [...state.marketplace.list, ...action.payload]
+    fetchOpenSeaOrdersSuccess: (state, action: PayloadAction<OpenSeaOrder[]>) => {
+      state.openSeaOrders = Remote.Success(action.payload)
+    },
+    fetchOpenseaAsset: (
+      state,
+      action: PayloadAction<{
+        asset_contract_address: string
+        token_id: string
+      }>
+    ) => {},
+    fetchOpenseaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaAsset = Remote.Failure(action.payload)
+    },
+    fetchOpenseaAssetLoading: (state) => {
+      state.openSeaAsset = Remote.Loading
+    },
+    fetchOpenseaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaAsset = Remote.Success(action.payload)
     },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
@@ -255,29 +280,54 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.walletUserIsAssetOwnerHack = false
 
       state.orderFlow.isSubmitting = false
 
-      state.orderFlow.activeOrder = null
       state.orderFlow.offerToCancel = null
       state.orderFlow.listingToCancel = null
+      state.orderFlow.orderToMatch = null
       state.orderFlow.matchingOrder = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
+      state.orderFlow.wrapEthFees = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,
       action: PayloadAction<
-        | { asset: NftAsset; offer: OfferEventsType['asset_events'][0]; order?: never }
-        | { asset: NftAsset; offer?: never; order?: never }
-        | { asset?: never; offer?: never; order: NftOrder }
+        | {
+            asset_contract_address: string
+            offer: OfferEventsType['asset_events'][0]
+            order?: never
+            step: NftOrderStepEnum.CANCEL_OFFER
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
+            order: RawOrder
+            step: NftOrderStepEnum.BUY
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
+            order?: never
+            step: NftOrderStepEnum
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
       >
     ) => {
-      if (action.payload.order) {
-        state.orderFlow.activeOrder = action.payload.order
-      }
       state.orderFlow.asset = Remote.Loading
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.step = action.payload.step
+      state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
+
+      if (action.payload.order) {
+        state.orderFlow.orderToMatch = action.payload.order
+      }
     },
     resetNftAssets: (state) => {
       state.assets.atBound = false
@@ -295,25 +345,12 @@ const nftsSlice = createSlice({
       state.offersMade.isLoading = true
       state.offersMade.list = []
     },
-    resetNftOrders: (state) => {
-      state.marketplace.atBound = false
-      state.marketplace.page = 0
-      state.marketplace.token_ids_queried = []
-      state.marketplace.isFailure = false
-      state.marketplace.isLoading = true
-      state.marketplace.list = []
-    },
-    resetOrderFlow: (state) => {
-      state.orderFlow.asset = Remote.NotAsked
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
-      state.orderFlow.activeOrder = null
-    },
     searchNftAssetContract: (
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
-    setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
-      state.activeTab = action.payload
+    setActiveSlug: (state, action: PayloadAction<{ slug: string }>) => {
+      state.activeSlug = action.payload.slug
     },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
@@ -328,23 +365,8 @@ const nftsSlice = createSlice({
     setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order
     },
-    setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
-      state.marketplace.atBound = action.payload.atBound
-    },
-    setMarketplaceData: (
-      state,
-      action: PayloadAction<{
-        atBound?: boolean
-        collection?: CollectionData
-        page?: number
-        token_ids_queried?: string[]
-      }>
-    ) => {
-      state.marketplace.page = action.payload.page || 0
-      if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
-      if (action.payload.collection) state.marketplace.collection = action.payload.collection
-      if (action.payload.token_ids_queried)
-        state.marketplace.token_ids_queried = action.payload.token_ids_queried
+    setNftOrderStatus: (state, action: PayloadAction<NftOrderStatusEnum>) => {
+      state.orderFlow.status = action.payload
     },
     setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer
@@ -360,6 +382,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
+    },
+    setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
+      state.orderFlow.orderToMatch = action.payload.order
     }
   }
 })

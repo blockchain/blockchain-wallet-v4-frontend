@@ -63,6 +63,7 @@
     "coverage:frontend": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4-frontend coverage && yarn run report",
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "deploy-storybook": "storybook-to-ghpages",
+    "graphql-codegen": "yarn workspace blockchain-wallet-v4-frontend graphql-codegen",
     "link:resolved:paths": "yarn wsrun --exclude-missing link:resolved:paths",
     "lint": "eslint --cache './packages/*/src/**/*.{js,ts,tsx}'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.{js,ts,tsx}'",

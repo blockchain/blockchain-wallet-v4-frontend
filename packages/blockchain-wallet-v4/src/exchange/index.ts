@@ -129,7 +129,7 @@ const displayCoinToCoin = ({
 }): string => {
   const { coinfig } = window.coins[coin]
   const { displaySymbol } = coinfig
-  
+
   if (isFiat) {
     const options = { style: 'currency', currency: coin }
     return new Intl.NumberFormat(getLang(), options).format(Number(value))

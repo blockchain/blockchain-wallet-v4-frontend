@@ -6,8 +6,7 @@ import { FixedSizeList as List } from 'react-window'
 import { equals } from 'ramda'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
-import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
+import { StickyHeaderWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
@@ -73,7 +72,7 @@ class CoinSelection extends PureComponent<Props> {
 
     return (
       <>
-        <StickyHeaderFlyoutWrapper>
+        <StickyHeaderWrapper>
           <TopText spaceBetween={false} marginBottom>
             <Icon
               role='button'
@@ -109,7 +108,7 @@ class CoinSelection extends PureComponent<Props> {
               />
             )}
           </Text>
-        </StickyHeaderFlyoutWrapper>
+        </StickyHeaderWrapper>
         <AutoSizer>
           {({ height, width }) => (
             <List

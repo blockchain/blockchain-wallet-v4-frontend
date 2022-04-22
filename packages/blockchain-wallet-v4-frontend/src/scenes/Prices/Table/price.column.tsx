@@ -2,9 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from '@core/exchange/utils'
+import { CellHeaderText, CellText } from 'components/Table'
 
 import { TableColumnsType } from '..'
-import { CellHeaderText, CellText } from '.'
 
 export const getPriceColumn = (walletCurrency: TableColumnsType['walletCurrency']) => ({
   Cell: ({ row: { original: values } }) => {

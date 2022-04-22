@@ -31,7 +31,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     bitpay: bitpayUrl,
     horizon: horizonUrl,
     ledger: ledgerUrl,
-    opensea: openseaApi,
+    opensea: openSeaApi,
     root: rootUrl
   } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -54,7 +54,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl,
       ...http
     }),
-    ...eth({ apiUrl, openseaApi, ...http }),
+    ...eth({ apiUrl, openSeaApi, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
@@ -71,7 +71,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
-    ...nfts({ apiUrl, ...http }),
+    ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,

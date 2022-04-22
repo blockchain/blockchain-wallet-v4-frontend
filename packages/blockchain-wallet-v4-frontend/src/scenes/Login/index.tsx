@@ -17,7 +17,7 @@ import {
 } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 
-import Loading from '../loading.public'
+import Loading from '../loading.auth'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'

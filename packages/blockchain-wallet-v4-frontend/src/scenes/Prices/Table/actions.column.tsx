@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
+import { CellHeaderText } from 'components/Table'
 
 import { TableColumnsType } from '..'
-import { CellHeaderText } from '.'
 
 const CellWrapper = styled.div`
   display: flex;

@@ -21,6 +21,7 @@
       "@core": ["blockchain-wallet-v4/src"],
       "@core/*": ["blockchain-wallet-v4/src/*"],
       "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
+      "generated/*": ["blockchain-wallet-v4-frontend/src/generated/*"],
       "data": ["blockchain-wallet-v4-frontend/src/data"],
       "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
       "hooks": ["blockchain-wallet-v4-frontend/src/hooks"],

@@ -99,8 +99,6 @@ const QuoteActionContainer = styled.div`
 `
 
 const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const [fontRatio, setRatio] = useState(1)
-
   const {
     buySellActions,
     formActions,

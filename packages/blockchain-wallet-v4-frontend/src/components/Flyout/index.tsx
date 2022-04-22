@@ -104,7 +104,7 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
-export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
+export const StickyHeaderWrapper = styled.div`
   background-color: ${(props) => props.theme.white};
   position: sticky;
   top: 0;
