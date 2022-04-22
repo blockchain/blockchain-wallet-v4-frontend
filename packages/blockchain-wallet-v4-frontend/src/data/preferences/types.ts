@@ -11,7 +11,6 @@ export type PriceChartPreferenceType = {
 // State
 export type PreferencesState = {
   coinDisplayed: boolean
-  culture: string
   language: string
   priceChart: PriceChartPreferenceType
   sbCheckout: {
