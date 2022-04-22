@@ -559,6 +559,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "chain_operator",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ChainOperators",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "field",
             "description": null,
             "type": {
@@ -612,13 +624,13 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "animation_original_url",
+            "name": "animation_",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "animation_url",
+            "name": "animation_original_url",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -781,6 +793,12 @@
           },
           {
             "name": "transfer_fee_symbol",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "url",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -1028,6 +1046,29 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ChainOperators",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "and",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "or",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -1583,6 +1624,18 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "chain_operator",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ChainOperators",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "field",
             "description": null,
@@ -2387,12 +2440,12 @@
             "deprecationReason": null
           },
           {
-            "name": "contract",
+            "name": "contract_address",
             "description": null,
             "args": [],
             "type": {
-              "kind": "OBJECT",
-              "name": "Contract",
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2670,6 +2723,18 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "chain_operator",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "ChainOperators",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "field",
             "description": null,

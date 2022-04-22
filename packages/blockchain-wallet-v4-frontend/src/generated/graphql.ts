@@ -61,14 +61,15 @@ export type Asset = {
 };
 
 export type AssetFilter = {
+  chain_operator?: InputMaybe<ChainOperators>;
   field: AssetFilterFields;
   operator?: InputMaybe<FilterOperators>;
   value?: InputMaybe<Scalars['String']>;
 };
 
 export enum AssetFilterFields {
+  Animation = 'animation_',
   AnimationOriginalUrl = 'animation_original_url',
-  AnimationUrl = 'animation_url',
   AssetBundleSlug = 'asset_bundle_slug',
   BackgroundColor = 'background_color',
   CollectionSlug = 'collection_slug',
@@ -95,7 +96,8 @@ export enum AssetFilterFields {
   TokenMetadata = 'token_metadata',
   TransferFee = 'transfer_fee',
   TransferFeeAddress = 'transfer_fee_address',
-  TransferFeeSymbol = 'transfer_fee_symbol'
+  TransferFeeSymbol = 'transfer_fee_symbol',
+  Url = 'url'
 }
 
 export type AssetSort = {
@@ -135,6 +137,11 @@ export enum AssetSortFields {
   TransferFee = 'transfer_fee',
   TransferFeeAddress = 'transfer_fee_address',
   TransferFeeSymbol = 'transfer_fee_symbol'
+}
+
+export enum ChainOperators {
+  And = 'and',
+  Or = 'or'
 }
 
 export type Collection = {
@@ -180,6 +187,7 @@ export type Collection = {
 };
 
 export type CollectionFilter = {
+  chain_operator?: InputMaybe<ChainOperators>;
   field: CollectionFilterFields;
   operator?: InputMaybe<FilterOperators>;
   value?: InputMaybe<Scalars['String']>;
@@ -298,7 +306,7 @@ export type Event = {
   auction_type?: Maybe<Scalars['String']>;
   bid_amount?: Maybe<Scalars['String']>;
   collection?: Maybe<Collection>;
-  contract?: Maybe<Contract>;
+  contract_address?: Maybe<Scalars['String']>;
   created_date: Scalars['String'];
   custom_event_name?: Maybe<Scalars['String']>;
   date_ingested: Scalars['String'];
@@ -322,6 +330,7 @@ export type Event = {
 };
 
 export type EventFilter = {
+  chain_operator?: InputMaybe<ChainOperators>;
   field: EventFilterFields;
   operator?: InputMaybe<FilterOperators>;
   value?: InputMaybe<Scalars['String']>;
@@ -1504,11 +1513,10 @@ export default {
             "args": []
           },
           {
-            "name": "contract",
+            "name": "contract_address",
             "type": {
-              "kind": "OBJECT",
-              "name": "Contract",
-              "ofType": null
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           },
