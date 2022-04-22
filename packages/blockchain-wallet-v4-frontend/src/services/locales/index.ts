@@ -1,41 +1,21 @@
-import Maybe from 'data.maybe'
-import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { findIndex, prop, propEq, sortBy, toUpper } from 'ramda'
 
 import '@formatjs/intl-relativetimeformat/polyfill'
 
-type Language = { cultureCode: string; language: string; name: string }
+type Language = { language: string; name: string }
 
 export const languages: Array<Language> = [
-  { cultureCode: 'en-GB', language: 'en', name: 'English' },
-  { cultureCode: 'es-ES', language: 'es', name: 'Spanish' },
-  { cultureCode: 'fr-FR', language: 'fr', name: 'French' },
-  { cultureCode: 'pt-PT', language: 'pt', name: 'Portuguese' },
-  { cultureCode: 'ru-RU', language: 'ru', name: 'Russian' },
-  { cultureCode: 'tr-TR', language: 'tr', name: 'Turkish' }
+  { language: 'en', name: 'English' },
+  { language: 'es', name: 'Spanish' },
+  { language: 'es-LA', name: 'Spanish - Latin America' },
+  { language: 'fr', name: 'French' },
+  { language: 'pt', name: 'Portuguese' },
+  { language: 'ru', name: 'Russian' },
+  { language: 'tr', name: 'Turkish' }
 ]
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)
-
-export function getLanguageName(cultureCode) {
-  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages) as Language
-  if (isNil(selectedLanguage)) return Maybe.Nothing()
-
-  return Maybe.Just(selectedLanguage.name)
-}
-
-export function convertLanguageToCultureCode(language) {
-  const selectedLanguage = find(propEq('language', language))(languages) as Language
-  if (isNil(selectedLanguage)) return Maybe.Nothing()
-
-  return Maybe.Just(selectedLanguage.cultureCode)
-}
-
-export function convertCultureCodeToLanguage(cultureCode) {
-  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages) as Language
-  if (isNil(selectedLanguage)) return Maybe.Nothing()
-
-  return Maybe.Just(selectedLanguage.language)
-}
 
 // update url with new language without forcing browser reload
 export function addLanguageToUrl(language) {
@@ -68,12 +48,23 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/es')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/es.json')
-          )
+          setLocaleData(require('../../assets/locales/es.json'))
         },
         'i18n-es'
+      )
+      break
+    case 'es-LA':
+      require.ensure(
+        [
+          'date-fns/locale/es',
+          '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
+          '../../assets/locales/es-LA.json'
+        ],
+        (require) => {
+          require('date-fns/locale/es')
+          setLocaleData(require('../../assets/locales/es-LA.json'))
+        },
+        'i18n-es-LA'
       )
       break
     case 'fr':
@@ -85,10 +76,7 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/fr')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/fr.json')
-          )
+          setLocaleData(require('../../assets/locales/fr.json'))
         },
         'i18n-fr'
       )
@@ -102,12 +90,23 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/pt')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/pt.json')
-          )
+          setLocaleData(require('../../assets/locales/pt.json'))
         },
         'i18n-pt'
+      )
+      break
+    case 'pt-BR':
+      require.ensure(
+        [
+          'date-fns/locale/pt-BR',
+          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
+          '../../assets/locales/pt-BR.json'
+        ],
+        (require) => {
+          require('date-fns/locale/pt-BR')
+          setLocaleData(require('../../assets/locales/pt-BR.json'))
+        },
+        'i18n-pt-BR'
       )
       break
     case 'ru':
@@ -119,10 +118,7 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/ru')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/ru.json')
-          )
+          setLocaleData(require('../../assets/locales/ru.json'))
         },
         'i18n-ru'
       )
@@ -136,10 +132,7 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/tr')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/tr.json')
-          )
+          setLocaleData(require('../../assets/locales/tr.json'))
         },
         'i18n-tr'
       )
@@ -154,10 +147,7 @@ export const loadLocaleData = (locale, callback) => {
         ],
         (require) => {
           require('date-fns/locale/en-GB')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/en.json')
-          )
+          setLocaleData(require('../../assets/locales/en.json'))
         },
         'i18n-en'
       )

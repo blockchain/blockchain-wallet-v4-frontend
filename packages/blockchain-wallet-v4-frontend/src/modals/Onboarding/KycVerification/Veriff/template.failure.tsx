@@ -53,8 +53,8 @@ const Failure: React.FC<{
       <Content>
         <Text color='grey800' size='14px'>
           <FormattedMessage
-            id='identityverification.failure.content1'
-            defaultMessage="We're sorry but we can't verify you for Gold at this time. This can be for a number of reasons, for example your country might not be supported right now. If you're Silver verified you can still Buy, Sell or Swap a limited amount of crypto now."
+            id='identityverification.failure.content_1'
+            defaultMessage="We're sorry but we can't verify you for full access at this time. This can be for a number of reasons, for example your country might not be supported right now. If you have limited access you can still Buy, Sell or Swap a limited amount of crypto now."
           />
         </Text>
         <Text color='grey800' size='14px'>

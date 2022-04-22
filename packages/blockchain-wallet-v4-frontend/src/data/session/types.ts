@@ -1,8 +1,5 @@
-export type SessionStateType = { [key: string]: string }
-
-export type SessionStatePOCType = {
+export type SessionStateType = {
   exchange?: AccountSessionType
-  unified?: AccountSessionType
   wallet?: AccountSessionType
 }
 

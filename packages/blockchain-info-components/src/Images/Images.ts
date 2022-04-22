@@ -40,6 +40,7 @@ import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
+import bgPatternLatam from './img/bg-pattern-latam.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
@@ -88,6 +89,7 @@ import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
 import interest from './img/interest.svg'
 import introHand from './img/intro-hand.png'
+import latamSignupPhone from './img/latam-signup-phone.svg'
 import lockOpen from './img/lock-open.svg'
 import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
@@ -173,6 +175,7 @@ const Images = {
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
+  'bg-pattern-latam': bgPatternLatam,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-gold': blockchainGold,
@@ -220,6 +223,7 @@ const Images = {
   interest,
   'intro-card': introCard,
   'intro-hand': introHand,
+  'latam-signup-phone': latamSignupPhone,
   'lock-open': lockOpen,
   'logo-loader': logoLoader,
   'mastercard-logo': mastercardLogo,

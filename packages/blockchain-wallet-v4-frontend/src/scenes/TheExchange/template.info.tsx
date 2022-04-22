@@ -41,7 +41,7 @@ const ExchangeInfo = () => {
           <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.unlockbody'
-              defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on the Exchange immediately.'
+              defaultMessage='Already Verified? Share your full or limited access to begin trading on the Exchange immediately.'
             />
           </Text>
         </Slide>

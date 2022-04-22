@@ -2,9 +2,6 @@ import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { Analytics } from 'data/analytics/types'
-import analytics from 'middleware/analyticsMiddleware/analytics'
-import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
-import { getOriginalTimestamp } from 'middleware/analyticsMiddleware/utils'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
@@ -52,7 +49,6 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
 export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean) {
   try {
     const authMagicLink = yield select(selectors.auth.getMagicLinkData)
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       exchange: exchangeData,
       platform_type: platformType,
@@ -73,32 +69,25 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
       }
     }
 
-    if (unified) {
-      yield put(actions.cache.setUnifiedAccount(true))
-      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+    let currentLoginSession
+    let userEmail
+
+    if (product === ProductAuthOptions.EXCHANGE) {
+      userEmail = unified ? walletData?.exchange?.email : exchangeData?.email
+      currentLoginSession = yield select(selectors.session.getExchangeSessionId, userEmail)
+    } else {
+      // product === wallet
+      userEmail = walletData?.email
+      currentLoginSession = yield select(
+        selectors.session.getWalletSessionId,
+        walletData?.guid,
+        userEmail
+      )
     }
 
-    const userEmail =
-      product === ProductAuthOptions.WALLET
-        ? walletData?.email
-        : product === ProductAuthOptions.EXCHANGE && unified
-        ? walletData?.exchange?.email
-        : exchangeData?.email
-    const currentLoginSession =
-      product === ProductAuthOptions.EXCHANGE
-        ? yield select(selectors.session.getExchangeSessionId, userEmail)
-        : yield select(selectors.session.getWalletSessionId, walletData?.guid, userEmail)
-
     if (unified) {
       yield put(actions.cache.setUnifiedAccount(true))
       yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
-      yield put(
-        actions.session.saveUnifiedSession({
-          email: userEmail,
-          guid: walletData?.guid,
-          id: currentLoginSession
-        })
-      )
     }
 
     // check if merge and upgrade flows are enabled and execute them if needed

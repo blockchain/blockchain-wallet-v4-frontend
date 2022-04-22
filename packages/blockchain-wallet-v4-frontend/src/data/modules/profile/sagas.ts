@@ -4,9 +4,10 @@ import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
-import { ExtractSuccess } from '@core/types'
+import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
+import { AuthMagicLink } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -294,49 +295,49 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  // TODO: USE THIS TO CHECK IF INFORMATION IS ALREADY IN STORE
-  // IF YES, DON'T REWRITE
-
   const createExchangeUser = function* (countryCode) {
     try {
-      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
-      const exchangeLifetimeTokenR = yield select(
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
+      const exchangeLifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )
-      const exchangeUserId = exchangeUserIdR.getOrElse(null)
-      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
+      )).getOrElse(null)
       if (!exchangeUserId || !exchangeLifetimeToken) {
         yield call(generateExchangeAuthCredentials, countryCode)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
     }
-
-    // From here we call nabu/authorize to get login token
   }
 
-  const getExchangeLoginToken = function* (action) {
+  const authAndRouteToExchangeAction = function* (action) {
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
-      const exchangeLifetimeTokenR = yield select(
-        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )
-      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
+      const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
+      const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
+      const exchangeAuthUrl = magicLinkData?.exchange_auth_url
+      const { exchange: exchangeDomain } = selectors.core.walletOptions
+        .getDomains(yield select())
+        .getOrElse({
+          exchange: 'https://exchange.blockchain.com'
+        } as WalletOptionsType['domains'])
 
-      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
-      const exchangeUserId = exchangeUserIdR.getOrElse(null)
+      const exchangeUrlFromLink = exchangeAuthUrl || redirect
+      const exchangeLifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+      )).getOrElse(null)
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (origin === ExchangeAuthOriginType.Signup) {
           return
         }
         if (origin === ExchangeAuthOriginType.SideMenu) {
-          return window.open(
-            `https://exchange.staging.blockchain.info/trade/`,
-            '_blank',
-            'noreferrer'
-          )
+          return window.open(`${exchangeDomain}`, '_blank', 'noreferrer')
         }
       }
       const { token } = yield call(
@@ -346,17 +347,11 @@ export default ({ api, coreSagas, networks }) => {
         retailToken
       )
       if (origin === ExchangeAuthOriginType.SideMenu) {
-        window.open(
-          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-          '_blank',
-          'noreferrer'
-        )
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
+      } else if (exchangeUrlFromLink) {
+        window.open(`${exchangeUrlFromLink}${token}`, '_self', 'noreferrer')
       } else {
-        window.open(
-          `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
-          '_self',
-          'noreferrer'
-        )
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_self', 'noreferrer')
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
@@ -573,6 +568,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,
     createUser,
@@ -583,7 +579,6 @@ export default ({ api, coreSagas, networks }) => {
     generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
-    getExchangeLoginToken,
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,

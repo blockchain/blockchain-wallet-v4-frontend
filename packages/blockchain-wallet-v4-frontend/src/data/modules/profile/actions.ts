@@ -57,9 +57,11 @@ export const fetchUserDataSuccess = (userData): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_SUCCESS
 })
 
-export const getExchangeLoginToken = (origin: ExchangeAuthOriginType): ProfileActionTypes => ({
+export const authAndRouteToExchangeAction = (
+  origin: ExchangeAuthOriginType
+): ProfileActionTypes => ({
   payload: { origin },
-  type: AT.GET_EXCHANGE_LOGIN_TOKEN
+  type: AT.AUTH_AND_ROUTE_TO_EXCHANGE
 })
 export const linkFromExchangeAccount = (linkId, email?, address?): ProfileActionTypes => ({
   payload: { address, email, linkId },

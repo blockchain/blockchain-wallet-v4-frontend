@@ -6,7 +6,6 @@ import { PreferencesActionTypes, PreferencesState } from './types'
 
 const INITIAL_STATE: PreferencesState = {
   coinDisplayed: true,
-  culture: 'en-GB',
   language: 'en',
   priceChart: {
     coin: 'BTC',
@@ -48,15 +47,6 @@ export function preferencesReducer(
       return {
         ...state,
         language
-      }
-    }
-    // @ts-ignore
-    case AT.SET_CULTURE: {
-      // @ts-ignore
-      const { culture } = action.payload
-      return {
-        ...state,
-        culture
       }
     }
     case AT.SET_BS_CHECKOUT_FIX: {

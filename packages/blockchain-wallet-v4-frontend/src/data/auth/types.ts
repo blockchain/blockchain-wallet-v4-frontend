@@ -38,13 +38,6 @@ export enum LoginSteps {
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
-export enum UpgradeSteps {
-  // Placeholders, name them as it makes sense
-  UPGRADE_CONFIRM = 'UPGRADE_CONFIRM'
-  // UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
-  // UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
-}
-
 export enum MergeSteps {}
 
 export enum PlatformTypes {

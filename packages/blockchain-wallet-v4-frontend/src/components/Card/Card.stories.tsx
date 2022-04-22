@@ -5,7 +5,7 @@ import { Card, CardComponent } from '.'
 
 const cardStoriesMeta: ComponentMeta<CardComponent> = {
   component: Card,
-  title: 'Components/Card'
+  title: 'Structural/Card'
 }
 
 const Template: ComponentStory<CardComponent> = (args) => <Card {...args} />

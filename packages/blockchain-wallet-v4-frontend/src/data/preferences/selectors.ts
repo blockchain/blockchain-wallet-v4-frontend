@@ -4,7 +4,6 @@ import { TimeRange } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 export const getCoinDisplayed = (state: RootState) => state.preferences.coinDisplayed
-export const getCulture = (state: RootState) => state.preferences.culture
 export const getLanguage = (state: RootState) => state.preferences.language
 export const getPriceChart = (state: RootState) => {
   // 🆕 Migrate old time ranges
