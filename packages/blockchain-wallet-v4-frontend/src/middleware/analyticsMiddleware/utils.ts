@@ -152,6 +152,7 @@ const recurringBuyCancelOrigin = (
       return 'TRANSACTION_DETAILS'
     case RecurringBuyOrigins.COIN_PAGE:
     case RecurringBuyOrigins.DASHBOARD_PROMO:
+    case RecurringBuyOrigins.DETAILS_SCREEN:
     case RecurringBuyOrigins.RECURRING_BUYS_BANNER:
       return 'RECURRING_BUY_DETAILS'
     default: {

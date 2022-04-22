@@ -14,6 +14,9 @@ import Footer from './components/Footer'
 // import AndroidAppBanner from './components/AndroidAppBanner'
 import Header from './components/Header'
 
+const qsParams = new URLSearchParams(window.location.hash)
+const isLatam = qsParams.has('latam')
+
 const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -26,15 +29,13 @@ const FooterContainer = styled.div`
     margin-top: 8px;
   `}
 `
-const qsParams = new URLSearchParams(window.location.hash)
-const isLatam = qsParams.has('latam')
 
 const Wrapper = styled.div<{ authProduct?: string }>`
   background-color: ${(props) =>
     props.authProduct === 'EXCHANGE'
       ? props.theme.exchangeLogin
       : isLatam
-      ? 'none'
+      ? '#04001F'
       : props.theme.grey900};
   height: auto;
   min-height: 100%;
@@ -73,11 +74,10 @@ const AuthLayoutContainer = ({
   exact = false,
   formValues,
   pageTitle,
-  path
+  path,
+  platform
 }: Props) => {
   if (pageTitle) document.title = pageTitle
-
-  useEffect(() => { document.body.style.backgroundImage = `url('/img/ss-bc-signup-bg.jpg')`, document.body.style.backgroundSize = 'cover', document.body.style.backgroundRepeat = 'no-repeat' }, [])
   return (
     <Route
       path={path}
@@ -90,7 +90,7 @@ const AuthLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header authProduct={authProduct}/>
+              <Header authProduct={authProduct} />
             </HeaderContainer>
 
             <Modals />
@@ -99,7 +99,7 @@ const AuthLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer authProduct={authProduct} formValues={formValues} />
+              <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -110,7 +110,8 @@ const AuthLayoutContainer = ({
 
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
+  platform: selectors.auth.getMagicLinkData(state)?.platform_type
 })
 
 const connector = connect(mapStateToProps)

@@ -35,6 +35,10 @@ const computeSteps = ({
       return false
     }
 
+    if (kycState === 'UNDER_REVIEW' && step !== STEPS.submitted) {
+      return false
+    }
+
     return compose(both(lte(next), gte(selectedTier)), getStepTier)(step)
   }
   return filter(isStepRequired, values(STEPS))

@@ -47,6 +47,7 @@ import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
+import bgPatternLatam from './img/bg-pattern-latam.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
@@ -162,6 +163,8 @@ import nft from './img/nft.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import printer from './img/printer.svg'
+import productRedirectExchange from './img/product-redirect-exchange.png'
+import productRedirectWallet from './img/product-redirect-wallet.png'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
 import qrCodeNew from './img/qr-code.svg'
@@ -179,7 +182,6 @@ import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
-import ssBcSignupBg from './img/ss-bc-signup-bg.jpg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import subtractCheckCircle from './img/subtract-check-circle.png'
 import swap from './img/swap.svg'
@@ -198,6 +200,7 @@ import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usFlag from './img/us-flag.svg'
 import usddIntro from './img/usdd-intro.svg'
+import userSuccess from './img/user-success.svg'
 import verifyNotice from './img/verify-notice.svg'
 import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
@@ -264,6 +267,7 @@ const Images = {
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
+  'bg-pattern-latam': bgPatternLatam,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-gold': blockchainGold,
@@ -383,6 +387,8 @@ const Images = {
   'percent-blue-circle': percentBlueCircle,
   'percent-white-circle': percentWhiteCircle,
   printer,
+  'product-redirect-exchange': productRedirectExchange,
+  'product-redirect-wallet': productRedirectWallet,
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
   'qr-code-new': qrCodeNew,
@@ -395,7 +401,6 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
-  'sesocio-bc-signup-bg': ssBcSignupBg,
   'sesocio-to-blockchain-logo': ssBcLogo,
   'silver-approved': silverApproved,
   smartphone,
@@ -418,6 +423,7 @@ const Images = {
   'twitter-white': twitterWhite,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,

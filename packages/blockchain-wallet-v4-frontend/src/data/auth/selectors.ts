@@ -2,11 +2,6 @@ import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
 
-// TODO: organize these functions
-export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {
-  return state.auth.resetAccount
-}
-
 export function getAccountUnificationFlowType(
   state: RootState
 ): AuthStateType['accountUnificationFlow'] {
@@ -17,16 +12,10 @@ export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
 }
 
-export function getRegistering(state: RootState): AuthStateType['registering'] {
-  return state.auth.registering
-}
-
-export function getFirstLogin(state: RootState): AuthStateType['firstLogin'] {
-  return state.auth.firstLogin
-}
-
-export function getRestoring(state: RootState): AuthStateType['restoring'] {
-  return state.auth.restoring
+export function getExchangeConflictStatus(
+  state: RootState
+): AuthStateType['exchangeAuth']['exchangeAccountConflict'] {
+  return state.auth.exchangeAuth.exchangeAccountConflict
 }
 
 export function getProductAuthMetadata(state: RootState): AuthStateType['productAuthMetadata'] {
@@ -51,18 +40,6 @@ export function getLogin(state: RootState): AuthStateType['login'] {
 
 export function getMobileLoginStarted(state: RootState): AuthStateType['mobileLoginStarted'] {
   return state.auth.mobileLoginStarted
-}
-
-export function getRegisterEmail(state: RootState): AuthStateType['registerEmail'] {
-  return state.auth.registerEmail
-}
-
-export function getMetadataRestore(state: RootState): AuthStateType['metadataRestore'] {
-  return state.auth.metadataRestore
-}
-
-export function getKycResetStatus(state: RootState): AuthStateType['kycReset'] {
-  return state.auth.kycReset
 }
 
 export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData'] {

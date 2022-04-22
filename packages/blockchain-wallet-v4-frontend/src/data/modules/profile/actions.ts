@@ -1,7 +1,7 @@
 import { NabuApiErrorType } from '@core/types'
 
 import * as AT from './actionTypes'
-import { ProfileActionTypes } from './types'
+import { ExchangeAuthOriginType, ProfileActionTypes } from './types'
 
 export const clearSession = () => ({
   type: AT.CLEAR_SESSION
@@ -57,6 +57,12 @@ export const fetchUserDataSuccess = (userData): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_SUCCESS
 })
 
+export const authAndRouteToExchangeAction = (
+  origin: ExchangeAuthOriginType
+): ProfileActionTypes => ({
+  payload: { origin },
+  type: AT.AUTH_AND_ROUTE_TO_EXCHANGE
+})
 export const linkFromExchangeAccount = (linkId, email?, address?): ProfileActionTypes => ({
   payload: { address, email, linkId },
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT

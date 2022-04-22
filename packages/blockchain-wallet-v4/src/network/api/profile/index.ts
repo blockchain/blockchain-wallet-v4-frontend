@@ -1,6 +1,6 @@
 import { TermsAndConditionType } from './types'
 
-export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, rootUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
   const exchangeSignIn = (code, password, username) => {
     return authorizedPost({
       contentType: 'application/json',
@@ -36,13 +36,53 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       url: rootUrl
     })
 
-  const createUser = (retailToken) => {
+  const getLocation = () =>
+    get({
+      contentType: 'application/json',
+      endPoint: '/geolocation',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const createOrGetUser = (retailToken) => {
     return post({
       contentType: 'application/json',
       data: {
         jwt: retailToken
       },
       endPoint: '/users',
+      url: nabuUrl
+    })
+  }
+
+  const createExchangeUser = (countryCode, referrerUsername, retailToken, tuneTid) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        countryCode,
+        referrerUsername,
+        retailToken,
+        tuneTid
+      },
+      endPoint: '/mercury/users',
+      url: nabuUrl
+    })
+  }
+
+  const getExchangeAuthToken = (exchangeLifetimeToken, usersCredentialsId, retailToken) => {
+    return authorizedPost({
+      contentType: 'application/json',
+      data: {
+        retailToken,
+        usersCredentialsId
+      },
+      endPoint: '/mercury/auth',
+      headers: {
+        Authorization: `Bearer ${exchangeLifetimeToken}`,
+        'X-CLIENT-TYPE': 'WEB',
+        'X-DEVICE-ID': null,
+        'x-app-version': '6.11.1'
+      },
       url: nabuUrl
     })
   }
@@ -225,13 +265,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
     })
 
   return {
+    createExchangeUser,
     createLinkAccountId,
-    createUser,
+    createOrGetUser,
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
     generateRetailToken,
     generateSession,
+    getExchangeAuthToken,
+    getLocation,
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,

@@ -42,11 +42,13 @@ export default ({ api }: { api: APIType }) => {
             currency: coin,
             destination,
             fee,
-            source: {
-              descriptor: 'legacy',
-              pubKey,
-              style: 'SINGLE'
-            },
+            sources: [
+              {
+                descriptor: 'legacy',
+                pubKey,
+                style: 'SINGLE'
+              }
+            ],
             type: 'PAYMENT'
           } as BuildTxIntentType
         })

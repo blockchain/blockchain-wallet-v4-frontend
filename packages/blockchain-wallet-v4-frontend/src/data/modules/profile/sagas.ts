@@ -1,17 +1,20 @@
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
-import { ExtractSuccess } from '@core/types'
+import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
+import { AuthMagicLink } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import * as S from './selectors'
-import { UserDataType } from './types'
+import { ExchangeAuthOriginType, UserDataType } from './types'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -32,7 +35,6 @@ export default ({ api, coreSagas, networks }) => {
   const waitForUserId = function* () {
     const userId = yield select(selectors.core.kvStore.userCredentials.getUserId)
     if (Remote.Success.is(userId)) return userId.getOrElse(null)
-
     yield race({
       failure: take(
         actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE
@@ -261,11 +263,99 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
-    const { token: lifetimeToken, userId } = yield call(api.createUser, retailToken)
+    const { token: lifetimeToken, userId } = yield call(api.createOrGetUser, retailToken)
     yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
     return { lifetimeToken, userId }
   }
 
+  const generateExchangeAuthCredentials = function* (countryCode) {
+    try {
+      const { referrerUsername, tuneTid } = yield select(selectors.signup.getExchangeUrlData)
+      const retailToken = yield call(generateRetailToken)
+      const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
+        api.createExchangeUser,
+        countryCode,
+        referrerUsername,
+        retailToken,
+        tuneTid
+      )
+      yield put(
+        actions.core.kvStore.userCredentials.setExchangeUserCredentials(
+          exchangeUserId,
+          exchangeLifetimeToken
+        )
+      )
+      return { exchangeLifetimeToken, exchangeUserId }
+    } catch (e) {
+      if (e.code === 4) {
+        yield put(actions.auth.setExchangeAccountConflict(true))
+      }
+    }
+  }
+
+  const createExchangeUser = function* (countryCode) {
+    try {
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
+      const exchangeLifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+      )).getOrElse(null)
+      if (!exchangeUserId || !exchangeLifetimeToken) {
+        yield call(generateExchangeAuthCredentials, countryCode)
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
+    }
+  }
+
+  const authAndRouteToExchangeAction = function* (action) {
+    const { origin } = action.payload
+    try {
+      const retailToken = yield call(generateRetailToken)
+      const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
+      const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
+      const exchangeAuthUrl = magicLinkData?.exchange_auth_url
+      const { exchange: exchangeDomain } = selectors.core.walletOptions
+        .getDomains(yield select())
+        .getOrElse({
+          exchange: 'https://exchange.blockchain.com'
+        } as WalletOptionsType['domains'])
+
+      const exchangeUrlFromLink = exchangeAuthUrl || redirect
+      const exchangeLifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+      )).getOrElse(null)
+      const exchangeUserId = (yield select(
+        selectors.core.kvStore.userCredentials.getExchangeUserId
+      )).getOrElse(null)
+
+      if (!exchangeUserId || !exchangeLifetimeToken) {
+        if (origin === ExchangeAuthOriginType.Signup) {
+          return
+        }
+        if (origin === ExchangeAuthOriginType.SideMenu) {
+          return window.open(`${exchangeDomain}`, '_blank', 'noreferrer')
+        }
+      }
+      const { token } = yield call(
+        api.getExchangeAuthToken,
+        exchangeLifetimeToken,
+        exchangeUserId,
+        retailToken
+      )
+      if (origin === ExchangeAuthOriginType.SideMenu) {
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
+      } else if (exchangeUrlFromLink) {
+        window.open(`${exchangeUrlFromLink}${token}`, '_self', 'noreferrer')
+      } else {
+        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_self', 'noreferrer')
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(stopSubmit(LOGIN_FORM))
+    }
+  }
   const createUser = function* () {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
@@ -286,7 +376,6 @@ export default ({ api, coreSagas, networks }) => {
         return authCredentials
       })
       .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
-
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
@@ -477,12 +566,15 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    authAndRouteToExchangeAction,
     clearSession,
+    createExchangeUser,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     generateAuthCredentials,
+    generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
     isTier2,

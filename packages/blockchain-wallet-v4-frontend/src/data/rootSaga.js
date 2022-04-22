@@ -16,6 +16,7 @@ import preferences from './preferences/sagaRegister'
 import prices from './prices/sagaRegister'
 import router from './router/sagaRegister'
 import session from './session/sagaRegister'
+import signup from './signup/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
 export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
@@ -39,6 +40,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     fork(session({ api })),
+    fork(signup({ api, coreSagas, networks })),
     call(initAppLanguage)
   ])
 }

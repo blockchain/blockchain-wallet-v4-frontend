@@ -47,13 +47,14 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const triggerWalletMagicLink = (sessionToken, email, captchaToken, product) =>
+  const triggerWalletMagicLink = (sessionToken, email, captchaToken, product, redirect) =>
     post({
       contentType: 'application/json',
       data: {
         captcha: captchaToken,
         email,
         product,
+        redirect_url: redirect,
         siteKey: window.CAPTCHA_KEY
       },
       endPoint: '/auth/email-reminder',

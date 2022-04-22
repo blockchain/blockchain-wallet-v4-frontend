@@ -8,7 +8,7 @@ import {
   useOpenReceiveCryptoModal,
   useOpenSellFlow,
   useOpenSendCryptoModal
-} from 'blockchain-wallet-v4-frontend/src/hooks'
+} from 'hooks'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
