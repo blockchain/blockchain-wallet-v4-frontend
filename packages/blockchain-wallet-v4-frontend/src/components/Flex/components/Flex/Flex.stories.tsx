@@ -5,7 +5,7 @@ import { Flex, FlexComponent } from '.'
 
 const flexStory: ComponentMeta<FlexComponent> = {
   component: Flex,
-  title: 'Components/Flex'
+  title: 'Structural/Flex'
 }
 
 const GreyCircle = () => (

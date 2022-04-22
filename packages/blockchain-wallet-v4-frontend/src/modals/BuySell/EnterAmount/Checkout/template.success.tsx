@@ -810,8 +810,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 {(amtError === 'ABOVE_LIMIT' ||
                   (amtError === 'ABOVE_BALANCE' && !isFundsMethod)) && (
                   <FormattedMessage
-                    id='modals.simplebuy.checkout.buy.over_limit'
-                    defaultMessage='You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
+                    id='modals.simplebuy.checkout.buy.over_limit_full_access'
+                    defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
                     values={{
                       amount:
                         fix === 'FIAT'
@@ -870,8 +870,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   />
                 </AlertButton>
                 <FormattedMessage
-                  id='modals.simplebuy.checkout.sellmaxamount'
-                  defaultMessage='The maximum amount of {coin} you can sell from this account is {amount}'
+                  id='modals.simplebuy.checkout.sell_max_amount'
+                  defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
                   values={{
                     amount: formatFiat(
                       convertBaseToStandard('FIAT', effectiveLimit.limit.value),

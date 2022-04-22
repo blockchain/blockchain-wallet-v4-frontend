@@ -156,8 +156,8 @@ const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
           <FormattedMessage id='copy.upgrade_your_wallet' defaultMessage='Upgrade Your Wallet' />
         ) : (
           <FormattedMessage
-            id='modals.tradinglimits.upgrade.tier.silver.title'
-            defaultMessage='Upgrade to Gold Limits'
+            id='modals.tradinglimits.upgrade.tier.full_access.title'
+            defaultMessage='Upgrade to Full Access'
           />
         )}
       </TierTitle>
@@ -429,8 +429,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.silver_limits'
-                    defaultMessage='Silver Limits'
+                    id='modals.tradinglimits.upgrade.limited_access_limits'
+                    defaultMessage='Limited Access Limits'
                   />
                 </ItemTitle>
               </ItemTitleWrapper>
@@ -450,8 +450,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.gold_limits'
-                    defaultMessage='Gold Limits'
+                    id='modals.tradinglimits.upgrade.full_access_limits'
+                    defaultMessage='Full Access Limits'
                   />
                 </ItemTitle>
                 <ItemSubtitle>
