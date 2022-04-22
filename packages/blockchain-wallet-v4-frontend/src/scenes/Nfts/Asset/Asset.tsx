@@ -233,6 +233,10 @@ const Trait = styled.div`
   border-radius: 8px;
   background: ${(props) => props.theme.blue000};
   border: 1px solid ${(props) => props.theme.blue600};
+  &:hover {
+    transform: scale(1.02);
+    -webkit-transition: transform 0.1s ease-in-out;
+  }
 `
 
 const AddressDisplay = styled.div`
