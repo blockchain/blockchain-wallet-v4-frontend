@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
+import { useOpenSendCryptoModal } from 'blockchain-wallet-v4-frontend/src/hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -19,7 +20,9 @@ const MoreEth = styled(Text)`
 `
 
 const GetMoreEthComponent: React.FC<Props> = (props) => {
+  const [openOpenSendCryptoModal] = useOpenSendCryptoModal()
   const { amtToBuy, custodialBalance } = props
+  const sendButtonCallback = () => openOpenSendCryptoModal({ coin: 'ETH', origin: 'NftsMakeOffer' })
 
   return (
     <>
@@ -56,7 +59,7 @@ const GetMoreEthComponent: React.FC<Props> = (props) => {
             nature='primary'
             data-e2e='buyMoreEth'
             width='40px'
-            onClick={() => {}}
+            onClick={sendButtonCallback}
           >
             <FormattedMessage id='copy.send' defaultMessage='Send' />
           </Button>

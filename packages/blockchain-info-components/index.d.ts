@@ -188,6 +188,7 @@ export const Modal: FunctionComponent<{
   isLast?: boolean
   dataE2e?: string
   style?: CSSProperties
+  doNotHide?: boolean
 }>
 export const ModalBody: FunctionComponent<{
   loading?: boolean
@@ -265,7 +266,12 @@ export const Toast: FunctionComponent<{
   persist?: boolean
   timeout?: number
 }>
-export const Tooltip: FunctionComponent<{ id: string; offset?: any, maxWidth?: string, place?: 'top' | 'right' | 'bottom' | 'left' }>
+export const Tooltip: FunctionComponent<{
+  id: string
+  offset?: any
+  maxWidth?: string
+  place?: 'top' | 'right' | 'bottom' | 'left'
+}>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
@@ -280,14 +286,14 @@ export const CheckBoxInput: FunctionComponent<{
   onChange?: () => void
 }>
 export const SelectInput: FunctionComponent<{
-  disabled?: boolean,
-  elements?: Array<any>,
-  grouped?: boolean,
-  label?: string | unknown,
-  onBlur?: () => void,
-  onChange?: (unknown) => void,
-  onFocus?: () => void,
-  opened?: boolean,
-  searchEnabled?: boolean,
+  disabled?: boolean
+  elements?: Array<any>
+  grouped?: boolean
+  label?: string | unknown
+  onBlur?: () => void
+  onChange?: (unknown) => void
+  onFocus?: () => void
+  opened?: boolean
+  searchEnabled?: boolean
   value: string | boolean | number
 }>

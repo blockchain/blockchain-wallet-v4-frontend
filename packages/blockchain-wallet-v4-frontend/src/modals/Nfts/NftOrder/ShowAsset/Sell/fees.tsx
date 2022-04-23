@@ -19,6 +19,7 @@ const Fees: React.FC<Props> = (props) => {
     if (props.asset) {
       nftActions.fetchFees({
         asset: props.asset,
+        expirationDays: 0,
         operation: GasCalculationOperations.Sell,
         startPrice: 0.11
       })

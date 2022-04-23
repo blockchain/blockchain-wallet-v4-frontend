@@ -1,13 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { AssetSortFields } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'
@@ -40,6 +43,7 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
+  analyticsActions,
   collectionFilter,
   eventFilter,
   formActions,
@@ -104,7 +108,15 @@ const TraitGridFilters: React.FC<Props> = ({
                   <IconCloseCircle
                     role='button'
                     cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', 'collection', undefined)}
+                    onClick={() => {
+                      formActions.change('nftFilter', 'collection', undefined)
+                      analyticsActions.trackEvent({
+                        key: Analytics.NFT_FILTER_REMOVED,
+                        properties: {
+                          filter_characteristic: 'collection'
+                        }
+                      })
+                    }}
                   />
                 </Icon>
               </div>
@@ -161,7 +173,15 @@ const TraitGridFilters: React.FC<Props> = ({
                         <IconCloseCircle
                           role='button'
                           cursor='pointer'
-                          onClick={() => formActions.change('nftFilter', key, undefined)}
+                          onClick={() => {
+                            formActions.change('nftFilter', key, undefined)
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_FILTER_REMOVED,
+                              properties: {
+                                filter_characteristic: key
+                              }
+                            })
+                          }}
                         />
                       </Icon>
                     </div>
@@ -193,9 +213,15 @@ const TraitGridFilters: React.FC<Props> = ({
                             <IconCloseCircle
                               role='button'
                               cursor='pointer'
-                              onClick={() =>
+                              onClick={() => {
                                 formActions.change('nftFilter', `${trait}.${value}`, undefined)
-                              }
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_FILTER_REMOVED,
+                                  properties: {
+                                    filter_characteristic: `${trait}.${value}`
+                                  }
+                                })
+                              }}
                             />
                           </Icon>
                         </div>
@@ -205,12 +231,20 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
+        {/* analyticsActions.trackEvent({
+                  key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
+                  properties: {}
+                  }) */}
       </TraitGrid>
     </>
   )
 }
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+const connector = connect(null, mapDispatchToProps)
 
-type Props = {
+type OwnProps = {
   activeTab: 'ITEMS' | 'EVENTS'
   collectionFilter?: string | null
   eventFilter?: string | null
@@ -221,5 +255,6 @@ type Props = {
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
   traitFilters: string[] | null
 }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default TraitGridFilters
+export default connector(TraitGridFilters)

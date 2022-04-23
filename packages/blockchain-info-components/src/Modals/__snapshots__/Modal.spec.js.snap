@@ -4,6 +4,7 @@ exports[`Modal component default renders correctly 1`] = `
 <styled.div
   isLast={true}
   position={1}
+  zIndex={1050}
 >
   <styled.div
     closeButton={true}
@@ -13,6 +14,7 @@ exports[`Modal component default renders correctly 1`] = `
     size="large"
     total={1}
     width="600px"
+    zIndex={1050}
   />
 </styled.div>
 `;

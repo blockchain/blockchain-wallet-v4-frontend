@@ -2,11 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import * as lz from 'lz-string'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
@@ -160,8 +162,11 @@ const CTA: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
 
-const connector = connect(mapStateToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
