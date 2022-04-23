@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { CombinedError, UseQueryState } from 'urql'
+import { CombinedError } from 'urql'
 
 import { Button, SpinningLoader } from 'blockchain-info-components'
 import { TableWrapper } from 'components/Table'
-import { CollectionsQuery, EventsQuery } from 'generated/graphql'
+import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
 
 import { Centered, Grid } from '../components'
 import GraphqlError from '../components/GraphqlError'
-import { NftFilterFormValuesType } from '../NftFilter'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
-const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
+const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -27,7 +26,7 @@ const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
-  }, [formValues])
+  }, [filters])
 
   return (
     <>
@@ -36,10 +35,8 @@ const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
           ? pageVariables.map(({ page }) => (
               <EventsResults
                 page={page}
-                // @ts-ignore
-                formValues={formValues}
                 key={page}
-                slug={slug}
+                filters={filters}
                 setEvents={setEvents}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
@@ -53,7 +50,7 @@ const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
         ) : (
           <Centered>
             <GraphqlError error={errorFetchingNextPage} />
-            {isFetchingNextPage || collectionsQuery.fetching ? (
+            {isFetchingNextPage || isFetchingParent ? (
               <SpinningLoader width='14px' height='14px' borderWidth='3px' />
             ) : (
               <Button
@@ -77,9 +74,9 @@ const Events: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
 }
 
 type Props = {
-  collectionsQuery: UseQueryState<CollectionsQuery, object>
-  formValues: NftFilterFormValuesType
-  slug: string
+  address?: never
+  filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
+  isFetchingParent: boolean
 }
 
 export default Events
