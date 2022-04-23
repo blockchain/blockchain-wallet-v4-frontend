@@ -2,26 +2,20 @@ import React, { useEffect } from 'react'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { EventFilterFields, EventsQuery, useEventsQuery } from 'generated/graphql'
+import { EventFilter, EventsQuery, InputMaybe, useEventsQuery } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'
-import { getEventFilter } from '../utils/NftUtils'
 
 const EventsResults: React.FC<Props> = ({
-  formValues,
+  filters,
   page,
   setEvents,
   setIsFetchingNextPage,
-  setNextPageFetchError,
-  slug
+  setNextPageFetchError
 }) => {
-  const eventFilter = getEventFilter(formValues)
-    ? [{ field: EventFilterFields.EventType, value: getEventFilter(formValues) }]
-    : []
-
   const [result] = useEventsQuery({
     variables: {
-      filter: [{ field: EventFilterFields.CollectionSlug, value: slug }, ...eventFilter],
+      filter: filters,
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT
     }
@@ -42,12 +36,11 @@ const EventsResults: React.FC<Props> = ({
 }
 
 type Props = {
-  formValues: NftFilterFormValuesType
+  filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
   page: number
   setEvents: React.Dispatch<React.SetStateAction<EventsQuery['events']>>
   setIsFetchingNextPage: (isFetching: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
-  slug: string
 }
 
 export default EventsResults

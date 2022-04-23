@@ -1,48 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
-import { CombinedError } from 'urql'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { OwnerQuery } from 'generated/graphql'
+import { EventFilterFields, OwnerQuery } from 'generated/graphql'
 
-import { Centered, Grid, GridWrapper, NftBannerWrapper } from '../components'
-import GraphqlError from '../components/GraphqlError'
+import { event_types, GridWrapper, NftBannerWrapper } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
+import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getCollectionFilter, getMinMaxFilters } from '../utils/NftUtils'
-import ResultsPage from './results'
+import { getCollectionFilter, getEventFilter, getMinMaxFilters } from '../utils/NftUtils'
+import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const address = pathname.split('/nfts/address/')[1]
 
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
-
-  const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
-  const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
-  const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
-    undefined
-  )
 
   const minMaxFilters = getMinMaxFilters(formValues)
   const collectionFilter = getCollectionFilter(formValues, collections)
+  const eventFilter = getEventFilter(formValues)
 
   const hasSomeFilters =
     formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
 
-  useEffect(() => {
-    setIsFetchingNextPage(true)
-    setPageVariables([])
-    setTimeout(() => {
-      setPageVariables([{ page: 0 }])
-    }, 100)
-  }, [address])
+  const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
+
+  if (eventFilter) {
+    filters.push({ field: EventFilterFields.EventType, value: eventFilter })
+  }
 
   if (!address) return null
 
@@ -77,58 +68,36 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
       </div>
       <GridWrapper>
         <NftFilter
-          collections={collections}
+          collections={activeTab === 'ITEMS' ? collections : []}
           formActions={formActions}
           formValues={formValues}
-          minMaxPriceFilter
-          forSaleFilter
+          minMaxPriceFilter={activeTab === 'ITEMS'}
+          forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
+          event_types={activeTab === 'ITEMS' ? [] : event_types}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
             activeTab={activeTab}
             traitFilters={[]}
+            eventFilter={activeTab === 'EVENTS' ? eventFilter : null}
             formActions={formActions}
             formValues={formValues}
             minMaxFilters={minMaxFilters}
             hasSomeFilters={hasSomeFilters}
-            collectionFilter={collectionFilter}
+            collectionFilter={activeTab === 'ITEMS' ? collectionFilter : null}
             setActiveTab={setActiveTab}
           />
-          <Grid>
-            {pageVariables.length
-              ? pageVariables.map(({ page }) => (
-                  <ResultsPage
-                    page={page}
-                    formValues={formValues}
-                    collections={collections}
-                    setCollections={setCollections}
-                    key={page}
-                    address={address}
-                    setNextPageFetchError={setNextPageFetchError}
-                    setIsFetchingNextPage={setIsFetchingNextPage}
-                  />
-                ))
-              : null}
-          </Grid>
-          <Centered>
-            <GraphqlError error={errorFetchingNextPage} />
-            {isFetchingNextPage ? (
-              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-            ) : (
-              <Button
-                onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-                nature='primary'
-                data-e2e='loadMoreNfts'
-              >
-                {errorFetchingNextPage ? (
-                  <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-                ) : (
-                  <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
-                )}
-              </Button>
-            )}
-          </Centered>
+          {activeTab === 'ITEMS' ? (
+            <AddressItems
+              collections={collections}
+              setCollections={setCollections}
+              formValues={formValues}
+              address={address}
+            />
+          ) : (
+            <Events isFetchingParent={false} filters={filters} />
+          )}
         </div>
       </GridWrapper>
     </div>

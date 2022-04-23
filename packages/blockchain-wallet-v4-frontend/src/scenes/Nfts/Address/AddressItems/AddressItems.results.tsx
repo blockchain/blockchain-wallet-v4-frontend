@@ -13,8 +13,14 @@ import {
   useOwnerQuery
 } from 'generated/graphql'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
-import { NftFilterFormValuesType } from '../NftFilter'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  AssetImageContainer,
+  PriceCTA
+} from '../../components'
+import { NftFilterFormValuesType } from '../../NftFilter'
 
 const NftAddressResults: React.FC<Props> = ({
   address,
