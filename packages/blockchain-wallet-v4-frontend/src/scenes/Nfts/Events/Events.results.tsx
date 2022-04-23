@@ -2,9 +2,14 @@ import React, { useEffect } from 'react'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { EventFilter, EventsQuery, InputMaybe, useEventsQuery } from 'generated/graphql'
-
-import { NftFilterFormValuesType } from '../NftFilter'
+import {
+  EventFilter,
+  EventSortFields,
+  EventsQuery,
+  InputMaybe,
+  SortDirection,
+  useEventsQuery
+} from 'generated/graphql'
 
 const EventsResults: React.FC<Props> = ({
   filters,
@@ -17,7 +22,8 @@ const EventsResults: React.FC<Props> = ({
     variables: {
       filter: filters,
       limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT
+      offset: page * NFT_ORDER_PAGE_LIMIT,
+      sort: { by: EventSortFields.CreatedDate, direction: SortDirection.Desc }
     }
   })
 

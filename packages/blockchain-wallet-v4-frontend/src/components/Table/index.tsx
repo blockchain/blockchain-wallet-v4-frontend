@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-export const TableWrapper = styled.div`
+export const TableWrapper = styled.div<{ height?: string }>`
   display: block;
   max-width: 100%;
-  height: 100%;
+  height: ${(props) => props.height || '100%'};
   width: 100%;
   .tableWrap {
     display: block;

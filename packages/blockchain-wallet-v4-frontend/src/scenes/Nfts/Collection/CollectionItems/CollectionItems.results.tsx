@@ -28,6 +28,7 @@ const CollectionItemsResults: React.FC<Props> = ({
   formValues,
   page,
   setIsFetchingNextPage,
+  setMaxItemsFetched,
   setNextPageFetchError,
   slug
 }) => {
@@ -70,6 +71,12 @@ const CollectionItemsResults: React.FC<Props> = ({
   useEffect(() => {
     setIsFetchingNextPage(result.fetching)
   }, [result.fetching])
+
+  useEffect(() => {
+    if (result.data?.assets.length !== undefined) {
+      setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
+    }
+  }, [result.data?.assets?.length, setMaxItemsFetched])
 
   return (
     <>
@@ -152,6 +159,7 @@ type Props = {
   formValues: NftFilterFormValuesType
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void
+  setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
   slug: string
 }
