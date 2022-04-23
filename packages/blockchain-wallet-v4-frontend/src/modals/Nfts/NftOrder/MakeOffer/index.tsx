@@ -225,7 +225,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   <Value>
                     <AmountFieldInput
                       coin={coin}
-                      fiatCurrency='GBP'
+                      fiatCurrency={walletCurrency}
                       amtError={false}
                       quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
                       fix={fix as 'CRYPTO' | 'FIAT'}

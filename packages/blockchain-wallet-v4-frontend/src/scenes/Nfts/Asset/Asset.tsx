@@ -645,6 +645,7 @@ const NftAsset: React.FC<Props> = ({
                     data-e2e='openNftFlow'
                     nature='primary'
                     jumbo
+                    style={{ width: '20em' }}
                     onClick={() => {
                       nftsActions.nftOrderFlowOpen({
                         asset_contract_address: contract,
