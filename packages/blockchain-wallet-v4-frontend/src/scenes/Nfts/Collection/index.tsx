@@ -160,7 +160,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               isFetchingParent={collectionsQuery.fetching}
               filters={[
                 { field: EventFilterFields.CollectionSlug, value: slug },
-                ...(formValues.event
+                ...(formValues?.event
                   ? [{ field: EventFilterFields.EventType, value: formValues.event }]
                   : [])
               ]}

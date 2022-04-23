@@ -22,10 +22,9 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 20px;
   position: sticky;
   transition: all 0.3s ease;
-  padding: 0 10px;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - 76px);
+  height: calc(100vh - 106px);
   overflow: scroll;
   ${media.tablet`
     display: none;

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { CombinedError } from 'urql'
 
-import { Button, SpinningLoader } from 'blockchain-info-components'
+import { SpinningLoader } from 'blockchain-info-components'
 import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
 
-import { Centered, Grid } from '../components'
-import GraphqlError from '../components/GraphqlError'
+import { Centered } from '../components'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
@@ -30,40 +28,29 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
 
   return (
     <>
-      <Grid>
-        {pageVariables.length
-          ? pageVariables.map(({ page }) => (
-              <EventsResults
-                page={page}
-                key={page}
-                filters={filters}
-                setEvents={setEvents}
-                setNextPageFetchError={setNextPageFetchError}
-                setIsFetchingNextPage={setIsFetchingNextPage}
-              />
-            ))
-          : null}
-      </Grid>
-      <TableWrapper>
-        {events.length ? <EventsTable events={events} /> : null}
+      {pageVariables.length
+        ? pageVariables.map(({ page }) => (
+            <EventsResults
+              page={page}
+              key={page}
+              filters={filters}
+              setEvents={setEvents}
+              setNextPageFetchError={setNextPageFetchError}
+              setIsFetchingNextPage={setIsFetchingNextPage}
+            />
+          ))
+        : null}
+      <TableWrapper height='auto'>
+        {events.length ? (
+          <EventsTable
+            onLazyLoad={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
+            events={events}
+          />
+        ) : null}
         <Centered>
-          <GraphqlError error={errorFetchingNextPage} />
           {isFetchingNextPage || isFetchingParent ? (
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          ) : (
-            <Button
-              style={{ marginTop: '16px' }}
-              onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-              nature='primary'
-              data-e2e='loadMoreNfts'
-            >
-              {errorFetchingNextPage ? (
-                <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-              ) : (
-                <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
-              )}
-            </Button>
-          )}
+          ) : null}
         </Centered>
       </TableWrapper>
     </>

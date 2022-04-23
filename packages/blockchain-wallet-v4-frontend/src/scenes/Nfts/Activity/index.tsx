@@ -45,7 +45,10 @@ const Activity: React.FC<Props> = (props) => {
     )
 
   return (
-    <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
+    <LazyLoadContainer
+      triggerDistance={200}
+      onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}
+    >
       {props.offersMade.list.length ? (
         props.offersMade.list.map((offer, i) => {
           // If user already owns NFT and offer is from them don't show
