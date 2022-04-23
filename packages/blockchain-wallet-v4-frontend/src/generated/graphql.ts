@@ -562,6 +562,7 @@ export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __ty
 
 export type EventsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
+  sort?: InputMaybe<EventSort>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 }>;
@@ -2394,8 +2395,8 @@ export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<Collections
   return Urql.useQuery<CollectionsQuery>({ query: CollectionsDocument, ...options });
 };
 export const EventsDocument = gql`
-    query Events($filter: [EventFilter], $limit: Int, $offset: Int) {
-  events(filter: $filter, limit: $limit, offset: $offset) {
+    query Events($filter: [EventFilter], $sort: EventSort, $limit: Int, $offset: Int) {
+  events(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
     event_type
     asset {
       name

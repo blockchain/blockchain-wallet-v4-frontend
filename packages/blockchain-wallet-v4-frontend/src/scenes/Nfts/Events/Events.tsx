@@ -45,29 +45,26 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
           : null}
       </Grid>
       <TableWrapper>
-        {events.length ? (
-          <EventsTable events={events} />
-        ) : (
-          <Centered>
-            <GraphqlError error={errorFetchingNextPage} />
-            {isFetchingNextPage || isFetchingParent ? (
-              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-            ) : (
-              <Button
-                style={{ marginTop: '16px' }}
-                onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-                nature='primary'
-                data-e2e='loadMoreNfts'
-              >
-                {errorFetchingNextPage ? (
-                  <FormattedMessage id='copy.retry' defaultMessage='Retry' />
-                ) : (
-                  <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
-                )}
-              </Button>
-            )}
-          </Centered>
-        )}
+        {events.length ? <EventsTable events={events} /> : null}
+        <Centered>
+          <GraphqlError error={errorFetchingNextPage} />
+          {isFetchingNextPage || isFetchingParent ? (
+            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+          ) : (
+            <Button
+              style={{ marginTop: '16px' }}
+              onClick={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
+              nature='primary'
+              data-e2e='loadMoreNfts'
+            >
+              {errorFetchingNextPage ? (
+                <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+              ) : (
+                <FormattedMessage id='copy.load_more' defaultMessage='Load More' />
+              )}
+            </Button>
+          )}
+        </Centered>
       </TableWrapper>
     </>
   )
