@@ -165,12 +165,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                         data-e2e='amountField'
                         onToggleFix={() => {
                           props.formActions.change(
-                            'nftMakeOffer',
+                            'nftMarkForSale',
                             'fix',
                             fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
                           )
                           props.formActions.change(
-                            'nftMakeOffer',
+                            'nftMarkForSale',
                             'amount',
                             fix === 'CRYPTO' ? fiatAmt : cryptoAmt
                           )
@@ -196,12 +196,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                         data-e2e='amountField'
                         onToggleFix={() => {
                           props.formActions.change(
-                            'nftMakeOffer',
+                            'nftMarkForSale',
                             'fix',
                             fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
                           )
                           props.formActions.change(
-                            'nftMakeOffer',
+                            'nftMarkForSale',
                             'amount',
                             fix === 'CRYPTO' ? fiatAmt : cryptoAmt
                           )
@@ -244,12 +244,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                           data-e2e='amountField'
                           onToggleFix={() => {
                             props.formActions.change(
-                              'nftMakeOffer',
+                              'nftMarkForSale',
                               'fix',
                               fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
                             )
                             props.formActions.change(
-                              'nftMakeOffer',
+                              'nftMarkForSale',
                               'amount',
                               fix === 'CRYPTO' ? fiatAmt : cryptoAmt
                             )
@@ -571,7 +571,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      coin: 'WETH',
+      coin: 'ETH',
       expirationDays: 1,
       fix: 'CRYPTO',
       listingTime: moment().format('MM/DD/YYYY'),
