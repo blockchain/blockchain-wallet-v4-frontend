@@ -28,9 +28,8 @@ class LinkedBanks extends PureComponent<Props> {
     // from the user's /current limits data, but if that doesn't exist we fall back to wallet currency
     // but wallet currency can be changed by the user also so it's not 100% reliable either.
     const { walletCurrency } = this.props
-    const fiatCurrency = this.props.userData?.limits[0]?.currency || walletCurrency
     this.props.brokerageActions.showModal({
-      modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      modalType: walletCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
