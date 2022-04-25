@@ -113,7 +113,7 @@ const CollectionItemsResults: React.FC<Props> = ({
                         size='14px'
                         color='black'
                         weight={600}
-                        coin={lowestListing.payment_token?.symbol || 'ETH'}
+                        coin={lowestListing.payment_token_symbol || 'ETH'}
                       >
                         {lowestListing.starting_price}
                       </CoinDisplay>
@@ -122,7 +122,7 @@ const CollectionItemsResults: React.FC<Props> = ({
                         color='grey600'
                         weight={600}
                         currency='USD'
-                        coin={lowestListing.payment_token?.symbol || 'ETH'}
+                        coin={lowestListing.payment_token_symbol || 'ETH'}
                       >
                         {lowestListing.starting_price}
                       </FiatDisplay>
