@@ -70,6 +70,6 @@ describe('getTotalBalance', () => {
 
 describe('getContext', () => {
   it('should get all unique wallet accounts', () => {
-    expect(getContext(state)).toEqual([id1])
+    expect(getContext(state)).toEqual([id1, id2])
   })
 })
