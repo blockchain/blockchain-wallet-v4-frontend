@@ -70,6 +70,7 @@ export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  align-items: flex-start;
 `
 
 export const Grid = styled.div`
