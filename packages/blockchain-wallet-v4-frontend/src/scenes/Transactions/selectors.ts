@@ -17,6 +17,7 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import {
   AddressTypesType,
   BSOrderType,
@@ -76,7 +77,7 @@ const filterTransactions = curry(
         case '':
           return tx
         default:
-          return (tx as ProcessedTxType).blockHeight
+          return (tx as ProcessedTxType).blockHeight || (tx as IngestedSelfCustodyType).movements
       }
     }
 
