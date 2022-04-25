@@ -24,13 +24,11 @@ class LinkedBanks extends PureComponent<Props> {
   }
 
   handleBankClick = () => {
-    // There is no reliable source of fiatCurrency so we depend on the withdrawal component for it
-    // but if the userData has a limits currency that seems fairly reliable so we'll use that. It
-    // limits is an empty array on tier 0 accounts but they're not eligible for banks anyways
-    let { fiatCurrency } = this.props
-    if (path(['userData', 'limits'], this.props)) {
-      fiatCurrency = this.props.userData?.limits[0]?.currency as WalletFiatType
-    }
+    // There isn't a very reliable source of fiat currency for a user so we try to get it
+    // from the user's /current limits data, but if that doesn't exist we fall back to wallet currency
+    // but wallet currency can be changed by the user also so it's not 100% reliable either.
+    const { walletCurrency } = this.props
+    const fiatCurrency = this.props.userData?.limits[0]?.currency || walletCurrency
     this.props.brokerageActions.showModal({
       modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
@@ -81,7 +79,6 @@ class LinkedBanks extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
@@ -97,7 +94,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: WalletFiatType
   userData: UserDataType
   walletCurrency: WalletFiatType
 }
