@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconArrowLeft, IconChevronRightV2 } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Image } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -11,7 +13,7 @@ import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import {
   BackArrow,
-  ButtonLine,
+  ButtonIcon,
   CenteredMsgWrapper,
   CenteredTitle,
   Column,
@@ -29,20 +31,15 @@ const Select2faType = (props) => {
         <SubHeaderWrapper>
           <BackArrow onClick={() => null}>
             {!props.hideBackArrow && (
-              <Icon
-                data-e2e='2faBack'
-                name='arrow-back'
-                size='24px'
-                color='blue600'
-                style={{ marginRight: '8px' }}
-                role='button'
-              />
+              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
+                <IconArrowLeft />
+              </Icon>
             )}
-            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <Text color='grey900' variant='paragraph-1'>
               <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </BackArrow>
-          <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
+          <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
@@ -53,15 +50,9 @@ const Select2faType = (props) => {
             />
           </Text>
         </SubHeaderWrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
+        <CenteredTitle color='black' variant='title-3'>
           <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />
-          <CenteredMsgWrapper color='textBlack' lineHeight='20px' size='14px' weight={500}>
+          <CenteredMsgWrapper color='grey900' variant='paragraph-1'>
             <FormattedMessage
               id='scenes.login.upgrade.2fa.text'
               defaultMessage='Protect your accounts from unauthorized access by enabling 2FA. When you access your Blockchain account, enter your Google Auth code or insert a YubiKey.'
@@ -70,7 +61,7 @@ const Select2faType = (props) => {
         </CenteredTitle>
         <PanelButtonWrapper>
           <Column>
-            <Text size='16px' weight={500} lineHeight='24px' color='grey900'>
+            <Text color='grey900' variant='body-1'>
               <FormattedMessage
                 id='scenes.login.upgrade.2fa.item_1.title'
                 defaultMessage='Google Authenticator'
@@ -80,13 +71,7 @@ const Select2faType = (props) => {
               <IconWrapper>
                 <Image name='google-auth-logo' style={{ marginRight: '16px' }} />
               </IconWrapper>
-              <Text
-                size='16px'
-                weight={500}
-                lineHeight='24px'
-                color='grey600'
-                style={{ paddingRight: '4px' }}
-              >
+              <Text color='grey600' variant='body-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.2fa.item_1.text'
                   defaultMessage='Generate a second step of verification when you sign in.'
@@ -94,16 +79,13 @@ const Select2faType = (props) => {
               </Text>
             </Row>
           </Column>
-          <ButtonLine
-            name='chevron-right'
-            size='20px'
-            color='grey600'
-            style={{ marginRight: '16px' }}
-          />
+          <ButtonIcon label='chevronRight' size='md' color='grey600'>
+            <IconChevronRightV2 />
+          </ButtonIcon>
         </PanelButtonWrapper>
         <PanelButtonWrapper>
           <Column>
-            <Text size='16px' weight={500} lineHeight='24px' color='grey900'>
+            <Text color='grey900' variant='body-1'>
               <FormattedMessage
                 id='scenes.login.upgrade.2fa.item_2.title'
                 defaultMessage='YubiKey'
@@ -113,13 +95,7 @@ const Select2faType = (props) => {
               <IconWrapper>
                 <Image name='yubikey-logo' style={{ marginRight: '16px' }} />
               </IconWrapper>
-              <Text
-                size='16px'
-                weight={500}
-                lineHeight='24px'
-                color='grey600'
-                style={{ paddingRight: '4px' }}
-              >
+              <Text color='grey600' variant='body-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.2fa.item_2.text'
                   defaultMessage='Secure your wallet with a physical key or device.'
@@ -127,12 +103,9 @@ const Select2faType = (props) => {
               </Text>
             </Row>
           </Column>
-          <ButtonLine
-            name='chevron-right'
-            size='20px'
-            color='grey600'
-            style={{ marginRight: '16px' }}
-          />
+          <ButtonIcon label='chevronRight' size='md' color='grey600'>
+            <IconChevronRightV2 />
+          </ButtonIcon>
         </PanelButtonWrapper>
       </Wrapper>
       <StyledTemporaryButton
