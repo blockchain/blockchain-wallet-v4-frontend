@@ -1,8 +1,8 @@
 import { BigNumber } from 'bignumber.js'
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import queryString from 'query-string'
 import { assoc } from 'ramda'
-import * as StellarSdk from 'stellar-sdk'
+import { Keypair, StrKey } from 'stellar-sdk'
 
 export const calculateEffectiveBalance = (balance, reserve, fee) =>
   new BigNumber(balance).minus(reserve).minus(fee).toString()
@@ -22,7 +22,7 @@ export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
 export const isValidAddress = (value) => {
   // Exchange address split on : is [address, memo]
   const address = value.split(':')[0]
-  return StellarSdk.StrKey.isValidEd25519PublicKey(address)
+  return StrKey.isValidEd25519PublicKey(address)
 }
 
 export const calculateTransactionAmount = (amount, fee) => new BigNumber.sum(amount, fee).toString()
@@ -45,14 +45,10 @@ export const decodeXlmURI = (uri) => {
 }
 
 export const getKeyPair = (mnemonic) => {
-  return import(
-    /* webpackChunkName: "ed25519" */
-    /* webpackMode: "lazy" */
-    'ed25519-hd-key'
-  ).then((ed25519) => {
+  return import('ed25519-hd-key').then((ed25519) => {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const seedHex = seed.toString('hex')
     const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
-    return StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
+    return Keypair.fromRawEd25519Seed(masterKey.key)
   })
 }

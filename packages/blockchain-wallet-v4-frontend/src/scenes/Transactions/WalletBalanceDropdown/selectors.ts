@@ -3,7 +3,6 @@ import { lift } from 'ramda'
 import { Exchange, Remote } from '@core'
 import { getBalance } from '@core/redux/data/coins/selectors'
 import {
-  // CoinType,
   ExtractSuccess,
   FiatType
 } from '@core/types'
@@ -18,9 +17,6 @@ import {
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { selectors } from 'data'
 
-// import { ALL_ACCOUNTS_SELECTOR } from 'data/coins/model/all'
-// import { getCoinAccounts } from 'data/coins/selectors/index'
-// import { CoinAccountSelectorType } from 'data/coins/types'
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
@@ -36,7 +32,6 @@ export const getData = (state, ownProps: OwnProps) => {
   switch (coin) {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial: true,
         includeInterest: true
@@ -46,7 +41,6 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'BCH':
       addressDataR = getBchAddressData(state, {
         coin: 'BCH',
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -54,7 +48,6 @@ export const getData = (state, ownProps: OwnProps) => {
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -62,7 +55,6 @@ export const getData = (state, ownProps: OwnProps) => {
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })

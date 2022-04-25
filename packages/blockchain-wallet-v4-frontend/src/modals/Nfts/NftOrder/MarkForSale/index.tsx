@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { map } from 'ramda'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -11,10 +11,13 @@ import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Row, Title, Value } from 'components/Flyout/model'
-import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
+import Form from 'components/Form/Form'
+import NumberBox from 'components/Form/NumberBox'
+import SelectBox from 'components/Form/SelectBox'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
@@ -31,22 +34,6 @@ const FormWrapper = styled.div`
   `}
 `
 
-const DateSelectRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 84%;
-`
-const DateDivider = styled.div`
-  min-width: 18px;
-`
-const DateLabel = styled(Text)`
-  margin-bottom: 6px;
-`
-const EndDateLabel = styled(DateLabel)`
-  margin-right: 95px;
-`
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
@@ -68,8 +55,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.amount = ''
     formValues.starting = ''
     formValues.ending = ''
-    formValues.listingTime = ''
-    formValues.expirationTime = ''
+    formValues.expirationDays = 1
     formValues.timedAuctionType = 'decliningPrice'
   }
 
@@ -156,11 +142,11 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <Field
                         name='amount'
                         component={NumberBox}
+                        props={{ center: 'center', size: '48px' }}
                         onChange={(e) =>
                           nftActions.fetchFees({
                             asset: val,
-                            expirationTime: formValues.expirationTime,
-                            listingTime: formValues.listingTime,
+                            expirationDays: formValues.expirationDays,
                             operation: GasCalculationOperations.Sell,
                             startPrice: e.target.value
                           })
@@ -261,8 +247,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                             nftActions.fetchFees({
                               asset: val,
                               endPrice: undefined,
-                              expirationTime: formValues.expirationTime,
-                              listingTime: formValues.listingTime,
+                              expirationDays: formValues.expirationDays,
                               operation: GasCalculationOperations.Sell,
                               paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                               startPrice: Number(formValues.starting)
@@ -284,37 +269,40 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </>
               )}
               <Row>
-                <DateSelectRow>
-                  <DateLabel size='14px' weight={500} capitalize>
-                    <FormattedMessage
-                      id='modals.transactions.report.startdate'
-                      defaultMessage='start date'
-                    />
-                  </DateLabel>
-                  <EndDateLabel size='14px' weight={500} capitalize>
-                    <FormattedMessage
-                      id='modals.transactions.report.enddate'
-                      defaultMessage='end date'
-                    />
-                  </EndDateLabel>
-                </DateSelectRow>
-                <DateSelectRow>
+                <Title>
+                  <b>
+                    <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
+                  </b>
+                </Title>
+                <Value>
                   <Field
-                    dateFormat='MM/DD/YYYY'
-                    fullwidth
-                    name='listingTime'
-                    validate={[required]}
-                    component={DateBoxDebounced}
+                    name='expirationDays'
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(days: any) => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    }}
+                    component={SelectBox}
+                    elements={[
+                      {
+                        group: '',
+                        items: map(
+                          (item) => ({
+                            text: item.text,
+                            value: item.value
+                          }),
+                          [
+                            { text: '1 Day', value: 1 },
+                            { text: '3 Days', value: 3 },
+                            { text: '7 Days', value: 7 },
+                            { text: '1 Months', value: 30 },
+                            { text: '3 Months', value: 90 },
+                            { text: '6 Months', value: 180 }
+                          ]
+                        )
+                      }
+                    ]}
                   />
-                  <DateDivider />
-                  <Field
-                    dateFormat='MM/DD/YYYY'
-                    fullwidth
-                    name='expirationTime'
-                    validate={[required]}
-                    component={DateBoxDebounced}
-                  />
-                </DateSelectRow>
+                </Value>
               </Row>
               <Row>
                 <Value asTitle>
@@ -359,9 +347,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.amount),
                           waitForHighestBid: false
@@ -374,9 +361,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: true
@@ -387,9 +373,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: Number(formValues.ending),
-                          expirationTime: formValues.expirationTime,
+                          expirationDays: formValues.expirationDays,
                           gasData: fees,
-                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: false
@@ -429,20 +414,24 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMarkForSale')(state) as {
     amount: string
     ending: string
-    expirationTime: string
-    listingTime: string
+    expirationDays: number
     starting: string
     timedAuctionType: string
   }
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      listingTime: moment().format('MM/DD/YYYY'),
+      listingTime: format(new Date(), 'yyyy-MM-dd'),
       'sale-type': 'fixed-price',
       timedAuctionType: 'decliningPrice'
     }

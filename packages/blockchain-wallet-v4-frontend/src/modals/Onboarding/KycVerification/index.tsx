@@ -135,6 +135,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           isOpen={show}
           onClose={this.handleClose}
           data-e2e='identityVerificationModal'
+          doNotHide
         >
           <FlyoutChild>{this.getStepComponent(emailVerified, step)}</FlyoutChild>
         </Flyout>

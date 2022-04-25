@@ -6,12 +6,12 @@ import { createHashHistory } from 'history'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
 import { compose } from 'redux'
-import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
+import Worker from 'web-worker'
 
 import { coreMiddleware } from '@core'
-import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network/index.ts'
+import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 
@@ -23,100 +23,49 @@ import {
   webSocketRates
 } from '../middleware'
 
-const devToolsConfig = {
-  actionsBlacklist: [
-    // '@@redux-form/INITIALIZE',
-    // '@@redux-form/CHANGE',
-    // '@@redux-form/REGISTER_FIELD',
-    // '@@redux-form/UNREGISTER_FIELD',
-    // '@@redux-form/UPDATE_SYNC_ERRORS',
-    // '@@redux-form/FOCUS',
-    // '@@redux-form/BLUR',
-    // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET'
-    '@CORE.COINS_WEBSOCKET_MESSAGE',
-    '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
-    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
-  ],
-  maxAge: 1000,
-  serialize: serializer
-}
-
 const configuredStore = async function () {
-  const history = createHashHistory()
-  const sagaMiddleware = createSagaMiddleware()
-  const walletPath = 'wallet.payload'
-  const kvStorePath = 'wallet.kvstore'
-  const { isAuthenticated } = selectors.auth
-
-  let res;
-  let options;
-  let assetsRes;
-  let assets;
-  let erc20Res;
-  let erc20s;
-  
+  // immediately load app configuration
+  let options
   try {
-    res = await fetch('/wallet-options-v4.json')
+    let res = await fetch('/wallet-options-v4.json')
     options = await res.json()
   } catch (error) {
     throw new Error('wallet-options failed to load.')
   }
-  try {
-    assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
-    assets = await assetsRes.json()
-    if(!assets.currencies) throw new Error()
-  } catch (error) {
-    throw new Error('custodial currencies failed to load.')
-  }
-  try {
-    erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
-    erc20s = await erc20Res.json()
-    if(!erc20s.currencies) throw new Error()
-  } catch (error) {
-    throw new Error('erc20 currencies failed to load.')
-  }
 
-  const erc20Whitelist = options.platforms.web.erc20s
+  // define empty window coins object
+  // result of web worker will populate data later
+  window.coins = {}
 
-  let supportedCoins = assets.currencies
-  let supportedErc20s = erc20s.currencies
-  if (erc20Whitelist) {
-    supportedCoins = supportedCoins.filter(({ type, symbol }) =>
-      type.name !== 'ERC20' ? true : erc20Whitelist.indexOf(symbol) >= 0
-    )
-    supportedErc20s = []
-  }
+  // offload asset configuration fetch/parse from main thread
+  if (window.Worker) {
+    const url = new URL('./worker.assets.js', import.meta.url)
+    const worker = new Worker(url)
 
-  window.coins = {
-    ...supportedCoins.reduce((acc, curr) => {
-      if (curr.symbol.includes('.')) return acc
-      return {
-        ...acc,
-        [curr.symbol]: { coinfig: curr }
-      }
-    }, {}),
-    ...supportedErc20s.reduce((acc, curr) => {
-      if (curr.symbol.includes('.')) return acc
-      return {
-        ...acc,
-        [curr.symbol]: { coinfig: curr }
-      }
-    }, {})
+    // set event listener upon worker completion
+    worker.addEventListener('message', e => {
+      // message response is string, parse and set coins on window
+      window.coins = JSON.parse(e.data)
+    })
+
+    // start worker with stringified args since some browsers only support passing strings as args
+    worker.postMessage(JSON.stringify({
+      assetApi: options.domains.api,
+      openSeaApi: options.domains.opensea,
+      erc20Whitelist: options.platforms.web.erc20s
+    }))
+  } else {
+    // TODO: might need to support non-worker load...
+    // eslint-disable-next-line
+    window.alert('Your browser is not supported.  Error: missing web worker support')
   }
 
-  // TODO: remove this
-  window.coins.XLM.coinfig.type.isMemoBased = true
+  // initialize router and saga middleware
+  const history = createHashHistory()
+  const sagaMiddleware = createSagaMiddleware()
 
-  // Switch up the erc20 addresses to support testnet (for opensea testing)
-  if (options.domains.opensea && options.domains.opensea.includes('rinkeby')) {
-    window.coins.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
-    window.coins.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
-  }
-
-  window.coins.STX.coinfig.products.push('DynamicSelfCustody')
-
-  const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+  // TODO: lazy load rates and coin sockets
+  const { isAuthenticated } = selectors.auth
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
@@ -140,7 +89,7 @@ const configuredStore = async function () {
     xlm: 'public'
   }
   const api = createWalletApi({
-    apiKey,
+    apiKey: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
     getAuthCredentials,
     networks,
     options,
@@ -148,24 +97,30 @@ const configuredStore = async function () {
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
   const store = configureStore({
-    devTools: devToolsConfig,
+    devTools: {
+      actionsDenylist: [
+        '@CORE.COINS_WEBSOCKET_MESSAGE',
+        '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
+        '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE',
+        'misc/pingManifestFile'
+      ],
+      maxAge: 1000,
+      serialize: serializer
+    },
     middleware: compose([
       sagaMiddleware,
       routerMiddleware(history),
-      coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
+      coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath: 'wallet.kvstore' }),
       streamingXlm(xlmStreamingService, api),
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
-      coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
+      coreMiddleware.walletSync({ api, isAuthenticated, walletPath: 'wallet.payload' }),
       analyticsMiddleware(),
       autoDisconnection()
     ]),
     reducer: connectRouter(history)(
       persistCombineReducers(
         {
-          getStoredState: getStoredStateMigrateV4({
-            whitelist: persistWhitelist
-          }),
           key: 'root',
           storage,
           whitelist: persistWhitelist
@@ -187,11 +142,6 @@ const configuredStore = async function () {
     options,
     ratesSocket
   })
-
-  // expose globals here
-  window.createTestXlmAccounts = () => {
-    store.dispatch(actions.core.data.xlm.createTestAccounts())
-  }
 
   store.dispatch(actions.goals.defineGoals())
 

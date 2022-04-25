@@ -1,7 +1,7 @@
 import base64url from 'base64url'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
@@ -256,14 +256,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
-      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
-          actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login)
+          actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
 
@@ -276,7 +275,9 @@ export default ({ api, coreSagas, networks }) => {
 
         if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
-            // yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+            yield put(
+              actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+            )
             return
           }
           if (product === ProductAuthOptions.WALLET) {
@@ -372,7 +373,6 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
-    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
@@ -445,16 +445,8 @@ export default ({ api, coreSagas, networks }) => {
         // loginRoutineSaga for both. login routine
         // catches whether account is exchange or not
         case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
-          // if (product === ProductAuthOptions.WALLET) {
           yield call(loginRoutineSaga, {})
-          // } else if (product === ProductAuthOptions.EXCHANGE) {
-          //   // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
-          //   // HOW DO WE RETRIEVE KV STORE
-          //   yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
-          // } else {
-          //   // If product is undefined, show user product picker to choose
-          //   actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
-          // }
+
           break
         default:
           yield call(loginRoutineSaga, {})
@@ -487,9 +479,6 @@ export default ({ api, coreSagas, networks }) => {
                 password,
                 session
               })
-              // if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
-              //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-              // } else {
               yield call(loginRoutineSaga, {})
               // }
             } catch (e) {
@@ -522,7 +511,13 @@ export default ({ api, coreSagas, networks }) => {
           // remove 2fa by setting auth type to zero
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          }
+          if (product === ProductAuthOptions.EXCHANGE) {
+            yield put(actions.auth.exchangeLoginFailure(8))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+          }
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.loginFailure(errorString))
           yield put(
@@ -625,8 +620,6 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeLogin = function* () {
-    // TODO: just for dev purposes, remove before release
-    // yield put(actions.session.clearSessions())
     try {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())

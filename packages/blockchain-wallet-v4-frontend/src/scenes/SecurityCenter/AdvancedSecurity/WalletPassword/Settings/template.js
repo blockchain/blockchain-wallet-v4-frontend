@@ -6,7 +6,11 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
 import { SettingWrapper } from 'components/Setting'
 import {
   isNotCurrentPassword,
@@ -83,10 +87,6 @@ const Settings = (props) => {
                 name='newPassword'
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
-                showPasswordScore
-                passwordScore={
-                  has('zxcvbn', window) ? window.zxcvbn(newWalletPasswordValue).score : 0
-                }
                 data-e2e='newPasswordInput'
               />
             </FormItemSpaced>

@@ -5,7 +5,9 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader } from 'blockchain-info-components'
-import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
 import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
@@ -43,10 +45,6 @@ const SecondStep = (props: Props) => {
           name='resetAccountPassword'
           validate={[required, validStrongPassword]}
           component={PasswordBox}
-          showPasswordScore
-          passwordScore={
-            has('zxcvbn', window) ? window.zxcvbn(formValues.resetAccountPassword || '').score : 0
-          }
         />
       </FormGroup>
       <FormGroup>

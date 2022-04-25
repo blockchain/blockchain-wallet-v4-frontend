@@ -1,6 +1,6 @@
-import moment from 'moment'
 import { filter, last, take as takeR } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
+import { getTime } from 'date-fns'
 
 import { APIType } from '@core/network/api'
 import { CoinType, FiatType } from '@core/types'
@@ -15,13 +15,6 @@ import * as S from './selectors'
 const PAGE_SIZE = 20
 
 export default ({ api }: { api: APIType }) => {
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
   const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {
     try {
       const { payload } = action
@@ -107,7 +100,7 @@ export default ({ api }: { api: APIType }) => {
       const nextTransactionPage = takeR(
         PAGE_SIZE,
         [...sbTransactions.items, ...swapTransactions].sort((a, b) => {
-          return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+          return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
         })
       ) as Array<FiatBSAndSwapTransactionType>
 
@@ -139,6 +132,13 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchTransactionsFailure(action.payload.currency, error))
+    }
+  }
+
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
+      yield call(fetchTransactions, action)
     }
   }
 

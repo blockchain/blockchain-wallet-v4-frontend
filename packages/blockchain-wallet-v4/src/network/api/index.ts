@@ -11,7 +11,6 @@ import httpService from './http'
 import interest from './interest'
 import kvStore from './kvStore'
 import kyc from './kyc'
-import lockbox from './lockbox'
 import misc from './misc'
 import nfts from './nfts'
 import profile from './profile'
@@ -30,8 +29,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     api: apiUrl,
     bitpay: bitpayUrl,
     horizon: horizonUrl,
-    ledger: ledgerUrl,
-    opensea: openseaApi,
+    opensea: openSeaApi,
     root: rootUrl
   } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -51,10 +49,11 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
-    ...eth({ apiUrl, openseaApi, ...http }),
+    ...eth({ apiUrl, openSeaApi, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
@@ -69,9 +68,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedPut: authorizedHttp.put,
       nabuUrl
     }),
-    ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
-    ...nfts({ apiUrl, ...http }),
+    ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,

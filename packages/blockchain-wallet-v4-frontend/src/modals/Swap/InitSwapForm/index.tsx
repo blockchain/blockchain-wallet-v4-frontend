@@ -9,7 +9,7 @@ import { CoinType } from '@core/types'
 import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
-import { CoinAccountListBalance } from 'components/Form'
+import CoinAccountListBalance from 'components/Form/CoinAccountListBalance'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
@@ -357,8 +357,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         selectedTier={1}
         subHeaderCopy={
           <FormattedMessage
-            id='copy.swap_get_access'
-            defaultMessage='Get access to swap in seconds by completing your profile and getting Silver access.'
+            id='copy.swap_get_limited_access'
+            defaultMessage='Get access to swap in seconds by completing your profile and getting limited access.'
           />
         }
         subHeaderTitle={

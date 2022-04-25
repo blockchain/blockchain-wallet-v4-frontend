@@ -1,11 +1,1 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0)">
-<path d="M0 2H32V30.6138H0V2Z" fill="#43B049"/>
-<path d="M20.9947 24.4459C25.2759 24.4459 28.4444 23.5026 28.4444 15.8836C28.4444 10.0544 26.316 7.78079 21.8655 7.78079H3.36206V10.1512H8.80424V24.4459H12.5049V10.127H20.7287C23.2441 10.127 24.4293 11.4331 24.4293 15.8836C24.4293 20.3583 23.3893 22.0514 20.898 22.0514H17.294V10.9977H13.545V24.4459H20.9947Z" fill="white"/>
-</g>
-<defs>
-<clipPath id="clip0">
-<rect width="32" height="32" fill="white"/>
-</clipPath>
-</defs>
-</svg>
+<svg fill="none" height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><clipPath id="a"><path d="m0 0h32v32h-32z"/></clipPath><g clip-path="url(#a)"><path d="m0 2h32v28.6138h-32z" fill="#43b049"/><path d="m20.9947 24.4459c4.2812 0 7.4497-.9433 7.4497-8.5623 0-5.8292-2.1284-8.10281-6.5789-8.10281h-18.50344v2.37041h5.44218v14.2947h3.70066v-14.3189h8.2238c2.5154 0 3.7006 1.3061 3.7006 5.7566 0 4.4747-1.04 6.1678-3.5313 6.1678h-3.604v-11.0537h-3.749v13.4482z" fill="#fff"/></g></svg>

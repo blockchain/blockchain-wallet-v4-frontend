@@ -1,16 +1,15 @@
-import moment from 'moment'
+import { format, getTime } from 'date-fns'
 import { concat, flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { ProcessedTxType } from '@core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType, HDAccountList, Wallet } from '@core/types'
+import { FetchCustodialOrdersAndTransactionsReturnType, Wallet } from '@core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
-import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import * as selectors from '../../selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import custodialSagas from '../custodial/sagas'
@@ -48,8 +47,8 @@ export default ({ api }: { api: APIType }) => {
     const legacyAddress = Array.isArray(address)
       ? address.find((add) => prop('type', add) === 'legacy')
       : address
-    const startDate = moment(start).format('DD/MM/YYYY')
-    const endDate = moment(end).format('DD/MM/YYYY')
+    const startDate = format(new Date(start), 'dd/MM/yyyy')
+    const endDate = format(new Date(end), 'dd/MM/yyyy')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
@@ -86,28 +85,18 @@ export default ({ api }: { api: APIType }) => {
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(lockboxXpubs)
-    const accountListR = (yield select(getLockboxBtcAccounts))
-      .map(HDAccountList.fromJS)
-      .getOrElse([])
     const addressLabels = (yield select(getAddressLabels)).getOrElse({})
     const txNotes = Wallet.selectTxNotes(wallet)
 
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
+    const ProcessTxs = (wallet, txList, txNotes, addressLabels) =>
       map(
-        transformTx.bind(
-          undefined,
-          wallet.getOrFail(MISSING_WALLET),
-          accountList,
-          txNotes,
-          addressLabels
-        ),
+        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), [], txNotes, addressLabels),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
+    return ProcessTxs(walletR, txs, txNotes, addressLabels)
   }
 
   const fetchTransactions = function* (action) {
@@ -147,7 +136,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {

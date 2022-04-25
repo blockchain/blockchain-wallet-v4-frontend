@@ -5,7 +5,12 @@ import styled from 'styled-components'
 
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { CheckBox, Form, FormGroup, FormItem, SelectBox, TextBox } from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import SelectBox from 'components/Form/SelectBox'
+import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
 import { required } from 'services/forms'
 

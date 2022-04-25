@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxCurrency } from 'components/Form'
+import SelectBoxCurrency from 'components/Form/SelectBoxCurrency'
 import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (

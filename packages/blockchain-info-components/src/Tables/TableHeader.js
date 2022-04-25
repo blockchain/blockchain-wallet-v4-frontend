@@ -12,6 +12,6 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 
-const TableHeader = ({ children }) => <Wrapper>{children}</Wrapper>
+const TableHeader = ({ children, ...rest }) => <Wrapper {...rest}>{children}</Wrapper>
 
 export default TableHeader

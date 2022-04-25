@@ -1,8 +1,8 @@
 import { compose, head, prop } from 'ramda'
-import * as StellarSDK from 'stellar-sdk'
+import { Server } from 'stellar-sdk'
 
 export default ({ apiUrl, get, horizonUrl }) => {
-  const server = new StellarSDK.Server(horizonUrl)
+  const server = new Server(horizonUrl)
   const createXlmAccount = (publicKey) =>
     get({
       data: { addr: publicKey },

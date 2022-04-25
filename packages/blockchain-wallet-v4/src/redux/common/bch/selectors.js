@@ -7,7 +7,6 @@ import {
   map,
   path,
   prop,
-  propEq,
   sequence,
   split,
   values
@@ -18,25 +17,8 @@ import { HDAccount, HDAccountList, HDWallet } from '../../../types'
 import { toCashAddr } from '../../../utils/bch'
 import { getAddresses, getChangeIndex, getReceiveIndex } from '../../data/bch/selectors'
 import { getAccountsList } from '../../kvStore/bch/selectors'
-import { getLockboxBchAccount, getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import * as walletSelectors from '../../wallet/selectors'
-
-export const getLockboxBchBalances = (state) => {
-  const digest = (addresses, account) => {
-    const xpub = prop('xpub', account.derivations.find(propEq('type', 'bch-145')))
-    return {
-      address: xpub,
-      balance: path([xpub, 'final_balance'], addresses),
-      coin: 'BCH',
-      label: account.label,
-      type: ADDRESS_TYPES.LOCKBOX,
-      xpub
-    }
-  }
-  const balances = Remote.of(getAddresses(state).getOrElse([]))
-  return map(lift(digest)(balances), getLockboxBchAccounts(state))
-}
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = (state) => {
@@ -183,20 +165,4 @@ export const getNextAvailableReceiveAddress = curry((network, accountIndex, stat
 
 export const getNextAvailableReceiveAddressFormatted = curry((network, accountIndex, state) => {
   return getNextAvailableReceiveAddress(network, accountIndex, state).map((x) => toCashAddr(x))
-})
-
-export const getNextAvailableReceiveIndexLockbox = curry((network, xpub, state) => {
-  const index = getReceiveIndex(xpub)(state)
-  return index
-})
-
-export const getAddressLockbox = curry((network, xpub, index, state) => {
-  const account = getLockboxBchAccount(state, xpub)
-  const hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
-  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
-})
-
-export const getNextAvailableReceiveAddressLockbox = curry((network, xpub, state) => {
-  const index = getReceiveIndex(xpub)(state)
-  return index.map((x) => getAddressLockbox(network, xpub, x, state))
 })

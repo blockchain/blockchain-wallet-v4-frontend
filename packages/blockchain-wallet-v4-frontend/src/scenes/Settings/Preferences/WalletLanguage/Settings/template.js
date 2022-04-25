@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxLanguages } from 'components/Form'
+import SelectBoxLanguages from 'components/Form/SelectBoxLanguages'
 import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (

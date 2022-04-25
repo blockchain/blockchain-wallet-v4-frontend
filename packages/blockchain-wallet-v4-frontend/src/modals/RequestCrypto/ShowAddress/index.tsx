@@ -8,7 +8,7 @@ import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-component
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'

@@ -1,28 +1,38 @@
 import {
-  CollectionData,
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
+  NftCollection,
   NftOrder,
-  NftOrdersType,
   OfferEventsType,
+  OpenSeaOrder,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
+export enum NftOrderStatusEnum {
+  POST_OFFER = 'POST_OFFER',
+  POST_OFFER_SUCCESS = 'POST_OFFER_SUCCESS',
+  WRAP_ETH = 'WRAP_ETH'
+}
+
 export enum NftOrderStepEnum {
   ACCEPT_OFFER = 'ACCEPT_OFFER',
+  BUY = 'BUY',
   CANCEL_LISTING = 'CANCEL_LISTING',
   CANCEL_OFFER = 'CANCEL_OFFER',
-  CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
+  NOT_VERIFIED = 'NOT_VERIFIED',
   SHOW_ASSET = 'SHOW_ASSET',
-  TRANSFER = 'TRANSFER'
+  STATUS = 'STATUS',
+  TRANSFER = 'TRANSFER',
+  WRAP_ETH = 'WRAP_ETH'
 }
 
 export type NftsStateType = {
+  activeSlug?: string
   activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
@@ -32,17 +42,9 @@ export type NftsStateType = {
     list: NftAssetsType
     page: number
   }
+  collection: RemoteDataType<string, NftCollection>
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
-  marketplace: {
-    atBound?: boolean
-    collection?: CollectionData
-    isFailure: boolean
-    isLoading: boolean
-    list: NftOrdersType['orders']
-    page: number
-    token_ids_queried: string[]
-  }
   offersMade: {
     atBound?: boolean
     isFailure: boolean
@@ -50,6 +52,8 @@ export type NftsStateType = {
     list: OfferEventsType['asset_events']
     page: number
   }
+  openSeaAsset: RemoteDataType<string, NftAsset>
+  openSeaOrders: RemoteDataType<string, OpenSeaOrder[]>
   openSeaStatus: RemoteDataType<
     string,
     {
@@ -67,13 +71,16 @@ export type NftsStateType = {
     }
   >
   orderFlow: {
-    activeOrder: NftOrder | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
     listingToCancel: RawOrder | null
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
     offerToCancel: RawOrder | null
+    orderToMatch: RawOrder | null
+    status: NftOrderStatusEnum | null
     step: NftOrderStepEnum
+    walletUserIsAssetOwnerHack: boolean
+    wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
 }

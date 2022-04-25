@@ -51,7 +51,6 @@ export const getData = (
     exclude?: Array<string>
     excludeHDWallets?: boolean
     excludeImported?: boolean
-    excludeLockbox?: boolean
     forceCustodialFirst?: boolean
     includeAll?: boolean
     includeCustodial?: boolean
@@ -63,7 +62,6 @@ export const getData = (
     exclude = [],
     excludeHDWallets,
     excludeImported,
-    excludeLockbox,
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
@@ -182,16 +180,9 @@ export const getData = (
                 ),
                 x
               )
-            ),
-      excludeLockbox
-        ? Remote.of([])
-        : selectors.core.common.btc
-            .getLockboxBtcBalances(state)
-            .map(excluded)
-            .map(toDropdown)
-            .map(toGroup('Lockbox'))
-    ]).map(([b1, b2, b3, b4, b5]) => {
-      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
+            )
+    ]).map(([b1, b2, b3, b4]) => {
+      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4] : [b1, b2, b3, b4]
       // @ts-ignore
       const data = reduce(concat, [], orderArray) as array
 

@@ -107,13 +107,6 @@ export const ReportList = styled.div`
   width: 100%;
 `
 
-export const StyledTextGroup = styled(TextGroup)`
-  align-content: space-around;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-
 export const StyledSeparator = styled(Separator)`
   margin: 0 0 10px 0;
 `

@@ -3,18 +3,16 @@ import { compose, curry, find, lift, map, path, prop, propEq, propOr, sum, uniq 
 import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
-import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
 import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import { dataPath } from '../../paths'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
 
 export const getContext = createDeepEqualSelector(
-  [kvStoreSelectors.getContext, getLockboxXlmContext],
-  (walletContextR, lockboxContextR) => {
+  [kvStoreSelectors.getContext],
+  (walletContextR) => {
     const walletContext = walletContextR.getOrElse([])
-    const lockboxContext = lockboxContextR.getOrElse([])
-    return uniq(walletContext.concat(lockboxContext))
+    return uniq(walletContext)
   }
 )
 

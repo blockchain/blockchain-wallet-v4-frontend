@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { CellHeaderText, CellText } from '.'
+import { CellHeaderText, CellText } from 'components/Table'
 
 export const getWalletColumn = () => ({
   Cell: () => {

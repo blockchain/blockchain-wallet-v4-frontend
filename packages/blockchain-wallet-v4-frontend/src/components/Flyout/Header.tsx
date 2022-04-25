@@ -17,7 +17,6 @@ const TopText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
 `
 const LeftTopCol = styled.div`
   display: flex;

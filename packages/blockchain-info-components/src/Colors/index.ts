@@ -18,7 +18,6 @@ const Color = (color: string, theme: string) => {
       return Invert[color]
     case 'darkmode':
       return DarkMode[color]
-
     default:
       return Default[color]
   }

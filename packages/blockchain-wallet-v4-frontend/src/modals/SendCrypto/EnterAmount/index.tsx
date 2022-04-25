@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
@@ -19,8 +19,9 @@ import { FlyoutWrapper } from 'components/Flyout'
 import BuyMoreLine from 'components/Flyout/Banners/BuyMoreLine'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { Form, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
+import Form from 'components/Form/Form'
+import SelectBox from 'components/Form/SelectBox'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -49,15 +50,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-const AmountRow = styled(Row)<{ isError: boolean }>`
-  position: relative;
-  padding: 24px;
-  justify-content: center;
-  border: 0;
-  > input {
-    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
-  }
 `
 const CheckoutDisplayContainer = styled(DisplayContainer)`
   justify-content: space-between;
@@ -99,8 +91,6 @@ const QuoteActionContainer = styled.div`
 `
 
 const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const [fontRatio, setRatio] = useState(1)
-
   const {
     buySellActions,
     formActions,

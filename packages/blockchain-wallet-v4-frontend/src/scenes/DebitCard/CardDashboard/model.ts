@@ -32,3 +32,10 @@ export const BoxRowItemTitle = styled(Text)`
   justify-content: center;
   flex: 1;
 `
+
+export const BoxRowItemSubTitle = styled(Text)`
+  color: ${(props) => props.theme.grey600};
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+`

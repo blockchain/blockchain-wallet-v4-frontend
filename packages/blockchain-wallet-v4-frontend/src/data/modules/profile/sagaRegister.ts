@@ -5,12 +5,12 @@ import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const {
+    authAndRouteToExchangeAction,
     clearSession,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
-    getExchangeLoginToken,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     shareWalletAddressesWithExchange,
@@ -28,7 +28,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
-    yield takeLatest(AT.GET_EXCHANGE_LOGIN_TOKEN, getExchangeLoginToken)
+    yield takeLatest(AT.AUTH_AND_ROUTE_TO_EXCHANGE, authAndRouteToExchangeAction)
     // @ts-ignore
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
     // @ts-ignore

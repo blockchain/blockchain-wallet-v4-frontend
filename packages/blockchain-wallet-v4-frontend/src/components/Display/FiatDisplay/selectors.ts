@@ -1,12 +1,14 @@
 import { lift, prop } from 'ramda'
 
-import { Exchange } from '@core'
+import { Exchange, Remote } from '@core'
 import { fiatToString } from '@core/exchange/utils'
 import { selectors } from 'data'
 
 export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const { coinfig } = window.coins[coin]
-  const currencyR = selectors.core.settings.getSettings(state).map(prop('currency'))
+  const currencyR = defaultCurrency
+    ? Remote.of(defaultCurrency)
+    : selectors.core.settings.getSettings(state).map(prop('currency'))
   const isFiat = coinfig.type.name === 'FIAT'
   const ratesR = isFiat
     ? selectors.core.data.coins.getBtcTicker(state)

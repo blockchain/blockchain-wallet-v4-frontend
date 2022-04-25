@@ -5,7 +5,7 @@ import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { OrangeCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 export const SendingWrapper = styled.div`
   width: 100%;
@@ -52,10 +52,6 @@ export const AmountAvailContainer = styled.div`
   padding: 4px 8px;
   border-radius: 20px;
   background-color: ${(props) => props.theme.grey000};
-`
-export const Spacer = styled.div`
-  height: 48px;
-  border-right: 1px solid ${(props) => props.theme.grey000};
 `
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;

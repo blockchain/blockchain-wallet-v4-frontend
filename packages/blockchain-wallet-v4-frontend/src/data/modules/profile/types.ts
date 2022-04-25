@@ -209,11 +209,11 @@ interface FetchUserDataSuccessAction {
   type: typeof AT.FETCH_USER_DATA_SUCCESS
 }
 
-interface GetExchangeLoginTokenAction {
+interface AuthAndRouteToExchangeAction {
   payload: {
     origin: ExchangeAuthOriginType
   }
-  type: typeof AT.GET_EXCHANGE_LOGIN_TOKEN
+  type: typeof AT.AUTH_AND_ROUTE_TO_EXCHANGE
 }
 interface LinkFromExchangeAccountAction {
   payload: {
@@ -314,6 +314,7 @@ interface ShareWalletAddressWithExchangeSuccessAction {
 }
 
 export type ProfileActionTypes =
+  | AuthAndRouteToExchangeAction
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction
@@ -325,7 +326,6 @@ export type ProfileActionTypes =
   | FetchUserDataFailureAction
   | FetchUserDataLoadingAction
   | FetchUserDataSuccessAction
-  | GetExchangeLoginTokenAction
   | LinkFromExchangeAccountAction
   | LinkFromExchangeAccountFailureAction
   | LinkFromExchangeAccountLoadingAction

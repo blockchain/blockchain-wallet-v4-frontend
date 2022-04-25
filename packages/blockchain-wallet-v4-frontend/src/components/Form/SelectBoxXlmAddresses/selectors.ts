@@ -10,7 +10,6 @@ export const getData = (
   state,
   ownProps: {
     exclude?: Array<string>
-    excludeLockbox?: boolean
     forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
@@ -19,7 +18,6 @@ export const getData = (
 ) => {
   const {
     exclude = [],
-    excludeLockbox,
     includeExchangeAddress,
     includeCustodial,
     includeInterest,
@@ -100,13 +98,6 @@ export const getData = (
       .map(excluded)
       .map(toDropdown)
       .map(toGroup('Wallet')),
-    excludeLockbox
-      ? Remote.of([])
-      : selectors.core.common.xlm
-          .getLockboxXlmBalances(state)
-          .map(excluded)
-          .map(toDropdown)
-          .map(toGroup('Lockbox')),
     showCustodial || showCustodialWithAddress
       ? selectors.components.buySell
           .getBSBalances(state)
@@ -124,8 +115,8 @@ export const getData = (
           .map(toInterestDropdown)
           .map(toGroup('Rewards Account'))
       : Remote.of([])
-  ]).map(([b1, b2, b3, b4, b5]) => {
-    const orderArray = forceCustodialFirst ? [b2, b1, b3, b4, b5] : [b1, b2, b3, b4, b5]
+  ]).map(([b1, b2, b3, b4]) => {
+    const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
     // @ts-ignore
     const data = reduce(concat, [], orderArray)
     return { data }

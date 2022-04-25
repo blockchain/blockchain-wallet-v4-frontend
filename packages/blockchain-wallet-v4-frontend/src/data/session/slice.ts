@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { dissoc } from 'ramda'
 
-import { AccountSessionType, SessionStatePOCType } from './types'
+import { AccountSessionType, SessionStateType } from './types'
 
-const initialState: SessionStatePOCType = {
+const initialState: SessionStateType = {
   exchange: undefined,
   wallet: undefined
 }

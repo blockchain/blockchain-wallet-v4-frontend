@@ -7,11 +7,10 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
+import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
 import { actions, selectors } from 'data'
-import { WalletConnectStep } from 'data/components/walletConnect/types'
-import { ModalName } from 'data/modals/types'
 
-import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
+import { getTableColumns } from './Table'
 
 const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
@@ -91,10 +90,19 @@ const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
             </CellText>
           </NoResultsWrapper>
         ) : (
-          <div {...getTableProps()} className='table'>
+          <div
+            {...getTableProps()}
+            className='table'
+            style={{ height: '435px', overflow: 'scroll' }}
+          >
             <div>
               {headerGroups.map((headerGroup) => (
-                <div {...headerGroup.getHeaderGroupProps()} className='tr' key={headerGroup.id}>
+                <div
+                  {...headerGroup.getHeaderGroupProps()}
+                  style={{ position: 'sticky', top: '0' }}
+                  className='tr'
+                  key={headerGroup.id}
+                >
                   {headerGroup.headers.map((column) => (
                     <div
                       key={column.key}
@@ -106,9 +114,9 @@ const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
                         <div>
                           {column.isSorted ? (
                             column.isSortedDesc ? (
-                              <span>▾</span>
+                              <HeaderToggle>▾</HeaderToggle>
                             ) : (
-                              <span>▴</span>
+                              <HeaderToggle>▴</HeaderToggle>
                             )
                           ) : (
                             ''

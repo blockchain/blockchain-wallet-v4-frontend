@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { concat, equals, prop } from 'ramda'
+import { equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -94,11 +94,7 @@ export default ({ api, socket }) => {
         prop('bech32', btcWalletContext)
       )
 
-      const btcLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxBtcContext
-      )).getOrElse([])
-      const btcXPubs = concat(btcWalletXPubs, btcLockboxContext)
-      btcXPubs.forEach((xpub) =>
+      btcWalletXPubs.forEach((xpub) =>
         send(
           JSON.stringify({
             coin: 'btc',
@@ -111,11 +107,7 @@ export default ({ api, socket }) => {
 
       // 3. subscribe to bch xpubs
       const bchWalletContext = yield select(selectors.core.data.bch.getContext)
-      const bchLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxBchContext
-      )).getOrElse([])
-      const bchXPubs = concat(bchWalletContext, bchLockboxContext)
-      bchXPubs.forEach((xpub) =>
+      bchWalletContext.forEach((xpub) =>
         send(
           JSON.stringify({
             coin: 'bch',
@@ -128,11 +120,7 @@ export default ({ api, socket }) => {
 
       // 4. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
-      const ethLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxEthContext
-      )).getOrElse([])
-      const ethAddresses = concat(ethWalletContext, ethLockboxContext)
-      ethAddresses.forEach((address) => {
+      ethWalletContext.forEach((address) => {
         send(
           JSON.stringify({
             coin: 'eth',
