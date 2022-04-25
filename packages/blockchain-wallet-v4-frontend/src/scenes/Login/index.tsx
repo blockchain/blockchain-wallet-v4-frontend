@@ -22,7 +22,6 @@ import {
 import Loading from 'layouts/Auth/template.loading'
 import { isBrowserSupported } from 'services/browser'
 
-import Loading from '../loading.public'
 import AuthSecondAccount from './AccountMerge/AuthSecondAccount'
 import ConfirmTwoFA from './AccountMerge/ConfirmTwoFA'
 import CreateNewPassword from './AccountMerge/CreateNewPassword'
