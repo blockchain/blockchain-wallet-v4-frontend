@@ -14,6 +14,7 @@ import {
 } from './interestClient'
 import { Events as LoginEvents, TrackEventAction as LoginTrackEventAction } from './login'
 import { Events as MiscEvents, TrackEventAction as MiscTrackEventAction } from './misc'
+import { Events as NftsEvents, TrackEventAction as NftsTrackEventAction } from './nfts'
 import {
   AnalyticsProperties as OnboardingAndVerificationAnalyticsProperties,
   Events as OnboardingAndVerificationEvents,
@@ -40,6 +41,7 @@ type AnalyticsKey =
   | InterestClientEvents
   | DepositWithdrawalClientEvents
   | TaxCenterEvents
+  | NftsEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -49,7 +51,8 @@ const Analytics = {
   ...MiscEvents,
   ...InterestClientEvents,
   ...DepositWithdrawalClientEvents,
-  ...TaxCenterEvents
+  ...TaxCenterEvents,
+  ...NftsEvents
 }
 
 // event properties
@@ -69,6 +72,7 @@ type TrackEventAction =
   | InterestClientTrackEventAction
   | DepositWithdrawalClientEventAction
   | TaxCenterTrackEventAction
+  | NftsTrackEventAction
 
 type AnalyticsTraits = {
   email?: string

@@ -53,10 +53,6 @@ export const AmountAvailContainer = styled.div`
   border-radius: 20px;
   background-color: ${(props) => props.theme.grey000};
 `
-export const Spacer = styled.div`
-  height: 48px;
-  border-right: 1px solid ${(props) => props.theme.grey000};
-`
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;

@@ -2,12 +2,12 @@ import * as ethers from 'ethers'
 
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
-export default ({ apiUrl, get, openseaApi, post }) => {
+export default ({ apiUrl, get, openSeaApi, post }) => {
   // ONLY FOR TESTING OPENSEA!
-  const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
+  const IS_TESTNET = openSeaApi && openSeaApi.includes('testnets')
 
   const ethProvider = IS_TESTNET
-    ? new ethers.providers.EtherscanProvider('rinkeby')
+    ? new ethers.providers.EtherscanProvider('rinkeby', 'X4TZ5S2F3MPD3TBTMZ3JDGVKC79472VPPC')
     : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
   //
   // Deprecate

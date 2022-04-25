@@ -57,7 +57,7 @@ const configuredStore = async function () {
   } else {
     // TODO: might need to support non-worker load...
     // eslint-disable-next-line
-    window.alert('Error: Web workers not supported')
+    window.alert('Your browser is not supported.  Error: missing web worker support')
   }
 
   // initialize router and saga middleware

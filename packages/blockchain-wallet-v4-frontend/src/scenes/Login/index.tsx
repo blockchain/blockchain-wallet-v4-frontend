@@ -15,7 +15,7 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
-import Loading from 'layouts/Public/template.loading'
+import Loading from 'layouts/Auth/template.loading'
 import { isBrowserSupported } from 'services/browser'
 
 import UrlNoticeBar from './components/UrlNoticeBar'

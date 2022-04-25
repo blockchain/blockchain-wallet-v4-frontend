@@ -1,26 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import { Row, Title, Value } from 'components/Flyout/model'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
-import ActiveListingsCTA from './ActiveListings/cta'
-import ActiveOffersCTA from './ActiveOffers/cta'
-import BuyCTA from './BuyNow/cta'
-import BuyFees from './BuyNow/fees'
+import ActiveOffers from './ActiveOffers'
+import ActiveOrders from './ActiveOrders'
 import SellCTA from './Sell/cta'
 import TransferCTA from './Transfer/cta'
 
 const ShowAsset: React.FC<Props> = (props) => {
-  const { close, orderFlow } = props
-  // activeOrder ? User wants to buy : User wants to sell
-  const { activeOrder } = orderFlow
+  const { close, defaultEthAddr, orderFlow } = props
 
   return (
     <>
@@ -73,34 +68,6 @@ const ShowAsset: React.FC<Props> = (props) => {
                 )}
               </Value>
             </Row>
-            {activeOrder && (
-              <Row>
-                <Title>
-                  <FormattedMessage id='copy.current_price' defaultMessage='Current Price' />
-                </Title>
-                <Value>
-                  <div style={{ display: 'flex' }}>
-                    <CoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {activeOrder.basePrice}
-                    </CoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay
-                      size='12px'
-                      color='grey600'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {activeOrder.basePrice}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </Row>
-            )}
             {val?.traits?.map((trait, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Row key={index}>
@@ -118,28 +85,37 @@ const ShowAsset: React.FC<Props> = (props) => {
               </Row>
             ))}
             <StickyCTA>
-              {/* activeOrder, user can buy now */}
-              {activeOrder ? (
-                <>
-                  <BuyFees {...props} />
-                  <BuyCTA {...props} />
-                </>
-              ) : (
-                <>
-                  <SellCTA {...props} asset={val} />
-                  <TransferCTA {...props} asset={val} />
-                  <br />
-                  <ActiveListingsCTA {...props} asset={val} />
-                  {/* User is owner, show active offers */}
-                  {val.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ||
-                  val.owner.address === NULL_ADDRESS ? (
-                    <>
-                      <br />
-                      <ActiveOffersCTA {...props} asset={val} />
-                    </>
-                  ) : null}
-                </>
-              )}
+              {/* NOTE: val.owner.address is unreliable and can sometimes be NULL_ADDRESS */}
+              {/* The fix is to check if the walletUserIsAssetOwnerHack is true (user initiated modal from 'Your Collection' page) */}
+              {/* If that flag is true and owner addr is NULL, check the maker is or is not current user */}
+              <>
+                <SellCTA {...props} asset={val} />
+                <TransferCTA {...props} asset={val} />
+                <ActiveOrders
+                  {...props}
+                  asset={val}
+                  orders={
+                    val.orders?.filter((order) => {
+                      return props.orderFlow.walletUserIsAssetOwnerHack &&
+                        val.owner.address === NULL_ADDRESS
+                        ? order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
+                        : order.maker.address === val.owner.address
+                    }) || []
+                  }
+                />
+                <ActiveOffers
+                  {...props}
+                  asset={val}
+                  offers={
+                    val.orders?.filter((order) => {
+                      return props.orderFlow.walletUserIsAssetOwnerHack &&
+                        val.owner.address === NULL_ADDRESS
+                        ? order.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+                        : order.maker.address !== val.owner.address
+                    }) || []
+                  }
+                />
+              </>
             </StickyCTA>
           </>
         )

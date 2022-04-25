@@ -25,6 +25,7 @@ const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   disableOutsideClose?: boolean
+  fixed?: boolean
 }
 type LinkDispatchPropsType = {
   cancelBSOrder: (order: BSOrderType) => void
@@ -118,6 +119,11 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
                   onMouseDown={this.handleClick}
                   ref={setRef}
                   tabIndex={0} // eslint-disable-line
+                  style={
+                    rest.fixed
+                      ? { bottom: 0, left: 0, position: 'fixed', right: 0, top: 0, zIndex: 100 }
+                      : {}
+                  }
                 >
                   <Component
                     // @ts-ignore

@@ -82,6 +82,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       '@core': path.resolve(__dirname, '../blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, 'src/components/'),
       data: path.resolve(__dirname, 'src/data/'),
+      generated: path.resolve(__dirname, 'src/generated/'),
       hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       middleware: path.resolve(__dirname, 'src/middleware/'),

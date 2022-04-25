@@ -32,6 +32,8 @@ const selectColor = (nature, disabled) => {
     case 'white-transparent':
     case 'white-blue':
       return 'blue600'
+    case 'grey':
+      return 'grey600'
     default:
       return 'grey800'
   }

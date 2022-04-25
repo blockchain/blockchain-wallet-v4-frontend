@@ -10,11 +10,14 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import AcceptOffer from './AcceptOffer'
+import Buy from './Buy'
 import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
+import NotVerified from './NotVerified'
 import ShowAsset from './ShowAsset'
+import Status from './Status'
 import Transfer from './Transfer'
 
 class NftOrder extends PureComponent<Props, State> {
@@ -28,10 +31,6 @@ class NftOrder extends PureComponent<Props, State> {
   componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
-  }
-
-  componentWillUnmount() {
-    this.props.nftActions.resetOrderFlow()
   }
 
   handleClose = () => {
@@ -59,6 +58,11 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.SHOW_ASSET && (
           <FlyoutChild>
             <ShowAsset {...this.props} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.BUY && (
+          <FlyoutChild>
+            <Buy {...this.props} />
           </FlyoutChild>
         )}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (
@@ -91,6 +95,16 @@ class NftOrder extends PureComponent<Props, State> {
             <Transfer {...this.props} />
           </FlyoutChild>
         )}
+        {step === NftOrderStepEnum.STATUS && (
+          <FlyoutChild>
+            <Status {...this.props} {...orderFlow.asset} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.NOT_VERIFIED && (
+          <FlyoutChild>
+            <NotVerified {...this.props} {...orderFlow.asset} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -98,10 +112,12 @@ class NftOrder extends PureComponent<Props, State> {
 
 const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   nftActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 

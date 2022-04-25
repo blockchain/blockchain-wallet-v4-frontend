@@ -143,3 +143,6 @@ export const getCoinViewV2 = (state: RootState) =>
 // for all wallet logins and signup
 export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'createExchangeUserOnSignupOrLogin']))
+
+export const getNftExplorer = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))

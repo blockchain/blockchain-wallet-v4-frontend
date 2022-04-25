@@ -98,6 +98,8 @@ export type BSShowModalOriginType =
   | 'PriceChart'
   | 'Prices'
   | 'InterestPage'
+  | 'Nfts'
+  | 'NftsMakeOffer'
   | 'RecurringBuyPromo'
   | 'SellEmpty'
   | 'Send'

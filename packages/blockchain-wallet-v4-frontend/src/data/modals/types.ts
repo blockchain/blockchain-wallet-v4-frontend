@@ -30,6 +30,7 @@ export enum ModalName {
   CUSTOMIZABLE_CONFIRM_MODAL = 'CUSTOMIZABLE_CONFIRM_MODAL',
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
   EDIT_TX_DESCRIPTION_MODAL = 'EDIT_TX_DESCRIPTION_MODAL',
+  ETH_WALLET_BALANCES = 'ETH_WALLET_BALANCES',
   FUND_RECOVERY_MODAL = 'FUND_RECOVERY_MODAL',
   GENERATE_REPORT_MODAL = 'GENERATE_REPORT_MODAL',
   IMPORT_BTC_ADDRESS_MODAL = 'IMPORT_BTC_ADDRESS_MODAL',
@@ -48,6 +49,7 @@ export enum ModalName {
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
   NEW_VERSION_AVAILABLE = 'NEW_VERSION_AVAILABLE',
+  NFT_COLLECTION_FILTER = 'NFT_COLLECTION_FILTER',
   NFT_ORDER = 'NFT_ORDER',
   ORDER_MY_CARD = 'ORDER_MY_CARD',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
@@ -106,6 +108,7 @@ export type ModalOriginType =
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
   | 'DebitCardPage'
+  | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'
@@ -118,6 +121,8 @@ export type ModalOriginType =
   | 'KycRequiredStep'
   | 'LoginSaga'
   | 'NabuUserAuth'
+  | 'Nfts'
+  | 'NftsMakeOffer'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'

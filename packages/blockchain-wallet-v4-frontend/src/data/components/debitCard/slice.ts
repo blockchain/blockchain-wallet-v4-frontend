@@ -2,12 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { DebitCardState, DebitCardType, ProductType } from './types'
+import { CardActionType, DebitCardState, DebitCardType, ProductType } from './types'
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
   cardToken: '',
   cards: [],
+  lockHandler: Remote.NotAsked,
   products: []
 }
 
@@ -41,6 +42,16 @@ const debitCardSlice = createSlice({
     },
     getProductsSuccess: (state, action: PayloadAction<Array<ProductType>>) => {
       state.products = action.payload
+    },
+    handleCardLock: (state, action: PayloadAction<CardActionType>) => {},
+    handleCardLockFailure: (state, action: PayloadAction<string>) => {
+      state.lockHandler = Remote.Failure(action.payload)
+    },
+    handleCardLockLoading: (state) => {
+      state.lockHandler = Remote.Loading
+    },
+    handleCardLockSuccess: (state, action: PayloadAction<boolean>) => {
+      state.lockHandler = Remote.Success(action.payload)
     },
     resetCreateCardState: (state) => {
       state.cardCreationData = Remote.NotAsked
