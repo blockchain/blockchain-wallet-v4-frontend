@@ -9,18 +9,13 @@ import styled from 'styled-components'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import {
-  Button,
-  DateInput,
-  HeartbeatLoader,
-  Icon,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
-import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import NumberBox from 'components/Form/NumberBox'
+import SelectBox from 'components/Form/SelectBox'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
@@ -39,22 +34,6 @@ const FormWrapper = styled.div`
   `}
 `
 
-const DateSelectRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 84%;
-`
-const DateDivider = styled.div`
-  min-width: 18px;
-`
-const DateLabel = styled(Text)`
-  margin-bottom: 6px;
-`
-const EndDateLabel = styled(DateLabel)`
-  margin-right: 95px;
-`
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'

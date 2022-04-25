@@ -1,8 +1,8 @@
+import { addDays, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
-import { Remote } from '@core'
+import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -161,8 +161,8 @@ export default ({ api }: { api: APIType }) => {
       let fees
 
       if (action.payload.operation === GasCalculationOperations.Buy) {
-        yield put(A.fetchMatchingOrderLoading())
         try {
+          yield put(A.fetchMatchingOrderLoading())
           const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
             getNftMatchingOrders,
             action.payload.order,
@@ -236,8 +236,8 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order as RawOrder
         )
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        const listingTime = moment().unix()
-        const expirationTime = moment().add(action.payload.expirationDays, 'day').unix()
+        const listingTime = getUnixTime(new Date())
+        const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
@@ -326,7 +326,7 @@ export default ({ api }: { api: APIType }) => {
 
       if (action.payload.amtToWrap && action.payload.wrapFees) {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
-        const amount = convertCoinToCoin({
+        const amount = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin: 'WETH',
           value: action.payload.amtToWrap
@@ -388,8 +388,8 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
-      const listingTime = moment().unix()
-      const expirationTime = moment().add(action.payload.expirationDays, 'day').unix()
+      const listingTime = getUnixTime(new Date())
+      const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(

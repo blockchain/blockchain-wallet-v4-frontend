@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { addDays, getUnixTime } from 'date-fns'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -29,8 +29,9 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
-import { Form, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
+import Form from 'components/Form/Form'
+import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
@@ -413,7 +414,9 @@ const MakeOffer: React.FC<Props> = (props) => {
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
-                          expirationTime: moment().add(formValues.expirationDays, 'day').unix(),
+                          expirationTime: getUnixTime(
+                            addDays(new Date(), parseInt(formValues.expirationDays))
+                          ),
                           offerFees,
                           wrapFees,
                           ...formValues

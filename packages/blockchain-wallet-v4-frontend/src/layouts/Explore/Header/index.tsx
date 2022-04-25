@@ -9,7 +9,7 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 

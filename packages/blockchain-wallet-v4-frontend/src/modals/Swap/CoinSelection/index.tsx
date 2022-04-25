@@ -7,7 +7,7 @@ import { equals } from 'ramda'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper } from 'components/Flyout'
-import { CoinAccountListOption } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'

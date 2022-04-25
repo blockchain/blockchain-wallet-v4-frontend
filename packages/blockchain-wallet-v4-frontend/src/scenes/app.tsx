@@ -222,13 +222,7 @@ const App = ({
                         component={coinViewV2 ? CoinPage : Transactions}
                         coinViewV2={coinViewV2}
                       />
-                      {isAuthenticated ? (
-                        coinsWithBalance.length ? (
-                          <Redirect to='/home' />
-                        ) : null
-                      ) : (
-                        <Redirect to='/login' />
-                      )}
+                      {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
