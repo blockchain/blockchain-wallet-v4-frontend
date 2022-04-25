@@ -9,7 +9,7 @@ describe('useDateFormatter()', () => {
       {
         initialProps: {
           date: new Date(2022, 1, 18),
-          pattern: 'dd/mm/yyyy'
+          pattern: 'dd/MM/yyyy'
         }
       }
     )
