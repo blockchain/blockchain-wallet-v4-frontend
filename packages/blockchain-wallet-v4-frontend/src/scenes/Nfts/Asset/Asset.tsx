@@ -319,6 +319,11 @@ const NftAsset: React.FC<Props> = ({
   }, [contract, id, nftsActions])
 
   const currentAsset = asset.data?.assets[0]
+  const ownedBySelf = currentAsset?.owners
+    ? currentAsset.owners.find((owner) => {
+        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
+      })
+    : null
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
 
@@ -413,7 +418,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {owner?.address === defaultEthAddr && (
+                    {ownedBySelf && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
@@ -500,7 +505,7 @@ const NftAsset: React.FC<Props> = ({
                   <Text size='16px' color='grey600' weight={600}>
                     <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                   </Text>
-                  {owner?.address !== defaultEthAddr ? (
+                  {ownedBySelf ? (
                     <Text
                       color='blue600'
                       weight={600}
@@ -640,7 +645,7 @@ const NftAsset: React.FC<Props> = ({
                     </EthText>
                   </>
                 ) : null}
-                {owner?.address === defaultEthAddr && (
+                {ownedBySelf ? (
                   <Button
                     data-e2e='openNftFlow'
                     nature='primary'
@@ -664,8 +669,7 @@ const NftAsset: React.FC<Props> = ({
                   >
                     <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark For Sale' />
                   </Button>
-                )}
-                {lowest_order ? (
+                ) : lowest_order ? (
                   <div style={{ display: 'flex' }}>
                     <Button
                       data-e2e='openNftFlow'
