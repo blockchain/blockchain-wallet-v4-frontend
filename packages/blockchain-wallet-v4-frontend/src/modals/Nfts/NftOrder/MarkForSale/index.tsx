@@ -278,7 +278,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         saleType === 'fixed-price'
                           ? {
                               background: colors.blue000,
-                              border: '1px solid #0C6CF2',
+                              border: `1px solid ${colors.blue600}`,
                               color: colors.blue600
                             }
                           : { border: `1px solid ${colors.grey100}` }
@@ -326,7 +326,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         saleType === 'timed-auction'
                           ? {
                               background: colors.blue000,
-                              border: '1px solid #0C6CF2'
+                              border: `1px solid ${colors.blue600}`
                             }
                           : { border: `1px solid ${colors.grey100}` }
                       }
