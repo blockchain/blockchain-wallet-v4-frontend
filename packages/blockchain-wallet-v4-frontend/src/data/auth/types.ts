@@ -145,6 +145,7 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
+  sessionIdMobile?: string
   userType?: AuthUserType
 }
 
