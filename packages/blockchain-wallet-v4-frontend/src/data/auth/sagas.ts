@@ -77,7 +77,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
-    const { code, password, username } = action.payload
+    const { captchaToken, code, password, username } = action.payload
     const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
@@ -99,7 +99,7 @@ export default ({ api, coreSagas, networks }) => {
     }
     // start signin flow
     try {
-      const response = yield call(api.exchangeSignIn, code, password, username)
+      const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
@@ -780,6 +780,7 @@ export default ({ api, coreSagas, networks }) => {
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
           actions.auth.exchangeLogin({
+            captchaToken,
             code: exchangeTwoFA,
             password: exchangePassword,
             username: exchangeEmail

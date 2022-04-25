@@ -73,6 +73,7 @@ export type LoginRoutinePayloadType = {
 }
 
 export type ExchangeLoginType = {
+  captchaToken: string
   code?: string
   password?: string
   username: string
