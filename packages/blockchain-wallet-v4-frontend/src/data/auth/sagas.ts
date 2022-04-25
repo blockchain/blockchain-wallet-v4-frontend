@@ -367,10 +367,16 @@ export default ({ api, coreSagas, networks }) => {
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
-    let session =
-      product === ProductAuthOptions.EXCHANGE
-        ? yield select(selectors.session.getExchangeSessionId, exchangeEmail)
-        : yield select(selectors.session.getWalletSessionId, guid, email)
+    const { sessionIdMobile } = yield select(S.getProductAuthMetadata)
+    let session
+    // if user is opening from mobile webview
+    if (sessionIdMobile) {
+      session = sessionIdMobile
+    } else if (product === ProductAuthOptions.EXCHANGE) {
+      session = yield select(selectors.session.getExchangeSessionId, exchangeEmail)
+    } else {
+      session = yield select(selectors.session.getWalletSessionId, guid, email)
+    }
     if (code) {
       yield put(
         actions.analytics.trackEvent({
@@ -623,6 +629,8 @@ export default ({ api, coreSagas, networks }) => {
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const userType = (queryParams.get('userType')?.toUpperCase() || undefined) as AuthUserType
       const redirect = queryParams.get('redirect') as string
+      // keeps session id consistent if logging in from mobile exchange app
+      const sessionIdMobile = queryParams.get('sessionId') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
@@ -706,7 +714,11 @@ export default ({ api, coreSagas, networks }) => {
           ) as AuthMagicLink
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           // check querystring to determine if mobile has already completed the device polling
-          yield call(determineAuthenticationFlow, queryParams.has('skipSessionCheck'))
+          yield call(
+            determineAuthenticationFlow,
+            queryParams.has('skipSessionCheck'),
+            sessionIdMobile
+          )
       }
       yield put(actions.misc.pingManifestFile())
     } catch (e) {
