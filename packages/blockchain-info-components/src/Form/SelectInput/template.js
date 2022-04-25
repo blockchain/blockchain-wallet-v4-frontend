@@ -194,8 +194,10 @@ const SelectInput = (props) => {
     items,
     menuIsOpen,
     menuPlacement,
+    noOptionsMessage,
     onBlur,
     onFocus,
+    onInputChange,
     onKeyDown,
     openMenuOnClick = true,
     openMenuOnFocus,
@@ -223,6 +225,7 @@ const SelectInput = (props) => {
           Option,
           ValueContainer
         }}
+        noOptionsMessage={noOptionsMessage}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         filterOption={filterOption}
         height={height}
@@ -237,6 +240,7 @@ const SelectInput = (props) => {
         onFocus={onFocus}
         onKeyDown={onKeyDown}
         openMenuOnClick={openMenuOnClick}
+        onInputChange={onInputChange}
         openMenuOnFocus={openMenuOnFocus}
         options={options}
         placeholder={defaultDisplay}

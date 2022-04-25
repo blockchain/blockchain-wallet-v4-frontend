@@ -32,6 +32,7 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   ethAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
+  formValues: selectors.form.getFormValues('nftSearch')(state) as { search: string },
   isAuthenticated: selectors.auth.isAuthenticated(state),
   pathname: selectors.router.getPathname(state)
 })

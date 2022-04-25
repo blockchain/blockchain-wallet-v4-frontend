@@ -544,28 +544,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const searchNftAssetContract = function* (action: ReturnType<typeof A.searchNftAssetContract>) {
-    try {
-      if (action.payload.search) {
-        const res: ReturnType<typeof api.searchNftCollectionInfo> = yield call(
-          api.searchNftCollectionInfo,
-          action.payload.search
-        )
-        yield put(A.setCollectionSearch(res))
-      } else if (action.payload.asset_contract_address) {
-        if (ethers.utils.isAddress(action.payload.asset_contract_address)) {
-          const res = yield call(api.getAssetContract, action.payload.asset_contract_address)
-          yield put(actions.form.change('nftMarketplace', 'collection', res.collection.slug))
-        }
-      }
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('nftSearch'))
-      yield put(actions.alerts.displayError('Sorry! We had an issue searching that collection.'))
-      actions.form.setSubmitFailed('nftSearch', error)
-    }
-  }
-
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
@@ -580,6 +558,17 @@ export default ({ api }: { api: APIType }) => {
 
         yield put(A.setActiveSlug({ slug: nextSlug }))
       }
+    }
+  }
+
+  const nftSearch = function* (action: ReturnType<typeof A.nftSearch>) {
+    try {
+      yield put(A.nftSearchLoading())
+      const search = yield call(api.searchNfts, action.payload.search)
+      yield put(A.nftSearchSuccess(search))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.nftSearchFailure(error))
     }
   }
 
@@ -603,6 +592,6 @@ export default ({ api }: { api: APIType }) => {
     handleRouterChange,
     nftOrderFlowClose,
     nftOrderFlowOpen,
-    searchNftAssetContract
+    nftSearch
   }
 }
