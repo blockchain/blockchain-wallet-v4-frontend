@@ -13,8 +13,14 @@ import {
   useOwnerQuery
 } from 'generated/graphql'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
-import { NftFilterFormValuesType } from '../NftFilter'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  AssetImageContainer,
+  PriceCTA
+} from '../../components'
+import { NftFilterFormValuesType } from '../../NftFilter'
 
 const NftAddressResults: React.FC<Props> = ({
   address,
@@ -22,6 +28,7 @@ const NftAddressResults: React.FC<Props> = ({
   page,
   setCollections,
   setIsFetchingNextPage,
+  setMaxItemsFetched,
   setNextPageFetchError
 }) => {
   const activeCollections = formValues?.collection
@@ -57,6 +64,12 @@ const NftAddressResults: React.FC<Props> = ({
   useEffect(() => {
     setIsFetchingNextPage(result.fetching)
   }, [result.fetching])
+
+  useEffect(() => {
+    if (result.data?.assets.length !== undefined) {
+      setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
+    }
+  }, [result.data?.assets?.length, setMaxItemsFetched])
 
   useEffect(() => {
     setCollections((collections) => {
@@ -128,6 +141,7 @@ type Props = {
     >
   >
   setIsFetchingNextPage: (isFetching: boolean) => void
+  setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
 }
 

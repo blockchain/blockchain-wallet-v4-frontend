@@ -9,16 +9,16 @@ import styled from 'styled-components'
 import { Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CollectionFilterFields, useCollectionsQuery } from 'generated/graphql'
+import { CollectionFilterFields, EventFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
 import { event_types, GridWrapper, NftBannerWrapper } from '../components'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
-import Events from '../Events/Events'
+import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
-import CollectionItems from './CollectionItems/CollectionItems'
+import CollectionItems from './CollectionItems'
 import Stats from './Stats'
 
 const CollectionHeader = styled.div<{ bgUrl: string }>`
@@ -156,7 +156,15 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               slug={slug}
             />
           ) : (
-            <Events collectionsQuery={collectionsQuery} formValues={formValues} slug={slug} />
+            <Events
+              isFetchingParent={collectionsQuery.fetching}
+              filters={[
+                { field: EventFilterFields.CollectionSlug, value: slug },
+                ...(formValues?.event
+                  ? [{ field: EventFilterFields.EventType, value: formValues.event }]
+                  : [])
+              ]}
+            />
           )}
         </div>
       </GridWrapper>

@@ -113,6 +113,7 @@ export type ModalOriginType =
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
   | 'DebitCardPage'
+  | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'

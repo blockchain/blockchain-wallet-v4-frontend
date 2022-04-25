@@ -1,5 +1,5 @@
-query Events($filter: [EventFilter], $limit:Int, $offset: Int) {
-  events(filter: $filter, limit: $limit, offset: $offset) {
+query Events($filter: [EventFilter], $sort: EventSort, $limit:Int, $offset: Int) {
+  events(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
     event_type
     asset {
       name

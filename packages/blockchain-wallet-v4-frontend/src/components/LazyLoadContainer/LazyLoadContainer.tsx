@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 // Wrapper is static size
@@ -12,7 +11,11 @@ const Container = styled.div`
   width: 100%;
 `
 
-class LazyLoadContainer extends React.PureComponent {
+class LazyLoadContainer extends React.PureComponent<Props> {
+  wrapper: ReactNode
+
+  container: ReactNode
+
   setWrapperRef = (node) => {
     this.wrapper = node
   }
@@ -23,7 +26,9 @@ class LazyLoadContainer extends React.PureComponent {
 
   onScroll = () => {
     const { onLazyLoad, triggerDistance } = this.props
+    // @ts-ignore
     const wrapperRect = this.wrapper.getBoundingClientRect()
+    // @ts-ignore
     const containerRect = this.container.getBoundingClientRect()
     if (wrapperRect.bottom + triggerDistance > containerRect.bottom) {
       onLazyLoad()
@@ -47,13 +52,10 @@ class LazyLoadContainer extends React.PureComponent {
   }
 }
 
-LazyLoadContainer.propTypes = {
-  onLazyLoad: PropTypes.func.isRequired,
-  triggerDistance: PropTypes.number
-}
-
-LazyLoadContainer.defaultProps = {
-  triggerDistance: 200
+type Props = {
+  className?: string
+  onLazyLoad: () => void
+  triggerDistance: number
 }
 
 export default LazyLoadContainer

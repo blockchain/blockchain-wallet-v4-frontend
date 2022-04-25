@@ -4,6 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
+import { CardStateType } from 'data/components/debitCard/types'
 
 import { actions as A } from './slice'
 
@@ -18,7 +19,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const filterTerminatedCards = (cards) => cards.filter((card) => card.status !== 'TERMINATED')
+  const filterTerminatedCards = (cards) =>
+    cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
   const getCards = function* () {
     try {
@@ -70,6 +72,20 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
+    try {
+      yield put(A.handleCardLockLoading())
+      const { id, newLockState } = action.payload
+
+      const lockAction = newLockState ? 'lock' : 'unlock'
+
+      yield call(api.handleDCLock, id, lockAction)
+      yield put(A.handleCardLockSuccess(newLockState))
+    } catch (e) {
+      yield put(A.handleCardLockFailure(e))
+    }
+  }
+
   const terminateCard = function* (action: ReturnType<typeof A.terminateCard>) {
     try {
       const { payload } = action
@@ -85,6 +101,7 @@ export default ({ api }: { api: APIType }) => {
     createCard,
     getCards,
     getProducts,
+    handleCardLock,
     terminateCard
   }
 }

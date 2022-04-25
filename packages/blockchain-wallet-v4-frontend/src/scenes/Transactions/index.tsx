@@ -151,7 +151,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
     return (
       <SceneWrapper>
-        <LazyLoadContainer onLazyLoad={loadMoreTxs}>
+        <LazyLoadContainer triggerDistance={200} onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
               <CoinTitle>

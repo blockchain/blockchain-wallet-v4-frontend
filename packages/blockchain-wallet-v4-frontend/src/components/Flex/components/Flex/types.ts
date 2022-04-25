@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { CSSProperties, FC } from 'react'
 
 export type FlexAlignItems =
   | 'stretch'
@@ -24,6 +24,8 @@ export type FlexProps = {
   flexDirection?: FlexDirection
   gap?: number
   justifyContent?: FlexJustifyContent
+} & {
+  style?: CSSProperties
 }
 
 export type FlexComponent = FC<FlexProps>

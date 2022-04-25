@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -17,6 +17,7 @@ import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Explore/Header'
 import { media } from 'services/styles'
 
 import EventTypeName from '../components/EventTypeName'
@@ -24,11 +25,10 @@ import EventTypeName from '../components/EventTypeName'
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: 20px;
   position: sticky;
-  transition: all 0.3s ease;
-  padding: 0 10px;
+  transition: width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - 76px);
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT + 40}px);
   overflow: scroll;
   ${media.tablet`
     display: none;
@@ -95,6 +95,7 @@ const NftFilter: React.FC<Props> = ({
   total_supply,
   traits
 }) => {
+  const ref = useRef<HTMLDivElement | null>(null)
   const [isOpen, setIsOpen] = useState(true)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
 
@@ -122,7 +123,7 @@ const NftFilter: React.FC<Props> = ({
   )
 
   return (
-    <Wrapper isOpen={isOpen}>
+    <Wrapper ref={ref} isOpen={isOpen}>
       <FilterHeader isOpen={isOpen}>
         <FilterHeaderText isOpen={isOpen} size='20px' weight={500} color='black'>
           <FormattedMessage defaultMessage='Filter' id='copy.filter' />

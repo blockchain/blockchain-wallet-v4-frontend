@@ -4,6 +4,8 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
+export const LOADING_ITEMS_COUNT = 8
+
 export const maxWidth = '1200px'
 
 export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
@@ -68,6 +70,7 @@ export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  align-items: flex-start;
 `
 
 export const Grid = styled.div`
@@ -202,7 +205,6 @@ export const Centered = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 40px;
   gap: 8px;
 `
 
