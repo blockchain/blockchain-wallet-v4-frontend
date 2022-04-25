@@ -8,9 +8,10 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, StickyHeaderWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption, TextBox } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
+import TextBox from 'components/Form/TextBox'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
@@ -100,50 +101,52 @@ class RequestCoinSelect extends React.PureComponent<Props> {
 
     return (
       <Wrapper>
-        <StickyHeaderFlyoutWrapper>
-          <Header spaceBetween>
-            <Icon name='arrow-bottom-right' color='blue600' size='24px' />
-            <Icon
-              name='close'
-              color='grey600'
-              role='button'
-              data-e2e='close'
-              size='24px'
-              cursor
-              onClick={handleClose}
-            />
-          </Header>
-          <HeaderContent>
-            <Text size='24px' color='grey900' weight={600}>
-              <FormattedMessage
-                id='modals.requestcrypto.coinselect.title'
-                defaultMessage='Receive Crypto'
+        <StickyHeaderWrapper>
+          <FlyoutWrapper>
+            <Header spaceBetween>
+              <Icon name='arrow-bottom-right' color='blue600' size='24px' />
+              <Icon
+                name='close'
+                color='grey600'
+                role='button'
+                data-e2e='close'
+                size='24px'
+                cursor
+                onClick={handleClose}
               />
-            </Text>
-            <Text size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='modals.requestcrypto.coinselect.subtitle'
-                defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
-              />
-            </Text>
-            <InputContainer>
-              <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
-              <StyledIcon color='grey200' name='magnifier' />
-            </InputContainer>
-            {formValues.coinSearch && (
-              <ResultsText size='12px' color='grey600' weight={600}>
-                {data.accounts.length ? (
-                  <>
-                    {data.accounts.length}{' '}
-                    <FormattedMessage id='copy.results' defaultMessage='Results' />
-                  </>
-                ) : (
-                  <FormattedMessage id='copy.no_results' defaultMessage='No Results' />
-                )}
-              </ResultsText>
-            )}
-          </HeaderContent>
-        </StickyHeaderFlyoutWrapper>
+            </Header>
+            <HeaderContent>
+              <Text size='24px' color='grey900' weight={600}>
+                <FormattedMessage
+                  id='modals.requestcrypto.coinselect.title'
+                  defaultMessage='Receive Crypto'
+                />
+              </Text>
+              <Text size='16px' color='grey600' weight={500}>
+                <FormattedMessage
+                  id='modals.requestcrypto.coinselect.subtitle'
+                  defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
+                />
+              </Text>
+              <InputContainer>
+                <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
+                <StyledIcon color='grey200' name='magnifier' />
+              </InputContainer>
+              {formValues.coinSearch && (
+                <ResultsText size='12px' color='grey600' weight={600}>
+                  {data.accounts.length ? (
+                    <>
+                      {data.accounts.length}{' '}
+                      <FormattedMessage id='copy.results' defaultMessage='Results' />
+                    </>
+                  ) : (
+                    <FormattedMessage id='copy.no_results' defaultMessage='No Results' />
+                  )}
+                </ResultsText>
+              )}
+            </HeaderContent>
+          </FlyoutWrapper>
+        </StickyHeaderWrapper>
         {data.accounts.length ? (
           <AutoSizer>
             {({ height, width }) => (

@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import moment from 'moment'
 import { replace } from 'ramda'
 import styled from 'styled-components'
 
@@ -15,7 +14,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: space-between;
   width: 100%;
 `
 const RowWrapper = styled.div`
@@ -65,7 +63,20 @@ const Error = styled(Text)`
 const monthElements = [
   {
     group: '',
-    items: moment.months().map((month, index) => {
+    items: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ].map((month, index) => {
       const value = `${index + 1 < 10 ? '0' : ''}${index + 1}`
       return {
         text: `${value} - ${month}`,

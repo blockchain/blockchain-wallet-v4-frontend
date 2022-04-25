@@ -9,7 +9,6 @@ import { FlyoutFooter, FlyoutHeader } from 'components/Flyout/Layout'
 import { actions } from 'data'
 
 import AnimatedCarousel from './AnimatedCarousel'
-import AnimatedGraph from './AnimatedGraph'
 
 const Wrapper = styled.div`
   display: flex;
@@ -84,7 +83,6 @@ class Notifications extends PureComponent<Props, State> {
         </FlyoutHeader>
 
         <MainContent>
-          <AnimatedGraph stepIndex={this.state.stepIndex} />
           <AnimatedCarousel stepChange={this.stepChange}>
             <Slide>
               <SlideContent>

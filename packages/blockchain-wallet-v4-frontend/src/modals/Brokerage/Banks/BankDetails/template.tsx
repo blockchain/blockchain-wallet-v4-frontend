@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { getBankLogoImageName } from 'services/images'
 
 import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'

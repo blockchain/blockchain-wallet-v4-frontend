@@ -4,18 +4,16 @@ import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
-import {
-  CheckBox,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  PasswordBox,
-  SelectBox,
-  SelectBoxCountry,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxCountry from 'components/Form/SelectBoxCountry'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
 import { isBrowserSupported } from 'services/browser'
 import {
@@ -78,7 +76,6 @@ const SignupForm = (props: Props) => {
     signupCountryEnabled
   } = props
   const { password = '' } = formValues || {}
-  const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -119,35 +116,9 @@ const SignupForm = (props: Props) => {
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            passwordScore={passwordScore}
-            showPasswordScore
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {password.length > 0 && (
-          <div>
-            <PasswordTip size='12px' weight={400}>
-              {passwordScore <= 1 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.weak'
-                  defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore >= 2 && passwordScore < 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.medium'
-                  defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore === 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.great'
-                  defaultMessage='Great password.'
-                />
-              )}
-            </PasswordTip>
-          </div>
-        )}
       </FormGroup>
       <FormGroup>
         <FormItem>

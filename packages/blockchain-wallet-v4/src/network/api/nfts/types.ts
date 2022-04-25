@@ -94,7 +94,7 @@ export interface WyvernOrder {
   paymentToken: string
   replacementPattern: string
   saleKind: number
-  salt: BigNumber
+  salt: string
   side: number
   staticExtradata: string
   staticTarget: string
@@ -147,7 +147,7 @@ export interface Asset {
  * Types of asset contracts
  * Given by the asset_contract_type in the OpenSea API
  */
-export declare enum AssetContractType {
+export declare enum AssetContractTypeType {
   Fungible = 'fungible',
   NonFungible = 'non-fungible',
   SemiFungible = 'semi-fungible',
@@ -172,7 +172,7 @@ export interface OpenSeaAssetContract extends OpenSeaFees {
   stats?: object
   tokenSymbol: string
   traits?: object[]
-  type: AssetContractType
+  type: AssetContractTypeType
   wikiLink?: string
 }
 
@@ -272,11 +272,7 @@ export interface OpenSeaCollection extends OpenSeaFees {
 }
 
 export interface CollectionData {
-  collection_data: {
-    primary_asset_contracts: {
-      address: string
-      total_supply: number
-    }[]
+  collection_data: NftAsset['collection'] & {
     stats: Stats
   }
   name: string
@@ -418,7 +414,8 @@ export enum GasCalculationOperations {
   Cancel = 'cancel',
   CreateOffer = 'create-offer',
   Sell = 'sell',
-  Transfer = 'transfer'
+  Transfer = 'transfer',
+  WrapEth = 'wrap-eth'
 }
 
 export interface GasDataI {
@@ -440,7 +437,7 @@ export interface RawOrder {
   bounty_multiple: string
   calldata: string
   cancelled: boolean
-  closing_date: null
+  closing_date: string | null
   closing_extendable: boolean
   created_date: string
   current_bounty: string
@@ -477,16 +474,7 @@ export interface RawOrder {
   }
   order_hash: string
   payment_token: string
-  payment_token_contract: {
-    address: string
-    decimals: number
-    eth_price: string
-    id: number
-    image_url: string
-    name: string
-    symbol: string
-    usd_price: string
-  }
+  payment_token_contract: PaymentTokenContractType
   prefixed_hash: string
   quantity: string
   r: string
@@ -509,72 +497,91 @@ export interface RawOrder {
   v: number
 }
 
+interface AssetContractType {
+  address: string
+  asset_contract_type: string
+  buyer_fee_basis_points: number
+  created_date: string
+  default_to_fiat: boolean
+  description: string
+  dev_buyer_fee_basis_points: number
+  dev_seller_fee_basis_points: number
+  external_link: string | null
+  image_url: null
+  name: string
+  nft_version: null
+  only_proxied_transfers: boolean
+  opensea_buyer_fee_basis_points: number
+  opensea_seller_fee_basis_points: number
+  opensea_version: string
+  owner: number
+  payout_address: null
+  schema_name: WyvernSchemaName
+  seller_fee_basis_points: number
+  symbol: string
+  total_supply: null
+}
+
+export interface PaymentTokenContractType {
+  address: string
+  decimals: number
+  eth_price: string
+  image_url: string
+  name: string
+  symbol: string
+  usd_price: string
+}
+
+export interface NftCollection {
+  banner_image_url: string
+  chat_url: null
+  created_date: string
+  default_to_fiat: boolean
+  description: string
+  dev_buyer_fee_basis_points: string
+  dev_seller_fee_basis_points: string
+  discord_url: string
+  display_data: {
+    card_display_style: string
+  }
+  editors: string[]
+  external_url: string
+  featured: boolean
+  featured_image_url: string
+  hidden: boolean
+  image_url: string
+  instagram_username: null
+  is_subject_to_whitelist: boolean
+  large_image_url: string
+  medium_username: null
+  name: string
+  only_proxied_transfers: boolean
+  opensea_buyer_fee_basis_points: string
+  opensea_seller_fee_basis_points: string
+  payment_tokens: PaymentTokenContractType[]
+  payout_address: string
+  primary_asset_contracts: AssetContractType[]
+  require_email: boolean
+  safelist_request_status: string
+  short_description: null
+  slug: string
+  stats: Stats
+  telegram_url: null
+  traits: {
+    [key in string]: {
+      [key in string]: number
+    }
+  }
+  twitter_username: string
+  wiki_url: null
+}
+
 export interface NftAsset {
   animation_original_url: null
   animation_url: null
-  asset_contract: {
-    address: string
-    asset_contract_type: string
-    buyer_fee_basis_points: number
-    created_date: string
-    default_to_fiat: boolean
-    description: string
-    dev_buyer_fee_basis_points: number
-    dev_seller_fee_basis_points: number
-    external_link: string | null
-    image_url: null
-    name: string
-    nft_version: null
-    only_proxied_transfers: boolean
-    opensea_buyer_fee_basis_points: number
-    opensea_seller_fee_basis_points: number
-    opensea_version: string
-    owner: number
-    payout_address: null
-    schema_name: WyvernSchemaName
-    seller_fee_basis_points: number
-    symbol: string
-    total_supply: null
-  }
+  asset_contract: AssetContractType
   background_color: null | string
-  collection: {
-    banner_image_url: string
-    chat_url: string | null
-    created_date: string
-    default_to_fiat: boolean
-    description: string | null
-    dev_buyer_fee_basis_points: string
-    dev_seller_fee_basis_points: string
-    discord_url: string | null
-    display_data: {
-      card_display_style: string
-    }
-    external_url: string | null
-    featured: boolean
-    featured_image_url: string
-    hidden: boolean
-    image_url: string
-    instagram_username: string | null
-    is_subject_to_whitelist: boolean
-    large_image_url: string
-    medium_username: string | null
-    name: string
-    only_proxied_transfers: boolean
-    opensea_buyer_fee_basis_points: string
-    opensea_seller_fee_basis_points: string
-    payment_tokens: {
-      symbol: string
-    }[]
-    payout_address: string
-    require_email: boolean
-    safelist_request_status: string
-    short_description: null
-    slug: string
-    stats: Stats
-    telegram_url: string | null
-    twitter_username: string | null
-    wiki_url: null
-  }
+  collection: NftCollection
   creator: {
     address: string
     config: string
@@ -642,7 +649,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: RawOrder[]
+  orders: RawOrder[] | null
   owner: {
     address: string
     config: string
@@ -656,9 +663,21 @@ export interface NftAsset {
   token_id: string
   token_metadata: null
   top_bid: null
+  top_ownerships: [
+    {
+      owner: {
+        address: string
+        config: string
+        profile_img_url: string
+        user: { username: string }
+      }
+      quantity: number
+    }
+  ]
   traits: [
     {
       trait_count: number
+      trait_max_value: number
       trait_type: string
       value: string
     }
@@ -767,6 +786,7 @@ export type OfferEventsType = {
 export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string
   average_price: string
+  collection_data: CollectionData['collection_data']
   count: number
   created_timestamp: string
   floor_price: string
@@ -783,4 +803,101 @@ export interface ExplorerGatewayNftCollectionType {
   total_sales: number
   total_supply: number
   total_volume: string
+}
+
+export interface OpenSeaOrder {
+  approved_on_chain: boolean
+  asset: {
+    animation_original_url: null
+    animation_url: null
+    asset_contract: AssetContractType
+    background_color: null
+    collection: Omit<NftCollection, 'editors' | 'payment_tokens' | 'stats' | 'traits'>
+    decimals: number
+    description: null
+    external_link: null
+    id: number
+    image_original_url: string
+    image_preview_url: string
+    image_thumbnail_url: string
+    image_url: string
+    is_nsfw: boolean
+    name: string
+    num_sales: number
+    owner: {
+      address: string
+      config: string
+      profile_img_url: string
+      user: {
+        username: null
+      }
+    }
+    permalink: string
+    token_id: string
+    token_metadata: string
+  }
+  asset_bundle: null
+  base_price: string
+  bounty_multiple: string
+  calldata: string
+  cancelled: boolean
+  closing_date: string
+  closing_extendable: boolean
+  created_date: string
+  current_bounty: string
+  current_price: string
+  exchange: string
+  expiration_time: number
+  extra: string
+  fee_method: number
+  fee_recipient: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  finalized: boolean
+  how_to_call: number
+  id: number
+  listing_time: number
+  maker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  maker_protocol_fee: string
+  maker_referrer_fee: string
+  maker_relayer_fee: string
+  marked_invalid: boolean
+  metadata: {
+    asset: {
+      address: string
+      id: string
+    }
+    schema: string
+  }
+  order_hash: string
+  payment_token: string
+  payment_token_contract: PaymentTokenContractType
+  prefixed_hash: string
+  quantity: string
+  r: string
+  replacement_pattern: string
+  s: string
+  sale_kind: number
+  salt: string
+  side: number
+  static_extradata: string
+  static_target: string
+  taker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  taker_protocol_fee: string
+  taker_relayer_fee: string
+  target: string
+  v: number
 }

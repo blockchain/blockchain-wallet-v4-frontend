@@ -145,7 +145,10 @@ export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
 export const getUpgradeAccount = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'upgradeAccounts']))
 
-// SSO Merge account geature flag
-
+// SSO Merge account feature flag
 export const getMergeAccount = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAccounts']))
+
+// NFT explorer feature flag
+export const getNftExplorer = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))

@@ -145,8 +145,8 @@ const Template: React.FC<Props> = (props) => {
             <Image name='blockchain-gold' size='20px' />
             <TierTitle>
               <FormattedMessage
-                id='modals.tradinglimits.upgrade.gold_limits'
-                defaultMessage='Gold Limits'
+                id='modals.tradinglimits.upgrade.full_access_limits'
+                defaultMessage='Full Access Limits'
               />
             </TierTitle>
             <UpgradeSubtitle>
@@ -188,8 +188,8 @@ const Template: React.FC<Props> = (props) => {
                 onClick={startVerification(TIER_TYPES.GOLD)}
               >
                 <FormattedMessage
-                  id='modals.upgradenow.unlock_gold_limits'
-                  defaultMessage='Unlock Gold Limits'
+                  id='modals.upgradenow.unlock_full_access_limits'
+                  defaultMessage='Unlock Full Access'
                 />
               </Button>
             )}
@@ -200,8 +200,8 @@ const Template: React.FC<Props> = (props) => {
           <Image name='blockchain-silver' size='20px' />
           <TierTitle>
             <FormattedMessage
-              id='modals.tradinglimits.upgrade.silver_limits'
-              defaultMessage='Silver Limits'
+              id='modals.tradinglimits.upgrade.limited_access_limits'
+              defaultMessage='Limited Access Limits'
             />
           </TierTitle>
           <UpgradeSubtitle>

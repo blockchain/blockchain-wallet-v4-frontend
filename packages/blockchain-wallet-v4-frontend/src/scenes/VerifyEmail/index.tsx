@@ -17,7 +17,6 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // When feature flag to create unified accounts is off
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
-
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
       if (nextProps.createExchangeUserFlag) {

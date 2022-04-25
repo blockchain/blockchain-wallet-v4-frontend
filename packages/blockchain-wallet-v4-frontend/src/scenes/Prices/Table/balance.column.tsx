@@ -4,8 +4,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import CoinDisplay from 'components/Display/CoinDisplay'
-
-import { CellHeaderText } from '.'
+import { CellHeaderText } from 'components/Table'
 
 const BalanceDisplay = styled(CoinDisplay)`
   font-style: normal;

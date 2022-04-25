@@ -6,7 +6,10 @@ import styled from 'styled-components'
 
 import { Types } from '@core'
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
-import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { required, validPasswordConfirmation } from 'services/forms'
 
@@ -197,7 +200,6 @@ const Settings = (props) => {
 
 Settings.propTypes = {
   handleToggle: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   updateToggled: PropTypes.bool.isRequired
 }
 

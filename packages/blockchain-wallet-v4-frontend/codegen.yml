@@ -1,0 +1,13 @@
+overwrite: true
+schema: "https://api.dev.blockchain.info/explorer-gateway/graphql/"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "urql-introspection"
+      - "typescript-urql"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

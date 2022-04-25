@@ -1,25 +1,24 @@
 import React from 'react'
 import { CSVLink } from 'react-csv'
 import { FormattedMessage } from 'react-intl'
+import { format, isBefore } from 'date-fns'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
   Button,
+  DateInput,
   HeartbeatLoader,
   Modal,
   ModalBody,
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import {
-  DateBoxDebounced,
-  Form,
-  SelectBoxBchAddresses,
-  SelectBoxBtcAddresses,
-  SelectBoxEthAddresses,
-  SelectBoxXlmAddresses
-} from 'components/Form'
+import Form from 'components/Form/Form'
+import SelectBoxBchAddresses from 'components/Form/SelectBoxBchAddresses'
+import SelectBoxBtcAddresses from 'components/Form/SelectBoxBtcAddresses'
+import SelectBoxEthAddresses from 'components/Form/SelectBoxEthAddresses'
+import SelectBoxXlmAddresses from 'components/Form/SelectBoxXlmAddresses'
 import { required } from 'services/forms'
 
 import { OwnProps, StateProps } from '.'
@@ -31,6 +30,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  margin-bottom: 12px;
 `
 const Row = styled.div`
   display: flex;
@@ -38,7 +38,6 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 24px;
 `
 const DateSelectRow = styled.div`
   display: flex;
@@ -69,6 +68,12 @@ const DownloadButton = styled(CSVLink)`
   width: 100%;
 `
 
+const isValidDateRange = (val, { end, start }) => {
+  if (isBefore(new Date(end), new Date(start))) {
+    return 'Invalid date range'
+  }
+}
+
 export const validAddressOrWallet = (value) => {
   return value !== 'all' ? undefined : (
     <FormattedMessage
@@ -85,6 +90,8 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
 ) => {
   const { closeAll, coin, csvData, filename, generating, handleSubmit, invalid, position, total } =
     props
+  const minDate = '2009-01-03' // bitcoin start date
+  const today = format(new Date(), 'yyyy-MM-dd')
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -98,7 +105,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
-              <Text size='14px' weight={500} capitalize>
+              <Text size='14px' weight={500} capitalize style={{ marginBottom: '6px' }}>
                 <FormattedMessage id='modals.transactions.report.wallet' defaultMessage='Wallet' />
               </Text>
             </Row>
@@ -146,7 +153,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
                 />
               )}
             </Row>
-            <Row>
+            <Row style={{ marginTop: '16px' }}>
               <DateSelectRow>
                 <DateLabel size='14px' weight={500} capitalize>
                   <FormattedMessage
@@ -162,22 +169,24 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
                 </EndDateLabel>
               </DateSelectRow>
             </Row>
-            <Row>
+            <Row style={{ marginBottom: '16px' }}>
               <DateSelectRow>
                 <Field
-                  dateFormat='MM/DD/YYYY'
-                  fullwidth
                   name='start'
-                  validate={[required]}
-                  component={DateBoxDebounced}
+                  validate={[required, isValidDateRange]}
+                  min={minDate}
+                  max={today}
+                  component={DateInput}
+                  fullwidth
                 />
                 <DateDivider />
                 <Field
-                  dateFormat='MM/DD/YYYY'
-                  fullwidth
                   name='end'
-                  validate={[required]}
-                  component={DateBoxDebounced}
+                  validate={[required, isValidDateRange]}
+                  min={minDate}
+                  max={today}
+                  component={DateInput}
+                  fullwidth
                 />
               </DateSelectRow>
             </Row>

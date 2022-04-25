@@ -11,46 +11,35 @@ import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
 
-class ProductPickerContainer extends React.PureComponent<Props> {
-  // to avoid react dev errors, set an initial state since we are using
-  // getDerivedStateFromProps which will set a state from the component
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
-  walletRedirect = () => {
-    this.props.signupActions.setRegisterEmail(undefined)
-    this.props.routerActions.push('/home')
+const ProductPickerContainer: React.FC<Props> = (props) => {
+  const walletRedirect = () => {
+    props.signupActions.setRegisterEmail(undefined)
+    props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
-    this.props.saveGoal('welcomeModal', { firstLogin: true })
-    this.props.runGoals()
+    props.saveGoal('welcomeModal', { firstLogin: true })
+    props.runGoals()
   }
 
-  exchangeRedirect = () => {
-    this.props.signupActions.setRegisterEmail(undefined)
-    this.props.profileActions.getExchangeLoginToken(ExchangeAuthOriginType.Signup)
-    // TODO: this is a placeholder
+  const exchangeRedirect = () => {
+    props.signupActions.setRegisterEmail(undefined)
+    props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
   }
 
-  render() {
-    return this.props.walletLoginData.cata({
-      // TODO add proper error state
-      Failure: (error) => <Error error={error} />,
-      Loading: () => <SpinningLoader />,
-      NotAsked: () => <Error />,
-      Success: () =>
-        this.props.exchangeUserConflict ? (
-          <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
-        ) : (
-          <ProductPicker
-            {...this.props}
-            walletRedirect={this.walletRedirect}
-            exchangeRedirect={this.exchangeRedirect}
-          />
-        )
-    })
-  }
+  return props.walletLoginData.cata({
+    Failure: (error) => <Error error={error} />,
+    Loading: () => <SpinningLoader />,
+    NotAsked: () => <Error />,
+    Success: () =>
+      props.exchangeUserConflict ? (
+        <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
+      ) : (
+        <ProductPicker
+          {...props}
+          walletRedirect={walletRedirect}
+          exchangeRedirect={exchangeRedirect}
+        />
+      )
+  })
 }
 
 const mapStateToProps = (state) => ({

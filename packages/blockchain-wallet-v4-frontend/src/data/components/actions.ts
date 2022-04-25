@@ -12,7 +12,6 @@ import * as importBtcAddress from './importBtcAddress/actions'
 import { actions as interest } from './interest/slice'
 import { actions as interestUploadDocument } from './interestUploadDocument/slice'
 import { actions as layoutWallet } from './layoutWallet/slice'
-import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
 import { actions as nfts } from './nfts/slice'
 import * as onboarding from './onboarding/actions'
@@ -54,7 +53,6 @@ export {
   interest,
   interestUploadDocument,
   layoutWallet,
-  lockbox,
   manageAddresses,
   nfts,
   onboarding,

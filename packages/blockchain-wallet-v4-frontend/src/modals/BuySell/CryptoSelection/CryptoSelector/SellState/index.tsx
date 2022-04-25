@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { any, map, values } from 'ramda'
 import styled from 'styled-components'
 
-import { CoinAccountListOption } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import { SwapAccountType } from 'data/types'
 
 import SellEmptyState from '../SellEmptyState'

@@ -13,7 +13,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, SelectBoxBtcAddresses, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import SelectBoxBtcAddresses from 'components/Form/SelectBoxBtcAddresses'
+import TextBox from 'components/Form/TextBox'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { required, validBtcPrivateKey } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'

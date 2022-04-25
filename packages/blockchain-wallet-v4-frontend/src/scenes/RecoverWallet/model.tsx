@@ -193,7 +193,7 @@ export const BackArrowFormHeader = (props: {
             {props.email}
           </Text>
           {props.step !== RecoverSteps.RESET_ACCOUNT ||
-            (props.product === ProductAuthOptions.EXCHANGE && (
+            (props.product !== ProductAuthOptions.EXCHANGE && (
               <Text size='12px' weight={500} color='grey400'>
                 ({firstPartGuid}...{lastPartGuid})
               </Text>

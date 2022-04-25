@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
+import { sub, getTime, getUnixTime } from 'date-fns'
 
 import { APIType } from '@core/network/api'
 import { FiatTypeEnum, PriceDiffType, TimeRange } from '@core/types'
@@ -36,7 +36,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchPriceChangeLoading(base, range))
 
       const time =
-        range === TimeRange.ALL ? moment.unix(start[base] || 0) : moment().subtract(1, range)
+        range === TimeRange.ALL ? getUnixTime(start[base] || 0) : getTime(sub(new Date(), { [range]: 1 }))
 
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
@@ -48,7 +48,7 @@ export default ({ api }: { api: APIType }) => {
         api.getPriceIndex,
         base,
         quote,
-        moment()
+        getTime(new Date())
       )
 
       // Overall coin price movement

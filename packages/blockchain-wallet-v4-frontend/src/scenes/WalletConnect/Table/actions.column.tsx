@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-
-import { CellHeaderText } from '.'
+import { CellHeaderText } from 'components/Table'
 
 const CellWrapper = styled.div`
   display: flex;

@@ -1073,50 +1073,6 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Not a valid Bitcoin Private Key or Address.'
         />
       )
-    case C.LOCKBOX_SETUP_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.success_lockbox_setup'
-          defaultMessage='Successfully setup your {deviceType}.'
-          values={data}
-        />
-      )
-    case C.LOCKBOX_SETUP_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.error_lockbox_setup'
-          defaultMessage='Failed to setup your {deviceType}.'
-          values={data}
-        />
-      )
-    case C.LOCKBOX_UPDATE_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_update_success'
-          defaultMessage='Lockbox settings successfully updated.'
-        />
-      )
-    case C.LOCKBOX_UPDATE_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_update_error'
-          defaultMessage='Failed to update Lockbox settings.'
-        />
-      )
-    case C.LOCKBOX_DELETE_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_delete_success'
-          defaultMessage='Lockbox successfully deleted.'
-        />
-      )
-    case C.LOCKBOX_DELETE_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_delete_error'
-          defaultMessage='Failed to remove Lockbox.'
-        />
-      )
     case C.LOCKED_WITHDRAW_ERROR:
       return buildMessageTemplate(
         data === 0 || data === 1 ? (

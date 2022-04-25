@@ -7,9 +7,10 @@ import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, StickyHeaderWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 
@@ -40,37 +41,39 @@ class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & 
 
     return (
       <Wrapper>
-        <StickyHeaderFlyoutWrapper>
-          <Header spaceBetween>
-            <Icon name='arrow-top-right' color='blue600' size='48px' />
-            <Icon
-              name='close'
-              color='grey600'
-              role='button'
-              data-e2e='close'
-              size='24px'
-              cursor
-              onClick={close}
-            />
-          </Header>
-          <div>
-            <Text size='24px' color='grey900' weight={600}>
-              <FormattedMessage
-                id='modals.sendcrypto.coinselect.title'
-                defaultMessage='Send Crypto'
+        <StickyHeaderWrapper>
+          <FlyoutWrapper>
+            <Header spaceBetween>
+              <Icon name='arrow-top-right' color='blue600' size='48px' />
+              <Icon
+                name='close'
+                color='grey600'
+                role='button'
+                data-e2e='close'
+                size='24px'
+                cursor
+                onClick={close}
               />
-            </Text>
-            <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
-              <FormattedMessage
-                id='modals.sendcrypto.coinselect.subtitle'
-                defaultMessage='Select the wallet you want to send from.'
-              />
-            </Text>
-            <SelectCoinWrapper>
-              <Field component={SelectBoxCoin} height='32px' name='coin' type='send' />
-            </SelectCoinWrapper>
-          </div>
-        </StickyHeaderFlyoutWrapper>
+            </Header>
+            <div>
+              <Text size='24px' color='grey900' weight={600}>
+                <FormattedMessage
+                  id='modals.sendcrypto.coinselect.title'
+                  defaultMessage='Send Crypto'
+                />
+              </Text>
+              <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
+                <FormattedMessage
+                  id='modals.sendcrypto.coinselect.subtitle'
+                  defaultMessage='Select the wallet you want to send from.'
+                />
+              </Text>
+              <SelectCoinWrapper>
+                <Field component={SelectBoxCoin} height='32px' name='coin' type='send' />
+              </SelectCoinWrapper>
+            </div>
+          </FlyoutWrapper>
+        </StickyHeaderWrapper>
         {data.accounts.map((account) => (
           <CoinAccountListOption
             key={account.coin + account.address}

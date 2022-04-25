@@ -1,11 +1,10 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 
 import { Button } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'

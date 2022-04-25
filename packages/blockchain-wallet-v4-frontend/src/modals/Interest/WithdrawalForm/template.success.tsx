@@ -10,7 +10,9 @@ import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { CoinBalanceDropdown, NumberBox } from 'components/Form'
+import CoinBalanceDropdown from 'components/Form/CoinBalanceDropdown'
+import NumberBox from 'components/Form/NumberBox'
+import Spacer from 'components/Spacer'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
@@ -36,7 +38,6 @@ import {
   NetworkFee,
   PrincipalCcyAbsolute,
   SendingWrapper,
-  Spacer,
   ToggleCoinFiat,
   ToggleCoinText,
   ToggleFiatText,

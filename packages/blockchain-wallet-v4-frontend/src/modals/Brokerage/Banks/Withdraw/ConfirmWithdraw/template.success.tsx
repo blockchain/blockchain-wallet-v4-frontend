@@ -9,7 +9,7 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'

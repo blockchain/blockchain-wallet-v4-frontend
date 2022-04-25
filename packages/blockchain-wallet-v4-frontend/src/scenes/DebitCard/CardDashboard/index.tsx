@@ -10,7 +10,15 @@ const Iframe = styled.iframe`
   height: 220px;
 `
 
-const CardDashboard = ({ cardToken, cards, debitCardActions, domains, last4, modalActions }) => {
+const CardDashboard = ({
+  cardToken,
+  cards,
+  debitCardActions,
+  domains,
+  last4,
+  lockHandler,
+  modalActions
+}) => {
   return (
     <div>
       <BoxContainer>
@@ -23,6 +31,7 @@ const CardDashboard = ({ cardToken, cards, debitCardActions, domains, last4, mod
         modalActions={modalActions}
         debitCardActions={debitCardActions}
         cards={cards}
+        lockHandler={lockHandler}
       />
     </div>
   )

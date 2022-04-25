@@ -76,5 +76,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ModalPropsType & ConnectedProps<typeof connector>
 
-const enhance = compose<React.ComponentType>(modalEnhancer(ModalName.ORDER_MY_CARD, { transition: duration }))
+const enhance = compose<React.ComponentType>(
+  modalEnhancer(ModalName.ORDER_MY_CARD, { transition: duration })
+)
 export default connector(enhance(OrderMyCard))

@@ -69,16 +69,6 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
               />
             </Text>
           </Button>
-          <Link
-            onClick={skipVerification}
-            size='14px'
-            style={{ marginTop: '16px' }}
-            weight={600}
-            data-e2e='verifyEmailLater'
-            color='blue600'
-          >
-            <FormattedMessage id='copy.skip_for_now' defaultMessage='Skip for Now' />
-          </Link>
         </ContentWrapper>
       </Wrapper>
     </>

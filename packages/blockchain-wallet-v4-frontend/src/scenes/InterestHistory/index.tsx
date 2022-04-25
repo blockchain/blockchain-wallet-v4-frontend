@@ -63,7 +63,7 @@ class InterestHistoryContainer extends Component<Props> {
                   <DownloadTransactions />
                   <CoinFilter {...val} />
                 </MenuRow>
-                <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
+                <LazyLoadWrapper triggerDistance={200} onLazyLoad={this.onFetchMoreTransactions}>
                   <TransactionList {...val} {...this.props} />
                 </LazyLoadWrapper>
               </>

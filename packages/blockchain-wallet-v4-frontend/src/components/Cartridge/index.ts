@@ -1,7 +1,8 @@
 import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
-export const CustomCartridge = styled(Cartridge)`
+export const CustomCartridge = styled(Cartridge)<{ cursor?: boolean }>`
+  cursor: ${(props) => (props.cursor ? 'pointer' : 'default')};
   text-transform: none;
   border-radius: 8px;
   padding: 6px 8px;

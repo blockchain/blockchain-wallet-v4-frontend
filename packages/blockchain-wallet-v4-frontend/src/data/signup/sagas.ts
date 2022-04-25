@@ -80,9 +80,6 @@ export default ({ api, coreSagas, networks }) => {
       if (!isAccountReset) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       }
-      // if (formValues?.step === LoginSteps.UPGRADE_PASSWORD) {
-      //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-      // } else {
       yield call(loginRoutineSaga, {
         country,
         email,
@@ -219,7 +216,9 @@ export default ({ api, coreSagas, networks }) => {
       // if user is resetting their account and
       // want to go to the Exchange
       if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
-        yield put(actions.modules.profile.getExchangeLoginToken(ExchangeAuthOriginType.Login))
+        yield put(
+          actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+        )
         return
       }
       // fetch user in new wallet

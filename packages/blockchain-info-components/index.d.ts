@@ -82,9 +82,8 @@ export const ComponentDropdown: ComponentClass<{
   uppercase?: boolean
   width?: string
 }>
-
 export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
-
+export const DateInput: FunctionComponent<{}>
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
   width?: string
@@ -188,6 +187,7 @@ export const Modal: FunctionComponent<{
   isLast?: boolean
   dataE2e?: string
   style?: CSSProperties
+  doNotHide?: boolean
 }>
 export const ModalBody: FunctionComponent<{
   loading?: boolean
@@ -217,7 +217,9 @@ export const SpinningLoader: FunctionComponent<{
   height?: string
   borderWidth?: string
 }>
-export const TabMenu: FunctionComponent<{}>
+export const TabMenu: FunctionComponent<{
+  style?: CSSProperties
+}>
 export const TabMenuItem: FunctionComponent<{
   activeClassName?: string
   role?: string
