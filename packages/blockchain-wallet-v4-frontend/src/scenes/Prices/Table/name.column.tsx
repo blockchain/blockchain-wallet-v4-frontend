@@ -15,6 +15,7 @@ const HeaderWrapper = styled.div`
 `
 const CellWrapper = styled(HeaderWrapper)`
   align-items: center;
+  gap: 8px;
 
   &:hover {
     cursor: pointer;

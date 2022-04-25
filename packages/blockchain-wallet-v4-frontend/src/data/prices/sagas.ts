@@ -8,7 +8,7 @@ import { actions as A } from './slice'
 import { CoinPricesRequestType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const defaultCoins = selectors.components.swap.getCoins()
+  const defaultCoins = selectors.core.data.coins.getAllCoins()
 
   const fetchCoinPrices = function* (action) {
     const { coins, fiatCurrency, timestamp }: CoinPricesRequestType = action.payload
@@ -26,7 +26,6 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getCoinPrices, request, timestamp)
       yield put(A.fetchCoinPricesSuccess(data))
     } catch (e) {
-      console.log(e)
       yield put(A.fetchCoinPricesFailure(e.message))
     }
   }
