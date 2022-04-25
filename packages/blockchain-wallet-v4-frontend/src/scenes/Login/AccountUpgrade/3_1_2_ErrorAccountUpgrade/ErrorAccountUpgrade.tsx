@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconArrowLeft, IconCloseCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -15,6 +16,7 @@ import {
   ButtonNext,
   CenteredMsgWrapper,
   CenteredTitle,
+  HeadingIcon,
   StyledTemporaryButton,
   SubHeaderWrapper
 } from '../AccountUpgrade.models'
@@ -26,20 +28,15 @@ const ErrorAccountUpgrade = (props) => {
         <SubHeaderWrapper>
           <BackArrow onClick={() => null}>
             {!props.hideBackArrow && (
-              <Icon
-                data-e2e='signupBack'
-                name='arrow-back'
-                size='24px'
-                color='blue600'
-                style={{ marginRight: '8px' }}
-                role='button'
-              />
+              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
+                <IconArrowLeft />
+              </Icon>
             )}
-            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <Text color='grey900' variant='paragraph-1'>
               <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </BackArrow>
-          <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
+          <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
@@ -50,19 +47,17 @@ const ErrorAccountUpgrade = (props) => {
             />
           </Text>
         </SubHeaderWrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
-          <Icon name='close-circle' color='red600' size='40px' />
+        <CenteredTitle color='black' variant='title-3'>
+          <HeadingIcon>
+            <Icon label='close-circle' color='red600' size='lg'>
+              <IconCloseCircle />
+            </Icon>
+          </HeadingIcon>
           <FormattedMessage
             id='scenes.login.upgrade.able_retry.header'
             defaultMessage='Something Didn´t Work'
           />
-          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='grey900' variant='body-1'>
             <FormattedMessage
               id='scenes.login.upgrade.able_retry.text'
               defaultMessage='Don’t worry, you can still login with original credentials. You can retry the upgrade the next time you login.'

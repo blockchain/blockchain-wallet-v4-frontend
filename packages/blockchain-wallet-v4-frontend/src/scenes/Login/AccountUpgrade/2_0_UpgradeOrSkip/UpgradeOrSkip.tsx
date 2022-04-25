@@ -27,13 +27,7 @@ const UpgradeOrSkip = (props) => {
   return (
     <>
       <Wrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
+        <CenteredTitle color='black' variant='title-3'>
           <FormattedMessage
             id='scenes.login.upgrade.upsell.header'
             defaultMessage='Upgrade to a Unified Account'
@@ -52,14 +46,14 @@ const UpgradeOrSkip = (props) => {
               <IconWallet />
             </Icon>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_1.title'
                   defaultMessage='Blockchain.com Wallet'
                 />
               </TierTitle>
 
-              <Text color='grey600' size={12}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_1.text'
                   defaultMessage='Self custody your funds in the world’s most popular crypto wallet.'
@@ -79,14 +73,14 @@ const UpgradeOrSkip = (props) => {
               <IconIdentification />
             </Icon>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_2.title'
                   defaultMessage='Simplified Login'
                 />
               </TierTitle>
 
-              <Text color='grey600' size={12}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_2.text'
                   defaultMessage='Easily access the Wallet and Exchange with the same credentials.'
@@ -106,14 +100,14 @@ const UpgradeOrSkip = (props) => {
               <IconShield />
             </Icon>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_3.title'
                   defaultMessage='Enhanced Security'
                 />
               </TierTitle>
 
-              <Text color='grey600' size={12}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_3.text'
                   defaultMessage='Protect your investments across both accounts with two-factor authentication.'
@@ -133,14 +127,14 @@ const UpgradeOrSkip = (props) => {
               <IconPortfolio />
             </Icon>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_4.title'
                   defaultMessage='Full Portfolio Access'
                 />
               </TierTitle>
 
-              <Text color='grey600' size={12}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.upsell.item_4.text'
                   defaultMessage='View and manage all your funds across both the Wallet and Exchange.'

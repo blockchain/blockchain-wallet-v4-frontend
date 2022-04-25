@@ -1,6 +1,7 @@
+import { Icon, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 
 export const GreenLabel = styled.div`
   background-color: ${(props) => props.theme.green000};
@@ -23,16 +24,24 @@ export const CenteredTitle = styled(Text)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 `
 
+export const CenteredDescription = styled(Text)`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem;
+`
+
 export const Items = styled.div`
-  margin-top: 1.25rem;
+  margin-top: 0;
 `
 
 export const Item = styled.div`
-  padding: 1.25rem 2.5rem;
+  padding: 0 1rem 2rem 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -48,11 +57,12 @@ export const TierDescription = styled.div`
   padding: 0.375rem 0 0 1.125rem;
 `
 
+export const HeadingIcon = styled.div`
+  margin-bottom: 0.5rem;
+  display: flex;
+`
+
 export const TierTitle = styled(Text)`
-  color: ${(props) => props.theme.grey900};
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 150%;
   margin-bottom: 0.5rem;
 `
 
@@ -72,6 +82,14 @@ export const BackArrow = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  > span {
+    margin-left: 0.5rem;
+  }
+`
+
+export const StyledBackArrowIcon = styled(Icon)`
+  margin-right: 0.5rem;
 `
 
 export const SubHeaderWrapper = styled.div`
@@ -87,7 +105,7 @@ export const TextToRightWrapper = styled.div`
 `
 
 export const CenteredMsgWrapper = styled(Text)`
-  margin-top: 0.5rem;
+  margin: 0.5rem 1.5rem 0;
 `
 
 export const PanelButtonWrapper = styled.div`
@@ -101,6 +119,7 @@ export const PanelButtonWrapper = styled.div`
   margin: 1.5rem 0 0;
   cursor: pointer;
   position: relative;
+  align-items: center;
 `
 
 export const Row = styled.div`
@@ -120,8 +139,9 @@ export const IconWrapper = styled.div`
   align-items: center;
 `
 
-export const ButtonLine = styled(Icon)`
+export const ButtonIcon = styled(Icon)`
   align-items: center;
+  margin-right: 1rem;
 `
 
 export const QrWrapper = styled.div`
@@ -164,4 +184,5 @@ export const InputWrapper = styled.div`
 
 export const FootNote = styled(Text)`
   margin: 1.5rem 0;
+  display: block;
 `

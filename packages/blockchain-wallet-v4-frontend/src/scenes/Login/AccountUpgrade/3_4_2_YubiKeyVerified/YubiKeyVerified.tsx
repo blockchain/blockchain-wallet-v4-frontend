@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconArrowLeft, IconCheckCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -14,6 +15,7 @@ import {
   ButtonNext,
   CenteredMsgWrapper,
   CenteredTitle,
+  HeadingIcon,
   StyledTemporaryButton,
   SubHeaderWrapper
 } from '../AccountUpgrade.models'
@@ -25,20 +27,15 @@ const YubiKeyVerified = (props) => {
         <SubHeaderWrapper>
           <BackArrow onClick={() => null}>
             {!props.hideBackArrow && (
-              <Icon
-                data-e2e='2faBack'
-                name='arrow-back'
-                size='24px'
-                color='blue600'
-                style={{ marginRight: '8px' }}
-                role='button'
-              />
+              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
+                <IconArrowLeft />
+              </Icon>
             )}
-            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <Text color='grey900' variant='paragraph-1'>
               <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </BackArrow>
-          <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
+          <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
@@ -49,19 +46,17 @@ const YubiKeyVerified = (props) => {
             />
           </Text>
         </SubHeaderWrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
-          <Icon name='checkmark-circle-filled' color='green600' size='40px' />
+        <CenteredTitle color='black' variant='title-3'>
+          <HeadingIcon>
+            <Icon label='checkmark-circle-filled' color='green600' size='lg'>
+              <IconCheckCircle />
+            </Icon>
+          </HeadingIcon>
           <FormattedMessage
             id='scenes.login.upgrade.yubikeyVerify.header'
             defaultMessage='Yubikey Verified'
           />
-          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='black' variant='paragraph-1'>
             <FormattedMessage
               id='scenes.login.upgrade.yubikeyVerify.text'
               defaultMessage='Make sure your Yubikey is plugged in next time you log into your Blockchain account.'

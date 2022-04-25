@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconArrowLeft, IconCheckCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
-import { Button, Icon, Text, TextInput } from 'blockchain-info-components'
+import { Button, TextInput } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -14,6 +16,7 @@ import {
   CenteredMsgWrapper,
   CenteredTitle,
   FootNote,
+  HeadingIcon,
   InputWrapper,
   Label,
   StyledTemporaryButton,
@@ -27,20 +30,15 @@ const UpgradeSuccess = (props) => {
         <SubHeaderWrapper>
           <BackArrow onClick={() => null}>
             {!props.hideBackArrow && (
-              <Icon
-                data-e2e='2faBack'
-                name='arrow-back'
-                size='24px'
-                color='blue600'
-                style={{ marginRight: '8px' }}
-                role='button'
-              />
+              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
+                <IconArrowLeft />
+              </Icon>
             )}
-            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <Text color='grey900' variant='paragraph-1'>
               <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </BackArrow>
-          <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
+          <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.unable_retry.steps'
               defaultMessage='Steps {actualStep} of {totalSteps}'
@@ -51,19 +49,17 @@ const UpgradeSuccess = (props) => {
             />
           </Text>
         </SubHeaderWrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
-          <Icon name='checkmark-circle-filled' color='green600' size='40px' />
+        <CenteredTitle color='black' variant='title-3'>
+          <HeadingIcon>
+            <Icon label='checkmark-circle-filled' color='green600' size='lg'>
+              <IconCheckCircle />
+            </Icon>
+          </HeadingIcon>
           <FormattedMessage
             id='scenes.login.upgrade.2faSuccess.header'
             defaultMessage='You’re All Set!'
           />
-          <CenteredMsgWrapper color='textBlack' lineHeight='24px' size='16px' weight={500}>
+          <CenteredMsgWrapper color='black' variant='paragraph-1'>
             <FormattedMessage
               id='scenes.login.upgrade.2faSuccess.text'
               defaultMessage='Look for a confirmation email. You can now log in to the Wallet and Exchange with:'
@@ -71,14 +67,14 @@ const UpgradeSuccess = (props) => {
           </CenteredMsgWrapper>
         </CenteredTitle>
         <InputWrapper>
-          <Label color='grey400'>
+          <Label color='grey400' variant='paragraph-2'>
             <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
           </Label>
           <TextInput disabled name='youremail' type='text' value='satoshi@blockchain.com' />
         </InputWrapper>
 
         <InputWrapper>
-          <Label color='grey400'>
+          <Label color='grey400' variant='paragraph-2'>
             <FormattedMessage
               id='scenes.securitysettings.advanced.walletpassword.settings.new'
               defaultMessage='New Password'
@@ -88,7 +84,7 @@ const UpgradeSuccess = (props) => {
         </InputWrapper>
 
         <InputWrapper>
-          <Label color='grey400'>
+          <Label color='grey400' variant='paragraph-2'>
             <FormattedMessage
               id='scenes.login.upgrade.2faSuccess.new2fa'
               defaultMessage='New 2FA'
@@ -102,7 +98,7 @@ const UpgradeSuccess = (props) => {
           />
         </InputWrapper>
 
-        <FootNote color='grey900' lineHeight='24px' size='16px' weight={500}>
+        <FootNote color='grey900' variant='body-1'>
           <FormattedMessage
             id='scenes.login.upgrade.2faSuccess.footNote'
             defaultMessage='You can now delete your old Exchange 2FA method.'

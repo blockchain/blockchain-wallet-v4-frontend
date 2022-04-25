@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon, Text } from '@blockchain-com/constellation'
+import { IconArrowLeft } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
-import { Icon, Text } from 'blockchain-info-components'
+import CircleBackground from 'components/CircleBackground'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -28,33 +30,22 @@ const UpgradeOverview = (props) => {
         <SubHeaderWrapper>
           <BackArrow onClick={() => null}>
             {!props.hideBackArrow && (
-              <Icon
-                data-e2e='signupBack'
-                name='arrow-back'
-                size='24px'
-                color='blue600'
-                style={{ marginRight: '8px' }}
-                role='button'
-              />
+              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
+                <IconArrowLeft />
+              </Icon>
             )}
-            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <Text color='grey900' variant='paragraph-1'>
               <FormattedMessage id='copy.back' defaultMessage='Back' />
             </Text>
           </BackArrow>
-          <Text color='blue600' size='10px' weight={500} lineHeight='16px'>
+          <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.next_steps.upgrading_accounts'
               defaultMessage='Upgrading accounts'
             />
           </Text>
         </SubHeaderWrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '12px' }}
-          lineHeight='30px'
-        >
+        <CenteredTitle color='black' variant='title-3'>
           <FormattedMessage
             id='scenes.login.upgrade.next_steps.header'
             defaultMessage='What´s Next'
@@ -62,16 +53,20 @@ const UpgradeOverview = (props) => {
         </CenteredTitle>
         <Items>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <CircleBackground size='24px'>
+              <Text variant='body-2' color='blue600'>
+                1
+              </Text>
+            </CircleBackground>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_1.title'
                   defaultMessage='Create a New Password'
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_1.text'
                   defaultMessage='This new password will allow you to log into your Wallet and Exchange accounts with the same email and password.'
@@ -80,16 +75,20 @@ const UpgradeOverview = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <CircleBackground size='24px'>
+              <Text variant='body-2' color='blue600'>
+                2
+              </Text>
+            </CircleBackground>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_2.title'
                   defaultMessage='Create a New 2FA'
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_2.text'
                   defaultMessage='This new 2FA method will replace your old Exchange 2FA. You will use this for 2FA on the Wallet and Exchange.'
@@ -98,16 +97,20 @@ const UpgradeOverview = (props) => {
             </TierDescription>
           </Item>
           <Item>
-            <Icon name='pending' color='blue600' size='18px' />
+            <CircleBackground size='24px'>
+              <Text variant='body-2' color='blue600'>
+                3
+              </Text>
+            </CircleBackground>
             <TierDescription>
-              <TierTitle>
+              <TierTitle color='grey900' variant='body-2'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_3.title'
                   defaultMessage='You’re All Set!'
                 />
               </TierTitle>
 
-              <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
+              <Text color='grey600' variant='paragraph-1'>
                 <FormattedMessage
                   id='scenes.login.upgrade.next_steps.item_3.text'
                   defaultMessage='You’ll get a confirmation email. Use your email, new password, and new 2FA to log in to the Wallet or Exchange.'
