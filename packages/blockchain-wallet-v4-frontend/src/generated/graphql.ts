@@ -45,7 +45,7 @@ export type Asset = {
   is_nsfw: Scalars['Boolean'];
   is_presale: Scalars['Boolean'];
   last_sale?: Maybe<Event>;
-  listings?: Maybe<Array<Maybe<Event>>>;
+  listings?: Maybe<Array<Maybe<Listing>>>;
   name?: Maybe<Scalars['String']>;
   num_sales: Scalars['Int'];
   offers?: Maybe<Array<Maybe<Event>>>;
@@ -410,6 +410,22 @@ export enum FilterOperators {
   NotNull = 'notNull'
 }
 
+export type Listing = {
+  __typename?: 'Listing';
+  auction_type?: Maybe<Scalars['String']>;
+  created_date: Scalars['String'];
+  duration?: Maybe<Scalars['Int']>;
+  ending_price?: Maybe<Scalars['String']>;
+  ending_time?: Maybe<Scalars['String']>;
+  from_account_address?: Maybe<Scalars['String']>;
+  is_private: Scalars['Boolean'];
+  listing_time?: Maybe<Scalars['String']>;
+  payment_token_symbol?: Maybe<Scalars['String']>;
+  quantity: Scalars['Int'];
+  seller_account_address?: Maybe<Scalars['String']>;
+  starting_price?: Maybe<Scalars['String']>;
+};
+
 export type PaymentToken = {
   __typename?: 'PaymentToken';
   address: Scalars['ID'];
@@ -539,7 +555,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address: string, profile_img_url: string } | null> | null, creator?: { __typename?: 'Account', address: string, profile_img_url: string } | null, listings?: Array<{ __typename?: 'Event', total_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null }> };
+export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address: string, profile_img_url: string } | null> | null, creator?: { __typename?: 'Account', address: string, profile_img_url: string } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, max_value?: string | null } | null> | null }> };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -551,7 +567,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Event', starting_price?: string | null, payment_token?: { __typename?: 'PaymentToken', symbol: string } | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -832,7 +848,7 @@ export default {
               "kind": "LIST",
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Event",
+                "name": "Listing",
                 "ofType": null
               }
             },
@@ -1708,6 +1724,118 @@ export default {
       },
       {
         "kind": "OBJECT",
+        "name": "Listing",
+        "fields": [
+          {
+            "name": "auction_type",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "created_date",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "duration",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "ending_price",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "ending_time",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "from_account_address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "is_private",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "listing_time",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "payment_token_symbol",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "quantity",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "seller_account_address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "starting_price",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
         "name": "PaymentToken",
         "fields": [
           {
@@ -2291,10 +2419,8 @@ export const AssetDocument = gql`
       profile_img_url
     }
     listings {
-      payment_token {
-        symbol
-      }
-      total_price
+      payment_token_symbol
+      starting_price
     }
     animation_original_url
     collection {
@@ -2348,9 +2474,7 @@ export const AssetsDocument = gql`
       address
     }
     listings {
-      payment_token {
-        symbol
-      }
+      payment_token_symbol
       starting_price
     }
     collection {
