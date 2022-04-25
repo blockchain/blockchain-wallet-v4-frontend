@@ -97,6 +97,7 @@ export type LoginRoutinePayloadType = {
 }
 
 export type ExchangeLoginType = {
+  captchaToken: string
   code?: string
   password?: string
   username: string
@@ -188,6 +189,7 @@ export type ProductAuthMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
+  sessionIdMobile?: string
   userType?: AuthUserType
 }
 

@@ -29,7 +29,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   transition: width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - ${FIXED_HEADER_HEIGHT - 20}px);
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT + 40}px);
   overflow: scroll;
   ${media.tablet`
     display: none;

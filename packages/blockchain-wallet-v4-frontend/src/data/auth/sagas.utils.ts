@@ -55,7 +55,10 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
   }
 }
 
-export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean) {
+export const determineAuthenticationFlow = function* (
+  skipSessionCheck?: boolean,
+  sessionIdMobile?: string
+) {
   try {
     const authMagicLink = yield select(selectors.auth.getMagicLinkData)
     const {
@@ -135,7 +138,8 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
           yield put(
             actions.auth.setProductAuthMetadata({
               platform: platformType as PlatformTypes,
-              product: ProductAuthOptions.EXCHANGE
+              product: ProductAuthOptions.EXCHANGE,
+              sessionIdMobile
             })
           )
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))

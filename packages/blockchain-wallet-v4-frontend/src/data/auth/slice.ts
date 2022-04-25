@@ -153,11 +153,12 @@ const authSlice = createSlice({
       state.magicLinkDataEncoded = action.payload
     },
     setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
-      const { platform, product, redirect, userType } = action.payload
+      const { platform, product, redirect, sessionIdMobile, userType } = action.payload
       state.productAuthMetadata = {
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         redirect,
+        sessionIdMobile,
         userType: userType?.toUpperCase() as AuthUserType
       }
     },

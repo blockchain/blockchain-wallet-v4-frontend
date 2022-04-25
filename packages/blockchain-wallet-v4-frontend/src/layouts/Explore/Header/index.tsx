@@ -9,11 +9,11 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import TextBox from 'components/Form/TextBox'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 
 import { Props as OwnProps } from '..'
+import NftSearch from '../NftSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 
@@ -83,7 +83,7 @@ const ExploreHeader: React.FC<Props> = ({
               <FormattedMessage id='copy.explore' defaultMessage='Explore' />
             </Text>
           </NavLinkButton>
-          <Field component={TextBox} placeholder='Collections or items' />
+          <NftSearch />
         </NavCenter>
         <NavRight>
           {isAuthenticated ? (
