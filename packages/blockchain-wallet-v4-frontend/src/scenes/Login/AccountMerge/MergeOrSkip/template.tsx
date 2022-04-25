@@ -14,13 +14,7 @@ const MergeOrSkip = (props) => {
   return (
     <>
       <Wrapper>
-        <CenteredTitle
-          size='20px'
-          weight={600}
-          color='black'
-          style={{ marginTop: '8px' }}
-          lineHeight='1.5'
-        >
+        <CenteredTitle color='black' variant='title-3'>
           MergeOrSkip
         </CenteredTitle>
       </Wrapper>
