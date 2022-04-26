@@ -309,8 +309,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
-  getData(state, ownProps.computedMatch.params.coin)
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => getData(state, ownProps)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin } = ownProps.computedMatch.params
@@ -363,10 +362,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = {
-  coin: WalletCurrencyType
-  coinfig: CoinfigType
-} & RouteComponentProps
+export type OwnProps = RouteComponentProps
 
 export type SuccessStateType = {
   currency: FiatType

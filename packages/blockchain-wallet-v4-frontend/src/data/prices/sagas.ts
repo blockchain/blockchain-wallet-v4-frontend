@@ -8,7 +8,7 @@ import { actions as A } from './slice'
 import { CoinPricesRequestType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const defaultCoins = selectors.components.swap.getCoins()
+  const defaultCoins = selectors.core.data.coins.getAllCoins()
 
   const fetchCoinPrices = function* (action) {
     const { coins, fiatCurrency, timestamp }: CoinPricesRequestType = action.payload
