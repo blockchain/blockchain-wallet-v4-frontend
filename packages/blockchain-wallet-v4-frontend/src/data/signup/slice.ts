@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
+import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 import {
   MetadataRestoreType,
   ProductSignupMetadata,
@@ -63,11 +64,12 @@ const signupSlice = createSlice({
       state.kycReset = action.payload
     },
     setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
+      const { platform, product, referrerUsername, tuneTid } = action.payload
       state.productSignupMetadata = {
-        platform: action.payload.platform,
-        product: action.payload.product,
-        referrerUsername: action.payload.referrerUsername,
-        tuneTid: action.payload.tuneTid
+        platform: platform?.toUpperCase() as PlatformTypes,
+        product: product?.toUpperCase() as ProductAuthOptions,
+        referrerUsername,
+        tuneTid
       }
     },
     setRegisterEmail: (state, action: PayloadAction<SignupStateType['registerEmail']>) => {
