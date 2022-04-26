@@ -12,21 +12,22 @@ export default (state = INITIAL_STATE, action) => {
   const { payload, type } = action
 
   switch (type) {
-    case AT.FETCH_METADATA_USER_CREDENTIALS_LOADING: {
+    case AT.FETCH_METADATA_UNIFIED_CREDENTIALS_LOADING: {
       return Remote.Loading
     }
-    case AT.CREATE_METADATA_USER_CREDENTIALS:
-    case AT.FETCH_METADATA_USER_CREDENTIALS_SUCCESS: {
+    case AT.CREATE_METADATA_UNIFIED_CREDENTIALS:
+    case AT.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS: {
       return Remote.Success(payload)
     }
-    case AT.FETCH_METADATA_USER_CREDENTIALS_FAILURE: {
+    case AT.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE: {
       return Remote.Failure(payload)
     }
-    case AT.SET_USER_CREDENTIALS: {
-      const { lifetime_token, user_id } = payload
+    case AT.SET_UNIFIED_CREDENTIALS: {
+      const { exchange_lifetime_token, exchange_user_id, nabu_lifetime_token, nabu_user_id } =
+        payload
       return over(
         compose(mapped, KVStoreEntry.value),
-        merge(__, { lifetime_token, user_id }),
+        merge(__, { exchange_lifetime_token, exchange_user_id, nabu_lifetime_token, nabu_user_id }),
         state
       )
     }
