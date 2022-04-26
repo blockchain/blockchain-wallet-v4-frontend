@@ -251,7 +251,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      const { product: signupProduct, platform } = yield select(selectors.signup.getProductSignupMetadata)
+      const { platform } = yield select(selectors.signup.getProductSignupMetadata)
       yield call(authNabu)
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
@@ -285,6 +285,9 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (firstLogin) {
+        if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
+          return
+        }
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
 
