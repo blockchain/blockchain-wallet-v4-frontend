@@ -9,12 +9,13 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
+import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -25,6 +26,7 @@ import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import NetworkFeesComponent from '../../components/networkFees'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
 
@@ -62,8 +64,10 @@ const EndDateLabel = styled(DateLabel)`
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow, rates } = props
   const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
+  const wrapEthFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
+  const [open, setOpen] = useState(true)
   const disabled =
     saleType === 'fixed-price'
       ? // Fixed Price
@@ -123,30 +127,45 @@ const MarkForSale: React.FC<Props> = (props) => {
         NotAsked: () => null,
         Success: (val) => (
           <>
-            <div style={{ position: 'relative' }}>
-              <Icon
+            <StickyHeaderWrapper>
+              <FlyoutHeader
+                data-e2e='wrapEthHeader'
+                mode='back'
                 onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
-                name='arrow-left'
-                cursor
-                role='button'
-                style={{ left: '40px', position: 'absolute', top: '40px' }}
-              />
-              <Icon
-                onClick={() => close()}
-                name='close'
-                cursor
-                role='button'
-                style={{ position: 'absolute', right: '40px', top: '40px' }}
-              />
-              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
-            </div>
+              >
+                Sell Item
+              </FlyoutHeader>
+            </StickyHeaderWrapper>
             <AssetDesc>
-              <Text size='16px' color='grey900' weight={600}>
-                {val?.collection?.name}
-              </Text>
-              <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-                {val?.name}
-              </Text>
+              <img
+                style={{
+                  borderRadius: '8px',
+                  height: '64px',
+                  marginRight: '12px',
+                  width: 'auto'
+                }}
+                alt='nft-asset'
+                src={val.image_url.replace(/=s\d*/, '')}
+              />
+              <div>
+                <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
+                  {val?.name}
+                </Text>
+                <Text
+                  size='14px'
+                  weight={600}
+                  color='orange600'
+                  style={{
+                    background: colors.orange100,
+                    borderRadius: '8px',
+                    padding: '5px 8px',
+                    textAlign: 'center',
+                    width: 'fit-content'
+                  }}
+                >
+                  Not Verified
+                </Text>
+              </div>
             </AssetDesc>
             <Form>
               {saleType === 'fixed-price' ? (
@@ -442,24 +461,56 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </Value>
               </Row>
               <Row>
-                <Value asTitle>
-                  <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
+                <Value>
+                  <NetworkFeesComponent
+                    isMakeOffer={false}
+                    title='Selling Fees'
+                    {...props}
+                    {...[val]}
+                  />
                 </Value>
-                <Title asValue>
-                  <FormattedMessage
-                    id='copy.opensea_service_fee'
-                    defaultMessage='OpenSea Service Fee'
-                  />{' '}
-                  {val.asset_contract.opensea_seller_fee_basis_points / 100}%
-                </Title>
-                <Title asValue>
-                  <FormattedMessage id='copy.creator_royalty' defaultMessage='Creator Royalty' />{' '}
-                  {Number(val.collection.dev_seller_fee_basis_points) / 100}%
-                </Title>
+              </Row>
+              <Row>
+                {open && (
+                  <>
+                    <Icon
+                      onClick={() => {
+                        setOpen(false)
+                      }}
+                      name='close'
+                      cursor
+                      role='button'
+                      style={{
+                        background: 'lightgrey',
+                        borderRadius: '12px',
+                        color: 'grey',
+                        fontSize: '16px',
+                        marginTop: '1.1em',
+                        padding: '0.3em',
+                        position: 'absolute',
+                        right: '3.5em'
+                      }}
+                    />
+                    <div
+                      style={{ background: colors.grey000, borderRadius: '8px', padding: '1em' }}
+                    >
+                      <Text weight={600} style={{ padding: '0.5em 0em' }}>
+                        Listing Is Free
+                      </Text>
+                      <Text size='14px' weight={500} style={{ paddingBottom: '1em' }}>
+                        Once sold, the above fees will be deducted from the sale. Learn more about
+                        our fees.
+                      </Text>
+                    </div>
+                  </>
+                )}
               </Row>
             </Form>
             <StickyCTA>
-              <SellFees {...props} asset={val} />
+              <div style={wrapEthFees.totalFees > 0 ? {} : { display: 'none' }}>
+                <SellFees {...props} asset={val} />
+              </div>
+
               {props.orderFlow.fees.cata({
                 Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>

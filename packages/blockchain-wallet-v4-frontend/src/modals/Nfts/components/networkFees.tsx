@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
@@ -6,6 +7,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { Title } from 'components/Flyout'
 
 import MakeOfferFees from '../NftOrder/MakeOffer/fees'
 import WrapEthFees from '../NftOrder/WrapEth/fees'
@@ -43,12 +45,13 @@ const Total = styled(FiatDisplay)`
 `
 
 const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
+  const { isMakeOffer, orderFlow, title } = props
   const [moreFees, setMoreFees] = useState(false)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
   }
 
-  const getTotalFees = () => {
+  const getMakeOfferTotalFees = () => {
     const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
       .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
       .plus(
@@ -59,17 +62,30 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
     return !totalFees.isNaN() ? totalFees.toString() : 0
   }
 
+  const getBasisPoints = () => {
+    return `${String(
+      Number(orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points) +
+        Number(orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points) / 100
+    )}%`
+  }
+
   return (
     <>
       <Wrapper>
         <Top onClick={toggleDropdown}>
-          <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
-            Network Fees
+          <Text weight={500} color='#353F52' lineHeight='24px'>
+            {title}
           </Text>
           <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
-            <Total color={colors.grey600} weight={600} size='14px' coin='ETH'>
-              {getTotalFees()}
-            </Total>
+            {isMakeOffer ? (
+              <Total color={colors.grey600} weight={500} size='14px' coin='ETH'>
+                {getMakeOfferTotalFees()}
+              </Total>
+            ) : (
+              <Text weight={500} style={{ paddingLeft: '10em' }} lineHeight='24px'>
+                {getBasisPoints()}
+              </Text>
+            )}
           </Text>
           {!moreFees && (
             <ChevronArea>
@@ -82,12 +98,35 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
             </ChevronArea>
           )}
         </Top>
-        <Fees style={moreFees ? {} : { display: 'none' }}>
-          {/* @ts-ignore */}
-          <MakeOfferFees {...props} asset={val} />
-          {/* @ts-ignore */}
-          <WrapEthFees {...props} />
-        </Fees>
+        {isMakeOffer ? (
+          <Fees style={moreFees ? {} : { display: 'none' }}>
+            {/* @ts-ignore */}
+            <MakeOfferFees {...props} asset={val} />
+            {/* @ts-ignore */}
+            <WrapEthFees {...props} />
+          </Fees>
+        ) : (
+          <Fees style={moreFees ? {} : { display: 'none' }}>
+            {orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Text weight={500}>OpenSea Service Fee</Text>
+                <Text weight={500} style={{ paddingRight: '1.5em' }}>
+                  {orderFlow.asset.data.asset_contract.opensea_seller_fee_basis_points / 100}%
+                </Text>
+              </div>
+            )}
+            {orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points > 0 && (
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Text weight={500} style={{ paddingRight: '2em' }}>
+                  Creator Royalty
+                </Text>
+                <Text weight={500}>
+                  {Number(orderFlow.asset.data.collection.dev_seller_fee_basis_points) / 100}%
+                </Text>
+              </div>
+            )}
+          </Fees>
+        )}
       </Wrapper>
       {/* {moreFees && (
         <Total>
@@ -100,7 +139,7 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
 }
 
 const connector = connect()
-
-type Props = ConnectedProps<typeof connector>
+type OwnProps = { isMakeOffer: boolean; title: string }
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(NetworkFeesComponent)

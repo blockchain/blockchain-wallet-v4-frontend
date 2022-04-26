@@ -330,7 +330,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               </Row>
               <Row>
                 <Value>
-                  <NetworkFeesComponent {...props} {...[val]} />
+                  <NetworkFeesComponent isMakeOffer title='Network Fees' {...props} {...[val]} />
                 </Value>
               </Row>
             </Form>
