@@ -251,7 +251,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      const { platform } = yield select(selectors.signup.getProductSignupMetadata)
       yield call(authNabu)
       if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
         return yield put(
@@ -283,7 +282,7 @@ export default ({ api, coreSagas, networks }) => {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }
-
+      const { platform } = yield select(selectors.signup.getProductSignupMetadata)
       if (firstLogin) {
         if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
           return
