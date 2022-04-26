@@ -324,7 +324,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
           <PrincipalCcyAbsolute>
             {displayCoin ? (
               <Text color='grey800' size='14px' weight={600}>
-                {coin}
+                {coinfig.displaySymbol}
               </Text>
             ) : (
               <Text color='grey800' size='14px' weight={600}>
@@ -437,7 +437,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               <FormattedMessage
                 id='modals.interest.deposit.calcdesccoin'
                 defaultMessage='With {depositAmount} {coinTicker} in your Rewards Account you can earn:'
-                values={{ coinTicker: coin, depositAmount }}
+                values={{ coinTicker: coinfig.displaySymbol, depositAmount }}
               />
             ) : (
               <FormattedMessage
