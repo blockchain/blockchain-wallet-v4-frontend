@@ -266,9 +266,6 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.setUserInitialAddress, country, userState)
         yield call(coreSagas.settings.fetchSettings)
       }
-      // We are checking wallet metadata to see if mnemonic is verified
-      // and then syncing that information with new Wallet Account model
-      // being used for SSO
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
           yield fork(createExchangeUser, country)
@@ -340,7 +337,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-
+      // We are checking wallet metadata to see if mnemonic is verified
+      // and then syncing that information with new Wallet Account model
+      // being used for SSO
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
