@@ -7,14 +7,14 @@ import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
 
 import { Centered } from '../components'
-import NftPageLazyLoadWrapper from '../components/NftPageLazyLoadWrapper'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
-const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
+const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
+  const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
@@ -32,7 +32,7 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
     <LazyLoadContainer
       triggerDistance={50}
       onLazyLoad={() =>
-        isFetchingNextPage
+        isFetchingNextPage || maxItemsFetched
           ? null
           : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
       }
@@ -44,13 +44,19 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
               key={page}
               filters={filters}
               setEvents={setEvents}
+              setMaxItemsFetched={setMaxItemsFetched}
               setNextPageFetchError={setNextPageFetchError}
               setIsFetchingNextPage={setIsFetchingNextPage}
             />
           ))
         : null}
       <TableWrapper height='auto'>
-        {events.length ? <EventsTable onLazyLoad={() => null} events={events} /> : null}
+        {events.length ? (
+          <EventsTable
+            columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
+            events={events}
+          />
+        ) : null}
         <Centered>
           {isFetchingNextPage || isFetchingParent ? (
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -63,6 +69,7 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
 
 type Props = {
   address?: never
+  columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
   isFetchingParent: boolean
 }

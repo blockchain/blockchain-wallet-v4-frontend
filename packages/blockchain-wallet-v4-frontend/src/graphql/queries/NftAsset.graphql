@@ -1,5 +1,6 @@
 query Asset($filter: [AssetFilter], $limit: Int) {
   assets(filter: $filter, limit: $limit) {
+    id 
 		name
     image_url
     contract {
@@ -19,6 +20,7 @@ query Asset($filter: [AssetFilter], $limit: Int) {
     }
     animation_original_url
     collection {
+      total_supply
       name
       slug
       description
@@ -39,7 +41,7 @@ query Asset($filter: [AssetFilter], $limit: Int) {
     traits {
       value
       trait_type
-      max_value
+      trait_count
     }
   }
 }

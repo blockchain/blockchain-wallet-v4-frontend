@@ -66,7 +66,9 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const eventFilter = getEventFilter(formValues)
 
   const hasSomeFilters =
-    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
+    (formValues &&
+      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+    false
 
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
