@@ -118,7 +118,7 @@ const CloseIconContainer = styled.div`
 `
 
 const IconsContainerRight = styled(IconsContainer)`
-  justify-content: flex-end;
+  justify-content: space-between;
 `
 
 type Props = OwnProps & SuccessStateType
@@ -178,6 +178,7 @@ const Template = (props: Props) => {
     <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainerRight>
+          <Image width='32px' name='blue-verified' />
           <CloseIconContainer>
             <Icon
               cursor
@@ -190,9 +191,7 @@ const Template = (props: Props) => {
             />
           </CloseIconContainer>
         </IconsContainerRight>
-
-        <Image width='32px' name='blue-verified' style={{ marginTop: '8px' }} />
-        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '10px' }}>
           <FormattedMessage
             id='modals.onboarding.upgrade_now.title'
             defaultMessage='Upgrade Your Account.'
