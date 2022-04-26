@@ -15,12 +15,20 @@ import { media } from 'services/styles'
 import { NftPageV2 } from '../components'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
 
+// Special case of hardcoding colors
+// don't let this be a bad influence on the rest of the app
 const Banner = styled.div`
+  background: linear-gradient(
+      97.19deg,
+      rgba(250, 251, 255, 0) -0.9%,
+      rgba(255, 0, 149, 0.16) 49.02%,
+      rgba(91, 165, 210, 0.48) 100%
+    ),
+    #f0f2f7;
   height: 400px;
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
-  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: space-between;
