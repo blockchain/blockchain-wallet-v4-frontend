@@ -73,7 +73,7 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
     <>
       <Wrapper>
         <Top onClick={toggleDropdown}>
-          <Text weight={500} color='#353F52' lineHeight='24px'>
+          <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
             {title}
           </Text>
           <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>

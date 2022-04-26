@@ -55,16 +55,7 @@ const CTA: React.FC<Props> = (props) => {
         Failure: (e) => (
           <div>
             <Button jumbo nature='sent' fullwidth disabled data-e2e='buyNft'>
-              <FormattedMessage
-                id='copy.buy_now_for'
-                values={{
-                  for: displayCoinToCoin({
-                    coin: orderToMatch.payment_token_contract?.symbol || 'ETH',
-                    value: orderToMatch.base_price.toString()
-                  })
-                }}
-                defaultMessage='Buy Now for {for}'
-              />
+              <FormattedMessage id='copy.buy_now_for' defaultMessage='Buy Now' />
             </Button>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
               <span role='img' aria-label='cry'>
