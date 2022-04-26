@@ -61,7 +61,7 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
                 // eslint-disable-next-line react/no-array-index-key
                 <Asset key={i}>
                   <SkeletonRectangle width='100%' height='285px' />
-                  <div style={{ minHeight: '120px', padding: '12px 8px' }}>
+                  <div style={{ boxSizing: 'border-box', minHeight: '120px', padding: '12px 8px' }}>
                     <Flex
                       style={{ height: '100%' }}
                       justifyContent='space-between'
@@ -70,10 +70,10 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
                       <div>
                         <SkeletonRectangle height='24px' width='100px' />
                         <div style={{ marginTop: '4px' }} />
-                        <SkeletonRectangle height='30px' width='120px' />
+                        <SkeletonRectangle height='16px' width='120px' />
                         <div style={{ marginTop: '4px' }} />
                       </div>
-                      <SkeletonRectangle height='42px' width='100%' />
+                      <SkeletonRectangle height='38px' width='100%' />
                     </Flex>
                   </div>
                 </Asset>
