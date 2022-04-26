@@ -2,7 +2,7 @@ import { RemoteDataType } from '@core/types'
 
 import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 
-export type ExchangeUrlDataType = {
+export type ProductSignupMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   referrerUsername?: string
@@ -35,10 +35,10 @@ export type RegisteringSuccessType = undefined
 export type RestoringType = undefined
 
 export type SignupStateType = {
-  exchangeUrlData?: ExchangeUrlDataType
   firstLogin: boolean
   kycReset?: boolean
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
+  productSignupMetadata?: ProductSignupMetadata
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

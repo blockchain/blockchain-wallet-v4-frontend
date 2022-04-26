@@ -271,7 +271,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateExchangeAuthCredentials = function* (countryCode) {
     try {
-      const { referrerUsername, tuneTid } = yield select(selectors.signup.getExchangeUrlData)
+      const { referrerUsername, tuneTid } = yield select(selectors.signup.getProductSignupMetadata)
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
@@ -317,7 +317,7 @@ export default ({ api, coreSagas, networks }) => {
       const { platform: loginPlatform, redirect } = yield select(
         selectors.auth.getProductAuthMetadata
       )
-      const { platform: signupPlatform } = yield select(selectors.signup.getExchangeUrlData)
+      const { platform: signupPlatform } = yield select(selectors.signup.getProductSignupMetadata)
       // login platform and signup platform come from two different locations
       // set const to whichever one exists
       const platform = loginPlatform || signupPlatform
