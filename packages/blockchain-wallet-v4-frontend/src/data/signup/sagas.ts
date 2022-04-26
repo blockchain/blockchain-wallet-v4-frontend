@@ -8,9 +8,9 @@ import {
   Analytics,
   AuthMagicLink,
   ExchangeAuthOriginType,
+  PlatformTypes,
   ProductAuthOptions,
-  TwoFASetupSteps,
-  UpgradeSteps
+  TwoFASetupSteps
 } from 'data/types'
 import * as C from 'services/alerts'
 import { askSecondPasswordEnhancer } from 'services/sagas'
@@ -64,9 +64,7 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, initCaptcha, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    // Want this behind a feature flag to monitor
-    // if this thing could be abused or not
+    // Want this behind a feature flag to monitor if this thing could be abused or not
     const refreshToken = (yield select(
       selectors.core.walletOptions.getRefreshCaptchaOnSignupError
     )).getOrElse(false)
@@ -75,8 +73,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
-      // We don't want to show the account success message if
-      // user is resetting their account
+      // We don't want to show the account success message if user is resetting their account
       if (!isAccountReset) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       }
@@ -242,8 +239,12 @@ export default ({ api, coreSagas, networks }) => {
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
     const referrerUsername = queryParams.get('referrerUsername') as string
     const tuneTid = queryParams.get('tuneTid') as string
+    const product = queryParams.get('product') as ProductAuthOptions
+    const platform = queryParams.get('platform') as PlatformTypes
     yield put(
-      actions.signup.setExchangeUrlData({
+      actions.signup.setProductSignupMetadata({
+        platform,
+        product,
         referrerUsername,
         tuneTid
       })

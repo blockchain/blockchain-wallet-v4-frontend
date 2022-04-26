@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { ScriptStatus, UseDefer3rdPartyScriptHook } from './types'
+
 let clientHydrated = false
 
 /**
@@ -15,13 +17,6 @@ function useClientHydrated() {
   return clientHydrated
 }
 
-export enum ScriptStatus {
-  ERROR = 'error',
-  IDLE = 'idle',
-  LOADING = 'loading',
-  READY = 'ready'
-}
-
 /**
  * Hook to load an external script. Returns true once the script has finished loading.
  *
@@ -29,14 +24,7 @@ export enum ScriptStatus {
  * @param options {} options for hook
  * @param options.attributes {} attributes object for Script tag attributes
  * */
-export default function useScript(
-  url?: string,
-  options?: {
-    attributes?: {
-      [k: string]: string
-    }
-  }
-): [boolean, ScriptStatus] {
+export const useDefer3rdPartyScript: UseDefer3rdPartyScriptHook = (url, options) => {
   const clientHydrated = useClientHydrated()
   const attributes = options?.attributes
   const [status, setStatus] = useState<ScriptStatus>(() => {

@@ -4,8 +4,8 @@ import { Remote } from '@core'
 
 import {
   AccountUpgradePayload,
-  ExchangeUrlDataType,
   MetadataRestoreType,
+  ProductSignupMetadata,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
@@ -13,10 +13,10 @@ import {
 } from './types'
 
 const initialState: SignupStateType = {
-  exchangeUrlData: {},
   firstLogin: false,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
+  productSignupMetadata: {},
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -61,17 +61,19 @@ const signupSlice = createSlice({
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
     },
-    setExchangeUrlData: (state, action: PayloadAction<ExchangeUrlDataType>) => {
-      state.exchangeUrlData = {
-        referrerUsername: action.payload.referrerUsername,
-        tuneTid: action.payload.tuneTid
-      }
-    },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload
+    },
+    setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
+      state.productSignupMetadata = {
+        platform: action.payload.platform,
+        product: action.payload.product,
+        referrerUsername: action.payload.referrerUsername,
+        tuneTid: action.payload.tuneTid
+      }
     },
     setRegisterEmail: (state, action: PayloadAction<SignupStateType['registerEmail']>) => {
       state.registerEmail = action.payload

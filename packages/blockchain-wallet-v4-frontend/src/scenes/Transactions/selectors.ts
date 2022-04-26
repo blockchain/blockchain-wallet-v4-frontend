@@ -17,17 +17,18 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import {
   AddressTypesType,
   BSOrderType,
   BSTransactionType,
-  CoinfigType,
   ProcessedTxType,
   RemoteDataType
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { OwnProps } from '.'
 import { TransferType, TxType } from './types'
 
 const { WALLET_TX_SEARCH } = model.form
@@ -76,7 +77,7 @@ const filterTransactions = curry(
         case '':
           return tx
         default:
-          return (tx as ProcessedTxType).blockHeight
+          return (tx as ProcessedTxType).blockHeight || (tx as IngestedSelfCustodyType).movements
       }
     }
 
@@ -107,8 +108,9 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, ownProps) => {
-  const { coin } = ownProps
+export const getData = (state: RootState, ownProps: OwnProps) => {
+  const { computedMatch } = ownProps
+  const { coin } = computedMatch.params
 
   return createSelector(
     [
