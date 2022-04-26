@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { product } from 'ramda'
 
 import { Remote } from '@core'
 
@@ -58,6 +59,8 @@ const signupSlice = createSlice({
     },
     setExchangeUrlData: (state, action: PayloadAction<ExchangeUrlDataType>) => {
       state.exchangeUrlData = {
+        platform: action.payload.platform,
+        product: action.payload.product,
         referrerUsername: action.payload.referrerUsername,
         tuneTid: action.payload.tuneTid
       }

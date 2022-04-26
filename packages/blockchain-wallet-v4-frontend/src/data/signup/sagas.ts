@@ -4,7 +4,13 @@ import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, AuthMagicLink, ExchangeAuthOriginType, ProductAuthOptions } from 'data/types'
+import {
+  Analytics,
+  AuthMagicLink,
+  ExchangeAuthOriginType,
+  PlatformTypes,
+  ProductAuthOptions
+} from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api, coreSagas, networks }) => {
@@ -203,6 +209,9 @@ export default ({ api, coreSagas, networks }) => {
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
     const referrerUsername = queryParams.get('referrerUsername') as string
     const tuneTid = queryParams.get('tuneTid') as string
+    const product = queryParams.get('product') as ProductAuthOptions
+    const platform = queryParams.get('platform') as PlatformTypes
+    // TODO
     yield put(
       actions.signup.setExchangeUrlData({
         referrerUsername,
