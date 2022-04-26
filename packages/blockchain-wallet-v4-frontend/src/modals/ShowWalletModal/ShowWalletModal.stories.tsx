@@ -3,10 +3,12 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { ShowWalletModalComponent } from '.'
 import { ShowWalletModal } from './ShowWalletModal'
+import { IntlProvider } from 'react-intl'
 
 export default {
   component: ShowWalletModal,
-  title: 'Flyouts/ShowWallet'
+  title: 'Flyouts/ShowWallet',
+  decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>]
 } as ComponentMeta<ShowWalletModalComponent>
 
 const Template: ComponentStory<ShowWalletModalComponent> = (args) => {
