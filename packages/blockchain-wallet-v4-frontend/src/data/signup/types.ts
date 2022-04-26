@@ -1,5 +1,6 @@
 import { RemoteDataType } from '@core/types'
-import { PlatformTypes, ProductAuthOptions } from 'data/types'
+
+import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 
 export type ExchangeUrlDataType = {
   platform?: PlatformTypes
