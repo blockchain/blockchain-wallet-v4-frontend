@@ -192,19 +192,6 @@ export default ({ api }: { api: APIType }) => {
         .getRatesSelector(coin, yield select())
         .getOrFail('Failed to get rates')
 
-      const amountToSend =
-        fix === 'FIAT'
-          ? convertFiatToCoin({
-              coin,
-              currency: walletCurrency,
-              rates,
-              value: amount
-            })
-          : amount
-
-      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amountToSend })
-      const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
-
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
         const guid = yield select(selectors.core.wallet.getGuid)
@@ -222,12 +209,35 @@ export default ({ api }: { api: APIType }) => {
           }
         )
 
+        const value = convertCoinToCoin({
+          baseToStandard: true,
+          coin,
+          value: prebuildTx.summary.amount
+        })
+
         if (pushedTx.txId) {
-          yield put(A.submitTransactionSuccess({ amount: { symbol: coin, value: amountToSend } }))
+          yield put(
+            A.submitTransactionSuccess({
+              amount: { symbol: coin, value }
+            })
+          )
         } else {
           throw new Error('Failed to submit transaction.')
         }
       } else {
+        const amountToSend =
+          fix === 'FIAT'
+            ? convertFiatToCoin({
+                coin,
+                currency: walletCurrency,
+                rates,
+                value: amount
+              })
+            : amount
+
+        const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amountToSend })
+        const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
+
         const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
           api.withdrawBSFunds,
           to,

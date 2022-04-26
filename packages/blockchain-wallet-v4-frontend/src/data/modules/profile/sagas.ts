@@ -7,7 +7,8 @@ import { Remote } from '@core'
 import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import { AuthMagicLink } from 'data/types'
+import { sendMessageToMobile } from 'data/auth/sagas.mobile'
+import { AuthMagicLink, PlatformTypes } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -270,7 +271,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateExchangeAuthCredentials = function* (countryCode) {
     try {
-      const { referrerUsername, tuneTid } = yield select(selectors.signup.getExchangeUrlData)
+      const { referrerUsername, tuneTid } = yield select(selectors.signup.getProductSignupMetadata)
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
@@ -313,7 +314,13 @@ export default ({ api, coreSagas, networks }) => {
     const { origin } = action.payload
     try {
       const retailToken = yield call(generateRetailToken)
-      const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
+      const { platform: loginPlatform, redirect } = yield select(
+        selectors.auth.getProductAuthMetadata
+      )
+      const { platform: signupPlatform } = yield select(selectors.signup.getProductSignupMetadata)
+      // login platform and signup platform come from two different locations
+      // set const to whichever one exists
+      const platform = loginPlatform || signupPlatform
       const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
       const exchangeAuthUrl = magicLinkData?.exchange_auth_url
       const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -338,18 +345,28 @@ export default ({ api, coreSagas, networks }) => {
           return window.open(`${exchangeDomain}`, '_blank', 'noreferrer')
         }
       }
-      const { token } = yield call(
+      const { csrfToken, sessionExpirationTime, token } = yield call(
         api.getExchangeAuthToken,
         exchangeLifetimeToken,
         exchangeUserId,
         retailToken
       )
-      if (origin === ExchangeAuthOriginType.SideMenu) {
-        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
-      } else if (exchangeUrlFromLink) {
-        window.open(`${exchangeUrlFromLink}${token}`, '_self', 'noreferrer')
-      } else {
-        window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_self', 'noreferrer')
+      switch (true) {
+        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
+          sendMessageToMobile(platform, {
+            data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
+            status: 'success'
+          })
+          break
+        case origin === ExchangeAuthOriginType.SideMenu:
+          window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
+          break
+        case exchangeUrlFromLink:
+          window.open(`${exchangeUrlFromLink}${token}`, '_self', 'noreferrer')
+          break
+        default:
+          window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_self', 'noreferrer')
+          break
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))

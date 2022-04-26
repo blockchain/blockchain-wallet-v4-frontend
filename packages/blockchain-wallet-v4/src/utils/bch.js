@@ -4,11 +4,11 @@ import cashaddress from 'cashaddress'
 export const TX_PER_PAGE = 10
 export const BCH_FORK_TIME = 1501590000
 
-const formatAddr = (address, displayOnly) => {
+export const formatAddr = (address, displayOnly) => {
   return displayOnly ? address.split('bitcoincash:')[1] : address
 }
 
-const hasPrefix = (address) => address.substring(0, 12) === 'bitcoincash:'
+export const hasPrefix = (address) => address.substring(0, 12) === 'bitcoincash:'
 
 export const toCashAddr = (address, displayOnly) => {
   const pubKeyHash = 0
