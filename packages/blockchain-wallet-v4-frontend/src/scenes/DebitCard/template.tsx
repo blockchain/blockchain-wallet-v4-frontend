@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Icon, Image } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import {
   HeaderTextWrapper,
   IconBackground,
@@ -12,49 +12,14 @@ import {
 import { ModalName } from 'data/modals/types'
 
 import { Props } from '.'
-import { IntroCardWrapper, Wrapper } from './model'
+import CardDashboard from './CardDashboard'
+import CardOrder from './CardOrder'
+import { Wrapper } from './model'
 
-type ButtonProps = {
-  onClick: () => void
-}
-
-const OrderMyCardButton = ({ onClick }: ButtonProps) => (
-  <div style={{ marginTop: '32px' }}>
-    <Button
-      data-e2e='orderMyCard'
-      nature='primary'
-      height='48px'
-      width='327px'
-      margin='auto'
-      onClick={onClick}
-    >
-      <FormattedMessage id='scenes.debit_card.intro.order_my_card' defaultMessage='Order My Card' />
-    </Button>
-  </div>
-)
-
-const LinkHereButton = () => (
-  <div style={{ marginTop: '16px' }}>
-    <Button
-      data-e2e='linkCard'
-      nature='empty-blue'
-      height='48px'
-      width='327px'
-      margin='auto'
-      onClick={() => {}}
-    >
-      <FormattedMessage
-        id='scenes.debit_card.intro.already_have_a_card'
-        defaultMessage='Already Have A Card? Link It Here'
-      />
-    </Button>
-  </div>
-)
-
-const DebitCard = ({ debitCardActions, modalActions }: Props) => {
+const DebitCard = ({ cardToken, cards, debitCardActions, domains, modalActions }: Props) => {
   useEffect(() => {
-    // Get available products that user can create
-    debitCardActions.getProducts()
+    // Need to load cards again in case of card created in different platform while user already logged in
+    debitCardActions.getCards()
   }, [])
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
@@ -77,25 +42,11 @@ const DebitCard = ({ debitCardActions, modalActions }: Props) => {
           defaultMessage='Taking crypto into the physical world.'
         />
       </SceneSubHeaderText>
-      <IntroCardWrapper>
-        <Image name='intro-card' />
-
-        <SceneHeaderText>
-          <FormattedMessage
-            id='scenes.debit_card.intro.content.header'
-            defaultMessage='Your Gateway To The Blockchain Debit Card'
-          />
-        </SceneHeaderText>
-
-        <SceneSubHeaderText>
-          <FormattedMessage
-            id='scenes.debit_card.intro.content.subheader'
-            defaultMessage='A card that lets you spend and earn in crypto right from your Blockchain account.'
-          />
-        </SceneSubHeaderText>
-        <OrderMyCardButton onClick={handleOpenOrderMyCard} />
-        <LinkHereButton />
-      </IntroCardWrapper>
+      {cards.length === 0 ? (
+        <CardOrder handleOpenOrderMyCard={handleOpenOrderMyCard} />
+      ) : (
+        <CardDashboard domains={domains} cardToken={cardToken} last4={cards[0].last4} />
+      )}
     </Wrapper>
   )
 }

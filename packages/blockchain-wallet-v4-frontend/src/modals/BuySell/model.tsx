@@ -153,6 +153,10 @@ export const getPaymentMethod = ({
     return <FormattedMessage id='apple_pay' defaultMessage='Apple Pay' />
   }
 
+  if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+    return <FormattedMessage id='apple_pay' defaultMessage='Google Pay' />
+  }
+
   const baseCurrency = getBaseCurrency(order)
   const counterCurrency = getCounterCurrency(order)
   const orderType = getOrderType(order)
@@ -235,6 +239,16 @@ export const getLockRuleMessaging = (
     case BSPaymentTypes.BANK_TRANSFER:
     case BSPaymentTypes.PAYMENT_CARD:
     case BSPaymentTypes.USER_CARD:
+      if (days === 0) {
+        return (
+          <Text size='12px' weight={500} color='grey900'>
+            <FormattedMessage
+              id='modals.simplebuy.confirm.activity'
+              defaultMessage='Your final amount may change due to market activity.'
+            />
+          </Text>
+        )
+      }
       if (showLockRule) {
         return (
           <TextGroup inline>

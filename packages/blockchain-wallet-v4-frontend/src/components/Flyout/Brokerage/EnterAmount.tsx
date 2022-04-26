@@ -38,6 +38,7 @@ import {
 } from 'components/Flyout/model'
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { CheckoutRow } from 'components/Rows'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -220,7 +221,15 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
 // to type without running validation on every keystroke. It waits 750 ms after
 // the user has stopped typing to run validation and manually dispatches the error
 // if needed. This makes for a nice error UX when typing
-const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, bankText, dispatch) =>
+const debounceValidate = (
+  limits,
+  crossBorderLimits,
+  orderType,
+  fiatCurrency,
+  bankText,
+  formActions,
+  dispatch
+) =>
   debounce((event, newValue) => {
     // check cross border limits
     const limitError = checkCrossBorderLimit(
@@ -228,13 +237,14 @@ const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, ba
       newValue,
       orderType,
       fiatCurrency,
-      bankText
+      bankText,
+      formActions
     )
     if (limitError) {
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
 
-    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText)
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText, formActions)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
@@ -244,6 +254,7 @@ type AmountProps = {
   bankText: string
   crossBorderLimits: Props['crossBorderLimits']
   fiatCurrency: Props['fiatCurrency']
+  formActions: typeof actions.form
   limits: Props['paymentMethod']['limits']
   orderType: Props['orderType']
   showError: boolean
@@ -257,69 +268,32 @@ const ErrorMessage = ({ error, orderType }) => {
   return <></>
 }
 
-const renderAmount = (props) => {
-  return (
-    <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center'
-        }}
-      >
-        <Text size='56px' color={props.meta.error ? 'red400' : 'textBlack'} weight={500}>
-          {Currencies[props.fiatCurrency]?.units[props.fiatCurrency].symbol}
-        </Text>
-        <AmountTextBoxShaker {...props} />
-      </div>
-      <div
-        style={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          height: '1rem',
-          justifyContent: 'center',
-          marginTop: '5px'
-        }}
-      />
-    </div>
-  )
-}
-
 const Amount = memoizer((props: AmountProps) => {
   const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
-      <AmountRow id='amount-row' isError={!!props.showError}>
-        <Field
-          data-e2e={
-            props.orderType === BrokerageOrderType.DEPOSIT
-              ? 'depositAmountInput'
-              : 'withdrawAmountInput'
-          }
-          name='amount'
-          component={renderAmount}
-          fiatCurrency={props.fiatCurrency}
-          onChange={debounceValidate(
-            props.limits,
-            props.crossBorderLimits,
-            props.orderType,
-            props.fiatCurrency,
-            props.bankText,
-            dispatch
-          )}
-          normalize={normalizeAmount}
-          maxFontSize='56px'
-          placeholder='0'
-          // leave fiatActive always to avoid 50% width in HOC?
-          fiatActive
-          {...{
-            autoFocus: true,
-            hideError: true
-          }}
-        />
-      </AmountRow>
+      <AmountFieldInput
+        fix='FIAT'
+        fiatCurrency={props.fiatCurrency}
+        amtError={props.showError}
+        name='amount'
+        data-e2e={
+          props.orderType === BrokerageOrderType.DEPOSIT
+            ? 'depositAmountInput'
+            : 'withdrawAmountInput'
+        }
+        showCounter={false}
+        showToggle={false}
+        onChange={debounceValidate(
+          props.limits,
+          props.crossBorderLimits,
+          props.orderType,
+          props.fiatCurrency,
+          props.bankText,
+          props.formActions,
+          dispatch
+        )}
+      />
     </FlyoutWrapper>
   )
 })
@@ -435,6 +409,7 @@ const EnterAmount = ({
               orderType={orderType}
               crossBorderLimits={crossBorderLimits}
               showError={showError}
+              formActions={formActions}
               bankText={
                 orderType === BrokerageOrderType.DEPOSIT ? renderBankFullName(paymentAccount) : ''
               }

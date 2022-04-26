@@ -3,7 +3,6 @@ import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { DEFAULT_INVITATIONS } from '@core/model'
 import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -78,10 +77,9 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
-    const { code, password, username } = action.payload
-    const { redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
+    const { captchaToken, code, password, username } = action.payload
+    const { platform, redirect, userType } = yield select(selectors.auth.getProductAuthMetadata)
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
-    const { platform } = yield select(selectors.auth.getProductAuthMetadata)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -101,7 +99,7 @@ export default ({ api, coreSagas, networks }) => {
     }
     // start signin flow
     try {
-      const response = yield call(api.exchangeSignIn, code, password, username)
+      const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       // determine login flow
@@ -123,6 +121,9 @@ export default ({ api, coreSagas, networks }) => {
           yield put(stopSubmit(LOGIN_FORM))
           break
         // web - institutional exchange login
+        // only institutional users coming from the .com page will have
+        // a redirect link. All other users coming from footer in login page
+        // should be redirected to regular exchange app in the default case
         case userType === AuthUserType.INSTITUTIONAL && !!redirect && institutionalPortalEnabled:
           window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
@@ -184,11 +185,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
-      const invitations = selectors.core.settings
-        .getInvitations(yield select())
-        .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
+      if (!isLatestVersion) {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
@@ -620,12 +617,13 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const userType = (queryParams.get('userType')?.toUpperCase() || undefined) as AuthUserType
+      const redirect = queryParams.get('redirect') as string
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: queryParams.get('redirect') || undefined,
+          redirect,
           userType
         })
       )
@@ -782,6 +780,7 @@ export default ({ api, coreSagas, networks }) => {
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
           actions.auth.exchangeLogin({
+            captchaToken,
             code: exchangeTwoFA,
             password: exchangePassword,
             username: exchangeEmail

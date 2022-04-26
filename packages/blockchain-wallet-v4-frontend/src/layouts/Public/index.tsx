@@ -26,7 +26,6 @@ const FooterContainer = styled.div`
     margin-top: 8px;
   `}
 `
-
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
 
@@ -73,10 +72,12 @@ const PublicLayoutContainer = ({
   component: Component,
   exact = false,
   formValues,
+  pageTitle,
   path
 }: Props) => {
-  useEffect(() => { document.body.style.backgroundImage = `url('/img/ss-bc-signup-bg.jpg')`, document.body.style.backgroundSize = 'cover', document.body.style.backgroundRepeat = 'no-repeat' }, [])
+  if (pageTitle) document.title = pageTitle
 
+  useEffect(() => { document.body.style.backgroundImage = `url('/img/ss-bc-signup-bg.jpg')`, document.body.style.backgroundSize = 'cover', document.body.style.backgroundRepeat = 'no-repeat' }, [])
   return (
     <Route
       path={path}
@@ -89,7 +90,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header authProduct={authProduct} />
+              <Header authProduct={authProduct}/>
             </HeaderContainer>
 
             <Modals />
@@ -117,6 +118,7 @@ const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> & {
   component: ComponentType<any>
   exact?: boolean
+  pageTitle?: string
   path: string
 }
 

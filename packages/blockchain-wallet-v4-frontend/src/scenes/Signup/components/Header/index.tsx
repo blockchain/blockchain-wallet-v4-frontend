@@ -54,6 +54,7 @@ const Header = (props: SubviewProps) => (
           />
         )}
       </HeaderText>
+
       <SubHeader color='whiteFade800' weight={500} data-e2e='signupSecureSubHeader'>
         {!props.isLatam ? (
           <FormattedMessage

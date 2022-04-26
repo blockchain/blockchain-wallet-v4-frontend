@@ -257,6 +257,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
+            autoComplete='off'
             fiatActive={false}
             haveError={!!showError}
             {...{
@@ -452,8 +453,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         {!showLimitError && !showBalanceError && showError && (
           <ButtonContainer>
-            <AlertButton>
-              {amtError === 'BELOW_MIN' ? (
+            {amtError === 'BELOW_MIN' ? (
+              <AlertButton onClick={handleMinMaxClick}>
                 <FormattedMessage
                   id='copy.below_min'
                   defaultMessage='{amount} Minimum'
@@ -464,7 +465,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         : `${min} ${baseCoinfig.displaySymbol}`
                   }}
                 />
-              ) : (
+              </AlertButton>
+            ) : (
+              <AlertButton onClick={handleMinMaxClick}>
                 <FormattedMessage
                   id='copy.above_max'
                   defaultMessage='{amount} Maximum'
@@ -475,8 +478,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         : `${max} ${baseCoinfig.displaySymbol}`
                   }}
                 />
-              )}
-            </AlertButton>
+              </AlertButton>
+            )}
 
             <Text
               size='14px'
@@ -516,7 +519,16 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         {showLimitError && effectiveLimit && (
           <>
-            <AlertButton>
+            <AlertButton
+              onClick={() => {
+                props.swapActions.handleSwapMinAmountClick({
+                  amount: convertBaseToStandard(
+                    'FIAT',
+                    crossBorderLimits.current?.available?.value || 0
+                  )
+                })
+              }}
+            >
               <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
             </AlertButton>
             <Text
@@ -543,7 +555,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         {showBalanceError && !showLimitError && (
           <ButtonContainer>
-            <AlertButton>
+            <AlertButton
+              onClick={() =>
+                props.swapActions.handleSwapMinAmountClick({
+                  amount: fix === 'FIAT' ? fiatMax : max
+                })
+              }
+            >
               <FormattedMessage
                 id='copy.not_enough_coin'
                 defaultMessage='Not Enough {coin}'
@@ -565,7 +583,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   amount:
                     fix === 'FIAT'
                       ? fiatToString({ unit: walletCurrency, value: fiatMax })
-                      : `${min} ${baseCoinfig.displaySymbol}`,
+                      : `${max} ${baseCoinfig.displaySymbol}`,
                   coin: BASE.coin
                 }}
               />

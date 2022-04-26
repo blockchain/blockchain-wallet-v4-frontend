@@ -3,10 +3,6 @@ import { BSFixType } from 'data/types'
 
 import * as AT from './actionTypes'
 
-export const setCulture = (culture) => ({
-  payload: { culture },
-  type: AT.SET_CULTURE
-})
 export const setLanguage = (language, showAlert) => ({
   payload: { language, showAlert },
   type: AT.SET_LANGUAGE

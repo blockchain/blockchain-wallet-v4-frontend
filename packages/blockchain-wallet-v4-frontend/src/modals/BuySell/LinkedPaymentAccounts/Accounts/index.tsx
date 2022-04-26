@@ -23,6 +23,7 @@ import ApplePay from './ApplePay'
 import Bank from './Bank'
 import Card from './Card'
 import Fund from './Fund'
+import GooglePay from './GooglePay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ export type Props = OwnProps & SuccessStateType
 
 const Accounts = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
+  const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -256,7 +258,14 @@ const Accounts = (props: Props) => {
       orderType === OrderType.BUY
   )
 
-  const availableMethods = funds.length || cardMethods.length || bankMethods.length || !!applePay
+  const googlePay = defaultMethods.find(
+    (method) =>
+      method.value.mobilePayment?.includes(MobilePaymentType.GOOGLE_PAY) &&
+      orderType === OrderType.BUY
+  )
+
+  const availableMethods =
+    funds.length || cardMethods.length || bankMethods.length || !!applePay || !!googlePay
 
   useEffect(() => {
     if (
@@ -266,7 +275,15 @@ const Accounts = (props: Props) => {
     ) {
       setApplePayAvailable(true)
     }
-  }, [props.applePayEnabled, props.isInternalTester])
+
+    if (
+      (window as any).google &&
+      (window as any).google.payments.api &&
+      (props.googlePayEnabled || props.isInternalTester)
+    ) {
+      setGooglePayAvailable(true)
+    }
+  }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
 
   return (
     <Wrapper>
@@ -338,6 +355,17 @@ const Accounts = (props: Props) => {
                 handlePaymentMethodSelect({
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
+                })
+              }}
+            />
+          ) : null}
+
+          {googlePay && isGooglePayAvailable ? (
+            <GooglePay
+              onClick={() => {
+                handlePaymentMethodSelect({
+                  method: googlePay.value,
+                  mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
               }}
             />

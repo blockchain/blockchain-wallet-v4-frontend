@@ -10,3 +10,7 @@ export const isDebitCardModuleEnabledForAccount = (state: RootState): boolean =>
   // If feature flag is disabled then it will only be the initial state in products
   return !isEmpty(getProducts(state))
 }
+
+export const getCards = (state: RootState) => state.components.debitCard.cards
+
+export const getCardToken = (state: RootState) => state.components.debitCard.cardToken

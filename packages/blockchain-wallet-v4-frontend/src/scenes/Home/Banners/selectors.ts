@@ -22,7 +22,6 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
-  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
   | 'taxCenter'
@@ -74,6 +73,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
+  // use this to prevent rendering of complete profile banner
+  const isUserDataLoaded = userDataR.cata({
+    Failure: () => true,
+    Loading: () => false,
+    NotAsked: () => false,
+    Success: () => true
+  })
   const userData = userDataR.getOrElse({
     address: { country: '' },
     tiers: { current: 0 }
@@ -111,18 +117,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
-
-  // cEUR Rewards
-  const cEURAnnouncement = selectors.core.walletOptions
-    .getCeloEurRewards(state)
-    .getOrElse(false) as boolean
-  const cEURAnnouncementAnnouncement = 'ceur-rewards'
-  const showCEURBanner =
-    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
-    userData &&
-    userData.address &&
-    userData.address.country &&
-    ['US', 'DE', 'IT', 'FR', 'NL'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -167,14 +161,17 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
-  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
-    bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (
+    showCompleteYourProfileBanner &&
+    !isProfileCompleted &&
+    userData?.tiers?.current !== TIER_TYPES.GOLD &&
+    isUserDataLoaded
+  ) {
+    bannerToShow = 'completeYourProfile'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showCEURBanner) {
-    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {

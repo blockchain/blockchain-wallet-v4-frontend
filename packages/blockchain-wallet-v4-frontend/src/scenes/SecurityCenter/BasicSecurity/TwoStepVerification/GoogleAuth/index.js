@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -13,7 +14,11 @@ import Success from './template.success'
 class GoogleAuthContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { successToggled: false, updateToggled: false }
+    this.state = {
+      notificationActive: false,
+      successToggled: false,
+      updateToggled: false
+    }
 
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -28,7 +33,9 @@ class GoogleAuthContainer extends React.PureComponent {
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
       // eslint-disable-next-line  react/no-did-update-set-state
-      this.setState({ successToggled: !this.state.successToggled })
+      this.setState((prevState) => ({
+        successToggled: !prevState.successToggled
+      }))
       this.props.triggerSuccess()
       this.props.goBackOnSuccess()
     }

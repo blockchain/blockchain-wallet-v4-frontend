@@ -54,9 +54,8 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange",
-      "sha256_cert_fingerprints": [
-        "23:FB:3D:61:B6:AF:B0:B9:4A:CD:8C:66:4E:35:F5:EB:66:68:F0:59:3D:29:69:9F:10:FB:CC:80:67:FD:E7:2D"
-      ]
+      "sha256_cert_fingerprints":
+      ["23:FB:3D:61:B6:AF:B0:B9:4A:CD:8C:66:4E:35:F5:EB:66:68:F0:59:3D:29:69:9F:10:FB:CC:80:67:FD:E7:2D"]
     }
   },
   {
@@ -66,9 +65,8 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange.staging",
-      "sha256_cert_fingerprints": [
-        "BD:F4:E9:C2:57:3F:06:27:C1:18:BF:18:EB:6A:29:72:E4:4D:D7:5D:D8:E8:03:71:E0:18:60:A8:18:8D:77:84"
-      ]
+      "sha256_cert_fingerprints":
+      ["BD:F4:E9:C2:57:3F:06:27:C1:18:BF:18:EB:6A:29:72:E4:4D:D7:5D:D8:E8:03:71:E0:18:60:A8:18:8D:77:84"]
     }
   },
   {
@@ -78,9 +76,8 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.blockchain.exchange.internal",
-      "sha256_cert_fingerprints": [
-        "9B:CE:19:85:2F:BD:31:B0:F8:A9:30:60:80:BF:BB:C5:03:63:C9:D2:4D:46:35:E8:17:07:54:B8:D9:A4:85:85"
-      ]
+      "sha256_cert_fingerprints":
+      ["9B:CE:19:85:2F:BD:31:B0:F8:A9:30:60:80:BF:BB:C5:03:63:C9:D2:4D:46:35:E8:17:07:54:B8:D9:A4:85:85"]
     }
   }
 ]

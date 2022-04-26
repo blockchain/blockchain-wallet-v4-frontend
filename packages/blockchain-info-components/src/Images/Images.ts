@@ -104,6 +104,7 @@ import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
+import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
@@ -196,6 +197,7 @@ import tierSilver from './img/tier-silver.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usFlag from './img/us-flag.svg'
 import usddIntro from './img/usdd-intro.svg'
+import userSuccess from './img/user-success.svg'
 import verifyNotice from './img/verify-notice.svg'
 import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
@@ -320,6 +322,7 @@ const Images = {
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
+  'google-pay': googlePay,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
   'grey-verified': greyVerified,
@@ -414,6 +417,7 @@ const Images = {
   'twitter-white': twitterWhite,
   'us-flag': usFlag,
   'usdd-intro': usddIntro,
+  'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
   'visa-new-logo': visaNewLogo,

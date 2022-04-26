@@ -3,13 +3,13 @@ import styled from 'styled-components'
 
 import { Image, Link } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
-import { Navbar, NavbarBrand } from 'components/Navbar'
+import { Brand, Public } from 'components/NavbarV2'
 import { media } from 'services/styles'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
 
-const NavbarStyled = styled(Navbar)<{ authProduct: string }>`
+const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
   box-sizing: border-box;
   background-color: ${(props) =>
@@ -21,7 +21,7 @@ const NavbarStyled = styled(Navbar)<{ authProduct: string }>`
   background-image: ${(props) =>
     props.authProduct !== 'EXCHANGE' && isLatam ? 'none' : `url('/img/bg-pattern.svg')`};
 `
-const NavbarBrandStyled = styled(NavbarBrand)`
+const NavbarBrandStyled = styled(Brand)`
   display: flex;
   flex-direction: row;
   width: 100%;

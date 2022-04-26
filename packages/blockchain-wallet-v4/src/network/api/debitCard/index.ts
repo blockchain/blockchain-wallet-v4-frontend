@@ -12,14 +12,31 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getDCCreated = (): Array<DebitCardType> =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/card-issuing/cards',
+      url: nabuUrl
+    })
+
   const getDCProducts = (): Array<ProductType> =>
     authorizedGet({
+      contentType: 'application/json',
       endPoint: '/card-issuing/products',
+      url: nabuUrl
+    })
+
+  const getDCToken = (cardId) =>
+    authorizedPost({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/cards/${cardId}/marqeta-card-widget-token`,
       url: nabuUrl
     })
 
   return {
     createDCOrder,
-    getDCProducts
+    getDCCreated,
+    getDCProducts,
+    getDCToken
   }
 }

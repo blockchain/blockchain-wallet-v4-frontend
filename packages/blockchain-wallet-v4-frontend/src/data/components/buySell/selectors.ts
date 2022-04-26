@@ -31,6 +31,8 @@ export const getAddCardError = (state: RootState) => state.components.buySell.ad
 
 export const getApplePayInfo = (state: RootState) => state.components.buySell.applePayInfo
 
+export const getGooglePayInfo = (state: RootState) => state.components.buySell.googlePayInfo
+
 export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
 export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS
@@ -197,6 +199,11 @@ export const getBSLatestPendingOrder = (state: RootState) =>
   state.components.buySell.orders.getOrElse([]).find((order) => {
     return order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
   })
+
+export const getCancelableOrder = createSelector(getBSOrders, (ordersR) => {
+  const orders = ordersR.getOrElse([])
+  return orders.find((order) => order.state === 'PENDING_CONFIRMATION')
+})
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 
