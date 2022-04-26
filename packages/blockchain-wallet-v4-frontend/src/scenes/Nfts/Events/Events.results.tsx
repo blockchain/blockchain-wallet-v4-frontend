@@ -21,8 +21,8 @@ const EventsResults: React.FC<Props> = ({
   const [result] = useEventsQuery({
     variables: {
       filter: filters,
-      limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT,
+      limit: NFT_ORDER_PAGE_LIMIT / 2,
+      offset: page * (NFT_ORDER_PAGE_LIMIT / 2),
       sort: { by: EventSortFields.CreatedDate, direction: SortDirection.Desc }
     }
   })
