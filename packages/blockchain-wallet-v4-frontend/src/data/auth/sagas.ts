@@ -242,6 +242,7 @@ export default ({ api, coreSagas, networks }) => {
       // If user is logging into a unified exchange account
 
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
+
       yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
       yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
@@ -256,8 +257,33 @@ export default ({ api, coreSagas, networks }) => {
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
-
+      const guid = yield select(selectors.core.wallet.getGuid)
+      if (firstLogin && !isAccountReset && !recovery) {
+        // create nabu user
+        yield call(createUser)
+        // store initial address in case of US state we add prefix
+        const userState = country === 'US' ? `US-${state}` : state
+        yield call(api.setUserInitialAddress, country, userState)
+        yield call(coreSagas.settings.fetchSettings)
+      }
+      if (!isAccountReset && !recovery && createExchangeUserFlag) {
+        if (firstLogin) {
+          yield fork(createExchangeUser, country)
+          yield put(actions.cache.exchangeEmail(email))
+          yield put(actions.cache.exchangeWalletGuid(guid))
+          yield put(actions.cache.setUnifiedAccount(true))
+        } else {
+          const existingUserCountryCode = (yield select(
+            selectors.modules.profile.getUserCountryCode
+          )).getOrElse('US')
+          yield fork(createExchangeUser, existingUserCountryCode)
+        }
+      }
+      const { platform } = yield select(selectors.signup.getProductSignupMetadata)
       if (firstLogin) {
+        if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
+          return
+        }
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
 
@@ -288,7 +314,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
-      const guid = yield select(selectors.core.wallet.getGuid)
+
       // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
       if (email) {
@@ -311,33 +337,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-      const signupCountryEnabled = (yield select(
-        selectors.core.walletOptions.getFeatureSignupCountry
-      )).getOrElse(false)
-      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
-        // create nabu user
-        yield call(createUser)
-        // store initial address in case of US state we add prefix
-        const userState = country === 'US' ? `US-${state}` : state
-        yield call(api.setUserInitialAddress, country, userState)
-        yield call(coreSagas.settings.fetchSettings)
-      }
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
-      if (!isAccountReset && !recovery && createExchangeUserFlag) {
-        if (firstLogin) {
-          yield fork(createExchangeUser, country)
-          yield put(actions.cache.exchangeEmail(email))
-          yield put(actions.cache.exchangeWalletGuid(guid))
-          yield put(actions.cache.setUnifiedAccount(true))
-        } else {
-          const existingUserCountryCode = (yield select(
-            selectors.modules.profile.getUserCountryCode
-          )).getOrElse('US')
-          yield fork(createExchangeUser, existingUserCountryCode)
-        }
-      }
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
