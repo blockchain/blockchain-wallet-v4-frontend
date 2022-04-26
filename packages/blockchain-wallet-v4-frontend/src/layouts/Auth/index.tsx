@@ -1,6 +1,7 @@
-import React, { ComponentType, useEffect } from 'react'
+import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { useDefer3rdPartyScript } from 'hooks'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -9,7 +10,6 @@ import { LOGIN_FORM } from 'data/auth/model'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
-import useScript from '../../hooks/useScript'
 import Modals from '../../modals'
 import Footer from './components/Footer'
 import Header from './components/Header'
@@ -78,12 +78,15 @@ const AuthLayoutContainer = ({
   platform
 }: Props) => {
   // lazy load google captcha and google tag manager
-  useScript(`https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`, {
-    attributes: {
-      nonce: window.nonce
+  useDefer3rdPartyScript(
+    `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
+    {
+      attributes: {
+        nonce: window.nonce
+      }
     }
-  })
-  useScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+  )
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
     attributes: {
       nonce: window.nonce
     }

@@ -9,7 +9,7 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
-import { useRemote } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { useRemote } from 'hooks'
 import { formatDistanceToNow, subDays } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'

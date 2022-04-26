@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft, IconUser, IconWallet } from '@blockchain-com/icons'
-import { Field, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
