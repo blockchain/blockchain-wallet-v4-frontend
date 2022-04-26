@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { CombinedError } from 'urql'
 
 import { SpinningLoader } from 'blockchain-info-components'
+import LazyLoadContainer from 'components/LazyLoadContainer'
 import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
 
 import { Centered } from '../components'
+import NftPageLazyLoadWrapper from '../components/NftPageLazyLoadWrapper'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
@@ -27,7 +29,14 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
   }, [filters])
 
   return (
-    <>
+    <LazyLoadContainer
+      triggerDistance={50}
+      onLazyLoad={() =>
+        isFetchingNextPage
+          ? null
+          : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
+      }
+    >
       {pageVariables.length
         ? pageVariables.map(({ page }) => (
             <EventsResults
@@ -41,19 +50,14 @@ const Events: React.FC<Props> = ({ filters, isFetchingParent }) => {
           ))
         : null}
       <TableWrapper height='auto'>
-        {events.length ? (
-          <EventsTable
-            onLazyLoad={() => setPageVariables((pages) => [...pages, { page: pages.length + 1 }])}
-            events={events}
-          />
-        ) : null}
+        {events.length ? <EventsTable onLazyLoad={() => null} events={events} /> : null}
         <Centered>
           {isFetchingNextPage || isFetchingParent ? (
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
           ) : null}
         </Centered>
       </TableWrapper>
-    </>
+    </LazyLoadContainer>
   )
 }
 

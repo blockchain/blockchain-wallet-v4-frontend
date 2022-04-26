@@ -7,6 +7,7 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { CollectionsQuery } from 'generated/graphql'
 
 import { Asset, Grid, LOADING_ITEMS_COUNT } from '../../components'
+import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
 
@@ -30,9 +31,9 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
   const isFetching = isFetchingNextPage || collectionsQuery.fetching
 
   return (
-    <>
+    <NftPageLazyLoadWrapper>
       <LazyLoadContainer
-        triggerDistance={300}
+        triggerDistance={50}
         onLazyLoad={() =>
           isFetching || maxItemsFetched
             ? null
@@ -81,7 +82,7 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
           ) : null}
         </Grid>
       </LazyLoadContainer>
-    </>
+    </NftPageLazyLoadWrapper>
   )
 }
 

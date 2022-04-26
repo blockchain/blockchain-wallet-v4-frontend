@@ -69,8 +69,8 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
   align-items: flex-start;
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 export const Grid = styled.div`
@@ -194,6 +194,7 @@ export const Centered = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+  margin-top: 8px;
 `
 
 export const NftBannerWrapper = styled.div`
