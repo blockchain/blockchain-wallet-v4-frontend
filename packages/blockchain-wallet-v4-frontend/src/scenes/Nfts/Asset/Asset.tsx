@@ -6,6 +6,7 @@ import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import {
   AssetFilterFields,
+  EventFilterFields,
   useAssetQuery,
   useAssetsQuery
 } from 'blockchain-wallet-v4-frontend/src/generated/graphql'
@@ -38,6 +39,7 @@ import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
+import Events from '../Events'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -761,13 +763,14 @@ const NftAsset: React.FC<Props> = ({
                       {currentAsset.traits.map((trait) => {
                         if (!trait) return null
 
-                        // const assetTraits = currentAsset.traits?.find(
-                        //   (t) => t?.trait_type === trait.trait_type
-                        // )
-                        // const traitCount = assetTraits?.trait_count
-                        // const traitMaxVal = assetTraits?.max_value
-                        // const rarity =
-                        //   traitCount && traitMaxVal ? `${(traitCount / traitMaxVal) * 100}%` : 'N/A'
+                        const assetTraits = currentAsset.traits?.find(
+                          (t) => t?.trait_type === trait.trait_type
+                        )
+                        const traitCount = assetTraits?.trait_count
+                        const rarity =
+                          traitCount && currentAsset.collection.total_supply
+                            ? `${(traitCount / currentAsset.collection.total_supply) * 100}%`
+                            : 'N/A'
 
                         return (
                           <Trait
@@ -787,9 +790,9 @@ const NftAsset: React.FC<Props> = ({
                             <Text capitalize color='blue600' size='14px' weight={600}>
                               {trait?.value}
                             </Text>
-                            {/* <Text capitalize color='grey900' size='12px' weight={500}>
-                                    {rarity}
-                                  </Text> */}
+                            <Text capitalize color='grey900' size='12px' weight={500}>
+                              {rarity}
+                            </Text>
                           </Trait>
                         )
                       })}
@@ -849,6 +852,15 @@ const NftAsset: React.FC<Props> = ({
                     </Detail>
                   </AdditionalDetailsWrapper>
                 </DetailsAndOffers>
+              )}
+              {Tab === 'activity' && (
+                <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                  <Events
+                    columns={['event_type', 'price', 'from', 'date']}
+                    isFetchingParent={false}
+                    filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
+                  />
+                </div>
               )}
               {Tab === 'offers' && bidsAndOffers.length > 0 && (
                 <DetailsAndOffers>
