@@ -14,6 +14,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
+  const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
@@ -31,7 +32,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
     <LazyLoadContainer
       triggerDistance={50}
       onLazyLoad={() =>
-        isFetchingNextPage
+        isFetchingNextPage || maxItemsFetched
           ? null
           : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
       }
@@ -43,6 +44,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
               key={page}
               filters={filters}
               setEvents={setEvents}
+              setMaxItemsFetched={setMaxItemsFetched}
               setNextPageFetchError={setNextPageFetchError}
               setIsFetchingNextPage={setIsFetchingNextPage}
             />
