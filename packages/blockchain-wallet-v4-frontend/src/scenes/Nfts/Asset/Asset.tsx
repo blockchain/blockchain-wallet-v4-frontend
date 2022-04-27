@@ -574,7 +574,6 @@ const NftAsset: React.FC<Props> = ({
                         >
                           {bidsAndOffers[0].base_price}
                         </FiatDisplay>
-                        )
                       </Text>
                     </EthText>
                   </>
@@ -1022,7 +1021,6 @@ const NftAsset: React.FC<Props> = ({
           </div>
         </div>
       </>
-      )
     </Wrapper>
   )
 }
