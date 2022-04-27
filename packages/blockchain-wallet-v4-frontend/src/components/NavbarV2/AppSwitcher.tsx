@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 12px;
+  height: 24px;
 `
 
 const Popout = styled(motion.div)`
@@ -27,7 +28,7 @@ const Popout = styled(motion.div)`
   border-radius: 8px;
   z-index: 100;
   left: -8px;
-  top: 48px;
+  top: 32px;
 `
 
 const PopoutItem = styled.div`
@@ -50,10 +51,12 @@ const IconWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   border-radius: 4px;
+  height: 20px;
   border: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
   cursor: pointer;
   transition: all 0.3s;
+  &.active,
   &:hover {
     border: 1px solid ${(props) => props.theme.blue600};
     background: ${(props) => props.theme.blue000};
@@ -80,9 +83,9 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
       {/* @ts-ignore */}
       <Flex alignItems='center' gap={8} onClick={toggleIsActive}>
         <Text cursor='pointer' weight={600} color='blue600' size='14px'>
-          Wallet
+          {app === 'nfts' ? 'NFTs' : 'Wallet'}
         </Text>
-        <IconWrapper>
+        <IconWrapper role='button' className={isActive ? 'active' : ''}>
           <Icon label='up' size='sm'>
             <IconChevronUpV2 />
           </Icon>

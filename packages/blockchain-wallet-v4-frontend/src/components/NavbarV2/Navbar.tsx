@@ -40,8 +40,8 @@ export const Logo = styled.div`
   align-items: center;
 
   & > a {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     color: ${colors.blue500};
     text-decoration: none;
   }
@@ -49,12 +49,12 @@ export const Logo = styled.div`
 
 export const NavLeft = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: center;
 `
 
 export const NavRight = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: center;
 `
 
 const DropdownNavLink = styled(NavLink)`
@@ -160,6 +160,7 @@ const Navbar = ({
   fabClickHandler,
   limitsClickHandler,
   logoutClickHandler,
+  nftsEnabled,
   primaryNavItems,
   receiveClickHandler,
   refreshClickHandler,
@@ -368,7 +369,7 @@ const Navbar = ({
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
-        <AppSwitcher />
+        {nftsEnabled ? <AppSwitcher /> : null}
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (
@@ -449,6 +450,7 @@ type Props = {
   fabClickHandler: () => void
   limitsClickHandler: () => void
   logoutClickHandler: () => void
+  nftsEnabled: boolean
   primaryNavItems: Array<PrimaryNavItem>
   receiveClickHandler: () => void
   refreshClickHandler: () => void
