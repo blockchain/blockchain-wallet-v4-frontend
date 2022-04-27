@@ -12,6 +12,7 @@ import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
+import AppSwitcher from './AppSwitcher'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
 import MobileDropdown from './MobileDropdown'
 import MobileNav from './MobileNav'
@@ -367,6 +368,7 @@ const Navbar = ({
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
+        <AppSwitcher />
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (
