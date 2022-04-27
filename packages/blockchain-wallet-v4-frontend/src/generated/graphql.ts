@@ -503,6 +503,7 @@ export type Trait = {
   max_value?: Maybe<Scalars['String']>;
   order?: Maybe<Scalars['String']>;
   token_id?: Maybe<Scalars['String']>;
+  trait_count?: Maybe<Scalars['Int']>;
   trait_type?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
 };
@@ -2266,6 +2267,14 @@ export default {
           },
           {
             "name": "token_id",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "trait_count",
             "type": {
               "kind": "SCALAR",
               "name": "Any"
