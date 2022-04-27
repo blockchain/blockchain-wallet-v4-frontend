@@ -234,13 +234,11 @@ export default ({ api, coreSagas, networks }) => {
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.signup.setFirstLogin(firstLogin))
-      // root and wallet are neccessary
-      // to auth into the exchange
+      // root and wallet are necessary to auth into the exchange
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
       yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
-      // If user is logging into a unified exchange account
-
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
 
       yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
