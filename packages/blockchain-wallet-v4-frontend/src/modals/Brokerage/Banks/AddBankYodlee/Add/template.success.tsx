@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormGroup } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
 
 import { NavText } from '../../../../components'
 import { Props as _P, SuccessStateType } from '.'

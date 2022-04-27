@@ -3,7 +3,6 @@ import { concat, curry, filter, flatten, keysIn, map, not, path, pathOr, prop } 
 import * as Types from '../../../types'
 import { createDeepEqualSelector } from '../../../utils'
 import { getAccounts } from '../../kvStore/bch/selectors'
-import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
 import { dataPath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
 
@@ -27,10 +26,9 @@ export const getWalletContext = createDeepEqualSelector(
 )
 
 export const getContext = createDeepEqualSelector(
-  [getWalletContext, getLockboxBchContext],
-  (walletContext, lockboxContextR) => {
-    const lockboxContext = lockboxContextR.map((x) => x).getOrElse([])
-    return concat(walletContext, lockboxContext)
+  [getWalletContext],
+  (walletContext) => {
+    return walletContext
   }
 )
 

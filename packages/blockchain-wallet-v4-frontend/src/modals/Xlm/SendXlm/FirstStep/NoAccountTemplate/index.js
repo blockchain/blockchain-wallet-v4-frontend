@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Banner, Button, Text } from 'blockchain-info-components'
-import { FormGroup } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
 import { model } from 'data'
 
 import ModalIcon from '../ModalIcon'

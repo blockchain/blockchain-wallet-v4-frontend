@@ -82,9 +82,8 @@ export const ComponentDropdown: ComponentClass<{
   uppercase?: boolean
   width?: string
 }>
-
 export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
-
+export const DateInput: FunctionComponent<{}>
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
   width?: string

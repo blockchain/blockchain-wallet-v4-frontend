@@ -34,7 +34,6 @@ export const deriveAddress = (mnemonic: string): string => {
   return ethers.Wallet.fromMnemonic(mnemonic).address
 }
 
-// check this works (lockbox)
 export const deriveAddressFromXpub = (xpub) => {
   const ethPublic = HDNode.fromExtendedKey(xpub).publicKey
   return ethers.utils.computeAddress(ethPublic)

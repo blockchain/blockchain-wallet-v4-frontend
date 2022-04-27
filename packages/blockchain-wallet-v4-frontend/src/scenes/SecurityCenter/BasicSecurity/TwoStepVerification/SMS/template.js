@@ -1,19 +1,27 @@
 /* stylelint-disable */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { isValidNumber } from 'libphonenumber-js'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { Form, PhoneNumberBox, TextBox } from 'components/Form'
-import { required, validMobileNumber } from 'services/forms'
+import Form from 'components/Form/Form'
+import PhoneNumberBox from 'components/Form/PhoneNumberBox'
+import TextBox from 'components/Form/TextBox'
+import { required } from 'services/forms'
 import { media } from 'services/styles'
+
+const validMobileNumber = (value) =>
+  isValidNumber(value) ? undefined : (
+    <FormattedMessage id='formhelper.invalidmobilenumber' defaultMessage='Invalid mobile number' />
+  )
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
-  padding: 0px 20px;
+  padding: 0 20px;
   ${media.mobile`
     padding: 0;
   `};

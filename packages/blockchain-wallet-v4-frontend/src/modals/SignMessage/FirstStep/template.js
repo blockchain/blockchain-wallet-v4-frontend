@@ -5,7 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, TextArea } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextArea from 'components/Form/TextArea'
 import { required } from 'services/forms'
 
 const DetailRow = styled.div`

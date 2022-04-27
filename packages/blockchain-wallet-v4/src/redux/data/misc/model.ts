@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { getTime, millisecondsToSeconds, subDays, subMonths, subYears } from 'date-fns'
 
 import { CoinType } from '@core/types'
 
@@ -30,10 +30,10 @@ export const start: { [key in string]: number } = {
 
 export const calculateStart = (coin: CoinType, time: TimeRange) => {
   const coinStart = start[coin] || 0
-  const dayStart = moment().subtract(1, 'day').format('X')
-  const weekStart = moment().subtract(7, 'day').format('X')
-  const monthStart = moment().subtract(1, 'month').format('X')
-  const yearStart = moment().subtract(1, 'year').format('X')
+  const dayStart = millisecondsToSeconds(getTime(subDays(new Date(), 1)))
+  const weekStart = millisecondsToSeconds(getTime(subDays(new Date(), 7)))
+  const monthStart = millisecondsToSeconds(getTime(subMonths(new Date(), 1)))
+  const yearStart = millisecondsToSeconds(getTime(subYears(new Date(), 1)))
 
   switch (time) {
     case 'all':

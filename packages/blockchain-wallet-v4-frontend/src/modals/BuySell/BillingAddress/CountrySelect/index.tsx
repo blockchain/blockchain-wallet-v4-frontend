@@ -3,8 +3,8 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
-import { countries } from 'components/Form/SelectBoxCountry/index'
+import SelectBox from 'components/Form/SelectBox'
+import { countries } from 'components/Form/SelectBoxCountry'
 
 import { Props } from '../template.success'
 

@@ -4,7 +4,8 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconAlert } from '@blockchain-com/icons'
 
 import { RemoteDataType } from '@core/types'
-import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import Carousel from 'components/Carousel'
 import { ReportType } from 'data/components/taxCenter/types'
 
 import Card from './Card'

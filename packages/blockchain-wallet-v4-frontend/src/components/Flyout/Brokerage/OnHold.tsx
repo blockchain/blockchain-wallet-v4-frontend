@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, WithdrawalLock } from '@core/types'
@@ -80,7 +80,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
                 unit: amount.currency as FiatType,
                 value: convertBaseToStandard('FIAT', amount.amount)
               })}
-              title={moment(expiresAt).format('MMMM Do YYYY')}
+              title={format(new Date(expiresAt), 'MMMM do yyyy')}
             />
           )
         })}

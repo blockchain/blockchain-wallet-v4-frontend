@@ -1,10 +1,5 @@
 import * as AT from './actionTypes'
 
-// UTILS
-export const createTestAccounts = () => ({
-  type: AT.CREATE_TEST_ACCOUNTS
-})
-
 // LEDGER DETAILS
 export const fetchLedgerDetails = () => ({ type: AT.FETCH_LEDGER_DETAILS })
 export const setLedgerDetailsLoading = () => ({

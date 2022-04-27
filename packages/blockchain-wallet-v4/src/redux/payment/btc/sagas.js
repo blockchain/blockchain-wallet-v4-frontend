@@ -17,7 +17,6 @@ import {
   fromCustodial,
   fromLegacy,
   fromLegacyList,
-  fromLockbox,
   fromPrivateKey,
   isValidAddressOrIndex,
   toCoin,
@@ -98,8 +97,6 @@ export default ({ api }) => {
           return fromLegacyList(origin)
         }
         return fromLegacy(origin)
-      case ADDRESS_TYPES.LOCKBOX:
-        return fromLockbox(network, appState, origin, 'BTC')
       case ADDRESS_TYPES.CUSTODIAL:
         return fromCustodial(origin)
       default:
@@ -194,15 +191,7 @@ export default ({ api }) => {
     return undefined
   }
 
-  const __calculateSignature = function* (
-    network,
-    password,
-    transport,
-    scrambleKey,
-    fromType,
-    selection,
-    changeIndex
-  ) {
+  const __calculateSignature = function* (network, password, fromType, selection) {
     if (!selection) {
       throw new Error('missing_selection')
     }
@@ -219,8 +208,6 @@ export default ({ api }) => {
       case ADDRESS_TYPES.WATCH_ONLY:
       case ADDRESS_TYPES.EXTERNAL:
         return btc.signWithWIF(network, selection)
-      case ADDRESS_TYPES.LOCKBOX:
-        return yield call(btc.signWithLockbox, selection, transport, scrambleKey, changeIndex, api)
       default:
         throw new Error('unknown_from')
     }
@@ -253,6 +240,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           makeChain(function* () {
             return yield f(yield gen())
           })
@@ -329,13 +317,11 @@ export default ({ api }) => {
         return makePayment(merge(p, { result }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      *sign(password) {
         const signed = yield call(
           __calculateSignature,
           network,
           password,
-          transport,
-          scrambleKey,
           prop('fromType', p),
           prop('selection', p),
           prop('changeIndex', p)

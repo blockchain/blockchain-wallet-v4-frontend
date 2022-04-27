@@ -26,7 +26,7 @@ export enum SETTINGS_ITEMS_ICONS {
   BUY_AND_DEPOSIT_WITH_BANK = 'bank-empty',
   BUY_AND_SELL = 'sell',
   BUY_WITH_CARD = 'credit-card',
-  RECEIVE_CRYPTO = 'qr-code-new',
+  RECEIVE_CRYPTO = 'qr-code',
   SAVINGS_INTEREST = 'interest',
   SEND_CRYPTO = 'send-crypto',
   SWAP_CRYPTO = 'swap',

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format, getUnixTime, isSameYear } from 'date-fns'
 import {
   allPass,
   always,
@@ -203,10 +203,10 @@ const getDescription = (hash, txNotes, addressLabels, toAddress) => {
 }
 
 export const getTime = (tx) => {
-  const date = moment.unix(tx.time).local()
-  return equals(date.year(), moment().year())
-    ? date.format('MMMM D @ h:mm A')
-    : date.format('MMMM D YYYY @ h:mm A')
+  const date = new Date(getUnixTime(tx.time) * 1000)
+  return isSameYear(date, new Date())
+    ? format(date, 'MMMM d @ h:mm a')
+    : format(date, 'MMMM d yyyy @ h:mm a')
 }
 
 export const _transformTx = (wallet, accountList, txNotes, addressLabels, tx) => {

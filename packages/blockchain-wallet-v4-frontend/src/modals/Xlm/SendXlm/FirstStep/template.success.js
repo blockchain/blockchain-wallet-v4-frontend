@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
@@ -10,16 +9,14 @@ import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
-import {
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBoxCoin,
-  SelectBoxXlmAddresses,
-  TextAreaDebounced,
-  TextBox
-} from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
+import SelectBoxXlmAddresses from 'components/Form/SelectBoxXlmAddresses'
+import TextAreaDebounced from 'components/Form/TextAreaDebounced'
+import TextBox from 'components/Form/TextBox'
 import QRCodeCapture from 'components/QRCode/Capture'
 import { CustodyToAccountMessage, Row } from 'components/Send'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
@@ -75,7 +72,6 @@ const FirstStep = (props) => {
     activeField,
     balanceStatus,
     error,
-    excludeLockbox,
     fee,
     from,
     handleSubmit,
@@ -92,11 +88,7 @@ const FirstStep = (props) => {
     verifyIdentity
   } = props
   const amountActive = activeField === 'amount'
-  const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
-  const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
@@ -117,7 +109,6 @@ const FirstStep = (props) => {
             component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
-            excludeLockbox={excludeLockbox}
             includeCustodial
           />
         </FormItem>
@@ -125,26 +116,6 @@ const FirstStep = (props) => {
       {noAccount && <NoAccountTemplate swapActions={swapActions} />}
       {!noAccount && (
         <>
-          {isFromLockbox && !disableLockboxSend && (
-            <WarningBanners type='info'>
-              <Text color='warning' size='13px'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.lockboxwarn'
-                  defaultMessage='You will need to connect your Lockbox to complete this transaction.'
-                />
-              </Text>
-            </WarningBanners>
-          )}
-          {disableLockboxSend && (
-            <WarningBanners type='warning'>
-              <Text color='warning' size='12px'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.blockbrowser'
-                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
-                />
-              </Text>
-            </WarningBanners>
-          )}
           <FormGroup>
             <CustodyToAccountMessage account={from} />
           </FormGroup>
@@ -304,7 +275,6 @@ const FirstStep = (props) => {
                 pristine ||
                 submitting ||
                 invalid ||
-                disableLockboxSend ||
                 disableCustodySend ||
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)

@@ -9,7 +9,7 @@ import {
   InputMaybe,
   SortDirection,
   useEventsQuery
-} from 'generated/graphql'
+} from 'generated/graphql.types'
 
 const EVENT_PAGE_LIMIT = NFT_ORDER_PAGE_LIMIT / 2
 

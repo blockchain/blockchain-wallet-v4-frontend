@@ -1,4 +1,4 @@
-import { OwnerQuery } from 'generated/graphql'
+import { OwnerQuery } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 

@@ -1,4 +1,4 @@
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { call, select } from 'redux-saga/effects'
 

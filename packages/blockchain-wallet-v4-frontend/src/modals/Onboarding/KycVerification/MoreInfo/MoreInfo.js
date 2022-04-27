@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
-import { FooterShadowWrapper } from 'components/Form'
+import FooterShadowWrapper from 'components/Form/FooterShadowWrapper'
 import {
   BackButton,
   Footer,

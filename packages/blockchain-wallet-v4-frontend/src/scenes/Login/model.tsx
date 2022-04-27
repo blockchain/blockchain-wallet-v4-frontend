@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { Button, SpinningLoader, TextGroup } from 'blockchain-info-components'
-import { FormLabel } from 'components/Form'
+import FormLabel from 'components/Form/FormLabel'
 import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 

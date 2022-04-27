@@ -4,7 +4,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
-import { EventsQuery } from 'generated/graphql'
+import { EventsQuery } from 'generated/graphql.types'
 
 import {
   getDateColumn,
