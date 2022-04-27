@@ -313,6 +313,7 @@ export default ({ api, coreSagas, networks }) => {
           exchange_user_id: exchangeUserId
         })
       )
+      console.log(`WEB EXCHANGE ACCT CREATED | ${exchangeLifetimeToken} | ${exchangeUserId}`)
       return { exchangeLifetimeToken, exchangeUserId }
     } catch (e) {
       if (e.code === 4) {
