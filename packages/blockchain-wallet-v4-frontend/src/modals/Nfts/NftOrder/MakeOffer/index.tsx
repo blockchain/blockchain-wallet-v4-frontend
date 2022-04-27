@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import { useRemote } from 'hooks'
 import moment from 'moment'
 import { map } from 'ramda'
 import { compose } from 'redux'
@@ -107,7 +108,14 @@ const MakeOffer: React.FC<Props> = (props) => {
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
-
+  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const sellOrders =
+    openSeaOrders.data?.filter((x) => {
+      return x.side === 1
+    }) || []
+  const lowest_order = sellOrders.sort((a, b) =>
+    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+  )[0]
   const disabled =
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
@@ -205,7 +213,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {val.last_sale?.total_price || 0}
+                    {lowest_order.base_price || 0}
                   </CoinDisplay>
                   <FiatDisplay
                     size='14px'
@@ -214,7 +222,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {val.last_sale?.total_price || 0}
+                    {lowest_order.base_price || 0}
                   </FiatDisplay>
                 </Text>
               </div>

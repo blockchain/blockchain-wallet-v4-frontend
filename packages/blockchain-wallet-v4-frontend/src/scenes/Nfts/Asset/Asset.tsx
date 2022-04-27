@@ -290,6 +290,7 @@ const NftAsset: React.FC<Props> = ({
   formActions,
   nftsActions,
   routerActions,
+  walletCurrency,
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
@@ -570,7 +571,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={bidsAndOffers[0].payment_token_contract.symbol}
@@ -606,7 +607,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={lowest_order.payment_token_contract.symbol}
@@ -635,7 +636,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={highest_offer.payment_token_contract.symbol}
@@ -880,7 +881,7 @@ const NftAsset: React.FC<Props> = ({
                     }}
                   >
                     <div style={{ width: '5em' }}>Price</div>
-                    <div style={{ width: '5em' }}>USD Price</div>
+                    <div style={{ width: '5em' }}>{walletCurrency} Price</div>
                     <div style={{ width: '5em' }}>Expiration</div>
                     <div style={{ paddingLeft: '1em', width: '5em' }}>From</div>
                   </div>
@@ -915,7 +916,7 @@ const NftAsset: React.FC<Props> = ({
                       <div style={{ width: '5em' }}>
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           size='16px'
                           coin={offer.payment_token_contract.symbol}
                         >
@@ -1033,7 +1034,8 @@ const mapStateToProps = (state: RootState) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     comWalletApp: 'https://login.blockchain.com'
-  } as WalletOptionsType['domains'])
+  } as WalletOptionsType['domains']),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch) => ({
