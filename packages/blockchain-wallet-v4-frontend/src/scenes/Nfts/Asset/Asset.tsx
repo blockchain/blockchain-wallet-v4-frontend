@@ -377,7 +377,8 @@ const NftAsset: React.FC<Props> = ({
         ? lowest_order?.expiration_time * 1000 - 604800000 // subtract 7 days for auction
         : lowest_order?.expiration_time * 1000
     // Update the count down every 1 second
-    setInterval(function () {
+    const interval = setInterval(function () {
+      clearInterval(interval)
       const now = new Date().getTime()
       const duration = countDownDate - now
       const days = Math.floor(duration / (1000 * 60 * 60 * 24))
@@ -387,6 +388,9 @@ const NftAsset: React.FC<Props> = ({
       // Display the result in the element with id="demo"
       setCountdown(`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`)
       // if duration < 0, expired
+      if (duration < 0) {
+        clearInterval(interval)
+      }
     }, 1000)
   }
 
