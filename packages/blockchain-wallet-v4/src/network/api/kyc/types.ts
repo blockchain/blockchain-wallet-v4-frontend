@@ -27,8 +27,9 @@ type NodeItem = {
 }
 
 export type NodeType = {
-  children: Array<QuestionItem> | Array<NodeItem>
+  children: Array<NodeItem>
   id: string
+  instructions?: string
   isDropdown?: boolean
   text: string
   type: string

@@ -525,7 +525,7 @@ export default ({ api, coreSagas, networks }) => {
           if (q2.id === formValues.q2) {
             q2.checked = true
           }
-          if (q2.id === 'q2-a8' && formValues['q2-a8-a1']) {
+          if (q2.id === 'q2-a8' && formValues['q2-a8-a1'] && q2.children && q2.children[0]) {
             q2.children[0].input = formValues['q2-a8-a1']
           }
         })
@@ -539,7 +539,12 @@ export default ({ api, coreSagas, networks }) => {
             q4.checked = true
           }
           // name and relationship
-          if (q4.id === 'q4-a3' && formValues['q4-a3-a1'] && formValues['q4-a3-a2']) {
+          if (
+            q4.id === 'q4-a3' &&
+            formValues['q4-a3-a1'] &&
+            formValues['q4-a3-a2'] &&
+            q4.children
+          ) {
             q4.children[0].input = formValues['q4-a3-a1']
             q4.children[1].input = formValues['q4-a3-a2']
           }
