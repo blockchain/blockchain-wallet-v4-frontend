@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError } from 'urql'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { OwnerQuery } from 'generated/graphql'
 
-import { Asset, Grid, LOADING_ITEMS_COUNT } from '../../components'
+import { Grid } from '../../components'
+import NftError from '../../components/NftError'
+import NftGridLoading from '../../components/NftGridLoading'
 import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import ResultsPage from './AddressItems.results'
@@ -34,7 +34,7 @@ const AddressItems: React.FC<Props> = ({ address, collections, formValues, setCo
       <LazyLoadContainer
         triggerDistance={50}
         onLazyLoad={() =>
-          isFetching || maxItemsFetched
+          isFetching || maxItemsFetched || errorFetchingNextPage
             ? null
             : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
         }
@@ -55,32 +55,9 @@ const AddressItems: React.FC<Props> = ({ address, collections, formValues, setCo
                 />
               ))
             : null}
-          {isFetching ? (
-            <>
-              {[...Array(LOADING_ITEMS_COUNT)].map((e, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <Asset key={i}>
-                  <SkeletonRectangle width='100%' height='285px' />
-                  <div style={{ minHeight: '120px', padding: '12px 8px' }}>
-                    <Flex
-                      style={{ height: '100%' }}
-                      justifyContent='space-between'
-                      flexDirection='column'
-                    >
-                      <div>
-                        <SkeletonRectangle height='24px' width='100px' />
-                        <div style={{ marginTop: '4px' }} />
-                        <SkeletonRectangle height='30px' width='120px' />
-                        <div style={{ marginTop: '4px' }} />
-                      </div>
-                      <SkeletonRectangle height='42px' width='100%' />
-                    </Flex>
-                  </div>
-                </Asset>
-              ))}
-            </>
-          ) : null}
+          {isFetching ? <NftGridLoading /> : null}
         </Grid>
+        {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
       </LazyLoadContainer>
     </NftPageLazyLoadWrapper>
   )

@@ -75,7 +75,12 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
     ? collectionsQuery.data.collections[0]
     : undefined
 
-  if (collectionsQuery.error) return <NftError error={collectionsQuery.error} />
+  if (collectionsQuery.error)
+    return (
+      <div style={{ marginTop: '40px' }}>
+        <NftError error={collectionsQuery.error} />
+      </div>
+    )
 
   if (collectionsQuery.fetching) return <NftCollectionLoading />
 

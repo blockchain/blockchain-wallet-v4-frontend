@@ -7,6 +7,7 @@ import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
 
 import { Centered } from '../components'
+import NftError from '../components/NftError'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
@@ -32,7 +33,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
     <LazyLoadContainer
       triggerDistance={50}
       onLazyLoad={() =>
-        isFetchingNextPage || maxItemsFetched
+        isFetchingNextPage || maxItemsFetched || errorFetchingNextPage
           ? null
           : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
       }
@@ -63,6 +64,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
           ) : null}
         </Centered>
       </TableWrapper>
+      {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
     </LazyLoadContainer>
   )
 }
