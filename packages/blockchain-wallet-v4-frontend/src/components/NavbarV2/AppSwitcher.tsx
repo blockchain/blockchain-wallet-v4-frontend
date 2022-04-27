@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDownV2, IconChevronUp, IconChevronUpV2 } from '@blockchain-com/icons'
+import { IconCheckCircle, IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
+import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import Spacer from 'components/Spacer'
 import { actions } from 'data'
+import { useOnClickOutside } from 'services/misc'
 
 const Wrapper = styled.div`
   position: relative;
@@ -18,18 +20,25 @@ const Wrapper = styled.div`
   margin-left: 12px;
 `
 
-const Popout = styled.div`
+const Popout = styled(motion.div)`
   position: absolute;
   background: ${(props) => props.theme.white};
   border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 8px;
   z-index: 100;
+  left: -8px;
   top: 48px;
 `
 
 const PopoutItem = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px;
+  white-space: nowrap;
   border-bottom: 1px solid ${(props) => props.theme.grey100};
+  cursor: pointer;
   &:last-child {
     border-bottom: 0;
   }
@@ -41,36 +50,84 @@ const IconWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   border-radius: 4px;
-  padding: 4px;
   border: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
+  cursor: pointer;
+  transition: all 0.3s;
   &:hover {
     border: 1px solid ${(props) => props.theme.blue600};
-    background: 1px solid ${(props) => props.theme.blue000};
+    background: ${(props) => props.theme.blue000};
+    * {
+      fill: ${(props) => props.theme.blue600};
+    }
   }
 `
 
 const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
+  const ref = useRef(null)
+  const [isActive, setIsActive] = useState<boolean>(false)
+  const app = window.location.hash.includes('nfts') ? 'nfts' : 'wallet'
+
+  useOnClickOutside(ref, () => setIsActive(false))
+
+  const toggleIsActive = () => {
+    setIsActive((isActive) => !isActive)
+  }
+
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       <Spacer style={{ marginRight: '12px' }} height='24px' />
-      <Flex>
+      {/* @ts-ignore */}
+      <Flex alignItems='center' gap={8} onClick={toggleIsActive}>
         <Text cursor='pointer' weight={600} color='blue600' size='14px'>
           Wallet
         </Text>
         <IconWrapper>
-          <Icon label='up'>
+          <Icon label='up' size='sm'>
             <IconChevronUpV2 />
           </Icon>
-          <Icon label='down'>
+          <Icon label='down' size='sm'>
             <IconChevronDownV2 />
           </Icon>
         </IconWrapper>
       </Flex>
-      <Popout>
-        <PopoutItem>Wallet</PopoutItem>
-        <PopoutItem>NFTs</PopoutItem>
-      </Popout>
+      <AnimatePresence>
+        {isActive ? (
+          <Popout
+            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <PopoutItem role='button' onClick={() => routerActions.push('/home')}>
+              <Flex flexDirection='column' gap={2}>
+                <Text size='16px' color='black' weight={600}>
+                  Wallet
+                </Text>
+                <Text size='14px' weight={600}>
+                  Buy, Sell & Swap Crypto
+                </Text>
+              </Flex>
+              <Icon label='check' size='sm' color={app === 'wallet' ? 'blue600' : 'grey100'}>
+                <IconCheckCircle />
+              </Icon>
+            </PopoutItem>
+            <PopoutItem role='button' onClick={() => routerActions.push('/nfts')}>
+              <Flex flexDirection='column' gap={2}>
+                <Text size='16px' color='black' weight={600}>
+                  NFT Marketplace
+                </Text>
+                <Text size='14px' weight={600}>
+                  Buy, Sell & Discover NFTs
+                </Text>
+              </Flex>
+              <Icon label='check' size='sm' color={app === 'nfts' ? 'blue600' : 'grey100'}>
+                <IconCheckCircle />
+              </Icon>
+            </PopoutItem>
+          </Popout>
+        ) : null}
+      </AnimatePresence>
     </Wrapper>
   )
 }
@@ -83,4 +140,4 @@ const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default AppSwitcher as React.FC<{}>
+export default connector(AppSwitcher)
