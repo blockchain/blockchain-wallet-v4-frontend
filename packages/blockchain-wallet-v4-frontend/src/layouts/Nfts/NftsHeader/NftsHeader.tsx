@@ -4,17 +4,16 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft, IconUser, IconWallet } from '@blockchain-com/icons'
-import { Field, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { SelectBox } from 'components/Form'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 
-import { Props as OwnProps } from '..'
-import NftSearch from '../NftSearch'
+import { Props as OwnProps } from '../Nfts'
+import NftSearch from '../NftsSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 

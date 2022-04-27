@@ -17,7 +17,7 @@ import { Form, NumberBox } from 'components/Form'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
-import { FIXED_HEADER_HEIGHT } from 'layouts/Explore/Header'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 import EventTypeName from '../components/EventTypeName'
