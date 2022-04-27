@@ -48,6 +48,7 @@ export default ({ api, coreSagas, networks }) => {
         firstLogin: true,
         state
       })
+      console.log(`WEB SIGNUP SUCCESS`)
       yield put(actions.signup.registerSuccess(undefined))
       yield put(
         actions.analytics.trackEvent({
@@ -210,6 +211,7 @@ export default ({ api, coreSagas, networks }) => {
     const tuneTid = queryParams.get('tuneTid') as string
     const product = queryParams.get('product') as ProductAuthOptions
     const platform = queryParams.get('platform') as PlatformTypes
+    console.log(`WEB INIT SIGNUP | ${product} | ${platform}`)
     yield put(
       actions.signup.setProductSignupMetadata({
         platform,

@@ -214,6 +214,7 @@ export default ({ api, coreSagas, networks }) => {
     state = undefined
   }) {
     try {
+      console.log(`WEB LOGIN ROUTINE | ${country} | ${email} | ${state} | ${recovery} | ${firstLogin}`)
       const product = yield select(selectors.auth.getProduct)
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)

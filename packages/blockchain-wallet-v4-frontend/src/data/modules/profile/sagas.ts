@@ -291,6 +291,8 @@ export default ({ api, coreSagas, networks }) => {
       })
     )
 
+    console.log(`WEB NABU ACCT CREATED | ${nabuLifetimeToken} | ${nabuUserId}`)
+
     return { nabuLifetimeToken, nabuUserId }
   }
 
@@ -343,6 +345,7 @@ export default ({ api, coreSagas, networks }) => {
       // login platform and signup platform come from two different locations
       // set const to whichever one exists
       const platform = loginPlatform || signupPlatform
+      console.log(`WEB AUTH & ROUTE | platform = ${platform}`)
       const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
       const exchangeAuthUrl = magicLinkData?.exchange_auth_url
       const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -355,7 +358,9 @@ export default ({ api, coreSagas, networks }) => {
       const { exchangeLifetimeToken, exchangeUserId } = (yield select(
         selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
       )).getOrElse({})
-
+      console.log(
+        `WEB AUTH & ROUTE | exchangeLifetimeToken = ${exchangeLifetimeToken} | exchangeUserId = ${exchangeUserId}`
+      )
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (origin === ExchangeAuthOriginType.Signup) {
           return
@@ -372,6 +377,12 @@ export default ({ api, coreSagas, networks }) => {
       )
       switch (true) {
         case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
+          console.log(
+            `WEB MSG TO MOBILE | ${JSON.stringify({
+              data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
+              status: 'success'
+            })}`
+          )
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
