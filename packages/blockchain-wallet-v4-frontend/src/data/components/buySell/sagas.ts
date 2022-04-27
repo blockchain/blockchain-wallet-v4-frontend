@@ -871,10 +871,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const isSddVerified = S.getSddVerified(yield select()).getOrElse({
         verified: false
       })
+      const { nabuUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+      )).getOrElse({ nabuUserId: null })
 
-      const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
-      const userId = userIdR.getOrElse(null)
-      if (!isSddVerified.verified && userId) {
+      if (!isSddVerified.verified && nabuUserId) {
         yield put(A.fetchSDDVerifiedLoading())
         const sddEligible = yield call(api.fetchSDDVerified)
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
