@@ -276,11 +276,7 @@ export default ({ api, coreSagas, networks }) => {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }
-      const { platform } = yield select(selectors.signup.getProductSignupMetadata)
       if (firstLogin) {
-        if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
-          return
-        }
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
 
