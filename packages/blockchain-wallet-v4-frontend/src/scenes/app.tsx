@@ -12,7 +12,7 @@ import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import AuthLayout from 'layouts/Auth'
-import ExploreLayout from 'layouts/Explore'
+import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
 import { utmParser } from 'middleware/analyticsMiddleware/utils'
@@ -177,28 +177,20 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/address/:address'
-                          exact
-                          component={NftsAddress}
-                        />
+                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/asset/:contract/:id'
-                          exact
-                          component={NftsAsset}
-                        />
+                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts/collection/:slug'
                           exact
                           component={NftsCollection}
                         />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts'
                           exact
                           component={NftsExplorer}

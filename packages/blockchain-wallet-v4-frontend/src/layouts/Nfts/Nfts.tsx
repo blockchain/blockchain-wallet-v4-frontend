@@ -6,9 +6,9 @@ import { bindActionCreators } from 'redux'
 import { CoinfigType, CoinType } from '@core/types'
 import { actions, selectors } from 'data'
 
-import ExploreLayout from './template'
+import NftsTemplate from './NftsTemplate'
 
-class ExploreLayoutContainer extends React.PureComponent<Props> {
+class NftsContainer extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.coinsActions.fetchCoinsRates()
   }
@@ -21,9 +21,9 @@ class ExploreLayoutContainer extends React.PureComponent<Props> {
       <Route
         path={path}
         render={() => (
-          <ExploreLayout {...this.props}>
+          <NftsTemplate {...this.props}>
             <Component computedMatch={rest.computedMatch} {...rest} />
-          </ExploreLayout>
+          </NftsTemplate>
         )}
       />
     )
@@ -54,4 +54,4 @@ export type Props = ConnectedProps<typeof connector> & {
   path: string
 }
 
-export default connector(ExploreLayoutContainer)
+export default connector(NftsContainer)
