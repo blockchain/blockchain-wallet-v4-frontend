@@ -194,25 +194,6 @@ const Buy: React.FC<Props> = (props) => {
               </div>
             </Row>
             <Row>
-              <Value>
-                <AmountFieldInput
-                  coin={coin}
-                  fiatCurrency={walletCurrency}
-                  amtError={false}
-                  quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
-                  fix={fix as 'CRYPTO' | 'FIAT'}
-                  name='amount'
-                  showCounter
-                  showToggle
-                  data-e2e='amountField'
-                  onToggleFix={() => {
-                    formActions.change('nftBuy', 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
-                    formActions.change('nftBuy', 'amount', fix === 'CRYPTO' ? fiatAmt : cryptoAmt)
-                  }}
-                />
-              </Value>
-            </Row>
-            <Row>
               <Title>
                 <b>
                   <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
@@ -254,8 +235,36 @@ const Buy: React.FC<Props> = (props) => {
                 <NetworkFeesComponent wethFees title='Network Fees' {...props} {...[val]} />
               </Value>
             </Row>
+            <Row>
+              <Value
+                style={{ display: 'flex', justifyContent: 'space-between', padding: '0em 1em' }}
+              >
+                <Text color='black' weight={600} size='18px'>
+                  Total
+                </Text>
+                <div style={{ display: 'block' }}>
+                  <CoinDisplay
+                    size='18px'
+                    color='black'
+                    weight={600}
+                    coin='ETH'
+                    style={{ justifyContent: 'right' }}
+                  >
+                    {Number(lowest_order?.base_price) + buyFees?.totalFees || 0}
+                  </CoinDisplay>
+                  <FiatDisplay
+                    size='14px'
+                    color={colors.grey600}
+                    weight={600}
+                    coin='ETH'
+                    style={{ justifyContent: 'right' }}
+                  >
+                    {Number(lowest_order?.base_price) + buyFees?.totalFees || 0}
+                  </FiatDisplay>
+                </div>
+              </Value>
+            </Row>
             <StickyCTA>
-              <BuyFees {...props} />
               <BuyCta
                 {...props}
                 amount={cryptoAmt}
