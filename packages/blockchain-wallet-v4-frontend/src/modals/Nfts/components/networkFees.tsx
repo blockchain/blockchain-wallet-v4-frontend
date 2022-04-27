@@ -45,13 +45,13 @@ const Total = styled(FiatDisplay)`
 `
 
 const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
-  const { isMakeOffer, orderFlow, title } = props
+  const { orderFlow, title, wethFees } = props
   const [moreFees, setMoreFees] = useState(false)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
   }
 
-  const getMakeOfferTotalFees = () => {
+  const getTotalFees = () => {
     const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
       .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
       .plus(
@@ -77,9 +77,9 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
             {title}
           </Text>
           <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
-            {isMakeOffer ? (
+            {wethFees ? (
               <Total color={colors.grey600} weight={500} size='14px' coin='ETH'>
-                {getMakeOfferTotalFees()}
+                {getTotalFees()}
               </Total>
             ) : (
               <Text weight={500} style={{ paddingLeft: '10em' }} lineHeight='24px'>
@@ -98,7 +98,7 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
             </ChevronArea>
           )}
         </Top>
-        {isMakeOffer ? (
+        {wethFees ? (
           <Fees style={moreFees ? {} : { display: 'none' }}>
             {/* @ts-ignore */}
             <MakeOfferFees {...props} asset={val} />
@@ -139,7 +139,7 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
 }
 
 const connector = connect()
-type OwnProps = { isMakeOffer: boolean; title: string }
+type OwnProps = { title: string; wethFees: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(NetworkFeesComponent)

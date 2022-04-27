@@ -463,7 +463,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               <Row>
                 <Value>
                   <NetworkFeesComponent
-                    isMakeOffer={false}
+                    wethFees={false}
                     title='Selling Fees'
                     {...props}
                     {...[val]}
