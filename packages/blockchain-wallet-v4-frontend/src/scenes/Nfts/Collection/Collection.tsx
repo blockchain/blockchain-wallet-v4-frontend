@@ -9,7 +9,11 @@ import styled from 'styled-components'
 import { Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CollectionFilterFields, EventFilterFields, useCollectionsQuery } from 'generated/graphql'
+import {
+  CollectionFilterFields,
+  EventFilterFields,
+  useCollectionsQuery
+} from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'

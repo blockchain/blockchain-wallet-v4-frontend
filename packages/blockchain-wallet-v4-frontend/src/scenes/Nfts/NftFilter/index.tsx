@@ -17,7 +17,7 @@ import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
+import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
