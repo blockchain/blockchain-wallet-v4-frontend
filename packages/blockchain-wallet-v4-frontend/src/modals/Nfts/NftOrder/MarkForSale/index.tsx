@@ -26,7 +26,7 @@ import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
-import NetworkFeesComponent from '../../components/networkFees'
+import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
 

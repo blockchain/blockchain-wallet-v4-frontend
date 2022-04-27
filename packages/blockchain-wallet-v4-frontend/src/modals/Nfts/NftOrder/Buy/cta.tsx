@@ -24,7 +24,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
 
-import GetMoreEthComponent from '../../components/getMoreEth'
+import GetMoreEthComponent from '../../components/GetMoreEth'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 

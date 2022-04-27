@@ -25,7 +25,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
-import NetworkFeesComponent from '../../components/networkFees'
+import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
 import BuyFees from './fees'
@@ -179,7 +179,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {lowest_order.base_price}
+                    {lowest_order.base_price || 0}
                   </CoinDisplay>
                   <FiatDisplay
                     size='14px'
@@ -188,7 +188,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {lowest_order.base_price}
+                    {lowest_order.base_price || 0}
                   </FiatDisplay>
                 </Text>
               </div>

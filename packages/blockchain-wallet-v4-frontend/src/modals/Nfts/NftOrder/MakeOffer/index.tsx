@@ -37,8 +37,8 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
-import GetMoreEthComponent from '../../components/getMoreEth'
-import NetworkFeesComponent from '../../components/networkFees'
+import GetMoreEthComponent from '../../components/GetMoreEth'
+import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
 
 const MakeOffer: React.FC<Props> = (props) => {
