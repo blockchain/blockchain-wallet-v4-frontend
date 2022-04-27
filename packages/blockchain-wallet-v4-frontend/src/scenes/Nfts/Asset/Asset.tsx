@@ -4,12 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import {
-  AssetFilterFields,
-  EventFilterFields,
-  useAssetQuery,
-  useAssetsQuery
-} from 'blockchain-wallet-v4-frontend/src/generated/graphql'
 import { useRemote } from 'blockchain-wallet-v4-frontend/src/hooks'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
@@ -36,6 +30,12 @@ import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
+import {
+  AssetFilterFields,
+  EventFilterFields,
+  useAssetQuery,
+  useAssetsQuery
+} from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'

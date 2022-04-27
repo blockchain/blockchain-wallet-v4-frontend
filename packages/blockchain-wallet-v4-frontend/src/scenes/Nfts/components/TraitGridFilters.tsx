@@ -11,7 +11,7 @@ import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { AssetSortFields } from 'generated/graphql'
+import { AssetSortFields } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 import EventTypeName from './EventTypeName'

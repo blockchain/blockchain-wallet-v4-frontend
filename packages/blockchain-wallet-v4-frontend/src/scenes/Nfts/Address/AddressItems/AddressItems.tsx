@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CombinedError } from 'urql'
 
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { OwnerQuery } from 'generated/graphql'
+import { OwnerQuery } from 'generated/graphql.types'
 
 import { Grid } from '../../components'
 import NftError from '../../components/NftError'

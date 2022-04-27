@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import * as numeral from 'numeral'
 
 import { Text } from 'blockchain-info-components'
-import { CollectionsQuery } from 'generated/graphql'
+import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
 
