@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError, UseQueryState } from 'urql'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { CollectionsQuery } from 'generated/graphql'
 
-import { Asset, Grid, LOADING_ITEMS_COUNT } from '../../components'
+import { Grid } from '../../components'
+import NftError from '../../components/NftError'
+import NftGridLoading from '../../components/NftGridLoading'
 import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
@@ -55,32 +55,9 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
                 />
               ))
             : null}
-          {isFetching ? (
-            <>
-              {[...Array(LOADING_ITEMS_COUNT)].map((e, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <Asset key={i}>
-                  <SkeletonRectangle width='100%' height='285px' />
-                  <div style={{ boxSizing: 'border-box', minHeight: '120px', padding: '12px 8px' }}>
-                    <Flex
-                      style={{ height: '100%' }}
-                      justifyContent='space-between'
-                      flexDirection='column'
-                    >
-                      <div>
-                        <SkeletonRectangle height='24px' width='100px' />
-                        <div style={{ marginTop: '4px' }} />
-                        <SkeletonRectangle height='16px' width='120px' />
-                        <div style={{ marginTop: '4px' }} />
-                      </div>
-                      <SkeletonRectangle height='38px' width='100%' />
-                    </Flex>
-                  </div>
-                </Asset>
-              ))}
-            </>
-          ) : null}
+          {isFetching ? <NftGridLoading /> : null}
         </Grid>
+        {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
       </LazyLoadContainer>
     </NftPageLazyLoadWrapper>
   )
