@@ -2,7 +2,7 @@ import { OwnerQuery } from 'generated/graphql'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 
-const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale', 'event']
+const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale', 'event', 'collection']
 
 export const getTraitFilters = (formValues: NftFilterFormValuesType) =>
   formValues ? Object.keys(formValues).filter((val) => nonTraitFilters.indexOf(val) === -1) : null

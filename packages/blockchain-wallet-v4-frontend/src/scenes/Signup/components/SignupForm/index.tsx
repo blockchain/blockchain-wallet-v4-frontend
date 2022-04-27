@@ -68,15 +68,8 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SignupForm = (props: Props) => {
-  const {
-    formValues,
-    invalid,
-    isFormSubmitting,
-    onCountrySelect,
-    onSignupSubmit,
-    showState,
-    signupCountryEnabled
-  } = props
+  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
+    props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
@@ -167,49 +160,47 @@ const SignupForm = (props: Props) => {
           />
         </FormItem>
       </FormGroup>
-      {signupCountryEnabled && (
-        <FormGroup>
-          <FieldWithoutBottomRadius setBorder={showState}>
-            <FormLabel htmlFor='country' id='country'>
+      <FormGroup>
+        <FieldWithoutBottomRadius setBorder={showState}>
+          <FormLabel htmlFor='country' id='country'>
+            <FormattedMessage
+              defaultMessage='Country of Residence'
+              id='scenes.register.countryofresidence'
+            />
+          </FormLabel>
+          <Field
+            data-e2e='selectCountryDropdown'
+            name='country'
+            validate={required}
+            component={SelectBoxCountry as ReturnType<typeof SelectBox>}
+            menuPlacement='auto'
+            onChange={onCountrySelect}
+            label={
               <FormattedMessage
-                defaultMessage='Country of Residence'
-                id='scenes.register.countryofresidence'
+                id='scenes.register.select_a_country'
+                defaultMessage='Select a Country'
               />
-            </FormLabel>
+            }
+          />
+        </FieldWithoutBottomRadius>
+        {showState ? (
+          <FieldWithoutTopRadius setBorder={showState}>
             <Field
-              data-e2e='selectCountryDropdown'
-              name='country'
-              validate={required}
-              component={SelectBoxCountry as ReturnType<typeof SelectBox>}
-              menuPlacement='auto'
-              onChange={onCountrySelect}
+              name='state'
+              component={SelectBoxUSState}
+              errorBottom
+              validate={[required]}
+              normalize={(val) => val && val.code}
               label={
                 <FormattedMessage
-                  id='scenes.register.select_a_country'
-                  defaultMessage='Select a Country'
+                  id='components.selectboxstate.label'
+                  defaultMessage='Select state'
                 />
               }
             />
-          </FieldWithoutBottomRadius>
-          {showState ? (
-            <FieldWithoutTopRadius setBorder={showState}>
-              <Field
-                name='state'
-                component={SelectBoxUSState}
-                errorBottom
-                validate={[required]}
-                normalize={(val) => val && val.code}
-                label={
-                  <FormattedMessage
-                    id='components.selectboxstate.label'
-                    defaultMessage='Select state'
-                  />
-                }
-              />
-            </FieldWithoutTopRadius>
-          ) : null}
-        </FormGroup>
-      )}
+          </FieldWithoutTopRadius>
+        ) : null}
+      </FormGroup>
 
       <FormGroup inline>
         <FieldWrapper>

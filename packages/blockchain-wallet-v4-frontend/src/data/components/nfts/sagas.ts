@@ -1,3 +1,4 @@
+import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
@@ -503,9 +504,14 @@ export default ({ api }: { api: APIType }) => {
         )
       }
     }
-    if (action.meta.form === 'nftCollection') {
-      if (action.meta.field === 'collection') {
-        yield put(A.setAssetData({ collection: action.payload }))
+    if (action.meta.form === 'nftFilter') {
+      if (['min', 'max'].includes(action.meta.field)) {
+        const formValues = selectors.form.getFormValues('nftFilter')(
+          yield select()
+        ) as NftFilterFormValuesType
+        if (formValues?.min || formValues?.max) {
+          yield put(actions.form.change('nftFilter', 'forSale', true))
+        }
       }
     }
   }

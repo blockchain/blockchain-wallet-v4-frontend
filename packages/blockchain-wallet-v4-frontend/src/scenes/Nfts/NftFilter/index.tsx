@@ -394,18 +394,20 @@ const NftFilter: React.FC<Props> = ({
   )
 }
 
-export type NftFilterFormValuesType = {
-  collection: string
-  event: string
-  forSale: boolean
-  max: string
-  min: string
-  sortBy: string
-} & {
-  [key: string]: {
-    [key: string]: boolean
-  }
-}
+export type NftFilterFormValuesType =
+  | ({
+      collection: string
+      event: string
+      forSale: boolean
+      max: string
+      min: string
+      sortBy: string
+    } & {
+      [key: string]: {
+        [key: string]: boolean
+      }
+    })
+  | undefined
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

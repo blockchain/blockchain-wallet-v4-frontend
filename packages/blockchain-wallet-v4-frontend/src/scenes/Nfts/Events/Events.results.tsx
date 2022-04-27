@@ -11,21 +11,30 @@ import {
   useEventsQuery
 } from 'generated/graphql'
 
+const EVENT_PAGE_LIMIT = NFT_ORDER_PAGE_LIMIT / 2
+
 const EventsResults: React.FC<Props> = ({
   filters,
   page,
   setEvents,
   setIsFetchingNextPage,
+  setMaxItemsFetched,
   setNextPageFetchError
 }) => {
   const [result] = useEventsQuery({
     variables: {
       filter: filters,
-      limit: NFT_ORDER_PAGE_LIMIT,
-      offset: page * NFT_ORDER_PAGE_LIMIT,
+      limit: EVENT_PAGE_LIMIT,
+      offset: page * EVENT_PAGE_LIMIT,
       sort: { by: EventSortFields.CreatedDate, direction: SortDirection.Desc }
     }
   })
+
+  useEffect(() => {
+    if (result.data?.events.length !== undefined) {
+      setMaxItemsFetched(result.data.events.length < EVENT_PAGE_LIMIT)
+    }
+  }, [result.data?.events?.length, setMaxItemsFetched])
 
   useEffect(() => {
     setNextPageFetchError(result.error)
@@ -46,6 +55,7 @@ type Props = {
   page: number
   setEvents: React.Dispatch<React.SetStateAction<EventsQuery['events']>>
   setIsFetchingNextPage: (isFetching: boolean) => void
+  setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
 }
 

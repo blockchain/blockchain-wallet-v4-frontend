@@ -46,7 +46,7 @@ const Activity: React.FC<Props> = (props) => {
 
   return (
     <LazyLoadContainer
-      triggerDistance={200}
+      triggerDistance={300}
       onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}
     >
       {props.offersMade.list.length ? (
