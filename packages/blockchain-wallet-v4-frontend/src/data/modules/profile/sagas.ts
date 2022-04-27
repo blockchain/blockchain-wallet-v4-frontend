@@ -319,13 +319,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const createExchangeUser = function* (countryCode) {
     try {
-      // TODO: get from new unified entry
-      const exchangeUserId = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeUserId
-      )).getOrElse(null)
-      const exchangeLifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )).getOrElse(null)
+      const { exchangeLifetimeToken, exchangeUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
+      )).getOrElse({})
       if (!exchangeUserId || !exchangeLifetimeToken) {
         yield call(generateExchangeAuthCredentials, countryCode)
       }
@@ -354,13 +350,9 @@ export default ({ api, coreSagas, networks }) => {
         } as WalletOptionsType['domains'])
 
       const exchangeUrlFromLink = exchangeAuthUrl || redirect
-      // TODO: get from new unified entry
-      const exchangeLifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )).getOrElse(null)
-      const exchangeUserId = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeUserId
-      )).getOrElse(null)
+      const { exchangeLifetimeToken, exchangeUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
+      )).getOrElse({})
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (origin === ExchangeAuthOriginType.Signup) {
