@@ -17,6 +17,7 @@ import CardOrder from './CardOrder'
 import { Wrapper } from './model'
 
 const DebitCard = ({
+  alertActions,
   cardToken,
   cards,
   debitCardActions,
@@ -56,6 +57,7 @@ const DebitCard = ({
         <CardOrder handleOpenOrderMyCard={handleOpenOrderMyCard} />
       ) : (
         <CardDashboard
+          alertActions={alertActions}
           domains={domains}
           cardToken={cardToken}
           last4={cards[0].last4}

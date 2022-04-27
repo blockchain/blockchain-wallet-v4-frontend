@@ -21,6 +21,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  alertActions: bindActionCreators(actions.alerts, dispatch),
   debitCardActions: bindActionCreators(actions.components.debitCard, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
+  alertActions: typeof actions.alerts
   cardToken: string
   cards: Array<DebitCardType>
   debitCardActions: typeof actions.components.debitCard
