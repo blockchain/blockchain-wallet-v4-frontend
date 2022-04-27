@@ -179,7 +179,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {lowest_order.base_price || 0}
+                    {lowest_order?.base_price || 0}
                   </CoinDisplay>
                   <FiatDisplay
                     size='14px'
@@ -188,7 +188,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {lowest_order.base_price || 0}
+                    {lowest_order?.base_price || 0}
                   </FiatDisplay>
                 </Text>
               </div>
