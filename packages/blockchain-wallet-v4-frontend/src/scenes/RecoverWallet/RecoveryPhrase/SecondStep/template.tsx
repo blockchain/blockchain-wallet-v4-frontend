@@ -5,7 +5,11 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
@@ -116,12 +120,6 @@ class SecondStep extends React.PureComponent<Props, State> {
                     name='recoverPassword'
                     validate={[required, validStrongPassword]}
                     component={PasswordBox}
-                    showPasswordScore
-                    passwordScore={
-                      has('zxcvbn', window)
-                        ? window.zxcvbn(formValues.recoverPassword || '').score
-                        : 0
-                    }
                   />
                 </FormGroup>
                 <FormGroup>

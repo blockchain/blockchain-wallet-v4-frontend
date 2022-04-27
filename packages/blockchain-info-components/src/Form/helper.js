@@ -1,11 +1,10 @@
 export const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial':
-      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
+    case 'initial':
     default:
       return 'grey100'
   }
@@ -13,12 +12,11 @@ export const selectBorderColor = (state) => {
 
 export const selectFocusBorderColor = (state) => {
   switch (state) {
-    case 'initial':
-      return 'blue600'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
+    case 'initial':
     default:
       return 'blue600'
   }

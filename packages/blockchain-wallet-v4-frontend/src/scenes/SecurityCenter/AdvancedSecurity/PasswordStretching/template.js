@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { NumberBox } from 'components/Form'
+import NumberBox from 'components/Form/NumberBox'
 import {
   SettingComponent,
   SettingContainer,

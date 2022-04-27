@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
@@ -15,9 +15,9 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
+import Loading from 'layouts/Auth/template.loading'
 import { isBrowserSupported } from 'services/browser'
 
-import Loading from '../loading.auth'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'

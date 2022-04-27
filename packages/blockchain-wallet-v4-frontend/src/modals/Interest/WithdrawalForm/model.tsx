@@ -5,7 +5,7 @@ import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { OrangeCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 export const SendingWrapper = styled.div`
   width: 100%;

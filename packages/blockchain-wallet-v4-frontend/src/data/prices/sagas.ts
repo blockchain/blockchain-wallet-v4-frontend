@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { getUnixTime, subDays } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -36,7 +36,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchCoinPricesPreviousDayLoading())
 
       // get timestamp from 24 hours ago
-      const timestamp = moment().subtract(1, 'days').unix()
+      const timestamp = getUnixTime(subDays(new Date(), 1))
 
       // assume wallet currency if one was not passed in
       const defaultFiat = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { isValidNumber } from 'libphonenumber-js'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -12,9 +13,15 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form, PhoneNumberBox } from 'components/Form'
-import { required, validMobileNumber } from 'services/forms'
+import Form from 'components/Form/Form'
+import PhoneNumberBox from 'components/Form/PhoneNumberBox'
+import { required } from 'services/forms'
 import { spacing } from 'services/styles'
+
+const validMobileNumber = (value) =>
+  isValidNumber(value) ? undefined : (
+    <FormattedMessage id='formhelper.invalidmobilenumber' defaultMessage='Invalid mobile number' />
+  )
 
 const MobileNumber = styled.div`
   display: flex;

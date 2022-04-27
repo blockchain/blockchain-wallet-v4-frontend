@@ -1,7 +1,7 @@
 import React from 'react'
 import { BigNumber } from 'bignumber.js'
 import { isEmpty, mapObjIndexed, path, prop } from 'ramda'
-import * as StellarSdk from 'stellar-sdk'
+import { Memo } from 'stellar-sdk'
 
 import { Exchange, utils } from '@core'
 import Currencies from '@core/exchange/currencies'
@@ -131,7 +131,7 @@ export const validateMemo = (value, allValues) => {
   const memoType = prop('memoType', allValues)
   if (!value) return
   try {
-    StellarSdk.Memo[memoType](value)
+    Memo[memoType](value)
   } catch (e) {
     return 'error'
   }
@@ -141,7 +141,7 @@ export const validateMemoType = (value, allValues) => {
   const memo = prop('memo', allValues)
   if (!memo) return
   try {
-    StellarSdk.Memo[value](memo)
+    Memo[value](memo)
   } catch (e) {
     if (value === 'text') return <WrongTextMemoFormat />
     if (value === 'id') return <WrongIdMemoFormat />

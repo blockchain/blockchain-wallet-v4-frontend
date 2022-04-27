@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { map } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -13,7 +13,9 @@ import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
-import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import NumberBox from 'components/Form/NumberBox'
+import SelectBox from 'components/Form/SelectBox'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
@@ -32,22 +34,6 @@ const FormWrapper = styled.div`
   `}
 `
 
-const DateSelectRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 84%;
-`
-const DateDivider = styled.div`
-  min-width: 18px;
-`
-const DateLabel = styled(Text)`
-  margin-bottom: 6px;
-`
-const EndDateLabel = styled(DateLabel)`
-  margin-right: 95px;
-`
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
@@ -445,7 +431,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      listingTime: moment().format('MM/DD/YYYY'),
+      listingTime: format(new Date(), 'yyyy-MM-dd'),
       'sale-type': 'fixed-price',
       timedAuctionType: 'decliningPrice'
     }

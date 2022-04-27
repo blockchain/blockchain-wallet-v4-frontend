@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { Contract, ethers } from 'ethers'
-import moment from 'moment'
+import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
 import {
   addIndex,
-  concat,
   equals,
   filter,
   flatten,
@@ -34,7 +33,6 @@ import { calculateFee } from '@core/utils/eth'
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as selectors from '../../selectors'
 import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
@@ -49,6 +47,7 @@ const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
+
   //
   // ETH
   //
@@ -146,7 +145,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([processedTxPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
@@ -175,11 +174,8 @@ export default ({ api }: { api: APIType }) => {
         ' ',
         takeLast(
           2,
-          moment
-            // @ts-ignore
-            .unix(tx.time)
-            .toString()
-            .split(' ')
+          // @ts-ignore
+          getUnixTime(tx.time).toString().split(' ')
         )
       )
       // @ts-ignore
@@ -202,7 +198,7 @@ export default ({ api }: { api: APIType }) => {
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        date: format(getUnixTime(prop('time', tx), 'yyyy-MM-dd')),
         // @ts-ignore
         description: prop('description', tx),
 
@@ -242,7 +238,7 @@ export default ({ api }: { api: APIType }) => {
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
         // @ts-ignore
-        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+        isAfter(getUnixTime(prop('timestamp', last(fullTxList))), startDate)
       ) {
         const txPage = yield call(
           api.getEthTransactionsV2,
@@ -400,7 +396,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([walletPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))
     } catch (e) {
@@ -451,7 +447,7 @@ export default ({ api }: { api: APIType }) => {
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
         // @ts-ignore
-        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+        isAfter(getUnixTime(prop('timestamp', last(fullTxList))), startDate)
       ) {
         const txPage = yield call(
           api.getErc20TransactionsV2,
@@ -488,8 +484,13 @@ export default ({ api }: { api: APIType }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter((tx) => {
-      // @ts-ignore
-      return moment.unix(tx.time).isBetween(startDate, endDate)
+      // returns true if tx is inbetween startDate and endDate
+      return (
+        // @ts-ignore
+        isAfter(getUnixTime(new Date(tx.time)), startDate) &&
+        // @ts-ignore
+        isBefore(getUnixTime(new Date(tx.time)), endDate)
+      )
     }, fullTxList)
 
     // return empty list if no tx found in filter set
@@ -519,8 +520,11 @@ export default ({ api }: { api: APIType }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
-      // @ts-ignore
-      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
+      (tx) =>
+        // @ts-ignore
+        isAfter(getUnixTime(tx.time), startDate) &&
+        // @ts-ignore
+        isBefore(getUnixTime(tx.time), endDate),
       fullTxList
     )
 
@@ -556,20 +560,14 @@ export default ({ api }: { api: APIType }) => {
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
     const tokens = selectors.data.coins.getErc20Coins()
     const erc20Contracts = tokens.map((coin) => window.coins[coin].coinfig.type.erc20Address)
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, erc20Contracts, state), txs)
+    return map(transformTx(addresses, erc20Contracts, state), txs)
   }
   const __processErc20Txs = function* (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformErc20Tx(ethAddresses, state, token), txs)
+    return map(transformErc20Tx(addresses, state, token), txs)
   }
 
   return {

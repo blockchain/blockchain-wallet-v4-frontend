@@ -1,4 +1,4 @@
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import { compose, curry, is, map, pipe, range } from 'ramda'

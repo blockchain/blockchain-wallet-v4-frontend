@@ -39,7 +39,6 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
   const { data, ...state } = useRemote<string, AddressData>((state) => {
     if (isBTC) {
       return getBtcAddressData(state, {
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial: true,
         includeInterest: true
@@ -49,7 +48,6 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
     if (isBCH) {
       return getBchAddressData(state, {
         coin: 'BCH',
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -57,7 +55,6 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
 
     if (isETH) {
       return getEthAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -65,7 +62,6 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
 
     if (isXLM) {
       return getXlmAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })

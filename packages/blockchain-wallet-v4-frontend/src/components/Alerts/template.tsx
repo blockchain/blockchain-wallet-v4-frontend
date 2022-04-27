@@ -1,6 +1,5 @@
 import React from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { Toast } from 'blockchain-info-components'
 import { media } from 'services/styles'
@@ -26,37 +25,37 @@ const Wrapper = styled.div`
     width: auto;
   `}
 `
+const easeIn = keyframes`
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+`
+const AnimatedToast = styled.div`
+  animation-name: ${easeIn};
+  animation-duration: 0.5s;
+`
 
 const Alerts = (props) => {
   const { alerts, handleClose } = props
 
   return (
     <Wrapper>
-      <AnimatePresence>
-        {alerts.map((alert) => {
-          const { coin, data, id, message, nature, persist, timeout } = alert
-          const dismissTimer = timeout || 7000
-          return (
-            <motion.div
-              key={id}
-              transition={{ bounce: 0 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+      {alerts.map((alert) => {
+        const { coin, data, id, message, nature, persist, timeout } = alert
+        const dismissTimer = timeout || 5000
+        return (
+          <AnimatedToast key={id}>
+            <Toast
+              coin={coin}
+              nature={nature}
+              onClose={() => handleClose(id)}
+              persist={persist}
+              timeout={dismissTimer}
             >
-              <Toast
-                nature={nature}
-                coin={coin}
-                timeout={dismissTimer}
-                persist={persist}
-                onClose={() => handleClose(id)}
-              >
-                {getAlertContent(message, data)}
-              </Toast>
-            </motion.div>
-          )
-        })}
-      </AnimatePresence>
+              {getAlertContent(message, data)}
+            </Toast>
+          </AnimatedToast>
+        )
+      })}
     </Wrapper>
   )
 }

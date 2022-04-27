@@ -13,7 +13,6 @@ import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
 import interestUploadDocument from './interestUploadDocument/sagaRegister'
-import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import nfts from './nfts/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
@@ -54,7 +53,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(interestUploadDocument({ api }))
     yield fork(termsAndConditions({ api }))
-    yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())

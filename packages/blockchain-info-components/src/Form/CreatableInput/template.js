@@ -90,7 +90,7 @@ const CreatableInput = (props) => {
   const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
-    <NonceProvider nonce={window.NONCE}>
+    <NonceProvider nonce={window.nonce}>
       <StyledCreatableSelect
         autoFocus={autoFocus}
         borderColor={selectBorderColor(errorState)}

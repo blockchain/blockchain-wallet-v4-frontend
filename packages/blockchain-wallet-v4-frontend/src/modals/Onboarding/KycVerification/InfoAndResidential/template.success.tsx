@@ -1,34 +1,47 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { defaultTo, map, replace } from 'ramda'
+import { validate } from 'postal-codes-js'
+// @ts-ignore
+import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
+import { defaultTo, map, path, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  DateInputBox,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBox,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import DateInputBox from 'components/Form/DateInputBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
-import {
-  ageOverEighteen,
-  countryUsesPostalCode,
-  countryUsesZipcode,
-  required,
-  requiredDOB,
-  requiredZipCode
-} from 'services/forms'
+import { ageOverEighteen, countryUsesZipcode, required, requiredDOB } from 'services/forms'
 import { getStateNameFromAbbreviation } from 'services/locales'
 
 import { Props as OwnProps, SuccessStateType } from '.'
+
+const countryUsesPostalCode = (countryCode) => {
+  return path([countryCode, 'postalCodeFormat'], postalCodes)
+}
+
+const requiredZipCode = (value, allVals) => {
+  const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
+  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!value)
+    return (
+      <div data-e2e='requiredMessage'>
+        <FormattedMessage id='formhelper.required' defaultMessage='Required' />
+      </div>
+    )
+
+  return validate(countryCode, value) === true ? undefined : (
+    <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
+  )
+}
 
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
