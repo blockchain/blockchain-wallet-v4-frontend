@@ -74,6 +74,7 @@ window.coins = {
       "displaySymbol": "USD",
       "name": "US Dollar",
       "precision": 2,
+      products: ['PrivateKey'],
       "type": {
         "name": "FIAT",
         "logoPngUrl": "",

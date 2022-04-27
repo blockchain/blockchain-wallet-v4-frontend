@@ -144,11 +144,12 @@ class Flyout extends React.Component<Props> {
   }
 }
 
-type Props = Omit<ModalPropsType, 'close'> & {
-  children: ReactNode
-  doNotHide?: boolean
-  isOpen: boolean
-  onClose: () => void
-}
+type Props = Omit<ModalPropsType, 'close'> &
+  Partial<Pick<ModalPropsType, 'close'>> & {
+    children: ReactNode
+    doNotHide?: boolean
+    isOpen: boolean
+    onClose: () => void
+  }
 
 export default Flyout

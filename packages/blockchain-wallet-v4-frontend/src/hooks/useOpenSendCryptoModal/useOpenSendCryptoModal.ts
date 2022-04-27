@@ -12,12 +12,10 @@ export const useOpenSendCryptoModal: OpenSendCryptoModalHook = () => {
   const open: OpenSendCryptoModalHookOpenCallback = useCallback(
     ({ coin, origin }) => {
       dispatch(
-        dispatch(
-          actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, {
-            coin,
-            origin
-          })
-        )
+        actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, {
+          coin,
+          origin
+        })
       )
     },
     [dispatch]

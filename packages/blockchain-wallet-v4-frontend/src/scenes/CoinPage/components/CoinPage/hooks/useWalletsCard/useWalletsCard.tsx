@@ -1,5 +1,11 @@
 import React, { ReactNode, useMemo } from 'react'
-import { useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
+import {
+  useCoinBalance,
+  useCoinRates,
+  useCurrency,
+  useOpenShowWalletModal,
+  useWalletsForCoin
+} from 'hooks'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
@@ -32,6 +38,8 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
     isNotAsked: isAddressDataNotAsked
   } = useWalletsForCoin({ coin })
 
+  const [openWalletModal] = useOpenShowWalletModal()
+
   const isNotAsked = useMemo(
     () => isCoinRatesNotAsked && isCoinBalanceNotAsked && isAddressDataNotAsked,
     [isCoinRatesNotAsked, isCoinBalanceNotAsked, isAddressDataNotAsked]
@@ -53,6 +61,8 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
           rates,
           value: balance ?? available ?? 0
         }),
+        address,
+        coin,
         key: address,
         label
       })) ?? []
@@ -76,12 +86,12 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
 
     return (
       <WalletsCard>
-        {accounts?.map(({ key, label, totalCrypto, totalFiat }) => (
+        {accounts?.map(({ address, coin, key, label, totalCrypto, totalFiat }) => (
           <StandardRow
             key={key}
             bottomLeftText={label}
             bottomRightText={totalCrypto}
-            onClick={() => {}}
+            onClick={() => openWalletModal({ address, coin, origin: 'CoinPageHoldings' })}
             topLeftText={label}
             topRightText={totalFiat}
             icon={
@@ -93,7 +103,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
         ))}
       </WalletsCard>
     )
-  }, [isLoading, isNotAsked, rates, accounts, available])
+  }, [isLoading, isNotAsked, rates, accounts, available, openWalletModal])
 
   return [walletsCardNode]
 }

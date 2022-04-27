@@ -1,29 +1,5 @@
 import { RemoteHookState } from '../useRemote'
-
-export type AddressData = {
-  data: {
-    label: string
-    options: {
-      label: string
-      value: {
-        address: string
-        balance: number
-        coin: string
-        label: string
-        type: string
-      }
-    }[]
-    value: string
-  }[]
-}
-
-export type WalletsForCoinHookData = {
-  address: string
-  balance: number
-  coin: string
-  label: string
-  type: string
-}[]
+import { WalletsHookData } from '../useWallets'
 
 export type WalletsForCoinHookProps = {
   coin: string
@@ -31,4 +7,4 @@ export type WalletsForCoinHookProps = {
 
 export type WalletsForCoinHook = (
   props: WalletsForCoinHookProps
-) => RemoteHookState<string, WalletsForCoinHookData>
+) => RemoteHookState<string, WalletsHookData[]>

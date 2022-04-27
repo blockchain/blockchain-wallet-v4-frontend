@@ -224,7 +224,7 @@ const App = ({
                       )}
                       <WalletLayout
                         path='/coins/:coin'
-                        component={coinViewV2 ? CoinPage : Transactions}
+                        component={CoinPage}
                         coinViewV2={coinViewV2}
                       />
                       {isAuthenticated ? (
