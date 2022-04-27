@@ -23,8 +23,8 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
 
   const userCountryCode = selectors.core.settings.getCountryCode(state).getOrElse(null)
   const countryCurrencies = {
-    AR: ['ARS'],
-    default: ['USD', 'EUR', 'GBP']
+    AR: ['ARS', 'USD'],
+    default: ['USD', 'EUR', 'GBP', 'ARS']
   }
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
 

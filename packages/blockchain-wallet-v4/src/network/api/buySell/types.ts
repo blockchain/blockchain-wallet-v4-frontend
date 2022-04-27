@@ -38,6 +38,10 @@ export type BSAccountType =
       agent: AgentSimple
       currency: 'GBP'
     })
+  | (IBSAccountType & {
+      agent: AgentSimple
+      currency: 'ARS'
+    })
 
 export type BSBalanceType = {
   available: string

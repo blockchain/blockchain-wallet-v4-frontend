@@ -4,17 +4,17 @@ export default {
   displayName: 'Argentine Peso',
   trade: 'ARS',
   units: {
-    CENT: {
-      currency: 'ARS',
-      decimal_digits: 0,
-      rate: '1',
-      symbol: 'AR$'
-    },
-    USD: {
+    ARS: {
       currency: 'ARS',
       decimal_digits: 2,
       rate: '100',
       symbol: 'AR$'
+    },
+    CENT: {
+      currency: 'ARS',
+      decimal_digits: 0,
+      rate: '1',
+      symbol: '¢AR$'
     }
   }
 }
