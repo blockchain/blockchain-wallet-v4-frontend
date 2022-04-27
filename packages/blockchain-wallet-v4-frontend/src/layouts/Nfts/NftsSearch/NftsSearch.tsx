@@ -3,7 +3,7 @@ import { Field } from 'redux-form'
 
 import SelectBox from 'components/Form/SelectBox'
 
-const NftSearch: React.FC<Props> = () => {
+const NftsSearch: React.FC<Props> = () => {
   return (
     <Field
       component={SelectBox}
@@ -24,4 +24,4 @@ const NftSearch: React.FC<Props> = () => {
 
 type Props = {}
 
-export default NftSearch
+export default NftsSearch

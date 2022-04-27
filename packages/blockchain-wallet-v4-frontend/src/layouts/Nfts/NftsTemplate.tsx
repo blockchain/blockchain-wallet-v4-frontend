@@ -8,8 +8,8 @@ import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
 import Modals from '../../modals'
-import { Props as OwnProps } from '.'
-import Header, { FIXED_HEADER_HEIGHT } from './Header'
+import { Props as OwnProps } from './Nfts'
+import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'
 
 const Wrapper = styled.div`
   background-color: ${colors.white100};
@@ -32,7 +32,7 @@ const Page = styled.div`
   `}
 `
 
-const ExploreTemplate: React.FC<Props> = (props) => {
+const NftsTemplate: React.FC<Props> = (props) => {
   return (
     <ErrorBoundary>
       <Wrapper>
@@ -48,4 +48,4 @@ const ExploreTemplate: React.FC<Props> = (props) => {
 
 type Props = OwnProps
 
-export default ExploreTemplate
+export default NftsTemplate

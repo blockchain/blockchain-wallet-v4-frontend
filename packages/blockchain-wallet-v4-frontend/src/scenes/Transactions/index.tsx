@@ -290,13 +290,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
-            pages.map((value) => (
+            pages.map((value, i) => (
               <TransactionList
                 coin={coin}
                 coinTicker={coinfig.symbol}
                 currency={currency}
                 data={value}
-                key={coinfig.symbol}
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${coin}${i}`}
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}

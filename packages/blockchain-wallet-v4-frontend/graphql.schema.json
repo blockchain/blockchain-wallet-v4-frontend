@@ -4094,6 +4094,18 @@
             "deprecationReason": null
           },
           {
+            "name": "trait_count",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "trait_type",
             "description": null,
             "args": [],

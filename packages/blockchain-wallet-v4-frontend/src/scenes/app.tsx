@@ -13,7 +13,7 @@ import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
-import ExploreLayout from 'layouts/Explore'
+import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
@@ -42,7 +42,7 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // EXPLORE (mixed)
 const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -55,7 +55,7 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -173,28 +173,20 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/address/:address'
-                          exact
-                          component={NftsAddress}
-                        />
+                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/asset/:contract/:id'
-                          exact
-                          component={NftsAsset}
-                        />
+                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts/collection/:slug'
                           exact
                           component={NftsCollection}
                         />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts'
                           exact
                           component={NftsExplorer}

@@ -26,8 +26,12 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const collectionFilter = getCollectionFilter(formValues, collections)
   const eventFilter = getEventFilter(formValues)
 
+  if (!address) return null
+
   const hasSomeFilters =
-    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
+    (formValues &&
+      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+    false
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
 

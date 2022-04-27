@@ -48,7 +48,6 @@
         "recurringBuys": true,
         "refreshCaptchaWithSignupError": true,
         "showTermsAndConditions": true,
-        "signupCountry": true,
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
         "showSilverRevamp": true,

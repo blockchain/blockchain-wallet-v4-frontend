@@ -12,26 +12,16 @@ import { RootState } from 'data/rootReducer'
 import { CollectionFilterFields, EventFilterFields, useCollectionsQuery } from 'generated/graphql'
 import { media } from 'services/styles'
 
-import { event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
+import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import CollectionItems from './CollectionItems'
+import NftCollectionLoading from './NftCollection.template.loading'
 import Stats from './Stats'
-
-const CollectionHeader = styled.div<{ bgUrl: string }>`
-  height: 300px;
-  display: flex;
-  justify-content: space-between;
-  background-size: cover;
-  background-image: url(${(props) => props.bgUrl});
-  position: relative;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
-`
 
 const CollectionInfo = styled.div`
   width: 100%;
@@ -77,11 +67,22 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const eventFilter = getEventFilter(formValues)
 
   const hasSomeFilters =
-    formValues && Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))
+    (formValues &&
+      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+    false
 
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
     : undefined
+
+  if (collectionsQuery.error)
+    return (
+      <div style={{ marginTop: '40px' }}>
+        <NftError error={collectionsQuery.error} />
+      </div>
+    )
+
+  if (collectionsQuery.fetching) return <NftCollectionLoading />
 
   if (!collection) return null
 

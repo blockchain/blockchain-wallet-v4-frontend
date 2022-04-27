@@ -12,8 +12,8 @@ import { Flex } from 'components/Flex'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 
-import { Props as OwnProps } from '..'
-import NftSearch from '../NftSearch'
+import { Props as OwnProps } from '../Nfts'
+import NftSearch from '../NftsSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 
