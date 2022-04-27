@@ -7,7 +7,8 @@ export const LOCKBOX = 'lockbox' // Deprecated
 export const ROOT = 'root'
 export const SHAPESHIFT = 'shapeshift' // Deprecated
 export const WHATSNEW = 'whatsNew' // Deprecated
-export const USER_CREDENTIALS = 'userCredentials'
+export const UNIFIED_CREDENTIALS = 'unifiedCredentials'
+export const USER_CREDENTIALS = 'userCredentials' // Deprecated
 export const XLM = 'xlm'
 export const WALLET_CREDENTIALS = 'walletCredentials'
 
@@ -21,8 +22,8 @@ export const derivationMap = {
   [SHAPESHIFT]: 6, // Deprecated
   [BCH]: 7,
   [BTC]: 8,
-  [LOCKBOX]: 9, // Deprecated
-  [USER_CREDENTIALS]: 10,
+  [USER_CREDENTIALS]: 10, // Deprecated
   [XLM]: 11,
-  [WALLET_CREDENTIALS]: 12
+  [WALLET_CREDENTIALS]: 12,
+  [UNIFIED_CREDENTIALS]: 13
 }

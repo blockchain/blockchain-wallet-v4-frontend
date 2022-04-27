@@ -1,5 +1,5 @@
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
-import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
@@ -24,8 +24,6 @@ export const renewUserDelay = 30000
 
 let renewSessionTask = null
 let renewUserTask = null
-let renewSession
-let recoverUser
 
 export default ({ api, coreSagas, networks }) => {
   const renewApiSockets = function* () {
@@ -34,18 +32,28 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const waitForUserId = function* () {
-    const userId = yield select(selectors.core.kvStore.userCredentials.getUserId)
-    if (Remote.Success.is(userId)) return userId.getOrElse(null)
-    yield race({
-      failure: take(
-        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE
-      ),
-      success: take(
-        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS
-      )
-    })
+    const userCredentials = yield select(
+      selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+    )
 
-    return (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
+    if (Remote.Success.is(userCredentials)) {
+      const { nabuUserId } = userCredentials.getOrElse({ nabuUserId: null })
+      return nabuUserId
+    }
+    yield race({
+      failure: take([
+        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE,
+        actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
+      ]),
+      success: take([
+        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
+        actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS
+      ])
+    })
+    const { nabuUserId } = (yield select(
+      selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+    )).getOrElse({})
+    return nabuUserId
   }
 
   const renewUser = function* (renewIn = 0) {
@@ -156,12 +164,12 @@ export default ({ api, coreSagas, networks }) => {
     return token
   }
 
-  const setSession = function* (userId, lifetimeToken, email, guid) {
+  const setSession = function* (nabuUserId, nabuLifetimeToken, email, guid) {
     try {
       const { expiresAt, token: apiToken } = yield call(
         api.generateSession,
-        userId,
-        lifetimeToken,
+        nabuUserId,
+        nabuLifetimeToken,
         email,
         guid
       )
@@ -171,6 +179,7 @@ export default ({ api, coreSagas, networks }) => {
       const expiresIn = Math.abs(
         differenceInMilliseconds(subSeconds(new Date(expiresAt), 5), new Date())
       )
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('status', e) === 409) {
@@ -180,10 +189,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  renewSession = function* (userId, lifetimeToken, email, guid, renewIn = 0) {
+  const renewSession = function* (nabuUserId, nabuLifetimeToken, email, guid, renewIn = 0) {
     try {
       yield delay(renewIn)
-      yield call(setSession, userId, lifetimeToken, email, guid)
+      yield call(setSession, nabuUserId, nabuLifetimeToken, email, guid)
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
       if (e.message && e.message.includes('User linked to another wallet')) {
@@ -195,34 +204,34 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
       }
-      yield spawn(renewSession, userId, lifetimeToken, email, guid, authRetryDelay)
+      yield spawn(renewSession, nabuUserId, nabuLifetimeToken, email, guid, authRetryDelay)
     }
   }
 
-  recoverUser = function* () {
+  const recoverUser = function* () {
     const retailToken = yield call(generateRetailToken)
-    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrFail()
-    const lifetimeToken = (yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
-    )).getOrFail()
-    yield call(api.recoverUser, userId, lifetimeToken, retailToken)
+    const credentials = (yield select(
+      selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+    )).getOrFail('Failed to find user credentials')
+    const { nabuLifetimeToken, nabuUserId } = credentials
+    yield call(api.recoverUser, nabuUserId, nabuLifetimeToken, retailToken)
     const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
     const guid = yield select(selectors.core.wallet.getGuid)
-    yield call(setSession, userId, lifetimeToken, email, guid)
+    yield call(setSession, nabuUserId, nabuLifetimeToken, email, guid)
   }
 
   const signIn = function* () {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
+      // TODO: in future only fetch unified credentials
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
-        null
-      )
-      const lifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getLifetimeToken
-      )).getOrElse(null)
-      if (!userId || !lifetimeToken) {
+      const { nabuLifetimeToken, nabuUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+      )).getOrElse({})
+
+      if (!nabuUserId || !nabuLifetimeToken) {
         return yield put(
           A.fetchUserDataSuccess({
             kycState: KYC_STATES.NONE,
@@ -232,7 +241,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(A.setApiTokenLoading())
 
-      renewSessionTask = yield fork(renewSession, userId, lifetimeToken, email, guid, 0)
+      renewSessionTask = yield fork(renewSession, nabuUserId, nabuLifetimeToken, email, guid, 0)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))
     }
@@ -266,9 +275,23 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
-    const { token: lifetimeToken, userId } = yield call(api.createOrGetUser, retailToken)
-    yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-    return { lifetimeToken, userId }
+    const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
+      api.createOrGetUser,
+      retailToken
+    )
+    // write to both to support legacy mobile clients
+    // TODO: in future, consider just writing to unifiedCredentials entry
+    yield put(
+      actions.core.kvStore.userCredentials.setUserCredentials(nabuUserId, nabuLifetimeToken)
+    )
+    yield put(
+      actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+        nabu_lifetime_token: nabuLifetimeToken,
+        nabu_user_id: nabuUserId
+      })
+    )
+
+    return { nabuLifetimeToken, nabuUserId }
   }
 
   const generateExchangeAuthCredentials = function* (countryCode) {
@@ -283,10 +306,10 @@ export default ({ api, coreSagas, networks }) => {
         tuneTid
       )
       yield put(
-        actions.core.kvStore.userCredentials.setExchangeUserCredentials(
-          exchangeUserId,
-          exchangeLifetimeToken
-        )
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+          exchange_lifetime_token: exchangeLifetimeToken,
+          exchange_user_id: exchangeUserId
+        })
       )
       return { exchangeLifetimeToken, exchangeUserId }
     } catch (e) {
@@ -298,12 +321,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const createExchangeUser = function* (countryCode) {
     try {
-      const exchangeUserId = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeUserId
-      )).getOrElse(null)
-      const exchangeLifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )).getOrElse(null)
+      const { exchangeLifetimeToken, exchangeUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
+      )).getOrElse({})
       if (!exchangeUserId || !exchangeLifetimeToken) {
         yield call(generateExchangeAuthCredentials, countryCode)
       }
@@ -332,12 +352,9 @@ export default ({ api, coreSagas, networks }) => {
         } as WalletOptionsType['domains'])
 
       const exchangeUrlFromLink = exchangeAuthUrl || redirect
-      const exchangeLifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-      )).getOrElse(null)
-      const exchangeUserId = (yield select(
-        selectors.core.kvStore.userCredentials.getExchangeUserId
-      )).getOrElse(null)
+      const { exchangeLifetimeToken, exchangeUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
+      )).getOrElse({})
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
         if (origin === ExchangeAuthOriginType.Signup) {
@@ -379,23 +396,20 @@ export default ({ api, coreSagas, networks }) => {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
-    const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
-    const lifetimeTokenR = yield select(selectors.core.kvStore.userCredentials.getLifetimeToken)
-    const authCredentialsR = lift((userId, lifetimeToken) => ({
-      lifetimeToken,
-      userId
-    }))(userIdR, lifetimeTokenR)
     const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
     const guid = yield select(selectors.core.wallet.getGuid)
+    const nabuCredentialsR = yield select(
+      selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+    )
 
-    const { lifetimeToken, userId } = yield authCredentialsR
-      .map((authCredentials) => {
-        const { lifetimeToken, userId } = authCredentials
-        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
-        return authCredentials
+    const { nabuLifetimeToken, nabuUserId } = yield nabuCredentialsR
+      .map((nabuCredentials) => {
+        if (!nabuCredentials || !nabuCredentials.nabuLifetimeToken || !nabuCredentials.nabuUserId)
+          return call(generateAuthCredentials)
+        return nabuCredentials
       })
-      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
-    yield call(setSession, userId, lifetimeToken, email, guid)
+      .getOrElse({} as ExtractSuccess<typeof nabuCredentialsR>)
+    yield call(setSession, nabuUserId, nabuLifetimeToken, email, guid)
   }
 
   const updateUser = function* ({ payload }) {
