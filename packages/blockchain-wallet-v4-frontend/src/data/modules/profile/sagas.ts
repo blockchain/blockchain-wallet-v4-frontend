@@ -180,7 +180,7 @@ export default ({ api, coreSagas, networks }) => {
         differenceInMilliseconds(subSeconds(new Date(expiresAt), 5), new Date())
       )
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
+      yield spawn(renewSession, nabuUserId, nabuLifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('status', e) === 409) {
         throw new Error(e.description)
