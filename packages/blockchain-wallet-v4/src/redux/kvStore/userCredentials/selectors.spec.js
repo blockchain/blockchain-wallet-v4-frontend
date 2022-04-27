@@ -9,66 +9,77 @@ describe('kvstore userCredentials selectors', () => {
     value: { lifetime_token, user_id }
   }
 
-  const successState = {
-    kvStorePath: {
-      userCredentials: Remote.Success(userCredentialsMetadata)
+  describe('success states', () => {
+    const successState = {
+      kvStorePath: {
+        userCredentials: Remote.Success(userCredentialsMetadata)
+      }
     }
-  }
 
-  it('getMetadata should return success of metadata', () => {
-    const expectedResult = Remote.Success(userCredentialsMetadata)
-    expect(selectors.getMetadata(successState)).toEqual(expectedResult)
+    it('getMetadata should return success of metadata', () => {
+      expect(selectors.getMetadata(successState)).toEqual(Remote.Success(userCredentialsMetadata))
+    })
+
+    it('getLegacyUserId should return success of user_id', () => {
+      expect(selectors.getLegacyUserId(successState)).toEqual(Remote.Success(user_id))
+    })
+
+    it('getLegacyNabuLifetimeToken should return success of nabu credentials', () => {
+      expect(selectors.getLegacyNabuLifetimeToken(successState)).toEqual(
+        Remote.Success({
+          nabuLifetimeToken: lifetime_token,
+          nabuUserId: user_id
+        })
+      )
+    })
   })
 
-  it('getUserId should return success of user_id', () => {
-    const expectedResult = Remote.Success(user_id)
-    expect(selectors.getUserId(successState)).toEqual(expectedResult)
-  })
-
-  it('getLifetimeToken should return success of lifetime_token', () => {
-    const expectedResult = Remote.Success(lifetime_token)
-    expect(selectors.getLifetimeToken(successState)).toEqual(expectedResult)
-  })
-
-  const loadingState = {
-    kvStorePath: {
-      userCredentials: Remote.Loading
+  describe('loading states', () => {
+    const loadingState = {
+      kvStorePath: {
+        userCredentials: Remote.Loading
+      }
     }
-  }
 
-  it('getMetadata should return loading', () => {
-    const expectedResult = Remote.Loading
-    expect(selectors.getMetadata(loadingState)).toEqual(expectedResult)
+    it('getMetadata should return loading', () => {
+      expect(selectors.getMetadata(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getLegacyUserId should return loading', () => {
+      expect(selectors.getLegacyUserId(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getLegacyNabuLifetimeToken should return loading', () => {
+      expect(selectors.getLegacyNabuLifetimeToken(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getLegacyNabuCredentials should return loading', () => {
+      expect(selectors.getLegacyNabuLifetimeToken(loadingState)).toEqual(Remote.Loading)
+    })
   })
 
-  it('getUserId should return loading in loading state', () => {
-    const expectedResult = Remote.Loading
-    expect(selectors.getUserId(loadingState)).toEqual(expectedResult)
-  })
-
-  it('getLifetimeToken should return loading in loading state', () => {
-    const expectedResult = Remote.Loading
-    expect(selectors.getLifetimeToken(loadingState)).toEqual(expectedResult)
-  })
-
-  const failureState = {
-    kvStorePath: {
-      userCredentials: Remote.Failure('Error in userCredentials metadata')
+  describe('failure states', () => {
+    const failureState = {
+      kvStorePath: {
+        userCredentials: Remote.Failure('Error in userCredentials metadata')
+      }
     }
-  }
-
-  it('getMetadata should return failure', () => {
     const expectedResult = Remote.Failure('Error in userCredentials metadata')
-    expect(selectors.getMetadata(failureState)).toEqual(expectedResult)
-  })
 
-  it('getUserId should return failure in failure state', () => {
-    const expectedResult = Remote.Failure('Error in userCredentials metadata')
-    expect(selectors.getUserId(failureState)).toEqual(expectedResult)
-  })
+    it('getMetadata should return failure', () => {
+      expect(selectors.getMetadata(failureState)).toEqual(expectedResult)
+    })
 
-  it('getLifetimeToken should return failure in failure state', () => {
-    const expectedResult = Remote.Failure('Error in userCredentials metadata')
-    expect(selectors.getLifetimeToken(failureState)).toEqual(expectedResult)
+    it('getLegacyUserId should return failure', () => {
+      expect(selectors.getLegacyUserId(failureState)).toEqual(expectedResult)
+    })
+
+    it('getLegacyNabuLifetimeToken should return failure', () => {
+      expect(selectors.getLegacyNabuLifetimeToken(failureState)).toEqual(expectedResult)
+    })
+
+    it('getLegacyNabuCredentials should return failure', () => {
+      expect(selectors.getLegacyNabuCredentials(failureState)).toEqual(expectedResult)
+    })
   })
 })

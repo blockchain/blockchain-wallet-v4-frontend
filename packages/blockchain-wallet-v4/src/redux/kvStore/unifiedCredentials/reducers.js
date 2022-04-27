@@ -1,4 +1,4 @@
-import { __, compose, merge } from 'ramda'
+import { __, anyPass, compose, isEmpty, isNil, merge, reject } from 'ramda'
 import { mapped, over } from 'ramda-lens'
 
 import Remote from '../../../remote'
@@ -23,13 +23,9 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.SET_UNIFIED_CREDENTIALS: {
-      const { exchange_lifetime_token, exchange_user_id, nabu_lifetime_token, nabu_user_id } =
-        payload
-      return over(
-        compose(mapped, KVStoreEntry.value),
-        merge(__, { exchange_lifetime_token, exchange_user_id, nabu_lifetime_token, nabu_user_id }),
-        state
-      )
+      // remove empty/undefined props from update to allow property level updates
+      const newKV = reject(anyPass([isEmpty, isNil]))(payload)
+      return over(compose(mapped, KVStoreEntry.value), merge(__, newKV), state)
     }
     default:
       return state

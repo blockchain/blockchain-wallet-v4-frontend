@@ -10,40 +10,37 @@ import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createUserCredentials = function* (kv) {
-    const createExchangeUserFlag = (yield select(getCreateExchangeUserOnSignupOrLogin)).getOrElse(
-      false
+  const createUnifiedCredentials = function* (kv) {
+    const newKv = set(
+      KVStoreEntry.value,
+      {
+        exchange_lifetime_token: '',
+        exchange_user_id: '',
+        nabu_lifetime_token: '',
+        nabu_user_id: ''
+      },
+      kv
     )
-    const user_id = ''
-    const lifetime_token = ''
-    const exchange_user_id = ''
-    const exchange_lifetime_token = ''
-    // When feature flag to create unified accounts is off
-    // We don't want to create a kv store entry for exchange credentials
-    let newkv
-    if (createExchangeUserFlag) {
-      newkv = set(
-        KVStoreEntry.value,
-        { exchange_lifetime_token, exchange_user_id, lifetime_token, user_id },
-        kv
-      )
-    } else {
-      newkv = set(KVStoreEntry.value, { lifetime_token, user_id }, kv)
-    }
-    yield put(A.createMetadataUnifiedCredentials(newkv))
+    yield put(A.createMetadataUnifiedCredentials(newKv))
   }
 
   const fetchMetadataUnifiedCredentials = function* () {
     try {
       yield put(A.fetchMetadataUnifiedCredentialsLoading())
-      const typeId = derivationMap[UNIFIED_CREDENTIALS]
-      const mxpriv = yield select(getMetadataXpriv)
-      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-      const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value) || isEmpty(newkv.value)) {
-        yield call(createUserCredentials, newkv)
+      const isCreateUnifiedCredentialsEnabled = (yield select(
+        getCreateExchangeUserOnSignupOrLogin
+      )).getOrElse(false)
+      const metadataXPriv = yield select(getMetadataXpriv)
+      const kv = KVStoreEntry.fromMetadataXpriv(
+        metadataXPriv,
+        derivationMap[UNIFIED_CREDENTIALS],
+        networks.btc
+      )
+      const newKv = yield callTask(api.fetchKVStore(kv))
+      if (isCreateUnifiedCredentialsEnabled && (isNil(newKv.value) || isEmpty(newKv.value))) {
+        yield call(createUnifiedCredentials, newKv)
       } else {
-        yield put(A.fetchMetadataUnifiedCredentialsSuccess(newkv))
+        yield put(A.fetchMetadataUnifiedCredentialsSuccess(newKv))
       }
     } catch (e) {
       yield put(A.fetchMetadataUnifiedCredentialsFailure(e.message))

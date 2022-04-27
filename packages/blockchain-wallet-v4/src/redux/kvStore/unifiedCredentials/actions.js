@@ -23,12 +23,12 @@ export const fetchMetadataUnifiedCredentialsFailure = (error) => ({
 })
 
 // UPDATE
-export const setUnifiedCredentials = (
-  nabu_user_id,
-  nabu_lifetime_token,
+export const setUnifiedCredentials = ({
+  exchange_lifetime_token,
   exchange_user_id,
-  exchange_lifetime_token
-) => ({
+  nabu_lifetime_token,
+  nabu_user_id
+}) => ({
   payload: { exchange_lifetime_token, exchange_user_id, nabu_lifetime_token, nabu_user_id },
   type: AT.SET_UNIFIED_CREDENTIALS
 })
