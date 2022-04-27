@@ -420,7 +420,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {ownedBySelf && (
+                    {!ownedBySelf && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
@@ -507,7 +507,7 @@ const NftAsset: React.FC<Props> = ({
                   <Text size='16px' color='grey600' weight={600}>
                     <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                   </Text>
-                  {ownedBySelf ? (
+                  {!ownedBySelf ? (
                     <Text
                       color='blue600'
                       weight={600}

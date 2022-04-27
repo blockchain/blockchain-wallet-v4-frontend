@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import { useRemote } from 'hooks'
 import { Field, reduxForm } from 'redux-form'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
@@ -42,10 +43,6 @@ const Buy: React.FC<Props> = (props) => {
     walletCurrency
   } = props
   const { amount, coin, fix } = formValues
-  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
-    new BigNumber(0),
-    new BigNumber(0)
-  ])
   const { orderToMatch } = orderFlow
 
   const cryptoAmt =
@@ -68,15 +65,36 @@ const Buy: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
-  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
+    new BigNumber(0),
+    new BigNumber(0)
+  ])
 
-  const toggleTermsAccepted = () => {
-    setTermsAccepted(!termsAccepted)
-  }
+  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const sellOrders =
+    openSeaOrders.data?.filter((x) => {
+      return x.side === 1
+    }) || []
+  const lowest_order = sellOrders.sort((a, b) =>
+    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+  )[0]
 
-  const acceptTerms = () => {
-    setTermsAccepted(true)
-  }
+  const ethBalance = new BigNumber(selfCustodyBalance)
+  const buyFees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const maxBuyPossible = ethBalance.minus(buyFees.totalFees * buyFees.gasPrice).abs()
+  const ethStandard = convertCoinToCoin({
+    baseToStandard: true,
+    coin,
+    value: lowest_order.base_price
+  })
+  const ethCurrency = convertCoinToFiat({
+    coin,
+    currency: walletCurrency,
+    rates,
+    value: lowest_order.base_price
+  })
+  formValues.amount = ethStandard
+  const amtToBuy = new BigNumber(lowest_order.base_price).minus(ethBalance)
 
   return (
     <>
@@ -161,7 +179,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {val.last_sale?.total_price || 0}
+                    {lowest_order.base_price}
                   </CoinDisplay>
                   <FiatDisplay
                     size='14px'
@@ -170,7 +188,7 @@ const Buy: React.FC<Props> = (props) => {
                     coin='ETH'
                     style={{ justifyContent: 'right' }}
                   >
-                    {val.last_sale?.total_price || 0}
+                    {lowest_order.base_price}
                   </FiatDisplay>
                 </Text>
               </div>
@@ -236,37 +254,14 @@ const Buy: React.FC<Props> = (props) => {
                 <NetworkFeesComponent isMakeOffer title='Network Fees' {...props} {...[val]} />
               </Value>
             </Row>
-            <Row>
-              <div style={{ display: 'flex' }}>
-                {' '}
-                <div style={{ padding: '1.2em 0em' }}>
-                  <CheckBoxInput
-                    name='terms'
-                    disabled={false}
-                    onChange={toggleTermsAccepted}
-                    checked={termsAccepted}
-                  />
-                </div>
-                <Text
-                  color={colors.grey200}
-                  weight={500}
-                  size='16px'
-                  style={{ padding: '1em 0em', textAlign: 'center' }}
-                >
-                  I agree to Blockchain.com’s{' '}
-                  <Link
-                    onClick={acceptTerms}
-                    href='https://www.blockchain.com/legal/terms'
-                    target='_blank'
-                  >
-                    Terms of Service
-                  </Link>
-                </Text>
-              </div>
-            </Row>
             <StickyCTA>
               <BuyFees {...props} />
-              <BuyCta {...props} />
+              <BuyCta
+                {...props}
+                amount={cryptoAmt}
+                amtToBuy={amtToBuy}
+                maxBuyPossible={maxBuyPossible}
+              />
             </StickyCTA>
           </>
         )
