@@ -19,10 +19,6 @@ import {
 import App from './scenes/app.tsx'
 import configureStore from './store'
 
-// load zxcvbn dependency async and set on window
-// eslint-disable-next-line no-return-assign
-require.ensure(['zxcvbn'], (require) => (window.zxcvbn = require('zxcvbn')), 'zxcvbn')
-
 const ErrorWrapper = styled.div`
   position: relative;
   display: flex;

@@ -1,4 +1,3 @@
-import Eth from '@ledgerhq/hw-app-eth'
 import BigNumber from 'bignumber.js'
 import Task from 'data.task'
 import EthereumTx from 'ethereumjs-tx'
@@ -81,26 +80,6 @@ export const serialize = (network, raw, signature) => {
   }
   const tx = new EthereumTx(txParams)
   return `0x${tx.serialize().toString('hex')}`
-}
-
-export const signWithLockbox = function* (network = 1, transport, scrambleKey, data) {
-  const { amount, gasLimit, gasPrice, nonce, to } = data
-  const txParams = {
-    chainId: network,
-    gasLimit: toHex(gasLimit),
-    gasPrice: toHex(gasPrice),
-    nonce: toHex(nonce),
-    r: '0x00',
-    s: '0x00',
-    to,
-    v: '0x01',
-    value: toHex(amount)
-  }
-  const tx = new EthereumTx(txParams)
-  const rawTx = tx.serialize().toString('hex')
-  const eth = new Eth(transport, scrambleKey)
-  const signature = yield eth.signTransaction("44'/60'/0'/0/0", rawTx)
-  return serialize(network, data, signature)
 }
 
 export const signLegacy = curry((network = 1, seedHex, data) => {

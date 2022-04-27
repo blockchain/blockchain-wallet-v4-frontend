@@ -1,4 +1,4 @@
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import { compose, isNil, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 

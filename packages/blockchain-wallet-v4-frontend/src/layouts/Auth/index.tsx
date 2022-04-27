@@ -1,6 +1,7 @@
-import React, { ComponentType, useEffect } from 'react'
+import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { useDefer3rdPartyScript } from 'hooks'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -11,7 +12,6 @@ import { media } from 'services/styles'
 
 import Modals from '../../modals'
 import Footer from './components/Footer'
-// import AndroidAppBanner from './components/AndroidAppBanner'
 import Header from './components/Header'
 
 const qsParams = new URLSearchParams(window.location.hash)
@@ -77,7 +77,24 @@ const AuthLayoutContainer = ({
   path,
   platform
 }: Props) => {
+  // lazy load google captcha and google tag manager
+  useDefer3rdPartyScript(
+    `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
+    {
+      attributes: {
+        nonce: window.nonce
+      }
+    }
+  )
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
+
+  // update page title from route
   if (pageTitle) document.title = pageTitle
+
   return (
     <Route
       path={path}
@@ -85,19 +102,14 @@ const AuthLayoutContainer = ({
       render={(matchProps) => (
         <ErrorBoundary>
           <Wrapper authProduct={authProduct}>
-            {/* TODO: STILL NEEDS DEV/QA */}
-            {/* <AndroidAppBanner /> */}
             <Alerts />
-
             <HeaderContainer>
               <Header authProduct={authProduct} />
             </HeaderContainer>
-
             <Modals />
             <ContentContainer>
               <Component {...matchProps} />
             </ContentContainer>
-
             <FooterContainer>
               <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
             </FooterContainer>

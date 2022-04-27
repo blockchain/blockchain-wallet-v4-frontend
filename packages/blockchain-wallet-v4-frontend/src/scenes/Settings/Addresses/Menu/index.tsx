@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import HorizontalMenu from 'components/HorizontalMenu'
 import { StickyHeader } from 'components/Layout'
 import MenuHeader from 'components/MenuHeader'

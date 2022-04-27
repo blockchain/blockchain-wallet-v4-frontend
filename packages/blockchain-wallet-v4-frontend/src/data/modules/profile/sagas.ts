@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { differenceInMilliseconds, subSeconds } from 'date-fns'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
@@ -176,7 +176,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
       yield call(renewApiSockets)
-      const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
+      const expiresIn = Math.abs(
+        differenceInMilliseconds(subSeconds(new Date(expiresAt), 5), new Date())
+      )
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       yield spawn(renewSession, nabuUserId, nabuLifetimeToken, email, guid, expiresIn)
     } catch (e) {

@@ -7,7 +7,7 @@ import { equals } from 'ramda'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper } from 'components/Flyout'
-import { CoinAccountListOption } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
@@ -37,8 +37,7 @@ class CoinSelection extends PureComponent<Props> {
   }
 
   render() {
-    const { filteredAccounts, products, silverRevamp, values, walletCurrency } = this.props
-    const showSilverRevampBanner = silverRevamp && products && products?.swap?.maxOrdersLeft > 0
+    const { filteredAccounts, values, walletCurrency } = this.props
 
     const Row = ({ data: rowData, index, style }) => {
       const account = rowData[index]

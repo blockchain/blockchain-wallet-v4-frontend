@@ -14,7 +14,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextArea from 'components/Form/TextArea'
+import TextBox from 'components/Form/TextBox'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { validBtcAddress } from 'services/forms'
 
@@ -133,7 +136,7 @@ class VerifyMessage extends React.PureComponent {
           </Result>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button onClick={close} nature='primary' data-e2e='closeVerifyMessageButton'>
+          <Button onClick={closeAll} nature='primary' data-e2e='closeVerifyMessageButton'>
             <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>

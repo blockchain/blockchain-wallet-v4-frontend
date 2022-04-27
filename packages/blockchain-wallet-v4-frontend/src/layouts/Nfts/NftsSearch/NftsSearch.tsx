@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 
-import { SelectBox } from 'components/Form'
+import SelectBox from 'components/Form/SelectBox'
 
 const NftsSearch: React.FC<Props> = () => {
   return (

@@ -12,7 +12,8 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import TextBox from 'components/Form/TextBox'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'
 

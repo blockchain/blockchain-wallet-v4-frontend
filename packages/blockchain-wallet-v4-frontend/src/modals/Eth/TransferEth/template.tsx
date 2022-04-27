@@ -13,7 +13,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 const Container = styled.div`
   display: flex;

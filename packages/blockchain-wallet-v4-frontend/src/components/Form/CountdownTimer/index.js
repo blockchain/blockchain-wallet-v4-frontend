@@ -1,5 +1,5 @@
 import React from 'react'
-import moment from 'moment'
+import { addMinutes, format, getTime, differenceInDays, differenceInSeconds } from 'date-fns'
 import PropTypes from 'prop-types'
 
 import CountdownTimer from './template'
@@ -10,7 +10,7 @@ class CountdownTimerContainer extends React.PureComponent {
     this.interval = undefined
     const { expiryDate } = props
     this.state = {
-      remaining: moment.duration(moment(expiryDate).diff(moment()))
+      remaining: differenceInDays(new Date(expiryDate), new Date())
     }
     this.tick = this.tick.bind(this)
   }
@@ -25,20 +25,21 @@ class CountdownTimerContainer extends React.PureComponent {
 
   tick() {
     const { expiryDate, handleExpiry } = this.props
-    const remaining = moment.duration(moment(expiryDate).diff(moment()))
+    const secondsRemaining = differenceInSeconds(new Date(expiryDate), new Date())
+    const daysRemaining = differenceInDays(new Date(expiryDate), new Date())
 
-    if (remaining.as('seconds') < 1) {
+    if (secondsRemaining < 1) {
       // If we reach the end of the timer, we execute the expiry callback
       if (handleExpiry) {
         handleExpiry()
       }
     } else {
-      this.setState({ remaining })
+      this.setState({ remaining: daysRemaining })
     }
   }
 
   render() {
-    const timeLeft = moment.utc(this.state.remaining.as('milliseconds')).format('mm:ss')
+    const timeLeft = format(getTime(new Date(this.state.remaining)), 'mm:ss')
 
     return <CountdownTimer {...this.props} timeLeft={timeLeft} />
   }
@@ -49,7 +50,7 @@ CountdownTimerContainer.propTypes = {
 }
 
 CountdownTimerContainer.defaultProps = {
-  expiryDate: moment().add(1, 'minutes')
+  expiryDate: addMinutes(new Date(), 1)
 }
 
 export default CountdownTimerContainer

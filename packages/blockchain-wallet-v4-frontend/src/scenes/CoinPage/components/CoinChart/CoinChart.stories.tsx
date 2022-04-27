@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import { CoinChart, CoinChartComponent } from '.'
@@ -42,7 +42,7 @@ const coinChartStory: ComponentMeta<CoinChartComponent> = {
       },
       defaultValue: 'hourly',
       mapping: {
-        hourly: (date) => moment(date).format('hh:mm')
+        hourly: (date) => format(new Date(date), 'hh:mm')
       }
     },
     y: {
@@ -85,7 +85,7 @@ export const LiveCopy: ComponentStory<CoinChartComponent> = ({ ...args }) => {
         data={data}
         x='date'
         y='value'
-        xFormatter={(date) => moment(date).format('hh:mm A')}
+        xFormatter={(date) => format(new Date(date), 'hh:mm a')}
         tooltip={createCoinChartTooltipBuilder()}
       />
     </div>

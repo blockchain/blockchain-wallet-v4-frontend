@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
@@ -76,7 +76,7 @@ const RecurringBuyDetails = ({
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
         />
         <CheckoutRow
-          subTitle={moment(nextPayment).format('ddd, MMMM Do')}
+          subTitle={format(new Date(nextPayment), 'EEE, MMMM do')}
           title={<FormattedMessage id='copy.next_buy' defaultMessage='Next Buy' />}
         />
       </Content>

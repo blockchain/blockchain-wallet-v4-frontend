@@ -22,7 +22,6 @@ export const derivationMap = {
   [SHAPESHIFT]: 6, // Deprecated
   [BCH]: 7,
   [BTC]: 8,
-  [LOCKBOX]: 9, // Deprecated
   [USER_CREDENTIALS]: 10, // Deprecated
   [XLM]: 11,
   [WALLET_CREDENTIALS]: 12,

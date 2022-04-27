@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
-import moment from 'moment'
+import { addDays, format, intervalToDuration } from 'date-fns'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -43,7 +43,9 @@ const Success = (props: Props) => {
 
   const amount = props.formValues?.amount || 0
   const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
-  const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
+  const days = showLock
+    ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
+    : 0
 
   return (
     <FlyoutContainer>
@@ -85,7 +87,7 @@ const Success = (props: Props) => {
                 defaultMessage='Funds Will Arrive'
               />
             </Text>
-            <LineItemText>{moment().add(3, 'days').format('dddd, MMM Do, YYYY')}</LineItemText>
+            <LineItemText>{format(addDays(new Date(), 3), 'EEEE, MMM do, yyyy')}</LineItemText>
           </Row>
         )}
         <Row>

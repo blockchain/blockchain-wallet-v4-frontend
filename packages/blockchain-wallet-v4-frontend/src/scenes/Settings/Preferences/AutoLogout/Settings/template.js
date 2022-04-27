@@ -5,7 +5,9 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, NumberBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import NumberBox from 'components/Form/NumberBox'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { spacing } from 'services/styles'
 
@@ -78,7 +80,6 @@ const Settings = (props) => {
 }
 
 Settings.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   handleToggle: PropTypes.func.isRequired
 }
 

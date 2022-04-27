@@ -16,7 +16,6 @@ type OwnProps = {
   description: string
   excludeHDWallets: boolean
   from: any
-  lockboxIndex: number
   payPro: boolean
   position: number
   step: number
@@ -30,12 +29,11 @@ type Props = OwnProps & LinkDispatchPropsType
 
 class SendBtcContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    const { amount, description, from, lockboxIndex, payPro, to } = this.props
+    const { amount, description, from, payPro, to } = this.props
     this.props.actions.initialized({
       amount,
       description,
       from,
-      lockboxIndex,
       payPro,
       to
     })

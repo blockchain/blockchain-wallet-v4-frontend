@@ -1,7 +1,7 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
@@ -17,7 +17,7 @@ import { liveDataCopy, serie_ascending_1, serie_descending_1 } from '../CoinChar
 import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
-import { LearnAboutRecurringBuyPanel } from '../LearnAboutRecurringBuyPanel/LearnAboutRecurringBuyPanel'
+import { LearnAboutRecurringBuyPanel } from '../LearnAboutRecurringBuyPanel'
 import { ResponsiveCoinChart } from '../ResponsiveCoinChart'
 import { WalletsCard } from '../WalletsCard'
 import { CoinPage } from './CoinPage'
@@ -66,11 +66,11 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
             primaryColor='#0C6CF2'
             textColor='#98A1B2'
             x='date'
-            xFormatter={(date) => moment(date).format('hh:mm')}
+            xFormatter={(date) => format(new Date(date), 'hh:mm')}
             tooltip={createCoinChartTooltipBuilder()}
           />
         ),
-        'Decending chart': (
+        'Descending chart': (
           <ResponsiveCoinChart
             y='value'
             backgroundColor='white'
@@ -78,7 +78,7 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
             primaryColor='#0C6CF2'
             textColor='#98A1B2'
             x='date'
-            xFormatter={(date) => moment(date).format('hh:mm')}
+            xFormatter={(date) => format(new Date(date), 'hh:mm')}
             tooltip={createCoinChartTooltipBuilder()}
           />
         ),
@@ -90,12 +90,12 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
             primaryColor='#0C6CF2'
             textColor='#98A1B2'
             x='date'
-            xFormatter={(date) => moment(date).format('MMM D')}
+            xFormatter={(date) => format(new Date(date), 'hh:mm')}
             tooltip={createCoinChartTooltipBuilder()}
           />
         )
       },
-      options: ['Ascending_chart', 'Decending chart', 'Live copy']
+      options: ['Ascending_chart', 'Descending chart', 'Live copy']
     },
     chartBalancePanel: {
       defaultValue: 'bitcoin_up',

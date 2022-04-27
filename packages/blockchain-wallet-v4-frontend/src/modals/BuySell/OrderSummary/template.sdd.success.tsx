@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { intervalToDuration } from 'date-fns'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -73,17 +73,17 @@ const Bottom = styled.div`
   }
 `
 
-const Success: React.FC<Props> = (props) => {
-  const baseAmount = getBaseAmount(props.order)
-  const baseCurrency = getBaseCurrency(props.order)
-  const days = moment.duration(props.lockTime, 'seconds').days()
+const Success: React.FC<Props> = ({ buySellActions, handleClose, lockTime, order }) => {
+  const baseAmount = getBaseAmount(order)
+  const baseCurrency = getBaseCurrency(order)
+  const { days } = intervalToDuration({ end: lockTime, start: 0 })
 
   let isTransactionPending = false
 
-  if (props.order.state === 'PENDING_DEPOSIT') {
+  if (order.state === 'PENDING_DEPOSIT') {
     if (
-      props.order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE' ||
-      props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE' ||
+      order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
     ) {
       isTransactionPending = true
     }
@@ -91,32 +91,32 @@ const Success: React.FC<Props> = (props) => {
 
   const completePayment = () => {
     if (
-      props.order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
-      props.order.attributes?.everypay
+      order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
+      order.attributes?.everypay
     ) {
-      props.buySellActions.setStep({
-        order: props.order,
+      buySellActions.setStep({
+        order,
         step: '3DS_HANDLER_EVERYPAY'
       })
     }
 
-    if (props.order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
-      props.buySellActions.setStep({
-        order: props.order,
+    if (order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+      buySellActions.setStep({
+        order,
         step: '3DS_HANDLER_STRIPE'
       })
     }
 
-    if (props.order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
-      props.buySellActions.setStep({
-        order: props.order,
+    if (order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+      buySellActions.setStep({
+        order,
         step: '3DS_HANDLER_CHECKOUTDOTCOM'
       })
     }
   }
 
   const handleCancel = () => {
-    props.buySellActions.cancelOrder(props.order)
+    buySellActions.cancelOrder(order)
   }
 
   return (
@@ -130,7 +130,7 @@ const Success: React.FC<Props> = (props) => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={props.handleClose}
+            onClick={handleClose}
           />
         </CloseContainer>
       </FlyoutWrapper>
@@ -145,11 +145,7 @@ const Success: React.FC<Props> = (props) => {
             </IconWrapper>
           ) : (
             <IconWrapper>
-              <Icon
-                color={props.order.outputCurrency}
-                name={props.order.outputCurrency}
-                size='64px'
-              />
+              <Icon color={order.outputCurrency} name={order.outputCurrency} size='64px' />
               <IconBackground color='white'>
                 <Icon name='checkmark-circle-filled' size='24px' color='green400' />
               </IconBackground>
@@ -194,8 +190,8 @@ const Success: React.FC<Props> = (props) => {
           </TitleWrapper>
 
           <Bottom>
-            {props.order.state === 'PENDING_CONFIRMATION' ||
-              (props.order.state === 'PENDING_DEPOSIT' && !props.order.paymentMethodId && (
+            {order.state === 'PENDING_CONFIRMATION' ||
+              (order.state === 'PENDING_DEPOSIT' && !order.paymentMethodId && (
                 <Button
                   data-e2e='sbSDDCancelPending'
                   size='16px'
@@ -234,10 +230,10 @@ const Success: React.FC<Props> = (props) => {
                 height='48px'
                 nature='primary'
                 onClick={() => {
-                  props.buySellActions.setStep({
+                  buySellActions.setStep({
                     step: 'UPGRADE_TO_GOLD'
                   })
-                  props.buySellActions.updateSddTransactionFinished()
+                  buySellActions.updateSddTransactionFinished()
                 }}
                 style={{ marginBottom: '32px' }}
               >

@@ -4,7 +4,11 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
 import { ExchangeErrorCodes } from 'data/types'
@@ -26,7 +30,6 @@ const LoginWrapper = styled(Wrapper)`
 `
 const TwoFAExchange = (props: Props) => {
   const {
-    authActions,
     busy,
     cache,
     exchangeError,
