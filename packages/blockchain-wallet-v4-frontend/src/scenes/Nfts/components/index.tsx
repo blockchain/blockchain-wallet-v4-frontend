@@ -69,8 +69,8 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
   align-items: flex-start;
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 export const Grid = styled.div`
@@ -160,28 +160,16 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 `
 
 // collection
-export const Collection = styled.div<{ onClick: () => void }>`
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
+export const CollectionHeader = styled.div<{ bgUrl?: string }>`
+  height: 300px;
   display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 24px;
-  border: ${(props) => `1px solid ${props.theme.grey100}`};
-  ${media.tabletL`
-    padding: 12px;
-  `}
-`
-
-export const CollectionBanner = styled.div<{ background?: string; large?: boolean }>`
-  height: ${(props) => (props.large ? '180px' : '74px')};
-  overflow: hidden;
-  position: relative;
+  justify-content: space-between;
   background-size: cover;
-  background-position: center;
-  border-radius: 8px;
-  background-image: ${(props) => props.background};
+  background-image: ${(props) => (props.bgUrl ? `url(${(props) => props.bgUrl})` : 'none')};
+  position: relative;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
 `
 
 export const CollectionImage = styled.img`
@@ -206,6 +194,7 @@ export const Centered = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+  margin-top: 8px;
 `
 
 export const NftBannerWrapper = styled.div`

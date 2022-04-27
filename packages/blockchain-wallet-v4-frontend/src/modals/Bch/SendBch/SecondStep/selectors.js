@@ -1,4 +1,4 @@
-import { curry, prop } from 'ramda'
+import { curry } from 'ramda'
 
 import { utils } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
@@ -17,11 +17,6 @@ const bchToLabel = curry((payment, state) => {
     case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(target.accountIndex)
-        .getOrElse(target.address)
-    case ADDRESS_TYPES.LOCKBOX:
-      return selectors.core.kvStore.lockbox
-        .getLockboxBchAccount(state, target.xpub)
-        .map(prop('label'))
         .getOrElse(target.address)
     default:
       return target.address
@@ -48,11 +43,6 @@ const bchFromLabel = curry((payment, state) => {
       return utils.bch.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:
       return utils.bch.toCashAddr(payment.from[0], true)
-    case ADDRESS_TYPES.LOCKBOX:
-      return selectors.core.kvStore.lockbox
-        .getLockboxBchAccount(state, payment.from[0])
-        .map(prop('label'))
-        .getOrElse(payment.from[0])
     default:
       return payment.from[0]
   }

@@ -2,9 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
+import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 import {
-  ExchangeUrlDataType,
   MetadataRestoreType,
+  ProductSignupMetadata,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
@@ -12,10 +13,10 @@ import {
 } from './types'
 
 const initialState: SignupStateType = {
-  exchangeUrlData: {},
   firstLogin: false,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
+  productSignupMetadata: {},
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -56,17 +57,20 @@ const signupSlice = createSlice({
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
     },
-    setExchangeUrlData: (state, action: PayloadAction<ExchangeUrlDataType>) => {
-      state.exchangeUrlData = {
-        referrerUsername: action.payload.referrerUsername,
-        tuneTid: action.payload.tuneTid
-      }
-    },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload
+    },
+    setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
+      const { platform, product, referrerUsername, tuneTid } = action.payload
+      state.productSignupMetadata = {
+        platform: platform?.toUpperCase() as PlatformTypes,
+        product: product?.toUpperCase() as ProductAuthOptions,
+        referrerUsername,
+        tuneTid
+      }
     },
     setRegisterEmail: (state, action: PayloadAction<SignupStateType['registerEmail']>) => {
       state.registerEmail = action.payload

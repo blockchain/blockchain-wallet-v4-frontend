@@ -95,7 +95,7 @@ const DebitCardNavItem = () => (
 )
 
 const Navigation = (props: OwnProps & Props) => {
-  const { coinList, lockboxDevices, walletDebitCardEnabled, ...rest } = props
+  const { coinList, walletDebitCardEnabled, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -166,24 +166,6 @@ const Navigation = (props: OwnProps & Props) => {
       >
         <ExchangeNavItem {...props} />
       </ExchangeMenuItem>
-      {lockboxDevices?.length > 0 ? (
-        <LinkContainer to='/lockbox' activeClassName='active'>
-          <MenuItem data-e2e='lockboxLink'>
-            <MenuIcon className='icon' name='hardware' style={{ paddingLeft: '2px' }} size='24px' />
-            <Destination style={{ marginLeft: '-2px' }}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.hardware'
-                defaultMessage='Hardware'
-              />
-            </Destination>
-            <HelperTipContainer>
-              <HelperTip id='lockboxRequired'>
-                <TooltipIcon color='blue600' name='info' />
-              </HelperTip>
-            </HelperTipContainer>
-          </MenuItem>
-        </LinkContainer>
-      ) : null}
     </Wrapper>
   )
 }

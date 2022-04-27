@@ -1,10 +1,6 @@
 import React from 'react'
-import bip39 from 'bip39'
 import { isValidBIC, isValidIBAN } from 'ibantools'
-import { isValidNumber } from 'libphonenumber-js'
-import { validate } from 'postal-codes-js'
-import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
-import { all, any, equals, gt, path, prop, propOr } from 'ramda'
+import { all, any, equals, gt, prop, propOr } from 'ramda'
 
 import { utils } from '@core'
 import { model } from 'data'
@@ -57,24 +53,21 @@ export const validEmail = (value) => (isEmail(value) ? undefined : <M.InvalidEma
 export const validEmailNotAllowed = (value) =>
   isEmail(value) ? <M.ValidEmailNotAllowed /> : undefined
 
-export const validMnemonic = (value) =>
-  bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
-
 // TODO SSO: remove with new flow
 export const validWalletId = (value) => (isGuid(value) ? undefined : <M.InvalidWalletIdMessage />)
 
 export const validWalletIdOrEmail = (value) =>
   isGuid(value) || isEmail(value) ? undefined : <M.InvalidWalletIdorEmailMessage />
 
-export const validMobileNumber = (value) =>
-  isValidNumber(value) ? undefined : <M.InvalidMobileNumberMessage />
-
 export const validIpList = (ipList) => {
   return !ipList || all(isIpValid)(ipList.split(',')) ? undefined : <M.InvalidIpListMessage />
 }
 
+export const passwordStrengthRegex = new RegExp(
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{12,64})'
+)
 export const validStrongPassword = (value) => {
-  return value !== undefined && window.zxcvbn && window.zxcvbn(value).score > 1 ? undefined : (
+  return value !== undefined && passwordStrengthRegex.test(value) ? undefined : (
     <M.InvalidStrongPassword />
   )
 }
@@ -188,19 +181,7 @@ export const requiredDOB = (value) => (isDOB(value) ? undefined : <M.RequiredDOB
 export const requiredUsZipcode = (value) =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
-export const countryUsesPostalCode = (countryCode) => {
-  return path([countryCode, 'postalCodeFormat'], postalCodes)
-}
-
 export const countryUsesZipcode = (countryCode) => countryCode === 'US'
-
-export const requiredZipCode = (value, allVals) => {
-  const countryCode = path(['country', 'code'], allVals) || path(['country'], allVals)
-  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
-  if (!value) return <M.RequiredMessage />
-
-  return validate(countryCode, value) === true ? undefined : <M.InvalidZipCodeMessage />
-}
 
 export const requireUniqueDeviceName = (value, usedDeviceNames) => {
   return any(equals(value))(usedDeviceNames) ? <M.UniqueDeviceName /> : undefined

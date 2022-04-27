@@ -3,16 +3,20 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { CombinedError } from 'urql'
 
+import { convertCoinToCoin } from '@core/exchange'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import {
+  AssetFilter,
   AssetFilterFields,
   AssetSortFields,
+  FilterOperators,
+  InputMaybe,
   SortDirection,
   useAssetsQuery
-} from 'generated/graphql'
+} from 'generated/graphql.types'
 
 import {
   Asset,
@@ -32,11 +36,15 @@ const CollectionItemsResults: React.FC<Props> = ({
   setNextPageFetchError,
   slug
 }) => {
+  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> = [
+    { field: AssetFilterFields.CollectionSlug, value: slug }
+  ]
+
   const traits = getTraitFilters(formValues)
 
   const traitFilter = traits?.reduce((acc, trait) => {
-    Object.keys(formValues[trait]).map((value) => {
-      if (formValues[trait][value]) {
+    Object.keys((formValues || {})[trait]).map((value) => {
+      if ((formValues || {})[trait][value]) {
         acc.push({ trait_type: trait, value })
       }
 
@@ -53,9 +61,25 @@ const CollectionItemsResults: React.FC<Props> = ({
       }
     : null
 
+  if (formValues?.max) {
+    filter.push({
+      field: AssetFilterFields.Price,
+      operator: FilterOperators.Lt,
+      value: convertCoinToCoin({ baseToStandard: false, coin: 'ETH', value: formValues?.max })
+    })
+  }
+
+  if (formValues?.min) {
+    filter.push({
+      field: AssetFilterFields.Price,
+      operator: FilterOperators.Gt,
+      value: convertCoinToCoin({ baseToStandard: false, coin: 'ETH', value: formValues?.min })
+    })
+  }
+
   const [result] = useAssetsQuery({
     variables: {
-      filter: [{ field: AssetFilterFields.CollectionSlug, value: slug }],
+      filter,
       forSale: !!formValues?.forSale,
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,

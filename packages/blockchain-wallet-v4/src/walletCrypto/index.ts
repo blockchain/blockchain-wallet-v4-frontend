@@ -1,6 +1,6 @@
 import assert from 'assert'
 import BigInteger from 'bigi'
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
 import Either from 'data.either'

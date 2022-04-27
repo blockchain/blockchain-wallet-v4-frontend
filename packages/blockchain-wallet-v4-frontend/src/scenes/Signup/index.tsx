@@ -183,10 +183,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
-  search: selectors.router.getSearch(state) as string,
-  signupCountryEnabled: selectors.core.walletOptions
-    .getFeatureSignupCountry(state)
-    .getOrElse(false) as boolean
+  search: selectors.router.getSearch(state) as string
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -206,7 +203,6 @@ type LinkStatePropsType = {
   isLoadingR: RemoteDataType<string, undefined>
   language: string
   search: string
-  signupCountryEnabled: boolean
 }
 type StateProps = {
   captchaToken?: string

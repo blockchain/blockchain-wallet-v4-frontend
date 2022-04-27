@@ -32,9 +32,6 @@ export const hideAirdropClaimModal = () => ({
 export const hideUpgradeForAirdropModal = () => ({
   type: AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL
 })
-export const hideLockboxSoftwareDownload = () => ({
-  type: AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD
-})
 export const hideInterestInfoBox = () => ({
   type: AT.HIDE_INTEREST_INFO_BOX
 })

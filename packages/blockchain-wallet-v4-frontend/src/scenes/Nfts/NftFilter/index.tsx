@@ -13,11 +13,12 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
-import { Form, NumberBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import NumberBox from 'components/Form/NumberBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { CollectionsQuery, OwnerQuery } from 'generated/graphql'
-import { FIXED_HEADER_HEIGHT } from 'layouts/Explore/Header'
+import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 import EventTypeName from '../components/EventTypeName'
@@ -28,7 +29,7 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   transition: width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - ${FIXED_HEADER_HEIGHT + 40}px);
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
   overflow: scroll;
   ${media.tablet`
     display: none;
@@ -394,18 +395,20 @@ const NftFilter: React.FC<Props> = ({
   )
 }
 
-export type NftFilterFormValuesType = {
-  collection: string
-  event: string
-  forSale: boolean
-  max: string
-  min: string
-  sortBy: string
-} & {
-  [key: string]: {
-    [key: string]: boolean
-  }
-}
+export type NftFilterFormValuesType =
+  | ({
+      collection: string
+      event: string
+      forSale: boolean
+      max: string
+      min: string
+      sortBy: string
+    } & {
+      [key: string]: {
+        [key: string]: boolean
+      }
+    })
+  | undefined
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

@@ -4,13 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import {
-  AssetFilterFields,
-  useAssetQuery,
-  useAssetsQuery
-} from 'blockchain-wallet-v4-frontend/src/generated/graphql'
-import { useRemote } from 'blockchain-wallet-v4-frontend/src/hooks'
-import moment from 'moment'
+import { formatDistanceToNow, subDays } from 'date-fns'
+import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -35,9 +30,17 @@ import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
+import {
+  AssetFilterFields,
+  EventFilterFields,
+  useAssetQuery,
+  useAssetsQuery
+} from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
+import NftError from '../components/NftError'
+import Events from '../Events'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -148,7 +151,6 @@ const CollectionName = styled.div`
   font-weight: 600;
   font-size: 16px;
   display: flex;
-  align-items: left;
   color: ${colors.grey900};
 `
 
@@ -163,7 +165,6 @@ const AssetName = styled(Text)`
   font-weight: 600;
   font-size: 40px;
   display: flex;
-  align-items: left;
   margin-top: 30px;
   color: ${colors.grey900};
 `
@@ -273,8 +274,8 @@ const Detail = styled(Text)`
 `
 
 const DetailsAndOffers = styled.div`
-  position: 'absolute';
-  width: '38em';
+  position: absolute;
+  width: 38em;
 `
 
 const StickyWrapper = styled.div`
@@ -293,7 +294,7 @@ const NftAsset: React.FC<Props> = ({
 }) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
-  const [asset] = useAssetQuery({
+  const [assetQuery] = useAssetQuery({
     variables: {
       filter: [
         { field: AssetFilterFields.ContractAddress, value: contract },
@@ -319,9 +320,11 @@ const NftAsset: React.FC<Props> = ({
     })
   }, [contract, id, nftsActions])
 
-  const currentAsset = asset.data?.assets[0]
+  const currentAsset = assetQuery.data?.assets[0]
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+
+  if (assetQuery.error) return <NftError error={assetQuery.error} />
 
   if (!currentAsset) return null
 
@@ -540,9 +543,9 @@ const NftAsset: React.FC<Props> = ({
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
                         Sale ends{' '}
-                        {moment(lowest_order?.expiration_time * 1000)
-                          .subtract(7, 'day')
-                          .from(moment())}
+                        {formatDistanceToNow(
+                          subDays(new Date(lowest_order?.expiration_time * 1000), 7)
+                        )}
                         :
                       </div>
                       <CountdownText>{Countdown}</CountdownText>
@@ -579,7 +582,8 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends {moment(lowest_order?.expiration_time * 1000).from(moment())}:
+                        Sale ends{' '}
+                        {formatDistanceToNow(new Date(lowest_order?.expiration_time * 1000))}
                       </div>
                       <CountdownText>{Countdown}</CountdownText>
                     </Highest>
@@ -761,13 +765,14 @@ const NftAsset: React.FC<Props> = ({
                       {currentAsset.traits.map((trait) => {
                         if (!trait) return null
 
-                        // const assetTraits = currentAsset.traits?.find(
-                        //   (t) => t?.trait_type === trait.trait_type
-                        // )
-                        // const traitCount = assetTraits?.trait_count
-                        // const traitMaxVal = assetTraits?.max_value
-                        // const rarity =
-                        //   traitCount && traitMaxVal ? `${(traitCount / traitMaxVal) * 100}%` : 'N/A'
+                        const assetTraits = currentAsset.traits?.find(
+                          (t) => t?.trait_type === trait.trait_type
+                        )
+                        const traitCount = assetTraits?.trait_count
+                        const rarity =
+                          traitCount && currentAsset.collection.total_supply
+                            ? `${(traitCount / currentAsset.collection.total_supply) * 100}%`
+                            : 'N/A'
 
                         return (
                           <Trait
@@ -787,9 +792,9 @@ const NftAsset: React.FC<Props> = ({
                             <Text capitalize color='blue600' size='14px' weight={600}>
                               {trait?.value}
                             </Text>
-                            {/* <Text capitalize color='grey900' size='12px' weight={500}>
-                                    {rarity}
-                                  </Text> */}
+                            <Text capitalize color='grey900' size='12px' weight={500}>
+                              {rarity}
+                            </Text>
                           </Trait>
                         )
                       })}
@@ -850,6 +855,15 @@ const NftAsset: React.FC<Props> = ({
                   </AdditionalDetailsWrapper>
                 </DetailsAndOffers>
               )}
+              {Tab === 'activity' && (
+                <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                  <Events
+                    columns={['event_type', 'price', 'from', 'date']}
+                    isFetchingParent={false}
+                    filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
+                  />
+                </div>
+              )}
               {Tab === 'offers' && bidsAndOffers.length > 0 && (
                 <DetailsAndOffers>
                   <div
@@ -907,7 +921,7 @@ const NftAsset: React.FC<Props> = ({
                         </FiatDisplay>
                       </div>
                       <div style={{ width: '7em' }}>
-                        {moment(offer?.expiration_time * 1000).from(moment())}{' '}
+                        {formatDistanceToNow(new Date(offer?.expiration_time * 1000))}{' '}
                       </div>
                       <div style={{ width: '5em' }}>
                         <Link

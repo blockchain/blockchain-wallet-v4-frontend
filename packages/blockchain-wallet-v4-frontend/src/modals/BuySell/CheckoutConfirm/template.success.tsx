@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { intervalToDuration } from 'date-fns'
 import { defaultTo, filter, path } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -19,7 +19,7 @@ import {
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { model } from 'data'
 import {
   getBaseAmount,
@@ -181,7 +181,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   )
 
   const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
-  const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
+  const days = showLock
+    ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
+    : 0
 
   const cardDetails =
     (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null

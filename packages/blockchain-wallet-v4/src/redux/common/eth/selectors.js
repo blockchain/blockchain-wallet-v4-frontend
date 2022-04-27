@@ -3,7 +3,6 @@ import { head, keys, lift, map, path, prop, toUpper } from 'ramda'
 import Remote from '../../../remote'
 import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
 import { getAccounts } from '../../kvStore/eth/selectors'
-import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 //
@@ -19,18 +18,6 @@ export const getAccountBalances = (state) => {
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getAccounts(state))
-}
-
-export const getLockboxEthBalances = (state) => {
-  const digest = (addresses, account) => ({
-    address: account.addr,
-    balance: path([account.addr, 'balance'], addresses),
-    coin: 'ETH',
-    label: account.label,
-    type: ADDRESS_TYPES.LOCKBOX
-  })
-  const balances = Remote.of(getAddresses(state).getOrElse([]))
-  return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
 export const getAccountsInfo = (state) => {

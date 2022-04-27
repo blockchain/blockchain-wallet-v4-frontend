@@ -1,4 +1,4 @@
-import { Moment } from 'moment'
+import { getUnixTime } from 'date-fns'
 
 import { CoinfigType, CoinType, FiatType } from '@core/types'
 
@@ -17,9 +17,13 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getPriceIndex = (base: CoinType, quote: FiatType, time: Moment): PriceIndexResponseType =>
+  const getPriceIndex = (
+    base: CoinType,
+    quote: FiatType,
+    time: number | string
+  ): PriceIndexResponseType =>
     get({
-      data: { base, quote, time: time.unix() },
+      data: { base, quote, time: getUnixTime(new Date(time)) },
       endPoint: '/price/index',
       url: apiUrl
     })

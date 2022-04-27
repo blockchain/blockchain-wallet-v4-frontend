@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxTheme } from 'components/Form'
+import SelectBoxTheme from 'components/Form/SelectBoxTheme'
 import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (

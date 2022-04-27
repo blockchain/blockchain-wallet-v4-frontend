@@ -12,8 +12,10 @@ import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import AuthLayout from 'layouts/Auth'
-import ExploreLayout from 'layouts/Explore'
+import AuthLoading from 'layouts/Auth/template.loading'
+import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
+import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
 import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
@@ -21,12 +23,8 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import AuthLoading from './loading.auth'
-import WalletLoading from './loading.wallet'
-
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
-const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
@@ -44,20 +42,20 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // EXPLORE (mixed)
 const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
+const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
-const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -70,7 +68,6 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 const App = ({
   apiUrl,
   coinViewV2,
-  coinsWithBalance,
   history,
   isAuthenticated,
   nftExplorer,
@@ -83,11 +80,10 @@ const App = ({
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
+  // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
-
     sessionStorage.setItem(UTM, JSON.stringify(utm))
-
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
@@ -177,28 +173,20 @@ const App = ({
                         <WalletLayout path='/debitCard' component={DebitCard} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/address/:address'
-                          exact
-                          component={NftsAddress}
-                        />
+                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/asset/:contract/:id'
-                          exact
-                          component={NftsAsset}
-                        />
+                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts/collection/:slug'
                           exact
                           component={NftsCollection}
                         />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts'
                           exact
                           component={NftsExplorer}
@@ -210,7 +198,6 @@ const App = ({
                       <WalletLayout path='/home' component={Home} />
                       <WalletLayout path='/rewards' component={Interest} exact />
                       <WalletLayout path='/rewards/history' component={InterestHistory} />
-                      <WalletLayout path='/lockbox' component={Lockbox} />
                       <WalletLayout path='/security-center' component={SecurityCenter} />
                       <WalletLayout path='/settings/addresses' component={Addresses} />
                       <WalletLayout path='/settings/general' component={General} />
@@ -227,13 +214,7 @@ const App = ({
                         component={coinViewV2 ? CoinPage : Transactions}
                         coinViewV2={coinViewV2}
                       />
-                      {isAuthenticated ? (
-                        coinsWithBalance.length ? (
-                          <Redirect to='/home' />
-                        ) : null
-                      ) : (
-                        <Redirect to='/login' />
-                      )}
+                      {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
@@ -253,7 +234,6 @@ const mapStateToProps = (state) => ({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
-  coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   taxCenterEnabled: selectors.core.walletOptions

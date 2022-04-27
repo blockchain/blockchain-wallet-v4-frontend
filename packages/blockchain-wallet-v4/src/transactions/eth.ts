@@ -1,5 +1,5 @@
-import moment from 'moment'
-import { any, curry, equals, filter, head, includes, lift, map, prop, toLower } from 'ramda'
+import { format, getUnixTime, isSameYear } from 'date-fns'
+import { curry, equals, includes, lift, map, toLower } from 'ramda'
 
 import { EthRawTxType } from '@core/network/api/eth/types'
 import { calculateFee } from '@core/utils/eth'
@@ -10,17 +10,16 @@ import {
   getErc20TxNote,
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
-import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
 import Remote from '../remote'
 
 //
 // Shared Utils
 //
 export const getTime = (timeStamp) => {
-  const date = moment.unix(timeStamp).local()
-  return equals(date.year(), moment().year())
-    ? date.format('MMMM D @ h:mm A')
-    : date.format('MMMM D YYYY @ h:mm A')
+  const date = new Date(getUnixTime(timeStamp) * 1000)
+  return isSameYear(date, new Date())
+    ? format(date, 'MMMM d @ h:mm a')
+    : format(date, 'MMMM d yyyy @ h:mm a')
 }
 
 const getType = (tx, addresses) => {
@@ -45,28 +44,15 @@ const getType = (tx, addresses) => {
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
   const defaultAddressR = getDefaultAddress(state)
-  const lockboxEthAccountsR = getLockboxEthAccounts(state)
-  const transform = (defaultLabel, defaultAddress, lockboxEthAccounts) => {
+  const transform = (defaultLabel, defaultAddress) => {
     switch (true) {
       case equals(toLower(defaultAddress), toLower(address)):
         return defaultLabel
-      case any(
-        // @ts-ignore
-        (x) => equals(toLower(x.addr), toLower(address)),
-        lockboxEthAccounts
-      ):
-        const ethAccounts = filter(
-          // @ts-ignore
-          (x) => equals(toLower(x.addr), toLower(address)),
-          lockboxEthAccounts
-        )
-        // @ts-ignore
-        return prop('label', head(ethAccounts))
       default:
         return address
     }
   }
-  const labelR = lift(transform)(defaultLabelR, defaultAddressR, lockboxEthAccountsR)
+  const labelR = lift(transform)(defaultLabelR, defaultAddressR)
   return labelR.getOrElse(address)
 }
 
@@ -91,7 +77,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx: EthRawT
     insertedAt: Number(time) * 1000,
     state: tx.state,
     time,
-    timeFormatted: getTime(time),
+    timeFormatted: getTime(new Date(time * 1000)),
     to: getLabel(tx.to, state),
     type
   }

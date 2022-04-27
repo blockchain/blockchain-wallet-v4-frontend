@@ -1,5 +1,5 @@
 import React from 'react'
-import moment from 'moment'
+import { format } from 'date-fns'
 
 import { CoinData, TooltipBuilder } from '../../CoinChart'
 import { CoinChartTooltip } from '../CoinChartTooltip'
@@ -13,7 +13,7 @@ export const createCoinChartTooltipBuilder =
         left={tooltipLeft}
         offsetLeft={22}
         offsetTop={-28}
-        title={moment(getX(tooltipData)).format('MMM D, hh:mm a')}
+        title={format(new Date(getX(tooltipData)), 'MMM d, hh:mm aaa')}
         subtitle={getY(tooltipData).toString()}
       />
     )

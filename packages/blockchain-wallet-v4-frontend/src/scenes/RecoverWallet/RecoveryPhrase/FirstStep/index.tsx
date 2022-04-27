@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import BIP39 from 'bip39-light'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { TextArea } from 'components/Form'
+import TextArea from 'components/Form/TextArea'
 import { Analytics, RecoverSteps } from 'data/types'
-import { required, validMnemonic } from 'services/forms'
+import { required } from 'services/forms'
 
 import { Props } from '../..'
 import {
@@ -18,6 +19,11 @@ import {
   TroubleLoggingInRow,
   WrapperWithPadding
 } from '../../model'
+
+const validMnemonic = (value) =>
+  BIP39.validateMnemonic(value) ? undefined : (
+    <FormattedMessage id='formhelper.invalidphrase' defaultMessage='Invalid phrase' />
+  )
 
 const FormBody = styled.div`
   display: flex;

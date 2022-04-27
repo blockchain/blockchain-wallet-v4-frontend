@@ -4,25 +4,24 @@ import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
-import {
-  CheckBox,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  PasswordBox,
-  SelectBox,
-  SelectBoxCountry,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import SelectBox from 'components/Form/SelectBox'
+import SelectBoxCountry from 'components/Form/SelectBoxCountry'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
 import { isBrowserSupported } from 'services/browser'
 import {
   required,
   validEmail,
   validPasswordConfirmation,
-  validStrongPassword
+  validStrongPassword,
+  passwordStrengthRegex
 } from 'services/forms'
 
 import { SubviewProps } from '../../types'
@@ -39,9 +38,6 @@ const StyledForm = styled(Form)`
 `
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
-`
-const PasswordTip = styled(Text)`
-  margin-top: 4px;
 `
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
@@ -68,17 +64,9 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SignupForm = (props: Props) => {
-  const {
-    formValues,
-    invalid,
-    isFormSubmitting,
-    onCountrySelect,
-    onSignupSubmit,
-    showState,
-    signupCountryEnabled
-  } = props
+  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
+    props
   const { password = '' } = formValues || {}
-  const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -119,33 +107,17 @@ const SignupForm = (props: Props) => {
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            passwordScore={passwordScore}
-            showPasswordScore
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {password.length > 0 && (
+        {password.length > 0 && !passwordStrengthRegex.test(password) && (
           <div>
-            <PasswordTip size='12px' weight={400}>
-              {passwordScore <= 1 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.weak'
-                  defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore >= 2 && passwordScore < 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.medium'
-                  defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                />
-              )}
-              {passwordScore === 4 && (
-                <FormattedMessage
-                  id='formhelper.passwordsuggest.great'
-                  defaultMessage='Great password.'
-                />
-              )}
-            </PasswordTip>
+            <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
+              <FormattedMessage
+                id='scenes.register.passwordstrengthwarn'
+                defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+              />
+            </Text>
           </div>
         )}
       </FormGroup>
@@ -167,49 +139,47 @@ const SignupForm = (props: Props) => {
           />
         </FormItem>
       </FormGroup>
-      {signupCountryEnabled && (
-        <FormGroup>
-          <FieldWithoutBottomRadius setBorder={showState}>
-            <FormLabel htmlFor='country' id='country'>
+      <FormGroup>
+        <FieldWithoutBottomRadius setBorder={showState}>
+          <FormLabel htmlFor='country' id='country'>
+            <FormattedMessage
+              defaultMessage='Country of Residence'
+              id='scenes.register.countryofresidence'
+            />
+          </FormLabel>
+          <Field
+            data-e2e='selectCountryDropdown'
+            name='country'
+            validate={required}
+            component={SelectBoxCountry as ReturnType<typeof SelectBox>}
+            menuPlacement='auto'
+            onChange={onCountrySelect}
+            label={
               <FormattedMessage
-                defaultMessage='Country of Residence'
-                id='scenes.register.countryofresidence'
+                id='scenes.register.select_a_country'
+                defaultMessage='Select a Country'
               />
-            </FormLabel>
+            }
+          />
+        </FieldWithoutBottomRadius>
+        {showState ? (
+          <FieldWithoutTopRadius setBorder={showState}>
             <Field
-              data-e2e='selectCountryDropdown'
-              name='country'
-              validate={required}
-              component={SelectBoxCountry as ReturnType<typeof SelectBox>}
-              menuPlacement='auto'
-              onChange={onCountrySelect}
+              name='state'
+              component={SelectBoxUSState}
+              errorBottom
+              validate={[required]}
+              normalize={(val) => val && val.code}
               label={
                 <FormattedMessage
-                  id='scenes.register.select_a_country'
-                  defaultMessage='Select a Country'
+                  id='components.selectboxstate.label'
+                  defaultMessage='Select state'
                 />
               }
             />
-          </FieldWithoutBottomRadius>
-          {showState ? (
-            <FieldWithoutTopRadius setBorder={showState}>
-              <Field
-                name='state'
-                component={SelectBoxUSState}
-                errorBottom
-                validate={[required]}
-                normalize={(val) => val && val.code}
-                label={
-                  <FormattedMessage
-                    id='components.selectboxstate.label'
-                    defaultMessage='Select state'
-                  />
-                }
-              />
-            </FieldWithoutTopRadius>
-          ) : null}
-        </FormGroup>
-      )}
+          </FieldWithoutTopRadius>
+        ) : null}
+      </FormGroup>
 
       <FormGroup inline>
         <FieldWrapper>

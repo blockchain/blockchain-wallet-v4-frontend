@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'
 import { media, spacing } from 'services/styles'
