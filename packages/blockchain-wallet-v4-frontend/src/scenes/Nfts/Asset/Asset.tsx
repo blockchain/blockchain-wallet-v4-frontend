@@ -420,7 +420,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {!ownedBySelf && (
+                    {ownedBySelf && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
