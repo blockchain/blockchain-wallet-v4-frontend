@@ -24,8 +24,14 @@ describe('kvstore userCredentials selectors', () => {
       expect(selectors.getLegacyUserId(successState)).toEqual(Remote.Success(user_id))
     })
 
-    it('getLegacyNabuLifetimeToken should return success of nabu credentials', () => {
+    it('getLegacyNabuLifetimeToken should return success of lifetime_token', () => {
       expect(selectors.getLegacyNabuLifetimeToken(successState)).toEqual(
+        Remote.Success(lifetime_token)
+      )
+    })
+
+    it('getLegacyNabuCredentials should return success of nabu credentials', () => {
+      expect(selectors.getLegacyNabuCredentials(successState)).toEqual(
         Remote.Success({
           nabuLifetimeToken: lifetime_token,
           nabuUserId: user_id

@@ -29,16 +29,38 @@ describe('kvstore unifiedCredentials selectors', () => {
       expect(selectors.getMetadata(loadingState)).toEqual(Remote.Loading)
     })
 
-    it('getExchangeCredentials should return loading in loading state', () => {
+    it('getExchangeUserId should return loading', () => {
+      expect(selectors.getExchangeUserId(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getExchangeLifetimeToken should return loading', () => {
+      expect(selectors.getExchangeLifetimeToken(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getExchangeCredentials should return loading', () => {
       expect(selectors.getExchangeCredentials(loadingState)).toEqual(Remote.Loading)
     })
 
-    it('getNabuCredentials should return loading in loading state', () => {
+    it('getNabuUserId should return loading', () => {
+      expect(selectors.getNabuUserId(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getNabuLifetimeToken should return loading', () => {
+      expect(selectors.getNabuLifetimeToken(loadingState)).toEqual(Remote.Loading)
+    })
+
+    it('getNabuCredentials should return loading', () => {
       expect(selectors.getNabuCredentials(loadingState)).toEqual(Remote.Loading)
     })
 
-    it('getAllCredentials should return loading in loading state', () => {
-      expect(selectors.getAllCredentials(loadingState)).toEqual(Remote.Loading)
+    it('getUnifiedOrLegacyNabuEntry should return loading', () => {
+      const loadingState = {
+        kvStorePath: {
+          unifiedCredentials: Remote.Loading,
+          userCredentials: Remote.Loading
+        }
+      }
+      expect(selectors.getUnifiedOrLegacyNabuEntry(loadingState)).toEqual(Remote.Loading)
     })
   })
 
@@ -53,52 +75,78 @@ describe('kvstore unifiedCredentials selectors', () => {
       expect(selectors.getMetadata(successState)).toEqual(Remote.Success(unifiedCredentialsKv))
     })
 
-    it('getAllCredentials should return success', () => {
-      expect(selectors.getAllCredentials(successState)).toEqual(
-        Remote.Success(unifiedCredentialsKvUnwrapped)
+    it('getExchangeUserId should return success of metadata', () => {
+      expect(selectors.getExchangeUserId(successState)).toEqual(
+        Remote.Success(unifiedCredentialsKvUnwrapped.exchange_user_id)
+      )
+    })
+
+    it('getExchangeLifetimeToken should return success of metadata', () => {
+      expect(selectors.getExchangeLifetimeToken(successState)).toEqual(
+        Remote.Success(unifiedCredentialsKvUnwrapped.exchange_lifetime_token)
       )
     })
 
     it('getExchangeCredentials should return success', () => {
-      const expectedResult = Remote.Success({
-        exchange_lifetime_token: unifiedCredentialsKvUnwrapped.exchange_lifetime_token,
-        exchange_user_id: unifiedCredentialsKvUnwrapped.exchange_user_id
-      })
-      expect(selectors.getExchangeCredentials(successState)).toEqual(expectedResult)
+      expect(selectors.getExchangeCredentials(successState)).toEqual(
+        Remote.Success({
+          exchangeLifetimeToken: unifiedCredentialsKvUnwrapped.exchange_lifetime_token,
+          exchangeUserId: unifiedCredentialsKvUnwrapped.exchange_user_id
+        })
+      )
+    })
+
+    it('getNabuUserId should return success of metadata', () => {
+      expect(selectors.getNabuUserId(successState)).toEqual(
+        Remote.Success(unifiedCredentialsKvUnwrapped.nabu_user_id)
+      )
+    })
+
+    it('getNabuLifetimeToken should return success of metadata', () => {
+      expect(selectors.getNabuLifetimeToken(successState)).toEqual(
+        Remote.Success(unifiedCredentialsKvUnwrapped.nabu_lifetime_token)
+      )
     })
 
     it('getNabuCredentials should return success', () => {
-      const expectedResult = Remote.Success({
-        nabu_lifetime_token: unifiedCredentialsKvUnwrapped.nabu_lifetime_token,
-        nabu_user_id: unifiedCredentialsKvUnwrapped.nabu_user_id
-      })
-      expect(selectors.getNabuCredentials(successState)).toEqual(expectedResult)
+      expect(selectors.getNabuCredentials(successState)).toEqual(
+        Remote.Success({
+          nabuLifetimeToken: unifiedCredentialsKvUnwrapped.nabu_lifetime_token,
+          nabuUserId: unifiedCredentialsKvUnwrapped.nabu_user_id
+        })
+      )
     })
 
     it('getUnifiedOrLegacyNabuEntry should return unifiedCredentials properties when they exist', () => {
-      const expectedResult = Remote.Success({
-        nabu_lifetime_token: unifiedCredentialsKvUnwrapped.nabu_lifetime_token,
-        nabu_user_id: unifiedCredentialsKvUnwrapped.nabu_user_id
-      })
-      expect(selectors.getUnifiedOrLegacyNabuEntry(successState)).toEqual(expectedResult)
+      expect(selectors.getUnifiedOrLegacyNabuEntry(successState)).toEqual(
+        Remote.Success({
+          nabuLifetimeToken: unifiedCredentialsKvUnwrapped.nabu_lifetime_token,
+          nabuUserId: unifiedCredentialsKvUnwrapped.nabu_user_id
+        })
+      )
     })
 
     it('getUnifiedOrLegacyNabuEntry should return legacy (userCredentials) properties when unifiedCredentials dont exist', () => {
       const missingUnifiedCredentials = {
         kvStorePath: {
-          unifiedCredentials: Remote.Success({}),
+          unifiedCredentials: Remote.Success({
+            value: {}
+          }),
           userCredentials: Remote.Success({
-            lifetime_token: '6c5e88b3-91c5-4e24-8054-5e0510886f1b',
-            user_id: '1e012e35-b5bf-4a9a-bfe4-1472931e163b'
+            value: {
+              lifetime_token: '6c5e88b3-91c5-4e24-8054-5e0510886f1b',
+              user_id: '1e012e35-b5bf-4a9a-bfe4-1472931e163b'
+            }
           })
         }
       }
 
-      const expectedResult = Remote.Success({
-        nabu_lifetime_token: '6c5e88b3-91c5-4e24-8054-5e0510886f1b',
-        nabu_user_id: 'b'
-      })
-      expect(selectors.getUnifiedOrLegacyNabuEntry(missingUnifiedCredentials)).toEqual(expectedResult)
+      expect(selectors.getUnifiedOrLegacyNabuEntry(missingUnifiedCredentials)).toEqual(
+        Remote.Success({
+          nabuLifetimeToken: '6c5e88b3-91c5-4e24-8054-5e0510886f1b',
+          nabuUserId: '1e012e35-b5bf-4a9a-bfe4-1472931e163b'
+        })
+      )
     })
   })
 
@@ -114,8 +162,24 @@ describe('kvstore unifiedCredentials selectors', () => {
       expect(selectors.getMetadata(failureState)).toEqual(expectedResult)
     })
 
+    it('getExchangeUserId should return failure in failure state', () => {
+      expect(selectors.getExchangeUserId(failureState)).toEqual(expectedResult)
+    })
+
+    it('getExchangeLifetimeToken should return failure in failure state', () => {
+      expect(selectors.getExchangeLifetimeToken(failureState)).toEqual(expectedResult)
+    })
+
     it('getExchangeCredentials should return failure in failure state', () => {
       expect(selectors.getExchangeCredentials(failureState)).toEqual(expectedResult)
+    })
+
+    it('getNabuUserId should return failure in failure state', () => {
+      expect(selectors.getNabuUserId(failureState)).toEqual(expectedResult)
+    })
+
+    it('getNabuLifetimeToken should return failure in failure state', () => {
+      expect(selectors.getNabuLifetimeToken(failureState)).toEqual(expectedResult)
     })
 
     it('getNabuCredentials should return failure in failure state', () => {

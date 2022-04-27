@@ -1,12 +1,10 @@
-import { lift, path, prop } from 'ramda'
+import { lift, path } from 'ramda'
 
 import { kvStorePath } from '../../paths'
 import { UNIFIED_CREDENTIALS } from '../config'
 import { getLegacyNabuCredentials } from '../userCredentials/selectors'
 
 export const getMetadata = path([kvStorePath, UNIFIED_CREDENTIALS])
-
-export const getAllCredentials = (state) => getMetadata(state).map(prop('value'))
 
 // Exchange
 export const getExchangeUserId = (state) =>
