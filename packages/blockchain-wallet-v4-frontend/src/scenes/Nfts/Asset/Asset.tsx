@@ -39,6 +39,7 @@ import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
+import NftError from '../components/NftError'
 import Events from '../Events'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -295,7 +296,7 @@ const NftAsset: React.FC<Props> = ({
 }) => {
   const { contract, id } = rest.computedMatch.params
   // @ts-ignore
-  const [asset] = useAssetQuery({
+  const [assetQuery] = useAssetQuery({
     variables: {
       filter: [
         { field: AssetFilterFields.ContractAddress, value: contract },
@@ -321,14 +322,17 @@ const NftAsset: React.FC<Props> = ({
     })
   }, [contract, id, nftsActions])
 
-  const currentAsset = asset.data?.assets[0]
+  const currentAsset = assetQuery.data?.assets[0]
   const ownedBySelf = currentAsset?.owners
     ? currentAsset.owners.find((owner) => {
         return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
       })
     : null
+
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+
+  if (assetQuery.error) return <NftError error={assetQuery.error} />
 
   if (!currentAsset) return null
 
