@@ -44,7 +44,7 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // EXPLORE (mixed)
 const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -57,7 +57,7 @@ const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))

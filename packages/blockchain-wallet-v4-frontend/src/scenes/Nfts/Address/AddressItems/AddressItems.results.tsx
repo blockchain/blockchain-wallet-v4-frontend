@@ -20,6 +20,7 @@ import {
   AssetImageContainer,
   PriceCTA
 } from '../../components'
+import NftError from '../../components/NftError'
 import { NftFilterFormValuesType } from '../../NftFilter'
 
 const NftAddressResults: React.FC<Props> = ({

@@ -13,6 +13,7 @@ import { CollectionFilterFields, EventFilterFields, useCollectionsQuery } from '
 import { media } from 'services/styles'
 
 import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
+import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
@@ -73,6 +74,8 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
     : undefined
+
+  if (collectionsQuery.error) return <NftError error={collectionsQuery.error} />
 
   if (collectionsQuery.fetching) return <NftCollectionLoading />
 
