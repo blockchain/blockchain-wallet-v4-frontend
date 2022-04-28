@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon as IconBlockchain } from '@blockchain-com/constellation'
+import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
 import { map } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
@@ -63,8 +64,8 @@ const EndDateLabel = styled(DateLabel)`
 
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow, rates } = props
-  const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
-  const wrapEthFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const coin = formValues?.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
+  const fees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -77,9 +78,9 @@ const MarkForSale: React.FC<Props> = (props) => {
           !formValues.ending ||
           props.orderFlow.isSubmitting ||
           formValues.ending > formValues.starting) &&
-          formValues.timedAuctionType === 'decliningPrice') ||
+          formValues?.timedAuctionType === 'decliningPrice') ||
         // English (Ascending)
-        (!formValues.starting && formValues.timedAuctionType === 'highestBidder')
+        (!formValues.starting && formValues?.timedAuctionType === 'highestBidder')
 
   const resetForms = () => {
     formValues.amount = ''
@@ -244,7 +245,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </FiatDisplay>
                     </Value>
                   </Row>
-                  {formValues.timedAuctionType === 'decliningPrice' && (
+                  {formValues?.timedAuctionType === 'decliningPrice' && (
                     <Row>
                       <Value>
                         <AmountFieldInput
@@ -310,18 +311,18 @@ const MarkForSale: React.FC<Props> = (props) => {
                           : { border: `1px solid ${colors.grey100}` }
                       }
                     >
-                      <Icon
+                      <IconTag
                         color='grey600'
-                        name='dollars'
-                        size='24px'
+                        name='tag'
+                        fontSize={32}
                         style={
                           saleType === 'fixed-price'
                             ? {
                                 color: colors.blue600,
-                                justifyContent: 'center'
+                                padding: '0em 2em'
                               }
                             : {
-                                justifyContent: 'center'
+                                padding: '0em 2em'
                               }
                         }
                       />
@@ -357,18 +358,18 @@ const MarkForSale: React.FC<Props> = (props) => {
                           : { border: `1px solid ${colors.grey100}` }
                       }
                     >
-                      <Icon
+                      <IconPending
                         color='grey600'
                         name='timer'
-                        size='24px'
+                        fontSize={32}
                         style={
                           saleType === 'timed-auction'
                             ? {
                                 color: colors.blue600,
-                                justifyContent: 'center'
+                                padding: '0em 2em'
                               }
                             : {
-                                justifyContent: 'center'
+                                padding: '0em 2em'
                               }
                         }
                       />
@@ -509,7 +510,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               </Row>
             </div>
             <StickyCTA>
-              <div style={wrapEthFees.totalFees > 0 ? {} : { display: 'none' }}>
+              <div style={{ display: 'none' }}>
                 <SellFees {...props} asset={val} />
               </div>
 
@@ -546,7 +547,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         // English Auction
                       } else if (
                         saleType === 'timed-auction' &&
-                        formValues.timedAuctionType === 'highestBidder'
+                        formValues?.timedAuctionType === 'highestBidder'
                       ) {
                         nftActions.createSellOrder({
                           asset: val,
@@ -624,6 +625,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
+      amount: 0,
       coin: 'ETH',
       expirationDays: 1,
       fix: 'CRYPTO',
