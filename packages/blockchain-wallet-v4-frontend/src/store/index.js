@@ -31,7 +31,6 @@ const configuredStore = async function () {
   let erc20Res
   let erc20s
 
-  
   try {
     res = await fetch('/wallet-options-v4.json')
     options = await res.json()
@@ -53,33 +52,14 @@ const configuredStore = async function () {
     throw new Error('erc20 currencies failed to load.')
   }
 
-  const erc20Whitelist = options.platforms.web.erc20s
-
   let supportedCoins = assets.currencies
   let supportedErc20s = erc20s.currencies
-  if (erc20Whitelist) {
-    supportedCoins = supportedCoins.filter(({ type, symbol }) =>
-      type.name !== 'ERC20' ? true : erc20Whitelist.indexOf(symbol) >= 0
-    )
-    supportedErc20s = []
-  }
 
-  window.coins = {
-    ...supportedCoins.reduce((acc, curr) => {
-      if (curr.symbol.includes('.')) return acc
-      return {
-        ...acc,
-        [curr.symbol]: { coinfig: curr }
-      }
-    }, {}),
-    ...supportedErc20s.reduce((acc, curr) => {
-      if (curr.symbol.includes('.')) return acc
-      return {
-        ...acc,
-        [curr.symbol]: { coinfig: curr }
-      }
-    }, {})
-  }
+  const supported = supportedCoins.concat(supportedErc20s).filter((coin) => !coin.symbol.includes('.'))
+  window.coins = {}
+  supported.forEach((coin) => {
+    window.coins[coin.symbol] = {coinfig: coin }
+  })
 
   // TODO: remove this
   window.coins.XLM.coinfig.type.isMemoBased = true
