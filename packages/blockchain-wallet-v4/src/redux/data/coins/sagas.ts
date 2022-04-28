@@ -132,13 +132,14 @@ export default ({ api }: { api: APIType }) => {
             ...val,
             amount: val.movements.find(({ type }) => type === 'SENT')?.amount,
             from: val.movements.find(({ type }) => type === 'SENT')?.address,
+            insertedAt: val.timestamp,
             to: val.movements.find(({ type }) => type === 'RECEIVED')?.address,
             type
           }
         })
         txList.push(history)
       }
-      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
+      const page = flatten([txPage, custodialPage.orders, txList]).sort((a, b) => {
         return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       const atBounds = page.length < TX_PER_PAGE
