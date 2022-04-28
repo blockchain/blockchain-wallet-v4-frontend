@@ -20,8 +20,7 @@ import {
   required,
   validEmail,
   validPasswordConfirmation,
-  validStrongPassword,
-  passwordStrengthRegex
+  validStrongPassword
 } from 'services/forms'
 
 import { SubviewProps } from '../../types'
@@ -66,7 +65,6 @@ const validatePasswordConfirmation = validPasswordConfirmation('password')
 const SignupForm = (props: Props) => {
   const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
     props
-  const { password = '' } = formValues || {}
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -110,16 +108,14 @@ const SignupForm = (props: Props) => {
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {password.length > 0 && !passwordStrengthRegex.test(password) && (
-          <div>
-            <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
-              <FormattedMessage
-                id='scenes.register.passwordstrengthwarn'
-                defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
-              />
-            </Text>
-          </div>
-        )}
+        <div>
+          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
+            <FormattedMessage
+              id='scenes.register.passwordstrengthwarn'
+              defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+            />
+          </Text>
+        </div>
       </FormGroup>
       <FormGroup>
         <FormItem>
