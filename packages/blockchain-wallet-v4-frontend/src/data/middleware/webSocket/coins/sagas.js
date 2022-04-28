@@ -81,12 +81,23 @@ export default ({ api, socket }) => {
 
   const onAuth = function* () {
     try {
-      // 1. subscribe to block headers
+      // 1. subscribe wallet guid to get email verification updates
+      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
+      const guid = prop('guid', subscribeInfo)
+      yield call(
+        send,
+        JSON.stringify({
+          command: 'subscribe',
+          entity: 'wallet',
+          param: { guid }
+        })
+      )
+      // 2. subscribe to block headers
       yield call(send, JSON.stringify({ coin: 'btc', command: 'subscribe', entity: 'header' }))
       yield call(send, JSON.stringify({ coin: 'bch', command: 'subscribe', entity: 'header' }))
       yield call(send, JSON.stringify({ coin: 'eth', command: 'subscribe', entity: 'header' }))
 
-      // 2. subscribe to btc xpubs
+      // 3. subscribe to btc xpubs
       const btcWalletContext = yield select(selectors.core.data.btc.getContext)
       // context has separate bech32 ,legacy, and imported address arrays
       const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
@@ -105,7 +116,7 @@ export default ({ api, socket }) => {
         )
       )
 
-      // 3. subscribe to bch xpubs
+      // 4. subscribe to bch xpubs
       const bchWalletContext = yield select(selectors.core.data.bch.getContext)
       bchWalletContext.forEach((xpub) =>
         send(
@@ -118,7 +129,7 @@ export default ({ api, socket }) => {
         )
       )
 
-      // 4. subscribe to ethereum addresses
+      // 5. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
       ethWalletContext.forEach((address) => {
         send(
@@ -130,18 +141,6 @@ export default ({ api, socket }) => {
           })
         )
       })
-
-      // 5. subscribe wallet guid to get email verification updates
-      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
-      const guid = prop('guid', subscribeInfo)
-      yield call(
-        send,
-        JSON.stringify({
-          command: 'subscribe',
-          entity: 'wallet',
-          param: { guid }
-        })
-      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage('middleware/webSocket/coins/sagas', 'onOpen', e.message)
