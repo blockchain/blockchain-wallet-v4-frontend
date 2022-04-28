@@ -272,10 +272,7 @@ const Detail = styled(Text)`
   }
 `
 
-const DetailsAndOffers = styled.div`
-  position: absolute;
-  width: 38em;
-`
+const DetailsAndOffers = styled.div``
 
 const StickyWrapper = styled.div`
   position: sticky;
