@@ -5,15 +5,16 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form } from 'components/Form'
+import { Button, HeartbeatLoader, Image, Text } from 'blockchain-info-components'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
+import Form from 'components/Form/Form'
 import { actions, model } from 'data'
 import { CampaignsType } from 'data/types'
 
 const { ID_VERIFICATION_SUBMITTED_FORM } = model.components.identityVerification
 
-const SubmittedWrapper = styled.div`
+const Wrapper = styled.div`
+  margin-top: 100px;
   display: flex;
   height: 100%;
   padding: 48px;
@@ -27,11 +28,7 @@ const NextSteps = styled.div`
 `
 
 const CloseButton = styled(Button)`
-  margin: 30px auto 0;
-  height: 48px;
   font-size: 16px;
-  width: 210px;
-  min-width: 210px;
 `
 
 class Submitted extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -46,54 +43,60 @@ class Submitted extends React.PureComponent<InjectedFormProps<{}, Props> & Props
     const { onClose, submitting } = this.props
 
     return (
-      <FlyoutWrapper>
-        <SubmittedWrapper>
-          <Icon name='checkmark-in-circle-filled' color='success' size='36px' />
-          <Text color='grey900' size='20px' weight={600} lineHeight='30px'>
-            <FormattedMessage
-              id='modals.exchange.identityverification.submitted.appsubmitted'
-              defaultMessage='Application Submitted'
-            />
-          </Text>
-          <Text color='grey600' size='16px' style={{ marginBottom: '24px' }}>
-            <FormattedMessage
-              id='modals.exchange.identityverification.submitted.subheader2'
-              defaultMessage="You've successfully submitted your application. A Blockchain Support Member will review your information."
-            />
-          </Text>
-          <NextSteps>
-            <Text color='grey900' size='16px' weight={600} lineHeight='30px'>
+      <FlyoutContainer>
+        <FlyoutContent mode='middle'>
+          <Wrapper>
+            <Image name='user-success' style={{ marginBottom: '50px' }} />
+            <Text color='grey900' size='20px' weight={600} lineHeight='30px'>
               <FormattedMessage
-                id='modals.exchange.identityverification.submitted.nextstepsheader'
-                defaultMessage='What happens next?'
+                id='modals.exchange.identityverification.submitted.appsubmitted'
+                defaultMessage='Application Submitted'
               />
             </Text>
-            <Text color='grey600' size='16px'>
+            <Text color='grey600' size='16px' style={{ marginBottom: '24px' }}>
               <FormattedMessage
-                id='modals.exchange.identityverification.submitted.view_status'
-                defaultMessage='You can view your application status by navigating to Settings and selecting Profile.'
+                id='modals.exchange.identityverification.submitted.subheader2'
+                defaultMessage="You've successfully submitted your application. A Blockchain Support Member will review your information."
               />
             </Text>
-            <Text color='grey600' size='16px'>
-              <FormattedMessage
-                id='modals.exchange.identityverification.submitted.whileyouwait'
-                defaultMessage='While you wait, you can still trade and move currency up to your current limit.'
-              />
-            </Text>
-          </NextSteps>
+            <NextSteps>
+              <Text color='grey900' size='16px' weight={600} lineHeight='30px'>
+                <FormattedMessage
+                  id='modals.exchange.identityverification.submitted.nextstepsheader'
+                  defaultMessage='What happens next?'
+                />
+              </Text>
+              <Text color='grey600' size='16px'>
+                <FormattedMessage
+                  id='modals.exchange.identityverification.submitted.view_status'
+                  defaultMessage='You can view your application status by navigating to Settings and selecting Profile.'
+                />
+              </Text>
+              <Text color='grey600' size='16px' style={{ marginTop: '20px' }}>
+                <FormattedMessage
+                  id='modals.exchange.identityverification.submitted.whileyouwait'
+                  defaultMessage='While you wait, you can still trade and move currency up to your current limit.'
+                />
+              </Text>
+            </NextSteps>
+          </Wrapper>
+        </FlyoutContent>
+
+        <FlyoutFooter collapsed>
           <Form>
             {submitting && <HeartbeatLoader height='32px' width='32px' color='blue500' />}
-            <CloseButton
+            <Button
               data-e2e='kycSubmittedDone'
-              nature='empty-secondary'
+              nature='primary'
               disabled={submitting}
               onClick={onClose}
+              fullwidth
             >
               <FormattedMessage id='buttons.done' defaultMessage='Done' />
-            </CloseButton>
+            </Button>
           </Form>
-        </SubmittedWrapper>
-      </FlyoutWrapper>
+        </FlyoutFooter>
+      </FlyoutContainer>
     )
   }
 }

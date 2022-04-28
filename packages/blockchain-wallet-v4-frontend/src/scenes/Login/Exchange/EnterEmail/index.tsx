@@ -4,7 +4,9 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, TextBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
 import { required, validEmail } from 'services/forms'
@@ -27,11 +29,12 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterEmail = (props: Props) => {
   const {
-    authActions,
     busy,
+    cache,
     formValues,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     submitting,
     walletTabClicked
   } = props
@@ -79,13 +82,13 @@ const EnterEmail = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='IDENTIFIER'
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

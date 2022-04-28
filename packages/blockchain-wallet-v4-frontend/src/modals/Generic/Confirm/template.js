@@ -11,7 +11,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 import { selectCancel, selectConfirm, selectMessage, selectTitle } from './helpers'
 

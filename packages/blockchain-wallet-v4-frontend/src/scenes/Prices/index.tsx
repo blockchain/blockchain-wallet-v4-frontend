@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
 

@@ -5,7 +5,12 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
 import { required } from 'services/forms'
@@ -41,6 +46,7 @@ const TwoFAWallet = (props: Props) => {
     formValues,
     handleBackArrowClickWallet,
     invalid,
+    magicLinkData,
     submitting,
     walletError
   } = props
@@ -62,6 +68,8 @@ const TwoFAWallet = (props: Props) => {
           {...props}
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
+          platform={magicLinkData?.platform_type}
+          product={props.productAuthMetadata.product}
         />
         {authType > 0 && (
           <FormGroup>
@@ -126,7 +134,7 @@ const TwoFAWallet = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.password}
+            disabled={submitting || invalid || busy || !formValues?.code}
             data-e2e='passwordButton'
             style={{ marginBottom: '16px' }}
           >
@@ -138,14 +146,10 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='2FA'
-            product={ProductAuthOptions.WALLET}
-          />
+          <NeedHelpLink origin='2FA' product={ProductAuthOptions.WALLET} />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

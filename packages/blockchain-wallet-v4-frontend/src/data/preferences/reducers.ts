@@ -6,7 +6,6 @@ import { PreferencesActionTypes, PreferencesState } from './types'
 
 const INITIAL_STATE: PreferencesState = {
   coinDisplayed: true,
-  culture: 'en-GB',
   language: 'en',
   priceChart: {
     coin: 'BTC',
@@ -25,14 +24,12 @@ const INITIAL_STATE: PreferencesState = {
   showInterestInfoBox: true,
   showKycCompleted: true,
   showKycGetStarted: true,
-  showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showUpgradeForAirdropModal: false,
   showUpgradeForStxAirdropModal: true,
   theme: 'default',
   totalBalancesDropdown: {
-    lockbox: false,
     pending: false,
     wallet: true
   }
@@ -50,15 +47,6 @@ export function preferencesReducer(
       return {
         ...state,
         language
-      }
-    }
-    // @ts-ignore
-    case AT.SET_CULTURE: {
-      // @ts-ignore
-      const { culture } = action.payload
-      return {
-        ...state,
-        culture
       }
     }
     case AT.SET_BS_CHECKOUT_FIX: {
@@ -106,13 +94,6 @@ export function preferencesReducer(
       return {
         ...state,
         showKycCompleted: false
-      }
-    }
-    // @ts-ignore
-    case AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD: {
-      return {
-        ...state,
-        showLockboxSoftwareDownload: false
       }
     }
     // @ts-ignore

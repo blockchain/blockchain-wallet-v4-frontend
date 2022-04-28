@@ -1,17 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
+import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
+import { ProductAuthOptions, SettingsGoalDataType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
@@ -70,16 +74,23 @@ const TextColumn = styled.div`
     margin-bottom: 8px;
   }
 `
+const SettingsGoalText = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 36px 0 24px;
+`
 
 const EnterPasswordWallet = (props: Props) => {
   const {
-    authActions,
     busy,
     exchangeTabClicked,
     formValues,
+    goals,
     handleBackArrowClickWallet,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     qrData,
     submitting,
     walletError
@@ -90,21 +101,45 @@ const EnterPasswordWallet = (props: Props) => {
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked'))
-
+  const settingsGoal = find(propEq('name', 'settings'), goals)
+  const goalData: SettingsGoalDataType = propOr({}, 'data', settingsGoal)
   return (
     <OuterWrapper>
       <SideWrapper />
       <FormWrapper>
-        <ProductTabMenu
-          active={ProductAuthOptions.WALLET}
-          onExchangeTabClick={exchangeTabClicked}
-        />
-        <WrapperWithPadding>
-          <BackArrowHeader
-            {...props}
-            handleBackArrowClick={handleBackArrowClickWallet}
-            marginTop='28px'
+        {!settingsGoal && (
+          <ProductTabMenu
+            active={ProductAuthOptions.WALLET}
+            onExchangeTabClick={exchangeTabClicked}
           />
+        )}
+
+        <WrapperWithPadding>
+          {!settingsGoal && (
+            <BackArrowHeader
+              {...props}
+              handleBackArrowClick={handleBackArrowClickWallet}
+              platform={magicLinkData?.platform_type}
+              marginTop='28px'
+            />
+          )}
+          {settingsGoal && (
+            <SettingsGoalText>
+              <Text size='20px' weight={600} color='grey900' lineHeight='2'>
+                <FormattedMessage
+                  id='scenes.login.enter_password.setting_goal.title'
+                  defaultMessage='Log Into Your Wallet to Continue'
+                />
+              </Text>
+              <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.login.enter_password.setting_goal.title'
+                  defaultMessage='For your security, we ask you to enter your password to continue to update your {settingsChange} settings.'
+                  values={{ settingsChange: goalData.settingsChange }}
+                />
+              </Text>
+            </SettingsGoalText>
+          )}
           <FormGroup>
             <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
             <FormItem>
@@ -123,19 +158,9 @@ const EnterPasswordWallet = (props: Props) => {
               {passwordError && (
                 <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
                   <FormattedMessage
-                    id='scenes.login.wrong_password_recover'
-                    defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+                    id='scenes.login.wrong_password'
+                    defaultMessage='Wrong password.'
                   />
-                  {'  '}
-                  <LinkContainer to='/recover'>
-                    <Link size='12px' data-e2e='loginRecover'>
-                      <FormattedMessage
-                        id='scenes.login.recover_account'
-                        defaultMessage='Recover account'
-                      />
-                      .
-                    </Link>
-                  </LinkContainer>
                 </FormError>
               )}
               {accountLocked && (
@@ -161,14 +186,10 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink
-              authActions={authActions}
-              origin='PASSWORD'
-              product={ProductAuthOptions.WALLET}
-            />
+            <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
           </CenteredColumn>
         </WrapperWithPadding>
-        <SignupLink />
+        <SignupLink platform={magicLinkData?.platform_type} />
       </FormWrapper>
       {!isMobile() && (
         <SideWrapper>

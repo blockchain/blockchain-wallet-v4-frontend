@@ -7,9 +7,8 @@ import { selectors } from 'data'
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getMenuOpened,
-    selectors.auth.getFirstLogin,
+    selectors.signup.getFirstLogin,
     selectors.router.getPathname,
-    selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getDomains,
     selectors.modules.profile.getUserData,
@@ -19,7 +18,6 @@ export const getData = createDeepEqualSelector(
     menuOpened: boolean,
     firstLogin: boolean,
     pathname,
-    lockboxDevicesR,
     countryCodeR,
     domainsR,
     userDataR,
@@ -28,14 +26,12 @@ export const getData = createDeepEqualSelector(
     const transform = (
       countryCode,
       domains: ExtractSuccess<typeof domainsR>,
-      lockboxDevices,
       userData: ExtractSuccess<typeof userDataR>
     ) => {
       return {
         countryCode,
         domains,
         firstLogin,
-        lockboxDevices,
         menuOpened,
         pathname,
         userData,
@@ -43,6 +39,6 @@ export const getData = createDeepEqualSelector(
       }
     }
 
-    return lift(transform)(countryCodeR, domainsR, lockboxDevicesR, userDataR)
+    return lift(transform)(countryCodeR, domainsR, userDataR)
   }
 )

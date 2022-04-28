@@ -11,7 +11,6 @@ export type PriceChartPreferenceType = {
 // State
 export type PreferencesState = {
   coinDisplayed: boolean
-  culture: string
   language: string
   priceChart: PriceChartPreferenceType
   sbCheckout: {
@@ -24,14 +23,12 @@ export type PreferencesState = {
   showInterestInfoBox: boolean
   showKycCompleted: boolean
   showKycGetStarted: boolean
-  showLockboxSoftwareDownload: boolean
   showSwapBanner: boolean
   showSwapUpgradeModal: boolean
   showUpgradeForAirdropModal: boolean
   showUpgradeForStxAirdropModal: boolean
   theme: string
   totalBalancesDropdown: {
-    lockbox: boolean
     pending: boolean
     wallet: boolean
   }

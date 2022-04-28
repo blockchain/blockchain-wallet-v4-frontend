@@ -1,5 +1,5 @@
 /* eslint-disable */
-import BIP39 from 'bip39'
+import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import Either from 'data.either'

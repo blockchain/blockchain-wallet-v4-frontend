@@ -1,0 +1,52 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs/blocks'
+
+<Meta title='Introduction' />
+
+<svg width="200" height="200" viewBox="0 0 664 664" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M56.8143 241.307L26.5194 271.603C18.1344 279.658 11.4632 289.324 6.90611 300.021C2.34898 310.718 0 322.225 0 333.853C0 345.48 2.34898 356.987 6.90611 367.684C11.4632 378.381 18.1344 388.047 26.5194 396.103L270.58 642.572C276.365 648.489 283.097 653.399 290.5 657.097V358.338L56.8143 241.307Z" fill="#3D89F5"/>
+  <path d="M607.186 241.307L637.481 271.603C645.866 279.658 652.537 289.324 657.094 300.021C661.651 310.718 664 322.225 664 333.853C664 345.48 661.651 356.987 657.094 367.684C652.537 378.381 645.866 388.047 637.481 396.103L393.42 642.572C387.635 648.489 380.903 653.399 373.5 657.097V358.338L607.186 241.307Z" fill="#1656B9"/>
+  <path d="M548.589 179.472L395.87 26.3374C387.785 18.0044 378.109 11.3792 367.416 6.85514C356.723 2.33107 345.23 0 333.62 0C322.009 0 310.516 2.33107 299.823 6.85514C289.13 11.3792 279.455 18.0044 271.37 26.3374L118.235 179.472L332.79 286.542L548.589 179.472Z" fill="#85B5F8"/>
+</svg>
+
+# Blockchain.com wallet
+This storybook consists of many different types of components specifically related to the Blockchain.com frontend ecosystem. 
+
+1. There are wallet specific components which are all the stories at the top of the sidebar to the left of the screen. Here is an example of how to import the components for [building a flyout](?path=/story/flyouts-container--default).
+```js
+import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout/Layout'
+```
+2. If you scroll down you'll see a section called **Constellation Components**. This is a seperate project called [Constellation](https://github.com/blockchain/constellation) which gives us a bunch of "generic" components that can be used in wallet or any of our other projects. Import these like so:
+```js
+import { Icon } from '@blockchain-com/constellation'
+```
+3. All the way at the bottom are our legacy, *soon to be deprecated components*, called Blockchain Info Components. They are still widely used throughout the wallet for now and can be included like:
+```js
+import { Link, Text, TextGroup } from 'blockchain-info-components'
+```
+
+## Story Types
+We make a big effort create a story for as many components as we can. Here are some of the different types of stories you'll find.
+
+### Full page stories
+The [CoinView](?path=/story/pages-coinpage--default) page is an example of a full page story and as you can see is pretty complex. This page is made up of many sub components, each with their own stories!
+
+### Flyout stories
+In the wallet we use flyouts that animate in from the right side of the screen instead of modals that pop up in the middle of the screen. Each flyout consists of multiple "steps" so as a user progresses through some flow, they'll open one or more flyouts each with one or more steps. We try to make each step have an associated story.
+This is the [enter amount step](?path=/story/flyouts-brokerage-enteramount--default-deposit), which is used when a user is making a deposit or a withdrawal.
+
+### Structural stories
+We have several components that are used for making structural elements such as building a [flex based layout](?path=/story/structural-flex--icon-list-item-example) of another component or adding [padding](?path=/story/structural-padding-intro--page) to components.
+You may have already noticed that these *structural components* are good candidates to move into Constellation, which we do!
+
+This example is adding a padding of 10px on all directions
+```jsx
+<Padding all={10}>
+  <span>Padding content</span>
+</Padding>
+```
+<Canvas>
+  <Story id='structural-padding--padding-all' />
+</Canvas>
+
+## Conclusion
+This is a good introduction to some of the common components we use in the wallet, but there are many many more so always check here first before creating any new components. And of course, please build more components and stories. No single person is "in charge" of storybook so it's up to you, **yeah YOU**, to maintain the storybook.

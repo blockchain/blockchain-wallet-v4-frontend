@@ -296,7 +296,7 @@ const mapStateToProps = (state: RootState) => ({
   displayBack: selectors.components.buySell.getDisplayBack(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state),
   goals: selectors.goals.getGoals(state),
-  isFirstLogin: selectors.auth.getFirstLogin(state),
+  isFirstLogin: selectors.signup.getFirstLogin(state),
   method: selectors.components.buySell.getBSPaymentMethod(state),
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   order: selectors.components.buySell.getBSOrder(state),
@@ -405,7 +405,7 @@ type LinkStatePropsType =
       step: 'LINKED_PAYMENT_ACCOUNTS'
     }
 
-type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector> & { children: never }
 type State = { show: boolean }
 
 export default enhance(BuySell)

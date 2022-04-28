@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -88,9 +88,7 @@ const DropdownItem = ({ bodyText, titleText }) => {
 const Success = (props: Props) => {
   const { entity } = props
   const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
-
-  const today = moment()
-  today.add(90, 'day')
+  const expirationDate = format(addDays(new Date(), 90), 'do MMM yyyy')
 
   return (
     <Wrapper>
@@ -193,7 +191,7 @@ const Success = (props: Props) => {
               defaultMessage='{entityName} will then use these details with Blockchain.com solely for the purposes of buying cryptocurrencies. This access is valid until {expirationDate}, you can cancel consent at any time via the Blockchain.com settings or via your bank. This request is not a one-off, you will continue to receive consent requests as older versions expire.'
               values={{
                 entityName,
-                expirationDate: today.format('Do MMM YYYY')
+                expirationDate
               }}
             />
             {entityName !== 'SafeConnect' && (

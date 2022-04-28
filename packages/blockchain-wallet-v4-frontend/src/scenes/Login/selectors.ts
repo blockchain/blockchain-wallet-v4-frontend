@@ -4,7 +4,7 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { RootState } from 'data/rootReducer'
-import { LoginFormType, LoginSteps } from 'data/types'
+import { LoginFormType } from 'data/types'
 
 export const getData = (state: RootState) => {
   const accountUnificationFlow = selectors.auth.getAccountUnificationFlowType(state)

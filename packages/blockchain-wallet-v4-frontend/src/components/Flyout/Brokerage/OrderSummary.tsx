@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { intervalToDuration } from 'date-fns'
 import styled from 'styled-components'
 
 import { BSOrderStateType, BSPaymentTypes, OrderType } from '@core/types'
@@ -72,7 +72,7 @@ const OrderSummary: React.FC<Props> = ({
   const isPendingAch = isPendingDeposit && paymentType === BSPaymentTypes.BANK_TRANSFER
   const isTransactionPending = isPendingDeposit && paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
-  const days = moment.duration(lockTime, 'seconds').days()
+  const { days } = intervalToDuration({ end: lockTime, start: 0 })
 
   return (
     <Container>
@@ -279,7 +279,6 @@ const OrderSummary: React.FC<Props> = ({
             height='48px'
             nature='primary'
             onClick={handleOkButton}
-            style={{ marginBottom: '16px' }}
           >
             <FormattedMessage id='buttons.ok' defaultMessage='OK' />
           </Button>

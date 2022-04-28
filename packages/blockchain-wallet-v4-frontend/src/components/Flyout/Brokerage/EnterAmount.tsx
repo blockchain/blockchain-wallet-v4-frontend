@@ -1,10 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { Field, FormErrors, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
+import { FormErrors, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
 import styled from 'styled-components'
 
-import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
 import { BeneficiaryType, BSPaymentMethodType, CrossBorderLimits, FiatType } from '@core/types'
 import {
@@ -17,7 +16,6 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/BuySell'
-import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   FlyoutContainer,
@@ -30,15 +28,14 @@ import {
   getBankText,
   getBrokerageLimits,
   getIcon,
-  normalizeAmount,
   PaymentArrowContainer,
   PaymentText,
   renderBankFullName,
   RightArrowIcon
 } from 'components/Flyout/model'
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
-import { Form } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
+import Form from 'components/Form/Form'
 import { CheckoutRow } from 'components/Rows'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -57,20 +54,6 @@ const FiatIconWrapper = styled.div`
   justify-content: center;
   position: relative;
 `
-const AmountRow = styled.div<{ isError: boolean }>`
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  align-items: center;
-  width: 100%;
-  position: relative;
-  padding: 24px;
-  justify-content: center;
-  border: 0;
-  > input {
-    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
-  }
-`
 const SubIconWrapper = styled.div`
   background-color: ${(props) => props.theme['fiat-light']};
   width: 24px;
@@ -78,44 +61,6 @@ const SubIconWrapper = styled.div`
   border-radius: 50%;
   position: absolute;
   right: -20px;
-`
-
-const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
-  ${(p) =>
-    p.meta.error
-      ? `
-    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-
-    input {
-      color: ${p.theme.red400};
-    }`
-      : ''}
-
-  @keyframes shake {
-    10%,
-    90% {
-      transform: translate3d(-1px, 0, 0);
-    }
-
-    20%,
-    80% {
-      transform: translate3d(2px, 0, 0);
-    }
-
-    30%,
-    50%,
-    70% {
-      transform: translate3d(-4px, 0, 0);
-    }
-
-    40%,
-    60% {
-      transform: translate3d(4px, 0, 0);
-    }
-  }
 `
 
 type LimitSectionProps = {

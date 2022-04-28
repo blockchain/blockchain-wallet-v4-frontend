@@ -1,7 +1,7 @@
 import React from 'react'
 import { InjectedFormProps } from 'redux-form'
 
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { LoginSteps } from 'data/types'
 
 import { Props } from '..'
@@ -50,7 +50,7 @@ class RecoveryPhraseContainer extends React.PureComponent<
   handleSubmit = (e) => {
     e.preventDefault()
     const { captchaToken } = this.state
-    const { authActions, formValues, language } = this.props
+    const { formValues, language, signupActions } = this.props
 
     if (this.state.step === 1) {
       return this.setState({ step: 2 })
@@ -60,7 +60,7 @@ class RecoveryPhraseContainer extends React.PureComponent<
     // if it's undefined, try to re-init for token
     if (!captchaToken) {
       return this.initCaptcha(
-        authActions.restore({
+        signupActions.restore({
           captchaToken,
           email: formValues.email,
           language,
@@ -70,7 +70,7 @@ class RecoveryPhraseContainer extends React.PureComponent<
       )
     }
     // we have a captcha token, continue recover process
-    authActions.restore({
+    signupActions.restore({
       captchaToken,
       email: formValues.email,
       language,

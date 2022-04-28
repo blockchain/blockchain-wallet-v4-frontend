@@ -34,18 +34,6 @@ export default () => {
     yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
-  const refreshNftsTab = function* () {
-    const activeTab = selectors.components.nfts.getNftActiveTab(yield select())
-
-    if (activeTab === 'explore') {
-      yield put(actions.components.nfts.clearAndRefetchOrders())
-    } else if (activeTab === 'my-collection') {
-      yield put(actions.components.nfts.clearAndRefetchAssets())
-    } else {
-      yield put(actions.components.nfts.clearAndRefetchOffersMade())
-    }
-  }
-
   const refreshClicked = function* () {
     try {
       // User
@@ -71,7 +59,7 @@ export default () => {
       // Custodial Swaps
       yield put(actions.custodial.fetchRecentSwapTxs())
 
-      const pathname = yield select(selectors.router.getPathname)
+      const pathname = (yield select(selectors.router.getPathname))?.toLowerCase()
       const maybeCoin = toUpper(pathname.split('/')[1])
 
       switch (true) {
@@ -87,9 +75,6 @@ export default () => {
         case contains('coins/XLM', pathname):
           yield call(refreshXlmTransactions)
           break
-        case contains('/nfts', pathname):
-          yield call(refreshNftsTab)
-          break
         case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
@@ -104,9 +89,6 @@ export default () => {
           break
         case contains('coins/USD', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
-          break
-        case contains('/lockbox/', pathname):
-          yield put(actions.components.lockbox.initializeDashboard(pathname.split('/')[3]))
           break
         case contains('profile', pathname):
         case contains('/airdrops', pathname):

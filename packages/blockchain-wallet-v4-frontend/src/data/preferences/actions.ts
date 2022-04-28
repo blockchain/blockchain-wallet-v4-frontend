@@ -3,10 +3,6 @@ import { BSFixType } from 'data/types'
 
 import * as AT from './actionTypes'
 
-export const setCulture = (culture) => ({
-  payload: { culture },
-  type: AT.SET_CULTURE
-})
 export const setLanguage = (language, showAlert) => ({
   payload: { language, showAlert },
   type: AT.SET_LANGUAGE
@@ -35,9 +31,6 @@ export const hideAirdropClaimModal = () => ({
 })
 export const hideUpgradeForAirdropModal = () => ({
   type: AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL
-})
-export const hideLockboxSoftwareDownload = () => ({
-  type: AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD
 })
 export const hideInterestInfoBox = () => ({
   type: AT.HIDE_INTEREST_INFO_BOX

@@ -5,7 +5,7 @@ import { utils } from '@core'
 import { PaymentValue } from '@core/redux/payment/types'
 import { selectors } from 'data'
 
-const { isCashAddr, toCashAddr } = utils.bch
+const { formatAddr, isCashAddr, toCashAddr } = utils.bch
 
 // retrieves default account/address
 export const getDefaultAccount = function* () {
@@ -25,7 +25,7 @@ export const getNextReceiveAddress = function* (_, networks, index) {
     .getNextAvailableReceiveAddress(networks.bch, defaultAccountIndex, state)
     .getOrFail('Failed to get BCH receive address')
 
-  return isCashAddr(nextAddress) ? nextAddress : toCashAddr(nextAddress)
+  return isCashAddr(nextAddress) ? formatAddr(nextAddress) : toCashAddr(nextAddress)
 }
 
 // gets or updates a provisional payment

@@ -55,10 +55,6 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
 
-// signup country feature flag
-export const getFeatureSignupCountry = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
-
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
@@ -70,6 +66,9 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+// login for unified accounts
+export const getUnifiedAccountLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'unifiedAccountLogin']))
 
 // apple pay as new payment method feature flag
 export const getApplePayAsNewPaymentMethod = (state: RootState) =>
@@ -135,3 +134,11 @@ export const getShowTermsAndConditions = (state: RootState) =>
 
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
+
+// SSO creating exchange users under the hood
+// for all wallet logins and signup
+export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createExchangeUserOnSignupOrLogin']))
+
+export const getNftExplorer = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))

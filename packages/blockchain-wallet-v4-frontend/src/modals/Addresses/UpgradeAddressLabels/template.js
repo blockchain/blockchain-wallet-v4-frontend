@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 
 import { Modal, ModalBody, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 const UpgradeAddressLabels = (props) => {
   const { duration, position, total } = props

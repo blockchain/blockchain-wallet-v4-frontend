@@ -4,9 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { ModalName } from 'data/types'
 
+import CustomizableConfirm from './CustomizableConfirm'
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
-import CustomizableConfirm from "./CustomizableConfirm";
 
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
@@ -35,6 +35,7 @@ const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
 const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
+const EthWalletBalances = React.lazy(() => import('./Eth/EthWalletBalances'))
 
 // XLM
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
@@ -67,13 +68,6 @@ const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdro
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
-
-// LOCKBOX
-const LockboxAppManager = React.lazy(() => import('./Lockbox/LockboxAppManager'))
-const LockboxConnectionPrompt = React.lazy(() => import('./Lockbox/LockboxConnectionPrompt'))
-const LockboxFirmware = React.lazy(() => import('./Lockbox/LockboxFirmware'))
-const LockboxSetup = React.lazy(() => import('./Lockbox/LockboxSetup'))
-const LockboxShowXPubs = React.lazy(() => import('./Lockbox/LockboxShowXPubs'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -194,21 +188,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL) ? (
           <LinkToExchangeAccount disableOutsideClose />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_APP_MANAGER_MODAL) ? (
-          <LockboxAppManager disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_CONNECTION_PROMPT_MODAL) ? (
-          <LockboxConnectionPrompt disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_FIRMWARE_MODAL) ? (
-          <LockboxFirmware disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SETUP_MODAL) ? (
-          <LockboxSetup disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SHOW_XPUBS) ? (
-          <LockboxShowXPubs />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_CHANGE_MODAL) ? (
           <MobileNumberChange />
         ) : null}
@@ -315,6 +294,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
           <WalletConnect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
+          <EthWalletBalances />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (

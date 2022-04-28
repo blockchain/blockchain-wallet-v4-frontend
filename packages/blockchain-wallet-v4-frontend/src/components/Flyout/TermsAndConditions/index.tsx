@@ -6,7 +6,8 @@ import styled from 'styled-components'
 
 import { TermsAndConditionType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
-import { CheckBox, Form } from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
+import Form from 'components/Form/Form'
 import { model } from 'data'
 
 import useVisibility from '../../Hooks/useVisibility'

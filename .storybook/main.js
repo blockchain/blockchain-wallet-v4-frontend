@@ -7,12 +7,12 @@ module.exports = {
     '@storybook/addon-essentials',
   ],
   refs: {
-    'new-core': {
-      title: 'New Core Components',
+    'constellation': {
+      title: 'Constellation Components',
       url: 'https://blockchain.github.io/constellation/'
     },
-    'design-system': {
-      title: 'Core Components',
+    'blockchain-info-components': {
+      title: 'Blockchain Info Components (Deprecated)',
       url: 'http://localhost:6007'
     }
   },

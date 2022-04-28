@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Title } from 'components/Flyout'
+import { Title } from 'components/Flyout/globalComponents'
 
 const DisplayTitle = styled(Title)`
   align-items: left;

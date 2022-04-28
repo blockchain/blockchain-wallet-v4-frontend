@@ -71,7 +71,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
-  const isFirstLogin = selectors.auth.getFirstLogin(state)
+  const isFirstLogin = selectors.signup.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
   // use this to prevent rendering of complete profile banner
@@ -165,7 +165,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
-  } else if (isStxSelfCustodyAvailable && userData.tags.BLOCKSTACK) {
+  } else if (isStxSelfCustodyAvailable) {
     bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'

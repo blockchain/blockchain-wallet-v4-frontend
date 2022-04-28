@@ -4,7 +4,12 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { LOGIN_FORM } from 'data/auth/model'
 import { ProductAuthOptions } from 'data/auth/types'
@@ -42,13 +47,13 @@ const InstitutionalPortal = (props: Props) => {
   }, [])
 
   const {
-    authActions,
     busy,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
     isBrowserSupported,
+    magicLinkData,
     routerActions,
     submitting
   } = props
@@ -136,14 +141,10 @@ const InstitutionalPortal = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.EXCHANGE}
-          />
+          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.EXCHANGE} />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

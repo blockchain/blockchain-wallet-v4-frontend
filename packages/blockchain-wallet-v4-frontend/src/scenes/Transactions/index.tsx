@@ -151,7 +151,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
     return (
       <SceneWrapper>
-        <LazyLoadContainer onLazyLoad={loadMoreTxs}>
+        <LazyLoadContainer triggerDistance={200} onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
               <CoinTitle>
@@ -290,13 +290,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
           {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
-            pages.map((value) => (
+            pages.map((value, i) => (
               <TransactionList
                 coin={coin}
                 coinTicker={coinfig.symbol}
                 currency={currency}
                 data={value}
-                key={coinfig.symbol}
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${coin}${i}`}
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
@@ -309,12 +310,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
-  getData(
-    state,
-    ownProps.computedMatch.params.coin,
-    window.coins[ownProps.computedMatch.params.coin].coinfig
-  )
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => getData(state, ownProps)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin } = ownProps.computedMatch.params
@@ -367,10 +363,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = {
-  coin: WalletCurrencyType
-  coinfig: CoinfigType
-} & RouteComponentProps
+export type OwnProps = RouteComponentProps
 
 export type SuccessStateType = {
   currency: FiatType
@@ -388,7 +381,7 @@ type LinkStatePropsType = SuccessStateType
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   reduxForm({
     form: model.form.WALLET_TX_SEARCH,
     initialValues: { source: 'all' }

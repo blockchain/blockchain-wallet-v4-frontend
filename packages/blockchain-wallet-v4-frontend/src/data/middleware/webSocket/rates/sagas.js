@@ -1,4 +1,3 @@
-import moment from 'moment'
 import {
   both,
   complement,
@@ -57,14 +56,19 @@ export default ({ api, ratesSocket }) => {
     whereEq(model.rates.RATES_SNAPSHOT_MESSAGE)
   )
 
-  const onOpen = function* () {
-    yield call(authenticateSocket)
-    yield call(reopenChannels)
+  const authenticateSocket = function* () {
+    const token = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+    ratesSocket.send(model.rates.getAuthMessage(token))
   }
 
   const reopenChannels = function () {
     map(ratesSocket.send.bind(ratesSocket), values(openChannels.rates))
     map(ratesSocket.send.bind(ratesSocket), values(openChannels.advice))
+  }
+
+  const onOpen = function* () {
+    yield call(authenticateSocket)
+    yield call(reopenChannels)
   }
 
   const onMessage = function* ({ payload: { message } }) {
@@ -85,39 +89,22 @@ export default ({ api, ratesSocket }) => {
       yield put(actions.modules.rates.updateBestRates(indexBy(prop('pair'), message.rates)))
   }
 
-  const restFallback = function* () {
-    const pairs = yield select(selectors.modules.rates.getActivePairs)
-    if (!isEmpty(pairs)) {
-      yield all(
-        unnest(
-          map((pair) => {
-            const pairs = model.rates.getBestRatesPairs(
-              ...model.rates.splitPair(pair.pair),
-              pair.config.fiatCurrency
-            )
-            return [fetchAdvice(pair), fetchRates(pairs)]
-          }, pairs)
-        )
-      )
-    }
-  }
-
-  const authenticateSocket = function* () {
-    const token = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
-    ratesSocket.send(model.rates.getAuthMessage(token))
-  }
-
   const fetchAdvice = function* ({ config: { fiatCurrency, fix, volume }, pair }) {
     try {
       const { error, ratio } = yield call(api.fetchAdvice, pair, volume, fix, fiatCurrency)
       if (error) throw error
+      const date = new Date()
+      const isoDate = date.toISOString()
+      // manually create UTC format
+      const time = `${isoDate.substr(0, 10)}T${isoDate.substr(11, 8)}Z`
+
       yield put(
         actions.modules.rates.updateAdvice({
           currencyRatio: ratio,
           fiatCurrency,
           fix,
           pair,
-          time: moment().format('YYYY-MM-DDTHH:mm:ss.SSSSZ'),
+          time,
           volume
         })
       )
@@ -142,6 +129,23 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
+  const restFallback = function* () {
+    const pairs = yield select(selectors.modules.rates.getActivePairs)
+    if (!isEmpty(pairs)) {
+      yield all(
+        unnest(
+          map((pair) => {
+            const pairs = model.rates.getBestRatesPairs(
+              ...model.rates.splitPair(pair.pair),
+              pair.config.fiatCurrency
+            )
+            return [fetchAdvice(pair), fetchRates(pairs)]
+          }, pairs)
+        )
+      )
+    }
+  }
+
   const onClose = function* (action) {}
 
   const openRatesChannel = function* ({ payload }) {
@@ -154,7 +158,7 @@ export default ({ api, ratesSocket }) => {
     yield call(fetchRates, pairs)
   }
 
-  const closeRatesChannel = function ({ payload }) {
+  const closeRatesChannel = function () {
     openChannels.rates = {}
 
     if (ratesSocket.isReady()) {

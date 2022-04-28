@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import locale from 'browser-locale'
-import * as moment from 'moment'
-import { prop } from 'ramda'
+import { endOfDay, format, startOfDay, subDays } from 'date-fns'
 import { compose, Dispatch } from 'redux'
 
 import { CoinType } from '@core/types'
@@ -14,8 +12,6 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { getData } from './selectors'
 import DownloadTransactions from './template'
 
-moment.locale(locale())
-
 export type StateProps = {
   filename: string
   generating: boolean
@@ -23,7 +19,7 @@ export type StateProps = {
 export type OwnProps = {
   closeAll: () => void
   coin: CoinType
-  csvData: any
+  csvData: Array<string>
   position: number
   total: number
 }
@@ -33,7 +29,7 @@ type LinkStatePropsType = {
 type LinkDispatchPropsType = {
   clearTransactions: () => void
   fetchTransactions: (address: string, startDate: string, endDate: string) => void
-  initForm: (formDefaults: { end: moment.Moment; from: 'all'; start: moment.Moment }) => void
+  initForm: (formDefaults: { end: string; from: 'all'; start: string }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -45,14 +41,11 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 
   componentDidMount() {
     const { initForm } = this.props
+    const today = new Date()
     initForm({
-      // @ts-ignore
-      end: moment().endOf('day'),
-
+      end: format(endOfDay(today), 'yyyy-MM-dd'),
       from: 'all',
-
-      // @ts-ignore
-      start: moment().startOf('day').subtract(7, 'day')
+      start: format(subDays(startOfDay(today), 7), 'yyyy-MM-dd')
     })
   }
 
@@ -62,9 +55,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 
   onFetchHistory = () => {
     const { coin, fetchTransactions, formValues } = this.props
-    const from = prop('from', formValues)
-    const startDate = prop('start', formValues)
-    const endDate = prop('end', formValues)
+    const { end, from, start } = formValues
     const addressDerivations =
       from.derivations &&
       from.derivations.map((derivation) => ({
@@ -72,9 +63,13 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
         type: derivation.type
       }))
     const address = from && (addressDerivations || from.xpub || from.address || from)
-    const filename = `${coin}_${startDate.format('MM-DD-YYYY')}_${endDate.format('MM-DD-YYYY')}.csv`
+    // start/end are moment objects due to react-datetime :(
+    const filename = `${coin}_${format(new Date(start.toString()), 'MM-dd-yyyy')}_${format(
+      new Date(end.toString()),
+      'MM-dd-yyyy'
+    )}.csv`
     this.setState({ filename, generating: true })
-    fetchTransactions(address, startDate, endDate)
+    fetchTransactions(address, start, end)
   }
 
   render() {
@@ -123,7 +118,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
   }
 }
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   modalEnhancer(ModalName.TRANSACTION_REPORT_MODAL),
   connect(mapStateToProps, mapDispatchToProps)
 )

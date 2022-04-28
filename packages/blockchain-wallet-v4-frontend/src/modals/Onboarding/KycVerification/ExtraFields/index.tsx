@@ -43,7 +43,7 @@ const KYCExtraQuestionnaire = (props: Props) => {
   }
 
   return (
-    <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='extraFieldsModal'>
+    <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='extraFieldsModal' doNotHide>
       <FlyoutChild>
         {props.data.cata({
           Failure: (error) => (
@@ -53,7 +53,9 @@ const KYCExtraQuestionnaire = (props: Props) => {
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
-          Success: (val) => <Success {...props} {...val} onSubmit={handleSubmit} />
+          Success: (val) => (
+            <Success {...props} {...val} onSubmit={handleSubmit} onClose={handleClose} />
+          )
         })}
       </FlyoutChild>
     </Flyout>

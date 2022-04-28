@@ -1,13 +1,13 @@
 import crypto from 'crypto'
-import { concat, equals, prop } from 'ramda'
+import { equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
+import { Analytics } from 'data/types'
 import * as T from 'services/alerts'
 
-import { WALLET_TX_SEARCH } from '../../../form/model'
 import {
   btcTransaction,
   ethReceivedConfirmed,
@@ -15,6 +15,8 @@ import {
   ethSentConfirmed,
   header
 } from './messageTypes'
+
+const { WALLET_TX_SEARCH } = model.form
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -79,69 +81,7 @@ export default ({ api, socket }) => {
 
   const onAuth = function* () {
     try {
-      // 1. subscribe to block headers
-      yield call(send, JSON.stringify({ coin: 'btc', command: 'subscribe', entity: 'header' }))
-      yield call(send, JSON.stringify({ coin: 'bch', command: 'subscribe', entity: 'header' }))
-      yield call(send, JSON.stringify({ coin: 'eth', command: 'subscribe', entity: 'header' }))
-
-      // 2. subscribe to btc xpubs
-      const btcWalletContext = yield select(selectors.core.data.btc.getContext)
-      // context has separate bech32 ,legacy, and imported address arrays
-      const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
-        prop('addresses', btcWalletContext),
-        prop('bech32', btcWalletContext)
-      )
-
-      const btcLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxBtcContext
-      )).getOrElse([])
-      const btcXPubs = concat(btcWalletXPubs, btcLockboxContext)
-      btcXPubs.forEach((xpub) =>
-        send(
-          JSON.stringify({
-            coin: 'btc',
-            command: 'subscribe',
-            entity: 'xpub',
-            param: { address: xpub }
-          })
-        )
-      )
-
-      // 3. subscribe to bch xpubs
-      const bchWalletContext = yield select(selectors.core.data.bch.getContext)
-      const bchLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxBchContext
-      )).getOrElse([])
-      const bchXPubs = concat(bchWalletContext, bchLockboxContext)
-      bchXPubs.forEach((xpub) =>
-        send(
-          JSON.stringify({
-            coin: 'bch',
-            command: 'subscribe',
-            entity: 'xpub',
-            param: { address: xpub }
-          })
-        )
-      )
-
-      // 4. subscribe to ethereum addresses
-      const ethWalletContext = yield select(selectors.core.data.eth.getContext)
-      const ethLockboxContext = (yield select(
-        selectors.core.kvStore.lockbox.getLockboxEthContext
-      )).getOrElse([])
-      const ethAddresses = concat(ethWalletContext, ethLockboxContext)
-      ethAddresses.forEach((address) => {
-        send(
-          JSON.stringify({
-            coin: 'eth',
-            command: 'subscribe',
-            entity: 'account',
-            param: { address }
-          })
-        )
-      })
-
-      // 5. subscribe wallet guid to get email verification updates
+      // 1. subscribe wallet guid to get email verification updates
       const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
       const guid = prop('guid', subscribeInfo)
       yield call(
@@ -152,6 +92,55 @@ export default ({ api, socket }) => {
           param: { guid }
         })
       )
+      // 2. subscribe to block headers
+      yield call(send, JSON.stringify({ coin: 'btc', command: 'subscribe', entity: 'header' }))
+      yield call(send, JSON.stringify({ coin: 'bch', command: 'subscribe', entity: 'header' }))
+      yield call(send, JSON.stringify({ coin: 'eth', command: 'subscribe', entity: 'header' }))
+
+      // 3. subscribe to btc xpubs
+      const btcWalletContext = yield select(selectors.core.data.btc.getContext)
+      // context has separate bech32 ,legacy, and imported address arrays
+      const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
+        prop('addresses', btcWalletContext),
+        prop('bech32', btcWalletContext)
+      )
+
+      btcWalletXPubs.forEach((xpub) =>
+        send(
+          JSON.stringify({
+            coin: 'btc',
+            command: 'subscribe',
+            entity: 'xpub',
+            param: { address: xpub }
+          })
+        )
+      )
+
+      // 4. subscribe to bch xpubs
+      const bchWalletContext = yield select(selectors.core.data.bch.getContext)
+      bchWalletContext.forEach((xpub) =>
+        send(
+          JSON.stringify({
+            coin: 'bch',
+            command: 'subscribe',
+            entity: 'xpub',
+            param: { address: xpub }
+          })
+        )
+      )
+
+      // 5. subscribe to ethereum addresses
+      const ethWalletContext = yield select(selectors.core.data.eth.getContext)
+      ethWalletContext.forEach((address) => {
+        send(
+          JSON.stringify({
+            coin: 'eth',
+            command: 'subscribe',
+            entity: 'account',
+            param: { address }
+          })
+        )
+      })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage('middleware/webSocket/coins/sagas', 'onOpen', e.message)
@@ -273,8 +262,8 @@ export default ({ api, socket }) => {
           // check if message is an email verification update
 
           let payload = {}
-          // secure channel/mobile app login data is recevied as a JSON
-          // this is why we're parsing message.msg first and assigining it
+          // secure channel/mobile app login data is received as a JSON
+          // this is why we're parsing message.msg first and assigning it
           // to payload
           try {
             if (message.msg) {
@@ -288,6 +277,16 @@ export default ({ api, socket }) => {
             if (!payload.success) {
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_REQUEST_DENIED,
+                  properties: {
+                    error: 'Phone declined',
+                    method: 'SECURE_CHANNEL',
+                    request_platform: 'WALLET'
+                  }
+                })
+              )
               yield put(actions.alerts.displayError(T.MOBILE_LOGIN_DECLINED))
               return
             }
@@ -309,7 +308,6 @@ export default ({ api, socket }) => {
               if (decrypted.remember) {
                 yield put(actions.cache.channelPhoneConnected(pubkey.toString('hex')))
               }
-              yield put(actions.auth.secureChannelLoginSuccess())
               yield put(actions.alerts.displaySuccess(T.MOBILE_LOGIN_SUCCESS))
               yield put(actions.form.change('login', 'guid', decrypted.guid))
               yield put(actions.form.change('login', 'password', decrypted.password))
@@ -320,6 +318,15 @@ export default ({ api, socket }) => {
                   guid: decrypted.guid,
                   password: decrypted.password,
                   sharedKey: decrypted.sharedKey
+                })
+              )
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_REQUEST_APPROVED,
+                  properties: {
+                    method: 'SECURE_CHANNEL',
+                    request_platform: 'WALLET'
+                  }
                 })
               )
             }

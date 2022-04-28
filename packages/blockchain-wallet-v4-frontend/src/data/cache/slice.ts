@@ -6,12 +6,14 @@ const initialState = {
   channelPhonePubkey: undefined,
   channelPrivKey: undefined,
   exchangeEmail: undefined,
+  exchangeWalletGuid: undefined,
   guidStored: undefined,
   hasCloudBackup: undefined,
   lastEmail: undefined,
   lastGuid: undefined,
   lastLogoutTimestamp: undefined,
-  mobileConnected: undefined
+  mobileConnected: undefined,
+  unifiedAccount: undefined
 }
 
 const cacheSlice = createSlice({
@@ -44,6 +46,9 @@ const cacheSlice = createSlice({
     exchangeEmail: (state, action) => {
       state.exchangeEmail = action.payload
     },
+    exchangeWalletGuid: (state, action) => {
+      state.exchangeWalletGuid = action.payload
+    },
     guidEntered: (state, action) => {
       state.lastGuid = action.payload
     },
@@ -61,14 +66,18 @@ const cacheSlice = createSlice({
     },
     removeExchangeLogin: (state) => {
       state.exchangeEmail = undefined
+      state.exchangeWalletGuid = undefined
+      state.unifiedAccount = undefined
     },
     removeStoredLogin: (state) => {
       state.exchangeEmail = undefined
+      state.exchangeWalletGuid = undefined
       state.guidStored = undefined
       state.lastEmail = undefined
       state.lastGuid = undefined
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
+      state.unifiedAccount = undefined
     },
     removeWalletLogin: (state) => {
       state.guidStored = undefined
@@ -76,6 +85,10 @@ const cacheSlice = createSlice({
       state.lastGuid = undefined
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
+      state.unifiedAccount = undefined
+    },
+    setUnifiedAccount: (state, action) => {
+      state.unifiedAccount = action.payload
     }
   }
 })

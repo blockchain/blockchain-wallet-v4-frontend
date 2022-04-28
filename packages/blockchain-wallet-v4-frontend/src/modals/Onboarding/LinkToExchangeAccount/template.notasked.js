@@ -143,7 +143,6 @@ const LinkToExchangeAccountNotAsked = ({
             </div>
             <LeftColumnPoints>
               <PointRow>
-                <Image name='coins' width='24px' height='24px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.left.point1-2'
@@ -201,8 +200,8 @@ const LinkToExchangeAccountNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint'
-                        defaultMessage='Share your Gold or Silver Level status'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint_access'
+                        defaultMessage='Share your full or limited access'
                       />
                     </Text>
                   </RightPointRow>

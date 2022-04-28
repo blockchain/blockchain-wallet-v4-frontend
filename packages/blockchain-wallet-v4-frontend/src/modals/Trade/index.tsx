@@ -93,7 +93,9 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-const enhance = compose<any>(modalEnhancer(ModalName.TRADE_MODAL, { transition: duration }))
+const enhance = compose<React.ComponentType>(
+  modalEnhancer(ModalName.TRADE_MODAL, { transition: duration })
+)
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 export default connector(enhance(TradeContainer))

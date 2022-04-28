@@ -17,7 +17,7 @@ export type BuildTxIntentType = {
   destination: string
   fee: BuildTxFeeType | string
   maxVerificationVersion?: number
-  source: { descriptor: 'legacy'; pubKey: string; style: 'SINGLE' }
+  sources: [{ descriptor: 'legacy'; pubKey: string; style: 'SINGLE' }]
   type: 'PAYMENT'
 }
 
@@ -121,16 +121,23 @@ export type TxHistoryResponseType = {
   history: SelfCustodyTxType[]
 }
 
-export type SelfCustodyTxType = {
+type SelfCustodyTxType = {
   extraData: {}
   fee: string
   movements: {
     address: string
     amount: string
-    currency: 'native'
+    identifier: 'native'
     type: 'SENT' | 'RECEIVED'
   }[]
   status: 'PENDING' | 'CONFIRMING' | 'COMPLETED' | 'FAILED'
   timestamp: number
   txId: string
+}
+
+export type IngestedSelfCustodyType = SelfCustodyTxType & {
+  amount: string
+  from: string
+  to: string
+  type: 'SENT' | 'RECEIVED'
 }

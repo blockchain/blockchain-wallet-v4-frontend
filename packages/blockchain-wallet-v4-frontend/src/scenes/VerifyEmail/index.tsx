@@ -14,13 +14,16 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     this.state = {}
   }
 
+  // When feature flag to create unified accounts is off
+  // We don't want to direct the user to /select-product
+  // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
-      nextProps.authActions.setRegisterEmail(undefined)
-      nextProps.routerActions.push('/home')
-      // for first time login users we need to run goal since this is a first page we show them
-      nextProps.saveGoal('welcomeModal', { firstLogin: true })
-      nextProps.runGoals()
+      if (nextProps.createExchangeUserFlag) {
+        nextProps.routerActions.push('/select-product')
+      } else {
+        nextProps.routerActions.push('/home')
+      }
     }
     return null
   }
@@ -32,12 +35,12 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   skipVerification = () => {
     const { email } = this.props
-    this.props.authActions.setRegisterEmail(undefined)
     this.props.securityCenterActions.skipVerifyEmail(email)
-    this.props.routerActions.push('/home')
-    // for first time login users we need to run goal since this is a first page we show them
-    this.props.saveGoal('welcomeModal', { firstLogin: true })
-    this.props.runGoals()
+    if (this.props.createExchangeUserFlag) {
+      this.props.routerActions.push('/select-product')
+    } else {
+      this.props.routerActions.push('/home')
+    }
   }
 
   render() {
@@ -53,7 +56,10 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
-  email: selectors.auth.getRegisterEmail(state) as string,
+  createExchangeUserFlag: selectors.core.walletOptions
+    .getCreateExchangeUserOnSignupOrLogin(state)
+    .getOrElse(false),
+  email: selectors.signup.getRegisterEmail(state) as string,
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false)
 })
 
@@ -61,8 +67,6 @@ const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
-  runGoals: () => dispatch(actions.goals.runGoals()),
-  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 

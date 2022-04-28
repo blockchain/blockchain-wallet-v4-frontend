@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import { validEmail } from 'services/forms'
 import { media } from 'services/styles'
 

@@ -108,6 +108,15 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
+export const getEthBalances = createDeepEqualSelector(
+  [getEthNonCustodialBalance, getCoinCustodialBalance('ETH')],
+  (balancesR, custodialBalanceR) => {
+    const custodialBalance = custodialBalanceR.getOrElse(0)
+
+    return Remote.of([new BigNumber(balancesR.getOrElse(new BigNumber(0))), custodialBalance])
+  }
+)
+
 export const getErc20Balance = (coin: string) =>
   createDeepEqualSelector(
     [getErc20NonCustodialBalance(coin), getCoinCustodialBalance(coin)],
@@ -250,10 +259,11 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
     selectors.components.utils.getCoinsWithBalanceOrMethod,
+    selectors.core.settings.getCurrency,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, state: RootState) => {
-    const transform = (coins: ExtractSuccess<typeof coinsR>) => {
+  (recentSwapTxsR, coinsR, currencyR, state: RootState) => {
+    const transform = (coins: ExtractSuccess<typeof coinsR>, currency) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
         if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
@@ -261,8 +271,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
 
         const coinA = a.symbol
         const coinB = b.symbol
-        // doesnt really matter
-        const currency = 'USD'
 
         const defaultRate = { price: 1 }
 
@@ -318,6 +326,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
       return [...coinsWithBalance, ...coinsWithoutBalanceToTrack].sort(coinSort) as CoinfigType[]
     }
 
-    return lift(transform)(coinsR)
+    return lift(transform)(coinsR, currencyR)
   }
 )

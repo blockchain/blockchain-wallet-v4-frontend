@@ -5,7 +5,9 @@ import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { TagsType } from 'data/types'
 import { media } from 'services/styles'
 
 import { BannerButton, IconWrapper } from '../styles'
@@ -58,6 +60,8 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
   }
 
   render() {
+    const { tags } = this.props
+
     return (
       <Wrapper>
         <Row>
@@ -66,16 +70,27 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
           </PendingIconWrapper>
           <Column>
             <Text size='20px' weight={600} color='grey800'>
-              <FormattedMessage
-                id='copy.stx_airdrop_avail'
-                defaultMessage='STX Airdrop is Available'
-              />
+              {tags?.BLOCKSTACK ? (
+                <FormattedMessage
+                  id='copy.stx_airdrop_avail'
+                  defaultMessage='STX Airdrop is Available'
+                />
+              ) : (
+                <FormattedMessage id='copy.stx_avail' defaultMessage='STX is Available' />
+              )}
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='copy.stx_supported_added'
-                defaultMessage='STX support has been added to the Blockchain.com Web Wallet. You can now send any STX received via the airdrop.'
-              />
+              {tags?.BLOCKSTACK ? (
+                <FormattedMessage
+                  id='copy.stx_supported_added'
+                  defaultMessage='STX support has been added to the Blockchain.com Web Wallet. You can now send any STX received via the airdrop.'
+                />
+              ) : (
+                <FormattedMessage
+                  id='copy.stx_support_send_receive_added'
+                  defaultMessage='STX support has been added to the Blockchain.com Web Wallet. You can now send and receive STX.'
+                />
+              )}
             </Copy>
           </Column>
         </Row>
@@ -93,11 +108,15 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  tags: selectors.modules.profile.getTags(state).getOrElse({} as TagsType) as TagsType
+})
+
 const mapDispatchToProps = (dispatch) => ({
   coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

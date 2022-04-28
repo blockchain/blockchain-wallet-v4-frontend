@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
-import moment from 'moment'
+import { addSeconds, differenceInMilliseconds } from 'date-fns'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
@@ -871,10 +871,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const isSddVerified = S.getSddVerified(yield select()).getOrElse({
         verified: false
       })
+      const { nabuUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+      )).getOrElse({ nabuUserId: null })
 
-      const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
-      const userId = userIdR.getOrElse(null)
-      if (!isSddVerified.verified && userId) {
+      if (!isSddVerified.verified && nabuUserId) {
         yield put(A.fetchSDDVerifiedLoading())
         const sddEligible = yield call(api.fetchSDDVerified)
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
@@ -1119,7 +1120,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             rate: parseInt(quote.price)
           })
         )
-        const refresh = -moment().add(10, 'seconds').diff(quote.quoteExpiresAt)
+        const refresh = Math.abs(
+          differenceInMilliseconds(new Date(quote.quoteExpiresAt), addSeconds(new Date(), 10))
+        )
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
@@ -1156,7 +1159,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
         yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = -moment().add(10, 'seconds').diff(quote.expiresAt)
+        const refresh = Math.abs(
+          differenceInMilliseconds(new Date(quote.expiresAt), addSeconds(new Date(), 10))
+        )
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)

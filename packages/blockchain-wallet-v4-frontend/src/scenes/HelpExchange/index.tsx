@@ -1,57 +1,42 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators, compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
-import CircleBackground from 'components/CircleBackground'
+import { RemoteDataType } from '@core/types'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  Link,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { actions, selectors } from 'data'
+import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
 
-import ResetPassword from './ResetPassword'
-
-const OuterWrapper = styled(Wrapper)`
+const FormWrapper = styled(Wrapper)`
   padding: 24px 0;
   ${media.mobile`
   padding: 16px 0;
 `}
 `
+
 const WrapperWithPadding = styled.div`
   padding: 0 32px;
   ${media.mobile`
   padding: 0 16px;
   `}
-`
-const BackArrow = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin-bottom: 20px;
-`
-
-const StillNeedHelpRow = styled.div`
-  display: flex;
-  align-items: center;
-  ${media.mobile`
-flex-direction: column;
-align-items: center;
-`}
-`
-const ContactSupportText = styled(Link)`
-  margin-top: 16px;
-  cursor: pointer;
-  ${media.mobile`
-  margin-top: 0;
-`};
-  &:hover {
-    font-weight: 600;
-  }
-`
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
 `
 
 const SubCard = styled.div`
@@ -65,50 +50,64 @@ const SubCard = styled.div`
   align-items: center;
 `};
 `
-const Right = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+const SignUpText = styled(Text)`
+  &:hover {
+    font-weight: 600;
+  }
 `
-const IconTextRow = styled.div`
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const ErrorOrSuccessWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+export const CircleBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background-color: ${(props) => props.theme.blue600};
+  border-radius: 40px;
+  margin: 16px 0;
+`
+
+const BackArrow = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-bottom: 20px;
 `
 
-const StyledCircle = styled(CircleBackground)`
-  margin: 8px 16px 8px 0;
-`
+const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
-const TextStack = styled.div`
-  max-width: 312px;
-`
-
-class Help extends React.PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      showHelpOptions: true
-    }
+class Help extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
+  componentWillUnmount() {
+    this.props.authActions.exchangeResetPasswordNotAsked()
   }
 
-  showPasswordResetForm = () => {
-    this.setState({ showHelpOptions: false })
-  }
-
-  showHelpOptions = () => {
-    this.setState({ showHelpOptions: true })
+  onSubmit = (e) => {
+    e.preventDefault()
+    this.props.authActions.exchangeResetPassword(this.props.formValues?.email)
   }
 
   render() {
-    return this.state.showHelpOptions ? (
-      <OuterWrapper>
+    const { invalid, submitting } = this.props
+    return (
+      <FormWrapper>
         <WrapperWithPadding>
           <LinkContainer to='/login?product=exchange'>
             <BackArrow>
               <Icon
-                data-e2e='needHelpExchangeBack'
+                data-e2e='needHelpBack'
                 name='arrow-back'
                 size='24px'
                 color='blue600'
@@ -120,98 +119,137 @@ class Help extends React.PureComponent<Props, State> {
               </Text>
             </BackArrow>
           </LinkContainer>
-          <Header>
-            <Text size='20px' color='grey900' weight={600} capitalize>
-              <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
-            </Text>
-          </Header>
-          <IconTextRow onClick={this.showPasswordResetForm} style={{ marginBottom: '12px' }}>
-            <StyledCircle size='48px'>
-              <Icon name='keyboard' color='blue600' size='16px' />
-            </StyledCircle>
-            <TextStack>
-              <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.help.forgotpassword'
-                  defaultMessage='Forgot your password?'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.help.password.request'
-                  defaultMessage='Request a password reset for your Exchange account.'
-                />
-              </Text>
-            </TextStack>
-            <Right>
-              <Icon name='chevron-right' size='20px' color='grey400' />
-            </Right>
-          </IconTextRow>
-          <Link
-            href='https://support.blockchain.com/hc/en-us/articles/4555574488476-How-can-I-reset-my-two-factor-authentication-2FA-'
-            target='_blank'
-          >
-            <IconTextRow>
-              <StyledCircle size='48px' color='blue000'>
-                <Icon name='lock' color='blue600' size='24px' />
-              </StyledCircle>
-              <TextStack>
-                <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+          <Text color='grey900' size='20px' weight={600} style={{ textAlign: 'center' }}>
+            <FormattedMessage
+              id='copy.forgot_exchange_password'
+              defaultMessage='Forgot Exchange Password'
+            />
+          </Text>
+          {this.props.resetExchangePasswordR.cata({
+            Failure: (val) => (
+              <ErrorOrSuccessWrapper>
+                <Icon color='error' name='close-circle' size='40px' />
+                <Text size='20px' weight={600} color='black' style={{ margin: '8px 0' }}>
+                  <FormattedMessage id='copy.oops' defaultMessage='Oops. Something went wrong.' />
+                </Text>
+                <Text size='16px' weight={500} color='grey600'>
+                  {val}
+                </Text>
+              </ErrorOrSuccessWrapper>
+            ),
+            Loading: () => (
+              <LoadingWrapper>
+                <SpinningLoader width='40px' height='40px' />
+              </LoadingWrapper>
+            ),
+            NotAsked: () => (
+              <Form onSubmit={this.onSubmit}>
+                <FormGroup>
+                  <FormItem style={{ marginTop: '30px' }}>
+                    <FormLabel htmlFor='email'>
+                      <FormattedMessage
+                        id='scenes.register.youremail'
+                        defaultMessage='Your Email'
+                      />
+                    </FormLabel>
+                    <Field
+                      component={TextBox}
+                      data-e2e='exchangeEmail'
+                      disableSpellcheck
+                      name='email'
+                      normalize={removeWhitespace}
+                      validate={[required, validEmail]}
+                      placeholder='Enter your email'
+                      autoFocus
+                    />
+                  </FormItem>
+                </FormGroup>
+                <Button
+                  type='submit'
+                  nature='primary'
+                  fullwidth
+                  height='48px'
+                  disabled={submitting || invalid}
+                  data-e2e='loginButton'
+                  style={{ marginBottom: '16px' }}
+                >
+                  {submitting ? (
+                    <HeartbeatLoader height='20px' width='20px' color='white' />
+                  ) : (
+                    <Text color='whiteFade900' size='16px' weight={600}>
+                      <FormattedMessage
+                        id='scenes.login.exchange.help.requestpasswordreset'
+                        defaultMessage='Request password reset'
+                      />
+                    </Text>
+                  )}
+                </Button>
+              </Form>
+            ),
+            Success: () => (
+              <ErrorOrSuccessWrapper>
+                <CircleBackground>
+                  <Icon name='computer' color='white' size='24px' />
+                </CircleBackground>
+                <Text
+                  size='16px'
+                  weight={500}
+                  color='grey600'
+                  lineHeight='1.5'
+                  style={{ textAlign: 'center' }}
+                >
                   <FormattedMessage
-                    id='scenes.help.2falost'
-                    defaultMessage='Lost your 2FA device?'
+                    id='scenes.login.exchange.help.passwordresetsuccess'
+                    defaultMessage="If you're registered on the Exchange, you will receive an email with instructions on how to reset your password shortly."
                   />
                 </Text>
-                <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-                  <FormattedMessage
-                    id='scenes.help.2fa.lostexplain_exchange'
-                    defaultMessage='Learn how to reset 2FA for your Exchange account.'
-                  />
-                </Text>
-              </TextStack>
-              <Right>
-                <Icon name='chevron-right' size='20px' color='grey400' />
-              </Right>
-            </IconTextRow>
-          </Link>
+              </ErrorOrSuccessWrapper>
+            )
+          })}
         </WrapperWithPadding>
-        <SubCard>
-          <StillNeedHelpRow>
-            <Text
-              size='16px'
-              color='grey600'
-              weight={500}
-              style={{ cursor: 'pointer', marginTop: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.help.contact.stillneedhelp'
-                defaultMessage='Still need help?'
-              />
-            </Text>
-            &nbsp;
-            <ContactSupportText
-              href='https://support.blockchain.com/hc/en-us/categories/4416667483796-Exchange'
-              target='_blank'
-              size='16px'
-              color='blue600'
-              weight={500}
-            >
-              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
-            </ContactSupportText>
-          </StillNeedHelpRow>
-        </SubCard>
-      </OuterWrapper>
-    ) : (
-      // @ts-ignore
-      <ResetPassword showHelpOptions={this.showHelpOptions} />
+        <LinkContainer data-e2e='signupLink' to='/signup'>
+          <Link>
+            <SubCard>
+              <Text size='16px' color='grey600' weight={500} style={{ marginTop: '16px' }}>
+                <FormattedMessage
+                  id='scenes.login.account_signup'
+                  defaultMessage="Don't have a Blockchain Account?"
+                />
+              </Text>
+              &nbsp;
+              <SignUpText size='16px' color='blue600' weight={600} style={{ marginTop: '16px' }}>
+                <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+              </SignUpText>
+            </SubCard>
+          </Link>
+        </LinkContainer>
+      </FormWrapper>
     )
   }
 }
 
-type State = { showHelpOptions: boolean }
-export type Props = {
+const mapStateToProps = (state) => ({
+  formValues: selectors.form.getFormValues('exchangePasswordReset')(state),
+  resetExchangePasswordR: selectors.auth.getExchangeResetPassword(state)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type LinkStatePropsType = {
+  authActions: typeof actions.auth
+  formValues: {
+    email: string
+  }
+  resetExchangePasswordR: RemoteDataType<string, null>
+}
+type Props = LinkStatePropsType & {
   showHelpOptions: () => void
-  showPasswordResetForm: () => void
 }
 
-export default Help
+const enhance = compose(reduxForm<{}, Props>({ form: 'exchangePasswordReset' }), connector)
+
+export default enhance(Help) as React.ComponentType

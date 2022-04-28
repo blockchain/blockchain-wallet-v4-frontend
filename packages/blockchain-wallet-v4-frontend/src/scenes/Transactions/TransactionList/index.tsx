@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { SelfCustodyTxType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import {
   BSOrderType,
   BSTransactionType,
@@ -84,7 +84,7 @@ export type Props = {
 }
 
 export type SuccessStateType = Array<
-  BSOrderType | BSTransactionType | ProcessedTxType | SelfCustodyTxType
+  BSOrderType | BSTransactionType | ProcessedTxType | IngestedSelfCustodyType
 >
 
 export default TransactionList

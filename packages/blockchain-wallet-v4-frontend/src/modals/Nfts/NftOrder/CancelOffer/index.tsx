@@ -3,7 +3,8 @@ import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { Row, Title, Value } from 'components/Flyout/model'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'

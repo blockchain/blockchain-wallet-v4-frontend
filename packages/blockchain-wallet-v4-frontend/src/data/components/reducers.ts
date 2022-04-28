@@ -8,7 +8,6 @@ import identityVerificationReducer from './identityVerification/reducers'
 import { interestReducer } from './interest/slice'
 import { reducer as interestUploadDocumentReducer } from './interestUploadDocument/slice'
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
-import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { nftsReducer } from './nfts/slice'
 import { priceChartReducer } from './priceChart/slice'
@@ -41,7 +40,6 @@ const componentReducer = combineReducers({
   interest: interestReducer,
   interestUploadDocument: interestUploadDocumentReducer,
   layoutWallet,
-  lockbox,
   manageAddresses,
   nfts: nftsReducer,
   priceChart: priceChartReducer,

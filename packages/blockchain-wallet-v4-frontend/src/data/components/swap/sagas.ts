@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { differenceInMilliseconds } from 'date-fns'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
@@ -320,7 +320,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           new BigNumber(convertStandardToBase(BASE.coin, 1))
         )
         yield put(A.fetchQuoteSuccess({ quote, rate }))
-        const refresh = -moment().diff(quote.expiresAt)
+        const refresh = Math.abs(differenceInMilliseconds(new Date(), new Date(quote.expiresAt)))
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)

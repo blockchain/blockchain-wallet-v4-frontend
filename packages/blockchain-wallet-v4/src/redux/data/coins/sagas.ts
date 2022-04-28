@@ -1,9 +1,10 @@
 import { BigNumber } from 'bignumber.js'
-import moment from 'moment'
+import { getTime } from 'date-fns'
 import { flatten, last, length } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
 
@@ -112,20 +113,33 @@ export default ({ api }: { api: APIType }) => {
       const txList = [txPage, custodialPage.orders]
       if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
         const pubKey = yield call(getPubKey, '')
+        const { results }: ReturnType<typeof api.deriveAddress> = yield call(
+          api.deriveAddress,
+          payload.coin,
+          pubKey
+        )
+        const addresses = results.map(({ address }) => address)
         const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
           { descriptor: 'default', pubKey, style: 'SINGLE' }
         ])
-        const history = selfCustodyPage.history.map((val) => ({
-          ...val,
-          type: val.movements[0].type
-        }))
+        const history = selfCustodyPage.history.map((val) => {
+          const type = addresses.includes(
+            val.movements.find(({ type }) => type === 'SENT')?.address || ''
+          )
+            ? 'SENT'
+            : 'RECEIVED'
+          return {
+            ...val,
+            amount: val.movements.find(({ type }) => type === 'SENT')?.amount,
+            from: val.movements.find(({ type }) => type === 'SENT')?.address,
+            to: val.movements.find(({ type }) => type === 'RECEIVED')?.address,
+            type
+          }
+        })
         txList.push(history)
       }
-      const page = flatten(txList).sort((a, b) => {
-        return (
-          moment(b.insertedAt || b.timestamp).valueOf() -
-          moment(a.insertedAt || a.timestamp).valueOf()
-        )
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       const atBounds = page.length < TX_PER_PAGE
       yield put(A.transactionsAtBound(payload.coin, atBounds))

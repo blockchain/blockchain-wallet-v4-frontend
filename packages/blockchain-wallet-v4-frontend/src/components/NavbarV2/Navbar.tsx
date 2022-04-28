@@ -7,7 +7,6 @@ import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { MobileNav } from 'components/NavbarV2'
 import { Destination } from 'layouts/Wallet/components'
 import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
@@ -15,6 +14,7 @@ import { useMedia } from 'services/styles'
 
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
 import MobileDropdown from './MobileDropdown'
+import MobileNav from './MobileNav'
 
 export type PrimaryNavItem = {
   dest: string
@@ -22,18 +22,19 @@ export type PrimaryNavItem = {
   text: string | React.ReactNode
 }
 
-const NavContainer = styled.div`
+export const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   background-color: ${colors.white100};
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0 22px;
   border-bottom: 1px solid ${colors.grey100};
   height: 56px;
 `
 
-const Logo = styled.div`
+export const Logo = styled.div`
   display: flex;
   align-items: center;
 
@@ -45,12 +46,12 @@ const Logo = styled.div`
   }
 `
 
-const NavLeft = styled.div`
+export const NavLeft = styled.div`
   display: flex;
   align-items: stretch;
 `
 
-const NavRight = styled.div`
+export const NavRight = styled.div`
   display: flex;
   align-items: stretch;
 `
