@@ -550,6 +550,8 @@ export enum TransactionSortFields {
   TransactionIndex = 'transaction_index'
 }
 
+export type AssetItemResultFragmentFragment = { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } };
+
 export type AssetQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -586,6 +588,16 @@ export type EventsQueryVariables = Exact<{
 
 
 export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, contract?: { __typename?: 'Contract', address: string } | null } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
+
+export type FirehoseQueryVariables = Exact<{
+  filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
+  sort?: InputMaybe<EventSort>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type FirehoseQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null } } | null, from?: { __typename?: 'Account', address: string } | null, to?: { __typename?: 'Account', address: string } | null, winner?: { __typename?: 'Account', address: string } | null, seller?: { __typename?: 'Account', address: string } | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -2410,7 +2422,28 @@ export default {
     "directives": []
   }
 } as unknown as IntrospectionQuery;
-
+export const AssetItemResultFragmentFragmentDoc = gql`
+    fragment AssetItemResultFragment on Asset {
+  name
+  token_id
+  contract {
+    address
+  }
+  image_url
+  permalink
+  owners {
+    address
+  }
+  listings {
+    payment_token_symbol
+    starting_price
+  }
+  collection {
+    name
+    image_url
+  }
+}
+    `;
 export const AssetDocument = gql`
     query Asset($filter: [AssetFilter], $limit: Int) {
   assets(filter: $filter, limit: $limit) {
@@ -2474,27 +2507,10 @@ export const AssetsDocument = gql`
     limit: $limit
     offset: $offset
   ) {
-    name
-    token_id
-    contract {
-      address
-    }
-    image_url
-    permalink
-    owners {
-      address
-    }
-    listings {
-      payment_token_symbol
-      starting_price
-    }
-    collection {
-      name
-      image_url
-    }
+    ...AssetItemResultFragment
   }
 }
-    `;
+    ${AssetItemResultFragmentFragmentDoc}`;
 
 export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVariables>, 'query'>) {
   return Urql.useQuery<AssetsQuery>({ query: AssetsDocument, ...options });
@@ -2562,6 +2578,35 @@ export const EventsDocument = gql`
 
 export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVariables>, 'query'>) {
   return Urql.useQuery<EventsQuery>({ query: EventsDocument, ...options });
+};
+export const FirehoseDocument = gql`
+    query Firehose($filter: [EventFilter], $sort: EventSort, $limit: Int, $offset: Int) {
+  events(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
+    event_type
+    asset {
+      ...AssetItemResultFragment
+    }
+    total_price
+    bid_amount
+    from {
+      address
+    }
+    to {
+      address
+    }
+    winner {
+      address
+    }
+    seller {
+      address
+    }
+    created_date
+  }
+}
+    ${AssetItemResultFragmentFragmentDoc}`;
+
+export function useFirehoseQuery(options?: Omit<Urql.UseQueryArgs<FirehoseQueryVariables>, 'query'>) {
+  return Urql.useQuery<FirehoseQuery>({ query: FirehoseDocument, ...options });
 };
 export const OwnerDocument = gql`
     query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
