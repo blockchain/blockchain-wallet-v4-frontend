@@ -49,9 +49,7 @@ export const getData = createDeepEqualSelector(
     } as ProductEligibilityForUser)
 
     const includeCustodialWallets =
-      products.custodialWallets?.enabled &&
-      products.custodialWallets?.canDepositFiat &&
-      products.custodialWallets?.canDepositCrypto
+      products.custodialWallets?.enabled && products.custodialWallets?.canDepositCrypto
 
     const showSilverRevamp = showSilverRevampR.getOrElse(false)
 

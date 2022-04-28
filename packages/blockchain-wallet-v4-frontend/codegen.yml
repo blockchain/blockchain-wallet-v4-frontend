@@ -2,7 +2,7 @@ overwrite: true
 schema: "https://api.dev.blockchain.info/explorer-gateway/graphql/"
 documents: "src/**/*.graphql"
 generates:
-  src/generated/graphql.ts:
+  src/generated/graphql.types.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
