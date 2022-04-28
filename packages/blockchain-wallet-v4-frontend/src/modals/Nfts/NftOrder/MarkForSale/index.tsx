@@ -26,9 +26,9 @@ import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
-import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
+import MarkForSaleFees from './fees'
 
 const FormWrapper = styled.div`
   gap: 8px;
@@ -462,12 +462,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               </Row>
               <Row>
                 <Value>
-                  <NetworkFeesComponent
-                    wethFees={false}
-                    title='Selling Fees'
-                    {...props}
-                    {...[val]}
-                  />
+                  <MarkForSaleFees {...props} {...[val]} />
                 </Value>
               </Row>
               <Row>

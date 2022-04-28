@@ -38,8 +38,8 @@ import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
-import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
+import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
@@ -338,7 +338,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               </Row>
               <Row>
                 <Value>
-                  <NetworkFeesComponent wethFees title='Network Fees' {...props} {...[val]} />
+                  <MakeOfferFees {...props} {...[val]} />
                 </Value>
               </Row>
             </Form>

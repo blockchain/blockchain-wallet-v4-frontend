@@ -9,9 +9,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 
-import MakeOfferFees from '../NftOrder/MakeOffer/fees'
-import WrapEthFees from '../NftOrder/WrapEth/fees'
-
 const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
@@ -26,7 +23,7 @@ const Top = styled.div`
 const ChevronArea = styled.div`
   display: flex;
 `
-const Fees = styled.div`
+const FeesWrapper = styled.div`
   padding: 1em 0em 0em 0em;
 `
 
@@ -44,8 +41,8 @@ const Total = styled(FiatDisplay)`
   justify-content: space-between;
 `
 
-const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
-  const { orderFlow, title, wethFees } = props
+const Fees: React.FC<Props> = (props: any, val) => {
+  const { orderFlow } = props
   const [moreFees, setMoreFees] = useState(false)
   const toggleDropdown = () => {
     setMoreFees(!moreFees)
@@ -74,18 +71,12 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
       <Wrapper>
         <Top onClick={toggleDropdown}>
           <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
-            {title}
+            Selling Fees
           </Text>
           <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
-            {wethFees ? (
-              <Total color={colors.grey600} weight={500} size='14px' coin='ETH'>
-                {getTotalFees()}
-              </Total>
-            ) : (
-              <Text weight={500} style={{ paddingLeft: '10em' }} lineHeight='24px'>
-                {getBasisPoints()}
-              </Text>
-            )}
+            <Text weight={500} style={{ paddingLeft: '10em' }} lineHeight='24px'>
+              {getBasisPoints()}
+            </Text>
           </Text>
           {!moreFees && (
             <ChevronArea>
@@ -98,35 +89,26 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
             </ChevronArea>
           )}
         </Top>
-        {wethFees ? (
-          <Fees style={moreFees ? {} : { display: 'none' }}>
-            {/* @ts-ignore */}
-            <MakeOfferFees {...props} asset={val} />
-            {/* @ts-ignore */}
-            <WrapEthFees {...props} />
-          </Fees>
-        ) : (
-          <Fees style={moreFees ? {} : { display: 'none' }}>
-            {orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Text weight={500}>OpenSea Service Fee</Text>
-                <Text weight={500} style={{ paddingRight: '1.5em' }}>
-                  {orderFlow.asset.data.asset_contract.opensea_seller_fee_basis_points / 100}%
-                </Text>
-              </div>
-            )}
-            {orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points > 0 && (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Text weight={500} style={{ paddingRight: '2em' }}>
-                  Creator Royalty
-                </Text>
-                <Text weight={500}>
-                  {Number(orderFlow.asset.data.collection.dev_seller_fee_basis_points) / 100}%
-                </Text>
-              </div>
-            )}
-          </Fees>
-        )}
+        <FeesWrapper style={moreFees ? {} : { display: 'none' }}>
+          {orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Text weight={500}>OpenSea Service Fee</Text>
+              <Text weight={500} style={{ paddingRight: '1.5em' }}>
+                {orderFlow.asset.data.asset_contract.opensea_seller_fee_basis_points / 100}%
+              </Text>
+            </div>
+          )}
+          {orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Text weight={500} style={{ paddingRight: '2em' }}>
+                Creator Royalty
+              </Text>
+              <Text weight={500}>
+                {Number(orderFlow.asset.data.collection.dev_seller_fee_basis_points) / 100}%
+              </Text>
+            </div>
+          )}
+        </FeesWrapper>
       </Wrapper>
       {/* {moreFees && (
         <Total>
@@ -139,7 +121,6 @@ const NetworkFeesComponent: React.FC<Props> = (props: any, val) => {
 }
 
 const connector = connect()
-type OwnProps = { title: string; wethFees: boolean }
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
-export default connector(NetworkFeesComponent)
+export default connector(Fees)

@@ -1,74 +1,113 @@
-import React, { useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
+import styled from 'styled-components'
 
-import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
-import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
+import { Icon, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
-import { Value } from 'components/Flyout/model'
 
-import { CTARow } from '../../components'
-import { Props as OwnProps } from '..'
+import MakeOfferFees from '../Approval/fees'
+import WrapEthFees from '../WrapEth/fees'
 
-const Fees: React.FC<Props> = (props: any) => {
-  const { nftActions, orderFlow } = props
+const Wrapper = styled.div`
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  font-family: Inter, sans-serif;
+  padding: 1em;
+`
 
-  // Default to WETH
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const WETH = window.coins.WETH.coinfig.type.erc20Address!
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const ChevronArea = styled.div`
+  display: flex;
+`
+const FeesWrapper = styled.div`
+  padding: 1em 0em 0em 0em;
+`
 
-  useEffect(() => {
-    nftActions.fetchFees({
-      asset: props[0],
-      offer: '0.0001',
-      operation: GasCalculationOperations.CreateOffer,
-      paymentTokenAddress: WETH
-    })
-  }, [])
+const OfferFees = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 0em;
+`
+
+const WrappedEthFees = styled(OfferFees)``
+
+const Total = styled(FiatDisplay)`
+  margin-left: 10em;
+  display: flex;
+  justify-content: space-between;
+`
+
+const Fees: React.FC<Props> = (props: any, val) => {
+  const { orderFlow } = props
+  const [moreFees, setMoreFees] = useState(false)
+  const toggleDropdown = () => {
+    setMoreFees(!moreFees)
+  }
+
+  const getTotalFees = () => {
+    const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
+      .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
+      .plus(
+        new BigNumber(props?.orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
+          props?.orderFlow?.wrapEthFees?.data?.gasPrice
+        )
+      )
+    return !totalFees.isNaN() ? totalFees.toString() : 0
+  }
+
+  const getBasisPoints = () => {
+    return `${String(
+      Number(orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points) +
+        Number(orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points) / 100
+    )}%`
+  }
 
   return (
     <>
-      {orderFlow.fees.cata({
-        Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
-        ),
-        NotAsked: () => null,
-        Success: (val) => {
-          return (
-            <>
-              <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Title style={{ display: 'flex', lineHeight: '38px' }}>
-                  <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
-                  {val.approvalFees > 0 ? (
-                    <TooltipHost id='tooltip.opensea_offer_approval_fees'>
-                      <TooltipIcon name='question-in-circle-filled' />
-                    </TooltipHost>
-                  ) : null}
-                </Title>
-                <Value>
-                  <div style={{ display: 'block' }}>
-                    <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
-                    </CoinDisplay>
-                    <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
-            </>
-          )
-        }
-      })}
+      <Wrapper>
+        <Top onClick={toggleDropdown}>
+          <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
+            Network Fees
+          </Text>
+          <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
+            <Total color={colors.grey600} weight={500} size='14px' coin='ETH'>
+              {getTotalFees()}
+            </Total>
+          </Text>
+          {!moreFees && (
+            <ChevronArea>
+              <Icon name='chevron-right' size='24px' color='grey400' />
+            </ChevronArea>
+          )}
+          {moreFees && (
+            <ChevronArea>
+              <Icon name='chevron-down' size='24px' color='grey400' />
+            </ChevronArea>
+          )}
+        </Top>
+        <FeesWrapper style={moreFees ? {} : { display: 'none' }}>
+          {/* @ts-ignore */}
+          <MakeOfferFees {...props} asset={val} />
+          {/* @ts-ignore */}
+          <WrapEthFees {...props} />
+        </FeesWrapper>
+      </Wrapper>
+      {/* {moreFees && (
+        <Total>
+          <Text weight={500}>Total</Text>
+          <Text weight={500}>$0.00</Text>
+        </Total>
+      )} */}
     </>
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+const connector = connect()
+type Props = ConnectedProps<typeof connector>
 
-export default Fees
+export default connector(Fees)

@@ -46,7 +46,7 @@ const CTA: React.FC<Props> = (props) => {
   }
   if (!orderToMatch) return null
 
-  const disabled = props.orderFlow.isSubmitting
+  const disabled = props.orderFlow.isSubmitting || !termsAccepted
 
   if (!isAuthenticated) {
     return (

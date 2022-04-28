@@ -25,7 +25,6 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
-import NetworkFeesComponent from '../../components/NetworkFees'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
 import BuyFees from './fees'
@@ -230,41 +229,8 @@ const Buy: React.FC<Props> = (props) => {
                 />
               </Value>
             </Row>
-            <Row>
-              <Value>
-                <NetworkFeesComponent wethFees title='Network Fees' {...props} {...[val]} />
-              </Value>
-            </Row>
-            <Row>
-              <Value
-                style={{ display: 'flex', justifyContent: 'space-between', padding: '0em 1em' }}
-              >
-                <Text color='black' weight={600} size='18px'>
-                  Total
-                </Text>
-                <div style={{ display: 'block' }}>
-                  <CoinDisplay
-                    size='18px'
-                    color='black'
-                    weight={600}
-                    coin='ETH'
-                    style={{ justifyContent: 'right' }}
-                  >
-                    {Number(lowest_order?.base_price) + buyFees?.totalFees || 0}
-                  </CoinDisplay>
-                  <FiatDisplay
-                    size='14px'
-                    color={colors.grey600}
-                    weight={600}
-                    coin='ETH'
-                    style={{ justifyContent: 'right' }}
-                  >
-                    {Number(lowest_order?.base_price) + buyFees?.totalFees || 0}
-                  </FiatDisplay>
-                </div>
-              </Value>
-            </Row>
             <StickyCTA>
+              <BuyFees {...props} />
               <BuyCta
                 {...props}
                 amount={cryptoAmt}
