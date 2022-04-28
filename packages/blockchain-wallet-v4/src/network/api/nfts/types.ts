@@ -902,7 +902,15 @@ export interface OpenSeaOrder {
   v: number
 }
 
+// Only keeping around relevant info for now
 export type ExplorerGatewaySearchType = {
+  accounts: {
+    address: string
+    config: string
+    date_ingested: string
+    profile_img_url: string
+    username: string | null
+  }
   assets: {
     collection_slug: string
     contract_address: string
@@ -913,4 +921,21 @@ export type ExplorerGatewaySearchType = {
     image_url: string
     name: string
   }[]
+  collections: {
+    image_url: string | null
+    name: string
+    num_owners: null
+    safelist_request_status: string
+  }[]
+  contracts: {
+    address: string
+    asset_contract_type: string
+    created_date: string
+    date_ingested: string
+    nft_version: string
+    owner: string | null
+    schema_name: string
+    symbol: string
+    total_supply: string
+  }
 }
