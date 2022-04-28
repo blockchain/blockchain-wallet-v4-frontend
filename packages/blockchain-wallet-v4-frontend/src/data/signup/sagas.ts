@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -12,20 +12,57 @@ import {
   ProductAuthOptions
 } from 'data/types'
 import * as C from 'services/alerts'
+import { askSecondPasswordEnhancer } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { generateRetailToken, setSession } = profileSagas({
+  const { createExchangeUser, createUser, generateRetailToken, setSession } = profileSagas({
     api,
     coreSagas,
     networks
   })
-  const { loginRoutineSaga } = authSagas({
+  const { authNabu, loginRoutineSaga } = authSagas({
     api,
     coreSagas,
     networks
   })
 
+  const exchangeMobileAppSignup = function* ({
+    country = undefined,
+    email = undefined,
+    state = undefined
+  }) {
+    try {
+      const createExchangeUserFlag = (yield select(
+        selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
+      )).getOrElse(false)
+      yield call(coreSagas.settings.fetchSettings)
+      yield put(actions.auth.authenticate())
+      // root and wallet are necessary to auth into the exchange
+      yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+
+      yield call(authNabu)
+      yield call(createUser)
+      // store initial address in case of US state we add prefix
+      const userState = country === 'US' ? `US-${state}` : state
+      yield call(api.setUserInitialAddress, country, userState)
+      yield call(coreSagas.settings.fetchSettings)
+
+      const guid = yield select(selectors.core.wallet.getGuid)
+
+      yield call(createExchangeUser, country)
+      yield put(actions.cache.exchangeEmail(email))
+      yield put(actions.cache.exchangeWalletGuid(guid))
+      yield put(actions.cache.setUnifiedAccount(true))
+
+      yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))
+    }
+  }
   const register = function* (action) {
     const { country, email, initCaptcha, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
@@ -33,6 +70,7 @@ export default ({ api, coreSagas, networks }) => {
     const refreshToken = (yield select(
       selectors.core.walletOptions.getRefreshCaptchaOnSignupError
     )).getOrElse(false)
+    const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     try {
       yield put(actions.signup.registerLoading())
       yield put(actions.auth.loginLoading())
@@ -42,12 +80,24 @@ export default ({ api, coreSagas, networks }) => {
       if (!isAccountReset) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       }
-      yield call(loginRoutineSaga, {
-        country,
-        email,
-        firstLogin: true,
-        state
-      })
+      if (
+        product === ProductAuthOptions.EXCHANGE &&
+        (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
+      ) {
+        yield call(exchangeMobileAppSignup, {
+          country,
+          email,
+          state
+        })
+      } else {
+        yield call(loginRoutineSaga, {
+          country,
+          email,
+          firstLogin: true,
+          state
+        })
+      }
+
       yield put(actions.signup.registerSuccess(undefined))
       yield put(
         actions.analytics.trackEvent({
