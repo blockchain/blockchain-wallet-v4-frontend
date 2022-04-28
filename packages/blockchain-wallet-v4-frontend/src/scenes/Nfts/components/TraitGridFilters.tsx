@@ -8,10 +8,10 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
+import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { AssetSortFields } from 'generated/graphql'
+import { AssetSortFields } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 import EventTypeName from './EventTypeName'

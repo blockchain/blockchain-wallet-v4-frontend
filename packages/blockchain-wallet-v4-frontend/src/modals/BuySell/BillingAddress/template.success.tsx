@@ -1,23 +1,45 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { validate } from 'postal-codes-js'
+// @ts-ignore
+import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
+import { path } from 'ramda'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormGroup, FormItem, FormLabel, SelectBoxUSState, TextBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
-import {
-  countryUsesPostalCode,
-  countryUsesZipcode,
-  required,
-  requiredZipCode
-} from 'services/forms'
+import { countryUsesZipcode, required } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 
 const { FORMS_BS_BILLING_ADDRESS } = model.components.buySell
+
+const countryUsesPostalCode = (countryCode) => {
+  return path([countryCode, 'postalCodeFormat'], postalCodes)
+}
+
+const requiredZipCode = (value, allVals) => {
+  const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
+  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!value)
+    return (
+      <div data-e2e='requiredMessage'>
+        <FormattedMessage id='formhelper.required' defaultMessage='Required' />
+      </div>
+    )
+
+  return validate(countryCode, value) === true ? undefined : (
+    <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
+  )
+}
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   border-bottom: 1px solid ${(props) => props.theme.grey000};

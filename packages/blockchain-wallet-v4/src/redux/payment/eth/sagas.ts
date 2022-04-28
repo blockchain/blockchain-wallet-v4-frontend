@@ -63,34 +63,24 @@ export default ({ api }: { api: APIType }) => {
     return destination
   }
 
-  const calculateSignature = function* (network, password, transport, scrambleKey, p) {
-    switch (p.raw.fromType) {
-      case ADDRESS_TYPES.ACCOUNT: {
-        let sign
-        const appState = yield select(identity)
-        const mnemonicT = S.wallet.getMnemonic(appState, password)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        if (p.isErc20) {
-          const { coinfig } = window.coins[p.coin]
-          const contractAddress = coinfig.type.erc20Address
-          const assets: ReturnType<typeof api.getErc20Assets> = yield call(api.getErc20Assets)
-          const token = assets.currencies.find(({ type }) => type.erc20Address === contractAddress)
-          if (!token || (token && token.symbol !== coinfig.symbol)) {
-            throw new Error('Can not trust token contract')
-          }
-          sign = (txnData) =>
-            taskToPromise(eth.signErc20(network, mnemonic, txnData, contractAddress))
-        } else {
-          sign = (txnData) => taskToPromise(eth.sign(network, mnemonic, txnData))
-        }
-        return yield call(sign, p.raw)
+  const calculateSignature = function* (network, password, p) {
+    let sign
+    const appState = yield select(identity)
+    const mnemonicT = S.wallet.getMnemonic(appState, password)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    if (p.isErc20) {
+      const { coinfig } = window.coins[p.coin]
+      const contractAddress = coinfig.type.erc20Address
+      const assets: ReturnType<typeof api.getErc20Assets> = yield call(api.getErc20Assets)
+      const token = assets.currencies.find(({ type }) => type.erc20Address === contractAddress)
+      if (!token || (token && token.symbol !== coinfig.symbol)) {
+        throw new Error('Can not trust token contract')
       }
-      case ADDRESS_TYPES.LOCKBOX: {
-        return yield call(eth.signWithLockbox, network, transport, scrambleKey, p.raw)
-      }
-      default:
-        break
+      sign = (txnData) => taskToPromise(eth.signErc20(network, mnemonic, txnData, contractAddress))
+    } else {
+      sign = (txnData) => taskToPromise(eth.sign(network, mnemonic, txnData))
     }
+    return yield call(sign, p.raw)
   }
 
   const calculateUnconfirmed = function* (address: string) {
@@ -353,16 +343,9 @@ export default ({ api }: { api: APIType }) => {
         )
       },
 
-      *sign(password, transport, scrambleKey) {
+      *sign(password) {
         try {
-          const signed = yield call(
-            calculateSignature,
-            network,
-            password,
-            transport,
-            scrambleKey,
-            p
-          )
+          const signed = yield call(calculateSignature, network, password, p)
           return makePayment(mergeRight(p, { signed }))
         } catch (e) {
           if (e && e instanceof Error) {

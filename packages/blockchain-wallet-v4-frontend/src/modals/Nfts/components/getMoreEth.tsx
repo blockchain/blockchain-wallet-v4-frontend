@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import { useOpenSendCryptoModal } from 'blockchain-wallet-v4-frontend/src/hooks'
+import { useOpenSendCryptoModal } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 

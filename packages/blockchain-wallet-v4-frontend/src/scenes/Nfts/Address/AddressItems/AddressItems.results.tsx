@@ -11,7 +11,7 @@ import {
   OwnerQuery,
   SortDirection,
   useOwnerQuery
-} from 'generated/graphql'
+} from 'generated/graphql.types'
 
 import {
   Asset,

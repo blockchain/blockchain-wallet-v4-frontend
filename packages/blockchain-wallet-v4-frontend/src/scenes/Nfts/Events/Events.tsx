@@ -4,7 +4,7 @@ import { CombinedError } from 'urql'
 import { SpinningLoader } from 'blockchain-info-components'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { TableWrapper } from 'components/Table'
-import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql'
+import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql.types'
 
 import { Centered } from '../components'
 import NftError from '../components/NftError'

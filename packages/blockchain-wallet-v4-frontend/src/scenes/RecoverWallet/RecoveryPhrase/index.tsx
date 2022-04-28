@@ -1,7 +1,7 @@
 import React from 'react'
 import { InjectedFormProps } from 'redux-form'
 
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { LoginSteps } from 'data/types'
 
 import { Props } from '..'

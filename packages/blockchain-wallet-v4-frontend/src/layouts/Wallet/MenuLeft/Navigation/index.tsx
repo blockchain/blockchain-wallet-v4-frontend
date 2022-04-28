@@ -37,6 +37,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(connector)
 
-export type Props = OwnProps & ConnectedProps<typeof connector> & { lockboxDevices?: Array<any> }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(NavigationContainer)

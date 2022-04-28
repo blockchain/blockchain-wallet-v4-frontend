@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* stylelint-disable */
-import React, { Fragment } from 'react'
-import { pulse } from 'react-animations'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
@@ -26,10 +25,6 @@ import GoogleAuth from './GoogleAuth'
 import SmsAuth from './SMS'
 import Yubikey from './Yubikey'
 
-const pulseFrames = keyframes`${pulse}`
-const pulseAnimation = css`
-  animation: ${pulseFrames} 0.5s;
-`
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;
   @media (min-width: 992px) {
@@ -84,7 +79,6 @@ const DisableLinkText = styled(Text)`
     cursor: pointer;
     padding-left: 3px;
   }
-  ${(props) => (props.pulse ? pulseAnimation : null)};
 `
 const TwoStepButton = styled(Button)`
   width: 100px;

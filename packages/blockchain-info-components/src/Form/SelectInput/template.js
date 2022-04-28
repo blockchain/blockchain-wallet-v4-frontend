@@ -211,7 +211,7 @@ const SelectInput = (props) => {
 
   return (
     // @ts-ignore
-    <NonceProvider nonce={window.NONCE}>
+    <NonceProvider nonce={window.nonce}>
       <StyledSelect
         borderColor={selectBorderColor(errorState)}
         className={className}

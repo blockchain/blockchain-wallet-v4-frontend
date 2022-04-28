@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { formatDistanceToNow } from 'date-fns'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset, RawOrder } from '@core/network/api/nfts/types'
@@ -62,7 +62,7 @@ const ActiveOffers: React.FC<Props> = (props) => {
                   </TableCell>
                   <TableCell width='25%'>
                     <Text size='14px' weight={600}>
-                      {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
+                      {offer.closing_date ? formatDistanceToNow(new Date(offer.closing_date)) : '-'}
                     </Text>
                   </TableCell>
                   <TableCell width='35%' style={{ justifyContent: 'end' }}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { map } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -17,12 +17,11 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
-import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
+import Form from 'components/Form/Form'
+import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
@@ -61,6 +60,7 @@ const DateLabel = styled(Text)`
 const EndDateLabel = styled(DateLabel)`
   margin-right: 95px;
 `
+
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow, rates } = props
   const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
@@ -620,7 +620,8 @@ const enhance = compose(
       coin: 'ETH',
       expirationDays: 1,
       fix: 'CRYPTO',
-      listingTime: moment().format('MM/DD/YYYY'),
+      listingTime: format(new Date(), 'yyyy-MM-dd'),
+      'sale-type': 'fixed-price',
       timedAuctionType: 'highestBidder'
     }
   }),

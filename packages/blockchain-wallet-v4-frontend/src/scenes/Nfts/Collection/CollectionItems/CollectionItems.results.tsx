@@ -16,7 +16,7 @@ import {
   InputMaybe,
   SortDirection,
   useAssetsQuery
-} from 'generated/graphql'
+} from 'generated/graphql.types'
 
 import {
   Asset,

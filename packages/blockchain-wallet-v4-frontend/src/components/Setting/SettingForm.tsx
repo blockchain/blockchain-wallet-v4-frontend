@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 
 const SettingForm = styled(Form)`
   display: flex;

@@ -4,7 +4,10 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 
 const Wrapper = styled.div`

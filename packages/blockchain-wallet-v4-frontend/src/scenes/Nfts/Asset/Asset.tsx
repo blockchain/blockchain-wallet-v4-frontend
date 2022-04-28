@@ -4,14 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import {
-  AssetFilterFields,
-  EventFilterFields,
-  useAssetQuery,
-  useAssetsQuery
-} from 'blockchain-wallet-v4-frontend/src/generated/graphql'
-import { useRemote } from 'blockchain-wallet-v4-frontend/src/hooks'
-import moment from 'moment'
+import { formatDistanceToNow, subDays } from 'date-fns'
+import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -36,6 +30,12 @@ import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
+import {
+  AssetFilterFields,
+  EventFilterFields,
+  useAssetQuery,
+  useAssetsQuery
+} from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
@@ -150,7 +150,6 @@ const CollectionName = styled.div`
   font-weight: 600;
   font-size: 16px;
   display: flex;
-  align-items: left;
   color: ${colors.grey900};
 `
 
@@ -165,7 +164,6 @@ const AssetName = styled(Text)`
   font-weight: 600;
   font-size: 40px;
   display: flex;
-  align-items: left;
   margin-top: 30px;
   color: ${colors.grey900};
 `
@@ -275,8 +273,8 @@ const Detail = styled(Text)`
 `
 
 const DetailsAndOffers = styled.div`
-  position: 'absolute';
-  width: '38em';
+  position: absolute;
+  width: 38em;
 `
 
 const StickyWrapper = styled.div`
@@ -555,9 +553,9 @@ const NftAsset: React.FC<Props> = ({
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
                         Sale ends{' '}
-                        {moment(lowest_order?.expiration_time * 1000)
-                          .subtract(7, 'day')
-                          .from(moment())}
+                        {formatDistanceToNow(
+                          subDays(new Date(lowest_order?.expiration_time * 1000), 7)
+                        )}
                         :
                       </div>
                       <CountdownText>{Countdown}</CountdownText>
@@ -594,7 +592,8 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends {moment(lowest_order?.expiration_time * 1000).from(moment())}:
+                        Sale ends{' '}
+                        {formatDistanceToNow(new Date(lowest_order?.expiration_time * 1000))}
                       </div>
                       <CountdownText>{Countdown}</CountdownText>
                     </Highest>
@@ -932,7 +931,7 @@ const NftAsset: React.FC<Props> = ({
                         </FiatDisplay>
                       </div>
                       <div style={{ width: '7em' }}>
-                        {moment(offer?.expiration_time * 1000).from(moment())}{' '}
+                        {formatDistanceToNow(new Date(offer?.expiration_time * 1000))}{' '}
                       </div>
                       <div style={{ width: '5em' }}>
                         <Link

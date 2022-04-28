@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { EventFilterFields, OwnerQuery } from 'generated/graphql'
+import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 
 import { event_types, GridWrapper, NftBannerWrapper } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'

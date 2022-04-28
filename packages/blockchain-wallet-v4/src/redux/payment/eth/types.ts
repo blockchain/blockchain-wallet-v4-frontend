@@ -5,7 +5,7 @@ export type EthAccountFromType = {
   balance: string
   coin: 'ETH'
   label: string
-  type: 'ACCOUNT' | 'LOCKBOX'
+  type: 'ACCOUNT'
 }
 
 export type EthAddressFromType = {
