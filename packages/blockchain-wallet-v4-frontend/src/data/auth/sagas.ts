@@ -163,6 +163,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
+            authentication_type: 'PASSWORD',
             site_redirect: product
           }
         })
@@ -340,14 +341,6 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.LOGIN_SIGNED_IN,
-          properties: {
-            site_redirect: product
-          }
-        })
-      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -444,6 +437,15 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            authentication_type: 'PASSWORD',
+            site_redirect: product
+          }
+        })
+      )
       // Solves the problem of from submit stopping
       // before exchange login is complete for unified accounts
       // heartbeat loader would stop for a second before
