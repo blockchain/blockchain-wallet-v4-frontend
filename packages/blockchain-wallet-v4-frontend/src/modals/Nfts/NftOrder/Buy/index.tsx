@@ -75,7 +75,7 @@ const Buy: React.FC<Props> = (props) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+    new BigNumber(a?.base_price).isLessThan(b?.base_price) ? -1 : 1
   )[0]
 
   const ethBalance = new BigNumber(selfCustodyBalance)
@@ -84,16 +84,16 @@ const Buy: React.FC<Props> = (props) => {
   const ethStandard = convertCoinToCoin({
     baseToStandard: true,
     coin,
-    value: lowest_order.base_price
+    value: lowest_order?.base_price
   })
   const ethCurrency = convertCoinToFiat({
     coin,
     currency: walletCurrency,
     rates,
-    value: lowest_order.base_price
+    value: lowest_order?.base_price
   })
   formValues.amount = ethStandard
-  const amtToBuy = new BigNumber(lowest_order.base_price).minus(ethBalance)
+  const amtToBuy = new BigNumber(lowest_order?.base_price).minus(ethBalance)
 
   return (
     <>
@@ -108,11 +108,7 @@ const Buy: React.FC<Props> = (props) => {
         Success: (val) => (
           <>
             <StickyHeaderWrapper>
-              <FlyoutHeader
-                data-e2e='wrapEthHeader'
-                mode='back'
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
-              >
+              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
                 Buy
               </FlyoutHeader>
             </StickyHeaderWrapper>

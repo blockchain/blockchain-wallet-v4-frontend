@@ -31,7 +31,7 @@ const CancelOffer: React.FC<Props> = (props) => {
           <>
             <div style={{ position: 'relative' }}>
               <Icon
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
+                onClick={() => close()}
                 name='arrow-left'
                 cursor
                 role='button'

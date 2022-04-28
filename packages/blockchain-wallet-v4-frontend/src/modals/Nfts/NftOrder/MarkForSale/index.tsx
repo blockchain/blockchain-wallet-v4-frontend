@@ -129,11 +129,7 @@ const MarkForSale: React.FC<Props> = (props) => {
         Success: (val) => (
           <>
             <StickyHeaderWrapper>
-              <FlyoutHeader
-                data-e2e='wrapEthHeader'
-                mode='back'
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
-              >
+              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
                 Sell Item
               </FlyoutHeader>
             </StickyHeaderWrapper>

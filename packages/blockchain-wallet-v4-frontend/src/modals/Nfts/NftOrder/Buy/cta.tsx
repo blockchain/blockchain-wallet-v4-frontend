@@ -113,7 +113,7 @@ const CTA: React.FC<Props> = (props) => {
                         Terms of Service
                       </Link>
                     </Text>
-                    <Button rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                    <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                       <Image
                         width='16px'
                         height='16px'

@@ -44,6 +44,7 @@ import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
+    close,
     erc20BalanceR,
     ethBalancesR,
     formActions,
@@ -144,11 +145,7 @@ const MakeOffer: React.FC<Props> = (props) => {
         Success: (val) => (
           <>
             <StickyHeaderWrapper>
-              <FlyoutHeader
-                data-e2e='wrapEthHeader'
-                mode='back'
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
-              >
+              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
                 Make Offer
               </FlyoutHeader>
             </StickyHeaderWrapper>
@@ -317,7 +314,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                 <Value>
                   <Field
                     name='expirationDays'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(days: any) => {
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     }}
@@ -409,7 +405,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               {isAuthenticated ? (
                 <>
                   {needsWrap && !canWrap ? (
-                    <Button rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                    <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                       <Image
                         width='16px'
                         height='16px'
