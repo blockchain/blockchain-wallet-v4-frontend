@@ -191,6 +191,7 @@ const SelectInput = (props) => {
     height = '48px',
     hideFocusedControl,
     hideIndicator,
+    isLoading,
     items,
     menuIsOpen,
     menuPlacement,
@@ -232,6 +233,7 @@ const SelectInput = (props) => {
         hideFocusedControl={hideFocusedControl}
         hideIndicator={hideIndicator}
         isDisabled={disabled}
+        isLoading={isLoading}
         isSearchable={searchEnabled}
         menuIsOpen={menuIsOpen}
         menuPlacement={menuPlacement}

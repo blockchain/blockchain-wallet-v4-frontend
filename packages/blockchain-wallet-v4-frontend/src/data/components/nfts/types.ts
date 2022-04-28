@@ -1,5 +1,6 @@
 import {
   ExplorerGatewayNftCollectionType,
+  ExplorerGatewaySearchType,
   NftAsset,
   NftAssetsType,
   NftCollection,
@@ -82,5 +83,5 @@ export type NftsStateType = {
     walletUserIsAssetOwnerHack: boolean
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
-  search: RemoteDataType<string, any>
+  search: RemoteDataType<string, ExplorerGatewaySearchType>
 }

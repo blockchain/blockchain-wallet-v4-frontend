@@ -1,5 +1,5 @@
-import { addDays, getUnixTime } from 'date-fns'
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
+import { addDays, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -569,7 +569,10 @@ export default ({ api }: { api: APIType }) => {
   const nftSearch = function* (action: ReturnType<typeof A.nftSearch>) {
     try {
       yield put(A.nftSearchLoading())
-      const search = yield call(api.searchNfts, action.payload.search)
+      const search: ReturnType<typeof api.searchNfts> = yield call(
+        api.searchNfts,
+        action.payload.search
+      )
       yield put(A.nftSearchSuccess(search))
     } catch (e) {
       const error = errorHandler(e)

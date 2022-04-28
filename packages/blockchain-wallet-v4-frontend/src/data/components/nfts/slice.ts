@@ -6,6 +6,7 @@ import { Remote } from '@core'
 import {
   CollectionData,
   ExplorerGatewayNftCollectionType,
+  ExplorerGatewaySearchType,
   GasCalculationOperations,
   GasDataI,
   NftAsset,
@@ -334,7 +335,7 @@ const nftsSlice = createSlice({
     nftSearchLoading: (state) => {
       state.search = Remote.Loading
     },
-    nftSearchSuccess: (state, action) => {
+    nftSearchSuccess: (state, action: PayloadAction<ExplorerGatewaySearchType>) => {
       state.search = Remote.Success(action.payload)
     },
     resetNftAssets: (state) => {
