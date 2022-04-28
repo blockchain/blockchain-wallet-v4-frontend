@@ -233,7 +233,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                margin: '0em 0em 7em 0em'
+                margin: '0em 0em 12em 0em'
               }}
             >
               <>
