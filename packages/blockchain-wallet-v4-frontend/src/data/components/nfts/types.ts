@@ -25,7 +25,6 @@ export enum NftOrderStepEnum {
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
   NOT_VERIFIED = 'NOT_VERIFIED',
-  SHOW_ASSET = 'SHOW_ASSET',
   STATUS = 'STATUS',
   TRANSFER = 'TRANSFER',
   WRAP_ETH = 'WRAP_ETH'
@@ -79,7 +78,7 @@ export type NftsStateType = {
     offerToCancel: RawOrder | null
     orderToMatch: RawOrder | null
     status: NftOrderStatusEnum | null
-    step: NftOrderStepEnum
+    step: NftOrderStepEnum | null
     walletUserIsAssetOwnerHack: boolean
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }

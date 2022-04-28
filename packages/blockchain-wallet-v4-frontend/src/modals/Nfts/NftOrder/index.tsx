@@ -55,11 +55,6 @@ class NftOrder extends PureComponent<Props, State> {
         data-e2e='nftModal'
         total={total}
       >
-        {step === NftOrderStepEnum.SHOW_ASSET && (
-          <FlyoutChild>
-            <ShowAsset {...this.props} />
-          </FlyoutChild>
-        )}
         {step === NftOrderStepEnum.BUY && (
           <FlyoutChild>
             <Buy {...this.props} />
