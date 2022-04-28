@@ -733,14 +733,12 @@ export default ({ api, coreSagas, networks }) => {
       guid,
       guidOrEmail,
       password,
-      step,
-      upgradeAccountPassword
+      step
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const unificationFlowType = yield select(S.getAccountUnificationFlowType)
     const unified = yield select(selectors.cache.getUnifiedAccountStatus)
-    const authType = yield select(selectors.auth.getAuthType)
-    const language = yield select(selectors.preferences.getLanguage)
-    const product = yield select(S.getProduct)
+    const authType = yield select(S.getAuthType)
+    const { product, userType } = yield select(S.getProductAuthMetadata)
     try {
       // set code to uppercase if type is not yubikey
       let auth = code
@@ -790,7 +788,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
-      } else if (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) {
+      } else if (
+        (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
+        userType !== AuthUserType.INSTITUTIONAL
+      ) {
         // exchange login but it is a unified account
         // so it's using wallet login under the hood
         // create a new saga that logs into the wallet and retrieves
@@ -804,19 +805,7 @@ export default ({ api, coreSagas, networks }) => {
             sharedKey: null
           })
         )
-      }
-      // else if (step === LoginSteps.UPGRADE_PASSWORD) {
-      //   yield put(
-      //     actions.signup.register({
-      //       country: undefined,
-      //       email,
-      //       language,
-      //       password: upgradeAccountPassword,
-      //       state: undefined
-      //     })
-      //   )
-      // }
-      else {
+      } else {
         // User only has an exchange account to far, and they're 'upgrading'
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
