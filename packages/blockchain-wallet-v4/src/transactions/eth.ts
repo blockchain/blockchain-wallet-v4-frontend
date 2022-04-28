@@ -15,7 +15,7 @@ import Remote from '../remote'
 //
 // Shared Utils
 //
-export const getTime = (timeStamp) => {
+export const getTime = (timeStamp: number | Date) => {
   const date = new Date(getUnixTime(timeStamp) * 1000)
   return isSameYear(date, new Date())
     ? format(date, 'MMMM d @ h:mm a')
@@ -113,7 +113,7 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     insertedAt: Number(time) * 1000,
     state: tx.state,
     time,
-    timeFormatted: getTime(time),
+    timeFormatted: getTime(parseInt(time)),
     to: getErc20Label(tx.to, token, state),
     type
   }
