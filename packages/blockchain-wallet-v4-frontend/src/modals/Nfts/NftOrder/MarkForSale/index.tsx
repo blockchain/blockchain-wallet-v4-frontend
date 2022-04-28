@@ -167,7 +167,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </AssetDesc>
-            <Form>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                margin: '0em 0em 6em 0em'
+              }}
+            >
               {saleType === 'fixed-price' ? (
                 <>
                   <Row>
@@ -500,7 +507,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                   </>
                 )}
               </Row>
-            </Form>
+            </div>
             <StickyCTA>
               <div style={wrapEthFees.totalFees > 0 ? {} : { display: 'none' }}>
                 <SellFees {...props} asset={val} />

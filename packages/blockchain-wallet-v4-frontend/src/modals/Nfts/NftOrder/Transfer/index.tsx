@@ -98,7 +98,14 @@ const Transfer: React.FC<Props> = (props) => {
                 </div>
               </div>
             </Row>
-            <Form>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                margin: '0em 0em 30em 0em'
+              }}
+            >
               <Row>
                 <Title>
                   <b>
@@ -124,7 +131,7 @@ const Transfer: React.FC<Props> = (props) => {
                   <Text size='12px'>Double check the address above before clicking Transfer </Text>
                 </Value>
               </Row>
-            </Form>
+            </div>
             <StickyCTA>
               <TransferFees {...props} asset={val} />
               {props.orderFlow.fees.cata({

@@ -228,7 +228,14 @@ const MakeOffer: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </Row>
-            <Form>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                margin: '0em 0em 7em 0em'
+              }}
+            >
               <>
                 <Row>
                   <Value>
@@ -342,7 +349,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   <MakeOfferFees {...props} {...[val]} />
                 </Value>
               </Row>
-            </Form>
+            </div>
             <StickyCTA>
               {needsWrap ? (
                 <>
