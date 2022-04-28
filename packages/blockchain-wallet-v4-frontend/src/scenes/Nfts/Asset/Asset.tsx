@@ -1032,7 +1032,6 @@ const NftAsset: React.FC<Props> = ({
           </div>
         </div>
       </>
-      )
     </Wrapper>
   )
 }

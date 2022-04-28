@@ -121,7 +121,7 @@ const Buy: React.FC<Props> = (props) => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                margin: '0em 0em 28em 0em'
+                margin: '0em 0em 38em 0em'
               }}
             >
               <Row>
