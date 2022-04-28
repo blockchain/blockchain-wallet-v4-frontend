@@ -13,7 +13,6 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { SettingWrapper } from 'components/Setting'
 import {
   isNotCurrentPassword,
-  passwordStrengthRegex,
   required,
   validCurrentPassword,
   validPasswordConfirmation,
@@ -92,17 +91,14 @@ const Settings = (props) => {
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 data-e2e='newPasswordInput'
               />
-              {newWalletPasswordValue.length > 0 &&
-                !passwordStrengthRegex.test(newWalletPasswordValue) && (
-                  <div>
-                    <Text size='12px' weight={400} style={{ marginTop: '-8px' }}>
-                      <FormattedMessage
-                        id='scenes.register.passwordstrengthwarn'
-                        defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
-                      />
-                    </Text>
-                  </div>
-                )}
+              <div>
+                <Text size='12px' weight={400} style={{ marginTop: '-8px' }}>
+                  <FormattedMessage
+                    id='scenes.register.passwordstrengthwarn'
+                    defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+                  />
+                </Text>
+              </div>
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel htmlFor='walletPasswordConfirmation'>
