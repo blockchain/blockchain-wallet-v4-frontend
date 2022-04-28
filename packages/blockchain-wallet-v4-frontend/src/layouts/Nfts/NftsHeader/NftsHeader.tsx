@@ -3,12 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconArrowLeft, IconUser, IconWallet } from '@blockchain-com/icons'
+import { IconUser, IconWallet } from '@blockchain-com/icons'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 
@@ -63,20 +64,7 @@ const ExploreHeader: React.FC<Props> = ({
               <Image width='25px' name='blockchain-icon' />
             </NavLink>
           </Logo>
-          <Button
-            small
-            data-e2e='back'
-            nature='empty-blue'
-            onClick={() => routerActions.goBack()}
-            style={{ marginLeft: '24px' }}
-          >
-            <Icon label='arrow-left' size='sm' color='blue600'>
-              <IconArrowLeft style={{ marginRight: '4px' }} />
-            </Icon>
-            <span style={{ marginLeft: '4px' }}>
-              <FormattedMessage id='buttons.signup' defaultMessage='Back' />
-            </span>
-          </Button>
+          <AppSwitcher />
         </NavLeft>
         <NavCenter>
           <NavLinkButton to='/nfts' activeClassName='active'>
