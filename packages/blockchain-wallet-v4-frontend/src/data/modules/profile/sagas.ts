@@ -342,7 +342,9 @@ export default ({ api, coreSagas, networks }) => {
       const { platform: signupPlatform } = yield select(selectors.signup.getProductSignupMetadata)
       // login platform and signup platform come from two different locations
       // set const to whichever one exists
-      const platform = loginPlatform || signupPlatform
+      const platform = signupPlatform || loginPlatform
+      const isMobileExchangeSignup =
+        platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
       const magicLinkData: AuthMagicLink = yield select(selectors.auth.getMagicLinkData)
       const exchangeAuthUrl = magicLinkData?.exchange_auth_url
       const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -350,14 +352,13 @@ export default ({ api, coreSagas, networks }) => {
         .getOrElse({
           exchange: 'https://exchange.blockchain.com'
         } as WalletOptionsType['domains'])
-
       const exchangeUrlFromLink = exchangeAuthUrl || redirect
       const { exchangeLifetimeToken, exchangeUserId } = (yield select(
         selectors.core.kvStore.unifiedCredentials.getExchangeCredentials
       )).getOrElse({})
 
       if (!exchangeUserId || !exchangeLifetimeToken) {
-        if (origin === ExchangeAuthOriginType.Signup) {
+        if (origin === ExchangeAuthOriginType.Signup && !isMobileExchangeSignup) {
           return
         }
         if (origin === ExchangeAuthOriginType.SideMenu) {
@@ -371,7 +372,7 @@ export default ({ api, coreSagas, networks }) => {
         retailToken
       )
       switch (true) {
-        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
+        case isMobileExchangeSignup:
           sendMessageToMobile(platform, {
             data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
