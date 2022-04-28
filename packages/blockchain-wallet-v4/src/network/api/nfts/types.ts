@@ -901,3 +901,16 @@ export interface OpenSeaOrder {
   target: string
   v: number
 }
+
+export type ExplorerGatewaySearchType = {
+  assets: {
+    collection_slug: string
+    contract_address: string
+    id: string
+    image_original_url: string
+    image_preview_url: string
+    image_thumbnail_url: string
+    image_url: string
+    name: string
+  }[]
+}
