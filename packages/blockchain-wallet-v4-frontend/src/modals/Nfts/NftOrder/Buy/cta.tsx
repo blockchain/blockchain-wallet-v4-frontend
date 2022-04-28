@@ -184,19 +184,7 @@ const CTA: React.FC<Props> = (props) => {
               {props.orderFlow.isSubmitting ? (
                 <HeartbeatLoader color='blue100' height='20px' width='20px' />
               ) : (
-                <FormattedMessage
-                  id='copy.buy_now_for'
-                  values={{
-                    for: displayCoinToCoin({
-                      coin: orderToMatch.payment_token_contract?.symbol || 'ETH',
-                      value: new BigNumber(val.fees.totalFees)
-                        .multipliedBy(val.fees.gasPrice)
-                        .plus(orderToMatch.base_price)
-                        .toString()
-                    })
-                  }}
-                  defaultMessage='Buy Now for {for}'
-                />
+                <FormattedMessage id='copy.buy_now_for' defaultMessage='Buy Now' />
               )}
             </Button>
             <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>

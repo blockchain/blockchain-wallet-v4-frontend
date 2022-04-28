@@ -361,7 +361,7 @@
   "copy.blockchain_fee": "Blockchain.com Fee",
   "copy.buy": "Buy",
   "copy.buy_amount_change_disclaimer": "The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.",
-  "copy.buy_now_for": "Buy Now for {for}",
+  "copy.buy_now": "Buy Now",
   "copy.buy_upgrade": "Buy More Crypto",
   "copy.cancel": "Cancel",
   "copy.cancel_listing": "Cancel Listing",
