@@ -4,6 +4,11 @@ export type SDDEligibleType = {
   tier: 0 | 1 | 2 | 3 | 4
 }
 
+export enum NodeItemTypes {
+  MULTIPLE_SELECTION = 'MULTIPLE_SELECTION',
+  SINGLE_SELECTION = 'SINGLE_SELECTION'
+}
+
 export type SDDVerifiedType = {
   taskComplete?: boolean
   verified: boolean

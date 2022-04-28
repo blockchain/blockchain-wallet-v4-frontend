@@ -505,51 +505,9 @@ export default ({ api, coreSagas, networks }) => {
   const saveKYCExtraQuestions = function* () {
     try {
       yield put(actions.form.startSubmit(KYC_EXTRA_QUESTIONS_FORM))
-      const formValues = yield select(selectors.form.getFormValues(KYC_EXTRA_QUESTIONS_FORM))
       const extraForm = selectors.components.identityVerification
         .getKYCExtraSteps(yield select())
         .getOrElse({} as ExtraQuestionsType)
-
-      if (extraForm) {
-        const question1 = Object.keys(formValues).filter((k) => k.startsWith('q1'))
-        if (question1.length > 0) {
-          Object.keys(question1).forEach((que1) =>
-            extraForm.nodes[0].children.forEach((q1) => {
-              if (q1.id === question1[que1]) {
-                q1.checked = true
-              }
-            })
-          )
-        }
-        extraForm.nodes[1].children.forEach((q2) => {
-          if (q2.id === formValues.q2) {
-            q2.checked = true
-          }
-          if (q2.id === 'q2-a8' && formValues['q2-a8-a1'] && q2.children && q2.children[0]) {
-            q2.children[0].input = formValues['q2-a8-a1']
-          }
-        })
-        extraForm.nodes[2].children.forEach((q3) => {
-          if (q3.id === formValues.q3) {
-            q3.checked = true
-          }
-        })
-        extraForm.nodes[3].children.forEach((q4) => {
-          if (q4.id === formValues.q4) {
-            q4.checked = true
-          }
-          // name and relationship
-          if (
-            q4.id === 'q4-a3' &&
-            formValues['q4-a3-a1'] &&
-            formValues['q4-a3-a2'] &&
-            q4.children
-          ) {
-            q4.children[0].input = formValues['q4-a3-a1']
-            q4.children[1].input = formValues['q4-a3-a2']
-          }
-        })
-      }
 
       yield call(api.updateKYCExtraQuestions, extraForm)
 

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { NodeType } from '@core/types'
+import { NodeItemTypes, NodeType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
@@ -136,8 +136,70 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
+  const validateMultiSelectNodes = (): boolean => {
+    const { nodes } = props.extraSteps
+    if (nodes) {
+      const multipleSelection = nodes.filter(
+        (node) => node.type === NodeItemTypes.MULTIPLE_SELECTION
+      )
+
+      if (multipleSelection) {
+        const multipleItems = multipleSelection.map((node) =>
+          node.children.some((item) => item.checked)
+        )
+        return multipleItems.every((item) => item)
+      }
+    }
+    return true
+  }
+
   const updateItem = (nodeId: string, childId: string) => {
     props.formActions.change(KYC_EXTRA_QUESTIONS_FORM, nodeId, childId)
+
+    const { nodes } = props.extraSteps
+    let isChanged = false
+
+    nodes.map(
+      (node) =>
+        node.id === nodeId &&
+        node.children &&
+        node.children.map((child) => {
+          if (child.id === childId && !child.checked) {
+            child.checked = true
+            isChanged = true
+          }
+          return child
+        })
+    )
+    if (isChanged) {
+      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+    }
+  }
+
+  const onChangeInput = (e, value) => {
+    const itemId = e.currentTarget.name
+
+    const { nodes } = props.extraSteps
+    const isChanged = false
+
+    nodes.map(
+      (node) =>
+        node.children &&
+        node.children.map(
+          (child) =>
+            child.children &&
+            child.children.map((item) => {
+              if (item.id === itemId && item.input !== value) {
+                item.input = value
+              }
+              return item
+            })
+        )
+    )
+
+    if (isChanged) {
+      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+    }
   }
 
   const renderCheckBoxBasedQuestion = (node: NodeType, updateItem) => {
@@ -190,7 +252,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         <FormItem>
           <Field
-            data-e2e='sourceOfFundsDropDown'
+            data-e2e={`sourceOfFundsDropDown_${node.id}`}
             name={node.id}
             validate={required}
             elements={questionElements}
@@ -214,6 +276,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       validate={required}
                       component={TextBox}
                       placeholder={item.text}
+                      onChange={onChangeInput}
                     />
                   ))}
                 </FormItem>
@@ -276,6 +339,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         validate={required}
                         component={TextBox}
                         placeholder={item.hint}
+                        onChange={onChangeInput}
                       />
                     </FormItem>
                   ))}
@@ -320,10 +384,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         {props.extraSteps.nodes &&
           props.extraSteps.nodes.map((node) => {
-            if (node.type === 'MULTIPLE_SELECTION') {
+            if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
               return renderCheckBoxBasedQuestion(node, updateItem)
             }
-            if (node.type === 'SINGLE_SELECTION') {
+            if (node.type === NodeItemTypes.SINGLE_SELECTION) {
               return node.isDropdown
                 ? renderDropDownBasedQuestion(node, updateItem)
                 : renderSingleSelectionQuestion(node, updateItem)
@@ -338,7 +402,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={disabled}
+          disabled={disabled || !validateMultiSelectNodes()}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
