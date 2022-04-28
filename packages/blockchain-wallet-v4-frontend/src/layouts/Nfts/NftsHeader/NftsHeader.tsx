@@ -7,7 +7,7 @@ import { IconUser, IconWallet } from '@blockchain-com/icons'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
@@ -33,17 +33,14 @@ const NavCenter = styled.div`
   align-items: center;
   width: 50%;
 `
-const NavLinkButton = styled(NavLink)`
+const NavLinkButton = styled(Link)`
   padding: 8px 10px;
   border-radius: 8px;
   text-decoration: none;
   margin-right: 12px;
-  background-color: transparent;
-  &.active {
-    background-color: ${(props) => props.theme.blue000};
-    * {
-      color: ${(props) => props.theme.blue600};
-    }
+  background-color: ${(props) => props.theme.blue000};
+  * {
+    color: ${(props) => props.theme.blue600};
   }
 `
 
@@ -66,11 +63,16 @@ const ExploreHeader: React.FC<Props> = ({
           <AppSwitcher />
         </NavLeft>
         <NavCenter>
-          <NavLinkButton to='/nfts' activeClassName='active'>
-            <Text size='14px' weight={600}>
-              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-            </Text>
-          </NavLinkButton>
+          <LinkContainer to='/nfts/explore'>
+            <NavLinkButton>
+              <Flex alignItems='center' gap={4}>
+                <Text size='14px' weight={600}>
+                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                </Text>
+                🚀
+              </Flex>
+            </NavLinkButton>
+          </LinkContainer>
           <NftSearch />
         </NavCenter>
         <NavRight>
