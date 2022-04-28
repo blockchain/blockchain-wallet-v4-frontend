@@ -910,7 +910,7 @@ export type ExplorerGatewaySearchType = {
     date_ingested: string
     profile_img_url: string
     username: string | null
-  }
+  }[]
   assets: {
     collection_slug: string
     contract_address: string
@@ -920,12 +920,14 @@ export type ExplorerGatewaySearchType = {
     image_thumbnail_url: string
     image_url: string
     name: string
+    token_id: string
   }[]
   collections: {
     image_url: string | null
     name: string
     num_owners: null
     safelist_request_status: string
+    slug: string
   }[]
   contracts: {
     address: string
@@ -937,5 +939,5 @@ export type ExplorerGatewaySearchType = {
     schema_name: string
     symbol: string
     total_supply: string
-  }
+  }[]
 }
