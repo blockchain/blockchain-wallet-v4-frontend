@@ -64,7 +64,9 @@ const NftsSearch: React.FC<Props> = ({ formValues, nftActions, nftSearch, router
           [key].map((item) => ({
             label: (
               <Flex alignItems='center' gap={8}>
-                <img alt='url' height='18px' src={item.image_url || item.profile_img_url} />
+                {item.image_url || item.profile_img_url ? (
+                  <img alt='url' height='18px' src={item.image_url || item.profile_img_url} />
+                ) : null}
                 <Text weight={600} size='14px'>
                   {item.name}
                 </Text>
