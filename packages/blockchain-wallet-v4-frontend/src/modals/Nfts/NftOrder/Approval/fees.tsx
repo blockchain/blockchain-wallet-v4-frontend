@@ -21,7 +21,7 @@ const Fees: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     nftActions.fetchFees({
       asset: props.asset,
-      offer: '0',
+      offer: '0.000001',
       operation: GasCalculationOperations.CreateOffer,
       paymentTokenAddress: WETH
     })
@@ -37,7 +37,11 @@ const Fees: React.FC<Props> = (props: Props) => {
                 <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
               </Text>
             </Flex>
-            <RightAlign>N/A</RightAlign>
+            <RightAlign>
+              <Text size='14px' weight={600} color='grey600'>
+                N/A
+              </Text>
+            </RightAlign>
           </Flex>
         ),
         Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,

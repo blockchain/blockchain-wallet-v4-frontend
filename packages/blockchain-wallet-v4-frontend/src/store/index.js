@@ -65,7 +65,7 @@ const configuredStore = async function () {
   window.coins.XLM.coinfig.type.isMemoBased = true
 
   // Switch up the erc20 addresses to support testnet (for opensea testing)
-  if (options.domains.opensea && options.domains.opensea.includes('rinkeby')) {
+  if (options.domains.opensea && options.domains.opensea.includes('testnets')) {
     window.coins.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
     window.coins.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
   }
