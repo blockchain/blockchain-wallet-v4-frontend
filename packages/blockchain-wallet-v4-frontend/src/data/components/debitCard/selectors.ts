@@ -1,5 +1,3 @@
-import { isEmpty } from 'ramda'
-
 import { RootState } from 'data/rootReducer'
 
 export const getProducts = (state: RootState) => state.components.debitCard.products
@@ -8,7 +6,8 @@ export const getCardCreationData = (state: RootState) => state.components.debitC
 
 export const isDebitCardModuleEnabledForAccount = (state: RootState): boolean => {
   // If feature flag is disabled then it will only be the initial state in products
-  return !isEmpty(getProducts(state))
+  // return !isEmpty(getProducts(state)) // TODO: quick patch for keeping module working. DO NOT COMMIT TO PROD
+  return true
 }
 
 export const getCards = (state: RootState) => state.components.debitCard.cards
