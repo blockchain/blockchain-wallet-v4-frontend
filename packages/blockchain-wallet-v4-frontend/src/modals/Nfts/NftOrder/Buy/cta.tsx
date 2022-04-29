@@ -98,6 +98,19 @@ const CTA: React.FC<Props> = (props) => {
                         {Math.max(maxBuyPossible.toNumber(), 0)}
                       </CoinDisplay>
                     </Text>
+                    <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
+                      Or
+                    </Text>
+                    <Link
+                      weight={600}
+                      size='14px'
+                      onClick={() =>
+                        nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
+                      }
+                      style={{ display: 'block', textAlign: 'center', width: '100%' }}
+                    >
+                      Make an Offer
+                    </Link>
                     <Text
                       color={colors.grey200}
                       weight={500}

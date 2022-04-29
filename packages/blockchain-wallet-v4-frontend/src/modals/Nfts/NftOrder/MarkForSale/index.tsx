@@ -168,8 +168,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
-                margin: '0em 0em 6em 0em'
+                height: '100%'
               }}
             >
               {saleType === 'fixed-price' ? (

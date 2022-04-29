@@ -116,123 +116,124 @@ const Buy: React.FC<Props> = (props) => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
-                margin: '0em 0em 38em 0em'
+                height: '100%'
               }}
             >
-              <Row>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex' }}>
-                    <img
-                      style={{
-                        borderRadius: '8px',
-                        height: '64px',
-                        marginRight: '12px',
-                        width: 'auto'
-                      }}
-                      alt='nft-asset'
-                      src={val.image_url.replace(/=s\d*/, '')}
-                    />
-                    <div>
-                      <Text size='16px' color='grey900' weight={600}>
-                        {val?.name}
-                      </Text>
-                      {val.collection.safelist_request_status === 'verified' ? (
-                        <Text
-                          size='14px'
-                          weight={600}
-                          color='green600'
-                          style={{
-                            background: colors.green100,
-                            borderRadius: '8px',
-                            padding: '5px 8px',
-                            textAlign: 'center',
-                            width: 'fit-content'
-                          }}
-                        >
-                          Verified
+              <div style={{ height: '100%' }}>
+                <Row>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex' }}>
+                      <img
+                        style={{
+                          borderRadius: '8px',
+                          height: '64px',
+                          marginRight: '12px',
+                          width: 'auto'
+                        }}
+                        alt='nft-asset'
+                        src={val.image_url.replace(/=s\d*/, '')}
+                      />
+                      <div>
+                        <Text size='16px' color='grey900' weight={600}>
+                          {val?.name}
                         </Text>
-                      ) : (
-                        <Text
-                          size='14px'
-                          weight={600}
-                          color='orange600'
-                          style={{
-                            background: colors.orange100,
-                            borderRadius: '8px',
-                            padding: '5px 8px',
-                            textAlign: 'center',
-                            width: 'fit-content'
-                          }}
-                        >
-                          Not Verified
-                        </Text>
-                      )}
+                        {val.collection.safelist_request_status === 'verified' ? (
+                          <Text
+                            size='14px'
+                            weight={600}
+                            color='green600'
+                            style={{
+                              background: colors.green100,
+                              borderRadius: '8px',
+                              padding: '5px 8px',
+                              textAlign: 'center',
+                              width: 'fit-content'
+                            }}
+                          >
+                            Verified
+                          </Text>
+                        ) : (
+                          <Text
+                            size='14px'
+                            weight={600}
+                            color='orange600'
+                            style={{
+                              background: colors.orange100,
+                              borderRadius: '8px',
+                              padding: '5px 8px',
+                              textAlign: 'center',
+                              width: 'fit-content'
+                            }}
+                          >
+                            Not Verified
+                          </Text>
+                        )}
+                      </div>
                     </div>
+                    <Text
+                      style={{
+                        justifyContent: 'right'
+                      }}
+                    >
+                      <CoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin='ETH'
+                        style={{ justifyContent: 'right' }}
+                      >
+                        {lowest_order?.base_price || 0}
+                      </CoinDisplay>
+                      <FiatDisplay
+                        size='14px'
+                        color={colors.grey600}
+                        weight={600}
+                        coin='ETH'
+                        style={{ justifyContent: 'right' }}
+                      >
+                        {lowest_order?.base_price || 0}
+                      </FiatDisplay>
+                    </Text>
                   </div>
-                  <Text
-                    style={{
-                      justifyContent: 'right'
-                    }}
-                  >
-                    <CoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin='ETH'
-                      style={{ justifyContent: 'right' }}
-                    >
-                      {lowest_order?.base_price || 0}
-                    </CoinDisplay>
-                    <FiatDisplay
-                      size='14px'
-                      color={colors.grey600}
-                      weight={600}
-                      coin='ETH'
-                      style={{ justifyContent: 'right' }}
-                    >
-                      {lowest_order?.base_price || 0}
-                    </FiatDisplay>
-                  </Text>
-                </div>
-              </Row>
-              <Row>
-                <Title>
-                  <b>
-                    <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
-                  </b>
-                </Title>
-                <Value>
-                  <Field
-                    name='coin'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onChange={(coin: any) => {
-                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                      const address = window.coins[coin].coinfig.type.erc20Address!
+                </Row>
+                <Row>
+                  <Title>
+                    <b>
+                      <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
+                    </b>
+                  </Title>
+                  <Value>
+                    <Field
+                      name='coin'
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      onChange={(coin: any) => {
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        const address = window.coins[coin].coinfig.type.erc20Address!
 
-                      nftActions.fetchFees({
-                        operation: GasCalculationOperations.Buy,
-                        order: orderFromJSON(orderToMatch),
-                        paymentTokenAddress: address
-                      })
-                    }}
-                    component={SelectBox}
-                    elements={[
-                      {
-                        group: '',
-                        items: val.collection.payment_tokens
-                          .map((token) => token.symbol)
-                          .filter((symbol) => !!window.coins[symbol])
-                          .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
-                          .map((coin) => ({
-                            text: window.coins[coin].coinfig.symbol,
-                            value: window.coins[coin].coinfig.symbol
-                          }))
-                      }
-                    ]}
-                  />
-                </Value>
-              </Row>
+                        nftActions.fetchFees({
+                          operation: GasCalculationOperations.Buy,
+                          order: orderFromJSON(orderToMatch),
+                          paymentTokenAddress: address
+                        })
+                      }}
+                      component={SelectBox}
+                      elements={[
+                        {
+                          group: '',
+                          items: val.collection.payment_tokens
+                            .map((token) => token.symbol)
+                            .filter((symbol) => !!window.coins[symbol])
+                            .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
+                            .map((coin) => ({
+                              text: window.coins[coin].coinfig.symbol,
+                              value: window.coins[coin].coinfig.symbol
+                            }))
+                        }
+                      ]}
+                    />
+                  </Value>
+                </Row>
+              </div>
             </div>
             <StickyCTA>
               <BuyFees {...props} />
