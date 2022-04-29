@@ -310,14 +310,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'fixed-price'
                             ? {
+                                alignItems: 'center',
                                 color: colors.blue600,
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                             : {
+                                alignItems: 'center',
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                         }
@@ -360,14 +360,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'timed-auction'
                             ? {
+                                alignItems: 'center',
                                 color: colors.blue600,
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                             : {
+                                alignItems: 'center',
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                         }
