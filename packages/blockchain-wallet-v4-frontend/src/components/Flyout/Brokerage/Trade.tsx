@@ -1,9 +1,16 @@
 import React, { ReactNode } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconArrowDown, IconArrowUp, IconPlus, IconSwap } from '@blockchain-com/icons'
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconClose,
+  IconMinus,
+  IconPlus,
+  IconSwap
+} from '@blockchain-com/icons'
 import styled, { css } from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { OptionRightActionRow } from 'components/Rows'
 
 const Column = styled.div`
@@ -28,6 +35,7 @@ const IconWrapper = styled.div`
   background-color: ${({ theme }) => theme.grey100};
   height: 32px;
   width: 32px;
+  cursor: pointer;
 `
 const ContentContainer = styled(Column)`
   display: flex;
@@ -69,7 +77,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.buy' defaultMessage='Buy' />,
     icon: (
       <CustomIconWrapper>
-        <IconPlus style={{ fontSize: 18 }} />
+        <IconPlus fontSize={16} />
       </CustomIconWrapper>
     ),
     key: '0'
@@ -85,7 +93,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.sell' defaultMessage='Sell' />,
     icon: (
       <CustomIconWrapper>
-        <Icon name='minus' color='blue600' size='20px' />
+        <IconMinus fontSize={12} />
       </CustomIconWrapper>
     ),
     key: '1'
@@ -101,7 +109,7 @@ const rows = ({
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
     icon: (
       <CustomIconWrapper>
-        <IconSwap fontSize={12} />
+        <IconSwap fontSize={16} />
       </CustomIconWrapper>
     ),
     key: '2'
@@ -154,7 +162,7 @@ const Trade = ({
         <FormattedMessage id='modals.trade.header' defaultMessage='Shortcuts' />
       </HeaderText>
       <IconWrapper onClick={handleClose}>
-        <Icon name='close' color='grey600' role='button' data-e2e='close' size='24px' cursor />
+        <IconClose />
       </IconWrapper>
 
       <ContentContainer>
