@@ -12,7 +12,8 @@ export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>
 `
 
 export const AssetDesc = styled.div`
-  padding: 40px;
+  padding: 0px 40px 20px;
+  display: flex;
 `
 
 export const StickyTableHeader = styled(TableHeader)`

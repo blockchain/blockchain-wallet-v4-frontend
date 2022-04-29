@@ -64,7 +64,6 @@ const Wrapper = styled(NftPage)`
 const Top = styled.div`
   ${media.atLeastTabletL`
   display: flex;
-  padding-top: 3em;
   `}
   display: block;
 `
@@ -273,10 +272,7 @@ const Detail = styled(Text)`
   }
 `
 
-const DetailsAndOffers = styled.div`
-  position: absolute;
-  width: 38em;
-`
+const DetailsAndOffers = styled.div``
 
 const StickyWrapper = styled.div`
   position: sticky;
@@ -290,6 +286,7 @@ const NftAsset: React.FC<Props> = ({
   formActions,
   nftsActions,
   routerActions,
+  walletCurrency,
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
@@ -321,6 +318,12 @@ const NftAsset: React.FC<Props> = ({
   }, [contract, id, nftsActions])
 
   const currentAsset = assetQuery.data?.assets[0]
+  const ownedBySelf = currentAsset?.owners
+    ? currentAsset.owners.find((owner) => {
+        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
+      })
+    : null
+
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
 
@@ -369,7 +372,8 @@ const NftAsset: React.FC<Props> = ({
         ? lowest_order?.expiration_time * 1000 - 604800000 // subtract 7 days for auction
         : lowest_order?.expiration_time * 1000
     // Update the count down every 1 second
-    setInterval(function () {
+    const interval = setInterval(function () {
+      clearInterval(interval)
       const now = new Date().getTime()
       const duration = countDownDate - now
       const days = Math.floor(duration / (1000 * 60 * 60 * 24))
@@ -379,6 +383,9 @@ const NftAsset: React.FC<Props> = ({
       // Display the result in the element with id="demo"
       setCountdown(`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`)
       // if duration < 0, expired
+      if (duration < 0) {
+        clearInterval(interval)
+      }
     }, 1000)
   }
 
@@ -417,7 +424,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {owner?.address === defaultEthAddr && (
+                    {ownedBySelf && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
@@ -438,7 +445,7 @@ const NftAsset: React.FC<Props> = ({
                         />
                       </SocialLink>
                     )}
-                    <SocialLink>
+                    {/* <SocialLink>
                       <BlockchainIcon
                         onClick={() => {
                           analyticsActions.trackEvent({
@@ -452,7 +459,7 @@ const NftAsset: React.FC<Props> = ({
                         name='ellipsis'
                         size='4px'
                       />
-                    </SocialLink>
+                    </SocialLink> */}
                   </Socials>
                 </div>
               </StickyWrapper>
@@ -504,7 +511,7 @@ const NftAsset: React.FC<Props> = ({
                   <Text size='16px' color='grey600' weight={600}>
                     <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                   </Text>
-                  {owner?.address !== defaultEthAddr ? (
+                  {!ownedBySelf ? (
                     <Text
                       color='blue600'
                       weight={600}
@@ -567,7 +574,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={bidsAndOffers[0].payment_token_contract.symbol}
@@ -604,7 +611,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={lowest_order.payment_token_contract.symbol}
@@ -633,7 +640,7 @@ const NftAsset: React.FC<Props> = ({
                         (
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           color='grey500'
                           size='16px'
                           coin={highest_offer.payment_token_contract.symbol}
@@ -645,11 +652,12 @@ const NftAsset: React.FC<Props> = ({
                     </EthText>
                   </>
                 ) : null}
-                {owner?.address === defaultEthAddr && (
+                {ownedBySelf ? (
                   <Button
                     data-e2e='openNftFlow'
                     nature='primary'
                     jumbo
+                    style={{ width: '20em' }}
                     onClick={() => {
                       nftsActions.nftOrderFlowOpen({
                         asset_contract_address: contract,
@@ -666,10 +674,9 @@ const NftAsset: React.FC<Props> = ({
                       })
                     }}
                   >
-                    <FormattedMessage id='copy.buy' defaultMessage='Mark For Sale' />
+                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark For Sale' />
                   </Button>
-                )}
-                {lowest_order ? (
+                ) : lowest_order ? (
                   <div style={{ display: 'flex' }}>
                     <Button
                       data-e2e='openNftFlow'
@@ -693,7 +700,7 @@ const NftAsset: React.FC<Props> = ({
                         })
                       }}
                     >
-                      <FormattedMessage id='copy.buy' defaultMessage='Buy Now' />
+                      <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                     </Button>
                     <Button
                       data-e2e='openNftFlow'
@@ -741,21 +748,21 @@ const NftAsset: React.FC<Props> = ({
               </CurrentPriceBox>
               <CustomTabMenu>
                 <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
-                  <FormattedMessage id='copy.day' defaultMessage='About' />
+                  <FormattedMessage id='copy.about' defaultMessage='About' />
                 </TabMenuItem>
                 <TabMenuItem
                   width='33%'
                   onClick={() => setTab('activity')}
                   selected={Tab === 'activity'}
                 >
-                  <FormattedMessage id='copy.week' defaultMessage='Activity' />
+                  <FormattedMessage id='copy.activity' defaultMessage='Activity' />
                 </TabMenuItem>
                 <TabMenuItem
                   width='33%'
                   onClick={() => setTab('offers')}
                   selected={Tab === 'offers'}
                 >
-                  <FormattedMessage id='copy.week' defaultMessage='Offers' />
+                  <FormattedMessage id='copy.offers' defaultMessage='Offers' />
                 </TabMenuItem>
               </CustomTabMenu>
               {Tab === 'about' && (
@@ -878,7 +885,7 @@ const NftAsset: React.FC<Props> = ({
                     }}
                   >
                     <div style={{ width: '5em' }}>Price</div>
-                    <div style={{ width: '5em' }}>USD Price</div>
+                    <div style={{ width: '5em' }}>{walletCurrency} Price</div>
                     <div style={{ width: '5em' }}>Expiration</div>
                     <div style={{ paddingLeft: '1em', width: '5em' }}>From</div>
                   </div>
@@ -913,7 +920,7 @@ const NftAsset: React.FC<Props> = ({
                       <div style={{ width: '5em' }}>
                         <FiatDisplay
                           weight={500}
-                          currency='USD'
+                          currency={walletCurrency}
                           size='16px'
                           coin={offer.payment_token_contract.symbol}
                         >
@@ -1030,7 +1037,8 @@ const mapStateToProps = (state: RootState) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     comWalletApp: 'https://login.blockchain.com'
-  } as WalletOptionsType['domains'])
+  } as WalletOptionsType['domains']),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch) => ({

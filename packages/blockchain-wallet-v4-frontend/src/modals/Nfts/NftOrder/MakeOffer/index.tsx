@@ -6,6 +6,7 @@ import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { addDays, getUnixTime } from 'date-fns'
+import { useRemote } from 'hooks'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -37,12 +38,13 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
-import GetMoreEthComponent from '../../components/getMoreEth'
-import NetworkFeesComponent from '../../components/networkFees'
+import GetMoreEthComponent from '../../components/GetMoreEth'
 import { Props as OwnProps } from '..'
+import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
+    close,
     erc20BalanceR,
     ethBalancesR,
     formActions,
@@ -108,7 +110,14 @@ const MakeOffer: React.FC<Props> = (props) => {
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
-
+  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const sellOrders =
+    openSeaOrders.data?.filter((x) => {
+      return x.side === 1
+    }) || []
+  const lowest_order = sellOrders.sort((a, b) =>
+    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+  )[0]
   const disabled =
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
@@ -136,120 +145,120 @@ const MakeOffer: React.FC<Props> = (props) => {
         Success: (val) => (
           <>
             <StickyHeaderWrapper>
-              <FlyoutHeader
-                data-e2e='wrapEthHeader'
-                mode='back'
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
-              >
+              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
                 Make Offer
               </FlyoutHeader>
             </StickyHeaderWrapper>
-            <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex' }}>
-                  <img
-                    style={{
-                      borderRadius: '8px',
-                      height: '64px',
-                      marginRight: '12px',
-                      width: 'auto'
-                    }}
-                    alt='nft-asset'
-                    src={val.image_url.replace(/=s\d*/, '')}
-                  />
-                  <div>
-                    <Text size='16px' color='grey900' weight={600}>
-                      {val?.name}
-                    </Text>
-                    {val.collection.safelist_request_status === 'verified' ? (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='green600'
-                        style={{
-                          background: colors.green100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Verified
-                      </Text>
-                    ) : (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='orange600'
-                        style={{
-                          background: colors.orange100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Not Verified
-                      </Text>
-                    )}
-                  </div>
-                </div>
-                <Text
-                  style={{
-                    justifyContent: 'right'
-                  }}
-                >
-                  <CoinDisplay
-                    size='14px'
-                    color='black'
-                    weight={600}
-                    coin='ETH'
-                    style={{ justifyContent: 'right' }}
-                  >
-                    {val.last_sale?.total_price || 0}
-                  </CoinDisplay>
-                  <FiatDisplay
-                    size='14px'
-                    color={colors.grey600}
-                    weight={600}
-                    coin='ETH'
-                    style={{ justifyContent: 'right' }}
-                  >
-                    {val.last_sale?.total_price || 0}
-                  </FiatDisplay>
-                </Text>
-              </div>
-            </Row>
-            <Form>
-              <>
-                <Row>
-                  <Value>
-                    <AmountFieldInput
-                      coin={coin}
-                      fiatCurrency='GBP'
-                      amtError={false}
-                      quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
-                      fix={fix as 'CRYPTO' | 'FIAT'}
-                      name='amount'
-                      showCounter
-                      showToggle
-                      data-e2e='amountField'
-                      onToggleFix={() => {
-                        formActions.change(
-                          'nftMakeOffer',
-                          'fix',
-                          fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
-                        )
-                        formActions.change(
-                          'nftMakeOffer',
-                          'amount',
-                          fix === 'CRYPTO' ? fiatAmt : cryptoAmt
-                        )
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%'
+              }}
+            >
+              <Row>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex' }}>
+                    <img
+                      style={{
+                        borderRadius: '8px',
+                        height: '64px',
+                        marginRight: '12px',
+                        width: 'auto'
                       }}
+                      alt='nft-asset'
+                      src={val.image_url.replace(/=s\d*/, '')}
                     />
-                  </Value>
-                </Row>
-              </>
+                    <div>
+                      <Text size='16px' color='grey900' weight={600}>
+                        {val?.name}
+                      </Text>
+                      {val.collection.safelist_request_status === 'verified' ? (
+                        <Text
+                          size='14px'
+                          weight={600}
+                          color='green600'
+                          style={{
+                            background: colors.green100,
+                            borderRadius: '8px',
+                            padding: '5px 8px',
+                            textAlign: 'center',
+                            width: 'fit-content'
+                          }}
+                        >
+                          Verified
+                        </Text>
+                      ) : (
+                        <Text
+                          size='14px'
+                          weight={600}
+                          color='orange600'
+                          style={{
+                            background: colors.orange100,
+                            borderRadius: '8px',
+                            padding: '5px 8px',
+                            textAlign: 'center',
+                            width: 'fit-content'
+                          }}
+                        >
+                          Not Verified
+                        </Text>
+                      )}
+                    </div>
+                  </div>
+                  <Text
+                    style={{
+                      justifyContent: 'right'
+                    }}
+                  >
+                    <CoinDisplay
+                      size='14px'
+                      color='black'
+                      weight={600}
+                      coin='ETH'
+                      style={{ justifyContent: 'right' }}
+                    >
+                      {lowest_order?.base_price || 0}
+                    </CoinDisplay>
+                    <FiatDisplay
+                      size='14px'
+                      color={colors.grey600}
+                      weight={600}
+                      coin='ETH'
+                      style={{ justifyContent: 'right' }}
+                    >
+                      {lowest_order?.base_price || 0}
+                    </FiatDisplay>
+                  </Text>
+                </div>
+              </Row>
+              <Row>
+                <Value>
+                  <AmountFieldInput
+                    coin={coin}
+                    fiatCurrency={walletCurrency}
+                    amtError={false}
+                    quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
+                    fix={fix as 'CRYPTO' | 'FIAT'}
+                    name='amount'
+                    showCounter
+                    showToggle
+                    data-e2e='amountField'
+                    onToggleFix={() => {
+                      formActions.change(
+                        'nftMakeOffer',
+                        'fix',
+                        fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
+                      )
+                      formActions.change(
+                        'nftMakeOffer',
+                        'amount',
+                        fix === 'CRYPTO' ? fiatAmt : cryptoAmt
+                      )
+                    }}
+                  />
+                </Value>
+              </Row>
               <Row>
                 <Title>
                   <b>
@@ -302,7 +311,6 @@ const MakeOffer: React.FC<Props> = (props) => {
                 <Value>
                   <Field
                     name='expirationDays'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(days: any) => {
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     }}
@@ -331,10 +339,10 @@ const MakeOffer: React.FC<Props> = (props) => {
               </Row>
               <Row>
                 <Value>
-                  <NetworkFeesComponent {...props} {...[val]} />
+                  <MakeOfferFees {...props} asset={val} />
                 </Value>
               </Row>
-            </Form>
+            </div>
             <StickyCTA>
               {needsWrap ? (
                 <>
@@ -394,7 +402,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               {isAuthenticated ? (
                 <>
                   {needsWrap && !canWrap ? (
-                    <Button rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                    <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                       <Image
                         width='16px'
                         height='16px'

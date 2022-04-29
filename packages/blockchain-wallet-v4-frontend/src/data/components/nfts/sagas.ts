@@ -1,5 +1,5 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
-import { addDays, getUnixTime } from 'date-fns'
+import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -237,7 +237,7 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order as RawOrder
         )
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        const listingTime = getUnixTime(new Date())
+        const listingTime = getUnixTime(addMinutes(new Date(), 5))
         const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
@@ -389,7 +389,7 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
-      const listingTime = getUnixTime(new Date())
+      const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)

@@ -55,7 +55,7 @@ const initialState: NftsStateType = {
     offerToCancel: null,
     orderToMatch: null,
     status: null,
-    step: NftOrderStepEnum.SHOW_ASSET,
+    step: null,
     // This is a hack because sometimes opensea sets the owner address
     // to NULL_ADDRESS (if contract is opensea storefront)
     // will be fixed by explorer-gateway eventually
@@ -278,7 +278,6 @@ const nftsSlice = createSlice({
       state.openSeaStatus = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.walletUserIsAssetOwnerHack = false
 
       state.orderFlow.isSubmitting = false
