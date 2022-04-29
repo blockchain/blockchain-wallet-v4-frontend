@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -164,8 +164,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         node.id === nodeId &&
         node.children &&
         node.children.map((child) => {
-          if (child.id === childId && !child.checked) {
-            child.checked = true
+          if (child.id === childId) {
+            child.checked = !child.checked
+            isChanged = true
+          } else if (node.isDropdown && child.id !== childId) {
+            // reset all other options to false
+            child.checked = false
             isChanged = true
           }
           return child
@@ -235,8 +239,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  const renderDropDownBasedQuestion = (node: NodeType, updateItem) => {
-    const questionElements = getNodeQuestionElements(node)
+  const RenderDropDownBasedQuestion = (node: NodeType, updateItem) => {
+    const questionElements = useMemo(() => getNodeQuestionElements(node), [node])
 
     const onChangeItem = (e, value) => {
       updateItem(node.id, value)
@@ -286,7 +290,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  const renderSingleSelectionQuestion = (node: NodeType, updateItem) => {
+  const RenderSingleSelectionQuestion = (node: NodeType, updateItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
 
     return (
@@ -389,8 +393,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             }
             if (node.type === NodeItemTypes.SINGLE_SELECTION) {
               return node.isDropdown
-                ? renderDropDownBasedQuestion(node, updateItem)
-                : renderSingleSelectionQuestion(node, updateItem)
+                ? RenderDropDownBasedQuestion(node, updateItem)
+                : RenderSingleSelectionQuestion(node, updateItem)
             }
             return null
           })}
