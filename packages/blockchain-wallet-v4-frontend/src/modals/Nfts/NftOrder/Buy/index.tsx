@@ -233,9 +233,7 @@ const Buy: React.FC<Props> = (props) => {
                     />
                   </Value>
                 </Row>
-                <Row>
-                  <BuyFees {...props} />
-                </Row>
+                <BuyFees {...props} />
                 {orderToMatch && (
                   <Row
                     style={{

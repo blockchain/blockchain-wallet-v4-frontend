@@ -339,7 +339,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               </Row>
               <Row>
                 <Value>
-                  <MakeOfferFees {...props} {...[val]} />
+                  <MakeOfferFees {...props} asset={val} />
                 </Value>
               </Row>
             </div>

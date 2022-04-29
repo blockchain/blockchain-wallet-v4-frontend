@@ -7,7 +7,6 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 
 import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
