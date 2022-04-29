@@ -3,16 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
-import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
-import { Value } from 'components/Flyout/model'
+import { Flex } from 'components/Flex'
 
-import { CTARow } from '../../components'
+import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
 
-const Fees: React.FC<Props> = (props: any) => {
+const Fees: React.FC<Props> = (props: Props) => {
   const { nftActions, orderFlow } = props
 
   // Default to WETH
@@ -21,8 +20,8 @@ const Fees: React.FC<Props> = (props: any) => {
 
   useEffect(() => {
     nftActions.fetchFees({
-      asset: props[0],
-      offer: '0.0001',
+      asset: props.asset,
+      offer: '0',
       operation: GasCalculationOperations.CreateOffer,
       paymentTokenAddress: WETH
     })
@@ -31,37 +30,40 @@ const Fees: React.FC<Props> = (props: any) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
+        Failure: (e) => (
+          <Flex justifyContent='space-between' alignItems='center'>
+            <Flex>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
+              </Text>
+            </Flex>
+            <RightAlign>N/A</RightAlign>
+          </Flex>
         ),
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <>
-              <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Title style={{ display: 'flex', lineHeight: '38px' }}>
+            <Flex justifyContent='space-between' alignItems='center'>
+              <Flex>
+                <Text size='14px' weight={500}>
                   <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
-                  {val.approvalFees > 0 ? (
-                    <TooltipHost id='tooltip.opensea_offer_approval_fees'>
-                      <TooltipIcon name='question-in-circle-filled' />
-                    </TooltipHost>
-                  ) : null}
-                </Title>
-                <Value>
-                  <div style={{ display: 'block' }}>
-                    <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
-                    </CoinDisplay>
-                    <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
-            </>
+                </Text>
+                {val.approvalFees > 0 ? (
+                  <TooltipHost id='tooltip.opensea_offer_approval_fees'>
+                    <TooltipIcon name='question-in-circle-filled' />
+                  </TooltipHost>
+                ) : null}
+              </Flex>
+              <RightAlign>
+                <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                </CoinDisplay>
+                <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
+                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                </FiatDisplay>
+              </RightAlign>
+            </Flex>
           )
         }
       })}

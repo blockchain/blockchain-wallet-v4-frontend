@@ -1,11 +1,12 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 
+import { displayCoinToCoin } from '@core/exchange'
 import { NftAsset } from '@core/network/api/nfts/types'
 
 import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
-import MakeOfferFees from '../Approval/fees'
+import ApprovalFees from '../Approval/fees'
 import WrapEthFees from '../WrapEth/fees'
 
 const Fees: React.FC<Props> = (props) => {
@@ -17,13 +18,15 @@ const Fees: React.FC<Props> = (props) => {
           props?.orderFlow?.wrapEthFees?.data?.gasPrice
         )
       )
-    return !totalFees.isNaN() ? totalFees.toString() : '0'
+    const totalString = !totalFees.isNaN() ? totalFees.toString() : '0'
+    const total = displayCoinToCoin({ coin: 'ETH', value: totalString })
+    return total
   }
 
   return (
     <>
-      <FeesDropdown totalFees={getTotalFees()} coin='ETH'>
-        <MakeOfferFees {...props} />
+      <FeesDropdown totalFees={getTotalFees()}>
+        <ApprovalFees {...props} />
         <WrapEthFees {...props} />
       </FeesDropdown>
     </>

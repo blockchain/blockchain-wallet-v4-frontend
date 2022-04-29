@@ -15,6 +15,7 @@ import { CheckBoxInput, Icon, Link, SpinningLoader, Text } from 'blockchain-info
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { Flex } from 'components/Flex'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -24,7 +25,7 @@ import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
-import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import { AssetDesc, FullAssetImage, RightAlign, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
 import BuyFees from './fees'
@@ -233,52 +234,45 @@ const Buy: React.FC<Props> = (props) => {
                     />
                   </Value>
                 </Row>
-                <BuyFees {...props} />
-                {orderToMatch && (
-                  <Row
-                    style={{
-                      border: 'unset',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      margin: '0em 1em'
-                    }}
-                  >
-                    <Title>
-                      <Text color='black' weight={600} size='18px'>
-                        Total
-                      </Text>
-                    </Title>
-                    <Value>
-                      <div style={{ display: 'block' }}>
-                        <CoinDisplay
-                          size='1'
-                          color='black'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {new BigNumber(buyFees.totalFees)
-                            .multipliedBy(buyFees.gasPrice)
-                            .plus(orderToMatch.base_price)
-                            .toString()}
-                        </CoinDisplay>
-                        <FiatDisplay
-                          size='12px'
-                          color='grey600'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {new BigNumber(buyFees.totalFees)
-                            .multipliedBy(buyFees.gasPrice)
-                            .plus(orderToMatch.base_price)
-                            .toString()}
-                        </FiatDisplay>
-                      </div>
-                    </Value>
-                  </Row>
-                )}
+                <Row>
+                  <BuyFees {...props} />
+                </Row>
               </div>
             </div>
             <StickyCTA>
+              {orderToMatch ? (
+                <div style={{ marginBottom: '8px' }}>
+                  <Flex alignItems='center' justifyContent='space-between'>
+                    <Text color='black' weight={600} size='18px'>
+                      Total
+                    </Text>
+                    <RightAlign>
+                      <CoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin={orderToMatch.payment_token_contract?.symbol}
+                      >
+                        {new BigNumber(buyFees.totalFees)
+                          .multipliedBy(buyFees.gasPrice)
+                          .plus(orderToMatch.base_price)
+                          .toString()}
+                      </CoinDisplay>
+                      <FiatDisplay
+                        size='14px'
+                        color='grey600'
+                        weight={600}
+                        coin={orderToMatch.payment_token_contract?.symbol}
+                      >
+                        {new BigNumber(buyFees.totalFees)
+                          .multipliedBy(buyFees.gasPrice)
+                          .plus(orderToMatch.base_price)
+                          .toString()}
+                      </FiatDisplay>
+                    </RightAlign>
+                  </Flex>
+                </div>
+              ) : null}
               <BuyCta
                 {...props}
                 amount={cryptoAmt}
@@ -320,7 +314,6 @@ const enhance = compose(
     destroyOnUnmount: false,
     form: 'nftBuy',
     initialValues: {
-      amount: 0,
       coin: 'ETH',
       fix: 'CRYPTO'
     }

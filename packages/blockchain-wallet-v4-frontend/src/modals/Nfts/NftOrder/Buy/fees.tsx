@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import styled from 'styled-components'
 
+import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
-import { Value } from 'components/Flyout/model'
+import { Flex } from 'components/Flex'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
-import { CTARow } from '../../components'
+import { RightAlign } from '../../components'
+import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
 
-const Wrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  font-family: Inter, sans-serif;
-  padding: 1em;
-`
-
-const Top = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-const ChevronArea = styled.div`
-  display: flex;
-`
 const Fees: React.FC<Props> = (props) => {
-  const [moreFees, setMoreFees] = useState(false)
-  const toggleDropdown = () => {
-    setMoreFees(!moreFees)
-  }
-
   const { nftActions, orderFlow } = props
   const { orderToMatch } = orderFlow
 
@@ -57,60 +38,30 @@ const Fees: React.FC<Props> = (props) => {
     <>
       {orderFlow.fees.cata({
         Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
-        ),
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <>
-              <Wrapper>
-                <Top onClick={toggleDropdown}>
-                  <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
-                    Network Fees
-                  </Text>
-                  {!moreFees && (
-                    <ChevronArea>
-                      <Icon name='chevron-right' size='24px' color='grey400' />
-                    </ChevronArea>
-                  )}
-                  {moreFees && (
-                    <ChevronArea>
-                      <Icon name='chevron-down' size='24px' color='grey400' />
-                    </ChevronArea>
-                  )}
-                </Top>
-
-                {moreFees && (
-                  <>
-                    <CTARow
-                      style={{
-                        borderBottom: 'unset',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        margin: '1em 0em'
-                      }}
-                    >
-                      <Title>
-                        <FormattedMessage id='copy.fees' defaultMessage='Fees' />
-                      </Title>
-                      <Value>
-                        <div style={{ display: 'block' }}>
-                          <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                            {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                          </CoinDisplay>
-                          <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
-                            {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                          </FiatDisplay>
-                        </div>
-                      </Value>
-                    </CTARow>
-                  </>
-                )}
-              </Wrapper>
-            </>
+            <FeesDropdown
+              totalFees={displayCoinToCoin({
+                coin: 'ETH',
+                value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
+              })}
+            >
+              <Flex justifyContent='space-between' alignItems='center'>
+                <Text size='14px' weight={500}>
+                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                </Text>
+                <RightAlign>
+                  <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                  </CoinDisplay>
+                  <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
+                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                  </FiatDisplay>
+                </RightAlign>
+              </Flex>
+            </FeesDropdown>
           )
         }
       })}

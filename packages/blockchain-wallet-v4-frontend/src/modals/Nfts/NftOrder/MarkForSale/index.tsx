@@ -446,9 +446,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </Value>
               </Row>
               <Row>
-                <Value>
-                  <MarkForSaleFees {...props} {...[val]} />
-                </Value>
+                <MarkForSaleFees {...props} asset={val} />
               </Row>
               <Row style={{ border: 'unset' }}>
                 {open && (
@@ -602,7 +600,6 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
     initialValues: {
-      amount: 0,
       coin: 'ETH',
       expirationDays: 1,
       fix: 'CRYPTO',
