@@ -167,8 +167,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           if (child.id === childId) {
             child.checked = !child.checked
             isChanged = true
-          } else if (node.isDropdown && child.id !== childId) {
-            // reset all other options to false
+          }
+          // for dropdown options remove all other checked values
+          if (child.id !== childId && node.isDropdown && child.checked) {
             child.checked = false
             isChanged = true
           }
