@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon as IconBlockchain } from '@blockchain-com/constellation'
+import { colors } from '@blockchain-com/constellation'
 import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
 import { map } from 'ramda'
@@ -9,24 +9,20 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { coinToString } from '@core/exchange/utils'
-import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import Form from 'components/Form/Form'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { media } from 'services/styles'
 
-import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import { AssetDesc, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
 import MarkForSaleFees from './fees'
@@ -56,16 +52,8 @@ const SaleSelection = styled.div`
   border-radius: 8px;
 `
 
-const DateLabel = styled(Text)`
-  margin-bottom: 6px;
-`
-const EndDateLabel = styled(DateLabel)`
-  margin-right: 95px;
-`
-
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow, rates } = props
-  const fees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)

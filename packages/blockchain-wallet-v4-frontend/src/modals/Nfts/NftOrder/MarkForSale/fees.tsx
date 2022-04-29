@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 
 const Top = styled.div`
   display: flex;
+  cursor: pointer;
   justify-content: space-between;
 `
 const ChevronArea = styled.div`
@@ -69,7 +70,7 @@ const Fees: React.FC<Props> = (props: any, val) => {
   return (
     <>
       <Wrapper>
-        <Top onClick={toggleDropdown}>
+        <Top role='button' onClick={toggleDropdown}>
           <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
             Selling Fees
           </Text>
