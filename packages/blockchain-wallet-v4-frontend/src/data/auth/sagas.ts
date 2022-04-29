@@ -615,8 +615,13 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
+
       // get product auth data from querystring
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      // get guid when wallet is launched from a logged in exchange account
+      const guidFromQueryParams = queryParams.get('guid') as string
+      // get email when wallet is launched from a logged in exchange account
+      const emailFromQueryParams = decodeURIComponent(queryParams.get('email') as string)
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet

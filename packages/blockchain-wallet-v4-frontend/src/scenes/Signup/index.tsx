@@ -188,6 +188,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),

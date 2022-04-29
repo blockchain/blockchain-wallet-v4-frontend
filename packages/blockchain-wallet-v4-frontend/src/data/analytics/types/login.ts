@@ -1,5 +1,6 @@
 // Log in Events
 export enum Events {
+  LOGIN_CLICKED = 'Login Clicked',
   LOGIN_DEVICE_VERIFIED = 'Device Verified',
   LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
@@ -19,6 +20,7 @@ export enum Events {
 
 type LoginActions = {
   key:
+    | Events.LOGIN_CLICKED
     | Events.LOGIN_SIGNED_OUT
     | Events.LOGIN_SIGNED_IN
     | Events.LOGIN_PASSWORD_ENTERED
