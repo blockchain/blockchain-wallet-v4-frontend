@@ -233,10 +233,54 @@ const Buy: React.FC<Props> = (props) => {
                     />
                   </Value>
                 </Row>
+                <Row>
+                  <BuyFees {...props} />
+                </Row>
+                {orderToMatch && (
+                  <Row
+                    style={{
+                      border: 'unset',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      margin: '0em 1em'
+                    }}
+                  >
+                    <Title>
+                      <Text color='black' weight={600} size='18px'>
+                        Total
+                      </Text>
+                    </Title>
+                    <Value>
+                      <div style={{ display: 'block' }}>
+                        <CoinDisplay
+                          size='1'
+                          color='black'
+                          weight={600}
+                          coin={orderToMatch.payment_token_contract?.symbol}
+                        >
+                          {new BigNumber(buyFees.totalFees)
+                            .multipliedBy(buyFees.gasPrice)
+                            .plus(orderToMatch.base_price)
+                            .toString()}
+                        </CoinDisplay>
+                        <FiatDisplay
+                          size='12px'
+                          color='grey600'
+                          weight={600}
+                          coin={orderToMatch.payment_token_contract?.symbol}
+                        >
+                          {new BigNumber(buyFees.totalFees)
+                            .multipliedBy(buyFees.gasPrice)
+                            .plus(orderToMatch.base_price)
+                            .toString()}
+                        </FiatDisplay>
+                      </div>
+                    </Value>
+                  </Row>
+                )}
               </div>
             </div>
             <StickyCTA>
-              <BuyFees {...props} />
               <BuyCta
                 {...props}
                 amount={cryptoAmt}

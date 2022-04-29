@@ -87,9 +87,10 @@ const Fees: React.FC<Props> = (props) => {
                   <>
                     <CTARow
                       style={{
+                        borderBottom: 'unset',
                         display: 'flex',
                         justifyContent: 'space-between',
-                        padding: '1em 0em'
+                        margin: '1em 0em'
                       }}
                     >
                       <Title>
@@ -102,39 +103,6 @@ const Fees: React.FC<Props> = (props) => {
                           </CoinDisplay>
                           <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
                             {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                          </FiatDisplay>
-                        </div>
-                      </Value>
-                    </CTARow>
-                    <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Title>
-                        <Text color='black' weight={600} size='18px'>
-                          Total
-                        </Text>
-                      </Title>
-                      <Value>
-                        <div style={{ display: 'block' }}>
-                          <CoinDisplay
-                            size='1'
-                            color='black'
-                            weight={600}
-                            coin={orderToMatch.payment_token_contract?.symbol}
-                          >
-                            {new BigNumber(val.totalFees)
-                              .multipliedBy(val.gasPrice)
-                              .plus(orderToMatch.base_price)
-                              .toString()}
-                          </CoinDisplay>
-                          <FiatDisplay
-                            size='12px'
-                            color='grey600'
-                            weight={600}
-                            coin={orderToMatch.payment_token_contract?.symbol}
-                          >
-                            {new BigNumber(val.totalFees)
-                              .multipliedBy(val.gasPrice)
-                              .plus(orderToMatch.base_price)
-                              .toString()}
                           </FiatDisplay>
                         </div>
                       </Value>

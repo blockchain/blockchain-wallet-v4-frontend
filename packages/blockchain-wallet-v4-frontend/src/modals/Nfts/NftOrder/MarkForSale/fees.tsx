@@ -61,7 +61,7 @@ const Fees: React.FC<Props> = (props: any, val) => {
 
   const getBasisPoints = () => {
     return `${String(
-      Number(orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points) +
+      Number(orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points) / 100 +
         Number(orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points) / 100
     )}%`
   }
@@ -73,37 +73,41 @@ const Fees: React.FC<Props> = (props: any, val) => {
           <Text weight={500} color='#353F52' lineHeight='24px' size='15px'>
             Selling Fees
           </Text>
-          <Text style={{ marginLeft: '2.6em' }} lineHeight='24px'>
-            <Text weight={500} style={{ paddingLeft: '10em' }} lineHeight='24px'>
-              {getBasisPoints()}
+          <div style={{ display: 'flex' }}>
+            <Text lineHeight='24px'>
+              <Text weight={500} lineHeight='24px'>
+                {getBasisPoints()}
+              </Text>
             </Text>
-          </Text>
-          {!moreFees && (
-            <ChevronArea>
-              <Icon name='chevron-right' size='24px' color='grey400' />
-            </ChevronArea>
-          )}
-          {moreFees && (
-            <ChevronArea>
-              <Icon name='chevron-down' size='24px' color='grey400' />
-            </ChevronArea>
-          )}
+            {!moreFees && (
+              <ChevronArea>
+                <Icon name='chevron-right' size='24px' color='grey400' />
+              </ChevronArea>
+            )}
+            {moreFees && (
+              <ChevronArea>
+                <Icon name='chevron-down' size='24px' color='grey400' />
+              </ChevronArea>
+            )}
+          </div>
         </Top>
         <FeesWrapper style={moreFees ? {} : { display: 'none' }}>
           {orderFlow?.asset?.data?.asset_contract?.opensea_seller_fee_basis_points > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Text weight={500}>OpenSea Service Fee</Text>
-              <Text weight={500} style={{ paddingRight: '1.5em' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '1em' }}>
+              <Text size='14px' weight={500}>
+                OpenSea Service Fee
+              </Text>
+              <Text size='14px' weight={500}>
                 {orderFlow.asset.data.asset_contract.opensea_seller_fee_basis_points / 100}%
               </Text>
             </div>
           )}
           {orderFlow?.asset?.data?.collection?.dev_seller_fee_basis_points > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Text weight={500} style={{ paddingRight: '2em' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '1em' }}>
+              <Text size='14px' weight={500}>
                 Creator Royalty
               </Text>
-              <Text weight={500}>
+              <Text size='14px' weight={500}>
                 {Number(orderFlow.asset.data.collection.dev_seller_fee_basis_points) / 100}%
               </Text>
             </div>

@@ -230,15 +230,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                         }}
                       />
                     </Value>
-                    <Value>
-                      <FiatDisplay size='12px' weight={600} coin={coin}>
-                        {convertCoinToCoin({
-                          baseToStandard: false,
-                          coin,
-                          value: formValues.starting
-                        }) || 0}
-                      </FiatDisplay>
-                    </Value>
                   </Row>
                   {formValues?.timedAuctionType === 'decliningPrice' && (
                     <Row>
@@ -277,15 +268,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                             )
                           }}
                         />
-                      </Value>
-                      <Value>
-                        <FiatDisplay size='12px' weight={600} coin={coin}>
-                          {convertCoinToCoin({
-                            baseToStandard: false,
-                            coin,
-                            value: formValues.ending
-                          }) || 0}
-                        </FiatDisplay>
                       </Value>
                     </Row>
                   )}
