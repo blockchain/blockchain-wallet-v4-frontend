@@ -7,7 +7,6 @@ import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import * as lz from 'lz-string'
 
-import { displayCoinToCoin } from '@core/exchange'
 import {
   Button,
   CheckBoxInput,
@@ -18,7 +17,6 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
