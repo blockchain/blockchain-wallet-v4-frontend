@@ -10,6 +10,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { coinToString } from '@core/exchange/utils'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
@@ -64,7 +65,6 @@ const EndDateLabel = styled(DateLabel)`
 
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow, rates } = props
-  const coin = formValues?.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
   const fees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
@@ -87,7 +87,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.starting = ''
     formValues.ending = ''
     formValues.expirationDays = 1
-    formValues.timedAuctionType = 'decliningPrice'
+    formValues.timedAuctionType = 'highestBidder'
   }
   const setToFixed = () => {
     setSaleType('fixed-price')
@@ -96,10 +96,16 @@ const MarkForSale: React.FC<Props> = (props) => {
     setSaleType('timed-auction')
   }
 
+  const coin = () => {
+    return saleType === 'timed-auction' && formValues?.timedAuctionType === 'highestBidder'
+      ? 'WETH'
+      : 'ETH'
+  }
+
   const cryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
-          coin,
+          coin: coin(),
           currency: props.walletCurrency,
           maxPrecision: 8,
           rates,
@@ -109,7 +115,7 @@ const MarkForSale: React.FC<Props> = (props) => {
   const fiatAmt =
     fix === 'CRYPTO'
       ? convertCoinToFiat({
-          coin,
+          coin: coin(),
           currency: props.walletCurrency,
           isStandard: true,
           rates,
@@ -176,7 +182,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <Row>
                     <Value>
                       <AmountFieldInput
-                        coin={coin}
+                        coin={coin()}
                         fiatCurrency={props.walletCurrency}
                         amtError={false}
                         quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
@@ -207,7 +213,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <Row>
                     <Value>
                       <AmountFieldInput
-                        coin={coin}
+                        coin={coin()}
                         fiatCurrency={props.walletCurrency}
                         amtError={false}
                         quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
@@ -235,7 +241,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                     <Row>
                       <Value>
                         <AmountFieldInput
-                          coin={coin}
+                          coin={coin()}
                           fiatCurrency={props.walletCurrency}
                           amtError={false}
                           quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
@@ -277,7 +283,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <Value>
                   <SaleType>
                     <SaleSelection
-                      onClick={setToFixed}
+                      onClick={() => {
+                        setToFixed()
+                        resetForms()
+                      }}
                       style={
                         saleType === 'fixed-price'
                           ? {
@@ -325,7 +334,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Text>
                     </SaleSelection>
                     <SaleSelection
-                      onClick={setToTimedAuction}
+                      onClick={() => {
+                        setToTimedAuction()
+                        resetForms()
+                      }}
                       style={
                         saleType === 'timed-auction'
                           ? {
@@ -450,7 +462,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <MarkForSaleFees {...props} {...[val]} />
                 </Value>
               </Row>
-              <Row>
+              <Row style={{ border: 'unset' }}>
                 {open && (
                   <>
                     <Icon
@@ -559,8 +571,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                           defaultMessage='Sell Item for {val}'
                           values={{
                             val: formValues.amount
-                              ? `${formValues.amount} ${coin}`
-                              : `${formValues.starting} ${coin}`
+                              ? `${formValues.amount} ${coin()}`
+                              : `${formValues.starting} ${coin()}`
                           }}
                         />
                       )
@@ -607,7 +619,6 @@ const enhance = compose(
       expirationDays: 1,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
-      'sale-type': 'fixed-price',
       timedAuctionType: 'highestBidder'
     }
   }),
