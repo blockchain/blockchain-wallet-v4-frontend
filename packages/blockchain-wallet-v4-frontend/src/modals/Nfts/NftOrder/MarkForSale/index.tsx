@@ -23,6 +23,7 @@ import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
 import MarkForSaleFees from './fees'
@@ -114,12 +115,8 @@ const MarkForSale: React.FC<Props> = (props) => {
     <>
       {orderFlow.asset.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
-        NotAsked: () => null,
+        Loading: () => <NftFlyoutLoader />,
+        NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
             <StickyHeaderWrapper>

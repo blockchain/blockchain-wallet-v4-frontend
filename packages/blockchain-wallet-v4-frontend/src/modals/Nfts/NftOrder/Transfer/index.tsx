@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -14,7 +14,8 @@ import TextBox from 'components/Form/TextBox'
 import { selectors } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
-import { AssetDesc, StickyCTA } from '../../components'
+import { StickyCTA } from '../../components'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import TransferFees from '../ShowAsset/Transfer/fees'
 
@@ -27,12 +28,8 @@ const Transfer: React.FC<Props> = (props) => {
     <>
       {orderFlow.asset.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
-        NotAsked: () => null,
+        Loading: () => <NftFlyoutLoader />,
+        NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
             <StickyHeaderWrapper>

@@ -39,6 +39,7 @@ import { Analytics, DeepLinkGoal } from 'data/types'
 
 import { AssetDesc, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
@@ -136,12 +137,8 @@ const MakeOffer: React.FC<Props> = (props) => {
     <>
       {orderFlow.asset.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
-        NotAsked: () => null,
+        Loading: () => <NftFlyoutLoader />,
+        NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
             <StickyHeaderWrapper>

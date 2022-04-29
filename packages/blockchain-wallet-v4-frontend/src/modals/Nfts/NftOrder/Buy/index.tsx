@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
@@ -7,11 +7,11 @@ import BigNumber from 'bignumber.js'
 import { useRemote } from 'hooks'
 import { Field, reduxForm } from 'redux-form'
 
-import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import { CheckBoxInput, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -19,29 +19,18 @@ import { Flex } from 'components/Flex'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
-import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
-import { AssetDesc, FullAssetImage, RightAlign, StickyCTA } from '../../components'
+import { AssetDesc, RightAlign, StickyCTA } from '../../components'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
 import BuyFees from './fees'
 
 const Buy: React.FC<Props> = (props) => {
-  const {
-    close,
-    erc20BalanceR,
-    ethBalancesR,
-    formActions,
-    formValues,
-    nftActions,
-    orderFlow,
-    rates,
-    walletCurrency
-  } = props
+  const { close, ethBalancesR, formValues, nftActions, orderFlow, rates, walletCurrency } = props
   const { amount, coin, fix } = formValues
   const { orderToMatch } = orderFlow
 
@@ -53,16 +42,6 @@ const Buy: React.FC<Props> = (props) => {
           maxPrecision: 8,
           rates,
           value: amount
-        })
-      : amount
-  const fiatAmt =
-    fix === 'CRYPTO'
-      ? convertCoinToFiat({
-          coin,
-          currency: walletCurrency,
-          isStandard: true,
-          rates,
-          value: amount || 0
         })
       : amount
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
@@ -87,12 +66,6 @@ const Buy: React.FC<Props> = (props) => {
     coin,
     value: lowest_order?.base_price
   })
-  const ethCurrency = convertCoinToFiat({
-    coin,
-    currency: walletCurrency,
-    rates,
-    value: lowest_order?.base_price
-  })
   formValues.amount = ethStandard
   const amtToBuy = new BigNumber(lowest_order?.base_price).minus(ethBalance)
 
@@ -100,11 +73,7 @@ const Buy: React.FC<Props> = (props) => {
     <>
       {orderFlow.asset.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
+        Loading: () => <NftFlyoutLoader />,
         NotAsked: () => null,
         Success: (val) => (
           <>
