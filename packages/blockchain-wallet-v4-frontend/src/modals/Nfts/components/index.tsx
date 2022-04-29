@@ -27,6 +27,8 @@ export const StickyCTA = styled.div`
   border-top: 1px solid ${(props) => props.theme.grey000};
   position: sticky;
   padding: 20px 40px;
+  flex-direction: column;
+  display: flex;
   bottom: 0;
   left: 0;
 `
@@ -37,5 +39,11 @@ export const CTARow = styled(Row)`
   &:first-child {
     padding-top: 0px;
     border-top: 0;
+  }
+`
+
+export const RightAlign = styled.div`
+  > div {
+    justify-content: flex-end;
   }
 `
