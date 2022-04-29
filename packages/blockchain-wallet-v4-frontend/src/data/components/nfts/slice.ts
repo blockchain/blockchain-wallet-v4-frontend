@@ -6,6 +6,7 @@ import { Remote } from '@core'
 import {
   CollectionData,
   ExplorerGatewayNftCollectionType,
+  ExplorerGatewaySearchType,
   GasCalculationOperations,
   GasDataI,
   NftAsset,
@@ -34,7 +35,6 @@ const initialState: NftsStateType = {
     page: 0
   },
   collection: Remote.NotAsked,
-  collectionSearch: [],
   collections: Remote.NotAsked,
   offersMade: {
     atBound: false,
@@ -62,7 +62,8 @@ const initialState: NftsStateType = {
     walletUserIsAssetOwnerHack: false,
 
     wrapEthFees: Remote.NotAsked
-  }
+  },
+  search: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -327,6 +328,16 @@ const nftsSlice = createSlice({
         state.orderFlow.orderToMatch = action.payload.order
       }
     },
+    nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
+    nftSearchFailure: (state, action: PayloadAction<string>) => {
+      state.search = Remote.Failure(action.payload)
+    },
+    nftSearchLoading: (state) => {
+      state.search = Remote.Loading
+    },
+    nftSearchSuccess: (state, action: PayloadAction<ExplorerGatewaySearchType>) => {
+      state.search = Remote.Success(action.payload)
+    },
     resetNftAssets: (state) => {
       state.assets.atBound = false
       state.assets.page = 0
@@ -343,10 +354,6 @@ const nftsSlice = createSlice({
       state.offersMade.isLoading = true
       state.offersMade.list = []
     },
-    searchNftAssetContract: (
-      state,
-      action: PayloadAction<{ asset_contract_address?: string; search?: string }>
-    ) => {},
     setActiveSlug: (state, action: PayloadAction<{ slug: string }>) => {
       state.activeSlug = action.payload.slug
     },
@@ -356,9 +363,6 @@ const nftsSlice = createSlice({
     setAssetData: (state, action: PayloadAction<{ collection?: string; page?: number }>) => {
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
-    },
-    setCollectionSearch: (state, action: PayloadAction<ExplorerGatewayNftCollectionType[]>) => {
-      state.collectionSearch = action.payload
     },
     setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order

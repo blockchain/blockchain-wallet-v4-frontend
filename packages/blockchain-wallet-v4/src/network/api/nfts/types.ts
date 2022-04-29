@@ -901,3 +901,43 @@ export interface OpenSeaOrder {
   target: string
   v: number
 }
+
+// Only keeping around relevant info for now
+export type ExplorerGatewaySearchType = {
+  accounts: {
+    address: string
+    config: string
+    date_ingested: string
+    profile_img_url: string
+    username: string | null
+  }[]
+  assets: {
+    collection_slug: string
+    contract_address: string
+    id: string
+    image_original_url: string
+    image_preview_url: string
+    image_thumbnail_url: string
+    image_url: string
+    name: string
+    token_id: string
+  }[]
+  collections: {
+    image_url: string | null
+    name: string
+    num_owners: null
+    safelist_request_status: string
+    slug: string
+  }[]
+  contracts: {
+    address: string
+    asset_contract_type: string
+    created_date: string
+    date_ingested: string
+    nft_version: string
+    owner: string | null
+    schema_name: string
+    symbol: string
+    total_supply: string
+  }[]
+}

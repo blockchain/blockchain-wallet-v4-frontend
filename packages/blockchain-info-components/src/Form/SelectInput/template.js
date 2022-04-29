@@ -191,11 +191,14 @@ const SelectInput = (props) => {
     height = '48px',
     hideFocusedControl,
     hideIndicator,
+    isLoading,
     items,
     menuIsOpen,
     menuPlacement,
+    noOptionsMessage,
     onBlur,
     onFocus,
+    onInputChange,
     onKeyDown,
     openMenuOnClick = true,
     openMenuOnFocus,
@@ -223,12 +226,14 @@ const SelectInput = (props) => {
           Option,
           ValueContainer
         }}
+        noOptionsMessage={noOptionsMessage}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         filterOption={filterOption}
         height={height}
         hideFocusedControl={hideFocusedControl}
         hideIndicator={hideIndicator}
         isDisabled={disabled}
+        isLoading={isLoading}
         isSearchable={searchEnabled}
         menuIsOpen={menuIsOpen}
         menuPlacement={menuPlacement}
@@ -237,6 +242,7 @@ const SelectInput = (props) => {
         onFocus={onFocus}
         onKeyDown={onKeyDown}
         openMenuOnClick={openMenuOnClick}
+        onInputChange={onInputChange}
         openMenuOnFocus={openMenuOnFocus}
         options={options}
         placeholder={defaultDisplay}
