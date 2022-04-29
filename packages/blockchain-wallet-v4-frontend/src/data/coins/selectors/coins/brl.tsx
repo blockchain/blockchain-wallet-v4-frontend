@@ -5,6 +5,6 @@ import { FormattedMessage } from 'react-intl'
 export const getTransactionPageHeaderText = () => (
   <FormattedMessage
     id='coins.usd.intro'
-    defaultMessage='Store Argentine peso in your wallet and use it to Buy crypto.'
+    defaultMessage='Store Brazilian real in your wallet and use it to Buy crypto.'
   />
 )

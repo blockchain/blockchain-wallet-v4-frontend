@@ -9,6 +9,7 @@ import {
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 
 import { getOutputFromPair } from '../swap/model'
 
@@ -21,10 +22,12 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
 
-  const userCountryCode = selectors.core.settings.getCountryCode(state).getOrElse(null)
+  const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  const userCountryCode = userData?.address?.country || 'default'
   const countryCurrencies = {
     AR: ['ARS', 'USD'],
-    default: ['USD', 'EUR', 'GBP', 'ARS']
+    BR: ['BRL', 'USD'],
+    default: ['USD', 'EUR', 'GBP']
   }
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
 

@@ -74,7 +74,8 @@ export enum WalletFiatEnum {
   EUR,
   GBP,
   USD,
-  ARS
+  ARS,
+  BRL
 }
 
 export type CoinType = string

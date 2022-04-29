@@ -171,6 +171,7 @@ export const getBalanceSelector = (
     case 'GBP':
     case 'USD':
     case 'ARS':
+    case 'BRL':
       return getFiatBalance(coin)
     default:
       switch (true) {
