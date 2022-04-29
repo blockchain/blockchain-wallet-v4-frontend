@@ -14,7 +14,7 @@ import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navba
 import { ModalName } from 'data/types'
 
 import { Props as OwnProps } from '../Nfts'
-import NftSearch from '../NftsSearch'
+import NftsSearch from './NftsSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 
@@ -46,6 +46,7 @@ const NavLinkButton = styled(Link)`
 
 const ExploreHeader: React.FC<Props> = ({
   ethAddress,
+  formValues,
   isAuthenticated,
   modalActions,
   pathname,

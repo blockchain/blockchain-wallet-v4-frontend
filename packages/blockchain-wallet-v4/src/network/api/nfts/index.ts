@@ -1,5 +1,6 @@
 import {
   ExplorerGatewayNftCollectionType,
+  ExplorerGatewaySearchType,
   NftAsset,
   OfferEventsType,
   OpenSeaOrder,
@@ -47,12 +48,13 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  // TODO
-  // const getOffersReceived = () => {}
-
-  const searchNftCollectionInfo = (slug: string): ExplorerGatewayNftCollectionType[] => {
-    return get({
-      endPoint: `/collection/search?query=${slug}`,
+  const searchNfts = (query: string): ExplorerGatewaySearchType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        query
+      },
+      endPoint: `/search`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -104,6 +106,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     getOpenSeaOrders,
     getOpenSeaStatus,
     postNftOrder,
-    searchNftCollectionInfo
+    searchNfts
   }
 }

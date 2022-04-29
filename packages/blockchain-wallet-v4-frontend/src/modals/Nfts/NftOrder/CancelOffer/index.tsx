@@ -5,9 +5,9 @@ import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import CancelOfferFees from './fees'
 
@@ -21,17 +21,13 @@ const CancelOffer: React.FC<Props> = (props) => {
     <>
       {orderFlow.asset.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
-        NotAsked: () => null,
+        Loading: () => <NftFlyoutLoader />,
+        NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
             <div style={{ position: 'relative' }}>
               <Icon
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
+                onClick={() => close()}
                 name='arrow-left'
                 cursor
                 role='button'

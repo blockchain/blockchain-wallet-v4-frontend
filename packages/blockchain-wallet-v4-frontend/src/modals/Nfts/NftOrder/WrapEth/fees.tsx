@@ -3,13 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { SpinningLoader } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
-import { Value } from 'components/Flyout/model'
+import { Flex } from 'components/Flex'
 
-import { CTARow } from '../../components'
+import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
@@ -25,37 +24,25 @@ const Fees: React.FC<Props> = (props) => {
     <>
       {orderFlow.wrapEthFees.cata({
         Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
-        ),
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <>
-              <CTARow style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Title style={{ display: 'flex', lineHeight: '38px' }}>
-                  <FormattedMessage id='copy.wrap_eth_fees' defaultMessage='Wrapped Eth Fees' />
-                </Title>
-                <Value>
-                  <div style={{ display: 'block' }}>
-                    <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                      {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                    </CoinDisplay>
-                    <FiatDisplay
-                      style={{ padding: '0em 0em 0em 5em' }}
-                      size='14px'
-                      color='grey600'
-                      weight={600}
-                      coin='ETH'
-                    >
-                      {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
-            </>
+            <Flex justifyContent='space-between' alignItems='center'>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='copy.wrap_eth_fees' defaultMessage='Wrapped Eth Fees' />
+              </Text>
+              <div>
+                <RightAlign>
+                  <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                  </CoinDisplay>
+                  <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
+                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                  </FiatDisplay>
+                </RightAlign>
+              </div>
+            </Flex>
           )
         }
       })}

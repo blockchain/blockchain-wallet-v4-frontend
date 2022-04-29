@@ -170,9 +170,6 @@ const App = ({
                         component={VerifyEmail}
                         pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                       />
-                      {walletDebitCardEnabled && (
-                        <WalletLayout path='/debitCard' component={DebitCard} />
-                      )}
                       {nftExplorer && (
                         <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
@@ -201,6 +198,9 @@ const App = ({
                           component={NftsFirehose}
                           pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                         />
+                      )}
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debit-card' component={DebitCard} />
                       )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />

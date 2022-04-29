@@ -30,16 +30,20 @@ const GetMoreEthComponent: React.FC<Props> = (props) => {
         <div style={{ display: 'flex' }}>
           <Icon size='32px' name='ETH' />{' '}
           <div style={{ display: 'block', padding: '0em 1em' }}>
-            {new BigNumber(custodialBalance).isGreaterThan(0) ? (
+            {new BigNumber(custodialBalance).isGreaterThan(amtToBuy) ? (
               <>
                 <Text size='12px' weight={400}>
                   Send ETH from Trading Wallet
                 </Text>
-                <Text weight={600}>Send 0.00 ETH</Text>
+                <Text weight={600}>
+                  <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                    {amtToBuy}
+                  </CoinDisplay>
+                </Text>
               </>
             ) : (
               <>
-                <Text size='12px' weight={400}>
+                <Text size='12px' weight={400} style={{ textAlign: 'left' }}>
                   Get More ETH
                 </Text>
                 <Text weight={600}>
@@ -51,7 +55,7 @@ const GetMoreEthComponent: React.FC<Props> = (props) => {
             )}
           </div>
         </div>
-        {new BigNumber(custodialBalance).isGreaterThan(0) ? (
+        {new BigNumber(custodialBalance).isGreaterThan(amtToBuy) ? (
           <Button
             size='xsmall'
             small
