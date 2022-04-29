@@ -147,6 +147,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                   onClick={() => this.props.requestActions.setAddressCopied()}
                   size='24px'
                   textToCopy={hasPrefix(val.address) ? formatAddr(val.address, true) : val.address}
+                  coin={selectedAccount.coin}
                 />
               )
             })}
