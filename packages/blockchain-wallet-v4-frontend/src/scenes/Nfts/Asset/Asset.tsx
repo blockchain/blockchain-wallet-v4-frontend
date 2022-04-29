@@ -479,7 +479,6 @@ const NftAsset: React.FC<Props> = ({
                     weight={600}
                     style={{
                       alignItems: 'center',
-                      lineHeight: '20px',
                       padding: '0em 0em 1em 0em'
                     }}
                   >

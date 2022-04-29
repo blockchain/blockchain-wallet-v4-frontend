@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from '@blockchain-com/constellation'
+import { IconChevronDown, IconChevronRight } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
 const Wrapper = styled.div`
@@ -47,9 +49,13 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
           </Text>
           <IconWrapper>
             {!isActive ? (
-              <Icon name='chevron-right' size='24px' color='grey400' />
+              <Icon label='chevron-right' color='grey400' size='sm'>
+                <IconChevronRight />
+              </Icon>
             ) : (
-              <Icon name='chevron-down' size='24px' color='grey400' />
+              <Icon label='chevron-down' color='grey400' size='sm'>
+                <IconChevronDown />
+              </Icon>
             )}
           </IconWrapper>
         </Flex>

@@ -203,30 +203,32 @@ const MakeOffer: React.FC<Props> = (props) => {
                       )}
                     </div>
                   </div>
-                  <Text
-                    style={{
-                      justifyContent: 'right'
-                    }}
-                  >
-                    <CoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin='ETH'
-                      style={{ justifyContent: 'right' }}
+                  {lowest_order?.base_price && (
+                    <Text
+                      style={{
+                        justifyContent: 'right'
+                      }}
                     >
-                      {lowest_order?.base_price || 0}
-                    </CoinDisplay>
-                    <FiatDisplay
-                      size='14px'
-                      color={colors.grey600}
-                      weight={600}
-                      coin='ETH'
-                      style={{ justifyContent: 'right' }}
-                    >
-                      {lowest_order?.base_price || 0}
-                    </FiatDisplay>
-                  </Text>
+                      <CoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin='ETH'
+                        style={{ justifyContent: 'right' }}
+                      >
+                        {lowest_order?.base_price}
+                      </CoinDisplay>
+                      <FiatDisplay
+                        size='14px'
+                        color={colors.grey600}
+                        weight={600}
+                        coin='ETH'
+                        style={{ justifyContent: 'right' }}
+                      >
+                        {lowest_order?.base_price}
+                      </FiatDisplay>
+                    </Text>
+                  )}
                 </div>
               </Row>
               <Row>

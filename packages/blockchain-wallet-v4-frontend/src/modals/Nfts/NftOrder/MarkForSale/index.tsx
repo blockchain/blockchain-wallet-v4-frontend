@@ -13,7 +13,14 @@ import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  Link,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -303,14 +310,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'fixed-price'
                             ? {
+                                alignItems: 'center',
                                 color: colors.blue600,
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                             : {
+                                alignItems: 'center',
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                         }
@@ -353,14 +360,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'timed-auction'
                             ? {
+                                alignItems: 'center',
                                 color: colors.blue600,
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                             : {
+                                alignItems: 'center',
                                 display: 'block',
-                                lineHeight: '38px',
                                 textAlign: 'center'
                               }
                         }
@@ -473,8 +480,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                         Listing Is Free
                       </Text>
                       <Text size='14px' weight={500} style={{ paddingBottom: '1em' }}>
-                        Once sold, the above fees will be deducted from the sale. Learn more about
-                        our fees.
+                        Once sold, the above fees will be deducted from the sale.{' '}
+                        <Link
+                          href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
+                          size='14px'
+                          target='_blank'
+                        >
+                          Learn more about fees.
+                        </Link>
                       </Text>
                     </div>
                   </>
