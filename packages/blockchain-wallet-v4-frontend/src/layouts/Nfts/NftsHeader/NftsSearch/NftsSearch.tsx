@@ -93,6 +93,7 @@ const NftsSearch: React.FC<Props> = ({ formValues, nftActions, nftSearch, router
         filterOption={() => true}
         onChange={(e) => handleSelect(e)}
         onInputChange={debounce((e) => handleInputChange(e), 500)}
+        noOptionsMessage={() => null}
         isLoading={Remote.Loading.is(nftSearch)}
         placeholder='Collections or items'
       />

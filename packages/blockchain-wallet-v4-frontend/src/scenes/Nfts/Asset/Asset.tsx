@@ -198,10 +198,11 @@ const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
   font-weight: 600;
 `
 
-const Divider = styled.hr`
-  margin-bottom: unset;
-  opacity: 0.3;
-  color: ${colors.grey000};
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  margin-top: 8px;
+  background: ${colors.grey000};
 `
 
 const TraitsWrapper = styled.div`
@@ -226,12 +227,6 @@ const Trait = styled.div`
   }
 `
 
-const AddressDisplay = styled.div`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 5em;
-`
 const TokenDisplay = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
