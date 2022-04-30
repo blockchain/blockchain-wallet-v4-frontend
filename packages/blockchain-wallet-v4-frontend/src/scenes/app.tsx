@@ -41,7 +41,8 @@ const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // EXPLORE (mixed)
-const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
+const NftsHome = React.lazy(() => import('./Nfts/Home'))
+const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
@@ -169,9 +170,6 @@ const App = ({
                         component={VerifyEmail}
                         pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                       />
-                      {walletDebitCardEnabled && (
-                        <WalletLayout path='/debitCard' component={DebitCard} />
-                      )}
                       {nftExplorer && (
                         <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
@@ -189,9 +187,20 @@ const App = ({
                         <NftsLayout
                           path='/nfts'
                           exact
-                          component={NftsExplorer}
+                          component={NftsHome}
                           pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                         />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout
+                          path='/nfts/explore'
+                          exact
+                          component={NftsFirehose}
+                          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                        />
+                      )}
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debit-card' component={DebitCard} />
                       )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />

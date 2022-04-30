@@ -126,7 +126,7 @@ const Navigation = (props: OwnProps & Props) => {
       })}
       <Divider margin='0 16px 8px 16px' />
       {walletDebitCardEnabled && (
-        <LinkContainer to='/debitCard' activeClassName='active'>
+        <LinkContainer to='/debit-card' activeClassName='active'>
           <MenuItem data-e2e='debitCardLink'>
             <DebitCardNavItem />
             <NewCartridge style={{ textTransform: 'uppercase' }}>

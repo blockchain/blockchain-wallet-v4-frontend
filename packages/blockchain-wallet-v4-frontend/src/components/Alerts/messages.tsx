@@ -182,6 +182,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Currency has been successfully updated'
         />
       )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_error'
+          defaultMessage='Failed to change Card Lock'
+        />
+      )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_success'
+          defaultMessage='Card Lock changed successfully'
+        />
+      )
     case C.DOCUMENT_UPLOAD_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
