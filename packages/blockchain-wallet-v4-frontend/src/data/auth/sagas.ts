@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -662,6 +663,16 @@ export default ({ api, coreSagas, networks }) => {
         // institutional login portal for Prime exchange users
         case userType === AuthUserType.INSTITUTIONAL:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
+          break
+        // user is opening wallet from inside exchange settings
+        // guid and email are on url
+        case guidFromQueryParams !== null && emailFromQueryParams !== null:
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
+          yield put(actions.cache.emailStored(emailFromQueryParams))
+          yield put(actions.cache.guidStored(guidFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'guid', guidFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'email', emailFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) &&
