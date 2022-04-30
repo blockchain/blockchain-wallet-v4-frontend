@@ -9,7 +9,6 @@ import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
 import { RawOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
@@ -390,6 +389,8 @@ const NftAsset: React.FC<Props> = ({
       }
     }, 1000)
   }
+
+  const eventFilters = [{ field: EventFilterFields.AssetId, value: currentAsset.id }]
 
   return (
     <Wrapper>
@@ -811,7 +812,7 @@ const NftAsset: React.FC<Props> = ({
                       <Text size='16px' weight={500} color='grey900'>
                         Blockchain
                       </Text>{' '}
-                      <Text size='16px' weight={500} color='grey600'>
+                      <Text size='16px' weight={600} color='grey600'>
                         Ethereum
                       </Text>
                     </Detail>
@@ -866,7 +867,7 @@ const NftAsset: React.FC<Props> = ({
                   <Events
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
-                    filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
+                    filters={eventFilters}
                   />
                 </div>
               )}
