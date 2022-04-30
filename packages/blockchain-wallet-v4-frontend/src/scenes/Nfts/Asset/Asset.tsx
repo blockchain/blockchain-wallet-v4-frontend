@@ -42,6 +42,7 @@ import { media } from 'services/styles'
 import { NftPage } from '../components'
 import NftError from '../components/NftError'
 import Events from '../Events'
+import Offers from '../Offers'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -870,75 +871,13 @@ const NftAsset: React.FC<Props> = ({
                 </div>
               )}
               {Tab === 'offers' && bidsAndOffers.length > 0 && (
-                <DetailsAndOffers>
-                  <div
-                    style={{
-                      color: colors.grey600,
-                      display: 'flex',
-                      fontFamily: 'Inter, sans-serif',
-                      fontStyle: 'normal',
-                      fontWeight: 600,
-                      gap: '4em',
-                      padding: '0.5em'
-                    }}
-                  >
-                    <div style={{ width: '5em' }}>Price</div>
-                    <div style={{ width: '5em' }}>{walletCurrency} Price</div>
-                    <div style={{ width: '5em' }}>Expiration</div>
-                    <div style={{ paddingLeft: '1em', width: '5em' }}>From</div>
-                  </div>
-                  <Divider style={{ marginBottom: '1em' }} />
-                </DetailsAndOffers>
+                <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                  <Offers
+                    columns={['price', 'amount', 'from', 'expiration']}
+                    bidsAndOffers={bidsAndOffers}
+                  />
+                </div>
               )}
-              {Tab === 'offers' &&
-                bidsAndOffers.length > 0 &&
-                bidsAndOffers?.map((offer, index) => {
-                  const coin = Exchange.convertCoinToCoin({
-                    coin: offer.payment_token_contract.symbol || 'ETH',
-                    value: offer?.base_price
-                  })
-                  return (
-                    <div
-                      style={{
-                        color: colors.grey600,
-                        display: 'flex',
-                        fontFamily: 'Inter, sans-serif',
-                        fontStyle: 'normal',
-                        fontWeight: 600,
-                        gap: '4em',
-                        padding: '0.5em'
-                      }}
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={index}
-                    >
-                      <div style={{ display: 'flex', paddingRight: '0.2em', width: '5em' }}>
-                        <AddressDisplay>{coin}</AddressDisplay>{' '}
-                        {offer?.payment_token_contract?.symbol}
-                      </div>
-                      <div style={{ width: '5em' }}>
-                        <FiatDisplay
-                          weight={500}
-                          currency={walletCurrency}
-                          size='16px'
-                          coin={offer.payment_token_contract.symbol}
-                        >
-                          {offer.base_price}
-                        </FiatDisplay>
-                      </div>
-                      <div style={{ width: '7em' }}>
-                        {formatDistanceToNow(new Date(offer?.expiration_time * 1000))}{' '}
-                      </div>
-                      <div style={{ width: '5em' }}>
-                        <Link
-                          href={`https://www.blockchain.com/eth/address/${offer?.maker?.address}`}
-                          target='_blank'
-                        >
-                          <AddressDisplay>{offer?.maker?.address} </AddressDisplay>
-                        </Link>
-                      </div>
-                    </div>
-                  )
-                })}
             </RightColWrapper>
           </Top>
           <div style={{ display: 'flex' }}>
