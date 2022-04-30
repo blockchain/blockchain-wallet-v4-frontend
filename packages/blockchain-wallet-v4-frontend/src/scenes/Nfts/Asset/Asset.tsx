@@ -348,8 +348,6 @@ const NftAsset: React.FC<Props> = ({
 
   if (!currentAsset) return null
 
-  const eventFilters = [{ field: EventFilterFields.AssetId, value: currentAsset.id }]
-
   return (
     <Wrapper>
       <>
@@ -825,7 +823,7 @@ const NftAsset: React.FC<Props> = ({
                   <Events
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
-                    filters={eventFilters}
+                    filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
                     key='events'
                   />
                 </div>
