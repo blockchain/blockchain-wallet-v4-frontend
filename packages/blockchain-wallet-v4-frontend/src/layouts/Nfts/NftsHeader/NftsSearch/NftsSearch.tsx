@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { routerActions } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { ExplorerGatewaySearchType } from '@core/network/api/nfts/types'
-import { Image, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
@@ -24,7 +23,7 @@ const Wrapper = styled.div`
   }
 `
 
-const NftsSearch: React.FC<Props> = ({ formValues, nftActions, nftSearch, routerActions }) => {
+const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) => {
   const [input, setInput] = useState('')
 
   const handleInputChange = (e: any) => {

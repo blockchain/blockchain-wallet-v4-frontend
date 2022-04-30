@@ -17,6 +17,8 @@ import {
   Button,
   Icon as BlockchainIcon,
   Link,
+  SkeletonRectangle,
+  SpinningLoader,
   TabMenu,
   TabMenuItem,
   Text,
@@ -500,6 +502,18 @@ const NftAsset: React.FC<Props> = ({
                 </TextGroup>
               ) : null}
               <CurrentPriceBox>
+                {openSeaOrders.isLoading ? (
+                  <div>
+                    <Highest>
+                      <div style={{ marginBottom: '1em' }}>
+                        <SkeletonRectangle height='18px' width='100px' />
+                      </div>
+                      <SkeletonRectangle height='24px' width='200px' />
+                      <Divider style={{ marginBottom: '1em' }} />
+                      <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+                    </Highest>
+                  </div>
+                ) : null}
                 {highest_bid ? (
                   <>
                     <Highest>
@@ -832,14 +846,20 @@ const NftAsset: React.FC<Props> = ({
                   />
                 </div>
               )}
-              {Tab === 'offers' && bidsAndOffers.length > 0 && (
-                <div style={{ maxHeight: '300px', overflow: 'auto' }}>
-                  <Offers
-                    columns={['price', 'amount', 'from', 'expiration']}
-                    bidsAndOffers={bidsAndOffers}
-                  />
-                </div>
-              )}
+              {Tab === 'offers' ? (
+                bidsAndOffers.length > 0 ? (
+                  <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                    <Offers
+                      columns={['price', 'amount', 'from', 'expiration']}
+                      bidsAndOffers={bidsAndOffers}
+                    />
+                  </div>
+                ) : openSeaOrders.isLoading ? (
+                  <Flex justifyContent='center'>
+                    <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+                  </Flex>
+                ) : null
+              ) : null}
             </RightColWrapper>
           </Top>
           <div style={{ display: 'flex' }}>
