@@ -42,6 +42,8 @@ import { NftPage } from '../components'
 import NftError from '../components/NftError'
 import Events from '../Events'
 import Offers from '../Offers'
+import { EthText, Highest } from './components'
+import NftAssetCountdown from './components/NftAssetCountdown'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -176,29 +178,11 @@ const CurrentPriceBox = styled.div`
   margin-top: 20px;
   padding: 1.2em;
 `
-const Highest = styled(Text)`
-  margin-bottom: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  color: ${colors.grey600};
-`
 
 const CustomTabMenu = styled(TabMenu)`
   color: ${colors.grey900};
   margin: 24px 0;
   background: ${colors.grey000};
-`
-
-const EthText = styled(Highest)`
-  font-size: 24px;
-  display: flex;
-  margin-bottom: 20px;
-  align-items: center;
-  color: ${colors.grey900};
-`
-
-const CountdownText = styled(EthText)`
-  font-size: 20px;
 `
 
 const CreatorOwnerAddress = styled.div`
@@ -305,7 +289,6 @@ const NftAsset: React.FC<Props> = ({
   })
   const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
   const [Tab, setTab] = useState('about')
-  const [Countdown, setCountdown] = useState('')
 
   useEffect(() => {
     nftsActions.fetchOpenseaAsset({
@@ -327,10 +310,6 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
-
-  if (assetQuery.error) return <NftError error={assetQuery.error} />
-
-  if (!currentAsset) return null
 
   let bids =
     openSeaOrders.data?.filter((x) => {
@@ -364,31 +343,10 @@ const NftAsset: React.FC<Props> = ({
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
   )[0]
-  if (
-    (highest_bid && lowest_order && lowest_order?.expiration_time) ||
-    (lowest_order && lowest_order?.expiration_time)
-  ) {
-    const countDownDate =
-      highest_bid && lowest_order && lowest_order?.expiration_time
-        ? lowest_order?.expiration_time * 1000 - 604800000 // subtract 7 days for auction
-        : lowest_order?.expiration_time * 1000
-    // Update the count down every 1 second
-    const interval = setInterval(function () {
-      clearInterval(interval)
-      const now = new Date().getTime()
-      const duration = countDownDate - now
-      const days = Math.floor(duration / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((duration % (1000 * 60)) / 1000)
-      // Display the result in the element with id="demo"
-      setCountdown(`${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`)
-      // if duration < 0, expired
-      if (duration < 0) {
-        clearInterval(interval)
-      }
-    }, 1000)
-  }
+
+  if (assetQuery.error) return <NftError error={assetQuery.error} />
+
+  if (!currentAsset) return null
 
   const eventFilters = [{ field: EventFilterFields.AssetId, value: currentAsset.id }]
 
@@ -557,7 +515,7 @@ const NftAsset: React.FC<Props> = ({
                         )}
                         :
                       </div>
-                      <CountdownText>{Countdown}</CountdownText>
+                      <NftAssetCountdown highest_bid={highest_bid} lowest_order={lowest_order} />
                     </Highest>
                     <Divider style={{ marginBottom: '1em' }} />
                     <Highest>Top Bid</Highest>
@@ -594,7 +552,7 @@ const NftAsset: React.FC<Props> = ({
                         Sale ends{' '}
                         {formatDistanceToNow(new Date(lowest_order?.expiration_time * 1000))}
                       </div>
-                      <CountdownText>{Countdown}</CountdownText>
+                      <NftAssetCountdown highest_bid={highest_bid} lowest_order={lowest_order} />
                     </Highest>
                     <Divider style={{ marginBottom: '1em' }} />
                     <Highest>Current Price</Highest>
@@ -868,6 +826,7 @@ const NftAsset: React.FC<Props> = ({
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
                     filters={eventFilters}
+                    key='events'
                   />
                 </div>
               )}
