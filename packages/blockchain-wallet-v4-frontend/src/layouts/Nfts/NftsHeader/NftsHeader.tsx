@@ -74,7 +74,7 @@ const ExploreHeader: React.FC<Props> = ({
               </Flex>
             </NavLinkButton>
           </LinkContainer>
-          <NftSearch />
+          <NftsSearch />
         </NavCenter>
         <NavRight>
           {isAuthenticated ? (
