@@ -56,7 +56,7 @@ const TwoFAExchange = (props: Props) => {
               {isMobile() ? (
                 <FormattedMessage
                   id='scenes.logins.twofa.enter_code.mobile_width'
-                  defaultMessage='Enter your 2FA Code'
+                  defaultMessage='2 Factor Authentication Code'
                 />
               ) : (
                 <FormattedMessage

@@ -2173,7 +2173,7 @@ type MessagesType = {
   'scenes.login.loginmobile': 'Login via Mobile'
   'scenes.logins.twofa.code': 'Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
   'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'
-  'scenes.logins.twofa.enter_code.mobile_width': 'Enter your 2FA Code'
+  'scenes.logins.twofa.enter_code.mobile_width': '2 Factor Authentication Code'
   'scenes.logins.twofa.lost': 'Lost access to your 2FA device?'
   'scenes.login.mobile': 'SMS Code'
   'scenes.login.gethelp': 'Get Help'
