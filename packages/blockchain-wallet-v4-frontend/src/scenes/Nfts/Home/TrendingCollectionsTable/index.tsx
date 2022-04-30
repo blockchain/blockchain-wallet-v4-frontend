@@ -4,7 +4,7 @@ import { useSortBy, useTable } from 'react-table'
 import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
 
-import { Props as OwnProps } from '..'
+import { Props as OwnProps } from '../Home'
 import { getFloorPriceColumn } from './floor_price'
 import { getNameColumn } from './name.column'
 import { getOwnersColumn } from './owners.column'
