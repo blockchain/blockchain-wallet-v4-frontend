@@ -304,6 +304,14 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
+            order?: RawOrder
+            step: NftOrderStepEnum.ACCEPT_OFFER
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
             order: RawOrder
             step: NftOrderStepEnum.BUY
             token_id: string
