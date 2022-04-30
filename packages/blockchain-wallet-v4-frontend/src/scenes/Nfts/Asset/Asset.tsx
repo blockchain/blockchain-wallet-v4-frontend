@@ -9,7 +9,8 @@ import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { RawOrder } from '@core/network/api/nfts/types'
+import { Exchange } from '@core'
+import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
 import {
@@ -28,6 +29,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { orderFromJSON } from 'data/components/nfts/utils'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import {
@@ -635,21 +637,28 @@ const NftAsset: React.FC<Props> = ({
                       >
                         <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
                       </Button>
-                      <Button
-                        data-e2e='acceptNftOffer'
-                        nature='dark'
-                        jumbo
-                        onClick={() => {
-                          nftsActions.nftOrderFlowOpen({
-                            asset_contract_address: contract,
-                            step: NftOrderStepEnum.ACCEPT_OFFER,
-                            token_id: id,
-                            walletUserIsAssetOwnerHack: true
-                          })
-                        }}
-                      >
-                        <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
-                      </Button>
+                      {highest_offer ? (
+                        <Button
+                          data-e2e='acceptNftOffer'
+                          nature='dark'
+                          jumbo
+                          onClick={() => {
+                            nftsActions.fetchFees({
+                              operation: GasCalculationOperations.AcceptOffer,
+                              order: orderFromJSON(highest_offer)
+                            })
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              order: highest_offer,
+                              step: NftOrderStepEnum.ACCEPT_OFFER,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: true
+                            })
+                          }}
+                        >
+                          <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                        </Button>
+                      ) : null}
                     </>
                   ) : null}
                   {!ownedBySelf ? (
@@ -673,7 +682,7 @@ const NftAsset: React.FC<Props> = ({
                       <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
                     </Button>
                   ) : null}
-                  {lowest_order ? (
+                  {lowest_order && !ownedBySelf ? (
                     <>
                       <Button
                         data-e2e='openNftFlow'

@@ -6,6 +6,7 @@ export enum Events {
   NFT_AMOUNT_ENTERED_SWITCHED = 'NFT Amount Entered Switched',
   NFT_ATTRIBUTES_CLICKED = 'NFT Attributes Clicked',
   NFT_BUY_NOW_CLICKED = 'NFT Buy Now Clicked',
+  NFT_BUY_SUCCESS_FAIL = 'NFT Buy Success/Fail',
   NFT_CLICKED = 'NFT Clicked',
   NFT_CLOSE_AND_VIEW_ITEM_CLICKED = 'NFT Close And View Item Clicked',
   NFT_CONTRACT_ADDRESS_CLICKED = 'NFT Contract Address Clicked',
@@ -18,17 +19,20 @@ export enum Events {
   NFT_GO_TO_PORTFOLIO_CLICKED = 'NFT Go To Portfolio Clicked',
   NFT_LEFT_MENU_CLOSED = 'NFT Left Menu Closed',
   NFT_LEFT_MENU_EXPANDED = 'NFT Left Menu Expanded',
+  NFT_LISTING_SUCCESS_FAIL = 'NFT Listing Success/Fail',
   NFT_LOAD_MORE_CLICKED = 'NFT Load More Clicked',
   NFT_MAKE_AN_OFFER_CLICKED = 'NFT Make An Offer Clicked',
   NFT_MAKE_AN_OFFER_VIEWED = 'NFT Make An Offer Viewed',
   NFT_MARK_FOR_SALE = 'NFT Mark For Sale',
   NFT_MORE_CLICKED = 'NFT More Clicked',
+  NFT_OFFER_SUCCESS_FAIL = 'NFT Offer Success/Fail',
   NFT_OFFER_WITH_CLICKED = 'NFT Offer With Clicked',
   NFT_OWNER_CLICKED = 'NFT Owner clicked',
   NFT_RECENTLY_LISTED_CLICKED = 'NFT Recently Listed Clicked',
   NFT_REFRESH_METADATA_CLICKED = 'NFT Refresh Metadata Clicked',
   NFT_RETURN_TO_MARKETPLACE_CLICKED = 'NFT Return To Marketplace Clicked',
   NFT_SELL_ITEM_CLICKED = 'NFT Sell Item Clicked',
+  NFT_SEND_SUCCESS_FAIL = 'NFT Send Success/Fail',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
   NFT_TRANSFER_CLICKED = 'NFT Transfer Clicked',
   NFT_VIEW_BUTTON_VIEWED = 'NFT View Button Viewed',
@@ -40,6 +44,8 @@ type Accounts = 'USDT' | 'WETH'
 type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
+
+type Outcome = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
 type AcceptedAccountsAction = {
   key: Events.NFT_ACCEPTED_ACCOUNTS
@@ -81,6 +87,13 @@ type BuyNowClickedAction = {
   properties: {
     collection: string
     collection_id: string
+  }
+}
+
+type BuySuccessFailAction = {
+  key: Events.NFT_BUY_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
   }
 }
 
@@ -162,6 +175,13 @@ type LeftMenuExpandedAction = {
   properties: {}
 }
 
+type ListingSuccessFailAction = {
+  key: Events.NFT_LISTING_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
 type LoadMoreClickedAction = {
   key: Events.NFT_LOAD_MORE_CLICKED
   properties: {}
@@ -195,7 +215,14 @@ type OfferWithClickedAction = {
   properties: {}
 }
 
-type OwnerclickedAction = {
+type OfferSuccessFailAction = {
+  key: Events.NFT_OFFER_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
+type OwnerClickedAction = {
   key: Events.NFT_OWNER_CLICKED
   properties: {}
 }
@@ -226,6 +253,13 @@ type SellItemClickedAction = {
   }
 }
 
+type SendSuccessFailAction = {
+  key: Events.NFT_SEND_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
 type ShareClickedAction = {
   key: Events.NFT_SHARE_CLICKED
   properties: {}
@@ -253,6 +287,7 @@ export type TrackEventAction =
   | AmountEnteredSwitchedAction
   | AttributesClickedAction
   | BuyNowClickedAction
+  | BuySuccessFailAction
   | ClickedAction
   | CloseAndViewItemClickedAction
   | ContractAddressClickedAction
@@ -265,17 +300,20 @@ export type TrackEventAction =
   | GoToPortfolioClickedAction
   | LeftMenuClosedAction
   | LeftMenuExpandedAction
+  | ListingSuccessFailAction
   | LoadMoreClickedAction
   | MakeAnOfferClickedAction
   | MakeAnOfferViewedAction
   | MarkForSaleAction
   | MoreClickedAction
+  | OfferSuccessFailAction
   | OfferWithClickedAction
-  | OwnerclickedAction
+  | OwnerClickedAction
   | RecentlyListedClickedAction
   | RefreshMetadataClickedAction
   | ReturnToMarketplaceClickedAction
   | SellItemClickedAction
+  | SendSuccessFailAction
   | ShareClickedAction
   | TransferClickedAction
   | ViewButtonViewedAction
