@@ -68,7 +68,7 @@
     "comWalletApp": "https://login.blockchain.com",
     "exchange": "https://exchange.blockchain.com",
     "horizon": "https://horizon.stellar.org",
-    "opensea": "https://api.opensea.io",
+    "opensea": "https://testnets-api.opensea.io",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
