@@ -218,6 +218,7 @@ export const Stat = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  cursor: pointer;
   gap: 16px;
   background: rgba(255, 255, 255, 0.08);
   ${media.tabletL`
