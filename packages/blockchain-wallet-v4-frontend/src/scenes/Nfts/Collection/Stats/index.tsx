@@ -21,7 +21,10 @@ const Stats: React.FC<Props> = ({ formActions, formValues, stats, total_supply }
             {numeral(total_supply).format('0,0')}
           </Text>
         </Stat>
-        <Stat onClick={() => formActions.change('nftFilter', 'forSale', true)}>
+        <Stat
+          onClick={() => formActions.change('nftFilter', 'forSale', true)}
+          style={{ cursor: 'pointer' }}
+        >
           <Text size='16px' weight={500} color='grey600'>
             <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
           </Text>
