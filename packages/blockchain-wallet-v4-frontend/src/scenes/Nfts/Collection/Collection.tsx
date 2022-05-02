@@ -129,7 +129,12 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               ) : null}
             </LinksContainer>
           </CollectionInfo>
-          <Stats total_supply={collection.total_supply} stats={collection.stats} />
+          <Stats
+            formActions={formActions}
+            formValues={formValues}
+            total_supply={collection.total_supply}
+            stats={collection.stats}
+          />
         </NftBannerWrapper>
       </CollectionHeader>
       <GridWrapper>

@@ -1,12 +1,15 @@
 // NFTs Events
 export enum Events {
   NFT_ACCEPTED_ACCOUNTS = 'NFT Accepted Accounts',
+  NFT_ACCEPT_OFFER_SUCCESS_FAIL = 'NFT Accept Offer Success/Fail',
   NFT_ACTIVITY_CANCEL_CLICKED = 'NFT Activity Cancel Clicked',
   NFT_ACTIVITY_CHART_ENGAGED = 'NFT Activity Chart Engaged',
   NFT_AMOUNT_ENTERED_SWITCHED = 'NFT Amount Entered Switched',
   NFT_ATTRIBUTES_CLICKED = 'NFT Attributes Clicked',
   NFT_BUY_NOW_CLICKED = 'NFT Buy Now Clicked',
   NFT_BUY_SUCCESS_FAIL = 'NFT Buy Success/Fail',
+  NFT_CANCEL_LISTING_SUCCESS_FAIL = 'NFT Cancel Listing Success/Fail',
+  NFT_CANCEL_OFFER_SUCCESS_FAIL = 'NFT Cancel Offer Success/Fail',
   NFT_CLICKED = 'NFT Clicked',
   NFT_CLOSE_AND_VIEW_ITEM_CLICKED = 'NFT Close And View Item Clicked',
   NFT_CONTRACT_ADDRESS_CLICKED = 'NFT Contract Address Clicked',
@@ -55,6 +58,13 @@ type AcceptedAccountsAction = {
   }
 }
 
+type AcceptOfferSuccessFailAction = {
+  key: Events.NFT_ACCEPT_OFFER_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
 type ActivityCancelClickedAction = {
   key: Events.NFT_ACTIVITY_CANCEL_CLICKED
   properties: {}
@@ -93,6 +103,20 @@ type BuyNowClickedAction = {
 
 type BuySuccessFailAction = {
   key: Events.NFT_BUY_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
+type CancelListingSuccessFailAction = {
+  key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
+type CancelOfferSuccessFailAction = {
+  key: Events.NFT_CANCEL_OFFER_SUCCESS_FAIL
   properties: {
     outcome: Outcome
   }
@@ -289,6 +313,7 @@ type ViewSubmittedOfferClickedAction = {
 }
 
 export type TrackEventAction =
+  | AcceptOfferSuccessFailAction
   | AcceptedAccountsAction
   | ActivityCancelClickedAction
   | ActivityChartEngagedAction
@@ -296,6 +321,8 @@ export type TrackEventAction =
   | AttributesClickedAction
   | BuyNowClickedAction
   | BuySuccessFailAction
+  | CancelListingSuccessFailAction
+  | CancelOfferSuccessFailAction
   | ClickedAction
   | CloseAndViewItemClickedAction
   | ContractAddressClickedAction

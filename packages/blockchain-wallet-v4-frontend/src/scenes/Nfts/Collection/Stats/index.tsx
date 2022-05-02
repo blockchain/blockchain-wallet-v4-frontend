@@ -3,11 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import * as numeral from 'numeral'
 
 import { Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
+import { NftFilterFormValuesType } from '../../NftFilter'
 
-const Stats: React.FC<Props> = ({ stats, total_supply }) => {
+const Stats: React.FC<Props> = ({ formActions, formValues, stats, total_supply }) => {
   return (
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>
@@ -19,7 +21,10 @@ const Stats: React.FC<Props> = ({ stats, total_supply }) => {
             {numeral(total_supply).format('0,0')}
           </Text>
         </Stat>
-        <Stat>
+        <Stat
+          onClick={() => formActions.change('nftFilter', 'forSale', true)}
+          style={{ cursor: 'pointer' }}
+        >
           <Text size='16px' weight={500} color='grey600'>
             <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
           </Text>
@@ -49,6 +54,8 @@ const Stats: React.FC<Props> = ({ stats, total_supply }) => {
 }
 
 type Props = {
+  formActions: typeof actions.form
+  formValues: NftFilterFormValuesType
   stats: CollectionsQuery['collections'][0]['stats']
   total_supply: CollectionsQuery['collections'][0]['total_supply']
 }
