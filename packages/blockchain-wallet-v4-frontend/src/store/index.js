@@ -8,7 +8,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { compose } from 'redux'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
-// import Worker from 'web-worker'
+import Worker from 'web-worker'
 
 import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
@@ -24,59 +24,49 @@ import {
 } from '../middleware'
 
 const configuredStore = async function () {
-  let res
+  // immediately load app configuration
   let options
-  let assetsRes
-  let assets
-  let erc20Res
-  let erc20s
-
   try {
-    res = await fetch('/wallet-options-v4.json')
+    let res = await fetch('/wallet-options-v4.json')
     options = await res.json()
   } catch (error) {
     throw new Error('wallet-options failed to load.')
   }
-  try {
-    assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
-    assets = await assetsRes.json()
-    if (!assets.currencies) throw new Error()
-  } catch (error) {
-    throw new Error('custodial currencies failed to load.')
-  }
-  try {
-    erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
-    erc20s = await erc20Res.json()
-    if (!erc20s.currencies) throw new Error()
-  } catch (error) {
-    throw new Error('erc20 currencies failed to load.')
-  }
 
-  let supportedCoins = assets.currencies
-  let supportedErc20s = erc20s.currencies
-
-  const supported = supportedCoins.concat(supportedErc20s).filter((coin) => !coin.symbol.includes('.'))
+  // define empty window coins object
+  // result of web worker will populate data later
   window.coins = {}
-  supported.forEach((coin) => {
-    window.coins[coin.symbol] = {coinfig: coin }
-  })
 
-  // TODO: remove this
-  window.coins.XLM.coinfig.type.isMemoBased = true
+  // offload asset configuration fetch/parse from main thread
+  if (window.Worker) {
+    const url = new URL('./worker.assets.js', import.meta.url)
+    const worker = new Worker(url)
 
-  // Switch up the erc20 addresses to support testnet (for opensea testing)
-  if (options.domains.opensea && options.domains.opensea.includes('rinkeby')) {
-    window.coins.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
-    window.coins.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
+    // set event listener upon worker completion
+    worker.addEventListener('message', e => {
+      try {
+        // message response is json string, parse and set coins on window
+        window.coins = JSON.parse(e.data)
+      } catch (e) {
+        // failed to parse json, meaning there was an error
+        // eslint-disable-next-line
+        window.alert('Please reload application.  Error: failed to load essential data')
+      }
+    })
+
+    // start worker with stringified args since some browsers only support passing strings as args
+    worker.postMessage(JSON.stringify({
+      assetApi: options.domains.api,
+      openSeaApi: options.domains.opensea
+    }))
+  } else {
+    // eslint-disable-next-line
+    window.alert('Your browser is not supported.  Error: missing web worker support')
   }
-
-  window.coins.STX.coinfig.products.push('DynamicSelfCustody')
 
   // initialize router and saga middleware
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-
-  // TODO: lazy load rates and coin sockets
   const { isAuthenticated } = selectors.auth
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
