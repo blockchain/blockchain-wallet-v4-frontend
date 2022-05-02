@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -33,6 +33,11 @@ const Page = styled.div`
 `
 
 const NftsTemplate: React.FC<Props> = (props) => {
+  useEffect(() => {
+    console.log('here')
+    props.nftsActions.handleRouterChange({ location: { pathname: window.location.pathname } })
+  }, [window.location.hash, props.nftsActions])
+
   return (
     <ErrorBoundary>
       <Wrapper>

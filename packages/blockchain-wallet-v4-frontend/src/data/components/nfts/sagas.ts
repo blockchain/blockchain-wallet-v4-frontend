@@ -34,6 +34,7 @@ import { promptForSecondPassword } from 'services/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
+import { nonTraitFilters } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -619,6 +620,28 @@ export default ({ api }: { api: APIType }) => {
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }
+
+      // MODIFY URL
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
+      if (action.meta.field === 'forSale') {
+        params.forSale = action.payload
+      }
+      if (!nonTraitFilters.includes(action.meta.field)) {
+        params.traits = params.traits
+          ? (params.traits += `&${action.meta.field}=${action.payload}`)
+          : `${action.meta.field}=${action.payload}`
+      }
+
+      const newHash = `${hash}?${Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')}`
+
+      url.hash = newHash
+
+      window.history.pushState(null, '', url.toString())
     }
   }
 
@@ -665,16 +688,16 @@ export default ({ api }: { api: APIType }) => {
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
-      const regex = /\/nfts\/[^/]*$/g
-      const activeSlug = S.getActiveSlug(yield select())
-      const match = action.payload?.location?.pathname?.match(regex)
-      if (match) {
-        const nextSlug = match[0].split('/nfts/')[1]
-        if (nextSlug !== activeSlug && activeSlug) {
-          yield put(actions.form.reset('nftFilter'))
-        }
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
 
-        yield put(A.setActiveSlug({ slug: nextSlug }))
+      if (params.forSale !== undefined) {
+        yield put(actions.form.change('nftFilter', 'forSale', Boolean(params.forSale)))
+      }
+      if (params.traits !== undefined) {
+        debugger
       }
     }
   }
