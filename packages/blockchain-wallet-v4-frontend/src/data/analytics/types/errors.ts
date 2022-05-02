@@ -21,21 +21,23 @@ type ErrorType =
 
 type ErrorSource = 'CLIENT' | 'NABU' | 'UNKNOWN'
 
-type ClientErrorAction = {
+export type ClientErrorProperties = {
+  action?: string
+  error: ErrorType
+  network_endpoint?: string
+  network_error_code?: number
+  network_error_description?: string
+  network_error_id?: string
+  network_error_type?: ErrorType
+  source: ErrorSource
+  title: string
+}
+
+export type PartialClientErrorProperties = Partial<ClientErrorProperties>
+
+export type ClientErrorAction = {
   key: Events.CLIENT_ERROR
-  properties: {
-    action?: string
-    device: 'WEB'
-    error: ErrorType
-    network_endpoint: string
-    network_error_code?: number
-    network_error_description?: string
-    network_error_id?: string
-    network_error_type?: string
-    platform: 'WALLET'
-    source: ErrorSource
-    title: string
-  }
+  properties: ClientErrorProperties
 }
 
 export type TrackEventAction = ClientErrorAction

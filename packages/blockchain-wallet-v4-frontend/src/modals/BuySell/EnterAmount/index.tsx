@@ -18,8 +18,10 @@ import {
 import { BuySellLimitReached } from 'components/Flyout/Brokerage'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { DEFAULT_BS_METHODS } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 
 import Loading from '../template.loading'
 import getData from './selectors'
@@ -54,15 +56,30 @@ class EnterAmount extends PureComponent<Props> {
     })
   }
 
+  trackError(error: PartialClientErrorProperties) {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.CLIENT_ERROR,
+      properties: {
+        ...error,
+        action: this.props.orderType,
+        error: 'OOPS_ERROR',
+        title: 'Oops! Something went wrong'
+      } as ClientErrorProperties
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => (
-        <FlyoutOopsError
-          action='retry'
-          data-e2e='sbTryCurrencySelectionAgain'
-          handler={this.errorCallback}
-        />
-      ),
+      Failure: (error) => {
+        this.trackError(error)
+        return (
+          <FlyoutOopsError
+            action='retry'
+            data-e2e='sbTryCurrencySelectionAgain'
+            handler={this.errorCallback}
+          />
+        )
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
@@ -90,6 +107,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
@@ -108,11 +126,7 @@ export type OwnProps = {
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
   cryptoCurrency: CoinType
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type FailurePropsType = {
-  buySellActions: typeof actions.components.buySell
+  data: RemoteDataType<PartialClientErrorProperties, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }
 

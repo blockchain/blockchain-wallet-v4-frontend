@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import { CrossBorderLimits, CrossBorderLimitsPayload, WalletFiatType } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { ModalNameType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 
@@ -52,7 +53,10 @@ const brokerageSlice = createSlice({
       state.bankCredentials = Remote.Loading
     },
     fetchBankTransferAccounts: () => {},
-    fetchBankTransferAccountsError: (state, action: PayloadAction<string>) => {
+    fetchBankTransferAccountsError: (
+      state,
+      action: PayloadAction<PartialClientErrorProperties>
+    ) => {
       state.bankTransferAccounts = Remote.Failure(action.payload)
     },
     fetchBankTransferAccountsLoading: (state) => {

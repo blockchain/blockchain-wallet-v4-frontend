@@ -27,6 +27,7 @@ import type {
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -127,11 +128,11 @@ export type BuySellState = {
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
   applePayInfo: undefined | ApplePayInfoType
-  balances: RemoteDataType<string, BSBalancesType>
-  buyQuote: RemoteDataType<string, BuyQuoteStateType>
+  balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
+  buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
-  cards: RemoteDataType<string, Array<BSCardType>>
+  cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes: undefined | Array<string>
   checkoutDotComApiKey: undefined | string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
@@ -154,9 +155,9 @@ export type BuySellState = {
   payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
-  sddEligible: RemoteDataType<string, SDDEligibleType>
+  sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
   sddTransactionFinished: boolean
-  sddVerified: RemoteDataType<string, SDDVerifiedType>
+  sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, SwapQuoteStateType>
   step: keyof typeof BuySellStepType

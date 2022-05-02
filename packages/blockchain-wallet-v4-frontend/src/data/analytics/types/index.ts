@@ -47,6 +47,7 @@ type AnalyticsKey =
   | TaxCenterEvents
 
 const Analytics = {
+  ...AccountRecoveryEvents,
   ...ClientErrorEvents,
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,

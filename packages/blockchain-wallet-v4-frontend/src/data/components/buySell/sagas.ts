@@ -27,8 +27,9 @@ import {
   WalletFiatType,
   WalletOptionsType
 } from '@core/types'
-import { errorHandler, errorHandlerCode } from '@core/utils'
+import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
@@ -882,13 +883,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/verified',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDVerifiedFailure(error))
     }
   }
 
   const fetchBSCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
+    let useNewPaymentProviders = false
     try {
       yield call(waitForUserData)
 
@@ -900,15 +908,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
 
-      const useNewPaymentProviders = (yield select(
+      useNewPaymentProviders = (yield select(
         selectors.core.walletOptions.getUseNewPaymentProviders
       )).getOrElse(false)
 
       const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchCardsFailure(error))
     }
   }
@@ -935,23 +949,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.CLIENT_ERROR,
-          properties: {
-            device: 'WEB',
-            error: 'OOPS_ERROR',
-            network_endpoint: '/simple-buy/eligible',
-            network_error_code: e.code,
-            network_error_description: error,
-            platform: 'WALLET',
-            source: 'NABU',
-            title: 'Oops! Something went wrong'
-          }
-        })
-      )
       yield put(A.fetchFiatEligibleFailure(error))
     }
   }
@@ -975,24 +973,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/eligible',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDEligibleFailure(error))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.CLIENT_ERROR,
-          properties: {
-            device: 'WEB',
-            error: 'OOPS_ERROR',
-            network_endpoint: '/sdd/eligible',
-            network_error_code: e.code,
-            network_error_description: error,
-            platform: 'WALLET',
-            source: 'NABU',
-            title: 'Oops! Something went wrong'
-          }
-        })
-      )
     }
   }
 
@@ -1012,12 +1001,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         actions.analytics.trackEvent({
           key: Analytics.CLIENT_ERROR,
           properties: {
-            device: 'WEB',
             error: 'OOPS_ERROR',
             network_endpoint: '/simple-buy/trades',
             network_error_code: e.code,
             network_error_description: error,
-            platform: 'WALLET',
             source: 'NABU',
             title: 'Oops! Something went wrong'
           }
@@ -1046,12 +1033,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         actions.analytics.trackEvent({
           key: Analytics.CLIENT_ERROR,
           properties: {
-            device: 'WEB',
+            action: 'BUY',
             error: 'OOPS_ERROR',
             network_endpoint: '/simple-buy/pairs',
             network_error_code: e.code,
             network_error_description: error,
-            platform: 'WALLET',
             source: 'NABU',
             title: 'Oops! Something went wrong'
           }
@@ -1184,23 +1170,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const refresh = -moment().add(10, 'seconds').diff(quote.quoteExpiresAt)
         yield delay(refresh)
       } catch (e) {
-        const error = errorHandler(e)
+        const { code: network_error_code, message: network_error_description } =
+          errorCodeAndMessage(e)
+        const error: PartialClientErrorProperties = {
+          network_endpoint: '/brokerage/quote',
+          network_error_code,
+          network_error_description,
+          source: 'NABU'
+        }
         yield put(A.fetchBuyQuoteFailure(error))
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.CLIENT_ERROR,
-            properties: {
-              device: 'WEB',
-              error: 'OOPS_ERROR',
-              network_endpoint: '/brokerage/quote',
-              network_error_code: e.code,
-              network_error_description: error,
-              platform: 'WALLET',
-              source: 'NABU',
-              title: 'Oops! Something went wrong'
-            }
-          })
-        )
         // stop fetching new quote until user does retry action
         yield put(A.stopPollBuyQuote())
       }

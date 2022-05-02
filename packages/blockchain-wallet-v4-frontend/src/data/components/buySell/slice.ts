@@ -32,6 +32,7 @@ import {
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import {
   BankTransferAccountType,
   BSCardStateEnum,
@@ -220,7 +221,7 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ currency?: CoinType; skipLoading?: boolean }>
     ) => {},
-    fetchBalanceFailure: (state, action: PayloadAction<string>) => {
+    fetchBalanceFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.balances = Remote.Failure(action.payload)
     },
     fetchBalanceLoading: (state) => {
@@ -238,7 +239,7 @@ const buySellSlice = createSlice({
         paymentMethodId?: BSCardType['id']
       }>
     ) => {},
-    fetchBuyQuoteFailure: (state, action: PayloadAction<string>) => {
+    fetchBuyQuoteFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.buyQuote = Remote.Failure(action.payload)
     },
     fetchBuyQuoteLoading: (state) => {
@@ -249,7 +250,7 @@ const buySellSlice = createSlice({
     },
     fetchCards: (state, action: PayloadAction<boolean>) => {},
     // cards fetch fails so often in staging that this is a temp fix
-    fetchCardsFailure: (state, action: PayloadAction<string>) => {
+    fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
 
@@ -365,7 +366,7 @@ const buySellSlice = createSlice({
       state.quote = Remote.Success(action.payload)
     },
     fetchSDDEligibility: () => {},
-    fetchSDDEligibleFailure: (state, action: PayloadAction<string>) => {
+    fetchSDDEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.sddEligible = Remote.Failure(action.payload)
     },
     fetchSDDEligibleLoading: (state) => {
@@ -375,7 +376,7 @@ const buySellSlice = createSlice({
       state.sddEligible = Remote.Success(action.payload)
     },
     fetchSDDVerified: () => {},
-    fetchSDDVerifiedFailure: (state, action: PayloadAction<string>) => {
+    fetchSDDVerifiedFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.sddVerified = Remote.Failure(action.payload)
     },
     fetchSDDVerifiedLoading: (state) => {
