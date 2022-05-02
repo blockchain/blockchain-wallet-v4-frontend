@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { routerActions } from 'connected-react-router'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -51,10 +50,10 @@ const TraitGridFilters: React.FC<Props> = ({
   formValues,
   hasSomeFilters,
   minMaxFilters,
+  routerActions,
   traitFilters
 }) => {
   const route = window.location.hash.split('?')[0].substr(1)
-  console.log(route)
 
   return (
     <>
@@ -249,7 +248,8 @@ const TraitGridFilters: React.FC<Props> = ({
   )
 }
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 const connector = connect(null, mapDispatchToProps)
 
