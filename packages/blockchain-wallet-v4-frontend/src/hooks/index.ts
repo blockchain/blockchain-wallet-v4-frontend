@@ -1,6 +1,7 @@
 export * from './useBankAccountsQuery'
 export * from './useCoinAssetInfo'
 export * from './useCoinBalance'
+export * from './useCoinCheck'
 export * from './useCoinConfig'
 export * from './useCoinIconColor'
 export * from './useCoinPrice'
