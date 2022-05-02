@@ -28,6 +28,7 @@ import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
+import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
@@ -305,7 +306,23 @@ export default ({ api }: { api: APIType }) => {
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to accept this offer.'
@@ -352,7 +369,23 @@ export default ({ api }: { api: APIType }) => {
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
@@ -376,7 +409,23 @@ export default ({ api }: { api: APIType }) => {
           `Successfully created order! It may take a few minutes to appear in your collection.`
         )
       )
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'
@@ -410,7 +459,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess('Sell order created!'))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to sell this asset.'
@@ -433,7 +498,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_SEND_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to transfer this asset.'
@@ -452,7 +533,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this listing.'
@@ -475,7 +572,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchOffersMade())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this offer.'
