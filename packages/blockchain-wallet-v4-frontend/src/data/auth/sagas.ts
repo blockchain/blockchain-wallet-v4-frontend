@@ -1,5 +1,4 @@
 import base64url from 'base64url'
-import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
