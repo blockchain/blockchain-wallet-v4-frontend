@@ -2,9 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { FiatType } from '@core/types'
+import { BSOrderActionType, FiatType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { capitalizeFirstLetter } from 'services/forms'
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -41,10 +42,11 @@ const SubContent = styled(Text)`
 type Props = {
   fiatCurrency: FiatType
   handleClose: () => void
+  orderType: BSOrderActionType
   paymentAccountEligible: boolean
 }
 
-const Unsupported = ({ fiatCurrency, handleClose, paymentAccountEligible }: Props) => {
+const Unsupported = ({ fiatCurrency, handleClose, orderType, paymentAccountEligible }: Props) => {
   return (
     <Top>
       <CloseIcon
@@ -64,8 +66,11 @@ const Unsupported = ({ fiatCurrency, handleClose, paymentAccountEligible }: Prop
         />
         <Title color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id='modals.simplebuy.unsupported-title'
-            defaultMessage='Buy Crypto Coming Soon for'
+            id='modals.simplebuy.unsupported-title-order'
+            defaultMessage='{order} Crypto Coming Soon for'
+            values={{
+              order: capitalizeFirstLetter(orderType)
+            }}
           />{' '}
           {paymentAccountEligible ? (
             fiatCurrency
