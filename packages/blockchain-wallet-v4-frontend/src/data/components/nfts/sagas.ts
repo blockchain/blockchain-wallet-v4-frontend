@@ -218,7 +218,7 @@ export default ({ api }: { api: APIType }) => {
           )
           fees = yield call(
             calculateGasFees,
-            GasCalculationOperations.Buy,
+            GasCalculationOperations.AcceptOffer,
             signer,
             undefined,
             buy,
