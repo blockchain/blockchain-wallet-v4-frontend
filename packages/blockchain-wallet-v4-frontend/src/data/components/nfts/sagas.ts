@@ -393,23 +393,45 @@ export default ({ api }: { api: APIType }) => {
           `Successfully created order! It may take a few minutes to appear in your collection.`
         )
       )
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
-          properties: {
-            outcome: 'SUCCESS'
-          }
-        })
-      )
+      if (!action.payload.sell) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_BUY_SUCCESS_FAIL,
+            properties: {
+              outcome: 'SUCCESS'
+            }
+          })
+        )
+      } else {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+            properties: {
+              outcome: 'SUCCESS'
+            }
+          })
+        )
+      }
     } catch (e) {
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.NFT_BUY_SUCCESS_FAIL,
-          properties: {
-            outcome: 'FAILED'
-          }
-        })
-      )
+      if (!action.payload.sell) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_BUY_SUCCESS_FAIL,
+            properties: {
+              outcome: 'FAILED'
+            }
+          })
+        )
+      } else {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+            properties: {
+              outcome: 'FAILED'
+            }
+          })
+        )
+      }
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'

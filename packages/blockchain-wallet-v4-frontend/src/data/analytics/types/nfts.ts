@@ -32,6 +32,7 @@ export enum Events {
   NFT_REFRESH_METADATA_CLICKED = 'NFT Refresh Metadata Clicked',
   NFT_RETURN_TO_MARKETPLACE_CLICKED = 'NFT Return To Marketplace Clicked',
   NFT_SELL_ITEM_CLICKED = 'NFT Sell Item Clicked',
+  NFT_SELL_ITEM_SUCCESS_FAIL = 'NFT Sell Item Success/Fail',
   NFT_SEND_SUCCESS_FAIL = 'NFT Send Success/Fail',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
   NFT_TRANSFER_CLICKED = 'NFT Transfer Clicked',
@@ -253,6 +254,13 @@ type SellItemClickedAction = {
   }
 }
 
+type SellItemSuccessFailAction = {
+  key: Events.NFT_SELL_ITEM_SUCCESS_FAIL
+  properties: {
+    outcome: Outcome
+  }
+}
+
 type SendSuccessFailAction = {
   key: Events.NFT_SEND_SUCCESS_FAIL
   properties: {
@@ -313,6 +321,7 @@ export type TrackEventAction =
   | RefreshMetadataClickedAction
   | ReturnToMarketplaceClickedAction
   | SellItemClickedAction
+  | SellItemSuccessFailAction
   | SendSuccessFailAction
   | ShareClickedAction
   | TransferClickedAction
