@@ -320,6 +320,17 @@ export default ({ api, socket }) => {
                   sharedKey: decrypted.sharedKey
                 })
               )
+              const product = yield select(selectors.auth.getProduct)
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_SIGNED_IN,
+                  properties: {
+                    authentication_type: 'SECURE_CHANNEL',
+                    site_redirect: product
+                  }
+                })
+              )
+
               yield put(
                 actions.analytics.trackEvent({
                   key: Analytics.LOGIN_REQUEST_APPROVED,
