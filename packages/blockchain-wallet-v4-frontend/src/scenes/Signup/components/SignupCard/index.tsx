@@ -191,7 +191,7 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
             </>
           )}
         </PaddingWrapper>
-        <LoginLink />
+        <LoginLink analyticsActions={props.analyticsActions} />
       </Card>
     </CardWrapper>
   )

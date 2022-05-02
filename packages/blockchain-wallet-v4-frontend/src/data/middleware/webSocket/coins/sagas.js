@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
 import { actions, model, selectors } from 'data'
-import { Analytics } from 'data/types'
+import { Analytics, ProductAuthOptions } from 'data/types'
 import * as T from 'services/alerts'
 
 import {
@@ -70,11 +70,11 @@ export default ({ api, socket }) => {
     const phonePubkey = yield select(selectors.cache.getPhonePubkey)
     const guid = yield select(selectors.cache.getLastGuid)
     const lastLogoutTime = yield select(selectors.cache.getLastLogoutTimestamp)
-
+    const product = yield select(selectors.auth.getProduct)
     // only ping phone if last logout time is more than 5 minutes
     // prevents pinging phone again right when user logs out
     const pingPhoneOnLoad = Date.now() - lastLogoutTime > 300000
-    if (phonePubkey && guid && pingPhoneOnLoad) {
+    if (phonePubkey && guid && pingPhoneOnLoad && product === ProductAuthOptions.WALLET) {
       yield pingPhone(channelId, secretHex, phonePubkey, guid)
     }
   }
@@ -320,6 +320,17 @@ export default ({ api, socket }) => {
                   sharedKey: decrypted.sharedKey
                 })
               )
+              const product = yield select(selectors.auth.getProduct)
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_SIGNED_IN,
+                  properties: {
+                    authentication_type: 'SECURE_CHANNEL',
+                    site_redirect: product
+                  }
+                })
+              )
+
               yield put(
                 actions.analytics.trackEvent({
                   key: Analytics.LOGIN_REQUEST_APPROVED,
