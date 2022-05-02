@@ -34,8 +34,7 @@ const Page = styled.div`
 
 const NftsTemplate: React.FC<Props> = (props) => {
   useEffect(() => {
-    console.log('here')
-    props.nftsActions.handleRouterChange({ location: { pathname: window.location.pathname } })
+    props.nftsActions.handleRouterChange({ location: { pathname: window.location.hash } })
   }, [window.location.hash, props.nftsActions])
 
   return (

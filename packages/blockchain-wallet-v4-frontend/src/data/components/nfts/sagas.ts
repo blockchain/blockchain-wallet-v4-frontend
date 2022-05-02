@@ -1,7 +1,7 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import { call, put, select } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -27,6 +27,7 @@ import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
+import { actionTypes } from 'data/form/actionTypes'
 import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
@@ -626,13 +627,19 @@ export default ({ api }: { api: APIType }) => {
       const [hash, query] = url.href.split('#')[1].split('?')
       // @ts-ignore
       const params = Object.fromEntries(new URLSearchParams(query))
+      // FOR SALE
       if (action.meta.field === 'forSale') {
         params.forSale = action.payload
       }
+      // TRAITS
       if (!nonTraitFilters.includes(action.meta.field)) {
-        params.traits = params.traits
-          ? (params.traits += `&${action.meta.field}=${action.payload}`)
-          : `${action.meta.field}=${action.payload}`
+        const traits = params.traits ? JSON.parse(params.traits) : []
+        if (action.payload) {
+          if (traits.includes(action.meta.field)) return
+          params.traits = JSON.stringify([...traits, action.meta.field])
+        } else {
+          params.traits = JSON.stringify(traits.filter((t) => t !== action.meta.field))
+        }
       }
 
       const newHash = `${hash}?${Object.entries(params)
@@ -693,11 +700,18 @@ export default ({ api }: { api: APIType }) => {
       // @ts-ignore
       const params = Object.fromEntries(new URLSearchParams(query))
 
+      yield put(actions.form.reset('nftFilter'))
+
       if (params.forSale !== undefined) {
         yield put(actions.form.change('nftFilter', 'forSale', Boolean(params.forSale)))
       }
       if (params.traits !== undefined) {
-        debugger
+        const traits = JSON.parse(params.traits)
+        yield all(
+          traits.map(function* (trait) {
+            yield put(actions.form.change('nftFilter', trait, true))
+          })
+        )
       }
     }
   }

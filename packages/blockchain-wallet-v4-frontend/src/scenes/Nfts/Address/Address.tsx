@@ -18,6 +18,8 @@ import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const address = pathname.split('/nfts/address/')[1]
+  const tab = window.location.hash.split('?')[1]
+  debugger
 
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
