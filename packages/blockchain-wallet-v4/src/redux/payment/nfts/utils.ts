@@ -956,7 +956,7 @@ async function _approveSemiOrNonFungibleToken({
       if (receipt.status) {
         // eslint-disable-next-line no-console
         console.log(
-          `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
+          `Transaction receipt : https://www.etherscan.io/tx/${receipt.transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
         if (!approvalCheck) {

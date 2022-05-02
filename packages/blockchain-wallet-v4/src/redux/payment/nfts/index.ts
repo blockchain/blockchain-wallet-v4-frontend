@@ -162,7 +162,10 @@ export const calculateGasFees = async (
       proxyFees.toString() === '0'
         ? (await calculateProxyApprovalFees(sellOrder, signer)).toNumber()
         : 300_000
-    gasFees = await (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
+    gasFees =
+      approvalFees === 0
+        ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
+        : 350_000
   } else if (operation === GasCalculationOperations.CreateOffer && buyOrder) {
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
     approvalFees =
