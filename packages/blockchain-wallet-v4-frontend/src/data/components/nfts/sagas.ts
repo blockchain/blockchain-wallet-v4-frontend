@@ -101,17 +101,17 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
+  const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
-      yield put(A.fetchOpenseaAssetLoading())
+      yield put(A.fetchOpenSeaAssetLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.asset_contract_address,
         action.payload.token_id
       )
-      yield put(A.fetchOpenseaAssetSuccess(res))
+      yield put(A.fetchOpenSeaAssetSuccess(res))
     } catch (e) {
-      yield put(A.fetchOpenseaAssetFailure(e))
+      yield put(A.fetchOpenSeaAssetFailure(e))
     }
   }
 
@@ -706,8 +706,8 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesWrapEth,
     fetchNftCollections,
     fetchNftOffersMade,
+    fetchOpenSeaAsset,
     fetchOpenSeaOrders,
-    fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,

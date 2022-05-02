@@ -286,15 +286,11 @@ const NftAsset: React.FC<Props> = ({
   const [assets] = useAssetsQuery({
     variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }], limit: 4 }
   })
-  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const [Tab, setTab] = useState('about')
 
   useEffect(() => {
-    nftsActions.fetchOpenseaAsset({
-      asset_contract_address: contract,
-      token_id: id
-    })
-    nftsActions.fetchOpenSeaOrders({
+    nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
       token_id: id
     })
@@ -311,16 +307,16 @@ const NftAsset: React.FC<Props> = ({
   const collectionName = currentAsset?.collection?.name || ''
 
   let bids =
-    openSeaOrders.data?.filter((x) => {
+    openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 0 && x.taker.address !== NULL_ADDRESS
     }, []) || []
   // Offers have taker as null address
   let offers =
-    openSeaOrders.data?.filter((x) => {
+    openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 0 && x.taker.address === NULL_ADDRESS
     }, []) || []
   const sellOrders =
-    openSeaOrders.data?.filter((x) => {
+    openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
     }) || []
   bids = bids.length
@@ -502,7 +498,7 @@ const NftAsset: React.FC<Props> = ({
                 </TextGroup>
               ) : null}
               <CurrentPriceBox>
-                {openSeaOrders.isLoading ? (
+                {openSeaAsset.isLoading ? (
                   <div>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
@@ -854,7 +850,7 @@ const NftAsset: React.FC<Props> = ({
                       bidsAndOffers={bidsAndOffers}
                     />
                   </div>
-                ) : openSeaOrders.isLoading ? (
+                ) : openSeaAsset.isLoading ? (
                   <Flex justifyContent='center'>
                     <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                   </Flex>
