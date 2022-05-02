@@ -54,7 +54,9 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
       <TableWrapper height='auto'>
         {events.length ? (
           <EventsTable
-            columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
+            columns={
+              columns || ['event_type', 'item', 'price', 'from', 'to', 'date', 'cancel_offer']
+            }
             events={events}
           />
         ) : null}
@@ -71,7 +73,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
 
 type Props = {
   address?: never
-  columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
+  columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
   filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
   isFetchingParent: boolean
 }

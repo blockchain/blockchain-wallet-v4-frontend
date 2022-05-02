@@ -839,7 +839,7 @@ const NftAsset: React.FC<Props> = ({
               {Tab === 'activity' && (
                 <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                   <Events
-                    columns={['event_type', 'price', 'from', 'date']}
+                    columns={['event_type', 'price', 'from', 'date', 'cancel_offer']}
                     isFetchingParent={false}
                     filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
                     key='events'

@@ -1,3 +1,4 @@
+import { getOfferCancelColumn } from './EventsTableColumns.cancel_offer.column'
 import { getDateColumn } from './EventsTableColumns.date.column'
 import { getEventTypeColumn } from './EventsTableColumns.event_type.column'
 import { getFromColumn } from './EventsTableColumns.from.column'
@@ -10,6 +11,7 @@ export {
   getEventTypeColumn,
   getFromColumn,
   getItemColumn,
+  getOfferCancelColumn,
   getPriceColumn,
   getToColumn
 }

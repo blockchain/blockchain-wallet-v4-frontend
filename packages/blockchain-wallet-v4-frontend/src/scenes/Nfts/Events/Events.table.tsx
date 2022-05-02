@@ -11,18 +11,22 @@ import {
   getEventTypeColumn,
   getFromColumn,
   getItemColumn,
+  getOfferCancelColumn,
   getPriceColumn,
   getToColumn
 } from './EventsTableColumns'
 
-const getTableColumns = (columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]) =>
+const getTableColumns = (
+  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
+) =>
   [
     columns.includes('event_type') ? getEventTypeColumn() : null,
     columns.includes('item') ? getItemColumn() : null,
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('from') ? getFromColumn() : null,
     columns.includes('to') ? getToColumn() : null,
-    columns.includes('date') ? getDateColumn() : null
+    columns.includes('date') ? getDateColumn() : null,
+    columns.includes('cancel_offer') ? getOfferCancelColumn() : null
   ].filter(Boolean)
 
 const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
@@ -108,7 +112,7 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
 }
 
 type Props = {
-  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
+  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
   events: EventsQuery['events']
 }
 
