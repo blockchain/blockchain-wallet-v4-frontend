@@ -1375,7 +1375,7 @@ async function _makeBuyOrder({
     extra: new BigNumber(extra.toString()),
     feeMethod,
     feeRecipient,
-    howToCall: HowToCall.Call,
+    howToCall: validatorAddress ? HowToCall.DelegateCall : HowToCall.Call,
     listingTime: times.listingTime,
     maker: accountAddress,
     makerProtocolFee,
