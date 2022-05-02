@@ -49,7 +49,7 @@ type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
 
-type Outcome = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
+type Type = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
 type AcceptedAccountsAction = {
   key: Events.NFT_ACCEPTED_ACCOUNTS
@@ -61,7 +61,8 @@ type AcceptedAccountsAction = {
 type AcceptOfferSuccessFailAction = {
   key: Events.NFT_ACCEPT_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
@@ -104,21 +105,24 @@ type BuyNowClickedAction = {
 type BuySuccessFailAction = {
   key: Events.NFT_BUY_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
 type CancelListingSuccessFailAction = {
   key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
 type CancelOfferSuccessFailAction = {
   key: Events.NFT_CANCEL_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
@@ -203,7 +207,8 @@ type LeftMenuExpandedAction = {
 type ListingSuccessFailAction = {
   key: Events.NFT_LISTING_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
@@ -243,7 +248,8 @@ type OfferWithClickedAction = {
 type OfferSuccessFailAction = {
   key: Events.NFT_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
@@ -281,14 +287,16 @@ type SellItemClickedAction = {
 type SellItemSuccessFailAction = {
   key: Events.NFT_SELL_ITEM_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
 type SendSuccessFailAction = {
   key: Events.NFT_SEND_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
