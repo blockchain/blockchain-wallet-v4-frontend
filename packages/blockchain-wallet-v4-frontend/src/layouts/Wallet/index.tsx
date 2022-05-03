@@ -14,23 +14,20 @@ const WalletLayoutContainer = ({
   computedMatch,
   isAuthenticated,
   path,
-  walletDebitCardEnabled,
   ...rest
 }: Props) => {
-  let isValid = true
+  let isValidRoute = true
   let coin
   if (path.includes('/transactions')) {
     coin = computedMatch.params.coin
-    if (!window.coins[coin]) isValid = false
-  }
-
-  if (path.includes('/debit-card')) {
-    isValid = walletDebitCardEnabled
+    if (!window.coins[coin]) isValidRoute = false
   }
 
   document.title = PAGE_TITLE
 
-  return isAuthenticated && isValid ? (
+  return !isAuthenticated ? (
+    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  ) : isValidRoute ? (
     <Route
       path={path}
       render={(props) => (
@@ -40,13 +37,12 @@ const WalletLayoutContainer = ({
       )}
     />
   ) : (
-    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state),
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
 const connector = connect(mapStateToProps)
@@ -57,7 +53,6 @@ type Props = ConnectedProps<typeof connector> & {
   computedMatch?: any
   exact?: boolean
   path: string
-  walletDebitCardEnabled?: boolean
 }
 
 export default connector(WalletLayoutContainer)

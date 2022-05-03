@@ -5,10 +5,11 @@ import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
 import { CardStateType } from 'data/components/debitCard/types'
+import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const getCardToken = function* (cardId) {
     try {
       const data = yield call(api.getDCToken, cardId)
@@ -38,6 +39,8 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getProducts = function* () {
+    const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+    yield call(waitForUserData)
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
     )).getOrElse(false)

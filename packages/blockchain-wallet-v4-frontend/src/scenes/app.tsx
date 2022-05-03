@@ -76,7 +76,8 @@ const App = ({
   store,
   taxCenterEnabled,
   userData,
-  walletConnectEnabled
+  walletConnectEnabled,
+  walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
@@ -199,7 +200,9 @@ const App = ({
                         />
                       )}
 
-                      <WalletLayout path='/debit-card' component={DebitCard} />
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debit-card' component={DebitCard} />
+                      )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
@@ -249,7 +252,10 @@ const mapStateToProps = (state) => ({
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
-    .getOrElse(false) as boolean
+    .getOrElse(false) as boolean,
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
+    .getOrElse(false)
 })
 
 const connector = connect(mapStateToProps)
