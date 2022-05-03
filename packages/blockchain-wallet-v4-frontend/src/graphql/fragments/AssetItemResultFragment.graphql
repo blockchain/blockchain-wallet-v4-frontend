@@ -16,5 +16,6 @@ fragment AssetItemResultFragment on Asset {
   collection {
     name
     image_url
+    slug
   }
 }
