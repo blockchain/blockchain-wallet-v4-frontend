@@ -15,7 +15,7 @@ import {
   useCollectionsQuery
 } from 'generated/graphql.types'
 
-import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { CollectionHeader, GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
@@ -149,7 +149,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           formValues={formValues}
           total_supply={collection.total_supply}
           traits={activeTab === 'ITEMS' ? collection.traits : []}
-          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
         />
