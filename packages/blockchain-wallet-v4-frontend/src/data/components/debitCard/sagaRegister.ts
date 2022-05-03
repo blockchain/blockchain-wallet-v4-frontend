@@ -3,8 +3,8 @@ import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 import { actions } from './slice'
 
-export default ({ api }) => {
-  const debitCardSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const debitCardSagas = sagas({ api, coreSagas, networks })
 
   return function* debitCardSaga() {
     yield takeLatest(actions.getProducts.type, debitCardSagas.getProducts)

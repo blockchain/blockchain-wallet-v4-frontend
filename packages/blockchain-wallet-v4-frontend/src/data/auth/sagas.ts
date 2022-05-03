@@ -341,6 +341,9 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
+
+      // Debit Card Module initialization
+      yield put(actions.components.debitCard.getProducts())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
