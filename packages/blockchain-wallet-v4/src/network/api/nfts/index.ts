@@ -62,7 +62,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
 
   const getOpenSeaAsset = (collection_id: string, asset_number: string): NftAsset => {
     return get({
-      endPoint: `/asset/${collection_id}/${asset_number}`,
+      endPoint: `/asset/${collection_id}/${asset_number}?include_orders=true`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })

@@ -1672,6 +1672,7 @@ type MessagesType = {
   'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for your region."
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'
+  'modals.simplebuy.unsupported-title-order': '{order} Crypto Coming Soon for'
   'modals.simplebuy.waitingondepo': 'Waiting on Funds'
   'modals.simplebuy.verifyemail.email_address': 'Email Address'
   'modals.simplebuy.verifyemail.change_email': 'Change Email Address'
@@ -2173,7 +2174,7 @@ type MessagesType = {
   'scenes.login.loginmobile': 'Login via Mobile'
   'scenes.logins.twofa.code': 'Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
   'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'
-  'scenes.logins.twofa.enter_code.mobile_width': 'Enter your 2FA Code'
+  'scenes.logins.twofa.enter_code.mobile_width': 'Two Factor Authentication Code'
   'scenes.logins.twofa.lost': 'Lost access to your 2FA device?'
   'scenes.login.mobile': 'SMS Code'
   'scenes.login.gethelp': 'Get Help'
@@ -2335,7 +2336,7 @@ type MessagesType = {
   'scenes.register.exchangecard.item.3.regular': 'by connecting your Wallet.'
   'scenes.register.exchangecard.title': 'Blockchain Exchange'
   'scenes.register.exchange.user_conflict.copy': 'You already have an Exchange account associated with {email}. Your funds are safe.'
-  'scenes.register.exchange.user_conflict.log_into_exchange' : 'Log In to Exchange ->'
+  'scenes.register.exchange.user_conflict.log_into_exchange': 'Log In to Exchange ->'
   'scenes.register.exchange.user_conflict.open_wallet': 'Open Wallet ->'
   'scenes.register.exchange.user_conflict.title': 'Exchange Account Already Exists'
   'scenes.register.getstarted': 'Get Started For Free by Signing Up Now.'

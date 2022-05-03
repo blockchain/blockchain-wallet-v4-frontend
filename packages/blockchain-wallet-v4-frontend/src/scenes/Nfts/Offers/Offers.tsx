@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { OpenSeaOrder } from '@core/network/api/nfts/types'
+import { RawOrder } from '@core/network/api/nfts/types'
 import { TableWrapper } from 'components/Table'
 
 import OffersTable from './Offers.table'
@@ -18,7 +18,7 @@ const Offers: React.FC<Props> = ({ bidsAndOffers, columns }) => {
 
 type Props = {
   address?: never
-  bidsAndOffers: OpenSeaOrder[]
+  bidsAndOffers: RawOrder[]
   columns?: ('price' | 'amount' | 'from' | 'expiration')[]
 }
 

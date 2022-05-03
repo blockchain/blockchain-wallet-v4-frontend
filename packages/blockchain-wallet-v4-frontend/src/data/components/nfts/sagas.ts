@@ -1,7 +1,7 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import { call, put, select } from 'redux-saga/effects'
+import { all, call, put, select } from 'redux-saga/effects'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -34,6 +34,7 @@ import { promptForSecondPassword } from 'services/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
+import { nonTraitFilters } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -101,17 +102,17 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
+  const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
-      yield put(A.fetchOpenseaAssetLoading())
+      yield put(A.fetchOpenSeaAssetLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.asset_contract_address,
         action.payload.token_id
       )
-      yield put(A.fetchOpenseaAssetSuccess(res))
+      yield put(A.fetchOpenSeaAssetSuccess(res))
     } catch (e) {
-      yield put(A.fetchOpenseaAssetFailure(e))
+      yield put(A.fetchOpenSeaAssetFailure(e))
     }
   }
 
@@ -218,7 +219,7 @@ export default ({ api }: { api: APIType }) => {
           )
           fees = yield call(
             calculateGasFees,
-            GasCalculationOperations.Buy,
+            GasCalculationOperations.AcceptOffer,
             signer,
             undefined,
             buy,
@@ -306,7 +307,23 @@ export default ({ api }: { api: APIType }) => {
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to accept this offer.'
@@ -517,7 +534,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this listing.'
@@ -540,7 +573,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchOffersMade())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'SUCCESS'
+          }
+        })
+      )
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            outcome: 'FAILED'
+          }
+        })
+      )
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this offer.'
@@ -571,6 +620,35 @@ export default ({ api }: { api: APIType }) => {
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }
+
+      // GET CURRENT URL
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
+      // NON-TRAITS
+      if (nonTraitFilters.includes(action.meta.field)) {
+        params[action.meta.field] = action.payload
+      }
+      // TRAITS
+      if (!nonTraitFilters.includes(action.meta.field)) {
+        const traits = params.traits ? JSON.parse(params.traits) : []
+        if (action.payload) {
+          if (traits.includes(action.meta.field)) return
+          params.traits = JSON.stringify([...traits, action.meta.field])
+        } else {
+          params.traits = JSON.stringify(traits.filter((t) => t !== action.meta.field))
+        }
+      }
+
+      // MODIFY URL
+      const newHash = `${hash}?${Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')}`
+
+      url.hash = newHash
+
+      window.history.pushState(null, '', url.toString())
     }
   }
 
@@ -617,16 +695,27 @@ export default ({ api }: { api: APIType }) => {
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
-      const regex = /\/nfts\/[^/]*$/g
-      const activeSlug = S.getActiveSlug(yield select())
-      const match = action.payload?.location?.pathname?.match(regex)
-      if (match) {
-        const nextSlug = match[0].split('/nfts/')[1]
-        if (nextSlug !== activeSlug && activeSlug) {
-          yield put(actions.form.reset('nftFilter'))
-        }
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
 
-        yield put(A.setActiveSlug({ slug: nextSlug }))
+      yield put(actions.form.reset('nftFilter'))
+
+      yield all(
+        Object.keys(params).map(function* (key) {
+          if (nonTraitFilters.includes(key)) {
+            yield put(actions.form.change('nftFilter', key, params[key]))
+          }
+        })
+      )
+      if (params.traits !== undefined) {
+        const traits = JSON.parse(params.traits)
+        yield all(
+          traits.map(function* (trait) {
+            yield put(actions.form.change('nftFilter', trait, true))
+          })
+        )
       }
     }
   }
@@ -658,8 +747,8 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesWrapEth,
     fetchNftCollections,
     fetchNftOffersMade,
+    fetchOpenSeaAsset,
     fetchOpenSeaOrders,
-    fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,

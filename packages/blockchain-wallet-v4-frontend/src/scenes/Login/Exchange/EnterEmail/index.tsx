@@ -41,7 +41,12 @@ const EnterEmail = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
+      <ProductTabMenu
+        active={ProductAuthOptions.EXCHANGE}
+        onWalletTabClick={walletTabClicked}
+        platform={magicLinkData?.platform_type}
+        product={ProductAuthOptions.EXCHANGE}
+      />
       <WrapperWithPadding>
         <FormGroup>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />

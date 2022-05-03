@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { OpenSeaOrder } from '@core/network/api/nfts/types'
+import { RawOrder } from '@core/network/api/nfts/types'
 
 import { EthText } from '.'
 
@@ -51,8 +51,8 @@ const NftAssetCountdown: React.FC<Props> = ({ highest_bid, lowest_order }) => {
 }
 
 type Props = {
-  highest_bid: OpenSeaOrder
-  lowest_order: OpenSeaOrder
+  highest_bid: RawOrder
+  lowest_order: RawOrder
 }
 
 export default NftAssetCountdown

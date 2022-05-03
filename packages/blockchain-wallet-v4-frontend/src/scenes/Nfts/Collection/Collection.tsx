@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
@@ -14,7 +14,6 @@ import {
   EventFilterFields,
   useCollectionsQuery
 } from 'generated/graphql.types'
-import { media } from 'services/styles'
 
 import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
 import NftError from '../components/NftError'
@@ -59,8 +58,10 @@ const LinksContainer = styled.div`
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
+  const params = new URLSearchParams(window.location.hash.split('?')[1])
+  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
 
   const [collectionsQuery] = useCollectionsQuery({
     variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
@@ -78,6 +79,10 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
     : undefined
+
+  useEffect(() => {
+    setActiveTab(tab)
+  }, [tab])
 
   if (collectionsQuery.error)
     return (
@@ -129,7 +134,12 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               ) : null}
             </LinksContainer>
           </CollectionInfo>
-          <Stats total_supply={collection.total_supply} stats={collection.stats} />
+          <Stats
+            formActions={formActions}
+            formValues={formValues}
+            total_supply={collection.total_supply}
+            stats={collection.stats}
+          />
         </NftBannerWrapper>
       </CollectionHeader>
       <GridWrapper>
