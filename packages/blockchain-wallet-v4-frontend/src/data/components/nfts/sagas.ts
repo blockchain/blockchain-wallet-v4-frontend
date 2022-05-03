@@ -634,6 +634,10 @@ export default ({ api }: { api: APIType }) => {
       if (action.meta.field === 'event') {
         params.event = action.payload
       }
+      // NON-TRAITS
+      if (nonTraitFilters.includes(action.meta.field)) {
+        params[action.meta.field] = action.payload
+      }
       // TRAITS
       if (!nonTraitFilters.includes(action.meta.field)) {
         const traits = params.traits ? JSON.parse(params.traits) : []
@@ -705,12 +709,13 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(actions.form.reset('nftFilter'))
 
-      if (params.forSale !== undefined) {
-        yield put(actions.form.change('nftFilter', 'forSale', Boolean(params.forSale)))
-      }
-      if (params.event !== undefined) {
-        yield put(actions.form.change('nftFilter', 'event', params.event))
-      }
+      yield all(
+        Object.keys(params).map(function* (key) {
+          if (nonTraitFilters.includes(key)) {
+            yield put(actions.form.change('nftFilter', key, params[key]))
+          }
+        })
+      )
       if (params.traits !== undefined) {
         const traits = JSON.parse(params.traits)
         yield all(
