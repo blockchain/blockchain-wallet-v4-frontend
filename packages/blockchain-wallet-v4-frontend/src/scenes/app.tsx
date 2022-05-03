@@ -199,9 +199,8 @@ const App = ({
                           pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                         />
                       )}
-                      {walletDebitCardEnabled && (
-                        <WalletLayout path='/debit-card' component={DebitCard} />
-                      )}
+
+                      <WalletLayout path='/debit-card' component={DebitCard} />
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
