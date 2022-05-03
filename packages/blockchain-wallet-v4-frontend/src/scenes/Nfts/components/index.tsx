@@ -8,7 +8,14 @@ export const LOADING_ITEMS_COUNT = 8
 
 export const maxWidth = '1200px'
 
-export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
+export const opensea_event_types = [
+  'successful',
+  'transfer',
+  'offer_entered',
+  'bid_entered',
+  'bid_withdrawn',
+  'created'
+]
 
 export const NftPage = styled.div`
   width: 100%;
