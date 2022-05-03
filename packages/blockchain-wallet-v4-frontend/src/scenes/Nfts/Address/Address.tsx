@@ -13,7 +13,7 @@ import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../component
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getCollectionFilter, getEventFilter, getMinMaxFilters } from '../utils/NftUtils'
+import { getEventFilter } from '../utils/NftUtils'
 import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
@@ -24,8 +24,6 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
 
-  const minMaxFilters = getMinMaxFilters(formValues)
-  const collectionFilter = getCollectionFilter(formValues, collections)
   const eventFilter = getEventFilter(formValues)
 
   useEffect(() => {
@@ -33,11 +31,6 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   }, [tab])
 
   if (!address) return null
-
-  const hasSomeFilters =
-    (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
-    false
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
 
@@ -88,14 +81,11 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
+            tabs={['ITEMS', 'EVENTS']}
             activeTab={activeTab}
-            traitFilters={[]}
-            eventFilter={activeTab === 'EVENTS' ? eventFilter : null}
             formActions={formActions}
             formValues={formValues}
-            minMaxFilters={minMaxFilters}
-            hasSomeFilters={hasSomeFilters}
-            collectionFilter={activeTab === 'ITEMS' ? collectionFilter : null}
+            collections={collections}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (

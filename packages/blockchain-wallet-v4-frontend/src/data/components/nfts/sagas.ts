@@ -3,16 +3,11 @@ import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
-import { Exchange, Remote } from '@core'
-import { convertCoinToCoin, convertCoinToFiat } from '@core/exchange'
+import { Exchange } from '@core'
+import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import {
-  ExplorerGatewayNftCollectionType,
-  GasCalculationOperations,
-  GasDataI,
-  RawOrder
-} from '@core/network/api/nfts/types'
+import { GasCalculationOperations, GasDataI, RawOrder } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,
@@ -48,33 +43,6 @@ export default ({ api }: { api: APIType }) => {
   const clearAndRefetchOffersMade = function* () {
     yield put(A.resetNftOffersMade())
     yield put(A.fetchNftOffersMade())
-  }
-
-  const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
-    try {
-      const collections = S.getNftCollections(yield select())
-      if (Remote.Success.is(collections) && !action.payload.direction && !action.payload.sortBy)
-        return
-      yield put(A.fetchNftCollectionsLoading())
-      const response: ReturnType<typeof api.getNftCollections> = yield call(
-        api.getNftCollections,
-        action.payload.sortBy,
-        action.payload.direction
-      )
-      // filter crypto punks, or others
-      const exclusionList = ['CryptoPunks']
-      const excludeCollections = (collection: ExplorerGatewayNftCollectionType) => {
-        return !(exclusionList.indexOf(collection.name) > -1)
-      }
-      // filter collections w/ no img
-      const hasImageUrl = (collection: ExplorerGatewayNftCollectionType) => collection.image_url
-
-      const nfts = response.filter(excludeCollections).filter(hasImageUrl)
-      yield put(A.fetchNftCollectionsSuccess(nfts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftCollectionsFailure(error))
-    }
   }
 
   const fetchNftOffersMade = function* () {
@@ -696,16 +664,6 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const formChanged = function* (action) {
-    if (action.meta.form === 'nftSearch') {
-      if (action.meta.field === 'sortBy') {
-        yield put(
-          A.fetchNftCollections({
-            direction: action.payload.split('-')[1] as 'ASC' | 'DESC',
-            sortBy: action.payload.split('-')[0] as keyof ExplorerGatewayNftCollectionType
-          })
-        )
-      }
-    }
     if (action.meta.form === 'nftFilter') {
       if (['min', 'max'].includes(action.meta.field)) {
         const formValues = selectors.form.getFormValues('nftFilter')(
@@ -841,7 +799,6 @@ export default ({ api }: { api: APIType }) => {
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
-    fetchNftCollections,
     fetchNftOffersMade,
     fetchOpenSeaAsset,
     fetchOpenSeaOrders,

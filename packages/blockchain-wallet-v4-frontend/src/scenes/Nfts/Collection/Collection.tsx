@@ -21,7 +21,6 @@ import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import CollectionItems from './CollectionItems'
 import NftCollectionLoading from './NftCollection.template.loading'
 import Stats from './Stats'
@@ -66,15 +65,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const [collectionsQuery] = useCollectionsQuery({
     variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
   })
-
-  const minMaxFilters = getMinMaxFilters(formValues)
-  const traitFilters = getTraitFilters(formValues)
-  const eventFilter = getEventFilter(formValues)
-
-  const hasSomeFilters =
-    (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
-    false
 
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
@@ -155,14 +145,13 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
-            traitFilters={traitFilters}
+            tabs={['ITEMS', 'EVENTS']}
             formValues={formValues}
+            showSortBy
             formActions={formActions}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            hasSomeFilters={hasSomeFilters}
-            minMaxFilters={minMaxFilters}
-            eventFilter={eventFilter}
+            collections={[]}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems
