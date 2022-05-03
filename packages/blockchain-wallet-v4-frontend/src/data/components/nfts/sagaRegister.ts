@@ -25,6 +25,7 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchOpenSeaAsset, nftsSagas.fetchOpenSeaAsset)
     yield takeLatest(actions.fetchOpenSeaOrders, nftsSagas.fetchOpenSeaOrders)
     yield takeLatest(actions.fetchOpenseaStatus, nftsSagas.fetchOpenseaStatus)
+    yield takeLatest(actions.handleRouterChange, nftsSagas.handleRouterChange)
     yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.nftSearch, nftsSagas.nftSearch)

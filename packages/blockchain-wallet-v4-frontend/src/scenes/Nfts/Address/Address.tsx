@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
 import { bindActionCreators, compose } from 'redux'
@@ -18,13 +18,19 @@ import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const address = pathname.split('/nfts/address/')[1]
+  const params = new URLSearchParams(window.location.hash.split('?')[1])
+  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
 
   const minMaxFilters = getMinMaxFilters(formValues)
   const collectionFilter = getCollectionFilter(formValues, collections)
   const eventFilter = getEventFilter(formValues)
+
+  useEffect(() => {
+    setActiveTab(tab)
+  }, [tab])
 
   if (!address) return null
 
