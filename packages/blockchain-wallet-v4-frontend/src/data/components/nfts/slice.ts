@@ -238,6 +238,22 @@ const nftsSlice = createSlice({
     fetchNftOrderAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.orderFlow.asset = Remote.Success(action.payload)
     },
+    fetchOpenSeaAsset: (
+      state,
+      action: PayloadAction<{
+        asset_contract_address: string
+        token_id: string
+      }>
+    ) => {},
+    fetchOpenSeaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaAsset = Remote.Failure(action.payload)
+    },
+    fetchOpenSeaAssetLoading: (state) => {
+      state.openSeaAsset = Remote.Loading
+    },
+    fetchOpenSeaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
+      state.openSeaAsset = Remote.Success(action.payload)
+    },
     fetchOpenSeaOrders: (
       state,
       action: PayloadAction<{ asset_contract_address: string; token_id: string }>
@@ -251,22 +267,6 @@ const nftsSlice = createSlice({
     fetchOpenSeaOrdersSuccess: (state, action: PayloadAction<OpenSeaOrder[]>) => {
       state.openSeaOrders = Remote.Success(action.payload)
     },
-    fetchOpenseaAsset: (
-      state,
-      action: PayloadAction<{
-        asset_contract_address: string
-        token_id: string
-      }>
-    ) => {},
-    fetchOpenseaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
-      state.openSeaAsset = Remote.Failure(action.payload)
-    },
-    fetchOpenseaAssetLoading: (state) => {
-      state.openSeaAsset = Remote.Loading
-    },
-    fetchOpenseaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
-      state.openSeaAsset = Remote.Success(action.payload)
-    },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Failure(action.payload)
@@ -277,6 +277,7 @@ const nftsSlice = createSlice({
     fetchOpenseaStatusSuccess: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Success(action.payload)
     },
+    handleRouterChange: (state, action: PayloadAction<{ location: { pathname: string } }>) => {},
     nftOrderFlowClose: (state) => {
       state.orderFlow.walletUserIsAssetOwnerHack = false
 

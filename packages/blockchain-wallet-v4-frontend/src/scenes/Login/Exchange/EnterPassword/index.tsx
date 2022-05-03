@@ -44,7 +44,12 @@ const EnterPasswordExchange = (props: Props) => {
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
+      <ProductTabMenu
+        active={ProductAuthOptions.EXCHANGE}
+        onWalletTabClick={walletTabClicked}
+        platform={magicLinkData?.platform_type}
+        product={ProductAuthOptions.EXCHANGE}
+      />
       <WrapperWithPadding>
         <BackArrowHeader
           {...props}

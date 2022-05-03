@@ -40,6 +40,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
