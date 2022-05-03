@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
 
-import { ExplorerGatewayNftCollectionType } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
+import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Props as OwnProps } from '../Home'
 import { getFloorPriceColumn } from './floor_price'
@@ -85,7 +85,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions 
 }
 
 type Props = OwnProps & {
-  collections: ExplorerGatewayNftCollectionType[]
+  collections: CollectionsQuery['collections']
 }
 
 export default TrendingCollectionsTable

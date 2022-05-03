@@ -10,6 +10,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     description
     created_date
     name
+    num_owners
     total_supply
     stats {
       floor_price
