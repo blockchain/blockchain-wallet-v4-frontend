@@ -139,10 +139,13 @@ export default ({ api }: { api: APIType }) => {
         })
         txList.push(history)
       }
-      const page = flatten([txPage, custodialPage.orders, txList]).sort((a, b) => {
+      const newPages = flatten([txPage, custodialPage.orders, txList])
+      const page = newPages.sort((a, b) => {
+        if (a.insertedAt === null) return -1
+        if (b.insertedAt === null) return 1
         return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
-      const atBounds = page.length < TX_PER_PAGE
+      const atBounds = page.length < TX_PER_PAGE * newPages.length
       yield put(A.transactionsAtBound(payload.coin, atBounds))
       yield put(A.fetchTransactionsSuccess(payload.coin, page, reset, true))
     } catch (e) {

@@ -1,7 +1,9 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import { Text } from 'blockchain-info-components'
+import { GreyCartridge } from 'components/Cartridge'
 
 import {
   Addresses,
@@ -33,7 +35,13 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
             <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
               <TransactionType txType={tx.type} /> {coin}
             </Text>
-            <Timestamp time={tx.timestamp * 1000} />
+            {tx.timestamp ? (
+              <Timestamp time={tx.timestamp * 1000} />
+            ) : (
+              <GreyCartridge>
+                <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+              </GreyCartridge>
+            )}
           </StatusAndType>
         </Row>
         <Col width='50%'>

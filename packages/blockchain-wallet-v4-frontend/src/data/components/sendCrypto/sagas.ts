@@ -1,6 +1,6 @@
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
@@ -221,6 +221,8 @@ export default ({ api }: { api: APIType }) => {
               amount: { symbol: coin, value }
             })
           )
+          yield delay(2000)
+          yield put(actions.core.data.coins.fetchTransactions(coin, true))
         } else {
           throw new Error('Failed to submit transaction.')
         }
