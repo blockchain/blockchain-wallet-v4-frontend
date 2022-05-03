@@ -17,6 +17,7 @@ import {
 } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { DEFAULT_BS_BALANCE } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getOutputFromPair } from 'data/components/swap/model'
@@ -37,7 +38,7 @@ export const getCoinCustodialBalance = (
       selectors.components.interest.getInterestAccountBalance
     ],
     (
-      sbBalancesR: RemoteDataType<string, BSBalancesType>,
+      sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
       interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({

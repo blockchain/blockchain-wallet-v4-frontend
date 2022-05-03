@@ -8,7 +8,14 @@ export const LOADING_ITEMS_COUNT = 6
 
 export const maxWidth = '1200px'
 
-export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
+export const opensea_event_types = [
+  'successful',
+  'transfer',
+  'offer_entered',
+  'bid_entered',
+  'bid_withdrawn',
+  'created'
+]
 
 export const NftPage = styled.div`
   width: 100%;
@@ -164,7 +171,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   display: flex;
   justify-content: space-between;
   background-size: cover;
-  background-image: ${(props) => (props.bgUrl ? `url(${(props) => props.bgUrl})` : 'none')};
+  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tabletL`
     flex-direction: column;

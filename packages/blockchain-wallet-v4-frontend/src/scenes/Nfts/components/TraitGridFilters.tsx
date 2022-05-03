@@ -14,12 +14,16 @@ import { Analytics } from 'data/types'
 import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
+
 import {
   getCollectionFilter,
   getEventFilter,
   getMinMaxFilters,
   getTraitFilters
 } from '../utils/NftUtils'
+
+import { opensea_event_types } from '.'
+
 import EventTypeName from './EventTypeName'
 
 const ActiveTraitFilter = styled.div`
@@ -155,11 +159,7 @@ const TraitGridFilters: React.FC<Props> = ({
             <ActiveTraitFilter>
               <Text size='14px' color='black' weight={500} capitalize>
                 Event:{' '}
-                <EventTypeName
-                  event_type={
-                    eventFilter as 'successful' | 'transfer' | 'offer_entered' | 'created'
-                  }
-                />
+                <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
               <div
                 style={{

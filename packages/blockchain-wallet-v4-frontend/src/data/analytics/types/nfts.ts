@@ -35,6 +35,7 @@ export enum Events {
   NFT_REFRESH_METADATA_CLICKED = 'NFT Refresh Metadata Clicked',
   NFT_RETURN_TO_MARKETPLACE_CLICKED = 'NFT Return To Marketplace Clicked',
   NFT_SELL_ITEM_CLICKED = 'NFT Sell Item Clicked',
+  NFT_SELL_ITEM_SUCCESS_FAIL = 'NFT Sell Item Success/Fail',
   NFT_SEND_SUCCESS_FAIL = 'NFT Send Success/Fail',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
   NFT_TRANSFER_CLICKED = 'NFT Transfer Clicked',
@@ -48,7 +49,7 @@ type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
 
-type Outcome = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
+type Type = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
 type AcceptedAccountsAction = {
   key: Events.NFT_ACCEPTED_ACCOUNTS
@@ -60,7 +61,10 @@ type AcceptedAccountsAction = {
 type AcceptOfferSuccessFailAction = {
   key: Events.NFT_ACCEPT_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    amount: number
+    currency: string
+    error_message?: string
+    type: Type
   }
 }
 
@@ -103,21 +107,28 @@ type BuyNowClickedAction = {
 type BuySuccessFailAction = {
   key: Events.NFT_BUY_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    amount: number
+    currency: string
+    error_message?: string
+    type: Type
   }
 }
 
 type CancelListingSuccessFailAction = {
   key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
 type CancelOfferSuccessFailAction = {
   key: Events.NFT_CANCEL_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    amount: number
+    currency: string
+    error_message?: string
+    type: Type
   }
 }
 
@@ -143,7 +154,6 @@ type ContractAddressClickedAction = {
 type EnteredAmountAction = {
   key: Events.NFT_ENTERED_AMOUNT
   properties: {
-    amount_usd: number
     currency: string
     input_amount: number
   }
@@ -202,7 +212,11 @@ type LeftMenuExpandedAction = {
 type ListingSuccessFailAction = {
   key: Events.NFT_LISTING_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    currency: string
+    end_price?: number
+    error_message?: string
+    start_price: number
+    type: Type
   }
 }
 
@@ -242,7 +256,10 @@ type OfferWithClickedAction = {
 type OfferSuccessFailAction = {
   key: Events.NFT_OFFER_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    amount: number
+    currency: string
+    error_message?: string
+    type: Type
   }
 }
 
@@ -277,10 +294,21 @@ type SellItemClickedAction = {
   }
 }
 
+type SellItemSuccessFailAction = {
+  key: Events.NFT_SELL_ITEM_SUCCESS_FAIL
+  properties: {
+    amount: number
+    currency: string
+    error_message?: string
+    type: Type
+  }
+}
+
 type SendSuccessFailAction = {
   key: Events.NFT_SEND_SUCCESS_FAIL
   properties: {
-    outcome: Outcome
+    error_message?: string
+    type: Type
   }
 }
 
@@ -340,6 +368,7 @@ export type TrackEventAction =
   | RefreshMetadataClickedAction
   | ReturnToMarketplaceClickedAction
   | SellItemClickedAction
+  | SellItemSuccessFailAction
   | SendSuccessFailAction
   | ShareClickedAction
   | TransferClickedAction

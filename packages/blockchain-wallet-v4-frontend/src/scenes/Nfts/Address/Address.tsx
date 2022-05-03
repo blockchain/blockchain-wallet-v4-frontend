@@ -9,7 +9,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 
-import { event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
@@ -77,7 +77,7 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
-          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters

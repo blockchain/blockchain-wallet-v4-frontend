@@ -89,11 +89,11 @@ const TraitItem = styled.div`
 const NftFilter: React.FC<Props> = ({
   analyticsActions,
   collections,
-  event_types,
   forSaleFilter,
   formActions,
   formValues,
   minMaxPriceFilter,
+  opensea_event_types,
   total_supply,
   traits
 }) => {
@@ -187,7 +187,7 @@ const NftFilter: React.FC<Props> = ({
               </div>
             </div>
           ) : null}
-          {event_types?.length ? (
+          {opensea_event_types?.length ? (
             <div style={{ marginTop: '24px' }}>
               <TraitWrapper>
                 <TraitHeader>
@@ -196,7 +196,7 @@ const NftFilter: React.FC<Props> = ({
                   </Text>
                 </TraitHeader>
                 <TraitList isActive>
-                  {event_types.map((event) => {
+                  {opensea_event_types.map((event) => {
                     return (
                       <TraitItem key={event}>
                         <div
@@ -418,11 +418,11 @@ const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
   collections?: OwnerQuery['assets'][0]['collection'][]
-  event_types?: string[]
   forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   minMaxPriceFilter: boolean
+  opensea_event_types?: string[]
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }
