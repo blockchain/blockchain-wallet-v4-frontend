@@ -28,3 +28,8 @@ export const errorHandler = (e): string => {
 export const errorHandlerCode = (e) => {
   return typeof e === 'object' && e.code ? e.code : errorHandler(e)
 }
+
+export const errorCodeAndMessage = (e) => ({
+  code: typeof e === 'object' ? Number(e.code) : 1,
+  message: errorHandler(e)
+})
