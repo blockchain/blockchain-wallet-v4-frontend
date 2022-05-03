@@ -643,6 +643,7 @@ export default ({ api }: { api: APIType }) => {
 
       // MODIFY URL
       const newHash = `${hash}?${Object.entries(params)
+        .filter(([_, v]) => v)
         .map(([key, value]) => `${key}=${value}`)
         .join('&')}`
 
