@@ -14,10 +14,12 @@ import {
 } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { getFiatFromPair, getOrderType } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -169,9 +171,28 @@ class CheckoutConfirm extends PureComponent<Props> {
     }
   }
 
+  trackError(error: PartialClientErrorProperties | string) {
+    // not every remote type has been converted to a client error type so handle the string case
+    if (typeof error === 'string') {
+      error = { network_error_description: error }
+    }
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.CLIENT_ERROR,
+      properties: {
+        ...error,
+        action: 'CheckoutConfirm',
+        error: 'OOPS_ERROR',
+        title: 'Oops! Something went wrong'
+      } as ClientErrorProperties
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: (e) => <DataError message={{ message: e }} />,
+      Failure: (e) => {
+        this.trackError(e)
+        return <DataError />
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
@@ -191,6 +212,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   identityVerificationActions: bindActionCreators(

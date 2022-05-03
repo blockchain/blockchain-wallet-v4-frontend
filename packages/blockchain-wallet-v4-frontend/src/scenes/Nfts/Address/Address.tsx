@@ -9,11 +9,11 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 
-import { event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getCollectionFilter, getEventFilter, getMinMaxFilters } from '../utils/NftUtils'
+import { getEventFilter } from '../utils/NftUtils'
 import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
@@ -24,8 +24,6 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
 
-  const minMaxFilters = getMinMaxFilters(formValues)
-  const collectionFilter = getCollectionFilter(formValues, collections)
   const eventFilter = getEventFilter(formValues)
 
   useEffect(() => {
@@ -33,11 +31,6 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   }, [tab])
 
   if (!address) return null
-
-  const hasSomeFilters =
-    (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
-    false
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
 
@@ -84,18 +77,15 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
-          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
+            tabs={['ITEMS', 'EVENTS']}
             activeTab={activeTab}
-            traitFilters={[]}
-            eventFilter={activeTab === 'EVENTS' ? eventFilter : null}
             formActions={formActions}
             formValues={formValues}
-            minMaxFilters={minMaxFilters}
-            hasSomeFilters={hasSomeFilters}
-            collectionFilter={activeTab === 'ITEMS' ? collectionFilter : null}
+            collections={collections}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (

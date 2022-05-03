@@ -11,8 +11,8 @@ const NftGridLoading = () => {
       {[...Array(LOADING_ITEMS_COUNT)].map((e, i) => (
         // eslint-disable-next-line react/no-array-index-key
         <Asset key={i}>
-          <SkeletonRectangle width='100%' height='285px' />
-          <div style={{ boxSizing: 'border-box', minHeight: '120px', padding: '12px 8px' }}>
+          <SkeletonRectangle width='100%' height='216px' />
+          <div style={{ boxSizing: 'border-box', minHeight: '120px', padding: '12px 8px 0px 8px' }}>
             <Flex style={{ height: '100%' }} justifyContent='space-between' flexDirection='column'>
               <div>
                 <SkeletonRectangle height='24px' width='100px' />
