@@ -110,7 +110,7 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
 
             <SignupForm {...props} />
           </PaddingWrapper>
-          <LoginLink />
+          <LoginLink analyticsActions={props.analyticsActions} />
         </BuyCard>
       </CardsWrapper>
     </>

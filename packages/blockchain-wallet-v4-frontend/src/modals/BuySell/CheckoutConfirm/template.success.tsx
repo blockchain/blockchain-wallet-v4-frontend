@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { intervalToDuration } from 'date-fns'
+import { useDefer3rdPartyScript } from 'hooks'
 import { defaultTo, filter, path } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
+import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -164,17 +165,27 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
   const [isActiveFeeTooltip, setFeeToolTip] = useState(props.isFlexiblePricingModel)
+
+  const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
+
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
+
   const baseCurrency = getBaseCurrency(props.order)
   const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
   const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
+
   const requiresTerms =
     props.order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
     props.order.paymentType === BSPaymentTypes.USER_CARD
+
   const [bankAccount] = filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
@@ -518,7 +529,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           height='48px'
           type='submit'
           style={{ marginTop: '28px' }}
-          disabled={props.submitting || !acceptTerms}
+          disabled={
+            props.submitting ||
+            !acceptTerms ||
+            (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !isGooglePayReady)
+          }
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />

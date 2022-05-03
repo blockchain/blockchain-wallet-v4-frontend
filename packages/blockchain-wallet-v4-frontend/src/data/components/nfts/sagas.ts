@@ -1,9 +1,10 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import { call, put, select } from 'redux-saga/effects'
+import { all, call, put, select } from 'redux-saga/effects'
 
 import { Exchange, Remote } from '@core'
+import { convertCoinToCoin, convertCoinToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -34,6 +35,7 @@ import { promptForSecondPassword } from 'services/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
+import { nonTraitFilters } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -101,17 +103,17 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchOpenseaAsset = function* (action: ReturnType<typeof A.fetchOpenseaAsset>) {
+  const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
-      yield put(A.fetchOpenseaAssetLoading())
+      yield put(A.fetchOpenSeaAssetLoading())
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.asset_contract_address,
         action.payload.token_id
       )
-      yield put(A.fetchOpenseaAssetSuccess(res))
+      yield put(A.fetchOpenSeaAssetSuccess(res))
     } catch (e) {
-      yield put(A.fetchOpenseaAssetFailure(e))
+      yield put(A.fetchOpenSeaAssetFailure(e))
     }
   }
 
@@ -218,7 +220,7 @@ export default ({ api }: { api: APIType }) => {
           )
           fees = yield call(
             calculateGasFees,
-            GasCalculationOperations.Buy,
+            GasCalculationOperations.AcceptOffer,
             signer,
             undefined,
             buy,
@@ -299,6 +301,12 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
+    const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    const amount = convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: action?.payload?.buy?.basePrice?.toString() || ''
+    })
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
@@ -310,20 +318,27 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            amount: Number(amount),
+
+            currency: coin,
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            amount: Number(amount),
+
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
           }
         })
       )
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to accept this offer.'
       yield put(actions.logs.logErrorMessage(error))
@@ -334,6 +349,12 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
+    const coin = action?.payload?.coin || ''
+    const amount = convertCoinToCoin({
+      baseToStandard: false,
+      coin,
+      value: action?.payload?.amount?.toString() || ''
+    })
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
@@ -373,21 +394,26 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            amount: Number(amount),
+            currency: coin,
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            amount: Number(amount),
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
           }
         })
       )
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this offer.'
       yield put(actions.logs.logErrorMessage(error))
@@ -398,6 +424,12 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
+    const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    const amount = convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: action?.payload?.buy?.basePrice?.toString() || ''
+    })
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const { buy, gasData, sell } = action.payload
@@ -409,24 +441,56 @@ export default ({ api }: { api: APIType }) => {
           `Successfully created order! It may take a few minutes to appear in your collection.`
         )
       )
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
-          properties: {
-            outcome: 'SUCCESS'
-          }
-        })
-      )
+      if (!action.payload.sell) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_BUY_SUCCESS_FAIL,
+            properties: {
+              amount: Number(amount),
+              currency: coin,
+              type: 'SUCCESS'
+            }
+          })
+        )
+      } else {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+            properties: {
+              amount: Number(amount),
+              currency: coin,
+              type: 'SUCCESS'
+            }
+          })
+        )
+      }
     } catch (e) {
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.NFT_BUY_SUCCESS_FAIL,
-          properties: {
-            outcome: 'FAILED'
-          }
-        })
-      )
       let error = errorHandler(e)
+      if (!action.payload.sell) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_BUY_SUCCESS_FAIL,
+            properties: {
+              amount: Number(amount),
+              currency: coin,
+              error_message: error,
+              type: 'FAILED'
+            }
+          })
+        )
+      } else {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+            properties: {
+              amount: Number(amount),
+              currency: coin,
+              error_message: error,
+              type: 'FAILED'
+            }
+          })
+        )
+      }
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'
       yield put(actions.logs.logErrorMessage(error))
@@ -437,6 +501,18 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
+    const isTimedAuction = !!action.payload.endPrice
+    const coin = isTimedAuction ? 'WETH' : 'ETH'
+    const startPrice = convertCoinToCoin({
+      baseToStandard: false,
+      coin,
+      value: action?.payload?.startPrice || ''
+    })
+    const endPrice = convertCoinToCoin({
+      baseToStandard: false,
+      coin,
+      value: action?.payload?.endPrice || ''
+    })
     try {
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
@@ -463,20 +539,27 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            currency: coin,
+            end_price: isTimedAuction ? Number(endPrice) : undefined,
+            start_price: Number(startPrice),
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            currency: coin,
+            end_price: isTimedAuction ? Number(endPrice) : undefined,
+            error_message: error,
+            start_price: Number(startPrice),
+            type: 'FAILED'
           }
         })
       )
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to sell this asset.'
       yield put(actions.logs.logErrorMessage(error))
@@ -500,22 +583,23 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          key: Analytics.NFT_SEND_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_SEND_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            error_message: error,
+            type: 'FAILED'
           }
         })
       )
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to transfer this asset.'
       yield put(actions.logs.logErrorMessage(error))
@@ -537,20 +621,21 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            error_message: error,
+            type: 'FAILED'
           }
         })
       )
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this listing.'
       yield put(actions.logs.logErrorMessage(error))
@@ -562,6 +647,12 @@ export default ({ api }: { api: APIType }) => {
 
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
+    const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
+    const amount = convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: action?.payload?.order?.base_price?.toString() || ''
+    })
     try {
       if (!action.payload.order) {
         throw new Error('No offer found. It may have expired already!')
@@ -576,20 +667,25 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'SUCCESS'
+            amount: Number(amount),
+            currency: coin,
+            type: 'SUCCESS'
           }
         })
       )
     } catch (e) {
+      let error = errorHandler(e)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
           properties: {
-            outcome: 'FAILED'
+            amount: Number(amount),
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
           }
         })
       )
-      let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this offer.'
       yield put(actions.alerts.displayError(error))
@@ -619,6 +715,36 @@ export default ({ api }: { api: APIType }) => {
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }
+
+      // GET CURRENT URL
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
+      // NON-TRAITS
+      if (nonTraitFilters.includes(action.meta.field)) {
+        params[action.meta.field] = action.payload
+      }
+      // TRAITS
+      if (!nonTraitFilters.includes(action.meta.field)) {
+        const traits = params.traits ? JSON.parse(params.traits) : []
+        if (action.payload) {
+          if (traits.includes(action.meta.field)) return
+          params.traits = JSON.stringify([...traits, action.meta.field])
+        } else {
+          params.traits = JSON.stringify(traits.filter((t) => t !== action.meta.field))
+        }
+      }
+
+      // MODIFY URL
+      const newHash = `${hash}?${Object.entries(params)
+        .filter(([_, v]) => v)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')}`
+
+      url.hash = newHash
+
+      window.history.pushState(null, '', url.toString())
     }
   }
 
@@ -665,16 +791,27 @@ export default ({ api }: { api: APIType }) => {
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
-      const regex = /\/nfts\/[^/]*$/g
-      const activeSlug = S.getActiveSlug(yield select())
-      const match = action.payload?.location?.pathname?.match(regex)
-      if (match) {
-        const nextSlug = match[0].split('/nfts/')[1]
-        if (nextSlug !== activeSlug && activeSlug) {
-          yield put(actions.form.reset('nftFilter'))
-        }
+      const url = new URL(window.location.href)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      // @ts-ignore
+      const params = Object.fromEntries(new URLSearchParams(query))
 
-        yield put(A.setActiveSlug({ slug: nextSlug }))
+      yield put(actions.form.reset('nftFilter'))
+
+      yield all(
+        Object.keys(params).map(function* (key) {
+          if (nonTraitFilters.includes(key)) {
+            yield put(actions.form.change('nftFilter', key, params[key]))
+          }
+        })
+      )
+      if (params.traits !== undefined) {
+        const traits = JSON.parse(params.traits)
+        yield all(
+          traits.map(function* (trait) {
+            yield put(actions.form.change('nftFilter', trait, true))
+          })
+        )
       }
     }
   }
@@ -706,8 +843,8 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesWrapEth,
     fetchNftCollections,
     fetchNftOffersMade,
+    fetchOpenSeaAsset,
     fetchOpenSeaOrders,
-    fetchOpenseaAsset,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,

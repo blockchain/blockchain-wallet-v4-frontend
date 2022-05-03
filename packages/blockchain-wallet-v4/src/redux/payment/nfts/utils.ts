@@ -956,7 +956,7 @@ async function _approveSemiOrNonFungibleToken({
       if (receipt.status) {
         // eslint-disable-next-line no-console
         console.log(
-          `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
+          `Transaction receipt : https://www.etherscan.io/tx/${receipt.transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
         if (!approvalCheck) {
@@ -1342,10 +1342,14 @@ async function _makeBuyOrder({
     takerRelayerFee
   } = _getBuyFeeParameters(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints, sellOrder, network)
 
+  const validatorAddress =
+    network === 'rinkeby' ? WYVERN_MERKLE_VALIDATOR_RINKEBY : WYVERN_MERKLE_VALIDATOR_MAINNET
+
   const { calldata, replacementPattern, target } = _encodeBuy(
     schema,
     { address: asset.asset_contract.address, id: asset.token_id },
-    accountAddress
+    accountAddress,
+    validatorAddress
   )
 
   const { basePrice, extra, paymentToken } = await _getPriceParameters(
@@ -1371,7 +1375,7 @@ async function _makeBuyOrder({
     extra: new BigNumber(extra.toString()),
     feeMethod,
     feeRecipient,
-    howToCall: HowToCall.Call,
+    howToCall: validatorAddress ? HowToCall.DelegateCall : HowToCall.Call,
     listingTime: times.listingTime,
     maker: accountAddress,
     makerProtocolFee,
@@ -1668,7 +1672,6 @@ export async function buyOrderValidationAndApprovals({
 }) {
   // TODO: Use getFairGasPrice after merge!
   const { approvalFees, gasPrice } = gasData
-
   const txnData = {
     gasLimit: approvalFees,
     gasPrice
@@ -1915,16 +1918,15 @@ export async function createMatchingOrders(
     }
   }
 
-  // Validate that the orders can match
-  const ordersCanMatch = await _validateMatch({ buy, sell, signer })
-  if (!ordersCanMatch) throw new Error('Orders cannot match')
-  // Even though the wyvern contract does not require order validation
-  // for atomicMatch_ we do it here to be safe.
+  // Validate that the orders can match & are valid
   const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
   if (!isBuyValid) throw new Error('Buy order is invalid')
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
-
+  const ordersCanMatch = await _validateMatch({ buy, sell, signer })
+  if (!ordersCanMatch) throw new Error('Orders cannot match')
+  // Even though the wyvern contract does not require order validation
+  // for atomicMatch_ we do it here to be safe.
   return { buy, sell }
 }
 

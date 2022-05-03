@@ -3,7 +3,7 @@ import { useSortBy, useTable } from 'react-table'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 
-import { OpenSeaOrder } from '@core/network/api/nfts/types'
+import { RawOrder } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 
 import {
@@ -104,7 +104,7 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
 }
 
 type Props = {
-  bidsAndOffers: OpenSeaOrder[]
+  bidsAndOffers: RawOrder[]
   columns: ('price' | 'amount' | 'from' | 'expiration')[]
 }
 

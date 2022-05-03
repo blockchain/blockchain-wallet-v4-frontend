@@ -11,6 +11,9 @@ declare global {
       }
     }
     grecaptcha: any // google recaptcha sets this on window
+    history?: {
+      pushState: any
+    }
     nonce: string // build/server injected recaptcha key
     receiveMessageFromMobile: (any) => void // mobile <-> web messaging
     webkit: any // iOS <-> web messaging

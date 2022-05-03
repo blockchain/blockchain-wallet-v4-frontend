@@ -27,7 +27,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
-  }, [])
+  }, [filters])
 
   return (
     <LazyLoadContainer

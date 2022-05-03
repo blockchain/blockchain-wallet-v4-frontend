@@ -14,6 +14,7 @@ import { Analytics } from 'data/types'
 import { AssetSortFields } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
+import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
 
 const ActiveTraitFilter = styled.div`
@@ -50,17 +51,25 @@ const TraitGridFilters: React.FC<Props> = ({
   formValues,
   hasSomeFilters,
   minMaxFilters,
-  setActiveTab,
+  routerActions,
   traitFilters
 }) => {
+  const route = window.location.hash.split('?')[0].substr(1)
+
   return (
     <>
       <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
         <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem selected={activeTab === 'ITEMS'} onClick={() => setActiveTab('ITEMS')}>
+          <TabMenuItem
+            selected={activeTab === 'ITEMS'}
+            onClick={() => routerActions.push(`${route}?tab=ITEMS`)}
+          >
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </TabMenuItem>
-          <TabMenuItem selected={activeTab === 'EVENTS'} onClick={() => setActiveTab('EVENTS')}>
+          <TabMenuItem
+            selected={activeTab === 'EVENTS'}
+            onClick={() => routerActions.push(`${route}?tab=EVENTS`)}
+          >
             <FormattedMessage id='copy.activity' defaultMessage='Activity' />
           </TabMenuItem>
         </TabMenu>
@@ -128,11 +137,7 @@ const TraitGridFilters: React.FC<Props> = ({
             <ActiveTraitFilter>
               <Text size='14px' color='black' weight={500} capitalize>
                 Event:{' '}
-                <EventTypeName
-                  event_type={
-                    eventFilter as 'successful' | 'transfer' | 'offer_entered' | 'created'
-                  }
-                />
+                <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
               <div
                 style={{
@@ -240,7 +245,8 @@ const TraitGridFilters: React.FC<Props> = ({
   )
 }
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 const connector = connect(null, mapDispatchToProps)
 
