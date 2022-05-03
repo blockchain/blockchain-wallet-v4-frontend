@@ -1,7 +1,7 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addDays, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select } from 'redux-saga/effects'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -27,7 +27,6 @@ import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
-import { actionTypes } from 'data/form/actionTypes'
 import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
@@ -622,18 +621,11 @@ export default ({ api }: { api: APIType }) => {
         }
       }
 
-      // MODIFY URL
+      // GET CURRENT URL
       const url = new URL(window.location.href)
       const [hash, query] = url.href.split('#')[1].split('?')
       // @ts-ignore
       const params = Object.fromEntries(new URLSearchParams(query))
-      // FOR SALE
-      if (action.meta.field === 'forSale') {
-        params.forSale = action.payload
-      }
-      if (action.meta.field === 'event') {
-        params.event = action.payload
-      }
       // NON-TRAITS
       if (nonTraitFilters.includes(action.meta.field)) {
         params[action.meta.field] = action.payload
@@ -649,6 +641,7 @@ export default ({ api }: { api: APIType }) => {
         }
       }
 
+      // MODIFY URL
       const newHash = `${hash}?${Object.entries(params)
         .map(([key, value]) => `${key}=${value}`)
         .join('&')}`
