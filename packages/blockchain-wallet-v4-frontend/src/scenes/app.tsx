@@ -76,8 +76,7 @@ const App = ({
   store,
   taxCenterEnabled,
   userData,
-  walletConnectEnabled,
-  walletDebitCardEnabled
+  walletConnectEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
 
@@ -250,8 +249,7 @@ const mapStateToProps = (state) => ({
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
-    .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+    .getOrElse(false) as boolean
 })
 
 const connector = connect(mapStateToProps)
