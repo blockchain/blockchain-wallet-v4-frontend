@@ -4,7 +4,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const LOADING_ITEMS_COUNT = 8
+export const LOADING_ITEMS_COUNT = 6
 
 export const maxWidth = '1200px'
 

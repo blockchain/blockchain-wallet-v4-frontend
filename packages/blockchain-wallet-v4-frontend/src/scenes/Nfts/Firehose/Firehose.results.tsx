@@ -1,13 +1,8 @@
 import React, { useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { CombinedError } from 'urql'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import {
   AssetFilter,
   AssetFilterFields,
@@ -18,7 +13,7 @@ import {
   useAssetsQuery
 } from 'generated/graphql.types'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
+import NftAssetItem from '../components/NftAssetItem'
 import { NftFilterFormValuesType } from '../NftFilter'
 
 const NftFirehoseResults: React.FC<Props> = ({
@@ -73,75 +68,7 @@ const NftFirehoseResults: React.FC<Props> = ({
   return (
     <>
       {result?.data?.assets?.map((asset) => {
-        const lowestListing = asset?.listings
-          ? asset?.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
-          : null
-
-        return asset ? (
-          <Asset key={asset.token_id}>
-            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-              <AssetImageContainer background={`url(${asset.image_url?.replace(/=s\d*/, '')})`} />
-            </LinkContainer>
-            <AssetDetails>
-              <div>
-                <AssetCollection>
-                  <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-                    {asset.collection?.name}
-                  </Text>
-                </AssetCollection>
-                <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
-                  {asset.name}
-                </Text>
-              </div>
-
-              <PriceCTA>
-                <div>
-                  <Text size='12px' color='black' weight={600}>
-                    <FormattedMessage id='copy.price' defaultMessage='Price' />
-                  </Text>
-                  {lowestListing && lowestListing.starting_price ? (
-                    <Text color='black' style={{ marginTop: '4px', textAlign: 'left' }}>
-                      <CoinDisplay
-                        size='14px'
-                        color='black'
-                        weight={600}
-                        coin={lowestListing.payment_token_symbol || 'ETH'}
-                      >
-                        {lowestListing.starting_price}
-                      </CoinDisplay>
-                      <FiatDisplay
-                        size='12px'
-                        color='grey600'
-                        weight={600}
-                        currency='USD'
-                        coin={lowestListing.payment_token_symbol || 'ETH'}
-                      >
-                        {lowestListing.starting_price}
-                      </FiatDisplay>
-                    </Text>
-                  ) : (
-                    <Text
-                      size='12px'
-                      color='grey600'
-                      weight={600}
-                      style={{ display: 'flex', marginBottom: '4px', marginTop: '6px' }}
-                    >
-                      <FormattedMessage id='copy.not_for_sale' defaultMessage='Not for sale' />
-                      <TooltipHost id='tooltip.nft_asset_not_for_sale'>
-                        <TooltipIcon name='question-in-circle-filled' />
-                      </TooltipHost>
-                    </Text>
-                  )}
-                </div>
-                <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-                  <Button data-e2e='nftAssetPage' nature='primary' small>
-                    <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-                  </Button>
-                </LinkContainer>
-              </PriceCTA>
-            </AssetDetails>
-          </Asset>
-        ) : null
+        return asset ? <NftAssetItem asset={asset} /> : null
       })}
     </>
   )
