@@ -303,7 +303,7 @@ export default ({ api }: { api: APIType }) => {
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
     const amount = convertCoinToCoin({
-      baseToStandard: false,
+      baseToStandard: true,
       coin,
       value: action?.payload?.buy?.basePrice?.toString() || ''
     })
@@ -426,7 +426,7 @@ export default ({ api }: { api: APIType }) => {
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
     const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
     const amount = convertCoinToCoin({
-      baseToStandard: false,
+      baseToStandard: true,
       coin,
       value: action?.payload?.buy?.basePrice?.toString() || ''
     })
@@ -649,7 +649,7 @@ export default ({ api }: { api: APIType }) => {
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
     const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
     const amount = convertCoinToCoin({
-      baseToStandard: false,
+      baseToStandard: true,
       coin,
       value: action?.payload?.order?.base_price?.toString() || ''
     })
