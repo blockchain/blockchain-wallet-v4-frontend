@@ -147,6 +147,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           <TraitGridFilters
             tabs={['ITEMS', 'EVENTS']}
             formValues={formValues}
+            showSortBy
             formActions={formActions}
             activeTab={activeTab}
             setActiveTab={setActiveTab}

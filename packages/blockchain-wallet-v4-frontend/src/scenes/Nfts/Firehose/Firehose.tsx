@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import { CombinedError } from 'urql'
 
+import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -48,8 +51,9 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
-          tabs={[]}
-          activeTab='ITEMS'
+          tabs={['EXPLORE']}
+          activeTab='EXPLORE'
+          showSortBy
           formValues={formValues}
           formActions={formActions}
           collections={[]}

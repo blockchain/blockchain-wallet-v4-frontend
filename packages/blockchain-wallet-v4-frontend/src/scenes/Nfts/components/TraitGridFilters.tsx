@@ -54,6 +54,7 @@ const TraitGridFilters: React.FC<Props> = ({
   formActions,
   formValues,
   routerActions,
+  showSortBy,
   tabs
 }) => {
   const route = window.location.hash.split('?')[0].substr(1)
@@ -80,15 +81,17 @@ const TraitGridFilters: React.FC<Props> = ({
               >
                 {tab === 'ITEMS' ? (
                   <FormattedMessage id='copy.items' defaultMessage='Items' />
-                ) : (
+                ) : tab === 'EVENTS' ? (
                   <FormattedMessage id='copy.events' defaultMessage='Events' />
+                ) : (
+                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
                 )}
               </TabMenuItem>
             ))}
           </TabMenu>
         ) : null}
 
-        {activeTab === 'ITEMS' ? (
+        {showSortBy ? (
           <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
             <Field
               name='sortBy'
@@ -270,12 +273,13 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
-  activeTab?: 'ITEMS' | 'EVENTS'
+  activeTab?: 'ITEMS' | 'EVENTS' | 'EXPLORE'
   collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
-  tabs: Array<'ITEMS' | 'EVENTS'>
+  showSortBy?: boolean
+  tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
