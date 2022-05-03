@@ -1,20 +1,20 @@
 fragment AssetItemResultFragment on Asset {
+  name
+  token_id
+  contract {
+    address
+  }
+  image_url
+  permalink
+  owners {
+    address
+  }
+  listings {
+    payment_token_symbol
+    starting_price
+  }
+  collection {
     name
-    token_id
-    contract {
-      address
-    }
     image_url
-    permalink
-    owners {
-      address
-    }
-    listings {
-      payment_token_symbol
-      starting_price
-    }
-    collection {
-      name
-      image_url
-    }
+  }
 }

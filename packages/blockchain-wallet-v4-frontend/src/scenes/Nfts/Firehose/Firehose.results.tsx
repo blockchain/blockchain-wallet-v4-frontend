@@ -3,26 +3,56 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { CombinedError } from 'urql'
 
+import { convertCoinToCoin } from '@core/exchange'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { Button, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { EventSortFields, SortDirection, useFirehoseQuery } from 'generated/graphql.types'
+import {
+  AssetFilter,
+  AssetFilterFields,
+  AssetSortFields,
+  FilterOperators,
+  InputMaybe,
+  SortDirection,
+  useAssetsQuery
+} from 'generated/graphql.types'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '../components'
 import { NftFilterFormValuesType } from '../NftFilter'
 
 const NftFirehoseResults: React.FC<Props> = ({
+  formValues,
   page,
   setIsFetchingNextPage,
   setMaxItemsFetched,
   setNextPageFetchError
 }) => {
-  const [result] = useFirehoseQuery({
+  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> = []
+
+  if (formValues?.max) {
+    filter.push({
+      field: AssetFilterFields.Price,
+      operator: FilterOperators.Lt,
+      value: convertCoinToCoin({ baseToStandard: false, coin: 'ETH', value: formValues?.max })
+    })
+  }
+
+  if (formValues?.min) {
+    filter.push({
+      field: AssetFilterFields.Price,
+      operator: FilterOperators.Gt,
+      value: convertCoinToCoin({ baseToStandard: false, coin: 'ETH', value: formValues?.min })
+    })
+  }
+
+  const [result] = useAssetsQuery({
     variables: {
+      filter,
+      forSale: formValues?.forSale,
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
-      sort: { by: EventSortFields.CreatedDate, direction: SortDirection.Desc }
+      sort: { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
     }
   })
 
@@ -35,38 +65,32 @@ const NftFirehoseResults: React.FC<Props> = ({
   }, [result.fetching])
 
   useEffect(() => {
-    if (result.data?.events.length !== undefined) {
-      setMaxItemsFetched(result.data.events.length < NFT_ORDER_PAGE_LIMIT)
+    if (result.data?.assets.length !== undefined) {
+      setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
     }
-  }, [result.data?.events?.length, setMaxItemsFetched])
+  }, [result.data?.assets?.length, setMaxItemsFetched])
 
   return (
     <>
-      {result?.data?.events?.map((event) => {
-        const lowestListing = event.asset?.listings
-          ? event.asset?.listings.sort(
-              (a, b) => Number(a?.starting_price) - Number(b?.starting_price)
-            )[0]
+      {result?.data?.assets?.map((asset) => {
+        const lowestListing = asset?.listings
+          ? asset?.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
           : null
 
-        return event.asset ? (
-          <Asset key={event.asset.token_id}>
-            <LinkContainer
-              to={`/nfts/asset/${event.asset.contract?.address}/${event.asset.token_id}`}
-            >
-              <AssetImageContainer
-                background={`url(${event.asset.image_url?.replace(/=s\d*/, '')})`}
-              />
+        return asset ? (
+          <Asset key={asset.token_id}>
+            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+              <AssetImageContainer background={`url(${asset.image_url?.replace(/=s\d*/, '')})`} />
             </LinkContainer>
             <AssetDetails>
               <div>
                 <AssetCollection>
                   <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-                    {event.asset.collection?.name}
+                    {asset.collection?.name}
                   </Text>
                 </AssetCollection>
                 <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
-                  {event.asset.name}
+                  {asset.name}
                 </Text>
               </div>
 
@@ -109,9 +133,7 @@ const NftFirehoseResults: React.FC<Props> = ({
                     </Text>
                   )}
                 </div>
-                <LinkContainer
-                  to={`/nfts/asset/${event.asset.contract?.address}/${event.asset.token_id}`}
-                >
+                <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
                   <Button data-e2e='nftAssetPage' nature='primary' small>
                     <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
                   </Button>
