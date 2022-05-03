@@ -172,7 +172,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   display: flex;
   justify-content: space-between;
   background-size: cover;
-  background-image: ${(props) => (props.bgUrl ? `url(${(props) => props.bgUrl})` : 'none')};
+  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tabletL`
     flex-direction: column;
