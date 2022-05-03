@@ -14,16 +14,13 @@ import { Analytics } from 'data/types'
 import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
-
 import {
   getCollectionFilter,
   getEventFilter,
   getMinMaxFilters,
   getTraitFilters
 } from '../utils/NftUtils'
-
 import { opensea_event_types } from '.'
-
 import EventTypeName from './EventTypeName'
 
 const ActiveTraitFilter = styled.div`

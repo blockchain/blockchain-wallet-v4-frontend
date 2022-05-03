@@ -42,7 +42,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
         formActions={formActions}
         formValues={formValues}
         traits={[]}
-        event_types={[]}
+        opensea_event_types={[]}
         minMaxPriceFilter
         forSaleFilter
       />
