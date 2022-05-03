@@ -49,6 +49,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
       <div style={{ width: '100%' }}>
         <TraitGridFilters
           tabs={[]}
+          activeTab='ITEMS'
           formValues={formValues}
           formActions={formActions}
           collections={[]}
