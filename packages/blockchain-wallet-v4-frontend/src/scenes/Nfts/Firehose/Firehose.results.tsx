@@ -131,7 +131,6 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
-  slug: string
 }
 
 export default NftFirehoseResults
