@@ -215,7 +215,6 @@ type LeftMenuExpandedAction = {
 type ListingSuccessFailAction = {
   key: Events.NFT_LISTING_SUCCESS_FAIL
   properties: {
-    amount: number
     currency: string
     end_price?: number
     end_usd?: number

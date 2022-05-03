@@ -523,8 +523,6 @@ export default ({ api }: { api: APIType }) => {
     const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const start_usd = startPrice * usdPrice
     const end_usd = endPrice * usdPrice
-    const amount_usd = usdPrice.price * Number(action?.payload?.startPrice)
-    const amount = Number(action?.payload?.startPrice)
     try {
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
@@ -551,7 +549,6 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
-            amount,
             currency: coin,
             end_price: isTimedAuction ? Number(endPrice) : undefined,
             end_usd: isTimedAuction ? end_usd : undefined,
@@ -567,7 +564,6 @@ export default ({ api }: { api: APIType }) => {
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
-            amount,
             currency: coin,
             end_price: isTimedAuction ? Number(endPrice) : undefined,
             end_usd: isTimedAuction ? end_usd : undefined,
