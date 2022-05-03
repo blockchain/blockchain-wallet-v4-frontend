@@ -302,15 +302,6 @@ export default ({ api }: { api: APIType }) => {
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
-    const rates = selectors.core.data.misc
-      .getRatesSelector(coin, yield select())
-      .getOrFail('Failed to get rates')
-    const fiat = convertCoinToFiat({
-      coin,
-      currency: 'USD',
-      rates,
-      value: action.payload.buy.basePrice.toString()
-    })
     const amount = convertCoinToCoin({
       baseToStandard: false,
       coin,
@@ -328,7 +319,7 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
+
             currency: coin,
             type: 'SUCCESS'
           }
@@ -341,7 +332,7 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
+
             currency: coin,
             error_message: error,
             type: 'FAILED'
@@ -359,15 +350,6 @@ export default ({ api }: { api: APIType }) => {
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     const coin = action?.payload?.coin || ''
-    const rates = selectors.core.data.misc
-      .getRatesSelector(coin, yield select())
-      .getOrFail('Failed to get rates')
-    const fiat = convertCoinToFiat({
-      coin,
-      currency: 'USD',
-      rates,
-      value: action?.payload?.amount?.toString()
-    })
     const amount = convertCoinToCoin({
       baseToStandard: false,
       coin,
@@ -413,7 +395,6 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
             currency: coin,
             type: 'SUCCESS'
           }
@@ -426,7 +407,6 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
             currency: coin,
             error_message: error,
             type: 'FAILED'
@@ -445,15 +425,6 @@ export default ({ api }: { api: APIType }) => {
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
     const coin = action?.payload?.buy?.paymentTokenContract?.symbol || ''
-    const rates = selectors.core.data.misc
-      .getRatesSelector(coin, yield select())
-      .getOrFail('Failed to get rates')
-    const fiat = convertCoinToFiat({
-      coin,
-      currency: 'USD',
-      rates,
-      value: action.payload.buy.basePrice.toString()
-    })
     const amount = convertCoinToCoin({
       baseToStandard: false,
       coin,
@@ -476,7 +447,6 @@ export default ({ api }: { api: APIType }) => {
             key: Analytics.NFT_BUY_SUCCESS_FAIL,
             properties: {
               amount: Number(amount),
-              amount_usd: Number(fiat),
               currency: coin,
               type: 'SUCCESS'
             }
@@ -488,7 +458,6 @@ export default ({ api }: { api: APIType }) => {
             key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
             properties: {
               amount: Number(amount),
-              amount_usd: Number(fiat),
               currency: coin,
               type: 'SUCCESS'
             }
@@ -503,7 +472,6 @@ export default ({ api }: { api: APIType }) => {
             key: Analytics.NFT_BUY_SUCCESS_FAIL,
             properties: {
               amount: Number(amount),
-              amount_usd: Number(fiat),
               currency: coin,
               error_message: error,
               type: 'FAILED'
@@ -516,7 +484,6 @@ export default ({ api }: { api: APIType }) => {
             key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
             properties: {
               amount: Number(amount),
-              amount_usd: Number(fiat),
               currency: coin,
               error_message: error,
               type: 'FAILED'
@@ -681,15 +648,6 @@ export default ({ api }: { api: APIType }) => {
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
     const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
-    const rates = selectors.core.data.misc
-      .getRatesSelector(coin, yield select())
-      .getOrFail('Failed to get rates')
-    const fiat = convertCoinToFiat({
-      coin,
-      currency: 'USD',
-      rates,
-      value: action?.payload?.order?.base_price?.toString()
-    })
     const amount = convertCoinToCoin({
       baseToStandard: false,
       coin,
@@ -710,7 +668,6 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
             currency: coin,
             type: 'SUCCESS'
           }
@@ -723,7 +680,6 @@ export default ({ api }: { api: APIType }) => {
           key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
           properties: {
             amount: Number(amount),
-            amount_usd: Number(fiat),
             currency: coin,
             error_message: error,
             type: 'FAILED'
