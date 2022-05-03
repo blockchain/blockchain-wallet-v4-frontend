@@ -62,6 +62,7 @@ type AcceptOfferSuccessFailAction = {
   key: Events.NFT_ACCEPT_OFFER_SUCCESS_FAIL
   properties: {
     amount: number
+    amount_usd: number
     currency: string
     error_message?: string
     type: Type
@@ -108,6 +109,7 @@ type BuySuccessFailAction = {
   key: Events.NFT_BUY_SUCCESS_FAIL
   properties: {
     amount: number
+    amount_usd: number
     currency: string
     error_message?: string
     type: Type
@@ -126,6 +128,7 @@ type CancelOfferSuccessFailAction = {
   key: Events.NFT_CANCEL_OFFER_SUCCESS_FAIL
   properties: {
     amount: number
+    amount_usd: number
     currency: string
     error_message?: string
     type: Type
@@ -212,10 +215,13 @@ type LeftMenuExpandedAction = {
 type ListingSuccessFailAction = {
   key: Events.NFT_LISTING_SUCCESS_FAIL
   properties: {
+    amount: number
     currency: string
     end_price?: number
+    end_usd?: number
     error_message?: string
     start_price: number
+    start_usd: number
     type: Type
   }
 }
@@ -257,6 +263,7 @@ type OfferSuccessFailAction = {
   key: Events.NFT_OFFER_SUCCESS_FAIL
   properties: {
     amount: number
+    amount_usd: number
     currency: string
     error_message?: string
     type: Type
@@ -298,6 +305,7 @@ type SellItemSuccessFailAction = {
   key: Events.NFT_SELL_ITEM_SUCCESS_FAIL
   properties: {
     amount: number
+    amount_usd: number
     currency: string
     error_message?: string
     type: Type
