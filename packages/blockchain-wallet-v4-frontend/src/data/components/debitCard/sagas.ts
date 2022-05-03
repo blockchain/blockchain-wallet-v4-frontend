@@ -10,6 +10,8 @@ import profileSagas from 'data/modules/profile/sagas'
 import { actions as A } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+
   const getCardToken = function* (cardId) {
     try {
       const data = yield call(api.getDCToken, cardId)
@@ -39,7 +41,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const getProducts = function* () {
-    const { waitForUserData } = profileSagas({ api, coreSagas, networks })
     yield call(waitForUserData)
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
