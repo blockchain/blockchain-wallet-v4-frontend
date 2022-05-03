@@ -1,5 +1,5 @@
-query Collections($filter: [CollectionFilter]) {
-  collections(filter: $filter) {
+query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
+  collections(filter: $filter, sort: $sort) {
     chat_url
     discord_url
     external_url
@@ -13,6 +13,7 @@ query Collections($filter: [CollectionFilter]) {
     total_supply
     stats {
       floor_price
+      one_day_volume
 			total_volume
     }
     traits {
