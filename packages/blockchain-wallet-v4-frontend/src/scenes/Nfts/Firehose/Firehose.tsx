@@ -12,6 +12,7 @@ import { Grid, GridWrapper } from '../components'
 import NftError from '../components/NftError'
 import NftGridLoading from '../components/NftGridLoading'
 import NftPageLazyLoadWrapper from '../components/NftPageLazyLoadWrapper'
+import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
@@ -47,14 +48,11 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
-          traitFilters={traitFilters}
+          tabs={[]}
           formValues={formValues}
           formActions={formActions}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          hasSomeFilters={hasSomeFilters}
-          minMaxFilters={minMaxFilters}
-          eventFilter={eventFilter}
+          collections={[]}
+          setActiveTab={() => null}
         />
         <NftPageLazyLoadWrapper>
           <LazyLoadContainer

@@ -11,9 +11,15 @@ import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { AssetSortFields } from 'generated/graphql.types'
+import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
 
 import { NftFilterFormValuesType } from '../NftFilter'
+import {
+  getCollectionFilter,
+  getEventFilter,
+  getMinMaxFilters,
+  getTraitFilters
+} from '../utils/NftUtils'
 import EventTypeName from './EventTypeName'
 
 const ActiveTraitFilter = styled.div`
@@ -44,34 +50,44 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
-  collectionFilter,
-  eventFilter,
+  collections,
   formActions,
   formValues,
-  hasSomeFilters,
-  minMaxFilters,
   routerActions,
-  traitFilters
+  tabs
 }) => {
   const route = window.location.hash.split('?')[0].substr(1)
+  const minMaxFilters = getMinMaxFilters(formValues)
+  const traitFilters = getTraitFilters(formValues)
+  const eventFilter = getEventFilter(formValues)
+  const collectionFilter = getCollectionFilter(formValues, collections)
+
+  const hasSomeFilters =
+    (formValues &&
+      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+    false
 
   return (
     <>
       <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-        <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem
-            selected={activeTab === 'ITEMS'}
-            onClick={() => routerActions.push(`${route}?tab=ITEMS`)}
-          >
-            <FormattedMessage id='copy.items' defaultMessage='Items' />
-          </TabMenuItem>
-          <TabMenuItem
-            selected={activeTab === 'EVENTS'}
-            onClick={() => routerActions.push(`${route}?tab=EVENTS`)}
-          >
-            <FormattedMessage id='copy.activity' defaultMessage='Activity' />
-          </TabMenuItem>
-        </TabMenu>
+        {tabs.length ? (
+          <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
+            {tabs.map((tab) => (
+              <TabMenuItem
+                key={tab}
+                selected={activeTab === tab}
+                onClick={() => routerActions.push(`${route}?tab=${tab}`)}
+              >
+                {tab === 'ITEMS' ? (
+                  <FormattedMessage id='copy.items' defaultMessage='Items' />
+                ) : (
+                  <FormattedMessage id='copy.events' defaultMessage='Events' />
+                )}
+              </TabMenuItem>
+            ))}
+          </TabMenu>
+        ) : null}
+
         {activeTab === 'ITEMS' ? (
           <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
             <Field
@@ -254,15 +270,12 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
-  activeTab: 'ITEMS' | 'EVENTS'
-  collectionFilter?: string | null
-  eventFilter?: string | null
+  activeTab?: 'ITEMS' | 'EVENTS'
+  collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
-  hasSomeFilters: boolean
-  minMaxFilters: string[] | null
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
-  traitFilters: string[] | null
+  tabs: Array<'ITEMS' | 'EVENTS'>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
