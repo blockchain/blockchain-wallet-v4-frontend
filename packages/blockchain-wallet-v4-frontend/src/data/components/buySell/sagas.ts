@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import { addSeconds, differenceInMilliseconds } from 'date-fns'
@@ -26,11 +27,13 @@ import {
   WalletFiatType,
   WalletOptionsType
 } from '@core/types'
-import { errorHandler, errorHandlerCode } from '@core/utils'
+import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -881,13 +884,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/verified',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDVerifiedFailure(error))
     }
   }
 
   const fetchBSCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
+    let useNewPaymentProviders = false
     try {
       yield call(waitForUserData)
 
@@ -899,15 +909,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
 
-      const useNewPaymentProviders = (yield select(
+      useNewPaymentProviders = (yield select(
         selectors.core.walletOptions.getUseNewPaymentProviders
       )).getOrElse(false)
 
       const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchCardsFailure(error))
     }
   }
@@ -934,7 +950,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchFiatEligibleFailure(error))
     }
@@ -959,8 +974,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/eligible',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDEligibleFailure(error))
     }
   }
@@ -977,6 +998,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
       yield put(A.fetchOrdersFailure(error))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.CLIENT_ERROR,
+          properties: {
+            error: 'OOPS_ERROR',
+            network_endpoint: '/simple-buy/trades',
+            network_error_code: e.code,
+            network_error_description: error,
+            source: 'NABU',
+            title: 'Oops! Something went wrong'
+          }
+        })
+      )
     }
   }
 
@@ -996,6 +1030,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchPairsFailure(error))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.CLIENT_ERROR,
+          properties: {
+            action: 'BUY',
+            error: 'OOPS_ERROR',
+            network_endpoint: '/simple-buy/pairs',
+            network_error_code: e.code,
+            network_error_description: error,
+            source: 'NABU',
+            title: 'Oops! Something went wrong'
+          }
+        })
+      )
     }
   }
 
@@ -1125,10 +1173,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         yield delay(refresh)
       } catch (e) {
-        const error = errorHandler(e)
+        const { code: network_error_code, message: network_error_description } =
+          errorCodeAndMessage(e)
+        const error: PartialClientErrorProperties = {
+          network_endpoint: '/brokerage/quote',
+          network_error_code,
+          network_error_description,
+          source: 'NABU'
+        }
         yield put(A.fetchBuyQuoteFailure(error))
-        yield delay(FALLBACK_DELAY)
-        yield put(A.startPollBuyQuote(payload))
+        // stop fetching new quote until user does retry action
+        yield put(A.stopPollBuyQuote())
       }
     }
   }
