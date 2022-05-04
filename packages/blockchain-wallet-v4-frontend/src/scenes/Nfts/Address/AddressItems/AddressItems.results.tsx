@@ -34,6 +34,7 @@ const NftAddressResults: React.FC<Props> = ({
     : null
 
   const [result] = useOwnerQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter: [
         {
