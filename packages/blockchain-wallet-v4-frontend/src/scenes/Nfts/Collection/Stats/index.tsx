@@ -9,7 +9,7 @@ import { CollectionsQuery } from 'generated/graphql.types'
 import { Stat, StatsWrapper } from '../../components'
 import { NftFilterFormValuesType } from '../../NftFilter'
 
-const Stats: React.FC<Props> = ({ formActions, formValues, stats, total_supply }) => {
+const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
   return (
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>

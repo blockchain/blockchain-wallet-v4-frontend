@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.dev.blockchain.info/explorer-gateway/graphql/"
+schema: "https://api.dev.blockchain.info/nft-market-api/graphql/"
 documents: "src/**/*.graphql"
 generates:
   src/generated/graphql.types.ts:

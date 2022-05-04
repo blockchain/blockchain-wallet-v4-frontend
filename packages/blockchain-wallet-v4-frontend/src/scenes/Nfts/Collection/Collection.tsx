@@ -62,6 +62,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
 
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
+  const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
 
   const [collectionsQuery] = useCollectionsQuery({
     requestPolicy: 'network-only',
@@ -149,6 +150,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           <TraitGridFilters
             tabs={['ITEMS', 'EVENTS']}
             formValues={formValues}
+            numOfResults={numOfResults}
             showSortBy
             formActions={formActions}
             setRefreshTrigger={setRefreshTrigger}
@@ -161,6 +163,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
               collectionsQuery={collectionsQuery}
               formValues={formValues}
               refreshTrigger={refreshTrigger}
+              setNumOfResults={setNumOfResults}
               slug={slug}
             />
           ) : (
