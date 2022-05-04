@@ -46,7 +46,7 @@ const TwoStepGoogleAuthenticator = (props) => {
         <ModalHeader onClose={closeAll}>
           <FormattedMessage
             id='modals.twostepgoogleauthenticator.title'
-            defaultMessage='Enable Two-Step Verification'
+            defaultMessage='Enable Two-Factor Authentication'
           />
         </ModalHeader>
         <ModalBody>

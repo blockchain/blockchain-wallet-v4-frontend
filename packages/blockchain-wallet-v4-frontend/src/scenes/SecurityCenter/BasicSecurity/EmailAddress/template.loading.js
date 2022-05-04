@@ -17,22 +17,22 @@ const EmailAddress = () => {
       <SecuritySummary>
         <SecurityHeader>
           <FormattedMessage
-            id='scenes.preferences.email.loading.title'
+            id='scenes.preferences.email.title'
             defaultMessage='Email address'
           />
           <FlatLoader width='50px' height='14px' />
         </SecurityHeader>
         <SecurityDescription>
           <FormattedMessage
-            id='scenes.preferences.email.loading.description'
+            id='scenes.preferences.email.description'
             defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected,'
           />
           <FormattedMessage
-            id='scenes.preferences.email.loading.description2'
+            id='scenes.preferences.email.description2'
             defaultMessage='to remind you of your wallet login ID,'
           />
           <FormattedMessage
-            id='scenes.preferences.email.loading.description3'
+            id='scenes.preferences.email.description3'
             defaultMessage='and to send bitcoin payment alerts when you receive funds.'
           />
         </SecurityDescription>

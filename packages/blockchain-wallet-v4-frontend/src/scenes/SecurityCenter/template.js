@@ -170,7 +170,7 @@ const SecurityCenter = (props) => {
                   ) : (
                     <FormattedMessage
                       id='scenes.securitycenter.steps.step2.verify'
-                      defaultMessage='Turn on Two-Step Verification'
+                      defaultMessage='Turn on Two-Factor Authentication'
                     />
                   )}
                 </StepText>

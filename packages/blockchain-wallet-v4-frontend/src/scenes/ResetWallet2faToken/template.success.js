@@ -22,14 +22,14 @@ const Success = (props) => {
         <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
             id='scenes.reset2fatoken.declined1'
-            defaultMessage="You've successfully declined this Two-Step Verification reset request."
+            defaultMessage="You've successfully declined this Two-Factor Authentication reset request."
           />
         </Text>
       ) : (
         <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
             id='scenes.reset2fatoken.approved1'
-            defaultMessage="You've successfully approved this Two-Step Verification reset request. This will speed up the process of resetting your Two-Step Verification."
+            defaultMessage="You've successfully approved this Two-Factor Authentication reset request. This will speed up the process of resetting your Two-Factor Authentication."
           />
         </Text>
       )}

@@ -15,7 +15,7 @@ export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTot
         <Flex flexDirection='column' gap={16}>
           <Text color='grey600' size='14px' weight={500} lineHeight='20px'>
             <FormattedMessage
-              id='CoinPage.HoldingsCard.totalBalanceTitle'
+              id='scenes.coin.holdings_card.total'
               defaultMessage='Your Total {coinCode}'
               values={{
                 coinCode

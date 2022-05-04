@@ -40,7 +40,7 @@ const TwoStepYubico = (props) => {
         <ModalHeader onClose={closeAll}>
           <FormattedMessage
             id='modals.twostepyubico.title'
-            defaultMessage='Enable Two-Step Verification'
+            defaultMessage='Enable Two-Factor Authentication'
           />
         </ModalHeader>
         <ModalBody>

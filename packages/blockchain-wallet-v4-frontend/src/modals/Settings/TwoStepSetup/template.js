@@ -69,7 +69,7 @@ const TwoStepSetup = (props) => {
         <Text size='14px' weight={400}>
           <FormattedMessage
             id='modals.twostepsetup'
-            defaultMessage='Are you sure to disable two factor authentication ?'
+            defaultMessage='Are you sure to disable Two-Factor Authentication?'
           />
         </Text>
       </ModalBody>
@@ -87,7 +87,7 @@ const TwoStepSetup = (props) => {
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
           id='modals.twostepsetup.title2'
-          defaultMessage='Enable Two-Step Verification'
+          defaultMessage='Enable Two-Factor Authentication'
         />
       </ModalHeader>
       <ModalBody>
@@ -95,7 +95,7 @@ const TwoStepSetup = (props) => {
           <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.twostepsetup.explain'
-              defaultMessage='Protect your wallet from unauthorized access by enabling 2-step Setup.'
+              defaultMessage='Protect your Blockchain.com Account from unauthorized access by enabling Two Factor Authentication.'
             />
           </Text>
           <Text size='14px' weight={400}>
