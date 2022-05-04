@@ -11,6 +11,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     created_date
     name
     num_owners
+    slug
     total_supply
     stats {
       floor_price

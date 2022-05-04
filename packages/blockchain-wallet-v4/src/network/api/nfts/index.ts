@@ -12,7 +12,7 @@ export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
   // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
-  const explorerUrl = `${apiUrl}/explorer-gateway/nft`
+  const explorerUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
   const getAssetContract = (asset_contract_address: string) => {

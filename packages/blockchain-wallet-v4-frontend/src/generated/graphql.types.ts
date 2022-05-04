@@ -550,8 +550,6 @@ export enum TransactionSortFields {
   TransactionIndex = 'transaction_index'
 }
 
-export type AssetItemResultFragmentFragment = { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address: string } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, slug: string } };
-
 export type AssetQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -578,7 +576,7 @@ export type CollectionsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 export type EventsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
@@ -2413,29 +2411,7 @@ export default {
     "directives": []
   }
 } as unknown as IntrospectionQuery;
-export const AssetItemResultFragmentFragmentDoc = gql`
-    fragment AssetItemResultFragment on Asset {
-  name
-  token_id
-  contract {
-    address
-  }
-  image_url
-  permalink
-  owners {
-    address
-  }
-  listings {
-    payment_token_symbol
-    starting_price
-  }
-  collection {
-    name
-    image_url
-    slug
-  }
-}
-    `;
+
 export const AssetDocument = gql`
     query Asset($filter: [AssetFilter], $limit: Int) {
   assets(filter: $filter, limit: $limit) {
@@ -2499,10 +2475,28 @@ export const AssetsDocument = gql`
     limit: $limit
     offset: $offset
   ) {
-    ...AssetItemResultFragment
+    name
+    token_id
+    contract {
+      address
+    }
+    image_url
+    permalink
+    owners {
+      address
+    }
+    listings {
+      payment_token_symbol
+      starting_price
+    }
+    collection {
+      name
+      image_url
+      slug
+    }
   }
 }
-    ${AssetItemResultFragmentFragmentDoc}`;
+    `;
 
 export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVariables>, 'query'>) {
   return Urql.useQuery<AssetsQuery>({ query: AssetsDocument, ...options });
@@ -2521,6 +2515,7 @@ export const CollectionsDocument = gql`
     created_date
     name
     num_owners
+    slug
     total_supply
     stats {
       floor_price

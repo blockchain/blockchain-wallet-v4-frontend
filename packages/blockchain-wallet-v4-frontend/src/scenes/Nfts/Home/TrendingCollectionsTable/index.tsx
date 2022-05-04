@@ -27,7 +27,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions 
       disableMultiSort: true,
       disableSortRemove: true,
       initialState: {
-        sortBy: [{ desc: true, id: 'one_day_volume' }]
+        sortBy: [{ desc: true, id: 'stats.one_day_volume' }]
       }
     },
     useSortBy
