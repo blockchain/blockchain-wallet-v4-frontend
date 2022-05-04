@@ -1,3 +1,4 @@
+export * from './useActivityFeed'
 export * from './useChart'
 export * from './useChartBalancePanel'
 export * from './useCoinAboutSection'

@@ -1,5 +1,6 @@
 export { default as useCoinTransactionsQuery } from './useCoinTransactionsQuery'
 export type {
   CoinTransactionsQueryHook,
-  CoinTransactionsQueryHookProps
+  CoinTransactionsQueryHookProps,
+  TransactionItem
 } from './useCoinTransactionsQuery.types'
