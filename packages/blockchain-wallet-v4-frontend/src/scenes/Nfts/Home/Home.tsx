@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -40,9 +40,6 @@ const Banner = styled.div`
 `
 
 const Explore: React.FC<Props> = (props) => {
-  useEffect(() => {
-    props.coinsActions.fetchCoinsRates()
-  }, [])
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
@@ -98,7 +95,6 @@ const Explore: React.FC<Props> = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

@@ -265,7 +265,6 @@ const StickyWrapper = styled.div`
 
 const NftAsset: React.FC<Props> = ({
   analyticsActions,
-  coinsActions,
   defaultEthAddr,
   domains,
   formActions,
@@ -291,7 +290,6 @@ const NftAsset: React.FC<Props> = ({
   const [Tab, setTab] = useState('about')
 
   useEffect(() => {
-    coinsActions.fetchCoinsRates()
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
       token_id: id
@@ -960,7 +958,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)

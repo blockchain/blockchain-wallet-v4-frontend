@@ -21,11 +21,14 @@ const NftsContainer = (props) => {
   }
 
   useEffect(() => {
+    if (isCoinDataLoaded) {
+      props.coinsActions.fetchCoinsRates()
+    }
     window.addEventListener('beforeunload', doRefresh)
     return () => {
       window.removeEventListener('beforeunload', doRefresh)
     }
-  })
+  }, [isCoinDataLoaded])
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />

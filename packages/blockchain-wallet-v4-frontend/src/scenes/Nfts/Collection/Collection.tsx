@@ -55,14 +55,11 @@ const LinksContainer = styled.div`
   }
 `
 
-const NftsCollection: React.FC<Props> = ({ coinsActions, formActions, formValues, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
-  useEffect(() => {
-    coinsActions.fetchCoinsRates()
-  }, [])
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
 
@@ -190,7 +187,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
