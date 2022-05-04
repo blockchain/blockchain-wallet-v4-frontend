@@ -173,7 +173,7 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
                 <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.reset2fa.firststep.explain'
-                    defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.'
+                    defaultMessage='Fill out the form below to regain access to your Blockchain.com account by resetting your 2FA, restricted IP, and verified email.'
                   />
                 </Text>
                 <Text size='13px' weight={400}>

@@ -141,12 +141,12 @@ const Help = () => {
             </StyledCircle>
             <TextStack>
               <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage id='scenes.help.2falost' defaultMessage='Lost your 2FA device?' />
+                <FormattedMessage id='scenes.help.2falost' defaultMessage='Lost your Two-Factor Authentication device?' />
               </Text>
               <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.help.2fa.lostexplain'
-                  defaultMessage='Reset your 2FA right now to gain access to your Wallet.'
+                  defaultMessage='Reset your Two-Factor Authentication right now to gain access to your Blockchain.com account.'
                 />
               </Text>
             </TextStack>

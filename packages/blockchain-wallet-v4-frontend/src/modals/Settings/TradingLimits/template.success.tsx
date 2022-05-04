@@ -392,13 +392,13 @@ const Template: React.FC<Props> = (props) => {
           {isUserTierZero && (
             <FormattedMessage
               id='modals.tradinglimits.upgrade.unlock_tier_zero'
-              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and link a bank or card.'
+              defaultMessage='Unlock new trading features in your Blockchain.com account by verifying your ID and link a bank or card.'
             />
           )}
           {isUserTierSilver && (
             <FormattedMessage
               id='modals.limits_and_features.subtitle.silver'
-              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
+              defaultMessage='Unlock new trading features in your Blockchain.com account by verifying your ID and linked a bank or card.'
             />
           )}
           {isUserGold && (

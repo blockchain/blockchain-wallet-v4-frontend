@@ -39,7 +39,6 @@ const TopSection = styled.div`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
-  text: ReactElement | string
   value: BSPaymentMethodType
 }
 
@@ -62,7 +61,7 @@ const BankTransfer = ({ icon, onClick, value }: Props) => (
           <Description>
             <FormattedMessage
               id='modals.brokerage.bank_deposit_description'
-              defaultMessage='Securely link a bank and send cash to your Blockchain.com Wallet at anytime.'
+              defaultMessage='Securely link a bank and send cash to your Blockchain.com account at anytime.'
             />
           </Description>
         </Content>

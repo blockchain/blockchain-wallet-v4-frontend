@@ -149,7 +149,7 @@ const EmailAddress = (props) => {
       return (
         <FormattedMessage
           id='scenes.security.email.yourverifiedemailaddress'
-          defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.'
+          defaultMessage='Your verified email address is used to authorize logins and send transaction alerts about your Blockchain.com account.'
         />
       )
     }
