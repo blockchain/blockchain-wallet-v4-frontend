@@ -62,20 +62,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchOpenSeaOrders = function* (action: ReturnType<typeof A.fetchOpenSeaOrders>) {
-    try {
-      yield put(A.fetchOpenSeaOrdersLoading())
-      const res: ReturnType<typeof api.getOpenSeaOrders> = yield call(
-        api.getOpenSeaOrders,
-        action.payload.asset_contract_address,
-        action.payload.token_id
-      )
-      yield put(A.fetchOpenSeaOrdersSuccess(res.orders))
-    } catch (e) {
-      yield put(A.fetchOpenSeaOrdersFailure(e))
-    }
-  }
-
   const getEthSigner = function* () {
     try {
       const password = yield call(promptForSecondPassword)
@@ -797,7 +783,6 @@ export default ({ api }: { api: APIType }) => {
     fetchFees,
     fetchFeesWrapEth,
     fetchOpenSeaAsset,
-    fetchOpenSeaOrders,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,

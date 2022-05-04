@@ -90,7 +90,7 @@ const App = ({
   }, [apiUrl])
 
   const client = createClient({
-    url: `${apiUrl}/nft-market-api/graphql/`
+    url: `${apiUrl}/explorer-gateway/graphql/`
   })
 
   return (

@@ -9,7 +9,6 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrder,
-  OpenSeaOrder,
   OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
@@ -31,7 +30,6 @@ const initialState: NftsStateType = {
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
   openSeaAsset: Remote.NotAsked,
-  openSeaOrders: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     asset: Remote.NotAsked,
@@ -208,19 +206,6 @@ const nftsSlice = createSlice({
     },
     fetchOpenSeaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.openSeaAsset = Remote.Success(action.payload)
-    },
-    fetchOpenSeaOrders: (
-      state,
-      action: PayloadAction<{ asset_contract_address: string; token_id: string }>
-    ) => {},
-    fetchOpenSeaOrdersFailure: (state, action: PayloadAction<string>) => {
-      state.openSeaOrders = Remote.Failure(action.payload)
-    },
-    fetchOpenSeaOrdersLoading: (state) => {
-      state.openSeaOrders = Remote.Loading
-    },
-    fetchOpenSeaOrdersSuccess: (state, action: PayloadAction<OpenSeaOrder[]>) => {
-      state.openSeaOrders = Remote.Success(action.payload)
     },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {

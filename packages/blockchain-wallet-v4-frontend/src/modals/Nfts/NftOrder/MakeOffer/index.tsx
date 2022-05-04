@@ -31,13 +31,11 @@ import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import Form from 'components/Form/Form'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 
-import { AssetDesc, StickyCTA } from '../../components'
+import { StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
@@ -111,9 +109,9 @@ const MakeOffer: React.FC<Props> = (props) => {
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
-  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const openSeaAsset = useRemote(() => orderFlow.asset)
   const sellOrders =
-    openSeaOrders.data?.filter((x) => {
+    openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>

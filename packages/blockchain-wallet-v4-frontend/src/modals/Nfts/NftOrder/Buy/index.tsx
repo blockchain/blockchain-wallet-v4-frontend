@@ -11,7 +11,7 @@ import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -23,7 +23,7 @@ import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
-import { AssetDesc, RightAlign, StickyCTA } from '../../components'
+import { RightAlign, StickyCTA } from '../../components'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
@@ -49,9 +49,9 @@ const Buy: React.FC<Props> = (props) => {
     new BigNumber(0)
   ])
 
-  const openSeaOrders = useRemote(selectors.components.nfts.getOpenSeaOrders)
+  const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const sellOrders =
-    openSeaOrders.data?.filter((x) => {
+    openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
