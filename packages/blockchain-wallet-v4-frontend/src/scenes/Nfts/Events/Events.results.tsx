@@ -22,6 +22,7 @@ const EventsResults: React.FC<Props> = ({
   setNextPageFetchError
 }) => {
   const [result] = useEventsQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter: filters,
       limit: EVENT_PAGE_LIMIT,

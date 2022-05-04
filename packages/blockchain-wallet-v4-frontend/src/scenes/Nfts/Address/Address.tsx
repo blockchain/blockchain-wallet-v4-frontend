@@ -21,6 +21,7 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
 
@@ -86,11 +87,13 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
             formActions={formActions}
             formValues={formValues}
             collections={collections}
+            setRefreshTrigger={setRefreshTrigger}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (
             <AddressItems
               collections={collections}
+              refreshTrigger={refreshTrigger}
               setCollections={setCollections}
               formValues={formValues}
               address={address}

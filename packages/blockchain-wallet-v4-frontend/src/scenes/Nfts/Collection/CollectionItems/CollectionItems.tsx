@@ -11,7 +11,12 @@ import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
 
-const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
+const CollectionItems: React.FC<Props> = ({
+  collectionsQuery,
+  formValues,
+  refreshTrigger,
+  slug
+}) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -19,14 +24,22 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
     undefined
   )
 
-  useEffect(() => {
+  const refresh = () => {
     setIsFetchingNextPage(true)
     setPageVariables([])
     setMaxItemsFetched(false)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
+  }
+
+  useEffect(() => {
+    refresh()
   }, [slug, formValues])
+
+  useEffect(() => {
+    refresh()
+  }, [refreshTrigger])
 
   const isFetching = isFetchingNextPage || collectionsQuery.fetching
 
@@ -66,6 +79,7 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
 type Props = {
   collectionsQuery: UseQueryState<CollectionsQuery, object>
   formValues: NftFilterFormValuesType
+  refreshTrigger: number
   slug: string
 }
 

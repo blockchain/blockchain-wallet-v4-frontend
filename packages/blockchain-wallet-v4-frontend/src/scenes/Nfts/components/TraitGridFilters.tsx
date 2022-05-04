@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle } from '@blockchain-com/icons'
+import { IconCloseCircle, IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -42,10 +43,23 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   gap: 6px;
   top: 0px;
   background: ${(props) => props.theme.white};
-  margin-top: -8px;
   padding-top: ${(props) => (props.hasSomeFilters ? '8px' : '0px')};
   padding-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
   z-index: 10;
+`
+
+const StyledIconRefresh = styled(IconRefresh)`
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  &.active {
+    animation: spin 0.5s linear 1;
+  }
 `
 
 const TraitGridFilters: React.FC<Props> = ({
@@ -55,9 +69,11 @@ const TraitGridFilters: React.FC<Props> = ({
   formActions,
   formValues,
   routerActions,
+  setRefreshTrigger,
   showSortBy,
   tabs
 }) => {
+  const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   const route = window.location.hash.split('?')[0].substr(1)
   const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
@@ -69,53 +85,88 @@ const TraitGridFilters: React.FC<Props> = ({
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
 
+  useEffect(() => {
+    if (isRefreshRotating) {
+      setTimeout(() => {
+        setIsRefreshRotating(false)
+      }, 500)
+    }
+  }, [isRefreshRotating])
+
   return (
     <>
-      <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-        {tabs.length ? (
-          <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-            {tabs.map((tab) => (
-              <TabMenuItem
-                key={tab}
-                selected={activeTab === tab}
-                onClick={() => routerActions.push(`${route}?tab=${tab}`)}
-              >
-                {tab === 'ITEMS' ? (
-                  <FormattedMessage id='copy.items' defaultMessage='Items' />
-                ) : tab === 'EVENTS' ? (
-                  <FormattedMessage id='copy.events' defaultMessage='Events' />
-                ) : (
-                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                )}
-              </TabMenuItem>
-            ))}
-          </TabMenu>
-        ) : null}
+      <div style={{ marginBottom: '8px', width: '100%' }}>
+        <Flex alignItems='center' justifyContent='space-between'>
+          {tabs.length ? (
+            <TabMenu style={{ width: 'fit-content' }}>
+              {tabs.map((tab) => (
+                <TabMenuItem
+                  key={tab}
+                  selected={activeTab === tab}
+                  onClick={() => routerActions.push(`${route}?tab=${tab}`)}
+                >
+                  {tab === 'ITEMS' ? (
+                    <FormattedMessage id='copy.items' defaultMessage='Items' />
+                  ) : tab === 'EVENTS' ? (
+                    <FormattedMessage id='copy.events' defaultMessage='Events' />
+                  ) : (
+                    <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                  )}
+                </TabMenuItem>
+              ))}
+            </TabMenu>
+          ) : null}
 
-        {showSortBy ? (
-          <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
-            <Field
-              name='sortBy'
-              component={SelectBox}
-              onChange={(e) => {
-                if (e.includes('price')) {
-                  formActions.change('nftFilter', 'forSale', true)
-                }
+          <Flex alignItems='center' gap={16}>
+            <Button
+              height='100%'
+              onClick={() => {
+                if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
+                setIsRefreshRotating(true)
               }}
-              // @ts-ignore
-              elements={[
-                {
-                  group: '',
-                  items: [
-                    { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                    { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                    { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                  ]
-                }
-              ]}
-            />
-          </div>
-        ) : null}
+              data-e2e='nftRefresh'
+              nature='empty-blue'
+            >
+              <Flex gap={12} alignItems='center'>
+                <Flex flexDirection='column' alignItems='start' gap={4}>
+                  <Text size='12px' weight={600}>
+                    --- Items
+                  </Text>
+                  <Text size='10px' color='grey400' weight={500}>
+                    <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                  </Text>
+                </Flex>
+                <Icon label='refresh' color='blue600' size='sm'>
+                  <StyledIconRefresh className={`refresh ${isRefreshRotating ? 'active' : ''}`} />
+                </Icon>
+              </Flex>
+            </Button>
+            {showSortBy ? (
+              <div style={{ width: '300px', zIndex: 20 }}>
+                <Field
+                  name='sortBy'
+                  component={SelectBox}
+                  onChange={(e) => {
+                    if (e.includes('price')) {
+                      formActions.change('nftFilter', 'forSale', true)
+                    }
+                  }}
+                  // @ts-ignore
+                  elements={[
+                    {
+                      group: '',
+                      items: [
+                        { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                        { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                        { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                      ]
+                    }
+                  ]}
+                />
+              </div>
+            ) : null}
+          </Flex>
+        </Flex>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
         {collectionFilter ? (
@@ -263,6 +314,7 @@ const TraitGridFilters: React.FC<Props> = ({
     </>
   )
 }
+
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
@@ -275,6 +327,7 @@ type OwnProps = {
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
 }
