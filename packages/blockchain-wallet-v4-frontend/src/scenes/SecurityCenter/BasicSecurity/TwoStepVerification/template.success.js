@@ -5,7 +5,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
-import styled  from 'styled-components'
+import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 import { media, spacing } from 'services/styles'
