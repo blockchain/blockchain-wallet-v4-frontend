@@ -5,7 +5,6 @@ import {
   NftAssetsType,
   NftCollection,
   NftOrder,
-  OfferEventsType,
   OpenSeaOrder,
   RawOrder
 } from '@core/network/api/nfts/types'
@@ -44,13 +43,6 @@ export type NftsStateType = {
   }
   collection: RemoteDataType<string, NftCollection>
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
-  offersMade: {
-    atBound?: boolean
-    isFailure: boolean
-    isLoading: boolean
-    list: OfferEventsType['asset_events']
-    page: number
-  }
   openSeaAsset: RemoteDataType<string, NftAsset>
   openSeaOrders: RemoteDataType<string, OpenSeaOrder[]>
   openSeaStatus: RemoteDataType<

@@ -1,11 +1,4 @@
-import {
-  ExplorerGatewayNftCollectionType,
-  ExplorerGatewaySearchType,
-  NftAsset,
-  OfferEventsType,
-  OpenSeaOrder,
-  OpenSeaStatus
-} from './types'
+import { ExplorerGatewaySearchType, NftAsset, OpenSeaOrder, OpenSeaStatus } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 30
@@ -18,31 +11,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const getAssetContract = (asset_contract_address: string) => {
     return get({
       endPoint: `/asset-contract/${asset_contract_address}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
-  const getOffersMade = (
-    account_address: string,
-    offset = 0,
-    limit = NFT_ORDER_PAGE_LIMIT
-  ): OfferEventsType => {
-    return get({
-      endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
-        NFT_ORDER_PAGE_LIMIT * offset
-      }&account_address=${account_address}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
-  const getNftCollections = (
-    sortedBy = 'one_day_vol',
-    direction = 'DESC'
-  ): ExplorerGatewayNftCollectionType[] => {
-    return get({
-      endPoint: `/collections?sortedBy=${sortedBy}&direction=${direction}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -100,8 +68,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
 
   return {
     getAssetContract,
-    getNftCollections,
-    getOffersMade,
     getOpenSeaAsset,
     getOpenSeaOrders,
     getOpenSeaStatus,

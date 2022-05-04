@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
 
@@ -73,7 +73,7 @@ const CancelOffer: React.FC<Props> = (props) => {
                 ),
                 Loading: () => null,
                 NotAsked: () => null,
-                Success: (val) =>
+                Success: (gasData) =>
                   offerToCancel ? (
                     <Button
                       jumbo
@@ -81,7 +81,13 @@ const CancelOffer: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='cancelOfferNft'
                       disabled={disabled}
-                      onClick={() => nftActions.cancelOffer({ gasData: val, order: offerToCancel })}
+                      onClick={() =>
+                        nftActions.cancelOffer({
+                          asset: val,
+                          gasData,
+                          order: offerToCancel
+                        })
+                      }
                     >
                       {props.orderFlow.isSubmitting ? (
                         <HeartbeatLoader color='blue100' height='20px' width='20px' />

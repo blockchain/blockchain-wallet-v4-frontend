@@ -1,16 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader } from 'blockchain-info-components'
 import { actions } from 'data'
-import { Analytics } from 'data/types'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
-import { Props as OwnProps } from '..'
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,13 +34,6 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
   const returnToMarketPlace = () => {
     props.close()
   }
-  const viewSubmittedOffer = () => {
-    props.analyticsActions.trackEvent({
-      key: Analytics.NFT_VIEW_SUBMITTED_OFFER_CLICKED,
-      properties: {}
-    })
-    props.close()
-  }
   return (
     <div>
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
@@ -66,6 +56,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
           />
           <div>Submitting Offer For</div>
           <div>{props.data.name}</div>
+          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER_SUCCESS && (
@@ -88,23 +79,13 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
           <ButtonWrapper>
             <Button
               nature='primary'
+              jumbo
               onClick={returnToMarketPlace}
               fullwidth
               data-e2e='returnToMarketPlace'
             >
               <FormattedMessage id='modals.prompt.button' defaultMessage='Return To Marketplace' />
             </Button>
-            <Link href={props.data.permalink} target='_blank'>
-              <Button
-                nature='empty-blue'
-                fullwidth
-                margin='0.5em 0em'
-                onClick={viewSubmittedOffer}
-                data-e2e='viewOffer'
-              >
-                <FormattedMessage id='modals.prompt.button' defaultMessage='View Submitted Offer' />
-              </Button>
-            </Link>
           </ButtonWrapper>
         </>
       )}
