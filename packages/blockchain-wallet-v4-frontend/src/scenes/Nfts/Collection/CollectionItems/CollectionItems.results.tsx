@@ -23,6 +23,7 @@ const CollectionItemsResults: React.FC<Props> = ({
   setIsFetchingNextPage,
   setMaxItemsFetched,
   setNextPageFetchError,
+  setNumOfResults,
   slug
 }) => {
   const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> = [
@@ -84,6 +85,10 @@ const CollectionItemsResults: React.FC<Props> = ({
 
   useEffect(() => {
     setIsFetchingNextPage(result.fetching)
+
+    if (!result.fetching && result.data?.assets[0]) {
+      setNumOfResults(result.data.assets[0].results || undefined)
+    }
   }, [result.fetching])
 
   useEffect(() => {
@@ -107,6 +112,7 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
+  setNumOfResults: React.Dispatch<React.SetStateAction<number | undefined>>
   slug: string
 }
 

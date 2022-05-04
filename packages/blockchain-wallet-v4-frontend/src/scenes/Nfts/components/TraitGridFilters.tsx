@@ -68,6 +68,7 @@ const TraitGridFilters: React.FC<Props> = ({
   collections,
   formActions,
   formValues,
+  numOfResults,
   routerActions,
   setRefreshTrigger,
   showSortBy,
@@ -130,7 +131,8 @@ const TraitGridFilters: React.FC<Props> = ({
               <Flex gap={12} alignItems='center'>
                 <Flex flexDirection='column' alignItems='start' gap={4}>
                   <Text size='12px' weight={600}>
-                    --- Items
+                    {numOfResults || '---'}{' '}
+                    <FormattedMessage id='copy.items' defaultMessage='Items' />
                   </Text>
                   <Text size='10px' color='grey400' weight={500}>
                     <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
@@ -326,6 +328,7 @@ type OwnProps = {
   collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean

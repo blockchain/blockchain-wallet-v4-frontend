@@ -9,7 +9,6 @@ import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
 import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
@@ -837,7 +836,13 @@ const NftAsset: React.FC<Props> = ({
                   <Events
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
-                    filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
+                    filters={[
+                      {
+                        field: EventFilterFields.AssetContractAddress,
+                        value: currentAsset.contract?.address
+                      },
+                      { field: EventFilterFields.AssetTokenId, value: currentAsset.token_id }
+                    ]}
                     key='events'
                   />
                 </div>

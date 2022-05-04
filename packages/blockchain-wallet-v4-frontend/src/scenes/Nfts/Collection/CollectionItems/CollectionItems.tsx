@@ -15,6 +15,7 @@ const CollectionItems: React.FC<Props> = ({
   collectionsQuery,
   formValues,
   refreshTrigger,
+  setNumOfResults,
   slug
 }) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
@@ -62,6 +63,7 @@ const CollectionItems: React.FC<Props> = ({
                   formValues={formValues}
                   key={page}
                   slug={slug}
+                  setNumOfResults={setNumOfResults}
                   setMaxItemsFetched={setMaxItemsFetched}
                   setNextPageFetchError={setNextPageFetchError}
                   setIsFetchingNextPage={setIsFetchingNextPage}
@@ -80,6 +82,7 @@ type Props = {
   collectionsQuery: UseQueryState<CollectionsQuery, object>
   formValues: NftFilterFormValuesType
   refreshTrigger: number
+  setNumOfResults: React.Dispatch<React.SetStateAction<number | undefined>>
   slug: string
 }
 
