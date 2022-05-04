@@ -75,13 +75,13 @@ const Success: React.FC<Props> = (props) => {
             {props.yapilyBankId ? (
               <FormattedMessage
                 id='copy.bank_linked.name'
-                defaultMessage='Your {bankName} account is now linked to your Blockchain.com account'
+                defaultMessage='Your {bankName} account is now linked to your Blockchain.com Account'
                 values={{ bankName }}
               />
             ) : (
               <FormattedMessage
                 id='copy.bank_linked'
-                defaultMessage='Your bank account is now linked to your Blockchain.com account'
+                defaultMessage='Your bank account is now linked to your Blockchain.com Account'
               />
             )}
           </Subcontent>

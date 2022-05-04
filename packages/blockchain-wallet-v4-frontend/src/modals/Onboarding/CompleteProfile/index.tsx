@@ -270,7 +270,7 @@ class CompleteProfile extends PureComponent<Props, State> {
               >
                 <FormattedMessage
                   id='modal.complete_profile.finish_settings'
-                  defaultMessage='Finish setting up your Blockchain.com account and start buying crypto today.'
+                  defaultMessage='Finish setting up your Blockchain.com Account and start buying crypto today.'
                 />
               </Text>
 

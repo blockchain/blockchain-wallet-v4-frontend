@@ -168,7 +168,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       text = (
         <FormattedMessage
           id='copy.bank_linked_error_alreadylinked1'
-          defaultMessage='We noticed this account is already linked to your Blockchain.com account.'
+          defaultMessage='We noticed this account is already linked to your Blockchain.com Account.'
         />
       )
       break

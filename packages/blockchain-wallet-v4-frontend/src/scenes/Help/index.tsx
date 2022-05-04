@@ -146,7 +146,7 @@ const Help = () => {
               <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.help.2fa.lostexplain'
-                  defaultMessage='Reset your Two-Factor Authentication right now to gain access to your Blockchain.com account.'
+                  defaultMessage='Reset your Two-Factor Authentication right now to gain access to your Blockchain.com Account.'
                 />
               </Text>
             </TextStack>

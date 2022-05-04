@@ -95,7 +95,7 @@ const TwoStepSetup = (props) => {
           <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.twostepsetup.explain'
-              defaultMessage='Protect your Blockchain.com account from unauthorized access by enabling Two Factor Authentication.'
+              defaultMessage='Protect your Blockchain.com Account from unauthorized access by enabling Two Factor Authentication.'
             />
           </Text>
           <Text size='14px' weight={400}>

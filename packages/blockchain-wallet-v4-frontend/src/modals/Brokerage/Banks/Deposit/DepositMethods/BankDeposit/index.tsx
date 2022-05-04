@@ -64,7 +64,7 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
           <Description>
             <FormattedMessage
               id='modals.brokerage.bank_deposit_description'
-              defaultMessage='Securely link a bank and send cash to your Blockchain.com account at anytime.'
+              defaultMessage='Securely link a bank and send cash to your Blockchain.com Account at anytime.'
             />
           </Description>
         </Content>
