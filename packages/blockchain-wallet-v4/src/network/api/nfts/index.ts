@@ -1,4 +1,4 @@
-import { ExplorerGatewaySearchType, NftAsset, OpenSeaOrder, OpenSeaStatus } from './types'
+import { ExplorerGatewaySearchType, NftAsset, OpenSeaStatus } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 30
@@ -36,17 +36,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const getOpenSeaOrders = (
-    asset_contract_address: string,
-    token_id: string
-  ): { orders: OpenSeaOrder[] } => {
-    return get({
-      endPoint: `/orders?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
-
   const getOpenSeaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
@@ -69,7 +58,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   return {
     getAssetContract,
     getOpenSeaAsset,
-    getOpenSeaOrders,
     getOpenSeaStatus,
     postNftOrder,
     searchNfts
