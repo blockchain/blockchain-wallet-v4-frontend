@@ -171,6 +171,12 @@ const identityVerificationReducer = (
         kycExtraQuestions: Remote.Failure(action.payload.e)
       }
     }
+    case AT.UPDATE_KYC_EXTRA_QUESTIONS: {
+      return {
+        ...state,
+        kycExtraQuestions: Remote.Success(action.payload.questions)
+      }
+    }
     default:
       return state
   }
