@@ -7,6 +7,7 @@ import { CombinedError } from 'urql'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
 
 import { Grid, GridWrapper } from '../components'
 import NftError from '../components/NftError'
@@ -17,6 +18,12 @@ import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
 const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
+  const [collectionsQuery] = useCollectionsQuery({
+    variables: {
+      sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
+    }
+  })
+
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
 
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
@@ -60,7 +67,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
           formValues={formValues}
           formActions={formActions}
           setRefreshTrigger={setRefreshTrigger}
-          collections={[]}
+          collections={collectionsQuery.data?.collections || []}
           setActiveTab={() => null}
         />
         <NftPageLazyLoadWrapper>
