@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError } from 'urql'
 
+import { RawOrder } from '@core/network/api/nfts/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { TableWrapper } from 'components/Table'
@@ -11,7 +12,7 @@ import NftError from '../components/NftError'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
 
-const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
+const Events: React.FC<Props> = ({ bidsAndOffers, columns, filters, isFetchingParent }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -54,10 +55,9 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
       <TableWrapper height='auto'>
         {events.length ? (
           <EventsTable
-            columns={
-              columns || ['event_type', 'item', 'price', 'from', 'to', 'date', 'cancel_offer']
-            }
+            columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
             events={events}
+            bidsAndOffers={bidsAndOffers}
           />
         ) : null}
         <Centered>
@@ -73,7 +73,8 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
 
 type Props = {
   address?: never
-  columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
+  bidsAndOffers?: RawOrder[]
+  columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
   isFetchingParent: boolean
 }

@@ -835,9 +835,10 @@ const NftAsset: React.FC<Props> = ({
               {Tab === 'activity' && (
                 <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                   <Events
-                    columns={['event_type', 'price', 'from', 'date', 'cancel_offer']}
+                    columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
                     filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
+                    bidsAndOffers={bidsAndOffers}
                     key='events'
                   />
                 </div>
@@ -846,7 +847,7 @@ const NftAsset: React.FC<Props> = ({
                 bidsAndOffers.length > 0 ? (
                   <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                     <Offers
-                      columns={['price', 'amount', 'from', 'expiration']}
+                      columns={['price', 'amount', 'from', 'expiration', 'cancel_offer']}
                       bidsAndOffers={bidsAndOffers}
                     />
                   </div>

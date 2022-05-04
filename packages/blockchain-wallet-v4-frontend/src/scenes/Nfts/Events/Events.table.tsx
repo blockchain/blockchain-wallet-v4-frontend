@@ -3,6 +3,7 @@ import { useSortBy, useTable } from 'react-table'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 
+import { RawOrder } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 import { EventsQuery } from 'generated/graphql.types'
 
@@ -11,13 +12,13 @@ import {
   getEventTypeColumn,
   getFromColumn,
   getItemColumn,
-  getOfferCancelColumn,
   getPriceColumn,
   getToColumn
 } from './EventsTableColumns'
 
 const getTableColumns = (
-  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
+  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[],
+  bidsAndOffers: RawOrder[] | undefined
 ) =>
   [
     columns.includes('event_type') ? getEventTypeColumn() : null,
@@ -25,11 +26,10 @@ const getTableColumns = (
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('from') ? getFromColumn() : null,
     columns.includes('to') ? getToColumn() : null,
-    columns.includes('date') ? getDateColumn() : null,
-    columns.includes('cancel_offer') ? getOfferCancelColumn() : null
+    columns.includes('date') ? getDateColumn() : null
   ].filter(Boolean)
 
-const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
+const CollectionEventsTable: React.FC<Props> = ({ bidsAndOffers, columns, events }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -39,7 +39,7 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
       autoResetRowState: false,
       autoResetSelectedRows: false,
       autoResetSortBy: false,
-      columns: useMemo(() => getTableColumns(columns), [columns]),
+      columns: useMemo(() => getTableColumns(columns, bidsAndOffers), [columns]),
       data: useMemo(() => events, [events]),
       disableMultiSort: true,
       disableSortRemove: true,
@@ -91,6 +91,8 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
       </StickyTableHeader>
       <div {...getTableBodyProps()}>
         {rows.map((row) => {
+          // eslint-disable-next-line no-console
+          console.log(row)
           prepareRow(row)
           return (
             <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
@@ -112,7 +114,8 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
 }
 
 type Props = {
-  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date' | 'cancel_offer')[]
+  bidsAndOffers: RawOrder[] | undefined
+  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   events: EventsQuery['events']
 }
 

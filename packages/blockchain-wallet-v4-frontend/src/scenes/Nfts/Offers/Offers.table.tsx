@@ -10,15 +10,19 @@ import {
   getAmountColumn,
   getExpirationColumn,
   getFromColumn,
+  getOfferCancelColumn,
   getPriceColumn
 } from './OffersTableColumns'
 
-const getTableColumns = (columns: ('price' | 'amount' | 'from' | 'expiration')[]) =>
+const getTableColumns = (
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[]
+) =>
   [
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('amount') ? getAmountColumn() : null,
     columns.includes('expiration') ? getExpirationColumn() : null,
-    columns.includes('from') ? getFromColumn() : null
+    columns.includes('from') ? getFromColumn() : null,
+    columns.includes('cancel_offer') ? getOfferCancelColumn() : null
   ].filter(Boolean)
 
 const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
@@ -105,7 +109,7 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
 
 type Props = {
   bidsAndOffers: RawOrder[]
-  columns: ('price' | 'amount' | 'from' | 'expiration')[]
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[]
 }
 
 export default OffersTable

@@ -19,7 +19,7 @@ const Offers: React.FC<Props> = ({ bidsAndOffers, columns }) => {
 type Props = {
   address?: never
   bidsAndOffers: RawOrder[]
-  columns?: ('price' | 'amount' | 'from' | 'expiration')[]
+  columns?: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[]
 }
 
 export default Offers
