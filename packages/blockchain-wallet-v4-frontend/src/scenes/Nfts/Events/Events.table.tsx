@@ -16,10 +16,7 @@ import {
   getToColumn
 } from './EventsTableColumns'
 
-const getTableColumns = (
-  columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[],
-  bidsAndOffers: RawOrder[] | undefined
-) =>
+const getTableColumns = (columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]) =>
   [
     columns.includes('event_type') ? getEventTypeColumn() : null,
     columns.includes('item') ? getItemColumn() : null,
@@ -29,7 +26,7 @@ const getTableColumns = (
     columns.includes('date') ? getDateColumn() : null
   ].filter(Boolean)
 
-const CollectionEventsTable: React.FC<Props> = ({ bidsAndOffers, columns, events }) => {
+const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -39,7 +36,7 @@ const CollectionEventsTable: React.FC<Props> = ({ bidsAndOffers, columns, events
       autoResetRowState: false,
       autoResetSelectedRows: false,
       autoResetSortBy: false,
-      columns: useMemo(() => getTableColumns(columns, bidsAndOffers), [columns]),
+      columns: useMemo(() => getTableColumns(columns), [columns]),
       data: useMemo(() => events, [events]),
       disableMultiSort: true,
       disableSortRemove: true,
@@ -114,7 +111,6 @@ const CollectionEventsTable: React.FC<Props> = ({ bidsAndOffers, columns, events
 }
 
 type Props = {
-  bidsAndOffers: RawOrder[] | undefined
   columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   events: EventsQuery['events']
 }
