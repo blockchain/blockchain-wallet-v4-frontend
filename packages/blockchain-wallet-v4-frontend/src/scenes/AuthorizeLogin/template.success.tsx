@@ -109,7 +109,7 @@ const Success = (props) => {
             <Text color='grey700' style={{ marginTop: '8px' }} size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
-                defaultMessage='Someone, hopefully you, is attempting to login to your wallet from a different browser.'
+                defaultMessage='Someone, hopefully you, is attempting to login to your account from a different browser.'
               />
             </Text>
             <DeviceInfoWrapper>

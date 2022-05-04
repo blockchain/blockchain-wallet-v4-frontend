@@ -378,7 +378,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='components.alerts.iprestriction_login_error'
-                defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
+                defaultMessage='This account is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
               />
             </Text>
             <Text>

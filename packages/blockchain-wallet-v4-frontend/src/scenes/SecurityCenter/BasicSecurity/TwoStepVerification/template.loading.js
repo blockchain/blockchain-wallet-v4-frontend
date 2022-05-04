@@ -20,7 +20,7 @@ const TwoStepVerification = () => {
         <SecurityHeader>
           <FormattedMessage
             id='scenes.security.twostepverification.loading.title'
-            defaultMessage='Two-Step Verification'
+            defaultMessage='Two-Factor Authentication'
           />
         </SecurityHeader>
         <SecurityDescription>
@@ -32,7 +32,7 @@ const TwoStepVerification = () => {
           </Text>
           <FormattedMessage
             id='scenes.security.twostepverification.loading.description2'
-            defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.'
+            defaultMessage='Two-Factor Authentication helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.'
           />
         </SecurityDescription>
       </SecuritySummary>
