@@ -37,14 +37,13 @@ export type BuySellWidgetGoalDataType = {
   fiatCurrency: WalletFiatType
 }
 
-enum SettingsChangeType {
-  EMAIL = 'email',
-  PASSWORD = 'password',
-  TWOFA = '2fa'
+export enum UnifiedAccountRedirectType {
+  CHANGE_2FA = 'change2fa',
+  CHANGE_EMAIL = 'changeEmail',
+  CHANGE_PASSWORD = 'changePassword'
 }
-export type SettingsGoalDataType = {
-  guid: string
-  settingsChange: SettingsChangeType
+export enum GeneralRedirectType {
+  REWARDS = 'rewards'
 }
 
 export type GoalsState = {

@@ -222,7 +222,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const signIn = function* () {
     try {
-      debugger
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
       // TODO: in future only fetch unified credentials
@@ -231,15 +230,11 @@ export default ({ api, coreSagas, networks }) => {
       const { nabuLifetimeToken, nabuUserId } = (yield select(
         selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
       )).getOrElse({})
-
-      debugger
-
       // sync legacy nabu credentials with unified kv entry
       const unifiedNabuCredentials = (yield select(
         selectors.core.kvStore.unifiedCredentials.getNabuCredentials
       )).getOrElse({})
       if (!unifiedNabuCredentials.nabuUserId || !unifiedNabuCredentials.nabuLifetimeToken) {
-        debugger
         yield put(
           actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
             nabu_lifetime_token: nabuLifetimeToken,
@@ -247,7 +242,6 @@ export default ({ api, coreSagas, networks }) => {
           })
         )
       }
-
       if (!nabuUserId || !nabuLifetimeToken) {
         return yield put(
           A.fetchUserDataSuccess({
@@ -322,6 +316,7 @@ export default ({ api, coreSagas, networks }) => {
         retailToken,
         tuneTid
       )
+
       yield put(
         actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
           exchange_lifetime_token: exchangeLifetimeToken,
