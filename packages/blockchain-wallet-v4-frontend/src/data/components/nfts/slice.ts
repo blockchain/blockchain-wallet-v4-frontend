@@ -197,25 +197,6 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
-    fetchNftCollections: (
-      state,
-      action: PayloadAction<{
-        direction?: 'ASC' | 'DESC'
-        sortBy?: keyof ExplorerGatewayNftCollectionType
-      }>
-    ) => {},
-    fetchNftCollectionsFailure: (state, action: PayloadAction<string>) => {
-      state.collections = Remote.Failure(action.payload)
-    },
-    fetchNftCollectionsLoading: (state) => {
-      state.collections = Remote.Loading
-    },
-    fetchNftCollectionsSuccess: (
-      state,
-      action: PayloadAction<ExplorerGatewayNftCollectionType[]>
-    ) => {
-      state.collections = Remote.Success(action.payload)
-    },
     fetchNftOffersMade: () => {},
     fetchNftOffersMadeFailure: (state, action: PayloadAction<string>) => {
       state.offersMade.isFailure = true

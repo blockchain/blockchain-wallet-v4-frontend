@@ -4,7 +4,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const LOADING_ITEMS_COUNT = 8
+export const LOADING_ITEMS_COUNT = 6
 
 export const maxWidth = '1200px'
 
@@ -93,7 +93,7 @@ export const Grid = styled.div`
   ${media.atLeastLaptop`
     grid-template-columns: repeat(3, minmax(0, 1fr));
   `}
-  ${media.atLeastLaptopL`
+  ${media.atLeastDesktop`
     grid-template-columns: repeat(4, minmax(0, 1fr));
   `}
 `
@@ -104,15 +104,12 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
+  padding: 16px;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -131,7 +128,8 @@ export const AssetImageContainer = styled.div<{
   justify-content: center;
   max-height: 100%;
   max-width: 100%;
-  height: 285px;
+  height: 216px;
+  margin-top: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
@@ -142,7 +140,7 @@ export const AssetImageContainer = styled.div<{
   background-color: ${(props) => props.backgroundColor};
 `
 export const AssetDetails = styled.div`
-  padding: 12px 8px;
+  padding: 12px 8px 0px 8px;
   flex: 1;
   height: 100%;
   display: flex;
@@ -159,6 +157,7 @@ export const AssetCollection = styled.div`
 export const PriceCTA = styled.div`
   margin-top: 16px;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 `
@@ -172,11 +171,17 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   display: flex;
   justify-content: space-between;
   background-size: cover;
-  background-image: ${(props) => (props.bgUrl ? `url(${(props) => props.bgUrl})` : 'none')};
+  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tabletL`
     flex-direction: column;
   `}
+`
+
+export const CollectionImageSmall = styled.img`
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
 `
 
 export const CollectionImage = styled.img`

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -8,8 +8,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { actions } from 'data'
+import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { NftPageV2 } from '../components'
@@ -40,9 +40,11 @@ const Banner = styled.div`
 `
 
 const Explore: React.FC<Props> = (props) => {
-  useEffect(() => {
-    props.nftsActions.fetchNftCollections({})
-  }, [])
+  const [results] = useCollectionsQuery({
+    variables: {
+      sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
+    }
+  })
 
   return (
     <NftPageV2>
@@ -83,28 +85,21 @@ const Explore: React.FC<Props> = (props) => {
       >
         Trending Collections
       </Text>
-      {props.collectionsR.cata({
-        Failure: () => null,
-        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
-        NotAsked: () => null,
-        Success: (val) => {
-          return <TrendingCollectionsTable collections={val} {...props} />
-        }
-      })}
+      {results.data?.collections ? (
+        <TrendingCollectionsTable collections={results.data.collections} {...props} />
+      ) : (
+        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+      )}
     </NftPageV2>
   )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  collectionsR: selectors.components.nfts.getNftCollections(state)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 

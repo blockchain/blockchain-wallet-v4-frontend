@@ -199,6 +199,7 @@ const App = ({
                           pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                         />
                       )}
+
                       {walletDebitCardEnabled && (
                         <WalletLayout path='/debit-card' component={DebitCard} />
                       )}
@@ -252,7 +253,9 @@ const mapStateToProps = (state) => ({
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
+    .getOrElse(false)
 })
 
 const connector = connect(mapStateToProps)

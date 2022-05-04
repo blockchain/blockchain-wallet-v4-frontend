@@ -10,7 +10,11 @@ export const getVolumeColumn = () => ({
     return (
       <CellText>
         <FiatDisplay weight={600} color='black' size='14px' coin='ETH' currency='USD'>
-          {convertCoinToCoin({ baseToStandard: false, coin: 'ETH', value: values.one_day_volume })}
+          {convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'ETH',
+            value: values.stats.one_day_volume
+          })}
         </FiatDisplay>
       </CellText>
     )

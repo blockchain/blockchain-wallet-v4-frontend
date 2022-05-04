@@ -8,39 +8,37 @@ import WalletLayout from './template'
 
 const PAGE_TITLE = 'Blockchain.com Wallet'
 
-class WalletLayoutContainer extends React.PureComponent<Props> {
-  render() {
-    const {
-      coinViewV2,
-      component: Component,
-      computedMatch,
-      isAuthenticated,
-      path,
-      ...rest
-    } = this.props
-
-    let isValid = true
-    let coin
-    if (path.includes('/transactions')) {
-      coin = computedMatch.params.coin
-      if (!window.coins[coin]) isValid = false
-    }
-
-    document.title = PAGE_TITLE
-
-    return isAuthenticated && isValid ? (
-      <Route
-        path={path}
-        render={(props) => (
-          <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
-            <Component computedMatch={computedMatch} {...rest} coin={coin} />
-          </WalletLayout>
-        )}
-      />
-    ) : (
-      <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-    )
+const WalletLayoutContainer = ({
+  coinViewV2,
+  component: Component,
+  computedMatch,
+  isAuthenticated,
+  path,
+  ...rest
+}: Props) => {
+  let isValidRoute = true
+  let coin
+  if (path.includes('/transactions')) {
+    coin = computedMatch.params.coin
+    if (!window.coins[coin]) isValidRoute = false
   }
+
+  document.title = PAGE_TITLE
+
+  return !isAuthenticated ? (
+    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  ) : isValidRoute ? (
+    <Route
+      path={path}
+      render={(props) => (
+        <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
+          <Component computedMatch={computedMatch} {...rest} coin={coin} />
+        </WalletLayout>
+      )}
+    />
+  ) : (
+    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  )
 }
 
 const mapStateToProps = (state) => ({

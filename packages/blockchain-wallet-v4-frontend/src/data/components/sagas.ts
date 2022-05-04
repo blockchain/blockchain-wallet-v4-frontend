@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }) => ({
   btcTransactions: btcTransactions(),
   buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
-  debitCard: debitCard({ api }),
+  debitCard: debitCard({ api, coreSagas, networks }),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
   fundRecovery: fundRecovery({ api }),
