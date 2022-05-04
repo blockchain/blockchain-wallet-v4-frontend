@@ -41,6 +41,7 @@ const Banner = styled.div`
 
 const Explore: React.FC<Props> = (props) => {
   useEffect(() => {
+    props.coinsActions.fetchCoinsRates()
     props.nftsActions.fetchNftCollections({})
   }, [])
 
@@ -100,6 +101,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

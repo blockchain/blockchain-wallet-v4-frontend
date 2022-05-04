@@ -41,10 +41,9 @@ const _getDynamicSelfCustodyCoins = (): Array<string> =>
 
 // util function to ensure we only memoize coin selector functions when coin data exists
 const memoizeWhenCoinsExist = (selectorFn): (() => Array<string>) => {
-  if (!Object.keys(window.coins || {}).length) {
-    return selectorFn
+  if (Object.keys(window.coins || {}).length) {
+    return () => []
   }
-
   return memoize(selectorFn)
 }
 
@@ -57,6 +56,10 @@ export const getNonCustodialCoins: () => Array<string> =
 export const getFiatCoins: () => Array<string> = memoizeWhenCoinsExist(_getFiatCoins)
 export const getAllCoins: () => Array<string> = memoizeWhenCoinsExist(_getAllCoins)
 export const getErc20Coins: () => Array<string> = memoizeWhenCoinsExist(_getErc20Coins)
+
+export const getIsCoinDataLoaded = (state) => {
+  return state.dataPath.coins.isCoinDataLoaded
+}
 
 export const getBalance = curry((coin: string, state: RootState) => {
   return state.dataPath.coins.balances[coin] || Remote.NotAsked

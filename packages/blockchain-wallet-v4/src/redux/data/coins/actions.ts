@@ -24,6 +24,14 @@ export const fetchDataFailure = (error: string, coin: string): CoinsActionTypes 
   type: AT.FETCH_COIN_DATA_FAILURE
 })
 
+// COINS
+export const pollForCoinData = (): CoinsActionTypes => ({
+  type: AT.POLL_FOR_COIN_DATA
+})
+export const setCoinDataLoaded = (): CoinsActionTypes => ({
+  type: AT.SET_COIN_DATA_LOADED
+})
+
 // RATES
 export const fetchCoinsRates = () => ({
   type: AT.FETCH_COINS_RATES

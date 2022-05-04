@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -6,33 +6,33 @@ import { bindActionCreators } from 'redux'
 import { CoinfigType, CoinType } from '@core/types'
 import { actions, selectors } from 'data'
 
+import Loading from '../Auth/template.loading'
 import NftsTemplate from './NftsTemplate'
 
-class NftsContainer extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.coinsActions.fetchCoinsRates()
-  }
+const NftsContainer: FunctionComponent<Props> = (props) => {
+  const { component: Component, isCoinDataLoaded, pageTitle, path, ...rest } = props
+  if (pageTitle) document.title = pageTitle
 
-  render() {
-    const { component: Component, pageTitle, path, ...rest } = this.props
-    if (pageTitle) document.title = pageTitle
+  // TODO: does NFT project want a custom loading page while we wait for coin data? blue loading to white might be a bit harsh
+  // IMPORTANT: do not allow routes to load until window.coins is loaded
+  if (!isCoinDataLoaded) return <Loading />
 
-    return (
-      <Route
-        path={path}
-        render={() => (
-          <NftsTemplate {...this.props}>
-            <Component computedMatch={rest.computedMatch} {...rest} />
-          </NftsTemplate>
-        )}
-      />
-    )
-  }
+  return (
+    <Route
+      path={path}
+      render={() => (
+        <NftsTemplate {...props}>
+          <Component computedMatch={rest.computedMatch} {...rest} />
+        </NftsTemplate>
+      )}
+    />
+  )
 }
 
 const mapStateToProps = (state) => ({
   ethAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   isAuthenticated: selectors.auth.isAuthenticated(state),
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   pathname: selectors.router.getPathname(state)
 })
 

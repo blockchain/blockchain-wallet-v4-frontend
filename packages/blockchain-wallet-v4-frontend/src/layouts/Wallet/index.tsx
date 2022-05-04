@@ -5,8 +5,7 @@ import { Redirect, Route } from 'react-router-dom'
 import { selectors } from 'data'
 
 import WalletLayout from './template'
-
-const PAGE_TITLE = 'Blockchain.com Wallet'
+import Loading from './template.loading'
 
 class WalletLayoutContainer extends React.PureComponent<Props> {
   render() {
@@ -15,20 +14,24 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
       component: Component,
       computedMatch,
       isAuthenticated,
+      isCoinDataLoaded,
       path,
       ...rest
     } = this.props
-
-    let isValid = true
+    let isValidRoute = true
     let coin
+
+    document.title = 'Blockchain.com Wallet'
+
+    // IMPORTANT: do not allow routes to load until window.coins is loaded
+    if (!isCoinDataLoaded) return <Loading />
+
     if (path.includes('/transactions')) {
       coin = computedMatch.params.coin
-      if (!window.coins[coin]) isValid = false
+      if (!window.coins[coin]) isValidRoute = false
     }
 
-    document.title = PAGE_TITLE
-
-    return isAuthenticated && isValid ? (
+    return isAuthenticated && isValidRoute ? (
       <Route
         path={path}
         render={(props) => (
@@ -44,7 +47,8 @@ class WalletLayoutContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
 const connector = connect(mapStateToProps)

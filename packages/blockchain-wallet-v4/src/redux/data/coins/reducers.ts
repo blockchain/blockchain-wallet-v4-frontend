@@ -5,6 +5,7 @@ import { CoinsActionTypes, CoinsState } from './types'
 const INITIAL_STATE: CoinsState = {
   balances: {},
   btcTicker: Remote.NotAsked,
+  isCoinDataLoaded: false,
   rates: Remote.NotAsked,
   transactions: {},
   transactions_at_bound: {}
@@ -99,6 +100,12 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
           ...state.transactions_at_bound,
           [action.payload.coin]: action.payload.atBounds
         }
+      }
+    }
+    case AT.SET_COIN_DATA_LOADED: {
+      return {
+        ...state,
+        isCoinDataLoaded: true
       }
     }
     default: {

@@ -29,6 +29,7 @@ const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
+const Maintenance = React.lazy(() => import('./Maintenance'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const ProductPicker = React.lazy(() => import('./ProductPicker'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
@@ -40,9 +41,9 @@ const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Succes
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
-// EXPLORE (mixed)
+// NFT EXPLORER (mixed)
 const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -101,6 +102,7 @@ const App = ({
                 <ConnectedRouter history={history}>
                   <Suspense fallback={<Loading />}>
                     <Switch>
+                      {/* Unauthenticated Wallet routes */}
                       <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                       <AuthLayout
                         path='/help'
@@ -118,6 +120,7 @@ const App = ({
                         pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                       />
                       <AuthLayout path='/logout' component={Logout} />
+                      <AuthLayout path='/maintenance' component={Maintenance} />
                       <AuthLayout
                         path='/select-product'
                         component={ProductPicker}
@@ -169,29 +172,33 @@ const App = ({
                         component={VerifyEmail}
                         pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                       />
+
+                      {/* NFT Explorer routes */}
+                      {nftExplorer && (
+                        <>
+                          <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
+                          <NftsLayout
+                            path='/nfts/asset/:contract/:id'
+                            exact
+                            component={NftsAsset}
+                          />
+                          <NftsLayout
+                            path='/nfts/collection/:slug'
+                            exact
+                            component={NftsCollection}
+                          />
+                          <NftsLayout
+                            path='/nfts'
+                            exact
+                            component={NftsExplorer}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                          />
+                        </>
+                      )}
+
+                      {/* Authenticated Wallet routes */}
                       {walletDebitCardEnabled && (
                         <WalletLayout path='/debitCard' component={DebitCard} />
-                      )}
-                      {nftExplorer && (
-                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
-                      )}
-                      {nftExplorer && (
-                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
-                      )}
-                      {nftExplorer && (
-                        <NftsLayout
-                          path='/nfts/collection/:slug'
-                          exact
-                          component={NftsCollection}
-                        />
-                      )}
-                      {nftExplorer && (
-                        <NftsLayout
-                          path='/nfts'
-                          exact
-                          component={NftsExplorer}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                        />
                       )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
@@ -235,6 +242,7 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)

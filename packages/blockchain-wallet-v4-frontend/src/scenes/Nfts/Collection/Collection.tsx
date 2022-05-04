@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
@@ -14,7 +14,6 @@ import {
   EventFilterFields,
   useCollectionsQuery
 } from 'generated/graphql.types'
-import { media } from 'services/styles'
 
 import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
 import NftError from '../components/NftError'
@@ -57,8 +56,12 @@ const LinksContainer = styled.div`
   }
 `
 
-const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({ coinsActions, formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
+
+  useEffect(() => {
+    coinsActions.fetchCoinsRates()
+  }, [])
 
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
 
@@ -184,6 +187,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
