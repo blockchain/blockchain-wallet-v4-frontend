@@ -5,25 +5,29 @@ import { Redirect, Route } from 'react-router-dom'
 import { selectors } from 'data'
 
 import WalletLayout from './template'
-
-const PAGE_TITLE = 'Blockchain.com Wallet'
+import Loading from './template.loading'
 
 const WalletLayoutContainer = ({
-  coinViewV2,
-  component: Component,
-  computedMatch,
-  isAuthenticated,
-  path,
-  ...rest
+ coinViewV2,
+ component: Component,
+ computedMatch,
+ isAuthenticated,
+ isCoinDataLoaded,
+ path,
+ ...rest
 }: Props) => {
   let isValidRoute = true
   let coin
+
+  document.title = 'Blockchain.com Wallet'
+
   if (path.includes('/transactions')) {
     coin = computedMatch.params.coin
     if (!window.coins[coin]) isValidRoute = false
   }
 
-  document.title = PAGE_TITLE
+  // IMPORTANT: do not allow routes to load until window.coins is loaded
+  if (!isCoinDataLoaded) return <Loading />
 
   return !isAuthenticated ? (
     <Redirect to={{ pathname: '/login', state: { from: '' } }} />
@@ -42,7 +46,8 @@ const WalletLayoutContainer = ({
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
 const connector = connect(mapStateToProps)

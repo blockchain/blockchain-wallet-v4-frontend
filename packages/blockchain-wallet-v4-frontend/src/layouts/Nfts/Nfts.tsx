@@ -6,14 +6,11 @@ import { bindActionCreators } from 'redux'
 import { CoinfigType, CoinType } from '@core/types'
 import { actions, selectors } from 'data'
 
+import Loading from '../Auth/template.loading'
 import NftsTemplate from './NftsTemplate'
 
 const NftsContainer = (props) => {
-  useEffect(() => {
-    props.coinsActions.fetchCoinsRates()
-  }, [props.coinsActions])
-
-  const { component: Component, pageTitle, path, ...rest } = props
+  const { component: Component, isCoinDataLoaded, pageTitle, path, ...rest } = props
   if (pageTitle) document.title = pageTitle
 
   const doRefresh = (e) => {
@@ -24,11 +21,17 @@ const NftsContainer = (props) => {
   }
 
   useEffect(() => {
+    if (isCoinDataLoaded) {
+      props.coinsActions.fetchCoinsRates()
+    }
     window.addEventListener('beforeunload', doRefresh)
     return () => {
       window.removeEventListener('beforeunload', doRefresh)
     }
-  })
+  }, [isCoinDataLoaded])
+
+  // IMPORTANT: do not allow routes to load until window.coins is loaded
+  if (!isCoinDataLoaded) return <Loading />
 
   return (
     <Route
@@ -46,6 +49,7 @@ const mapStateToProps = (state) => ({
   ethAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftSearch')(state) as { search: string },
   isAuthenticated: selectors.auth.isAuthenticated(state),
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   pathname: selectors.router.getPathname(state)
 })
 

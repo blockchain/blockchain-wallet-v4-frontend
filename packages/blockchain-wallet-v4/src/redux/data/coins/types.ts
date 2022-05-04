@@ -7,6 +7,7 @@ import * as AT from './actionTypes'
 export type CoinsState = {
   balances: { [key in string]: RemoteDataType<string, any> }
   btcTicker: RemoteDataType<string, TickerResponseType>
+  isCoinDataLoaded: boolean
   rates: RemoteDataType<string, RatesType>
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
@@ -83,6 +84,12 @@ interface FetchTransactionsSuccessActionType {
   }
   type: typeof AT.FETCH_COINS_TRANSACTIONS_SUCCESS
 }
+interface PollForCoinDataActionType {
+  type: typeof AT.POLL_FOR_COIN_DATA
+}
+interface SetCoinDataLoadedActionType {
+  type: typeof AT.SET_COIN_DATA_LOADED
+}
 interface SetTransactionsAtBoundActionType {
   payload: {
     atBounds: boolean
@@ -104,4 +111,6 @@ export type CoinsActionTypes =
   | FetchTransactionsFailureActionType
   | FetchTransactionsLoadingActionType
   | FetchTransactionsSuccessActionType
+  | PollForCoinDataActionType
+  | SetCoinDataLoadedActionType
   | SetTransactionsAtBoundActionType

@@ -1,6 +1,7 @@
-import { all, call, fork } from 'redux-saga/effects'
+import { all, call, fork, put } from 'redux-saga/effects'
 
 import { coreRootSagaFactory, coreSagasFactory } from '@core'
+import { actions } from 'data'
 import miscSagas from 'data/misc/sagas'
 
 import alerts from './alerts/sagaRegister'
@@ -24,6 +25,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
   const { initAppLanguage, logAppConsoleWarning } = miscSagas()
 
   yield all([
+    put(actions.core.data.coins.pollForCoinData()),
     call(logAppConsoleWarning),
     fork(analytics),
     fork(alerts),

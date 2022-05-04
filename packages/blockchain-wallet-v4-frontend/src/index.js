@@ -4,50 +4,13 @@ import 'regenerator-runtime/runtime.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import styled from 'styled-components'
-
 import { analyticsTrackingNoStore } from 'services/tracking'
 
-import {
-  FontGlobalStyles,
-  IconGlobalStyles,
-  Image,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
-
-const ErrorWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-`
-const BlockchainLogoImage = styled(Image)`
-  display: block;
-  height: 25px;
-  width: 200px;
-`
-const ErrorText = styled(Text)`
-  color: white;
-  font-weight: 400;
-`
-const BodyText = styled(TextGroup)`
-  margin: 0 20px;
-  text-align: center;
-`
+import Maintenance from './scenes/Maintenance'
 
 configureStore()
   .then((root) => {
@@ -63,22 +26,7 @@ configureStore()
     )
   })
   .catch((e) => {
-    ReactDOM.render(
-      <ErrorWrapper>
-        <Row>
-          <BodyText>
-            <ErrorText size='18px'>
-              Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.
-              We&rsquo;ll be back online soon!
-            </ErrorText>
-          </BodyText>
-        </Row>
-        <Row style={{ marginTop: '60px' }}>
-          <BlockchainLogoImage name='blockchain-logo' />
-        </Row>
-      </ErrorWrapper>,
-      document.getElementById('app')
-    )
+    ReactDOM.render(<Maintenance />, document.getElementById('app'))
     const data = {
       events: [
         {
