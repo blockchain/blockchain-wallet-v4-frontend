@@ -15,7 +15,6 @@ import Success from './template.success'
 
 class CryptoSelection extends React.Component<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchSDDEligibility()
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.priceActions.fetchCoinPrices()
       this.props.priceActions.fetchCoinPricesPreviousDay()
@@ -24,6 +23,7 @@ class CryptoSelection extends React.Component<Props> {
       const currency = currentCurrencyIsInSupportedFiat ? this.props.fiatCurrency : 'USD'
       this.props.buySellActions.fetchPairs({ currency })
       this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
+      this.props.buySellActions.fetchSDDEligibility()
       this.props.buySellActions.fetchBSOrders()
     }
   }
