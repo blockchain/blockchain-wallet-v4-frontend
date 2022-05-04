@@ -77,7 +77,6 @@ const AuthLayoutContainer = ({
   path,
   platform
 }: Props) => {
-  console.log('HERE')
   // lazy load google captcha and google tag manager
   useDefer3rdPartyScript(
     `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,

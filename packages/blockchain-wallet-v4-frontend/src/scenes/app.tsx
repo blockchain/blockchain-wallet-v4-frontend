@@ -207,7 +207,7 @@ const App = ({
 
                       {/* Authenticated Wallet routes */}
                       {walletDebitCardEnabled && (
-                        <WalletLayout path='/debitCard' component={DebitCard} />
+                        <WalletLayout path='/debit-card' component={DebitCard} />
                       )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />

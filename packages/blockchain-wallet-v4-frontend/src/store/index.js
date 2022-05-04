@@ -23,6 +23,14 @@ import {
   webSocketRates
 } from '../middleware'
 
+const manuallyRouteToErrorPage = () => {
+  if (window.history.replaceState) {
+    window.history.replaceState(null, '', '#maintenance')
+  } else {
+    window.location.hash = '#maintenance'
+  }
+}
+
 const configuredStore = async function () {
   // immediately load app configuration
   let options
@@ -32,10 +40,6 @@ const configuredStore = async function () {
   } catch (error) {
     throw new Error('wallet-options failed to load.')
   }
-
-  // define empty window coins object
-  // result of web worker will populate data later
-  window.coins = {}
 
   // offload asset configuration fetch/parse from main thread
   if (window.Worker) {
@@ -49,8 +53,7 @@ const configuredStore = async function () {
         window.coins = JSON.parse(e.data)
       } catch (e) {
         // failed to parse json, meaning there was an error
-        // eslint-disable-next-line
-        window.alert('Please reload application.  Error: failed to load essential data')
+        manuallyRouteToErrorPage()
       }
     })
 
@@ -62,6 +65,7 @@ const configuredStore = async function () {
   } else {
     // eslint-disable-next-line
     window.alert('Your browser is not supported.  Error: missing web worker support')
+    manuallyRouteToErrorPage()
   }
 
   // initialize router and saga middleware

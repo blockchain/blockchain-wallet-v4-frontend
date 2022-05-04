@@ -27,7 +27,6 @@ const NftsContainer = (props) => {
     }
   })
 
-  // TODO: does NFT project want a custom loading page while we wait for coin data? blue loading to white might be a bit harsh
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
