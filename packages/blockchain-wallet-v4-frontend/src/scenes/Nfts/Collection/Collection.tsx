@@ -61,6 +61,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
 
   const [collectionsQuery] = useCollectionsQuery({
     variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
@@ -149,6 +150,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             formValues={formValues}
             showSortBy
             formActions={formActions}
+            setRefreshTrigger={setRefreshTrigger}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             collections={[]}
@@ -157,6 +159,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             <CollectionItems
               collectionsQuery={collectionsQuery}
               formValues={formValues}
+              refreshTrigger={refreshTrigger}
               slug={slug}
             />
           ) : (

@@ -2,12 +2,12 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle } from '@blockchain-com/icons'
+import { IconCloseCircle, IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -55,6 +55,7 @@ const TraitGridFilters: React.FC<Props> = ({
   formActions,
   formValues,
   routerActions,
+  setRefreshTrigger,
   showSortBy,
   tabs
 }) => {
@@ -92,30 +93,42 @@ const TraitGridFilters: React.FC<Props> = ({
           </TabMenu>
         ) : null}
 
-        {showSortBy ? (
-          <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
-            <Field
-              name='sortBy'
-              component={SelectBox}
-              onChange={(e) => {
-                if (e.includes('price')) {
-                  formActions.change('nftFilter', 'forSale', true)
-                }
-              }}
-              // @ts-ignore
-              elements={[
-                {
-                  group: '',
-                  items: [
-                    { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                    { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                    { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                  ]
-                }
-              ]}
-            />
-          </div>
-        ) : null}
+        <div>
+          <Button
+            onClick={() => setRefreshTrigger((r) => r + 1)}
+            data-e2e='nftRefresh'
+            nature='empty-blue'
+            size='small'
+          >
+            <Icon label='refresh' size='sm'>
+              <IconRefresh />
+            </Icon>
+          </Button>
+          {showSortBy ? (
+            <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
+              <Field
+                name='sortBy'
+                component={SelectBox}
+                onChange={(e) => {
+                  if (e.includes('price')) {
+                    formActions.change('nftFilter', 'forSale', true)
+                  }
+                }}
+                // @ts-ignore
+                elements={[
+                  {
+                    group: '',
+                    items: [
+                      { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                      { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                      { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                    ]
+                  }
+                ]}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
         {collectionFilter ? (
@@ -275,6 +288,7 @@ type OwnProps = {
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
 }
