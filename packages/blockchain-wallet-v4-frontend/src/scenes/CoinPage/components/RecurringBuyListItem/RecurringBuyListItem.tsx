@@ -26,21 +26,21 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
   const [title] = useRecord<RecurringBuyPeriods, ReactNode>(period, {
     BI_WEEKLY: (
       <FormattedMessage
-        id='copy.twice_a_month'
+        id='copy.twice_a_month_price'
         defaultMessage='{price} Twice a Month'
         values={{ price }}
       />
     ),
     DAILY: (
       <FormattedMessage
-        id='modals.recurringbuys.timeframe.every_day'
+        id='modals.recurringbuys.timeframe.every_day_price'
         defaultMessage='{price} Every day'
         values={{ price }}
       />
     ),
     MONTHLY: (
       <FormattedMessage
-        id='copy.once_a_month'
+        id='copy.once_a_month_price'
         defaultMessage='{price} Once a Month'
         values={{ price }}
       />
@@ -48,7 +48,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
     ONE_TIME: <span />,
     WEEKLY: (
       <FormattedMessage
-        id='copy.once_a_week'
+        id='copy.once_a_week_price'
         defaultMessage='{price} Once a Week'
         values={{ price }}
       />

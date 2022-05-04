@@ -37,7 +37,7 @@ const InsufficientBalanceError: React.FC<Props> = ({ handleMax, tryAgain }) => {
           Send Max
         </Button>
         <Text style={{ marginTop: '8px' }} size='12px' weight={500}>
-          <FormattedMessage defaultMessage='Or' id='copy.or' />
+          <FormattedMessage defaultMessage='or' id='copy.or' />
         </Text>
         <Text
           onClick={() => tryAgain()}

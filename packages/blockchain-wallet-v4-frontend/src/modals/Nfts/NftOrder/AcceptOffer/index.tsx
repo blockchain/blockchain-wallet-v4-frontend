@@ -100,13 +100,13 @@ const AcceptOffer: React.FC<Props> = (props) => {
                       {e}
                     </Text>
                     <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
-                      <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
+                      <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                     </Button>
                   </>
                 ),
                 Loading: () => (
                   <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
-                    <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                   </Button>
                 ),
                 NotAsked: () => null,

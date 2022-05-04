@@ -341,7 +341,7 @@ class Conflict extends PureComponent<
             disabled={!allowSubmit}
           >
             <Text color='white' size='16px' weight={500}>
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Submit' />
+              <FormattedMessage id='buttons.submit' defaultMessage='Submit' />
             </Text>
           </Button>
         </ButtonWrapper>

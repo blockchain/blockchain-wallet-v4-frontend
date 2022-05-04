@@ -71,7 +71,7 @@ const NftOrderNotVerified: React.FC<Props> = (props: any) => {
             data-e2e='submitProfileDetails'
           >
             <Text color='white' size='16px' weight={500}>
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Continue' />
+              <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
             </Text>
           </Button>
           <Button
@@ -84,7 +84,7 @@ const NftOrderNotVerified: React.FC<Props> = (props: any) => {
             data-e2e='submitProfileDetails'
           >
             <Text color={colors.blue600} size='16px' weight={500}>
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Cancel & Go Back' />
+              <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
             </Text>
           </Button>
         </ButtonWrapper>

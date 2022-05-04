@@ -33,7 +33,7 @@ export const getOfferCancelColumn = (defaultEthAddr) => ({
             data-e2e='submitProfileDetails'
           >
             <Text color={colors.blue600} size='14px' weight={500}>
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Cancel Offer' />
+              <FormattedMessage id='buttons.cancel_offer' defaultMessage='Cancel Offer' />
             </Text>
           </Button>
         )}
