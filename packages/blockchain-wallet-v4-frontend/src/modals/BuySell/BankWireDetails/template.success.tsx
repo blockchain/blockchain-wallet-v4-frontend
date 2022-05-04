@@ -160,7 +160,7 @@ const Success: React.FC<Props> = (props) => {
                 />
               ) : (
                 <FormattedMessage
-                  id='modals.simplebuy.deposit.bank_transfer'
+                  id='modals.simplebuy.deposit.regular_bank_transfer'
                   defaultMessage='Regular Bank Transfer'
                 />
               )}

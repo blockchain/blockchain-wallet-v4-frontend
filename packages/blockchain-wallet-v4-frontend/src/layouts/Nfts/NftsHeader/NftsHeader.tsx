@@ -110,7 +110,7 @@ const ExploreHeader: React.FC<Props> = ({
                 data-e2e='loginLink'
               >
                 <Button small data-e2e='login' nature='empty-blue'>
-                  <FormattedMessage id='scenes.login.login' defaultMessage='Login' />
+                  <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
                 </Button>
               </LinkContainer>
               <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>

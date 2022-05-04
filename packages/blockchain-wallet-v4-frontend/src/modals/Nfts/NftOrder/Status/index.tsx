@@ -84,7 +84,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               fullwidth
               data-e2e='returnToMarketPlace'
             >
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Return To Marketplace' />
+              <FormattedMessage id='buttons.return_to_marketplace' defaultMessage='Return To Marketplace' />
             </Button>
           </ButtonWrapper>
         </>

@@ -176,7 +176,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       text = (
         <FormattedMessage
           id='copy.bank_linked'
-          defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
+          defaultMessage='Your bank account is now linked to your Blockchain.com Account'
         />
       )
       break

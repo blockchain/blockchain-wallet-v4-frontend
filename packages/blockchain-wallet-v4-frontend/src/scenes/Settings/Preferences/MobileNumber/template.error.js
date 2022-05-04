@@ -19,7 +19,7 @@ const MobileNumber = (props) => {
         <SettingHeader>
           <FormattedMessage
             id='scenes.settings.preferences.mobile.title'
-            defaultMessage='Mobile number'
+            defaultMessage='Mobile Number'
           />
           <Text>{message}</Text>
         </SettingHeader>

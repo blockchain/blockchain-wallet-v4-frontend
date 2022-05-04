@@ -133,7 +133,7 @@ const EnterPasswordWallet = (props: Props) => {
               </Text>
               <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
                 <FormattedMessage
-                  id='scenes.login.enter_password.setting_goal.title'
+                  id='scenes.login.enter_password.setting_goal.subtitle'
                   defaultMessage='For your security, we ask you to enter your password to continue to update your {settingsChange} settings.'
                   values={{ settingsChange: goalData.settingsChange }}
                 />
