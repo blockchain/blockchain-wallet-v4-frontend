@@ -848,6 +848,7 @@ const NftAsset: React.FC<Props> = ({
                     <Offers
                       columns={['price', 'amount', 'from', 'expiration', 'cancel_offer']}
                       bidsAndOffers={bidsAndOffers}
+                      defaultEthAddr={defaultEthAddr}
                     />
                   </div>
                 ) : openSeaAsset.isLoading ? (

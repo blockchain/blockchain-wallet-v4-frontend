@@ -3,19 +3,18 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
-import { getUnixTime } from 'date-fns'
 
 import { Button, Text } from 'blockchain-info-components'
 import { CellHeaderText } from 'components/Table'
 import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
-export const getOfferCancelColumn = () => ({
+export const getOfferCancelColumn = (defaultEthAddr) => ({
   Cell: ({ row: { original: values } }) => {
     const dispatch = useDispatch()
     return (
       <>
-        {values.maker.address === '0x9e38f81217f693367f03e7bbd583fdea1ee297e3' && (
+        {defaultEthAddr.toLowerCase() === values.maker.address.toLowerCase() && (
           <Button
             nature='empty-blue'
             onClick={() =>
