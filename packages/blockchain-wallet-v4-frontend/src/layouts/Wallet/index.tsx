@@ -7,43 +7,42 @@ import { selectors } from 'data'
 import WalletLayout from './template'
 import Loading from './template.loading'
 
-class WalletLayoutContainer extends React.PureComponent<Props> {
-  render() {
-    const {
-      coinViewV2,
-      component: Component,
-      computedMatch,
-      isAuthenticated,
-      isCoinDataLoaded,
-      path,
-      ...rest
-    } = this.props
-    let isValidRoute = true
-    let coin
+const WalletLayoutContainer = ({
+ coinViewV2,
+ component: Component,
+ computedMatch,
+ isAuthenticated,
+ isCoinDataLoaded,
+ path,
+ ...rest
+}: Props) => {
+  let isValidRoute = true
+  let coin
 
-    document.title = 'Blockchain.com Wallet'
+  document.title = 'Blockchain.com Wallet'
 
-    // IMPORTANT: do not allow routes to load until window.coins is loaded
-    if (!isCoinDataLoaded) return <Loading />
-
-    if (path.includes('/transactions')) {
-      coin = computedMatch.params.coin
-      if (!window.coins[coin]) isValidRoute = false
-    }
-
-    return isAuthenticated && isValidRoute ? (
-      <Route
-        path={path}
-        render={(props) => (
-          <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
-            <Component computedMatch={computedMatch} {...rest} coin={coin} />
-          </WalletLayout>
-        )}
-      />
-    ) : (
-      <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-    )
+  if (path.includes('/transactions')) {
+    coin = computedMatch.params.coin
+    if (!window.coins[coin]) isValidRoute = false
   }
+
+  // IMPORTANT: do not allow routes to load until window.coins is loaded
+  if (!isCoinDataLoaded) return <Loading />
+
+  return !isAuthenticated ? (
+    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  ) : isValidRoute ? (
+    <Route
+      path={path}
+      render={(props) => (
+        <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
+          <Component computedMatch={computedMatch} {...rest} coin={coin} />
+        </WalletLayout>
+      )}
+    />
+  ) : (
+    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  )
 }
 
 const mapStateToProps = (state) => ({

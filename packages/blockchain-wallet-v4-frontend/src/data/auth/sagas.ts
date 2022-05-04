@@ -163,6 +163,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
+            authentication_type: 'PASSWORD',
             site_redirect: product
           }
         })
@@ -340,14 +341,9 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.LOGIN_SIGNED_IN,
-          properties: {
-            site_redirect: product
-          }
-        })
-      )
+
+      // Debit Card Module initialization
+      yield put(actions.components.debitCard.getProducts())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -444,6 +440,15 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_IN,
+          properties: {
+            authentication_type: 'PASSWORD',
+            site_redirect: product
+          }
+        })
+      )
       // Solves the problem of from submit stopping
       // before exchange login is complete for unified accounts
       // heartbeat loader would stop for a second before
@@ -615,8 +620,13 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
+
       // get product auth data from querystring
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      // get guid when wallet is launched from a logged in exchange account
+      const guidFromQueryParams = queryParams.get('guid') as string
+      // get email when wallet is launched from a logged in exchange account
+      const emailFromQueryParams = decodeURIComponent(queryParams.get('email') as string)
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
@@ -657,6 +667,16 @@ export default ({ api, coreSagas, networks }) => {
         // institutional login portal for Prime exchange users
         case userType === AuthUserType.INSTITUTIONAL:
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
+          break
+        // user is opening wallet from inside exchange settings
+        // guid and email are on url
+        case guidFromQueryParams !== null && emailFromQueryParams !== null:
+          yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
+          yield put(actions.cache.emailStored(emailFromQueryParams))
+          yield put(actions.cache.guidStored(guidFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'guid', guidFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'email', emailFromQueryParams))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) &&
@@ -733,14 +753,12 @@ export default ({ api, coreSagas, networks }) => {
       guid,
       guidOrEmail,
       password,
-      step,
-      upgradeAccountPassword
+      step
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const unificationFlowType = yield select(S.getAccountUnificationFlowType)
     const unified = yield select(selectors.cache.getUnifiedAccountStatus)
-    const authType = yield select(selectors.auth.getAuthType)
-    const language = yield select(selectors.preferences.getLanguage)
-    const product = yield select(S.getProduct)
+    const authType = yield select(S.getAuthType)
+    const { product, userType } = yield select(S.getProductAuthMetadata)
     try {
       // set code to uppercase if type is not yubikey
       let auth = code
@@ -790,7 +808,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
-      } else if (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) {
+      } else if (
+        (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
+        userType !== AuthUserType.INSTITUTIONAL
+      ) {
         // exchange login but it is a unified account
         // so it's using wallet login under the hood
         // create a new saga that logs into the wallet and retrieves
@@ -804,19 +825,7 @@ export default ({ api, coreSagas, networks }) => {
             sharedKey: null
           })
         )
-      }
-      // else if (step === LoginSteps.UPGRADE_PASSWORD) {
-      //   yield put(
-      //     actions.signup.register({
-      //       country: undefined,
-      //       email,
-      //       language,
-      //       password: upgradeAccountPassword,
-      //       state: undefined
-      //     })
-      //   )
-      // }
-      else {
+      } else {
         // User only has an exchange account to far, and they're 'upgrading'
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(

@@ -20,7 +20,7 @@ const Fees: React.FC<Props> = (props) => {
       nftActions.fetchFees({
         asset: props.asset,
         operation: GasCalculationOperations.Transfer,
-        to: '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3'
+        to: '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3' // dummy address
       })
     }
   }, [])

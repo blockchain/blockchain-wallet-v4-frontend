@@ -3,17 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconArrowLeft, IconUser, IconWallet } from '@blockchain-com/icons'
+import { IconUser, IconWallet } from '@blockchain-com/icons'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
 import { ModalName } from 'data/types'
 
 import { Props as OwnProps } from '../Nfts'
-import NftSearch from '../NftsSearch'
+import NftsSearch from './NftsSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 
@@ -32,22 +33,20 @@ const NavCenter = styled.div`
   align-items: center;
   width: 50%;
 `
-const NavLinkButton = styled(NavLink)`
+const NavLinkButton = styled(Link)`
   padding: 8px 10px;
   border-radius: 8px;
   text-decoration: none;
   margin-right: 12px;
-  background-color: transparent;
-  &.active {
-    background-color: ${(props) => props.theme.blue000};
-    * {
-      color: ${(props) => props.theme.blue600};
-    }
+  background-color: ${(props) => props.theme.blue000};
+  * {
+    color: ${(props) => props.theme.blue600};
   }
 `
 
 const ExploreHeader: React.FC<Props> = ({
   ethAddress,
+  formValues,
   isAuthenticated,
   modalActions,
   pathname,
@@ -62,28 +61,20 @@ const ExploreHeader: React.FC<Props> = ({
               <Image width='25px' name='blockchain-icon' />
             </NavLink>
           </Logo>
-          <Button
-            small
-            data-e2e='back'
-            nature='empty-blue'
-            onClick={() => routerActions.goBack()}
-            style={{ marginLeft: '24px' }}
-          >
-            <Icon label='arrow-left' size='sm' color='blue600'>
-              <IconArrowLeft style={{ marginRight: '4px' }} />
-            </Icon>
-            <span style={{ marginLeft: '4px' }}>
-              <FormattedMessage id='buttons.signup' defaultMessage='Back' />
-            </span>
-          </Button>
+          <AppSwitcher />
         </NavLeft>
         <NavCenter>
-          <NavLinkButton to='/nfts' activeClassName='active'>
-            <Text size='14px' weight={600}>
-              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-            </Text>
-          </NavLinkButton>
-          <NftSearch />
+          <LinkContainer to='/nfts/explore'>
+            <NavLinkButton>
+              <Flex alignItems='center' gap={4}>
+                <Text size='14px' weight={600}>
+                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                </Text>
+                🚀
+              </Flex>
+            </NavLinkButton>
+          </LinkContainer>
+          <NftsSearch />
         </NavCenter>
         <NavRight>
           {isAuthenticated ? (

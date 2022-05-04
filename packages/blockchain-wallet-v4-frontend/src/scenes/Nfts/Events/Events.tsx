@@ -76,4 +76,4 @@ type Props = {
   isFetchingParent: boolean
 }
 
-export default Events
+export default React.memo(Events)

@@ -38,7 +38,7 @@ const ButtonWrapper = styled.div`
 `
 
 const NftOrderNotVerified: React.FC<Props> = (props: any) => {
-  const { nftActions, orderFlow } = props
+  const { nftActions } = props
 
   const Continue = () => {
     nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })

@@ -27,8 +27,8 @@ addEventListener('message', ({ data }) => {
         // TODO: remove once backend returns this
         assets.STX.coinfig.products.push('DynamicSelfCustody')
 
-        // if opensea is on rinkeby, modify contract addresses
-        if (openSeaApi && openSeaApi.includes('rinkeby')) {
+        // switch up the erc20 addresses to support testnet (for opensea testing)
+        if (openSeaApi && openSeaApi.includes('testnets')) {
           assets.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
           assets.DAI.coinfig.type.erc20Address = '0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45'
         }

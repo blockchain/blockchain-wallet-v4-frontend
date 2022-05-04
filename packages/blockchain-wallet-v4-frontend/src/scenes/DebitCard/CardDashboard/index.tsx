@@ -11,6 +11,7 @@ const Iframe = styled.iframe`
 `
 
 const CardDashboard = ({
+  alertActions,
   cardToken,
   cards,
   debitCardActions,
@@ -28,6 +29,7 @@ const CardDashboard = ({
         />
       </BoxContainer>
       <ManageCardBox
+        alertActions={alertActions}
         modalActions={modalActions}
         debitCardActions={debitCardActions}
         cards={cards}

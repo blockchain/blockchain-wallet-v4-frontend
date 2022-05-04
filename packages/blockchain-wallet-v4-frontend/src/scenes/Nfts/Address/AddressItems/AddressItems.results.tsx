@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { CombinedError } from 'urql'
 
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { Button, Text } from 'blockchain-info-components'
 import {
   AssetFilterFields,
   AssetSortFields,
@@ -13,14 +10,7 @@ import {
   useOwnerQuery
 } from 'generated/graphql.types'
 
-import {
-  Asset,
-  AssetCollection,
-  AssetDetails,
-  AssetImageContainer,
-  PriceCTA
-} from '../../components'
-import NftError from '../../components/NftError'
+import NftAssetItem from '../../components/NftAssetItem'
 import { NftFilterFormValuesType } from '../../NftFilter'
 
 const NftAddressResults: React.FC<Props> = ({
@@ -44,6 +34,7 @@ const NftAddressResults: React.FC<Props> = ({
     : null
 
   const [result] = useOwnerQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter: [
         {
@@ -93,34 +84,7 @@ const NftAddressResults: React.FC<Props> = ({
   return (
     <>
       {result.data?.assets.map((asset) => {
-        if (!asset) return null
-        return (
-          <Asset key={asset?.token_id}>
-            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-              <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
-            </LinkContainer>
-            <AssetDetails>
-              <div>
-                <AssetCollection>
-                  <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-                    {asset?.collection?.name}
-                  </Text>
-                </AssetCollection>
-                <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
-                  {asset?.name}
-                </Text>
-              </div>
-
-              <PriceCTA>
-                <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-                  <Button data-e2e='nftAssetPage' nature='primary' small>
-                    <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-                  </Button>
-                </LinkContainer>
-              </PriceCTA>
-            </AssetDetails>
-          </Asset>
-        )
+        return asset ? <NftAssetItem asset={asset} /> : null
       })}
     </>
   )

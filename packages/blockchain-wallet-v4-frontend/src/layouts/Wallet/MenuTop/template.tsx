@@ -99,6 +99,7 @@ const Header = (props: OwnProps) => {
     <Navbar
       primaryNavItems={PrimaryNavItems}
       fabClickHandler={fabCallback}
+      nftsEnabled={props.nftsEnabled}
       taxCenterEnabled={props.taxCenterEnabled}
       limitsClickHandler={limitsCallback}
       logoutClickHandler={logoutCallback}

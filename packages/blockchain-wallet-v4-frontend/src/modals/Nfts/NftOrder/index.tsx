@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -16,9 +17,13 @@ import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
 import NotVerified from './NotVerified'
-import ShowAsset from './ShowAsset'
 import Status from './Status'
 import Transfer from './Transfer'
+
+const StyledFlyoutChild = styled(FlyoutChild)`
+  display: flex;
+  flex-direction: column;
+`
 
 class NftOrder extends PureComponent<Props, State> {
   constructor(props) {
@@ -55,55 +60,50 @@ class NftOrder extends PureComponent<Props, State> {
         data-e2e='nftModal'
         total={total}
       >
-        {step === NftOrderStepEnum.SHOW_ASSET && (
-          <FlyoutChild>
-            <ShowAsset {...this.props} />
-          </FlyoutChild>
-        )}
         {step === NftOrderStepEnum.BUY && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <Buy {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <MarkForSale {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.ACCEPT_OFFER && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <AcceptOffer {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MAKE_OFFER && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <MakeOffer {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_OFFER && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <CancelOffer {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_LISTING && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <CancelListing {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.TRANSFER && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <Transfer {...this.props} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.STATUS && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <Status {...this.props} {...orderFlow.asset} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.NOT_VERIFIED && (
-          <FlyoutChild>
+          <StyledFlyoutChild>
             <NotVerified {...this.props} {...orderFlow.asset} />
-          </FlyoutChild>
+          </StyledFlyoutChild>
         )}
       </Flyout>
     )

@@ -15,13 +15,12 @@ import {
   useCollectionsQuery
 } from 'generated/graphql.types'
 
-import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { CollectionHeader, GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getEventFilter, getMinMaxFilters, getTraitFilters } from '../utils/NftUtils'
 import CollectionItems from './CollectionItems'
 import NftCollectionLoading from './NftCollection.template.loading'
 import Stats from './Stats'
@@ -58,29 +57,27 @@ const LinksContainer = styled.div`
 
 const NftsCollection: React.FC<Props> = ({ coinsActions, formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
+  const params = new URLSearchParams(window.location.hash.split('?')[1])
+  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
   useEffect(() => {
     coinsActions.fetchCoinsRates()
   }, [])
-
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
 
   const [collectionsQuery] = useCollectionsQuery({
+    requestPolicy: 'network-only',
     variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
   })
-
-  const minMaxFilters = getMinMaxFilters(formValues)
-  const traitFilters = getTraitFilters(formValues)
-  const eventFilter = getEventFilter(formValues)
-
-  const hasSomeFilters =
-    (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
-    false
 
   const collection = collectionsQuery.data?.collections
     ? collectionsQuery.data.collections[0]
     : undefined
+
+  useEffect(() => {
+    setActiveTab(tab)
+  }, [tab])
 
   if (collectionsQuery.error)
     return (
@@ -132,7 +129,12 @@ const NftsCollection: React.FC<Props> = ({ coinsActions, formActions, formValues
               ) : null}
             </LinksContainer>
           </CollectionInfo>
-          <Stats total_supply={collection.total_supply} stats={collection.stats} />
+          <Stats
+            formActions={formActions}
+            formValues={formValues}
+            total_supply={collection.total_supply}
+            stats={collection.stats}
+          />
         </NftBannerWrapper>
       </CollectionHeader>
       <GridWrapper>
@@ -142,25 +144,26 @@ const NftsCollection: React.FC<Props> = ({ coinsActions, formActions, formValues
           formValues={formValues}
           total_supply={collection.total_supply}
           traits={activeTab === 'ITEMS' ? collection.traits : []}
-          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
-            traitFilters={traitFilters}
+            tabs={['ITEMS', 'EVENTS']}
             formValues={formValues}
+            showSortBy
             formActions={formActions}
+            setRefreshTrigger={setRefreshTrigger}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            hasSomeFilters={hasSomeFilters}
-            minMaxFilters={minMaxFilters}
-            eventFilter={eventFilter}
+            collections={[]}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems
               collectionsQuery={collectionsQuery}
               formValues={formValues}
+              refreshTrigger={refreshTrigger}
               slug={slug}
             />
           ) : (

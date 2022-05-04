@@ -1,5 +1,6 @@
 import {
   ExplorerGatewayNftCollectionType,
+  ExplorerGatewaySearchType,
   NftAsset,
   OfferEventsType,
   OpenSeaOrder,
@@ -11,7 +12,7 @@ export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
   // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
-  const explorerUrl = `${apiUrl}/explorer-gateway/nft`
+  const explorerUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
   const getAssetContract = (asset_contract_address: string) => {
@@ -47,12 +48,13 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  // TODO
-  // const getOffersReceived = () => {}
-
-  const searchNftCollectionInfo = (slug: string): ExplorerGatewayNftCollectionType[] => {
-    return get({
-      endPoint: `/collection/search?query=${slug}`,
+  const searchNfts = (query: string): ExplorerGatewaySearchType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        query
+      },
+      endPoint: `/search`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -60,7 +62,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
 
   const getOpenSeaAsset = (collection_id: string, asset_number: string): NftAsset => {
     return get({
-      endPoint: `/asset/${collection_id}/${asset_number}`,
+      endPoint: `/asset/${collection_id}/${asset_number}?include_orders=true`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })
@@ -104,6 +106,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     getOpenSeaOrders,
     getOpenSeaStatus,
     postNftOrder,
-    searchNftCollectionInfo
+    searchNfts
   }
 }

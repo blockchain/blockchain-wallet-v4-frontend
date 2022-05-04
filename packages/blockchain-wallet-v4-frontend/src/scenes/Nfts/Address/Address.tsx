@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from '@reduxjs/toolkit'
 import { bindActionCreators, compose } from 'redux'
@@ -9,29 +9,29 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 
-import { event_types, GridWrapper, NftBannerWrapper } from '../components'
+import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getCollectionFilter, getEventFilter, getMinMaxFilters } from '../utils/NftUtils'
+import { getEventFilter } from '../utils/NftUtils'
 import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const address = pathname.split('/nfts/address/')[1]
+  const params = new URLSearchParams(window.location.hash.split('?')[1])
+  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>('ITEMS')
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
 
-  const minMaxFilters = getMinMaxFilters(formValues)
-  const collectionFilter = getCollectionFilter(formValues, collections)
   const eventFilter = getEventFilter(formValues)
 
-  if (!address) return null
+  useEffect(() => {
+    setActiveTab(tab)
+  }, [tab])
 
-  const hasSomeFilters =
-    (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
-    false
+  if (!address) return null
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
 
@@ -78,23 +78,22 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
-          event_types={activeTab === 'ITEMS' ? [] : event_types}
+          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
+            tabs={['ITEMS', 'EVENTS']}
             activeTab={activeTab}
-            traitFilters={[]}
-            eventFilter={activeTab === 'EVENTS' ? eventFilter : null}
             formActions={formActions}
             formValues={formValues}
-            minMaxFilters={minMaxFilters}
-            hasSomeFilters={hasSomeFilters}
-            collectionFilter={activeTab === 'ITEMS' ? collectionFilter : null}
+            collections={collections}
+            setRefreshTrigger={setRefreshTrigger}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (
             <AddressItems
               collections={collections}
+              refreshTrigger={refreshTrigger}
               setCollections={setCollections}
               formValues={formValues}
               address={address}

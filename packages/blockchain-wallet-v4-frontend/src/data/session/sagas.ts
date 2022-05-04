@@ -38,6 +38,7 @@ export default ({ api }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_OUT,
           properties: {
+            origin: 'SETTINGS',
             site_redirect: 'WALLET'
           }
         })

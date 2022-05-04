@@ -42,8 +42,9 @@ const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
 // NFT EXPLORER (mixed)
-const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+const NftsHome = React.lazy(() => import('./Nfts/Home'))
+const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -89,7 +90,7 @@ const App = ({
   }, [apiUrl])
 
   const client = createClient({
-    url: `${apiUrl}/explorer-gateway/graphql/`
+    url: `${apiUrl}/nft-market-api/graphql/`
   })
 
   return (
@@ -175,25 +176,33 @@ const App = ({
 
                       {/* NFT Explorer routes */}
                       {nftExplorer && (
-                        <>
-                          <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
-                          <NftsLayout
-                            path='/nfts/asset/:contract/:id'
-                            exact
-                            component={NftsAsset}
-                          />
-                          <NftsLayout
-                            path='/nfts/collection/:slug'
-                            exact
-                            component={NftsCollection}
-                          />
-                          <NftsLayout
-                            path='/nfts'
-                            exact
-                            component={NftsExplorer}
-                            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                          />
-                        </>
+                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout
+                          path='/nfts/collection/:slug'
+                          exact
+                          component={NftsCollection}
+                        />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout
+                          path='/nfts'
+                          exact
+                          component={NftsHome}
+                          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                        />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout
+                          path='/nfts/explore'
+                          exact
+                          component={NftsFirehose}
+                          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                        />
                       )}
 
                       {/* Authenticated Wallet routes */}
@@ -251,7 +260,9 @@ const mapStateToProps = (state) => ({
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
+    .getOrElse(false)
 })
 
 const connector = connect(mapStateToProps)

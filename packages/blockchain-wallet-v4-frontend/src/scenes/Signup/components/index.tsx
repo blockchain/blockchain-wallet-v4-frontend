@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
@@ -141,10 +142,19 @@ align-items: center;
 `}
 `
 
-export const LoginLink = () => (
+export const LoginLink = (props: { analyticsActions }) => (
   <LoginCard>
     <LinkContainer data-e2e='signupLink' to='/login'>
-      <LoginLinkRow>
+      <LoginLinkRow
+        onClick={() =>
+          props.analyticsActions.trackEvent({
+            key: Analytics.LOGIN_CLICKED,
+            properties: {
+              origin: 'SIGN_UP_FLOW'
+            }
+          })
+        }
+      >
         <Text
           size='16px'
           color='grey600'
