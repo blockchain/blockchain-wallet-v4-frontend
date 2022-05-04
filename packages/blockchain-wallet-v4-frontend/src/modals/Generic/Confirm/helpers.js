@@ -43,7 +43,7 @@ export const selectMessage = (message, values) => {
       return (
         <FormattedMessage
           id='modals.confirm.message.bitpay'
-          defaultMessage='Click OK to autopopulate your BitPay invoice payment information.'
+          defaultMessage='Click OK to auto-populate your BitPay invoice payment information.'
         />
       )
     case C.VERIFY_IDENTITY_MSG:

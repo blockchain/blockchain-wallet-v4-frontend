@@ -14,7 +14,6 @@ import {
   EventFilterFields,
   useCollectionsQuery
 } from 'generated/graphql.types'
-import { media } from 'services/styles'
 
 import { CollectionHeader, event_types, GridWrapper, NftBannerWrapper } from '../components'
 import NftError from '../components/NftError'

@@ -4,8 +4,9 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
-import { errorHandler } from '@core/utils'
+import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import {
   AddBankStepType,
   BankDWStepType,
@@ -200,7 +201,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setBankDetails({ account }))
       }
     } catch (e) {
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/payments/banktransfer',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchBankTransferAccountsError(error))
     }
   }

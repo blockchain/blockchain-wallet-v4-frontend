@@ -25,7 +25,7 @@ const Empty = () => (
     <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
       <FormattedMessage
         id='scenes.interesthistory.empty.here'
-        defaultMessage='All your Interest transactions will show up here.'
+        defaultMessage='All your Rewards transactions will show up here.'
       />
     </Text>
   </Wrapper>
