@@ -42,6 +42,7 @@ const NftFirehoseResults: React.FC<Props> = ({
   }
 
   const [result] = useAssetsQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter,
       forSale: formValues?.forSale,

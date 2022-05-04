@@ -17,6 +17,8 @@ import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
 const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
+
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -24,14 +26,18 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
     undefined
   )
 
-  useEffect(() => {
+  const refresh = () => {
     setIsFetchingNextPage(true)
     setPageVariables([])
     setMaxItemsFetched(false)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
-  }, [formValues])
+  }
+
+  useEffect(() => {
+    refresh()
+  }, [formValues, refreshTrigger])
 
   const isFetching = isFetchingNextPage
 
@@ -53,6 +59,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
           showSortBy
           formValues={formValues}
           formActions={formActions}
+          setRefreshTrigger={setRefreshTrigger}
           collections={[]}
           setActiveTab={() => null}
         />

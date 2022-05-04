@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -8,26 +8,38 @@ import { actions, selectors } from 'data'
 
 import NftsTemplate from './NftsTemplate'
 
-class NftsContainer extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.coinsActions.fetchCoinsRates()
+const NftsContainer = (props) => {
+  useEffect(() => {
+    props.coinsActions.fetchCoinsRates()
+  }, [props.coinsActions])
+
+  const { component: Component, pageTitle, path, ...rest } = props
+  if (pageTitle) document.title = pageTitle
+
+  const doRefresh = (e) => {
+    if (props.isAuthenticated) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
   }
 
-  render() {
-    const { component: Component, pageTitle, path, ...rest } = this.props
-    if (pageTitle) document.title = pageTitle
+  useEffect(() => {
+    window.addEventListener('beforeunload', doRefresh)
+    return () => {
+      window.removeEventListener('beforeunload', doRefresh)
+    }
+  })
 
-    return (
-      <Route
-        path={path}
-        render={() => (
-          <NftsTemplate {...this.props}>
-            <Component computedMatch={rest.computedMatch} {...rest} />
-          </NftsTemplate>
-        )}
-      />
-    )
-  }
+  return (
+    <Route
+      path={path}
+      render={() => (
+        <NftsTemplate {...props}>
+          <Component computedMatch={rest.computedMatch} {...rest} />
+        </NftsTemplate>
+      )}
+    />
+  )
 }
 
 const mapStateToProps = (state) => ({

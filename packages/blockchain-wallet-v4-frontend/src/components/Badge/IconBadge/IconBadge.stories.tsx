@@ -20,9 +20,5 @@ const Template: ComponentStory<IconBadgeComponent> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   backgroundColor: 'orange',
-  children: (
-    <Icon label='' size='sm' color='orange600'>
-      <IconActivity />
-    </Icon>
-  )
+  children: <IconActivity />
 }

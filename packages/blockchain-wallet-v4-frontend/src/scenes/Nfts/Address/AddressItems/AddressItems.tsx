@@ -11,7 +11,13 @@ import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import ResultsPage from './AddressItems.results'
 
-const AddressItems: React.FC<Props> = ({ address, collections, formValues, setCollections }) => {
+const AddressItems: React.FC<Props> = ({
+  address,
+  collections,
+  formValues,
+  refreshTrigger,
+  setCollections
+}) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -19,13 +25,18 @@ const AddressItems: React.FC<Props> = ({ address, collections, formValues, setCo
     undefined
   )
 
-  useEffect(() => {
+  const refresh = () => {
     setIsFetchingNextPage(true)
     setPageVariables([])
+    setMaxItemsFetched(false)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
-  }, [address])
+  }
+
+  useEffect(() => {
+    refresh()
+  }, [address, refreshTrigger])
 
   const isFetching = isFetchingNextPage
 
@@ -67,6 +78,7 @@ type Props = {
   address: string
   collections: OwnerQuery['assets'][0]['collection'][]
   formValues: NftFilterFormValuesType
+  refreshTrigger: number
   setCollections: React.Dispatch<React.SetStateAction<OwnerQuery['assets'][0]['collection'][]>>
 }
 
