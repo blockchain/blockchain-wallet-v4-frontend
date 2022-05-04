@@ -314,6 +314,7 @@ const TraitGridFilters: React.FC<Props> = ({
     </>
   )
 }
+
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
