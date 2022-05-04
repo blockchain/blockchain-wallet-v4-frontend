@@ -6,7 +6,6 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { GasCalculationOperations, GasDataI, RawOrder } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
@@ -27,7 +26,6 @@ import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
-import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 import { nonTraitFilters } from './utils'
@@ -39,37 +37,6 @@ const INSUFFICIENT_FUNDS = 'insufficient funds'
 
 export default ({ api }: { api: APIType }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
-
-  const clearAndRefetchOffersMade = function* () {
-    yield put(A.resetNftOffersMade())
-    yield put(A.fetchNftOffersMade())
-  }
-
-  const fetchNftOffersMade = function* () {
-    try {
-      const offers = S.getOffersMade(yield select())
-      if (offers.atBound) return
-      yield put(A.fetchNftOffersMadeLoading())
-      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
-      const ethAddr = ethAddrR.getOrFail('No ETH address.')
-      const { asset_events }: ReturnType<typeof api.getOffersMade> = yield call(
-        api.getOffersMade,
-        ethAddr,
-        offers.page
-      )
-
-      if (asset_events.length < NFT_ORDER_PAGE_LIMIT) {
-        yield put(A.setOffersMadeBounds({ atBound: true }))
-      } else {
-        yield put(A.setOffersMadeData({ page: offers.page + 1 }))
-      }
-
-      yield put(A.fetchNftOffersMadeSuccess(asset_events))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftOffersMadeFailure(error))
-    }
-  }
 
   const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
@@ -368,6 +335,12 @@ export default ({ api }: { api: APIType }) => {
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -628,7 +601,6 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield put(A.setOrderFlowIsSubmitting(true))
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
-      yield put(A.clearAndRefetchOffersMade())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
       yield put(
@@ -639,6 +611,12 @@ export default ({ api }: { api: APIType }) => {
             currency: coin,
             type: 'SUCCESS'
           }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
         })
       )
     } catch (e) {
@@ -792,14 +770,12 @@ export default ({ api }: { api: APIType }) => {
     acceptOffer,
     cancelListing,
     cancelOffer,
-    clearAndRefetchOffersMade,
     createOffer,
     createOrder,
     createSellOrder,
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
-    fetchNftOffersMade,
     fetchOpenSeaAsset,
     fetchOpenSeaOrders,
     fetchOpenseaStatus,

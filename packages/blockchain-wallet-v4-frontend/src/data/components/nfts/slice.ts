@@ -1,20 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { string } from 'prop-types'
 
 import { Remote } from '@core'
 import {
-  CollectionData,
-  ExplorerGatewayNftCollectionType,
   ExplorerGatewaySearchType,
   GasCalculationOperations,
   GasDataI,
   NftAsset,
   NftAssetsType,
-  NftCollection,
   NftOrder,
-  NftOrdersType,
-  OfferEventsType,
   OpenSeaOrder,
   OpenSeaStatus,
   RawOrder
@@ -36,13 +30,6 @@ const initialState: NftsStateType = {
   },
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
-  offersMade: {
-    atBound: false,
-    isFailure: false,
-    isLoading: true,
-    list: [],
-    page: 0
-  },
   openSeaAsset: Remote.NotAsked,
   openSeaOrders: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
@@ -77,10 +64,9 @@ const nftsSlice = createSlice({
     cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
     cancelOffer: (
       state,
-      action: PayloadAction<{ gasData: GasDataI; order: RawOrder | null }>
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder | null }>
     ) => {},
     clearAndRefetchAssets: (state) => {},
-    clearAndRefetchOffersMade: (state) => {},
     clearAndRefetchOrders: (state) => {},
     createOffer: (
       state,
@@ -197,18 +183,6 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
-    fetchNftOffersMade: () => {},
-    fetchNftOffersMadeFailure: (state, action: PayloadAction<string>) => {
-      state.offersMade.isFailure = true
-    },
-    fetchNftOffersMadeLoading: (state) => {
-      state.offersMade.isLoading = true
-    },
-    fetchNftOffersMadeSuccess: (state, action: PayloadAction<OfferEventsType['asset_events']>) => {
-      state.offersMade.isFailure = false
-      state.offersMade.isLoading = false
-      state.offersMade.list = [...state.offersMade.list, ...action.payload]
-    },
     fetchNftOrderAsset: () => {},
     fetchNftOrderAssetFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.asset = Remote.Failure(action.payload)
@@ -277,7 +251,7 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | {
             asset_contract_address: string
-            offer: OfferEventsType['asset_events'][0]
+            offer: RawOrder
             order?: never
             step: NftOrderStepEnum.CANCEL_OFFER
             token_id: string
@@ -316,6 +290,9 @@ const nftsSlice = createSlice({
       if (action.payload.order) {
         state.orderFlow.orderToMatch = action.payload.order
       }
+      if (action.payload.offer && action.payload.step === NftOrderStepEnum.CANCEL_OFFER) {
+        state.orderFlow.offerToCancel = action.payload.offer
+      }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
     nftSearchFailure: (state, action: PayloadAction<string>) => {
@@ -336,13 +313,6 @@ const nftsSlice = createSlice({
     resetNftFees: (state) => {
       state.orderFlow.fees = Remote.NotAsked
     },
-    resetNftOffersMade: (state) => {
-      state.offersMade.atBound = false
-      state.offersMade.page = 0
-      state.offersMade.isFailure = false
-      state.offersMade.isLoading = true
-      state.offersMade.list = []
-    },
     setActiveSlug: (state, action: PayloadAction<{ slug: string }>) => {
       state.activeSlug = action.payload.slug
     },
@@ -361,12 +331,6 @@ const nftsSlice = createSlice({
     },
     setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer
-    },
-    setOffersMadeBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
-      state.offersMade.atBound = action.payload.atBound
-    },
-    setOffersMadeData: (state, action: PayloadAction<{ page?: number }>) => {
-      state.offersMade.page = action.payload.page || 0
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload

@@ -10,18 +10,23 @@ import {
   getAmountColumn,
   getExpirationColumn,
   getFromColumn,
+  getOfferCancelColumn,
   getPriceColumn
 } from './OffersTableColumns'
 
-const getTableColumns = (columns: ('price' | 'amount' | 'from' | 'expiration')[]) =>
+const getTableColumns = (
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[],
+  defaultEthAddr
+) =>
   [
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('amount') ? getAmountColumn() : null,
     columns.includes('expiration') ? getExpirationColumn() : null,
-    columns.includes('from') ? getFromColumn() : null
+    columns.includes('from') ? getFromColumn() : null,
+    columns.includes('cancel_offer') ? getOfferCancelColumn(defaultEthAddr) : null
   ].filter(Boolean)
 
-const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
+const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -31,7 +36,7 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
       autoResetRowState: false,
       autoResetSelectedRows: false,
       autoResetSortBy: false,
-      columns: useMemo(() => getTableColumns(columns), [columns]),
+      columns: useMemo(() => getTableColumns(columns, defaultEthAddr), [columns, defaultEthAddr]),
       data: useMemo(() => bidsAndOffers, [bidsAndOffers]),
       disableMultiSort: true,
       disableSortRemove: true,
@@ -105,7 +110,8 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns }) => {
 
 type Props = {
   bidsAndOffers: RawOrder[]
-  columns: ('price' | 'amount' | 'from' | 'expiration')[]
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[]
+  defaultEthAddr: string
 }
 
 export default OffersTable

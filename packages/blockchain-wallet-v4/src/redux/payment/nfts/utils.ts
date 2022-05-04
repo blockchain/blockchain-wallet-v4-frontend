@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import { ethers, Signer } from 'ethers'
-import { parseEther } from 'ethers/lib/utils'
 
 import {
   Asset,
@@ -1786,7 +1785,8 @@ export async function cancelOrder({
     args,
     txnData
   )
-  await wyvernExchangeContract.cancelOrder_(...args, txnData)
+  const tx = await wyvernExchangeContract.cancelOrder_(...args, txnData)
+  await tx.wait()
 
   // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
   const isValidOrder = await _validateOrderWyvern({ order, signer })
