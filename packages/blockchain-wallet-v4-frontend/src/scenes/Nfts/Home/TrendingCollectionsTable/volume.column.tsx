@@ -24,6 +24,6 @@ export const getVolumeColumn = () => ({
       <FormattedMessage id='copy.24h_volume' defaultMessage='24 Hour Volume' />
     </CellHeaderText>
   ),
-  accessor: 'one_day_volume',
+  accessor: 'stats.one_day_volume',
   disableGlobalFilter: true
 })

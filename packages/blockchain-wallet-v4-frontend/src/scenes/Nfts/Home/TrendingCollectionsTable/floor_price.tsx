@@ -12,6 +12,6 @@ export const getFloorPriceColumn = () => ({
       <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
     </CellHeaderText>
   ),
-  accessor: 'floor_price',
+  accessor: 'stats.floor_price',
   disableGlobalFilter: true
 })
