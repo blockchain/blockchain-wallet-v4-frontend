@@ -838,7 +838,6 @@ const NftAsset: React.FC<Props> = ({
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
                     filters={[{ field: EventFilterFields.AssetId, value: currentAsset.id }]}
-                    bidsAndOffers={bidsAndOffers}
                     key='events'
                   />
                 </div>
