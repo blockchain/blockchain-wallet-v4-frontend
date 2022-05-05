@@ -155,7 +155,11 @@ export default ({ api, coreSagas, networks }) => {
         // mobile - exchange sso login
         case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
           sendMessageToMobile(platform, {
-            data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
+            data: {
+              csrf: csrfToken,
+              jwt: jwtToken,
+              jwtExpirationTime: sessionExpirationTime
+            },
             status: 'success'
           })
           break
@@ -265,6 +269,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
+
+      return yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
 
       if (firstLogin) {
         const countryCode = country || 'US'
@@ -410,7 +416,12 @@ export default ({ api, coreSagas, networks }) => {
       if (!session) {
         session = yield call(api.obtainSessionToken)
         if (product === ProductAuthOptions.EXCHANGE) {
-          yield put(actions.session.saveExchangeSession({ email: exchangeEmail, id: session }))
+          yield put(
+            actions.session.saveExchangeSession({
+              email: exchangeEmail,
+              id: session
+            })
+          )
         } else {
           yield put(actions.session.saveWalletSession({ email, guid, id: session }))
         }
@@ -802,7 +813,13 @@ export default ({ api, coreSagas, networks }) => {
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
       ) {
         yield put(
-          actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+          actions.auth.login({
+            code: auth,
+            guid,
+            mobileLogin: null,
+            password,
+            sharedKey: null
+          })
         )
       } else if (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) {
         // exchange login but it is a unified account
@@ -863,6 +880,7 @@ export default ({ api, coreSagas, networks }) => {
         case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
           yield put(
             actions.auth.exchangeLogin({
+              captchaToken: '', // TODO: Fix this
               code: exchangeTwoFA,
               password: 'Exchange123$',
               username: magicLinkData.exchange?.email as string
