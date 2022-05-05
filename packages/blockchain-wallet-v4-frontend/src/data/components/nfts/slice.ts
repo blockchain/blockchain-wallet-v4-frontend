@@ -261,6 +261,14 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
+            order: RawOrder
+            step: NftOrderStepEnum.CANCEL_LISTING
+            token_id: string
+            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
             order?: never
             step: NftOrderStepEnum
             token_id: string
@@ -277,6 +285,9 @@ const nftsSlice = createSlice({
       }
       if (action.payload.offer && action.payload.step === NftOrderStepEnum.CANCEL_OFFER) {
         state.orderFlow.offerToCancel = action.payload.offer
+      }
+      if (action.payload.order && action.payload.step === NftOrderStepEnum.CANCEL_LISTING) {
+        state.orderFlow.listingToCancel = action.payload.order
       }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
