@@ -26,7 +26,7 @@ import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
-  top: calc(${FIXED_HEADER_HEIGHT + 20});
+  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
   position: sticky;
   transition: width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
