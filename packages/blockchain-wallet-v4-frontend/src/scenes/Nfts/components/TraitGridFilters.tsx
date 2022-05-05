@@ -27,10 +27,9 @@ import EventTypeName from './EventTypeName'
 
 const Wrapper = styled.div`
   position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT}px);
+  top: ${FIXED_HEADER_HEIGHT}px;
   background: ${(props) => props.theme.white};
-  padding-top: 8px;
-  padding-bottom: 16px;
+  padding-top: 4px;
   z-index: 10;
 `
 

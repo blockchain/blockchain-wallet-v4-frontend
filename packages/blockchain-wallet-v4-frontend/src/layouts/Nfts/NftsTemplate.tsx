@@ -9,7 +9,7 @@ import { media } from 'services/styles'
 
 import Modals from '../../modals'
 import { Props as OwnProps } from './Nfts'
-import Header from './NftsHeader'
+import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'
 
 const Wrapper = styled.div`
   background-color: ${colors.white100};
@@ -22,7 +22,9 @@ const Page = styled.div`
   box-sizing: border-box;
   background: ${(props) => props.theme.white};
   > div:first-child {
-    padding-top: 20px;
+    position: relative;
+    top: ${FIXED_HEADER_HEIGHT}px;
+    padding-top: 8px;
   }
   ${media.tabletL`
     padding-right: 20px !important;
