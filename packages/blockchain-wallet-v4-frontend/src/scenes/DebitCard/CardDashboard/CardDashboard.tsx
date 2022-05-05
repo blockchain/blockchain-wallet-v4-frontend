@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { BoxContainer } from './CardDashboard.model'
 import ManageCardBox from './ManageCardBox'
-import { BoxContainer } from './model'
 
 const Iframe = styled.iframe`
   border: 0;
@@ -20,6 +21,11 @@ const CardDashboard = ({
   lockHandler,
   modalActions
 }) => {
+  const [some, setSome] = useState(false)
+  const func = (value) => {
+    setSome(value)
+    if (value) setSome(value)
+  }
   return (
     <div>
       <BoxContainer>
@@ -27,6 +33,13 @@ const CardDashboard = ({
           id='marqeta-card-iframe'
           src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}`}
         />
+        <div>
+          <FormattedMessage
+            id='scenes.debit_card.dashboard.cards_title'
+            defaultMessage='My Cards'
+            onChange={func}
+          />
+        </div>
       </BoxContainer>
       <ManageCardBox
         alertActions={alertActions}

@@ -54,6 +54,14 @@ class TextBoxDebounced extends React.Component {
     clearTimeout(this.timeout)
   }
 
+  handleBlur() {
+    this.props.input.onBlur(this.state.value)
+  }
+
+  handleFocus() {
+    this.props.input.onFocus(this.state.value)
+  }
+
   handleChange(e) {
     e.preventDefault()
     const { value } = e.target
@@ -63,14 +71,6 @@ class TextBoxDebounced extends React.Component {
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
     }, 500)
-  }
-
-  handleBlur() {
-    this.props.input.onBlur(this.state.value)
-  }
-
-  handleFocus() {
-    this.props.input.onFocus(this.state.value)
   }
 
   render() {
