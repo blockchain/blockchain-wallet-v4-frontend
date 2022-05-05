@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -20,7 +20,7 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
@@ -28,14 +28,25 @@ import EventTypeName from '../components/EventTypeName'
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: calc(${FIXED_HEADER_HEIGHT + 20}px);
   position: sticky;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   min-width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
   overflow: scroll;
   height: calc(100vh - ${FIXED_HEADER_HEIGHT + 20}px);
+  background: ${(props) => props.theme.white};
   ${media.tablet`
-    display: none;
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    box-sizing: border-box;
+    z-index: 1000;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    padding: 20px;
+    top: ${FIXED_HEADER_HEIGHT}px;
+    bottom: 0;
+    left: 0;
+    right: 0;
   `}
 `
 const IconWrapper = styled.div<{ isOpen: boolean }>`
@@ -94,14 +105,23 @@ const NftFilter: React.FC<Props> = ({
   forSaleFilter,
   formActions,
   formValues,
+  isTriggered,
   minMaxPriceFilter,
   opensea_event_types,
+  setIsFilterTriggered,
   total_supply,
   traits
 }) => {
+  const isTablet = useMedia('tablet')
   const ref = useRef<HTMLDivElement | null>(null)
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(!isTablet)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
+
+  useEffect(() => {
+    if (isTriggered) {
+      setIsOpen(true)
+    }
+  }, [isTriggered])
 
   if (!traits) return null
 
@@ -139,6 +159,7 @@ const NftFilter: React.FC<Props> = ({
                 role='button'
                 onClick={() => {
                   setIsOpen(false)
+                  setIsFilterTriggered(false)
                   analyticsActions.trackEvent({
                     key: Analytics.NFT_LEFT_MENU_CLOSED,
                     properties: {}
@@ -429,8 +450,10 @@ type OwnProps = {
   forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  isTriggered: boolean
   minMaxPriceFilter: boolean
   opensea_event_types?: string[]
+  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }

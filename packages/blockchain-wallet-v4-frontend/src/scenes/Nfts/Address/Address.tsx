@@ -24,6 +24,7 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
+  const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
 
   const eventFilter = getEventFilter(formValues)
 
@@ -75,10 +76,12 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
           collections={activeTab === 'ITEMS' ? collections : []}
           formActions={formActions}
           formValues={formValues}
+          isTriggered={isFilterTriggered}
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
           opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
+          setIsFilterTriggered={setIsFilterTriggered}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -88,6 +91,7 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
             formValues={formValues}
             collections={collections}
             setRefreshTrigger={setRefreshTrigger}
+            setIsFilterTriggered={setIsFilterTriggered}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (

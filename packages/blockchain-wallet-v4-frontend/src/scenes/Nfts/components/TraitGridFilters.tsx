@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle, IconRefresh } from '@blockchain-com/icons'
+import { IconCloseCircle, IconFilter, IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -85,6 +85,7 @@ const TraitGridFilters: React.FC<Props> = ({
   formValues,
   numOfResults,
   routerActions,
+  setIsFilterTriggered,
   setRefreshTrigger,
   showSortBy,
   tabs
@@ -144,37 +145,58 @@ const TraitGridFilters: React.FC<Props> = ({
               alignItems='center'
               gap={16}
             >
-              <Button
-                height='100%'
-                onClick={() => {
-                  if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
-                  setIsRefreshRotating(true)
-                }}
-                style={
-                  isTablet
-                    ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
-                    : {}
-                }
-                data-e2e='nftRefresh'
-                nature='empty-blue'
-              >
-                <Flex gap={12} alignItems='center'>
-                  {isTablet ? null : (
-                    <Flex flexDirection='column' alignItems='start' gap={4}>
-                      <Text size='12px' weight={600}>
-                        {numOfResults || '---'}{' '}
-                        <FormattedMessage id='copy.items' defaultMessage='Items' />
-                      </Text>
-                      <Text size='10px' color='grey400' weight={500}>
-                        <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
-                      </Text>
-                    </Flex>
-                  )}
-                  <Icon label='refresh' color='blue600' size='sm'>
-                    <StyledIconRefresh className={`refresh ${isRefreshRotating ? 'active' : ''}`} />
-                  </Icon>
-                </Flex>
-              </Button>
+              <Flex gap={8} alignItems='center'>
+                {isTablet ? (
+                  <Button
+                    onClick={() => setIsFilterTriggered(true)}
+                    data-e2e='triggerFilter'
+                    nature='empty-blue'
+                    style={{
+                      borderRadius: '50%',
+                      height: '40px',
+                      minWidth: 'initial',
+                      width: '40px'
+                    }}
+                  >
+                    <Icon label='filter' size='lg'>
+                      <IconFilter />
+                    </Icon>
+                  </Button>
+                ) : null}
+                <Button
+                  height='100%'
+                  onClick={() => {
+                    if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
+                    setIsRefreshRotating(true)
+                  }}
+                  style={
+                    isTablet
+                      ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
+                      : {}
+                  }
+                  data-e2e='nftRefresh'
+                  nature='empty-blue'
+                >
+                  <Flex gap={12} alignItems='center'>
+                    {isTablet ? null : (
+                      <Flex flexDirection='column' alignItems='start' gap={4}>
+                        <Text size='12px' weight={600}>
+                          {numOfResults || '---'}{' '}
+                          <FormattedMessage id='copy.items' defaultMessage='Items' />
+                        </Text>
+                        <Text size='10px' color='grey400' weight={500}>
+                          <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                        </Text>
+                      </Flex>
+                    )}
+                    <Icon label='refresh' color='blue600' size='sm'>
+                      <StyledIconRefresh
+                        className={`refresh ${isRefreshRotating ? 'active' : ''}`}
+                      />
+                    </Icon>
+                  </Flex>
+                </Button>
+              </Flex>
               {showSortBy ? (
                 <SortByWrapper>
                   <Field
@@ -363,6 +385,7 @@ type OwnProps = {
   formValues: NftFilterFormValuesType
   numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
