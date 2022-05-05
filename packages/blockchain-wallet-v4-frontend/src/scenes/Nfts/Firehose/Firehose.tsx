@@ -51,7 +51,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   return (
     <GridWrapper>
       <NftFilter
-        collections={[]}
+        collections={collectionsQuery.data?.collections || []}
         formActions={formActions}
         formValues={formValues}
         traits={[]}
@@ -61,13 +61,13 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
+          collections={[]}
           tabs={['EXPLORE']}
           activeTab='EXPLORE'
           showSortBy
           formValues={formValues}
           formActions={formActions}
           setRefreshTrigger={setRefreshTrigger}
-          collections={collectionsQuery.data?.collections || []}
           setActiveTab={() => null}
         />
         <NftPageLazyLoadWrapper>

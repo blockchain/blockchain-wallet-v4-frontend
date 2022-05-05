@@ -23,7 +23,15 @@ const NftFirehoseResults: React.FC<Props> = ({
   setMaxItemsFetched,
   setNextPageFetchError
 }) => {
-  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> = []
+  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> =
+    formValues?.collection
+      ? [
+          {
+            field: AssetFilterFields.CollectionSlug,
+            value: formValues.collection
+          }
+        ]
+      : []
 
   if (formValues?.max) {
     filter.push({
