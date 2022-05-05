@@ -261,7 +261,7 @@ const DetailsAndOffers = styled.div``
 
 const StickyWrapper = styled.div`
   position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT}px + 20px);
+  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
 `
 
 const NftAsset: React.FC<Props> = ({

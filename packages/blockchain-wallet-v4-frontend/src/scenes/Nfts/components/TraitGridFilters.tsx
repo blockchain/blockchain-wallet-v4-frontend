@@ -30,6 +30,7 @@ const Wrapper = styled.div`
   top: ${FIXED_HEADER_HEIGHT}px;
   background: ${(props) => props.theme.white};
   padding-top: 4px;
+  padding-bottom: 4px;
   z-index: 10;
 `
 
@@ -47,6 +48,7 @@ const ActiveTraitFilter = styled.div`
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   display: ${(props) => (props.hasSomeFilters ? 'flex' : 'none')};
+  margin-top: ${(props) => (props.hasSomeFilters ? '8px' : '0')};
   flex-wrap: wrap;
   gap: 6px;
   z-index: 10;
@@ -100,7 +102,7 @@ const TraitGridFilters: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <div style={{ marginBottom: '8px', width: '100%' }}>
+      <div style={{ width: '100%' }}>
         <Flex alignItems='center' justifyContent='space-between'>
           {tabs.length ? (
             <TabMenu style={{ width: 'fit-content' }}>
