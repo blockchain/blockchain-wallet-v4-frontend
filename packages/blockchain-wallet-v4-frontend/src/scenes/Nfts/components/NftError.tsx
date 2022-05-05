@@ -5,11 +5,11 @@ import { CombinedError } from 'urql'
 import { Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
-import { NftPageV2 } from '.'
+import { NftPage } from '.'
 
 const NftError: React.FC<Props> = ({ error }) => {
   return (
-    <NftPageV2>
+    <NftPage>
       <Flex flexDirection='column' alignItems='center' justifyContent='center'>
         <Image name='empty-search' />
         <Text size='24px' style={{ marginTop: '4px' }} weight={600}>
@@ -41,7 +41,7 @@ const NftError: React.FC<Props> = ({ error }) => {
           </Flex>
         </div>
       </Flex>
-    </NftPageV2>
+    </NftPage>
   )
 }
 
