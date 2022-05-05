@@ -271,6 +271,10 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.cache.exchangeWalletGuid(guid))
           yield put(actions.cache.setUnifiedAccount(true))
         } else {
+          yield take([
+            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS,
+            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
+          ])
           const existingUserCountryCode = (yield select(
             selectors.modules.profile.getUserCountryCode
           )).getOrElse('US')

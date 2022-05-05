@@ -1813,7 +1813,6 @@
   "scenes.login.device_verified": "Your device is verified!",
   "scenes.login.device_verified.copy": "Return to previous browser to continue logging in.",
   "scenes.login.email_guid": "Your Email or Wallet ID",
-  "scenes.login.enter_password.setting_goal.title": "For your security, we ask you to enter your password to continue to update your {settingsChange} settings.",
   "scenes.login.exchange.help.passwordresetsuccess": "If you're registered on the Exchange, you will receive an email with instructions on how to reset your password shortly.",
   "scenes.login.exchange.help.requestpasswordreset": "Request password reset",
   "scenes.login.exchange.incorrect_code": "Incorrect code",
