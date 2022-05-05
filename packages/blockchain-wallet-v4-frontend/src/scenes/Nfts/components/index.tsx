@@ -78,6 +78,9 @@ export const GridWrapper = styled.div`
   padding: 24px;
   align-items: flex-start;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  ${media.tablet`
+    padding: 0px;
+  `}
 `
 
 export const Grid = styled.div`

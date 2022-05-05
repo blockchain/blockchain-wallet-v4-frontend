@@ -22,6 +22,7 @@ const Page = styled.div`
   box-sizing: border-box;
   background: ${(props) => props.theme.white};
   > div:first-child {
+    z-index: 1;
     position: relative;
     top: ${FIXED_HEADER_HEIGHT}px;
     padding-top: 8px;
