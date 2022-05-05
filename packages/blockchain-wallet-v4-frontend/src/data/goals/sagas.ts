@@ -6,7 +6,6 @@ import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from '
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from '@core'
-import INR from '@core/exchange/currencies/INR'
 import {
   InterestAfterTransactionType,
   RatesType,
