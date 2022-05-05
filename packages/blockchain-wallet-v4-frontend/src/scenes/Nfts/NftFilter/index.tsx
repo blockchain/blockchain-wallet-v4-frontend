@@ -26,14 +26,14 @@ import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
-  top: 20px;
+  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
   position: sticky;
   transition: width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   min-width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
   overflow: scroll;
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT + 20}px);
   ${media.tablet`
     display: none;
   `}

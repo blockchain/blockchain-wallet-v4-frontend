@@ -13,6 +13,7 @@ import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 import {
@@ -23,6 +24,15 @@ import {
 } from '../utils/NftUtils'
 import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
+
+const Wrapper = styled.div`
+  position: sticky;
+  top: ${FIXED_HEADER_HEIGHT}px;
+  background: ${(props) => props.theme.white};
+  padding-top: 4px;
+  padding-bottom: 4px;
+  z-index: 10;
+`
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
@@ -38,13 +48,9 @@ const ActiveTraitFilter = styled.div`
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   display: ${(props) => (props.hasSomeFilters ? 'flex' : 'none')};
+  margin-top: ${(props) => (props.hasSomeFilters ? '8px' : '0')};
   flex-wrap: wrap;
-  position: sticky;
   gap: 6px;
-  top: 0px;
-  background: ${(props) => props.theme.white};
-  padding-top: ${(props) => (props.hasSomeFilters ? '8px' : '0px')};
-  padding-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
   z-index: 10;
 `
 
@@ -95,8 +101,8 @@ const TraitGridFilters: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   return (
-    <>
-      <div style={{ marginBottom: '8px', width: '100%' }}>
+    <Wrapper>
+      <div style={{ width: '100%' }}>
         <Flex alignItems='center' justifyContent='space-between'>
           {tabs.length ? (
             <TabMenu style={{ width: 'fit-content' }}>
@@ -313,7 +319,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   properties: {}
                   }) */}
       </TraitGrid>
-    </>
+    </Wrapper>
   )
 }
 
