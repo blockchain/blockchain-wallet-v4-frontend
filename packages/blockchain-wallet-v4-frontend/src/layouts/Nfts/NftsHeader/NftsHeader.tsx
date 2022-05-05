@@ -18,11 +18,11 @@ import NftsSearch from './NftsSearch'
 
 export const FIXED_HEADER_HEIGHT = 56
 
-const FixedNav = styled(NavContainer)`
-  position: fixed;
-  z-index: 3;
-  background-color: ${colors.white900};
+const StickyNav = styled(NavContainer)`
   top: 0;
+  z-index: 3;
+  position: fixed;
+  background-color: ${colors.white900};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,83 +46,80 @@ const NavLinkButton = styled(Link)`
 
 const ExploreHeader: React.FC<Props> = ({
   ethAddress,
-  formValues,
   isAuthenticated,
   modalActions,
   pathname,
   routerActions
 }) => {
   return (
-    <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
-      <FixedNav>
-        <NavLeft>
-          <Logo>
-            <NavLink to='/home' data-e2e='homeLink'>
-              <Image width='25px' name='blockchain-icon' />
-            </NavLink>
-          </Logo>
-          <AppSwitcher />
-        </NavLeft>
-        <NavCenter>
-          <LinkContainer to='/nfts/explore'>
-            <NavLinkButton>
-              <Flex alignItems='center' gap={4}>
-                <Text size='14px' weight={600}>
-                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                </Text>
-                🚀
-              </Flex>
-            </NavLinkButton>
-          </LinkContainer>
-          <NftsSearch />
-        </NavCenter>
-        <NavRight>
-          {isAuthenticated ? (
-            <Flex gap={8} alignItems='center'>
-              <Button
-                small
-                data-e2e='back'
-                nature='empty-blue'
-                onClick={() =>
-                  modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
-                }
-              >
-                <Icon label='arrow-left' size='sm' color='blue600'>
-                  <IconWallet />
-                </Icon>
-                <span style={{ marginLeft: '4px' }}>
-                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-                </span>
-              </Button>
-              <Icon color='grey400' label='user-page' size='sm'>
-                <IconUser
-                  cursor='pointer'
-                  onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
-                  style={{ marginLeft: '4px' }}
-                />
-              </Icon>
+    <StickyNav>
+      <NavLeft>
+        <Logo>
+          <NavLink to='/home' data-e2e='homeLink'>
+            <Image width='25px' name='blockchain-icon' />
+          </NavLink>
+        </Logo>
+        <AppSwitcher />
+      </NavLeft>
+      <NavCenter>
+        <LinkContainer to='/nfts/explore'>
+          <NavLinkButton>
+            <Flex alignItems='center' gap={4}>
+              <Text size='14px' weight={600}>
+                <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+              </Text>
+              🚀
             </Flex>
-          ) : (
-            <>
-              <LinkContainer
-                style={{ marginRight: '8px' }}
-                to={`/open${pathname}`}
-                data-e2e='loginLink'
-              >
-                <Button small data-e2e='login' nature='empty-blue'>
-                  <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
-                </Button>
-              </LinkContainer>
-              <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
-                <Button small data-e2e='signup' nature='primary'>
-                  <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
-                </Button>
-              </LinkContainer>
-            </>
-          )}
-        </NavRight>
-      </FixedNav>
-    </div>
+          </NavLinkButton>
+        </LinkContainer>
+        <NftsSearch />
+      </NavCenter>
+      <NavRight>
+        {isAuthenticated ? (
+          <Flex gap={8} alignItems='center'>
+            <Button
+              small
+              data-e2e='back'
+              nature='empty-blue'
+              onClick={() =>
+                modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
+              }
+            >
+              <Icon label='arrow-left' size='sm' color='blue600'>
+                <IconWallet />
+              </Icon>
+              <span style={{ marginLeft: '4px' }}>
+                <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+              </span>
+            </Button>
+            <Icon color='grey400' label='user-page' size='sm'>
+              <IconUser
+                cursor='pointer'
+                onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
+                style={{ marginLeft: '4px' }}
+              />
+            </Icon>
+          </Flex>
+        ) : (
+          <>
+            <LinkContainer
+              style={{ marginRight: '8px' }}
+              to={`/open${pathname}`}
+              data-e2e='loginLink'
+            >
+              <Button small data-e2e='login' nature='empty-blue'>
+                <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
+              </Button>
+            </LinkContainer>
+            <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
+              <Button small data-e2e='signup' nature='primary'>
+                <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
+              </Button>
+            </LinkContainer>
+          </>
+        )}
+      </NavRight>
+    </StickyNav>
   )
 }
 

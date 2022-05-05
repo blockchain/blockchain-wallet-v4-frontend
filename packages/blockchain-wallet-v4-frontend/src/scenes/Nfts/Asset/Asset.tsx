@@ -40,6 +40,7 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'generated/graphql.types'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
@@ -260,7 +261,7 @@ const DetailsAndOffers = styled.div``
 
 const StickyWrapper = styled.div`
   position: sticky;
-  top: 20px;
+  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
 `
 
 const NftAsset: React.FC<Props> = ({

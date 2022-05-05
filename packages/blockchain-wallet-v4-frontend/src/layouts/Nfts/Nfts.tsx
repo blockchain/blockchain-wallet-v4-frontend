@@ -30,6 +30,12 @@ const NftsContainer = (props) => {
     }
   }, [isCoinDataLoaded])
 
+  useEffect(() => {
+    document.getElementsByTagName('html')[0].classList.add('nfts')
+
+    return () => document.getElementsByTagName('html')[0].classList.remove('nfts')
+  })
+
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
