@@ -13,6 +13,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
 import { actions } from 'data'
@@ -21,6 +22,7 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
+import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
@@ -245,38 +247,44 @@ const NftFilter: React.FC<Props> = ({
           ) : null}
           {collections?.length ? (
             <div style={{ marginTop: '24px' }}>
-              <Text size='14px' weight={600} color='black'>
-                <FormattedMessage id='copy.collections' defaultMessage='Collections' />
-                <TraitWrapper>
-                  <TraitList isActive>
-                    {collections.map((collection) => {
-                      return (
-                        <TraitItem key={collection.name}>
-                          <div
+              <TraitWrapper>
+                <TraitHeader>
+                  <Text size='14px' weight={500} color='black'>
+                    <FormattedMessage id='copy.collections' defaultMessage='Collections' />
+                  </Text>
+                </TraitHeader>
+                <TraitList isActive>
+                  {collections.map((collection) => {
+                    return (
+                      <TraitItem key={collection.name}>
+                        <div
+                          style={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            overflow: 'hidden',
+                            width: '100%'
+                          }}
+                        >
+                          <Field
+                            component='input'
+                            name='collection'
+                            type='radio'
+                            id={collection.slug}
+                            value={collection.slug}
+                          />
+                          <label
+                            htmlFor={collection.slug}
                             style={{
                               alignItems: 'center',
                               display: 'flex',
-                              overflow: 'hidden',
+                              justifyContent: 'space-between',
+                              whiteSpace: 'nowrap',
                               width: '100%'
                             }}
                           >
-                            <Field
-                              component='input'
-                              name='collection'
-                              type='radio'
-                              id={collection.slug}
-                              value={collection.slug}
-                            />
-                            <label
-                              htmlFor={collection.slug}
-                              style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                whiteSpace: 'nowrap',
-                                width: '100%'
-                              }}
-                            >
+                            <Flex alignItems='center' gap={4}>
+                              <div />
+                              <CollectionImageSmall src={collection.image_url || ''} />
                               <Text
                                 style={{ marginLeft: '4px' }}
                                 size='12px'
@@ -286,14 +294,14 @@ const NftFilter: React.FC<Props> = ({
                               >
                                 {collection.name}
                               </Text>
-                            </label>
-                          </div>
-                        </TraitItem>
-                      )
-                    })}
-                  </TraitList>
-                </TraitWrapper>
-              </Text>
+                            </Flex>
+                          </label>
+                        </div>
+                      </TraitItem>
+                    )
+                  })}
+                </TraitList>
+              </TraitWrapper>
             </div>
           ) : null}
           {Object.keys(organizedTraits).length ? (

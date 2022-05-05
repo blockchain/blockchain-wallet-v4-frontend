@@ -15,6 +15,7 @@ import { WalletOptionsType } from '@core/types'
 import {
   Button,
   Icon as BlockchainIcon,
+  Image,
   Link,
   SkeletonRectangle,
   SpinningLoader,
@@ -889,7 +890,14 @@ const NftAsset: React.FC<Props> = ({
                   <Flex justifyContent='center'>
                     <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                   </Flex>
-                ) : null
+                ) : (
+                  <Flex justifyContent='center' alignItems='center' flexDirection='column'>
+                    <Image height='100px' name='no-activity' />
+                    <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
+                      <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
+                    </Text>
+                  </Flex>
+                )
               ) : null}
             </RightColWrapper>
           </Top>

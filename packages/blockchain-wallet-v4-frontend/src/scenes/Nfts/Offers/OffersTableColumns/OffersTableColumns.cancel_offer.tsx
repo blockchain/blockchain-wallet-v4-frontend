@@ -40,7 +40,11 @@ export const getOfferCancelColumn = (defaultEthAddr) => ({
       </>
     )
   },
-  Header: () => <CellHeaderText />,
+  Header: () => (
+    <CellHeaderText>
+      <FormattedMessage id='copy.actions' defaultMessage='Actions' />
+    </CellHeaderText>
+  ),
   accessor: 'cancel_order',
   disableGlobalFilter: true
 })
