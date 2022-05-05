@@ -18,6 +18,11 @@ import Terms from 'components/Terms'
 import { isBrowserSupported } from 'services/browser'
 import {
   required,
+  stringContainsLowercaseLetter,
+  stringContainsNumber,
+  stringContainsSpecialChar,
+  stringContainsUppercaseLetter,
+  stringLengthBetween,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
@@ -59,12 +64,16 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
     overflow: hidden;
   }
 `
+const PasswordRequirementText = styled(Text)<{ isValid: boolean }>`
+  color: ${(props) => (props.isValid ? props.theme.green600 : props.theme.red600)};
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SignupForm = (props: Props) => {
   const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
     props
+  const passwordValue = formValues?.password || ''
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -108,14 +117,66 @@ const SignupForm = (props: Props) => {
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        <div>
-          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
-            <FormattedMessage
-              id='scenes.register.passwordstrengthwarn'
-              defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
-            />
-          </Text>
-        </div>
+
+        {passwordValue.length > 0 && (
+          <div>
+            <PasswordRequirementText
+              size='12px'
+              weight={400}
+              style={{ marginTop: '4px' }}
+              isValid={stringContainsLowercaseLetter(passwordValue)}
+            >
+              <FormattedMessage
+                id='scenes.register.password.lowercase'
+                defaultMessage='Password must contain a lowercase letter'
+              />
+            </PasswordRequirementText>
+            <PasswordRequirementText
+              size='12px'
+              weight={400}
+              style={{ marginTop: '4px' }}
+              isValid={stringContainsUppercaseLetter(passwordValue)}
+            >
+              <FormattedMessage
+                id='scenes.register.password.lowercase'
+                defaultMessage='Password must contain an uppercase letter'
+              />
+            </PasswordRequirementText>
+            <PasswordRequirementText
+              size='12px'
+              weight={400}
+              style={{ marginTop: '4px' }}
+              isValid={stringContainsNumber(passwordValue)}
+            >
+              <FormattedMessage
+                id='scenes.register.password.lowercase'
+                defaultMessage='Password must contain a number'
+              />
+            </PasswordRequirementText>
+            <PasswordRequirementText
+              size='12px'
+              weight={400}
+              style={{ marginTop: '4px' }}
+              isValid={stringContainsSpecialChar(passwordValue)}
+            >
+              <FormattedMessage
+                id='scenes.register.password.lowercase'
+                defaultMessage='Password must contain a special character'
+              />
+            </PasswordRequirementText>
+            <PasswordRequirementText
+              size='12px'
+              weight={400}
+              style={{ marginTop: '4px' }}
+              isValid={stringLengthBetween(passwordValue, 12, 64)}
+            >
+              <FormattedMessage
+                id='scenes.register.password.lowercase'
+                defaultMessage='Password must be at least 12 characters long'
+              />
+            </PasswordRequirementText>
+          </div>
+        )}
       </FormGroup>
       <FormGroup>
         <FormItem>
