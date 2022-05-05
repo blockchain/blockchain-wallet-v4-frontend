@@ -295,6 +295,11 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(nabuUserId, nabuLifetimeToken)
     )
+    yield take([
+      actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
+      actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE
+    ])
+
     yield put(
       actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
         nabu_lifetime_token: nabuLifetimeToken,
