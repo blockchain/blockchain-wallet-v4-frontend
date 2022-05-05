@@ -1,20 +1,11 @@
 import { ExplorerGatewaySearchType, NftAsset, OpenSeaStatus } from './types'
 
-// const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
   // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
   const explorerUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
-
-  const getAssetContract = (asset_contract_address: string) => {
-    return get({
-      endPoint: `/asset-contract/${asset_contract_address}`,
-      ignoreQueryParams: true,
-      url: `${explorerUrl}`
-    })
-  }
 
   const searchNfts = (query: string): ExplorerGatewaySearchType => {
     return post({
@@ -56,7 +47,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   }
 
   return {
-    getAssetContract,
     getOpenSeaAsset,
     getOpenSeaStatus,
     postNftOrder,
