@@ -9,7 +9,7 @@ import { media } from 'services/styles'
 
 import Modals from '../../modals'
 import { Props as OwnProps } from './Nfts'
-import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'
+import Header from './NftsHeader'
 
 const Wrapper = styled.div`
   background-color: ${colors.white100};
@@ -20,9 +20,7 @@ const Wrapper = styled.div`
 
 const Page = styled.div`
   box-sizing: border-box;
-  height: calc(100% - ${FIXED_HEADER_HEIGHT}px);
   background: ${(props) => props.theme.white};
-  overflow: auto;
   > div:first-child {
     padding-top: 20px;
   }

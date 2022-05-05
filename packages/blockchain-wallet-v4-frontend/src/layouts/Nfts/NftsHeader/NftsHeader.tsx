@@ -46,14 +46,13 @@ const NavLinkButton = styled(Link)`
 
 const ExploreHeader: React.FC<Props> = ({
   ethAddress,
-  formValues,
   isAuthenticated,
   modalActions,
   pathname,
   routerActions
 }) => {
   return (
-    <div style={{ paddingBottom: `${FIXED_HEADER_HEIGHT}px` }}>
+    <div>
       <FixedNav>
         <NavLeft>
           <Logo>
