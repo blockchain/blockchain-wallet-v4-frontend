@@ -33,6 +33,9 @@ const Wrapper = styled.div`
   padding-top: 4px;
   padding-bottom: 4px;
   z-index: 5;
+  ${media.tablet`
+    padding: 12px;
+  `}
 `
 
 const ActiveTraitFilter = styled.div`
