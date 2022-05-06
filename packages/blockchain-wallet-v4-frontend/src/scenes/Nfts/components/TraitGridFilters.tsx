@@ -48,7 +48,7 @@ const ActiveTraitFilter = styled.div`
 
 const ClearAll = styled(ActiveTraitFilter)`
   cursor: pointer;
-  padding: 13px 32px;
+  padding: 16px 32px;
 `
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
@@ -328,7 +328,7 @@ const TraitGridFilters: React.FC<Props> = ({
             })
           : null}
         <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
-          <Text size='18px' color={colors.blue600}>
+          <Text size='14px' weight={500} color={colors.blue600}>
             Clear All
           </Text>
         </ClearAll>
