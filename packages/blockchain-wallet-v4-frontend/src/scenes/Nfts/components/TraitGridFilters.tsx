@@ -46,6 +46,12 @@ const ActiveTraitFilter = styled.div`
   padding: 12px 16px;
 `
 
+const ClearAll = styled(ActiveTraitFilter)`
+  cursor: pointer;
+  background: ${colors.blue000};
+  border: 1px transparent;
+`
+
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   display: ${(props) => (props.hasSomeFilters ? 'flex' : 'none')};
   margin-top: ${(props) => (props.hasSomeFilters ? '8px' : '0')};
@@ -91,6 +97,14 @@ const TraitGridFilters: React.FC<Props> = ({
     (formValues &&
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
+
+  const clearAllFilters = () => {
+    if (formValues && hasSomeFilters) {
+      Object.keys(formValues).forEach((key) => {
+        formActions.change('nftFilter', key, undefined)
+      })
+    }
+  }
 
   useEffect(() => {
     if (isRefreshRotating) {
@@ -314,6 +328,11 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
+        <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
+          <Text size='18px' color={colors.blue600}>
+            Clear All
+          </Text>
+        </ClearAll>
         {/* analyticsActions.trackEvent({
                   key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
                   properties: {}
