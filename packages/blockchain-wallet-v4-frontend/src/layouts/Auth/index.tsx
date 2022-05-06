@@ -77,7 +77,7 @@ const AuthLayoutContainer = ({
   path,
   platform
 }: Props) => {
-  // lazy load google captcha and google tag manager
+  // lazy load google captcha
   useDefer3rdPartyScript(
     `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
     {
@@ -86,11 +86,6 @@ const AuthLayoutContainer = ({
       }
     }
   )
-  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-    attributes: {
-      nonce: window.nonce
-    }
-  })
 
   // update page title from route
   if (pageTitle) document.title = pageTitle

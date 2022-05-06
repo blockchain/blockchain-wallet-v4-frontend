@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import { useDefer3rdPartyScript } from 'hooks'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
@@ -81,13 +82,19 @@ const App = ({
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
-
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
     sessionStorage.setItem(UTM, JSON.stringify(utm))
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
