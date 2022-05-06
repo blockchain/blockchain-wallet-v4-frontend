@@ -1,12 +1,12 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { useDefer3rdPartyScript } from 'hooks'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
+import { useDefer3rdPartyScript } from 'hooks'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 

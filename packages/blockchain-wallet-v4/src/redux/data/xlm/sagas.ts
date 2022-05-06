@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-
 import {
   addIndex,
   compose,
@@ -124,7 +123,9 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      (tx) => isAfter(getUnixTime(new Date(tx.time)), startDate) && isBefore(getUnixTime(new Date(tx.time)), endDate),
+      (tx) =>
+        isAfter(getUnixTime(new Date(tx.time)), startDate) &&
+        isBefore(getUnixTime(new Date(tx.time)), endDate),
       fullTxList
     )
 

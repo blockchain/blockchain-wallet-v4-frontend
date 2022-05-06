@@ -1,6 +1,6 @@
+import { getTime } from 'date-fns'
 import { filter, last, take as takeR } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
-import { getTime } from 'date-fns'
 
 import { APIType } from '@core/network/api'
 import { CoinType, FiatType } from '@core/types'
