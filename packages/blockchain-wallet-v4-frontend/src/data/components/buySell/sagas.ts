@@ -594,8 +594,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantCapabilities.push('supportsCredit')
           }
 
-          // The amount has to be in cents
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
@@ -633,7 +633,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             'CRYPTOGRAM_3DS'
           ]
 
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
 
