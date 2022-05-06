@@ -30,7 +30,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   onResendEmail = () => {
     const { email, securityCenterActions } = this.props
-    securityCenterActions.resendVerifyEmail(email)
+    securityCenterActions.resendVerifyEmail(email, 'SIGN_UP')
   }
 
   skipVerification = () => {

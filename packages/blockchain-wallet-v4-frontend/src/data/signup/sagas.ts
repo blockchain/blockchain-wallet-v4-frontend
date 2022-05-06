@@ -108,6 +108,23 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+      if (product === ProductAuthOptions.EXCHANGE) {
+        const device =
+          platform === PlatformTypes.ANDROID
+            ? 'APP-Android'
+            : platform === PlatformTypes.IOS
+            ? 'APP-iOS'
+            : 'WEB'
+
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
+            properties: {
+              device
+            }
+          })
+        )
+      }
     } catch (e) {
       yield put(actions.signup.registerFailure(undefined))
       yield put(actions.auth.loginFailure(e))
