@@ -73,7 +73,7 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
               {tags?.BLOCKSTACK ? (
                 <FormattedMessage
                   id='copy.stx_airdrop_avail'
-                  defaultMessage='STX Airdrop is Available'
+                  defaultMessage='Your Stacks (STX) airdrop is here'
                 />
               ) : (
                 <FormattedMessage id='copy.stx_avail' defaultMessage='STX is Available' />
@@ -83,7 +83,7 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
               {tags?.BLOCKSTACK ? (
                 <FormattedMessage
                   id='copy.stx_supported_added'
-                  defaultMessage='STX support has been added to the Blockchain.com Web Wallet. You can now send any STX received via the airdrop.'
+                  defaultMessage='You can now access your STX airdrop in your new STX Private Key Wallet.'
                 />
               ) : (
                 <FormattedMessage

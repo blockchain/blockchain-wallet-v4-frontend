@@ -11,10 +11,6 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
     owners {
       address
     }
-    listings {
-      payment_token_symbol
-      starting_price
-    }
     collection {
       name
       image_url
