@@ -14,6 +14,7 @@ import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { isBrowserSupported } from 'services/browser'
 
 import {
   analyticsMiddleware,
@@ -39,6 +40,12 @@ const configuredStore = async function () {
     options = await res.json()
   } catch (error) {
     throw new Error('wallet-options failed to load.')
+  }
+
+  // ensure browser is supported
+  const browserSupported = isBrowserSupported()
+  if (!browserSupported) {
+    manuallyRouteToErrorPage('unsupportedBrowser')
   }
 
   // offload asset configuration fetch/parse from main thread
