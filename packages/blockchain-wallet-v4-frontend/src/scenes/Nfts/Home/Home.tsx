@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
@@ -36,10 +36,12 @@ const Banner = styled.div`
   ${media.mobile`
     flex-direction: column;
     padding: 30px 16px;
+    border-radius: unset;
   `}
 `
 
 const Explore: React.FC<Props> = (props) => {
+  const isTablet = useMedia('tablet')
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
@@ -77,19 +79,21 @@ const Explore: React.FC<Props> = (props) => {
           </LinkContainer>
         </div>
       </Banner>
-      <Text
-        color='black'
-        style={{ marginBottom: '16px', marginTop: '24px' }}
-        size='24px'
-        weight={600}
-      >
-        Trending Collections
-      </Text>
-      {results.data?.collections ? (
-        <TrendingCollectionsTable collections={results.data.collections} {...props} />
-      ) : (
-        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-      )}
+      <div style={isTablet ? { padding: '0px 24px' } : {}}>
+        <Text
+          color='black'
+          style={{ marginBottom: '16px', marginTop: '24px' }}
+          size='24px'
+          weight={600}
+        >
+          Trending Collections
+        </Text>
+        {results.data?.collections ? (
+          <TrendingCollectionsTable collections={results.data.collections} {...props} />
+        ) : (
+          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        )}
+      </div>
     </NftPageV2>
   )
 }

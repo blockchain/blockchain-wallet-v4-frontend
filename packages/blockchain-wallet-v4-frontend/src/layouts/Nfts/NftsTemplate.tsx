@@ -24,12 +24,10 @@ const Page = styled.div`
   > div:first-child {
     position: relative;
     top: ${FIXED_HEADER_HEIGHT}px;
-    padding-top: 8px;
+    ${media.atLeastTablet`
+      padding-top: 8px;
+    `}
   }
-  ${media.tabletL`
-    padding-right: 20px !important;
-    padding-left: 20px !important;
-  `}
 `
 
 const NftsTemplate: React.FC<Props> = (props) => {
