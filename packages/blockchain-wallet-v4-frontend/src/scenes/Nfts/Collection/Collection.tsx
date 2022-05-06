@@ -65,126 +65,125 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
   const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
 
-  const [collectionsQuery] = useCollectionsQuery({
-    requestPolicy: 'network-only',
-    variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
-  })
+  return <NftCollectionLoading />
+  // const [collectionsQuery] = useCollectionsQuery({
+  //   requestPolicy: 'network-only',
+  //   variables: { filter: [{ field: CollectionFilterFields.Slug, value: slug }] }
+  // })
 
-  const collection = collectionsQuery.data?.collections
-    ? collectionsQuery.data.collections[0]
-    : undefined
+  // const collection = collectionsQuery.data?.collections
+  //   ? collectionsQuery.data.collections[0]
+  //   : undefined
 
-  useEffect(() => {
-    setActiveTab(tab)
-  }, [tab])
+  // useEffect(() => {
+  //   setActiveTab(tab)
+  // }, [tab])
 
-  if (collectionsQuery.error)
-    return (
-      <div style={{ marginTop: '40px' }}>
-        <NftError error={collectionsQuery.error} />
-      </div>
-    )
+  // if (collectionsQuery.error)
+  //   return (
+  //     <div style={{ marginTop: '40px' }}>
+  //       <NftError error={collectionsQuery.error} />
+  //     </div>
+  //   )
 
-  if (collectionsQuery.fetching) return <NftCollectionLoading />
+  // if (!collection) return null
 
-  if (!collection) return null
-
-  return (
-    <div style={{ paddingTop: '0px', position: 'relative' }}>
-      <OpenSeaStatusComponent />
-      <CollectionHeader bgUrl={collection.banner_image_url || ''}>
-        <NftBannerWrapper>
-          <CollectionInfo>
-            <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              <CollectionImage src={collection.image_url || ''} />
-              <Text color='white' size='32px' weight={600}>
-                {collection.name}
-              </Text>
-            </div>
-            <LinksContainer>
-              {collection.external_url ? (
-                <Link target='_blank' href={collection.external_url}>
-                  <Icon label='globe' color='grey400'>
-                    <IconGlobe />
-                  </Icon>
-                </Link>
-              ) : null}
-              {collection.instagram_username ? (
-                <Link
-                  target='_blank'
-                  href={`https://instagram.com/${collection.instagram_username}`}
-                >
-                  <Icon label='camera' color='grey400'>
-                    <IconCamera />
-                  </Icon>
-                </Link>
-              ) : null}
-              {collection.discord_url ? (
-                <Link target='_blank' href={`${collection.discord_url}`}>
-                  <Icon label='computer' color='grey400'>
-                    <IconComputer />
-                  </Icon>
-                </Link>
-              ) : null}
-            </LinksContainer>
-          </CollectionInfo>
-          <Stats
-            formActions={formActions}
-            formValues={formValues}
-            total_supply={collection.total_supply}
-            stats={collection.stats}
-          />
-        </NftBannerWrapper>
-      </CollectionHeader>
-      <GridWrapper>
-        <NftFilter
-          collections={[]}
-          formActions={formActions}
-          formValues={formValues}
-          isTriggered={isFilterTriggered}
-          total_supply={collection.total_supply}
-          traits={activeTab === 'ITEMS' ? collection.traits : []}
-          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
-          minMaxPriceFilter={activeTab === 'ITEMS'}
-          forSaleFilter={activeTab === 'ITEMS'}
-          setIsFilterTriggered={setIsFilterTriggered}
-        />
-        <div style={{ width: '100%' }}>
-          <TraitGridFilters
-            tabs={['ITEMS', 'EVENTS']}
-            formValues={formValues}
-            numOfResults={numOfResults}
-            showSortBy
-            setIsFilterTriggered={setIsFilterTriggered}
-            formActions={formActions}
-            setRefreshTrigger={setRefreshTrigger}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            collections={[]}
-          />
-          {activeTab === 'ITEMS' ? (
-            <CollectionItems
-              collectionsQuery={collectionsQuery}
-              formValues={formValues}
-              refreshTrigger={refreshTrigger}
-              setNumOfResults={setNumOfResults}
-              slug={slug}
-            />
-          ) : (
-            <Events
-              isFetchingParent={collectionsQuery.fetching}
-              filters={[
-                { field: EventFilterFields.CollectionSlug, value: slug },
-                ...(formValues?.event
-                  ? [{ field: EventFilterFields.EventType, value: formValues.event }]
-                  : [])
-              ]}
-            />
-          )}
-        </div>
-      </GridWrapper>
-    </div>
-  )
+  // return (
+  //   <div style={{ paddingTop: '0px', position: 'relative' }}>
+  //     <OpenSeaStatusComponent />
+  //     <CollectionHeader bgUrl={collection.banner_image_url || ''}>
+  //       <NftBannerWrapper>
+  //         <CollectionInfo>
+  //           <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
+  //             <CollectionImage src={collection.image_url || ''} />
+  //             <Text color='white' size='32px' weight={600}>
+  //               {collection.name}
+  //             </Text>
+  //           </div>
+  //           <LinksContainer>
+  //             {collection.external_url ? (
+  //               <Link target='_blank' href={collection.external_url}>
+  //                 <Icon label='globe' color='grey400'>
+  //                   <IconGlobe />
+  //                 </Icon>
+  //               </Link>
+  //             ) : null}
+  //             {collection.instagram_username ? (
+  //               <Link
+  //                 target='_blank'
+  //                 href={`https://instagram.com/${collection.instagram_username}`}
+  //               >
+  //                 <Icon label='camera' color='grey400'>
+  //                   <IconCamera />
+  //                 </Icon>
+  //               </Link>
+  //             ) : null}
+  //             {collection.discord_url ? (
+  //               <Link target='_blank' href={`${collection.discord_url}`}>
+  //                 <Icon label='computer' color='grey400'>
+  //                   <IconComputer />
+  //                 </Icon>
+  //               </Link>
+  //             ) : null}
+  //           </LinksContainer>
+  //         </CollectionInfo>
+  //         <Stats
+  //           formActions={formActions}
+  //           formValues={formValues}
+  //           total_supply={collection.total_supply}
+  //           stats={collection.stats}
+  //         />
+  //       </NftBannerWrapper>
+  //     </CollectionHeader>
+  //     <GridWrapper>
+  //       <NftFilter
+  //         collections={[]}
+  //         formActions={formActions}
+  //         formValues={formValues}
+  //         isTriggered={isFilterTriggered}
+  //         total_supply={collection.total_supply}
+  //         traits={activeTab === 'ITEMS' ? collection.traits : []}
+  //         opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
+  //         minMaxPriceFilter={activeTab === 'ITEMS'}
+  //         forSaleFilter={activeTab === 'ITEMS'}
+  //         setIsFilterTriggered={setIsFilterTriggered}
+  //       />
+  //       <div style={{ width: '100%' }}>
+  //         <TraitGridFilters
+  //           tabs={['ITEMS', 'EVENTS']}
+  //           formValues={formValues}
+  //           numOfResults={numOfResults}
+  //           showSortBy
+  //           setIsFilterTriggered={setIsFilterTriggered}
+  //           formActions={formActions}
+  //           setRefreshTrigger={setRefreshTrigger}
+  //           activeTab={activeTab}
+  //           setActiveTab={setActiveTab}
+  //           collections={[]}
+  //         />
+  //         {activeTab === 'ITEMS' ? (
+  //           <CollectionItems
+  //             collectionsQuery={collectionsQuery}
+  //             formValues={formValues}
+  //             refreshTrigger={refreshTrigger}
+  //             setNumOfResults={setNumOfResults}
+  //             slug={slug}
+  //           />
+  //         ) : (
+  //           <Events
+  //             isFetchingParent={collectionsQuery.fetching}
+  //             filters={[
+  //               { field: EventFilterFields.CollectionSlug, value: slug },
+  //               ...(formValues?.event
+  //                 ? [{ field: EventFilterFields.EventType, value: formValues.event }]
+  //                 : [])
+  //             ]}
+  //           />
+  //         )}
+  //       </div>
+  //     </GridWrapper>
+  //   </div>
+  // )
 }
 
 const mapStateToProps = (state: RootState) => ({

@@ -155,6 +155,7 @@ const TraitGridFilters: React.FC<Props> = ({
                       borderRadius: '50%',
                       height: '40px',
                       minWidth: 'initial',
+                      padding: '12px',
                       width: '40px'
                     }}
                   >
