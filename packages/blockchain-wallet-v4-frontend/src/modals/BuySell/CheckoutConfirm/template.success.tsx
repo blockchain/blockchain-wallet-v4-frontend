@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { intervalToDuration } from 'date-fns'
-import { useDefer3rdPartyScript } from 'hooks'
 import { defaultTo, filter, path } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -32,6 +31,7 @@ import {
 } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
+import { useDefer3rdPartyScript } from 'hooks'
 
 import {
   displayFiat,

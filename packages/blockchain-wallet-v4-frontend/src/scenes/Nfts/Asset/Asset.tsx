@@ -5,7 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { formatDistanceToNow, subDays } from 'date-fns'
-import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -40,6 +39,7 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'generated/graphql.types'
+import { useRemote } from 'hooks'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 

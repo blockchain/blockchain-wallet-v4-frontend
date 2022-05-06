@@ -1,5 +1,5 @@
 import React from 'react'
-import { addMinutes, format, getTime, differenceInDays, differenceInSeconds } from 'date-fns'
+import { addMinutes, differenceInDays, differenceInSeconds, format, getTime } from 'date-fns'
 import PropTypes from 'prop-types'
 
 import CountdownTimer from './template'

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+
 import { useCoinPrice, useCurrency } from 'hooks'
 
 import { ChartBalancePanel } from '../../../ChartBalancePanel'

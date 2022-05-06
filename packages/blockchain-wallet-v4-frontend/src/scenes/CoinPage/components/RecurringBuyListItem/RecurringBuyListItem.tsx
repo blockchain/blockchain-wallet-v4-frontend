@@ -2,11 +2,11 @@ import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconRepeat } from '@blockchain-com/icons'
-import { useDateFormatter, useIsToday, useRecord } from 'hooks'
 
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
 import { RecurringBuyPeriods } from 'data/types'
+import { useDateFormatter, useIsToday, useRecord } from 'hooks'
 
 import { useFormatFiat } from '../CoinPage/hooks'
 import { RecurringBuyListItemComponent } from './types'

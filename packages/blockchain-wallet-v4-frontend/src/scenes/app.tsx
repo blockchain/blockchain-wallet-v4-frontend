@@ -11,6 +11,7 @@ import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
+import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
 import NftsLayout from 'layouts/Nfts'
@@ -81,13 +82,19 @@ const App = ({
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
-
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
     sessionStorage.setItem(UTM, JSON.stringify(utm))
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
