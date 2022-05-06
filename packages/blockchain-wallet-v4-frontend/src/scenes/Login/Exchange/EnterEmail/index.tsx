@@ -17,7 +17,6 @@ import { Props } from '../..'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -33,7 +32,6 @@ const EnterEmail = (props: Props) => {
     cache,
     formValues,
     invalid,
-    isBrowserSupported,
     magicLinkData,
     submitting,
     walletTabClicked
@@ -49,16 +47,13 @@ const EnterEmail = (props: Props) => {
       />
       <WrapperWithPadding>
         <FormGroup>
-          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
             </LoginFormLabel>
-
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
-              disabled={!isBrowserSupported}
               disableSpellcheck
               name='exchangeEmail'
               normalize={removeWhitespace}

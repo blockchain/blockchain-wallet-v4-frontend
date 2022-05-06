@@ -24,11 +24,11 @@ import {
   webSocketRates
 } from '../middleware'
 
-const manuallyRouteToErrorPage = () => {
+const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
-    window.history.replaceState(null, '', '#maintenance')
+    window.history.replaceState(null, '', `#app-error?error=${error}`)
   } else {
-    window.location.hash = '#maintenance'
+    window.location.hash = `#app-error?error=${error}`
   }
 }
 
@@ -38,8 +38,8 @@ const configuredStore = async function () {
   try {
     let res = await fetch('/wallet-options-v4.json')
     options = await res.json()
-  } catch (error) {
-    throw new Error('wallet-options failed to load.')
+  } catch (e) {
+    throw new Error('errorWalletOptionsApi')
   }
 
   // ensure browser is supported
@@ -49,7 +49,7 @@ const configuredStore = async function () {
   }
 
   // offload asset configuration fetch/parse from main thread
-  if (window.Worker) {
+  if (!window.Worker) {
     const url = new URL('./worker.assets.js', import.meta.url)
     const worker = new Worker(url)
 
@@ -60,7 +60,7 @@ const configuredStore = async function () {
         window.coins = JSON.parse(e.data)
       } catch (e) {
         // failed to parse json, meaning there was an error
-        manuallyRouteToErrorPage()
+        manuallyRouteToErrorPage('errorAssetsApi')
       }
     })
 
@@ -70,9 +70,7 @@ const configuredStore = async function () {
       openSeaApi: options.domains.opensea
     }))
   } else {
-    // eslint-disable-next-line
-    window.alert('Your browser is not supported.  Error: missing web worker support')
-    manuallyRouteToErrorPage()
+    manuallyRouteToErrorPage('unsupportedBrowser')
   }
 
   // initialize router and saga middleware
