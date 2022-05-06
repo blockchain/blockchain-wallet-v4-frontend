@@ -1,12 +1,5 @@
 import Bowser from 'bowser'
 
-export const getBrowserNameAndVersion = () => {
-  const browser = Bowser.getParser(window.navigator.userAgent)
-  debugger
-  console.log(browser)
-  return browser
-}
-
 export const isBrowserSupported = () => {
   const browser = Bowser.getParser(window.navigator.userAgent)
   return browser.satisfies({

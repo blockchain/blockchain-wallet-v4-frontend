@@ -10,7 +10,7 @@ import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
-import Maintenance from './scenes/Maintenance'
+import AppError from './scenes/Maintenance'
 
 configureStore()
   .then((root) => {
@@ -26,7 +26,7 @@ configureStore()
     )
   })
   .catch((e) => {
-    ReactDOM.render(<Maintenance />, document.getElementById('app'))
+    ReactDOM.render(<AppError />, document.getElementById('app'))
     const data = {
       events: [
         {
