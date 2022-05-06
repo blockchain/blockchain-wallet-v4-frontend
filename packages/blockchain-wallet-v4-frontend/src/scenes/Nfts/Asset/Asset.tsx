@@ -62,6 +62,7 @@ const Wrapper = styled(NftPage)`
   margin: 0 auto;
   padding: 20px 0 0 0;
   box-sizing: border-box;
+  margin-top: 8px;
   ${media.atLeastTabletL`
     height: 100%;
   `}
@@ -91,7 +92,7 @@ const LeftColWrapper = styled.div`
   }
   padding-right: 3em;
 
-  top: 64px;
+  top: ${FIXED_HEADER_HEIGHT + 8}px;
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
