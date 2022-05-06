@@ -230,7 +230,18 @@ export default ({ api, coreSagas, networks }) => {
       const { nabuLifetimeToken, nabuUserId } = (yield select(
         selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
       )).getOrElse({})
-
+      // sync legacy nabu credentials with unified kv entry
+      const unifiedNabuCredentials = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
+      )).getOrElse({})
+      if (!unifiedNabuCredentials.nabuUserId || !unifiedNabuCredentials.nabuLifetimeToken) {
+        yield put(
+          actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+            nabu_lifetime_token: nabuLifetimeToken,
+            nabu_user_id: nabuUserId
+          })
+        )
+      }
       if (!nabuUserId || !nabuLifetimeToken) {
         return yield put(
           A.fetchUserDataSuccess({
@@ -284,6 +295,11 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(nabuUserId, nabuLifetimeToken)
     )
+    yield take([
+      actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
+      actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE
+    ])
+
     yield put(
       actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
         nabu_lifetime_token: nabuLifetimeToken,
@@ -305,6 +321,7 @@ export default ({ api, coreSagas, networks }) => {
         retailToken,
         tuneTid
       )
+
       yield put(
         actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
           exchange_lifetime_token: exchangeLifetimeToken,

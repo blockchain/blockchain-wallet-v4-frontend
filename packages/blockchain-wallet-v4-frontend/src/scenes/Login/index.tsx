@@ -13,7 +13,8 @@ import {
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  UnifiedAccountRedirectType
 } from 'data/types'
 import Loading from 'layouts/Auth/template.loading'
 import { isBrowserSupported } from 'services/browser'
@@ -239,7 +240,7 @@ const mapStateToProps = (state) => ({
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  goals: selectors.goals.getGoals(state),
+  initialRedirect: selectors.goals.getInitialRedirect(state) as UnifiedAccountRedirectType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
