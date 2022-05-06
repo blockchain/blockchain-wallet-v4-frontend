@@ -122,8 +122,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
-      // @ts-ignore
-      (tx) =>
+      (tx: { time: string }) =>
         isAfter(getUnixTime(new Date(tx.time)), startDate) &&
         isBefore(getUnixTime(new Date(tx.time)), endDate),
       fullTxList
