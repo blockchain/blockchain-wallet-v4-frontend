@@ -44,13 +44,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    return (
-      <VerifyEmail
-        {...this.props}
-        resendEmail={this.onResendEmail}
-        skipVerification={this.skipVerification}
-      />
-    )
+    return <VerifyEmail {...this.props} resendEmail={this.onResendEmail} />
   }
 }
 
