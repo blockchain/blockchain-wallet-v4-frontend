@@ -21,6 +21,7 @@ import { media } from 'services/styles'
 import { Props } from '../..'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -51,6 +52,7 @@ const InstitutionalPortal = (props: Props) => {
     formValues,
     handleBackArrowClickExchange,
     invalid,
+    isBrowserSupported,
     magicLinkData,
     routerActions,
     submitting
@@ -80,6 +82,7 @@ const InstitutionalPortal = (props: Props) => {
               </Text>
             </BackArrow>
           </BackArrowWrapper>
+          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ margin: '8px 0 16px' }}>
             <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='copy.email' defaultMessage='Email' />
@@ -88,6 +91,7 @@ const InstitutionalPortal = (props: Props) => {
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
+              disabled={!isBrowserSupported}
               disableSpellcheck
               name='exchangeEmail'
               normalize={removeWhitespace}
@@ -103,6 +107,7 @@ const InstitutionalPortal = (props: Props) => {
             <Field
               component={PasswordBox}
               data-e2e='exchangePassword'
+              disabled={!isBrowserSupported}
               name='exchangePassword'
               placeholder='Enter your password'
               validate={[required]}
