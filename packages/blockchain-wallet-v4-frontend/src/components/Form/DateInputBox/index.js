@@ -204,7 +204,16 @@ class DateInputBox extends React.PureComponent {
         ) : (
           <RowWrapper>
             <DateBox {...{ input, intl, onBlur, onDateChange, onFocus, otherMeta }} />
-            <MonthBox {...{ input, onBlur, onFocus, onMonthChange, otherMeta }} />
+            <MonthBox
+              {...{
+                input,
+                onBlur,
+                onFocus,
+                onMonthChange,
+                // this is important to have proper focus once when user tab into this component
+                otherMeta: { ...otherMeta, active: false }
+              }}
+            />
             <YearBox {...{ input, intl, onBlur, onFocus, onYearChange, otherMeta }} />
           </RowWrapper>
         )}
