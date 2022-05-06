@@ -42,7 +42,10 @@ const CancelListing: React.FC<Props> = (props) => {
           <>
             <StickyHeaderWrapper>
               <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-                Cancel Listing
+                <FormattedMessage
+                     id='copy.cancel_listing'
+                     defaultMessage='Cancel Listing'
+                 />
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <div
