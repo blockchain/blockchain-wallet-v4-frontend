@@ -141,7 +141,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           <>
             <StickyHeaderWrapper>
               <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-                Make Offer
+                <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
               </FlyoutHeader>
             </StickyHeaderWrapper>
             <div
