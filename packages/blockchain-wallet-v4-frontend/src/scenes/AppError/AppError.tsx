@@ -49,7 +49,8 @@ const Error = ({ error }: Props) => (
       <>
         <ErrorTitle>Application Error</ErrorTitle>
         <ErrorSubtitle style={{ marginTop: '4px' }}>
-          We are having trouble retrieving essential data from our servers.
+          We are having trouble retrieving essential data from our servers but rest assured that
+          your crypto is safe.
         </ErrorSubtitle>
         <ErrorSubtitle>We are working to resolve and will be back online soon!</ErrorSubtitle>
       </>
