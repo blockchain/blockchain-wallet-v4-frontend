@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -24,7 +23,6 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
@@ -89,7 +87,6 @@ const EnterPasswordWallet = (props: Props) => {
     handleBackArrowClickWallet,
     initialRedirect,
     invalid,
-    isBrowserSupported,
     magicLinkData,
     qrData,
     submitting,
@@ -139,7 +136,6 @@ const EnterPasswordWallet = (props: Props) => {
             </SettingsGoalText>
           )}
           <FormGroup>
-            <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
             <FormItem>
               <FormLabel htmlFor='password'>
                 <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
@@ -148,7 +144,6 @@ const EnterPasswordWallet = (props: Props) => {
                 autoFocus
                 component={PasswordBox}
                 data-e2e='loginPassword'
-                disabled={!isBrowserSupported}
                 name='password'
                 placeholder='Enter your password'
                 validate={[required]}

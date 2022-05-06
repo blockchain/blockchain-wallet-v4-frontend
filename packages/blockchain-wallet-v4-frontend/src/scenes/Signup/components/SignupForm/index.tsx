@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
@@ -15,7 +15,6 @@ import SelectBoxCountry from 'components/Form/SelectBoxCountry'
 import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
-import { isBrowserSupported } from 'services/browser'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -30,8 +29,6 @@ import {
 
 import { SubviewProps } from '../../types'
 
-const isSupportedBrowser = isBrowserSupported()
-
 const StyledForm = styled(Form)`
   margin-top: 20px;
 
@@ -39,9 +36,6 @@ const StyledForm = styled(Form)`
     max-height: 26rem;
     transition: all 0.5s ease;
   }
-`
-const BrowserWarning = styled.div`
-  margin-bottom: 10px;
 `
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
@@ -79,16 +73,6 @@ const SignupForm = (props: Props) => {
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
-      {!isSupportedBrowser && (
-        <BrowserWarning>
-          <Banner type='warning'>
-            <FormattedMessage
-              defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
-              id='scenes.register.browserwarning'
-            />
-          </Banner>
-        </BrowserWarning>
-      )}
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
@@ -99,7 +83,6 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={TextBox}
             data-e2e='signupEmail'
-            disabled={!isSupportedBrowser}
             name='email'
             validate={[required, validEmail]}
           />
@@ -114,7 +97,6 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={PasswordBox}
             data-e2e='signupPassword'
-            disabled={!isSupportedBrowser}
             name='password'
             validate={[required, validStrongPassword]}
           />
@@ -183,7 +165,6 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
-            disabled={!isSupportedBrowser}
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
           />
