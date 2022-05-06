@@ -538,6 +538,16 @@ const MarkForSale: React.FC<Props> = (props) => {
                     disabled={disabled}
                     onClick={() => {
                       enteredAmountAnalytics()
+                      analyticsActions.trackEvent({
+                        key: Analytics.NFT_SELL_ITEM_CLICKED,
+                        properties: {
+                          amount: Number(amount),
+                          collection: val.collection.name,
+                          collection_id: val.token_id,
+                          selling_fees: Number(fees.totalFees),
+                          type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
+                        }
+                      })
                       if (saleType === 'fixed-price') {
                         nftActions.createSellOrder({
                           asset: val,

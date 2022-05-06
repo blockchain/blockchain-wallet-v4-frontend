@@ -150,6 +150,14 @@ const MakeOffer: React.FC<Props> = (props) => {
     })
   }
 
+  const offerWithChangedAnalytics = (coin) => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_MAKE_OFFER_WITH_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+  }
   return (
     <>
       {orderFlow.asset.cata({
@@ -286,6 +294,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     name='coin'
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(coin: any) => {
+                      offerWithChangedAnalytics(coin)
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                       const address = window.coins[coin].coinfig.type.erc20Address!
 
