@@ -9,7 +9,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, ExchangeAuthOriginType } from 'data/types'
+import { Analytics, CaptchaActionName, ExchangeAuthOriginType } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -49,7 +49,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas
   })
   const { saveGoals } = goalSagas({ api, coreSagas, networks })
-  const { startCoinWebsockets } = miscSagas()
+  const { generateCaptchaToken, startCoinWebsockets } = miscSagas()
 
   const LOGIN_FORM = 'login'
 
@@ -77,11 +77,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
-    const { captchaToken, code, password, username } = action.payload
+    const { code, password, username } = action.payload
     const { platform, product, redirect, userType } = yield select(
       selectors.auth.getProductAuthMetadata
     )
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -114,6 +113,7 @@ export default ({ api, coreSagas, networks }) => {
     }
     // start signin flow
     try {
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
       const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
@@ -743,8 +743,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   // this is the function we run when submitting the login form
-  const continueLoginProcess = function* (action) {
-    const { captchaToken, initCaptcha } = action.payload
+  const continueLoginProcess = function* () {
     const {
       code,
       email,
@@ -775,23 +774,11 @@ export default ({ api, coreSagas, networks }) => {
         } else if (product === ProductAuthOptions.EXCHANGE) {
           // trigger email for exchange form
           yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
-          yield put(
-            actions.auth.triggerWalletMagicLink({
-              captchaToken,
-              email: exchangeEmail
-            })
-          )
-          initCaptcha()
+          yield put(actions.auth.triggerWalletMagicLink({ email: exchangeEmail }))
         } else {
           // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
-          yield put(
-            actions.auth.triggerWalletMagicLink({
-              captchaToken,
-              email: email || guidOrEmail
-            })
-          )
-          initCaptcha()
+          yield put(actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail }))
         }
         yield put(
           actions.analytics.trackEvent({
@@ -831,7 +818,6 @@ export default ({ api, coreSagas, networks }) => {
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
           actions.auth.exchangeLogin({
-            captchaToken,
             code: exchangeTwoFA,
             password: exchangePassword,
             username: exchangeEmail
@@ -845,13 +831,15 @@ export default ({ api, coreSagas, networks }) => {
 
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const { email } = action.payload
     const { product } = yield select(selectors.auth.getProductAuthMetadata)
-    const { step } = formValues
-    const { captchaToken, email } = action.payload
-    yield put(startSubmit(LOGIN_FORM))
+
     try {
       let sessionToken
+      yield put(startSubmit(LOGIN_FORM))
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+      const { step } = formValues
+
       if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
         sessionToken = yield select(selectors.session.getSession, null, email)
         if (!sessionToken) {
@@ -866,6 +854,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
         }
       }
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
       yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
