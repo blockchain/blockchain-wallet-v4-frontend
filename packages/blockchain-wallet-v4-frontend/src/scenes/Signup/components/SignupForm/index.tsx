@@ -64,8 +64,10 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
     overflow: hidden;
   }
 `
-const PasswordRequirementText = styled(Text)<{ isValid: boolean }>`
-  color: ${(props) => (props.isValid ? props.theme.green600 : props.theme.red600)};
+const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${(props) => (props.isValid ? props.theme.grey800 : props.theme.red600)};
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
@@ -117,64 +119,55 @@ const SignupForm = (props: Props) => {
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-
-        {passwordValue.length > 0 && (
-          <div>
-            <PasswordRequirementText
-              size='12px'
-              weight={400}
-              style={{ marginTop: '4px' }}
-              isValid={stringContainsLowercaseLetter(passwordValue)}
-            >
-              <FormattedMessage
-                id='scenes.register.password.lowercase'
-                defaultMessage='Password must contain a lowercase letter'
-              />
-            </PasswordRequirementText>
-            <PasswordRequirementText
-              size='12px'
-              weight={400}
-              style={{ marginTop: '4px' }}
-              isValid={stringContainsUppercaseLetter(passwordValue)}
-            >
-              <FormattedMessage
-                id='scenes.register.password.lowercase'
-                defaultMessage='Password must contain an uppercase letter'
-              />
-            </PasswordRequirementText>
-            <PasswordRequirementText
-              size='12px'
-              weight={400}
-              style={{ marginTop: '4px' }}
-              isValid={stringContainsNumber(passwordValue)}
-            >
-              <FormattedMessage
-                id='scenes.register.password.lowercase'
-                defaultMessage='Password must contain a number'
-              />
-            </PasswordRequirementText>
-            <PasswordRequirementText
-              size='12px'
-              weight={400}
-              style={{ marginTop: '4px' }}
-              isValid={stringContainsSpecialChar(passwordValue)}
-            >
-              <FormattedMessage
-                id='scenes.register.password.lowercase'
-                defaultMessage='Password must contain a special character'
-              />
-            </PasswordRequirementText>
-            <PasswordRequirementText
-              size='12px'
-              weight={400}
-              style={{ marginTop: '4px' }}
-              isValid={stringLengthBetween(passwordValue, 12, 64)}
-            >
-              <FormattedMessage
-                id='scenes.register.password.lowercase'
-                defaultMessage='Password must be at least 12 characters long'
-              />
-            </PasswordRequirementText>
+        {passwordValue.length > 0 && !!validStrongPassword(passwordValue) && (
+          <div style={{ marginTop: '4px' }}>
+            <TextGroup inline>
+              <PasswordRequirementText isValid>
+                <FormattedMessage
+                  id='scenes.register.password.part1'
+                  defaultMessage='Passwords must contain a'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsLowercaseLetter(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part2'
+                  defaultMessage='lowercase letter'
+                />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsUppercaseLetter(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part3'
+                  defaultMessage='uppercase letter'
+                />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsNumber(passwordValue)}>
+                <FormattedMessage id='scenes.register.password.part4' defaultMessage='number' />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsSpecialChar(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part5'
+                  defaultMessage='special character'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid>
+                <FormattedMessage
+                  id='scenes.register.password.part6'
+                  defaultMessage='and be at least'
+                />
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 12, 64)}>
+                <FormattedMessage
+                  id='scenes.register.password.part7'
+                  defaultMessage='12 characters'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid>
+                <FormattedMessage id='scenes.register.password.part7' defaultMessage='long' />.
+              </PasswordRequirementText>
+            </TextGroup>
           </div>
         )}
       </FormGroup>
@@ -242,7 +235,7 @@ const SignupForm = (props: Props) => {
         <FieldWrapper>
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />
         </FieldWrapper>
-        <FormLabel>
+        <FormLabel style={{ marginTop: '1px' }}>
           <TextGroup inline>
             <Text color='grey800' size='12px' weight={500}>
               <FormattedMessage
@@ -261,7 +254,7 @@ const SignupForm = (props: Props) => {
                 id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
                 defaultMessage='Secret Private Key Recovery Phrase'
               />
-            </Link>
+            </Link>{' '}
             <Text color='grey800' size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.register.backupphrase2'
@@ -276,7 +269,6 @@ const SignupForm = (props: Props) => {
           <Terms style={{ textAlign: 'center', width: '397px' }} isCentered />
         </FormItem>
       </FormGroup>
-
       <Button
         data-e2e='signupButton'
         disabled={isFormSubmitting || invalid}
