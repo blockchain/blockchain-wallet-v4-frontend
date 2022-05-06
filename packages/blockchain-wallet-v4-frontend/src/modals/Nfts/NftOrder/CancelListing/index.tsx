@@ -138,7 +138,7 @@ const CancelListing: React.FC<Props> = (props) => {
                   Failure: () => (
                     <Text size='14px' weight={600}>
                       <FormattedMessage
-                        id='copy.no_active_offers_listings'
+                        id='copy.no_active_listings'
                         defaultMessage='Error. You may not have any active listings for this asset.'
                       />
                     </Text>
