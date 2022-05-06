@@ -37,7 +37,14 @@ const HeadingIcon = styled.div`
   margin-bottom: 0.5rem;
 `
 
-const ScreenHeader = ({ description, handleBack, hasBackArrow, icon, steps, title }) => {
+const ScreenHeader: React.FC<{
+  description?: React.ReactNode
+  handleBack?: () => void
+  hasBackArrow?: boolean
+  icon?: React.ReactNode
+  steps?: { actualStep: number; totalSteps: number }
+  title?: React.ReactNode
+}> = ({ description, handleBack, hasBackArrow, icon, steps, title }) => {
   const hasSteps = !!steps && Object.keys(steps).length > 0
   const hasSupHeader = !!hasSteps || hasBackArrow
 
@@ -45,8 +52,8 @@ const ScreenHeader = ({ description, handleBack, hasBackArrow, icon, steps, titl
     <>
       {hasSupHeader && (
         <SupHeaderWrapper>
-          {hasBackArrow && <BackArrow handleBack={handleBack} />}
-          {(!hasBackArrow || !hasSteps) && <span />}
+          {(hasBackArrow || handleBack) && <BackArrow handleBack={handleBack} />}
+          {((!hasBackArrow && !handleBack) || !hasSteps) && <span />}
           {hasSteps && (
             <Text color='blue600' variant='micro'>
               <FormattedMessage

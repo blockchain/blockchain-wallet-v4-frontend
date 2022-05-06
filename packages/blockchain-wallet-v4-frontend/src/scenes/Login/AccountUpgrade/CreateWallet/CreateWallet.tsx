@@ -9,18 +9,22 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { UpgradeSteps } from 'data/auth/types'
 
-import { CenteredTitle, StyledTemporaryButton } from '../AccountUpgrade.models'
+import ScreenHeader from '../../components/ScreenHeader'
+import { StyledTemporaryButton } from '../AccountUpgrade.models'
 
 const CreateWallet = (props) => {
   return (
     <>
       <Wrapper>
-        <CenteredTitle color='black' variant='body-2'>
-          <FormattedMessage
-            id='scenes.login.upgrade.newpassword'
-            defaultMessage='Create a New Password'
-          />
-        </CenteredTitle>
+        <ScreenHeader
+          title={
+            <FormattedMessage
+              id='scenes.login.upgrade.newpassword'
+              defaultMessage='Create a New Password'
+            />
+          }
+        />
+
         <Button
           nature='primary'
           data-e2e='createWalletUpgradeAccount'

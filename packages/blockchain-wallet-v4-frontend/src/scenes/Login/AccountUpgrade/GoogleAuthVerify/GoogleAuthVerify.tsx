@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from '@blockchain-com/constellation'
-import { IconArrowLeft } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
 import { TextInput } from 'blockchain-info-components'
@@ -11,8 +9,8 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
+import ScreenHeader from '../../components/ScreenHeader'
 import { ButtonNext, InputWrapper, Label, StyledTemporaryButton } from '../AccountUpgrade.models'
-import ScreenHeader from '../Select2faType/Components/ScreenHeader'
 
 const GoogleAuthVerify = (props) => {
   const [inputValue, setInputValue] = useState('')
@@ -27,22 +25,27 @@ const GoogleAuthVerify = (props) => {
     props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE)
   }
 
-  const handleNext = () => {
-    props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_VERIFY)
+  const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value }
+    } = event
+    if (!value) setIsInputValid(false)
+    if (value.length === 6) setIsInputValid(true)
+    setInputValue(value)
   }
 
-  const handleInputChange = (value: string) => {
-    setInputValue(value)
-    if (!value) setIsInputValid(false)
-    if (value.length > 4) setIsInputValid(true)
+  const handleSubmit = () => {
+    const {
+      securityCenterActions: { verifyGoogleAuthenticator }
+    } = props
+    verifyGoogleAuthenticator(inputValue)
+    props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_SUCCESS)
   }
 
   return (
     <>
       <Wrapper>
         <ScreenHeader
-          icon={false}
-          hasBackArrow
           handleBack={handlePrev}
           steps={steps}
           title={
@@ -82,7 +85,7 @@ const GoogleAuthVerify = (props) => {
           data-e2e='nextButton'
           fullwidth
           height='48px'
-          onClick={() => {}}
+          onClick={handleSubmit}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </ButtonNext>

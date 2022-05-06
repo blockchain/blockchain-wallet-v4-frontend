@@ -12,6 +12,7 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
+import ScreenHeader from '../../components/ScreenHeader'
 import {
   BadgesWrapper,
   ButtonNext,
@@ -20,7 +21,6 @@ import {
   StyledQRWrapper,
   StyledTemporaryButton
 } from '../AccountUpgrade.models'
-import ScreenHeader from '../Select2faType/Components/ScreenHeader'
 import { getData } from './selectors'
 
 const GoogleAuthSetup = (props) => {
@@ -45,8 +45,6 @@ const GoogleAuthSetup = (props) => {
     <>
       <Wrapper>
         <ScreenHeader
-          icon={false}
-          hasBackArrow
           handleBack={handlePrev}
           steps={steps}
           description={

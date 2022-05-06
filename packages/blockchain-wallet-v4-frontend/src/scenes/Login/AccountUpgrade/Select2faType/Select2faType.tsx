@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -8,9 +8,9 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
+import ScreenHeader from '../../components/ScreenHeader'
+import TfaSelector, { AUTH_TYPE_SELECTION } from '../../components/TfaSelector'
 import { StyledTemporaryButton } from '../AccountUpgrade.models'
-import ScreenHeader from './Components/ScreenHeader/ScreenHeader'
-import TfaSelector, { AUTH_TYPE_SELECTION } from './Components/TfaSelector'
 
 const Select2faType = (props) => {
   const handleAuthSelection = (value) => {
@@ -39,8 +39,6 @@ const Select2faType = (props) => {
     <>
       <Wrapper>
         <ScreenHeader
-          icon={false}
-          hasBackArrow
           handleBack={handlePrev}
           steps={steps}
           title={

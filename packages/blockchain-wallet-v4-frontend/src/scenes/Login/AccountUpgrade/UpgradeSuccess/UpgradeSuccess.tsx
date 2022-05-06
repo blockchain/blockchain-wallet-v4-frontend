@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from '@blockchain-com/constellation'
-import { IconArrowLeft, IconCheckCircle } from '@blockchain-com/icons'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCheckCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
 import { Button, TextInput } from 'blockchain-info-components'
@@ -11,61 +11,44 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { ExchangeAuthOriginType, TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
-import {
-  BackArrow,
-  CenteredMsgWrapper,
-  CenteredTitle,
-  FootNote,
-  HeadingIcon,
-  InputWrapper,
-  Label,
-  StyledTemporaryButton,
-  SubHeaderWrapper
-} from '../AccountUpgrade.models'
+import ScreenHeader from '../../components/ScreenHeader'
+import { FootNote, InputWrapper, Label, StyledTemporaryButton } from '../AccountUpgrade.models'
 
 const UpgradeSuccess = (props) => {
+  const steps = {
+    actualStep: 2,
+    totalSteps: 3
+  }
+
+  const handlePrev = () => {
+    props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.GOOGLE_AUTH_VERIFY)
+  }
+
   return (
     <>
       <Wrapper>
-        <SubHeaderWrapper>
-          <BackArrow onClick={() => null}>
-            {!props.hideBackArrow && (
-              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
-                <IconArrowLeft />
-              </Icon>
-            )}
-            <Text color='grey900' variant='paragraph-1'>
-              <FormattedMessage id='copy.back' defaultMessage='Back' />
-            </Text>
-          </BackArrow>
-          <Text color='blue600' variant='micro'>
-            <FormattedMessage
-              id='scenes.login.upgrade.unable_retry.steps'
-              defaultMessage='Steps {actualStep} of {totalSteps}'
-              values={{
-                actualStep: 3,
-                totalSteps: 3
-              }}
-            />
-          </Text>
-        </SubHeaderWrapper>
-        <CenteredTitle color='black' variant='title-3'>
-          <HeadingIcon>
+        <ScreenHeader
+          icon={
             <Icon label='checkmark-circle-filled' color='green600' size='lg'>
               <IconCheckCircle />
             </Icon>
-          </HeadingIcon>
-          <FormattedMessage
-            id='scenes.login.upgrade.2faSuccess.header'
-            defaultMessage='You’re All Set!'
-          />
-          <CenteredMsgWrapper color='black' variant='paragraph-1'>
+          }
+          hasBackArrow
+          handleBack={handlePrev}
+          steps={steps}
+          title={
+            <FormattedMessage
+              id='scenes.login.upgrade.2faSuccess.header'
+              defaultMessage='You’re All Set!'
+            />
+          }
+          description={
             <FormattedMessage
               id='scenes.login.upgrade.2faSuccess.text'
               defaultMessage='Look for a confirmation email. You can now log in to the Wallet and Exchange with:'
             />
-          </CenteredMsgWrapper>
-        </CenteredTitle>
+          }
+        />
         <InputWrapper>
           <Label color='grey400' variant='paragraph-2'>
             <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
