@@ -14,6 +14,7 @@ import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { isBrowserSupported } from 'services/browser'
 
 import {
   analyticsMiddleware,
@@ -22,7 +23,6 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { isBrowserSupported } from 'services/browser'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
