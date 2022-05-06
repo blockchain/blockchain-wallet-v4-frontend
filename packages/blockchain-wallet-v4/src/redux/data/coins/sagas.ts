@@ -34,11 +34,12 @@ export default ({ api }: { api: APIType }) => {
       }
       yield put(A.setCoinDataLoaded())
     } catch (e) {
+      const errorRoute = '#app-error?error=errorAssetsApi'
       // manually route to error/maintenance page
       if (window.history.replaceState) {
-        window.history.replaceState(null, '', '#maintenance')
+        window.history.replaceState(null, '', errorRoute)
       } else {
-        window.location.hash = '#maintenance'
+        window.location.hash = errorRoute
       }
       // eslint-disable-next-line no-console
       console.log(`Failed to fetch window.coins: ${e}`)

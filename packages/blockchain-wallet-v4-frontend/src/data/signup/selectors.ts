@@ -7,7 +7,9 @@ export function getAccountReset(state: RootState): SignupStateType['resetAccount
   return state.signup.resetAccount
 }
 
-export function getProductSignupMetadata(state: RootState): SignupStateType['productSignupMetadata'] {
+export function getProductSignupMetadata(
+  state: RootState
+): SignupStateType['productSignupMetadata'] {
   return state.signup.productSignupMetadata
 }
 

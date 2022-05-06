@@ -1068,6 +1068,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const userData = selectors.modules.profile.getUserData(yield select()).getOrElse({
         state: 'NONE'
       } as UserDataType)
+
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !payload) {
         return yield put(A.fetchPaymentMethodsSuccess(DEFAULT_BS_METHODS))
@@ -1098,7 +1099,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const includeNonEligibleMethods = currentUserTier === 2
       // if user is SDD tier 3 eligible, fetch limits for tier 3
       // else let endpoint return default current tier limits for current tier of user
-      const includeTierLimits = userSDDEligibleTier === SDD_TIER ? SDD_TIER : undefined
+      // double check if user is tier 2 and in case user is ignore this property
+      const includeTierLimits =
+        userSDDEligibleTier === SDD_TIER && currentUserTier !== 2 ? SDD_TIER : undefined
 
       let paymentMethods = yield call(
         api.getBSPaymentMethods,

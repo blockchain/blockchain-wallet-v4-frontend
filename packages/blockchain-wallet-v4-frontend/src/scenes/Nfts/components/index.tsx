@@ -78,6 +78,9 @@ export const GridWrapper = styled.div`
   padding: 24px;
   align-items: flex-start;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  ${media.tablet`
+    padding: 0px;
+  `}
 `
 
 export const Grid = styled.div`
@@ -93,8 +96,15 @@ export const Grid = styled.div`
   ${media.atLeastLaptop`
     grid-template-columns: repeat(3, minmax(0, 1fr));
   `}
-  ${media.atLeastDesktop`
+  ${media.atLeastLaptopL`
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  `}
+  ${media.atLeastDesktop`
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  `}
+  ${media.tablet`
+    padding: 12px;
+    box-sizing: border-box;
   `}
 `
 
@@ -217,6 +227,9 @@ export const NftBannerWrapper = styled.div`
   bottom: 0;
   width: 100%;
   padding: 24px 40px;
+  ${media.tablet`
+    padding: 12px;
+  `}
 `
 
 export const StatsWrapper = styled.div`

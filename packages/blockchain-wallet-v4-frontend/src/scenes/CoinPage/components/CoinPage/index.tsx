@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react'
 import { RouteComponentProps } from 'react-router'
-import { useCoinConfig } from 'hooks'
 
 import { Flex } from 'components/Flex'
+import { useCoinConfig } from 'hooks'
 
 import { AboutSection } from '../AboutSection'
 import { CoinHeader } from '../CoinHeader'

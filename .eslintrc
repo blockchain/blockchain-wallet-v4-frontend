@@ -1,5 +1,6 @@
 {
   "extends": ["eslint-config-constellation"],
+  "ignorePatterns": ["packages/blockchain-wallet-v4-frontend/src/generated/*"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "ecmaVersion": 12,
@@ -35,7 +36,7 @@
         "groups": [
           ["^react", "^@?\\w"],
           [
-            "^(blockchain-wallet-v4|blockchain-info-components|components|coins|@core|data|generated|layouts|middleware|providers|services|utils)(/.*|$)"
+            "^(blockchain-wallet-v4|blockchain-info-components|components|coins|@core|data|generated|hooks|layouts|middleware|providers|services|utils)(/.*|$)"
           ],
           ["^\\.", "^[^.]"]
         ]

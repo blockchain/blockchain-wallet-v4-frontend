@@ -5,7 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { formatDistanceToNow, subDays } from 'date-fns'
-import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -40,6 +39,7 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'generated/graphql.types'
+import { useRemote } from 'hooks'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
@@ -62,6 +62,7 @@ const Wrapper = styled(NftPage)`
   margin: 0 auto;
   padding: 20px 0 0 0;
   box-sizing: border-box;
+  margin-top: 8px;
   ${media.atLeastTabletL`
     height: 100%;
   `}
@@ -91,7 +92,7 @@ const LeftColWrapper = styled.div`
   }
   padding-right: 3em;
 
-  top: 64px;
+  top: ${FIXED_HEADER_HEIGHT + 8}px;
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;

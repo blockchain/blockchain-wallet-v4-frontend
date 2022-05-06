@@ -18,10 +18,7 @@ const EmailAddress = (props) => {
     <SecurityContainer>
       <SecuritySummary>
         <SecurityHeader>
-          <FormattedMessage
-            id='scenes.preferences.email.title'
-            defaultMessage='Email address'
-          />
+          <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
           <Text>{message}</Text>
         </SecurityHeader>
         <SecurityDescription>

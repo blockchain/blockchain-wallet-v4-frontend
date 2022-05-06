@@ -15,8 +15,11 @@ const DepositMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.buySellActions.fetchFiatEligible(props.fiatCurrency)
-      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
+    }
+
+    if (props.fiatCurrency) {
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
     }
   }, [])
 

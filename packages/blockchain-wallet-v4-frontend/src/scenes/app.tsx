@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
-import { Redirect, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -11,6 +11,7 @@ import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
+import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
 import NftsLayout from 'layouts/Nfts'
@@ -24,12 +25,12 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 // PUBLIC
+const AppError = React.lazy(() => import('./AppError'))
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
-const Maintenance = React.lazy(() => import('./Maintenance'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const ProductPicker = React.lazy(() => import('./ProductPicker'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
@@ -81,13 +82,19 @@ const App = ({
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
-
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
     sessionStorage.setItem(UTM, JSON.stringify(utm))
     getTracking({ url: apiUrl })
   }, [apiUrl])
+
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
@@ -104,6 +111,7 @@ const App = ({
                   <Suspense fallback={<Loading />}>
                     <Switch>
                       {/* Unauthenticated Wallet routes */}
+                      <Route path='/app-error' component={AppError} />
                       <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                       <AuthLayout
                         path='/help'
@@ -121,7 +129,6 @@ const App = ({
                         pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                       />
                       <AuthLayout path='/logout' component={Logout} />
-                      <AuthLayout path='/maintenance' component={Maintenance} />
                       <AuthLayout
                         path='/select-product'
                         component={ProductPicker}

@@ -17,7 +17,6 @@ import {
   UnifiedAccountRedirectType
 } from 'data/types'
 import Loading from 'layouts/Auth/template.loading'
-import { isBrowserSupported } from 'services/browser'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
@@ -164,7 +163,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       ...this.props,
       handleBackArrowClickExchange: this.handleBackArrowClickExchange,
       handleBackArrowClickWallet: this.handleBackArrowClickWallet,
-      isBrowserSupported: isBrowserSupported(),
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
     }
@@ -266,7 +264,6 @@ type OwnProps = {
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
   invalid: boolean
-  isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: LoginSteps) => void

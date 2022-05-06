@@ -12,10 +12,10 @@ const NftError: React.FC<Props> = ({ error }) => {
     <NftPage>
       <Flex flexDirection='column' alignItems='center' justifyContent='center'>
         <Image name='empty-search' />
-        <Text size='24px' style={{ marginTop: '4px' }} weight={600}>
+        <Text size='24px' style={{ marginTop: '4px', textAlign: 'center' }} weight={600}>
           <FormattedMessage id='copy.oops' defaultMessage='Oops. Something went wrong.' />
         </Text>
-        <div style={{ marginTop: '12px' }}>
+        <div style={{ marginTop: '12px', textAlign: 'center' }}>
           <Flex flexDirection='column' alignItems='center'>
             <Text size='14px' weight={600}>
               <FormattedMessage
