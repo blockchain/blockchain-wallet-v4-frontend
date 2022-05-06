@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle, IconRefresh } from '@blockchain-com/icons'
+import { IconCloseCircle, IconFilter, IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -14,6 +14,7 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
+import { media, useMedia } from 'services/styles'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 import {
@@ -31,7 +32,10 @@ const Wrapper = styled.div`
   background: ${(props) => props.theme.white};
   padding-top: 4px;
   padding-bottom: 4px;
-  z-index: 10;
+  z-index: 5;
+  ${media.tablet`
+    padding: 12px;
+  `}
 `
 
 const ActiveTraitFilter = styled.div`
@@ -68,6 +72,14 @@ const StyledIconRefresh = styled(IconRefresh)`
   }
 `
 
+const SortByWrapper = styled.div`
+  width: 300px;
+  z-index: 20;
+  ${media.tablet`
+  width: 200px;
+`}
+`
+
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
@@ -76,11 +88,13 @@ const TraitGridFilters: React.FC<Props> = ({
   formValues,
   numOfResults,
   routerActions,
+  setIsFilterTriggered,
   setRefreshTrigger,
   showSortBy,
   tabs
 }) => {
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
+  const isTablet = useMedia('tablet')
   const route = window.location.hash.split('?')[0].substr(1)
   const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
@@ -103,9 +117,13 @@ const TraitGridFilters: React.FC<Props> = ({
   return (
     <Wrapper>
       <div style={{ width: '100%' }}>
-        <Flex alignItems='center' justifyContent='space-between'>
+        <Flex
+          alignItems={isTablet ? 'flex-start' : 'center'}
+          justifyContent='space-between'
+          flexDirection={isTablet ? 'column' : 'row'}
+        >
           {tabs.length ? (
-            <TabMenu style={{ width: 'fit-content' }}>
+            <TabMenu style={{ marginBottom: isTablet ? '16px' : '0px', width: 'fit-content' }}>
               {tabs.map((tab) => (
                 <TabMenuItem
                   key={tab}
@@ -124,56 +142,91 @@ const TraitGridFilters: React.FC<Props> = ({
             </TabMenu>
           ) : null}
 
-          <Flex alignItems='center' gap={16}>
-            <Button
-              height='100%'
-              onClick={() => {
-                if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
-                setIsRefreshRotating(true)
-              }}
-              data-e2e='nftRefresh'
-              nature='empty-blue'
+          <div style={{ width: isTablet ? '100%' : 'auto' }}>
+            <Flex
+              justifyContent={isTablet ? 'space-between' : 'flex-start'}
+              alignItems='center'
+              gap={16}
             >
-              <Flex gap={12} alignItems='center'>
-                <Flex flexDirection='column' alignItems='start' gap={4}>
-                  <Text size='12px' weight={600}>
-                    {numOfResults || '---'}{' '}
-                    <FormattedMessage id='copy.items' defaultMessage='Items' />
-                  </Text>
-                  <Text size='10px' color='grey400' weight={500}>
-                    <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
-                  </Text>
-                </Flex>
-                <Icon label='refresh' color='blue600' size='sm'>
-                  <StyledIconRefresh className={`refresh ${isRefreshRotating ? 'active' : ''}`} />
-                </Icon>
-              </Flex>
-            </Button>
-            {showSortBy ? (
-              <div style={{ width: '300px', zIndex: 20 }}>
-                <Field
-                  name='sortBy'
-                  component={SelectBox}
-                  onChange={(e) => {
-                    if (e.includes('price')) {
-                      formActions.change('nftFilter', 'forSale', true)
-                    }
+              <Flex gap={8} alignItems='center'>
+                {isTablet ? (
+                  <Button
+                    onClick={() => setIsFilterTriggered(true)}
+                    data-e2e='triggerFilter'
+                    nature='empty-blue'
+                    style={{
+                      borderRadius: '50%',
+                      height: '40px',
+                      minWidth: 'initial',
+                      padding: '12px',
+                      width: '40px'
+                    }}
+                  >
+                    <Icon label='filter' size='lg'>
+                      <IconFilter />
+                    </Icon>
+                  </Button>
+                ) : null}
+                <Button
+                  height='100%'
+                  onClick={() => {
+                    if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
+                    setIsRefreshRotating(true)
                   }}
-                  // @ts-ignore
-                  elements={[
-                    {
-                      group: '',
-                      items: [
-                        { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                        { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                        { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                      ]
-                    }
-                  ]}
-                />
-              </div>
-            ) : null}
-          </Flex>
+                  style={
+                    isTablet
+                      ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
+                      : {}
+                  }
+                  data-e2e='nftRefresh'
+                  nature='empty-blue'
+                >
+                  <Flex gap={12} alignItems='center'>
+                    {isTablet ? null : (
+                      <Flex flexDirection='column' alignItems='start' gap={4}>
+                        <Text size='12px' weight={600}>
+                          {numOfResults || '---'}{' '}
+                          <FormattedMessage id='copy.items' defaultMessage='Items' />
+                        </Text>
+                        <Text size='10px' color='grey400' weight={500}>
+                          <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                        </Text>
+                      </Flex>
+                    )}
+                    <Icon label='refresh' color='blue600' size='sm'>
+                      <StyledIconRefresh
+                        className={`refresh ${isRefreshRotating ? 'active' : ''}`}
+                      />
+                    </Icon>
+                  </Flex>
+                </Button>
+              </Flex>
+              {showSortBy ? (
+                <SortByWrapper>
+                  <Field
+                    name='sortBy'
+                    component={SelectBox}
+                    onChange={(e) => {
+                      if (e.includes('price')) {
+                        formActions.change('nftFilter', 'forSale', true)
+                      }
+                    }}
+                    // @ts-ignore
+                    elements={[
+                      {
+                        group: '',
+                        items: [
+                          { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                          { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                        ]
+                      }
+                    ]}
+                  />
+                </SortByWrapper>
+              ) : null}
+            </Flex>
+          </div>
         </Flex>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
@@ -336,6 +389,7 @@ type OwnProps = {
   formValues: NftFilterFormValuesType
   numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
