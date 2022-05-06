@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 
@@ -60,8 +60,15 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
             alt='nft-asset'
             src={props.data.image_url}
           />
-          <div>Submitting Offer For</div>
-          <div>{props.data.name}</div>
+          <Text size='24px' weight={600}>
+            <FormattedMessage
+              id='buttons.submitting_offer_for'
+              defaultMessage='Submitting Offer For'
+            />
+          </Text>
+          <Text size='24px' weight={600}>
+            {props.data.name}
+          </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
@@ -78,9 +85,15 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
             alt='nft-asset'
             src={props.data.image_url}
           />
-          <div>Getting</div>
-          <div>{props.data.name}</div>
-          <div>ready for sale!</div>
+          <Text size='24px' weight={600}>
+            Getting
+          </Text>
+          <Text size='24px' weight={600}>
+            {props.data.name}
+          </Text>
+          <Text size='24px' weight={600}>
+            ready for sale!
+          </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
@@ -98,8 +111,15 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               alt='nft-asset'
               src={props.data.image_url}
             />
-            <div>Offer Successfully Sent For</div>
-            <div>{props.data.name}</div>
+            <Text size='24px' weight={600}>
+              <FormattedMessage
+                id='buttons.offer_successfully_sent_for'
+                defaultMessage='Offer Successfully Sent For'
+              />
+            </Text>
+            <Text size='24px' weight={600}>
+              {props.data.name}
+            </Text>
           </Wrapper>
           <ButtonWrapper>
             <Button
@@ -131,8 +151,12 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               alt='nft-asset'
               src={props.data.image_url}
             />
-            <div>{props.data.name}</div>
-            <div>Is Successfully Up For Sale</div>
+            <Text size='24px' weight={600}>
+              {props.data.name}
+            </Text>
+            <Text size='24px' weight={600}>
+              Is Successfully Up For Sale
+            </Text>
           </Wrapper>
           <ButtonWrapper>
             <Button
@@ -143,7 +167,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               data-e2e='returnToMarketPlace'
             >
               <FormattedMessage
-                id='buttons.return_to_marketplace'
+                id='buttons.close_and_view_item'
                 defaultMessage='Close and View Item'
               />
             </Button>
