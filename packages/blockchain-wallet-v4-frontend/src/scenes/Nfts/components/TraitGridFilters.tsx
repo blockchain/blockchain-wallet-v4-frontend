@@ -48,8 +48,7 @@ const ActiveTraitFilter = styled.div`
 
 const ClearAll = styled(ActiveTraitFilter)`
   cursor: pointer;
-  background: ${colors.blue000};
-  border: 1px transparent;
+  padding: 13px 32px;
 `
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
