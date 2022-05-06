@@ -99,10 +99,7 @@ export const PartnerStateWhitelist = () => (
   />
 )
 export const InvalidStrongPassword = () => (
-  <FormattedMessage
-    id='scenes.register.invalidstrongpassword'
-    defaultMessage='Your password is not strong enough'
-  />
+  <FormattedMessage id='scenes.register.invalidpassword' defaultMessage='Insecure password' />
 )
 export const PasswordsDoNotMatch = () => (
   <FormattedMessage id='formhelper.passwordsdonotmatch' defaultMessage='Passwords do not match' />

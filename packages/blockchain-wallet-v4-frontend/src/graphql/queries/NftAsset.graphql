@@ -14,10 +14,6 @@ query Asset($filter: [AssetFilter], $limit: Int) {
       address
       profile_img_url
     }
-    listings {
-      payment_token_symbol
-      starting_price
-    }
     animation_original_url
     collection {
       total_supply

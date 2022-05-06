@@ -23,7 +23,7 @@ const Terms = (props) => {
           <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.blockchainkyc.read'
-              defaultMessage='By hitting continue, I agree to Blockchain’s'
+              defaultMessage='By hitting continue, I agree to Blockchain.com’s'
             />
             &nbsp;
           </Text>
@@ -60,14 +60,14 @@ const Terms = (props) => {
             <Text color='grey800' size='12px' weight={500} style={{ margin: '4px 0' }}>
               <FormattedMessage
                 id='scenes.register.registerform.blockchain.read-recovery'
-                defaultMessage='By recovering an account, you agree to Blockchain’s'
+                defaultMessage='By recovering an account, you agree to Blockchain.com’s'
               />
             </Text>
           ) : (
             <Text color='grey800' size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.register.registerform.blockchain.read_1'
-                defaultMessage='By creating an account, you agree to Blockchain’s'
+                defaultMessage='By creating an account, you agree to Blockchain.com’s'
               />
             </Text>
           )}
