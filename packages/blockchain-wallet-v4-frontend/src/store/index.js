@@ -49,7 +49,7 @@ const configuredStore = async function () {
   }
 
   // offload asset configuration fetch/parse from main thread
-  if (!window.Worker) {
+  if (window.Worker) {
     const url = new URL('./worker.assets.js', import.meta.url)
     const worker = new Worker(url)
 
