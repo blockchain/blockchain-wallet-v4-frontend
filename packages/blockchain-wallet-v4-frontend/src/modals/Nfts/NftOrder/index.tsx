@@ -129,9 +129,11 @@ type State = {
 type OwnProps = ModalPropsType
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-// 👋 Order of composition is important, do not change!
-const enhance = compose<React.ComponentType>(
-  modalEnhancer(ModalName.NFT_ORDER, { transition: duration }),
+const enhance = compose(
+  modalEnhancer(ModalName.NFT_ORDER, {
+    fixed: true,
+    transition: duration
+  }),
   connector
 )
 
