@@ -18,9 +18,11 @@ import {
 } from '.'
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
-  const lowestListing = asset.listings
-    ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
-    : null
+  // TODO: FIX LISTINGS
+  // const lowestListing = asset.listings
+  //   ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
+  //   : null
+  const lowestListing = null
 
   return (
     <Asset key={asset?.token_id}>
@@ -48,6 +50,8 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
         <PriceCTA>
           <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+            {/* // TODO: FIX LISTINGS */}
+            {/* @ts-ignore */}
             {lowestListing && lowestListing.starting_price ? (
               <Button data-e2e='nftAssetPage' nature='empty-blue' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
@@ -58,13 +62,17 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               </Link>
             )}
           </LinkContainer>
+          {/* // TODO: FIX LISTINGS */}
+          {/* @ts-ignore */}
           {lowestListing && lowestListing.starting_price ? (
             <GreyBlueGradientCartridge>
+              {/* // TODO: FIX LISTINGS */}
               <CoinDisplay
+                coin={/* lowestListing.payment_token_symbol || */ 'ETH'}
                 size='14px'
                 weight={600}
-                coin={lowestListing.payment_token_symbol || 'ETH'}
               >
+                {/* @ts-ignore */}
                 {lowestListing.starting_price}
               </CoinDisplay>
             </GreyBlueGradientCartridge>

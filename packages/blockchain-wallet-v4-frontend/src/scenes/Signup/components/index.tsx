@@ -163,7 +163,7 @@ export const LoginLink = (props: { analyticsActions }) => (
         >
           <FormattedMessage
             id='scenes.register.account.link'
-            defaultMessage='Already have a Blockchain Account?'
+            defaultMessage='Already have a Blockchain.com Account?'
           />
         </Text>
         &nbsp;
