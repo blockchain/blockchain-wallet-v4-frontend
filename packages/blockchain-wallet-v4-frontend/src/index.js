@@ -4,13 +4,12 @@ import 'regenerator-runtime/runtime.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { analyticsTrackingNoStore } from 'services/tracking'
 
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
-import AppError from './scenes/Maintenance'
+import AppError from './scenes/AppError'
 
 configureStore()
   .then((root) => {
@@ -26,18 +25,5 @@ configureStore()
     )
   })
   .catch((e) => {
-    ReactDOM.render(<AppError />, document.getElementById('app'))
-    const data = {
-      events: [
-        {
-          name: 'Wallet Load Failure',
-          originalTimestamp: new Date(),
-          properties: {
-            error_message: e.toString()
-          }
-        }
-      ]
-    }
-    analyticsTrackingNoStore(data)
-    console.error(e)
+    ReactDOM.render(<AppError error={e.message} />, document.getElementById('app'))
   })
