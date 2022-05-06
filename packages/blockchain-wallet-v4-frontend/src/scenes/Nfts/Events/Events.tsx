@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
 import { SpinningLoader } from 'blockchain-info-components'
@@ -10,6 +11,10 @@ import { Centered } from '../components'
 import NftError from '../components/NftError'
 import EventsResults from './Events.results'
 import EventsTable from './Events.table'
+
+const StyledLazyLoadContainer = styled(LazyLoadContainer)`
+  position: relative;
+`
 
 const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
@@ -30,7 +35,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
   }, [filters])
 
   return (
-    <LazyLoadContainer
+    <StyledLazyLoadContainer
       triggerDistance={50}
       onLazyLoad={() =>
         isFetchingNextPage || maxItemsFetched || errorFetchingNextPage
@@ -65,7 +70,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
         </Centered>
       </TableWrapper>
       {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
-    </LazyLoadContainer>
+    </StyledLazyLoadContainer>
   )
 }
 
