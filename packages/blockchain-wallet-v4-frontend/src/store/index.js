@@ -22,6 +22,7 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
+import { isBrowserSupported } from '../services/browser'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
@@ -39,6 +40,12 @@ const configuredStore = async function () {
     options = await res.json()
   } catch (e) {
     throw new Error('errorWalletOptionsApi')
+  }
+
+  // ensure browser is supported
+  const browserSupported = isBrowserSupported()
+  if (!browserSupported) {
+    manuallyRouteToErrorPage('unsupportedBrowser')
   }
 
   // offload asset configuration fetch/parse from main thread
