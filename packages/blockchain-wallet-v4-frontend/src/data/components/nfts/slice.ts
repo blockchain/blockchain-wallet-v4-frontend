@@ -10,7 +10,8 @@ import {
   NftAssetsType,
   NftOrder,
   OpenSeaStatus,
-  RawOrder
+  RawOrder,
+  UnsignedOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
@@ -57,7 +58,7 @@ const nftsSlice = createSlice({
   reducers: {
     acceptOffer: (
       state,
-      action: PayloadAction<{ buy: NftOrder; gasData: GasDataI; sell: NftOrder }>
+      action: PayloadAction<{ buy: UnsignedOrder; gasData: GasDataI; sell: UnsignedOrder }>
     ) => {},
     cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
     cancelOffer: (
@@ -80,7 +81,12 @@ const nftsSlice = createSlice({
     ) => {},
     createOrder: (
       state,
-      action: PayloadAction<{ buy: NftOrder; gasData: GasDataI; sell: NftOrder }>
+      action: PayloadAction<{
+        asset: NftAsset
+        buy: UnsignedOrder
+        gasData: GasDataI
+        sell: UnsignedOrder
+      }>
     ) => {},
     createSellOrder: (
       state,

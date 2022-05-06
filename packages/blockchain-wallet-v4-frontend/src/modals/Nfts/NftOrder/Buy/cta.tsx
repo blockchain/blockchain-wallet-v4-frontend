@@ -182,7 +182,13 @@ const CTA: React.FC<Props> = (props) => {
               </Text>
             </div>
             <Button
-              onClick={() => nftActions.createOrder({ gasData: val.fees, ...val.matchingOrder })}
+              onClick={() =>
+                nftActions.createOrder({
+                  asset: val.asset,
+                  gasData: val.fees,
+                  ...val.matchingOrder
+                })
+              }
               jumbo
               nature='primary'
               fullwidth
