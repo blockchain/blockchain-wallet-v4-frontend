@@ -16,10 +16,7 @@ const EmailAddress = () => {
     <SecurityContainer>
       <SecuritySummary>
         <SecurityHeader>
-          <FormattedMessage
-            id='scenes.preferences.email.title'
-            defaultMessage='Email address'
-          />
+          <FormattedMessage id='scenes.preferences.email.title' defaultMessage='Email address' />
           <FlatLoader width='50px' height='14px' />
         </SecurityHeader>
         <SecurityDescription>
