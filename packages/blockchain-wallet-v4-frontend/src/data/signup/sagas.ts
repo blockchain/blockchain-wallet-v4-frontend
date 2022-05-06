@@ -108,6 +108,16 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+      if (product === ProductAuthOptions.EXCHANGE) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
+            properties: {
+              device: platform
+            }
+          })
+        )
+      }
     } catch (e) {
       yield put(actions.signup.registerFailure(undefined))
       yield put(actions.auth.loginFailure(e))

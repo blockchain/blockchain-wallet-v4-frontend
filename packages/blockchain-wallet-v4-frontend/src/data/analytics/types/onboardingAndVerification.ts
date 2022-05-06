@@ -37,7 +37,7 @@ export enum Events {
   ONBOARDING_WALLET_SIGNED_UP = 'Wallet Signed Up'
 }
 
-type OriginProductFlow = 'SECURITY' | 'SIGN_UP' | 'VERIFICATION'
+type OriginProductFlow = 'SECURITY' | 'SIGN_UP' | 'VERIFICATION' | 'BANNER'
 type CompleteProfileSteps = 'BUY_CRYPTO' | 'LINK_PAYMENT' | 'VERIFY'
 
 type FlowSteps = 'BUY' | 'SWAP'
@@ -113,7 +113,9 @@ type EmailVerifiedAction = {
 
 type ExchangeSignedUpAction = {
   key: Events.ONBOARDING_EXCHANGE_SIGNED_UP
-  properties: {}
+  properties: {
+    device: string
+  }
 }
 
 type GetMoreAccessWhenYouVerify = {
