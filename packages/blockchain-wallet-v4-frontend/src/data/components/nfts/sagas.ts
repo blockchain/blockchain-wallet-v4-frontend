@@ -448,9 +448,10 @@ export default ({ api }: { api: APIType }) => {
     const startPrice = action?.payload?.startPrice
     const endPrice = action?.payload?.endPrice || 0
     const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
-    const start_usd = startPrice * usdPrice
-    const end_usd = endPrice * usdPrice
+    const start_usd = startPrice * usdPrice.price
+    const end_usd = endPrice * usdPrice.price
     try {
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.READY_FOR_SALE))
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
@@ -468,10 +469,11 @@ export default ({ api }: { api: APIType }) => {
         action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+
       yield call(api.postNftOrder, order)
       yield put(A.clearAndRefetchAssets())
-      yield put(actions.modals.closeAllModals())
-      yield put(actions.alerts.displaySuccess('Sell order created!'))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,

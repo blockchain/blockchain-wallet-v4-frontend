@@ -1,11 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators } from 'redux'
 
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 
 import {
@@ -18,19 +22,43 @@ import {
 } from '.'
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
+  const dispatch = useDispatch()
   const lowestListing = asset.listings
     ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
     : null
-
+  const logoClickTracking = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_NFT_CLICKED,
+        properties: {
+          collection_name: asset.collection.name,
+          image_logo: true,
+          name_click: false
+        }
+      })
+    )
+  }
+  const nameClickTracking = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_NFT_CLICKED,
+        properties: {
+          collection_name: asset.collection.name,
+          image_logo: false,
+          name_click: true
+        }
+      })
+    )
+  }
   return (
     <Asset key={asset?.token_id}>
       <Flex alignItems='center' gap={8}>
-        <LinkContainer to={`/nfts/collection/${asset.collection.slug}`}>
+        <LinkContainer onClick={logoClickTracking} to={`/nfts/collection/${asset.collection.slug}`}>
           <Link style={{ display: 'flex' }}>
             <CollectionImageSmall alt='collection' src={asset.collection.image_url || ''} />
           </Link>
         </LinkContainer>
-        <AssetCollection>
+        <AssetCollection onClick={nameClickTracking}>
           <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
             {asset?.collection?.name}
           </Text>

@@ -27,6 +27,7 @@ import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
@@ -61,7 +62,7 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow, rates } = props
+  const { analyticsActions, close, formValues, nftActions, orderFlow, rates } = props
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -91,11 +92,28 @@ const MarkForSale: React.FC<Props> = (props) => {
   const setToTimedAuction = () => {
     setSaleType('timed-auction')
   }
-
   const coin = () => {
     return saleType === 'timed-auction' && formValues?.timedAuctionType === 'highestBidder'
       ? 'WETH'
       : 'ETH'
+  }
+
+  // const usdPrice = call(api.getPriceIndex, coin, 'USD', new Date().getTime())
+
+  // const amount_usd = usdPrice.price * Number(amount)
+
+  // TO-DO: fix pricing for entered amounts
+  const amount_usd = 2000 * Number(amount)
+
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        amount_usd,
+        currency: coin(),
+        input_amount: Number(amount)
+      }
+    })
   }
 
   const cryptoAmt =
@@ -519,6 +537,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                     data-e2e='sellNft'
                     disabled={disabled}
                     onClick={() => {
+                      enteredAmountAnalytics()
                       if (saleType === 'fixed-price') {
                         nftActions.createSellOrder({
                           asset: val,

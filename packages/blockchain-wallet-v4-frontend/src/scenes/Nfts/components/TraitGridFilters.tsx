@@ -159,6 +159,12 @@ const TraitGridFilters: React.FC<Props> = ({
                       formActions.change('nftFilter', 'forSale', true)
                     }
                   }}
+                  onClick={() => {
+                    analyticsActions.trackEvent({
+                      key: Analytics.NFT_RECENTLY_LISTED_CLICKED,
+                      properties: {}
+                    })
+                  }}
                   // @ts-ignore
                   elements={[
                     {

@@ -43,6 +43,7 @@ import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
+    analyticsActions,
     close,
     erc20BalanceR,
     ethBalancesR,
@@ -56,7 +57,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   } = props
   const [termsAccepted, setTermsAccepted] = useState(false)
   useEffect(() => {
-    props.analyticsActions.trackEvent({
+    analyticsActions.trackEvent({
       key: Analytics.NFT_MAKE_AN_OFFER_VIEWED,
       properties: {}
     })
@@ -129,6 +130,24 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const acceptTerms = () => {
     setTermsAccepted(true)
+  }
+
+  // const usdPrice = call(api.getPriceIndex, coin, 'USD', new Date().getTime())
+
+  // const amount_usd = usdPrice.price * Number(amount)
+
+  // TO-DO: fix pricing for entered amounts
+  const amount_usd = 2000 * Number(amount)
+
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        amount_usd,
+        currency: coin,
+        input_amount: Number(amount)
+      }
+    })
   }
 
   return (
@@ -426,7 +445,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='makeOfferNft'
                       disabled={disabled}
-                      onClick={() =>
+                      onClick={() => {
+                        enteredAmountAnalytics()
                         nftActions.createOffer({
                           amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                           asset: val,
@@ -437,7 +457,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                           wrapFees,
                           ...formValues
                         })
-                      }
+                      }}
                     >
                       {formValues.amount ? (
                         props.orderFlow.isSubmitting ? (
