@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
-import { Redirect, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -24,12 +24,12 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 // PUBLIC
+const AppError = React.lazy(() => import('./AppError'))
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
-const Maintenance = React.lazy(() => import('./Maintenance'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const ProductPicker = React.lazy(() => import('./ProductPicker'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
@@ -104,6 +104,7 @@ const App = ({
                   <Suspense fallback={<Loading />}>
                     <Switch>
                       {/* Unauthenticated Wallet routes */}
+                      <Route path='/app-error' component={AppError} />
                       <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                       <AuthLayout
                         path='/help'
@@ -121,7 +122,6 @@ const App = ({
                         pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                       />
                       <AuthLayout path='/logout' component={Logout} />
-                      <AuthLayout path='/maintenance' component={Maintenance} />
                       <AuthLayout
                         path='/select-product'
                         component={ProductPicker}
