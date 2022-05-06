@@ -369,70 +369,37 @@ export default ({ api }: { api: APIType }) => {
     const amount_usd = usdPrice.price * Number(amount)
 
     try {
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
       yield put(A.setOrderFlowIsSubmitting(true))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
-      yield put(actions.modals.closeAllModals())
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
       yield put(
-        actions.alerts.displaySuccess(
-          `Successfully created order! It may take a few minutes to appear in your collection.`
-        )
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency,
+            type: 'SUCCESS'
+          }
+        })
       )
-      if (!action.payload.sell) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_BUY_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              type: 'SUCCESS'
-            }
-          })
-        )
-      } else {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              type: 'SUCCESS'
-            }
-          })
-        )
-      }
     } catch (e) {
       let error = errorHandler(e)
-      if (!action.payload.sell) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_BUY_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              error_message: error,
-              type: 'FAILED'
-            }
-          })
-        )
-      } else {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              error_message: error,
-              type: 'FAILED'
-            }
-          })
-        )
-      }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'
       yield put(actions.logs.logErrorMessage(error))

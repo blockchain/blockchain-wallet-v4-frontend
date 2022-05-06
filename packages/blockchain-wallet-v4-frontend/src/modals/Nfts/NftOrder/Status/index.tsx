@@ -40,6 +40,10 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
     props.close()
   }
 
+  const goToMyPortfolio = () => {
+    props.close()
+  }
+
   return (
     <div>
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
@@ -65,6 +69,28 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               id='buttons.submitting_offer_for'
               defaultMessage='Submitting Offer For'
             />
+          </Text>
+          <Text size='24px' weight={600}>
+            {props.data.name}
+          </Text>
+          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+        </Wrapper>
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER && (
+        <Wrapper>
+          <img
+            style={{
+              borderRadius: '8px',
+              height: '64px',
+              marginRight: '12px',
+              padding: '1em',
+              width: 'auto'
+            }}
+            alt='nft-asset'
+            src={props.data.image_url}
+          />
+          <Text size='24px' weight={600}>
+            <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
           </Text>
           <Text size='24px' weight={600}>
             {props.data.name}
@@ -169,6 +195,43 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               <FormattedMessage
                 id='buttons.close_and_view_item'
                 defaultMessage='Close and View Item'
+              />
+            </Button>
+          </ButtonWrapper>
+        </>
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS && (
+        <>
+          <Wrapper>
+            <img
+              style={{
+                borderRadius: '8px',
+                height: '64px',
+                marginRight: '12px',
+                padding: '1em',
+                width: 'auto'
+              }}
+              alt='nft-asset'
+              src={props.data.image_url}
+            />
+            <Text size='24px' weight={600}>
+              Buy Successful For
+            </Text>
+            <Text size='24px' weight={600}>
+              {props.data.name}
+            </Text>
+          </Wrapper>
+          <ButtonWrapper>
+            <Button
+              nature='primary'
+              jumbo
+              onClick={goToMyPortfolio}
+              fullwidth
+              data-e2e='returnToMarketPlace'
+            >
+              <FormattedMessage
+                id='buttons.go_to_my_portfolio'
+                defaultMessage='Go To My Portfolio'
               />
             </Button>
           </ButtonWrapper>
