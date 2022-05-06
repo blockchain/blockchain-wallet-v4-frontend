@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     text-transform: capitalize;
   }
   ${media.tablet`
-    width: 250px;
+    width: 200px;
   `}
 `
 
