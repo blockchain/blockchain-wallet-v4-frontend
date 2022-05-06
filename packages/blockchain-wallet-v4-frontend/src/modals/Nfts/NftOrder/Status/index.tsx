@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -32,6 +32,8 @@ const ButtonWrapper = styled.div`
 `
 
 const NftOrderStatus: React.FC<Props> = (props: any) => {
+  const dispatch = useDispatch()
+
   const returnToMarketPlace = () => {
     props.close()
   }
@@ -41,6 +43,12 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
   }
 
   const goToMyPortfolio = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_GO_TO_PORTFOLIO_CLICKED,
+        properties: {}
+      })
+    )
     props.close()
   }
 
