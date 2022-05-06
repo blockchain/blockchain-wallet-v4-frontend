@@ -22,7 +22,7 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { isBrowserSupported } from '../services/browser'
+import { isBrowserSupported } from 'services/browser'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
