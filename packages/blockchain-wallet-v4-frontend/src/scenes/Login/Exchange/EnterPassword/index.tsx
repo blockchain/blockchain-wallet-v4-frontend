@@ -19,6 +19,7 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -35,6 +36,7 @@ const EnterPasswordExchange = (props: Props) => {
     formValues,
     handleBackArrowClickExchange,
     invalid,
+    isBrowserSupported,
     magicLinkData,
     submitting,
     walletTabClicked
@@ -58,6 +60,7 @@ const EnterPasswordExchange = (props: Props) => {
           product={ProductAuthOptions.EXCHANGE}
         />
         <FormGroup>
+          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem>
             <FormLabel htmlFor='password'>
               <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
@@ -66,6 +69,7 @@ const EnterPasswordExchange = (props: Props) => {
               autoFocus
               component={PasswordBox}
               data-e2e='exchangePassword'
+              disabled={!isBrowserSupported}
               name='exchangePassword'
               placeholder='Enter your password'
               validate={[required]}
