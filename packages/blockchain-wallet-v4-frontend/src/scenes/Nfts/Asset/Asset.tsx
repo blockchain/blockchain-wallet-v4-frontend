@@ -66,7 +66,7 @@ const Wrapper = styled(NftPage)`
   ${media.atLeastTabletL`
     height: 100%;
   `}
-  ${media.tabletL`
+  ${media.tablet`
     flex-direction: column;
   `}
 `
@@ -83,7 +83,7 @@ const LeftColWrapper = styled.div`
   max-width: 625px;
   width: 50%;
   `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -96,6 +96,11 @@ const LeftColWrapper = styled.div`
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
+
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const RightColWrapper = styled.div`
@@ -103,7 +108,7 @@ const RightColWrapper = styled.div`
   height: 100%;
   width: 50%;
   `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -113,6 +118,10 @@ const RightColWrapper = styled.div`
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const Socials = styled.div`
@@ -134,31 +143,28 @@ const SocialLink = styled.div`
 `
 
 const MoreAssets = styled.div`
-  width: 100%;
-  position: sticky;
-  height: 100%;
-  top: 64px;
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const MoreAssetsList = styled.div`
   display: flex;
   width: 100%;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
+  flex-wrap: wrap;
 `
 
 const MoreAssetsListItem = styled.div`
   width: 25%;
-  ${media.tabletL`width: 100%;`}
+  ${media.tablet`width: 50%;`}
 `
 
-const CollectionName = styled.div`
-  font-family: Inter, sans-serif;
-  font-style: normal;
+const CollectionName = styled(Text)`
   font-weight: 600;
   font-size: 16px;
   display: flex;
+  align-items: center;
   color: ${colors.grey900};
 `
 
@@ -428,7 +434,7 @@ const NftAsset: React.FC<Props> = ({
                   justifyContent: 'space-between'
                 }}
               >
-                <div style={{ display: 'block' }}>
+                <div style={{ display: 'block', marginTop: '2px' }}>
                   <Text
                     size='14px'
                     weight={600}
@@ -444,16 +450,14 @@ const NftAsset: React.FC<Props> = ({
                       <img
                         alt='Dapp Logo'
                         height='30px'
-                        width='auto'
+                        width='30px'
                         style={{
                           borderRadius: '50%',
                           paddingRight: '2px'
                         }}
                         src={currentAsset.collection?.image_url || ''}
                       />
-                      <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                        {currentAsset.collection?.name}
-                      </div>
+                      <div style={{ paddingLeft: '0.5em' }}>{currentAsset.collection?.name}</div>
                     </CollectionName>
                   </CustomLink>
                 </div>
@@ -912,23 +916,18 @@ const NftAsset: React.FC<Props> = ({
                             }}
                           >
                             <div>
-                              <CollectionName
-                                style={{ justifyContent: 'center', paddingBottom: 'unset' }}
-                              >
+                              <CollectionName>
                                 <img
                                   alt='Dapp Logo'
                                   height='30px'
                                   width='auto'
                                   style={{
                                     borderRadius: '50%',
-                                    marginBottom: '0.5rem',
                                     paddingRight: '2px'
                                   }}
                                   src={asset.collection?.image_url || ''}
                                 />
-                                <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                                  {asset.collection?.name}
-                                </div>
+                                <div style={{ paddingLeft: '0.5em' }}>{asset.collection?.name}</div>
                               </CollectionName>
                               <img
                                 alt='Asset Logo'
@@ -937,7 +936,8 @@ const NftAsset: React.FC<Props> = ({
                                 style={{
                                   borderRadius: '10%',
                                   boxSizing: 'border-box',
-                                  marginBottom: '0.5rem'
+                                  marginBottom: '0.5rem',
+                                  marginTop: '1em'
                                 }}
                                 src={asset.image_url || ''}
                               />
