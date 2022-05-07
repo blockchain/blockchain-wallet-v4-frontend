@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { formatDistanceToNow, subDays } from 'date-fns'
 import { bindActionCreators } from 'redux'
@@ -45,6 +45,7 @@ import { media } from 'services/styles'
 
 import { NftPage } from '../components'
 import NftError from '../components/NftError'
+import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
 import { EthText, Highest } from './components'
@@ -282,6 +283,7 @@ const NftAsset: React.FC<Props> = ({
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
+  const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
   const [assetQuery] = useAssetQuery({
     variables: {
@@ -303,6 +305,14 @@ const NftAsset: React.FC<Props> = ({
       token_id: id
     })
   }, [contract, id, nftsActions])
+
+  useEffect(() => {
+    if (isRefreshRotating) {
+      setTimeout(() => {
+        setIsRefreshRotating(false)
+      }, 500)
+    }
+  }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
   const ownedBySelf = currentAsset?.owners
@@ -440,7 +450,7 @@ const NftAsset: React.FC<Props> = ({
                     weight={600}
                     style={{
                       alignItems: 'center',
-                      padding: '0em 0em 1em 0em'
+                      padding: '0em 0em 0.5em 0em'
                     }}
                   >
                     Collection
@@ -461,6 +471,26 @@ const NftAsset: React.FC<Props> = ({
                     </CollectionName>
                   </CustomLink>
                 </div>
+                <Button
+                  data-e2e='nftAssetRefresh'
+                  style={{
+                    borderRadius: '50%',
+                    height: '40px',
+                    maxWidth: '40px',
+                    minWidth: '40px',
+                    padding: '12px'
+                  }}
+                  nature='empty-blue'
+                  onClick={() => {
+                    nftsActions.fetchOpenSeaAsset({
+                      asset_contract_address: contract,
+                      token_id: id
+                    })
+                    setIsRefreshRotating(true)
+                  }}
+                >
+                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
+                </Button>
               </div>
               <AssetName>
                 {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}

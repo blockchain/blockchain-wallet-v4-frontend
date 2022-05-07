@@ -1,3 +1,4 @@
+import { IconRefresh } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
