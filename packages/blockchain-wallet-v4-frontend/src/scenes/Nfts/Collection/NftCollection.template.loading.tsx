@@ -22,7 +22,7 @@ const NftCollectionLoading: React.FC<Props> = () => {
         </div>
       ) : (
         <GridWrapper>
-          <div style={{ minWidth: '300px', width: '300px' }}>
+          <div style={{ marginTop: '20px', minWidth: '300px', width: '300px' }}>
             <Flex justifyContent='space-between'>
               <SkeletonRectangle width='100px' height='28px' />
               <SkeletonCircle height='24px' width='24px' />
