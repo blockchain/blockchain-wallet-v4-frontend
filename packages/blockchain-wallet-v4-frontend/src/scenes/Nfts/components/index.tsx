@@ -40,13 +40,13 @@ export const LeftColWrapper = styled.div`
   overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   top: 72px;
   margin-right: 20px;
   max-width: 320px;
   width: 25%;
 `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -184,7 +184,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   background-size: cover;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
-  ${media.tabletL`
+  ${media.tablet`
     flex-direction: column;
   `}
 `
@@ -202,7 +202,7 @@ export const CollectionImage = styled.img`
   width: 62px;
   top: 60px;
   left: calc(50% - 31px);
-  ${media.tabletL`
+  ${media.tablet`
     height: 40px;
     width: 40px;
     top: 60px;
@@ -246,7 +246,7 @@ export const Stat = styled.div`
   border-radius: 8px;
   gap: 16px;
   background: rgba(255, 255, 255, 0.08);
-  ${media.tabletL`
+  ${media.tablet`
     padding: 10px;
     > div {
       font-size: 12px;

@@ -64,7 +64,7 @@ const Wrapper = styled(NftPage)`
   padding: 20px 0 0 0;
   box-sizing: border-box;
   margin-top: 8px;
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
     height: 100%;
   `}
   ${media.tablet`
@@ -72,14 +72,14 @@ const Wrapper = styled(NftPage)`
   `}
 `
 const Top = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   display: flex;
   `}
   display: block;
 `
 
 const LeftColWrapper = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   box-sizing: border-box;
   max-width: 625px;
   width: 50%;
@@ -105,7 +105,7 @@ const LeftColWrapper = styled.div`
 `
 
 const RightColWrapper = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   height: 100%;
   width: 50%;
   `} > form {
