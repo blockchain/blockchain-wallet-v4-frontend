@@ -90,6 +90,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         elements={elements}
         grouped
         hideIndicator
+        hideValue
         name='search'
         label='Collections or items'
         cursor='initial'
