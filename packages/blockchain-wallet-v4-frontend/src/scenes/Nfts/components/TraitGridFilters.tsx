@@ -31,8 +31,8 @@ const Wrapper = styled.div`
   position: sticky;
   top: ${FIXED_HEADER_HEIGHT}px;
   background: ${(props) => props.theme.white};
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   z-index: 5;
   ${media.tablet`
     padding: 12px;

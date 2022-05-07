@@ -77,6 +77,7 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
+  padding-top: 0px;
   align-items: flex-start;
   border-top: 1px solid ${(props) => props.theme.grey000};
   ${media.tablet`

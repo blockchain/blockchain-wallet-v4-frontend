@@ -26,7 +26,8 @@ import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
-  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
+  top: calc(${FIXED_HEADER_HEIGHT}px);
+  padding-top: 20px;
   position: sticky;
   transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
@@ -72,7 +73,7 @@ const TraitWrapper = styled.div`
 
 const TraitList = styled.div<{ isActive: boolean }>`
   transition: all 0.3s ease;
-  max-height: ${(props) => (props.isActive ? '200px' : '0px')};
+  max-height: ${(props) => (props.isActive ? '342px' : '0px')};
   overflow: auto;
 `
 
