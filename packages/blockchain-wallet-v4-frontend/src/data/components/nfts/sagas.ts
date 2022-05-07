@@ -18,6 +18,7 @@ import {
   getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -222,15 +223,16 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
-    const currency = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
-        coin: currency,
+        coin,
         value: action?.payload?.buy?.basePrice?.toString() || ''
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, currency, 'USD', new Date().getTime())
+    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const amount_usd = usdPrice.price * Number(amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
@@ -245,7 +247,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
@@ -258,7 +260,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }
@@ -355,17 +357,18 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
-    const currency = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : ('WETH' as string)
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
-        coin: currency,
+        coin,
         value:
           action?.payload?.buy?.basePrice?.toString() ||
           action?.payload?.sell?.basePrice?.toString()
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, currency, 'USD', new Date().getTime())
+    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const amount_usd = usdPrice.price * Number(amount)
 
     try {
@@ -379,60 +382,38 @@ export default ({ api }: { api: APIType }) => {
           `Successfully created order! It may take a few minutes to appear in your collection.`
         )
       )
-      if (!action.payload.sell) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_BUY_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              type: 'SUCCESS'
-            }
-          })
-        )
-      } else {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              type: 'SUCCESS'
-            }
-          })
-        )
-      }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
-      if (!action.payload.sell) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_BUY_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              error_message: error,
-              type: 'FAILED'
-            }
-          })
-        )
-      } else {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
-            properties: {
-              amount,
-              amount_usd,
-              currency,
-              error_message: error,
-              type: 'FAILED'
-            }
-          })
-        )
-      }
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'
       yield put(actions.logs.logErrorMessage(error))
