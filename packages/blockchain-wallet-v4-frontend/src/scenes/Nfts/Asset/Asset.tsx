@@ -457,17 +457,19 @@ const NftAsset: React.FC<Props> = ({
                   </Text>
                   <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
                     <CollectionName>
-                      <img
-                        alt='Dapp Logo'
-                        height='30px'
-                        width='30px'
-                        style={{
-                          borderRadius: '50%',
-                          paddingRight: '2px'
-                        }}
-                        src={currentAsset.collection?.image_url || ''}
-                      />
-                      <div style={{ paddingLeft: '0.5em' }}>{currentAsset.collection?.name}</div>
+                      {currentAsset.collection.image_url ? (
+                        <img
+                          alt='Dapp Logo'
+                          height='30px'
+                          width='30px'
+                          style={{
+                            borderRadius: '50%',
+                            paddingRight: '0.5em'
+                          }}
+                          src={currentAsset.collection?.image_url || ''}
+                        />
+                      ) : null}
+                      <div>{currentAsset.collection?.name}</div>
                     </CollectionName>
                   </CustomLink>
                 </div>
@@ -948,17 +950,19 @@ const NftAsset: React.FC<Props> = ({
                           >
                             <div>
                               <CollectionName>
-                                <img
-                                  alt='Dapp Logo'
-                                  height='30px'
-                                  width='auto'
-                                  style={{
-                                    borderRadius: '50%',
-                                    paddingRight: '2px'
-                                  }}
-                                  src={asset.collection?.image_url || ''}
-                                />
-                                <div style={{ paddingLeft: '0.5em' }}>{asset.collection?.name}</div>
+                                {asset.collection.image_url ? (
+                                  <img
+                                    alt='Dapp Logo'
+                                    height='30px'
+                                    width='auto'
+                                    style={{
+                                      borderRadius: '50%',
+                                      paddingRight: '0.5em'
+                                    }}
+                                    src={asset.collection?.image_url || ''}
+                                  />
+                                ) : null}
+                                <div>{asset.collection?.name}</div>
                               </CollectionName>
                               <img
                                 alt='Asset Logo'

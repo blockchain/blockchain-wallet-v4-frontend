@@ -26,18 +26,20 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
   return (
     <Asset key={asset?.token_id}>
-      <Flex alignItems='center' gap={8}>
-        <LinkContainer to={`/nfts/collection/${asset.collection.slug}`}>
-          <Link style={{ display: 'flex' }}>
-            <CollectionImageSmall alt='collection' src={asset.collection.image_url || ''} />
-          </Link>
-        </LinkContainer>
-        <AssetCollection>
-          <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-            {asset?.collection?.name}
-          </Text>
-        </AssetCollection>
-      </Flex>
+      <LinkContainer to={`/nfts/collection/${asset.collection.slug}`}>
+        <Link>
+          <Flex alignItems='center' gap={8}>
+            {asset.collection.image_url ? (
+              <CollectionImageSmall alt='Dapp Logo' src={asset.collection.image_url || ''} />
+            ) : null}
+            <AssetCollection>
+              <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
+                {asset?.collection?.name}
+              </Text>
+            </AssetCollection>
+          </Flex>
+        </Link>
+      </LinkContainer>
       <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
         <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
       </LinkContainer>
