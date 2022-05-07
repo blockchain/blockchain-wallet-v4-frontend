@@ -62,47 +62,47 @@ class NftOrder extends PureComponent<Props, State> {
       >
         {step === NftOrderStepEnum.BUY && (
           <StyledFlyoutChild>
-            <Buy {...this.props} />
+            <Buy {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (
           <StyledFlyoutChild>
-            <MarkForSale {...this.props} />
+            <MarkForSale {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.ACCEPT_OFFER && (
           <StyledFlyoutChild>
-            <AcceptOffer {...this.props} />
+            <AcceptOffer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MAKE_OFFER && (
           <StyledFlyoutChild>
-            <MakeOffer {...this.props} />
+            <MakeOffer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_OFFER && (
           <StyledFlyoutChild>
-            <CancelOffer {...this.props} />
+            <CancelOffer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_LISTING && (
           <StyledFlyoutChild>
-            <CancelListing {...this.props} />
+            <CancelListing {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.TRANSFER && (
           <StyledFlyoutChild>
-            <Transfer {...this.props} />
+            <Transfer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.STATUS && (
           <StyledFlyoutChild>
-            <Status {...this.props} {...orderFlow.asset} />
+            <Status {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.NOT_VERIFIED && (
           <StyledFlyoutChild>
-            <NotVerified {...this.props} {...orderFlow.asset} />
+            <NotVerified {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
       </Flyout>
@@ -113,6 +113,7 @@ class NftOrder extends PureComponent<Props, State> {
 const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   isAuthenticated: selectors.auth.isAuthenticated(state),
+  openSeaAssetR: selectors.components.nfts.getOpenSeaAsset(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 

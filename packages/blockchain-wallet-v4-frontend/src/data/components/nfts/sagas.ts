@@ -671,40 +671,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // DEPRECATED 👇👇👇👇👇👇👇👇👇👇👇👇👇
-  // When you open the order flow you can open directly to the following operations:
-  // 1: Buy
-  // 2: Sell
-  // 3: Cancel Offer (Made by user)
-  // Other operations are opened from within the flow itself, so you WILL NOT find
-  // find those in this function. Those include:
-  // 1: Transfer
-  // 2: Accept Offer
-  // 3: Cancel Listing
-  // DEPRECATED 👆👆👆👆👆👆👆👆👆👆👆👆👆
-
-  // explorer-gateway v2
-  // With the introduction of the explorer-gateway graphql API the flow will need to change a bit
-  // we should require:
-  // 1. operation (a.k.a step) (buy, sell, make offer, transfer)
-  // 2. token_id
-  // 3. contract_address
-  const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
-    const { asset_contract_address, token_id } = action.payload
+  const nftOrderFlowOpen = function* () {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
-
-    try {
-      yield put(actions.components.nfts.fetchNftOrderAssetLoading())
-      const asset: ReturnType<typeof api.getOpenSeaAsset> = yield call(
-        api.getOpenSeaAsset,
-        asset_contract_address,
-        token_id
-      )
-      yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.components.nfts.fetchNftOrderAssetFailure(error))
-    }
   }
 
   const nftOrderFlowClose = function* () {

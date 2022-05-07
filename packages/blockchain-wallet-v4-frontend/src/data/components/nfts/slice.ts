@@ -33,7 +33,6 @@ const initialState: NftsStateType = {
   openSeaAsset: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
-    asset: Remote.NotAsked,
     fees: Remote.NotAsked,
     isSubmitting: false,
     listingToCancel: null,
@@ -188,15 +187,6 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
-    fetchNftOrderAssetFailure: (state, action: PayloadAction<string>) => {
-      state.orderFlow.asset = Remote.Failure(action.payload)
-    },
-    fetchNftOrderAssetLoading: (state) => {
-      state.orderFlow.asset = Remote.Loading
-    },
-    fetchNftOrderAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
-      state.orderFlow.asset = Remote.Success(action.payload)
-    },
     fetchOpenSeaAsset: (
       state,
       action: PayloadAction<{
@@ -225,17 +215,7 @@ const nftsSlice = createSlice({
     },
     handleRouterChange: (state, action: PayloadAction<{ location: { pathname: string } }>) => {},
     nftOrderFlowClose: (state) => {
-      state.orderFlow.walletUserIsAssetOwnerHack = false
-
-      state.orderFlow.isSubmitting = false
-
-      state.orderFlow.offerToCancel = null
-      state.orderFlow.listingToCancel = null
-      state.orderFlow.orderToMatch = null
-      state.orderFlow.matchingOrder = Remote.NotAsked
-      state.orderFlow.asset = Remote.NotAsked
-      state.orderFlow.fees = Remote.NotAsked
-      state.orderFlow.wrapEthFees = Remote.NotAsked
+      state.orderFlow = initialState.orderFlow
     },
     nftOrderFlowOpen: (
       state,
@@ -274,7 +254,6 @@ const nftsSlice = createSlice({
           }
       >
     ) => {
-      state.orderFlow.asset = Remote.Loading
       state.orderFlow.step = action.payload.step
       state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
 
