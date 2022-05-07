@@ -168,6 +168,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   </Button>
                 ) : null}
                 <Button
+                  id='nft-refresh'
                   height='100%'
                   onClick={() => {
                     if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)

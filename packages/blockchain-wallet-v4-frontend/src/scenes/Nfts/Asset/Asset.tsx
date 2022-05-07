@@ -472,6 +472,7 @@ const NftAsset: React.FC<Props> = ({
                   </CustomLink>
                 </div>
                 <Button
+                  id='nft-refresh'
                   data-e2e='nftAssetRefresh'
                   style={{
                     borderRadius: '50%',
