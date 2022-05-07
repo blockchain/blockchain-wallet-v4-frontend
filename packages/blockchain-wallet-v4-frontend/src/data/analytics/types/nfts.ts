@@ -1,6 +1,6 @@
 // NFTs Events
 export enum Events {
-  NFT_ACCEPTED_ACCOUNTS = 'NFT Accepted Accounts',
+  NFT_ACCEPT_OFFER_CLICKED = 'NFT Accept Offer Clicked',
   NFT_ACCEPT_OFFER_SUCCESS_FAIL = 'NFT Accept Offer Success/Fail',
   NFT_ACTIVITY_CANCEL_CLICKED = 'NFT Activity Cancel Clicked',
   NFT_ACTIVITY_CHART_ENGAGED = 'NFT Activity Chart Engaged',
@@ -8,7 +8,9 @@ export enum Events {
   NFT_ATTRIBUTES_CLICKED = 'NFT Attributes Clicked',
   NFT_BUY_NOW_CLICKED = 'NFT Buy Now Clicked',
   NFT_BUY_SUCCESS_FAIL = 'NFT Buy Success/Fail',
+  NFT_CANCEL_LISTING_CLICKED = 'NFT Cancel Listing Clicked',
   NFT_CANCEL_LISTING_SUCCESS_FAIL = 'NFT Cancel Listing Success/Fail',
+  NFT_CANCEL_OFFER_CLICKED = 'NFT Cancel Offer Clicked',
   NFT_CANCEL_OFFER_SUCCESS_FAIL = 'NFT Cancel Offer Success/Fail',
   NFT_CLOSE_AND_VIEW_ITEM_CLICKED = 'NFT Close And View Item Clicked',
   NFT_CONTRACT_ADDRESS_CLICKED = 'NFT Contract Address Clicked',
@@ -43,19 +45,15 @@ export enum Events {
   NFT_VIEW_SUBMITTED_OFFER_CLICKED = 'NFT View Submitted Offer Clicked'
 }
 
-type Accounts = 'USDT' | 'WETH'
-
 type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
 
 type Type = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
-type AcceptedAccountsAction = {
-  key: Events.NFT_ACCEPTED_ACCOUNTS
-  properties: {
-    accounts: Accounts
-  }
+type AcceptOfferClickedAction = {
+  key: Events.NFT_ACCEPT_OFFER_CLICKED
+  properties: {}
 }
 
 type AcceptOfferSuccessFailAction = {
@@ -116,12 +114,22 @@ type BuySuccessFailAction = {
   }
 }
 
+type CancelListingClickedAction = {
+  key: Events.NFT_CANCEL_LISTING_CLICKED
+  properties: {}
+}
+
 type CancelListingSuccessFailAction = {
   key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
   properties: {
     error_message?: string
     type: Type
   }
+}
+
+type CancelOfferClickedAction = {
+  key: Events.NFT_CANCEL_OFFER_CLICKED
+  properties: {}
 }
 
 type CancelOfferSuccessFailAction = {
@@ -342,7 +350,7 @@ type ViewSubmittedOfferClickedAction = {
 
 export type TrackEventAction =
   | AcceptOfferSuccessFailAction
-  | AcceptedAccountsAction
+  | AcceptOfferClickedAction
   | ActivityCancelClickedAction
   | ActivityChartEngagedAction
   | AmountEnteredSwitchedAction
@@ -351,6 +359,8 @@ export type TrackEventAction =
   | BuySuccessFailAction
   | CancelListingSuccessFailAction
   | CancelOfferSuccessFailAction
+  | CancelListingClickedAction
+  | CancelOfferClickedAction
   | ClickedAction
   | CloseAndViewItemClickedAction
   | ContractAddressClickedAction

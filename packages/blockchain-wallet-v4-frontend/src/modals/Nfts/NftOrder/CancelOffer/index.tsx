@@ -1,10 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -16,7 +19,15 @@ const CancelOffer: React.FC<Props> = (props) => {
   const { offerToCancel } = orderFlow
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
-
+  const dispatch = useDispatch()
+  const cancelOfferClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_CANCEL_OFFER_CLICKED,
+        properties: {}
+      })
+    )
+  }
   return (
     <>
       {orderFlow.asset.cata({
@@ -81,13 +92,14 @@ const CancelOffer: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='cancelOfferNft'
                       disabled={disabled}
-                      onClick={() =>
+                      onClick={() => {
+                        cancelOfferClicked()
                         nftActions.cancelOffer({
                           asset: val,
                           gasData,
                           order: offerToCancel
                         })
-                      }
+                      }}
                     >
                       {props.orderFlow.isSubmitting ? (
                         <HeartbeatLoader color='blue100' height='20px' width='20px' />

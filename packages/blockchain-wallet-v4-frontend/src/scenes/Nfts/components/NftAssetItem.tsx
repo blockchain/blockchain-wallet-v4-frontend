@@ -52,6 +52,14 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
       })
     )
   }
+  const viewDetailsTracking = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_VIEW_BUTTON_VIEWED,
+        properties: {}
+      })
+    )
+  }
 
   return (
     <Asset key={asset?.token_id}>
@@ -86,7 +94,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
               </Button>
             ) : (
-              <Link weight={600}>
+              <Link onClick={viewDetailsTracking} weight={600}>
                 <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
               </Link>
             )}

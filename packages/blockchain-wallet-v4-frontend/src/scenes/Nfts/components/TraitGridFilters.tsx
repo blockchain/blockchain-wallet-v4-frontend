@@ -116,6 +116,10 @@ const TraitGridFilters: React.FC<Props> = ({
       Object.keys(formValues).forEach((key) => {
         formActions.change('nftFilter', key, undefined)
       })
+      analyticsActions.trackEvent({
+        key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
+        properties: {}
+      })
     }
   }
 

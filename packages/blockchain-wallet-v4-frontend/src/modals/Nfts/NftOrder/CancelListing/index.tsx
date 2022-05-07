@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
@@ -7,6 +8,8 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -19,6 +22,15 @@ const CancelListing: React.FC<Props> = (props) => {
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
+  const dispatch = useDispatch()
+  const cancelListingClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_CANCEL_LISTING_CLICKED,
+        properties: {}
+      })
+    )
+  }
   return (
     <>
       {orderFlow.asset.cata({
@@ -109,9 +121,10 @@ const CancelListing: React.FC<Props> = (props) => {
                       fullwidth
                       data-e2e='cancelListingNft'
                       disabled={disabled}
-                      onClick={() =>
+                      onClick={() => {
+                        cancelListingClicked()
                         nftActions.cancelListing({ gasData: val, order: listingToCancel })
-                      }
+                      }}
                     >
                       {props.orderFlow.isSubmitting ? (
                         <HeartbeatLoader color='blue100' height='20px' width='20px' />
