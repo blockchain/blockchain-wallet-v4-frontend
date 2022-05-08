@@ -165,7 +165,6 @@ type ContractAddressClickedAction = {
 type EnteredAmountAction = {
   key: Events.NFT_ENTERED_AMOUNT
   properties: {
-    amount_usd: number
     currency: string
     input_amount: number
   }

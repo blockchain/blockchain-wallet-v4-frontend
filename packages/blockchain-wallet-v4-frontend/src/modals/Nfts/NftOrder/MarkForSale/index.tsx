@@ -98,18 +98,10 @@ const MarkForSale: React.FC<Props> = (props) => {
       : 'ETH'
   }
 
-  // const usdPrice = call(api.getPriceIndex, coin, 'USD', new Date().getTime())
-
-  // const amount_usd = usdPrice.price * Number(amount)
-
-  // TO-DO: fix pricing for entered amounts
-  const amount_usd = 2000 * Number(amount)
-
   const enteredAmountAnalytics = () => {
     analyticsActions.trackEvent({
       key: Analytics.NFT_ENTERED_AMOUNT,
       properties: {
-        amount_usd,
         currency: coin(),
         input_amount: Number(amount)
       }
