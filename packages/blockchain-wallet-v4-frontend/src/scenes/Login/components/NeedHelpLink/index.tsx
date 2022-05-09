@@ -17,7 +17,8 @@ const NeedHelpLink = ({ analyticsActions, origin, product, unified }: Props) => 
         key: Analytics.LOGIN_HELP_CLICKED,
         properties: {
           origin,
-          site_redirect: product
+          site_redirect: product,
+          unified
         }
       })
     }}

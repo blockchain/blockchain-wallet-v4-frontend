@@ -15,6 +15,15 @@ export default ({ api }) => {
 
   const logout = function* () {
     try {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_OUT,
+          properties: {
+            origin: 'SETTINGS',
+            site_redirect: 'WALLET'
+          }
+        })
+      )
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())
@@ -34,15 +43,6 @@ export default ({ api }) => {
       } else {
         yield call(logoutClearReduxStore)
       }
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.LOGIN_SIGNED_OUT,
-          properties: {
-            origin: 'SETTINGS',
-            site_redirect: 'WALLET'
-          }
-        })
-      )
     }
   }
 

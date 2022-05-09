@@ -13,7 +13,9 @@ const HelpContainer = styled.div`
 const Help = (props) => {
   return (
     <HelpContainer>
-      <LinkContainer to={props.authProduct === 'WALLET' ? '/help' : '/help-exchange'}>
+      <LinkContainer
+        to={props.authProduct === 'WALLET' || props.unified ? '/recover' : '/help-exchange'}
+      >
         <Text color='grey400' size='16px' weight={500}>
           <FormattedMessage id='scenes.login.need.help' defaultMessage='Need Help?' />
         </Text>
