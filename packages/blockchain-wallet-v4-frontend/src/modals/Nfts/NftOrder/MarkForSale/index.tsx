@@ -189,6 +189,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         name='amount'
                         showCounter
                         showToggle
+                        onChange={enteredAmountAnalytics}
                         data-e2e='amountField'
                         onToggleFix={() => {
                           props.formActions.change(
@@ -522,7 +523,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                     data-e2e='sellNft'
                     disabled={disabled}
                     onClick={() => {
-                      enteredAmountAnalytics()
                       analyticsActions.trackEvent({
                         key: Analytics.NFT_SELL_ITEM_CLICKED,
                         properties: {

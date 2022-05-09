@@ -32,7 +32,8 @@ const CancelOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error || !openSeaAsset.hasData)
+    return <Text>{JSON.stringify(openSeaAsset.error)}</Text>
 
   const val = openSeaAsset.data
 

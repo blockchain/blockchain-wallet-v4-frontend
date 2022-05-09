@@ -114,7 +114,8 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error || !openSeaAsset.hasData)
+    return <Text>{JSON.stringify(openSeaAsset.error)}</Text>
 
   const val = openSeaAsset.data
 
@@ -260,6 +261,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
+              onChange={enteredAmountAnalytics}
               showCounter
               showToggle
               data-e2e='amountField'
@@ -283,7 +285,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               onChange={(coin: any) => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const address = window.coins[coin].coinfig.type.erc20Address!
-
+                offerWithChangedAnalytics(coin)
                 nftActions.fetchFees({
                   asset: val,
                   offer: '0.0001',
