@@ -5,17 +5,13 @@ export const getTracking = ({ url }: { url: string }) =>
     credentials: 'include'
   })
 
-/*
-  Analytics usage without redux store coupling.
-*/
+// analytics usage without redux store coupling
 export const analyticsTrackingNoStore = async (data) => {
-  const res = await fetch('/wallet-options-v4.json')
-  const options = await res.json()
-  const analyticsURL = `${options.domains.api}/events/publish`
   const rawCampaign = sessionStorage.getItem(UTM)
   const campaign = rawCampaign ? JSON.parse(rawCampaign) : {}
 
-  await fetch(analyticsURL, {
+  // assume prod since we may have failed to fetch wallet options
+  await fetch('https://api.blockchain.info/events/publish', {
     body: JSON.stringify({
       context: campaign,
       device: 'WEB',

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -11,7 +12,9 @@ import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
-import { ModalName } from 'data/types'
+import { actions } from 'data'
+import { Analytics, ModalName } from 'data/types'
+import { media, useMedia } from 'services/styles'
 
 import { Props as OwnProps } from '../Nfts'
 import NftsSearch from './NftsSearch'
@@ -32,6 +35,9 @@ const NavCenter = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 50%;
+  ${media.tablet`
+    width: auto;
+  `}
 `
 const NavLinkButton = styled(Link)`
   padding: 8px 10px;
@@ -51,6 +57,17 @@ const ExploreHeader: React.FC<Props> = ({
   pathname,
   routerActions
 }) => {
+  const dispatch = useDispatch()
+  const trackExploreClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_EXPLORER_CLICKED,
+        properties: {}
+      })
+    )
+  }
+  const isTablet = useMedia('tablet')
+
   return (
     <StickyNav>
       <NavLeft>
@@ -62,16 +79,18 @@ const ExploreHeader: React.FC<Props> = ({
         <AppSwitcher />
       </NavLeft>
       <NavCenter>
-        <LinkContainer to='/nfts/explore'>
-          <NavLinkButton>
-            <Flex alignItems='center' gap={4}>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-              </Text>
-              🚀
-            </Flex>
-          </NavLinkButton>
-        </LinkContainer>
+        {isTablet ? null : (
+          <LinkContainer onClick={trackExploreClicked} to='/nfts/explore'>
+            <NavLinkButton>
+              <Flex alignItems='center' gap={4}>
+                <Text size='14px' weight={600}>
+                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                </Text>
+                🚀
+              </Flex>
+            </NavLinkButton>
+          </LinkContainer>
+        )}
         <NftsSearch />
       </NavCenter>
       <NavRight>
@@ -103,7 +122,7 @@ const ExploreHeader: React.FC<Props> = ({
         ) : (
           <>
             <LinkContainer
-              style={{ marginRight: '8px' }}
+              style={isTablet ? {} : { marginRight: '8px' }}
               to={`/open${pathname}`}
               data-e2e='loginLink'
             >
@@ -111,11 +130,13 @@ const ExploreHeader: React.FC<Props> = ({
                 <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
               </Button>
             </LinkContainer>
-            <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
-              <Button small data-e2e='signup' nature='primary'>
-                <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
-              </Button>
-            </LinkContainer>
+            {isTablet ? null : (
+              <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
+                <Button small data-e2e='signup' nature='primary'>
+                  <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
+                </Button>
+              </LinkContainer>
+            )}
           </>
         )}
       </NavRight>

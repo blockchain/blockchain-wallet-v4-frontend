@@ -37,7 +37,7 @@ const ButtonWrapper = styled.div`
   bottom: 2em;
 `
 
-const NftOrderNotVerified: React.FC<Props> = (props: any) => {
+const NftOrderNotVerified: React.FC<Props> = (props) => {
   const { nftActions } = props
 
   const Continue = () => {

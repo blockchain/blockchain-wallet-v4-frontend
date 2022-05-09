@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
@@ -15,17 +15,19 @@ import SelectBoxCountry from 'components/Form/SelectBoxCountry'
 import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
-import { isBrowserSupported } from 'services/browser'
 import {
   required,
+  stringContainsLowercaseLetter,
+  stringContainsNumber,
+  stringContainsSpecialChar,
+  stringContainsUppercaseLetter,
+  stringLengthBetween,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
 
 import { SubviewProps } from '../../types'
-
-const isSupportedBrowser = isBrowserSupported()
 
 const StyledForm = styled(Form)`
   margin-top: 20px;
@@ -34,9 +36,6 @@ const StyledForm = styled(Form)`
     max-height: 26rem;
     transition: all 0.5s ease;
   }
-`
-const BrowserWarning = styled.div`
-  margin-bottom: 10px;
 `
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
@@ -59,25 +58,21 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
     overflow: hidden;
   }
 `
+const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${(props) => (props.isValid ? props.theme.grey800 : props.theme.red600)};
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SignupForm = (props: Props) => {
   const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
     props
+  const passwordValue = formValues?.password || ''
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
-      {!isSupportedBrowser && (
-        <BrowserWarning>
-          <Banner type='warning'>
-            <FormattedMessage
-              defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
-              id='scenes.register.browserwarning'
-            />
-          </Banner>
-        </BrowserWarning>
-      )}
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
@@ -88,7 +83,6 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={TextBox}
             data-e2e='signupEmail'
-            disabled={!isSupportedBrowser}
             name='email'
             validate={[required, validEmail]}
           />
@@ -103,19 +97,61 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={PasswordBox}
             data-e2e='signupPassword'
-            disabled={!isSupportedBrowser}
             name='password'
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        <div>
-          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
-            <FormattedMessage
-              id='scenes.register.passwordstrengthwarn'
-              defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
-            />
-          </Text>
-        </div>
+        {passwordValue.length > 0 && !!validStrongPassword(passwordValue) && (
+          <div style={{ marginTop: '4px' }}>
+            <TextGroup inline>
+              <PasswordRequirementText isValid>
+                <FormattedMessage
+                  id='scenes.register.password.part1'
+                  defaultMessage='Passwords must contain a'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsLowercaseLetter(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part2'
+                  defaultMessage='lowercase letter'
+                />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsUppercaseLetter(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part3'
+                  defaultMessage='uppercase letter'
+                />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsNumber(passwordValue)}>
+                <FormattedMessage id='scenes.register.password.part4' defaultMessage='number' />
+                {', '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringContainsSpecialChar(passwordValue)}>
+                <FormattedMessage
+                  id='scenes.register.password.part5'
+                  defaultMessage='special character'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid>
+                <FormattedMessage
+                  id='scenes.register.password.part6'
+                  defaultMessage='and be at least'
+                />
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 12, 64)}>
+                <FormattedMessage
+                  id='scenes.register.password.part7'
+                  defaultMessage='12 characters'
+                />{' '}
+              </PasswordRequirementText>
+              <PasswordRequirementText isValid>
+                <FormattedMessage id='scenes.register.password.part7' defaultMessage='long' />.
+              </PasswordRequirementText>
+            </TextGroup>
+          </div>
+        )}
       </FormGroup>
       <FormGroup>
         <FormItem>
@@ -129,7 +165,6 @@ const SignupForm = (props: Props) => {
             bgColor='grey000'
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
-            disabled={!isSupportedBrowser}
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
           />
@@ -181,7 +216,7 @@ const SignupForm = (props: Props) => {
         <FieldWrapper>
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />
         </FieldWrapper>
-        <FormLabel>
+        <FormLabel style={{ marginTop: '1px' }}>
           <TextGroup inline>
             <Text color='grey800' size='12px' weight={500}>
               <FormattedMessage
@@ -200,7 +235,7 @@ const SignupForm = (props: Props) => {
                 id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
                 defaultMessage='Secret Private Key Recovery Phrase'
               />
-            </Link>
+            </Link>{' '}
             <Text color='grey800' size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.register.backupphrase2'
@@ -215,7 +250,6 @@ const SignupForm = (props: Props) => {
           <Terms style={{ textAlign: 'center', width: '397px' }} isCentered />
         </FormItem>
       </FormGroup>
-
       <Button
         data-e2e='signupButton'
         disabled={isFormSubmitting || invalid}

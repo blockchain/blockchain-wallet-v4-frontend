@@ -1,12 +1,14 @@
-import { call, fork, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import authSagas from 'data/auth/sagas'
+import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import {
   Analytics,
   AuthMagicLink,
+  CaptchaActionName,
   ExchangeAuthOriginType,
   PlatformTypes,
   ProductAuthOptions
@@ -27,15 +29,14 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
+  const { generateCaptchaToken } = miscSagas()
+
   const exchangeMobileAppSignup = function* ({
     country = undefined,
     email = undefined,
     state = undefined
   }) {
     try {
-      const createExchangeUserFlag = (yield select(
-        selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
-      )).getOrElse(false)
       yield call(coreSagas.settings.fetchSettings)
       yield put(actions.auth.authenticate())
       // root and wallet are necessary to auth into the exchange
@@ -64,18 +65,15 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
   const register = function* (action) {
-    const { country, email, initCaptcha, state } = action.payload
+    const { country, email, language, password, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
-    // Want this behind a feature flag to monitor if this thing could be abused or not
-    const refreshToken = (yield select(
-      selectors.core.walletOptions.getRefreshCaptchaOnSignupError
-    )).getOrElse(false)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     try {
       yield put(actions.signup.registerLoading())
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
-      yield call(coreSagas.wallet.createWalletSaga, action.payload)
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
+      yield call(coreSagas.wallet.createWalletSaga, { captchaToken, email, language, password })
       // We don't want to show the account success message if user is resetting their account
       if (!isAccountReset) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
@@ -108,14 +106,21 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+      if (product === ProductAuthOptions.EXCHANGE) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
+            properties: {
+              device: platform
+            }
+          })
+        )
+      }
     } catch (e) {
       yield put(actions.signup.registerFailure(undefined))
       yield put(actions.auth.loginFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
-      if (refreshToken) {
-        initCaptcha()
-      }
     }
   }
 
@@ -166,8 +171,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const restore = function* (action) {
     try {
-      const { captchaToken, email, language, mnemonic, password } = action.payload
+      const { email, language, mnemonic, password } = action.payload
       const kvCredentials = (yield select(selectors.signup.getMetadataRestore)).getOrElse({})
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.RECOVER)
 
       yield put(actions.signup.restoreLoading())
       yield put(actions.signup.setRegisterEmail(email))
@@ -180,7 +186,6 @@ export default ({ api, coreSagas, networks }) => {
         mnemonic,
         password
       })
-
       yield call(loginRoutineSaga, {
         email,
         firstLogin: true,

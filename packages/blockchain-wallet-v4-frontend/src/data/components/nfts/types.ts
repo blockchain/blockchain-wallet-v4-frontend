@@ -11,6 +11,10 @@ import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStatusEnum {
+  POST_BUY_ORDER = 'POST_BUY_ORDER',
+  POST_BUY_ORDER_SUCCESS = 'POST_BUY_ORDER_SUCCESS',
+  POST_LISTING = 'POST_LISTING',
+  POST_LISTING_SUCCESS = 'POST_LISTING_SUCCESS',
   POST_OFFER = 'POST_OFFER',
   POST_OFFER_SUCCESS = 'POST_OFFER_SUCCESS',
   WRAP_ETH = 'WRAP_ETH'
@@ -60,7 +64,6 @@ export type NftsStateType = {
     }
   >
   orderFlow: {
-    asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
     listingToCancel: RawOrder | null

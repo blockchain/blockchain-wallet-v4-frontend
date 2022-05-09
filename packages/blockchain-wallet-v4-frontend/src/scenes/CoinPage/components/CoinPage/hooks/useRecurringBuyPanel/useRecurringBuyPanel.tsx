@@ -1,12 +1,12 @@
 import React, { ReactNode, useCallback, useMemo } from 'react'
+
+import { StandardRow } from 'components/Rows'
 import {
   useListRecurringBuyForCoin,
   useOpenRecurringBuyFlayout,
   useRecurringBuyBannerFlyout,
   useRecurringBuyTracker
 } from 'hooks'
-
-import { StandardRow } from 'components/Rows'
 
 import { LearnAboutRecurringBuyPanel } from '../../../LearnAboutRecurringBuyPanel'
 import { RecurringBuyListItem } from '../../../RecurringBuyListItem'

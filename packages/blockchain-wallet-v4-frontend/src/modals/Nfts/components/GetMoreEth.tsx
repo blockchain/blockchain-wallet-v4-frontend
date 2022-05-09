@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import { useOpenSendCryptoModal } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -10,6 +9,7 @@ import { OrderType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { actions } from 'data'
+import { useOpenSendCryptoModal } from 'hooks'
 
 const MoreEth = styled(Text)`
   display: flex;

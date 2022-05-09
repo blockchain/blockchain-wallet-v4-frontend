@@ -84,6 +84,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const lockAction = newLockState ? 'lock' : 'unlock'
 
       yield call(api.handleDCLock, id, lockAction)
+      yield call(getCards)
       yield put(A.handleCardLockSuccess(newLockState))
     } catch (e) {
       yield put(A.handleCardLockFailure(e))

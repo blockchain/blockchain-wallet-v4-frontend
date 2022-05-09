@@ -215,10 +215,6 @@ export const fulfillTransfer = async (
   txnData: { gasLimit: string; gasPrice: string }
 ) => {
   await transferAsset(asset, signer, recipient.toLowerCase(), txnData)
-  const verified = await verifyTransfered(asset, signer, recipient.toLowerCase())
-  if (!verified) {
-    throw new Error('Asset transfer failed!')
-  }
 }
 
 export const executeWrapEth = async (signer: Signer, amount: string, gasData: GasDataI) => {
