@@ -124,7 +124,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
-      {props.orderFlow.status === NftOrderStatusEnum.READY_FOR_SALE && (
+      {props.orderFlow.status === NftOrderStatusEnum.POST_LISTING && (
         <Wrapper>
           <img
             style={{
@@ -146,25 +146,6 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             ready for sale!
           </Text>
-          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
-        </Wrapper>
-      )}
-      {props.orderFlow.status === NftOrderStatusEnum.READY_FOR_SALE && (
-        <Wrapper>
-          <img
-            style={{
-              borderRadius: '8px',
-              height: '64px',
-              marginRight: '12px',
-              padding: '1em',
-              width: 'auto'
-            }}
-            alt='nft-asset'
-            src={val.image_url}
-          />
-          <div>Getting</div>
-          <div>{val.name}</div>
-          <div>ready for sale!</div>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
@@ -238,7 +219,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               data-e2e='returnToMarketPlace'
             >
               <FormattedMessage
-                id='buttons.return_to_marketplace'
+                id='buttons.close_and_view_item'
                 defaultMessage='Close and View Item'
               />
             </Button>

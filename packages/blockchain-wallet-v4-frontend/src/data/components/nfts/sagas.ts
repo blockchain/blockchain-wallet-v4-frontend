@@ -437,7 +437,7 @@ export default ({ api }: { api: APIType }) => {
     const end_usd = yield getAmountUsd(coin, endPrice)
 
     try {
-      yield put(A.setNftOrderStatus(NftOrderStatusEnum.READY_FOR_SALE))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
