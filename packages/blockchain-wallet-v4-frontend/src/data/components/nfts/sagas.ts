@@ -243,7 +243,7 @@ export default ({ api }: { api: APIType }) => {
       })
     )
 
-    const amount_usd = yield getAmountUsd(coin, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
@@ -288,7 +288,7 @@ export default ({ api }: { api: APIType }) => {
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     const currency = action?.payload?.coin || ''
     const amount = Number(action?.payload?.amount)
-    const amount_usd = yield getAmountUsd(currency, amount)
+    const amount_usd = yield call(getAmountUsd, currency, amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
@@ -377,7 +377,7 @@ export default ({ api }: { api: APIType }) => {
           action?.payload?.sell?.basePrice?.toString()
       })
     )
-    const amount_usd = yield getAmountUsd(coin, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
 
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
@@ -583,7 +583,7 @@ export default ({ api }: { api: APIType }) => {
         value: action?.payload?.order?.base_price?.toString() || ''
       })
     )
-    const amount_usd = yield getAmountUsd(coin, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       if (!action.payload.order) {
         throw new Error('No offer found. It may have expired already!')
