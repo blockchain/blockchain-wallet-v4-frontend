@@ -493,12 +493,10 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
-      const order = yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
+      yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
         gasLimit: action.payload.gasData.gasFees.toString(),
         gasPrice: action.payload.gasData.gasPrice.toString()
       })
-      yield call(api.postNftOrder, order)
-      yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(
