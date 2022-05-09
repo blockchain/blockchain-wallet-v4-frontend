@@ -15,7 +15,7 @@ import {
   BoxRowItemSubTitle,
   BoxRowItemTitle,
   BoxRowWithBorder
-} from '../model'
+} from '../CardDashboard.model'
 
 const TerminateButtonWrapper = styled(Button)`
   color: ${(props) => props.theme.red600};

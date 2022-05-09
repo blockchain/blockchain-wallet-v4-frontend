@@ -63,6 +63,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
+  const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
 
   const [collectionsQuery] = useCollectionsQuery({
     requestPolicy: 'network-only',
@@ -140,11 +141,13 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           collections={[]}
           formActions={formActions}
           formValues={formValues}
+          isTriggered={isFilterTriggered}
           total_supply={collection.total_supply}
           traits={activeTab === 'ITEMS' ? collection.traits : []}
           opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
+          setIsFilterTriggered={setIsFilterTriggered}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -152,6 +155,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             formValues={formValues}
             numOfResults={numOfResults}
             showSortBy
+            setIsFilterTriggered={setIsFilterTriggered}
             formActions={formActions}
             setRefreshTrigger={setRefreshTrigger}
             activeTab={activeTab}

@@ -10,6 +10,7 @@ import { Row, Value } from 'components/Flyout/model'
 import { RootState } from 'data/rootReducer'
 
 import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import AcceptOfferFees from './fees'
@@ -21,7 +22,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
   return (
     <>
       {data.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (

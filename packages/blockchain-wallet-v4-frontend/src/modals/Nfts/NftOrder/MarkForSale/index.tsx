@@ -13,26 +13,20 @@ import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
-import SellFees from '../ShowAsset/Sell/fees'
 import MarkForSaleFees from './fees'
 
 const FormWrapper = styled.div`
@@ -61,7 +55,7 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow, rates } = props
+  const { close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -98,6 +92,9 @@ const MarkForSale: React.FC<Props> = (props) => {
       : 'ETH'
   }
 
+  const feesR = useRemote(() => orderFlow.fees)
+  const fees = feesR?.data
+
   const cryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -118,10 +115,11 @@ const MarkForSale: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
+
   return (
     <>
-      {orderFlow.asset.cata({
-        Failure: (e) => <Text>{e}</Text>,
+      {openSeaAssetR.cata({
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
@@ -453,7 +451,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <MarkForSaleFees {...props} asset={val} />
               </Row>
               <Row style={{ border: 'unset' }}>
-                {open && (
+                {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
                     <Icon
                       onClick={() => {
@@ -491,14 +489,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Text>
                     </div>
                   </>
-                )}
+                ) : null}
               </Row>
             </div>
             <StickyCTA>
-              <div style={{ display: 'none' }}>
-                <SellFees {...props} asset={val} />
-              </div>
-
               {props.orderFlow.fees.cata({
                 Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>

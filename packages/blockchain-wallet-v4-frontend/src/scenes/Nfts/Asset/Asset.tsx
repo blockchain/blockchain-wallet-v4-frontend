@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { formatDistanceToNow, subDays } from 'date-fns'
-import { useRemote } from 'hooks'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -40,11 +39,13 @@ import {
   useAssetQuery,
   useAssetsQuery
 } from 'generated/graphql.types'
+import { useRemote } from 'hooks'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
 import NftError from '../components/NftError'
+import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
 import { EthText, Highest } from './components'
@@ -62,27 +63,28 @@ const Wrapper = styled(NftPage)`
   margin: 0 auto;
   padding: 20px 0 0 0;
   box-sizing: border-box;
-  ${media.atLeastTabletL`
+  margin-top: 8px;
+  ${media.atLeastTablet`
     height: 100%;
   `}
-  ${media.tabletL`
+  ${media.tablet`
     flex-direction: column;
   `}
 `
 const Top = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   display: flex;
   `}
   display: block;
 `
 
 const LeftColWrapper = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   box-sizing: border-box;
   max-width: 625px;
   width: 50%;
   `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -91,18 +93,23 @@ const LeftColWrapper = styled.div`
   }
   padding-right: 3em;
 
-  top: 64px;
+  top: ${FIXED_HEADER_HEIGHT + 8}px;
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
+
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const RightColWrapper = styled.div`
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   height: 100%;
   width: 50%;
   `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -112,6 +119,10 @@ const RightColWrapper = styled.div`
   background: ${(props) => props.theme.white};
   z-index: 1;
   display: block;
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const Socials = styled.div`
@@ -133,31 +144,28 @@ const SocialLink = styled.div`
 `
 
 const MoreAssets = styled.div`
-  width: 100%;
-  position: sticky;
-  height: 100%;
-  top: 64px;
+  ${media.tablet`
+    padding-right: 1em;
+    padding-left: 1em;
+  `}
 `
 
 const MoreAssetsList = styled.div`
   display: flex;
   width: 100%;
-  ${media.tabletL`
-    flex-direction: column;
-  `}
+  flex-wrap: wrap;
 `
 
 const MoreAssetsListItem = styled.div`
   width: 25%;
-  ${media.tabletL`width: 100%;`}
+  ${media.tablet`width: 50%;`}
 `
 
-const CollectionName = styled.div`
-  font-family: Inter, sans-serif;
-  font-style: normal;
+const CollectionName = styled(Text)`
   font-weight: 600;
   font-size: 16px;
   display: flex;
+  align-items: center;
   color: ${colors.grey900};
 `
 
@@ -275,8 +283,10 @@ const NftAsset: React.FC<Props> = ({
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
+  const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
   const [assetQuery] = useAssetQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter: [
         { field: AssetFilterFields.ContractAddress, value: contract },
@@ -296,6 +306,14 @@ const NftAsset: React.FC<Props> = ({
       token_id: id
     })
   }, [contract, id, nftsActions])
+
+  useEffect(() => {
+    if (isRefreshRotating) {
+      setTimeout(() => {
+        setIsRefreshRotating(false)
+      }, 500)
+    }
+  }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
   const ownedBySelf = currentAsset?.owners
@@ -427,35 +445,56 @@ const NftAsset: React.FC<Props> = ({
                   justifyContent: 'space-between'
                 }}
               >
-                <div style={{ display: 'block' }}>
+                <div style={{ display: 'block', marginTop: '2px' }}>
                   <Text
                     size='14px'
                     weight={600}
                     style={{
                       alignItems: 'center',
-                      padding: '0em 0em 1em 0em'
+                      padding: '0em 0em 0.5em 0em'
                     }}
                   >
                     Collection
                   </Text>
                   <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
                     <CollectionName>
-                      <img
-                        alt='Dapp Logo'
-                        height='30px'
-                        width='auto'
-                        style={{
-                          borderRadius: '50%',
-                          paddingRight: '2px'
-                        }}
-                        src={currentAsset.collection?.image_url || ''}
-                      />
-                      <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                        {currentAsset.collection?.name}
-                      </div>
+                      {currentAsset.collection.image_url ? (
+                        <img
+                          alt='Dapp Logo'
+                          height='30px'
+                          width='30px'
+                          style={{
+                            borderRadius: '50%',
+                            paddingRight: '0.5em'
+                          }}
+                          src={currentAsset.collection?.image_url || ''}
+                        />
+                      ) : null}
+                      <div>{currentAsset.collection?.name}</div>
                     </CollectionName>
                   </CustomLink>
                 </div>
+                <Button
+                  id='nft-refresh'
+                  data-e2e='nftAssetRefresh'
+                  style={{
+                    borderRadius: '50%',
+                    height: '40px',
+                    maxWidth: '40px',
+                    minWidth: '40px',
+                    padding: '12px'
+                  }}
+                  nature='empty-blue'
+                  onClick={() => {
+                    nftsActions.fetchOpenSeaAsset({
+                      asset_contract_address: contract,
+                      token_id: id
+                    })
+                    setIsRefreshRotating(true)
+                  }}
+                >
+                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
+                </Button>
               </div>
               <AssetName>
                 {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}
@@ -621,28 +660,55 @@ const NftAsset: React.FC<Props> = ({
                 <Flex gap={8}>
                   {ownedBySelf ? (
                     <>
-                      <Button
-                        data-e2e='openNftFlow'
-                        nature='primary'
-                        jumbo
-                        onClick={() => {
-                          nftsActions.nftOrderFlowOpen({
-                            asset_contract_address: contract,
-                            step: NftOrderStepEnum.MARK_FOR_SALE,
-                            token_id: id,
-                            walletUserIsAssetOwnerHack: true
-                          })
-                          analyticsActions.trackEvent({
-                            key: Analytics.NFT_MARK_FOR_SALE,
-                            properties: {
-                              collection: collectionName,
-                              collection_id: id
-                            }
-                          })
-                        }}
-                      >
-                        <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
-                      </Button>
+                      {!lowest_order ? (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          onClick={() => {
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              step: NftOrderStepEnum.MARK_FOR_SALE,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: true
+                            })
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_MARK_FOR_SALE,
+                              properties: {
+                                collection: collectionName,
+                                collection_id: id
+                              }
+                            })
+                          }}
+                        >
+                          <FormattedMessage
+                            id='copy.mark_for_sale'
+                            defaultMessage='Mark for Sale'
+                          />
+                        </Button>
+                      ) : (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          onClick={() =>
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              offer: undefined,
+                              order: lowest_order,
+                              step: NftOrderStepEnum.CANCEL_LISTING,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: true
+                            })
+                          }
+                        >
+                          <FormattedMessage
+                            id='copy.cancel_listing'
+                            defaultMessage='Cancel Listing'
+                          />
+                        </Button>
+                      )}
+
                       {highest_offer ? (
                         <Button
                           data-e2e='acceptNftOffer'
@@ -911,23 +977,20 @@ const NftAsset: React.FC<Props> = ({
                             }}
                           >
                             <div>
-                              <CollectionName
-                                style={{ justifyContent: 'center', paddingBottom: 'unset' }}
-                              >
-                                <img
-                                  alt='Dapp Logo'
-                                  height='30px'
-                                  width='auto'
-                                  style={{
-                                    borderRadius: '50%',
-                                    marginBottom: '0.5rem',
-                                    paddingRight: '2px'
-                                  }}
-                                  src={asset.collection?.image_url || ''}
-                                />
-                                <div style={{ lineHeight: '2em', paddingLeft: '0.5em' }}>
-                                  {asset.collection?.name}
-                                </div>
+                              <CollectionName>
+                                {asset.collection.image_url ? (
+                                  <img
+                                    alt='Dapp Logo'
+                                    height='30px'
+                                    width='auto'
+                                    style={{
+                                      borderRadius: '50%',
+                                      paddingRight: '0.5em'
+                                    }}
+                                    src={asset.collection?.image_url || ''}
+                                  />
+                                ) : null}
+                                <div>{asset.collection?.name}</div>
                               </CollectionName>
                               <img
                                 alt='Asset Logo'
@@ -936,7 +999,8 @@ const NftAsset: React.FC<Props> = ({
                                 style={{
                                   borderRadius: '10%',
                                   boxSizing: 'border-box',
-                                  marginBottom: '0.5rem'
+                                  marginBottom: '0.5rem',
+                                  marginTop: '1em'
                                 }}
                                 src={asset.image_url || ''}
                               />
