@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
@@ -34,11 +35,25 @@ const ButtonWrapper = styled.div`
 
 const NftOrderStatus: React.FC<Props> = (props) => {
   const { openSeaAssetR } = props
+  const dispatch = useDispatch()
 
   const returnToMarketPlace = () => {
     props.close()
   }
 
+  const closeAndViewItem = () => {
+    props.close()
+  }
+
+  const goToMyPortfolio = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_GO_TO_PORTFOLIO_CLICKED,
+        properties: {}
+      })
+    )
+    props.close()
+  }
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
   if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
@@ -49,11 +64,12 @@ const NftOrderStatus: React.FC<Props> = (props) => {
 
   return (
     <div style={{ height: '100%' }}>
-      {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH ? (
+      {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
         <Wrapper>
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
         </Wrapper>
-      ) : props.orderFlow.status === NftOrderStatusEnum.POST_OFFER ? (
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER && (
         <Wrapper>
           <img
             style={{
@@ -66,11 +82,68 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             alt='nft-asset'
             src={val.image_url}
           />
+          <Text size='24px' weight={600}>
+            <FormattedMessage
+              id='buttons.submitting_offer_for'
+              defaultMessage='Submitting Offer For'
+            />
+          </Text>
+          <Text size='24px' weight={600}>
+            {val.name}
+          </Text>
+          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+        </Wrapper>
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER && (
+        <Wrapper>
+          <img
+            style={{
+              borderRadius: '8px',
+              height: '64px',
+              marginRight: '12px',
+              padding: '1em',
+              width: 'auto'
+            }}
+            alt='nft-asset'
+            src={val.image_url}
+          />
+          <Text size='24px' weight={600}>
+            <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
+          </Text>
+          <Text size='24px' weight={600}>
+            {val.name}
+          </Text>
+          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+        </Wrapper>
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.READY_FOR_SALE && (
+        <Wrapper>
+          <img
+            style={{
+              borderRadius: '8px',
+              height: '64px',
+              marginRight: '12px',
+              padding: '1em',
+              width: 'auto'
+            }}
+            alt='nft-asset'
+            src={val.image_url}
+          />
+          <Text size='24px' weight={600}>
+            Getting
+          </Text>
+          <Text size='24px' weight={600}>
+            {val.name}
+          </Text>
+          <Text size='24px' weight={600}>
+            ready for sale!
+          </Text>
           <div>Submitting Offer For</div>
           <div>{val.name}</div>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
-      ) : props.orderFlow.status === NftOrderStatusEnum.POST_OFFER_SUCCESS ? (
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER_SUCCESS && (
         <>
           <Wrapper>
             <img
@@ -84,8 +157,15 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               alt='nft-asset'
               src={val.image_url}
             />
-            <div>Offer Successfully Sent For</div>
-            <div>{val.name}</div>
+            <Text size='24px' weight={600}>
+              <FormattedMessage
+                id='buttons.offer_successfully_sent_for'
+                defaultMessage='Offer Successfully Sent For'
+              />
+            </Text>
+            <Text size='24px' weight={600}>
+              {val.name}
+            </Text>
           </Wrapper>
           <ButtonWrapper>
             <Button
@@ -102,8 +182,80 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             </Button>
           </ButtonWrapper>
         </>
-      ) : (
-        <NftFlyoutLoader />
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_LISTING_SUCCESS && (
+        <>
+          <Wrapper>
+            <img
+              style={{
+                borderRadius: '8px',
+                height: '64px',
+                marginRight: '12px',
+                padding: '1em',
+                width: 'auto'
+              }}
+              alt='nft-asset'
+              src={val.image_url}
+            />
+            <Text size='24px' weight={600}>
+              {val.name}
+            </Text>
+            <Text size='24px' weight={600}>
+              Is Successfully Up For Sale
+            </Text>
+          </Wrapper>
+          <ButtonWrapper>
+            <Button
+              nature='primary'
+              jumbo
+              onClick={closeAndViewItem}
+              fullwidth
+              data-e2e='returnToMarketPlace'
+            >
+              <FormattedMessage
+                id='buttons.close_and_view_item'
+                defaultMessage='Close and View Item'
+              />
+            </Button>
+          </ButtonWrapper>
+        </>
+      )}
+      {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS && (
+        <>
+          <Wrapper>
+            <img
+              style={{
+                borderRadius: '8px',
+                height: '64px',
+                marginRight: '12px',
+                padding: '1em',
+                width: 'auto'
+              }}
+              alt='nft-asset'
+              src={val.image_url}
+            />
+            <Text size='24px' weight={600}>
+              Buy Successful For
+            </Text>
+            <Text size='24px' weight={600}>
+              {val.name}
+            </Text>
+          </Wrapper>
+          <ButtonWrapper>
+            <Button
+              nature='primary'
+              jumbo
+              onClick={goToMyPortfolio}
+              fullwidth
+              data-e2e='returnToMarketPlace'
+            >
+              <FormattedMessage
+                id='buttons.go_to_my_portfolio'
+                defaultMessage='Go To My Portfolio'
+              />
+            </Button>
+          </ButtonWrapper>
+        </>
       )}
     </div>
   )

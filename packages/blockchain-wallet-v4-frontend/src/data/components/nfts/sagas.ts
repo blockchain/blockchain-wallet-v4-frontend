@@ -372,19 +372,16 @@ export default ({ api }: { api: APIType }) => {
     const amount_usd = usdPrice.price * Number(amount)
 
     try {
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
       yield put(A.setOrderFlowIsSubmitting(true))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
-      yield put(actions.modals.closeAllModals())
-      yield put(
-        actions.alerts.displaySuccess(
-          `Successfully created order! It may take a few minutes to appear in your collection.`
-        )
-      )
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
+
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
           properties: {
             amount,
             amount_usd,
@@ -404,7 +401,7 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.NFT_SELL_ITEM_SUCCESS_FAIL,
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
           properties: {
             amount,
             amount_usd,
@@ -432,6 +429,7 @@ export default ({ api }: { api: APIType }) => {
     const start_usd = startPrice * usdPrice
     const end_usd = endPrice * usdPrice
     try {
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.READY_FOR_SALE))
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
@@ -449,10 +447,10 @@ export default ({ api }: { api: APIType }) => {
         action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       yield call(api.postNftOrder, order)
       yield put(A.clearAndRefetchAssets())
-      yield put(actions.modals.closeAllModals())
-      yield put(actions.alerts.displaySuccess('Sell order created!'))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
