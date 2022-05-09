@@ -24,6 +24,7 @@ import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MarkForSaleFees from './fees'
@@ -118,7 +119,7 @@ const MarkForSale: React.FC<Props> = (props) => {
   return (
     <>
       {openSeaAssetR.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (

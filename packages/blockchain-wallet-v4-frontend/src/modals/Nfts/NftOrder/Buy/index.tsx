@@ -24,6 +24,7 @@ import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
 
 import { RightAlign, StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
@@ -81,7 +82,7 @@ const Buy: React.FC<Props> = (props) => {
   return (
     <>
       {openSeaAssetR.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => null,
         Success: (val) => (

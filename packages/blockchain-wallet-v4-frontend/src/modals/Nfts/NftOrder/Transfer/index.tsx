@@ -15,6 +15,7 @@ import { selectors } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
 import { StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import TransferFees from './fees'
@@ -27,7 +28,7 @@ const Transfer: React.FC<Props> = (props) => {
   return (
     <>
       {openSeaAssetR.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
