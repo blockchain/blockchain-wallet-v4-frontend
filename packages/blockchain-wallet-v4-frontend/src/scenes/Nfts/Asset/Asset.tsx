@@ -286,6 +286,7 @@ const NftAsset: React.FC<Props> = ({
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
   const [assetQuery] = useAssetQuery({
+    requestPolicy: 'network-only',
     variables: {
       filter: [
         { field: AssetFilterFields.ContractAddress, value: contract },
