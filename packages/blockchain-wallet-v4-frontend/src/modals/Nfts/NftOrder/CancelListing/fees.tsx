@@ -32,11 +32,7 @@ const Fees: React.FC<Props> = (props) => {
     <>
       {orderFlow.fees.cata({
         Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
-        ),
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         NotAsked: () => null,
         Success: (val) => {
           return (
@@ -49,7 +45,7 @@ const Fees: React.FC<Props> = (props) => {
               >
                 <Flex justifyContent='space-between' alignItems='center'>
                   <Text size='14px' weight={500}>
-                    <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                    <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
                   </Text>
                   <RightAlign>
                     <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
