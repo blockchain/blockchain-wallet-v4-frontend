@@ -223,7 +223,12 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getAmountUsd = function* (coin: string, amount: number) {
-    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
+    const usdPrice: ReturnType<typeof api.getPriceIndex> = yield call(
+      api.getPriceIndex,
+      coin,
+      'USD',
+      new Date().getTime()
+    )
     return usdPrice.price * amount
   }
 
