@@ -206,7 +206,7 @@ const CTA: React.FC<Props> = (props) => {
               {props.orderFlow.isSubmitting ? (
                 <HeartbeatLoader color='blue100' height='20px' width='20px' />
               ) : (
-                <FormattedMessage id='copy.buy_now_for' defaultMessage='Buy Now' />
+                <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
               )}
             </Button>
             <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>

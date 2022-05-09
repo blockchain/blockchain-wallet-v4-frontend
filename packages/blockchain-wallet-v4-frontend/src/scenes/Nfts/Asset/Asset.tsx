@@ -660,28 +660,55 @@ const NftAsset: React.FC<Props> = ({
                 <Flex gap={8}>
                   {ownedBySelf ? (
                     <>
-                      <Button
-                        data-e2e='openNftFlow'
-                        nature='primary'
-                        jumbo
-                        onClick={() => {
-                          nftsActions.nftOrderFlowOpen({
-                            asset_contract_address: contract,
-                            step: NftOrderStepEnum.MARK_FOR_SALE,
-                            token_id: id,
-                            walletUserIsAssetOwnerHack: true
-                          })
-                          analyticsActions.trackEvent({
-                            key: Analytics.NFT_MARK_FOR_SALE,
-                            properties: {
-                              collection: collectionName,
-                              collection_id: id
-                            }
-                          })
-                        }}
-                      >
-                        <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
-                      </Button>
+                      {!lowest_order ? (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          onClick={() => {
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              step: NftOrderStepEnum.MARK_FOR_SALE,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: true
+                            })
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_MARK_FOR_SALE,
+                              properties: {
+                                collection: collectionName,
+                                collection_id: id
+                              }
+                            })
+                          }}
+                        >
+                          <FormattedMessage
+                            id='copy.mark_for_sale'
+                            defaultMessage='Mark for Sale'
+                          />
+                        </Button>
+                      ) : (
+                        <Button
+                          data-e2e='openNftFlow'
+                          nature='primary'
+                          jumbo
+                          onClick={() =>
+                            nftsActions.nftOrderFlowOpen({
+                              asset_contract_address: contract,
+                              offer: undefined,
+                              order: lowest_order,
+                              step: NftOrderStepEnum.CANCEL_LISTING,
+                              token_id: id,
+                              walletUserIsAssetOwnerHack: true
+                            })
+                          }
+                        >
+                          <FormattedMessage
+                            id='copy.cancel_listing'
+                            defaultMessage='Cancel Listing'
+                          />
+                        </Button>
+                      )}
+
                       {highest_offer ? (
                         <Button
                           data-e2e='acceptNftOffer'
