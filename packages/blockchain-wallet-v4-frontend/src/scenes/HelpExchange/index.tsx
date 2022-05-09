@@ -147,10 +147,7 @@ class Help extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <FormGroup>
                   <FormItem style={{ marginTop: '30px' }}>
                     <FormLabel htmlFor='email'>
-                      <FormattedMessage
-                        id='scenes.register.youremail'
-                        defaultMessage='Your Email'
-                      />
+                      <FormattedMessage id='scenes.register.youremail' defaultMessage='Email' />
                     </FormLabel>
                     <Field
                       component={TextBox}
@@ -159,7 +156,7 @@ class Help extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
                       name='email'
                       normalize={removeWhitespace}
                       validate={[required, validEmail]}
-                      placeholder='Enter your email'
+                      placeholder='Enter Email'
                       autoFocus
                     />
                   </FormItem>

@@ -130,7 +130,7 @@ const EnterPasswordWallet = (props: Props) => {
               <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.login.enter_password.settings_goal.subtitle'
-                  defaultMessage='For your security, we ask you to enter your password to continue to update your  settings.'
+                  defaultMessage='For your security, we ask you to enter your password to continue to update your settings.'
                 />
               </Text>
             </SettingsGoalText>
@@ -138,14 +138,14 @@ const EnterPasswordWallet = (props: Props) => {
           <FormGroup>
             <FormItem>
               <FormLabel htmlFor='password'>
-                <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
+                <FormattedMessage id='scenes.login.your_password' defaultMessage='Password' />
               </FormLabel>
               <Field
                 autoFocus
                 component={PasswordBox}
                 data-e2e='loginPassword'
                 name='password'
-                placeholder='Enter your password'
+                placeholder='Enter Password'
                 validate={[required]}
               />
               {passwordError && (
