@@ -702,12 +702,10 @@ const NftAsset: React.FC<Props> = ({
                             })
                           }
                         >
-                          <Text color={colors.blue600} size='14px' weight={500}>
-                            <FormattedMessage
-                              id='copy.cancel_listing'
-                              defaultMessage='Cancel Listing'
-                            />
-                          </Text>
+                          <FormattedMessage
+                            id='copy.cancel_listing'
+                            defaultMessage='Cancel Listing'
+                          />
                         </Button>
                       )}
 

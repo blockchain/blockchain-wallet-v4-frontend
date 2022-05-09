@@ -41,7 +41,7 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
     <Wrapper>
       <Top onClick={toggleDropdown}>
         <Text weight={500} size='14px'>
-          <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
+          <FormattedMessage id='copy.total_fees' defaultMessage='Total Fees' />
         </Text>
         <Flex alignItems='center' gap={8}>
           <Text weight={600} size='14px'>
@@ -61,9 +61,7 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
         </Flex>
       </Top>
       <FeesWrapper style={isActive ? {} : { display: 'none' }}>
-        {React.Children.map(children, (child) => (
-          <FeeChild>{child}</FeeChild>
-        ))}
+        {React.Children.map(children, (child) => (child ? <FeeChild>{child}</FeeChild> : null))}
       </FeesWrapper>
     </Wrapper>
   )

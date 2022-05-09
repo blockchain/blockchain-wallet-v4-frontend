@@ -17,7 +17,7 @@ import { required, validEthAddress } from 'services/forms'
 import { StickyCTA } from '../../components'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
-import TransferFees from '../ShowAsset/Transfer/fees'
+import TransferFees from './fees'
 
 const Transfer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, openSeaAssetR } = props

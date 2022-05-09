@@ -20,12 +20,12 @@ import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
-import SellFees from '../ShowAsset/Sell/fees'
 import MarkForSaleFees from './fees'
 
 const FormWrapper = styled.div`
@@ -91,6 +91,9 @@ const MarkForSale: React.FC<Props> = (props) => {
       : 'ETH'
   }
 
+  const feesR = useRemote(() => orderFlow.fees)
+  const fees = feesR?.data
+
   const cryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -111,6 +114,7 @@ const MarkForSale: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
+
   return (
     <>
       {openSeaAssetR.cata({
@@ -446,7 +450,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <MarkForSaleFees {...props} asset={val} />
               </Row>
               <Row style={{ border: 'unset' }}>
-                {open && (
+                {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
                     <Icon
                       onClick={() => {
@@ -484,14 +488,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Text>
                     </div>
                   </>
-                )}
+                ) : null}
               </Row>
             </div>
             <StickyCTA>
-              <div style={{ display: 'none' }}>
-                <SellFees {...props} asset={val} />
-              </div>
-
               {props.orderFlow.fees.cata({
                 Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
