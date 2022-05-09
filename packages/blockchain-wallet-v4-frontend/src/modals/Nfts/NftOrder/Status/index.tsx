@@ -146,8 +146,6 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             ready for sale!
           </Text>
-          <div>Submitting Offer For</div>
-          <div>{val.name}</div>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
