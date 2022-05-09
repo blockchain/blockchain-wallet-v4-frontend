@@ -55,7 +55,6 @@ export type LoginRoutinePayloadType = {
 }
 
 export type ExchangeLoginType = {
-  captchaToken: string
   code?: string
   password?: string
   username: string
@@ -175,13 +174,7 @@ export type AuthStateType = {
 }
 
 export type MagicLinkRequestPayloadType = {
-  captchaToken: string
   email: string
-}
-
-export type ContinueLoginProcessPayloadType = {
-  captchaToken?: string
-  initCaptcha: () => void
 }
 
 export type LoginPayloadType = {

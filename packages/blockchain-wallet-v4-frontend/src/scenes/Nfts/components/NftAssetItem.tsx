@@ -23,11 +23,7 @@ import {
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const dispatch = useDispatch()
-  // TODO: FIX LISTINGS
-  // const lowestListing = asset.listings
-  //   ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
-  //   : null
-  const lowestListing = null
+
   const logoClickTracking = () => {
     dispatch(
       actions.analytics.trackEvent({
@@ -61,20 +57,26 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
     )
   }
 
+  const lowestListing = asset.listings
+    ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
+    : null
+
   return (
     <Asset key={asset?.token_id}>
-      <Flex alignItems='center' gap={8}>
-        <LinkContainer onClick={logoClickTracking} to={`/nfts/collection/${asset.collection.slug}`}>
-          <Link style={{ display: 'flex' }}>
-            <CollectionImageSmall alt='collection' src={asset.collection.image_url || ''} />
-          </Link>
-        </LinkContainer>
-        <AssetCollection onClick={nameClickTracking}>
-          <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
-            {asset?.collection?.name}
-          </Text>
-        </AssetCollection>
-      </Flex>
+      <LinkContainer onClick={logoClickTracking} to={`/nfts/collection/${asset.collection.slug}`}>
+        <Link>
+          <Flex alignItems='center' gap={8}>
+            {asset.collection.image_url ? (
+              <CollectionImageSmall alt='Dapp Logo' src={asset.collection.image_url || ''} />
+            ) : null}
+            <AssetCollection onClick={nameClickTracking}>
+              <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
+                {asset?.collection?.name}
+              </Text>
+            </AssetCollection>
+          </Flex>
+        </Link>
+      </LinkContainer>
       <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
         <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
       </LinkContainer>
@@ -87,8 +89,6 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
         <PriceCTA>
           <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-            {/* // TODO: FIX LISTINGS */}
-            {/* @ts-ignore */}
             {lowestListing && lowestListing.starting_price ? (
               <Button data-e2e='nftAssetPage' nature='empty-blue' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
@@ -99,17 +99,13 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               </Link>
             )}
           </LinkContainer>
-          {/* // TODO: FIX LISTINGS */}
-          {/* @ts-ignore */}
           {lowestListing && lowestListing.starting_price ? (
             <GreyBlueGradientCartridge>
-              {/* // TODO: FIX LISTINGS */}
               <CoinDisplay
-                coin={/* lowestListing.payment_token_symbol || */ 'ETH'}
+                coin={lowestListing.payment_token_symbol || 'ETH'}
                 size='14px'
                 weight={600}
               >
-                {/* @ts-ignore */}
                 {lowestListing.starting_price}
               </CoinDisplay>
             </GreyBlueGradientCartridge>

@@ -317,7 +317,6 @@ const Modals = (props: Props) => {
           <XlmReserveLearn />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
-        {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
           <ExtraFields />
         ) : null}
@@ -332,6 +331,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
           <GenerateReport />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? (
+          <NftOrder disableOutsideClose />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

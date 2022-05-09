@@ -15,6 +15,10 @@ const NftsContainer = (props) => {
 
   const doRefresh = (e) => {
     if (props.isAuthenticated) {
+      const refreshButton = document.getElementById('nft-refresh')
+      if (refreshButton) {
+        refreshButton.click()
+      }
       e.preventDefault()
       e.returnValue = ''
     }

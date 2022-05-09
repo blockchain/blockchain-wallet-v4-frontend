@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Image } from 'blockchain-info-components'
 import { SceneHeaderText, SceneSubHeaderText } from 'components/Layout'
 
-import { IntroCardWrapper } from '../model'
+import { IntroCardWrapper } from '../DebitCard.model'
 
 type ButtonProps = {
   onClick: () => void

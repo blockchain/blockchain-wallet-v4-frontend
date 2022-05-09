@@ -50,7 +50,7 @@ const Fees: React.FC<Props> = (props) => {
             >
               <Flex justifyContent='space-between' alignItems='center'>
                 <Text size='14px' weight={500}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
                 </Text>
                 <RightAlign>
                   <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>

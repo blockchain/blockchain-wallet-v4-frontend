@@ -8,7 +8,7 @@ import { RemoteDataType } from '@core/remote/types'
 import { actions, selectors } from 'data'
 import { DebitCardType } from 'data/components/debitCard/types'
 
-import DebitCard from './template'
+import DebitCard from './DebitCard.template'
 
 const DebitCardContainer = (props: Props) => {
   if (!props.walletDebitCardEnabled) {

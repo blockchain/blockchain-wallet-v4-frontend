@@ -33,7 +33,7 @@ const Fees: React.FC<Props> = (props) => {
             <>
               <CTARow>
                 <Title style={{ display: 'flex' }}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
                 </Title>
                 <Value>
                   <div style={{ display: 'flex' }}>

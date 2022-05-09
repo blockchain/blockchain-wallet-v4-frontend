@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle, IconFilter, IconRefresh } from '@blockchain-com/icons'
+import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -25,13 +25,14 @@ import {
 } from '../utils/NftUtils'
 import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
+import NftRefreshIcon from './NftRefreshIcon'
 
 const Wrapper = styled.div`
   position: sticky;
   top: ${FIXED_HEADER_HEIGHT}px;
   background: ${(props) => props.theme.white};
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   z-index: 5;
   ${media.tablet`
     padding: 12px;
@@ -61,20 +62,6 @@ const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   flex-wrap: wrap;
   gap: 6px;
   z-index: 10;
-`
-
-const StyledIconRefresh = styled(IconRefresh)`
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  &.active {
-    animation: spin 0.5s linear 1;
-  }
 `
 
 const SortByWrapper = styled.div`
@@ -185,6 +172,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   </Button>
                 ) : null}
                 <Button
+                  id='nft-refresh'
                   height='100%'
                   onClick={() => {
                     if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
@@ -210,11 +198,7 @@ const TraitGridFilters: React.FC<Props> = ({
                         </Text>
                       </Flex>
                     )}
-                    <Icon label='refresh' color='blue600' size='sm'>
-                      <StyledIconRefresh
-                        className={`refresh ${isRefreshRotating ? 'active' : ''}`}
-                      />
-                    </Icon>
+                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} />
                   </Flex>
                 </Button>
               </Flex>
