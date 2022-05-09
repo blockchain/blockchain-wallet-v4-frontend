@@ -350,7 +350,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const { email } = payload
-      yield call(coreSagas.settings.resendVerifyEmail, { email })
+      yield call(coreSagas.settings.resendVerifyEmail, { email }, 'VERIFICATION')
       yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
     } catch (e) {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
@@ -365,7 +365,8 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse('')
       const { email } = payload
-      if (prevEmail === email) yield call(coreSagas.settings.resendVerifyEmail, { email })
+      if (prevEmail === email)
+        yield call(coreSagas.settings.resendVerifyEmail, { email }, 'VERIFICATION')
       else yield call(coreSagas.settings.setEmail, { email })
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify))

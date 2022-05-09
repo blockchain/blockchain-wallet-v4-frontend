@@ -18,6 +18,7 @@ import {
   getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -222,15 +223,16 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
-    const currency = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
-        coin: currency,
+        coin,
         value: action?.payload?.buy?.basePrice?.toString() || ''
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, currency, 'USD', new Date().getTime())
+    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const amount_usd = usdPrice.price * Number(amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
@@ -245,7 +247,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
@@ -258,7 +260,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }
@@ -355,17 +357,18 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
-    const currency = action?.payload?.buy?.paymentTokenContract?.symbol || ''
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : ('WETH' as string)
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
-        coin: currency,
+        coin,
         value:
           action?.payload?.buy?.basePrice?.toString() ||
           action?.payload?.sell?.basePrice?.toString()
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, currency, 'USD', new Date().getTime())
+    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const amount_usd = usdPrice.price * Number(amount)
 
     try {
@@ -375,26 +378,34 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_BUY_SUCCESS_FAIL,
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_BUY_SUCCESS_FAIL,
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }
@@ -658,40 +669,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // DEPRECATED 👇👇👇👇👇👇👇👇👇👇👇👇👇
-  // When you open the order flow you can open directly to the following operations:
-  // 1: Buy
-  // 2: Sell
-  // 3: Cancel Offer (Made by user)
-  // Other operations are opened from within the flow itself, so you WILL NOT find
-  // find those in this function. Those include:
-  // 1: Transfer
-  // 2: Accept Offer
-  // 3: Cancel Listing
-  // DEPRECATED 👆👆👆👆👆👆👆👆👆👆👆👆👆
-
-  // explorer-gateway v2
-  // With the introduction of the explorer-gateway graphql API the flow will need to change a bit
-  // we should require:
-  // 1. operation (a.k.a step) (buy, sell, make offer, transfer)
-  // 2. token_id
-  // 3. contract_address
-  const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
-    const { asset_contract_address, token_id } = action.payload
+  const nftOrderFlowOpen = function* () {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
-
-    try {
-      yield put(actions.components.nfts.fetchNftOrderAssetLoading())
-      const asset: ReturnType<typeof api.getOpenSeaAsset> = yield call(
-        api.getOpenSeaAsset,
-        asset_contract_address,
-        token_id
-      )
-      yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.components.nfts.fetchNftOrderAssetFailure(error))
-    }
   }
 
   const nftOrderFlowClose = function* () {

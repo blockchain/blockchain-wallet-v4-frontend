@@ -7,17 +7,19 @@ import styled from 'styled-components'
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
+import { useRemote } from 'hooks'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
+import { Props as OwnProps } from '..'
 
-const Wrapper = styled.div`
+const Wrapper = styled(Text)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: calc(35vh);
-  font-family: Inter, sans-serif;
   font-style: normal;
+  height: 100%;
   font-weight: 600;
   font-size: 24px;
 `
@@ -31,7 +33,8 @@ const ButtonWrapper = styled.div`
   box-sizing: border-box;
 `
 
-const NftOrderStatus: React.FC<Props> = (props: any) => {
+const NftOrderStatus: React.FC<Props> = (props) => {
+  const { openSeaAssetR } = props
   const dispatch = useDispatch()
 
   const returnToMarketPlace = () => {
@@ -51,9 +54,16 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
     )
     props.close()
   }
+  const openSeaAsset = useRemote(() => openSeaAssetR)
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+
+  const val = openSeaAsset.data
+
+  if (!val) return <Text>No data</Text>
 
   return (
-    <div>
+    <div style={{ height: '100%' }}>
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
         <Wrapper>
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -70,7 +80,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               width: 'auto'
             }}
             alt='nft-asset'
-            src={props.data.image_url}
+            src={val.image_url}
           />
           <Text size='24px' weight={600}>
             <FormattedMessage
@@ -79,7 +89,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
             />
           </Text>
           <Text size='24px' weight={600}>
-            {props.data.name}
+            {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
@@ -95,13 +105,13 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               width: 'auto'
             }}
             alt='nft-asset'
-            src={props.data.image_url}
+            src={val.image_url}
           />
           <Text size='24px' weight={600}>
             <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
           </Text>
           <Text size='24px' weight={600}>
-            {props.data.name}
+            {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
@@ -117,17 +127,19 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               width: 'auto'
             }}
             alt='nft-asset'
-            src={props.data.image_url}
+            src={val.image_url}
           />
           <Text size='24px' weight={600}>
             Getting
           </Text>
           <Text size='24px' weight={600}>
-            {props.data.name}
+            {val.name}
           </Text>
           <Text size='24px' weight={600}>
             ready for sale!
           </Text>
+          <div>Submitting Offer For</div>
+          <div>{val.name}</div>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
@@ -143,7 +155,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
                 width: 'auto'
               }}
               alt='nft-asset'
-              src={props.data.image_url}
+              src={val.image_url}
             />
             <Text size='24px' weight={600}>
               <FormattedMessage
@@ -152,7 +164,7 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
               />
             </Text>
             <Text size='24px' weight={600}>
-              {props.data.name}
+              {val.name}
             </Text>
           </Wrapper>
           <ButtonWrapper>
@@ -183,10 +195,10 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
                 width: 'auto'
               }}
               alt='nft-asset'
-              src={props.data.image_url}
+              src={val.image_url}
             />
             <Text size='24px' weight={600}>
-              {props.data.name}
+              {val.name}
             </Text>
             <Text size='24px' weight={600}>
               Is Successfully Up For Sale
@@ -220,13 +232,13 @@ const NftOrderStatus: React.FC<Props> = (props: any) => {
                 width: 'auto'
               }}
               alt='nft-asset'
-              src={props.data.image_url}
+              src={val.image_url}
             />
             <Text size='24px' weight={600}>
               Buy Successful For
             </Text>
             <Text size='24px' weight={600}>
-              {props.data.name}
+              {val.name}
             </Text>
           </Wrapper>
           <ButtonWrapper>
@@ -255,6 +267,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(null, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(NftOrderStatus)

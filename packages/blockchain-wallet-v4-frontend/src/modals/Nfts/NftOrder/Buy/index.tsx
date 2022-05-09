@@ -30,7 +30,16 @@ import BuyCta from './cta'
 import BuyFees from './fees'
 
 const Buy: React.FC<Props> = (props) => {
-  const { close, ethBalancesR, formValues, nftActions, orderFlow, rates, walletCurrency } = props
+  const {
+    close,
+    ethBalancesR,
+    formValues,
+    nftActions,
+    openSeaAssetR,
+    orderFlow,
+    rates,
+    walletCurrency
+  } = props
   const { amount, coin, fix } = formValues
   const { orderToMatch } = orderFlow
 
@@ -49,7 +58,7 @@ const Buy: React.FC<Props> = (props) => {
     new BigNumber(0)
   ])
 
-  const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
+  const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
     openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
@@ -71,7 +80,7 @@ const Buy: React.FC<Props> = (props) => {
 
   return (
     <>
-      {orderFlow.asset.cata({
+      {openSeaAssetR.cata({
         Failure: (e) => <Text>{e}</Text>,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => null,
@@ -105,7 +114,7 @@ const Buy: React.FC<Props> = (props) => {
                       />
                       <div>
                         <Text size='16px' color='grey900' weight={600}>
-                          {val?.name}
+                          {val.name}
                         </Text>
                         {val.collection.safelist_request_status === 'verified' ? (
                           <Text

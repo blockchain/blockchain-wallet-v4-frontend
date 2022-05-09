@@ -9,8 +9,8 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Value } from 'components/Flyout/model'
 
-import { CTARow } from '../../../components'
-import { Props as OwnProps } from '../..'
+import { CTARow } from '../../components'
+import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
