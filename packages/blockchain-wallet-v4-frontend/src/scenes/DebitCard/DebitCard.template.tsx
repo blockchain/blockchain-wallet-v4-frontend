@@ -11,10 +11,10 @@ import {
 } from 'components/Layout'
 import { ModalName } from 'data/modals/types'
 
-import { Props } from '.'
 import CardDashboard from './CardDashboard'
 import CardOrder from './CardOrder'
-import { Wrapper } from './model'
+import { Props } from './DebitCard'
+import { Wrapper } from './DebitCard.model'
 
 const DebitCard = ({
   alertActions,
