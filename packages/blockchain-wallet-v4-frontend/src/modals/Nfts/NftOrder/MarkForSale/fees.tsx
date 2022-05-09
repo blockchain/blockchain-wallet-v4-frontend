@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { convertCoinToCoin } from '@core/exchange'
+import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -20,7 +20,10 @@ const Fees: React.FC<Props> = (props: Props) => {
     return `${String(
       Number(asset.collection?.dev_seller_fee_basis_points) / 100 +
         Number(asset.asset_contract?.opensea_seller_fee_basis_points) / 100
-    )}% (${convertCoinToCoin({ coin: 'ETH', value: val.totalFees })} ETH)`
+    )}% (${displayCoinToCoin({
+      coin: 'ETH',
+      value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
+    })})`
   }
 
   useEffect(() => {
@@ -63,7 +66,7 @@ const Fees: React.FC<Props> = (props: Props) => {
               ) : null}
               <Flex justifyContent='space-between' alignItems='center'>
                 <Text size='14px' weight={500}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
                 </Text>
                 <RightAlign>
                   <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
