@@ -37,6 +37,7 @@ import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
@@ -115,7 +116,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
   if (openSeaAsset.error || !openSeaAsset.hasData)
-    return <Text>{JSON.stringify(openSeaAsset.error)}</Text>
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 

@@ -16,6 +16,7 @@ import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import CancelListingFees from './fees'
@@ -44,7 +45,7 @@ const CancelListing: React.FC<Props> = (props) => {
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
   if (openSeaAsset.error || !openSeaAsset.hasData)
-    return <Text>{JSON.stringify(openSeaAsset.error)}</Text>
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 

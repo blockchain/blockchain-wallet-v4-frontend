@@ -49,7 +49,8 @@ export default ({ api }: { api: APIType }) => {
       )
       yield put(A.fetchOpenSeaAssetSuccess(res))
     } catch (e) {
-      yield put(A.fetchOpenSeaAssetFailure(e))
+      const error = errorHandler(e)
+      yield put(A.fetchOpenSeaAssetFailure(error))
     }
   }
 
