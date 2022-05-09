@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from '@blockchain-com/constellation'
+import { IconAlert } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -60,7 +62,9 @@ const Failure = (props: FailurePropsType) => {
         {props.errorMessage && (
           <ErrorTextContainer>
             <ErrorText>
-              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
+              <Icon label='alert' color='red600'>
+                <IconAlert />
+              </Icon>
               Error: {props.errorMessage}
             </ErrorText>
           </ErrorTextContainer>
