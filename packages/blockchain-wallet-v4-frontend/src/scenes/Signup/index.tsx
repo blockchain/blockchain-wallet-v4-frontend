@@ -152,7 +152,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
-  search: selectors.router.getSearch(state) as string
+  search: selectors.router.getSearch(state) as string,
+  unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -173,6 +174,7 @@ type LinkStatePropsType = {
   isLoadingR: RemoteDataType<string, undefined>
   language: string
   search: string
+  unified: boolean
 }
 type StateProps = {
   showForm: boolean

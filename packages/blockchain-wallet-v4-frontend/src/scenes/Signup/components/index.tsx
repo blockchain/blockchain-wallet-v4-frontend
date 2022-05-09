@@ -142,7 +142,7 @@ align-items: center;
 `}
 `
 
-export const LoginLink = (props: { analyticsActions }) => (
+export const LoginLink = (props: { analyticsActions; unified }) => (
   <LoginCard>
     <LinkContainer data-e2e='signupLink' to='/login'>
       <LoginLinkRow
@@ -150,7 +150,8 @@ export const LoginLink = (props: { analyticsActions }) => (
           props.analyticsActions.trackEvent({
             key: Analytics.LOGIN_CLICKED,
             properties: {
-              origin: 'SIGN_UP_FLOW'
+              origin: 'SIGN_UP_FLOW',
+              unified: props.unified
             }
           })
         }
