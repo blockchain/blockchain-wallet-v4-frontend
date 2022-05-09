@@ -67,7 +67,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  resendEmail: (email) => dispatch(actions.modules.securityCenter.resendVerifyEmail(email)),
+  resendEmail: (email) =>
+    dispatch(actions.modules.securityCenter.resendVerifyEmail(email, 'BANNER')),
   verifyIdentity: () =>
     dispatch(
       actions.components.identityVerification.verifyIdentity({

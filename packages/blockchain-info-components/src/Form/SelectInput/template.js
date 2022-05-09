@@ -191,6 +191,7 @@ const SelectInput = (props) => {
     height = '48px',
     hideFocusedControl,
     hideIndicator,
+    hideValue,
     isLoading,
     items,
     menuIsOpen,
@@ -249,7 +250,7 @@ const SelectInput = (props) => {
         ref={getRef}
         templateDisplay={templateDisplay}
         templateItem={templateItem}
-        value={defaultValue}
+        value={hideValue ? null : defaultValue}
       />
     </NonceProvider>
   )

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -52,7 +53,7 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleResend() {
     const { email } = this.props.data.getOrElse({})
-    this.props.securityCenterActions.resendVerifyEmail(email)
+    this.props.securityCenterActions.resendVerifyEmail(email, 'SECURITY')
   }
 
   handleChangeEmailView() {
@@ -71,6 +72,10 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleEmailChangeSubmit() {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.ONBOARDING_EMAIL_VERIFICATION_REQUESTED,
+      properties: { origin: 'SECURITY' }
+    })
     this.setState({
       isEditing: !this.state.isEditing
     })
@@ -106,6 +111,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)

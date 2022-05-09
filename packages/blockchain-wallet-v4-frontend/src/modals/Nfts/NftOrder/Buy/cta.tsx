@@ -27,8 +27,16 @@ import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
 const CTA: React.FC<Props> = (props) => {
-  const { amount, amtToBuy, ethBalancesR, isAuthenticated, maxBuyPossible, nftActions, orderFlow } =
-    props
+  const {
+    amount,
+    amtToBuy,
+    ethBalancesR,
+    isAuthenticated,
+    maxBuyPossible,
+    nftActions,
+    openSeaAssetR,
+    orderFlow
+  } = props
   const { orderToMatch } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
@@ -49,7 +57,7 @@ const CTA: React.FC<Props> = (props) => {
   if (!isAuthenticated) {
     return (
       <>
-        {orderFlow.asset.cata({
+        {openSeaAssetR.cata({
           Failure: () => null,
           Loading: () => null,
           NotAsked: () => null,
@@ -182,7 +190,13 @@ const CTA: React.FC<Props> = (props) => {
               </Text>
             </div>
             <Button
-              onClick={() => nftActions.createOrder({ gasData: val.fees, ...val.matchingOrder })}
+              onClick={() =>
+                nftActions.createOrder({
+                  asset: val.asset,
+                  gasData: val.fees,
+                  ...val.matchingOrder
+                })
+              }
               jumbo
               nature='primary'
               fullwidth

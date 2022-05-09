@@ -25,7 +25,6 @@ const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   disableOutsideClose?: boolean
-  fixed?: boolean
 }
 type LinkDispatchPropsType = {
   cancelBSOrder: (order: BSOrderType) => void
@@ -40,6 +39,7 @@ type LinkStatePropsType = {
 }
 
 type OptionsType = {
+  fixed?: boolean
   preventEscapeClose?: boolean
   transition?: number
 }
@@ -50,6 +50,8 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
   (Component) =>
     enhance(
       class Modal extends PureComponent<Props> {
+        node: HTMLElement | null = null
+
         state = {}
 
         handleBuySellClose = () => {
@@ -103,7 +105,6 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
           const filtered = modals.filter((m) => m.type === type)
           const setRef = (node) => {
             if (node) {
-              // @ts-ignore
               this.node = node
               node.focus()
             }
@@ -120,7 +121,7 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
                   ref={setRef}
                   tabIndex={0} // eslint-disable-line
                   style={
-                    rest.fixed
+                    options.fixed
                       ? { bottom: 0, left: 0, position: 'fixed', right: 0, top: 0, zIndex: 100 }
                       : {}
                   }

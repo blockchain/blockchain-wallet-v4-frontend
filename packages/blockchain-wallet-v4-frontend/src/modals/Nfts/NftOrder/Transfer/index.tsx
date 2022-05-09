@@ -20,13 +20,13 @@ import { Props as OwnProps } from '..'
 import TransferFees from '../ShowAsset/Transfer/fees'
 
 const Transfer: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow } = props
+  const { close, formValues, nftActions, openSeaAssetR } = props
 
   const disabled = formValues ? !formValues.to || props.orderFlow.isSubmitting : true
 
   return (
     <>
-      {orderFlow.asset.cata({
+      {openSeaAssetR.cata({
         Failure: (e) => <Text>{e}</Text>,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,

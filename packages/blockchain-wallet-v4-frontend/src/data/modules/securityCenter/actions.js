@@ -20,8 +20,8 @@ export const sendConfirmationCodeEmail = (email) => ({
   type: AT.SEND_CONFIRMATION_CODE_EMAIL
 })
 
-export const resendVerifyEmail = (email) => ({
-  payload: { email },
+export const resendVerifyEmail = (email, origin) => ({
+  payload: { email, origin },
   type: AT.RESEND_VERIFY_EMAIL
 })
 

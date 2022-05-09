@@ -1,4 +1,7 @@
 import React, { ReactElement, useMemo } from 'react'
+
+import { Exchange } from '@core'
+import { fiatToString } from '@core/exchange/utils'
 import {
   useCoinBalance,
   useCoinConfig,
@@ -9,9 +12,6 @@ import {
   useOpenSellFlow,
   useOpenSendCryptoModal
 } from 'hooks'
-
-import { Exchange } from '@core'
-import { fiatToString } from '@core/exchange/utils'
 
 import { BuyButton } from '../../../BuyButton'
 import { HoldingsCard } from '../../../HoldingsCard'

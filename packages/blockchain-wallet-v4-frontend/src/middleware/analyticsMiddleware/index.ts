@@ -638,30 +638,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.modules.securityCenter.RESEND_VERIFY_EMAIL: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const origin = 'VERIFICATION'
-
-        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
-          properties: {
-            origin,
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
       case AT.modules.securityCenter.SKIP_VERIFY_EMAIL: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null

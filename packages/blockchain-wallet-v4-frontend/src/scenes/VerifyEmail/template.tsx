@@ -21,7 +21,7 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 `
 
-const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
+const VerifyEmail = ({ email, resendEmail }: Props) => {
   return (
     <>
       <Wrapper>
@@ -78,7 +78,6 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
 type Props = {
   email: string
   resendEmail: () => void
-  skipVerification: () => void
 }
 
 export default VerifyEmail

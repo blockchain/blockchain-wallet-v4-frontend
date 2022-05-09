@@ -17,7 +17,6 @@ import { Props } from '../..'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -30,16 +29,8 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const {
-    busy,
-    exchangeTabClicked,
-    formValues,
-    invalid,
-    isBrowserSupported,
-    magicLinkData,
-    submitting,
-    walletError
-  } = props
+  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
+    props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -47,7 +38,6 @@ const EnterEmailOrGuid = (props: Props) => {
       <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
       <WrapperWithPadding>
         <FormGroup>
-          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
               <FormattedMessage
@@ -58,7 +48,6 @@ const EnterEmailOrGuid = (props: Props) => {
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'
-              disabled={!isBrowserSupported}
               disableSpellcheck
               name='guidOrEmail'
               normalize={removeWhitespace}

@@ -13,14 +13,7 @@ import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -61,7 +54,7 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow, rates } = props
+  const { close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -120,7 +113,7 @@ const MarkForSale: React.FC<Props> = (props) => {
       : amount
   return (
     <>
-      {orderFlow.asset.cata({
+      {openSeaAssetR.cata({
         Failure: (e) => <Text>{e}</Text>,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,

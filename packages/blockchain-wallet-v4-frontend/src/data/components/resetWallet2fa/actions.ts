@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 
-export const resetWallet2fa = (captchaToken, formValues) => ({
-  payload: { captchaToken, formValues },
+export const resetWallet2fa = (formValues) => ({
+  payload: { formValues },
   type: AT.RESET_WALLET_2FA
 })
 export const resetLoading = () => ({ type: AT.RESET_WALLET_2FA_LOADING })

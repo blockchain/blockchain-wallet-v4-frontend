@@ -25,12 +25,9 @@ export const getWalletContext = createDeepEqualSelector(
   }
 )
 
-export const getContext = createDeepEqualSelector(
-  [getWalletContext],
-  (walletContext) => {
-    return walletContext
-  }
-)
+export const getContext = createDeepEqualSelector([getWalletContext], (walletContext) => {
+  return walletContext
+})
 
 export const getAddresses = path([dataPath, 'bch', 'addresses'])
 
