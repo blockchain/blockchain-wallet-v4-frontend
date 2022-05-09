@@ -1,5 +1,6 @@
 export * from './useChart'
 export * from './useChartBalancePanel'
+export * from './useCoinAboutSection'
 export * from './useFormatFiat'
 export * from './useHoldingsCard'
 export * from './useRecurringBuyPanel'
