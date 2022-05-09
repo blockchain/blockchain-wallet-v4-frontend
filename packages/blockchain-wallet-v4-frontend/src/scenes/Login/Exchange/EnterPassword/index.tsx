@@ -67,7 +67,7 @@ const EnterPasswordExchange = (props: Props) => {
               component={PasswordBox}
               data-e2e='exchangePassword'
               name='exchangePassword'
-              placeholder='Enter your password'
+              placeholder='Enter Password'
               validate={[required]}
             />
             {passwordError && (

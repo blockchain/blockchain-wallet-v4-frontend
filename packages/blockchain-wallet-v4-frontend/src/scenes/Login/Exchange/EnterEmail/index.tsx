@@ -41,7 +41,7 @@ const EnterEmail = (props: Props) => {
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='exchangeEmail'>
-              <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
+              <FormattedMessage id='scenes.register.youremail' defaultMessage='Email' />
             </LoginFormLabel>
             <Field
               component={TextBox}
@@ -50,7 +50,7 @@ const EnterEmail = (props: Props) => {
               name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
-              placeholder='Enter your email'
+              placeholder='Enter Email'
               autoFocus
             />
           </FormItem>
