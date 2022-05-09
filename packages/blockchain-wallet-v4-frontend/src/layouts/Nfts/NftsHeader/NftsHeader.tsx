@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -11,7 +12,8 @@ import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
-import { ModalName } from 'data/types'
+import { actions } from 'data'
+import { Analytics, ModalName } from 'data/types'
 import { media, useMedia } from 'services/styles'
 
 import { Props as OwnProps } from '../Nfts'
@@ -55,6 +57,15 @@ const ExploreHeader: React.FC<Props> = ({
   pathname,
   routerActions
 }) => {
+  const dispatch = useDispatch()
+  const trackExploreClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_EXPLORER_CLICKED,
+        properties: {}
+      })
+    )
+  }
   const isTablet = useMedia('tablet')
 
   return (
@@ -69,7 +80,7 @@ const ExploreHeader: React.FC<Props> = ({
       </NavLeft>
       <NavCenter>
         {isTablet ? null : (
-          <LinkContainer to='/nfts/explore'>
+          <LinkContainer onClick={trackExploreClicked} to='/nfts/explore'>
             <NavLinkButton>
               <Flex alignItems='center' gap={4}>
                 <Text size='14px' weight={600}>

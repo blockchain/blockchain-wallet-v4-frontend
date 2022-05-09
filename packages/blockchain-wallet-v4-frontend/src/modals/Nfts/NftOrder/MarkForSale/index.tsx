@@ -20,6 +20,7 @@ import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
@@ -55,7 +56,7 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
+  const { analyticsActions, close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -85,13 +86,21 @@ const MarkForSale: React.FC<Props> = (props) => {
   const setToTimedAuction = () => {
     setSaleType('timed-auction')
   }
-
   const coin = () => {
     return saleType === 'timed-auction' && formValues?.timedAuctionType === 'highestBidder'
       ? 'WETH'
       : 'ETH'
   }
 
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        currency: coin(),
+        input_amount: Number(amount)
+      }
+    })
+  }
   const feesR = useRemote(() => orderFlow.fees)
   const fees = feesR?.data
 
@@ -180,6 +189,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         name='amount'
                         showCounter
                         showToggle
+                        onChange={enteredAmountAnalytics}
                         data-e2e='amountField'
                         onToggleFix={() => {
                           props.formActions.change(
@@ -513,6 +523,16 @@ const MarkForSale: React.FC<Props> = (props) => {
                     data-e2e='sellNft'
                     disabled={disabled}
                     onClick={() => {
+                      analyticsActions.trackEvent({
+                        key: Analytics.NFT_SELL_ITEM_CLICKED,
+                        properties: {
+                          amount: Number(amount),
+                          collection: val.collection.name,
+                          collection_id: val.token_id,
+                          selling_fees: Number(fees.totalFees),
+                          type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
+                        }
+                      })
                       if (saleType === 'fixed-price') {
                         nftActions.createSellOrder({
                           asset: val,

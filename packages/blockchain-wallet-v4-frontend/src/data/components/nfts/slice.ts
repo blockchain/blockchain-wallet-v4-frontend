@@ -194,7 +194,7 @@ const nftsSlice = createSlice({
         token_id: string
       }>
     ) => {},
-    fetchOpenSeaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
+    fetchOpenSeaAssetFailure: (state, action: PayloadAction<string>) => {
       state.openSeaAsset = Remote.Failure(action.payload)
     },
     fetchOpenSeaAssetLoading: (state) => {

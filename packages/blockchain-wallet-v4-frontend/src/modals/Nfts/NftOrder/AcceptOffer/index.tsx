@@ -1,13 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 
 import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
@@ -18,7 +20,15 @@ import { getData } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
   const { close, data, nftActions } = props
-
+  const dispatch = useDispatch()
+  const acceptOfferClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_ACCEPT_OFFER_CLICKED,
+        properties: {}
+      })
+    )
+  }
   return (
     <>
       {data.cata({
@@ -119,12 +129,13 @@ const AcceptOffer: React.FC<Props> = (props) => {
                     data-e2e='acceptNftOffer'
                     disabled={props.orderFlow.isSubmitting}
                     type='submit'
-                    onClick={() =>
+                    onClick={() => {
+                      acceptOfferClicked()
                       nftActions.acceptOffer({
                         gasData: fees,
                         ...val.matchingOrder
                       })
-                    }
+                    }}
                   >
                     {props.orderFlow.isSubmitting ? (
                       <HeartbeatLoader color='blue100' height='20px' width='20px' />

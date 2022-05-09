@@ -103,6 +103,10 @@ const TraitGridFilters: React.FC<Props> = ({
       Object.keys(formValues).forEach((key) => {
         formActions.change('nftFilter', key, undefined)
       })
+      analyticsActions.trackEvent({
+        key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
+        properties: {}
+      })
     }
   }
 
@@ -206,6 +210,10 @@ const TraitGridFilters: React.FC<Props> = ({
                     onChange={(e) => {
                       if (e.includes('price')) {
                         formActions.change('nftFilter', 'forSale', true)
+                        analyticsActions.trackEvent({
+                          key: Analytics.NFT_RECENTLY_LISTED_CLICKED,
+                          properties: {}
+                        })
                       }
                     }}
                     // @ts-ignore

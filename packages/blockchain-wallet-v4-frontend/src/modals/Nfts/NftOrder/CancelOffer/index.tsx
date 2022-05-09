@@ -1,13 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Title } from 'components/Flyout'
 import { Row, Value } from 'components/Flyout/model'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import CancelOfferFees from './fees'
@@ -17,14 +21,24 @@ const CancelOffer: React.FC<Props> = (props) => {
   const { offerToCancel } = orderFlow
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
+  const dispatch = useDispatch()
+  const cancelOfferClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_CANCEL_OFFER_CLICKED,
+        properties: {}
+      })
+    )
+  }
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 
-  if (!val) return <Text>No data</Text>
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
   return (
     <>
@@ -84,13 +98,14 @@ const CancelOffer: React.FC<Props> = (props) => {
                 fullwidth
                 data-e2e='cancelOfferNft'
                 disabled={disabled}
-                onClick={() =>
+                onClick={() => {
+                  cancelOfferClicked()
                   nftActions.cancelOffer({
                     asset: val,
                     gasData,
                     order: offerToCancel
                   })
-                }
+                }}
               >
                 {props.orderFlow.isSubmitting ? (
                   <HeartbeatLoader color='blue100' height='20px' width='20px' />
@@ -108,6 +123,7 @@ const CancelOffer: React.FC<Props> = (props) => {
             )
         })}
       </StickyCTA>
+      )
     </>
   )
 }

@@ -10,6 +10,7 @@ import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { NftOrderStatusEnum } from '../../../../data/components/nfts/types'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 
@@ -32,16 +33,23 @@ const ButtonWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
 `
-
 const NftOrderStatus: React.FC<Props> = (props) => {
-  const { openSeaAssetR } = props
+  const { analyticsActions, openSeaAssetR } = props
   const dispatch = useDispatch()
 
   const returnToMarketPlace = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_RETURN_TO_MARKETPLACE_CLICKED,
+      properties: {}
+    })
     props.close()
   }
 
   const closeAndViewItem = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_CLOSE_AND_VIEW_ITEM_CLICKED,
+      properties: {}
+    })
     props.close()
   }
 
@@ -56,11 +64,12 @@ const NftOrderStatus: React.FC<Props> = (props) => {
   }
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 
-  if (!val) return <Text>No data</Text>
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
   return (
     <div style={{ height: '100%' }}>
@@ -116,7 +125,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
-      {props.orderFlow.status === NftOrderStatusEnum.READY_FOR_SALE && (
+      {props.orderFlow.status === NftOrderStatusEnum.POST_LISTING && (
         <Wrapper>
           <img
             style={{
@@ -138,8 +147,6 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             ready for sale!
           </Text>
-          <div>Submitting Offer For</div>
-          <div>{val.name}</div>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
       )}
@@ -220,6 +227,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           </ButtonWrapper>
         </>
       )}
+
       {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS && (
         <>
           <Wrapper>

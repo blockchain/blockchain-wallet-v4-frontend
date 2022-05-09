@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
@@ -10,9 +11,12 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { StickyHeaderWrapper } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row } from 'components/Flyout/model'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import CancelListingFees from './fees'
@@ -22,7 +26,15 @@ const CancelListing: React.FC<Props> = (props) => {
   const { listingToCancel } = orderFlow
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
-
+  const dispatch = useDispatch()
+  const cancelListingClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_CANCEL_LISTING_CLICKED,
+        properties: {}
+      })
+    )
+  }
   const sellOrders =
     openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
@@ -32,11 +44,12 @@ const CancelListing: React.FC<Props> = (props) => {
   )[0]
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 
-  if (!val) return <Text>No data</Text>
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
   return (
     <>
@@ -153,7 +166,10 @@ const CancelListing: React.FC<Props> = (props) => {
                   fullwidth
                   data-e2e='cancelListingNft'
                   disabled={disabled}
-                  onClick={() => nftActions.cancelListing({ gasData: val, order: listingToCancel })}
+                  onClick={() => {
+                    cancelListingClicked()
+                    nftActions.cancelListing({ gasData: val, order: listingToCancel })
+                  }}
                 >
                   {props.orderFlow.isSubmitting ? (
                     <HeartbeatLoader color='blue100' height='20px' width='20px' />

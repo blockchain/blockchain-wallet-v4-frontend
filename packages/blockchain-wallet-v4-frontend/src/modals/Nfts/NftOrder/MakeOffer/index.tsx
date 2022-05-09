@@ -37,12 +37,14 @@ import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
+    analyticsActions,
     close,
     erc20BalanceR,
     ethBalancesR,
@@ -57,7 +59,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   } = props
   const [termsAccepted, setTermsAccepted] = useState(false)
   useEffect(() => {
-    props.analyticsActions.trackEvent({
+    analyticsActions.trackEvent({
       key: Analytics.NFT_MAKE_AN_OFFER_VIEWED,
       properties: {}
     })
@@ -113,11 +115,12 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 
-  if (!val) return <Text>No data</Text>
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
   const sellOrders =
     val.orders?.filter((x) => {
@@ -140,6 +143,24 @@ const MakeOffer: React.FC<Props> = (props) => {
     setTermsAccepted(true)
   }
 
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        currency: coin,
+        input_amount: Number(amount)
+      }
+    })
+  }
+
+  const offerWithChangedAnalytics = (coin) => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_MAKE_OFFER_WITH_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+  }
   return (
     <>
       <StickyHeaderWrapper>
@@ -241,6 +262,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
+              onChange={enteredAmountAnalytics}
               showCounter
               showToggle
               data-e2e='amountField'
@@ -264,7 +286,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               onChange={(coin: any) => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const address = window.coins[coin].coinfig.type.erc20Address!
-
+                offerWithChangedAnalytics(coin)
                 nftActions.fetchFees({
                   asset: val,
                   offer: '0.0001',
