@@ -1,0 +1,19 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title='Hooks/useFetcher' />
+
+# useFetcher
+
+The fetcher hook should be used when you need to fetch JSON data from an endpoint.
+
+To use it, you need to provide the URL endpoint and the result data, from there the useFetcher will handle the loading, fetching, error and success states
+
+## Example
+
+```ts
+type DATA = {
+  // ...api return type
+}
+
+const { data, error, isLoading, isFetching } = useFetcher<DATA>('http://example.com')
+```
