@@ -939,7 +939,7 @@ const NftAsset: React.FC<Props> = ({
               ) : null}
             </RightColWrapper>
           </Top>
-                    <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }}>
             <MoreAssets>
               <div
                 style={{

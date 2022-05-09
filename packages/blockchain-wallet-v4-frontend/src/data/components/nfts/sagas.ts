@@ -222,6 +222,11 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const getAmountUsd = function* (coin: string, amount: number) {
+    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
+    return usdPrice.price * amount
+  }
+
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     // TODO: get coin from paymentToken
     const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
@@ -232,8 +237,8 @@ export default ({ api }: { api: APIType }) => {
         value: action?.payload?.buy?.basePrice?.toString() || ''
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
-    const amount_usd = usdPrice.price * Number(amount)
+
+    const amount_usd = yield getAmountUsd(coin, amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
@@ -278,8 +283,7 @@ export default ({ api }: { api: APIType }) => {
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     const currency = action?.payload?.coin || ''
     const amount = Number(action?.payload?.amount)
-    const usdPrice = yield call(api.getPriceIndex, currency, 'USD', new Date().getTime())
-    const amount_usd = usdPrice.price * Number(amount)
+    const amount_usd = yield getAmountUsd(currency, amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
@@ -368,8 +372,7 @@ export default ({ api }: { api: APIType }) => {
           action?.payload?.sell?.basePrice?.toString()
       })
     )
-    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
-    const amount_usd = usdPrice.price * Number(amount)
+    const amount_usd = yield getAmountUsd(coin, amount)
 
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
@@ -425,9 +428,9 @@ export default ({ api }: { api: APIType }) => {
     const coin = isTimedAuction ? 'WETH' : 'ETH'
     const startPrice = action?.payload?.startPrice
     const endPrice = action?.payload?.endPrice || 0
-    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
-    const start_usd = startPrice * usdPrice.price
-    const end_usd = endPrice * usdPrice.price
+    const start_usd = yield getAmountUsd(coin, startPrice)
+    const end_usd = yield getAmountUsd(coin, endPrice)
+
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.READY_FOR_SALE))
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
@@ -568,7 +571,6 @@ export default ({ api }: { api: APIType }) => {
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
     const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
-    const usdPrice = yield call(api.getPriceIndex, coin, 'USD', new Date().getTime())
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
@@ -576,7 +578,7 @@ export default ({ api }: { api: APIType }) => {
         value: action?.payload?.order?.base_price?.toString() || ''
       })
     )
-    const amount_usd = usdPrice.price * Number(amount)
+    const amount_usd = yield getAmountUsd(coin, amount)
     try {
       if (!action.payload.order) {
         throw new Error('No offer found. It may have expired already!')

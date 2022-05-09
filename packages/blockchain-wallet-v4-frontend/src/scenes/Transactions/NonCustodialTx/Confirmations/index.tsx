@@ -81,7 +81,6 @@ const Confirmations = (props: Props) => {
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
         >
-          eirgoeirgioenr
           <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
         </Link>
       </IconWrapper>
