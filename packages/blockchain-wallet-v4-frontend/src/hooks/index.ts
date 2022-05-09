@@ -1,4 +1,5 @@
 export * from './useBankAccountsQuery'
+export * from './useCoinAssetInfo'
 export * from './useCoinBalance'
 export * from './useCoinConfig'
 export * from './useCoinIconColor'

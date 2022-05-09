@@ -1,9 +1,9 @@
-import { FC, ReactElement } from 'react'
+import { FC, ReactElement, ReactNode } from 'react'
 
 export type AboutSectionProps = {
   actions: ReactElement[]
-  content: string
-  title: string
+  content: ReactNode
+  title: ReactNode
 }
 
 export type AboutSectionComponent = FC<AboutSectionProps>

@@ -8,7 +8,6 @@ import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
 import { Tab, Tabs } from 'components/Tabs'
 
-import { defaultAboutSectionActions } from '../../mocks/defaultAboutSectionActions'
 import { defaultHoldingsCardActions } from '../../mocks/defaultHoldingsCardActions'
 import * as AboutSection from '../AboutSection/AboutSection.stories'
 import * as AlertCard from '../AlertCard/AlertCard.stories'
@@ -16,12 +15,19 @@ import * as ChartBalancePanel from '../ChartBalancePanel/ChartBalancePanel.stori
 import { liveDataCopy, serie_ascending_1, serie_descending_1 } from '../CoinChart/mocks'
 import { createCoinChartTooltipBuilder } from '../CoinChartTooltip'
 import * as CoinHeader from '../CoinHeader/CoinHeader.stories'
+import { CoinWhitepaperButton } from '../CoinWhitepaperButton'
 import * as HoldingsCard from '../HoldingsCard/HoldingsCard.stories'
 import { LearnAboutRecurringBuyPanel } from '../LearnAboutRecurringBuyPanel'
+import { OfficialCoinWebsiteButton } from '../OfficialCoinWebsiteButton'
 import { ResponsiveCoinChart } from '../ResponsiveCoinChart'
 import { WalletsCard } from '../WalletsCard'
 import { CoinPage } from './CoinPage'
 import { CoinPageComponent } from './types'
+
+const actions = [
+  <OfficialCoinWebsiteButton key={0} href='https://blockchain.com' />,
+  <CoinWhitepaperButton key={1} href='https://blockchain.com' />
+]
 
 const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
   argTypes: {
@@ -30,14 +36,11 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
       mapping: {
         bitcoin: (
           // @ts-ignore
-          <AboutSection.Bitcoin
-            {...AboutSection.Bitcoin.args}
-            actions={defaultAboutSectionActions}
-          />
+          <AboutSection.Bitcoin {...AboutSection.Bitcoin.args} actions={actions} />
         ),
         solana: (
           // @ts-ignore
-          <AboutSection.Solana {...AboutSection.Solana.args} actions={defaultAboutSectionActions} />
+          <AboutSection.Solana {...AboutSection.Solana.args} actions={actions} />
         )
       },
       options: ['bitcoin', 'solana']
