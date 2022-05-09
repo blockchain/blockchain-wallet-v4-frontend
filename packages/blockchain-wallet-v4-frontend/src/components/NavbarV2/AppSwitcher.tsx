@@ -11,6 +11,7 @@ import { Flex } from 'components/Flex'
 import Spacer from 'components/Spacer'
 import { actions } from 'data'
 import { useOnClickOutside } from 'services/misc'
+import { useMedia } from 'services/styles'
 
 const Wrapper = styled.div`
   position: relative;
@@ -67,6 +68,7 @@ const IconWrapper = styled.div`
 `
 
 const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
+  const isTablet = useMedia('tablet')
   const ref = useRef(null)
   const [isActive, setIsActive] = useState<boolean>(false)
   const app = window.location.hash.includes('nfts') ? 'nfts' : 'wallet'
@@ -79,12 +81,14 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
 
   return (
     <Wrapper ref={ref}>
-      <Spacer style={{ marginRight: '12px' }} height='24px' />
+      {isTablet ? null : <Spacer style={{ marginRight: '12px' }} height='24px' />}
       {/* @ts-ignore */}
       <Flex alignItems='center' gap={8} onClick={toggleIsActive}>
-        <Text cursor='pointer' weight={600} color='blue600' size='14px'>
-          {app === 'nfts' ? 'NFTs' : 'Wallet'}
-        </Text>
+        {isTablet ? null : (
+          <Text cursor='pointer' weight={600} color='blue600' size='14px'>
+            {app === 'nfts' ? 'NFTs' : 'Wallet'}
+          </Text>
+        )}
         <IconWrapper role='button' className={isActive ? 'active' : ''}>
           <Icon label='up' size='sm'>
             <IconChevronUpV2 />

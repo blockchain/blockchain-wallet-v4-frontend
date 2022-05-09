@@ -5,7 +5,7 @@ import { CellHeaderText, CellText } from 'components/Table'
 
 export const getDateColumn = () => ({
   Cell: ({ row: { original: values } }) => {
-    return <CellText>{new Date(Number(values.created_date)).toLocaleDateString()}</CellText>
+    return <CellText>{new Date(values.created_date).toLocaleDateString()}</CellText>
   },
   Header: () => (
     <CellHeaderText>

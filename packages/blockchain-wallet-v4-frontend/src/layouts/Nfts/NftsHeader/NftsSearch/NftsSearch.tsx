@@ -11,6 +11,7 @@ import { Flex } from 'components/Flex'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { media } from 'services/styles'
 import { debounce } from 'utils/helpers'
 
 const Wrapper = styled.div`
@@ -21,6 +22,9 @@ const Wrapper = styled.div`
     display: block;
     text-transform: capitalize;
   }
+  ${media.tablet`
+    width: 200px;
+  `}
 `
 
 const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) => {
@@ -86,6 +90,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         elements={elements}
         grouped
         hideIndicator
+        hideValue
         name='search'
         label='Collections or items'
         cursor='initial'
