@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
-import { Redirect, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -11,9 +11,10 @@ import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
+import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
-import ExploreLayout from 'layouts/Explore'
+import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
@@ -24,6 +25,7 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 // PUBLIC
+const AppError = React.lazy(() => import('./AppError'))
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
 const HelpExchange = React.lazy(() => import('./HelpExchange'))
@@ -40,9 +42,10 @@ const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Succes
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
-// EXPLORE (mixed)
-const NftsExplorer = React.lazy(() => import('./Nfts/Explore'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection'))
+// NFT EXPLORER (mixed)
+const NftsHome = React.lazy(() => import('./Nfts/Home'))
+const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
+const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -55,7 +58,7 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -79,7 +82,6 @@ const App = ({
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
-
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
@@ -87,8 +89,15 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
+
   const client = createClient({
-    url: `${apiUrl}/explorer-gateway/graphql/`
+    url: `${apiUrl}/nft-market-api/graphql/`
   })
 
   return (
@@ -101,6 +110,8 @@ const App = ({
                 <ConnectedRouter history={history}>
                   <Suspense fallback={<Loading />}>
                     <Switch>
+                      {/* Unauthenticated Wallet routes */}
+                      <Route path='/app-error' component={AppError} />
                       <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                       <AuthLayout
                         path='/help'
@@ -169,37 +180,41 @@ const App = ({
                         component={VerifyEmail}
                         pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                       />
-                      {walletDebitCardEnabled && (
-                        <WalletLayout path='/debitCard' component={DebitCard} />
+
+                      {/* NFT Explorer routes */}
+                      {nftExplorer && (
+                        <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/address/:address'
-                          exact
-                          component={NftsAddress}
-                        />
+                        <NftsLayout path='/nfts/asset/:contract/:id' exact component={NftsAsset} />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
-                          path='/nfts/asset/:contract/:id'
-                          exact
-                          component={NftsAsset}
-                        />
-                      )}
-                      {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts/collection/:slug'
                           exact
                           component={NftsCollection}
                         />
                       )}
                       {nftExplorer && (
-                        <ExploreLayout
+                        <NftsLayout
                           path='/nfts'
                           exact
-                          component={NftsExplorer}
+                          component={NftsHome}
                           pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                         />
+                      )}
+                      {nftExplorer && (
+                        <NftsLayout
+                          path='/nfts/explore'
+                          exact
+                          component={NftsFirehose}
+                          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                        />
+                      )}
+
+                      {/* Authenticated Wallet routes */}
+                      {walletDebitCardEnabled && (
+                        <WalletLayout path='/debit-card' component={DebitCard} />
                       )}
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/exchange' component={TheExchange} />
@@ -243,6 +258,7 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   taxCenterEnabled: selectors.core.walletOptions
     .getTaxCenterEnabled(state)
@@ -251,7 +267,9 @@ const mapStateToProps = (state) => ({
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean,
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+  walletDebitCardEnabled: selectors.core.walletOptions
+    .getWalletDebitCardEnabled(state)
+    .getOrElse(false)
 })
 
 const connector = connect(mapStateToProps)

@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError, UseQueryState } from 'urql'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { CollectionsQuery } from 'generated/graphql'
+import { CollectionsQuery } from 'generated/graphql.types'
 
-import { Asset, Grid, LOADING_ITEMS_COUNT } from '../../components'
+import { Grid } from '../../components'
+import NftError from '../../components/NftError'
+import NftGridLoading from '../../components/NftGridLoading'
+import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
 
-const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }) => {
+const CollectionItems: React.FC<Props> = ({
+  collectionsQuery,
+  formValues,
+  refreshTrigger,
+  setNumOfResults,
+  slug
+}) => {
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -18,21 +25,29 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
     undefined
   )
 
-  useEffect(() => {
+  const refresh = () => {
     setIsFetchingNextPage(true)
     setPageVariables([])
     setMaxItemsFetched(false)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
+  }
+
+  useEffect(() => {
+    refresh()
   }, [slug, formValues])
+
+  useEffect(() => {
+    refresh()
+  }, [refreshTrigger])
 
   const isFetching = isFetchingNextPage || collectionsQuery.fetching
 
   return (
-    <>
+    <NftPageLazyLoadWrapper>
       <LazyLoadContainer
-        triggerDistance={300}
+        triggerDistance={50}
         onLazyLoad={() =>
           isFetching || maxItemsFetched
             ? null
@@ -48,46 +63,26 @@ const CollectionItems: React.FC<Props> = ({ collectionsQuery, formValues, slug }
                   formValues={formValues}
                   key={page}
                   slug={slug}
+                  setNumOfResults={setNumOfResults}
                   setMaxItemsFetched={setMaxItemsFetched}
                   setNextPageFetchError={setNextPageFetchError}
                   setIsFetchingNextPage={setIsFetchingNextPage}
                 />
               ))
             : null}
-          {isFetching ? (
-            <>
-              {[...Array(LOADING_ITEMS_COUNT)].map((e, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <Asset key={i}>
-                  <SkeletonRectangle width='100%' height='285px' />
-                  <div style={{ minHeight: '120px', padding: '12px 8px' }}>
-                    <Flex
-                      style={{ height: '100%' }}
-                      justifyContent='space-between'
-                      flexDirection='column'
-                    >
-                      <div>
-                        <SkeletonRectangle height='24px' width='100px' />
-                        <div style={{ marginTop: '4px' }} />
-                        <SkeletonRectangle height='30px' width='120px' />
-                        <div style={{ marginTop: '4px' }} />
-                      </div>
-                      <SkeletonRectangle height='42px' width='100%' />
-                    </Flex>
-                  </div>
-                </Asset>
-              ))}
-            </>
-          ) : null}
+          {isFetching ? <NftGridLoading /> : null}
         </Grid>
+        {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
       </LazyLoadContainer>
-    </>
+    </NftPageLazyLoadWrapper>
   )
 }
 
 type Props = {
   collectionsQuery: UseQueryState<CollectionsQuery, object>
   formValues: NftFilterFormValuesType
+  refreshTrigger: number
+  setNumOfResults: React.Dispatch<React.SetStateAction<number | undefined>>
   slug: string
 }
 

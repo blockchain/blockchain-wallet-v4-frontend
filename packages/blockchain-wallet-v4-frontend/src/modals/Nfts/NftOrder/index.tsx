@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -16,9 +17,13 @@ import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
 import NotVerified from './NotVerified'
-import ShowAsset from './ShowAsset'
 import Status from './Status'
 import Transfer from './Transfer'
+
+const StyledFlyoutChild = styled(FlyoutChild)`
+  display: flex;
+  flex-direction: column;
+`
 
 class NftOrder extends PureComponent<Props, State> {
   constructor(props) {
@@ -55,55 +60,50 @@ class NftOrder extends PureComponent<Props, State> {
         data-e2e='nftModal'
         total={total}
       >
-        {step === NftOrderStepEnum.SHOW_ASSET && (
-          <FlyoutChild>
-            <ShowAsset {...this.props} />
-          </FlyoutChild>
-        )}
         {step === NftOrderStepEnum.BUY && (
-          <FlyoutChild>
-            <Buy {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <Buy {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (
-          <FlyoutChild>
-            <MarkForSale {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <MarkForSale {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.ACCEPT_OFFER && (
-          <FlyoutChild>
-            <AcceptOffer {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <AcceptOffer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.MAKE_OFFER && (
-          <FlyoutChild>
-            <MakeOffer {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <MakeOffer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_OFFER && (
-          <FlyoutChild>
-            <CancelOffer {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <CancelOffer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_LISTING && (
-          <FlyoutChild>
-            <CancelListing {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <CancelListing {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.TRANSFER && (
-          <FlyoutChild>
-            <Transfer {...this.props} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <Transfer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.STATUS && (
-          <FlyoutChild>
-            <Status {...this.props} {...orderFlow.asset} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <Status {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.NOT_VERIFIED && (
-          <FlyoutChild>
-            <NotVerified {...this.props} {...orderFlow.asset} />
-          </FlyoutChild>
+          <StyledFlyoutChild>
+            <NotVerified {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
         )}
       </Flyout>
     )
@@ -113,6 +113,7 @@ class NftOrder extends PureComponent<Props, State> {
 const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   isAuthenticated: selectors.auth.isAuthenticated(state),
+  openSeaAssetR: selectors.components.nfts.getOpenSeaAsset(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 
@@ -129,9 +130,11 @@ type State = {
 type OwnProps = ModalPropsType
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-// 👋 Order of composition is important, do not change!
-const enhance = compose<React.ComponentType>(
-  modalEnhancer(ModalName.NFT_ORDER, { transition: duration }),
+const enhance = compose(
+  modalEnhancer(ModalName.NFT_ORDER, {
+    fixed: true,
+    transition: duration
+  }),
   connector
 )
 

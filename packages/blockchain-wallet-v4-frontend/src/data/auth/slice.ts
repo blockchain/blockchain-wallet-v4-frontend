@@ -8,7 +8,6 @@ import {
   AccountUnificationFlows,
   AuthStateType,
   AuthUserType,
-  ContinueLoginProcessPayloadType,
   ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
@@ -62,7 +61,7 @@ const authSlice = createSlice({
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
-    continueLoginProcess: (state, action: PayloadAction<ContinueLoginProcessPayloadType>) => {},
+    continueLoginProcess: () => {},
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)

@@ -187,7 +187,12 @@ export const determineAuthenticationFlow = function* (
       actions.analytics.trackEvent({
         key: Analytics.LOGIN_DEVICE_VERIFIED,
         properties: {
-          site_redirect: product
+          exchange: exchangeData,
+          mergeable: authMagicLink.mergeable,
+          site_redirect: product,
+          unified,
+          upgradeable: authMagicLink.upgradeable,
+          wallet: walletData
         }
       })
     )

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
-import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SpinningLoader } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
@@ -40,7 +40,7 @@ const Fees: React.FC<Props> = (props) => {
             <>
               <CTARow>
                 <Title style={{ display: 'flex' }}>
-                  <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
                 </Title>
                 <Value>
                   <div style={{ display: 'flex' }}>

@@ -1,10 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
@@ -46,6 +45,14 @@ const SecondStep = (props: Props) => {
           validate={[required, validStrongPassword]}
           component={PasswordBox}
         />
+        <div>
+          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
+            <FormattedMessage
+              id='scenes.register.passwordstrengthwarn'
+              defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+            />
+          </Text>
+        </div>
       </FormGroup>
       <FormGroup>
         <FormLabel htmlFor='confirmationPassword'>

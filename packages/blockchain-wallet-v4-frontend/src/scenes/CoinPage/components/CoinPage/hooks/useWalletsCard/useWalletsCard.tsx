@@ -1,10 +1,10 @@
 import React, { ReactNode, useMemo } from 'react'
-import { useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
+import { useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
 
 import { WalletsCard } from '../../../WalletsCard'
 import { transformToAccounts } from './utils'

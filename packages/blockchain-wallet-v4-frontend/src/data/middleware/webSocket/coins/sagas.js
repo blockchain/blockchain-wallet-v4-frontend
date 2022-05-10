@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
 import { actions, model, selectors } from 'data'
-import { Analytics } from 'data/types'
+import { Analytics, ProductAuthOptions } from 'data/types'
 import * as T from 'services/alerts'
 
 import {
@@ -70,23 +70,34 @@ export default ({ api, socket }) => {
     const phonePubkey = yield select(selectors.cache.getPhonePubkey)
     const guid = yield select(selectors.cache.getLastGuid)
     const lastLogoutTime = yield select(selectors.cache.getLastLogoutTimestamp)
-
+    const product = yield select(selectors.auth.getProduct)
     // only ping phone if last logout time is more than 5 minutes
     // prevents pinging phone again right when user logs out
     const pingPhoneOnLoad = Date.now() - lastLogoutTime > 300000
-    if (phonePubkey && guid && pingPhoneOnLoad) {
+    if (phonePubkey && guid && pingPhoneOnLoad && product === ProductAuthOptions.WALLET) {
       yield pingPhone(channelId, secretHex, phonePubkey, guid)
     }
   }
 
   const onAuth = function* () {
     try {
-      // 1. subscribe to block headers
+      // 1. subscribe wallet guid to get email verification updates
+      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
+      const guid = prop('guid', subscribeInfo)
+      yield call(
+        send,
+        JSON.stringify({
+          command: 'subscribe',
+          entity: 'wallet',
+          param: { guid }
+        })
+      )
+      // 2. subscribe to block headers
       yield call(send, JSON.stringify({ coin: 'btc', command: 'subscribe', entity: 'header' }))
       yield call(send, JSON.stringify({ coin: 'bch', command: 'subscribe', entity: 'header' }))
       yield call(send, JSON.stringify({ coin: 'eth', command: 'subscribe', entity: 'header' }))
 
-      // 2. subscribe to btc xpubs
+      // 3. subscribe to btc xpubs
       const btcWalletContext = yield select(selectors.core.data.btc.getContext)
       // context has separate bech32 ,legacy, and imported address arrays
       const btcWalletXPubs = prop('legacy', btcWalletContext).concat(
@@ -105,7 +116,7 @@ export default ({ api, socket }) => {
         )
       )
 
-      // 3. subscribe to bch xpubs
+      // 4. subscribe to bch xpubs
       const bchWalletContext = yield select(selectors.core.data.bch.getContext)
       bchWalletContext.forEach((xpub) =>
         send(
@@ -118,7 +129,7 @@ export default ({ api, socket }) => {
         )
       )
 
-      // 4. subscribe to ethereum addresses
+      // 5. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
       ethWalletContext.forEach((address) => {
         send(
@@ -130,18 +141,6 @@ export default ({ api, socket }) => {
           })
         )
       })
-
-      // 5. subscribe wallet guid to get email verification updates
-      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
-      const guid = prop('guid', subscribeInfo)
-      yield call(
-        send,
-        JSON.stringify({
-          command: 'subscribe',
-          entity: 'wallet',
-          param: { guid }
-        })
-      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage('middleware/webSocket/coins/sagas', 'onOpen', e.message)
@@ -321,6 +320,24 @@ export default ({ api, socket }) => {
                   sharedKey: decrypted.sharedKey
                 })
               )
+              const product = yield select(selectors.auth.getProduct)
+              const magicLinkData = yield select(selectors.auth.getMagicLinkData)
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.LOGIN_SIGNED_IN,
+                  properties: {
+                    authentication_type: 'SECURE_CHANNEL',
+                    has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+                    is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+                    mergeable: magicLinkData.mergeable,
+                    nabu_id: magicLinkData.wallet?.nabu?.user_id,
+                    site_redirect: product,
+                    unified: magicLinkData.upgradeable,
+                    upgradeable: magicLinkData.upgradeable
+                  }
+                })
+              )
+
               yield put(
                 actions.analytics.trackEvent({
                   key: Analytics.LOGIN_REQUEST_APPROVED,

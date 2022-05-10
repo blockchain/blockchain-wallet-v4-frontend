@@ -753,36 +753,6 @@ export interface Stats {
   total_volume: number
 }
 
-export type AssetEventsType = {
-  asset_events: {
-    approved_account: any
-    asset: NftAsset
-    created_date: string
-  }[]
-}
-
-export type OfferEventsType = {
-  asset_events: {
-    approved_account: any
-    asset: NftAsset
-    bid_amount: string
-    created_date: string
-    from_account: {
-      address: string
-    }
-    payment_token: {
-      address: string
-      decimals: number
-      eth_price: string
-      id: number
-      image_url: string
-      name: string
-      symbol: string
-      usd_price: string
-    }
-  }[]
-}
-
 export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string
   average_price: string
@@ -805,99 +775,42 @@ export interface ExplorerGatewayNftCollectionType {
   total_volume: string
 }
 
-export interface OpenSeaOrder {
-  approved_on_chain: boolean
-  asset: {
-    animation_original_url: null
-    animation_url: null
-    asset_contract: AssetContractType
-    background_color: null
-    collection: Omit<NftCollection, 'editors' | 'payment_tokens' | 'stats' | 'traits'>
-    decimals: number
-    description: null
-    external_link: null
-    id: number
+// Only keeping around relevant info for now
+export type ExplorerGatewaySearchType = {
+  accounts: {
+    address: string
+    config: string
+    date_ingested: string
+    profile_img_url: string
+    username: string | null
+  }[]
+  assets: {
+    collection_slug: string
+    contract_address: string
+    id: string
     image_original_url: string
     image_preview_url: string
     image_thumbnail_url: string
     image_url: string
-    is_nsfw: boolean
     name: string
-    num_sales: number
-    owner: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: {
-        username: null
-      }
-    }
-    permalink: string
     token_id: string
-    token_metadata: string
-  }
-  asset_bundle: null
-  base_price: string
-  bounty_multiple: string
-  calldata: string
-  cancelled: boolean
-  closing_date: string
-  closing_extendable: boolean
-  created_date: string
-  current_bounty: string
-  current_price: string
-  exchange: string
-  expiration_time: number
-  extra: string
-  fee_method: number
-  fee_recipient: {
+  }[]
+  collections: {
+    image_url: string | null
+    name: string
+    num_owners: null
+    safelist_request_status: string
+    slug: string
+  }[]
+  contracts: {
     address: string
-    config: string
-    profile_img_url: string
-    user: number
-  }
-  finalized: boolean
-  how_to_call: number
-  id: number
-  listing_time: number
-  maker: {
-    address: string
-    config: string
-    profile_img_url: string
-    user: number
-  }
-  maker_protocol_fee: string
-  maker_referrer_fee: string
-  maker_relayer_fee: string
-  marked_invalid: boolean
-  metadata: {
-    asset: {
-      address: string
-      id: string
-    }
-    schema: string
-  }
-  order_hash: string
-  payment_token: string
-  payment_token_contract: PaymentTokenContractType
-  prefixed_hash: string
-  quantity: string
-  r: string
-  replacement_pattern: string
-  s: string
-  sale_kind: number
-  salt: string
-  side: number
-  static_extradata: string
-  static_target: string
-  taker: {
-    address: string
-    config: string
-    profile_img_url: string
-    user: number
-  }
-  taker_protocol_fee: string
-  taker_relayer_fee: string
-  target: string
-  v: number
+    asset_contract_type: string
+    created_date: string
+    date_ingested: string
+    nft_version: string
+    owner: string | null
+    schema_name: string
+    symbol: string
+    total_supply: string
+  }[]
 }

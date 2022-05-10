@@ -154,7 +154,7 @@ function TransactionList(props: Props): ReactElement | null {
               </InterestTableCell>
               <TableCell width='20%'>
                 <Value data-e2e='interestTransactionDate'>
-                  {format(new Date(insertedAt), 'MMMM D yyyy @ h:mm a')}
+                  {format(new Date(insertedAt), 'MMMM d yyyy @ h:mm a')}
                 </Value>
               </TableCell>
               {type === 'DEPOSIT' ? (

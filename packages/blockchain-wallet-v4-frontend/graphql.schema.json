@@ -123,22 +123,6 @@
             "deprecationReason": null
           },
           {
-            "name": "asset_bundle_slug",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "background_color",
             "description": null,
             "args": [],
@@ -173,6 +157,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "Contract",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -443,6 +439,18 @@
             "deprecationReason": null
           },
           {
+            "name": "results",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "supports_wyvern",
             "description": null,
             "args": [],
@@ -631,12 +639,6 @@
           },
           {
             "name": "animation_original_url",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "asset_bundle_slug",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -862,12 +864,6 @@
             "deprecationReason": null
           },
           {
-            "name": "asset_bundle_slug",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "background_color",
             "description": null,
             "isDeprecated": false,
@@ -910,7 +906,7 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_time",
+            "name": "end_date",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -2508,7 +2504,7 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_price",
+            "name": "end_date",
             "description": null,
             "args": [],
             "type": {
@@ -2520,7 +2516,7 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_time",
+            "name": "ending_price",
             "description": null,
             "args": [],
             "type": {
@@ -2795,7 +2791,19 @@
             "deprecationReason": null
           },
           {
-            "name": "asset_id",
+            "name": "asset_collection_slug",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "asset_contract_address",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "asset_token_id",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -2849,13 +2857,13 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_price",
+            "name": "end_date",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "ending_time",
+            "name": "ending_price",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3003,7 +3011,19 @@
             "deprecationReason": null
           },
           {
-            "name": "asset_id",
+            "name": "asset_collection_slug",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "asset_contract_address",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "asset_token_id",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3057,13 +3077,13 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_price",
+            "name": "end_date",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "ending_time",
+            "name": "ending_price",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3274,7 +3294,7 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_price",
+            "name": "end_date",
             "description": null,
             "args": [],
             "type": {
@@ -3286,7 +3306,7 @@
             "deprecationReason": null
           },
           {
-            "name": "ending_time",
+            "name": "ending_price",
             "description": null,
             "args": [],
             "type": {
@@ -3314,13 +3334,9 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -4088,6 +4104,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "trait_count",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,

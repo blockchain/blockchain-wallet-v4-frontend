@@ -83,11 +83,7 @@ export const fulfillNftOrder = async ({
   signer: Signer
 }) => {
   // Perform buy order validations (abstracted away from atomicMatch because english auction bids don't hit that function)
-  if (
-    !sell ||
-    sell.waitingForBestCounterOrder ||
-    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS)
-  ) {
+  if (!sell) {
     await buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     // eslint-disable-next-line no-console
     console.log('Post buy order to OpenSea API.')
@@ -158,6 +154,18 @@ export const calculateGasFees = async (
       proxyFees.toString() === '0'
         ? (await calculateProxyApprovalFees(sellOrder, signer)).toNumber()
         : 300_000
+  } else if (operation === GasCalculationOperations.AcceptOffer && sellOrder && buyOrder) {
+    // 1. Calculate the gas cost of deploying proxy if needed (can estimate using ethers)
+    proxyFees = (await calculateProxyFees(signer)).toNumber()
+    // 2. Calculate the gas cost of making the approvals (can only estimate using ethers if the proxy has been deployed, otherwise can add a safe value here)
+    approvalFees =
+      proxyFees.toString() === '0'
+        ? (await calculateProxyApprovalFees(sellOrder, signer)).toNumber()
+        : 300_000
+    gasFees =
+      approvalFees === 0
+        ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
+        : 350_000
   } else if (operation === GasCalculationOperations.CreateOffer && buyOrder) {
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
     approvalFees =
@@ -207,10 +215,6 @@ export const fulfillTransfer = async (
   txnData: { gasLimit: string; gasPrice: string }
 ) => {
   await transferAsset(asset, signer, recipient.toLowerCase(), txnData)
-  const verified = await verifyTransfered(asset, signer, recipient.toLowerCase())
-  if (!verified) {
-    throw new Error('Asset transfer failed!')
-  }
 }
 
 export const executeWrapEth = async (signer: Signer, amount: string, gasData: GasDataI) => {

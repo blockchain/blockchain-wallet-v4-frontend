@@ -97,6 +97,7 @@ import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
+import noActivity from './img/nfts/no-activity.svg'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import productRedirectExchange from './img/product-redirect-exchange.png'
@@ -234,6 +235,7 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   money,
   nft,
+  'no-activity': noActivity,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-success': orderSuccess,

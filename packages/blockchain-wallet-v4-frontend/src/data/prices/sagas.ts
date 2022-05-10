@@ -8,12 +8,12 @@ import { actions as A } from './slice'
 import { CoinPricesRequestType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const defaultCoins = selectors.core.data.coins.getAllCoins()
-
   const fetchCoinPrices = function* (action) {
     const { coins, fiatCurrency, timestamp }: CoinPricesRequestType = action.payload
     try {
       yield put(A.fetchCoinPricesLoading())
+
+      const defaultCoins = selectors.core.data.coins.getAllCoins()
 
       // assume wallet currency if one was not passed in
       const defaultFiat = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
@@ -34,6 +34,8 @@ export default ({ api }: { api: APIType }) => {
     const { coins, fiatCurrency }: CoinPricesRequestType = action.payload
     try {
       yield put(A.fetchCoinPricesPreviousDayLoading())
+
+      const defaultCoins = selectors.core.data.coins.getAllCoins()
 
       // get timestamp from 24 hours ago
       const timestamp = getUnixTime(subDays(new Date(), 1))

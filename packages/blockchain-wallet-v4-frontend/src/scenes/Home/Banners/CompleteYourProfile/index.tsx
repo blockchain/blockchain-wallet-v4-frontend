@@ -115,7 +115,7 @@ const CompleteYourProfile = ({
           <Text size='16px' weight={500} color='grey800'>
             <FormattedMessage
               id='scenes.home.banner.complete_your_profile.complete_your_profile_description'
-              defaultMessage='Finish setting up your Blockchain.com account and start buying crypto today.'
+              defaultMessage='Finish setting up your Blockchain.com Account and start buying crypto today.'
             />
           </Text>
         </Column>

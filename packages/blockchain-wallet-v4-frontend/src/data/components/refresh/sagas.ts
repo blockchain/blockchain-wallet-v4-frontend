@@ -60,7 +60,7 @@ export default () => {
       yield put(actions.custodial.fetchRecentSwapTxs())
 
       const pathname = (yield select(selectors.router.getPathname))?.toLowerCase()
-      const maybeCoin = toUpper(pathname.split('/')[1])
+      const maybeCoin = toUpper(pathname.split('/')[2] || '')
 
       switch (true) {
         case contains('coins/BCH', pathname):
@@ -78,6 +78,7 @@ export default () => {
         case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
+        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(maybeCoin):
         case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break

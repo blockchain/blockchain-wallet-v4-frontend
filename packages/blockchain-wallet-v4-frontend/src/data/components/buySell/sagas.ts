@@ -1,3 +1,4 @@
+import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import { addSeconds, differenceInMilliseconds } from 'date-fns'
@@ -26,11 +27,13 @@ import {
   WalletFiatType,
   WalletOptionsType
 } from '@core/types'
-import { errorHandler, errorHandlerCode } from '@core/utils'
+import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -591,8 +594,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantCapabilities.push('supportsCredit')
           }
 
-          // The amount has to be in cents
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
@@ -630,7 +633,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             'CRYPTOGRAM_3DS'
           ]
 
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
 
@@ -871,22 +875,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const isSddVerified = S.getSddVerified(yield select()).getOrElse({
         verified: false
       })
+      const { nabuUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+      )).getOrElse({ nabuUserId: null })
 
-      const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
-      const userId = userIdR.getOrElse(null)
-      if (!isSddVerified.verified && userId) {
+      if (!isSddVerified.verified && nabuUserId) {
         yield put(A.fetchSDDVerifiedLoading())
         const sddEligible = yield call(api.fetchSDDVerified)
         yield put(A.fetchSDDVerifiedSuccess(sddEligible))
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/verified',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDVerifiedFailure(error))
     }
   }
 
   const fetchBSCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
+    let useNewPaymentProviders = false
     try {
       yield call(waitForUserData)
 
@@ -898,15 +910,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
 
-      const useNewPaymentProviders = (yield select(
+      useNewPaymentProviders = (yield select(
         selectors.core.walletOptions.getUseNewPaymentProviders
       )).getOrElse(false)
 
       const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchCardsFailure(error))
     }
   }
@@ -933,7 +951,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchFiatEligibleFailure(error))
     }
@@ -958,8 +975,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       }
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/sdd/eligible',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchSDDEligibleFailure(error))
     }
   }
@@ -976,6 +999,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
       yield put(A.fetchOrdersFailure(error))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.CLIENT_ERROR,
+          properties: {
+            error: 'OOPS_ERROR',
+            network_endpoint: '/simple-buy/trades',
+            network_error_code: e.code,
+            network_error_description: error,
+            source: 'NABU',
+            title: 'Oops! Something went wrong'
+          }
+        })
+      )
     }
   }
 
@@ -995,6 +1031,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
       yield put(A.fetchPairsFailure(error))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.CLIENT_ERROR,
+          properties: {
+            action: 'BUY',
+            error: 'OOPS_ERROR',
+            network_endpoint: '/simple-buy/pairs',
+            network_error_code: e.code,
+            network_error_description: error,
+            source: 'NABU',
+            title: 'Oops! Something went wrong'
+          }
+        })
+      )
     }
   }
 
@@ -1018,6 +1068,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const userData = selectors.modules.profile.getUserData(yield select()).getOrElse({
         state: 'NONE'
       } as UserDataType)
+
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !payload) {
         return yield put(A.fetchPaymentMethodsSuccess(DEFAULT_BS_METHODS))
@@ -1048,7 +1099,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const includeNonEligibleMethods = currentUserTier === 2
       // if user is SDD tier 3 eligible, fetch limits for tier 3
       // else let endpoint return default current tier limits for current tier of user
-      const includeTierLimits = userSDDEligibleTier === SDD_TIER ? SDD_TIER : undefined
+      // double check if user is tier 2 and in case user is ignore this property
+      const includeTierLimits =
+        userSDDEligibleTier === SDD_TIER && currentUserTier !== 2 ? SDD_TIER : undefined
 
       let paymentMethods = yield call(
         api.getBSPaymentMethods,
@@ -1124,10 +1177,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         yield delay(refresh)
       } catch (e) {
-        const error = errorHandler(e)
+        const { code: network_error_code, message: network_error_description } =
+          errorCodeAndMessage(e)
+        const error: PartialClientErrorProperties = {
+          network_endpoint: '/brokerage/quote',
+          network_error_code,
+          network_error_description,
+          source: 'NABU'
+        }
         yield put(A.fetchBuyQuoteFailure(error))
-        yield delay(FALLBACK_DELAY)
-        yield put(A.startPollBuyQuote(payload))
+        // stop fetching new quote until user does retry action
+        yield put(A.stopPollBuyQuote())
       }
     }
   }
@@ -1651,13 +1711,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    const showSilverRevamp = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
     // check is user eligible to do sell/buy
     // we skip this for gold users
-    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
+    if (!isUserTier2 && !latestPendingOrder) {
       yield put(actions.custodial.fetchProductEligibilityForUser())
       yield take([
         custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -1707,7 +1763,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // For all silver/silver+ users if they have pending transaction and they are from silver revamp
       // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
-    } else if (!isUserTier2 && latestPendingOrder && showSilverRevamp) {
+    } else if (!isUserTier2 && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))

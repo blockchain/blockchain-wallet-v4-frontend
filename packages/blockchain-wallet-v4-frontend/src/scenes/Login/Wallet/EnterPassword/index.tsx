@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -15,7 +14,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
-import { ProductAuthOptions, SettingsGoalDataType } from 'data/types'
+import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
@@ -24,7 +23,6 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
@@ -86,10 +84,9 @@ const EnterPasswordWallet = (props: Props) => {
     busy,
     exchangeTabClicked,
     formValues,
-    goals,
     handleBackArrowClickWallet,
+    initialRedirect,
     invalid,
-    isBrowserSupported,
     magicLinkData,
     qrData,
     submitting,
@@ -101,21 +98,20 @@ const EnterPasswordWallet = (props: Props) => {
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked'))
-  const settingsGoal = find(propEq('name', 'settings'), goals)
-  const goalData: SettingsGoalDataType = propOr({}, 'data', settingsGoal)
+  const settingsRedirect = Object.values(UnifiedAccountRedirectType).includes(initialRedirect)
+
   return (
     <OuterWrapper>
       <SideWrapper />
       <FormWrapper>
-        {!settingsGoal && (
+        {!settingsRedirect && (
           <ProductTabMenu
             active={ProductAuthOptions.WALLET}
             onExchangeTabClick={exchangeTabClicked}
           />
         )}
-
         <WrapperWithPadding>
-          {!settingsGoal && (
+          {!settingsRedirect && (
             <BackArrowHeader
               {...props}
               handleBackArrowClick={handleBackArrowClickWallet}
@@ -123,7 +119,7 @@ const EnterPasswordWallet = (props: Props) => {
               marginTop='28px'
             />
           )}
-          {settingsGoal && (
+          {settingsRedirect && (
             <SettingsGoalText>
               <Text size='20px' weight={600} color='grey900' lineHeight='2'>
                 <FormattedMessage
@@ -133,26 +129,23 @@ const EnterPasswordWallet = (props: Props) => {
               </Text>
               <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
                 <FormattedMessage
-                  id='scenes.login.enter_password.setting_goal.title'
-                  defaultMessage='For your security, we ask you to enter your password to continue to update your {settingsChange} settings.'
-                  values={{ settingsChange: goalData.settingsChange }}
+                  id='scenes.login.enter_password.settings_goal.subtitle'
+                  defaultMessage='For your security, we ask you to enter your password to continue to update your settings.'
                 />
               </Text>
             </SettingsGoalText>
           )}
           <FormGroup>
-            <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
             <FormItem>
               <FormLabel htmlFor='password'>
-                <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
+                <FormattedMessage id='scenes.login.your_password' defaultMessage='Password' />
               </FormLabel>
               <Field
                 autoFocus
                 component={PasswordBox}
                 data-e2e='loginPassword'
-                disabled={!isBrowserSupported}
                 name='password'
-                placeholder='Enter your password'
+                placeholder='Enter Password'
                 validate={[required]}
               />
               {passwordError && (

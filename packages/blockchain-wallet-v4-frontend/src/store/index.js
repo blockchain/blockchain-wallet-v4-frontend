@@ -14,6 +14,7 @@ import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { isBrowserSupported } from 'services/browser'
 
 import {
   analyticsMiddleware,
@@ -23,19 +24,29 @@ import {
   webSocketRates
 } from '../middleware'
 
+const manuallyRouteToErrorPage = (error) => {
+  if (window.history.replaceState) {
+    window.history.replaceState(null, '', `#app-error?error=${error}`)
+  } else {
+    window.location.hash = `#app-error?error=${error}`
+  }
+}
+
 const configuredStore = async function () {
   // immediately load app configuration
   let options
   try {
     let res = await fetch('/wallet-options-v4.json')
     options = await res.json()
-  } catch (error) {
-    throw new Error('wallet-options failed to load.')
+  } catch (e) {
+    throw new Error('errorWalletOptionsApi')
   }
 
-  // define empty window coins object
-  // result of web worker will populate data later
-  window.coins = {}
+  // ensure browser is supported
+  const browserSupported = isBrowserSupported()
+  if (!browserSupported) {
+    manuallyRouteToErrorPage('unsupportedBrowser')
+  }
 
   // offload asset configuration fetch/parse from main thread
   if (window.Worker) {
@@ -44,27 +55,27 @@ const configuredStore = async function () {
 
     // set event listener upon worker completion
     worker.addEventListener('message', e => {
-      // message response is string, parse and set coins on window
-      window.coins = JSON.parse(e.data)
+      try {
+        // message response is json string, parse and set coins on window
+        window.coins = JSON.parse(e.data)
+      } catch (e) {
+        // failed to parse json, meaning there was an error
+        manuallyRouteToErrorPage('errorAssetsApi')
+      }
     })
 
     // start worker with stringified args since some browsers only support passing strings as args
     worker.postMessage(JSON.stringify({
       assetApi: options.domains.api,
-      openSeaApi: options.domains.opensea,
-      erc20Whitelist: options.platforms.web.erc20s
+      openSeaApi: options.domains.opensea
     }))
   } else {
-    // TODO: might need to support non-worker load...
-    // eslint-disable-next-line
-    window.alert('Your browser is not supported.  Error: missing web worker support')
+    manuallyRouteToErrorPage('unsupportedBrowser')
   }
 
   // initialize router and saga middleware
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-
-  // TODO: lazy load rates and coin sockets
   const { isAuthenticated } = selectors.auth
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon

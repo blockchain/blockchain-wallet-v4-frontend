@@ -17,10 +17,10 @@ import {
   PlatformTypes,
   ProductAuthOptions,
   TwoFASetupSteps,
+  UnifiedAccountRedirectType,
   UpgradeSteps
 } from 'data/types'
 import Loading from 'layouts/Auth/template.loading'
-import { isBrowserSupported } from 'services/browser'
 
 import AuthSecondAccount from './AccountMerge/AuthSecondAccount'
 import ConfirmTwoFA from './AccountMerge/ConfirmTwoFA'
@@ -53,39 +53,13 @@ import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPassword'
 import TwoFAWallet from './Wallet/TwoFA'
 
-class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      captchaToken: undefined
-    }
-  }
-
+class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     this.props.authActions.initializeLogin()
-    this.initCaptcha()
   }
 
   setStep = (step: CombinedLoginSteps) => {
     this.props.formActions.change(LOGIN_FORM, 'step', step)
-  }
-
-  initCaptcha = (callback?) => {
-    /* eslint-disable */
-    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-    window.grecaptcha.enterprise.ready(() => {
-      window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
-        .then((captchaToken) => {
-          console.log('Captcha success')
-          this.setState({ captchaToken })
-          callback && callback(captchaToken)
-        })
-        .catch((e) => {
-          console.error('Captcha error: ', e)
-        })
-    })
-    /* eslint-enable */
   }
 
   handleBackArrowClick = () => {
@@ -93,7 +67,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
     authActions.clearLoginError()
-    this.initCaptcha()
   }
 
   handleBackArrowClickWallet = () => {
@@ -141,21 +114,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   handleSubmit = (e) => {
     e.preventDefault()
-    // sometimes captcha doesnt mount correctly (race condition?)
-    // if it's undefined, try to re-init for token
-    if (!this.state.captchaToken) {
-      return this.initCaptcha(
-        this.props.authActions.continueLoginProcess({
-          captchaToken: this.state.captchaToken,
-          initCaptcha: this.initCaptcha
-        })
-      )
-    }
-    // we have a captcha token, continue login process
-    this.props.authActions.continueLoginProcess({
-      captchaToken: this.state.captchaToken,
-      initCaptcha: this.initCaptcha
-    })
+    this.props.authActions.continueLoginProcess()
   }
 
   render() {
@@ -186,7 +145,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       ...this.props,
       handleBackArrowClickExchange: this.handleBackArrowClickExchange,
       handleBackArrowClickWallet: this.handleBackArrowClickWallet,
-      isBrowserSupported: isBrowserSupported(),
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
     }
@@ -304,7 +262,7 @@ const mapStateToProps = (state) => ({
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  goals: selectors.goals.getGoals(state),
+  initialRedirect: selectors.goals.getInitialRedirect(state) as UnifiedAccountRedirectType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
@@ -330,7 +288,6 @@ type OwnProps = {
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
   invalid: boolean
-  isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: CombinedLoginSteps) => void
@@ -339,9 +296,6 @@ type OwnProps = {
   walletTabClicked?: () => void
 }
 
-type StateProps = {
-  captchaToken?: string
-}
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 const enhance = compose<React.ComponentType>(reduxForm({ form: LOGIN_FORM }), connector)

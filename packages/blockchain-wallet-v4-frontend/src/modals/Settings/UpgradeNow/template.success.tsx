@@ -158,7 +158,7 @@ const Template: React.FC<Props> = (props) => {
             <UpgradeDescription>
               <FormattedMessage
                 id='modals.upgradenow.gold_details'
-                defaultMessage='Connect your bank or card to your Wallet. Hold cash in your wallet. Earn crypto with Rewards.'
+                defaultMessage='Connect your bank or card to your Blockchain.com Account. Hold cash in your wallet. Earn crypto with Rewards.'
               />
               {` `}
               <span>

@@ -1,10 +1,9 @@
 import { BigNumber } from 'bignumber.js'
 import { getTime } from 'date-fns'
 import { flatten, last, length } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { all, call, delay, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
 
@@ -20,6 +19,32 @@ const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
+
+  // checks for existence of window.coins data and sets an is loaded flag on state
+  const pollForCoinData = function* () {
+    try {
+      let callCount = 0
+
+      // wait for coin data for upto 10 seconds before throwing error
+      while (true) {
+        callCount += 1
+        if (Object.keys(window.coins || {}).length) break
+        if (callCount > 100) throw new Error('load timeout exceeded')
+        yield delay(250)
+      }
+      yield put(A.setCoinDataLoaded())
+    } catch (e) {
+      const errorRoute = '#app-error?error=errorAssetsApi'
+      // manually route to error/maintenance page
+      if (window.history.replaceState) {
+        window.history.replaceState(null, '', errorRoute)
+      } else {
+        window.location.hash = errorRoute
+      }
+      // eslint-disable-next-line no-console
+      console.log(`Failed to fetch window.coins: ${e}`)
+    }
+  }
 
   const fetchCoinData = function* (action: ReturnType<typeof A.fetchData>) {
     const { list, password } = action.payload
@@ -132,16 +157,20 @@ export default ({ api }: { api: APIType }) => {
             ...val,
             amount: val.movements.find(({ type }) => type === 'SENT')?.amount,
             from: val.movements.find(({ type }) => type === 'SENT')?.address,
+            insertedAt: val.timestamp,
             to: val.movements.find(({ type }) => type === 'RECEIVED')?.address,
             type
           }
         })
         txList.push(history)
       }
-      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
+      const newPages = flatten([txPage, custodialPage.orders, txList])
+      const page = newPages.sort((a, b) => {
+        if (a.insertedAt === null) return -1
+        if (b.insertedAt === null) return 1
         return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
-      const atBounds = page.length < TX_PER_PAGE
+      const atBounds = page.length < TX_PER_PAGE * newPages.length
       yield put(A.transactionsAtBound(payload.coin, atBounds))
       yield put(A.fetchTransactionsSuccess(payload.coin, page, reset, true))
     } catch (e) {
@@ -161,6 +190,7 @@ export default ({ api }: { api: APIType }) => {
     fetchCoinData,
     fetchCoinsRates,
     fetchTransactions,
+    pollForCoinData,
     watchTransactions
   }
 }

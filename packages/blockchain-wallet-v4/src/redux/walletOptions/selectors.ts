@@ -55,10 +55,6 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
 
-// signup country feature flag
-export const getFeatureSignupCountry = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
-
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
@@ -117,17 +113,9 @@ export const getWalletDebitCardEnabled = (state: RootState) =>
 export const getTaxCenterEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
 
-// refresh captcha token if there's an error on signup
-export const getRefreshCaptchaOnSignupError = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
-
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
-
-// show/hide silver revamp
-export const getSilverRevamp = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'showSilverRevamp']))
 
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>

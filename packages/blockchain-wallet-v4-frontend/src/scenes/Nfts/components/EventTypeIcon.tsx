@@ -1,5 +1,7 @@
 import React from 'react'
-import { IconActivity, IconCart, IconCheckCircle, IconSend } from '@blockchain-com/icons'
+import { IconActivity, IconCart, IconCloseCircle, IconSell, IconSend } from '@blockchain-com/icons'
+
+import { opensea_event_types } from '.'
 
 const EventTypeIcon: React.FC<Props> = ({ event_type }) => {
   switch (event_type) {
@@ -7,17 +9,20 @@ const EventTypeIcon: React.FC<Props> = ({ event_type }) => {
       return <IconCart />
     case 'transfer':
       return <IconSend />
+    case 'bid_entered':
     case 'offer_entered':
       return <IconActivity />
     case 'created':
-      return <IconCheckCircle />
+      return <IconSell />
+    case 'bid_withdrawn':
+      return <IconCloseCircle />
     default:
       return null
   }
 }
 
 type Props = {
-  event_type: 'successful' | 'transfer' | 'offer_entered' | 'created'
+  event_type: keyof typeof opensea_event_types
 }
 
 export default EventTypeIcon

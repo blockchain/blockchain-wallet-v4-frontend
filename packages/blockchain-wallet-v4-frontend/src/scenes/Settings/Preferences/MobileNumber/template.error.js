@@ -18,22 +18,22 @@ const MobileNumber = (props) => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.settings.preferences.mobile.error.title'
-            defaultMessage='Mobile number'
+            id='scenes.settings.preferences.mobile.title'
+            defaultMessage='Mobile Number'
           />
           <Text>{message}</Text>
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.preferences.mobile.error.description1'
+            id='scenes.settings.preferences.mobile.description1'
             defaultMessage='Your mobile phone can be used to enable two-factor authentication,'
           />
           <FormattedMessage
-            id='scenes.settings.preferences.mobile.error.description2'
+            id='scenes.settings.preferences.mobile.description2'
             defaultMessage='helping to secure your wallet from unauthorized access,'
           />
           <FormattedMessage
-            id='scenes.settings.preferences.mobile.error.description3'
+            id='scenes.settings.preferences.mobile.description3'
             defaultMessage='and to send bitcoin payment alerts when you receive funds.'
           />
         </SettingDescription>

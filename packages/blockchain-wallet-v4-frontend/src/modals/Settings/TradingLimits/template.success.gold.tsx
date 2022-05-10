@@ -168,7 +168,7 @@ const Template: React.FC<Props> = (props) => {
         <Text color='grey900' size='12px' weight={500} style={{ marginTop: '8px' }}>
           <FormattedMessage
             id='modals.onboarding.upgrade_now.verified_account_description'
-            defaultMessage='With a Verified Account, you can now connect your bank or card to your Wallet. Hold cash in your Wallet. Earn crypto with Rewards.'
+            defaultMessage='With a Verified Account, you can now connect your bank or card to your Blockchain.com Account. Hold cash in your Wallet. Earn crypto with Rewards.'
           />
         </Text>
       </HeaderWrapper>

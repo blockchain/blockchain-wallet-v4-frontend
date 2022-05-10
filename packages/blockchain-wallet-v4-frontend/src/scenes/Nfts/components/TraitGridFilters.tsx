@@ -1,20 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle } from '@blockchain-com/icons'
+import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { AssetSortFields } from 'generated/graphql'
+import { AssetSortFields, OwnerQuery } from 'generated/graphql.types'
+import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
+import { media, useMedia } from 'services/styles'
 
 import { NftFilterFormValuesType } from '../NftFilter'
+import {
+  getCollectionFilter,
+  getEventFilter,
+  getMinMaxFilters,
+  getTraitFilters
+} from '../utils/NftUtils'
+import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
+import NftRefreshIcon from './NftRefreshIcon'
+
+const Wrapper = styled.div`
+  position: sticky;
+  top: ${FIXED_HEADER_HEIGHT}px;
+  background: ${(props) => props.theme.white};
+  padding-top: 8px;
+  padding-bottom: 8px;
+  z-index: 5;
+  ${media.tablet`
+    padding: 12px;
+  `}
+`
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
@@ -28,66 +51,188 @@ const ActiveTraitFilter = styled.div`
   padding: 12px 16px;
 `
 
+const ClearAll = styled(ActiveTraitFilter)`
+  cursor: pointer;
+  padding: 16px 32px;
+`
+
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
   display: ${(props) => (props.hasSomeFilters ? 'flex' : 'none')};
+  margin-top: ${(props) => (props.hasSomeFilters ? '8px' : '0')};
   flex-wrap: wrap;
-  position: sticky;
   gap: 6px;
-  top: 0px;
-  background: ${(props) => props.theme.white};
-  margin-top: -8px;
-  padding-top: ${(props) => (props.hasSomeFilters ? '8px' : '0px')};
-  padding-bottom: ${(props) => (props.hasSomeFilters ? '16px' : '0px')};
   z-index: 10;
+`
+
+const SortByWrapper = styled.div`
+  width: 300px;
+  z-index: 20;
+  ${media.tablet`
+  width: 200px;
+`}
 `
 
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
-  collectionFilter,
-  eventFilter,
+  collections,
   formActions,
   formValues,
-  hasSomeFilters,
-  minMaxFilters,
-  setActiveTab,
-  traitFilters
+  numOfResults,
+  routerActions,
+  setIsFilterTriggered,
+  setRefreshTrigger,
+  showSortBy,
+  tabs
 }) => {
+  const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
+  const isTablet = useMedia('tablet')
+  const route = window.location.hash.split('?')[0].substr(1)
+  const minMaxFilters = getMinMaxFilters(formValues)
+  const traitFilters = getTraitFilters(formValues)
+  const eventFilter = getEventFilter(formValues)
+  const collectionFilter = getCollectionFilter(formValues, collections)
+
+  const hasSomeFilters =
+    (formValues &&
+      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+    false
+
+  const clearAllFilters = () => {
+    if (formValues && hasSomeFilters) {
+      Object.keys(formValues).forEach((key) => {
+        formActions.change('nftFilter', key, undefined)
+      })
+      analyticsActions.trackEvent({
+        key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
+        properties: {}
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (isRefreshRotating) {
+      setTimeout(() => {
+        setIsRefreshRotating(false)
+      }, 500)
+    }
+  }, [isRefreshRotating])
+
   return (
-    <>
-      <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-        <TabMenu style={{ marginBottom: '12px', width: 'fit-content' }}>
-          <TabMenuItem selected={activeTab === 'ITEMS'} onClick={() => setActiveTab('ITEMS')}>
-            <FormattedMessage id='copy.items' defaultMessage='Items' />
-          </TabMenuItem>
-          <TabMenuItem selected={activeTab === 'EVENTS'} onClick={() => setActiveTab('EVENTS')}>
-            <FormattedMessage id='copy.activity' defaultMessage='Activity' />
-          </TabMenuItem>
-        </TabMenu>
-        {activeTab === 'ITEMS' ? (
-          <div style={{ height: '56px', width: '300px', zIndex: 20 }}>
-            <Field
-              name='sortBy'
-              component={SelectBox}
-              onChange={(e) => {
-                if (e.includes('price')) {
-                  formActions.change('nftFilter', 'forSale', true)
-                }
-              }}
-              // @ts-ignore
-              elements={[
-                {
-                  group: '',
-                  items: [
-                    { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                    { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                    { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
-                  ]
-                }
-              ]}
-            />
+    <Wrapper>
+      <div style={{ width: '100%' }}>
+        <Flex
+          alignItems={isTablet ? 'flex-start' : 'center'}
+          justifyContent='space-between'
+          flexDirection={isTablet ? 'column' : 'row'}
+        >
+          {tabs.length ? (
+            <TabMenu style={{ marginBottom: isTablet ? '16px' : '0px', width: 'fit-content' }}>
+              {tabs.map((tab) => (
+                <TabMenuItem
+                  key={tab}
+                  selected={activeTab === tab}
+                  onClick={() => routerActions.push(`${route}?tab=${tab}`)}
+                >
+                  {tab === 'ITEMS' ? (
+                    <FormattedMessage id='copy.items' defaultMessage='Items' />
+                  ) : tab === 'EVENTS' ? (
+                    <FormattedMessage id='copy.events' defaultMessage='Events' />
+                  ) : (
+                    <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                  )}
+                </TabMenuItem>
+              ))}
+            </TabMenu>
+          ) : null}
+
+          <div style={{ width: isTablet ? '100%' : 'auto' }}>
+            <Flex
+              justifyContent={isTablet ? 'space-between' : 'flex-start'}
+              alignItems='center'
+              gap={16}
+            >
+              <Flex gap={8} alignItems='center'>
+                {isTablet ? (
+                  <Button
+                    onClick={() => setIsFilterTriggered(true)}
+                    data-e2e='triggerFilter'
+                    nature='empty-blue'
+                    style={{
+                      borderRadius: '50%',
+                      height: '40px',
+                      minWidth: 'initial',
+                      padding: '12px',
+                      width: '40px'
+                    }}
+                  >
+                    <Icon label='filter' size='lg'>
+                      <IconFilter />
+                    </Icon>
+                  </Button>
+                ) : null}
+                <Button
+                  id='nft-refresh'
+                  height='100%'
+                  onClick={() => {
+                    if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
+                    setIsRefreshRotating(true)
+                  }}
+                  style={
+                    isTablet
+                      ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
+                      : {}
+                  }
+                  data-e2e='nftRefresh'
+                  nature='empty-blue'
+                >
+                  <Flex gap={12} alignItems='center'>
+                    {isTablet ? null : (
+                      <Flex flexDirection='column' alignItems='start' gap={4}>
+                        <Text size='12px' weight={600}>
+                          {numOfResults || '---'}{' '}
+                          <FormattedMessage id='copy.items' defaultMessage='Items' />
+                        </Text>
+                        <Text size='10px' color='grey400' weight={500}>
+                          <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                        </Text>
+                      </Flex>
+                    )}
+                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} />
+                  </Flex>
+                </Button>
+              </Flex>
+              {showSortBy ? (
+                <SortByWrapper>
+                  <Field
+                    name='sortBy'
+                    component={SelectBox}
+                    onChange={(e) => {
+                      if (e.includes('price')) {
+                        formActions.change('nftFilter', 'forSale', true)
+                        analyticsActions.trackEvent({
+                          key: Analytics.NFT_RECENTLY_LISTED_CLICKED,
+                          properties: {}
+                        })
+                      }
+                    }}
+                    // @ts-ignore
+                    elements={[
+                      {
+                        group: '',
+                        items: [
+                          { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
+                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
+                          { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                        ]
+                      }
+                    ]}
+                  />
+                </SortByWrapper>
+              ) : null}
+            </Flex>
           </div>
-        ) : null}
+        </Flex>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
         {collectionFilter ? (
@@ -128,11 +273,7 @@ const TraitGridFilters: React.FC<Props> = ({
             <ActiveTraitFilter>
               <Text size='14px' color='black' weight={500} capitalize>
                 Event:{' '}
-                <EventTypeName
-                  event_type={
-                    eventFilter as 'successful' | 'transfer' | 'offer_entered' | 'created'
-                  }
-                />
+                <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
               <div
                 style={{
@@ -153,7 +294,7 @@ const TraitGridFilters: React.FC<Props> = ({
             </ActiveTraitFilter>
           </div>
         ) : null}
-        {minMaxFilters
+        {minMaxFilters && formValues
           ? minMaxFilters.map((key) => {
               return (
                 <div key={key} style={{ height: '100%' }}>
@@ -190,7 +331,7 @@ const TraitGridFilters: React.FC<Props> = ({
               )
             })
           : null}
-        {traitFilters
+        {traitFilters && formValues
           ? traitFilters.map((trait) => {
               return Object.keys(formValues[trait])
                 .filter((val) => !!formValues[trait][val])
@@ -231,29 +372,37 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
+        <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
+          <Text size='14px' weight={500} color={colors.blue600}>
+            Clear All
+          </Text>
+        </ClearAll>
         {/* analyticsActions.trackEvent({
                   key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
                   properties: {}
                   }) */}
       </TraitGrid>
-    </>
+    </Wrapper>
   )
 }
+
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
-  activeTab: 'ITEMS' | 'EVENTS'
-  collectionFilter?: string | null
-  eventFilter?: string | null
+  activeTab?: 'ITEMS' | 'EVENTS' | 'EXPLORE'
+  collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
-  hasSomeFilters: boolean
-  minMaxFilters: string[] | null
+  numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
-  traitFilters: string[] | null
+  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
+  setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
+  showSortBy?: boolean
+  tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

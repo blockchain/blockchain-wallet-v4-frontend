@@ -22,7 +22,7 @@ import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
-import { DeepLinkGoal, GoalType } from './types'
+import { DeepLinkGoal, GeneralRedirectType, GoalType, UnifiedAccountRedirectType } from './types'
 
 const origin = 'Goals'
 
@@ -339,13 +339,13 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
     switch (settingsChange) {
       case 'password':
-        yield put(actions.goals.addInitialRedirect('changePassword'))
+        yield put(actions.goals.addInitialRedirect(UnifiedAccountRedirectType.CHANGE_PASSWORD))
         break
       case 'email':
-        yield put(actions.goals.addInitialRedirect('changeEmail'))
+        yield put(actions.goals.addInitialRedirect(UnifiedAccountRedirectType.CHANGE_EMAIL))
         break
       case '2fa':
-        yield put(actions.goals.addInitialRedirect('change2fa'))
+        yield put(actions.goals.addInitialRedirect(UnifiedAccountRedirectType.CHANGE_2FA))
         break
       default:
     }
@@ -753,7 +753,7 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialRedirect('interest'))
+    yield put(actions.goals.addInitialRedirect(GeneralRedirectType.REWARDS))
   }
   const runInterestPromo = function* (goal: GoalType) {
     // do not show modal immediately, wait 5 seconds
@@ -798,13 +798,16 @@ export default ({ api, coreSagas, networks }) => {
   const runInitialRedirect = function* () {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
-    if (initialRedirect === 'interest') {
+    if (initialRedirect === GeneralRedirectType.REWARDS) {
       return yield put(actions.router.push(`/rewards`))
     }
-    if (initialRedirect === 'changeEmail' || initialRedirect === 'change2fa') {
+    if (
+      initialRedirect === UnifiedAccountRedirectType.CHANGE_EMAIL ||
+      initialRedirect === UnifiedAccountRedirectType.CHANGE_2FA
+    ) {
       return yield put(actions.router.push(`/security-center/basic`))
     }
-    if (initialRedirect === 'changePassword') {
+    if (initialRedirect === UnifiedAccountRedirectType.CHANGE_PASSWORD) {
       return yield put(actions.router.push(`/security-center/advanced`))
     }
   }
@@ -918,11 +921,7 @@ export default ({ api, coreSagas, networks }) => {
       current: 0
     }) || { current: 0 }
 
-    const showKycUpgradeRequiredNotice = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
-    if (current < 2 && showKycUpgradeRequiredNotice) {
+    if (current < 2) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

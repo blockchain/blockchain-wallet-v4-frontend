@@ -56,7 +56,7 @@ const PromptTemplate = ({
               disabled={submitting || invalid || pristine}
               data-e2e='inputModalSubmitButton'
             >
-              <FormattedMessage id='modals.prompt.button' defaultMessage='Submit' />
+              <FormattedMessage id='buttons.submit' defaultMessage='Submit' />
             </Button>
           </ModalFooter>
         </Wrapper>

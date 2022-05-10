@@ -182,6 +182,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Currency has been successfully updated'
         />
       )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_error'
+          defaultMessage='Failed to change Card Lock'
+        />
+      )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_success'
+          defaultMessage='Card Lock changed successfully'
+        />
+      )
     case C.DOCUMENT_UPLOAD_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -364,7 +378,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='components.alerts.iprestriction_login_error'
-                defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
+                defaultMessage='This account is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
               />
             </Text>
             <Text>

@@ -7,6 +7,7 @@ export default () => {
   const miscSagas = sagas()
 
   return function* authSaga() {
+    yield takeLatest(actions.generateCaptchaToken.type, miscSagas.generateCaptchaToken)
     yield takeLatest(actions.pingManifestFile.type, miscSagas.pingManifestFile)
   }
 }

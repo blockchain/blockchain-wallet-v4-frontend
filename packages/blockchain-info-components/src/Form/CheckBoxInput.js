@@ -55,7 +55,7 @@ const Label = styled.label`
     content: '\\e910';
     font-family: 'icomoon', sans-serif;
     position: absolute;
-    color: ${(props) => props.theme.white};
+    color: ${(props) => props.theme.alwaysWhite};
     font-weight: 600;
     font-size: 8px;
     left: 2px;

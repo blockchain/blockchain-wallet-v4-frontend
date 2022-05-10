@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
-import { Contract, ethers } from 'ethers'
 import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
+import { Contract, ethers } from 'ethers'
 import {
   addIndex,
   equals,
@@ -284,7 +284,6 @@ export default ({ api }: { api: APIType }) => {
         api.getAccountTokensBalances,
         ethAddr
       )
-      const tokenAddress = window.coins.WETH.coinfig.type.erc20Address || ''
       yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
@@ -311,7 +310,8 @@ export default ({ api }: { api: APIType }) => {
       )
 
       // For rinkeby testing
-      if (tokenAddress.toLowerCase() === WETH_CONTRACT_RINKEBY) {
+      const wethAddr = window.coins.WETH.coinfig.type.erc20Address || ''
+      if (wethAddr.toLowerCase() === WETH_CONTRACT_RINKEBY) {
         const abi = [
           {
             constant: true,
@@ -332,15 +332,10 @@ export default ({ api }: { api: APIType }) => {
             type: 'function'
           }
         ]
-        const contract = new Contract(tokenAddress, abi, api.ethProvider)
+        const contract = new Contract(wethAddr, abi, api.ethProvider)
         const balance = yield call(contract.balanceOf, ethAddr)
         const balanceString = balance.toString()
-        const wethTokenData = constructDefaultErc20Data(
-          ethAddr,
-          tokenAddress,
-          'WETH',
-          balanceString
-        )
+        const wethTokenData = constructDefaultErc20Data(ethAddr, wethAddr, 'WETH', balanceString)
         yield put(A.fetchErc20DataSuccess('WETH', wethTokenData))
 
         yield put(A.fetchErc20AccountTokenBalancesSuccess([...data.tokenAccounts, wethTokenData]))

@@ -1,11 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import { has } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
@@ -20,6 +19,9 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+const Wrapper = styled(SettingWrapper)`
+  width: 400px;
+`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -48,7 +50,7 @@ const Settings = (props) => {
   } = props
 
   return (
-    <SettingWrapper>
+    <Wrapper>
       {!updateToggled && (
         <Button nature='primary' onClick={handleToggle} data-e2e='changeCurrentPassword'>
           <FormattedMessage
@@ -89,6 +91,14 @@ const Settings = (props) => {
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 data-e2e='newPasswordInput'
               />
+              <div>
+                <Text size='12px' weight={400} style={{ marginTop: '-8px' }}>
+                  <FormattedMessage
+                    id='scenes.register.passwordstrengthwarn'
+                    defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+                  />
+                </Text>
+              </div>
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel htmlFor='walletPasswordConfirmation'>
@@ -130,7 +140,7 @@ const Settings = (props) => {
           </ButtonWrapper>
         </Form>
       )}
-    </SettingWrapper>
+    </Wrapper>
   )
 }
 

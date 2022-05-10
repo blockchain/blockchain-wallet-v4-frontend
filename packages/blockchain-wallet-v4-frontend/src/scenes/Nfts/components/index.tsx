@@ -1,14 +1,22 @@
+import { IconRefresh } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const LOADING_ITEMS_COUNT = 8
+export const LOADING_ITEMS_COUNT = 6
 
 export const maxWidth = '1200px'
 
-export const event_types = ['successful', 'transfer', 'offer_entered', 'created']
+export const opensea_event_types = [
+  'successful',
+  'transfer',
+  'offer_entered',
+  'bid_entered',
+  'bid_withdrawn',
+  'created'
+]
 
 export const NftPage = styled.div`
   width: 100%;
@@ -32,13 +40,13 @@ export const LeftColWrapper = styled.div`
   overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   top: 72px;
   margin-right: 20px;
   max-width: 320px;
   width: 25%;
 `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -69,8 +77,12 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding-top: 0px;
   align-items: flex-start;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  ${media.tablet`
+    padding: 0px;
+  `}
 `
 
 export const Grid = styled.div`
@@ -89,6 +101,13 @@ export const Grid = styled.div`
   ${media.atLeastLaptopL`
     grid-template-columns: repeat(4, minmax(0, 1fr));
   `}
+  ${media.atLeastDesktop`
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  `}
+  ${media.tablet`
+    padding: 12px;
+    box-sizing: border-box;
+  `}
 `
 
 export const CTAWrapper = styled.div`
@@ -97,15 +116,12 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
+  padding: 16px;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -124,7 +140,8 @@ export const AssetImageContainer = styled.div<{
   justify-content: center;
   max-height: 100%;
   max-width: 100%;
-  height: 285px;
+  height: 216px;
+  margin-top: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
@@ -135,7 +152,7 @@ export const AssetImageContainer = styled.div<{
   background-color: ${(props) => props.backgroundColor};
 `
 export const AssetDetails = styled.div`
-  padding: 12px 8px;
+  padding: 12px 8px 0px 8px;
   flex: 1;
   height: 100%;
   display: flex;
@@ -152,6 +169,7 @@ export const AssetCollection = styled.div`
 export const PriceCTA = styled.div`
   margin-top: 16px;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 `
@@ -160,28 +178,22 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 `
 
 // collection
-export const Collection = styled.div<{ onClick: () => void }>`
-  cursor: pointer;
-  border-radius: 8px;
-  overflow: hidden;
+export const CollectionHeader = styled.div<{ bgUrl?: string }>`
+  height: 300px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  background-size: cover;
+  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
-  padding: 24px;
-  border: ${(props) => `1px solid ${props.theme.grey100}`};
-  ${media.tabletL`
-    padding: 12px;
+  ${media.tablet`
+    flex-direction: column;
   `}
 `
 
-export const CollectionBanner = styled.div<{ background?: string; large?: boolean }>`
-  height: ${(props) => (props.large ? '180px' : '74px')};
-  overflow: hidden;
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  border-radius: 8px;
-  background-image: ${(props) => props.background};
+export const CollectionImageSmall = styled.img`
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
 `
 
 export const CollectionImage = styled.img`
@@ -191,7 +203,7 @@ export const CollectionImage = styled.img`
   width: 62px;
   top: 60px;
   left: calc(50% - 31px);
-  ${media.tabletL`
+  ${media.tablet`
     height: 40px;
     width: 40px;
     top: 60px;
@@ -206,6 +218,7 @@ export const Centered = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+  margin-top: 8px;
 `
 
 export const NftBannerWrapper = styled.div`
@@ -216,6 +229,9 @@ export const NftBannerWrapper = styled.div`
   bottom: 0;
   width: 100%;
   padding: 24px 40px;
+  ${media.tablet`
+    padding: 12px;
+  `}
 `
 
 export const StatsWrapper = styled.div`
@@ -231,7 +247,7 @@ export const Stat = styled.div`
   border-radius: 8px;
   gap: 16px;
   background: rgba(255, 255, 255, 0.08);
-  ${media.tabletL`
+  ${media.tablet`
     padding: 10px;
     > div {
       font-size: 12px;

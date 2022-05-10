@@ -52,7 +52,7 @@ const IdvIntro: React.FC<Props> = (props) => {
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
                 id='copy.swap_confirm'
-                defaultMessage='Confirm your email address to protect your Blockchain.com Wallet.'
+                defaultMessage='Confirm your email address to protect your Blockchain.com Account.'
               />
             </Text>
           </div>

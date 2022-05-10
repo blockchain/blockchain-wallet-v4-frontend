@@ -5,10 +5,13 @@ import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
 import { CardStateType } from 'data/components/debitCard/types'
+import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+
   const getCardToken = function* (cardId) {
     try {
       const data = yield call(api.getDCToken, cardId)
@@ -38,6 +41,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getProducts = function* () {
+    yield call(waitForUserData)
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
     )).getOrElse(false)
@@ -80,6 +84,7 @@ export default ({ api }: { api: APIType }) => {
       const lockAction = newLockState ? 'lock' : 'unlock'
 
       yield call(api.handleDCLock, id, lockAction)
+      yield call(getCards)
       yield put(A.handleCardLockSuccess(newLockState))
     } catch (e) {
       yield put(A.handleCardLockFailure(e))

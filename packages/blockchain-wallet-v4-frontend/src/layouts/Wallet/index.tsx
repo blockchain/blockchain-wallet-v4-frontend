@@ -5,46 +5,49 @@ import { Redirect, Route } from 'react-router-dom'
 import { selectors } from 'data'
 
 import WalletLayout from './template'
+import Loading from './template.loading'
 
-const PAGE_TITLE = 'Blockchain.com Wallet'
+const WalletLayoutContainer = ({
+  coinViewV2,
+  component: Component,
+  computedMatch,
+  isAuthenticated,
+  isCoinDataLoaded,
+  path,
+  ...rest
+}: Props) => {
+  let isValidRoute = true
+  let coin
 
-class WalletLayoutContainer extends React.PureComponent<Props> {
-  render() {
-    const {
-      coinViewV2,
-      component: Component,
-      computedMatch,
-      isAuthenticated,
-      path,
-      ...rest
-    } = this.props
+  document.title = 'Blockchain.com Wallet'
 
-    let isValid = true
-    let coin
-    if (path.includes('/transactions')) {
-      coin = computedMatch.params.coin
-      if (!window.coins[coin]) isValid = false
-    }
-
-    document.title = PAGE_TITLE
-
-    return isAuthenticated && isValid ? (
-      <Route
-        path={path}
-        render={(props) => (
-          <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
-            <Component computedMatch={computedMatch} {...rest} coin={coin} />
-          </WalletLayout>
-        )}
-      />
-    ) : (
-      <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-    )
+  if (path.includes('/transactions')) {
+    coin = computedMatch.params.coin
+    if (!window.coins[coin]) isValidRoute = false
   }
+
+  // IMPORTANT: do not allow routes to load until window.coins is loaded
+  if (!isCoinDataLoaded) return <Loading />
+
+  return !isAuthenticated ? (
+    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  ) : isValidRoute ? (
+    <Route
+      path={path}
+      render={(props) => (
+        <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
+          <Component computedMatch={computedMatch} {...rest} coin={coin} />
+        </WalletLayout>
+      )}
+    />
+  ) : (
+    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  )
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
 const connector = connect(mapStateToProps)

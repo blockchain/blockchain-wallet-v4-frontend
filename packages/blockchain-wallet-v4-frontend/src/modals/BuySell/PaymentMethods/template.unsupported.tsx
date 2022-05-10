@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { capitalizeFirstLetter } from 'services/forms'
 
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 
@@ -63,8 +64,11 @@ const Unsupported: React.FC<Props> = (props) => {
         />
         <Title color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id='modals.simplebuy.unsupported-title'
-            defaultMessage='Buy Crypto Coming Soon for'
+            id='modals.simplebuy.unsupported-title-order'
+            defaultMessage='{order} Crypto Coming Soon for'
+            values={{
+              order: capitalizeFirstLetter(props.orderType)
+            }}
           />{' '}
           {paymentAccountEligible ? (
             props.fiatCurrency

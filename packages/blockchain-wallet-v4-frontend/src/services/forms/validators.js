@@ -63,9 +63,25 @@ export const validIpList = (ipList) => {
   return !ipList || all(isIpValid)(ipList.split(',')) ? undefined : <M.InvalidIpListMessage />
 }
 
-// TODO: what are new password requirements?
+export const stringContainsLowercaseLetter = (value) =>
+  value && new RegExp('(?=.*[a-z])').test(value)
+export const stringContainsUppercaseLetter = (value) =>
+  value && new RegExp('(?=.*[A-Z])').test(value)
+export const stringContainsNumber = (value) => value && new RegExp('(?=.*[0-9])').test(value)
+export const stringLengthBetween = (value, min, max) =>
+  value && value.length >= min && value.length <= max
+export const stringContainsSpecialChar = (value) =>
+  value && new RegExp('(?=.*[+!@#$%^&*_(){}|"\':;<>,.~`])').test(value)
+
 export const validStrongPassword = (value) => {
-  return value !== undefined && value.length > 8 ? undefined : <M.InvalidStrongPassword />
+  return value !== undefined &&
+    stringContainsLowercaseLetter(value) &&
+    stringContainsUppercaseLetter(value) &&
+    stringContainsNumber(value) &&
+    stringLengthBetween(value, 12, 64) &&
+    stringContainsSpecialChar(value) ? undefined : (
+    <M.InvalidStrongPassword />
+  )
 }
 
 export const validPasswordConfirmation = (passwordFieldName) => (value, allValues) =>
