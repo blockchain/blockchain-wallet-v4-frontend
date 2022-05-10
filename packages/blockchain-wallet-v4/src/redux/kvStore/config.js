@@ -10,6 +10,7 @@ export const WHATSNEW = 'whatsNew' // Deprecated
 export const UNIFIED_CREDENTIALS = 'unifiedCredentials'
 export const USER_CREDENTIALS = 'userCredentials' // Deprecated
 export const XLM = 'xlm'
+export const WALLET_CONNECT = 'walletConnect'
 export const WALLET_CREDENTIALS = 'walletCredentials'
 
 /* eslint-disable sort-keys, sort-keys-fix/sort-keys-fix */
@@ -25,5 +26,6 @@ export const derivationMap = {
   [USER_CREDENTIALS]: 10, // Deprecated
   [XLM]: 11,
   [WALLET_CREDENTIALS]: 12,
-  [UNIFIED_CREDENTIALS]: 13
+  [WALLET_CONNECT]: 13, // TODO: add support for entry
+  [UNIFIED_CREDENTIALS]: 14
 }
