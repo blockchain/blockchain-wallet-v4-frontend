@@ -921,11 +921,7 @@ export default ({ api, coreSagas, networks }) => {
       current: 0
     }) || { current: 0 }
 
-    const showKycUpgradeRequiredNotice = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
-    if (current < 2 && showKycUpgradeRequiredNotice) {
+    if (current < 2) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

@@ -49,7 +49,6 @@
         "showTermsAndConditions": true,
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
-        "showSilverRevamp": true,
         "taxCenter": true,
         "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
