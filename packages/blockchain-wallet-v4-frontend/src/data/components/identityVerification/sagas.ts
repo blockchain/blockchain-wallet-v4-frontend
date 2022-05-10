@@ -406,11 +406,7 @@ export default ({ api, coreSagas, networks }) => {
         state: userState
       }
 
-      const showSilverRevamp = selectors.core.walletOptions
-        .getSilverRevamp(yield select())
-        .getOrElse(null)
-
-      if (showExtraKycSteps && showSilverRevamp && !payload.skipExtraFields) {
+      if (showExtraKycSteps && !payload.skipExtraFields) {
         yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
         yield put(
           actions.modals.showModal(ModalName.KYC_EXTRA_FIELDS_MODAL, {

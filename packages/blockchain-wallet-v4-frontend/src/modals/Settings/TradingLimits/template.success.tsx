@@ -352,11 +352,11 @@ const Template: React.FC<Props> = (props) => {
     currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
 
   // show silver/silver+ settings
-  if ((isUserTierSilver || isUserTierZero) && props.showSilverRevamp) {
+  if (isUserTierSilver || isUserTierZero) {
     return <Silver {...props} />
   }
   // show gold settings
-  if (isUserGold && props.showSilverRevamp) {
+  if (isUserGold) {
     return <Gold {...props} />
   }
 

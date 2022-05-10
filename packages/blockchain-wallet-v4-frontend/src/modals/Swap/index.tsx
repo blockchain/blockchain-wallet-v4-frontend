@@ -65,7 +65,6 @@ class Swap extends PureComponent<Props, State> {
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => {
-        const showSilverRevamp = val.silverRevamp && val.products?.swap?.maxOrdersLeft > 0
         return (
           <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
             {this.props.step === 'INIT_SWAP' && (
@@ -107,9 +106,7 @@ class Swap extends PureComponent<Props, State> {
               <FlyoutChild>
                 <SuccessfulSwap
                   {...this.props}
-                  handleClose={
-                    showSilverRevamp ? this.handleCloseOrPromoteUpgrade : this.handleClose
-                  }
+                  handleClose={this.handleCloseOrPromoteUpgrade}
                   {...val}
                 />
               </FlyoutChild>
