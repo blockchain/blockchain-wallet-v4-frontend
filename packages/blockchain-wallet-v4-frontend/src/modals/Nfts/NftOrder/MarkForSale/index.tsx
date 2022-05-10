@@ -24,7 +24,7 @@ import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
-import { AssetDesc, StickyCTA } from '../../components'
+import { StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
