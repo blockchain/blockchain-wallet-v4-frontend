@@ -244,7 +244,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <ExplainerText>{getIntroductionText(coin)}</ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown coin={coin} />
+              <WalletBalanceDropdown key={coin} coin={coin} />
               {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
