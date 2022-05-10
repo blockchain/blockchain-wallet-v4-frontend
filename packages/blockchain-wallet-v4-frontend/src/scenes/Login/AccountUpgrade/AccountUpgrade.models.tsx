@@ -36,6 +36,14 @@ export const CenteredDescription = styled(Text)`
   margin: 1.5rem;
 `
 
+export const CenteredContent = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 1.5rem;
+`
+
 export const Items = styled.div`
   margin-top: 0;
 `
@@ -144,19 +152,13 @@ export const ButtonIcon = styled(Icon)`
   margin-right: 1rem;
 `
 
-export const QrWrapper = styled.div`
-  width: 200px;
-  height: 200px;
-  border: 1px solid ${(props) => props.theme.grey100};
-  border-radius: 0.5rem;
-  margin-top: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const ClipboardWrapper = styled.div`
+  margin-bottom: 1.5rem;
+  max-width: 90%;
 `
 
-export const ClipboardWrapper = styled.div`
-  max-width: 90%;
+export const StyledQRWrapper = styled.div`
+  margin-bottom: 1.5rem;
 `
 
 export const BadgesWrapper = styled.div`
@@ -164,9 +166,7 @@ export const BadgesWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 
-  margin-top: 1.5rem;
-
-  img:not(:last-child) {
+  a:not(:last-child) {
     margin-right: 1rem;
   }
 `

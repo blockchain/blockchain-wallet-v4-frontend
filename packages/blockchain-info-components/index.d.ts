@@ -309,7 +309,7 @@ export const TextInput: FunctionComponent<{
   maxLength?: string
   minHeight?: string
   name: string
-  onChange?: () => void
+  onChange?: (unknown) => void
   placeholder?: string
   type: string
   value?: any

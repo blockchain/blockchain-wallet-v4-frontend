@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Text } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 
@@ -10,48 +10,39 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { UpgradeSteps } from 'data/auth/types'
 
-import {
-  ButtonNext,
-  CenteredMsgWrapper,
-  CenteredTitle,
-  HeadingIcon,
-  StyledTemporaryButton,
-  TextToRightWrapper
-} from '../AccountUpgrade.models'
+import ScreenHeader from '../../components/ScreenHeader'
+import { ButtonNext, StyledTemporaryButton } from '../AccountUpgrade.models'
 
 const ErrorWalletCreation = (props) => {
+  const steps = {
+    actualStep: 3,
+    totalSteps: 3
+  }
+
   return (
     <>
       <Wrapper>
-        <TextToRightWrapper>
-          <Text color='blue600' variant='micro'>
-            <FormattedMessage
-              id='scenes.login.upgrade.unable_retry.steps'
-              defaultMessage='Steps {actualStep} of {totalSteps}'
-              values={{
-                actualStep: 3,
-                totalSteps: 3
-              }}
-            />
-          </Text>
-        </TextToRightWrapper>
-        <CenteredTitle color='black' variant='title-3'>
-          <HeadingIcon>
+        <ScreenHeader
+          icon={
             <Icon label='close-circle' color='red600' size='lg'>
               <IconCloseCircle />
             </Icon>
-          </HeadingIcon>
-          <FormattedMessage
-            id='scenes.login.upgrade.unable_retry.header'
-            defaultMessage='Something Didn´t Work'
-          />
-          <CenteredMsgWrapper color='grey900' variant='body-1'>
+          }
+          steps={steps}
+          title={
+            <FormattedMessage
+              id='scenes.login.upgrade.unable_retry.header'
+              defaultMessage='Something Didn´t Work'
+            />
+          }
+          description={
             <FormattedMessage
               id='scenes.login.upgrade.unable_retry.text'
               defaultMessage='Don’t worry, you can still login with original credentials. You can retry the upgrade the next time you login.'
             />
-          </CenteredMsgWrapper>
-        </CenteredTitle>
+          }
+        />
+
         <ButtonNext
           nature='primary'
           data-e2e='nextButton'

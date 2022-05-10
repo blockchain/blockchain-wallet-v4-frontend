@@ -24,6 +24,11 @@ import {
 } from '../AccountUpgrade.models'
 
 const UpgradeOverview = (props) => {
+  const handleNext = () => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.CREATE_WALLET)
+
+  const handlePrev = () =>
+    props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP)
+
   return (
     <>
       <Wrapper>
@@ -125,21 +130,15 @@ const UpgradeOverview = (props) => {
           data-e2e='nextButton'
           fullwidth
           height='48px'
-          onClick={() => {}}
+          onClick={handleNext}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </ButtonNext>
       </Wrapper>
-      <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP)}
-        type='button'
-      >
+      <StyledTemporaryButton onClick={handlePrev} type='button'>
         Prev Step
       </StyledTemporaryButton>
-      <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.CREATE_WALLET)}
-        type='button'
-      >
+      <StyledTemporaryButton onClick={handleNext} type='button'>
         Next Step
       </StyledTemporaryButton>
     </>

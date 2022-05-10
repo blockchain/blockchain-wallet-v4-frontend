@@ -10,10 +10,10 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { UpgradeSteps } from 'data/auth/types'
 
+import ScreenHeader from '../../components/ScreenHeader'
 import {
   ButtonLater,
   ButtonNext,
-  CenteredTitle,
   GreenLabel,
   Item,
   Items,
@@ -22,17 +22,24 @@ import {
   TierTitle
 } from '../AccountUpgrade.models'
 
-const UpgradeOrSkip = (props) => {
+const UpgradeOrSkip: React.FC<{ formActions: { change: Function } }> = (props) => {
   const { formatMessage } = useIntl()
+
+  const handleNext = () => {
+    props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)
+  }
+
   return (
     <>
       <Wrapper>
-        <CenteredTitle color='black' variant='title-3'>
-          <FormattedMessage
-            id='scenes.login.upgrade.upsell.header'
-            defaultMessage='Upgrade to a Unified Account'
-          />
-        </CenteredTitle>
+        <ScreenHeader
+          title={
+            <FormattedMessage
+              id='scenes.login.upgrade.upsell.header'
+              defaultMessage='Upgrade to a Unified Account'
+            />
+          }
+        />
         <Items>
           <Item>
             <Icon
@@ -152,9 +159,7 @@ const UpgradeOrSkip = (props) => {
           data-e2e='nextButton'
           fullwidth
           height='48px'
-          onClick={() =>
-            props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)
-          }
+          onClick={handleNext}
         >
           <FormattedMessage
             id='scenes.login.upgrade.upsell.button_1'
@@ -174,11 +179,7 @@ const UpgradeOrSkip = (props) => {
           />
         </ButtonLater>
       </Wrapper>
-      <StyledTemporaryButton
-        style={{ margin: '20px 0 0' }}
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)}
-        type='button'
-      >
+      <StyledTemporaryButton style={{ margin: '20px 0 0' }} onClick={handleNext} type='button'>
         Next Step
       </StyledTemporaryButton>
     </>
