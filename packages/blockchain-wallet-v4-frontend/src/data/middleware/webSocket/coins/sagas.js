@@ -321,12 +321,19 @@ export default ({ api, socket }) => {
                 })
               )
               const product = yield select(selectors.auth.getProduct)
+              const magicLinkData = yield select(selectors.auth.getMagicLinkData)
               yield put(
                 actions.analytics.trackEvent({
                   key: Analytics.LOGIN_SIGNED_IN,
                   properties: {
                     authentication_type: 'SECURE_CHANNEL',
-                    site_redirect: product
+                    has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+                    is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+                    mergeable: magicLinkData.mergeable,
+                    nabu_id: magicLinkData.wallet?.nabu?.user_id,
+                    site_redirect: product,
+                    unified: magicLinkData.upgradeable,
+                    upgradeable: magicLinkData.upgradeable
                   }
                 })
               )

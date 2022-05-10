@@ -84,7 +84,6 @@ const InstitutionalPortal = (props: Props) => {
             <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='copy.email' defaultMessage='Email' />
             </LoginFormLabel>
-
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
@@ -92,7 +91,7 @@ const InstitutionalPortal = (props: Props) => {
               name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
-              placeholder='Enter your email'
+              placeholder='Enter Email'
               autoFocus
             />
           </FormItem>
@@ -104,7 +103,7 @@ const InstitutionalPortal = (props: Props) => {
               component={PasswordBox}
               data-e2e='exchangePassword'
               name='exchangePassword'
-              placeholder='Enter your password'
+              placeholder='Enter Password'
               validate={[required]}
             />
             {passwordError && (

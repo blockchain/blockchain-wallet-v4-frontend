@@ -97,7 +97,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: false
           }
         })
       )
@@ -106,7 +107,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: false
           }
         })
       )
@@ -164,7 +166,13 @@ export default ({ api, coreSagas, networks }) => {
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
-            site_redirect: product
+            has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+            is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+            mergeable: magicLinkData.mergeable,
+            nabu_id: magicLinkData.wallet?.nabu?.user_id,
+            site_redirect: product,
+            unified: false,
+            upgradeable: magicLinkData.upgradeable
           }
         })
       )
@@ -179,7 +187,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
             properties: {
-              site_redirect: product
+              site_redirect: product,
+              unified: false
             }
           })
         )
@@ -189,7 +198,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.LOGIN_PASSWORD_DENIED,
             properties: {
-              site_redirect: product
+              site_redirect: product,
+              unified: false
             }
           })
         )
@@ -358,7 +368,7 @@ export default ({ api, coreSagas, networks }) => {
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+    const { exchangeEmail, unifiedAccount } = yield select(selectors.cache.getCache)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
@@ -377,7 +387,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: unifiedAccount
           }
         })
       )
@@ -386,7 +397,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: unifiedAccount
           }
         })
       )
@@ -421,6 +433,8 @@ export default ({ api, coreSagas, networks }) => {
       })
       // Check which unification flow we're running
       // to determine what we want to do after authing user
+      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
+
       switch (true) {
         // case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
         //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
@@ -444,12 +458,19 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
-            site_redirect: product
+            has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+            is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+            mergeable: magicLinkData.mergeable,
+            nabu_id: magicLinkData.wallet?.nabu?.user_id,
+            site_redirect: product,
+            unified: unifiedAccount,
+            upgradeable: magicLinkData.upgradeable
           }
         })
       )
@@ -525,7 +546,8 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_PASSWORD_DENIED,
               properties: {
-                site_redirect: product
+                site_redirect: product,
+                unified: unifiedAccount
               }
             })
           )
@@ -556,7 +578,8 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
               properties: {
-                site_redirect: product
+                site_redirect: product,
+                unified: unifiedAccount
               }
             })
           )
@@ -788,7 +811,8 @@ export default ({ api, coreSagas, networks }) => {
             key: Analytics.LOGIN_IDENTIFIER_ENTERED,
             properties: {
               identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
-              site_redirect: product
+              site_redirect: product,
+              unified
             }
           })
         )
