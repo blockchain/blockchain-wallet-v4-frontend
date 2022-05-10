@@ -53,7 +53,7 @@ const NftFirehoseResults: React.FC<Props> = ({
     requestPolicy: 'network-only',
     variables: {
       filter,
-      forSale: formValues?.forSale,
+      forSale: Boolean(formValues?.forSale),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
       sort: { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
