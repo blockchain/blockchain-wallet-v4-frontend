@@ -4,7 +4,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
@@ -73,6 +73,13 @@ const NftOrderStatus: React.FC<Props> = (props) => {
 
   return (
     <div style={{ height: '100%' }}>
+      <Icon
+        onClick={() => props.close()}
+        name='arrow-left'
+        cursor
+        role='button'
+        style={{ left: '40px', position: 'absolute', top: '40px' }}
+      />
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
         <Wrapper>
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />

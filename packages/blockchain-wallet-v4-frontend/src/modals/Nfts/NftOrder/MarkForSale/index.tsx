@@ -25,6 +25,7 @@ import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
 import { AssetDesc, StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
@@ -138,37 +139,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 Sell Item
               </FlyoutHeader>
             </StickyHeaderWrapper>
-            <AssetDesc>
-              <img
-                style={{
-                  borderRadius: '8px',
-                  height: '64px',
-                  marginRight: '12px',
-                  width: 'auto'
-                }}
-                alt='nft-asset'
-                src={val.image_url.replace(/=s\d*/, '')}
-              />
-              <div>
-                <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-                  {val?.name}
-                </Text>
-                <Text
-                  size='14px'
-                  weight={600}
-                  color='orange600'
-                  style={{
-                    background: colors.orange100,
-                    borderRadius: '8px',
-                    padding: '5px 8px',
-                    textAlign: 'center',
-                    width: 'fit-content'
-                  }}
-                >
-                  Not Verified
-                </Text>
-              </div>
-            </AssetDesc>
+            <NftAssetHeaderRow asset={val} />
             <div
               style={{
                 display: 'flex',
@@ -457,9 +428,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                   />
                 </Value>
               </Row>
-              <Row>
-                <MarkForSaleFees {...props} asset={val} />
-              </Row>
               <Row style={{ border: 'unset' }}>
                 {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
@@ -503,6 +471,8 @@ const MarkForSale: React.FC<Props> = (props) => {
               </Row>
             </div>
             <StickyCTA>
+              <MarkForSaleFees {...props} asset={val} />
+              <br />
               {props.orderFlow.fees.cata({
                 Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
