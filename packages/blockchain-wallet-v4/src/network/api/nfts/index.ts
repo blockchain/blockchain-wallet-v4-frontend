@@ -3,7 +3,7 @@ import { ExplorerGatewaySearchType, NftAsset, NftOrder, OpenSeaStatus } from './
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
-  // const nftUrl = 'http://localhost:8081/nft' // local testnet only
+  // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
@@ -38,7 +38,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const postNftOrder = (order: NftOrder, asset_collection_slug: string, guid: string) => {
     return post({
       contentType: 'application/json',
-      data: { asset_collection_slug, guid, order },
+      data: { asset_collection_slug, guid, orderJson: order },
       endPoint: `/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
