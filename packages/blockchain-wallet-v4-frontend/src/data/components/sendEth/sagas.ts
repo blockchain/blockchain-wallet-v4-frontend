@@ -115,8 +115,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           let source
           switch (fromPayload.type) {
             case 'ACCOUNT':
-              source = fromPayload.address
-              payment = yield payment.from(source, fromPayload.type)
+              yield put(A.initialized(coin))
               break
             case 'CUSTODIAL':
               const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
