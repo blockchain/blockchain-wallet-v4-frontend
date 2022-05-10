@@ -1,5 +1,5 @@
 import { contains, prop, sum, toLower } from 'ramda'
-import { call, put, select } from 'redux-saga/effects'
+import { all, call, put, select } from 'redux-saga/effects'
 
 import * as pairing from '../../pairing'
 import * as selectors from '../selectors'
@@ -114,7 +114,10 @@ export default ({ api }) => {
   const setLanguage = function* ({ language }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateLanguage, guid, sharedKey, language)
+    const response = yield all([
+      call(api.updateLanguage, guid, sharedKey, language),
+      call(api.updateCommunicationLanguage, language)
+    ])
     if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
