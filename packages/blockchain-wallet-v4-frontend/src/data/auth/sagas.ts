@@ -270,7 +270,8 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
 
-      return yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+      // TODO: remove this, use to force upgrade/skip path
+      // return yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
 
       if (firstLogin) {
         const countryCode = country || 'US'
@@ -864,11 +865,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const secondAuthenticationForMerge = function* (action) {
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+  const secondAuthenticationForMerge = function* () {
     try {
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
+      const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
       const { code, exchangePassword, exchangeTwoFA, password } = formValues
       const authType = yield select(selectors.auth.getAuthType)
       // set code to uppercase if type is not yubikey
@@ -878,11 +879,12 @@ export default ({ api, coreSagas, networks }) => {
       }
       switch (true) {
         case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
+          // TODO: fix captcha
           yield put(
             actions.auth.exchangeLogin({
-              captchaToken: '', // TODO: Fix this
+              captchaToken: '',
               code: exchangeTwoFA,
-              password: 'Exchange123$',
+              password: exchangePassword,
               username: magicLinkData.exchange?.email as string
             })
           )
@@ -893,7 +895,7 @@ export default ({ api, coreSagas, networks }) => {
               code,
               guid: magicLinkData.wallet?.guid as string,
               mobileLogin: null,
-              password: 'blockchain',
+              password,
               sharedKey: null
             })
           )
