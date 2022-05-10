@@ -185,15 +185,14 @@ export default ({ coreSagas }) => {
         const validReceive = accountNode.derive(0).neutered().toBase58()
         const validChange = accountNode.derive(1).neutered().toBase58()
 
+        // if derivation type is bech32 and xpub equals the legacy xpub
+        // just ignore it and don't log an error
+
         if (receiveAccount !== validReceive) {
           isValidReceive = false
-          // eslint-disable-next-line
-          console.log(`Receive cache is incorrect for ${derivation.type} at ${account.index}`)
         }
         if (changeAccount !== validChange) {
           isValidChange = false
-          // eslint-disable-next-line
-          console.log(`Change cache is incorrect for ${derivation.type} at ${account.index}`)
         }
       })
     })
