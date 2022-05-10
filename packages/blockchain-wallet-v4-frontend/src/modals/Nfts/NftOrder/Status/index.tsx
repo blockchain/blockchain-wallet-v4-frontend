@@ -4,7 +4,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon as BlockchainIcon, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
@@ -73,6 +73,13 @@ const NftOrderStatus: React.FC<Props> = (props) => {
 
   return (
     <div style={{ height: '100%' }}>
+      <BlockchainIcon
+        onClick={() => props.close()}
+        name='arrow-left'
+        cursor
+        role='button'
+        style={{ left: '40px', position: 'absolute', top: '40px' }}
+      />
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
         <Wrapper>
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -85,7 +92,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               borderRadius: '8px',
               height: '64px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
@@ -97,7 +104,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               defaultMessage='Submitting Offer For'
             />
           </Text>
-          <Text size='24px' weight={600}>
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
             {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
@@ -110,7 +117,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               borderRadius: '8px',
               height: '64px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
@@ -119,7 +126,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
           </Text>
-          <Text size='24px' weight={600}>
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
             {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
@@ -132,7 +139,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               borderRadius: '8px',
               height: '64px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
@@ -144,7 +151,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             {val.name}
           </Text>
-          <Text size='24px' weight={600}>
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
             ready for sale!
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
@@ -158,7 +165,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
                 borderRadius: '8px',
                 height: '64px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
@@ -198,7 +205,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
                 borderRadius: '8px',
                 height: '64px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
@@ -236,7 +243,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
                 borderRadius: '8px',
                 height: '64px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
