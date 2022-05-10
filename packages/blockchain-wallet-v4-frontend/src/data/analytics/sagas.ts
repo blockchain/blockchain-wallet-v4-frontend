@@ -9,7 +9,7 @@ export const trackEvent = function* ({ payload }: ReturnType<typeof trackEventAc
   const { nabuUserId } = (yield select(
     selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
   )).getOrElse({ nabuUserId: '' })
-  const email = (yield select(selectors.core.settings.getEmailVerified)).getOrElse('')
+  const email = (yield select(selectors.core.settings.getEmail)).getOrElse(null)
   const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
   const originalTimestamp = new Date().toISOString()
   const properties = { originalTimestamp, ...payload.properties }
