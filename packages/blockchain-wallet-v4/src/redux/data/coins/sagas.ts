@@ -66,7 +66,7 @@ export default ({ api }: { api: APIType }) => {
               A.fetchDataSuccess(
                 coin,
                 results[0].balances
-                  .reduce((acc, curr) => acc.plus(curr.balance), new BigNumber(0))
+                  .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
                   .toString()
               )
             )
