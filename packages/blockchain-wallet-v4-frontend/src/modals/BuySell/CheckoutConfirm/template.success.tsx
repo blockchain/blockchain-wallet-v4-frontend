@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
 import { intervalToDuration } from 'date-fns'
-import { defaultTo, filter, path } from 'ramda'
+import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType } from '@core/types'
+import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType, WalletFiatType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -26,11 +27,19 @@ import {
   getBaseCurrency,
   getCounterAmount,
   getCounterCurrency,
+  getFiatFromPair,
   getOrderType,
   getPaymentMethodId
 } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
+import {
+  AddBankStepType,
+  BankPartners,
+  BankTransferAccountType,
+  BrokerageModalOriginType,
+  RecurringBuyPeriods,
+  UserDataType
+} from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
 
 import {
@@ -212,8 +221,129 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }, [requiresTerms])
 
+  useEffect(() => {
+    if (props.isFlexiblePricingModel) {
+      props.buySellActions.fetchBuyQuote({
+        amount: props.order.inputQuantity,
+        pair: props.order.pair,
+        paymentMethod:
+          props.order.paymentType === undefined ? BSPaymentTypes.FUNDS : props.order.paymentType,
+        paymentMethodId: props.order.paymentMethodId
+      })
+    } else {
+      props.buySellActions.fetchQuote({
+        amount: props.order.inputQuantity,
+        orderType: getOrderType(props.order),
+        pair: props.order.pair
+      })
+    }
+  }, [])
+
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
+  }
+
+  const onSubmit = () => {
+    const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
+      props.data.getOrElse({
+        isSddFlow: false,
+        userData: { tiers: { current: 0 } } as UserDataType
+      } as SuccessStateType)
+
+    const userTier = userData?.tiers?.current
+    const inputCurrency = props.order.inputCurrency as WalletFiatType
+    // check for SDD flow and direct to add card
+    if (isSddFlow && props.order.paymentType === BSPaymentTypes.PAYMENT_CARD) {
+      if (isUserSddVerified) {
+        if (cards && cards.length > 0) {
+          const card = cards[0]
+          return props.buySellActions.confirmOrder({
+            order: props.order,
+            paymentMethodId: card.id
+          })
+        }
+        return props.buySellActions.setStep({
+          step: 'DETERMINE_CARD_PROVIDER'
+        })
+      }
+      return props.buySellActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
+    }
+
+    if (userTier < 2) {
+      return props.buySellActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
+    }
+
+    switch (props.order.paymentType) {
+      case BSPaymentTypes.FUNDS:
+        const available = sbBalances[inputCurrency]?.available || '0'
+        if (new BigNumber(available).isGreaterThanOrEqualTo(props.order.inputQuantity)) {
+          return props.buySellActions.confirmFundsOrder()
+        }
+        return props.buySellActions.setStep({
+          displayBack: false,
+          fiatCurrency: inputCurrency,
+          step: 'BANK_WIRE_DETAILS'
+        })
+
+      case BSPaymentTypes.PAYMENT_CARD:
+        let { paymentMethodId } = props.order
+
+        if (props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY && props.applePayInfo) {
+          paymentMethodId = props.applePayInfo.beneficiaryID
+        }
+
+        if (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && props.googlePayInfo) {
+          paymentMethodId = props.googlePayInfo.beneficiaryID
+        }
+
+        if (paymentMethodId) {
+          return props.buySellActions.confirmOrder({
+            mobilePaymentMethod: props.mobilePaymentMethod,
+            order: props.order,
+            paymentMethodId
+          })
+        }
+
+        break
+
+      case BSPaymentTypes.BANK_TRANSFER:
+        const [bankAccount] = filter(
+          (b: BankTransferAccountType) =>
+            b.state === 'ACTIVE' && b.id === props.order.paymentMethodId,
+          defaultTo([])(bankAccounts)
+        )
+        const paymentPartner = prop('partner', bankAccount)
+        // if yapily we need the auth screen before creating the order
+        if (paymentPartner === BankPartners.YAPILY) {
+          return props.buySellActions.setStep({
+            step: 'AUTHORIZE_PAYMENT'
+          })
+        }
+        if (props.order.paymentMethodId) {
+          return props.buySellActions.confirmOrder({
+            order: props.order,
+            paymentMethodId: props.order.paymentMethodId
+          })
+        }
+        props.brokerageActions.showModal({
+          modalType: 'ADD_BANK_YODLEE_MODAL',
+          origin: BrokerageModalOriginType.ADD_BANK_BUY
+        })
+        return props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK_HANDLER
+        })
+
+      default:
+        // Not a valid payment method type, go back to CRYPTO_SELECTION
+        return props.buySellActions.setStep({
+          fiatCurrency: getFiatFromPair(props.order.pair),
+          step: 'CRYPTO_SELECTION'
+        })
+    }
   }
 
   return (

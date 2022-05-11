@@ -41,7 +41,6 @@ const Success = (props: Props) => {
             props.buySellActions.setStep({
               cryptoCurrency: props.cryptoCurrency || 'BTC',
               fiatCurrency: props.fiatCurrency,
-              order: props.order,
               pair: props.pair,
               step: 'PAYMENT_METHODS'
             })

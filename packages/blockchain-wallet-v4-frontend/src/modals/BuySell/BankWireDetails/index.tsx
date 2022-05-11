@@ -52,11 +52,11 @@ export type OwnProps = {
   displayBack: boolean
   fiatCurrency: FiatType
   handleClose: () => void
-  order?: BSOrderType
   pair: BSPairType
 }
 export type SuccessStateType = {
   account: BSAccountType
+  order: BSOrderType
   userData: UserDataType
 }
 type LinkStatePropsType = {

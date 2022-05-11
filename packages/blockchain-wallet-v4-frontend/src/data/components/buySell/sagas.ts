@@ -1,4 +1,3 @@
-import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import { addSeconds, differenceInMilliseconds } from 'date-fns'
@@ -29,7 +28,7 @@ import {
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
-import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
@@ -41,6 +40,7 @@ import {
   ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
+import { isNabuError, NabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -411,6 +411,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setGooglePayInfo(googlePayInfo))
       }
 
+      yield put(A.createOrderLoading())
+
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
       if (isFlexiblePricingModel) {
@@ -439,11 +441,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           if (!oldBuyOrder) {
             yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
             yield put(A.fetchOrders())
-            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+            yield put(A.createOrderSuccess(buyOrder))
+
+            yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
           } else {
             // when the quote expires and a new order is created, set it it in redux and cancel the old order
             yield put(A.fetchOrders())
-            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+            yield put(A.createOrderSuccess(buyOrder))
+
+            yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
           }
 
           oldBuyOrder = buyOrder
@@ -473,9 +479,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
         yield put(A.fetchOrders())
-        yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+        yield put(A.createOrderSuccess(buyOrder))
+
+        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
       }
     } catch (e) {
+      // ENTER_AMOUNT SCREEN
+
+      if (isNabuError(e)) {
+        // DO STUFF
+
+        yield put(A.createOrderFailure(e as any))
+
+        // set the error to the createOrderFailure
+        // render screen based on e
+
+        return
+      }
+
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
       // Wait for the form to be INITIALIZED and display err
@@ -536,7 +557,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
-    yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+    yield put(A.confirmOrderSuccess(confirmedOrder))
+    yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
   }
 
@@ -698,11 +720,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )).getOrElse(false)
 
       if (isFlexiblePricingModel) {
-        const freshOrder = S.getBSOrder(yield select())
-
-        if (!freshOrder) {
-          throw new Error(BS_ERROR.ORDER_NOT_FOUND)
-        }
+        const freshOrder = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
 
         if (freshOrder.inputQuantity !== order.inputQuantity) {
           throw new Error(BS_ERROR.ORDER_VALUE_CHANGED)
@@ -710,6 +728,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         order = freshOrder
       }
+
+      yield put(A.confirmOrderLoading())
 
       // TODO: Change behavior changing a flag to make this async when backend is ready
       // then we will have to poll this order until it's confirmed and has the 3DS url
@@ -739,7 +759,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
-        yield put(A.setStep({ order, step: 'OPEN_BANKING_CONNECT' }))
+        yield put(A.confirmOrderSuccess(order))
+
+        yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
         // Now we need to poll for the order success
         return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
@@ -750,38 +772,61 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
-        yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
       ) {
-        yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
           confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: '3DS_HANDLER_EVERYPAY' }))
       } else if (
         confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
         confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
       ) {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: '3DS_HANDLER_STRIPE' }))
       } else if (
         confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
         confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
       ) {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
         throw new Error(BS_ERROR.UNHANDLED_PAYMENT_STATE)
       }
 
       yield put(A.fetchOrders())
     } catch (e) {
+      // CHECKOUT_CONFIRM SCREEN
+
+      if (isNabuError(e)) {
+        // DO STUFF
+
+        yield put(A.createOrderFailure(e as any))
+
+        // set the error to the confirmOrderFailure
+        // render screen based on e
+
+        return
+      }
+
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
 
-      yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
@@ -794,10 +839,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const order = S.getBSOrder(yield select())
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
-      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as BSOrderType)
+      // TODO fix this type
+      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as any)
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
-      yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+      yield put(A.confirmOrderSuccess(confirmedOrder))
+
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
@@ -1637,7 +1685,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield delay(2000)
     }
 
-    yield put(A.setStep({ order, step: 'ORDER_SUMMARY' }))
+    yield put(A.createOrderSuccess(order))
+
+    yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
 
   const setStepChange = function* (action: ReturnType<typeof A.setStep>) {
@@ -1757,7 +1807,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
-          order: latestPendingOrder,
           step
         })
       )
@@ -1767,9 +1816,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
+
       yield put(
         A.setStep({
-          order: latestPendingOrder,
           step
         })
       )

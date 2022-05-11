@@ -69,7 +69,7 @@ const initialState: BuySellState = {
   method: undefined,
   methods: Remote.NotAsked,
   mobilePaymentMethod: undefined,
-  order: undefined,
+  order: Remote.NotAsked,
   orderType: undefined,
   orders: Remote.NotAsked,
   origin: undefined,
@@ -129,14 +129,14 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'PREVIEW_SELL': {
       return { sellOrderType: payload.sellOrderType, step: payload.step }
     }
-    case 'AUTHORIZE_PAYMENT':
-    case 'CHECKOUT_CONFIRM':
-    case 'ORDER_SUMMARY':
-    case 'OPEN_BANKING_CONNECT':
-    case '3DS_HANDLER_EVERYPAY':
-    case '3DS_HANDLER_STRIPE':
-    case '3DS_HANDLER_CHECKOUTDOTCOM':
-      return { order: payload.order, step: payload.step }
+    // case 'AUTHORIZE_PAYMENT':
+    // case 'CHECKOUT_CONFIRM':
+    // case 'ORDER_SUMMARY':
+    // case 'OPEN_BANKING_CONNECT':
+    // case '3DS_HANDLER_EVERYPAY':
+    // case '3DS_HANDLER_STRIPE':
+    // case '3DS_HANDLER_CHECKOUTDOTCOM':
+    //   return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
     case 'ADD_CARD_CHECKOUTDOTCOM':
@@ -174,7 +174,16 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
+    confirmOrderFailure: (state, action: PayloadAction<string>) => {
+      state.order = Remote.Failure(action.payload)
+    },
+    confirmOrderLoading: (state) => {
+      state.order = Remote.Loading
+    },
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
+    confirmOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
+      state.order = Remote.Success(action.payload)
+    },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
     createCardFailure: (state, action: PayloadAction<string>) => {
       state.card = Remote.Failure(action.payload)
@@ -196,12 +205,21 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
+    createOrderFailure: (state, action: PayloadAction<string>) => {
+      state.order = Remote.Failure(action.payload)
+    },
+    createOrderLoading: (state) => {
+      state.order = Remote.Loading
+    },
+    createOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
+      state.order = Remote.Success(action.payload)
+    },
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
     destroyCheckout: (state) => {
       state.account = Remote.NotAsked
       state.cardId = undefined
-      state.order = undefined
+      state.order = Remote.NotAsked
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
@@ -253,7 +271,6 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
-
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -473,7 +490,7 @@ const buySellSlice = createSlice({
           state.fiatCurrency = stepPayload.fiatCurrency
           state.method = stepPayload.method
           state.mobilePaymentMethod = stepPayload.mobilePaymentMethod
-          state.order = undefined
+          // state.order = undefined
           state.orderType = stepPayload.orderType
           state.pair = stepPayload.pair
           state.step = stepPayload.step
@@ -493,7 +510,7 @@ const buySellSlice = createSlice({
           state.addBank = undefined
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
-          state.order = stepPayload.order
+          // state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case '3DS_HANDLER_EVERYPAY':
@@ -503,7 +520,7 @@ const buySellSlice = createSlice({
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
           state.addBank = undefined
-          state.order = stepPayload.order
+          // state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case 'BANK_WIRE_DETAILS':

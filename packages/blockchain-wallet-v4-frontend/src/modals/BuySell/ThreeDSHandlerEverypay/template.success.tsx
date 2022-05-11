@@ -42,7 +42,6 @@ const Success: React.FC<Props> = (props) => {
           onClick={() => {
             if (props.type === 'ORDER') {
               props.buySellActions.setStep({
-                order: props.order,
                 step: 'ORDER_SUMMARY'
               })
             } else {

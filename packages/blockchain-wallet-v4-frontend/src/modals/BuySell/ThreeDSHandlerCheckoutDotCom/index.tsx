@@ -49,7 +49,6 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
     if (type === 'ORDER') {
       props.buySellActions.setStep({
-        order,
         step: 'ORDER_SUMMARY'
       })
     } else {

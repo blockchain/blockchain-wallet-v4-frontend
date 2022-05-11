@@ -84,6 +84,7 @@ export type SuccessStateType =
       providerDetails: ProviderDetailsType
       type: 'CARD'
     }
+
 type LinkStatePropsType = {
   data: ReturnType<typeof getData>
 }

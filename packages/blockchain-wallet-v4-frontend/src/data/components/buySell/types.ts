@@ -147,7 +147,7 @@ export type BuySellState = {
   method: undefined | BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
   mobilePaymentMethod: undefined | MobilePaymentType
-  order: undefined | BSOrderType
+  order: RemoteDataType<string, BSOrderType>
   orderType?: BSOrderActionType
   orders: RemoteDataType<string, Array<BSOrderType>>
   origin?: BSShowModalOriginType
@@ -178,10 +178,6 @@ export type InitializeCheckout = {
 }
 
 export type StepActionsPayload =
-  | {
-      order: BSOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'OPEN_BANKING_CONNECT' | 'AUTHORIZE_PAYMENT'
-    }
   | {
       sellOrder: SwapOrderType
       step: 'SELL_ORDER_SUMMARY'
@@ -239,6 +235,10 @@ export type StepActionsPayload =
     }
   | {
       step:
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
         | 'DETERMINE_CARD_PROVIDER'
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'

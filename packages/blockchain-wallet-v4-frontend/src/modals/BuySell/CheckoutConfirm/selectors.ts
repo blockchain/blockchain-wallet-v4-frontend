@@ -20,6 +20,8 @@ export const getData = (state: RootState) => {
 
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
 
+  const orderR = selectors.components.buySell.getBSOrder(state)
+
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
@@ -30,12 +32,14 @@ export const getData = (state: RootState) => {
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       userSDDTier: ExtractSuccess<typeof userSDDTierR>,
       isUserSddVerified: ExtractSuccess<typeof isUserSddVerifiedR>,
-      cards: ExtractSuccess<typeof cardsR>
+      cards: ExtractSuccess<typeof cardsR>,
+      order: ExtractSuccess<typeof orderR>
     ) => ({
       bankAccounts,
       cards,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       isUserSddVerified,
+      order,
       quote,
       sbBalances,
       userData,
@@ -50,6 +54,7 @@ export const getData = (state: RootState) => {
     sddEligibleR,
     userSDDTierR,
     isUserSddVerifiedR,
-    cardsR
+    cardsR,
+    orderR
   )
 }

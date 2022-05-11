@@ -343,7 +343,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void
-  order: BSOrderType
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

@@ -138,7 +138,6 @@ const Template: React.FC<Props> = (props) => {
             })
             if (props.order) {
               props.buySellActions.setStep({
-                order: props.order,
                 step: 'CHECKOUT_CONFIRM'
               })
             }

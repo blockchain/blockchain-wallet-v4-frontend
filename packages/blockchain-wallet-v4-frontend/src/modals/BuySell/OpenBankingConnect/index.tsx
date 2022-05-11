@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { BSOrderType, WalletFiatType } from '@core/types'
+import { WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -18,12 +18,6 @@ const Connect = (props: Props) => {
       props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
     }
   }
-  useEffect(() => {
-    const { id } = props.order
-    if (id) {
-      props.buySellActions.pollOrder(id)
-    }
-  }, [props.order])
 
   useEffect(fetchBank, [props.walletCurrency])
 
@@ -49,7 +43,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  order: BSOrderType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = ConnectedProps<typeof connector> & OwnProps
