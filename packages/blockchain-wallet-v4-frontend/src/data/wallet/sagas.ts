@@ -3,6 +3,7 @@ import { prop } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote, Types } from '@core'
+import { DEFAULT_DERIVATION_TYPE, LEGACY_DERIVATION_TYPE } from '@core/types/HDAccount'
 import { actions, actionTypes, selectors } from 'data'
 import { Analytics } from 'data/analytics/types'
 import * as C from 'services/alerts'
@@ -176,7 +177,15 @@ export default ({ coreSagas }) => {
 
     let isValidReceive = true
     let isValidChange = true
+    let shouldIgnore = false
     first5.forEach((account) => {
+      const legacyDerivation = account.derivations.find(
+        (derivation) => derivation.type === LEGACY_DERIVATION_TYPE
+      )
+      const { xpub: legacyXpub } = legacyDerivation
+      const legacyAccountNode = Bitcoin.bip32.fromBase58(legacyXpub)
+      const legacyReceive = legacyAccountNode.derive(0).neutered().toBase58()
+
       account.derivations.forEach((derivation) => {
         const { cache, xpub } = derivation
         const { changeAccount, receiveAccount } = cache
@@ -185,8 +194,9 @@ export default ({ coreSagas }) => {
         const validReceive = accountNode.derive(0).neutered().toBase58()
         const validChange = accountNode.derive(1).neutered().toBase58()
 
-        // if derivation type is bech32 and xpub equals the legacy xpub
-        // just ignore it and don't log an error
+        if (derivation.type === 'bech32' && receiveAccount === legacyReceive) {
+          shouldIgnore = true
+        }
 
         if (receiveAccount !== validReceive) {
           isValidReceive = false
@@ -196,6 +206,8 @@ export default ({ coreSagas }) => {
         }
       })
     })
+
+    if (shouldIgnore) return
 
     if (!isValidReceive) {
       yield put(
