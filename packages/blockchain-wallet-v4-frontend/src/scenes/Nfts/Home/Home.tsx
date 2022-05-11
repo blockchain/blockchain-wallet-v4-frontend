@@ -102,7 +102,12 @@ const Explore: React.FC<Props> = (props) => {
                 Discover, Collect & Create NFTs.
               </Text>
               <Text
-                style={{ marginTop: '8px', maxWidth: '500px', textAlign: 'center' }}
+                style={{
+                  lineHeight: '20px',
+                  marginTop: '8px',
+                  maxWidth: '500px',
+                  textAlign: 'center'
+                }}
                 size='14px'
                 weight={500}
                 color='grey900'
@@ -129,6 +134,16 @@ const Explore: React.FC<Props> = (props) => {
               </Flex>
             </div>
           </Banner>
+          <div>
+            <Text
+              color='black'
+              style={{ marginBottom: '16px', marginLeft: '16px', marginTop: '24px' }}
+              size='20px'
+              weight={600}
+            >
+              Trending Collections
+            </Text>
+          </div>
         </>
       )}
       {results.data?.collections ? (

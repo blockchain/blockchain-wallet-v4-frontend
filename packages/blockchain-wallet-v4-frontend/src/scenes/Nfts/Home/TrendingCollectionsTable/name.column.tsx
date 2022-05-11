@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { CellHeaderText, CellText } from 'components/Table'
 import { actions } from 'data'
+import { useMedia } from 'services/styles'
 
 const NameCell = styled(CellText)<{ role: 'button' }>`
   display: flex;
@@ -20,6 +21,8 @@ const Logo = styled.img`
 
 export const getNameColumn = (routerActions: typeof actions.router) => ({
   Cell: ({ row: { original: values } }) => {
+    const isMobile = useMedia('mobile')
+    const isTablet = useMedia('tablet')
     return (
       <NameCell
         cursor='pointer'
@@ -27,7 +30,13 @@ export const getNameColumn = (routerActions: typeof actions.router) => ({
         onClick={() => routerActions.push(`/nfts/collection/${values.slug}`)}
       >
         <Logo src={values.image_url} />
-        {values.name.length < 24 ? values.name : `${values.name.slice(0, 20)}...`}
+        {isMobile || isTablet
+          ? values.name.length < 14
+            ? values.name
+            : `${values.name.slice(0, 10)}...`
+          : values.name.length < 24
+          ? values.name
+          : `${values.name.slice(0, 20)}...`}
       </NameCell>
     )
   },

@@ -36,12 +36,22 @@ export const TableWrapper = styled.div<{ height?: string }>`
       margin: 0;
       text-align: left;
       width: 20%;
+      ${media.tabletL`
+      max-width: 10em;
+      min-width: 10em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      `}
     }
 
     .td {
       height: 75px;
       padding-top: 0;
       padding-bottom: 0;
+      ${media.tabletL`
+        height: 66px;
+      `}
     }
 
     .tr {
