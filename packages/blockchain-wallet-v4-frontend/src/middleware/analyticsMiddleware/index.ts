@@ -1,10 +1,12 @@
+// DO NOT ADD ANYTHING TO THIS, ONLY REMOVE ENTRIES
+// It's being deprecated, see notion doc
+
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   BankDWStepType,
   InterestStep,
   ModalName,
-  RecurringBuyOrigins,
   RecurringBuyStepType,
   SwapBaseCounterTypes
 } from 'data/types'
@@ -2479,28 +2481,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         })
 
-        break
-      }
-      case actions.components.nfts.nftOrderFlowOpen.type: {
-        const state = store.getState()
-
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_CREATED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
         break
       }
       default: {
