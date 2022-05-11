@@ -74,7 +74,14 @@ export default ({ api, socket }) => {
     // only ping phone if last logout time is more than 5 minutes
     // prevents pinging phone again right when user logs out
     const pingPhoneOnLoad = Date.now() - lastLogoutTime > 300000
-    if (phonePubkey && guid && pingPhoneOnLoad && product === ProductAuthOptions.WALLET) {
+    const isWindowActive = window.document.visibilityState === 'visible' || !window.document.hidden
+    if (
+      phonePubkey &&
+      guid &&
+      pingPhoneOnLoad &&
+      product === ProductAuthOptions.WALLET &&
+      isWindowActive
+    ) {
       yield pingPhone(channelId, secretHex, phonePubkey, guid)
     }
   }
