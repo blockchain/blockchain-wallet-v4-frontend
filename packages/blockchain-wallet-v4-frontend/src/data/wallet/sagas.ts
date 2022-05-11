@@ -3,7 +3,7 @@ import { prop } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote, Types } from '@core'
-import { DEFAULT_DERIVATION_TYPE, LEGACY_DERIVATION_TYPE } from '@core/types/HDAccount'
+import { LEGACY_DERIVATION_TYPE } from '@core/types/HDAccount'
 import { actions, actionTypes, selectors } from 'data'
 import { Analytics } from 'data/analytics/types'
 import * as C from 'services/alerts'
