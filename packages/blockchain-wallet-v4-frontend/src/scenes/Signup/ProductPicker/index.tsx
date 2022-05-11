@@ -11,42 +11,39 @@ import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
 
-class ProductPickerContainer extends PureComponent<Props> {
-  walletRedirect = () => {
-    this.props.signupActions.setRegisterEmail(undefined)
-    this.props.routerActions.push('/home')
+const ProductPickerContainer: React.FC<Props> = (props) => {
+  const walletRedirect = () => {
+    props.signupActions.setRegisterEmail(undefined)
+    props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
-    this.props.saveGoal('welcomeModal', { firstLogin: true })
-    this.props.runGoals()
+    props.saveGoal('welcomeModal', { firstLogin: true })
+    props.runGoals()
   }
 
-  exchangeRedirect = () => {
-    this.props.signupActions.setRegisterEmail(undefined)
-    this.props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
+  const exchangeRedirect = () => {
+    props.signupActions.setRegisterEmail(undefined)
+    props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
   }
 
-  render() {
-    return this.props.walletLoginData.cata({
-      Failure: (error) => <Error error={error} />,
-      Loading: () => <SpinningLoader />,
-      NotAsked: () => {
-        this.props.routerActions.push('/login?product=exchange')
-        return null
-      },
-      Success: () =>
-        this.props.exchangeUserConflict ? (
-          <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
-        ) : (
-          <ProductPicker
-            {...this.props}
-            walletRedirect={this.walletRedirect}
-            exchangeRedirect={this.exchangeRedirect}
-          />
-        )
-    })
-  }
+  return props.walletLoginData.cata({
+    Failure: (error) => <Error error={error} />,
+    Loading: () => <SpinningLoader />,
+    NotAsked: () => {
+      props.routerActions.push('/login?product=exchange')
+      return null
+    },
+    Success: () =>
+      props.exchangeUserConflict ? (
+        <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
+      ) : (
+        <ProductPicker
+          {...props}
+          walletRedirect={walletRedirect}
+          exchangeRedirect={exchangeRedirect}
+        />
+      )
+  })
 }
-
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.signup.getRegisterEmail(state) as string,

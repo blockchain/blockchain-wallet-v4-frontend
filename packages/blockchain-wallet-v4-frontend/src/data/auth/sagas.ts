@@ -152,7 +152,9 @@ export default ({ api, coreSagas, networks }) => {
           })
           break
         // web - exchange sso login with redirect from deeplink
-        // TODO: this is just for FF off testing ons taging
+        // TODO: this is just for FF off testing on staging
+        // TODO: change this to work for real, where we use
+        // redirect from exchange deeplink into login
         case redirect !== undefined && redirect.includes('beta') && platform === PlatformTypes.WEB:
           window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
