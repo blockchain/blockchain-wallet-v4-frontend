@@ -1,40 +1,5 @@
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
-// It's being deprecated
+// DO NOT ADD ANYTHING TO THIS, ONLY REMOVE ENTRIES
+// It's being deprecated, see notion doc
 
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
