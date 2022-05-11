@@ -41,10 +41,6 @@ const initialState: NftsStateType = {
     orderToMatch: null,
     status: null,
     step: null,
-    // This is a hack because sometimes opensea sets the owner address
-    // to NULL_ADDRESS (if contract is opensea storefront)
-    // will be fixed by explorer-gateway eventually
-    walletUserIsAssetOwnerHack: false,
 
     wrapEthFees: Remote.NotAsked
   },
@@ -57,9 +53,17 @@ const nftsSlice = createSlice({
   reducers: {
     acceptOffer: (
       state,
-      action: PayloadAction<{ buy: UnsignedOrder; gasData: GasDataI; sell: UnsignedOrder }>
+      action: PayloadAction<{
+        asset: NftAsset
+        buy: UnsignedOrder
+        gasData: GasDataI
+        sell: UnsignedOrder
+      }>
     ) => {},
-    cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
+    cancelListing: (
+      state,
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder }>
+    ) => {},
     cancelOffer: (
       state,
       action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder | null }>
@@ -226,15 +230,13 @@ const nftsSlice = createSlice({
             order?: never
             step: NftOrderStepEnum.CANCEL_OFFER
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
             offer?: never
-            order?: RawOrder
+            order: RawOrder
             step: NftOrderStepEnum.ACCEPT_OFFER
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
@@ -242,7 +244,6 @@ const nftsSlice = createSlice({
             order: RawOrder
             step: NftOrderStepEnum.BUY
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
@@ -250,7 +251,6 @@ const nftsSlice = createSlice({
             order: RawOrder
             step: NftOrderStepEnum.CANCEL_LISTING
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
@@ -258,12 +258,10 @@ const nftsSlice = createSlice({
             order?: never
             step: NftOrderStepEnum
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
       >
     ) => {
       state.orderFlow.step = action.payload.step
-      state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
 
       if (action.payload.order) {
         state.orderFlow.orderToMatch = action.payload.order

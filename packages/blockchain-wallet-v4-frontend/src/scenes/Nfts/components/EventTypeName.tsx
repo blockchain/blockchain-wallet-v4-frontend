@@ -7,6 +7,8 @@ const EventTypeName: React.FC<Props> = ({ event_type }) => {
   switch (event_type) {
     case 'successful':
       return <FormattedMessage id='copy.sale' defaultMessage='Sale' />
+    case 'cancelled':
+      return <FormattedMessage id='copy.cancelled' defaultMessage='Cancelled' />
     case 'transfer':
       return <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
     case 'offer_entered':

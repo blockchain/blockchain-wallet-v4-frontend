@@ -90,7 +90,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
               padding: '12px',
               width: 'auto'
@@ -115,7 +115,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
               padding: '12px',
               width: 'auto'
@@ -137,7 +137,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
               padding: '12px',
               width: 'auto'
@@ -163,7 +163,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
                 padding: '12px',
                 width: 'auto'
@@ -203,7 +203,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
                 padding: '12px',
                 width: 'auto'
@@ -215,7 +215,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               {val.name}
             </Text>
             <Text size='24px' weight={600}>
-              Is Successfully Up For Sale
+              Is Listed For Sale
             </Text>
           </Wrapper>
           <ButtonWrapper>
@@ -241,7 +241,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
                 padding: '12px',
                 width: 'auto'

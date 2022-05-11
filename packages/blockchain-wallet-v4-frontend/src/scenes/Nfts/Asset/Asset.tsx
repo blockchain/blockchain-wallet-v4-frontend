@@ -408,8 +408,7 @@ const NftAsset: React.FC<Props> = ({
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
                               step: NftOrderStepEnum.TRANSFER,
-                              token_id: id,
-                              walletUserIsAssetOwnerHack: false
+                              token_id: id
                             })
                           }}
                           cursor
@@ -670,8 +669,7 @@ const NftAsset: React.FC<Props> = ({
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
                               step: NftOrderStepEnum.MARK_FOR_SALE,
-                              token_id: id,
-                              walletUserIsAssetOwnerHack: true
+                              token_id: id
                             })
                             analyticsActions.trackEvent({
                               key: Analytics.NFT_MARK_FOR_SALE,
@@ -698,8 +696,7 @@ const NftAsset: React.FC<Props> = ({
                               offer: undefined,
                               order: lowest_order,
                               step: NftOrderStepEnum.CANCEL_LISTING,
-                              token_id: id,
-                              walletUserIsAssetOwnerHack: true
+                              token_id: id
                             })
                           }
                         >
@@ -716,16 +713,11 @@ const NftAsset: React.FC<Props> = ({
                           nature='dark'
                           jumbo
                           onClick={() => {
-                            nftsActions.fetchFees({
-                              operation: GasCalculationOperations.AcceptOffer,
-                              order: orderFromJSON(highest_offer)
-                            })
                             nftsActions.nftOrderFlowOpen({
                               asset_contract_address: contract,
                               order: highest_offer,
                               step: NftOrderStepEnum.ACCEPT_OFFER,
-                              token_id: id,
-                              walletUserIsAssetOwnerHack: true
+                              token_id: id
                             })
                           }}
                         >
@@ -743,8 +735,7 @@ const NftAsset: React.FC<Props> = ({
                         nftsActions.nftOrderFlowOpen({
                           asset_contract_address: contract,
                           step: NftOrderStepEnum.MAKE_OFFER,
-                          token_id: id,
-                          walletUserIsAssetOwnerHack: false
+                          token_id: id
                         })
                         analyticsActions.trackEvent({
                           key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
@@ -766,8 +757,7 @@ const NftAsset: React.FC<Props> = ({
                             asset_contract_address: contract,
                             order: lowest_order as RawOrder,
                             step: NftOrderStepEnum.BUY,
-                            token_id: id,
-                            walletUserIsAssetOwnerHack: false
+                            token_id: id
                           })
                           analyticsActions.trackEvent({
                             key: Analytics.NFT_BUY_NOW_CLICKED,
@@ -920,7 +910,8 @@ const NftAsset: React.FC<Props> = ({
                 bidsAndOffers.length > 0 ? (
                   <div style={{ maxHeight: '300px', overflow: 'auto' }}>
                     <Offers
-                      columns={['price', 'amount', 'from', 'expiration', 'cancel_offer']}
+                      asset={openSeaAsset.data}
+                      columns={['price', 'from', 'expiration', 'action']}
                       bidsAndOffers={bidsAndOffers}
                       defaultEthAddr={defaultEthAddr}
                     />
