@@ -3,14 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { Title } from 'components/Flyout'
-import { Row, Value } from 'components/Flyout/model'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { Flex } from 'components/Flex'
+import { Row, StickyHeaderWrapper, Title, Value } from 'components/Flyout'
+import FlyoutHeader from 'components/Flyout/Header'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import { CTARow, StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
@@ -42,43 +46,42 @@ const CancelOffer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
-        <Icon
-          onClick={() => close()}
-          name='arrow-left'
-          cursor
-          role='button'
-          style={{ left: '40px', position: 'absolute', top: '40px' }}
-        />
-        <Icon
-          onClick={() => close()}
-          name='close'
-          cursor
-          role='button'
-          style={{ position: 'absolute', right: '40px', top: '40px' }}
-        />
-        <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+      <StickyHeaderWrapper>
+        <FlyoutHeader data-e2e='cancelOffer' mode='back' onClick={() => close()}>
+          <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+        </FlyoutHeader>
+      </StickyHeaderWrapper>
+      <div style={{ height: '100%' }}>
+        <NftAssetHeaderRow asset={val} />
+        <Row>
+          <Flex alignItems='center' justifyContent='space-between'>
+            <Text color='black' weight={600} size='20px'>
+              <FormattedMessage id='copy.offer' defaultMessage='Offer' />
+            </Text>
+            <Flex flexDirection='column' alignItems='flex-end' gap={4}>
+              <CoinDisplay
+                size='14px'
+                color='black'
+                weight={600}
+                coin={offerToCancel?.payment_token_contract?.symbol}
+              >
+                {offerToCancel?.base_price}
+              </CoinDisplay>
+              <FiatDisplay
+                size='12px'
+                color='grey600'
+                weight={600}
+                coin={offerToCancel?.payment_token_contract?.symbol}
+              >
+                {offerToCancel?.base_price}
+              </FiatDisplay>
+            </Flex>
+          </Flex>
+        </Row>
       </div>
-      <AssetDesc>
-        <Text size='16px' color='grey900' weight={600}>
-          {val?.collection?.name}
-        </Text>
-        <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-          {val?.name}
-        </Text>
-      </AssetDesc>
-      <Row>
-        <Title>
-          <FormattedMessage id='copy.description' defaultMessage='Description' />
-        </Title>
-        <Value>
-          {val?.description || (
-            <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
-          )}
-        </Value>
-      </Row>
       <StickyCTA>
         <CancelOfferFees {...props} />
+        <br />
         {orderFlow.fees.cata({
           Failure: () => (
             <Text size='14px' weight={600}>
@@ -123,7 +126,6 @@ const CancelOffer: React.FC<Props> = (props) => {
             )
         })}
       </StickyCTA>
-      )
     </>
   )
 }

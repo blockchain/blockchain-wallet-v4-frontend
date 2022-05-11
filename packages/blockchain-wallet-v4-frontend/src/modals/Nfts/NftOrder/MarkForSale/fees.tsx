@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, GasDataI, NftAsset } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -12,19 +11,10 @@ import { Flex } from 'components/Flex'
 import { RightAlign } from '../../components'
 import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
+import { getTotalFees } from '../NftOrderUtils'
 
 const Fees: React.FC<Props> = (props: Props) => {
   const { asset, nftActions, orderFlow } = props
-
-  const getBasisPoints = (val: GasDataI) => {
-    return `${String(
-      Number(asset.collection?.dev_seller_fee_basis_points) / 100 +
-        Number(asset.asset_contract?.opensea_seller_fee_basis_points) / 100
-    )}% (${displayCoinToCoin({
-      coin: 'ETH',
-      value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
-    })})`
-  }
 
   useEffect(() => {
     nftActions.fetchFees({
@@ -43,7 +33,7 @@ const Fees: React.FC<Props> = (props: Props) => {
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <FeesDropdown totalFees={getBasisPoints(val)}>
+            <FeesDropdown totalFees={getTotalFees(asset, val)}>
               {asset.asset_contract?.opensea_seller_fee_basis_points > 0 ? (
                 <Flex justifyContent='space-between' alignItems='center'>
                   <Text size='14px' weight={500}>
