@@ -29,7 +29,10 @@ class ProductPickerContainer extends PureComponent<Props> {
     return this.props.walletLoginData.cata({
       Failure: (error) => <Error error={error} />,
       Loading: () => <SpinningLoader />,
-      NotAsked: () => this.props.routerActions.push('/login'),
+      NotAsked: () => {
+        this.props.routerActions.push('/login?product=exchange')
+        return null
+      },
       Success: () =>
         this.props.exchangeUserConflict ? (
           <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
