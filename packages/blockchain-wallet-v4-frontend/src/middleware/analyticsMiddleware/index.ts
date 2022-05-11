@@ -2483,7 +2483,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case actions.components.sendCrypto.submitTransactionSuccess: {
+      case actions.components.sendCrypto.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2494,7 +2494,41 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const feeRate = state.form[SEND_FORM].values.fee
         const currency = state.form[SEND_FORM].values.coin
         const fromAccountType =
-          state.form[SEND_FORM].values.from.type === SwapBaseCounterTypes.CUSTODIAL
+          state.form[SEND_FORM].values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType = AccountType.USERKEY
+
+        if (action.payload.step === 3) {
+          analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
+            properties: {
+              currency,
+              fee_rate: feeRate,
+              from_account_type: fromAccountType,
+              originalTimestamp: getOriginalTimestamp(),
+              to_account_type: toAccountType
+            },
+            traits: {
+              email,
+              nabuId,
+              tier
+            }
+          })
+        }
+        break
+      }
+      case actions.components.sendCrypto.submitTransactionSuccess.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        const feeRate = state.form[SEND_FORM].values.fee
+        const currency = state.form[SEND_FORM].values.coin
+        const fromAccountType =
+          state.form[SEND_FORM].values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
         const toAccountType = AccountType.USERKEY
