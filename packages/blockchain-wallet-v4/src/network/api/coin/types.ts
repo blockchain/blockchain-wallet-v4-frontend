@@ -1,8 +1,8 @@
 export type BalanceResponseType = {
   results: {
     balances: {
-      address: null | string
-      balance: string
+      amount: string
+      identifier: 'native'
     }[]
     pubKey: string
   }[]
