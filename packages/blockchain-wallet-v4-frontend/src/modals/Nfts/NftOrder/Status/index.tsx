@@ -100,8 +100,8 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           />
           <Text size='24px' weight={600}>
             <FormattedMessage
-              id='buttons.submitting_offer_for'
-              defaultMessage='Submitting Offer For'
+              id='buttons.submitting_your_offer_for'
+              defaultMessage='Submitting Your Offer For'
             />
           </Text>
           <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
@@ -146,13 +146,13 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             src={val.image_url}
           />
           <Text size='24px' weight={600}>
-            Getting
+            Preparing to list
           </Text>
           <Text size='24px' weight={600}>
             {val.name}
           </Text>
           <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
-            ready for sale!
+            for sale
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
@@ -173,8 +173,8 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             />
             <Text size='24px' weight={600}>
               <FormattedMessage
-                id='buttons.offer_successfully_sent_for'
-                defaultMessage='Offer Successfully Sent For'
+                id='buttons.offer_submitted_for'
+                defaultMessage='Offer Submitted For'
               />
             </Text>
             <Text size='24px' weight={600}>
@@ -212,10 +212,13 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               src={val.image_url}
             />
             <Text size='24px' weight={600}>
+              Your Listing of
+            </Text>
+            <Text size='24px' weight={600}>
               {val.name}
             </Text>
             <Text size='24px' weight={600}>
-              Is Successfully Up For Sale
+              is Now Live
             </Text>
           </Wrapper>
           <ButtonWrapper>
@@ -250,7 +253,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
               src={val.image_url}
             />
             <Text size='24px' weight={600}>
-              Buy Successful For
+              Congratulations! You Have Purchased
             </Text>
             <Text size='24px' weight={600}>
               {val.name}
