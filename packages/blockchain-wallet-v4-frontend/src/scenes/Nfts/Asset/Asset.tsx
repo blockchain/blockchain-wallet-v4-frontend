@@ -817,7 +817,7 @@ const NftAsset: React.FC<Props> = ({
                         const rarity =
                           traitCount && currentAsset.collection.total_supply
                             ? `${(traitCount / currentAsset.collection.total_supply) * 100}%`
-                            : 'N/A'
+                            : 'New Trait'
 
                         return (
                           <Trait
