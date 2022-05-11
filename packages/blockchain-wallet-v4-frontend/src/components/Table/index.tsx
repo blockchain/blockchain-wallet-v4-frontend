@@ -37,8 +37,8 @@ export const TableWrapper = styled.div<{ height?: string }>`
       text-align: left;
       width: 20%;
       ${media.tabletL`
-      max-width: 10em;
-      min-width: 10em;
+      max-width: 12em;
+      min-width: 12em;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

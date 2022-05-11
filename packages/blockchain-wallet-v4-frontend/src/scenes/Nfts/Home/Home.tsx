@@ -10,7 +10,13 @@ import styled from 'styled-components'
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions } from 'data'
-import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
+import {
+  AssetFilterFields,
+  CollectionSortFields,
+  SortDirection,
+  useAssetQuery,
+  useCollectionsQuery
+} from 'generated/graphql.types'
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
@@ -34,10 +40,35 @@ const Banner = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 100px 64px;
+  z-index: 2;
   ${media.mobile`
     flex-direction: column;
     padding: 30px 16px;
     border-radius: unset;
+  `}
+`
+
+const AssetCard = styled.img`
+  border-radius: 16px;
+  border: 1.18px solid ${colors.grey000};
+  z-index: 2;
+  position: relative;
+`
+
+const BackOfCard = styled.div`
+  border: 1.18px solid ${colors.grey000};
+  width: 250px;
+  top: 225px;
+  position: absolute;
+  background: white;
+  opacity: 50%;
+  border-radius: 16px;
+  height: 250px;
+  transform: rotate(-15deg);
+  z-index: 1;
+  ${media.atLeastMobile`
+    top: 100px;
+    right: 60px;
   `}
 `
 
@@ -47,6 +78,20 @@ const Explore: React.FC<Props> = (props) => {
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
+    }
+  })
+  // TO-DO: change to cryptoadz (0x1cb1a5e65610aeff2551a50f76a87a7d3fb649c6),
+  // and grab random tokenId (1-6969) for mainnet
+  const [asset] = useAssetQuery({
+    requestPolicy: 'network-only',
+    variables: {
+      filter: [
+        {
+          field: AssetFilterFields.ContractAddress,
+          value: '0xb74bf94049d2c01f8805b8b15db0909168cabf46'
+        },
+        { field: AssetFilterFields.TokenId, value: '964' }
+      ]
     }
   })
 
@@ -82,6 +127,10 @@ const Explore: React.FC<Props> = (props) => {
                 </Button>
               </LinkContainer>
             </div>
+            <div>
+              <BackOfCard />
+              <AssetCard width='250px' alt='asset' src={asset.data?.assets[0]?.image_url || ''} />
+            </div>
           </Banner>
           <div>
             <Text
@@ -96,7 +145,7 @@ const Explore: React.FC<Props> = (props) => {
         </>
       ) : (
         <>
-          <Banner>
+          <Banner style={{ height: '510px' }}>
             <div>
               <Text size='20px' style={{ textAlign: 'center' }} weight={600} color='black'>
                 Discover, Collect & Create NFTs.
@@ -124,15 +173,18 @@ const Explore: React.FC<Props> = (props) => {
                   style={{
                     alignItems: 'center',
                     display: 'flex',
+                    paddingTop: '1em',
                     width: '6em'
                   }}
                 >
-                  <Text color={colors.blue600} weight={600}>
+                  <Text color='blue600' weight={600}>
                     Create
                   </Text>
                 </div>
               </Flex>
             </div>
+            <BackOfCard />
+            <AssetCard width='250px' alt='asset' src={asset.data?.assets[0]?.image_url || ''} />
           </Banner>
           <div>
             <Text
