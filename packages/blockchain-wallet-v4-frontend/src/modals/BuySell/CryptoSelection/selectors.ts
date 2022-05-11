@@ -19,8 +19,6 @@ export const getData = (state) => {
   const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
-  const showSilverRevamp = selectors.core.walletOptions.getSilverRevamp(state).getOrElse(false)
-
   return lift(
     (
       eligibility: ExtractSuccess<typeof eligibilityR>,
@@ -40,7 +38,6 @@ export const getData = (state) => {
       pairs,
       sbOrders,
       sddEligible,
-      showSilverRevamp,
       userData,
       walletCurrency
     })

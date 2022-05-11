@@ -77,6 +77,7 @@ class EnterAmount extends PureComponent<Props> {
             action='retry'
             data-e2e='sbTryCurrencySelectionAgain'
             handler={this.errorCallback}
+            errorMessage={error.title}
           />
         )
       },

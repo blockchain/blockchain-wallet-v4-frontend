@@ -25,7 +25,6 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -37,6 +36,7 @@ import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
@@ -122,13 +122,6 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
-  const sellOrders =
-    val.orders?.filter((x) => {
-      return x.side === 1
-    }) || []
-  const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
-  )[0]
   const disabled =
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
@@ -175,84 +168,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           height: '100%'
         }}
       >
-        <Row>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex' }}>
-              <img
-                style={{
-                  borderRadius: '8px',
-                  height: '64px',
-                  marginRight: '12px',
-                  width: 'auto'
-                }}
-                alt='nft-asset'
-                src={val.image_url.replace(/=s\d*/, '')}
-              />
-              <div>
-                <Text size='16px' color='grey900' weight={600}>
-                  {val?.name}
-                </Text>
-                {val.collection.safelist_request_status === 'verified' ? (
-                  <Text
-                    size='14px'
-                    weight={600}
-                    color='green600'
-                    style={{
-                      background: colors.green100,
-                      borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center',
-                      width: 'fit-content'
-                    }}
-                  >
-                    Verified
-                  </Text>
-                ) : (
-                  <Text
-                    size='14px'
-                    weight={600}
-                    color='orange600'
-                    style={{
-                      background: colors.orange100,
-                      borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center',
-                      width: 'fit-content'
-                    }}
-                  >
-                    Not Verified
-                  </Text>
-                )}
-              </div>
-            </div>
-            {lowest_order?.base_price && (
-              <Text
-                style={{
-                  justifyContent: 'right'
-                }}
-              >
-                <CoinDisplay
-                  size='14px'
-                  color='black'
-                  weight={600}
-                  coin='ETH'
-                  style={{ justifyContent: 'right' }}
-                >
-                  {lowest_order?.base_price}
-                </CoinDisplay>
-                <FiatDisplay
-                  size='14px'
-                  color={colors.grey600}
-                  weight={600}
-                  coin='ETH'
-                  style={{ justifyContent: 'right' }}
-                >
-                  {lowest_order?.base_price}
-                </FiatDisplay>
-              </Text>
-            )}
-          </div>
-        </Row>
+        <NftAssetHeaderRow asset={val} />
         <Row>
           <Value>
             <AmountFieldInput
@@ -349,24 +265,12 @@ const MakeOffer: React.FC<Props> = (props) => {
             />
           </Value>
         </Row>
-        {isAuthenticated && (
-          <Row>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%'
-              }}
-            >
-              <MakeOfferFees {...props} asset={val} />
-            </div>
-          </Row>
-        )}
       </div>
 
       <StickyCTA>
         {isAuthenticated ? (
           <>
+            <MakeOfferFees {...props} asset={val} />
             {needsWrap ? (
               <>
                 {canWrap ? (

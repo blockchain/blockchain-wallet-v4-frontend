@@ -90,21 +90,15 @@ export const GridWrapper = styled.div`
 export const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
-  ${media.atLeastTablet`
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  ${media.tablet`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
-  ${media.atLeastLaptop`
+  ${media.desktop`
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  `}
-  ${media.atLeastLaptopL`
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  `}
-  ${media.atLeastDesktop`
-    grid-template-columns: repeat(6, minmax(0, 1fr));
   `}
   ${media.tablet`
     padding: 12px;

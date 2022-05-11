@@ -40,10 +40,7 @@ const EnterEmailOrGuid = (props: Props) => {
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
-              <FormattedMessage
-                id='scenes.login.email_guid'
-                defaultMessage='Your Email or Wallet ID'
-              />
+              <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
             </LoginFormLabel>
             <Field
               component={TextBox}
@@ -52,7 +49,7 @@ const EnterEmailOrGuid = (props: Props) => {
               name='guidOrEmail'
               normalize={removeWhitespace}
               validate={[required, validWalletIdOrEmail]}
-              placeholder='Enter email or wallet ID'
+              placeholder='Enter Email or Wallet ID'
               autoFocus
             />
           </FormItem>

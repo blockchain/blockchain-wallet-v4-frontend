@@ -120,10 +120,6 @@ export const getTaxCenterEnabled = (state: RootState) =>
 export const getInstitutionalPortalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
 
-// show/hide silver revamp
-export const getSilverRevamp = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'showSilverRevamp']))
-
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))

@@ -75,7 +75,8 @@ const AuthLayoutContainer = ({
   formValues,
   pageTitle,
   path,
-  platform
+  platform,
+  unified
 }: Props) => {
   // lazy load google captcha
   useDefer3rdPartyScript(
@@ -106,7 +107,12 @@ const AuthLayoutContainer = ({
               <Component {...matchProps} />
             </ContentContainer>
             <FooterContainer>
-              <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
+              <Footer
+                authProduct={authProduct}
+                formValues={formValues}
+                platform={platform}
+                unified={unified}
+              />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -118,7 +124,8 @@ const AuthLayoutContainer = ({
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
-  platform: selectors.auth.getMagicLinkData(state)?.platform_type
+  platform: selectors.auth.getMagicLinkData(state)?.platform_type,
+  unified: selectors.cache.getUnifiedAccountStatus(state)
 })
 
 const connector = connect(mapStateToProps)
