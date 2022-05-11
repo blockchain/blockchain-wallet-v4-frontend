@@ -1,3 +1,5 @@
+import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
+
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
@@ -2481,19 +2483,29 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case actions.components.nfts.nftOrderFlowOpen.type: {
+      case actions.components.sendCrypto.submitTransactionSuccess: {
         const state = store.getState()
-
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_CREATED, {
+
+        const feeRate = state.form[SEND_FORM].values.fee
+        const currency = state.form[SEND_FORM].values.coin
+        const fromAccountType =
+          state.form[SEND_FORM].values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType = AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
           properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
             originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
+            to_account_type: toAccountType
           },
           traits: {
             email,
@@ -2501,6 +2513,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             tier
           }
         })
+
         break
       }
       default: {
