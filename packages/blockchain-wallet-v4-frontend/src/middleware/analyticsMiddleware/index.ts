@@ -1,4 +1,40 @@
-import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// DO NOT CHANGE THIS FILE!!!!!!!!!!!!!!!!!!!!!!!!
+// It's being deprecated
 
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -6,7 +42,6 @@ import {
   BankDWStepType,
   InterestStep,
   ModalName,
-  RecurringBuyOrigins,
   RecurringBuyStepType,
   SwapBaseCounterTypes
 } from 'data/types'
@@ -2465,73 +2500,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           state.form['@SEND'].ETH.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
-
-        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
-          properties: {
-            currency,
-            fee_rate: feeRate,
-            from_account_type: fromAccountType,
-            originalTimestamp: getOriginalTimestamp(),
-            to_account_type: toAccountType
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
-      case actions.components.sendCrypto.setStep.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const feeRate = state.form[SEND_FORM].values.fee
-        const currency = state.form[SEND_FORM].values.coin
-        const fromAccountType =
-          state.form[SEND_FORM].values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
-            ? AccountType.TRADING
-            : AccountType.USERKEY
-        const toAccountType = AccountType.USERKEY
-
-        if (action.payload.step === 3) {
-          analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
-            properties: {
-              currency,
-              fee_rate: feeRate,
-              from_account_type: fromAccountType,
-              originalTimestamp: getOriginalTimestamp(),
-              to_account_type: toAccountType
-            },
-            traits: {
-              email,
-              nabuId,
-              tier
-            }
-          })
-        }
-        break
-      }
-      case actions.components.sendCrypto.submitTransactionSuccess.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const feeRate = state.form[SEND_FORM].values.fee
-        const currency = state.form[SEND_FORM].values.coin
-        const fromAccountType =
-          state.form[SEND_FORM].values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
-            ? AccountType.TRADING
-            : AccountType.USERKEY
-        const toAccountType = AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SEND_SUBMITTED, {
           properties: {

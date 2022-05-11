@@ -25,6 +25,10 @@ import {
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
 import {
+  Events as SendCryptoEvents,
+  TrackEventAction as SendCryptoTrackEventAction
+} from './sendCrypto'
+import {
   Events as TaxCenterEvents,
   TrackEventAction as TaxCenterTrackEventAction
 } from './taxCenter'
@@ -39,26 +43,28 @@ const TRACK_EVENT = 'trackEvent'
 type AnalyticsKey =
   | AccountRecoveryEvents
   | ClientErrorEvents
-  | OnboardingAndVerificationEvents
-  | ViewAndClickEvents
+  | DepositWithdrawalClientEvents
+  | InterestClientEvents
   | LoginEvents
   | MiscEvents
-  | InterestClientEvents
-  | DepositWithdrawalClientEvents
-  | TaxCenterEvents
   | NftsEvents
+  | OnboardingAndVerificationEvents
+  | SendCryptoEvents
+  | TaxCenterEvents
+  | ViewAndClickEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
   ...ClientErrorEvents,
-  ...OnboardingAndVerificationEvents,
-  ...ViewAndClickEvents,
+  ...DepositWithdrawalClientEvents,
+  ...InterestClientEvents,
   ...LoginEvents,
   ...MiscEvents,
-  ...InterestClientEvents,
-  ...DepositWithdrawalClientEvents,
+  ...NftsEvents,
+  ...OnboardingAndVerificationEvents,
+  ...SendCryptoEvents,
   ...TaxCenterEvents,
-  ...NftsEvents
+  ...ViewAndClickEvents
 }
 
 // event properties
@@ -72,14 +78,15 @@ type AnalyticsProperties =
 type TrackEventAction =
   | AccountRecoveryTrackEventAction
   | ClientErrorTrackEventAction
-  | OnboardingAndVerificationTrackEventAction
-  | ViewAndClickTrackEventAction
+  | DepositWithdrawalClientEventAction
+  | InterestClientTrackEventAction
   | LoginTrackEventAction
   | MiscTrackEventAction
-  | InterestClientTrackEventAction
-  | DepositWithdrawalClientEventAction
-  | TaxCenterTrackEventAction
   | NftsTrackEventAction
+  | OnboardingAndVerificationTrackEventAction
+  | SendCryptoTrackEventAction
+  | TaxCenterTrackEventAction
+  | ViewAndClickTrackEventAction
 
 type AnalyticsTraits = {
   email?: string
