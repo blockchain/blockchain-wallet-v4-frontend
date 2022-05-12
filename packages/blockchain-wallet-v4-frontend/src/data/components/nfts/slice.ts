@@ -39,6 +39,7 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     orderToMatch: null,
+    prevStep: null,
     status: null,
     step: null,
 
@@ -320,6 +321,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload
+    },
+    setOrderFlowPrevStep: (state, action: PayloadAction<{ prevStep: NftOrderStepEnum }>) => {
+      state.orderFlow.prevStep = action.payload.prevStep
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
