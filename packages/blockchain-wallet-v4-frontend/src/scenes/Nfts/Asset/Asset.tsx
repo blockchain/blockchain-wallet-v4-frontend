@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon } from '@blockchain-com/constellation'
+import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { formatDistanceToNow, subDays } from 'date-fns'
 import { bindActionCreators } from 'redux'
@@ -33,12 +32,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
-import {
-  AssetFilterFields,
-  EventFilterFields,
-  useAssetQuery,
-  useAssetsQuery
-} from 'generated/graphql.types'
+import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
@@ -48,7 +42,8 @@ import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
-import { EthText, Highest } from './components'
+import { CollectionName, CustomLink, EthText, Highest } from './components'
+import AssetMoreItems from './components/AssetMoreItems'
 import NftAssetCountdown from './components/NftAssetCountdown'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -143,38 +138,6 @@ const SocialLink = styled.div`
   }
 `
 
-const MoreAssets = styled.div`
-  ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
-  `}
-`
-
-const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
-`
-
-const CollectionName = styled(Text)`
-  font-weight: 600;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  color: ${colors.grey900};
-`
-
-const CustomLink = styled(LinkContainer)`
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-`
 const AssetName = styled(Text)`
   font-style: normal;
   font-weight: 600;
@@ -294,9 +257,7 @@ const NftAsset: React.FC<Props> = ({
       ]
     }
   })
-  const [assets] = useAssetsQuery({
-    variables: { filter: [{ field: AssetFilterFields.ContractAddress, value: contract }], limit: 4 }
-  })
+
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const [Tab, setTab] = useState('about')
 
@@ -931,88 +892,7 @@ const NftAsset: React.FC<Props> = ({
               ) : null}
             </RightColWrapper>
           </Top>
-          <div style={{ display: 'flex' }}>
-            <MoreAssets>
-              <div
-                style={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginTop: '40px'
-                }}
-              >
-                <Text color={colors.grey700} weight={600} capitalize>
-                  More from this collection
-                </Text>
-                <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
-                  <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
-                    See All
-                  </Button>
-                </CustomLink>
-              </div>
-              <MoreAssetsList>
-                {assets?.data?.assets?.length
-                  ? assets?.data?.assets?.map((asset) => {
-                      const link = `/nfts/asset/${currentAsset.contract?.address}/${asset.token_id}`
-                      return (
-                        <MoreAssetsListItem key={asset.token_id}>
-                          <CustomLink
-                            to={link}
-                            style={{
-                              border: `1px solid ${colors.grey100}`,
-                              borderRadius: '10%',
-                              borderWidth: '1px',
-                              boxSizing: 'border-box',
-                              justifyContent: 'center',
-                              margin: '1em',
-                              padding: '10px'
-                            }}
-                          >
-                            <div>
-                              <CollectionName>
-                                {asset.collection.image_url ? (
-                                  <img
-                                    alt='Dapp Logo'
-                                    height='30px'
-                                    width='auto'
-                                    style={{
-                                      borderRadius: '50%',
-                                      paddingRight: '0.5em'
-                                    }}
-                                    src={asset.collection?.image_url || ''}
-                                  />
-                                ) : null}
-                                <div>{asset.collection?.name}</div>
-                              </CollectionName>
-                              <img
-                                alt='Asset Logo'
-                                width='100%'
-                                height='auto'
-                                style={{
-                                  borderRadius: '10%',
-                                  boxSizing: 'border-box',
-                                  marginBottom: '0.5rem',
-                                  marginTop: '1em'
-                                }}
-                                src={asset.image_url || ''}
-                              />
-                              <Text
-                                style={{ textAlign: 'center' }}
-                                size='14px'
-                                weight={600}
-                                capitalize
-                              >
-                                {asset.name || asset.token_id}
-                              </Text>
-                            </div>
-                          </CustomLink>
-                        </MoreAssetsListItem>
-                      )
-                    })
-                  : null}
-              </MoreAssetsList>
-            </MoreAssets>
-          </div>
+          {currentAsset ? <AssetMoreItems asset={currentAsset} /> : null}
         </div>
       </>
     </Wrapper>

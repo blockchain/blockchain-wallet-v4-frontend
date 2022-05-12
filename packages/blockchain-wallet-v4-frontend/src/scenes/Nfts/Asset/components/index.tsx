@@ -1,3 +1,4 @@
+import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -16,4 +17,19 @@ export const EthText = styled(Highest)`
   margin-bottom: 20px;
   align-items: center;
   color: ${colors.grey900};
+`
+
+export const CollectionName = styled(Text)`
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: ${colors.grey900};
+`
+
+export const CustomLink = styled(LinkContainer)`
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
 `
