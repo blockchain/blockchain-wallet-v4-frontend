@@ -163,7 +163,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                     </Flex>
                   </Flex>
                 </Row>
-                {erc20Balances.map(({ tokenSymbol }) => (
+                {erc20Balances.map(({ balance, tokenSymbol }) => (
                   <Row key={tokenSymbol}>
                     <Flex justifyContent='space-between' alignItems='center'>
                       <Flex gap={16} alignItems='center'>
@@ -180,12 +180,12 @@ class EthWalletBalance extends PureComponent<Props, State> {
                       <Flex gap={2} flexDirection='column'>
                         <Flex justifyContent='flex-end'>
                           <FiatDisplay coin={tokenSymbol} color='black' weight={600}>
-                            {ethBalance}
+                            {balance}
                           </FiatDisplay>
                         </Flex>
                         <Flex justifyContent='flex-end'>
                           <CoinDisplay coin={tokenSymbol} size='14px' color='grey500' weight={500}>
-                            {ethBalance}
+                            {balance}
                           </CoinDisplay>
                         </Flex>
                       </Flex>

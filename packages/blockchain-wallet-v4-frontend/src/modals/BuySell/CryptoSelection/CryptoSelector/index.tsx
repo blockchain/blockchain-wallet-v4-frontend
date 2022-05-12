@@ -73,7 +73,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     !equals(this.props, nextProps) || !equals(this.state, nextState)
 
   setOrderType = (orderType: OrderType) => {
-    if (orderType === OrderType.SELL && this.props.showSilverRevamp) {
+    if (orderType === OrderType.SELL) {
       const userCurrentTier = this.props.userData?.tiers?.current ?? 0
 
       // non T2 users can't sell

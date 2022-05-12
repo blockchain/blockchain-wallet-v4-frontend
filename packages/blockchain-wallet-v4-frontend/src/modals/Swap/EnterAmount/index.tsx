@@ -111,8 +111,7 @@ class EnterAmount extends PureComponent<Props> {
     const { coinfig: baseCoinfig } = window.coins[BASE.coin]
     const { coinfig: counterCoinfig } = window.coins[COUNTER.coin]
 
-    const showSilverRevampBanner =
-      this.props.silverRevamp && this.props.products?.swap?.maxOrdersLeft > 0
+    const showSilverRevampBanner = this.props.products?.swap?.maxOrdersLeft > 0
 
     return (
       <>

@@ -594,8 +594,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantCapabilities.push('supportsCredit')
           }
 
-          // The amount has to be in cents
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
@@ -633,7 +633,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             'CRYPTOGRAM_3DS'
           ]
 
-          const amount = parseInt(order.inputQuantity) / 100
+          // inputAmount is in cents, but amount has to be in decimals
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
 
@@ -1067,6 +1068,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const userData = selectors.modules.profile.getUserData(yield select()).getOrElse({
         state: 'NONE'
       } as UserDataType)
+
       // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !payload) {
         return yield put(A.fetchPaymentMethodsSuccess(DEFAULT_BS_METHODS))
@@ -1097,7 +1099,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const includeNonEligibleMethods = currentUserTier === 2
       // if user is SDD tier 3 eligible, fetch limits for tier 3
       // else let endpoint return default current tier limits for current tier of user
-      const includeTierLimits = userSDDEligibleTier === SDD_TIER ? SDD_TIER : undefined
+      // double check if user is tier 2 and in case user is ignore this property
+      const includeTierLimits =
+        userSDDEligibleTier === SDD_TIER && currentUserTier !== 2 ? SDD_TIER : undefined
 
       let paymentMethods = yield call(
         api.getBSPaymentMethods,
@@ -1707,13 +1711,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    const showSilverRevamp = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
     // check is user eligible to do sell/buy
     // we skip this for gold users
-    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
+    if (!isUserTier2 && !latestPendingOrder) {
       yield put(actions.custodial.fetchProductEligibilityForUser())
       yield take([
         custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -1763,7 +1763,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // For all silver/silver+ users if they have pending transaction and they are from silver revamp
       // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
-    } else if (!isUserTier2 && latestPendingOrder && showSilverRevamp) {
+    } else if (!isUserTier2 && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))

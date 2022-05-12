@@ -8,13 +8,13 @@ import WalletLayout from './template'
 import Loading from './template.loading'
 
 const WalletLayoutContainer = ({
- coinViewV2,
- component: Component,
- computedMatch,
- isAuthenticated,
- isCoinDataLoaded,
- path,
- ...rest
+  coinViewV2,
+  component: Component,
+  computedMatch,
+  isAuthenticated,
+  isCoinDataLoaded,
+  path,
+  ...rest
 }: Props) => {
   let isValidRoute = true
   let coin

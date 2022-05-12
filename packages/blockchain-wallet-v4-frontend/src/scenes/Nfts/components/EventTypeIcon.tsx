@@ -1,27 +1,23 @@
 import React from 'react'
-import {
-  IconActivity,
-  IconCart,
-  IconCheckCircle,
-  IconCloseCircle,
-  IconSend
-} from '@blockchain-com/icons'
+import { colors } from '@blockchain-com/constellation'
+import { IconActivity, IconCart, IconCloseCircle, IconSell, IconSend } from '@blockchain-com/icons'
 
 import { opensea_event_types } from '.'
 
 const EventTypeIcon: React.FC<Props> = ({ event_type }) => {
   switch (event_type) {
     case 'successful':
-      return <IconCart />
+      return <IconCart color={colors.grey400} />
     case 'transfer':
-      return <IconSend />
+      return <IconSend color={colors.grey400} />
     case 'bid_entered':
     case 'offer_entered':
-      return <IconActivity />
+      return <IconActivity color={colors.grey400} />
     case 'created':
-      return <IconCheckCircle />
+      return <IconSell color={colors.grey400} />
+    case 'cancelled':
     case 'bid_withdrawn':
-      return <IconCloseCircle />
+      return <IconCloseCircle color={colors.grey400} />
     default:
       return null
   }

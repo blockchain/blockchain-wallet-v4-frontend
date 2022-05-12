@@ -27,7 +27,6 @@ const getData = (state: RootState) => {
   const crossBorderLimits = selectors.components.swap
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
-  const silverRevamp = selectors.core.walletOptions.getSilverRevamp(state).getOrElse(false)
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -45,7 +44,6 @@ const getData = (state: RootState) => {
       limits,
       payment: paymentR.getOrElse(undefined),
       quote,
-      silverRevamp,
       walletCurrency
     })
   )(incomingAmountR, limitsR, quoteR, baseRatesR, walletCurrencyR)

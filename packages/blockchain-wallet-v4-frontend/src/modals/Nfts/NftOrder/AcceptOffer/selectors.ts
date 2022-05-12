@@ -6,15 +6,14 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [selectors.components.nfts.getOrderFlow],
-  (orderflow: ReturnType<typeof selectors.components.nfts.getOrderFlow>) => {
+  (orderflow) => {
     const transform = (
-      asset: ExtractSuccess<typeof orderflow['asset']>,
       fees: ExtractSuccess<typeof orderflow['fees']>,
       matchingOrder: ExtractSuccess<typeof orderflow['matchingOrder']>
     ) => ({
-      asset,
+      fees,
       matchingOrder
     })
-    return lift(transform)(orderflow.asset, orderflow.fees, orderflow.matchingOrder)
+    return lift(transform)(orderflow.fees, orderflow.matchingOrder)
   }
 )

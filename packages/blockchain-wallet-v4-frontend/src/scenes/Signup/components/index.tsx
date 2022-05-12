@@ -142,7 +142,7 @@ align-items: center;
 `}
 `
 
-export const LoginLink = (props: { analyticsActions }) => (
+export const LoginLink = (props: { analyticsActions; unified }) => (
   <LoginCard>
     <LinkContainer data-e2e='signupLink' to='/login'>
       <LoginLinkRow
@@ -150,7 +150,8 @@ export const LoginLink = (props: { analyticsActions }) => (
           props.analyticsActions.trackEvent({
             key: Analytics.LOGIN_CLICKED,
             properties: {
-              origin: 'SIGN_UP_FLOW'
+              origin: 'SIGN_UP_FLOW',
+              unified: props.unified
             }
           })
         }
@@ -163,7 +164,7 @@ export const LoginLink = (props: { analyticsActions }) => (
         >
           <FormattedMessage
             id='scenes.register.account.link'
-            defaultMessage='Already have a Blockchain Account?'
+            defaultMessage='Already have a Blockchain.com Account?'
           />
         </Text>
         &nbsp;

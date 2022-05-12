@@ -12,6 +12,8 @@ import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
+import { Analytics } from 'data/types'
+import { AccountType } from 'middleware/analyticsMiddleware/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
@@ -73,6 +75,18 @@ export default ({ api }: { api: APIType }) => {
           })
         )
       }
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SEND_AMOUNT_ENTERED,
+          properties: {
+            currency: coin,
+            fee_rate: fee,
+            from_account_type: account.type,
+            originalTimestamp: new Date().toISOString(),
+            to_account_type: AccountType.USERKEY
+          }
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.buildTxFailure(error))
@@ -249,6 +263,19 @@ export default ({ api }: { api: APIType }) => {
         )
         yield put(A.submitTransactionSuccess({ amount: response.amount }))
       }
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SEND_SUBMITTED,
+          properties: {
+            currency: coin,
+            fee_rate: fee,
+            from_account_type: selectedAccount.type,
+            originalTimestamp: new Date().toISOString(),
+            to_account_type: AccountType.USERKEY
+          }
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.submitTransactionFailure(error))

@@ -10,7 +10,7 @@ import FabButton from 'components/FabButton'
 import { Destination } from 'layouts/Wallet/components'
 import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
-import { useMedia } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import AppSwitcher from './AppSwitcher'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
@@ -33,6 +33,9 @@ export const NavContainer = styled.div`
   padding: 0 22px;
   border-bottom: 1px solid ${colors.grey100};
   height: 56px;
+  ${media.tablet`
+    padding: 0 12px;
+  `}
 `
 
 export const Logo = styled.div`

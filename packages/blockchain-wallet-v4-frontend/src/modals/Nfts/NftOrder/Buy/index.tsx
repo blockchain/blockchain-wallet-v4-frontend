@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { useRemote } from 'hooks'
 import { Field, reduxForm } from 'redux-form'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
@@ -22,15 +21,27 @@ import { Row, Value } from 'components/Flyout/model'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { orderFromJSON } from 'data/components/nfts/utils'
+import { useRemote } from 'hooks'
 
 import { RightAlign, StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
 import BuyFees from './fees'
 
 const Buy: React.FC<Props> = (props) => {
-  const { close, ethBalancesR, formValues, nftActions, orderFlow, rates, walletCurrency } = props
+  const {
+    close,
+    ethBalancesR,
+    formValues,
+    nftActions,
+    openSeaAssetR,
+    orderFlow,
+    rates,
+    walletCurrency
+  } = props
   const { amount, coin, fix } = formValues
   const { orderToMatch } = orderFlow
 
@@ -49,7 +60,7 @@ const Buy: React.FC<Props> = (props) => {
     new BigNumber(0)
   ])
 
-  const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
+  const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
     openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
@@ -71,8 +82,8 @@ const Buy: React.FC<Props> = (props) => {
 
   return (
     <>
-      {orderFlow.asset.cata({
-        Failure: (e) => <Text>{e}</Text>,
+      {openSeaAssetR.cata({
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => null,
         Success: (val) => (
@@ -90,84 +101,7 @@ const Buy: React.FC<Props> = (props) => {
               }}
             >
               <div style={{ height: '100%' }}>
-                <Row>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex' }}>
-                      <img
-                        style={{
-                          borderRadius: '8px',
-                          height: '64px',
-                          marginRight: '12px',
-                          width: 'auto'
-                        }}
-                        alt='nft-asset'
-                        src={val.image_url.replace(/=s\d*/, '')}
-                      />
-                      <div>
-                        <Text size='16px' color='grey900' weight={600}>
-                          {val?.name}
-                        </Text>
-                        {val.collection.safelist_request_status === 'verified' ? (
-                          <Text
-                            size='14px'
-                            weight={600}
-                            color='green600'
-                            style={{
-                              background: colors.green100,
-                              borderRadius: '8px',
-                              padding: '5px 8px',
-                              textAlign: 'center',
-                              width: 'fit-content'
-                            }}
-                          >
-                            Verified
-                          </Text>
-                        ) : (
-                          <Text
-                            size='14px'
-                            weight={600}
-                            color='orange600'
-                            style={{
-                              background: colors.orange100,
-                              borderRadius: '8px',
-                              padding: '5px 8px',
-                              textAlign: 'center',
-                              width: 'fit-content'
-                            }}
-                          >
-                            Not Verified
-                          </Text>
-                        )}
-                      </div>
-                    </div>
-                    {lowest_order?.base_price && (
-                      <Text
-                        style={{
-                          justifyContent: 'right'
-                        }}
-                      >
-                        <CoinDisplay
-                          size='14px'
-                          color='black'
-                          weight={600}
-                          coin='ETH'
-                          style={{ justifyContent: 'right' }}
-                        >
-                          {lowest_order?.base_price}
-                        </CoinDisplay>
-                        <FiatDisplay
-                          size='14px'
-                          color={colors.grey600}
-                          weight={600}
-                          coin='ETH'
-                          style={{ justifyContent: 'right' }}
-                        >
-                          {lowest_order?.base_price}
-                        </FiatDisplay>
-                      </Text>
-                    )}
-                  </div>
-                </Row>
+                <NftAssetHeaderRow asset={val} />
                 <Row>
                   <Title>
                     <b>
@@ -205,12 +139,11 @@ const Buy: React.FC<Props> = (props) => {
                     />
                   </Value>
                 </Row>
-                <Row>
-                  <BuyFees {...props} />
-                </Row>
               </div>
             </div>
             <StickyCTA>
+              <BuyFees {...props} />
+              <br />
               {orderToMatch ? (
                 <div style={{ marginBottom: '8px' }}>
                   <Flex alignItems='center' justifyContent='space-between'>

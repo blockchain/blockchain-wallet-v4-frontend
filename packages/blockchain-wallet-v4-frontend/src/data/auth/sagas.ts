@@ -9,7 +9,7 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, ExchangeAuthOriginType } from 'data/types'
+import { Analytics, CaptchaActionName, ExchangeAuthOriginType } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -49,7 +49,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas
   })
   const { saveGoals } = goalSagas({ api, coreSagas, networks })
-  const { startCoinWebsockets } = miscSagas()
+  const { generateCaptchaToken, startCoinWebsockets } = miscSagas()
 
   const LOGIN_FORM = 'login'
 
@@ -77,11 +77,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
-    const { captchaToken, code, password, username } = action.payload
+    const { code, password, username } = action.payload
     const { platform, product, redirect, userType } = yield select(
       selectors.auth.getProductAuthMetadata
     )
-    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
     const exchangeAuthUrl = magicLinkData?.exchange_auth_url
     const { exchange: exchangeDomain } = selectors.core.walletOptions
@@ -98,7 +97,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: false
           }
         })
       )
@@ -107,13 +107,15 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: false
           }
         })
       )
     }
     // start signin flow
     try {
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
       const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
@@ -149,7 +151,13 @@ export default ({ api, coreSagas, networks }) => {
             status: 'success'
           })
           break
-        // web - exchange sso login
+        // web - exchange sso login with redirect from deeplink
+        // TODO: this is just for FF off testing on staging
+        // TODO: change this to work for real, where we use
+        // redirect from exchange deeplink into login
+        case redirect !== undefined && redirect.includes('beta') && platform === PlatformTypes.WEB:
+          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
+          break
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
@@ -164,7 +172,13 @@ export default ({ api, coreSagas, networks }) => {
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
-            site_redirect: product
+            has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+            is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+            mergeable: magicLinkData.mergeable,
+            nabu_id: magicLinkData.wallet?.nabu?.user_id,
+            site_redirect: product,
+            unified: false,
+            upgradeable: magicLinkData.upgradeable
           }
         })
       )
@@ -179,7 +193,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
             properties: {
-              site_redirect: product
+              site_redirect: product,
+              unified: false
             }
           })
         )
@@ -189,7 +204,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.LOGIN_PASSWORD_DENIED,
             properties: {
-              site_redirect: product
+              site_redirect: product,
+              unified: false
             }
           })
         )
@@ -271,6 +287,10 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.cache.exchangeWalletGuid(guid))
           yield put(actions.cache.setUnifiedAccount(true))
         } else {
+          yield take([
+            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS,
+            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
+          ])
           const existingUserCountryCode = (yield select(
             selectors.modules.profile.getUserCountryCode
           )).getOrElse('US')
@@ -354,7 +374,7 @@ export default ({ api, coreSagas, networks }) => {
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const exchangeEmail = yield select(selectors.cache.getExchangeEmail)
+    const { exchangeEmail, unifiedAccount } = yield select(selectors.cache.getCache)
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
@@ -373,7 +393,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: unifiedAccount
           }
         })
       )
@@ -382,7 +403,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
-            site_redirect: product
+            site_redirect: product,
+            unified: unifiedAccount
           }
         })
       )
@@ -417,6 +439,8 @@ export default ({ api, coreSagas, networks }) => {
       })
       // Check which unification flow we're running
       // to determine what we want to do after authing user
+      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
+
       switch (true) {
         // case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
         //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
@@ -440,12 +464,19 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loginRoutineSaga, {})
           break
       }
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
-            site_redirect: product
+            has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
+            is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
+            mergeable: magicLinkData.mergeable,
+            nabu_id: magicLinkData.wallet?.nabu?.user_id,
+            site_redirect: product,
+            unified: unifiedAccount,
+            upgradeable: magicLinkData.upgradeable
           }
         })
       )
@@ -521,7 +552,8 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_PASSWORD_DENIED,
               properties: {
-                site_redirect: product
+                site_redirect: product,
+                unified: unifiedAccount
               }
             })
           )
@@ -552,7 +584,8 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
               properties: {
-                site_redirect: product
+                site_redirect: product,
+                unified: unifiedAccount
               }
             })
           )
@@ -742,8 +775,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   // this is the function we run when submitting the login form
-  const continueLoginProcess = function* (action) {
-    const { captchaToken, initCaptcha } = action.payload
+  const continueLoginProcess = function* () {
     const {
       code,
       email,
@@ -774,30 +806,19 @@ export default ({ api, coreSagas, networks }) => {
         } else if (product === ProductAuthOptions.EXCHANGE) {
           // trigger email for exchange form
           yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
-          yield put(
-            actions.auth.triggerWalletMagicLink({
-              captchaToken,
-              email: exchangeEmail
-            })
-          )
-          initCaptcha()
+          yield put(actions.auth.triggerWalletMagicLink({ email: exchangeEmail }))
         } else {
           // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
-          yield put(
-            actions.auth.triggerWalletMagicLink({
-              captchaToken,
-              email: email || guidOrEmail
-            })
-          )
-          initCaptcha()
+          yield put(actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail }))
         }
         yield put(
           actions.analytics.trackEvent({
             key: Analytics.LOGIN_IDENTIFIER_ENTERED,
             properties: {
               identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
-              site_redirect: product
+              site_redirect: product,
+              unified
             }
           })
         )
@@ -830,7 +851,6 @@ export default ({ api, coreSagas, networks }) => {
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
           actions.auth.exchangeLogin({
-            captchaToken,
             code: exchangeTwoFA,
             password: exchangePassword,
             username: exchangeEmail
@@ -844,13 +864,15 @@ export default ({ api, coreSagas, networks }) => {
 
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const { product } = yield select(selectors.auth.getProductAuthMetadata)
-    const { step } = formValues
-    const { captchaToken, email } = action.payload
-    yield put(startSubmit(LOGIN_FORM))
+    const { email } = action.payload
+    const { product, redirect } = yield select(selectors.auth.getProductAuthMetadata)
+
     try {
       let sessionToken
+      yield put(startSubmit(LOGIN_FORM))
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+      const { step } = formValues
+
       if (step === LoginSteps.CHECK_EMAIL && product === ProductAuthOptions.EXCHANGE) {
         sessionToken = yield select(selectors.session.getSession, null, email)
         if (!sessionToken) {
@@ -865,7 +887,8 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
         }
       }
-      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product, redirect)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {

@@ -1,9 +1,9 @@
 import React from 'react'
 import { IconAlert } from '@blockchain-com/icons'
-import { useRecord } from 'hooks'
 
 import { BadgePlacement, IconBadge } from 'components/Badge'
 import { Flex } from 'components/Flex'
+import { useRecord } from 'hooks'
 
 import { ImageWithSeverityComponent } from './ImageWithSeverity.types'
 

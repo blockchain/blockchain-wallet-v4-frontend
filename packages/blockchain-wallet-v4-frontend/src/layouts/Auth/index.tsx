@@ -1,12 +1,12 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { useDefer3rdPartyScript } from 'hooks'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
+import { useDefer3rdPartyScript } from 'hooks'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -75,9 +75,10 @@ const AuthLayoutContainer = ({
   formValues,
   pageTitle,
   path,
-  platform
+  platform,
+  unified
 }: Props) => {
-  // lazy load google captcha and google tag manager
+  // lazy load google captcha
   useDefer3rdPartyScript(
     `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
     {
@@ -86,11 +87,6 @@ const AuthLayoutContainer = ({
       }
     }
   )
-  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-    attributes: {
-      nonce: window.nonce
-    }
-  })
 
   // update page title from route
   if (pageTitle) document.title = pageTitle
@@ -111,7 +107,12 @@ const AuthLayoutContainer = ({
               <Component {...matchProps} />
             </ContentContainer>
             <FooterContainer>
-              <Footer authProduct={authProduct} formValues={formValues} platform={platform} />
+              <Footer
+                authProduct={authProduct}
+                formValues={formValues}
+                platform={platform}
+                unified={unified}
+              />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -123,7 +124,8 @@ const AuthLayoutContainer = ({
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
-  platform: selectors.auth.getMagicLinkData(state)?.platform_type
+  platform: selectors.auth.getMagicLinkData(state)?.platform_type,
+  unified: selectors.cache.getUnifiedAccountStatus(state)
 })
 
 const connector = connect(mapStateToProps)

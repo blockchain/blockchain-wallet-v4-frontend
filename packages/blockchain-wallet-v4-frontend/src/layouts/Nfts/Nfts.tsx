@@ -15,6 +15,10 @@ const NftsContainer = (props) => {
 
   const doRefresh = (e) => {
     if (props.isAuthenticated) {
+      const refreshButton = document.getElementById('nft-refresh')
+      if (refreshButton) {
+        refreshButton.click()
+      }
       e.preventDefault()
       e.returnValue = ''
     }
@@ -29,6 +33,12 @@ const NftsContainer = (props) => {
       window.removeEventListener('beforeunload', doRefresh)
     }
   }, [isCoinDataLoaded])
+
+  useEffect(() => {
+    document.getElementsByTagName('html')[0].classList.add('nfts')
+
+    return () => document.getElementsByTagName('html')[0].classList.remove('nfts')
+  })
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />

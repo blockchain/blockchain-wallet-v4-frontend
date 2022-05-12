@@ -9,12 +9,13 @@ export const LOADING_ITEMS_COUNT = 6
 export const maxWidth = '1200px'
 
 export const opensea_event_types = [
-  'successful',
-  'transfer',
-  'offer_entered',
   'bid_entered',
   'bid_withdrawn',
-  'created'
+  'cancelled',
+  'created',
+  'offer_entered',
+  'successful',
+  'transfer'
 ]
 
 export const NftPage = styled.div`
@@ -39,13 +40,13 @@ export const LeftColWrapper = styled.div`
   overflow: scroll;
   background: ${(props) => props.theme.white};
   z-index: 1;
-  ${media.atLeastTabletL`
+  ${media.atLeastTablet`
   top: 72px;
   margin-right: 20px;
   max-width: 320px;
   width: 25%;
 `} > form {
-    ${media.tabletL`
+    ${media.tablet`
     display: flex;
     > div {
       flex: 1;
@@ -76,25 +77,30 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 export const GridWrapper = styled.div`
   display: flex;
   padding: 24px;
+  padding-top: 0px;
   align-items: flex-start;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  ${media.tablet`
+    padding: 0px;
+  `}
 `
 
 export const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
-  ${media.atLeastTablet`
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  ${media.tablet`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
-  ${media.atLeastLaptop`
+  ${media.desktop`
     grid-template-columns: repeat(3, minmax(0, 1fr));
   `}
-  ${media.atLeastDesktop`
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  ${media.tablet`
+    padding: 12px;
+    box-sizing: border-box;
   `}
 `
 
@@ -173,7 +179,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   background-size: cover;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
-  ${media.tabletL`
+  ${media.tablet`
     flex-direction: column;
   `}
 `
@@ -191,7 +197,7 @@ export const CollectionImage = styled.img`
   width: 62px;
   top: 60px;
   left: calc(50% - 31px);
-  ${media.tabletL`
+  ${media.tablet`
     height: 40px;
     width: 40px;
     top: 60px;
@@ -217,6 +223,9 @@ export const NftBannerWrapper = styled.div`
   bottom: 0;
   width: 100%;
   padding: 24px 40px;
+  ${media.tablet`
+    padding: 12px;
+  `}
 `
 
 export const StatsWrapper = styled.div`
@@ -232,7 +241,7 @@ export const Stat = styled.div`
   border-radius: 8px;
   gap: 16px;
   background: rgba(255, 255, 255, 0.08);
-  ${media.tabletL`
+  ${media.tablet`
     padding: 10px;
     > div {
       font-size: 12px;

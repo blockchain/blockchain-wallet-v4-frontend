@@ -421,7 +421,7 @@ export type Listing = {
   end_date?: Maybe<Scalars['String']>;
   ending_price?: Maybe<Scalars['String']>;
   from_account_address?: Maybe<Scalars['String']>;
-  is_private: Scalars['Boolean'];
+  is_private?: Maybe<Scalars['Boolean']>;
   listing_time?: Maybe<Scalars['String']>;
   payment_token_symbol?: Maybe<Scalars['String']>;
   quantity: Scalars['Int'];
@@ -1790,11 +1790,8 @@ export default {
           {
             "name": "is_private",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
-              }
+              "kind": "SCALAR",
+              "name": "Any"
             },
             "args": []
           },

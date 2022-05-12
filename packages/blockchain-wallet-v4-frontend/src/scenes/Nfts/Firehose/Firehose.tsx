@@ -32,6 +32,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
+  const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
 
   const refresh = () => {
     setIsFetchingNextPage(true)
@@ -51,23 +52,26 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   return (
     <GridWrapper>
       <NftFilter
-        collections={[]}
+        collections={collectionsQuery.data?.collections || []}
         formActions={formActions}
         formValues={formValues}
         traits={[]}
+        isTriggered={isFilterTriggered}
         opensea_event_types={[]}
         minMaxPriceFilter
         forSaleFilter
+        setIsFilterTriggered={setIsFilterTriggered}
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
+          collections={[]}
           tabs={['EXPLORE']}
           activeTab='EXPLORE'
           showSortBy
+          setIsFilterTriggered={setIsFilterTriggered}
           formValues={formValues}
           formActions={formActions}
           setRefreshTrigger={setRefreshTrigger}
-          collections={collectionsQuery.data?.collections || []}
           setActiveTab={() => null}
         />
         <NftPageLazyLoadWrapper>

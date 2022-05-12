@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -13,27 +13,41 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
+import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
-  top: 20px;
+  top: calc(${FIXED_HEADER_HEIGHT}px);
+  padding-top: 20px;
   position: sticky;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isOpen ? '300px' : '20px')};
   min-width: ${(props) => (props.isOpen ? '300px' : '20px')};
   margin-right: 20px;
-  height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
   overflow: scroll;
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT + 20}px);
+  background: ${(props) => props.theme.white};
   ${media.tablet`
-    display: none;
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    box-sizing: border-box;
+    z-index: 1000;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    padding: 20px;
+    top: ${FIXED_HEADER_HEIGHT}px;
+    bottom: 0;
+    left: 0;
+    right: 0;
   `}
 `
 const IconWrapper = styled.div<{ isOpen: boolean }>`
@@ -59,7 +73,7 @@ const TraitWrapper = styled.div`
 
 const TraitList = styled.div<{ isActive: boolean }>`
   transition: all 0.3s ease;
-  max-height: ${(props) => (props.isActive ? '200px' : '0px')};
+  max-height: ${(props) => (props.isActive ? '342px' : '0px')};
   overflow: auto;
 `
 
@@ -92,14 +106,23 @@ const NftFilter: React.FC<Props> = ({
   forSaleFilter,
   formActions,
   formValues,
+  isTriggered,
   minMaxPriceFilter,
   opensea_event_types,
+  setIsFilterTriggered,
   total_supply,
   traits
 }) => {
+  const isTablet = useMedia('tablet')
   const ref = useRef<HTMLDivElement | null>(null)
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(!isTablet)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
+
+  useEffect(() => {
+    if (isTriggered) {
+      setIsOpen(true)
+    }
+  }, [isTriggered])
 
   if (!traits) return null
 
@@ -137,6 +160,7 @@ const NftFilter: React.FC<Props> = ({
                 role='button'
                 onClick={() => {
                   setIsOpen(false)
+                  setIsFilterTriggered(false)
                   analyticsActions.trackEvent({
                     key: Analytics.NFT_LEFT_MENU_CLOSED,
                     properties: {}
@@ -245,38 +269,44 @@ const NftFilter: React.FC<Props> = ({
           ) : null}
           {collections?.length ? (
             <div style={{ marginTop: '24px' }}>
-              <Text size='14px' weight={600} color='black'>
-                <FormattedMessage id='copy.collections' defaultMessage='Collections' />
-                <TraitWrapper>
-                  <TraitList isActive>
-                    {collections.map((collection) => {
-                      return (
-                        <TraitItem key={collection.name}>
-                          <div
+              <TraitWrapper>
+                <TraitHeader>
+                  <Text size='14px' weight={500} color='black'>
+                    <FormattedMessage id='copy.collections' defaultMessage='Collections' />
+                  </Text>
+                </TraitHeader>
+                <TraitList isActive>
+                  {collections.map((collection) => {
+                    return (
+                      <TraitItem key={collection.name}>
+                        <div
+                          style={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            overflow: 'hidden',
+                            width: '100%'
+                          }}
+                        >
+                          <Field
+                            component='input'
+                            name='collection'
+                            type='radio'
+                            id={collection.slug}
+                            value={collection.slug}
+                          />
+                          <label
+                            htmlFor={collection.slug}
                             style={{
                               alignItems: 'center',
                               display: 'flex',
-                              overflow: 'hidden',
+                              justifyContent: 'space-between',
+                              whiteSpace: 'nowrap',
                               width: '100%'
                             }}
                           >
-                            <Field
-                              component='input'
-                              name='collection'
-                              type='radio'
-                              id={collection.slug}
-                              value={collection.slug}
-                            />
-                            <label
-                              htmlFor={collection.slug}
-                              style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                whiteSpace: 'nowrap',
-                                width: '100%'
-                              }}
-                            >
+                            <Flex alignItems='center' gap={4}>
+                              <div />
+                              <CollectionImageSmall src={collection.image_url || ''} />
                               <Text
                                 style={{ marginLeft: '4px' }}
                                 size='12px'
@@ -286,14 +316,14 @@ const NftFilter: React.FC<Props> = ({
                               >
                                 {collection.name}
                               </Text>
-                            </label>
-                          </div>
-                        </TraitItem>
-                      )
-                    })}
-                  </TraitList>
-                </TraitWrapper>
-              </Text>
+                            </Flex>
+                          </label>
+                        </div>
+                      </TraitItem>
+                    )
+                  })}
+                </TraitList>
+              </TraitWrapper>
             </div>
           ) : null}
           {Object.keys(organizedTraits).length ? (
@@ -421,8 +451,10 @@ type OwnProps = {
   forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  isTriggered: boolean
   minMaxPriceFilter: boolean
   opensea_event_types?: string[]
+  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }

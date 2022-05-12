@@ -13,26 +13,22 @@ import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
+import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
-import { AssetDesc, StickyCTA } from '../../components'
+import { StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
-import SellFees from '../ShowAsset/Sell/fees'
 import MarkForSaleFees from './fees'
 
 const FormWrapper = styled.div`
@@ -61,7 +57,7 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow, rates } = props
+  const { analyticsActions, close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
   const { amount, fix } = formValues
   const [saleType, setSaleType] = useState('fixed-price')
   const [open, setOpen] = useState(true)
@@ -91,12 +87,23 @@ const MarkForSale: React.FC<Props> = (props) => {
   const setToTimedAuction = () => {
     setSaleType('timed-auction')
   }
-
   const coin = () => {
     return saleType === 'timed-auction' && formValues?.timedAuctionType === 'highestBidder'
       ? 'WETH'
       : 'ETH'
   }
+
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        currency: coin(),
+        input_amount: Number(amount)
+      }
+    })
+  }
+  const feesR = useRemote(() => orderFlow.fees)
+  const fees = feesR?.data
 
   const cryptoAmt =
     fix === 'FIAT'
@@ -118,10 +125,11 @@ const MarkForSale: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
+
   return (
     <>
-      {orderFlow.asset.cata({
-        Failure: (e) => <Text>{e}</Text>,
+      {openSeaAssetR.cata({
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
@@ -131,37 +139,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 Sell Item
               </FlyoutHeader>
             </StickyHeaderWrapper>
-            <AssetDesc>
-              <img
-                style={{
-                  borderRadius: '8px',
-                  height: '64px',
-                  marginRight: '12px',
-                  width: 'auto'
-                }}
-                alt='nft-asset'
-                src={val.image_url.replace(/=s\d*/, '')}
-              />
-              <div>
-                <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-                  {val?.name}
-                </Text>
-                <Text
-                  size='14px'
-                  weight={600}
-                  color='orange600'
-                  style={{
-                    background: colors.orange100,
-                    borderRadius: '8px',
-                    padding: '5px 8px',
-                    textAlign: 'center',
-                    width: 'fit-content'
-                  }}
-                >
-                  Not Verified
-                </Text>
-              </div>
-            </AssetDesc>
+            <NftAssetHeaderRow asset={val} />
             <div
               style={{
                 display: 'flex',
@@ -182,6 +160,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         name='amount'
                         showCounter
                         showToggle
+                        onChange={enteredAmountAnalytics}
                         data-e2e='amountField'
                         onToggleFix={() => {
                           props.formActions.change(
@@ -449,11 +428,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                   />
                 </Value>
               </Row>
-              <Row>
-                <MarkForSaleFees {...props} asset={val} />
-              </Row>
               <Row style={{ border: 'unset' }}>
-                {open && (
+                {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
                     <Icon
                       onClick={() => {
@@ -491,14 +467,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Text>
                     </div>
                   </>
-                )}
+                ) : null}
               </Row>
             </div>
             <StickyCTA>
-              <div style={{ display: 'none' }}>
-                <SellFees {...props} asset={val} />
-              </div>
-
+              <MarkForSaleFees {...props} asset={val} />
+              <br />
               {props.orderFlow.fees.cata({
                 Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
@@ -519,6 +493,16 @@ const MarkForSale: React.FC<Props> = (props) => {
                     data-e2e='sellNft'
                     disabled={disabled}
                     onClick={() => {
+                      analyticsActions.trackEvent({
+                        key: Analytics.NFT_SELL_ITEM_CLICKED,
+                        properties: {
+                          amount: Number(amount),
+                          collection: val.collection.name,
+                          collection_id: val.token_id,
+                          selling_fees: Number(fees.totalFees),
+                          type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
+                        }
+                      })
                       if (saleType === 'fixed-price') {
                         nftActions.createSellOrder({
                           asset: val,

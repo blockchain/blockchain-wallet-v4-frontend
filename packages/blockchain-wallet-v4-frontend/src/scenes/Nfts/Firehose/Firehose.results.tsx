@@ -23,7 +23,15 @@ const NftFirehoseResults: React.FC<Props> = ({
   setMaxItemsFetched,
   setNextPageFetchError
 }) => {
-  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> = []
+  const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> =
+    formValues?.collection
+      ? [
+          {
+            field: AssetFilterFields.CollectionSlug,
+            value: formValues.collection
+          }
+        ]
+      : []
 
   if (formValues?.max) {
     filter.push({
@@ -41,14 +49,21 @@ const NftFirehoseResults: React.FC<Props> = ({
     })
   }
 
+  const sort = formValues?.sortBy
+    ? {
+        by: formValues.sortBy.split('-')[0] as AssetSortFields,
+        direction: formValues.sortBy.split('-')[1] as SortDirection
+      }
+    : { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
+
   const [result] = useAssetsQuery({
     requestPolicy: 'network-only',
     variables: {
       filter,
-      forSale: formValues?.forSale,
+      forSale: Boolean(formValues?.forSale),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
-      sort: { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
+      sort
     }
   })
 

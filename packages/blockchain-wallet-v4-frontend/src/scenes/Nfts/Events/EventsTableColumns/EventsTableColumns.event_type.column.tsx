@@ -18,7 +18,7 @@ const NameCell = styled(CellText)`
 `
 
 const FlexIconWrapper = styled(Flex)`
-  background: ${(props) => props.theme.grey100};
+  background: ${(props) => props.theme.grey000};
   border-radius: 50%;
   height: 36px;
   width: 36px;
@@ -29,7 +29,7 @@ export const getEventTypeColumn = () => ({
     return (
       <NameCell>
         <FlexIconWrapper justifyContent='center' alignItems='center'>
-          <Icon label='event' size='sm' color='grey400'>
+          <Icon label='event' size='sm'>
             <EventTypeIcon event_type={values.event_type} />
           </Icon>
         </FlexIconWrapper>
