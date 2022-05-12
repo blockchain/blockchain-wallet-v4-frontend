@@ -21,6 +21,7 @@ const Wrapper = styled(Text)`
   align-items: center;
   font-style: normal;
   height: 100%;
+  bottom: 0;
 `
 
 const NftOrderNotVerified: React.FC<Props> = (props) => {
@@ -35,7 +36,7 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
   if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={close} />
 
   return (
-    <div style={{ height: '100%' }}>
+    <>
       <StickyHeaderWrapper>
         <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()} />
       </StickyHeaderWrapper>
@@ -111,7 +112,7 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
           </Button>
         </StickyCTA>
       </Wrapper>
-    </div>
+    </>
   )
 }
 
