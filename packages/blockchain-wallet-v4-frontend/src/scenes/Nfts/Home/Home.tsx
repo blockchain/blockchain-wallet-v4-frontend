@@ -33,7 +33,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 100px 64px;
   z-index: 2;
   ${media.mobile`
@@ -69,10 +69,11 @@ const BackOfCard = styled.div`
   transform: rotate(-15deg);
   z-index: 1;
   top: 200px;
-  right: unset;
   ${media.atLeastMobile`
+    top: 150px;
+  `}
+  ${media.atLeastTablet`
     top: 50px;
-    right: 100px;
   `}
 `
 
