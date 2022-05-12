@@ -906,7 +906,7 @@ export default ({ api, coreSagas, networks }) => {
         }
       }
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
-      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product, redirect)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
