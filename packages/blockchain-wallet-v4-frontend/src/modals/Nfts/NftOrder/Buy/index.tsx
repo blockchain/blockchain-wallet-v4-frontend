@@ -97,7 +97,7 @@ const Buy: React.FC<Props> = (props) => {
           return (
             <>
               <StickyHeaderWrapper>
-                <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+                <FlyoutHeader data-e2e='buyHeader' mode='back' onClick={() => close()}>
                   Buy
                 </FlyoutHeader>
               </StickyHeaderWrapper>
