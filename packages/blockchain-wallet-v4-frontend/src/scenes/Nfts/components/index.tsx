@@ -1,4 +1,3 @@
-import { IconRefresh } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -10,12 +9,13 @@ export const LOADING_ITEMS_COUNT = 6
 export const maxWidth = '1200px'
 
 export const opensea_event_types = [
-  'successful',
-  'transfer',
-  'offer_entered',
   'bid_entered',
   'bid_withdrawn',
-  'created'
+  'cancelled',
+  'created',
+  'offer_entered',
+  'successful',
+  'transfer'
 ]
 
 export const NftPage = styled.div`
@@ -88,21 +88,15 @@ export const GridWrapper = styled.div`
 export const Grid = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
   overflow: scroll;
   gap: 20px;
   margin-bottom: 20px;
-  ${media.atLeastTablet`
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  ${media.tablet`
     grid-template-columns: repeat(2, minmax(0, 1fr));
   `}
-  ${media.atLeastLaptop`
+  ${media.desktop`
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  `}
-  ${media.atLeastLaptopL`
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  `}
-  ${media.atLeastDesktop`
-    grid-template-columns: repeat(6, minmax(0, 1fr));
   `}
   ${media.tablet`
     padding: 12px;

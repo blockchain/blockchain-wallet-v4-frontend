@@ -251,7 +251,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                   />
                 </Text>
                 <Link
-                  href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'
+                  href='https://support.blockchain.com/hc/en-us/sections/4416668318740-Rewards'
                   style={{ width: '100%' }}
                   target='_blank'
                 >

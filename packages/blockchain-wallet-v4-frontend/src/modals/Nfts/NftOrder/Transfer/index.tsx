@@ -15,6 +15,7 @@ import { selectors } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
 import { StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
@@ -38,58 +39,7 @@ const Transfer: React.FC<Props> = (props) => {
                 Transfer Item
               </FlyoutHeader>
             </StickyHeaderWrapper>
-            <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex' }}>
-                  <img
-                    style={{
-                      borderRadius: '8px',
-                      height: '64px',
-                      marginRight: '12px',
-                      width: 'auto'
-                    }}
-                    alt='nft-asset'
-                    src={val.image_url.replace(/=s\d*/, '')}
-                  />
-                  <div>
-                    <Text size='16px' color='grey900' weight={600}>
-                      {val?.name}
-                    </Text>
-                    {val.collection.safelist_request_status === 'verified' ? (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='green600'
-                        style={{
-                          background: colors.green100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Verified
-                      </Text>
-                    ) : (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='orange600'
-                        style={{
-                          background: colors.orange100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Not Verified
-                      </Text>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Row>
+            <NftAssetHeaderRow asset={val} />
             <div
               style={{
                 display: 'flex',
@@ -125,6 +75,7 @@ const Transfer: React.FC<Props> = (props) => {
             </div>
             <StickyCTA>
               <TransferFees {...props} asset={val} />
+              <br />
               {props.orderFlow.fees.cata({
                 Failure: (e) => (
                   <>

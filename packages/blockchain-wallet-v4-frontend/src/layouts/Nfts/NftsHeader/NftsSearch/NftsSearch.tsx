@@ -71,7 +71,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
                   <img alt='url' height='18px' src={item.image_url || item.profile_img_url} />
                 ) : null}
                 <Text weight={600} size='14px'>
-                  {item.name}
+                  {item.name || item.address}
                 </Text>
               </Flex>
             ),

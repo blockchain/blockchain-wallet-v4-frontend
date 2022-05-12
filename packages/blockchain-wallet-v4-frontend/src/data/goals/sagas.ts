@@ -722,8 +722,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
         step: NftOrderStepEnum.MAKE_OFFER,
-        token_id: goal.data.token_id,
-        walletUserIsAssetOwnerHack: false
+        token_id: goal.data.token_id
       })
     )
   }
@@ -738,8 +737,7 @@ export default ({ api, coreSagas, networks }) => {
         asset_contract_address: goal.data.contract_address,
         order: goal.data.order,
         step: NftOrderStepEnum.BUY,
-        token_id: goal.data.token_id,
-        walletUserIsAssetOwnerHack: false
+        token_id: goal.data.token_id
       })
     )
   }

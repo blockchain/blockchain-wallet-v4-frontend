@@ -111,6 +111,7 @@ export const determineAuthenticationFlow = function* (
     switch (true) {
       // EXCHANGE AUTHENTICATION AND DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
+        const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
         // determine if we need to verify the login attempt from another device or
         // continue login from the same device
         if (!skipSessionCheck) {
@@ -139,6 +140,7 @@ export const determineAuthenticationFlow = function* (
             actions.auth.setProductAuthMetadata({
               platform: platformType as PlatformTypes,
               product: ProductAuthOptions.EXCHANGE,
+              redirect,
               sessionIdMobile
             })
           )

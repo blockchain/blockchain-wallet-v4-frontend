@@ -64,6 +64,16 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const getAmountUsd = function* (coin: string, amount: number) {
+    const usdPrice: ReturnType<typeof api.getPriceIndex> = yield call(
+      api.getPriceIndex,
+      coin,
+      'USD',
+      new Date().getTime()
+    )
+    return usdPrice.price * amount
+  }
+
   const getEthSigner = function* () {
     try {
       const password = yield call(promptForSecondPassword)
@@ -76,6 +86,12 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       throw new Error(WALLET_SIGNER_ERR)
     }
+  }
+
+  const getGuid = function* () {
+    const guid = yield select(selectors.core.wallet.getGuid)
+
+    return guid
   }
 
   // This is a very important function. Not only is it used to fetch fees
@@ -223,16 +239,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const getAmountUsd = function* (coin: string, amount: number) {
-    const usdPrice: ReturnType<typeof api.getPriceIndex> = yield call(
-      api.getPriceIndex,
-      coin,
-      'USD',
-      new Date().getTime()
-    )
-    return usdPrice.price * amount
-  }
-
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     // TODO: get coin from paymentToken
     const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
@@ -261,6 +267,12 @@ export default ({ api }: { api: APIType }) => {
             currency: coin,
             type: 'SUCCESS'
           }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
         })
       )
     } catch (e) {
@@ -292,6 +304,7 @@ export default ({ api }: { api: APIType }) => {
     const amount_usd = yield call(getAmountUsd, currency, amount)
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
+      const guid = yield call(getGuid)
       const signer = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
@@ -323,7 +336,7 @@ export default ({ api }: { api: APIType }) => {
       const gasData = action.payload.offerFees
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
-      yield call(api.postNftOrder, order)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -439,6 +452,7 @@ export default ({ api }: { api: APIType }) => {
 
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
+      const guid = yield select(selectors.core.wallet.getGuid)
       const listingTime = getUnixTime(addMinutes(new Date(), 5))
       const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
       yield put(A.setOrderFlowIsSubmitting(true))
@@ -457,7 +471,7 @@ export default ({ api }: { api: APIType }) => {
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
-      yield call(api.postNftOrder, order)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
       yield put(A.clearAndRefetchAssets())
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
@@ -471,6 +485,12 @@ export default ({ api }: { api: APIType }) => {
             start_usd,
             type: 'SUCCESS'
           }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
         })
       )
     } catch (e) {
@@ -516,6 +536,12 @@ export default ({ api }: { api: APIType }) => {
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -550,6 +576,12 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             type: 'SUCCESS'
           }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
         })
       )
     } catch (e) {

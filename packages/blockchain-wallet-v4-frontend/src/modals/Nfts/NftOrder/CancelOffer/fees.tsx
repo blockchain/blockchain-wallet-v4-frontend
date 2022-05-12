@@ -2,14 +2,15 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
+import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
-import { SpinningLoader } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title } from 'components/Flyout'
-import { Value } from 'components/Flyout/model'
+import { Flex } from 'components/Flex'
 
-import { CTARow } from '../../components'
+import { RightAlign } from '../../components'
+import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
@@ -29,31 +30,31 @@ const Fees: React.FC<Props> = (props) => {
     <>
       {orderFlow.fees.cata({
         Failure: () => null,
-        Loading: () => (
-          <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </CTARow>
-        ),
-        NotAsked: () => null,
+        Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
+        NotAsked: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         Success: (val) => {
           return (
             <>
-              <CTARow>
-                <Title style={{ display: 'flex' }}>
-                  <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
-                </Title>
-                <Value>
-                  <div style={{ display: 'flex' }}>
+              <FeesDropdown
+                totalFees={displayCoinToCoin({
+                  coin: 'ETH',
+                  value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
+                })}
+              >
+                <Flex justifyContent='space-between' alignItems='center'>
+                  <Text size='14px' weight={500}>
+                    <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
+                  </Text>
+                  <RightAlign>
                     <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
                       {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
                     </CoinDisplay>
-                    &nbsp;-&nbsp;
                     <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
                       {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
                     </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
+                  </RightAlign>
+                </Flex>
+              </FeesDropdown>
             </>
           )
         }

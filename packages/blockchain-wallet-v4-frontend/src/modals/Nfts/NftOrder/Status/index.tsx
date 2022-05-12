@@ -4,7 +4,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon as BlockchainIcon, SpinningLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
@@ -73,6 +73,13 @@ const NftOrderStatus: React.FC<Props> = (props) => {
 
   return (
     <div style={{ height: '100%' }}>
+      <BlockchainIcon
+        onClick={() => props.close()}
+        name='arrow-left'
+        cursor
+        role='button'
+        style={{ left: '40px', position: 'absolute', top: '40px' }}
+      />
       {props.orderFlow.status === NftOrderStatusEnum.WRAP_ETH && (
         <Wrapper>
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -83,9 +90,9 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
@@ -93,11 +100,11 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           />
           <Text size='24px' weight={600}>
             <FormattedMessage
-              id='buttons.submitting_offer_for'
-              defaultMessage='Submitting Offer For'
+              id='buttons.submitting_your_offer_for'
+              defaultMessage='Submitting Your Offer For'
             />
           </Text>
-          <Text size='24px' weight={600}>
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
             {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
@@ -108,9 +115,9 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
@@ -119,7 +126,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <Text size='24px' weight={600}>
             <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
           </Text>
-          <Text size='24px' weight={600}>
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
             {val.name}
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
@@ -130,22 +137,22 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
+              height: '120px',
               marginRight: '12px',
-              padding: '1em',
+              padding: '12px',
               width: 'auto'
             }}
             alt='nft-asset'
             src={val.image_url}
           />
           <Text size='24px' weight={600}>
-            Getting
+            Preparing to list
           </Text>
           <Text size='24px' weight={600}>
             {val.name}
           </Text>
-          <Text size='24px' weight={600}>
-            ready for sale!
+          <Text style={{ marginBottom: '8px' }} size='24px' weight={600}>
+            for sale
           </Text>
           <SpinningLoader height='14px' width='14px' borderWidth='3px' />
         </Wrapper>
@@ -156,9 +163,9 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
@@ -166,8 +173,8 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             />
             <Text size='24px' weight={600}>
               <FormattedMessage
-                id='buttons.offer_successfully_sent_for'
-                defaultMessage='Offer Successfully Sent For'
+                id='buttons.offer_submitted_for'
+                defaultMessage='Offer Submitted For'
               />
             </Text>
             <Text size='24px' weight={600}>
@@ -196,19 +203,22 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
               src={val.image_url}
             />
             <Text size='24px' weight={600}>
+              Your Listing of
+            </Text>
+            <Text size='24px' weight={600}>
               {val.name}
             </Text>
             <Text size='24px' weight={600}>
-              Is Successfully Up For Sale
+              is Now Live
             </Text>
           </Wrapper>
           <ButtonWrapper>
@@ -234,16 +244,16 @@ const NftOrderStatus: React.FC<Props> = (props) => {
             <img
               style={{
                 borderRadius: '8px',
-                height: '64px',
+                height: '120px',
                 marginRight: '12px',
-                padding: '1em',
+                padding: '12px',
                 width: 'auto'
               }}
               alt='nft-asset'
               src={val.image_url}
             />
             <Text size='24px' weight={600}>
-              Buy Successful For
+              Congratulations! You Have Purchased
             </Text>
             <Text size='24px' weight={600}>
               {val.name}

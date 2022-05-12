@@ -1,10 +1,10 @@
-import { ExplorerGatewaySearchType, NftAsset, OpenSeaStatus } from './types'
+import { ExplorerGatewaySearchType, NftAsset, NftOrder, OpenSeaStatus } from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
-  // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
-  const explorerUrl = `${apiUrl}/nft-market-api/nft`
+  // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
+  const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
   const searchNfts = (query: string): ExplorerGatewaySearchType => {
@@ -15,7 +15,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       },
       endPoint: `/search`,
       ignoreQueryParams: true,
-      url: `${explorerUrl}`
+      url: `${nftUrl}`
     })
   }
 
@@ -31,18 +31,18 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
-      url: `${explorerUrl}`
+      url: `${nftUrl}`
     })
   }
 
-  const postNftOrder = (order) => {
+  const postNftOrder = (order: NftOrder, asset_collection_slug: string, guid: string) => {
     return post({
       contentType: 'application/json',
-      data: order,
+      data: { asset_collection_slug, guid, orderJson: order },
       endPoint: `/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: `${explorerUrl}`
+      url: `${nftUrl}`
     })
   }
 
