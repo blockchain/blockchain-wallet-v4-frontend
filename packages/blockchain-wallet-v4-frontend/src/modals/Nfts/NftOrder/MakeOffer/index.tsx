@@ -31,6 +31,7 @@ import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -39,7 +40,7 @@ import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
-import { Props as OwnProps } from '..'
+import NftOrder, { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
@@ -154,6 +155,15 @@ const MakeOffer: React.FC<Props> = (props) => {
       }
     })
   }
+
+  if (
+    val.collection.safelist_request_status !== 'verified' &&
+    orderFlow.prevStep !== NftOrderStepEnum.MAKE_OFFER
+  ) {
+    nftActions.setOrderFlowPrevStep({ prevStep: NftOrderStepEnum.MAKE_OFFER })
+    nftActions.setOrderFlowStep({ step: NftOrderStepEnum.NOT_VERIFIED })
+  }
+
   return (
     <>
       <StickyHeaderWrapper>
