@@ -8,8 +8,12 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper, StickyHeaderWrapper } from 'components/Flyout'
-import { StepHeader } from 'components/Flyout/SendRequestCrypto'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutHeader,
+  FlyoutSubHeader
+} from 'components/Flyout/Layout'
 import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import TextBox from 'components/Form/TextBox'
 import { actions } from 'data'
@@ -20,17 +24,6 @@ import { REQUEST_FORM } from '../model'
 import { RequestSteps } from '../types'
 import { getData } from './selectors'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  .coin-account-option {
-    border-top: ${(props) => `1px solid ${props.theme.grey000}`};
-  }
-`
-const Header = styled(StepHeader)`
-  margin-bottom: 40px;
-`
 const HeaderContent = styled.div`
   position: relative;
 `
@@ -100,28 +93,22 @@ class RequestCoinSelect extends React.PureComponent<Props> {
     }
 
     return (
-      <Wrapper>
-        <StickyHeaderWrapper>
-          <FlyoutWrapper>
-            <Header spaceBetween>
-              <Icon name='arrow-bottom-right' color='blue600' size='24px' />
-              <Icon
-                name='close'
-                color='grey600'
-                role='button'
-                data-e2e='close'
-                size='24px'
-                cursor
-                onClick={handleClose}
+      <FlyoutContainer>
+        <FlyoutHeader onClick={handleClose} data-e2e='ReceiveCryptoFlyout' mode='close'>
+          <Icon name='arrow-bottom-right' color='blue600' size='24px' />
+        </FlyoutHeader>
+        <FlyoutSubHeader
+          data-e2e='receiveCryptoSubHeader'
+          title={
+            <Text size='24px' color='grey900' weight={600}>
+              <FormattedMessage
+                id='modals.requestcrypto.coinselect.title'
+                defaultMessage='Receive Crypto'
               />
-            </Header>
+            </Text>
+          }
+          subTitle={
             <HeaderContent>
-              <Text size='24px' color='grey900' weight={600}>
-                <FormattedMessage
-                  id='modals.requestcrypto.coinselect.title'
-                  defaultMessage='Receive Crypto'
-                />
-              </Text>
               <Text size='16px' color='grey600' weight={500}>
                 <FormattedMessage
                   id='modals.requestcrypto.coinselect.subtitle'
@@ -145,57 +132,59 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 </ResultsText>
               )}
             </HeaderContent>
-          </FlyoutWrapper>
-        </StickyHeaderWrapper>
-        {data.accounts.length ? (
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                className='List'
-                height={height}
-                itemData={data.accounts}
-                itemCount={data.accounts.length}
-                itemSize={74}
-                width={width}
-              >
-                {Row}
-              </List>
-            )}
-          </AutoSizer>
-        ) : (
-          <NoAccounts
-            role='button'
-            onClick={() => {
-              formActions.change(REQUEST_FORM, 'selectedAccount', data.ethAccount)
-              formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
-            }}
-          >
-            <div>
-              <PlusIconContainer>
-                <Icon name='plus-in-circle-filled' color='green600' size='24px' />
-              </PlusIconContainer>
+          }
+        />
+        <FlyoutContent mode='top'>
+          {data.accounts.length ? (
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  className='List'
+                  height={height}
+                  itemData={data.accounts}
+                  itemCount={data.accounts.length}
+                  itemSize={74}
+                  width={width}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          ) : (
+            <NoAccounts
+              role='button'
+              onClick={() => {
+                formActions.change(REQUEST_FORM, 'selectedAccount', data.ethAccount)
+                formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
+              }}
+            >
               <div>
-                <Text size='16px' color='grey900' weight={600}>
-                  <FormattedMessage
-                    id='copy.receive_any_erc20'
-                    defaultMessage='Receive Any Erc20 Token'
-                  />
-                </Text>
-                <Text size='14px' color='grey800' weight={500} style={{ marginTop: '2px' }}>
-                  <FormattedMessage
-                    id='copy.view_eth_addr'
-                    defaultMessage='View Your {eth} Address'
-                    values={{
-                      eth: ethCoinfig.name
-                    }}
-                  />
-                </Text>
+                <PlusIconContainer>
+                  <Icon name='plus-in-circle-filled' color='green600' size='24px' />
+                </PlusIconContainer>
+                <div>
+                  <Text size='16px' color='grey900' weight={600}>
+                    <FormattedMessage
+                      id='copy.receive_any_erc20'
+                      defaultMessage='Receive Any Erc20 Token'
+                    />
+                  </Text>
+                  <Text size='14px' color='grey800' weight={500} style={{ marginTop: '2px' }}>
+                    <FormattedMessage
+                      id='copy.view_eth_addr'
+                      defaultMessage='View Your {eth} Address'
+                      values={{
+                        eth: ethCoinfig.name
+                      }}
+                    />
+                  </Text>
+                </div>
               </div>
-            </div>
-            <Icon name='chevron-right' size='32px' color='grey400' />
-          </NoAccounts>
-        )}
-      </Wrapper>
+              <Icon name='chevron-right' size='32px' color='grey400' />
+            </NoAccounts>
+          )}
+        </FlyoutContent>
+      </FlyoutContainer>
     )
   }
 }

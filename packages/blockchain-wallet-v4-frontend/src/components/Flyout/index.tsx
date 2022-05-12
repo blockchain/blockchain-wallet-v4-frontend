@@ -104,14 +104,6 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
-export const StickyHeaderWrapper = styled.div`
-  background-color: ${(props) => props.theme.white};
-  position: sticky;
-  top: 0;
-  z-index: 99;
-  padding: 40px;
-`
-
 class Flyout extends React.Component<Props> {
   shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
