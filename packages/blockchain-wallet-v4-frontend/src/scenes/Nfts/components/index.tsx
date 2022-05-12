@@ -1,4 +1,3 @@
-import { IconRefresh } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -10,12 +9,13 @@ export const LOADING_ITEMS_COUNT = 6
 export const maxWidth = '1200px'
 
 export const opensea_event_types = [
-  'successful',
-  'transfer',
-  'offer_entered',
   'bid_entered',
   'bid_withdrawn',
-  'created'
+  'cancelled',
+  'created',
+  'offer_entered',
+  'successful',
+  'transfer'
 ]
 
 export const NftPage = styled.div`

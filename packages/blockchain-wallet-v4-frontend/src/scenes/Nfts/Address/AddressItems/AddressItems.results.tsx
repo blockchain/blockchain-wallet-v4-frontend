@@ -39,7 +39,7 @@ const NftAddressResults: React.FC<Props> = ({
       filter: [
         {
           field: AssetFilterFields.OwnerAddress,
-          value: address
+          value: address.toLowerCase()
         },
         ...activeCollections
       ],

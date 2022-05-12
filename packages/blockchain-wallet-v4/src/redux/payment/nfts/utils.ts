@@ -1508,7 +1508,7 @@ async function _makeSellOrder({
     extra: new BigNumber(extra.toString()).toString(10),
     feeMethod,
     feeRecipient,
-    howToCall: HowToCall.DelegateCall,
+    howToCall: waitForHighestBid ? HowToCall.Call : HowToCall.DelegateCall,
     listingTime: times.listingTime,
     maker: accountAddress,
     makerProtocolFee,
