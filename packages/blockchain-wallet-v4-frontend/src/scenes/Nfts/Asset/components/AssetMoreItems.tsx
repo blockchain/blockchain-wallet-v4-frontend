@@ -70,12 +70,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
           <Text color='grey700' weight={600} capitalize>
             More from this collection
           </Text>
-          <CustomLink
-            onClick={() => {
-              window.scrollTo({ behavior: 'smooth', top: 0 })
-            }}
-            to={`/nfts/collection/${asset.collection?.slug}`}
-          >
+          <CustomLink to={`/nfts/collection/${asset.collection?.slug}`}>
             <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
               See All
             </Button>
@@ -88,6 +83,9 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
                 return (
                   <MoreAssetsListItem key={asset.token_id}>
                     <CustomLink
+                      onClick={() => {
+                        window.scrollTo({ behavior: 'smooth', top: 0 })
+                      }}
                       to={link}
                       style={{
                         border: `1px solid ${colors.grey000}`,
