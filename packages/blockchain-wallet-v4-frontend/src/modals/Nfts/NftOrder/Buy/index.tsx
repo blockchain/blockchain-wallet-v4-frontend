@@ -147,44 +147,38 @@ const Buy: React.FC<Props> = (props) => {
                       />
                     </Value>
                   </Row>
+                  {orderToMatch ? (
+                    <Row>
+                      <Flex alignItems='center' justifyContent='space-between'>
+                        <Text color='black' weight={600} size='20px'>
+                          <FormattedMessage id='copy.total' defaultMessage='Total' />
+                        </Text>
+                        <Flex flexDirection='column' alignItems='flex-end' gap={4}>
+                          <CoinDisplay
+                            size='14px'
+                            color='black'
+                            weight={600}
+                            coin={orderToMatch?.payment_token_contract?.symbol}
+                          >
+                            {orderToMatch?.base_price}
+                          </CoinDisplay>
+                          <FiatDisplay
+                            size='12px'
+                            color='grey600'
+                            weight={600}
+                            coin={orderToMatch?.payment_token_contract?.symbol}
+                          >
+                            {orderToMatch?.base_price}
+                          </FiatDisplay>
+                        </Flex>
+                      </Flex>
+                    </Row>
+                  ) : null}
                 </div>
               </div>
               <StickyCTA>
                 <BuyFees {...props} />
                 <br />
-                {orderToMatch ? (
-                  <div style={{ marginBottom: '8px' }}>
-                    <Flex alignItems='center' justifyContent='space-between'>
-                      <Text color='black' weight={600} size='18px'>
-                        Total
-                      </Text>
-                      <RightAlign>
-                        <CoinDisplay
-                          size='14px'
-                          color='black'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {new BigNumber(buyFees.totalFees)
-                            .multipliedBy(buyFees.gasPrice)
-                            .plus(orderToMatch.base_price)
-                            .toString()}
-                        </CoinDisplay>
-                        <FiatDisplay
-                          size='14px'
-                          color='grey600'
-                          weight={600}
-                          coin={orderToMatch.payment_token_contract?.symbol}
-                        >
-                          {new BigNumber(buyFees.totalFees)
-                            .multipliedBy(buyFees.gasPrice)
-                            .plus(orderToMatch.base_price)
-                            .toString()}
-                        </FiatDisplay>
-                      </RightAlign>
-                    </Flex>
-                  </div>
-                ) : null}
                 <BuyCta
                   {...props}
                   amount={cryptoAmt}

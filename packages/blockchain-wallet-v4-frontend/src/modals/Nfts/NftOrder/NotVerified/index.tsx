@@ -77,41 +77,38 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
             style={{ padding: '1em', textAlign: 'center' }}
           >
             Blockchain.com can not verify the validity or safety of this collection and recommend
-            you proceed with caution
+            you proceed with caution.
           </Text>
         </div>
-        <StickyCTA>
-          <Button
-            nature='primary'
-            height='56px'
-            onClick={() => {
-              if (orderFlow.prevStep) {
-                nftActions.setOrderFlowStep({ step: orderFlow.prevStep })
-              }
-            }}
-            size='large'
-            width='20em'
-            data-e2e='submitProfileDetails'
-          >
-            <Text color='white' size='16px' weight={500}>
-              <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-            </Text>
-          </Button>
-          <Button
-            nature='empty-blue'
-            height='56px'
-            size='large'
-            width='20em'
-            margin='0.5em 0em'
-            onClick={() => props.close()}
-            data-e2e='submitProfileDetails'
-          >
-            <Text color={colors.blue600} size='16px' weight={500}>
-              <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
-            </Text>
-          </Button>
-        </StickyCTA>
       </Wrapper>
+      <StickyCTA>
+        <div style={{ width: '100%' }}>
+          <Flex gap={8} flexDirection='column'>
+            <Button
+              nature='primary'
+              fullwidth
+              onClick={() => {
+                if (orderFlow.prevStep) {
+                  nftActions.setOrderFlowStep({ step: orderFlow.prevStep })
+                }
+              }}
+              jumbo
+              data-e2e='submitProfileDetails'
+            >
+              <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            </Button>
+            <Button
+              nature='empty-blue'
+              fullwidth
+              jumbo
+              onClick={() => props.close()}
+              data-e2e='submitProfileDetails'
+            >
+              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+            </Button>
+          </Flex>
+        </div>
+      </StickyCTA>
     </>
   )
 }
