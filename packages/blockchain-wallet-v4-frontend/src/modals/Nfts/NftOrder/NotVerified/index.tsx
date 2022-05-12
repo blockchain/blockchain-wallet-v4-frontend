@@ -4,6 +4,7 @@ import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { useRemote } from 'hooks'
@@ -41,19 +42,24 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
       <Wrapper>
         <div>
           {val.collection.image_url ? (
-            <img
-              style={{
-                borderRadius: '8px',
-                height: '64px',
-                marginRight: '12px',
-                padding: '12px',
-                width: 'auto'
-              }}
-              alt='nft-asset'
-              src={val.collection.image_url}
-            />
+            <Flex justifyContent='center'>
+              <img
+                style={{
+                  borderRadius: '8px',
+                  height: '64px',
+                  width: 'auto'
+                }}
+                alt='nft-asset'
+                src={val.collection.image_url}
+              />
+            </Flex>
           ) : null}
-          <Text size='20px' color={colors.black} weight={600} style={{ textAlign: 'center' }}>
+          <Text
+            size='20px'
+            color={colors.black}
+            weight={600}
+            style={{ marginTop: '1em', textAlign: 'center' }}
+          >
             This Collection Is Not Yet Verified
           </Text>
           <Text
