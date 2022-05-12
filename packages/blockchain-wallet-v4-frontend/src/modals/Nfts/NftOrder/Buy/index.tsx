@@ -15,7 +15,7 @@ import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import SelectBox from 'components/Form/SelectBox'
@@ -86,11 +86,9 @@ const Buy: React.FC<Props> = (props) => {
         NotAsked: () => null,
         Success: (val) => (
           <>
-            <StickyHeaderWrapper>
-              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-                Buy
-              </FlyoutHeader>
-            </StickyHeaderWrapper>
+            <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+              Buy
+            </FlyoutHeader>
             <div
               style={{
                 display: 'flex',
