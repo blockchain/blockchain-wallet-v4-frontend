@@ -7,7 +7,7 @@ import { formatDistanceToNow, subDays } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
+import { RawOrder } from '@core/network/api/nfts/types'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
 import {
@@ -29,7 +29,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { orderFromJSON } from 'data/components/nfts/utils'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
@@ -318,6 +317,8 @@ const NftAsset: React.FC<Props> = ({
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
   )[0]
+  const is_lowest_order_english =
+    lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
 
@@ -556,12 +557,18 @@ const NftAsset: React.FC<Props> = ({
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
                         Sale ends{' '}
-                        {formatDistanceToNow(new Date(lowest_order?.expiration_time * 1000))}
+                        {formatDistanceToNow(
+                          new Date(
+                            (is_lowest_order_english
+                              ? lowest_order.listing_time
+                              : lowest_order?.expiration_time) * 1000
+                          )
+                        )}
                       </div>
                       <NftAssetCountdown highest_bid={highest_bid} lowest_order={lowest_order} />
                     </Highest>
                     <Divider style={{ marginBottom: '1em' }} />
-                    <Highest>Current Price</Highest>
+                    <Highest>{is_lowest_order_english ? 'Minimum Bid' : 'Current Price'}</Highest>
                     <EthText>
                       <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
                       <CoinDisplay
@@ -688,26 +695,48 @@ const NftAsset: React.FC<Props> = ({
                     </>
                   ) : null}
                   {!ownedBySelf ? (
-                    <Button
-                      data-e2e='openNftFlow'
-                      nature='dark'
-                      jumbo
-                      onClick={() => {
-                        nftsActions.nftOrderFlowOpen({
-                          asset_contract_address: contract,
-                          step: NftOrderStepEnum.MAKE_OFFER,
-                          token_id: id
-                        })
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
-                          properties: {}
-                        })
-                      }}
-                    >
-                      <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                    </Button>
+                    is_lowest_order_english ? (
+                      <Button
+                        data-e2e='openNftFlow'
+                        nature='dark'
+                        jumbo
+                        onClick={() => {
+                          nftsActions.nftOrderFlowOpen({
+                            asset_contract_address: contract,
+                            order: lowest_order,
+                            step: NftOrderStepEnum.MAKE_OFFER,
+                            token_id: id
+                          })
+                          analyticsActions.trackEvent({
+                            key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
+                            properties: {}
+                          })
+                        }}
+                      >
+                        <FormattedMessage id='copy.place_a_bid' defaultMessage='Place a Bid' />
+                      </Button>
+                    ) : (
+                      <Button
+                        data-e2e='openNftFlow'
+                        nature='dark'
+                        jumbo
+                        onClick={() => {
+                          nftsActions.nftOrderFlowOpen({
+                            asset_contract_address: contract,
+                            step: NftOrderStepEnum.MAKE_OFFER,
+                            token_id: id
+                          })
+                          analyticsActions.trackEvent({
+                            key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
+                            properties: {}
+                          })
+                        }}
+                      >
+                        <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                      </Button>
+                    )
                   ) : null}
-                  {lowest_order && !ownedBySelf ? (
+                  {lowest_order && !ownedBySelf && !is_lowest_order_english ? (
                     <>
                       <Button
                         data-e2e='openNftFlow'
