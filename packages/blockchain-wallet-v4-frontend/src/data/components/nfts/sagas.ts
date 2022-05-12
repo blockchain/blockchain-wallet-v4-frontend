@@ -269,6 +269,12 @@ export default ({ api }: { api: APIType }) => {
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -481,6 +487,12 @@ export default ({ api }: { api: APIType }) => {
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -524,6 +536,12 @@ export default ({ api }: { api: APIType }) => {
           }
         })
       )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -558,6 +576,12 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             type: 'SUCCESS'
           }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          token_id: action.payload.asset.token_id
         })
       )
     } catch (e) {

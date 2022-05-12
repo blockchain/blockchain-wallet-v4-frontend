@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { NftAsset } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
+import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
 import FeesDropdown from '../../components/FeesDropdown'
@@ -14,7 +15,14 @@ import { Props as OwnProps } from '..'
 import { getTotalFees } from '../NftOrderUtils'
 
 const Fees: React.FC<Props> = (props) => {
-  const { asset, orderFlow } = props
+  const { asset, nftActions, orderFlow } = props
+
+  useEffect(() => {
+    nftActions.fetchFees({
+      operation: GasCalculationOperations.AcceptOffer,
+      order: orderFromJSON(orderFlow.orderToMatch)
+    })
+  }, [])
 
   return (
     <>
