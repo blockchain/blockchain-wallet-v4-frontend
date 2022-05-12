@@ -1119,7 +1119,7 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Save of additional information failed'
         />
       )
-    case C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR:
+    case C.UPLOAD_ADDITIONAL_DOCUMENTS_FILES_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.upload_additional_documents_files_error'

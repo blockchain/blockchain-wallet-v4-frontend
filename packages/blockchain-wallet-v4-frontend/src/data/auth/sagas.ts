@@ -13,7 +13,8 @@ import {
   Analytics,
   CaptchaActionName,
   ExchangeAuthOriginType,
-  ExchangeErrorCodes
+  ExchangeErrorCodes,
+  LoginRoutinePayloadType
 } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
@@ -240,7 +241,7 @@ export default ({ api, coreSagas, networks }) => {
     firstLogin = false,
     recovery = false,
     state = undefined
-  }) {
+  }: LoginRoutinePayloadType) {
     try {
       const product = yield select(selectors.auth.getProduct)
       // If needed, the user should upgrade its wallet before being able to open the wallet
