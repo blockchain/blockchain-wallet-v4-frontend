@@ -256,6 +256,13 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
+            order?: RawOrder
+            step: NftOrderStepEnum.MAKE_OFFER
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
             order?: never
             step: NftOrderStepEnum
             token_id: string

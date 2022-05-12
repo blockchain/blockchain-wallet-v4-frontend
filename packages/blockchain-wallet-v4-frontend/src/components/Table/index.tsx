@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 export const TableWrapper = styled.div<{ height?: string }>`
   display: block;
@@ -18,8 +19,10 @@ export const TableWrapper = styled.div<{ height?: string }>`
     display: block;
     height: 100%;
     border-spacing: 0;
-    border: 1px solid ${(props) => props.theme.grey100};
-    border-radius: 8px;
+    ${media.atLeastTablet`
+      border: 1px solid ${(props) => props.theme.grey100};
+      border-radius: 8px;
+  `}
 
     .th {
       display: table-header-group;
@@ -33,12 +36,22 @@ export const TableWrapper = styled.div<{ height?: string }>`
       margin: 0;
       text-align: left;
       width: 20%;
+      ${media.tabletL`
+      max-width: 12em;
+      min-width: 12em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      `}
     }
 
     .td {
       height: 75px;
       padding-top: 0;
       padding-bottom: 0;
+      ${media.tabletL`
+        height: 66px;
+      `}
     }
 
     .tr {
