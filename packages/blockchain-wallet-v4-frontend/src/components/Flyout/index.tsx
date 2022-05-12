@@ -109,6 +109,7 @@ export const StickyHeaderWrapper = styled.div`
   position: sticky;
   top: 0;
   z-index: 99;
+  padding: 40px;
 `
 
 class Flyout extends React.Component<Props> {
