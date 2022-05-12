@@ -137,7 +137,7 @@
   "components.alerts.lockbox_update_success": "Lockbox settings successfully updated.",
   "components.alerts.logginglevel_update_error": "Failed to update logging level",
   "components.alerts.logginglevel_update_success": "Logging level has been successfully updated",
-  "components.alerts.login_failed": "Login failed",
+  "components.alerts.login_failed": "Login failed. Please refresh and try again.",
   "components.alerts.loweth.body1": "Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.",
   "components.alerts.loweth.header": "Running Low!",
   "components.alerts.loweth.learnmore": "Learn More.",

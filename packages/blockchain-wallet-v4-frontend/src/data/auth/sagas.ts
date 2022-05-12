@@ -9,7 +9,13 @@ import { fetchBalances } from 'data/balance/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
-import { Analytics, CaptchaActionName, ExchangeAuthOriginType } from 'data/types'
+import {
+  Analytics,
+  CaptchaActionName,
+  ExchangeAuthOriginType,
+  ExchangeErrorCodes,
+  LoginRoutinePayloadType
+} from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -185,32 +191,38 @@ export default ({ api, coreSagas, networks }) => {
       // @ts-ignore
     } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
-      if (e.code && e.code === 11) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
-      }
-      if (e.code && e.code === 10) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
-            properties: {
-              site_redirect: product,
-              unified: false
-            }
-          })
-        )
-      }
-      if (e.code && e.code === 8) {
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.LOGIN_PASSWORD_DENIED,
-            properties: {
-              site_redirect: product,
-              unified: false
-            }
-          })
-        )
-      }
       yield put(stopSubmit(LOGIN_FORM))
+      // determine action for error type
+      switch (true) {
+        case e?.code === ExchangeErrorCodes.MISSING_2FA:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
+          break
+        case e?.code === ExchangeErrorCodes.WRONG_2FA:
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
+              properties: {
+                site_redirect: product,
+                unified: false
+              }
+            })
+          )
+          break
+        case e?.code === ExchangeErrorCodes.INVALID_CREDENTIALS:
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_PASSWORD_DENIED,
+              properties: {
+                site_redirect: product,
+                unified: false
+              }
+            })
+          )
+          break
+        // captcha or unknown error
+        default:
+          yield put(actions.alerts.displayError(C.LOGIN_ERROR))
+      }
     }
   }
 
@@ -229,7 +241,7 @@ export default ({ api, coreSagas, networks }) => {
     firstLogin = false,
     recovery = false,
     state = undefined
-  }) {
+  }: LoginRoutinePayloadType) {
     try {
       const product = yield select(selectors.auth.getProduct)
       // If needed, the user should upgrade its wallet before being able to open the wallet
