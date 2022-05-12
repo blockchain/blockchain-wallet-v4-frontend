@@ -42,8 +42,8 @@ import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
-import MoreItems from './Asset.moreitems'
 import { CollectionName, CustomLink, EthText, Highest } from './components'
+import AssetMoreItems from './components/AssetMoreItems'
 import NftAssetCountdown from './components/NftAssetCountdown'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -901,7 +901,7 @@ const NftAsset: React.FC<Props> = ({
               ) : null}
             </RightColWrapper>
           </Top>
-          {openSeaAsset.data ? <MoreItems asset={openSeaAsset.data} /> : null}
+          {currentAsset ? <AssetMoreItems asset={currentAsset} /> : null}
         </div>
       </>
     </Wrapper>

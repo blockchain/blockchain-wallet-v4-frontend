@@ -2,19 +2,20 @@ import React, { useEffect, useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { NftAsset } from '@core/network/api/nfts/types'
 import { Button, Text } from 'blockchain-info-components'
 import {
   AssetFilterFields,
+  AssetQuery,
   ChainOperators,
   FilterOperators,
   useAssetsQuery
 } from 'generated/graphql.types'
 import { media } from 'services/styles'
 
-import { CollectionName, CustomLink } from './components'
+import { CollectionName, CustomLink } from '.'
 
 const MoreAssets = styled.div`
+  width: 100%;
   ${media.tablet`
     padding-right: 1em;
     padding-left: 1em;
@@ -32,10 +33,10 @@ const MoreAssetsListItem = styled.div`
   ${media.tablet`width: 50%;`}
 `
 
-const MoreItems: React.FC<Props> = ({ asset }) => {
+const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   const limit = 4
   const offset = useMemo(
-    () => Math.floor((Math.random() * asset.collection.stats.count || 1000) - limit),
+    () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 20) - limit)),
     [asset]
   )
 
@@ -55,12 +56,8 @@ const MoreItems: React.FC<Props> = ({ asset }) => {
     }
   })
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [asset.token_id])
-
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', width: '100%' }}>
       <MoreAssets>
         <div
           style={{
@@ -73,7 +70,12 @@ const MoreItems: React.FC<Props> = ({ asset }) => {
           <Text color='grey700' weight={600} capitalize>
             More from this collection
           </Text>
-          <CustomLink to={`/nfts/collection/${asset.collection?.slug}`}>
+          <CustomLink
+            onClick={() => {
+              window.scrollTo({ behavior: 'smooth', top: 0 })
+            }}
+            to={`/nfts/collection/${asset.collection?.slug}`}
+          >
             <Button data-e2e='goToCollection' nature='empty-blue' padding='1em'>
               See All
             </Button>
@@ -141,7 +143,7 @@ const MoreItems: React.FC<Props> = ({ asset }) => {
 }
 
 type Props = {
-  asset: NftAsset
+  asset: AssetQuery['assets'][0]
 }
 
-export default MoreItems
+export default AssetMoreItems
