@@ -14,7 +14,6 @@ import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'genera
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
-import toad1059 from './1059-toadz.png'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
 
 // Special case of hardcoding colors
@@ -214,7 +213,7 @@ const Explore: React.FC<Props> = (props) => {
                   width='155px'
                   height='auto'
                   alt='asset'
-                  src={toad1059}
+                  src=''
                   style={{ padding: '5em 3em' }}
                 />
               </AssetCard>
