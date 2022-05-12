@@ -633,7 +633,13 @@ export default ({ api, coreSagas, networks }) => {
   const resendSmsLoginCode = function* (action) {
     try {
       const { email, guid } = action.payload
-      const sessionToken = yield select(selectors.session.getSession, guid, email)
+      const product = yield select(S.getProduct)
+      let sessionToken
+      if (product === ProductAuthOptions.EXCHANGE) {
+        sessionToken = yield select(selectors.session.getExchangeSessionId, email)
+      } else {
+        sessionToken = yield select(selectors.session.getWalletSessionId, guid, email)
+      }
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, {
         guid,
         sessionToken
@@ -888,7 +894,7 @@ export default ({ api, coreSagas, networks }) => {
         }
       }
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
-      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product, redirect)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
