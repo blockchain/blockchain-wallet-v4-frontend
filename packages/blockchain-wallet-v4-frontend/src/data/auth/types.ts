@@ -3,7 +3,7 @@ import { RemoteDataType } from '@core/types'
 export enum ExchangeErrorCodes {
   EMAIL_NOT_VERIFIED = 65,
   WRONG_2FA = 10, // Incorrect 2FA code
-  BAD_2FA = 11, // 2FA is undefined/missing from params
+  MISSING_2FA = 11, // 2FA is undefined/missing from params
   NOT_LINKED = 12,
   UNRECOGNIZED_DEVICE = 99,
   INVALID_CREDENTIALS = 8

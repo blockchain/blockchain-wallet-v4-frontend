@@ -463,7 +463,10 @@ const getAlertContent = (message, data = undefined) => {
       )
     case C.LOGIN_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
+        <FormattedMessage
+          id='components.alerts.login_failed'
+          defaultMessage='Login failed. Please refresh and try again.'
+        />
       )
 
     case C.MAGIC_LINK_PARSE_ERROR:
