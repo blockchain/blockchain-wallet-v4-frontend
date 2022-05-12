@@ -40,7 +40,14 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
         <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()} />
       </StickyHeaderWrapper>
       <Wrapper>
-        <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            justifyContent: 'center'
+          }}
+        >
           {val.collection.image_url ? (
             <Flex justifyContent='center'>
               <img
