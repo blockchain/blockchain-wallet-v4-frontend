@@ -7,7 +7,8 @@ import { IconBlockchain } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
+import { ImageType } from 'blockchain-info-components/src/Images/Images'
 import { Flex } from 'components/Flex'
 import { actions } from 'data'
 import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
@@ -85,12 +86,13 @@ const CardWrapper = styled.div`
 const Explore: React.FC<Props> = (props) => {
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
+  const toadz = ['cryptoad-2456', 'cryptoad-2794', 'cryptoad-2903', 'cryptoad-4502']
+  const randomToad = toadz[Math.floor(Math.random() * toadz.length)]
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
-
   return (
     <NftPageV2>
       <>
@@ -209,11 +211,11 @@ const Explore: React.FC<Props> = (props) => {
                 </Text>
               </div>
               <AssetCard>
-                <img
+                <Image
+                  // @ts-ignore
+                  name={randomToad}
                   width='155px'
                   height='auto'
-                  alt='asset'
-                  src=''
                   style={{ padding: '5em 3em' }}
                 />
               </AssetCard>
@@ -243,7 +245,7 @@ const Explore: React.FC<Props> = (props) => {
                       }
                 }
               >
-                #1059 | CrypToadz by GREMPLIN
+                #{/\b(?!cryptoad-\b)\w+/.exec(randomToad)} | CrypToadz by GREMPLIN
               </Text>
             </CardWrapper>
           </div>
