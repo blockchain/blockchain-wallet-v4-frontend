@@ -96,6 +96,10 @@ import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
+import cryptoad2456 from './img/nfts/cryptoadz-2456.png'
+import cryptoad2794 from './img/nfts/cryptoadz-2794.png'
+import cryptoad2903 from './img/nfts/cryptoadz-2903.png'
+import cryptoad4502 from './img/nfts/cryptoadz-4502.png'
 import noActivity from './img/nfts/no-activity.svg'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
@@ -203,6 +207,10 @@ const Images = {
   'cloud-check': cloudCheck,
   'credit-card': creditCard,
   'credit-card-blue': creditCardBlue,
+  'cryptoad-2456': cryptoad2456,
+  'cryptoad-2794': cryptoad2794,
+  'cryptoad-2903': cryptoad2903,
+  'cryptoad-4502': cryptoad4502,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
