@@ -388,7 +388,7 @@ const NftAsset: React.FC<Props> = ({
                     <SocialLink>
                       <CopyClipboardButton
                         color='grey600'
-                        textToCopy={`${domains.comWalletApp}/#/nfts/${contract}/${id}`}
+                        textToCopy={`${domains.comWalletApp}/#/nfts/asset/${contract}/${id}`}
                         onClick={() =>
                           analyticsActions.trackEvent({
                             key: Analytics.NFT_SHARE_CLICKED,
@@ -807,7 +807,7 @@ const NftAsset: React.FC<Props> = ({
                         const rarity =
                           traitCount && currentAsset.collection.total_supply
                             ? `${(traitCount / currentAsset.collection.total_supply) * 100}%`
-                            : 'N/A'
+                            : 'New Trait'
 
                         return (
                           <Trait

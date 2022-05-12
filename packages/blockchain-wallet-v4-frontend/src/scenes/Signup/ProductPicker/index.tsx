@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -28,7 +28,10 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   return props.walletLoginData.cata({
     Failure: (error) => <Error error={error} />,
     Loading: () => <SpinningLoader />,
-    NotAsked: () => <Error />,
+    NotAsked: () => {
+      props.routerActions.push('/login?product=exchange')
+      return null
+    },
     Success: () =>
       props.exchangeUserConflict ? (
         <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
@@ -41,7 +44,6 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
       )
   })
 }
-
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.signup.getRegisterEmail(state) as string,

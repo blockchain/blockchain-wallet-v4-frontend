@@ -151,7 +151,13 @@ export default ({ api, coreSagas, networks }) => {
             status: 'success'
           })
           break
-        // web - exchange sso login
+        // web - exchange sso login with redirect from deeplink
+        // TODO: this is just for FF off testing on staging
+        // TODO: change this to work for real, where we use
+        // redirect from exchange deeplink into login
+        case redirect !== undefined && redirect.includes('beta') && platform === PlatformTypes.WEB:
+          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
+          break
         case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
           window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
@@ -859,7 +865,7 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const { email } = action.payload
-    const { product } = yield select(selectors.auth.getProductAuthMetadata)
+    const { product, redirect } = yield select(selectors.auth.getProductAuthMetadata)
 
     try {
       let sessionToken
@@ -882,7 +888,7 @@ export default ({ api, coreSagas, networks }) => {
         }
       }
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
-      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product, redirect)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
