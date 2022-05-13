@@ -460,7 +460,6 @@ const MaxButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   height: 32px;
-  margin-top: 70px;
   width: 100%;
 `
 
