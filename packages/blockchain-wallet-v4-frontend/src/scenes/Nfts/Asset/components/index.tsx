@@ -3,6 +3,7 @@ import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { TableWrapper } from 'components/Table'
 
 export const Highest = styled(Text)`
   margin-bottom: 12px;
@@ -31,5 +32,17 @@ export const CustomLink = styled(LinkContainer)`
   &:hover {
     opacity: 1;
     cursor: pointer;
+  }
+`
+
+export const NftTableWrapper = styled(TableWrapper)`
+  .table {
+    .th,
+    .td {
+      padding: 6px 8px;
+    }
+    .td {
+      height: 42px;
+    }
   }
 `
