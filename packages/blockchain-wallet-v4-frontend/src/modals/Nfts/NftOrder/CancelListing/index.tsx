@@ -73,7 +73,7 @@ const CancelListing: React.FC<Props> = (props) => {
                 weight={600}
                 coin={listingToCancel?.payment_token_contract?.symbol}
               >
-                {listingToCancel?.base_price}
+                {listingToCancel?.current_price}
               </CoinDisplay>
               <FiatDisplay
                 size='12px'
@@ -81,7 +81,7 @@ const CancelListing: React.FC<Props> = (props) => {
                 weight={600}
                 coin={listingToCancel?.payment_token_contract?.symbol}
               >
-                {listingToCancel?.base_price}
+                {listingToCancel?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>

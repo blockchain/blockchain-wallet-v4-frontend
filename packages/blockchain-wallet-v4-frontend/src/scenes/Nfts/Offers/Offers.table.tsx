@@ -59,7 +59,11 @@ const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEt
               <div
                 key={column.key}
                 {...column.getHeaderProps(
-                  column.getSortByToggleProps({ style: { width: `${100 / columns.length}%` } })
+                  column.getSortByToggleProps({
+                    style: {
+                      width: column.id === 'price' ? '40%' : `${60 / (columns.length - 1)}%`
+                    }
+                  })
                 )}
                 className='th'
               >
@@ -98,7 +102,11 @@ const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEt
               {row.cells.map((cell) => (
                 <div
                   key={`cell-${cell.row.id}`}
-                  {...cell.getCellProps({ style: { width: `${100 / columns.length}%` } })}
+                  {...cell.getCellProps({
+                    style: {
+                      width: cell.column.id === 'price' ? '40%' : `${60 / (columns.length - 1)}%`
+                    }
+                  })}
                   className='td'
                 >
                   {cell.render('Cell')}

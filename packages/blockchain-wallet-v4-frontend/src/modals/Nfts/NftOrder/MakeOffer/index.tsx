@@ -40,7 +40,7 @@ import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
-import NftOrder, { Props as OwnProps } from '..'
+import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
@@ -281,6 +281,7 @@ const MakeOffer: React.FC<Props> = (props) => {
         {isAuthenticated ? (
           <>
             <MakeOfferFees {...props} asset={val} />
+            <br />
             {needsWrap ? (
               <>
                 {canWrap ? (

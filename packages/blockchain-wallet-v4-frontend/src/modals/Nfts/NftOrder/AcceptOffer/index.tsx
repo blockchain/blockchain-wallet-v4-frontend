@@ -73,7 +73,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                   weight={600}
                   coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
                 >
-                  {orderFlow.orderToMatch?.base_price}
+                  {orderFlow.orderToMatch?.current_price}
                 </CoinDisplay>
                 <FiatDisplay
                   size='14px'
@@ -81,7 +81,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                   weight={500}
                   coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
                 >
-                  {orderFlow.orderToMatch?.base_price}
+                  {orderFlow.orderToMatch?.current_price}
                 </FiatDisplay>
               </Flex>
             </Flex>

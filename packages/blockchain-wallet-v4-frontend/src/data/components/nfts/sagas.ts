@@ -626,7 +626,7 @@ export default ({ api }: { api: APIType }) => {
       convertCoinToCoin({
         baseToStandard: true,
         coin,
-        value: action?.payload?.order?.base_price?.toString() || ''
+        value: action?.payload?.order?.current_price?.toString() || ''
       })
     )
     const amount_usd = yield call(getAmountUsd, coin, amount)
