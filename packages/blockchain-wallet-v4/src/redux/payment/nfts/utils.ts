@@ -1800,6 +1800,7 @@ export async function createSellOrder(
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
+  reservePrice: number | undefined,
   waitForHighestBid: boolean,
   paymentTokenAddress: string,
   network: string
@@ -1811,6 +1812,7 @@ export async function createSellOrder(
     asset,
     buyerAddress: '0x0000000000000000000000000000000000000000',
     endAmount: endPrice,
+    englishAuctionReservePrice: reservePrice,
     expirationTime,
     extraBountyBasisPoints: 0,
     listingTime,

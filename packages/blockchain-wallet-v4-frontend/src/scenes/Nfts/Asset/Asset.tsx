@@ -516,7 +516,7 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends{' '}
+                        Sale ends in{' '}
                         {formatDistanceToNow(
                           subDays(new Date(lowest_order?.expiration_time * 1000), 7)
                         )}
@@ -556,7 +556,7 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends{' '}
+                        Sale ends in{' '}
                         {formatDistanceToNow(
                           new Date(
                             (is_lowest_order_english

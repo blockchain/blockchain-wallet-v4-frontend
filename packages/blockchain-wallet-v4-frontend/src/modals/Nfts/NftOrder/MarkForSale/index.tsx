@@ -493,6 +493,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: undefined,
+                          reservePrice: undefined,
                           startPrice: Number(amount),
                           waitForHighestBid: false
                         })
@@ -507,6 +508,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+                          reservePrice: Number(formValues.reserve),
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: true
                         })
@@ -519,6 +521,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: undefined,
+                          reservePrice: undefined,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: false
                         })

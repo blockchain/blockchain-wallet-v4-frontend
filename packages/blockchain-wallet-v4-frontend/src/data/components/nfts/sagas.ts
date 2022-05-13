@@ -197,6 +197,7 @@ export default ({ api }: { api: APIType }) => {
           expirationTime,
           action.payload.startPrice,
           action.payload.endPrice,
+          action.payload.reservePrice,
           IS_TESTNET ? 'rinkeby' : 'mainnet',
           action.payload.waitForHighestBid,
           action.payload.paymentTokenAddress
@@ -481,6 +482,7 @@ export default ({ api }: { api: APIType }) => {
         expirationTime,
         action.payload.startPrice,
         action.payload.endPrice,
+        action.payload.reservePrice,
         IS_TESTNET ? 'rinkeby' : 'mainnet',
         action.payload.waitForHighestBid,
         action.payload.paymentTokenAddress
