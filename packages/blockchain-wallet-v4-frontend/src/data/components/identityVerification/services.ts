@@ -6,10 +6,12 @@ import { KycStateType, Tiers } from 'data/types'
 import { STEP_TIERS, STEPS } from './model'
 
 const computeSteps = ({
+  addExtraStep,
   kycState,
   needMoreInfo,
   tiers
 }: {
+  addExtraStep: boolean
   kycState: KycStateType
   needMoreInfo: boolean
   tiers: Tiers
@@ -36,6 +38,10 @@ const computeSteps = ({
     }
 
     if (kycState === 'UNDER_REVIEW' && step !== STEPS.submitted) {
+      return false
+    }
+
+    if (step === STEPS.addExtraStep && !addExtraStep) {
       return false
     }
 

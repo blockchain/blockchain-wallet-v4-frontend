@@ -8,6 +8,8 @@ export const STEPS = {
   infoAndResidential: 'infoAndResidential',
   moreInfo: 'moreInfo',
   // eslint-disable-next-line
+  addExtraStep: 'addExtraStep',
+  // eslint-disable-next-line
   additionalInfo: 'additionalInfo',
   verify: 'verify',
   // eslint-disable-next-line
@@ -18,6 +20,8 @@ export const STEPS = {
 export const STEP_TIERS = {
   infoAndResidential: TIERS[1],
   moreInfo: TIERS[2],
+  // eslint-disable-next-line
+  addExtraStep: TIERS[2],
   // eslint-disable-next-line
   additionalInfo: TIERS[2],
   verify: TIERS[2],

@@ -150,10 +150,11 @@ export default ({ api, coreSagas, networks }) => {
     // Edge case where a user profile is set to tier two
     // but kycState is none after nabu reset
     const tierTwoKycNone = kycState === KYC_STATES.NONE && tiers.current === 2
+
     if (kycDocResubmissionStatus === 1) {
       if (tiers.current === 0) {
         // case where user already went through first step
-        // of verfication but was rejected, want to set
+        // of verification but was rejected, want to set
         // next to 2
         if (tiersState[0].state === 'rejected') {
           tiers = { current: 0, next: 2, selected: 2 }
@@ -166,7 +167,23 @@ export default ({ api, coreSagas, networks }) => {
         return
       }
     }
+
+    let addExtraStep = false
+    if (tiers.current !== 2) {
+      // check extra KYC fields
+      yield put(actions.components.identityVerification.fetchExtraKYC())
+      yield take([AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS, AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE])
+      const kycExtraSteps = selectors.components.identityVerification
+        .getKYCExtraSteps(yield select())
+        .getOrElse({} as ExtraQuestionsType)
+      const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
+      if (showExtraKycSteps) {
+        addExtraStep = true
+      }
+    }
+
     const steps = computeSteps({
+      addExtraStep,
       kycState,
       needMoreInfo,
       tiers
@@ -386,14 +403,6 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
-      // Should we prompt KYC extra fields
-      yield put(actions.components.identityVerification.fetchExtraKYC())
-      yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
-      const kycExtraSteps = selectors.components.identityVerification
-        .getKYCExtraSteps(yield select())
-        .getOrElse({} as ExtraQuestionsType)
-      const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
-
       // in case of US we have to append state with prefix
       const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
@@ -403,17 +412,6 @@ export default ({ api, coreSagas, networks }) => {
         line2,
         postCode,
         state: userState
-      }
-
-      if (showExtraKycSteps && !payload.skipExtraFields) {
-        yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
-        yield put(
-          actions.modals.showModal(ModalName.KYC_EXTRA_FIELDS_MODAL, {
-            origin: 'KycRequiredStep'
-          })
-        )
-        // prevent progressing in KYC flow
-        return
       }
 
       yield call(updateUser, { payload: { data: personalData } })
@@ -508,14 +506,8 @@ export default ({ api, coreSagas, networks }) => {
       yield call(api.updateKYCExtraQuestions, extraForm)
 
       yield put(actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM))
-      // close modal
-      yield put(actions.modals.closeModal(ModalName.KYC_EXTRA_FIELDS_MODAL))
-      // re-submit info and residential form
-      yield put(
-        actions.components.identityVerification.saveInfoAndResidentialData({
-          checkSddEligibility: false
-        })
-      )
+      // return to KYC
+      yield call(goToNextStep)
     } catch (e) {
       yield put(
         actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM, {
