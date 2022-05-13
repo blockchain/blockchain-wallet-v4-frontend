@@ -49,6 +49,7 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 const NftsHome = React.lazy(() => import('./Nfts/Home'))
 const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
+const NftsCreate = React.lazy(() => import('./Nfts/Create'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
 
 // WALLET
@@ -216,6 +217,14 @@ const App = ({
                             path='/nfts/explore'
                             exact
                             component={NftsFirehose}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                          />
+                        )}
+                        {nftExplorer && (
+                          <NftsLayout
+                            path='/nfts/create'
+                            exact
+                            component={NftsCreate}
                             pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                           />
                         )}

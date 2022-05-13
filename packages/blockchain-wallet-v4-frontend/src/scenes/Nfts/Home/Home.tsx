@@ -148,9 +148,11 @@ const Explore: React.FC<Props> = (props) => {
                       width: '6em'
                     }}
                   >
-                    <Text color='blue600' weight={600}>
-                      Create
-                    </Text>
+                    <LinkContainer to='/nfts/create'>
+                      <Text color='blue600' weight={600}>
+                        Create
+                      </Text>
+                    </LinkContainer>
                   </div>
                 </Flex>
               </>
@@ -164,11 +166,28 @@ const Explore: React.FC<Props> = (props) => {
                 >
                   Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
                 </Text>
-                <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
-                  <Button jumbo nature='primary' data-e2e='Explore'>
-                    <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                  </Button>
-                </LinkContainer>
+                <Flex gap={24}>
+                  <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
+                    <Button jumbo nature='primary' data-e2e='Explore'>
+                      <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+                    </Button>
+                  </LinkContainer>
+                  <div
+                    style={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      paddingTop: '1em',
+                      width: '6em'
+                    }}
+                  >
+                    <LinkContainer style={{ cursor: 'pointer' }} to='/nfts/create'>
+                      <Text color='blue600' weight={600}>
+                        Create
+                      </Text>
+                    </LinkContainer>
+                  </div>
+                </Flex>
               </>
             )}
           </div>
