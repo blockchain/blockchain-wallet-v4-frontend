@@ -1776,6 +1776,7 @@
   "scenes.interest.submit_information": "Submit Information",
   "scenes.interest.summarycard.earn": "Earn up to {interestRate}% annually on your {coinTicker}.",
   "scenes.interest.summarycard.earnbutton": "Earn Rewards",
+  "scenes.interest.summarycard.earnOnly": "Earn",
   "scenes.interest.summarycard.earning": "Earning up to {interestRate}% annually on your {coinTicker}.",
   "scenes.interest.summarycard.tooltip": "The rate is subject to change. Rewards will be paid in crypto.",
   "scenes.interest.summarycard.totalinterest": "Total Rewards Earned",
