@@ -5,6 +5,7 @@ import SubHeader from './SubHeader'
 export default {
   args: {
     'data-e2e': 'foooo',
+    sticky: true,
     subTitle: '$100',
     title: '10.0000 BTC'
   },

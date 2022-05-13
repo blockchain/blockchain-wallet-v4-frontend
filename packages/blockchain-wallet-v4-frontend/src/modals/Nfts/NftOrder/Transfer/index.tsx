@@ -1,13 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import TextBox from 'components/Form/TextBox'
@@ -34,11 +33,9 @@ const Transfer: React.FC<Props> = (props) => {
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
-            <StickyHeaderWrapper>
-              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-                Transfer Item
-              </FlyoutHeader>
-            </StickyHeaderWrapper>
+            <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+              Transfer Item
+            </FlyoutHeader>
             <NftAssetHeaderRow asset={val} />
             <div
               style={{
