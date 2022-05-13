@@ -3,11 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
@@ -47,11 +46,9 @@ const AcceptOffer: React.FC<Props> = (props) => {
   if (!asset) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='acceptOffer' mode='back' onClick={() => close()}>
-          <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
-        </FlyoutHeader>
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='acceptOffer' mode='back' onClick={() => close()}>
+        <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+      </FlyoutHeader>
       <div
         style={{
           display: 'flex',

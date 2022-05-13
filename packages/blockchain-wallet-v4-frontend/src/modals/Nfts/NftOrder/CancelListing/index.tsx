@@ -7,7 +7,6 @@ import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
@@ -48,11 +47,9 @@ const CancelListing: React.FC<Props> = (props) => {
 
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='cancelListing' mode='back' onClick={() => close()}>
-          <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
-        </FlyoutHeader>
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='cancelListing' mode='back' onClick={() => close()}>
+        <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
+      </FlyoutHeader>
       <div
         style={{
           display: 'flex',

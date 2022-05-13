@@ -25,7 +25,7 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -166,11 +166,9 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-          Make Offer
-        </FlyoutHeader>
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+        Make Offer
+      </FlyoutHeader>
       <div
         style={{
           display: 'flex',

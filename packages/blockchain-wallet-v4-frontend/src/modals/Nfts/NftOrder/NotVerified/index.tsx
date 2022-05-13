@@ -5,7 +5,6 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { useRemote } from 'hooks'
 
@@ -37,9 +36,7 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
 
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()} />
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()} />
       <Wrapper>
         <div
           style={{

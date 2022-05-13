@@ -13,7 +13,7 @@ import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
+import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -123,11 +123,9 @@ const MarkForSale: React.FC<Props> = (props) => {
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
-            <StickyHeaderWrapper>
-              <FlyoutHeader data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-                Sell Item
-              </FlyoutHeader>
-            </StickyHeaderWrapper>
+            <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+              Sell Item
+            </FlyoutHeader>
             <NftAssetHeaderRow asset={val} />
             <div
               style={{

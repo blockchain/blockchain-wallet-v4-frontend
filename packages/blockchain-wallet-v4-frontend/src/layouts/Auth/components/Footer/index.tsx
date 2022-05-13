@@ -26,7 +26,7 @@ const Footer = (props) => {
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
         <Version />
-        <Help {...props} />
+        <Help />
       </FooterInner>
     </>
   )
