@@ -201,7 +201,7 @@ const Create: React.FC<Props> = (props) => {
             Ready To Stand Out?
           </Text>
           <LinkContainer to='/nfts/create'>
-            <Button nature='primary' data-e2e='Create'>
+            <Button jumbo nature='primary' data-e2e='Create'>
               <FormattedMessage id='copy.explore' defaultMessage='Apply Now' />
             </Button>
           </LinkContainer>
