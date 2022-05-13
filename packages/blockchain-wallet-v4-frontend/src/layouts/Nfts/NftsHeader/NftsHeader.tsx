@@ -97,7 +97,7 @@ const ExploreHeader: React.FC<Props> = ({
       to: `/nfts/address/${ethAddress}`
     },
     {
-      clickHandler: window.location.reload,
+      clickHandler: () => window.location.reload(),
       copy: <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />,
       'data-e2e': 'logoutLink'
     }
