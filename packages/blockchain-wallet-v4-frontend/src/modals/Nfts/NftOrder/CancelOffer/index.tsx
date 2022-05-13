@@ -63,7 +63,7 @@ const CancelOffer: React.FC<Props> = (props) => {
                 weight={600}
                 coin={offerToCancel?.payment_token_contract?.symbol}
               >
-                {offerToCancel?.base_price}
+                {offerToCancel?.current_price}
               </CoinDisplay>
               <FiatDisplay
                 size='12px'
@@ -71,7 +71,7 @@ const CancelOffer: React.FC<Props> = (props) => {
                 weight={600}
                 coin={offerToCancel?.payment_token_contract?.symbol}
               >
-                {offerToCancel?.base_price}
+                {offerToCancel?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>

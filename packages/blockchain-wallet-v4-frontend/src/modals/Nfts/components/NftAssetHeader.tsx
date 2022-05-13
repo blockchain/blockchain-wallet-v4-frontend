@@ -15,7 +15,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
 
   return (
@@ -69,7 +69,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
             )}
           </div>
         </Flex>
-        {lowest_order?.base_price && (
+        {lowest_order?.current_price && (
           <Text
             style={{
               justifyContent: 'right'
@@ -82,7 +82,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
               coin='ETH'
               style={{ justifyContent: 'right' }}
             >
-              {lowest_order?.base_price}
+              {lowest_order?.current_price}
             </CoinDisplay>
             <FiatDisplay
               size='14px'
@@ -91,7 +91,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
               coin='ETH'
               style={{ justifyContent: 'right' }}
             >
-              {lowest_order?.base_price}
+              {lowest_order?.current_price}
             </FiatDisplay>
           </Text>
         )}

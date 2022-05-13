@@ -300,22 +300,22 @@ const NftAsset: React.FC<Props> = ({
     }) || []
   bids = bids.length
     ? bids.sort((a: any, b: any) => {
-        return b.base_price - a.base_price
+        return b.current_price - a.current_price
       })
     : []
   offers = offers.length
     ? offers.sort((a: any, b: any) => {
-        return b.base_price - a.base_price
+        return b.current_price - a.current_price
       })
     : []
   const bidsAndOffers = bids.concat(offers).sort((a: any, b: any) => {
-    return b.base_price - a.base_price
+    return b.current_price - a.current_price
   })
   if (offers.length < 1) offers = bids
   const highest_bid = bids[0]
   const highest_offer = offers[0]
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
   const is_lowest_order_english =
     lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
@@ -534,7 +534,7 @@ const NftAsset: React.FC<Props> = ({
                         size='24px'
                         coin={bidsAndOffers[0].payment_token_contract.symbol}
                       >
-                        {bidsAndOffers[0].base_price}
+                        {bidsAndOffers[0].current_price}
                       </CoinDisplay>
                       &nbsp;{' '}
                       <Text size='16px' weight={500} style={{ display: 'flex' }} color='grey500'>
@@ -546,7 +546,7 @@ const NftAsset: React.FC<Props> = ({
                           size='16px'
                           coin={bidsAndOffers[0].payment_token_contract.symbol}
                         >
-                          {bidsAndOffers[0].base_price}
+                          {bidsAndOffers[0].current_price}
                         </FiatDisplay>
                         )
                       </Text>
@@ -577,7 +577,7 @@ const NftAsset: React.FC<Props> = ({
                         size='24px'
                         coin={lowest_order.payment_token_contract.symbol}
                       >
-                        {lowest_order.base_price}
+                        {lowest_order.current_price}
                       </CoinDisplay>
                       &nbsp;{' '}
                       <Text size='16px' weight={500} style={{ display: 'flex' }} color='grey500'>
@@ -589,7 +589,7 @@ const NftAsset: React.FC<Props> = ({
                           size='16px'
                           coin={lowest_order.payment_token_contract.symbol}
                         >
-                          {lowest_order.base_price}
+                          {lowest_order.current_price}
                         </FiatDisplay>
                         )
                       </Text>
@@ -606,7 +606,7 @@ const NftAsset: React.FC<Props> = ({
                         size='24px'
                         coin={highest_offer.payment_token_contract.symbol}
                       >
-                        {highest_offer.base_price}
+                        {highest_offer.current_price}
                       </CoinDisplay>
                       &nbsp;{' '}
                       <Text size='16px' weight={500} style={{ display: 'flex' }} color='grey500'>
@@ -618,7 +618,7 @@ const NftAsset: React.FC<Props> = ({
                           size='16px'
                           coin={highest_offer.payment_token_contract.symbol}
                         >
-                          {highest_offer.base_price}
+                          {highest_offer.current_price}
                         </FiatDisplay>
                         )
                       </Text>
@@ -921,7 +921,11 @@ const NftAsset: React.FC<Props> = ({
               ) : null}
             </RightColWrapper>
           </Top>
-          {currentAsset ? <AssetMoreItems asset={currentAsset} /> : null}
+          {currentAsset &&
+          ((currentAsset?.collection?.total_supply && currentAsset.collection.total_supply > 2) ||
+            !currentAsset.collection.total_supply) ? (
+            <AssetMoreItems asset={currentAsset} />
+          ) : null}
         </div>
       </>
     </Wrapper>
