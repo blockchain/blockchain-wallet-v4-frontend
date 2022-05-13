@@ -276,7 +276,7 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const ownedBySelf = currentAsset?.owners
+  const isOwner = currentAsset?.owners
     ? currentAsset.owners.find((owner) => {
         return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
       })
@@ -359,7 +359,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {ownedBySelf && (
+                    {isOwner && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
@@ -466,7 +466,7 @@ const NftAsset: React.FC<Props> = ({
                   <Text size='16px' color='grey600' weight={600}>
                     <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                   </Text>
-                  {!ownedBySelf ? (
+                  {!isOwner ? (
                     <Text
                       color='blue600'
                       weight={600}
@@ -626,7 +626,7 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : null}
                 <Flex gap={8}>
-                  {ownedBySelf ? (
+                  {isOwner ? (
                     <>
                       {!lowest_order ? (
                         <Button
@@ -694,7 +694,7 @@ const NftAsset: React.FC<Props> = ({
                       ) : null}
                     </>
                   ) : null}
-                  {!ownedBySelf ? (
+                  {!isOwner ? (
                     is_lowest_order_english ? (
                       <Button
                         data-e2e='openNftFlow'
@@ -736,7 +736,7 @@ const NftAsset: React.FC<Props> = ({
                       </Button>
                     )
                   ) : null}
-                  {lowest_order && !ownedBySelf && !is_lowest_order_english ? (
+                  {lowest_order && !isOwner && !is_lowest_order_english ? (
                     <>
                       <Button
                         data-e2e='openNftFlow'
