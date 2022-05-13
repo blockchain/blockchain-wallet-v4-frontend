@@ -12,7 +12,7 @@ import { Flex } from 'components/Flex'
 import { actions } from 'data'
 import { media, useMedia } from 'services/styles'
 
-import { NftPageV2 } from '../components'
+import { maxWidth, NftPageV2 } from '../components'
 
 const Banner = styled.div`
   background: linear-gradient(180deg, #e6e1ff 0%, rgba(250, 251, 255, 0) 100%);
@@ -21,13 +21,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: block;
   align-items: center;
-  justify-content: space-around;
   padding: 100px 64px;
-  ${media.mobile`
-    flex-direction: column;
-    padding: 30px 16px;
-    border-radius: unset;
-  `}
 `
 
 const Footer = styled.div`
@@ -44,8 +38,6 @@ const Body = styled.div`
   box-sizing: border-box;
   display: block;
   align-items: center;
-  justify-content: space-around;
-  padding: 0px 128px;
 `
 
 const Create: React.FC<Props> = (props) => {
@@ -54,7 +46,7 @@ const Create: React.FC<Props> = (props) => {
   return (
     <NftPageV2 style={{ padding: 'unset' }}>
       <Banner>
-        <Flex justifyContent='space-around'>
+        <Flex gap={24} justifyContent='space-around'>
           <div>
             <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
               <Icon label='logo'>
@@ -93,7 +85,6 @@ const Create: React.FC<Props> = (props) => {
             // @ts-ignore
             name='cryptoad-2456'
             width='155px'
-            height='auto'
             style={{ padding: '5em 3em' }}
           />
         </Flex>
@@ -124,7 +115,6 @@ const Create: React.FC<Props> = (props) => {
             // @ts-ignore
             name='cryptoad-2456'
             width='155px'
-            height='auto'
             style={{ padding: '5em 3em' }}
           />
         </Flex>
@@ -133,10 +123,9 @@ const Create: React.FC<Props> = (props) => {
             // @ts-ignore
             name='cryptoad-2456'
             width='155px'
-            height='auto'
             style={{ padding: '5em 3em' }}
           />
-          <div style={{ alignItems: 'center', display: 'flex', width: '33%' }}>
+          <div style={{ alignItems: 'center', display: 'flex' }}>
             <div style={{ display: 'block' }}>
               <Text size={isTablet || isMobile ? '20px' : '40px'} weight={600} color='black'>
                 Get Paid What You’re Worth.
@@ -159,7 +148,7 @@ const Create: React.FC<Props> = (props) => {
           </div>
         </Flex>
         <Flex justifyContent='space-around'>
-          <div style={{ alignItems: 'center', display: 'flex', width: '33%' }}>
+          <div style={{ alignItems: 'center', display: 'flex' }}>
             <div style={{ display: 'block' }}>
               <Text size={isTablet || isMobile ? '20px' : '40px'} weight={600} color='black'>
                 You Create It, We Build It.
@@ -185,7 +174,6 @@ const Create: React.FC<Props> = (props) => {
             // @ts-ignore
             name='cryptoad-2456'
             width='155px'
-            height='auto'
             style={{ padding: '5em 3em' }}
           />
         </Flex>
