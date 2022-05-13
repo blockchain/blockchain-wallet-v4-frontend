@@ -583,18 +583,64 @@ async function _getPriceParameters(
   return { basePrice, extra, paymentToken, reservePrice }
 }
 
+async function _signOrder(
+  signer: Signer,
+  signerAddress: string,
+  order: {
+    basePrice: string
+    calldata: string
+    exchange: string
+    expirationTime: string
+    extra: string | string
+    feeMethod: number
+    feeRecipient: string
+    howToCall: number
+    listingTime: string
+    maker: string
+    makerProtocolFee: string
+    makerRelayerFee: string
+    paymentToken: string
+    replacementPattern: string
+    saleKind: number
+    salt: string
+    side: number
+    staticExtradata: string
+    staticTarget: string
+    taker: string
+    takerProtocolFee: string
+    takerRelayerFee: string
+    target: string
+  }
+): Promise<{ nonce: number; r: string; s: string; v: number }> {
+  const network = getNetwork(signer)
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const signerOrderNonce = await wyvernExchangeContract.nonces(signerAddress)
+
+  const message = {
+    domain: {
+      chainId: network === 'rinkeby' ? 4 : 1,
+      name: EIP_712_WYVERN_DOMAIN_NAME,
+      verifyingContract: order.exchange,
+      version: EIP_712_WYVERN_DOMAIN_VERSION
+    },
+    message: { ...order, nonce: signerOrderNonce.toNumber() },
+    primaryType: 'Order',
+    types: { Order: EIP_712_ORDER_TYPES.Order }
+  }
+
+  // @ts-ignore
+  const ecSignature = await signer._signTypedData(message.domain, message.types, message.message)
+  const r = `0x${ecSignature.slice(2, 66)}`
+  const s = `0x${ecSignature.slice(66, 130)}`
+  const v = parseInt(ecSignature.slice(130, 132), 16)
+  return { nonce: signerOrderNonce.toNumber(), r, s, v }
+}
+
 async function _authorizeOrder(
   order: UnsignedOrder,
-  signer: Signer,
-  network: string
+  signer: Signer
 ): Promise<{ nonce: number; r: string; s: string; v: number } | undefined> {
-  const signerAddress = order.maker
-  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
-
   try {
-    // 2.3 Sign order flow using EIP-712
-    const signerOrderNonce = await wyvernExchangeContract.nonces(signerAddress)
-
     // We need to manually specify each field because OS orders can contain unrelated data
     const orderForSigning = {
       basePrice: order.basePrice.toString(),
@@ -622,24 +668,9 @@ async function _authorizeOrder(
       target: order.target
     }
 
-    const message = {
-      domain: {
-        chainId: network === 'rinkeby' ? 4 : 1,
-        name: EIP_712_WYVERN_DOMAIN_NAME,
-        verifyingContract: order.exchange,
-        version: EIP_712_WYVERN_DOMAIN_VERSION
-      },
-      message: { ...orderForSigning, nonce: signerOrderNonce.toNumber() },
-      primaryType: 'Order',
-      types: { Order: EIP_712_ORDER_TYPES.Order }
-    }
+    const signedOrder = await _signOrder(signer, order.maker, orderForSigning)
 
-    // @ts-ignore
-    const ecSignature = await signer._signTypedData(message.domain, message.types, message.message)
-    const r = `0x${ecSignature.slice(2, 66)}`
-    const s = `0x${ecSignature.slice(66, 130)}`
-    const v = parseInt(ecSignature.slice(130, 132), 16)
-    return { nonce: signerOrderNonce.toNumber(), r, s, v }
+    return { nonce: signedOrder.nonce, r: signedOrder.r, s: signedOrder.s, v: signedOrder.v }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error)
@@ -1741,11 +1772,16 @@ export async function cancelOrder({
     takerRelayerFee: sellOrder.taker_relayer_fee,
     target: sellOrder.target,
     v: sellOrder.v,
-    // TODO: Find out how to fetch the true value for waitingForBestCounter
-    waitingForBestCounterOrder: false
+    waitingForBestCounterOrder: sellOrder.closing_extendable && sellOrder.sale_kind === 0
   }
 
-  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  if (!sellOrder.r && !sellOrder.v && !sellOrder.s) {
+    const { r, s, v } = await _signOrder(signer, order.maker, order)
+    order.r = r
+    order.s = s
+    order.v = v
+  }
+
   // Weird & inconsistent quoarum error during gas estimation... use default value if fails
   const args = [
     [
@@ -1779,6 +1815,8 @@ export async function cancelOrder({
     order.r || NULL_BLOCK_HASH,
     order.s || NULL_BLOCK_HASH
   ]
+
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
 
   txnData.gasLimit = await _safeGasEstimation(
     wyvernExchangeContract.estimateGas.cancelOrder_,
@@ -1834,7 +1872,7 @@ export async function createSellOrder(
   // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
   let signature
   try {
-    signature = await _authorizeOrder(hashedOrder, signer, network)
+    signature = await _authorizeOrder(hashedOrder, signer)
   } catch (error) {
     console.error(error)
     throw new Error('You declined to authorize your auction')
@@ -1874,7 +1912,7 @@ export async function createBuyOrder(
     ...order,
     hash: await _getOrderHash(order, signer)
   }
-  const signature = await _authorizeOrder(hashedOrder, signer, network)
+  const signature = await _authorizeOrder(hashedOrder, signer)
   const orderWithSignature = {
     ...hashedOrder,
     ...signature
@@ -1907,13 +1945,13 @@ export async function createMatchingOrders(
   let { buy, sell } = _assignOrdersToSides(order, matchingOrder)
 
   if (order.side === NftOrderSide.Sell) {
-    const signature = await _authorizeOrder(buy, signer, network)
+    const signature = await _authorizeOrder(buy, signer)
     buy = {
       ...buy,
       ...signature
     }
   } else {
-    const signature = await _authorizeOrder(sell, signer, network)
+    const signature = await _authorizeOrder(sell, signer)
     sell = {
       ...sell,
       ...signature
@@ -2044,11 +2082,18 @@ export async function calculateCancellationFees(sellOrder: RawOrder, signer: Sig
     takerRelayerFee: sellOrder.taker_relayer_fee,
     target: sellOrder.target,
     v: sellOrder.v,
-    // TODO: Find out how to fetch the true value for waitingForBestCounter
-    waitingForBestCounterOrder: false
+    waitingForBestCounterOrder: sellOrder.closing_extendable && sellOrder.sale_kind === 0
   }
 
   const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+
+  if (!sellOrder.r && !sellOrder.v && !sellOrder.s) {
+    const { r, s, v } = await _signOrder(signer, order.maker, order)
+    order.r = r
+    order.s = s
+    order.v = v
+  }
+
   const txnData = {
     gasLimit: 120_000
   }
