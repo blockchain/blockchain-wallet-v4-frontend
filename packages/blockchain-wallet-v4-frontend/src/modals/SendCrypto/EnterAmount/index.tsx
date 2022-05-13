@@ -309,7 +309,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                       },
                       {
                         text: 'High',
-                        value: 'PRIORITY'
+                        value: 'HIGH'
                       }
                     ]
                   }
