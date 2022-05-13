@@ -130,6 +130,7 @@
     "qs": "6.10.1",
     "ramda": "0.26.1",
     "react": "16.14.0",
+    "react-query": "3.39.0",
     "react-circular-progressbar": "2.0.4",
     "react-copy-to-clipboard": "5.0.3",
     "react-csv": "2.0.3",
