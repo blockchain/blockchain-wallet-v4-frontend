@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon as BlockchainIcon, SpinningLoader, Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -34,7 +34,7 @@ const ButtonWrapper = styled.div`
   box-sizing: border-box;
 `
 const NftOrderStatus: React.FC<Props> = (props) => {
-  const { analyticsActions, openSeaAssetR } = props
+  const { analyticsActions, defaultEthAddr, openSeaAssetR, routerActions } = props
   const dispatch = useDispatch()
 
   const returnToMarketPlace = () => {
@@ -60,6 +60,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
         properties: {}
       })
     )
+    routerActions.push(`/nfts/address/${defaultEthAddr}`)
     props.close()
   }
   const openSeaAsset = useRemote(() => openSeaAssetR)
@@ -279,11 +280,16 @@ const NftOrderStatus: React.FC<Props> = (props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+const mapStateToProps = (state) => ({
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
 
-const connector = connect(null, mapDispatchToProps)
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
