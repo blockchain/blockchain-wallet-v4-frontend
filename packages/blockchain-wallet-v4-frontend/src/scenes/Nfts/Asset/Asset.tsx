@@ -921,7 +921,11 @@ const NftAsset: React.FC<Props> = ({
               ) : null}
             </RightColWrapper>
           </Top>
-          {currentAsset ? <AssetMoreItems asset={currentAsset} /> : null}
+          {currentAsset &&
+          ((currentAsset?.collection?.total_supply && currentAsset.collection.total_supply > 2) ||
+            !currentAsset.collection.total_supply) ? (
+            <AssetMoreItems asset={currentAsset} />
+          ) : null}
         </div>
       </>
     </Wrapper>
