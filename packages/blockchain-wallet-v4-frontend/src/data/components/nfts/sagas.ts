@@ -725,10 +725,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
   }
 
-  const nftOrderFlowClose = function* () {
-    yield put(actions.modals.closeAllModals())
-  }
-
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
@@ -785,7 +781,6 @@ export default ({ api }: { api: APIType }) => {
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,
-    nftOrderFlowClose,
     nftOrderFlowOpen,
     nftSearch
   }
