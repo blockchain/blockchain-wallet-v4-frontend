@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title='Hooks/useRemote/Intro' />
+
+# useRemote hook
+
+This is a helper to access a Redux key that is a [Remote type](https://github.com/fantasyland/daggy#readme) and translate the state of the remote type to a `react-query` like API
+
+This is an example of how you could select the rates using the Redux connect API and consume them
+
+```tsx
+const App = ({ data }) => {
+  return data.cata({
+    Failure: <FailureState />,
+    Loading: <LoadingState />,
+    Success: (data) => <SuccessState />
+  })
+}
+
+const mapStateToProps = (state, { coin }) => ({
+  data: selectors.core.data.misc.getRatesSelector(coin, state)
+})
+
+const connector = connect(mapStateToProps)
+
+connector(App)
+```
+
+By using Redux and remote type, it is hard for the consumer component to handle the loading, error states, that is because all the remote type are combined and if one API is slow or returns an error it will replace force you to render the error state, while that might be not what you want because you may be loading one data that is not crucial for your component to render.
+
+With `useRemote` you can access remote types from Redux individually and handle the loading, error state in your component in any way you want. That way, you can display the component to the user faster and necessarily wait for all the data to load before showing the user some content.
+
+This is how you can load the same data using `useRemote`:
+
+```tsx
+const App = ({ coin }) => {
+  const {
+    data,
+    error: ratesError,
+    isLoading: isLoadingRates
+  } = useRemote((state) => selectors.core.data.misc.getRatesSelector(coin, state))
+
+  if (isLoadingRates) {
+    return <LoadingState />
+  }
+
+  if (ratesError) {
+    return <ErrorState />
+  }
+
+  return <SuccessState />
+}
+```
+
+Notes:
+
+- The `useRemote` hook works by using the existing `useSelector` from `redux` to get the remote type from the Redux store, so if the Redux store update or another component trigger a re-fetch of some data, the `useRemote` will reflect that change, so it will enter the loading state.
+
+## How to test
+
+To test a component or hook that uses `useRemote`, you will need to mock the `data` and `react-redux` modules like below:
+
+```tsx
+jest.mock('data', () => ({
+  selectors: {
+    core: {
+      data: {
+        misc: {
+          getRatesSelector: jest.fn()
+        }
+      }
+    }
+  }
+}))
+
+jest.mock('react-redux', () => {
+  const originalModule = jest.requireActual('react-redux')
+
+  return {
+    ...originalModule,
+    useSelector: jest.fn((selector) => selector())
+  }
+})
+```
