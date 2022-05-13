@@ -12,3 +12,15 @@ export const endingLessThanStarting = (value, allValues) => {
     false
   )
 }
+
+export const reserveGreaterThanStarting = (value, allValues) => {
+  if (!value) return false
+  return value <= allValues.starting ? (
+    <FormattedMessage
+      id='copy.ending_less_than_starting'
+      defaultMessage='Must be greater than Starting Price'
+    />
+  ) : (
+    false
+  )
+}

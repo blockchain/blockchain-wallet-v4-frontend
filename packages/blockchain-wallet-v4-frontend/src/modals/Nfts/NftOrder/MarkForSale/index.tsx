@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Switch } from '@blockchain-com/constellation'
 import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
 import { map } from 'ramda'
@@ -33,7 +33,7 @@ import { Props as OwnProps } from '..'
 import MarkForSaleFees from './fees'
 import { NftMarkForSaleFormValues } from './MarkForSale.types'
 import { getQuoteAmts } from './MarkForSale.utils'
-import { endingLessThanStarting } from './MarkForSale.validaton'
+import { endingLessThanStarting, reserveGreaterThanStarting } from './MarkForSale.validaton'
 
 const FormWrapper = styled.div`
   gap: 8px;
@@ -63,6 +63,7 @@ const MarkForSale: React.FC<Props> = (props) => {
   const { analyticsActions, close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
   const { fix } = formValues || { fix: 'CRYPTO' }
   const [saleType, setSaleType] = useState<'fixed-price' | 'timed-auction'>('fixed-price')
+  const [isReservedChecked, setIsReserveChecked] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
   const disabled =
     (saleType === 'fixed-price'
@@ -188,7 +189,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Flex>
                     </Value>
                   </Row>
-                  {formValues?.timedAuctionType === 'decliningPrice' && (
+                  {formValues?.timedAuctionType === 'decliningPrice' ? (
                     <Row>
                       <Value>
                         <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
@@ -204,6 +205,39 @@ const MarkForSale: React.FC<Props> = (props) => {
                             {endingFiatAmt} {props.walletCurrency}
                           </Text>
                         </Flex>
+                      </Value>
+                    </Row>
+                  ) : (
+                    <Row>
+                      <Value>
+                        <Flex justifyContent='space-between' alignItems='center'>
+                          <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
+                            <FormattedMessage
+                              id='copy.reserve_price'
+                              defaultMessage='Reserve Price'
+                            />
+                          </Text>
+                          <Switch
+                            checked={isReservedChecked}
+                            onClick={() => setIsReserveChecked((x) => !x)}
+                          />
+                        </Flex>
+                        {isReservedChecked ? (
+                          <div style={{ marginTop: '8px' }}>
+                            <Field
+                              errorLeft
+                              errorBottom
+                              validate={[reserveGreaterThanStarting]}
+                              name='reserve'
+                              component={NumberBox}
+                            />
+                            <Flex justifyContent='flex-end'>
+                              <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
+                                {endingFiatAmt} {props.walletCurrency}
+                              </Text>
+                            </Flex>
+                          </div>
+                        ) : null}
                       </Value>
                     </Row>
                   )}
