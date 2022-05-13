@@ -66,7 +66,7 @@ const Buy: React.FC<Props> = (props) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a?.base_price).isLessThan(b?.base_price) ? -1 : 1
+    new BigNumber(a?.current_price).isLessThan(b?.current_price) ? -1 : 1
   )[0]
 
   const ethBalance = new BigNumber(selfCustodyBalance)
@@ -75,10 +75,10 @@ const Buy: React.FC<Props> = (props) => {
   const ethStandard = convertCoinToCoin({
     baseToStandard: true,
     coin,
-    value: lowest_order?.base_price
+    value: lowest_order?.current_price
   })
   formValues.amount = ethStandard
-  const amtToBuy = new BigNumber(lowest_order?.base_price).minus(ethBalance)
+  const amtToBuy = new BigNumber(lowest_order?.current_price).minus(ethBalance)
 
   return (
     <>
@@ -158,7 +158,7 @@ const Buy: React.FC<Props> = (props) => {
                             weight={600}
                             coin={orderToMatch?.payment_token_contract?.symbol}
                           >
-                            {orderToMatch?.base_price}
+                            {orderToMatch?.current_price}
                           </CoinDisplay>
                           <FiatDisplay
                             size='12px'
@@ -166,7 +166,7 @@ const Buy: React.FC<Props> = (props) => {
                             weight={600}
                             coin={orderToMatch?.payment_token_contract?.symbol}
                           >
-                            {orderToMatch?.base_price}
+                            {orderToMatch?.current_price}
                           </FiatDisplay>
                         </Flex>
                       </Flex>
