@@ -44,7 +44,6 @@ const FormWrapper = styled.div`
 `
 const SaleType = styled.div`
   justify-content: center;
-  margin-top: 1.5em;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -176,7 +175,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                           defaultMessage='Starting Price'
                         />
                       </Text>
-                      <Field autoFocus name='starting' component={NumberBox} />
+                      <Field
+                        validate={[required]}
+                        autoFocus
+                        name='starting'
+                        component={NumberBox}
+                      />
                       <Flex justifyContent='flex-end'>
                         <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
                           {startingFiatAmt} {props.walletCurrency}
