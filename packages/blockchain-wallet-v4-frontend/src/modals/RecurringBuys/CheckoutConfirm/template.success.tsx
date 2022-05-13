@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSOrderType, FiatType } from '@core/types'
+import { FiatType } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import {
   FlyoutContainer,
@@ -24,7 +24,7 @@ import {
 import { BankTransferAccountType } from 'data/types'
 
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../../BuySell/model'
-import { Props as _P } from '.'
+import { Props as _P, SuccessStateType } from '.'
 
 const Success = ({
   bankAccounts,
@@ -174,6 +174,6 @@ const Success = ({
   )
 }
 
-export type Props = Omit<_P, 'data'> & { order: BSOrderType }
+export type Props = Omit<_P, 'data'> & SuccessStateType
 
 export default Success

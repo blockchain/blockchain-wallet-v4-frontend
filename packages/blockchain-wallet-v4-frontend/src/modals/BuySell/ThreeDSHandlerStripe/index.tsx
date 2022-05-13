@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { WalletOptionsType } from '@core/types'
+import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -37,5 +37,7 @@ type OwnProps = {
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 export default connector(ThreeDSHandlerStripe)

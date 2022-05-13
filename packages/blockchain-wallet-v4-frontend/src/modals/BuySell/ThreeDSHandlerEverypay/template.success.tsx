@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -18,18 +19,24 @@ const Iframe = styled.iframe`
 `
 
 const Success: React.FC<Props> = (props) => {
+  let type = 'ORDER'
+
+  if (Remote.NotAsked.is(props.order)) {
+    type = 'CARD'
+  }
+
   const paymentLink = encodeURIComponent(
-    props.type === 'CARD'
+    type === 'CARD'
       ? props.providerDetails.everypay.paymentLink
-      : props.order && props.order.attributes && props.order.attributes.everypay
-      ? props.order.attributes.everypay.paymentLink
-      : props.order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
-      ? props.order.attributes?.cardProvider.paymentLink
+      : props.order && props.order.data.attributes && props.order.data.attributes.everypay
+      ? props.order.data.attributes.everypay.paymentLink
+      : props.order.data.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
+      ? props.order.data.attributes?.cardProvider.paymentLink
       : ''
   )
 
   return props.threeDSCallbackReceived ? (
-    <Loading polling order={props.type === 'ORDER'} />
+    <Loading polling order={type === 'ORDER'} />
   ) : (
     <CustomFlyoutWrapper>
       <>
@@ -40,7 +47,7 @@ const Success: React.FC<Props> = (props) => {
           color='grey600'
           role='button'
           onClick={() => {
-            if (props.type === 'ORDER') {
+            if (type === 'ORDER') {
               props.buySellActions.setStep({
                 step: 'ORDER_SUMMARY'
               })

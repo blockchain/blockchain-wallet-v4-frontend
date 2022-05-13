@@ -2,6 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -35,5 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = _P & ConnectedProps<typeof connector>
+
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 export default connector(Confirm)

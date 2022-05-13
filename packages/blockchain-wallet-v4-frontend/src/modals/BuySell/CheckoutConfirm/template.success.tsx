@@ -243,7 +243,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     props.buySellActions.cancelOrder(props.order)
   }
 
-  const onSubmit = () => {
+  const handleSubmit = () => {
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
         isSddFlow: false,
@@ -347,7 +347,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }
 
   return (
-    <CustomForm onSubmit={props.handleSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <FlyoutWrapper>
         <TopText color='grey800' size='20px' weight={600}>
           <Icon

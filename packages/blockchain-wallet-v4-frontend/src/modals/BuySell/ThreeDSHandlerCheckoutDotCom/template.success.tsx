@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -18,16 +19,22 @@ const Iframe = styled.iframe`
 `
 
 const Success = (props: Props) => {
+  let type = 'ORDER'
+
+  if (Remote.NotAsked.is(props.order)) {
+    type = 'CARD'
+  }
+
   const paymentLink = encodeURIComponent(
-    props.type === 'CARD'
+    type === 'CARD'
       ? props.providerDetails.cardProvider.paymentLink
-      : props.order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
-      ? props.order.attributes?.cardProvider.paymentLink
+      : props.order.data.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
+      ? props.order.data.attributes?.cardProvider.paymentLink
       : ''
   )
 
   return props.isPolling ? (
-    <Loading polling order={props.type === 'ORDER'} />
+    <Loading polling order={type === 'ORDER'} />
   ) : (
     <CustomFlyoutWrapper>
       <>

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { BSOrderType } from '@core/types'
 import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 
-import { Props as _P } from '.'
+import { Props as _P, SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -66,6 +65,6 @@ const Success = ({ buySellActions, domains, order }: Props) => {
   )
 }
 
-export type Props = Omit<_P, 'data' | 'handleClose'> & { order: BSOrderType }
+export type Props = Omit<_P, 'data'> & SuccessStateType
 
 export default Success

@@ -40,7 +40,7 @@ import {
   ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
-import { isNabuError, NabuError } from 'services/errors'
+import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'

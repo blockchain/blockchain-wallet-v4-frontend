@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { BSCardType, BSOrderType, ProviderDetailsType } from '@core/types'
+import { Remote } from '@core'
+import { ExtractSuccess } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -19,7 +20,13 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
     setPolling(true)
 
-    const { card, order, type } = props.data.getOrFail('NO ORDER/CARD TO POLL')
+    const { card, order } = props.data.getOrFail('NO ORDER/CARD TO POLL')
+
+    let type = 'ORDER'
+
+    if (Remote.NotAsked.is(order)) {
+      type = 'CARD'
+    }
 
     switch (type) {
       case 'ORDER':
@@ -39,12 +46,12 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   })
 
   const handleBack = () => {
-    const { order, type } = props.data.getOrElse({})
+    const { order } = props.data.getOrFail('NO ORDER/CARD TO POLL')
 
-    if (!order || !type) {
-      props.buySellActions.setStep({
-        step: 'DETERMINE_CARD_PROVIDER'
-      })
+    let type = 'ORDER'
+
+    if (Remote.NotAsked.is(order)) {
+      type = 'CARD'
     }
 
     if (type === 'ORDER') {
@@ -98,15 +105,7 @@ type OwnProps = {
   handleClose: () => void
 }
 
-export type SuccessStateType =
-  | { domains: { walletHelper: string }; order: BSOrderType; type: 'ORDER' }
-  | {
-      card: BSCardType
-      domains: { walletHelper: string }
-      order: BSOrderType
-      providerDetails: ProviderDetailsType
-      type: 'CARD'
-    }
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
