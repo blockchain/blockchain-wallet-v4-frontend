@@ -276,7 +276,7 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const ownedBySelf = currentAsset?.owners
+  const isOwner = currentAsset?.owners
     ? currentAsset.owners.find((owner) => {
         return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
       })
@@ -359,7 +359,7 @@ const NftAsset: React.FC<Props> = ({
                         }
                       />
                     </SocialLink>
-                    {ownedBySelf && (
+                    {isOwner && (
                       <SocialLink>
                         <BlockchainIcon
                           onClick={() => {
@@ -466,7 +466,7 @@ const NftAsset: React.FC<Props> = ({
                   <Text size='16px' color='grey600' weight={600}>
                     <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
                   </Text>
-                  {!ownedBySelf ? (
+                  {!isOwner ? (
                     <Text
                       color='blue600'
                       weight={600}
@@ -516,13 +516,10 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends{' '}
-                        {formatDistanceToNow(
-                          subDays(new Date(lowest_order?.expiration_time * 1000), 7)
-                        )}
-                        :
+                        Bid expires in{' '}
+                        {formatDistanceToNow(new Date(highest_bid?.expiration_time * 1000))}:
                       </div>
-                      <NftAssetCountdown highest_bid={highest_bid} lowest_order={lowest_order} />
+                      <NftAssetCountdown countDownDate={highest_bid.expiration_time * 1000} />
                     </Highest>
                     <Divider style={{ marginBottom: '1em' }} />
                     <Highest>Top Bid</Highest>
@@ -556,7 +553,7 @@ const NftAsset: React.FC<Props> = ({
                   <>
                     <Highest>
                       <div style={{ marginBottom: '1em' }}>
-                        Sale ends{' '}
+                        Sale ends in{' '}
                         {formatDistanceToNow(
                           new Date(
                             (is_lowest_order_english
@@ -565,7 +562,13 @@ const NftAsset: React.FC<Props> = ({
                           )
                         )}
                       </div>
-                      <NftAssetCountdown highest_bid={highest_bid} lowest_order={lowest_order} />
+                      <NftAssetCountdown
+                        countDownDate={
+                          (is_lowest_order_english
+                            ? lowest_order.listing_time
+                            : lowest_order?.expiration_time) * 1000
+                        }
+                      />
                     </Highest>
                     <Divider style={{ marginBottom: '1em' }} />
                     <Highest>{is_lowest_order_english ? 'Minimum Bid' : 'Current Price'}</Highest>
@@ -597,6 +600,14 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : highest_offer ? (
                   <>
+                    <Highest>
+                      <div style={{ marginBottom: '1em' }}>
+                        Offer expires in{' '}
+                        {formatDistanceToNow(new Date(highest_offer.expiration_time * 1000))}
+                      </div>
+                      <NftAssetCountdown countDownDate={highest_offer.expiration_time * 1000} />
+                    </Highest>
+                    <Divider style={{ marginBottom: '1em' }} />
                     <Highest>Highest Offer</Highest>
                     <EthText>
                       <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
@@ -626,7 +637,7 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : null}
                 <Flex gap={8}>
-                  {ownedBySelf ? (
+                  {isOwner ? (
                     <>
                       {!lowest_order ? (
                         <Button
@@ -694,7 +705,7 @@ const NftAsset: React.FC<Props> = ({
                       ) : null}
                     </>
                   ) : null}
-                  {!ownedBySelf ? (
+                  {!isOwner ? (
                     is_lowest_order_english ? (
                       <Button
                         data-e2e='openNftFlow'
@@ -736,7 +747,7 @@ const NftAsset: React.FC<Props> = ({
                       </Button>
                     )
                   ) : null}
-                  {lowest_order && !ownedBySelf && !is_lowest_order_english ? (
+                  {lowest_order && !isOwner && !is_lowest_order_english ? (
                     <>
                       <Button
                         data-e2e='openNftFlow'

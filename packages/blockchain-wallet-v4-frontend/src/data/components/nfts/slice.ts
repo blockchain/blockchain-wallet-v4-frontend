@@ -100,6 +100,7 @@ const nftsSlice = createSlice({
         expirationDays: number
         gasData: GasDataI
         paymentTokenAddress: string | undefined
+        reservePrice: number | undefined
         startPrice: number
         waitForHighestBid: boolean | undefined
       }>
@@ -136,6 +137,7 @@ const nftsSlice = createSlice({
             expirationDays: number
             operation: GasCalculationOperations.Sell
             paymentTokenAddress?: string
+            reservePrice?: number
             startPrice: number
             waitForHighestBid?: boolean
           }

@@ -197,6 +197,7 @@ export default ({ api }: { api: APIType }) => {
           expirationTime,
           action.payload.startPrice,
           action.payload.endPrice,
+          action.payload.reservePrice,
           IS_TESTNET ? 'rinkeby' : 'mainnet',
           action.payload.waitForHighestBid,
           action.payload.paymentTokenAddress
@@ -404,6 +405,7 @@ export default ({ api }: { api: APIType }) => {
 
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
@@ -445,6 +447,7 @@ export default ({ api }: { api: APIType }) => {
         error = 'You do not have enough funds to create this order.'
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.BUY }))
     }
 
     yield put(A.setOrderFlowIsSubmitting(false))
@@ -479,6 +482,7 @@ export default ({ api }: { api: APIType }) => {
         expirationTime,
         action.payload.startPrice,
         action.payload.endPrice,
+        action.payload.reservePrice,
         IS_TESTNET ? 'rinkeby' : 'mainnet',
         action.payload.waitForHighestBid,
         action.payload.paymentTokenAddress
@@ -527,6 +531,7 @@ export default ({ api }: { api: APIType }) => {
         error = 'You do not have enough funds to sell this asset.'
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MARK_FOR_SALE }))
     }
 
     yield put(A.setOrderFlowIsSubmitting(false))

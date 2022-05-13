@@ -36,6 +36,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
   componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
+    this.refresh()
   }
 
   handleClose = () => {
@@ -45,17 +46,14 @@ class EthWalletBalance extends PureComponent<Props, State> {
     }, duration)
   }
 
+  refresh = () => {
+    this.props.fetchErc20Balances()
+    this.props.ethActions.fetchDataLoading()
+    this.props.ethActions.fetchData()
+  }
+
   render() {
-    const {
-      buySellActions,
-      close,
-      data,
-      ethActions,
-      fetchErc20Balances,
-      position,
-      total,
-      userClickedOutside
-    } = this.props
+    const { buySellActions, close, data, position, total, userClickedOutside } = this.props
     const { show } = this.state
 
     return (
@@ -103,16 +101,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                   )
                 })}
               </div>
-              <Button
-                small
-                data-e2e='refresh'
-                nature='empty-blue'
-                onClick={() => {
-                  fetchErc20Balances()
-                  ethActions.fetchDataLoading()
-                  ethActions.fetchData()
-                }}
-              >
+              <Button small data-e2e='refresh' nature='empty-blue' onClick={this.refresh}>
                 <Icon label='refresh' size='sm' color='blue600'>
                   <IconRefresh />
                 </Icon>

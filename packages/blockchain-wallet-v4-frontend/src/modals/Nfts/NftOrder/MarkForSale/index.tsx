@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Switch } from '@blockchain-com/constellation'
 import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
 import { map } from 'ramda'
@@ -9,18 +9,20 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
+import NumberBox from 'components/Form/NumberBox'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
+import { required } from 'services/forms'
 import { media } from 'services/styles'
 
 import { StickyCTA } from '../../components'
@@ -31,6 +33,7 @@ import { Props as OwnProps } from '..'
 import MarkForSaleFees from './fees'
 import { NftMarkForSaleFormValues } from './MarkForSale.types'
 import { getQuoteAmts } from './MarkForSale.utils'
+import { endingLessThanStarting, reserveGreaterThanStarting } from './MarkForSale.validaton'
 
 const FormWrapper = styled.div`
   gap: 8px;
@@ -41,7 +44,6 @@ const FormWrapper = styled.div`
 `
 const SaleType = styled.div`
   justify-content: center;
-  margin-top: 1.5em;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -59,15 +61,18 @@ const SaleSelection = styled.div`
 
 const MarkForSale: React.FC<Props> = (props) => {
   const { analyticsActions, close, formValues, nftActions, openSeaAssetR, orderFlow, rates } = props
-  const { fix } = formValues
+  const { fix } = formValues || { fix: 'CRYPTO' }
   const [saleType, setSaleType] = useState<'fixed-price' | 'timed-auction'>('fixed-price')
+  const [isReservedChecked, setIsReserveChecked] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
   const disabled =
     (saleType === 'fixed-price'
       ? // Fixed Price
-        !formValues.fixAmount
+        !formValues?.fixAmount
       : // Dutch (Declining)
-        ((!formValues.starting || !formValues.ending || formValues.ending > formValues.starting) &&
+        ((!formValues?.starting ||
+          !formValues?.ending ||
+          formValues?.ending > formValues?.starting) &&
           formValues?.timedAuctionType === 'decliningPrice') ||
         // English (Ascending)
         (!formValues.starting && formValues?.timedAuctionType === 'highestBidder')) ||
@@ -92,14 +97,8 @@ const MarkForSale: React.FC<Props> = (props) => {
       ? 'WETH'
       : 'ETH'
 
-  const {
-    endingCryptoAmt,
-    endingFiatAmt,
-    fixCryptoAmt,
-    fixFiatAmt,
-    startingCryptoAmt,
-    startingFiatAmt
-  } = getQuoteAmts(formValues, rates, coin, props.walletCurrency)
+  const { endingFiatAmt, fixCryptoAmt, fixFiatAmt, startingCryptoAmt, startingFiatAmt } =
+    getQuoteAmts(formValues, rates, coin, props.walletCurrency)
 
   const amount = saleType === 'fixed-price' ? fixCryptoAmt : startingCryptoAmt
 
@@ -171,68 +170,74 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <>
                   <Row>
                     <Value>
-                      <AmountFieldInput
-                        coin={coin}
-                        fiatCurrency={props.walletCurrency}
-                        amtError={false}
-                        quote={fix === 'CRYPTO' ? startingFiatAmt : startingCryptoAmt}
-                        fix={fix as 'CRYPTO' | 'FIAT'}
+                      <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
+                        <FormattedMessage
+                          id='copy.starting_price'
+                          defaultMessage='Starting Price'
+                        />
+                      </Text>
+                      <Field
+                        validate={[required]}
+                        autoFocus
                         name='starting'
-                        showCounter
-                        showToggle
-                        data-e2e='amountField'
-                        onToggleFix={() => {
-                          props.formActions.change(
-                            'nftMarkForSale',
-                            'fix',
-                            fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
-                          )
-                          props.formActions.change(
-                            'nftMarkForSale',
-                            'starting',
-                            fix === 'CRYPTO' ? startingFiatAmt : startingCryptoAmt
-                          )
-                        }}
+                        component={NumberBox}
                       />
+                      <Flex justifyContent='flex-end'>
+                        <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
+                          {startingFiatAmt} {props.walletCurrency}
+                        </Text>
+                      </Flex>
                     </Value>
                   </Row>
-                  {formValues?.timedAuctionType === 'decliningPrice' && (
+                  {formValues?.timedAuctionType === 'decliningPrice' ? (
                     <Row>
                       <Value>
-                        <AmountFieldInput
-                          coin={coin}
-                          fiatCurrency={props.walletCurrency}
-                          amtError={false}
-                          quote={fix === 'CRYPTO' ? endingFiatAmt : endingCryptoAmt}
-                          fix={fix as 'CRYPTO' | 'FIAT'}
+                        <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
+                          <FormattedMessage id='copy.ending_price' defaultMessage='Ending Price' />
+                        </Text>
+                        <Field
+                          validate={[endingLessThanStarting]}
                           name='ending'
-                          showCounter
-                          // validate={[required, validDecliningPrice]}
-                          showToggle
-                          onChange={() => {
-                            nftActions.fetchFees({
-                              asset: val,
-                              endPrice: undefined,
-                              expirationDays: formValues.expirationDays,
-                              operation: GasCalculationOperations.Sell,
-                              paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
-                              startPrice: Number(formValues.starting)
-                            })
-                          }}
-                          data-e2e='amountField'
-                          onToggleFix={() => {
-                            props.formActions.change(
-                              'nftMarkForSale',
-                              'fix',
-                              fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
-                            )
-                            props.formActions.change(
-                              'nftMarkForSale',
-                              'ending',
-                              fix === 'CRYPTO' ? endingFiatAmt : endingCryptoAmt
-                            )
-                          }}
+                          component={NumberBox}
                         />
+                        <Flex justifyContent='flex-end'>
+                          <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
+                            {endingFiatAmt} {props.walletCurrency}
+                          </Text>
+                        </Flex>
+                      </Value>
+                    </Row>
+                  ) : (
+                    <Row>
+                      <Value>
+                        <Flex justifyContent='space-between' alignItems='center'>
+                          <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
+                            <FormattedMessage
+                              id='copy.reserve_price'
+                              defaultMessage='Reserve Price'
+                            />
+                          </Text>
+                          <Switch
+                            checked={isReservedChecked}
+                            onClick={() => setIsReserveChecked((x) => !x)}
+                          />
+                        </Flex>
+                        {isReservedChecked ? (
+                          <div style={{ marginTop: '8px' }}>
+                            <Field
+                              errorLeft
+                              errorBottom
+                              validate={[reserveGreaterThanStarting]}
+                              name='reserve'
+                              component={NumberBox}
+                            />
+                            <Flex justifyContent='flex-end'>
+                              <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
+                                {endingFiatAmt} {props.walletCurrency}
+                              </Text>
+                            </Flex>
+                          </div>
+                        ) : null}
                       </Value>
                     </Row>
                   )}
@@ -488,6 +493,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: undefined,
+                          reservePrice: undefined,
                           startPrice: Number(amount),
                           waitForHighestBid: false
                         })
@@ -502,6 +508,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+                          reservePrice: Number(formValues.reserve),
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: true
                         })
@@ -514,6 +521,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           expirationDays: formValues.expirationDays,
                           gasData: fees,
                           paymentTokenAddress: undefined,
+                          reservePrice: undefined,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: false
                         })

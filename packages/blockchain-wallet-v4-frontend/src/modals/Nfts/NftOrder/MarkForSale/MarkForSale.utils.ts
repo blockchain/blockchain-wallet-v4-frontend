@@ -9,7 +9,7 @@ export const getQuoteAmts = (
   coin: string,
   currency
 ) => {
-  const { ending, fix, fixAmount, starting } = formValues
+  const { ending, fix, fixAmount, reserve, starting } = formValues
 
   const fixCryptoAmt =
     fix === 'FIAT'
@@ -74,11 +74,34 @@ export const getQuoteAmts = (
         })
       : ending
 
+  const reserveCryptoAmt =
+    fix === 'FIAT'
+      ? convertFiatToCoin({
+          coin,
+          currency,
+          maxPrecision: 8,
+          rates,
+          value: reserve
+        })
+      : reserve
+  const reserveFiatAmt =
+    fix === 'CRYPTO'
+      ? convertCoinToFiat({
+          coin,
+          currency,
+          isStandard: true,
+          rates,
+          value: reserve || 0
+        })
+      : reserve
+
   return {
     endingCryptoAmt,
     endingFiatAmt,
     fixCryptoAmt,
     fixFiatAmt,
+    reserveCryptoAmt,
+    reserveFiatAmt,
     startingCryptoAmt,
     startingFiatAmt
   }

@@ -25,9 +25,9 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
-              marginRight: '12px',
-              width: 'auto'
+              height: 'fit-content',
+              marginRight: '8px',
+              width: '56px'
             }}
             alt='nft-asset'
             src={asset.image_url.replace(/=s\d*/, '')}
