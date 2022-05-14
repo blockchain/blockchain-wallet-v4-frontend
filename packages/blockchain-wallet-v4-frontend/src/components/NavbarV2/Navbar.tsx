@@ -60,8 +60,9 @@ export const NavRight = styled.div`
   align-items: center;
 `
 
-const DropdownNavLink = styled(NavLink)`
+export const DropdownNavLink = styled(NavLink)`
   padding: 0 !important;
+  text-decoration: none;
 `
 
 const ListStyles = styled.ul`
@@ -138,7 +139,7 @@ const SecondaryNavItems = styled(ListStyles)`
   }
 `
 
-const NavButton = styled(Button)`
+export const NavButton = styled(Button)`
   display: flex;
   align-items: center;
   position: relative;
