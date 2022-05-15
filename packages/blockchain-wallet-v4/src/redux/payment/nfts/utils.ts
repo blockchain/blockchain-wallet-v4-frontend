@@ -1473,7 +1473,6 @@ async function _makeSellOrder({
   // const quantityBN = toBaseUnitAmount(new BigNumber(quantity), asset.decimals || 0)
   // const { sellerBountyBasisPoints, totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } =
   //   await _computeFees({ asset, extraBountyBasisPoints, side: NftOrderSide.Sell })
-  // Temporary hard-coded test values
   const { sellerBountyBasisPoints, totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } =
     await _computeFees({
       asset,
@@ -1592,13 +1591,25 @@ export async function _makeMatchingOrder({
   const validatorAddress =
     network === 'rinkeby' ? WYVERN_MERKLE_VALIDATOR_RINKEBY : WYVERN_MERKLE_VALIDATOR_MAINNET
 
+  const shouldValidate = order.target === validatorAddress
+
   const computeOrderParams = () => {
     if ('asset' in order.metadata) {
       // const schema = this._getSchema(order.metadata.schema)
       const schema = schemaMap[order.metadata.schema]
       return order.side === NftOrderSide.Buy
-        ? _encodeSell(schema, order.metadata.asset, recipientAddress, validatorAddress)
-        : _encodeBuy(schema, order.metadata.asset, recipientAddress, validatorAddress)
+        ? _encodeSell(
+            schema,
+            order.metadata.asset,
+            recipientAddress,
+            shouldValidate ? validatorAddress : undefined
+          )
+        : _encodeBuy(
+            schema,
+            order.metadata.asset,
+            recipientAddress,
+            shouldValidate ? validatorAddress : undefined
+          )
     }
     // BUNDLE NOT SUPPORTED
     // if ('bundle' in order.metadata) {
