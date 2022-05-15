@@ -13,7 +13,13 @@ const HelpContainer = styled.div`
 const Help = () => {
   return (
     <HelpContainer>
-      <Link color='grey400' href='support.blockchain.com' size='14px' target='_blank' weight={500}>
+      <Link
+        color='grey400'
+        href='https://support.blockchain.com/'
+        size='14px'
+        target='_blank'
+        weight={500}
+      >
         <Text color='grey400' size='16px' weight={500}>
           <FormattedMessage id='scenes.login.need.help' defaultMessage='Need Help?' />
         </Text>
