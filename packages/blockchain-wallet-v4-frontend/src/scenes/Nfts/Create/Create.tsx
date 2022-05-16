@@ -49,7 +49,7 @@ const Footer = styled.div`
   `};
 `
 
-const Create: React.FC<Props> = (props) => {
+const Create: React.FC<Props> = () => {
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
   return (
@@ -242,13 +242,6 @@ const Create: React.FC<Props> = (props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  nftsActions: bindActionCreators(actions.components.nfts, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
-})
+type Props = {}
 
-const connector = connect(null, mapDispatchToProps)
-
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(Create)
+export default Create
