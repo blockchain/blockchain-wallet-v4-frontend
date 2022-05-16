@@ -19,11 +19,15 @@ export type FlexJustifyContent =
 
 export type FlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
 
+export type FlexWrap = 'wrap' | 'nowrap' | 'wrap-reverse'
+
 export type FlexProps = {
   alignItems?: FlexAlignItems
   flexDirection?: FlexDirection
+  flexWrap?: FlexWrap
   gap?: number
   justifyContent?: FlexJustifyContent
+  wrap?: FlexWrap
 } & {
   style?: CSSProperties
 }
