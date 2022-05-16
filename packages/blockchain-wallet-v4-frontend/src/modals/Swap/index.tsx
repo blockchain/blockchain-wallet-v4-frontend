@@ -65,6 +65,7 @@ class Swap extends PureComponent<Props, State> {
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => {
+        const currentTier = val.userData?.tiers?.current
         return (
           <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
             {this.props.step === 'INIT_SWAP' && (
@@ -106,7 +107,9 @@ class Swap extends PureComponent<Props, State> {
               <FlyoutChild>
                 <SuccessfulSwap
                   {...this.props}
-                  handleClose={this.handleCloseOrPromoteUpgrade}
+                  handleClose={
+                    currentTier === 2 ? this.handleClose : this.handleCloseOrPromoteUpgrade
+                  }
                   {...val}
                 />
               </FlyoutChild>
