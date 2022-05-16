@@ -22,6 +22,7 @@ import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import Form from 'components/Form/Form'
 import SelectBox from 'components/Form/SelectBox'
+import { Padding } from 'components/Padding'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -32,7 +33,6 @@ import { hexToRgb } from 'utils/helpers'
 
 import { AlertButton, MaxButton } from '../../components'
 import { TIER_TYPES } from '../../Settings/TradingLimits/model'
-import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
 import { validate } from './validation'
@@ -262,7 +262,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           ) : null}
         </QuoteActionContainer>
 
-        <MaxButton type='Send' onClick={handleMax} />
+        <Padding top={70}>
+          <MaxButton type='Send' onClick={handleMax} />
+        </Padding>
 
         <Amounts>
           <Text

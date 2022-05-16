@@ -37,6 +37,7 @@ const TwoFAExchange = (props: Props) => {
     handleBackArrowClickExchange,
     invalid,
     magicLinkData,
+    productAuthMetadata,
     submitting
   } = props
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
@@ -104,6 +105,7 @@ const TwoFAExchange = (props: Props) => {
           </ActionButton>
           <NeedHelpLink
             origin='2FA'
+            platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}
           />

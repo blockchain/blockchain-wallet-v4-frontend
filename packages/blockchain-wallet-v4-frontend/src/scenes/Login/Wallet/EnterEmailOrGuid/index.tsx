@@ -29,8 +29,16 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
-    props
+  const {
+    busy,
+    exchangeTabClicked,
+    formValues,
+    invalid,
+    magicLinkData,
+    productAuthMetadata,
+    submitting,
+    walletError
+  } = props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -82,7 +90,11 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.WALLET} />
+          <NeedHelpLink
+            origin='IDENTIFIER'
+            platform={productAuthMetadata.platform}
+            product={ProductAuthOptions.WALLET}
+          />
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

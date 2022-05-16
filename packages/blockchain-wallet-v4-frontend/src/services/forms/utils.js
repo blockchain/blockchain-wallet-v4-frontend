@@ -1,6 +1,6 @@
 import { isValid } from 'date-fns'
 
-import { CRYPTO_DECIMALS, FIAT_DECIMALS } from './constants'
+import { CRYPTO_DECIMALS, FIAT_DECIMALS, MAX_YEAR_OLD } from './constants'
 
 const emailRegex = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -83,7 +83,8 @@ const isValidSSN = (val) => {
 const isDOB = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
-    return cleaned.length === 8 && isValid(new Date(val))
+    const dob = new Date(val)
+    return cleaned.length === 8 && isValid(dob) && dob.getFullYear() > MAX_YEAR_OLD
   }
   return val
 }
