@@ -84,6 +84,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
+    yield put(startSubmit(LOGIN_FORM))
     const { code, password, username } = action.payload
     const { platform, product, redirect, userType } = yield select(
       selectors.auth.getProductAuthMetadata
@@ -98,7 +99,7 @@ export default ({ api, coreSagas, networks }) => {
     const institutionalPortalEnabled = (yield select(
       selectors.core.walletOptions.getInstitutionalPortalEnabled
     )).getOrElse(false)
-    yield put(startSubmit(LOGIN_FORM))
+
     if (code) {
       yield put(
         actions.analytics.trackEvent({
@@ -128,7 +129,9 @@ export default ({ api, coreSagas, networks }) => {
       const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
-      // determine login flow
+
+      // determine login flow method and save the result so we can run after analytics
+      let finalizeLoginMethod
       switch (true) {
         // account merge/upgrade web
         // case unificationFlowType ===
@@ -146,52 +149,64 @@ export default ({ api, coreSagas, networks }) => {
         //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
         //   yield put(stopSubmit(LOGIN_FORM))
         //   break
+
         // web - institutional exchange login
         // only institutional users coming from the .com page will have
         // a redirect link. All other users coming from footer in login page
         // should be redirected to regular exchange app in the default case
         case userType === AuthUserType.INSTITUTIONAL && !!redirect && institutionalPortalEnabled:
-          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
+          finalizeLoginMethod = () =>
+            window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
         // mobile - exchange sso login
         case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
-          sendMessageToMobile(platform, {
-            data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
-            status: 'success'
-          })
+          finalizeLoginMethod = () =>
+            sendMessageToMobile(platform, {
+              data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
+              status: 'success'
+            })
           break
         // web - exchange sso login with redirect from deeplink
         // TODO: this is just for FF off testing on staging
         // TODO: change this to work for real, where we use
         // redirect from exchange deeplink into login
-        case redirect !== undefined && redirect.includes('beta') && platform === PlatformTypes.WEB:
-          window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
+        case typeof redirect === 'string' &&
+          redirect.includes('beta') &&
+          platform === PlatformTypes.WEB:
+          finalizeLoginMethod = () =>
+            window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
-        case exchangeAuthUrl !== undefined && platform === PlatformTypes.WEB:
-          window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
+        case typeof exchangeAuthUrl === 'string' && platform === PlatformTypes.WEB:
+          finalizeLoginMethod = () =>
+            window.open(`${exchangeAuthUrl}${jwtToken}&csrf=${csrfToken}`, '_self', 'noreferrer')
           break
         default:
           // case where user has email cached and is
           // logging in without triggering verify email template
-          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+          finalizeLoginMethod = () =>
+            window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
       }
+
+      // track login event
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
-            device_origin: platform,
-            has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
-            is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
-            mergeable: magicLinkData.mergeable,
-            nabu_id: magicLinkData.wallet?.nabu?.user_id,
+            has_cloud_backup: magicLinkData?.wallet?.has_cloud_backup,
+            is_mobile_setup: magicLinkData?.wallet?.is_mobile_setup,
+            mergeable: magicLinkData?.mergeable,
+            nabu_id: magicLinkData?.wallet?.nabu?.user_id,
             site_redirect: product,
             unified: false,
-            upgradeable: magicLinkData.upgradeable
+            upgradeable: magicLinkData?.upgradeable
           }
         })
       )
+
+      // route user to final destination
+      finalizeLoginMethod()
       // @ts-ignore
     } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
