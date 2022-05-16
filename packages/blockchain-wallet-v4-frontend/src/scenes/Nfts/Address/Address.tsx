@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconSettings } from '@blockchain-com/icons'
 import { Dispatch } from '@reduxjs/toolkit'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
+import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 
 import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
@@ -16,7 +21,13 @@ import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import { getEventFilter } from '../utils/NftUtils'
 import AddressItems from './AddressItems'
 
-const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
+const NftAddress: React.FC<Props> = ({
+  ethAddress,
+  formActions,
+  formValues,
+  isAuthenticated,
+  pathname
+}) => {
   const address = pathname.split('/nfts/address/')[1]
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
@@ -52,11 +63,20 @@ const NftAddress: React.FC<Props> = ({ formActions, formValues, pathname }) => {
         }}
       >
         <NftBannerWrapper>
-          <div style={{ alignItems: 'center', display: 'flex' }}>
+          <Flex justifyContent='space-between' alignItems='center'>
             <Text color='white' size='24px' weight={600}>
               {address}
             </Text>
-          </div>
+            {ethAddress.toLowerCase() === address.toLowerCase() && isAuthenticated ? (
+              <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
+                <a>
+                  <Icon label='settings' color='white900'>
+                    <IconSettings color={colors.white900} />
+                  </Icon>
+                </a>
+              </LinkContainer>
+            ) : null}
+          </Flex>
           {/* <div style={{ marginTop: '24px' }}>
             <StatsWrapper>
               <Stat>
@@ -123,7 +143,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 const enhance = compose(
   reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
