@@ -45,7 +45,7 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BuySellState } from './types'
+import { BuySellState, BuySellStepType } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -510,7 +510,6 @@ const buySellSlice = createSlice({
           state.addBank = undefined
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
-          // state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case '3DS_HANDLER_EVERYPAY':
@@ -520,7 +519,6 @@ const buySellSlice = createSlice({
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
           state.addBank = undefined
-          // state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case 'BANK_WIRE_DETAILS':
@@ -549,6 +547,7 @@ const buySellSlice = createSlice({
         cryptoCurrency?: CoinType
         orderType?: BSOrderActionType
         origin: BSShowModalOriginType
+        step?: 'DETERMINE_CARD_PROVIDER'
       }>
     ) => {
       state.origin = action.payload.origin

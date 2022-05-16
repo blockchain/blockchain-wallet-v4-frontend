@@ -7,14 +7,15 @@ import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
 const ThreeDSHandlerStripe = ({ data, ...props }: Props) => {
   return data.cata({
     Failure: (e) => <DataError message={{ message: e }} />,
-    Loading: () => <></>,
-    NotAsked: () => <></>,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
     Success: (val) => <Success {...props} {...val} />
   })
 }

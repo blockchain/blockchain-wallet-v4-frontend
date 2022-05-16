@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Remote } from '@core'
 import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
-import { Props as OwnProps, State, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 import Loading from './template.loading'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -19,24 +18,16 @@ const Iframe = styled.iframe`
 `
 
 const Success: React.FC<Props> = (props) => {
-  let type = 'ORDER'
-
-  if (Remote.NotAsked.is(props.order)) {
-    type = 'CARD'
-  }
-
   const paymentLink = encodeURIComponent(
-    type === 'CARD'
-      ? props.providerDetails.everypay.paymentLink
-      : props.order && props.order.data.attributes && props.order.data.attributes.everypay
-      ? props.order.data.attributes.everypay.paymentLink
-      : props.order.data.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
-      ? props.order.data.attributes?.cardProvider.paymentLink
+    props.order && props.order.attributes && props.order.attributes.everypay
+      ? props.order?.attributes?.everypay.paymentLink
+      : props.order?.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
+      ? props.order?.attributes?.cardProvider.paymentLink
       : ''
   )
 
-  return props.threeDSCallbackReceived ? (
-    <Loading polling order={type === 'ORDER'} />
+  return props.isPolling ? (
+    <Loading polling order />
   ) : (
     <CustomFlyoutWrapper>
       <>
@@ -46,17 +37,7 @@ const Success: React.FC<Props> = (props) => {
           size='20px'
           color='grey600'
           role='button'
-          onClick={() => {
-            if (type === 'ORDER') {
-              props.buySellActions.setStep({
-                step: 'ORDER_SUMMARY'
-              })
-            } else {
-              props.buySellActions.setStep({
-                step: 'DETERMINE_CARD_PROVIDER'
-              })
-            }
-          }}
+          onClick={props.handleBack}
         />
         <Iframe
           src={`${props.domains.walletHelper}/wallet-helper/everypay/#/paymentLink/${paymentLink}`}
@@ -66,6 +47,6 @@ const Success: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps & State & SuccessStateType
+type Props = SuccessStateType & { handleBack: () => void; isPolling: boolean }
 
 export default Success

@@ -26,10 +26,10 @@ const Success = (props: Props) => {
   }
 
   const paymentLink = encodeURIComponent(
-    type === 'CARD'
+    type === 'CARD' && props.providerDetails
       ? props.providerDetails.cardProvider.paymentLink
-      : props.order.data.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
-      ? props.order.data.attributes?.cardProvider.paymentLink
+      : props.order?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
+      ? props.order?.attributes?.cardProvider.paymentLink
       : ''
   )
 

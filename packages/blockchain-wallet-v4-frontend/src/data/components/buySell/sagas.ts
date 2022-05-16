@@ -221,6 +221,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
 
       yield put(A.activateCardSuccess(providerDetails))
+
+      yield put(A.fetchCards(true))
     } catch (e) {
       if (e.code) {
         yield put(A.activateCardFailure(e.code))
@@ -1754,7 +1756,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // When opening the buy modal if there are any existing orders that are cancellable, cancel them
     yield call(cleanupCancellableOrders)
 
-    const { cryptoCurrency, orderType, origin } = payload
+    const { cryptoCurrency, orderType, origin, step } = payload
+
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
 
@@ -1858,7 +1861,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } else {
       const originalFiatCurrency = isFiatCurrencySupported(fiatCurrency) ? undefined : fiatCurrency
       yield put(
-        A.setStep({ cryptoCurrency, fiatCurrency, originalFiatCurrency, step: 'CRYPTO_SELECTION' })
+        A.setStep({
+          cryptoCurrency,
+          fiatCurrency,
+          originalFiatCurrency,
+          step: step || 'CRYPTO_SELECTION'
+        })
       )
     }
   }
