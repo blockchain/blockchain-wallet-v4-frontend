@@ -95,7 +95,7 @@ const Create: React.FC<Props> = () => {
               </Button>
             </LinkContainer>
           </div>
-          <Image name='cryptoad-large' width={!isMobile && !isTablet ? '380px' : '250px'} />
+          <Image name='cryptoad-large' width={!isMobile && !isTablet ? '380px' : '300px'} />
         </div>
       </Banner>
       <Body>
