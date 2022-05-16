@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
@@ -13,6 +12,7 @@ const Wrapper = styled.div`
   margin-right: 20px;
   padding: 24px;
   overflow: scroll;
+  box-sizing: border-box;
   height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
   border-right: 1px solid ${(props) => props.theme.grey000};
   background: ${(props) => props.theme.white};
