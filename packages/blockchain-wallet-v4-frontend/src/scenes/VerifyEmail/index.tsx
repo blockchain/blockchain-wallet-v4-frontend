@@ -23,6 +23,10 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.routerActions.push('/select-product')
       } else {
         nextProps.routerActions.push('/home')
+        // for first time login users we need to run goal since this is a first page we show them
+        // this is must have if feature flag is off
+        nextProps.saveGoal('welcomeModal', { firstLogin: true })
+        nextProps.runGoals()
       }
     }
     return null
@@ -31,16 +35,6 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   onResendEmail = () => {
     const { email, securityCenterActions } = this.props
     securityCenterActions.resendVerifyEmail(email, 'SIGN_UP')
-  }
-
-  skipVerification = () => {
-    const { email } = this.props
-    this.props.securityCenterActions.skipVerifyEmail(email)
-    if (this.props.createExchangeUserFlag) {
-      this.props.routerActions.push('/select-product')
-    } else {
-      this.props.routerActions.push('/home')
-    }
   }
 
   render() {
@@ -61,6 +55,8 @@ const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
+  runGoals: () => dispatch(actions.goals.runGoals()),
+  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
