@@ -97,6 +97,11 @@ const ExploreHeader: React.FC<Props> = ({
       to: `/nfts/address/${ethAddress}`
     },
     {
+      copy: <FormattedMessage id='navbar.nfts.my_portfolio' defaultMessage='NFTs Notifications' />,
+      'data-e2e': '',
+      to: `/nfts/address/settings/${ethAddress}`
+    },
+    {
       clickHandler: () => window.location.reload(),
       copy: <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />,
       'data-e2e': 'logoutLink'
