@@ -19,6 +19,7 @@ const NoResultsWrapper = styled.div`
 
 export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
+  max-width: 100%;
 `
 
 const options = {
