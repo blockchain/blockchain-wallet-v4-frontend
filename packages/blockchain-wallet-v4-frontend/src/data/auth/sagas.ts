@@ -104,6 +104,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            device_origin: platform,
             site_redirect: product,
             unified: false
           }
@@ -114,6 +115,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
+            device_origin: platform,
             site_redirect: product,
             unified: false
           }
@@ -218,6 +220,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
               properties: {
+                device_origin: platform,
                 site_redirect: product,
                 unified: false
               }
@@ -406,7 +409,7 @@ export default ({ api, coreSagas, networks }) => {
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
     const product = yield select(S.getProduct)
-    const { sessionIdMobile } = yield select(S.getProductAuthMetadata)
+    const { platform, sessionIdMobile } = yield select(S.getProductAuthMetadata)
     let session
     // if user is opening from mobile webview
     if (sessionIdMobile) {
@@ -421,6 +424,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            device_origin: platform,
             site_redirect: product,
             unified: unifiedAccount
           }
@@ -431,6 +435,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_ENTERED,
           properties: {
+            device_origin: platform,
             site_redirect: product,
             unified: unifiedAccount
           }
@@ -498,6 +503,7 @@ export default ({ api, coreSagas, networks }) => {
           key: Analytics.LOGIN_SIGNED_IN,
           properties: {
             authentication_type: 'PASSWORD',
+            device_origin: platform,
             has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
             is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
             mergeable: magicLinkData.mergeable,
@@ -612,6 +618,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.analytics.trackEvent({
               key: Analytics.LOGIN_TWO_STEP_VERIFICATION_DENIED,
               properties: {
+                device_origin: platform,
                 site_redirect: product,
                 unified: unifiedAccount
               }

@@ -52,6 +52,7 @@ const InstitutionalPortal = (props: Props) => {
     handleBackArrowClickExchange,
     invalid,
     magicLinkData,
+    productAuthMetadata,
     routerActions,
     submitting
   } = props
@@ -135,7 +136,11 @@ const InstitutionalPortal = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.EXCHANGE} />
+          <NeedHelpLink
+            origin='IDENTIFIER'
+            platform={productAuthMetadata.platform}
+            product={ProductAuthOptions.EXCHANGE}
+          />
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

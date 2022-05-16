@@ -27,7 +27,16 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const { busy, cache, formValues, invalid, magicLinkData, submitting, walletTabClicked } = props
+  const {
+    busy,
+    cache,
+    formValues,
+    invalid,
+    magicLinkData,
+    productAuthMetadata,
+    submitting,
+    walletTabClicked
+  } = props
 
   return (
     <LoginWrapper>
@@ -75,6 +84,7 @@ const EnterEmail = (props: Props) => {
           </ActionButton>
           <NeedHelpLink
             origin='IDENTIFIER'
+            platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}
           />

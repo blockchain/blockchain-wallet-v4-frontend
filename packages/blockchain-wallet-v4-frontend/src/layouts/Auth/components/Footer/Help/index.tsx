@@ -13,7 +13,7 @@ const Help = () => (
   <HelpContainer>
     <Link
       color='grey400'
-      href='https://support.blockchain.com/hc/en-us/categories/4416659837460-Wallet'
+      href='https://support.blockchain.com'
       size='14px'
       target='_blank'
       weight={500}

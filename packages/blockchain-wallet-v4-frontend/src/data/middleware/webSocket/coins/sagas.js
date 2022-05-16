@@ -334,13 +334,14 @@ export default ({ api, socket }) => {
                   key: Analytics.LOGIN_SIGNED_IN,
                   properties: {
                     authentication_type: 'SECURE_CHANNEL',
-                    has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
-                    is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
-                    mergeable: magicLinkData.mergeable,
-                    nabu_id: magicLinkData.wallet?.nabu?.user_id,
+                    device_origin: 'WEB',
+                    has_cloud_backup: magicLinkData?.wallet?.has_cloud_backup,
+                    is_mobile_setup: magicLinkData?.wallet?.is_mobile_setup,
+                    mergeable: magicLinkData?.mergeable,
+                    nabu_id: magicLinkData?.wallet?.nabu?.user_id,
                     site_redirect: product,
-                    unified: magicLinkData.upgradeable,
-                    upgradeable: magicLinkData.upgradeable
+                    unified: magicLinkData?.upgradeable,
+                    upgradeable: magicLinkData?.upgradeable
                   }
                 })
               )
