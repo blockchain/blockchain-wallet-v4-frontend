@@ -29,6 +29,7 @@ export const Button: FunctionComponent<
       | 'empty'
       | 'empty-blue'
       | 'empty-red'
+      | 'empty-purple'
       | 'grey400'
       | 'green'
       | 'grey800'
