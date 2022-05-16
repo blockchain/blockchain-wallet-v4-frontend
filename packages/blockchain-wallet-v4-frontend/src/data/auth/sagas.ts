@@ -206,7 +206,9 @@ export default ({ api, coreSagas, networks }) => {
       finalizeLoginMethod()
       // @ts-ignore
     } catch (e: { code?: number }) {
-      yield put(actions.auth.exchangeLoginFailure(e.code))
+      // eslint-disable-next-line
+      console.error('ERROR', e)
+      yield put(actions.auth.exchangeLoginFailure(e?.code))
       yield put(stopSubmit(LOGIN_FORM))
       // determine action for error type
       switch (true) {
