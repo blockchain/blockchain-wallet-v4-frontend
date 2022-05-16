@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import { IconBlockchain } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ import { media, useMedia } from 'services/styles'
 import { maxWidth, NftPageV2 } from '../components'
 
 const Banner = styled.div`
-  background: linear-gradient(180deg, #e6e1ff 0%, rgba(250, 251, 255, 0) 100%);
+  background: linear-gradient(180deg, ${colors.blue200} 0%, rgba(250, 251, 255, 0) 100%);
   height: 400px;
   width: 100%;
   box-sizing: border-box;
@@ -36,7 +36,7 @@ const Body = styled.div`
   `};
 `
 const Footer = styled.div`
-  background: linear-gradient(0deg, #e6e1ff 0%, rgba(250, 251, 255, 0) 100%);
+  background: linear-gradient(0deg, ${colors.purple200} 0%, rgba(250, 251, 255, 0) 100%);
   height: 100px;
   width: 100%;
   box-sizing: border-box;
@@ -78,8 +78,7 @@ const Create: React.FC<Props> = (props) => {
 
             <Text
               style={{
-                lineHeight: '20px',
-                marginTop: '8px',
+                marginTop: '20px',
                 maxWidth: '500px',
                 textAlign: 'left'
               }}
@@ -96,11 +95,7 @@ const Create: React.FC<Props> = (props) => {
               </Button>
             </LinkContainer>
           </div>
-          <Image
-            // @ts-ignore
-            name='cryptoad-large'
-            width={!isMobile && !isTablet ? '380px' : '250px'}
-          />
+          <Image name='cryptoad-large' width={!isMobile && !isTablet ? '380px' : '250px'} />
         </div>
       </Banner>
       <Body>
@@ -118,8 +113,7 @@ const Create: React.FC<Props> = (props) => {
               </Text>
               <Text
                 style={{
-                  lineHeight: '20px',
-                  marginTop: '8px',
+                  marginTop: '20px',
                   maxWidth: '500px',
                   textAlign: 'left'
                 }}
@@ -131,19 +125,11 @@ const Create: React.FC<Props> = (props) => {
               </Text>
             </div>
           </div>
-          <Image
-            // @ts-ignore
-            name='nft-collections'
-            width={!isMobile && !isTablet ? '400px' : '250px'}
-          />
+          <Image name='nft-collections' width={!isMobile && !isTablet ? '400px' : '250px'} />
         </div>
         {!isMobile && !isTablet ? (
-          <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-            <Image
-              // @ts-ignore
-              name='nft-nouns'
-              width='400px'
-            />
+          <div style={{ display: 'flex', justifyContent: 'space-evenly', paddingBottom: '2em' }}>
+            <Image name='nft-nouns' width='400px' />
             <div style={{ alignItems: 'center', display: 'flex', width: '33%' }}>
               <div style={{ display: 'block' }}>
                 <Text size='40px' weight={600} color='black'>
@@ -151,8 +137,7 @@ const Create: React.FC<Props> = (props) => {
                 </Text>
                 <Text
                   style={{
-                    lineHeight: '20px',
-                    marginTop: '8px',
+                    marginTop: '20px',
                     maxWidth: '500px',
                     textAlign: 'left'
                   }}
@@ -175,8 +160,7 @@ const Create: React.FC<Props> = (props) => {
                 </Text>
                 <Text
                   style={{
-                    lineHeight: '20px',
-                    marginTop: '8px',
+                    marginTop: '20px',
                     maxWidth: '500px',
                     textAlign: 'left'
                   }}
@@ -189,11 +173,7 @@ const Create: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </div>
-            <Image
-              // @ts-ignore
-              name='nft-nouns'
-              width='250px'
-            />
+            <Image name='nft-nouns' width='250px' />
           </div>
         )}
         <div
@@ -216,7 +196,7 @@ const Create: React.FC<Props> = (props) => {
               <Text
                 style={{
                   lineHeight: '20px',
-                  marginTop: '8px',
+                  marginTop: '20px',
                   maxWidth: '500px',
                   textAlign: 'left'
                 }}
@@ -230,11 +210,7 @@ const Create: React.FC<Props> = (props) => {
               </Text>
             </div>
           </div>
-          <Image
-            // @ts-ignore
-            name='nft-paint-hyperlink'
-            width='300px'
-          />
+          <Image name='nft-paint-hyperlink' width='300px' />
         </div>
       </Body>
       <Footer>
