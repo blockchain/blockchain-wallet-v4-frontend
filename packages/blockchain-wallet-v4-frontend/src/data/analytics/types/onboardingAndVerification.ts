@@ -114,7 +114,7 @@ type EmailVerifiedAction = {
 type ExchangeSignedUpAction = {
   key: Events.ONBOARDING_EXCHANGE_SIGNED_UP
   properties: {
-    device: string
+    device_origin: string
   }
 }
 
@@ -241,8 +241,9 @@ type VerificationSubmissionFailedAction = {
 type WalletSignedUpAction = {
   key: Events.ONBOARDING_WALLET_SIGNED_UP
   properties: {
-    country: String
-    country_state: String
+    country: string
+    country_state: string
+    device_origin: string
   }
 }
 

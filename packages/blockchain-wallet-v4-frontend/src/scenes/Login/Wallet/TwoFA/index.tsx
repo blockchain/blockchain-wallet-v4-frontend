@@ -150,7 +150,11 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink origin='2FA' product={ProductAuthOptions.WALLET} />
+          <NeedHelpLink
+            origin='2FA'
+            platform={productAuthMetadata.platform}
+            product={ProductAuthOptions.WALLET}
+          />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

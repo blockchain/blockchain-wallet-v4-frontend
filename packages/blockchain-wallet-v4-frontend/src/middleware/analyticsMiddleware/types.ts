@@ -1,5 +1,10 @@
 import { BSPaymentTypes } from '@core/types'
-import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
+import {
+  PlatformTypes,
+  RecurringBuyOrigins,
+  RecurringBuyPeriods,
+  SetPeriodPayload
+} from 'data/types'
 
 enum AnalyticsKey {
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
@@ -339,6 +344,10 @@ type LoginHelpClickedPayload = BasePayload & {
 type LoginRequestApprovedOrFailedPayload = BasePayload & {
   error?: 'REJECTED' | 'EXPIRED' | 'TIMED_OUT' | 'UNKNOWN'
   method: 'SECURE_CHANNEL' | 'MAGIC_LINK'
+}
+
+type LoginViewed = BasePayload & {
+  device_origin: string
 }
 
 type SignUpCountrySelectPayload = BasePayload & {
@@ -699,6 +708,7 @@ type AnalyticsProperties =
   | LoginMethodSelectedPayload
   | LoginRequestPayload
   | LoginRequestApprovedOrFailedPayload
+  | LoginViewed
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload

@@ -139,6 +139,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/login': {
             const state = store.getState()
+            const { platform } = state.auth.getProductAuthMetadata
             const nabuId = state.profile.userData.getOrElse({})?.id ?? null
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
@@ -147,6 +148,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.LOGIN_VIEWED, {
               properties: {
+                device_origin: platform,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {

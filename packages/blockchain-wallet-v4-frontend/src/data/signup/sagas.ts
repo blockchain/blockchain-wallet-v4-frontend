@@ -102,7 +102,8 @@ export default ({ api, coreSagas, networks }) => {
           key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
           properties: {
             country,
-            country_state: state
+            country_state: `${country}-${state}`,
+            device_origin: platform
           }
         })
       )
@@ -111,7 +112,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
             properties: {
-              device: platform
+              device_origin: platform
             }
           })
         )
