@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Remote } from '@core'
 import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -21,7 +20,7 @@ const Iframe = styled.iframe`
 const Success = (props: Props) => {
   let type = 'ORDER'
 
-  if (Remote.NotAsked.is(props.order)) {
+  if (!props.order) {
     type = 'CARD'
   }
 

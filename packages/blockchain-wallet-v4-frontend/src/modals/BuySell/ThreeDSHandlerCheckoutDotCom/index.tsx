@@ -44,6 +44,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
         }
 
         props.buySellActions.pollCard(card.data.id)
+
         break
       default:
     }
@@ -126,12 +127,6 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return <Loading />
   }
 
-  if (order.isNotAsked && providerDetails.hasData) {
-    props.handleClose()
-
-    return <></>
-  }
-
   return (
     <Success
       handleBack={handleBack}
@@ -150,6 +145,7 @@ const mapStateToProps = (state: RootState) => ({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
   orderR: selectors.components.buySell.getBSOrder(state),
+  origin: selectors.components.buySell.getOrigin(state),
   providerDetailsR: selectors.components.buySell.getBSProviderDetails(state)
 })
 

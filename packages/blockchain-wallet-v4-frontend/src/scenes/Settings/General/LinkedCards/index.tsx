@@ -18,12 +18,12 @@ class LinkedCards extends PureComponent<Props> {
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
   }
 
-  handleCreditCardClick = async () => {
-    await this.props.buySellActions.showModal({
+  handleCreditCardClick = () => {
+    this.props.buySellActions.showModal({
       origin: 'SettingsGeneral',
       step: 'DETERMINE_CARD_PROVIDER'
     })
-    await this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
+    this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
   }
 
   proceedToUserVerification = () => {

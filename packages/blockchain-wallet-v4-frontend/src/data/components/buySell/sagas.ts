@@ -1652,6 +1652,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (order && order.state === 'PENDING_CONFIRMATION') {
         return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
       }
+
+      const origin = S.getOrigin(yield select())
+
+      if (origin === 'SettingsGeneral') {
+        yield put(actions.modals.closeAllModals())
+
+        yield put(actions.alerts.displaySuccess('Card Added.'))
+      }
+
       return yield put(
         A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
       )
