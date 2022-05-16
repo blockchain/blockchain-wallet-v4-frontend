@@ -97,6 +97,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield put(actions.signup.registerSuccess(undefined))
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
@@ -112,7 +113,10 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
             properties: {
-              device_origin: platform
+              country,
+              country_state: `${country}-${state}`,
+              device_origin: platform,
+              unified: true
             }
           })
         )

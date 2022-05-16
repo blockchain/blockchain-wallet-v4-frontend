@@ -37,7 +37,7 @@
         "addStripePaymentProvider": false,
         "coinViewV2": false,
         "completeYourProfile": true,
-        "createExchangeUserOnSignupOrLogin": false,
+        "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
