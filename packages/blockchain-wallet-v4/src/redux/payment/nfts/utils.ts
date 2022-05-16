@@ -1752,6 +1752,8 @@ export async function cancelOrder({
   signer: Signer
   txnData: txnData
 }) {
+  const waitingForBestCounterOrder = !sellOrder.r && !sellOrder.v && !sellOrder.s
+
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,
@@ -1783,10 +1785,10 @@ export async function cancelOrder({
     takerRelayerFee: sellOrder.taker_relayer_fee,
     target: sellOrder.target,
     v: sellOrder.v,
-    waitingForBestCounterOrder: sellOrder.closing_extendable && sellOrder.sale_kind === 0
+    waitingForBestCounterOrder
   }
 
-  if (!sellOrder.r && !sellOrder.v && !sellOrder.s) {
+  if (waitingForBestCounterOrder) {
     const { r, s, v } = await _signOrder(signer, order.maker, order)
     order.r = r
     order.s = s
@@ -2062,6 +2064,8 @@ export async function calculatePaymentProxyApprovalsFees(order: NftOrder, signer
 }
 
 export async function calculateCancellationFees(sellOrder: RawOrder, signer: Signer) {
+  const waitingForBestCounterOrder = !sellOrder.r && !sellOrder.v && !sellOrder.s
+
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,
@@ -2093,12 +2097,12 @@ export async function calculateCancellationFees(sellOrder: RawOrder, signer: Sig
     takerRelayerFee: sellOrder.taker_relayer_fee,
     target: sellOrder.target,
     v: sellOrder.v,
-    waitingForBestCounterOrder: sellOrder.closing_extendable && sellOrder.sale_kind === 0
+    waitingForBestCounterOrder
   }
 
   const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
 
-  if (!sellOrder.r && !sellOrder.v && !sellOrder.s) {
+  if (waitingForBestCounterOrder) {
     const { r, s, v } = await _signOrder(signer, order.maker, order)
     order.r = r
     order.s = s
