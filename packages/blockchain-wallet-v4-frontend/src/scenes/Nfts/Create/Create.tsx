@@ -21,7 +21,7 @@ const Banner = styled.div`
   display: block;
   align-items: center;
   padding: 50px 64px;
-  ${media.mobile`
+  ${media.tablet`
     height: unset;
     padding: 50px 32px;
   `};
