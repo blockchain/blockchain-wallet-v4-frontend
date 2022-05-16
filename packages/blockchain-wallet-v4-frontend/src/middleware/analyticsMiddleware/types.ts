@@ -1,10 +1,5 @@
 import { BSPaymentTypes } from '@core/types'
-import {
-  PlatformTypes,
-  RecurringBuyOrigins,
-  RecurringBuyPeriods,
-  SetPeriodPayload
-} from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
