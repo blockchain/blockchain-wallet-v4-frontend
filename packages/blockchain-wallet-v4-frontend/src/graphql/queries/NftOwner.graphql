@@ -12,9 +12,7 @@ query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int)
       address
     }
     last_sale {
-      payment_token {
-        symbol
-      }
+      payment_token_symbol
       total_price
     }
     token_id

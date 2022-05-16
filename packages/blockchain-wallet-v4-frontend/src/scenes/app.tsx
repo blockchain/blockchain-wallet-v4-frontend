@@ -51,6 +51,8 @@ const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsCreate = React.lazy(() => import('./Nfts/Create'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
+const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
+const NftsSettings = React.lazy(() => import('./Nfts/Settings'))
 
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
@@ -62,7 +64,6 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -189,6 +190,13 @@ const App = ({
                         {/* NFT Explorer routes */}
                         {nftExplorer && (
                           <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
+                        )}
+                        {nftExplorer && (
+                          <NftsLayout
+                            path='/nfts/address/settings/:address'
+                            exact
+                            component={NftsSettings}
+                          />
                         )}
                         {nftExplorer && (
                           <NftsLayout
