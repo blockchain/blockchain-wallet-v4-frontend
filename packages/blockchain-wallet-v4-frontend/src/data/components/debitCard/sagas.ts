@@ -25,6 +25,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const filterTerminatedCards = (cards) =>
     cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
+  const getEligibleAccounts = function* (cardId) {
+    try {
+      const data = yield call(api.getDCEligibleAccounts, cardId)
+      yield put(A.setEligibleAccounts(data))
+    } catch (e) {
+      console.error('Failed to get eligible accounts', errorHandler(e))
+    }
+  }
+
+  const getCurrentCardAccount = function* (cardId) {
+    try {
+      const data = yield call(api.getDCCurrentAccount, cardId)
+      yield put(A.setCurrentCardAccount(data))
+    } catch (e) {
+      console.error('Failed to get current card account', errorHandler(e))
+      yield put(A.setDefaultCurrentCardAccount())
+    }
+  }
+
   const getCards = function* () {
     try {
       let cards = yield call(api.getDCCreated)
@@ -32,6 +51,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       cards = filterTerminatedCards(cards)
       if (cards.length > 0) {
         yield call(getCardToken, cards[0].id)
+        yield call(getEligibleAccounts, cards[0].id)
+        yield call(getCurrentCardAccount, cards[0].id)
       }
       yield put(A.getCardsSuccess(cards))
     } catch (e) {

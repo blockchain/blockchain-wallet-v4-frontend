@@ -2,58 +2,85 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { CoinfigType } from '@core/redux/walletOptions/types'
-import { Button, SkeletonCircle, SkeletonRectangle } from 'blockchain-info-components'
+import { CoinType } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { convertStandardToBase } from 'data/components/exchange/services'
 
-import {
-  BoxContainer,
-  BoxRow,
-  BoxRowItemSubTitle,
-  BoxRowItemTitle,
-  BoxRowWithBorder
-} from '../CardDashboard.model'
+import CoinBalance from '../../../Home/Holdings/CoinBalance/template.success'
+import { BoxContainer, BoxRow, BoxRowItemSubTitle, BoxRowWithBorder } from '../CardDashboard.model'
 
-const SkeletonLoader = styled.div`
+const Coin = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin: 12px 0;
+`
+const CoinIcon = styled(Icon)`
+  font-size: 32px;
+  margin-right: 16px;
+`
+const CoinName = styled(Text)`
+  font-size: 20px;
+  font-weight: 500;
+  color: ${(props) => props.theme.grey900};
+`
+const Amount = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   > div:last-child {
-    flex: 1;
-    margin-left: 16px;
+    margin-top: 5px;
   }
 `
-
-const Loading = () => (
-  <>
-    <SkeletonLoader>
-      <SkeletonCircle height='32px' width='32px' />
-      <SkeletonRectangle height='40px' width='100%' />
-    </SkeletonLoader>
-  </>
-)
-
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 type Props = {
-  coins: CoinfigType[] | undefined
+  currentCardAccount: { balance: { symbol: string; value: string } }
+  funds: Array<{ balance: { symbol: string; value: string } }>
 }
-const FundsBox = ({ coins }: Props) => {
+const FundsBox = ({ currentCardAccount, funds }: Props) => {
+  const { symbol, value } = currentCardAccount.balance
+
+  const fundTypeLabel = () => (
+    <BoxRowItemSubTitle>
+      {window.coins[symbol].coinfig.type.name === 'FIAT' ? (
+        <FormattedMessage
+          id='scenes.debit_card.dashboard.funds.type.cash_balance'
+          defaultMessage='Cash Balance'
+        />
+      ) : (
+        <FormattedMessage
+          id='scenes.debit_card.dashboard.funds.type.trading_account'
+          defaultMessage='Trading Account'
+        />
+      )}
+    </BoxRowItemSubTitle>
+  )
+
   return (
     <BoxContainer width='380px'>
       <BoxRowWithBorder>
-        <BoxRowItemTitle>
-          USDC COIN
-          <BoxRowItemSubTitle>Trading Account</BoxRowItemSubTitle>
-        </BoxRowItemTitle>
-        <BoxRowItemTitle style={{ alignItems: 'end' }}>
-          $20.45
-          <BoxRowItemSubTitle>19.4839 USDC</BoxRowItemSubTitle>
-        </BoxRowItemTitle>
+        <div style={{ flex: 1 }}>
+          <Wrapper>
+            <Coin>
+              <CoinIcon name={symbol as CoinType} size='32px' />
+              <div>
+                <CoinName>{window.coins[symbol].coinfig.name}</CoinName>
+                {fundTypeLabel()}
+              </div>
+            </Coin>
+            <Amount>
+              <CoinBalance coin={symbol} balance={convertStandardToBase(symbol, value)} />
+            </Amount>
+          </Wrapper>
+        </div>
       </BoxRowWithBorder>
       <BoxRow>
-        <Button data-e2e='addFunds' nature='primary' margin='auto'>
+        <Button data-e2e='addFunds' nature='primary' margin='auto' disabled>
           <FormattedMessage id='buttons.add_funds' defaultMessage='Add Funds' />
         </Button>
-        <Button data-e2e='changeSource' nature='empty-blue' margin='auto'>
+        <Button data-e2e='changeSource' nature='empty-blue' margin='auto' disabled>
           <FormattedMessage id='buttons.change_source' defaultMessage='Change Source' />
         </Button>
       </BoxRow>

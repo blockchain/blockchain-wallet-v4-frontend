@@ -8,6 +8,8 @@ const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
   cardToken: '',
   cards: [],
+  currentCardAccount: undefined,
+  eligibleAccounts: [],
   lockHandler: Remote.NotAsked,
   products: []
 }
@@ -58,6 +60,16 @@ const debitCardSlice = createSlice({
     },
     setCardToken: (state, action: PayloadAction<string>) => {
       state.cardToken = action.payload
+    },
+    setCurrentCardAccount: (state, action: PayloadAction<any>) => {
+      state.currentCardAccount = action.payload
+    },
+    setDefaultCurrentCardAccount: (state) => {
+      // eslint-disable-next-line prefer-destructuring
+      state.currentCardAccount = state.eligibleAccounts[0]
+    },
+    setEligibleAccounts: (state, action: PayloadAction<any>) => {
+      state.eligibleAccounts = action.payload
     },
     terminateCard: (state, action: PayloadAction<string>) => {}
   }

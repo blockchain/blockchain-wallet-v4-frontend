@@ -1,18 +1,17 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { useRemote } from 'hooks'
 import { compose, Dispatch } from 'redux'
 
-import { getCoinsSortedByBalance } from 'components/Balances/selectors'
+import { selectors } from 'data'
 
 import FundsBox from './FundsBox.template'
 
-const FundsBoxContainer = () => {
-  const { data } = useRemote(getCoinsSortedByBalance)
-  return <FundsBox coins={data} />
-}
+const FundsBoxContainer = (props) => <FundsBox {...props} />
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  currentCardAccount: selectors.components.debitCard.getCurrentCardAccount(state),
+  funds: selectors.components.debitCard.getEligibleAccounts(state)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
