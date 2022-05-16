@@ -3,13 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
-  top: calc(${FIXED_HEADER_HEIGHT}px);
-  position: sticky;
-  transition: width 0.3s ease, min-width 0.3s ease;
   width: 256px;
   min-width: 256px;
   margin-right: 20px;
@@ -33,12 +31,36 @@ const Wrapper = styled.div`
   `}
 `
 
+const List = styled.div`
+  margin-top: 20px;
+`
+const Item = styled.div<{ isActive: boolean }>`
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding-left: 8px;
+  cursor: pointer !important;
+  border-left: 3px solid ${(props) => (props.isActive ? props.theme.blue600 : props.theme.grey000)};
+`
+
 const NftSettingsMenu: React.FC<Props> = () => {
   return (
     <Wrapper>
       <Text size='32px' weight={600} color='black'>
         <FormattedMessage id='copy.settings' defaultMessage='Settings' />
       </Text>
+      <List>
+        <Item style={{ cursor: 'not-allowed !important', opacity: '0.5' }} isActive={false}>
+          <Text size='14px' weight={600}>
+            <FormattedMessage id='copy.profile' defaultMessage='Profile' />
+          </Text>
+        </Item>
+        <Item isActive role='button'>
+          <Text size='14px' weight={600} color='blue600'>
+            <FormattedMessage id='copy.notifications' defaultMessage='Notifications' />
+          </Text>
+        </Item>
+      </List>
     </Wrapper>
   )
 }

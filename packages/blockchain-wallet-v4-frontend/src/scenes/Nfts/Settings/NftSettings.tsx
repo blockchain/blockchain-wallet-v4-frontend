@@ -16,7 +16,7 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
   }
 
   return (
-    <div>
+    <div style={{ paddingTop: '0px' }}>
       <NftSettingsMenu />
     </div>
   )

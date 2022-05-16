@@ -31,7 +31,7 @@ export const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 22px;
-  border-bottom: 1px solid ${colors.grey100};
+  border-bottom: 1px solid ${colors.grey000};
   height: 56px;
   ${media.tablet`
     padding: 0 12px;
