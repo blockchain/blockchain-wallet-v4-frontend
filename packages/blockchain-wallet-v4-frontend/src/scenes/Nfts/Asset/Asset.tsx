@@ -807,7 +807,11 @@ const NftAsset: React.FC<Props> = ({
                         const traitCount = assetTraits?.trait_count
                         const rarity =
                           traitCount && currentAsset.collection.total_supply
-                            ? `${(traitCount / currentAsset.collection.total_supply) * 100}%`
+                            ? `${parseFloat(
+                                ((traitCount / currentAsset.collection.total_supply) * 100).toFixed(
+                                  1
+                                )
+                              )}%`
                             : 'New Trait'
 
                         return (
