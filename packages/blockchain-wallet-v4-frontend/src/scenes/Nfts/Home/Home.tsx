@@ -7,10 +7,12 @@ import { IconBlockchain, IconVerified } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { WalletOptionsType } from '@core/types'
 import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
 import { Flex } from 'components/Flex'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -77,8 +79,9 @@ const CardWrapper = styled.div`
 const Explore: React.FC<Props> = (props) => {
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
-  const contracts = ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
-  // const contracts = ['with-the-light', 'nouns', 'mfers', 'superrare']
+  const contracts = props.openseaApi.includes('testnet')
+    ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
+    : ['with-the-light', 'nouns', 'mfers', 'superrare']
   const [randomContract] = useState(Math.floor(Math.random() * 4))
   const [assetId, setAssetId] = useState(0)
   const limit = 4
@@ -263,12 +266,18 @@ const Explore: React.FC<Props> = (props) => {
   )
 }
 
+const mapStateToProps = (state: RootState) => ({
+  openseaApi: selectors.core.walletOptions
+    .getDomains(state)
+    .getOrElse({ opensea: 'https://api.opensea.io' } as WalletOptionsType['domains']).opensea
+})
+
 const mapDispatchToProps = (dispatch) => ({
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
