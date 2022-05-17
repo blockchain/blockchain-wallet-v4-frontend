@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -68,7 +69,11 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
             label: (
               <Flex alignItems='center' gap={8}>
                 {item.image_url || item.profile_img_url ? (
-                  <img alt='url' height='18px' src={item.image_url || item.profile_img_url} />
+                  <NftCollectionImageSmall
+                    isVerified={item.safelist_request_status === 'verified'}
+                    alt='url'
+                    src={item.image_url || item.profile_img_url}
+                  />
                 ) : null}
                 <Text weight={600} size='14px'>
                   {item.name || item.address}
