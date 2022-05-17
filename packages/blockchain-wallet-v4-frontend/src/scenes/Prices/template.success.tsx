@@ -19,6 +19,9 @@ const NoResultsWrapper = styled.div`
 
 export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
+`
+
+const MaxWidthTableWrapper = styled(TableWrapper)`
   max-width: 100%;
 `
 
@@ -101,7 +104,7 @@ const PricesTable = (props: Props) => {
   )
 
   return (
-    <TableWrapper>
+    <MaxWidthTableWrapper>
       {state.globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
@@ -162,7 +165,7 @@ const PricesTable = (props: Props) => {
           </TableBodyWrapper>
         </div>
       )}
-    </TableWrapper>
+    </MaxWidthTableWrapper>
   )
 }
 
