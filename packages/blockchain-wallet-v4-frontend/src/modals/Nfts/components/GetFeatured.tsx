@@ -16,6 +16,7 @@ import {
 } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import modalEnhancer from 'providers/ModalEnhancer'
+import { useMedia } from 'services/styles'
 
 const NumberCircle = styled.div`
   border-radius: 50%;
@@ -27,6 +28,7 @@ const NumberCircle = styled.div`
 `
 
 const GetFeatured = (props) => {
+  const isTablet = useMedia('tablet')
   const { closeAllModals } = props
   return (
     <Modal size='medium'>
@@ -70,7 +72,7 @@ const GetFeatured = (props) => {
             </Text>
           </div>
         </Flex>
-        <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em' }}>
+        <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
           <NumberCircle>
             <Text color='grey600' weight={600}>
               3
@@ -88,13 +90,13 @@ const GetFeatured = (props) => {
       </ModalBody>
       <ModalFooter align='spaced'>
         <Link href='https://twitter.com/blockchain' target='_blank'>
-          <Button nature='primary' data-e2e='twitter'>
+          <Button width={isTablet ? '150px' : '185px'} nature='primary' data-e2e='twitter'>
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
 
         <Link href='https://www.instagram.com/blockchainofficial' target='_blank'>
-          <Button nature='primary' data-e2e='instagram'>
+          <Button width={isTablet ? '150px' : '185px'} nature='primary' data-e2e='instagram'>
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>

@@ -234,7 +234,7 @@ const Explore: React.FC<Props> = (props) => {
                         {assets.data?.assets[assetId]?.name}
                       </Text>
                       <Flex gap={2} alignItems='center'>
-                        {assets.data?.assets[assetId]?.collection?.safelist_request_status !==
+                        {assets.data?.assets[assetId]?.collection?.safelist_request_status ===
                           'verified' && (
                           <Icon size='sm' label='verified' color='blue600'>
                             <IconVerified />
