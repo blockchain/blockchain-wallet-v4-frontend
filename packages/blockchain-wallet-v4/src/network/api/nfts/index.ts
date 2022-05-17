@@ -35,10 +35,15 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const postNftOrder = (order: NftOrder, asset_collection_slug: string, guid: string) => {
+  const postNftOrder = (
+    order: NftOrder,
+    asset_collection_slug: string,
+    guid: string,
+    jwt: string
+  ) => {
     return post({
       contentType: 'application/json',
-      data: { asset_collection_slug, guid, orderJson: order },
+      data: { asset_collection_slug, guid, jwt, orderJson: order },
       endPoint: `/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
