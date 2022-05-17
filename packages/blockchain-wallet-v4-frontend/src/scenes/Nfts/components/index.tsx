@@ -91,7 +91,7 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -127,7 +127,7 @@ export const AssetImageContainer = styled.div<{
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
-  padding: 12px 8px 0px 8px;
+  margin-top: 12px;
   flex: 1;
   height: 100%;
   display: flex;
@@ -146,6 +146,8 @@ export const PriceCTA = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
+  flex-wrap: wrap-reverse;
+  gap: 8px;
   justify-content: space-between;
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
@@ -157,7 +159,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   height: 300px;
   display: flex;
   justify-content: space-between;
-  background-size: cover;
+  background-size: contain;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tablet`

@@ -80,10 +80,12 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         </Link>
       </LinkContainer>
       <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-        <AssetImageContainer
-          className='asset-image-container'
-          background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
-        />
+        <Link>
+          <AssetImageContainer
+            className='asset-image-container'
+            background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
+          />
+        </Link>
       </LinkContainer>
       <AssetDetails>
         <div>
@@ -95,25 +97,34 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         <PriceCTA>
           <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
-              <Button data-e2e='nftAssetPage' nature='empty-blue' small>
+              <Button data-e2e='nftAssetPage' nature='primary' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
               </Button>
             ) : (
-              <Link onClick={viewDetailsTracking} weight={600}>
-                <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-              </Link>
+              <Button
+                onClick={viewDetailsTracking}
+                data-e2e='nftAssetPage'
+                nature='dark-grey'
+                small
+              >
+                <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
+              </Button>
             )}
           </LinkContainer>
           {lowestListing && lowestListing.starting_price ? (
-            <GreyBlueGradientCartridge>
-              <CoinDisplay
-                coin={lowestListing.payment_token_symbol || 'ETH'}
-                size='14px'
-                weight={600}
-              >
-                {lowestListing.starting_price}
-              </CoinDisplay>
-            </GreyBlueGradientCartridge>
+            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+              <Link>
+                <GreyBlueGradientCartridge>
+                  <CoinDisplay
+                    coin={lowestListing.payment_token_symbol || 'ETH'}
+                    size='14px'
+                    weight={600}
+                  >
+                    {lowestListing.starting_price}
+                  </CoinDisplay>
+                </GreyBlueGradientCartridge>
+              </Link>
+            </LinkContainer>
           ) : (
             <GreyCartridge>
               <FormattedMessage id='copy.not_for_sale' defaultMessage='Not for sale' />

@@ -8,7 +8,7 @@ import { media } from 'services/styles'
 const DESKTOP = 8
 const LAPTOP_L = 6
 const LAPTOP_M = 5
-const LAPTOP = 4
+const LAPTOP = 3
 const TABLET = 2
 const MOBILE = 1
 
@@ -39,7 +39,7 @@ const Grid = styled.div<{ fullscreen: boolean }>`
   `}
   ${media.laptop`
     grid-template-columns: repeat(${(props) =>
-      props.fullscreen ? TABLET : MOBILE}, minmax(0, 1fr));
+      props.fullscreen ? MOBILE : TABLET}, minmax(0, 1fr));
     padding: 12px;
     box-sizing: border-box;
     .asset-image-container {
