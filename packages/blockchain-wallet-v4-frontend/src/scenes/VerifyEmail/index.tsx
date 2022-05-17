@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { is } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from '@core'
 import { actions, selectors } from 'data'
 
 import VerifyEmail from './template'
@@ -37,8 +39,26 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     securityCenterActions.resendVerifyEmail(email, 'SIGN_UP')
   }
 
+  skipVerification = () => {
+    const { email } = this.props
+    this.props.signupActions.setRegisterEmail(undefined)
+    this.props.securityCenterActions.skipVerifyEmail(email)
+    this.props.routerActions.push('/home')
+    // for first time login users we need to run goal since this is a first page we show them
+    this.props.saveGoal('welcomeModal', { firstLogin: true })
+    this.props.runGoals()
+  }
+
   render() {
-    return <VerifyEmail {...this.props} resendEmail={this.onResendEmail} />
+    const isMetadataRecovery = Remote.Success.is(this.props.isMetadataRecoveryR)
+    return (
+      <VerifyEmail
+        {...this.props}
+        resendEmail={this.onResendEmail}
+        skipVerification={this.skipVerification}
+        isMetadataRecovery={isMetadataRecovery}
+      />
+    )
   }
 }
 
@@ -48,7 +68,8 @@ const mapStateToProps = (state) => ({
     .getCreateExchangeUserOnSignupOrLogin(state)
     .getOrElse(false),
   email: selectors.signup.getRegisterEmail(state) as string,
-  isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false)
+  isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),
+  isMetadataRecoveryR: selectors.signup.getMetadataRestore(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -57,7 +78,8 @@ const mapDispatchToProps = (dispatch) => ({
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
   saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  signupActions: bindActionCreators(actions.signup, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
