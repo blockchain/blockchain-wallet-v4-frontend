@@ -636,7 +636,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', results?: number | null, name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, safelist_request_status: string, slug: string } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', results?: number | null, name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, safelist_request_status: string, slug: string } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -3046,9 +3046,6 @@ export const AssetsDocument = gql`
     }
     image_url
     permalink
-    owners {
-      address
-    }
     listings {
       payment_token_symbol
       starting_price

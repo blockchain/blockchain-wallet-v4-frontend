@@ -8,9 +8,6 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
     }
     image_url
     permalink
-    owners {
-      address
-    }
     listings {
       payment_token_symbol
       starting_price
