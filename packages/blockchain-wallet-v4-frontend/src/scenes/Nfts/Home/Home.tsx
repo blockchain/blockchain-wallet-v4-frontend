@@ -109,6 +109,12 @@ const Explore: React.FC<Props> = (props) => {
       `/nfts/asset/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
     )
   }
+  const handleGetFeatured = () => {
+    props.modalActions.showModal('GET_FEATURED', {
+      closeAllModals: props.modalActions.closeAllModals,
+      origin: 'Nfts'
+    })
+  }
   return (
     <NftPageV2>
       <>
@@ -238,7 +244,12 @@ const Explore: React.FC<Props> = (props) => {
                     </div>
                   </Flex>
                   <Flex alignItems='center'>
-                    <Button small data-e2e='Featured' nature='empty-blue'>
+                    <Button
+                      onClick={handleGetFeatured}
+                      small
+                      data-e2e='Featured'
+                      nature='empty-blue'
+                    >
                       <FormattedMessage id='copy.get_featured' defaultMessage='Get Featured' />
                     </Button>
                   </Flex>
@@ -298,6 +309,7 @@ const Explore: React.FC<Props> = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })

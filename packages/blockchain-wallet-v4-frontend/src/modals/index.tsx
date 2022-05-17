@@ -48,6 +48,7 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // NFTS
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
+const GetFeatured = React.lazy(() => import('./Nfts/components/GetFeatured'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -175,6 +176,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GET_FEATURED) ? (
+          <GetFeatured />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
