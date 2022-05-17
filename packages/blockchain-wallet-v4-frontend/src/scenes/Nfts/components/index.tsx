@@ -115,13 +115,13 @@ export const Asset = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: ${(props) => `1px solid ${props.theme.grey100}`};
+  border: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 
 export const InfoStatsWrapper = styled.div`
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid ${(props) => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 16px;
 `
 
@@ -181,27 +181,6 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   position: relative;
   ${media.tablet`
     flex-direction: column;
-  `}
-`
-
-export const CollectionImageSmall = styled.img`
-  border-radius: 50%;
-  height: 24px;
-  width: 24px;
-`
-
-export const CollectionImage = styled.img`
-  border-radius: 50%;
-  position: absolute;
-  height: 62px;
-  width: 62px;
-  top: 60px;
-  left: calc(50% - 31px);
-  ${media.tablet`
-    height: 40px;
-    width: 40px;
-    top: 60px;
-    left: calc(50% - 20px);
   `}
 `
 

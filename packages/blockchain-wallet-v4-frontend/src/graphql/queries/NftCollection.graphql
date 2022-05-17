@@ -4,6 +4,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     discord_url
     external_url
     instagram_username
+    twitter_username
     image_url
     banner_image_url
     short_description
@@ -11,6 +12,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     created_date
     name
     num_owners
+    safelist_request_status
     slug
     total_supply
     stats {

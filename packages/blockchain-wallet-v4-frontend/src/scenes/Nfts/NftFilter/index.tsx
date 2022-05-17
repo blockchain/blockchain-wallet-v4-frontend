@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
+import { colors, Icon, Switch } from '@blockchain-com/constellation'
 import {
   IconChevronDown,
   IconChevronUp,
@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon as ComponentIcon, Text } from 'blockchain-info-components'
+import { Icon as ComponentIcon, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
@@ -22,11 +22,12 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media, useMedia } from 'services/styles'
 
-import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
+import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: calc(${FIXED_HEADER_HEIGHT}px);
+  padding-right: 24px;
   padding-top: 20px;
   position: sticky;
   transition: width 0.3s ease, min-width 0.3s ease;
@@ -35,10 +36,12 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   margin-right: 20px;
   overflow: scroll;
   height: calc(100vh - ${FIXED_HEADER_HEIGHT + 20}px);
+  border-right: 1px solid ${(props) => props.theme.grey000};
   background: ${(props) => props.theme.white};
   ${media.tablet`
     display: ${(props) => (props.isOpen ? 'block' : 'none')};
     box-sizing: border-box;
+    border-right: 0;
     z-index: 1000;
     height: 100vh;
     width: 100%;
@@ -68,7 +71,7 @@ const FilterHeaderText = styled(Text)<{ isOpen: boolean }>`
 const TraitWrapper = styled.div`
   margin-top: 8px;
   border-radius: 8px;
-  border: 1px solid ${colors.grey100};
+  border: 1px solid ${colors.grey000};
 `
 
 const TraitList = styled.div<{ isActive: boolean }>`
@@ -190,13 +193,25 @@ const NftFilter: React.FC<Props> = ({
         <div style={{ display: isOpen ? 'block' : 'none' }}>
           {forSaleFilter ? (
             <div>
-              <Button
-                onClick={() => formActions.change('nftFilter', 'forSale', !formValues?.forSale)}
-                nature={formValues?.forSale ? 'primary' : 'empty-blue'}
-                data-e2e='buyNowToggle'
-              >
-                <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-              </Button>
+              <TraitWrapper>
+                <TraitHeader>
+                  <Flex
+                    style={{ width: '100%' }}
+                    alignItems='center'
+                    justifyContent='space-between'
+                  >
+                    <Text size='16px' weight={500} color='black'>
+                      <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+                    </Text>
+                    <Switch
+                      onClick={() =>
+                        formActions.change('nftFilter', 'forSale', !formValues?.forSale)
+                      }
+                      checked={formValues?.forSale}
+                    />
+                  </Flex>
+                </TraitHeader>
+              </TraitWrapper>
             </div>
           ) : null}
           {minMaxPriceFilter ? (
@@ -215,7 +230,7 @@ const NftFilter: React.FC<Props> = ({
             <div style={{ marginTop: '24px' }}>
               <TraitWrapper>
                 <TraitHeader>
-                  <Text size='14px' weight={500} color='black'>
+                  <Text size='16px' weight={500} color='black'>
                     <FormattedMessage id='copy.events' defaultMessage='Events' />
                   </Text>
                 </TraitHeader>
@@ -231,13 +246,6 @@ const NftFilter: React.FC<Props> = ({
                             width: '100%'
                           }}
                         >
-                          <Field
-                            component='input'
-                            name='event'
-                            type='radio'
-                            value={event}
-                            id={event}
-                          />
                           <label
                             htmlFor={event}
                             style={{
@@ -259,6 +267,13 @@ const NftFilter: React.FC<Props> = ({
                               <EventTypeName event_type={event} />
                             </Text>
                           </label>
+                          <Field
+                            component='input'
+                            name='event'
+                            type='radio'
+                            value={event}
+                            id={event}
+                          />
                         </div>
                       </TraitItem>
                     )
@@ -271,7 +286,7 @@ const NftFilter: React.FC<Props> = ({
             <div style={{ marginTop: '24px' }}>
               <TraitWrapper>
                 <TraitHeader>
-                  <Text size='14px' weight={500} color='black'>
+                  <Text size='16px' weight={500} color='black'>
                     <FormattedMessage id='copy.collections' defaultMessage='Collections' />
                   </Text>
                 </TraitHeader>
@@ -287,13 +302,6 @@ const NftFilter: React.FC<Props> = ({
                             width: '100%'
                           }}
                         >
-                          <Field
-                            component='input'
-                            name='collection'
-                            type='radio'
-                            id={collection.slug}
-                            value={collection.slug}
-                          />
                           <label
                             htmlFor={collection.slug}
                             style={{
@@ -306,7 +314,13 @@ const NftFilter: React.FC<Props> = ({
                           >
                             <Flex alignItems='center' gap={4}>
                               <div />
-                              <CollectionImageSmall src={collection.image_url || ''} />
+                              {collection.image_url ? (
+                                <NftCollectionImageSmall
+                                  isVerified={collection.safelist_request_status === 'verified'}
+                                  alt='Dapp Logo'
+                                  src={collection.image_url || ''}
+                                />
+                              ) : null}
                               <Text
                                 style={{ marginLeft: '4px' }}
                                 size='12px'
@@ -318,6 +332,13 @@ const NftFilter: React.FC<Props> = ({
                               </Text>
                             </Flex>
                           </label>
+                          <Field
+                            component='input'
+                            name='collection'
+                            type='radio'
+                            id={collection.slug}
+                            value={collection.slug}
+                          />
                         </div>
                       </TraitItem>
                     )
@@ -369,12 +390,6 @@ const NftFilter: React.FC<Props> = ({
                                   width: '100%'
                                 }}
                               >
-                                <Field
-                                  component='input'
-                                  name={`${trait}.${value}`}
-                                  type='checkbox'
-                                  id={`${trait}.${value}`}
-                                />
                                 <label
                                   htmlFor={`${trait}.${value}`}
                                   style={{
@@ -401,15 +416,23 @@ const NftFilter: React.FC<Props> = ({
                                     &nbsp;
                                     <Text size='12px' weight={500} color='grey500'>
                                       {total_supply
-                                        ? `(${(
-                                            (Number(organizedTraits[trait][value]) /
-                                              Number(total_supply)) *
-                                            100
-                                          ).toFixed(2)}%)`
+                                        ? `(${parseFloat(
+                                            (
+                                              (Number(organizedTraits[trait][value]) /
+                                                Number(total_supply)) *
+                                              100
+                                            ).toFixed(2)
+                                          )}%)`
                                         : null}
                                     </Text>
                                   </div>
                                 </label>
+                                <Field
+                                  component='input'
+                                  name={`${trait}.${value}`}
+                                  type='checkbox'
+                                  id={`${trait}.${value}`}
+                                />
                               </div>
                             </TraitItem>
                           )

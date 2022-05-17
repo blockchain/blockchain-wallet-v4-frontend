@@ -12,6 +12,7 @@ import {
 } from 'generated/graphql.types'
 import { media } from 'services/styles'
 
+import NftCollectionImage from '../../components/NftCollectionImage'
 import { CollectionName, CustomLink } from '.'
 
 const MoreAssets = styled.div`
@@ -100,18 +101,13 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
                       <div>
                         <CollectionName>
                           {asset.collection.image_url ? (
-                            <img
+                            <NftCollectionImage
                               alt='Dapp Logo'
-                              height='30px'
-                              width='auto'
-                              style={{
-                                borderRadius: '50%',
-                                paddingRight: '0.5em'
-                              }}
                               src={asset.collection?.image_url || ''}
+                              isVerified={asset.collection.safelist_request_status === 'verified'}
                             />
                           ) : null}
-                          <div>{asset.collection?.name}</div>
+                          <div style={{ paddingLeft: '8px' }}>{asset.collection?.name}</div>
                         </CollectionName>
                         <img
                           alt='Asset Logo'
