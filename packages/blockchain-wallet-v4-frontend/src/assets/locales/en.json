@@ -2268,6 +2268,7 @@
   "scenes.uploaddoc.uploadnow": "Upload Now",
   "scenes.uploaddoc.verify": "We need to verify your identity in order to allow buys, sells or exchanges.",
   "scenes.verifyemail.description": "We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.",
+  "scenes.verifyemail.do_it_later": "I’ll Do This Later.",
   "scenes.verifyemail.title": "Verify Your Email",
   "scenes.verifyemailtoken.error": "Something went wrong.",
   "scenes.verifyemailtoken.error.alreadyverified.message": "If this was not you, feel free to contact us.",
