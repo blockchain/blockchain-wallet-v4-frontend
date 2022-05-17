@@ -592,7 +592,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', id: string, name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null> | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', total_supply?: number | null, name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, trait_count?: number | null } | null> | null }> };
+export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', id: string, name?: string | null, image_url?: string | null, animation_original_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null> | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', total_supply?: number | null, name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, safelist_request_status: string, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, trait_count?: number | null } | null> | null }> };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -604,7 +604,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', results?: number | null, name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, slug: string } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', results?: number | null, name?: string | null, token_id: string, image_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null } | null> | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, safelist_request_status: string, slug: string } }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -612,7 +612,7 @@ export type CollectionsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, twitter_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, twitter_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, safelist_request_status: string, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 export type EventsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
@@ -632,7 +632,7 @@ export type OwnerQueryVariables = Exact<{
 }>;
 
 
-export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'FlatEvent', payment_token_symbol?: string | null, total_price?: string | null } | null }> };
+export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null, safelist_request_status: string }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'FlatEvent', payment_token_symbol?: string | null, total_price?: string | null } | null }> };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -2712,6 +2712,7 @@ export const AssetDocument = gql`
       telegram_url
       twitter_username
       instagram_username
+      safelist_request_status
       wiki_url
       external_url
     }
@@ -2761,6 +2762,7 @@ export const AssetsDocument = gql`
     collection {
       name
       image_url
+      safelist_request_status
       slug
     }
   }
@@ -2785,6 +2787,7 @@ export const CollectionsDocument = gql`
     created_date
     name
     num_owners
+    safelist_request_status
     slug
     total_supply
     stats {
@@ -2848,6 +2851,7 @@ export const OwnerDocument = gql`
       name
       slug
       image_url
+      safelist_request_status
     }
     contract {
       address

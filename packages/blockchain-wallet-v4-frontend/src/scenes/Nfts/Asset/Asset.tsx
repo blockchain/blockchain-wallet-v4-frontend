@@ -37,6 +37,7 @@ import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
 import { NftPage } from '../components'
+import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
@@ -420,18 +421,16 @@ const NftAsset: React.FC<Props> = ({
                   <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
                     <CollectionName>
                       {currentAsset.collection.image_url ? (
-                        <img
+                        <NftCollectionImage
                           alt='Dapp Logo'
-                          height='30px'
-                          width='30px'
-                          style={{
-                            borderRadius: '50%',
-                            paddingRight: '0.5em'
-                          }}
                           src={currentAsset.collection?.image_url || ''}
+                          isVerified={
+                            currentAsset.collection.safelist_request_status === 'verified'
+                          }
                         />
                       ) : null}
-                      <div>{currentAsset.collection?.name}</div>
+
+                      <div style={{ paddingLeft: '8px' }}>{currentAsset.collection?.name}</div>
                     </CollectionName>
                   </CustomLink>
                 </div>

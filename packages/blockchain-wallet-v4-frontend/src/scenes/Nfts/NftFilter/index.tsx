@@ -22,8 +22,8 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media, useMedia } from 'services/styles'
 
-import { CollectionImageSmall } from '../components'
 import EventTypeName from '../components/EventTypeName'
+import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
 const Wrapper = styled.div<{ isOpen: boolean }>`
   top: calc(${FIXED_HEADER_HEIGHT}px);
@@ -314,7 +314,13 @@ const NftFilter: React.FC<Props> = ({
                           >
                             <Flex alignItems='center' gap={4}>
                               <div />
-                              <CollectionImageSmall src={collection.image_url || ''} />
+                              {collection.image_url ? (
+                                <NftCollectionImageSmall
+                                  isVerified={collection.safelist_request_status === 'verified'}
+                                  alt='Dapp Logo'
+                                  src={collection.image_url || ''}
+                                />
+                              ) : null}
                               <Text
                                 style={{ marginLeft: '4px' }}
                                 size='12px'

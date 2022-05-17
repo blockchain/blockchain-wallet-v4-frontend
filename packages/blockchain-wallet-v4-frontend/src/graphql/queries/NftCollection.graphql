@@ -12,6 +12,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     created_date
     name
     num_owners
+    safelist_request_status
     slug
     total_supply
     stats {

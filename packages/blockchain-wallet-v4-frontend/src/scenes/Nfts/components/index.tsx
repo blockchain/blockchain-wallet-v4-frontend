@@ -184,27 +184,6 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   `}
 `
 
-export const CollectionImageSmall = styled.img`
-  border-radius: 50%;
-  height: 24px;
-  width: 24px;
-`
-
-export const CollectionImage = styled.img`
-  border-radius: 50%;
-  position: absolute;
-  height: 62px;
-  width: 62px;
-  top: 60px;
-  left: calc(50% - 31px);
-  ${media.tablet`
-    height: 40px;
-    width: 40px;
-    top: 60px;
-    left: calc(50% - 20px);
-  `}
-`
-
 export const Centered = styled.div`
   width: 100%;
   display: flex;

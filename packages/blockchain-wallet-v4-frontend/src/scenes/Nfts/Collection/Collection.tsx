@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconCamera, IconComputer, IconLink } from '@blockchain-com/icons'
+import { IconLink } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -16,6 +16,7 @@ import {
 } from 'generated/graphql.types'
 
 import { CollectionHeader, GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
+import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
 import TraitGridFilters from '../components/TraitGridFilters'
@@ -30,13 +31,6 @@ const CollectionInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-
-const CollectionImage = styled.img`
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  border: 2px solid ${(props) => props.theme.grey100};
 `
 
 const LinksContainer = styled.div`
@@ -115,7 +109,11 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
         <NftBannerWrapper>
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              <CollectionImage src={collection.image_url || ''} />
+              <NftCollectionImage
+                alt='Collection'
+                isVerified={collection.safelist_request_status === 'verified'}
+                src={collection.image_url || ''}
+              />
               <Text color='white' size='32px' weight={600}>
                 {collection.name}
               </Text>

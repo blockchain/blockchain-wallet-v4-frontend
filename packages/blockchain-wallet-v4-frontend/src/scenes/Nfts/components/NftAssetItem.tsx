@@ -11,14 +11,8 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 
-import {
-  Asset,
-  AssetCollection,
-  AssetDetails,
-  AssetImageContainer,
-  CollectionImageSmall,
-  PriceCTA
-} from '.'
+import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
+import NftCollectionImageSmall from './NftCollectionImageSmall'
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const dispatch = useDispatch()
@@ -66,7 +60,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         <Link>
           <Flex alignItems='center' gap={8}>
             {asset.collection.image_url ? (
-              <CollectionImageSmall alt='Dapp Logo' src={asset.collection.image_url || ''} />
+              <NftCollectionImageSmall
+                isVerified={asset.collection.safelist_request_status === 'verified'}
+                alt='Dapp Logo'
+                src={asset.collection.image_url || ''}
+              />
             ) : null}
             <AssetCollection onClick={nameClickTracking}>
               <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
