@@ -44,7 +44,8 @@ const NavCenter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 100%;
+  margin: 0 40px;
   ${media.tablet`
     width: auto;
   `}
@@ -54,9 +55,9 @@ const NavLinkButton = styled(Link)`
   border-radius: 8px;
   text-decoration: none;
   margin-right: 12px;
-  background-color: ${(props) => props.theme.blue000};
+  background-color: ${(props) => props.theme.purple000};
   * {
-    color: ${(props) => props.theme.blue600};
+    color: ${(props) => props.theme.purple600};
   }
 `
 
@@ -126,7 +127,6 @@ const ExploreHeader: React.FC<Props> = ({
                 <Text size='14px' weight={600}>
                   <FormattedMessage id='copy.explore' defaultMessage='Explore' />
                 </Text>
-                🚀
               </Flex>
             </NavLinkButton>
           </LinkContainer>
@@ -139,12 +139,12 @@ const ExploreHeader: React.FC<Props> = ({
             <Button
               small
               data-e2e='back'
-              nature='empty-blue'
+              nature='empty-purple'
               onClick={() =>
                 modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
               }
             >
-              <Icon label='wallet' size='sm' color='blue600'>
+              <Icon label='wallet' size='sm' color='purple600'>
                 <IconWallet />
               </Icon>
               <span style={{ marginLeft: '4px' }}>
@@ -188,7 +188,7 @@ const ExploreHeader: React.FC<Props> = ({
               to={`/open${pathname}`}
               data-e2e='loginLink'
             >
-              <Button small data-e2e='login' nature='empty-blue'>
+              <Button small data-e2e='login' nature='empty-purple'>
                 <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
               </Button>
             </LinkContainer>
