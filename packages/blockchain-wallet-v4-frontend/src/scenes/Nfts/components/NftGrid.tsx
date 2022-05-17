@@ -17,7 +17,6 @@ const Grid = styled.div<{ fullscreen: boolean }>`
   display: grid;
   overflow: scroll;
   gap: 20px;
-  margin-bottom: 20px;
   grid-template-columns: repeat(
     ${(props) => (props.fullscreen ? DESKTOP : LAPTOP_L)},
     minmax(0, 1fr)

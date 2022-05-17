@@ -7,7 +7,6 @@ import { actions } from 'data'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
-import { NftFilterFormValuesType } from '../../NftFilter'
 
 const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
   return (
@@ -55,7 +54,6 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
 
 type Props = {
   formActions: typeof actions.form
-  formValues: NftFilterFormValuesType
   stats: CollectionsQuery['collections'][0]['stats']
   total_supply: CollectionsQuery['collections'][0]['total_supply']
 }

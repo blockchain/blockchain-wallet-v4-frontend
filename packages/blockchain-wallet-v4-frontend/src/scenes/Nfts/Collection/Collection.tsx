@@ -156,7 +156,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           </CollectionInfo>
           <Stats
             formActions={formActions}
-            formValues={formValues}
             total_supply={collection.total_supply}
             stats={collection.stats}
           />

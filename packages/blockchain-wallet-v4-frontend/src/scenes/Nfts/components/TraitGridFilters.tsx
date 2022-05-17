@@ -177,6 +177,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   onClick={() => {
                     if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
                     setIsRefreshRotating(true)
+                    window.scrollTo(0, 300)
                   }}
                   style={
                     isTablet

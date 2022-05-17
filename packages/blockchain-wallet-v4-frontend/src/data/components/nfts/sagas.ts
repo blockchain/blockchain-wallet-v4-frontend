@@ -694,6 +694,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftFilter') {
+      window.scrollTo(0, 300)
       if (['min', 'max'].includes(action.meta.field)) {
         const formValues = selectors.form.getFormValues('nftFilter')(
           yield select()
