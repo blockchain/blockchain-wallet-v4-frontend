@@ -23,7 +23,7 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorCreateFailed = ({
+const CreateFailed = ({
   handleBack,
   handleRetry
 }: {
@@ -81,4 +81,4 @@ const CardErrorCreateFailed = ({
   )
 }
 
-export default CardErrorCreateFailed
+export default CreateFailed

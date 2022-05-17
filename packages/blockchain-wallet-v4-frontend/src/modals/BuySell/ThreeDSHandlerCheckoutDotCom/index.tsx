@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
+import CardError from 'components/BuySell/CardError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 
-import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -88,7 +88,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   if (order.hasError && order.error) {
     return (
-      <Failure
+      <CardError
         code={order.error}
         handleReset={handleReset}
         handleBack={handleBack}
@@ -99,7 +99,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   if (card.hasError && card.error) {
     return (
-      <Failure
+      <CardError
         code={card.error}
         handleReset={handleReset}
         handleBack={handleBack}
@@ -110,7 +110,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   if (providerDetails.hasError && providerDetails.error) {
     return (
-      <Failure
+      <CardError
         code={providerDetails.error}
         handleReset={handleReset}
         handleBack={handleBack}

@@ -23,7 +23,7 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorBankDecline = ({
+const InternalServerError = ({
   handleBack,
   handleRetry
 }: {
@@ -36,21 +36,21 @@ const CardErrorBankDecline = ({
 
       <Title size='1.25rem' weight={600} color='grey900'>
         <FormattedMessage
-          id='modals.buysell.error.bank_decline.title'
-          defaultMessage='Blocked By Card Issuer'
+          id='modals.buysell.error.internal_server_error.title'
+          defaultMessage='Something Went Wrong'
         />
       </Title>
 
       <Description size='0.875rem' weight={500}>
         <FormattedMessage
-          id='modals.buysell.error.bank_decline.description'
-          defaultMessage='Unfortunately your card issuer does not allow payments in the form of cryptocurrencies.'
+          id='modals.buysell.error.internal_server_error.description'
+          defaultMessage='We are unable to process your request at this time. Please try again later.'
         />
       </Description>
 
       <Actions>
         <Button
-          data-e2e='cardDCreateFailedTryAgain'
+          data-e2e='cardDCreateFailedBack'
           height='48px'
           size='16px'
           nature='primary'
@@ -58,13 +58,13 @@ const CardErrorBankDecline = ({
           onClick={handleRetry}
         >
           <FormattedMessage
-            id='modals.buysell.error.bank_decline.try_again'
+            id='modals.buysell.error.internal_server_error.try_again'
             defaultMessage='Try Again'
           />
         </Button>
 
         <Button
-          data-e2e='cardDCreateFailedTryDifferentMethod'
+          data-e2e='cardDCreateFailedReset'
           height='48px'
           size='16px'
           nature='empty-blue'
@@ -72,7 +72,7 @@ const CardErrorBankDecline = ({
           onClick={handleBack}
         >
           <FormattedMessage
-            id='modals.buysell.error.bank_decline.back'
+            id='modals.buysell.error.internal_server_error.back'
             defaultMessage='Try A Different Payment Method'
           />
         </Button>
@@ -81,4 +81,4 @@ const CardErrorBankDecline = ({
   )
 }
 
-export default CardErrorBankDecline
+export default InternalServerError

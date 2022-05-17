@@ -23,11 +23,11 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorInsufficientFunds = ({
-  handleBack,
+const TryAnotherCard = ({
+  handleReset,
   handleRetry
 }: {
-  handleBack: () => void
+  handleReset: () => void
   handleRetry: () => void
 }) => {
   return (
@@ -36,15 +36,15 @@ const CardErrorInsufficientFunds = ({
 
       <Title size='1.25rem' weight={600} color='grey900'>
         <FormattedMessage
-          id='modals.buysell.error.insufficient_funds.title'
-          defaultMessage='Insufficient Funds'
+          id='modals.buysell.error.try_another_card.title'
+          defaultMessage='Only debit cards are supported'
         />
       </Title>
 
       <Description size='0.875rem' weight={500}>
         <FormattedMessage
-          id='modals.buysell.error.insufficient_funds.description'
-          defaultMessage='Looks like your payment failed due to not enough funds in your account. Either top up your account or contact your bank and try again.'
+          id='modals.buysell.error.try_another_card.description'
+          defaultMessage='Use any Visa or Mastercard debit card.'
         />
       </Description>
 
@@ -58,7 +58,7 @@ const CardErrorInsufficientFunds = ({
           onClick={handleRetry}
         >
           <FormattedMessage
-            id='modals.buysell.error.insufficient_funds.try_again'
+            id='modals.buysell.error.try_another_card.try_again'
             defaultMessage='Try Again'
           />
         </Button>
@@ -69,11 +69,11 @@ const CardErrorInsufficientFunds = ({
           size='16px'
           nature='empty-blue'
           fullwidth
-          onClick={handleBack}
+          onClick={handleReset}
         >
           <FormattedMessage
-            id='modals.buysell.error.insufficient_funds.back'
-            defaultMessage='Try A Different Payment Method'
+            id='modals.buysell.error.try_another_card.cancel'
+            defaultMessage='Cancel'
           />
         </Button>
       </Actions>
@@ -81,4 +81,4 @@ const CardErrorInsufficientFunds = ({
   )
 }
 
-export default CardErrorInsufficientFunds
+export default TryAnotherCard

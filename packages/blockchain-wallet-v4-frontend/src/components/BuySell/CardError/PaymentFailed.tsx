@@ -23,11 +23,11 @@ const Actions = styled.div`
   }
 `
 
-const CardErrorProblemCollecting = ({
-  handleReset,
+const PaymentFailed = ({
+  handleBack,
   handleRetry
 }: {
-  handleReset: () => void
+  handleBack: () => void
   handleRetry: () => void
 }) => {
   return (
@@ -36,15 +36,15 @@ const CardErrorProblemCollecting = ({
 
       <Title size='1.25rem' weight={600} color='grey900'>
         <FormattedMessage
-          id='modals.buysell.error.problem_collecting.title'
-          defaultMessage='Credit cards payments are often declined by the issuer, try a debit card instead.'
+          id='modals.buysell.error.payment_failed.title'
+          defaultMessage='Payment Failed'
         />
       </Title>
 
       <Description size='0.875rem' weight={500}>
         <FormattedMessage
-          id='modals.buysell.error.problem_collecting.description'
-          defaultMessage='Add a Visa or Mastercard debit card and try again.'
+          id='modals.buysell.error.payment_failed.description'
+          defaultMessage='Your payment has failed with our legacy system. However we have an upgraded system available for early access, simply verify your card details to try-again.'
         />
       </Description>
 
@@ -58,7 +58,7 @@ const CardErrorProblemCollecting = ({
           onClick={handleRetry}
         >
           <FormattedMessage
-            id='modals.buysell.error.problem_collecting.try_again'
+            id='modals.buysell.error.payment_failed.try_again'
             defaultMessage='Try Again'
           />
         </Button>
@@ -69,11 +69,11 @@ const CardErrorProblemCollecting = ({
           size='16px'
           nature='empty-blue'
           fullwidth
-          onClick={handleReset}
+          onClick={handleBack}
         >
           <FormattedMessage
-            id='modals.buysell.error.problem_collecting.cancel'
-            defaultMessage='Cancel'
+            id='modals.buysell.error.payment_failed.back'
+            defaultMessage='Try A Different Payment Method'
           />
         </Button>
       </Actions>
@@ -81,4 +81,4 @@ const CardErrorProblemCollecting = ({
   )
 }
 
-export default CardErrorProblemCollecting
+export default PaymentFailed

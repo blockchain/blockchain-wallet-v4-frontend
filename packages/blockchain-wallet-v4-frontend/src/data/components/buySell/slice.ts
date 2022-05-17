@@ -174,7 +174,7 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
-    confirmOrderFailure: (state, action: PayloadAction<string>) => {
+    confirmOrderFailure: (state, action: PayloadAction<string | number>) => {
       state.order = Remote.Failure(action.payload)
     },
     confirmOrderLoading: (state) => {
@@ -185,7 +185,7 @@ const buySellSlice = createSlice({
       state.order = Remote.Success(action.payload)
     },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
-    createCardFailure: (state, action: PayloadAction<string>) => {
+    createCardFailure: (state, action: PayloadAction<string | number>) => {
       state.card = Remote.Failure(action.payload)
     },
     createCardLoading: (state) => {

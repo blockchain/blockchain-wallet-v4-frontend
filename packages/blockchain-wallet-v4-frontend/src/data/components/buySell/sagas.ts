@@ -41,11 +41,9 @@ import {
   ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
-import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
-import { DEFAULT_METHODS } from '../brokerage/model'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
@@ -226,13 +224,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchCards(true))
     } catch (e) {
-      if (e.code) {
-        yield put(A.activateCardFailure(e.code))
-
-        return
-      }
-
-      const error = errorHandler(e)
+      const error = errorHandlerCode(e)
 
       yield put(A.activateCardFailure(error))
     }
@@ -489,9 +481,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
       }
     } catch (e) {
-      // ENTER_AMOUNT SCREEN
-
-      yield put(A.createOrderFailure(e))
+      const error: number | string = errorHandlerCode(e)
 
       const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
       // After CC has been activated we try to create an order
@@ -524,7 +514,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const error: number | string = errorHandlerCode(e)
+      if (!skipErrorDisplayList.includes(error as BS_ERROR)) {
+        yield put(A.createOrderFailure(e))
+      }
+
       if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))
       }
@@ -813,14 +806,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
-      // CHECKOUT_CONFIRM SCREEN
-
-      yield put(A.confirmOrderFailure(e))
-
       // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const error = errorHandlerCode(e)
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
+
+      yield put(A.confirmOrderFailure(e))
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
@@ -900,13 +891,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.createCardSuccess(card))
     } catch (e) {
-      if (e.code) {
-        yield put(A.createCardFailure(e.code))
-
-        return
-      }
-
-      const error = errorHandler(e)
+      const error = errorHandlerCode(e)
 
       yield put(A.createCardFailure(error))
     }
