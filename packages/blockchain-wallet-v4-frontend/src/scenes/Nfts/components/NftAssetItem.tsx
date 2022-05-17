@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { bindActionCreators } from 'redux'
 
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'

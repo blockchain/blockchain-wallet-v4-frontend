@@ -115,13 +115,13 @@ export const Asset = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: ${(props) => `1px solid ${props.theme.grey100}`};
+  border: ${(props) => `1px solid ${props.theme.grey000}`};
 `
 
 export const InfoStatsWrapper = styled.div`
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid ${(props) => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 16px;
 `
 
