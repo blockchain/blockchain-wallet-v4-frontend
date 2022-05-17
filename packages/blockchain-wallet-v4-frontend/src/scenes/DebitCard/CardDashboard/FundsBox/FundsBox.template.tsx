@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 import { CoinType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { getCurrentCardAccount } from 'data/components/debitCard/selectors'
 import { convertStandardToBase } from 'data/components/exchange/services'
+import { useRemote } from 'hooks'
 
 import CoinBalance from '../../../Home/Holdings/CoinBalance/template.success'
 import { BoxContainer, BoxRow, BoxRowItemSubTitle, BoxRowWithBorder } from '../CardDashboard.model'
@@ -36,10 +38,17 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `
 type Props = {
-  currentCardAccount: { balance: { symbol: string; value: string } }
   funds: Array<{ balance: { symbol: string; value: string } }>
 }
-const FundsBox = ({ currentCardAccount, funds }: Props) => {
+
+const DEFAULT_ACCOUNT = { balance: { symbol: 'USD', value: '0' } }
+let currentCardAccount = DEFAULT_ACCOUNT
+const FundsBox = ({ funds }: Props) => {
+  const currentCardAccountRemote = useRemote(getCurrentCardAccount)
+  const { data, isLoading } = currentCardAccountRemote
+
+  if (data) currentCardAccount = data
+
   const { symbol, value } = currentCardAccount.balance
 
   const fundTypeLabel = () => (
@@ -58,23 +67,29 @@ const FundsBox = ({ currentCardAccount, funds }: Props) => {
     </BoxRowItemSubTitle>
   )
 
+  const CurrentAccountDetail = () => (
+    <div style={{ flex: 1 }}>
+      <Wrapper>
+        <Coin>
+          <CoinIcon name={symbol as CoinType} size='32px' />
+          <div>
+            <CoinName>{window.coins[symbol].coinfig.name}</CoinName>
+            {fundTypeLabel()}
+          </div>
+        </Coin>
+        <Amount>
+          <CoinBalance coin={symbol} balance={convertStandardToBase(symbol, value)} />
+        </Amount>
+      </Wrapper>
+    </div>
+  )
+
+  const LoadingDetail = () => <>Loading</>
+
   return (
     <BoxContainer width='380px'>
       <BoxRowWithBorder>
-        <div style={{ flex: 1 }}>
-          <Wrapper>
-            <Coin>
-              <CoinIcon name={symbol as CoinType} size='32px' />
-              <div>
-                <CoinName>{window.coins[symbol].coinfig.name}</CoinName>
-                {fundTypeLabel()}
-              </div>
-            </Coin>
-            <Amount>
-              <CoinBalance coin={symbol} balance={convertStandardToBase(symbol, value)} />
-            </Amount>
-          </Wrapper>
-        </div>
+        {isLoading ? <LoadingDetail /> : <CurrentAccountDetail />}
       </BoxRowWithBorder>
       <BoxRow>
         <Button data-e2e='addFunds' nature='primary' margin='auto' disabled>

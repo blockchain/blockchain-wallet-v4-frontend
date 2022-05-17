@@ -9,7 +9,6 @@ import FundsBox from './FundsBox.template'
 const FundsBoxContainer = (props) => <FundsBox {...props} />
 
 const mapStateToProps = (state) => ({
-  currentCardAccount: selectors.components.debitCard.getCurrentCardAccount(state),
   funds: selectors.components.debitCard.getEligibleAccounts(state)
 })
 

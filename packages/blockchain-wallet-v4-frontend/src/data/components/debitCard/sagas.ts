@@ -36,11 +36,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const getCurrentCardAccount = function* (cardId) {
     try {
+      yield put(A.getCurrentCardAccountLoading())
       const data = yield call(api.getDCCurrentAccount, cardId)
-      yield put(A.setCurrentCardAccount(data))
+      yield put(A.getCurrentCardAccountSuccess(data))
     } catch (e) {
       console.error('Failed to get current card account', errorHandler(e))
-      yield put(A.setDefaultCurrentCardAccount())
+      const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
+      yield put(A.getCurrentCardAccountFailure(eligibleAccounts[0]))
     }
   }
 

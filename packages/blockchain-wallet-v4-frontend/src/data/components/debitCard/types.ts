@@ -5,8 +5,8 @@ export type DebitCardState = {
   cardCreationData: RemoteDataType<string, string>
   cardToken: string
   cards: Array<DebitCardType>
-  currentCardAccount: any
-  eligibleAccounts: Array<any>
+  currentCardAccount: RemoteDataType<string, AccountType>
+  eligibleAccounts: Array<AccountType>
   lockHandler: RemoteDataType<string, boolean>
   products: Array<ProductType>
 }
@@ -40,4 +40,13 @@ export enum CardStateType {
   ACTIVE = 'ACTIVE',
   LOCKED = 'LOCKED',
   TERMINATED = 'TERMINATED'
+}
+
+export type BalanceType = {
+  symbol: string
+  value: string
+}
+
+export type AccountType = {
+  balance: BalanceType
 }
