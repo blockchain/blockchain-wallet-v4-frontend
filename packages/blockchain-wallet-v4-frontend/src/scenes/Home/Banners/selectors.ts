@@ -165,10 +165,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   let bannerToShow: BannerType = null
   if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
-  } else if (isStxSelfCustodyAvailable) {
-    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
+  } else if (isStxSelfCustodyAvailable) {
+    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (
