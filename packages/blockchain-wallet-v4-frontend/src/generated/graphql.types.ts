@@ -612,7 +612,7 @@ export type CollectionsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, twitter_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 export type EventsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
@@ -2777,6 +2777,7 @@ export const CollectionsDocument = gql`
     discord_url
     external_url
     instagram_username
+    twitter_username
     image_url
     banner_image_url
     short_description

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconCamera, IconComputer, IconGlobe } from '@blockchain-com/icons'
+import { IconCamera, IconComputer, IconLink } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -41,17 +41,36 @@ const CollectionImage = styled.img`
 
 const LinksContainer = styled.div`
   display: flex;
-  > div {
-    padding: 10px;
-    border: 1px solid ${(props) => props.theme.white};
-  }
-  > &:first-child {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
-  > &:last-child {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  > a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    padding-right: 0px;
+    svg {
+      fill: ${(props) => props.theme.grey200};
+      transition: fill 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        fill: ${(props) => props.theme.white};
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      height: 90%;
+      width: 1px;
+      margin-left: 16px;
+      background-color: ${(props) => props.theme.grey000};
+    }
+    &:last-child {
+      padding-right: 16px;
+    }
+    &:last-child:after {
+      display: none;
+    }
   }
 `
 
@@ -104,28 +123,35 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             <LinksContainer>
               {collection.external_url ? (
                 <Link target='_blank' href={collection.external_url}>
-                  <Icon label='globe' color='grey400'>
-                    <IconGlobe />
+                  <Icon size='sm' label='globe' color='white900'>
+                    <IconLink />
                   </Icon>
                 </Link>
               ) : null}
-              {collection.instagram_username ? (
+              {/* {collection.instagram_username ? (
                 <Link
                   target='_blank'
                   href={`https://instagram.com/${collection.instagram_username}`}
                 >
-                  <Icon label='camera' color='grey400'>
+                  <Icon size='md' label='camera' color='white900'>
                     <IconCamera />
                   </Icon>
                 </Link>
               ) : null}
               {collection.discord_url ? (
                 <Link target='_blank' href={`${collection.discord_url}`}>
-                  <Icon label='computer' color='grey400'>
+                  <Icon size='md' label='computer' color='white900'>
                     <IconComputer />
                   </Icon>
                 </Link>
               ) : null}
+              {collection.twitter_username ? (
+                <Link target='_blank' href={`https://twitter.com/${collection.twitter_username}`}>
+                  <Icon size='md' label='twitter' color='white900'>
+                    <IconTwitter />
+                  </Icon>
+                </Link>
+              ) : null} */}
             </LinksContainer>
           </CollectionInfo>
           <Stats

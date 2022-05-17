@@ -4,6 +4,7 @@ query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
     discord_url
     external_url
     instagram_username
+    twitter_username
     image_url
     banner_image_url
     short_description
