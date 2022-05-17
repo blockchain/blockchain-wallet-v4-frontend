@@ -71,6 +71,7 @@ export const StickyTableHeader = styled.div`
   border-top-right-radius: 8px;
   border-bottom: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
+  z-index: 1;
 `
 export const CellHeaderText = styled(Text)`
   font-style: normal;
