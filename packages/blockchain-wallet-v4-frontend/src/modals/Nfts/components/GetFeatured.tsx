@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon } from '@blockchain-com/constellation'
+import { compose } from 'redux'
 import styled from 'styled-components'
 
 import {
@@ -14,6 +15,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const NumberCircle = styled.div`
   border-radius: 50%;
@@ -100,5 +102,6 @@ const GetFeatured = (props) => {
     </Modal>
   )
 }
+const enhance = compose(modalEnhancer('GET_FEATURED'))
 
-export default GetFeatured
+export default enhance(GetFeatured)
