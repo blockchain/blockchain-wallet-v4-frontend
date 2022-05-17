@@ -13,6 +13,7 @@ import {
   BSAccountType,
   BSCardStateType,
   BSOrderType,
+  BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
@@ -44,6 +45,7 @@ import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
+import { DEFAULT_METHODS } from '../brokerage/model'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
@@ -268,7 +270,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       } else {
-        yield put(actions.modals.closeAllModals())
+        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
       }
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -291,6 +293,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!values) throw new Error(BS_ERROR.NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
+      if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -488,17 +491,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       // ENTER_AMOUNT SCREEN
 
-      if (isNabuError(e)) {
-        // DO STUFF
+      yield put(A.createOrderFailure(e))
 
-        yield put(A.createOrderFailure(e as any))
-
-        // set the error to the createOrderFailure
-        // render screen based on e
-
-        return
-      }
-
+      const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
       // Wait for the form to be INITIALIZED and display err
@@ -533,7 +528,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))
       }
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT, { _error: error }))
+
+      // Check if we want to display the error to the user or not.
+      yield put(
+        actions.form.stopSubmit(FORM_BS_CHECKOUT, {
+          _error: skipErrorDisplayList.includes(error as BS_ERROR) ? undefined : error
+        })
+      )
     }
   }
 
@@ -814,16 +815,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       // CHECKOUT_CONFIRM SCREEN
 
-      if (isNabuError(e)) {
-        // DO STUFF
-
-        yield put(A.createOrderFailure(e as any))
-
-        // set the error to the confirmOrderFailure
-        // render screen based on e
-
-        return
-      }
+      yield put(A.confirmOrderFailure(e))
 
       // TODO: adding error handling with different error types and messages
       const error = errorHandler(e)
@@ -1648,6 +1640,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const skipLoading = true
       const order = S.getBSLatestPendingOrder(yield select())
       yield put(A.fetchCards(skipLoading))
+      const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
+
       // If the order was already created
       if (order && order.state === 'PENDING_CONFIRMATION') {
         return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
@@ -1656,9 +1650,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const origin = S.getOrigin(yield select())
 
       if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeAllModals())
+        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
 
         yield put(actions.alerts.displaySuccess('Card Added.'))
+      }
+
+      // Sets the payment method to the newly created card in the enter amount form
+      if (Remote.Success.is(cardMethodR)) {
+        const method = cardMethodR.getOrFail(BS_ERROR.NO_PAYMENT_METHODS)
+        const newCardMethod = {
+          ...card,
+          ...method,
+          type: BSPaymentTypes.USER_CARD
+        } as BSPaymentMethodType
+        yield put(A.setMethod(newCardMethod))
       }
 
       return yield put(

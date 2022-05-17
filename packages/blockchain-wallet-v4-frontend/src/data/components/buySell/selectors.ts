@@ -259,6 +259,14 @@ export const getUserSddEligibleTier = (state: RootState) => {
   return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier)(sddEligibleR)
 }
 
+export const getMethodByType = (state: RootState, type: BSPaymentTypes) => {
+  const sbMethodsR = getBSPaymentMethods(state)
+  return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
+    const paymentMethod = sbMethods.methods.find((method) => method.type === type)
+    return paymentMethod
+  })(sbMethodsR)
+}
+
 export const getUserLimit = (state: RootState, type: BSPaymentTypes) => {
   const sbMethodsR = getBSPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {

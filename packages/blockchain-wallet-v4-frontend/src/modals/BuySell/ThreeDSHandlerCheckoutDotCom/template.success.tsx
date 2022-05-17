@@ -5,7 +5,6 @@ import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { SuccessStateType } from '.'
-import Loading from './template.loading'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -32,9 +31,7 @@ const Success = (props: Props) => {
       : ''
   )
 
-  return props.isPolling ? (
-    <Loading polling order={type === 'ORDER'} />
-  ) : (
+  return (
     <CustomFlyoutWrapper>
       <>
         <Icon
@@ -53,6 +50,6 @@ const Success = (props: Props) => {
   )
 }
 
-type Props = SuccessStateType & { handleBack: () => void; isPolling: boolean }
+type Props = SuccessStateType & { handleBack: () => void }
 
 export default Success

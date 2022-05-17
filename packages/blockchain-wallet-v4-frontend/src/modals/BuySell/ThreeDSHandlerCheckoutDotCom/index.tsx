@@ -127,10 +127,13 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return <Loading />
   }
 
+  if (isPolling) {
+    return <Loading polling order={order.hasData} />
+  }
+
   return (
     <Success
       handleBack={handleBack}
-      isPolling={isPolling}
       order={order?.data}
       providerDetails={providerDetails?.data}
       domains={props.domains}
