@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon, Switch } from '@blockchain-com/constellation'
@@ -20,26 +20,29 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
-import { media, useMedia } from 'services/styles'
+import { media } from 'services/styles'
 
 import EventTypeName from '../components/EventTypeName'
 import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
-const Wrapper = styled.div<{ isOpen: boolean }>`
+export const FILTER_WIDTH = '300'
+export const FILTER_WIDTH_CLOSED = '20'
+
+const Wrapper = styled.div<{ isFilterOpen: boolean }>`
   top: calc(${FIXED_HEADER_HEIGHT}px);
   padding-right: 24px;
   padding-top: 20px;
   position: sticky;
   transition: width 0.3s ease, min-width 0.3s ease;
-  width: ${(props) => (props.isOpen ? '300px' : '20px')};
-  min-width: ${(props) => (props.isOpen ? '300px' : '20px')};
+  width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
+  min-width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
   margin-right: 20px;
   overflow: scroll;
   height: calc(100vh - ${FIXED_HEADER_HEIGHT + 20}px);
   border-right: 1px solid ${(props) => props.theme.grey000};
   background: ${(props) => props.theme.white};
   ${media.tablet`
-    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    display: ${(props) => (props.isFilterOpen ? 'block' : 'none')};
     box-sizing: border-box;
     border-right: 0;
     z-index: 1000;
@@ -53,19 +56,19 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
     right: 0;
   `}
 `
-const IconWrapper = styled.div<{ isOpen: boolean }>`
+const IconWrapper = styled.div<{ isFilterOpen: boolean }>`
   width: 100%;
   display: flex;
-  justify-content: ${(props) => (props.isOpen ? 'flex-end' : 'center')};
+  justify-content: ${(props) => (props.isFilterOpen ? 'flex-end' : 'center')};
 `
-const FilterHeader = styled.div<{ isOpen: boolean }>`
+const FilterHeader = styled.div<{ isFilterOpen: boolean }>`
   display: flex;
   padding-bottom: 16px;
-  border-bottom: ${(props) => (props.isOpen ? `1px solid ${props.theme.grey000}` : '')};
+  border-bottom: ${(props) => (props.isFilterOpen ? `1px solid ${props.theme.grey000}` : '')};
   margin-bottom: 24px;
 `
-const FilterHeaderText = styled(Text)<{ isOpen: boolean }>`
-  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+const FilterHeaderText = styled(Text)<{ isFilterOpen: boolean }>`
+  display: ${(props) => (props.isFilterOpen ? 'block' : 'none')};
 `
 
 const TraitWrapper = styled.div`
@@ -109,23 +112,15 @@ const NftFilter: React.FC<Props> = ({
   forSaleFilter,
   formActions,
   formValues,
-  isTriggered,
+  isFilterOpen,
   minMaxPriceFilter,
   opensea_event_types,
-  setIsFilterTriggered,
+  setIsFilterOpen,
   total_supply,
   traits
 }) => {
-  const isTablet = useMedia('tablet')
   const ref = useRef<HTMLDivElement | null>(null)
-  const [isOpen, setIsOpen] = useState(!isTablet)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
-
-  useEffect(() => {
-    if (isTriggered) {
-      setIsOpen(true)
-    }
-  }, [isTriggered])
 
   if (!traits) return null
 
@@ -151,19 +146,18 @@ const NftFilter: React.FC<Props> = ({
   )
 
   return (
-    <Wrapper ref={ref} isOpen={isOpen}>
-      <FilterHeader isOpen={isOpen}>
-        <FilterHeaderText isOpen={isOpen} size='20px' weight={500} color='black'>
+    <Wrapper ref={ref} isFilterOpen={isFilterOpen}>
+      <FilterHeader isFilterOpen={isFilterOpen}>
+        <FilterHeaderText isFilterOpen={isFilterOpen} size='20px' weight={500} color='black'>
           <FormattedMessage defaultMessage='Filter' id='copy.filter' />
         </FilterHeaderText>
-        <IconWrapper isOpen={isOpen}>
-          {isOpen ? (
+        <IconWrapper isFilterOpen={isFilterOpen}>
+          {isFilterOpen ? (
             <Icon label='filter-control' color='grey500'>
               <IconCloseCircleV2
                 role='button'
                 onClick={() => {
-                  setIsOpen(false)
-                  setIsFilterTriggered(false)
+                  setIsFilterOpen(false)
                   analyticsActions.trackEvent({
                     key: Analytics.NFT_LEFT_MENU_CLOSED,
                     properties: {}
@@ -177,7 +171,7 @@ const NftFilter: React.FC<Props> = ({
               <IconFilter
                 role='button'
                 onClick={() => {
-                  setIsOpen(true)
+                  setIsFilterOpen(true)
                   analyticsActions.trackEvent({
                     key: Analytics.NFT_LEFT_MENU_EXPANDED,
                     properties: {}
@@ -190,7 +184,7 @@ const NftFilter: React.FC<Props> = ({
         </IconWrapper>
       </FilterHeader>
       <Form>
-        <div style={{ display: isOpen ? 'block' : 'none' }}>
+        <div style={{ display: isFilterOpen ? 'block' : 'none' }}>
           {forSaleFilter ? (
             <div>
               <TraitWrapper>
@@ -474,10 +468,10 @@ type OwnProps = {
   forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
-  isTriggered: boolean
+  isFilterOpen: boolean
   minMaxPriceFilter: boolean
   opensea_event_types?: string[]
-  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
 }

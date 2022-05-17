@@ -13,6 +13,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
+import { useMedia } from 'services/styles'
 
 import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
@@ -32,10 +33,11 @@ const NftAddress: React.FC<Props> = ({
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
 
+  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
-  const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
   const eventFilter = getEventFilter(formValues)
 
@@ -96,12 +98,12 @@ const NftAddress: React.FC<Props> = ({
           collections={activeTab === 'ITEMS' ? collections : []}
           formActions={formActions}
           formValues={formValues}
-          isTriggered={isFilterTriggered}
+          isFilterOpen={isFilterOpen}
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           traits={[]}
           opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
-          setIsFilterTriggered={setIsFilterTriggered}
+          setIsFilterOpen={setIsFilterOpen}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -111,13 +113,14 @@ const NftAddress: React.FC<Props> = ({
             formValues={formValues}
             collections={collections}
             setRefreshTrigger={setRefreshTrigger}
-            setIsFilterTriggered={setIsFilterTriggered}
+            setIsFilterOpen={setIsFilterOpen}
             setActiveTab={setActiveTab}
           />
           {activeTab === 'ITEMS' ? (
             <AddressItems
               collections={collections}
               refreshTrigger={refreshTrigger}
+              isFilterOpen={isFilterOpen}
               setCollections={setCollections}
               formValues={formValues}
               address={address}

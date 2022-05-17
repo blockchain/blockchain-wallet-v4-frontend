@@ -300,10 +300,11 @@ export type Contract = {
 
 export type Event = {
   __typename?: 'Event';
-  asset?: Maybe<Asset>;
+  asset?: Maybe<FlatAsset>;
   auction_type?: Maybe<Scalars['String']>;
   bid_amount?: Maybe<Scalars['String']>;
   collection?: Maybe<Collection>;
+  contract?: Maybe<Contract>;
   contract_address?: Maybe<Scalars['String']>;
   created_date: Scalars['String'];
   custom_event_name?: Maybe<Scalars['String']>;
@@ -411,6 +412,37 @@ export enum FilterOperators {
   Neq = 'neq',
   NotNull = 'notNull'
 }
+
+export type FlatAsset = {
+  __typename?: 'FlatAsset';
+  animation_original_url?: Maybe<Scalars['String']>;
+  animation_url?: Maybe<Scalars['String']>;
+  background_color?: Maybe<Scalars['String']>;
+  collection_slug?: Maybe<Scalars['String']>;
+  contract_address?: Maybe<Scalars['String']>;
+  creator_address?: Maybe<Scalars['String']>;
+  date_ingested: Scalars['String'];
+  decimals?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  external_link?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  image_original_url?: Maybe<Scalars['String']>;
+  image_preview_url?: Maybe<Scalars['String']>;
+  image_thumbnail_url?: Maybe<Scalars['String']>;
+  image_url?: Maybe<Scalars['String']>;
+  is_nsfw: Scalars['Boolean'];
+  is_presale: Scalars['Boolean'];
+  name?: Maybe<Scalars['String']>;
+  num_sales: Scalars['Int'];
+  permalink: Scalars['String'];
+  results?: Maybe<Scalars['Int']>;
+  supports_wyvern: Scalars['Boolean'];
+  token_id: Scalars['String'];
+  token_metadata?: Maybe<Scalars['String']>;
+  transfer_fee?: Maybe<Scalars['String']>;
+  transfer_fee_address: Scalars['String'];
+  transfer_fee_symbol: Scalars['String'];
+};
 
 export type FlatEvent = {
   __typename?: 'FlatEvent';
@@ -622,7 +654,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'Asset', name?: string | null, token_id: string, image_url?: string | null, contract?: { __typename?: 'Contract', address: string } | null } | null, from?: { __typename?: 'Account', address?: string | null } | null, to?: { __typename?: 'Account', address?: string | null } | null, winner?: { __typename?: 'Account', address?: string | null } | null, seller?: { __typename?: 'Account', address?: string | null } | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'FlatAsset', name?: string | null, token_id: string, image_url?: string | null, contract_address?: string | null } | null, from?: { __typename?: 'Account', address?: string | null } | null, to?: { __typename?: 'Account', address?: string | null } | null, winner?: { __typename?: 'Account', address?: string | null } | null, seller?: { __typename?: 'Account', address?: string | null } | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -1522,7 +1554,7 @@ export default {
             "name": "asset",
             "type": {
               "kind": "OBJECT",
-              "name": "Asset",
+              "name": "FlatAsset",
               "ofType": null
             },
             "args": []
@@ -1548,6 +1580,15 @@ export default {
             "type": {
               "kind": "OBJECT",
               "name": "Collection",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "contract",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Contract",
               "ofType": null
             },
             "args": []
@@ -1739,6 +1780,259 @@ export default {
               "kind": "OBJECT",
               "name": "Account",
               "ofType": null
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FlatAsset",
+        "fields": [
+          {
+            "name": "animation_original_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "animation_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "background_color",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "collection_slug",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "contract_address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "creator_address",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "date_ingested",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "decimals",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "description",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "external_link",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "image_original_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "image_preview_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "image_thumbnail_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "image_url",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "is_nsfw",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "is_presale",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "num_sales",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "permalink",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "results",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "supports_wyvern",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "token_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "token_metadata",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "transfer_fee",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "transfer_fee_address",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "transfer_fee_symbol",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
             },
             "args": []
           }
@@ -2815,9 +3109,7 @@ export const EventsDocument = gql`
       name
       token_id
       image_url
-      contract {
-        address
-      }
+      contract_address
     }
     total_price
     bid_amount
