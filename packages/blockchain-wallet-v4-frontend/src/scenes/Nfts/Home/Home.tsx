@@ -58,6 +58,7 @@ const AssetFooter = styled.div`
   background: white;
   left: 3em;
   top: 1em;
+  margin-top: -12px;
   padding: 0em 1em;
   display: flex;
   justify-content: space-between;
@@ -103,6 +104,11 @@ const Explore: React.FC<Props> = (props) => {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
+  const handleAssetClick = (assets) => {
+    props.routerActions.push(
+      `/nfts/asset/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
+    )
+  }
   return (
     <NftPageV2>
       <>
@@ -188,15 +194,28 @@ const Explore: React.FC<Props> = (props) => {
           <div>
             {assets.data?.assets[assetId]?.image_url && (
               <CardWrapper>
-                <img
-                  style={{ borderRadius: '16px 16px 0px 0px', width: '300px' }}
-                  alt='assetImage'
-                  src={assets.data?.assets[assetId]?.image_url || ''}
-                />
-
+                <div
+                  role='button'
+                  tabIndex={0}
+                  onClick={() => handleAssetClick(assets)}
+                  onKeyDown={() => handleAssetClick(assets)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <img
+                    style={{ borderRadius: '16px 16px 0px 0px', width: '300.35px' }}
+                    alt='assetImage'
+                    src={assets.data?.assets[assetId]?.image_url || ''}
+                  />
+                </div>
                 <AssetFooter>
                   <Flex alignItems='center'>
-                    <div>
+                    <div
+                      role='button'
+                      tabIndex={0}
+                      onClick={() => handleAssetClick(assets)}
+                      onKeyDown={() => handleAssetClick(assets)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <Text
                         style={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '150px' }}
                         color='grey900'
@@ -205,8 +224,8 @@ const Explore: React.FC<Props> = (props) => {
                       >
                         {assets.data?.assets[assetId]?.name}
                       </Text>
-                      <Flex alignItems='center'>
-                        {assets.data?.assets[assetId]?.collection?.safelist_request_status ===
+                      <Flex gap={2} alignItems='center'>
+                        {assets.data?.assets[assetId]?.collection?.safelist_request_status !==
                           'verified' && (
                           <Icon size='sm' label='verified' color='blue600'>
                             <IconVerified />
@@ -225,13 +244,28 @@ const Explore: React.FC<Props> = (props) => {
                   </Flex>
                 </AssetFooter>
                 <Flex justifyContent='center' gap={4}>
-                  <Text size='36px' color={assetId === 0 ? 'blue600' : 'white'}>
+                  <Text
+                    onClick={() => setAssetId(0)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 0 ? 'blue600' : 'white'}
+                  >
                     .
                   </Text>
-                  <Text size='36px' color={assetId === 1 ? 'blue600' : 'white'}>
+                  <Text
+                    onClick={() => setAssetId(1)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 1 ? 'blue600' : 'white'}
+                  >
                     .
                   </Text>
-                  <Text size='36px' color={assetId === 2 ? 'blue600' : 'white'}>
+                  <Text
+                    onClick={() => setAssetId(2)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 2 ? 'blue600' : 'white'}
+                  >
                     .
                   </Text>
                 </Flex>
