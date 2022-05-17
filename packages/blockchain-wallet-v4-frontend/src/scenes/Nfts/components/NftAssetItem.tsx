@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import styled from 'styled-components'
 
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
@@ -13,6 +14,11 @@ import { AssetsQuery } from 'generated/graphql.types'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
+
+const XSmallButton = styled(Button)`
+  padding: 6px 8px;
+  height: auto;
+`
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const dispatch = useDispatch()
@@ -97,18 +103,18 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         <PriceCTA>
           <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
-              <Button data-e2e='nftAssetPage' nature='primary' small>
+              <XSmallButton data-e2e='nftAssetPage' nature='primary' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-              </Button>
+              </XSmallButton>
             ) : (
-              <Button
+              <XSmallButton
                 onClick={viewDetailsTracking}
                 data-e2e='nftAssetPage'
                 nature='dark-grey'
                 small
               >
                 <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
-              </Button>
+              </XSmallButton>
             )}
           </LinkContainer>
           {lowestListing && lowestListing.starting_price ? (

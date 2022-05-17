@@ -34,7 +34,7 @@ const Grid = styled.div<{ fullscreen: boolean }>`
       props.fullscreen ? LAPTOP_M : LAPTOP}, minmax(0, 1fr));
 
       .asset-image-container {
-        height: ${(props) => (props.fullscreen ? '180px' : '130px')};
+        height: ${(props) => (props.fullscreen ? '140px' : '215px')};
       }
   `}
   ${media.laptop`
