@@ -45,7 +45,7 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
             <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
           </Text>
           <Text size='16px' color='white' weight={600}>
-            {numeral(stats?.total_volume).format('0a')}
+            {numeral(stats?.total_volume).format('0a')} ETH
           </Text>
         </Stat>
       </StatsWrapper>

@@ -80,7 +80,7 @@ const TraitGridFilters: React.FC<Props> = ({
   formValues,
   numOfResults,
   routerActions,
-  setIsFilterTriggered,
+  setIsFilterOpen,
   setRefreshTrigger,
   showSortBy,
   tabs
@@ -155,7 +155,7 @@ const TraitGridFilters: React.FC<Props> = ({
               <Flex gap={8} alignItems='center'>
                 {isTablet ? (
                   <Button
-                    onClick={() => setIsFilterTriggered(true)}
+                    onClick={() => setIsFilterOpen(true)}
                     data-e2e='triggerFilter'
                     nature='empty-blue'
                     style={{
@@ -399,7 +399,7 @@ type OwnProps = {
   formValues: NftFilterFormValuesType
   numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
-  setIsFilterTriggered: React.Dispatch<React.SetStateAction<boolean>>
+  setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>

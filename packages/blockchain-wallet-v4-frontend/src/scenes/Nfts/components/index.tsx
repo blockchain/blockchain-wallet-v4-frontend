@@ -4,8 +4,6 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const LOADING_ITEMS_COUNT = 6
-
 export const maxWidth = '1200px'
 
 export const opensea_event_types = [
@@ -87,23 +85,6 @@ export const GridWrapper = styled.div`
   `}
 `
 
-export const Grid = styled.div`
-  width: 100%;
-  display: grid;
-  overflow: scroll;
-  gap: 20px;
-  margin-bottom: 20px;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  ${media.desktop`
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  `}
-  ${media.tablet`
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 12px;
-    box-sizing: border-box;
-  `}
-`
-
 export const CTAWrapper = styled.div`
   padding: 8px;
 `
@@ -134,7 +115,6 @@ export const AssetImageContainer = styled.div<{
   justify-content: center;
   max-height: 100%;
   max-width: 100%;
-  height: 216px;
   margin-top: 12px;
   overflow: hidden;
   position: relative;
@@ -144,6 +124,7 @@ export const AssetImageContainer = styled.div<{
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
+  transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
   padding: 12px 8px 0px 8px;

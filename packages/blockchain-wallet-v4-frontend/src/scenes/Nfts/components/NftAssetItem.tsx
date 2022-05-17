@@ -55,7 +55,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
     : null
 
   return (
-    <Asset key={asset?.token_id}>
+    <Asset key={asset?.token_id} className='asset'>
       <LinkContainer onClick={logoClickTracking} to={`/nfts/collection/${asset.collection.slug}`}>
         <Link>
           <Flex alignItems='center' gap={8}>
@@ -67,7 +67,12 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               />
             ) : null}
             <AssetCollection onClick={nameClickTracking}>
-              <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
+              <Text
+                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                size='14px'
+                color='grey800'
+                weight={600}
+              >
                 {asset?.collection?.name}
               </Text>
             </AssetCollection>
@@ -75,7 +80,10 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         </Link>
       </LinkContainer>
       <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-        <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
+        <AssetImageContainer
+          className='asset-image-container'
+          background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
+        />
       </LinkContainer>
       <AssetDetails>
         <div>
