@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { is } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
