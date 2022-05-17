@@ -437,17 +437,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // first time creating the order when the user submits the enter amount form
           if (!oldBuyOrder) {
             yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
-            yield put(A.fetchOrders())
-            yield put(A.createOrderSuccess(buyOrder))
-
-            yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
-          } else {
-            // when the quote expires and a new order is created, set it it in redux and cancel the old order
-            yield put(A.fetchOrders())
-            yield put(A.createOrderSuccess(buyOrder))
-
-            yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
           }
+
+          yield put(A.fetchOrders())
+          yield put(A.createOrderSuccess(buyOrder))
+
+          yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
           oldBuyOrder = buyOrder
 

@@ -191,6 +191,8 @@ export const getBSProviderDetails = (state: RootState) => state.components.buySe
 
 export const getBSOrder = (state: RootState) => state.components.buySell.order
 
+export const getBSPendingOrder = (state: RootState) => state.components.buySell.pendingOrder
+
 export const getBSLatestPendingOrder = (state: RootState) =>
   state.components.buySell.orders.getOrElse([]).find((order) => {
     return order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'

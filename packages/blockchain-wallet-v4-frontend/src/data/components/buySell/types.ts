@@ -128,42 +128,43 @@ export enum BSCardStateEnum {
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
-  addBank: boolean | undefined
-  applePayInfo: undefined | ApplePayInfoType
+  addBank?: boolean
+  applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
   buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
-  cardId: undefined | string
+  cardId?: string
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
-  checkoutDotComAccountCodes: undefined | Array<string>
-  checkoutDotComApiKey: undefined | string
+  checkoutDotComAccountCodes?: Array<string>
+  checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
-  cryptoCurrency: undefined | CoinType
+  cryptoCurrency?: CoinType
   displayBack: boolean
-  fiatCurrency: undefined | FiatType
+  fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
-  googlePayInfo: undefined | GooglePayInfoType
+  googlePayInfo?: GooglePayInfoType
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
-  method: undefined | BSPaymentMethodType
+  method?: BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
-  mobilePaymentMethod: undefined | MobilePaymentType
+  mobilePaymentMethod?: MobilePaymentType
   order: RemoteDataType<string, BSOrderType>
   orderType?: BSOrderActionType
   orders: RemoteDataType<string, Array<BSOrderType>>
   origin?: BSShowModalOriginType
-  originalFiatCurrency: undefined | FiatType
-  pair: undefined | BSPairType
+  originalFiatCurrency?: FiatType
+  pair?: BSPairType
   pairs: RemoteDataType<string, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
+  pendingOrder?: BSOrderType
   providerDetails: RemoteDataType<string, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
   sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
-  sellOrder: undefined | SwapOrderType
+  sellOrder?: SwapOrderType
   sellQuote: RemoteDataType<string, SwapQuoteStateType>
   step: keyof typeof BuySellStepType
-  swapAccount: undefined | SwapAccountType
+  swapAccount?: SwapAccountType
 }
 
 export type InitializeCheckout = {

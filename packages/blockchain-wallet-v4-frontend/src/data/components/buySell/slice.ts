@@ -164,7 +164,9 @@ const buySellSlice = createSlice({
     activateCardSuccess: (state, action: PayloadAction<ProviderDetailsType>) => {
       state.providerDetails = Remote.Success(action.payload)
     },
-    cancelOrder: (state, action: PayloadAction<BSOrderType>) => {},
+    cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
+      state.pendingOrder = undefined
+    },
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
@@ -183,6 +185,7 @@ const buySellSlice = createSlice({
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
     confirmOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
       state.order = Remote.Success(action.payload)
+      state.pendingOrder = undefined
     },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
     createCardFailure: (state, action: PayloadAction<string | number>) => {
@@ -213,6 +216,7 @@ const buySellSlice = createSlice({
     },
     createOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
       state.order = Remote.Success(action.payload)
+      state.pendingOrder = action.payload
     },
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
@@ -220,6 +224,7 @@ const buySellSlice = createSlice({
       state.account = Remote.NotAsked
       state.cardId = undefined
       state.order = Remote.NotAsked
+      state.pendingOrder = undefined
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'

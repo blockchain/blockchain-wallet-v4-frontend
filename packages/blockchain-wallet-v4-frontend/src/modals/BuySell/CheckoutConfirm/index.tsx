@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
-import { GenericNabuError } from 'components/GenericNabuError'
+import CardError from 'components/BuySell/CardError'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
@@ -27,7 +27,31 @@ class CheckoutConfirm extends PureComponent<Props> {
     }
   }
 
-  trackError(error: PartialClientErrorProperties | string) {
+  handleBack = () => {
+    if (!this.props.pendingOrder) {
+      this.props.buySellActions.destroyCheckout()
+
+      return
+    }
+
+    this.props.buySellActions.cancelOrder(this.props.pendingOrder)
+  }
+
+  handleReset = () => {
+    this.props.buySellActions.destroyCheckout()
+  }
+
+  handleRetry = () => {
+    if (!this.props.pendingOrder) {
+      this.props.buySellActions.destroyCheckout()
+
+      return
+    }
+
+    this.props.buySellActions.createOrderSuccess(this.props.pendingOrder)
+  }
+
+  trackError = (error: PartialClientErrorProperties | string) => {
     // not every remote type has been converted to a client error type so handle the string case
     if (typeof error === 'string') {
       error = { network_error_description: error }
@@ -47,8 +71,15 @@ class CheckoutConfirm extends PureComponent<Props> {
     return this.props.data.cata({
       Failure: (e) => {
         this.trackError(e)
-        // return <DataError />
-        return <GenericNabuError error={e} />
+
+        return (
+          <CardError
+            code={e}
+            handleRetry={this.handleRetry}
+            handleReset={this.handleReset}
+            handleBack={this.handleBack}
+          />
+        )
       },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
@@ -65,7 +96,8 @@ const mapStateToProps = (state: RootState) => ({
   isFlexiblePricingModel: selectors.core.walletOptions
     .getFlexiblePricingModel(state)
     .getOrElse(false),
-  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state)
+  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
+  pendingOrder: selectors.components.buySell.getBSPendingOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
