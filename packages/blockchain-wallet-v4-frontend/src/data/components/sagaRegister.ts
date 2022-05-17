@@ -56,7 +56,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
-    yield fork(nfts({ api }))
+    yield fork(nfts({ api, coreSagas, networks }))
     yield fork(priceChart())
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))

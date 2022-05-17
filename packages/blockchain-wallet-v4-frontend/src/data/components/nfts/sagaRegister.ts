@@ -6,8 +6,8 @@ import * as routerActionTypes from 'data/router/actionTypes'
 import sagas from './sagas'
 import { actions } from './slice'
 
-export default ({ api }) => {
-  const nftsSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const nftsSagas = sagas({ api, coreSagas, networks })
 
   return function* nftSaga() {
     yield takeLatest(actions.acceptOffer, nftsSagas.acceptOffer)

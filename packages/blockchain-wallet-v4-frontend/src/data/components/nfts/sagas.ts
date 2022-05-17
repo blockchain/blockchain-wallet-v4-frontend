@@ -27,6 +27,7 @@ import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
+import profileSagas from '../../modules/profile/sagas'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 import { nonTraitFilters } from './utils'
@@ -36,8 +37,14 @@ export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 const INSUFFICIENT_FUNDS = 'insufficient funds'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
+
+  const { generateRetailToken } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
@@ -344,8 +351,9 @@ export default ({ api }: { api: APIType }) => {
       )
       const gasData = action.payload.offerFees
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
+      const retailToken = yield call(generateRetailToken)
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
-      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -463,6 +471,7 @@ export default ({ api }: { api: APIType }) => {
     const end_usd = yield getAmountUsd(coin, endPrice)
 
     try {
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
       const guid = yield select(selectors.core.wallet.getGuid)
       let listingTime = getUnixTime(addMinutes(new Date(), 5))
@@ -488,8 +497,8 @@ export default ({ api }: { api: APIType }) => {
         action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
-      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
-      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.clearAndRefetchAssets())
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
