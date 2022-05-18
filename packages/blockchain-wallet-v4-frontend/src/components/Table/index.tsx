@@ -44,10 +44,9 @@ export const TableWrapper = styled.div<{
       display: table-cell;
       margin: 0;
       text-align: left;
-      width: 20%;
       min-width: ${(props) => (props.minCellWidth ? props.minCellWidth : '50px')};
       width: ${(props) => (props.cellWidth ? props.cellWidth : '20%')};
-      
+
       ${media.tabletL`
         max-width: 12em;
         min-width: 12em;
