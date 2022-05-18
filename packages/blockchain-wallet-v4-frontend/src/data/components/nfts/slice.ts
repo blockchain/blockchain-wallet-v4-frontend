@@ -81,7 +81,7 @@ const nftsSlice = createSlice({
         coin?: string
         expirationTime: number
         offerFees: GasDataI
-        sellOrder?: RawOrder
+        sellOrder?: NftOrder
         wrapFees?: GasDataI
       }>
     ) => {},
@@ -127,7 +127,7 @@ const nftsSlice = createSlice({
             offer: string
             operation: GasCalculationOperations.CreateOffer
             paymentTokenAddress: string
-            sellOrder?: RawOrder
+            sellOrder?: NftOrder
           }
         | {
             operation: GasCalculationOperations.Buy

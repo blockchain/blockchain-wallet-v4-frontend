@@ -32,6 +32,7 @@ import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { orderFromJSON } from 'data/components/nfts/utils'
 import { Analytics, DeepLinkGoal } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -216,7 +217,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   offer: '0.0001',
                   operation: GasCalculationOperations.CreateOffer,
                   paymentTokenAddress: address,
-                  sellOrder: orderFlow.sellOrder
+                  sellOrder: orderFlow.sellOrder ? orderFromJSON(orderFlow.sellOrder) : undefined
                 })
               }}
               component={SelectBox}
@@ -360,7 +361,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       addDays(new Date(), parseInt(formValues.expirationDays))
                     ),
                     offerFees,
-                    sellOrder: orderFlow.sellOrder || undefined,
+                    sellOrder: orderFlow.sellOrder ? orderFromJSON(orderFlow.sellOrder) : undefined,
                     wrapFees,
                     ...formValues
                   })

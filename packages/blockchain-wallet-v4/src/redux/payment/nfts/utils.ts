@@ -700,15 +700,23 @@ function _validateFees(totalBuyerFeeBasisPoints: number, totalSellerFeeBasisPoin
 function _getBuyFeeParameters(
   totalBuyerFeeBasisPoints: number,
   totalSellerFeeBasisPoints: number,
-  sellOrder?: RawOrder,
+  sellOrder?: NftOrder,
   network?: 'mainnet' | 'rinkeby'
 ) {
   _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
   let makerRelayerFee
   let takerRelayerFee
   if (sellOrder) {
-    makerRelayerFee = new BigNumber(sellOrder.maker_relayer_fee)
-    takerRelayerFee = new BigNumber(sellOrder.taker_relayer_fee)
+    // Use the sell order's fees to ensure compatiblity and force the order
+    // to only be acceptable by the sell order maker.
+    // Swap maker/taker depending on whether it's an English auction (taker)
+    // TODO add extraBountyBasisPoints when making bidder bounties
+    makerRelayerFee = sellOrder.waitingForBestCounterOrder
+      ? new BigNumber(sellOrder.makerRelayerFee)
+      : new BigNumber(sellOrder.takerRelayerFee)
+    takerRelayerFee = sellOrder.waitingForBestCounterOrder
+      ? new BigNumber(sellOrder.takerRelayerFee)
+      : new BigNumber(sellOrder.makerRelayerFee)
   } else {
     makerRelayerFee = new BigNumber(totalBuyerFeeBasisPoints)
     takerRelayerFee = new BigNumber(totalSellerFeeBasisPoints)
@@ -1341,7 +1349,7 @@ async function _makeBuyOrder({
   paymentTokenAddress: string
   quantity: number
   referrerAddress?: string
-  sellOrder?: RawOrder
+  sellOrder?: NftOrder
   startAmount: number
 }): Promise<UnhashedOrder> {
   accountAddress = ethers.utils.getAddress(accountAddress)
@@ -1421,7 +1429,7 @@ async function _makeBuyOrder({
     side: NftOrderSide.Buy,
     staticExtradata,
     staticTarget,
-    taker: sellOrder?.taker?.address || NULL_ADDRESS,
+    taker: sellOrder?.taker || NULL_ADDRESS,
     takerProtocolFee,
     takerRelayerFee,
     target,
@@ -1896,7 +1904,7 @@ export async function createBuyOrder(
   startAmount: number,
   expirationTime: number,
   paymentTokenAddress: string,
-  sellOrder: RawOrder,
+  sellOrder: NftOrder,
   signer: Signer,
   network: 'mainnet' | 'rinkeby'
 ): Promise<NftOrder> {
