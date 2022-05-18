@@ -30,6 +30,10 @@ export const TableWrapper = styled.div<{
       display: table-header-group;
     }
 
+    .tbody {
+      overflow: scroll;
+    }
+
     .th,
     .td {
       padding: 16px;
