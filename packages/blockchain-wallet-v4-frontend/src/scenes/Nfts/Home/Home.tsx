@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconBlockchain } from '@blockchain-com/icons'
+import { IconBlockchain, IconVerified } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { WalletOptionsType } from '@core/types'
 import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
 import { Flex } from 'components/Flex'
-import { actions } from 'data'
-import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import {
+  AssetFilterFields,
+  CollectionSortFields,
+  SortDirection,
+  useAssetsQuery,
+  useCollectionsQuery
+} from 'generated/graphql.types'
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
@@ -43,37 +51,22 @@ const Banner = styled.div`
   `}
 `
 
-const AssetCard = styled.div`
-  border-radius: 16px;
+const AssetFooter = styled.div`
+  border-radius: 0px 0px 16px 16px;
   border: 1.18px solid ${colors.grey000};
   z-index: 2;
-  width: 250px;
-  height: 250px;
-  background: rgba(255, 255, 255, 0.4);
+  width: 266px;
+  height: 50px;
+  background: white;
   left: 3em;
   top: 1em;
+  margin-top: -12px;
+  padding: 0em 1em;
+  display: flex;
+  justify-content: space-between;
   ${media.atLeastMobile`
     left: unset;
     top: unset;
-  `}
-`
-
-const BackOfCard = styled.div`
-  border: 1.18px solid ${colors.grey000};
-  width: 250px;
-  position: absolute;
-  background: white;
-  opacity: 24%;
-  border-radius: 16px;
-  height: 250px;
-  transform: rotate(-15deg);
-  z-index: 1;
-  top: 200px;
-  ${media.atLeastMobile`
-    top: 150px;
-  `}
-  ${media.atLeastTablet`
-    top: 50px;
   `}
 `
 
@@ -81,23 +74,55 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 1em 0em;
 `
 
 const Explore: React.FC<Props> = (props) => {
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
-  const toadz = ['cryptoad-2456', 'cryptoad-2794', 'cryptoad-2903', 'cryptoad-4502']
-  const randomToad = toadz[Math.floor(Math.random() * toadz.length)]
+  const contracts = props.openseaApi.includes('testnet')
+    ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
+    : ['with-the-light', 'nouns', 'mfers', 'superrare']
+  const [randomContract] = useState(Math.floor(Math.random() * 4))
+  const [assetId, setAssetId] = useState(0)
+  const limit = 4
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (assetId < 2) {
+        setAssetId(assetId + 1)
+      } else {
+        setAssetId(0)
+      }
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [assetId])
+  const [assets] = useAssetsQuery({
+    variables: {
+      filter: [{ field: AssetFilterFields.CollectionSlug, value: contracts[randomContract] }],
+      limit
+    }
+  })
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
+  const handleAssetClick = (assets) => {
+    props.routerActions.push(
+      `/nfts/asset/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
+    )
+  }
+  const handleGetFeatured = () => {
+    props.modalActions.showModal('GET_FEATURED', {
+      closeAllModals: props.modalActions.closeAllModals,
+      origin: 'Nfts'
+    })
+  }
   return (
     <NftPageV2>
       <>
-        <Banner style={isTablet || isMobile ? { height: '510px' } : {}}>
-          <div>
+        <Banner style={{ height: '600px' }}>
+          <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
                 <Icon label='logo'>
@@ -112,7 +137,7 @@ const Explore: React.FC<Props> = (props) => {
 
             <Text
               size={isTablet || isMobile ? '20px' : '32px'}
-              style={isTablet || isMobile ? { textAlign: 'center' } : {}}
+              style={isTablet || isMobile ? { paddingTop: '1em', textAlign: 'center' } : {}}
               weight={600}
               color='black'
             >
@@ -134,7 +159,10 @@ const Explore: React.FC<Props> = (props) => {
                 >
                   Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
                 </Text>
-                <Flex justifyContent='space-between' style={{ margin: '0em 2em 0em 2em' }}>
+                <Flex
+                  justifyContent={isMobile || isTablet ? 'space-evenly' : 'space-between'}
+                  style={{ margin: '0em 2em 0em 2em' }}
+                >
                   <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
                     <Button nature='primary' data-e2e='Explore'>
                       <FormattedMessage id='copy.explore' defaultMessage='Explore' />
@@ -173,81 +201,90 @@ const Explore: React.FC<Props> = (props) => {
             )}
           </div>
           <div>
-            <BackOfCard />
-            <CardWrapper>
-              <div>
-                <Text
-                  color='black'
-                  weight={600}
-                  size='16px'
-                  style={
-                    isMobile || isTablet
-                      ? {
-                          background: 'white',
-                          borderRadius: '18px',
-                          left: '1em',
-                          lineHeight: '2',
-                          padding: '4px 16px',
-                          position: 'relative',
-                          top: '4em',
-                          whiteSpace: 'nowrap',
-                          width: '12em',
-                          zIndex: '3'
-                        }
-                      : {
-                          background: 'white',
-                          borderRadius: '18px',
-                          lineHeight: '2',
-                          margin: '1em',
-                          padding: '4px 16px',
-                          position: 'absolute',
-                          whiteSpace: 'nowrap',
-                          width: '12em',
-                          zIndex: '3'
-                        }
-                  }
+            {assets.data?.assets[assetId]?.image_url && (
+              <CardWrapper>
+                <div
+                  role='button'
+                  tabIndex={0}
+                  onClick={() => handleAssetClick(assets)}
+                  onKeyDown={() => handleAssetClick(assets)}
+                  style={{ cursor: 'pointer' }}
                 >
-                  CrypToadz by GREMPLIN
-                </Text>
-              </div>
-              <AssetCard>
-                <Image
-                  // @ts-ignore
-                  name={randomToad}
-                  width='155px'
-                  height='auto'
-                  style={{ padding: '5em 3em' }}
-                />
-              </AssetCard>
-              <Text
-                color='blue600'
-                size='14px'
-                weight={500}
-                style={
-                  isMobile || isTablet
-                    ? {
-                        bottom: '2.5em',
-                        lineHeight: '2',
-                        padding: '0em 1em',
-                        position: 'relative',
-                        whiteSpace: 'nowrap',
-                        width: '12em',
-                        zIndex: '3'
-                      }
-                    : {
-                        bottom: '4em',
-                        lineHeight: '2',
-                        margin: '1em',
-                        position: 'relative',
-                        whiteSpace: 'nowrap',
-                        width: '12em',
-                        zIndex: '3'
-                      }
-                }
-              >
-                #{/\b(?!cryptoad-\b)\w+/.exec(randomToad)} | CrypToadz by GREMPLIN
-              </Text>
-            </CardWrapper>
+                  <img
+                    style={{ borderRadius: '16px 16px 0px 0px', width: '300.35px' }}
+                    alt='assetImage'
+                    src={assets.data?.assets[assetId]?.image_url || ''}
+                  />
+                </div>
+                <AssetFooter>
+                  <Flex alignItems='center'>
+                    <div
+                      role='button'
+                      tabIndex={0}
+                      onClick={() => handleAssetClick(assets)}
+                      onKeyDown={() => handleAssetClick(assets)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Text
+                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '150px' }}
+                        color='grey900'
+                        weight={600}
+                        size='12px'
+                      >
+                        {assets.data?.assets[assetId]?.name}
+                      </Text>
+                      <Flex gap={2} alignItems='center'>
+                        {assets.data?.assets[assetId]?.collection?.safelist_request_status ===
+                          'verified' && (
+                          <Icon size='sm' label='verified' color='blue600'>
+                            <IconVerified />
+                          </Icon>
+                        )}
+                        <Text weight={500} size='10px'>
+                          {assets.data?.assets[assetId]?.collection?.name}
+                        </Text>
+                      </Flex>
+                    </div>
+                  </Flex>
+                  <Flex alignItems='center'>
+                    <Button
+                      onClick={handleGetFeatured}
+                      small
+                      data-e2e='Featured'
+                      nature='empty-blue'
+                    >
+                      <FormattedMessage id='copy.get_featured' defaultMessage='Get Featured' />
+                    </Button>
+                  </Flex>
+                </AssetFooter>
+                <Flex justifyContent='center' gap={4}>
+                  <Text
+                    onClick={() => setAssetId(0)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 0 ? 'blue600' : 'white'}
+                  >
+                    .
+                  </Text>
+                  <Text
+                    onClick={() => setAssetId(1)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 1 ? 'blue600' : 'white'}
+                  >
+                    .
+                  </Text>
+                  <Text
+                    onClick={() => setAssetId(2)}
+                    style={{ cursor: 'pointer' }}
+                    size='36px'
+                    color={assetId === 2 ? 'blue600' : 'white'}
+                  >
+                    .
+                  </Text>
+                </Flex>
+              </CardWrapper>
+            )}
           </div>
         </Banner>
         <div>
@@ -274,12 +311,19 @@ const Explore: React.FC<Props> = (props) => {
   )
 }
 
+const mapStateToProps = (state: RootState) => ({
+  openseaApi: selectors.core.walletOptions
+    .getDomains(state)
+    .getOrElse({ opensea: 'https://api.opensea.io' } as WalletOptionsType['domains']).opensea
+})
+
 const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
