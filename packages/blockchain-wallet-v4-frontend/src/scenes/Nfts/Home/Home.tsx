@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Image, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
@@ -92,7 +92,9 @@ const Explore: React.FC<Props> = (props) => {
       limit
     }
   })
-  const loadedAssets = assets.data?.assets
+  const loadedAssets = assets.data?.assets.filter((asset) => {
+    return !!asset.image_url
+  })
   useEffect(() => {
     if (loadedAssets?.length) {
       const interval = setInterval(() => {
@@ -112,7 +114,6 @@ const Explore: React.FC<Props> = (props) => {
   })
   const Carousel = loadedAssets
     ? loadedAssets.map((asset, i) => {
-        if (!asset.image_url) return null
         return (
           <Text
             key={asset.image_url}
@@ -220,7 +221,7 @@ const Explore: React.FC<Props> = (props) => {
             )}
           </div>
           <div>
-            {assets.data?.assets[assetId]?.image_url && (
+            {assets && loadedAssets && loadedAssets[assetId]?.image_url ? (
               <CardWrapper>
                 <div
                   role='button'
@@ -232,11 +233,11 @@ const Explore: React.FC<Props> = (props) => {
                   <img
                     style={{
                       borderRadius: '16px 16px 0px 0px',
-                      maxHeight: '300.35px',
+                      height: '300.35px',
                       width: '300.35px'
                     }}
                     alt='assetImage'
-                    src={assets.data?.assets[assetId]?.image_url || ''}
+                    src={loadedAssets[assetId]?.image_url || ''}
                   />
                 </div>
                 <AssetFooter>
@@ -254,17 +255,17 @@ const Explore: React.FC<Props> = (props) => {
                         weight={600}
                         size='12px'
                       >
-                        {assets.data?.assets[assetId]?.name}
+                        {loadedAssets[assetId]?.name}
                       </Text>
                       <Flex gap={2} alignItems='center'>
-                        {assets.data?.assets[assetId]?.collection?.safelist_request_status ===
+                        {loadedAssets[assetId]?.collection?.safelist_request_status ===
                           'verified' && (
                           <Icon size='sm' label='verified' color='blue600'>
                             <IconVerified />
                           </Icon>
                         )}
                         <Text weight={500} size='10px'>
-                          {assets.data?.assets[assetId]?.collection?.name}
+                          {loadedAssets[assetId]?.collection?.name}
                         </Text>
                       </Flex>
                     </div>
@@ -283,6 +284,24 @@ const Explore: React.FC<Props> = (props) => {
                 <Flex justifyContent='center' gap={4}>
                   {Carousel}
                 </Flex>
+              </CardWrapper>
+            ) : (
+              <CardWrapper style={{ opacity: '50%' }}>
+                <div>
+                  <SkeletonRectangle height='300.35px' width='300.35px' bgColor='white' />
+                </div>
+                <AssetFooter>
+                  <Flex alignItems='center'>
+                    <Button
+                      onClick={handleGetFeatured}
+                      small
+                      data-e2e='Featured'
+                      nature='empty-blue'
+                    >
+                      <FormattedMessage id='copy.get_featured' defaultMessage='Get Featured' />
+                    </Button>
+                  </Flex>
+                </AssetFooter>
               </CardWrapper>
             )}
           </div>
