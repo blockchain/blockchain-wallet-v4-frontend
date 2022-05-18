@@ -94,7 +94,7 @@ const Explore: React.FC<Props> = (props) => {
   })
   const loadedAssets = assets.data?.assets
   useEffect(() => {
-    if (loadedAssets && loadedAssets.length > 0) {
+    if (loadedAssets?.length) {
       const interval = setInterval(() => {
         if (assetId < loadedAssets.length - 1) {
           setAssetId(assetId + 1)
@@ -115,8 +115,7 @@ const Explore: React.FC<Props> = (props) => {
         if (!asset.image_url) return null
         return (
           <Text
-            // eslint-disable-next-line react/no-array-index-key
-            key={i}
+            key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
             size='36px'
