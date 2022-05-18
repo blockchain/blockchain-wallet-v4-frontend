@@ -172,7 +172,7 @@ export default ({ api, coreSagas, networks }) => {
     if (tiers.current !== 2) {
       // check extra KYC fields
       yield put(actions.components.identityVerification.fetchExtraKYC())
-      yield take([AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS, AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE])
+      yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
       const kycExtraSteps = selectors.components.identityVerification
         .getKYCExtraSteps(yield select())
         .getOrElse({} as ExtraQuestionsType)

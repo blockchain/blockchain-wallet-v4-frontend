@@ -3,16 +3,14 @@ import { WalletFormType } from 'redux-form'
 
 import { TIERS } from '../../modules/profile/model'
 
+/* eslint-disable */
 // order is important do not change it
 export const STEPS = {
   infoAndResidential: 'infoAndResidential',
   moreInfo: 'moreInfo',
-  // eslint-disable-next-line
   addExtraStep: 'addExtraStep',
-  // eslint-disable-next-line
   additionalInfo: 'additionalInfo',
   verify: 'verify',
-  // eslint-disable-next-line
   submitted: 'submitted'
 }
 
@@ -20,14 +18,12 @@ export const STEPS = {
 export const STEP_TIERS = {
   infoAndResidential: TIERS[1],
   moreInfo: TIERS[2],
-  // eslint-disable-next-line
   addExtraStep: TIERS[2],
-  // eslint-disable-next-line
   additionalInfo: TIERS[2],
   verify: TIERS[2],
-  // eslint-disable-next-line
   submitted: TIERS[2]
 }
+/* eslint-enable */
 
 export const SMS_STEPS = {
   edit: 'edit',
