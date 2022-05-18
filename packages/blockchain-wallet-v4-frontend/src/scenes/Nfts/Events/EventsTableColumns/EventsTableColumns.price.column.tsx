@@ -12,7 +12,9 @@ export const getPriceColumn = () => ({
           <CoinDisplay coin='ETH' weight={600} size='14px' color='grey900'>
             {values.total_price || values.bid_amount}
           </CoinDisplay>
-        ) : null}
+        ) : (
+          '--'
+        )}
       </CellText>
     )
   },

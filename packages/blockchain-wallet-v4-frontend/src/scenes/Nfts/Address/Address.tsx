@@ -8,6 +8,7 @@ import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 
 import { Text } from 'blockchain-info-components'
+import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -67,7 +68,7 @@ const NftAddress: React.FC<Props> = ({
         <NftBannerWrapper>
           <Flex justifyContent='space-between' alignItems='center'>
             <Text color='white' size='24px' weight={600}>
-              {address}
+              <CryptoAddress>{address}</CryptoAddress>
             </Text>
             {ethAddress.toLowerCase() === address.toLowerCase() && isAuthenticated ? (
               <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
