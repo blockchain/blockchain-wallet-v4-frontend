@@ -2,6 +2,7 @@ import { getUnixTime, subDays } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
+import { IndexMultiResponseType } from '@core/network/api/coin/types'
 import { selectors } from 'data'
 
 import { actions as A } from './slice'
@@ -23,7 +24,7 @@ export default ({ api }: { api: APIType }) => {
         base: coin,
         quote: fiatCurrency || defaultFiat
       }))
-      const data = yield call(api.getCoinPrices, request, timestamp)
+      const data: IndexMultiResponseType = yield call(api.getCoinPrices, request, timestamp)
       yield put(A.fetchCoinPricesSuccess(data))
     } catch (e) {
       yield put(A.fetchCoinPricesFailure(e.message))

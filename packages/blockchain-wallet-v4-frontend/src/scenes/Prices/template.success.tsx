@@ -28,7 +28,12 @@ const options = {
 }
 
 const initialState = {
-  sortBy: [{ desc: true, id: 'price' }]
+  hiddenColumns: ['custodial', 'marketCap'],
+  sortBy: [
+    { desc: true, id: 'custodial' },
+    { desc: true, id: 'marketCap' },
+    { desc: true, id: 'name' }
+  ]
 }
 
 const PricesTable = (props: Props) => {
@@ -57,7 +62,7 @@ const PricesTable = (props: Props) => {
   // react-virtualized-auto-sizer grows outside of page width bounds, grab parent table width
   // and set that as width on AutoList's List child element
   const [tableRef, { width: parentTableWidth }] = useElementSize()
-
+  // console.log('data', JSON.stringify(data, null, 2))
   const {
     getTableBodyProps,
     getTableProps,

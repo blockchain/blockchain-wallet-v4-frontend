@@ -1,6 +1,8 @@
 import { TableColumnsType } from '..'
 import { getActionsColumn } from './actions.column'
 import { getBalanceColumn } from './balance.column'
+import { getCustodialColumn } from './custodial.column'
+import { getMarketCapColumn } from './marketCap.column'
 import { getNameColumn } from './name.column'
 import { getPriceColumn } from './price.column'
 import { getPriceChangeColumn } from './priceChange.column'
@@ -13,5 +15,7 @@ export const getTableColumns =
       getPriceColumn(walletCurrency),
       getPriceChangeColumn(),
       getBalanceColumn(),
-      getActionsColumn(modalActions, buySellActions, swapActions, formActions)
+      getActionsColumn(modalActions, buySellActions, swapActions, formActions),
+      getCustodialColumn(),
+      getMarketCapColumn()
     ]

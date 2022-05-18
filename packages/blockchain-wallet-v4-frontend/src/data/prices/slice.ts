@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { keys, map, mergeAll } from 'ramda'
 
 import Remote from '@core/remote'
 
 import { CoinPricesRequestType, PricesStateType } from './types'
 
 const createPricesKvPairs = (prices) => {
-  return mergeAll(
-    map(
-      (x) => ({
-        // @ts-ignore
-        [x.split('-')[0]]: prices[x] ? prices[x].price : 0
-      }),
-      keys(prices)
-    )
-  )
+  return Object.keys(prices).reduce((pricesMap, priceKey) => {
+    const coinPrice = prices[priceKey]
+
+    if (!coinPrice) return pricesMap
+
+    const coinCode = priceKey.split('-')[0]
+
+    return {
+      ...pricesMap,
+      [coinCode]: coinPrice
+    }
+  }, {})
 }
 
 const initialState: PricesStateType = {

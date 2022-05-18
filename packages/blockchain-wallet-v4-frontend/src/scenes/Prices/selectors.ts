@@ -16,13 +16,17 @@ export const getData = createDeepEqualSelector(
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
     ) => {
+      const custodialCoins = selectors.core.data.coins.getCustodialCoins()
       const cryptos = selectors.core.data.coins.getAllCoins()
 
       const m = cryptos.map((coin: string) => {
         const { coinfig } = window.coins[coin]
 
-        const currentPrice = coinPrices[coinfig.symbol]
-        const yesterdayPrice = coinPricesPrevious[coinfig.symbol]
+        const coinPrice = coinPrices[coinfig.symbol]
+        const isCustodialCoin = custodialCoins.includes(coin)
+        // console.log("isCustodialCoin", isCustodialCoin, coin)
+        const currentPrice = coinPrice?.price || 0
+        const yesterdayPrice = coinPricesPrevious[coinfig.symbol]?.price || 0
         const coinBalance = getBalanceSelector(coinfig.symbol)(state).getOrElse(0).valueOf()
         const priceChangeNum = Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100)
         const priceChangeStr = Number.isNaN(priceChangeNum) ? '0' : priceChangeNum.toPrecision(2)
@@ -34,6 +38,8 @@ export const getData = createDeepEqualSelector(
               : coinBalance,
           coin: coinfig.symbol,
           coinModel: coin,
+          custodial: isCustodialCoin,
+          marketCap: coinPrice?.marketCap || 0,
           name: `${coinfig.name} (${coinfig.displaySymbol})`,
           price: currentPrice,
           priceChange: priceChangeStr,
