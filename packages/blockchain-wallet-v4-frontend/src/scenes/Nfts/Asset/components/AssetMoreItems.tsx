@@ -59,7 +59,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
         <MoreAssetsList>
           {assets?.data?.assets?.length
             ? assets?.data?.assets?.map((asset) => {
-                const link = `/nfts/asset/${asset.contract?.address}/${asset.token_id}`
+                const link = `/nfts/assets/${asset.contract?.address}/${asset.token_id}`
                 return (
                   <MoreAssetsListItem key={asset.token_id}>
                     <CustomLink

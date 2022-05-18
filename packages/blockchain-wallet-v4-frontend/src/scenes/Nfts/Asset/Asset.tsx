@@ -249,7 +249,7 @@ const NftAsset: React.FC<Props> = ({
                     <SocialLink>
                       <CopyClipboardButton
                         color='grey600'
-                        textToCopy={`${domains.comWalletApp}/#/nfts/asset/${contract}/${id}`}
+                        textToCopy={`${domains.comWalletApp}/#/nfts/assets/${contract}/${id}`}
                         onClick={() =>
                           analyticsActions.trackEvent({
                             key: Analytics.NFT_SHARE_CLICKED,

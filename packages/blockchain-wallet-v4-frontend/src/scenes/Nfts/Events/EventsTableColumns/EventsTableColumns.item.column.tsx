@@ -25,7 +25,7 @@ export const getItemColumn = () => ({
       <ItemCell>
         <AssetImage alt='asset' src={values.asset?.image_url} />
         <LinkContainer
-          to={`/nfts/asset/${values.asset?.contract_address}/${values.asset?.token_id}`}
+          to={`/nfts/assets/${values.asset?.contract_address}/${values.asset?.token_id}`}
         >
           <Link size='14px' weight={600} color='grey900'>
             {values.asset?.name}

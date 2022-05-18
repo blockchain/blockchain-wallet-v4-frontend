@@ -109,7 +109,7 @@ const Explore: React.FC<Props> = (props) => {
   })
   const handleAssetClick = (assets) => {
     props.routerActions.push(
-      `/nfts/asset/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
+      `/nfts/assets/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
     )
   }
   const handleGetFeatured = () => {

@@ -85,7 +85,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
           </Flex>
         </Link>
       </LinkContainer>
-      <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+      <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
         <Link>
           <AssetImageContainer
             className='asset-image-container'
@@ -101,7 +101,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         </div>
 
         <PriceCTA>
-          <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+          <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
               <XSmallButton data-e2e='nftAssetPage' nature='primary' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
@@ -118,7 +118,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
             )}
           </LinkContainer>
           {lowestListing && lowestListing.starting_price ? (
-            <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+            <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
               <Link>
                 <GreyBlueGradientCartridge>
                   <CoinDisplay
