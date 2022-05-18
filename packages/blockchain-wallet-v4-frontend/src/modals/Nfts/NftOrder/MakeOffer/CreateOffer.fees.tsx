@@ -7,6 +7,7 @@ import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
+import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
@@ -23,6 +24,7 @@ const Fees: React.FC<Props> = (props: Props) => {
       asset: props.asset,
       offer: '0.000001',
       operation: GasCalculationOperations.CreateOffer,
+      order: orderFlow.orderToMatch ? orderFromJSON(orderFlow.orderToMatch) : undefined,
       paymentTokenAddress: WETH
     })
   }, [])

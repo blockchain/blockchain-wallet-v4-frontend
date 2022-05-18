@@ -100,7 +100,8 @@ export const getNftBuyOrder = async (
   expirationTime,
   startAmount: number,
   paymentTokenAddress: string,
-  network: 'mainnet' | 'rinkeby'
+  network: 'mainnet' | 'rinkeby',
+  sellOrder?: NftOrder
 ): Promise<NftOrder> => {
   const accountAddress = await signer.getAddress()
   return createBuyOrder(
@@ -110,7 +111,8 @@ export const getNftBuyOrder = async (
     expirationTime,
     paymentTokenAddress,
     signer,
-    network
+    network,
+    sellOrder
   )
 }
 
