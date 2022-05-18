@@ -18,37 +18,23 @@ const NoResultsWrapper = styled.div`
 `
 
 export const TableBodyWrapper = styled.div`
-  height: calc(100% - 52px);
+  height: 100%;
   flex: 1 1 auto;
+  overflow: hidden;
 `
 
-const options = {
-  disableMultiSort: true,
-  disableSortRemove: true
-}
-
 const initialState = {
-  sortBy: [{ desc: true, id: 'price' }]
+  sortBy: [{ desc: true, id: 'marketCap' }]
 }
 
 const PricesTable = (props: Props) => {
-  const {
-    buySellActions,
-    data,
-    formActions,
-    modalActions,
-    routerActions,
-    swapActions,
-    walletCurrency
-  } = props
+  const { buySellActions, data, modalActions, routerActions, walletCurrency } = props
 
   const columns = useMemo(
     getTableColumns({
       buySellActions,
-      formActions,
       modalActions,
       routerActions,
-      swapActions,
       walletCurrency
     }),
     []
@@ -67,11 +53,15 @@ const PricesTable = (props: Props) => {
       columns,
       data,
       initialState,
-      ...options
+      ...{
+        disableMultiSort: true,
+        disableSortRemove: true
+      }
     },
     useGlobalFilter,
     useSortBy
   )
+
   // if the table's filter state and redux form textFilter input dont match
   // update so they do, allowing text filtering to work
   if (state.globalFilter !== props.textFilter) {
@@ -101,7 +91,7 @@ const PricesTable = (props: Props) => {
   )
 
   return (
-    <TableWrapper>
+    <TableWrapper cellWidth='16%' minCellWidth='150px' height='calc(100% - 97px)'>
       {state.globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
@@ -149,7 +139,7 @@ const PricesTable = (props: Props) => {
               )
             })}
           </div>
-          <TableBodyWrapper>
+          <TableBodyWrapper className='tbody'>
             <AutoSizer disableWidth>
               {({ height }) => (
                 <List
