@@ -1905,7 +1905,8 @@ export async function createBuyOrder(
   expirationTime: number,
   paymentTokenAddress: string,
   signer: Signer,
-  network: 'mainnet' | 'rinkeby'
+  network: 'mainnet' | 'rinkeby',
+  sellOrder?: NftOrder
 ): Promise<NftOrder> {
   // 1. use the _makeBuyOrder to create the object & initialize the proxy contract for this sale.
   const order = await _makeBuyOrder({
@@ -1917,7 +1918,7 @@ export async function createBuyOrder(
     paymentTokenAddress,
     quantity: 1,
     referrerAddress: '0x0000000000000000000000000000000000000000',
-    sellOrder: undefined,
+    sellOrder,
     startAmount
   })
   // 2. Compute hash of the order and output {...order, hash:hash(order)}
