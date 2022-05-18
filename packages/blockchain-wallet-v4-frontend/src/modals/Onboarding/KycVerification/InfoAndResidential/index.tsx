@@ -32,11 +32,10 @@ class InfoAndResidential extends PureComponent<Props> {
       identityVerificationActions,
       onCompletionCallback
     } = this.props
-    identityVerificationActions.saveInfoAndResidentialData(
+    identityVerificationActions.saveInfoAndResidentialData({
       checkSddEligibility,
-      onCompletionCallback,
-      false
-    )
+      onCompletionCallback
+    })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_PERSONAL_INFORMATION_ENTERED,
       properties: {

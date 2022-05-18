@@ -6,6 +6,7 @@ import { call, fork, put, select, take } from 'redux-saga/effects'
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
+import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
@@ -62,8 +63,8 @@ export default ({ api, coreSagas, networks }) => {
   const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
-      actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
-      actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
+      identityVerificationActions.setSupportedCountriesSuccess.type,
+      identityVerificationActions.setSupportedCountriesFailure.type
     ])
     yield put(actions.modules.profile.signIn())
   }

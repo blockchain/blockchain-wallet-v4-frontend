@@ -1,44 +1,59 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import * as AT from './actionTypes'
 import sagas from './sagas'
+import { actions } from './slice'
 
 export default ({ api, coreSagas }) => {
   const identityVerificationSagas = sagas({ api, coreSagas })
 
   return function* identityVerificationSaga() {
-    yield takeLatest(AT.VERIFY_IDENTITY, identityVerificationSagas.verifyIdentity)
-    yield takeLatest(AT.INITIALIZE_VERIFICATION, identityVerificationSagas.initializeVerification)
-    yield takeLatest(AT.UPDATE_SMS_STEP, identityVerificationSagas.updateSmsStep)
-    yield takeLatest(AT.UPDATE_SMS_NUMBER, identityVerificationSagas.updateSmsNumber)
-    yield takeLatest(AT.VERIFY_SMS_NUMBER, identityVerificationSagas.verifySmsNumber)
-    yield takeLatest(AT.RESEND_SMS_CODE, identityVerificationSagas.resendSmsCode)
+    yield takeLatest(actions.verifyIdentity.type, identityVerificationSagas.verifyIdentity)
     yield takeLatest(
-      AT.FETCH_SUPPORTED_COUNTRIES,
+      actions.initializeVerification.type,
+      identityVerificationSagas.initializeVerification
+    )
+    yield takeLatest(actions.updateSmsStep.type, identityVerificationSagas.updateSmsStep)
+    yield takeLatest(actions.updateSmsNumber.type, identityVerificationSagas.updateSmsNumber)
+    yield takeLatest(actions.verifySmsNumber.type, identityVerificationSagas.verifySmsNumber)
+    yield takeLatest(actions.resendSmsCode.type, identityVerificationSagas.resendSmsCode)
+    yield takeLatest(
+      actions.fetchSupportedCountries.type,
       identityVerificationSagas.fetchSupportedCountries
     )
     yield takeLatest(
-      AT.FETCH_SUPPORTED_DOCUMENTS,
+      actions.fetchSupportedDocuments.type,
       identityVerificationSagas.fetchSupportedDocuments
     )
-    yield takeLatest(AT.FETCH_STATES, identityVerificationSagas.fetchStates)
-    yield takeLatest(AT.REGISTER_USER_CAMPAIGN, identityVerificationSagas.registerUserCampaign)
+    yield takeLatest(actions.fetchStates.type, identityVerificationSagas.fetchStates)
     yield takeLatest(
-      AT.CREATE_REGISTER_USER_CAMPAIGN,
+      actions.registerUserCampaign.type,
+      identityVerificationSagas.registerUserCampaign
+    )
+    yield takeLatest(
+      actions.createRegisterUserCampaign.type,
       identityVerificationSagas.createRegisterUserCampaign
     )
-    yield takeLatest(AT.CLAIM_CAMPAIGN_CLICKED, identityVerificationSagas.claimCampaignClicked)
-    yield takeLatest(AT.GO_TO_PREV_STEP, identityVerificationSagas.goToPrevStep)
-    yield takeLatest(AT.GO_TO_NEXT_STEP, identityVerificationSagas.goToNextStep)
-    yield takeLatest(AT.CHECK_KYC_FLOW, identityVerificationSagas.checkKycFlow)
-    yield takeLatest(AT.SEND_DEEP_LINK, identityVerificationSagas.sendDeeplink)
-    yield takeLatest(AT.UPDATE_EMAIL, identityVerificationSagas.updateEmail)
-    yield takeLatest(AT.SEND_EMAIL_VERIFICATION, identityVerificationSagas.sendEmailVerification)
     yield takeLatest(
-      AT.SAVE_INFO_AND_RESIDENTIAL_DATA,
+      actions.claimCampaignClicked.type,
+      identityVerificationSagas.claimCampaignClicked
+    )
+    yield takeLatest(actions.goToPrevStep.type, identityVerificationSagas.goToPrevStep)
+    yield takeLatest(actions.goToNextStep.type, identityVerificationSagas.goToNextStep)
+    yield takeLatest(actions.checkKycFlow.type, identityVerificationSagas.checkKycFlow)
+    yield takeLatest(actions.sendDeepLink.type, identityVerificationSagas.sendDeepLink)
+    yield takeLatest(actions.updateEmail.type, identityVerificationSagas.updateEmail)
+    yield takeLatest(
+      actions.sendEmailVerification.type,
+      identityVerificationSagas.sendEmailVerification
+    )
+    yield takeLatest(
+      actions.saveInfoAndResidentialData.type,
       identityVerificationSagas.saveInfoAndResidentialData
     )
-    yield takeLatest(AT.FETCH_KYC_EXTRA_QUESTIONS, identityVerificationSagas.fetchExtraKYC)
-    yield takeLatest(AT.SAVE_KYC_EXTRA_QUESTIONS, identityVerificationSagas.saveKYCExtraQuestions)
+    yield takeLatest(actions.fetchExtraKYC.type, identityVerificationSagas.fetchExtraKYC)
+    yield takeLatest(
+      actions.saveKYCExtraQuestions.type,
+      identityVerificationSagas.saveKYCExtraQuestions
+    )
   }
 }

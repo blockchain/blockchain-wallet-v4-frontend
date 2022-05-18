@@ -96,7 +96,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const sendDeeplink = () =>
+  const sendDeepLink = () =>
     authorizedPost({
       contentType: 'application/json',
       endPoint: '/kyc/verifications/mobile-email',
@@ -142,7 +142,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getSupportedCountries,
     getSupportedDocuments,
     selectTier,
-    sendDeeplink,
+    sendDeepLink,
     syncVeriff,
     updateKYCExtraQuestions,
     uploadDocuments

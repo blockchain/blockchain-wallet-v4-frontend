@@ -14,8 +14,8 @@ import Loading from './template.loading'
 class VerifyContainer extends React.PureComponent<Props> {
   componentDidMount() {
     const { actions } = this.props
-    actions.fetchSupportedDocuments()
-    actions.checkKycFlow()
+    actions.fetchSupportedDocuments({})
+    actions.checkKycFlow({})
   }
 
   render() {

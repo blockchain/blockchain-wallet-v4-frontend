@@ -11,7 +11,7 @@ export default () => {
     try {
       yield put(actions.form.startSubmit('airdropClaim'))
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(actions.components.identityVerification.registerUserCampaign(false))
+      yield put(actions.components.identityVerification.registerUserCampaign({ newUser: false }))
       // Buffer for tagging user
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
@@ -50,7 +50,7 @@ export default () => {
       yield put(actions.preferences.hideUpgradeForAirdropModal())
       yield put(actions.modals.closeModal())
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(actions.components.identityVerification.createRegisterUserCampaign())
+      yield put(actions.components.identityVerification.createRegisterUserCampaign({}))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeForAirdropSubmitClicked', e))
     }
