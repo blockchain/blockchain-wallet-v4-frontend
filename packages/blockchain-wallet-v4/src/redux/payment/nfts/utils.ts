@@ -700,23 +700,15 @@ function _validateFees(totalBuyerFeeBasisPoints: number, totalSellerFeeBasisPoin
 function _getBuyFeeParameters(
   totalBuyerFeeBasisPoints: number,
   totalSellerFeeBasisPoints: number,
-  sellOrder?: UnhashedOrder,
+  sellOrder?: RawOrder,
   network?: 'mainnet' | 'rinkeby'
 ) {
   _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
   let makerRelayerFee
   let takerRelayerFee
   if (sellOrder) {
-    // Use the sell order's fees to ensure compatiblity and force the order
-    // to only be acceptable by the sell order maker.
-    // Swap maker/taker depending on whether it's an English auction (taker)
-    // TODO add extraBountyBasisPoints when making bidder bounties
-    makerRelayerFee = sellOrder.waitingForBestCounterOrder
-      ? new BigNumber(sellOrder.makerRelayerFee)
-      : new BigNumber(sellOrder.takerRelayerFee)
-    takerRelayerFee = sellOrder.waitingForBestCounterOrder
-      ? new BigNumber(sellOrder.takerRelayerFee)
-      : new BigNumber(sellOrder.makerRelayerFee)
+    makerRelayerFee = new BigNumber(sellOrder.maker_relayer_fee)
+    takerRelayerFee = new BigNumber(sellOrder.taker_relayer_fee)
   } else {
     makerRelayerFee = new BigNumber(totalBuyerFeeBasisPoints)
     takerRelayerFee = new BigNumber(totalSellerFeeBasisPoints)
@@ -1338,7 +1330,7 @@ async function _makeBuyOrder({
   paymentTokenAddress,
   quantity,
   referrerAddress,
-  sellOrder,
+  sellOrder = undefined,
   startAmount
 }: {
   accountAddress: string
@@ -1349,7 +1341,7 @@ async function _makeBuyOrder({
   paymentTokenAddress: string
   quantity: number
   referrerAddress?: string
-  sellOrder?: UnhashedOrder
+  sellOrder?: RawOrder
   startAmount: number
 }): Promise<UnhashedOrder> {
   accountAddress = ethers.utils.getAddress(accountAddress)
@@ -1429,7 +1421,7 @@ async function _makeBuyOrder({
     side: NftOrderSide.Buy,
     staticExtradata,
     staticTarget,
-    taker,
+    taker: sellOrder?.taker?.address || NULL_ADDRESS,
     takerProtocolFee,
     takerRelayerFee,
     target,
@@ -1904,6 +1896,7 @@ export async function createBuyOrder(
   startAmount: number,
   expirationTime: number,
   paymentTokenAddress: string,
+  sellOrder: RawOrder,
   signer: Signer,
   network: 'mainnet' | 'rinkeby'
 ): Promise<NftOrder> {
@@ -1917,7 +1910,7 @@ export async function createBuyOrder(
     paymentTokenAddress,
     quantity: 1,
     referrerAddress: '0x0000000000000000000000000000000000000000',
-    sellOrder: undefined,
+    sellOrder,
     startAmount
   })
   // 2. Compute hash of the order and output {...order, hash:hash(order)}

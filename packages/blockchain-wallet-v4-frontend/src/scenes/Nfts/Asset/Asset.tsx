@@ -318,9 +318,12 @@ const NftAsset: React.FC<Props> = ({
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
+  console.log(highest_bid)
   const is_lowest_order_english =
     lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
-
+  if (is_lowest_order_english) {
+    nftsActions.setSellOrder({ order: lowest_order })
+  }
   if (assetQuery.error) return <NftError error={assetQuery.error} />
 
   if (!currentAsset) return null

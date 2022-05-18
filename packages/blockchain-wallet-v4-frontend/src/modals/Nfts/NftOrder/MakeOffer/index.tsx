@@ -215,7 +215,8 @@ const MakeOffer: React.FC<Props> = (props) => {
                   asset: val,
                   offer: '0.0001',
                   operation: GasCalculationOperations.CreateOffer,
-                  paymentTokenAddress: address
+                  paymentTokenAddress: address,
+                  sellOrder: orderFlow.sellOrder
                 })
               }}
               component={SelectBox}
@@ -359,6 +360,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       addDays(new Date(), parseInt(formValues.expirationDays))
                     ),
                     offerFees,
+                    sellOrder: orderFlow.sellOrder || undefined,
                     wrapFees,
                     ...formValues
                   })

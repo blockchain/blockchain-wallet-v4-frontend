@@ -71,6 +71,7 @@ export type NftsStateType = {
     offerToCancel: RawOrder | null
     orderToMatch: RawOrder | null
     prevStep: NftOrderStepEnum | null
+    sellOrder: RawOrder | undefined
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>

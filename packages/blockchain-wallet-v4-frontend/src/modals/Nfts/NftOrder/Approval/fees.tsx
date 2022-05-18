@@ -23,7 +23,8 @@ const Fees: React.FC<Props> = (props: Props) => {
       asset: props.asset,
       offer: '0.000001',
       operation: GasCalculationOperations.CreateOffer,
-      paymentTokenAddress: WETH
+      paymentTokenAddress: WETH,
+      sellOrder: undefined
     })
   }, [])
 

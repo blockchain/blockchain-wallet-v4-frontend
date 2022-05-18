@@ -141,6 +141,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           action.payload.asset,
           signer,
           undefined,
+          action.payload.sellOrder || undefined,
           Number(action.payload.offer),
           action.payload.paymentTokenAddress,
           IS_TESTNET ? 'rinkeby' : 'mainnet'
@@ -345,6 +346,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         action.payload.asset,
         signer,
         expirationTime,
+        action.payload.sellOrder || undefined,
         Number(action.payload.amount || '0'),
         coinfig.type.erc20Address,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
@@ -354,6 +356,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const retailToken = yield call(generateRetailToken)
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
+      yield put(A.setSellOrder({}))
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({

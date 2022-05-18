@@ -40,6 +40,7 @@ const initialState: NftsStateType = {
     offerToCancel: null,
     orderToMatch: null,
     prevStep: null,
+    sellOrder: undefined,
     status: null,
     step: null,
 
@@ -80,6 +81,7 @@ const nftsSlice = createSlice({
         coin?: string
         expirationTime: number
         offerFees: GasDataI
+        sellOrder?: RawOrder
         wrapFees?: GasDataI
       }>
     ) => {},
@@ -125,6 +127,7 @@ const nftsSlice = createSlice({
             offer: string
             operation: GasCalculationOperations.CreateOffer
             paymentTokenAddress: string
+            sellOrder?: RawOrder
           }
         | {
             operation: GasCalculationOperations.Buy
@@ -332,6 +335,9 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
+    },
+    setSellOrder: (state, action: PayloadAction<{ order?: RawOrder }>) => {
+      state.orderFlow.sellOrder = action.payload.order
     }
   }
 })

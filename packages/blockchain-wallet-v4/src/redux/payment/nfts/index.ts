@@ -98,6 +98,7 @@ export const getNftBuyOrder = async (
   asset: NftAsset,
   signer: Signer,
   expirationTime,
+  sellOrder,
   startAmount: number,
   paymentTokenAddress: string,
   network: 'mainnet' | 'rinkeby'
@@ -109,6 +110,7 @@ export const getNftBuyOrder = async (
     startAmount,
     expirationTime,
     paymentTokenAddress,
+    sellOrder,
     signer,
     network
   )
