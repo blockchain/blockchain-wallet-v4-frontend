@@ -36,6 +36,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
     undefined
   )
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
+  const stringifiedForm = JSON.stringify(formValues)
 
   const refresh = () => {
     setIsFetchingNextPage(true)
@@ -48,7 +49,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
 
   useEffect(() => {
     refresh()
-  }, [formValues, refreshTrigger])
+  }, [refreshTrigger, stringifiedForm])
 
   const isFetching = isFetchingNextPage
 
