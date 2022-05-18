@@ -247,13 +247,18 @@ const Explore: React.FC<Props> = (props) => {
                       tabIndex={0}
                       onClick={() => handleAssetClick(assets)}
                       onKeyDown={() => handleAssetClick(assets)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', lineHeight: '18px' }}
                     >
                       <Text
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '150px' }}
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          width: '140px'
+                        }}
                         color='grey900'
                         weight={600}
-                        size='12px'
+                        size='14px'
                       >
                         {loadedAssets[assetId]?.name}
                       </Text>
@@ -264,7 +269,16 @@ const Explore: React.FC<Props> = (props) => {
                             <IconVerified />
                           </Icon>
                         )}
-                        <Text weight={500} size='10px'>
+                        <Text
+                          weight={500}
+                          size='14px'
+                          style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            width: '125px'
+                          }}
+                        >
                           {loadedAssets[assetId]?.collection?.name}
                         </Text>
                       </Flex>
