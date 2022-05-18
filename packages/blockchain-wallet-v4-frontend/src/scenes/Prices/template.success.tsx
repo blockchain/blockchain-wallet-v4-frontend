@@ -1,8 +1,6 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
@@ -73,23 +71,6 @@ const PricesTable = (props: Props) => {
     (state.globalFilter?.length > 20 && `${state.globalFilter.substring(0, 20)}…`) ||
     state.globalFilter
 
-  const RenderRow = useCallback(
-    ({ index, style }) => {
-      const row = rows[index]
-      prepareRow(row)
-      return (
-        <div key={`row-${row.id}`} {...row.getRowProps({ style })} className='tr'>
-          {row.cells.map((cell) => (
-            <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
-              {cell.render('Cell')}
-            </div>
-          ))}
-        </div>
-      )
-    },
-    [prepareRow, rows]
-  )
-
   return (
     <TableWrapper cellWidth='16%' minCellWidth='150px' height='calc(100% - 97px)'>
       {state.globalFilter?.length && !rows.length ? (
@@ -108,7 +89,7 @@ const PricesTable = (props: Props) => {
         </NoResultsWrapper>
       ) : (
         <div {...getTableProps()} className='table'>
-          <div>
+          <div className='thead'>
             {headerGroups.map((headerGroup, i) => {
               const key = headerGroup.headers[i].id
               return (
@@ -139,19 +120,19 @@ const PricesTable = (props: Props) => {
               )
             })}
           </div>
-          <TableBodyWrapper className='tbody'>
-            <AutoSizer disableWidth>
-              {({ height }) => (
-                <List
-                  height={height}
-                  itemCount={rows.length}
-                  itemSize={90}
-                  {...getTableBodyProps()}
-                >
-                  {RenderRow}
-                </List>
-              )}
-            </AutoSizer>
+          <TableBodyWrapper {...getTableBodyProps()} className='tbody'>
+            {rows.map((row) => {
+              prepareRow(row)
+              return (
+                <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
+                  {row.cells.map((cell) => (
+                    <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
+                      {cell.render('Cell')}
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
           </TableBodyWrapper>
         </div>
       )}
