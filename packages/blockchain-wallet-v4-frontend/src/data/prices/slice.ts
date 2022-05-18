@@ -10,7 +10,7 @@ const createPricesKvPairs = (prices) => {
     map(
       (x) => ({
         // @ts-ignore
-        [x.split('-')[0]]: prices[x] ? prices[x].price : 0
+        [x.split('-')[0]]: prices[x] ? prices[x] : null
       }),
       keys(prices)
     )

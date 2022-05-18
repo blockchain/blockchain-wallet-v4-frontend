@@ -54,8 +54,14 @@ export default ({ api, coreSagas, networks }) => {
     const settingsChange = params.get('change')
     const email = decodeURIComponent(params.get('email') as string)
     yield put(actions.cache.removeStoredLogin())
+    // after clearing cache in case previous wallet is
+    // not the same one for exchange settings
+    // repopulate cache
     yield put(actions.cache.guidStored(guid))
+    yield put(actions.cache.exchangeWalletGuid(guid))
     yield put(actions.cache.exchangeEmail(email))
+    yield put(actions.cache.emailStored(email))
+    yield put(actions.cache.setUnifiedAccount(true))
     yield put(
       actions.goals.saveGoal({
         data: {
