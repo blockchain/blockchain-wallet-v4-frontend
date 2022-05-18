@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
-import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import {
@@ -10,29 +9,9 @@ import {
   FilterOperators,
   useAssetsQuery
 } from 'generated/graphql.types'
-import { media } from 'services/styles'
 
 import NftCollectionImage from '../../components/NftCollectionImage'
-import { CollectionName, CustomLink } from '.'
-
-const MoreAssets = styled.div`
-  width: 100%;
-  ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
-  `}
-`
-
-const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
-`
+import { CollectionName, CustomLink, MoreAssets, MoreAssetsList, MoreAssetsListItem } from '.'
 
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   const limit = 4
@@ -80,7 +59,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
         <MoreAssetsList>
           {assets?.data?.assets?.length
             ? assets?.data?.assets?.map((asset) => {
-                const link = `/nfts/asset/${asset.contract?.address}/${asset.token_id}`
+                const link = `/nfts/assets/${asset.contract?.address}/${asset.token_id}`
                 return (
                   <MoreAssetsListItem key={asset.token_id}>
                     <CustomLink

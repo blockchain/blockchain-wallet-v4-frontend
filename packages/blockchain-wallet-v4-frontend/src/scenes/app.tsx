@@ -199,7 +199,7 @@ const App = ({
                         )}
                         {nftExplorer && (
                           <NftsLayout
-                            path='/nfts/asset/:contract/:id'
+                            path='/nfts/assets/:contract/:id'
                             exact
                             component={NftsAsset}
                           />

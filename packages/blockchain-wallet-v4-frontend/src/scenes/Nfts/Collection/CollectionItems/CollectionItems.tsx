@@ -25,6 +25,7 @@ const CollectionItems: React.FC<Props> = ({
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
+  const stringifiedForm = JSON.stringify(formValues)
 
   const refresh = () => {
     setIsFetchingNextPage(true)
@@ -37,7 +38,7 @@ const CollectionItems: React.FC<Props> = ({
 
   useEffect(() => {
     refresh()
-  }, [slug, formValues])
+  }, [slug, stringifiedForm])
 
   useEffect(() => {
     refresh()

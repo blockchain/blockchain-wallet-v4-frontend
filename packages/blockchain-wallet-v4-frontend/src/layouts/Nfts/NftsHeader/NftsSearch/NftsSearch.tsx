@@ -51,7 +51,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     if ('profile_img_url' in item) {
       routerActions.push(`/nfts/address/${item.address}`)
     } else if ('contract_address' in item) {
-      routerActions.push(`/nfts/asset/${item.contract_address}/${item.token_id}`)
+      routerActions.push(`/nfts/assets/${item.contract_address}/${item.token_id}`)
     } else if ('num_owners' in item) {
       routerActions.push(`/nfts/collection/${item.slug}`)
     } else if ('asset_contract_type' in item) {
