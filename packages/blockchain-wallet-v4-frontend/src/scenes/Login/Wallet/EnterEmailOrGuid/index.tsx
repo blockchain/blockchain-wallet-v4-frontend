@@ -9,12 +9,11 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { ProductAuthOptions, RecoverSteps } from 'data/types'
+import { ProductAuthOptions } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
-import { RECOVER_FORM } from '../../../RecoverWallet/model'
 import { Props } from '../..'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
@@ -30,16 +29,8 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const {
-    busy,
-    exchangeTabClicked,
-    formValues,
-    invalid,
-    magicLinkData,
-    productAuthMetadata,
-    submitting,
-    walletError
-  } = props
+  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
+    props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -91,8 +82,8 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <LinkContainer to='/recover'>
-            <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+          <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
+            <Link size='13px' weight={600} data-e2e='loginImportAccount'>
               <FormattedMessage
                 id='scenes.login.import_your_account'
                 defaultMessage='Import Your Account'
