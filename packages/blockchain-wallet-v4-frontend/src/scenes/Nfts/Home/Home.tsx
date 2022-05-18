@@ -82,31 +82,51 @@ const Explore: React.FC<Props> = (props) => {
   const isTablet = useMedia('tablet')
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
-    : ['with-the-light', 'nouns', 'mfers', 'superrare']
+    : ['nouns', 'mfers', 'superrare']
   const [randomContract] = useState(Math.floor(Math.random() * 4))
   const [assetId, setAssetId] = useState(0)
-  const limit = 4
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (assetId < 2) {
-        setAssetId(assetId + 1)
-      } else {
-        setAssetId(0)
-      }
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [assetId])
+  const limit = 5
   const [assets] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFilterFields.CollectionSlug, value: contracts[randomContract] }],
       limit
     }
   })
+  const loadedAssets = assets.data?.assets
+  useEffect(() => {
+    if (loadedAssets && loadedAssets.length > 0) {
+      const interval = setInterval(() => {
+        if (assetId < loadedAssets.length - 1) {
+          setAssetId(assetId + 1)
+        } else {
+          setAssetId(0)
+        }
+      }, 4000)
+      return () => clearInterval(interval)
+    }
+  }, [assetId, loadedAssets])
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
+  const Carousel = loadedAssets
+    ? loadedAssets.map((asset, i) => {
+        if (!asset.image_url) return null
+        return (
+          <Text
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            onClick={() => setAssetId(i)}
+            style={{ cursor: 'pointer' }}
+            size='36px'
+            color={assetId === i ? 'blue600' : 'white'}
+          >
+            .
+          </Text>
+        )
+      })
+    : null
   const handleAssetClick = (assets) => {
     props.routerActions.push(
       `/nfts/asset/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
@@ -211,7 +231,11 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={{ borderRadius: '16px 16px 0px 0px', width: '300.35px' }}
+                    style={{
+                      borderRadius: '16px 16px 0px 0px',
+                      maxHeight: '300.35px',
+                      width: '300.35px'
+                    }}
                     alt='assetImage'
                     src={assets.data?.assets[assetId]?.image_url || ''}
                   />
@@ -258,30 +282,7 @@ const Explore: React.FC<Props> = (props) => {
                   </Flex>
                 </AssetFooter>
                 <Flex justifyContent='center' gap={4}>
-                  <Text
-                    onClick={() => setAssetId(0)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 0 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
-                  <Text
-                    onClick={() => setAssetId(1)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 1 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
-                  <Text
-                    onClick={() => setAssetId(2)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 2 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
+                  {Carousel}
                 </Flex>
               </CardWrapper>
             )}
