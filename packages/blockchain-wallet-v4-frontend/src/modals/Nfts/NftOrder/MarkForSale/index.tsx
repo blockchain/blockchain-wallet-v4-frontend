@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { colors, Switch } from '@blockchain-com/constellation'
 import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
@@ -107,8 +106,14 @@ const MarkForSale: React.FC<Props> = (props) => {
       ? 'WETH'
       : 'ETH'
 
-  const { endingFiatAmt, fixCryptoAmt, fixFiatAmt, startingCryptoAmt, startingFiatAmt } =
-    getQuoteAmts(formValues, rates, coin, props.walletCurrency)
+  const {
+    endingFiatAmt,
+    fixCryptoAmt,
+    fixFiatAmt,
+    reserveFiatAmt,
+    startingCryptoAmt,
+    startingFiatAmt
+  } = getQuoteAmts(formValues, rates, coin, props.walletCurrency)
 
   const amount = saleType === 'fixed-price' ? fixCryptoAmt : startingCryptoAmt
 
@@ -243,7 +248,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                             />
                             <Flex justifyContent='flex-end'>
                               <Text style={{ marginTop: '4px' }} size='12px' weight={600}>
-                                {endingFiatAmt} {props.walletCurrency}
+                                {reserveFiatAmt} {props.walletCurrency}
                               </Text>
                             </Flex>
                           </div>
