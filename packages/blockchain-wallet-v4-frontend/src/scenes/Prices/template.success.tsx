@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -6,6 +6,7 @@ import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
+import { useElementSize } from 'hooks'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -19,10 +20,6 @@ const NoResultsWrapper = styled.div`
 
 export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
-`
-
-const MaxWidthTableWrapper = styled(TableWrapper)`
-  max-width: 100%;
 `
 
 const options = {
@@ -45,7 +42,7 @@ const PricesTable = (props: Props) => {
     walletCurrency
   } = props
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     getTableColumns({
       buySellActions,
       formActions,
@@ -56,6 +53,10 @@ const PricesTable = (props: Props) => {
     }),
     []
   )
+
+  // react-virtualized-auto-sizer grows outside of page width bounds, grab parent table width
+  // and set that as width on AutoList's List child element
+  const [tableRef, { width: parentTableWidth }] = useElementSize()
 
   const {
     getTableBodyProps,
@@ -86,7 +87,7 @@ const PricesTable = (props: Props) => {
     (state.globalFilter?.length > 20 && `${state.globalFilter.substring(0, 20)}…`) ||
     state.globalFilter
 
-  const RenderRow = React.useCallback(
+  const RenderRow = useCallback(
     ({ index, style }) => {
       const row = rows[index]
       prepareRow(row)
@@ -104,7 +105,7 @@ const PricesTable = (props: Props) => {
   )
 
   return (
-    <MaxWidthTableWrapper>
+    <TableWrapper ref={tableRef}>
       {state.globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
@@ -122,50 +123,55 @@ const PricesTable = (props: Props) => {
       ) : (
         <div {...getTableProps()} className='table'>
           <div>
-            {headerGroups.map((headerGroup) => (
-              // eslint-disable-next-line react/jsx-key
-              <div {...headerGroup.getHeaderGroupProps()} className='tr'>
-                {headerGroup.headers.map((column) => (
-                  <div
-                    key={column.key}
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className='th'
-                  >
-                    <HeaderText>
-                      {column.render('Header')}
-                      <div>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <HeaderToggle>▾</HeaderToggle>
+            {headerGroups.map((headerGroup, i) => {
+              const key = headerGroup.headers[i].id
+              return (
+                <div key={key} {...headerGroup.getHeaderGroupProps()} className='tr'>
+                  {headerGroup.headers.map((column) => (
+                    <div
+                      key={column.key}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      className='th'
+                    >
+                      <HeaderText>
+                        {column.render('Header')}
+                        <div>
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <HeaderToggle>▾</HeaderToggle>
+                            ) : (
+                              <HeaderToggle>▴</HeaderToggle>
+                            )
                           ) : (
-                            <HeaderToggle>▴</HeaderToggle>
-                          )
-                        ) : (
-                          ''
-                        )}
-                      </div>
-                    </HeaderText>
-                  </div>
-                ))}
-              </div>
-            ))}
+                            ''
+                          )}
+                        </div>
+                      </HeaderText>
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
           </div>
           <TableBodyWrapper>
             <AutoSizer>
-              {({ height, width }) => {
-                return (
-                  <div {...getTableBodyProps()}>
-                    <List height={height} width={width} itemCount={rows.length} itemSize={90}>
-                      {RenderRow}
-                    </List>
-                  </div>
-                )
-              }}
+              {({ height }) => (
+                <div {...getTableBodyProps()}>
+                  <List
+                    height={height}
+                    width={parentTableWidth}
+                    itemCount={rows.length}
+                    itemSize={90}
+                  >
+                    {RenderRow}
+                  </List>
+                </div>
+              )}
             </AutoSizer>
           </TableBodyWrapper>
         </div>
       )}
-    </MaxWidthTableWrapper>
+    </TableWrapper>
   )
 }
 
