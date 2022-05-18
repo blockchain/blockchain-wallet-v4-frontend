@@ -178,8 +178,8 @@ export const Centered = styled.div`
 `
 
 export const NftBannerWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
