@@ -1,13 +1,18 @@
 import React from 'react'
+import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { defaultAboutSectionActions } from '../../mocks/defaultAboutSectionActions'
+import { CoinWhitepaperButton } from '../CoinWhitepaperButton'
+import { OfficialCoinWebsiteButton } from '../OfficialCoinWebsiteButton'
 import { AboutSection, AboutSectionComponent } from '.'
 
 const aboutSectionStoriesMeta: ComponentMeta<AboutSectionComponent> = {
   argTypes: {
     actions: {
-      defaultValue: defaultAboutSectionActions
+      defaultValue: [
+        <OfficialCoinWebsiteButton key={0} href='https://blockchain.com' />,
+        <CoinWhitepaperButton key={1} href='https://blockchain.com' />
+      ]
     },
     content: {
       defaultValue:
@@ -18,6 +23,7 @@ const aboutSectionStoriesMeta: ComponentMeta<AboutSectionComponent> = {
     }
   },
   component: AboutSection,
+  decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>],
   title: 'Pages/CoinPage/AboutSection'
 }
 

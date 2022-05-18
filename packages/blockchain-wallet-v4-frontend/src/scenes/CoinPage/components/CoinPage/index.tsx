@@ -10,6 +10,7 @@ import { CoinPage } from './CoinPage'
 import {
   useChart,
   useChartBalancePanel,
+  useCoinAboutSection,
   useHoldingsCard,
   useRecurringBuyPanel,
   useTabs,
@@ -20,6 +21,7 @@ export type { CoinPageComponent, CoinPageProps } from './types'
 
 const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
   const { coin } = computedMatch.params
+  const [acoutSection] = useCoinAboutSection({ coin })
   const [holdingsCard] = useHoldingsCard({ coin })
   const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
   const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
@@ -40,7 +42,7 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
     <Flex alignItems='center'>
       <CoinPage
         chartTabs={tabsNode}
-        about={<AboutSection content='' title={coin} actions={[<></>]} />}
+        about={acoutSection}
         chart={chart}
         header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
         chartBalancePanel={chartBalancePanel}
