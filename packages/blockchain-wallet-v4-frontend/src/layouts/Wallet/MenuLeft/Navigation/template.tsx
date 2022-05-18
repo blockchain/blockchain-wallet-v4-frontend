@@ -109,14 +109,6 @@ const Navigation = (props: OwnProps & Props) => {
             </Destination>
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to='/prices' activeClassName='active'>
-          <MenuItem data-e2e='pricesLink'>
-            <MenuIcon className='icon' name='compass' size='24px' />
-            <Destination>
-              <FormattedMessage id='copy.prices' defaultMessage='Prices' />
-            </Destination>
-          </MenuItem>
-        </LinkContainer>
       </>
       {coinList.cata({
         Failure: () => null,
