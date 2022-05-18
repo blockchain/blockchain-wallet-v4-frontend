@@ -749,6 +749,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const params = Object.fromEntries(new URLSearchParams(query))
 
       yield put(actions.form.reset('nftFilter'))
+      window.scrollTo({ behavior: 'smooth', top: 0 })
 
       yield all(
         Object.keys(params).map(function* (key) {
