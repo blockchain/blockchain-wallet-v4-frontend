@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import { formatDistanceToNow, subDays } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -33,18 +33,31 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
-import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
-import { media } from 'services/styles'
 
-import { NftPage } from '../components'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
-import { CollectionName, CustomLink, EthText, Highest } from './components'
+import {
+  AssetName,
+  CollectionName,
+  CurrentPriceBox,
+  CustomLink,
+  Divider,
+  EthText,
+  Highest,
+  LeftColWrapper,
+  RightColWrapper,
+  StickyWrapper,
+  Top,
+  Trait,
+  TraitsWrapper,
+  Wrapper
+} from './components'
 import AssetMoreItems from './components/AssetMoreItems'
 import NftAssetCountdown from './components/NftAssetCountdown'
+import NftAssetLoading from './components/NftAssetLoading'
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -52,72 +65,6 @@ const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
     height: 24px;
     width: 24px;
   }
-`
-const Wrapper = styled(NftPage)`
-  display: block;
-  margin: 0 auto;
-  padding: 20px 0 0 0;
-  box-sizing: border-box;
-  margin-top: 8px;
-  ${media.atLeastTablet`
-    height: 100%;
-  `}
-  ${media.tablet`
-    flex-direction: column;
-  `}
-`
-const Top = styled.div`
-  ${media.atLeastTablet`
-  display: flex;
-  `}
-  display: block;
-`
-
-const LeftColWrapper = styled.div`
-  ${media.atLeastTablet`
-  box-sizing: border-box;
-  max-width: 625px;
-  width: 50%;
-  `} > form {
-    ${media.tablet`
-    display: flex;
-    > div {
-      flex: 1;
-    }
-  `}
-  }
-  padding-right: 3em;
-
-  top: ${FIXED_HEADER_HEIGHT + 8}px;
-  background: ${(props) => props.theme.white};
-  z-index: 1;
-  display: block;
-
-  ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
-  `}
-`
-
-const RightColWrapper = styled.div`
-  ${media.atLeastTablet`
-  height: 100%;
-  width: 50%;
-  `} > form {
-    ${media.tablet`
-    display: flex;
-    > div {
-      flex: 1;
-    }
-  `}
-  }
-  background: ${(props) => props.theme.white};
-  z-index: 1;
-  display: block;
-  ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
-  `}
 `
 
 const Socials = styled.div`
@@ -138,23 +85,6 @@ const SocialLink = styled.div`
   }
 `
 
-const AssetName = styled(Text)`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 40px;
-  display: flex;
-  margin-top: 30px;
-  color: ${colors.grey900};
-`
-
-const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.grey000};
-  box-sizing: border-box;
-  border-radius: 8px;
-  margin-top: 20px;
-  padding: 1.2em;
-`
-
 const CustomTabMenu = styled(TabMenu)`
   color: ${colors.grey900};
   margin: 24px 0;
@@ -170,35 +100,6 @@ const CreatorOwnerAddress = styled.div`
 const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
   color: ${colors.blue600};
   font-weight: 600;
-`
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  margin-top: 8px;
-  background: ${colors.grey000};
-`
-
-const TraitsWrapper = styled.div`
-  margin-top: 1.5em;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-`
-
-const Trait = styled.div`
-  display: flex;
-  cursor: pointer;
-  padding: 0.5em 1em;
-  flex-direction: column;
-  gap: 6px;
-  border-radius: 8px;
-  background: ${(props) => props.theme.blue000};
-  border: 1px solid ${(props) => props.theme.blue600};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
 `
 
 const TokenDisplay = styled(Text)`
@@ -229,11 +130,6 @@ const Detail = styled(Text)`
 `
 
 const DetailsAndOffers = styled.div``
-
-const StickyWrapper = styled.div`
-  position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
-`
 
 const NftAsset: React.FC<Props> = ({
   analyticsActions,
@@ -322,6 +218,8 @@ const NftAsset: React.FC<Props> = ({
     lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
+
+  if (assetQuery.fetching) return <NftAssetLoading />
 
   if (!currentAsset) return null
 

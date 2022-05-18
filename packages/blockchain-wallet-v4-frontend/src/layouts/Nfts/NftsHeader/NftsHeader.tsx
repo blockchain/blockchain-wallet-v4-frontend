@@ -194,7 +194,7 @@ const ExploreHeader: React.FC<Props> = ({
             </LinkContainer>
             {isTablet ? null : (
               <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
-                <Button small data-e2e='signup' nature='primary'>
+                <Button small data-e2e='signup' nature='purple'>
                   <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
                 </Button>
               </LinkContainer>
