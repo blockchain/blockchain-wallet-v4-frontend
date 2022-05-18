@@ -6,7 +6,6 @@ import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
-import { useElementSize } from 'hooks'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -20,6 +19,7 @@ const NoResultsWrapper = styled.div`
 
 export const TableBodyWrapper = styled.div`
   height: calc(100% - 52px);
+  flex: 1 1 auto;
 `
 
 const options = {
@@ -53,10 +53,6 @@ const PricesTable = (props: Props) => {
     }),
     []
   )
-
-  // react-virtualized-auto-sizer grows outside of page width bounds, grab parent table width
-  // and set that as width on AutoList's List child element
-  const [tableRef, { width: parentTableWidth }] = useElementSize()
 
   const {
     getTableBodyProps,
@@ -105,7 +101,7 @@ const PricesTable = (props: Props) => {
   )
 
   return (
-    <TableWrapper ref={tableRef}>
+    <TableWrapper>
       {state.globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
@@ -154,18 +150,16 @@ const PricesTable = (props: Props) => {
             })}
           </div>
           <TableBodyWrapper>
-            <AutoSizer>
+            <AutoSizer disableWidth>
               {({ height }) => (
-                <div {...getTableBodyProps()}>
-                  <List
-                    height={height}
-                    width={parentTableWidth}
-                    itemCount={rows.length}
-                    itemSize={90}
-                  >
-                    {RenderRow}
-                  </List>
-                </div>
+                <List
+                  height={height}
+                  itemCount={rows.length}
+                  itemSize={90}
+                  {...getTableBodyProps()}
+                >
+                  {RenderRow}
+                </List>
               )}
             </AutoSizer>
           </TableBodyWrapper>
