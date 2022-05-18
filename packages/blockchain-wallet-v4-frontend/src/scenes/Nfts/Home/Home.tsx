@@ -254,11 +254,11 @@ const Explore: React.FC<Props> = (props) => {
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
-                          width: '140px'
+                          width: '125px'
                         }}
                         color='grey900'
                         weight={600}
-                        size='14px'
+                        size='16px'
                       >
                         {loadedAssets[assetId]?.name}
                       </Text>
