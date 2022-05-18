@@ -52,6 +52,7 @@ const MakeOffer: React.FC<Props> = (props) => {
     formActions,
     formValues,
     isAuthenticated,
+    isInvited,
     nftActions,
     openSeaAssetR,
     orderFlow,
@@ -277,128 +278,136 @@ const MakeOffer: React.FC<Props> = (props) => {
 
       <StickyCTA>
         {isAuthenticated ? (
-          <>
-            <MakeOfferFees {...props} asset={val} />
-            <br />
-            {needsWrap ? (
-              <>
-                {canWrap ? (
-                  <div />
-                ) : (
-                  <>
-                    <GetMoreEthComponent
-                      amount={cryptoAmt}
-                      amtToBuy={amtToBuy}
-                      selfCustodyBalance={new BigNumber(selfCustodyBalance)}
-                      custodialBalance={new BigNumber(custodialBalance)}
-                    />
-                    <div style={{ padding: '1em 0em' }}>
-                      <Text
-                        size='12px'
-                        weight={500}
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                      >
-                        The max you can offer from this wallet is&nbsp;
-                        <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
-                          {Math.max(maxOfferPossible.toNumber(), 0)}
-                        </CoinDisplay>
-                      </Text>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : null}
-            <div style={{ display: 'flex' }}>
-              {' '}
-              <div style={{ padding: '1.2em 0em' }}>
-                <CheckBoxInput
-                  name='terms'
-                  disabled={false}
-                  onChange={toggleTermsAccepted}
-                  checked={termsAccepted}
-                />
-              </div>
-              <Text
-                color={colors.grey200}
-                weight={500}
-                size='16px'
-                style={{ padding: '1em 0em', textAlign: 'center' }}
-              >
-                I agree to Blockchain.com’s{' '}
-                <Link
-                  onClick={acceptTerms}
-                  href='https://www.blockchain.com/legal/terms'
-                  target='_blank'
-                >
-                  Terms of Service
-                </Link>
-              </Text>
-            </div>
-            {needsWrap && !canWrap ? (
-              <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
-                <Image
-                  width='16px'
-                  height='16px'
-                  name='alert-orange'
-                  style={{ marginRight: '0.5em' }}
-                />
-                <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
-              </Button>
-            ) : (
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='makeOfferNft'
-                disabled={disabled}
-                onClick={() =>
-                  nftActions.createOffer({
-                    amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                    asset: val,
-                    expirationTime: getUnixTime(
-                      addDays(new Date(), parseInt(formValues.expirationDays))
-                    ),
-                    offerFees,
-                    wrapFees,
-                    ...formValues
-                  })
-                }
-              >
-                {formValues.amount ? (
-                  props.orderFlow.isSubmitting ? (
-                    <>
-                      {props.orderFlow.status &&
-                        (props.orderFlow.status === 'WRAP_ETH' ? (
-                          <>
-                            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-                            <div style={{ paddingLeft: '1em' }}>
-                              <FormattedMessage
-                                id='copy.wrap_eth'
-                                defaultMessage='Wrapping Eth...'
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>{props.orderFlow.status}</>
-                        ))}
-                    </>
+          isInvited ? (
+            <>
+              <MakeOfferFees {...props} asset={val} />
+              <br />
+              {needsWrap ? (
+                <>
+                  {canWrap ? (
+                    <div />
                   ) : (
-                    <FormattedMessage
-                      id='copy.make_offer_value'
-                      defaultMessage={
-                        !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
-                      }
-                      values={{
-                        val: `${formValues.amount} ${formValues.coin}`
-                      }}
-                    />
-                  )
-                ) : (
-                  <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                )}
+                    <>
+                      <GetMoreEthComponent
+                        amount={cryptoAmt}
+                        amtToBuy={amtToBuy}
+                        selfCustodyBalance={new BigNumber(selfCustodyBalance)}
+                        custodialBalance={new BigNumber(custodialBalance)}
+                      />
+                      <div style={{ padding: '1em 0em' }}>
+                        <Text
+                          size='12px'
+                          weight={500}
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                          The max you can offer from this wallet is&nbsp;
+                          <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
+                            {Math.max(maxOfferPossible.toNumber(), 0)}
+                          </CoinDisplay>
+                        </Text>
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : null}
+              <div style={{ display: 'flex' }}>
+                {' '}
+                <div style={{ padding: '1.2em 0em' }}>
+                  <CheckBoxInput
+                    name='terms'
+                    disabled={false}
+                    onChange={toggleTermsAccepted}
+                    checked={termsAccepted}
+                  />
+                </div>
+                <Text
+                  color={colors.grey200}
+                  weight={500}
+                  size='16px'
+                  style={{ padding: '1em 0em', textAlign: 'center' }}
+                >
+                  I agree to Blockchain.com’s{' '}
+                  <Link
+                    onClick={acceptTerms}
+                    href='https://www.blockchain.com/legal/terms'
+                    target='_blank'
+                  >
+                    Terms of Service
+                  </Link>
+                </Text>
+              </div>
+              {needsWrap && !canWrap ? (
+                <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                  <Image
+                    width='16px'
+                    height='16px'
+                    name='alert-orange'
+                    style={{ marginRight: '0.5em' }}
+                  />
+                  <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
+                </Button>
+              ) : (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='makeOfferNft'
+                  disabled={disabled}
+                  onClick={() =>
+                    nftActions.createOffer({
+                      amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                      asset: val,
+                      expirationTime: getUnixTime(
+                        addDays(new Date(), parseInt(formValues.expirationDays))
+                      ),
+                      offerFees,
+                      wrapFees,
+                      ...formValues
+                    })
+                  }
+                >
+                  {formValues.amount ? (
+                    props.orderFlow.isSubmitting ? (
+                      <>
+                        {props.orderFlow.status &&
+                          (props.orderFlow.status === 'WRAP_ETH' ? (
+                            <>
+                              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+                              <div style={{ paddingLeft: '1em' }}>
+                                <FormattedMessage
+                                  id='copy.wrap_eth'
+                                  defaultMessage='Wrapping Eth...'
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <>{props.orderFlow.status}</>
+                          ))}
+                      </>
+                    ) : (
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage={
+                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                        }
+                        values={{
+                          val: `${formValues.amount} ${formValues.coin}`
+                        }}
+                      />
+                    )
+                  ) : (
+                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                  )}
+                </Button>
+              )}
+            </>
+          ) : (
+            <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+              <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+                <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
               </Button>
-            )}
-          </>
+            </Link>
+          )
         ) : (
           <LinkContainer
             to={`/open/${DeepLinkGoal.MAKE_OFFER_NFT}?contract_address=${val.asset_contract.address}&token_id=${val.token_id}`}

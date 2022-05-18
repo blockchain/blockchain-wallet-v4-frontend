@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -23,7 +23,7 @@ import AcceptOfferFees from './fees'
 import { getData } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
-  const { close, nftActions, openSeaAssetR, orderFlow } = props
+  const { close, isInvited, nftActions, openSeaAssetR, orderFlow } = props
   const dispatch = useDispatch()
   const acceptOfferClicked = () => {
     dispatch(
@@ -87,48 +87,60 @@ const AcceptOffer: React.FC<Props> = (props) => {
         <StickyCTA>
           <AcceptOfferFees {...props} asset={asset} />
           <br />
-          {props.data.cata({
-            Failure: (e) => (
-              <>
-                <Text size='14px' weight={600} style={{ marginBottom: '8px', maxHeight: '200px' }}>
-                  {e}
-                </Text>
-                <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
+          {isInvited ? (
+            props.data.cata({
+              Failure: (e) => (
+                <>
+                  <Text
+                    size='14px'
+                    weight={600}
+                    style={{ marginBottom: '8px', maxHeight: '200px' }}
+                  >
+                    {e}
+                  </Text>
+                  <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                  </Button>
+                </>
+              ),
+              Loading: () => (
+                <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
                   <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                 </Button>
-              </>
-            ),
-            Loading: () => (
-              <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
-                <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+              ),
+              NotAsked: () => null,
+              Success: (val) => (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='acceptNftOffer'
+                  disabled={disabled}
+                  type='submit'
+                  onClick={() => {
+                    acceptOfferClicked()
+                    nftActions.acceptOffer({
+                      asset,
+                      gasData: val.fees,
+                      ...val.matchingOrder
+                    })
+                  }}
+                >
+                  {props.orderFlow.isSubmitting ? (
+                    <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                  ) : (
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                  )}
+                </Button>
+              )
+            })
+          ) : (
+            <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+              <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+                <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
               </Button>
-            ),
-            NotAsked: () => null,
-            Success: (val) => (
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='acceptNftOffer'
-                disabled={disabled}
-                type='submit'
-                onClick={() => {
-                  acceptOfferClicked()
-                  nftActions.acceptOffer({
-                    asset,
-                    gasData: val.fees,
-                    ...val.matchingOrder
-                  })
-                }}
-              >
-                {props.orderFlow.isSubmitting ? (
-                  <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                ) : (
-                  <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
-                )}
-              </Button>
-            )
-          })}
+            </Link>
+          )}
         </StickyCTA>
       </div>
     </>
