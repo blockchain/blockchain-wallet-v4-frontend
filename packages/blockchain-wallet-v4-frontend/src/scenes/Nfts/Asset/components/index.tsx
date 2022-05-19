@@ -178,6 +178,12 @@ export const CustomLink = styled(LinkContainer)`
 
 export const NftTableWrapper = styled(TableWrapper)`
   .table {
+    &.no-border {
+      border: 0px;
+    }
+    .tr {
+      border-top: 1px solid ${(props) => props.theme.grey000};
+    }
     .th,
     .td {
       padding: 6px 8px;

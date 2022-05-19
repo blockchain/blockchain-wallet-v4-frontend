@@ -25,7 +25,7 @@ const getTableColumns = (columns: ('event_type' | 'item' | 'price' | 'from' | 't
     columns.includes('date') ? getDateColumn() : null
   ].filter(Boolean)
 
-const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
+const CollectionEventsTable: React.FC<Props> = ({ columns, events, noBorder }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -45,7 +45,7 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
   )
 
   return (
-    <div {...getTableProps()} className='table'>
+    <div {...getTableProps()} className={`table ${noBorder ? 'no-border' : ''}`}>
       <StickyTableHeader>
         {headerGroups.map((headerGroup) => (
           // eslint-disable-next-line react/jsx-key
@@ -110,6 +110,7 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events }) => {
 type Props = {
   columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   events: EventsQuery['events']
+  noBorder?: boolean
 }
 
 export default CollectionEventsTable

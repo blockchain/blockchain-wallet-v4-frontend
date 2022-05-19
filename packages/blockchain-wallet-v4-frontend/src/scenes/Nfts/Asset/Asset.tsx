@@ -97,6 +97,13 @@ const SocialLink = styled.div`
   }
 `
 
+const ActivityWrapper = styled.div`
+  max-height: 300px;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  overflow: auto;
+`
+
 const CustomTabMenu = styled(TabMenu)`
   color: ${colors.grey900};
   margin: 24px 0;
@@ -815,8 +822,9 @@ const NftAsset: React.FC<Props> = ({
                 </DetailsAndOffers>
               )}
               {Tab === 'activity' && (
-                <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                <ActivityWrapper>
                   <Events
+                    noBorder
                     columns={['event_type', 'price', 'from', 'date']}
                     isFetchingParent={false}
                     filters={[
@@ -828,18 +836,18 @@ const NftAsset: React.FC<Props> = ({
                     ]}
                     key='events'
                   />
-                </div>
+                </ActivityWrapper>
               )}
               {Tab === 'offers' ? (
                 bidsAndOffers.length > 0 ? (
-                  <div style={{ maxHeight: '300px', overflow: 'auto' }}>
+                  <ActivityWrapper>
                     <Offers
                       asset={openSeaAsset.data}
                       columns={['price', 'from', 'expiration', 'action']}
                       bidsAndOffers={bidsAndOffers}
                       defaultEthAddr={defaultEthAddr}
                     />
-                  </div>
+                  </ActivityWrapper>
                 ) : openSeaAsset.isLoading ? (
                   <Flex justifyContent='center'>
                     <SpinningLoader height='14px' width='14px' borderWidth='3px' />
