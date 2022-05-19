@@ -50,6 +50,7 @@ export default ({ api }: { api: APIType }) => {
           // get all
         } else if (oldestTx) {
           // get all after the oldest tx on the first page
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
           after = new Date(oldestTx.insertedAt).toISOString()
         }
       } else {
@@ -57,10 +58,14 @@ export default ({ api }: { api: APIType }) => {
         // subsequent pages
         // before the newest
         if (newestTx) {
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
           before = new Date(newestTx.insertedAt).toISOString()
         }
         // after the oldest
         if (oldestTx) {
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
           after = new Date(oldestTx.insertedAt).toISOString()
         }
       }
