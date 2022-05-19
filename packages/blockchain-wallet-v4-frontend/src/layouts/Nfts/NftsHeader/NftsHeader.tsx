@@ -2,13 +2,14 @@ import React, { useRef } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconUser, IconWallet } from '@blockchain-com/icons'
+import { compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/NavbarV2/AppSwitcher'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/NavbarV2/Dropdown'
@@ -50,14 +51,18 @@ const NavCenter = styled.div`
     width: auto;
   `}
 `
-const NavLinkButton = styled(Link)`
+const NavLinkButton = styled(NavLink)`
   padding: 8px 10px;
   border-radius: 8px;
   text-decoration: none;
   margin-right: 12px;
-  background-color: ${(props) => props.theme.purple000};
-  * {
-    color: ${(props) => props.theme.purple600};
+  transition: color 0.3s, background-color 0.3s;
+  &:hover,
+  &.active {
+    background-color: ${(props) => props.theme.purple000};
+    * {
+      color: ${(props) => props.theme.purple600};
+    }
   }
 `
 
@@ -121,15 +126,18 @@ const ExploreHeader: React.FC<Props> = ({
       </NavLeft>
       <NavCenter>
         {isTablet ? null : (
-          <LinkContainer onClick={trackExploreClicked} to='/nfts/explore'>
-            <NavLinkButton>
-              <Flex alignItems='center' gap={4}>
-                <Text size='14px' weight={600}>
-                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                </Text>
-              </Flex>
-            </NavLinkButton>
-          </LinkContainer>
+          <NavLinkButton to='/nfts/home' onClick={trackExploreClicked}>
+            <Text size='14px' weight={600}>
+              <FormattedMessage id='copy.home' defaultMessage='Home' />
+            </Text>
+          </NavLinkButton>
+        )}
+        {isTablet ? null : (
+          <NavLinkButton to='/nfts/explore' onClick={trackExploreClicked}>
+            <Text size='14px' weight={600}>
+              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+            </Text>
+          </NavLinkButton>
         )}
         <NftsSearch />
       </NavCenter>
