@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
 import { selectors } from 'data'
 
-import WalletLayout from './template'
 import Loading from './template.loading'
+import { WalletLayout } from './WalletLayout'
 
-const WalletLayoutContainer = ({
-  coinViewV2,
+const WalletLayoutContainer: FC<Props> = ({
+  center,
   component: Component,
   computedMatch,
+  hideMenu,
   isAuthenticated,
   isCoinDataLoaded,
   path,
@@ -35,7 +36,7 @@ const WalletLayoutContainer = ({
     <Route
       path={path}
       render={(props) => (
-        <WalletLayout coinViewV2={coinViewV2} location={props.location} coin={coin}>
+        <WalletLayout hideMenu={hideMenu} center={center} pathname={props.location.pathname}>
           <Component computedMatch={computedMatch} {...rest} coin={coin} />
         </WalletLayout>
       )}
@@ -53,10 +54,11 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
-  coinViewV2?: boolean
+  center?: boolean
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean
+  hideMenu?: boolean
   path: string
 }
 

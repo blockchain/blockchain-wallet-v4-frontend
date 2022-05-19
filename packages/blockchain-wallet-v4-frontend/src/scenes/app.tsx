@@ -251,7 +251,8 @@ const App = ({
                         <WalletLayout
                           path='/coins/:coin'
                           component={coinViewV2 ? CoinPage : Transactions}
-                          coinViewV2={coinViewV2}
+                          hideMenu={coinViewV2}
+                          center={coinViewV2}
                         />
                         {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                       </Switch>
