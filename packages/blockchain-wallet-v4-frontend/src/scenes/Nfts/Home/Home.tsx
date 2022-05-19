@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Image, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
 import { ImageType } from 'blockchain-info-components/src/Images/Images'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
@@ -61,7 +61,7 @@ const AssetFooter = styled.div`
   left: 3em;
   top: 1em;
   margin-top: -12px;
-  padding: 0em 1em;
+  padding: 0.25em 1em;
   display: flex;
   justify-content: space-between;
   ${media.atLeastMobile`
@@ -82,31 +82,51 @@ const Explore: React.FC<Props> = (props) => {
   const isTablet = useMedia('tablet')
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
-    : ['with-the-light', 'nouns', 'mfers', 'superrare']
+    : ['nouns', 'mfers', 'superrare']
   const [randomContract] = useState(Math.floor(Math.random() * 4))
   const [assetId, setAssetId] = useState(0)
-  const limit = 4
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (assetId < 2) {
-        setAssetId(assetId + 1)
-      } else {
-        setAssetId(0)
-      }
-    }, 4000)
-    return () => clearInterval(interval)
-  }, [assetId])
+  const limit = 5
   const [assets] = useAssetsQuery({
     variables: {
       filter: [{ field: AssetFilterFields.CollectionSlug, value: contracts[randomContract] }],
       limit
     }
   })
+  const loadedAssets = assets.data?.assets.filter((asset) => {
+    return !!asset.image_url
+  })
+  useEffect(() => {
+    if (loadedAssets?.length) {
+      const interval = setInterval(() => {
+        if (assetId < loadedAssets.length - 1) {
+          setAssetId(assetId + 1)
+        } else {
+          setAssetId(0)
+        }
+      }, 4000)
+      return () => clearInterval(interval)
+    }
+  }, [assetId, loadedAssets])
   const [results] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
+  const Carousel = loadedAssets
+    ? loadedAssets.map((asset, i) => {
+        return (
+          <Text
+            key={asset.image_url}
+            onClick={() => setAssetId(i)}
+            style={{ cursor: 'pointer' }}
+            size='36px'
+            color={assetId === i ? 'blue600' : 'white'}
+          >
+            .
+          </Text>
+        )
+      })
+    : null
   const handleAssetClick = (assets) => {
     props.routerActions.push(
       `/nfts/assets/${assets.data?.assets[assetId]?.contract?.address}/${assets.data?.assets[assetId]?.token_id}`
@@ -201,7 +221,7 @@ const Explore: React.FC<Props> = (props) => {
             )}
           </div>
           <div>
-            {assets.data?.assets[assetId]?.image_url && (
+            {assets && loadedAssets && loadedAssets[assetId]?.image_url ? (
               <CardWrapper>
                 <div
                   role='button'
@@ -211,9 +231,13 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={{ borderRadius: '16px 16px 0px 0px', width: '300.35px' }}
+                    style={{
+                      borderRadius: '16px 16px 0px 0px',
+                      height: '300.35px',
+                      width: '300.35px'
+                    }}
                     alt='assetImage'
-                    src={assets.data?.assets[assetId]?.image_url || ''}
+                    src={loadedAssets[assetId]?.image_url || ''}
                   />
                 </div>
                 <AssetFooter>
@@ -223,25 +247,39 @@ const Explore: React.FC<Props> = (props) => {
                       tabIndex={0}
                       onClick={() => handleAssetClick(assets)}
                       onKeyDown={() => handleAssetClick(assets)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', lineHeight: '18px' }}
                     >
                       <Text
-                        style={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '150px' }}
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          width: '125px'
+                        }}
                         color='grey900'
                         weight={600}
-                        size='12px'
+                        size='16px'
                       >
-                        {assets.data?.assets[assetId]?.name}
+                        {loadedAssets[assetId]?.name}
                       </Text>
                       <Flex gap={2} alignItems='center'>
-                        {assets.data?.assets[assetId]?.collection?.safelist_request_status ===
+                        {loadedAssets[assetId]?.collection?.safelist_request_status ===
                           'verified' && (
                           <Icon size='sm' label='verified' color='blue600'>
                             <IconVerified />
                           </Icon>
                         )}
-                        <Text weight={500} size='10px'>
-                          {assets.data?.assets[assetId]?.collection?.name}
+                        <Text
+                          weight={500}
+                          size='14px'
+                          style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            width: '125px'
+                          }}
+                        >
+                          {loadedAssets[assetId]?.collection?.name}
                         </Text>
                       </Flex>
                     </div>
@@ -258,31 +296,26 @@ const Explore: React.FC<Props> = (props) => {
                   </Flex>
                 </AssetFooter>
                 <Flex justifyContent='center' gap={4}>
-                  <Text
-                    onClick={() => setAssetId(0)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 0 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
-                  <Text
-                    onClick={() => setAssetId(1)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 1 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
-                  <Text
-                    onClick={() => setAssetId(2)}
-                    style={{ cursor: 'pointer' }}
-                    size='36px'
-                    color={assetId === 2 ? 'blue600' : 'white'}
-                  >
-                    .
-                  </Text>
+                  {Carousel}
                 </Flex>
+              </CardWrapper>
+            ) : (
+              <CardWrapper style={{ opacity: '50%' }}>
+                <div>
+                  <SkeletonRectangle height='300.35px' width='300.35px' bgColor='white' />
+                </div>
+                <AssetFooter>
+                  <Flex alignItems='center'>
+                    <Button
+                      onClick={handleGetFeatured}
+                      small
+                      data-e2e='Featured'
+                      nature='empty-blue'
+                    >
+                      <FormattedMessage id='copy.get_featured' defaultMessage='Get Featured' />
+                    </Button>
+                  </Flex>
+                </AssetFooter>
               </CardWrapper>
             )}
           </div>
