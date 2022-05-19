@@ -65,6 +65,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
         minMaxPriceFilter
         forSaleFilter
         setIsFilterOpen={setIsFilterOpen}
+        verifiedFilter
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
