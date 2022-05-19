@@ -653,11 +653,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               isAmountInBounds={amountInBounds}
             />
           )}
-
           {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
             <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
           )}
-
           {!showLimitError && showError && (
             <ButtonContainer>
               {props.orderType === OrderType.BUY ? (

@@ -16,7 +16,9 @@ const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
 })
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  buySellOrder: selectors.components.buySell.getBSOrder(state),
+  buySellOrder: selectors.components.buySell
+    .getBSOrder(state)
+    .getOrElse(null as unknown as BSOrderType),
   buySellStep: selectors.components.buySell.getStep(state),
   modals: selectors.modals.getModals(state)
 })
@@ -33,7 +35,7 @@ type LinkDispatchPropsType = {
   update: () => void
 }
 type LinkStatePropsType = {
-  buySellOrder: BSOrderType | undefined
+  buySellOrder: BSOrderType | null
   buySellStep: keyof typeof BuySellStepType
   modals: Array<ModalType>
 }

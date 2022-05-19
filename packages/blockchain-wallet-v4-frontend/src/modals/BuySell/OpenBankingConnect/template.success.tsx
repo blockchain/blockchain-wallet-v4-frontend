@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -29,6 +29,13 @@ const Success = (props: Props) => {
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
   }
+
+  useEffect(() => {
+    const { id } = props.order
+    if (id) {
+      props.buySellActions.pollOrder(id)
+    }
+  }, [props.order])
 
   return (
     <BankWrapper>

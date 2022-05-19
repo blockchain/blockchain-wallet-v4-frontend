@@ -31,7 +31,7 @@ const GetStartedContainer = ({ close, order, recurringBuyActions }: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  order: selectors.components.buySell.getBSOrder(state) as BSOrderType
+  order: selectors.components.buySell.getBSOrder(state).getOrElse({} as BSOrderType)
 })
 
 const connector = connect(mapStateToProps)

@@ -88,7 +88,12 @@ const Payment: React.FC<Props> = (props: Props) => {
           />
         )}
       </SectionTitle>
-      <Box role='button' data-e2e='paymentMethodSelect' onClick={onPaymentMethodClick}>
+      <Box
+        role='button'
+        data-e2e='paymentMethodSelect'
+        onClick={onPaymentMethodClick}
+        disabled={props.isSddFlow}
+      >
         <DisplayPaymentIcon showBackground={!props.method}>{renderIcon()}</DisplayPaymentIcon>
 
         <PaymentText isMethod={!!props.method}>{renderText()}</PaymentText>
