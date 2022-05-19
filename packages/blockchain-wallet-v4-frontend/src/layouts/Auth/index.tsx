@@ -90,7 +90,6 @@ const AuthLayoutContainer = ({
 
   // update page title from route
   if (pageTitle) document.title = pageTitle
-
   return (
     <Route
       path={path}
@@ -111,6 +110,7 @@ const AuthLayoutContainer = ({
                 authProduct={authProduct}
                 formValues={formValues}
                 platform={platform}
+                path={path}
                 unified={unified}
               />
             </FooterContainer>
