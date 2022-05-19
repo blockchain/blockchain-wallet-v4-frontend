@@ -233,6 +233,7 @@ const NftAsset: React.FC<Props> = ({
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
+  const is_lowest_order_dutch = lowest_order && lowest_order.sale_kind === 1
   const is_lowest_order_english =
     lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
 
@@ -632,7 +633,7 @@ const NftAsset: React.FC<Props> = ({
                     </>
                   ) : null}
                   {!isOwner ? (
-                    is_lowest_order_english ? (
+                    is_lowest_order_english || is_lowest_order_dutch ? (
                       <Button
                         data-e2e='openNftFlow'
                         nature='dark'
