@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import CardError from 'components/BuySell/CardError'
 import { actions, selectors } from 'data'
+import { CARD_ERROR_CODE } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 
@@ -22,44 +23,15 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
     setPolling(true)
 
-    let type = 'ORDER'
-
-    if (order.isNotAsked) {
-      type = 'CARD'
-    }
-
-    switch (type) {
-      case 'ORDER':
-        if (!order.data) {
-          throw new Error('ORDER_NOT_FOUND')
-        }
-
-        props.buySellActions.pollOrder(order.data.id)
-
-        break
-
-      case 'CARD':
-        if (!card.data) {
-          throw new Error('CARD_NOT_FOUND')
-        }
-
-        // Remove provider details after successfull card add
-        props.buySellActions.reseetProviderDetails()
-        props.buySellActions.pollCard(card.data.id)
-
-        break
-      default:
+    if (order.hasData && order.data) {
+      props.buySellActions.pollOrder(order.data.id)
+    } else if (card.hasData && card.data) {
+      props.buySellActions.pollCard(card.data.id)
     }
   }
 
   const handleBack = () => {
-    let type = 'ORDER'
-
-    if (order.isNotAsked) {
-      type = 'CARD'
-    }
-
-    if (type === 'ORDER') {
+    if (order.hasData) {
       props.buySellActions.setStep({
         step: 'CHECKOUT_CONFIRM'
       })
@@ -133,11 +105,32 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return <Loading polling order={order.hasData} />
   }
 
+  let paymentLink = ''
+
+  if (order.data?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+    paymentLink = encodeURIComponent(order.data?.attributes?.cardProvider.paymentLink)
+  } else if (providerDetails.data) {
+    paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
+  } else if (!providerDetails.isLoading && !order.isLoading) {
+    return (
+      <CardError
+        code={CARD_ERROR_CODE.CREATE_FAILED}
+        handleReset={handleReset}
+        handleBack={handleBack}
+        handleRetry={handleRetry}
+      />
+    )
+  }
+
+  if (!paymentLink) {
+    return <Loading />
+  }
+
   return (
     <Success
       handleBack={handleBack}
       order={order?.data}
-      providerDetails={providerDetails?.data}
+      paymentLink={paymentLink}
       domains={props.domains}
     />
   )

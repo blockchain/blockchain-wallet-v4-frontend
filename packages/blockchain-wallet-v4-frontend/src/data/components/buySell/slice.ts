@@ -222,6 +222,7 @@ const buySellSlice = createSlice({
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
     destroyCheckout: (state) => {
       state.account = Remote.NotAsked
+      state.providerDetails = Remote.NotAsked
       state.cardId = undefined
       state.order = Remote.NotAsked
       state.pendingOrder = undefined
@@ -468,9 +469,6 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
-    reseetProviderDetails: (state) => {
-      state.providerDetails = Remote.NotAsked
-    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },

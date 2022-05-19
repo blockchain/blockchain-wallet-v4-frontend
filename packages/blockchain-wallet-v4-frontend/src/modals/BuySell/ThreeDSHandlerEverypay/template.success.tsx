@@ -5,7 +5,6 @@ import { Icon } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { SuccessStateType } from '.'
-import Loading from './template.loading'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -18,17 +17,7 @@ const Iframe = styled.iframe`
 `
 
 const Success: React.FC<Props> = (props) => {
-  const paymentLink = encodeURIComponent(
-    props.order && props.order.attributes && props.order.attributes.everypay
-      ? props.order?.attributes?.everypay.paymentLink
-      : props.order?.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
-      ? props.order?.attributes?.cardProvider.paymentLink
-      : ''
-  )
-
-  return props.isPolling ? (
-    <Loading polling order />
-  ) : (
+  return (
     <CustomFlyoutWrapper>
       <>
         <Icon
@@ -40,13 +29,13 @@ const Success: React.FC<Props> = (props) => {
           onClick={props.handleBack}
         />
         <Iframe
-          src={`${props.domains.walletHelper}/wallet-helper/everypay/#/paymentLink/${paymentLink}`}
+          src={`${props.domains.walletHelper}/wallet-helper/everypay/#/paymentLink/${props.paymentLink}`}
         />
       </>
     </CustomFlyoutWrapper>
   )
 }
 
-type Props = SuccessStateType & { handleBack: () => void; isPolling: boolean }
+type Props = SuccessStateType & { handleBack: () => void; paymentLink: string }
 
 export default Success

@@ -255,7 +255,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     // check for SDD flow and direct to add card
     if (isSddFlow && props.order.paymentType === BSPaymentTypes.PAYMENT_CARD) {
       if (isUserSddVerified) {
-        if (cards && cards.length > 0) {
+        // user has to have at least one active card
+        if (cards && cards.length > 0 && cards[0].state === 'ACTIVE') {
           const card = cards[0]
           return props.buySellActions.confirmOrder({
             order: props.order,

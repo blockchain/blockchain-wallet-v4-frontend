@@ -17,14 +17,6 @@ const Iframe = styled.iframe`
 `
 
 const Success = (props: Props) => {
-  const paymentLink = encodeURIComponent(
-    !props.order && props.providerDetails
-      ? props.providerDetails.cardProvider.paymentLink
-      : props.order?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
-      ? props.order?.attributes?.cardProvider.paymentLink
-      : ''
-  )
-
   return (
     <CustomFlyoutWrapper>
       <>
@@ -37,13 +29,13 @@ const Success = (props: Props) => {
           onClick={props.handleBack}
         />
         <Iframe
-          src={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/paymentLink/${paymentLink}`}
+          src={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/paymentLink/${props.paymentLink}`}
         />
       </>
     </CustomFlyoutWrapper>
   )
 }
 
-type Props = SuccessStateType & { handleBack: () => void }
+type Props = SuccessStateType & { handleBack: () => void; paymentLink: string }
 
 export default Success

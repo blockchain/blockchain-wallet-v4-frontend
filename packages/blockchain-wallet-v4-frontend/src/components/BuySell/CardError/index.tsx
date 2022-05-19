@@ -39,6 +39,7 @@ const CardError = ({ code, handleBack, handleReset, handleRetry }: Props) => {
         return <Duplicate handleBack={handleBack} />
       case CARD_ERROR_CODE.CREATE_FAILED:
       case CARD_ERROR_CODE.LINK_CARD_FAILED:
+      case CARD_ERROR_CODE.INVALID_PAYMENT_METHOD:
         return <CreateFailed handleBack={handleBack} handleRetry={handleRetry} />
       case CARD_ERROR_CODE.PAYMENT_FAILED:
         return <PaymentFailed handleBack={handleBack} handleRetry={handleRetry} />

@@ -283,7 +283,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const pair = S.getBSPair(yield select())
 
-      if (!values) throw new Error(BS_ERROR.NO_CHECKOUT_VALUES)
+      if (!values) throw new Error(BS_ERROR.NO_AMOUNT)
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
       const { fix, orderType, period } = values
@@ -478,7 +478,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error: number | string = errorHandlerCode(e)
 
-      const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
+      const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT, BS_ERROR.NO_AMOUNT]
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
       // Wait for the form to be INITIALIZED and display err
@@ -805,11 +805,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      yield put(A.confirmOrderFailure(e))
-
-      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
-
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
+      yield put(A.confirmOrderFailure(error))
     }
   }
 
