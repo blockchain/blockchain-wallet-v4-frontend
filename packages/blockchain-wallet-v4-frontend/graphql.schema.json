@@ -347,6 +347,18 @@
             "deprecationReason": null
           },
           {
+            "name": "network",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "num_sales",
             "description": null,
             "args": [],
@@ -712,6 +724,12 @@
             "deprecationReason": null
           },
           {
+            "name": "network",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "num_sales",
             "description": null,
             "isDeprecated": false,
@@ -939,6 +957,12 @@
           },
           {
             "name": "name",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "network",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -1320,6 +1344,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "network",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1790,6 +1826,12 @@
             "deprecationReason": null
           },
           {
+            "name": "network",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "num_owners",
             "description": null,
             "isDeprecated": false,
@@ -2053,6 +2095,12 @@
           },
           {
             "name": "name",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "network",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -3439,6 +3487,18 @@
           },
           {
             "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "network",
             "description": null,
             "args": [],
             "type": {
