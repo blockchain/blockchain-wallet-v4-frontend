@@ -34,6 +34,7 @@ import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
 
+import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
@@ -58,6 +59,17 @@ import {
 import AssetMoreItems from './components/AssetMoreItems'
 import NftAssetCountdown from './components/NftAssetCountdown'
 import NftAssetLoading from './components/NftAssetLoading'
+
+const AssetImageContainer = styled.div`
+  position: relative;
+  border-radius: 8px;
+  border-width: 1px;
+  border: 1px solid ${(props) => props.theme.grey100};
+  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+  padding: 30px;
+`
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -230,20 +242,30 @@ const NftAsset: React.FC<Props> = ({
           <Top>
             <LeftColWrapper>
               <StickyWrapper>
-                <img
-                  alt='Asset Logo'
-                  width='100%'
-                  style={{
-                    border: `1px solid ${colors.grey100}`,
-                    borderRadius: '8px',
-                    borderWidth: '1px',
-                    boxShadow: `inset 0px 0px 10px 0px  ${colors.grey000}`,
-                    boxSizing: 'border-box',
-                    marginBottom: '0.5rem',
-                    padding: '30px'
-                  }}
-                  src={currentAsset.image_url || ''}
-                />
+                <AssetImageContainer>
+                  {currentAsset.animation_url ? (
+                    <iframe
+                      title='Asset Animation'
+                      allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                      frameBorder='0'
+                      height='100%'
+                      sandbox='allow-scripts'
+                      width='100%'
+                      style={{ minHeight: '500px' }}
+                      src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
+                        currentAsset.animation_url
+                      )}`}
+                    />
+                  ) : (
+                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                  )}
+                  <NftAssetImageType
+                    animation_url={currentAsset.animation_url}
+                    image_url={currentAsset.image_url}
+                    top='40px'
+                    right='40px'
+                  />
+                </AssetImageContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
                     <SocialLink>
@@ -847,7 +869,8 @@ const NftAsset: React.FC<Props> = ({
 const mapStateToProps = (state: RootState) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
-    comWalletApp: 'https://login.blockchain.com'
+    comWalletApp: 'https://login.blockchain.com',
+    walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
