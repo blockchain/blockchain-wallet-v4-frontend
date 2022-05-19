@@ -613,7 +613,7 @@ const NftAsset: React.FC<Props> = ({
                         </Button>
                       )}
 
-                      {highest_offer ? (
+                      {highest_offer && !sellOrders.length ? (
                         <Button
                           data-e2e='acceptNftOffer'
                           nature='dark'
