@@ -138,7 +138,7 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
               role='button'
               onClick={() => {
                 setIsActive(false)
-                routerActions.push('/nfts')
+                routerActions.push('/nfts/home')
               }}
             >
               <Flex flexDirection='column' gap={2}>

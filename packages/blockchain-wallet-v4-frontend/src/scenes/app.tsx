@@ -211,9 +211,12 @@ const App = ({
                             component={NftsCollection}
                           />
                         )}
+                        <Route exact path='/nfts'>
+                          <Redirect to='/nfts/home' />
+                        </Route>
                         {nftExplorer && (
                           <NftsLayout
-                            path='/nfts'
+                            path='/nfts/home'
                             exact
                             component={NftsHome}
                             pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}

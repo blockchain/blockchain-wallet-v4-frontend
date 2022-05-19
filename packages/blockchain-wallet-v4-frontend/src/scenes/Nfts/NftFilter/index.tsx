@@ -117,7 +117,8 @@ const NftFilter: React.FC<Props> = ({
   opensea_event_types,
   setIsFilterOpen,
   total_supply,
-  traits
+  traits,
+  verifiedFilter
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
@@ -202,6 +203,29 @@ const NftFilter: React.FC<Props> = ({
                         formActions.change('nftFilter', 'forSale', !formValues?.forSale)
                       }
                       checked={formValues?.forSale}
+                    />
+                  </Flex>
+                </TraitHeader>
+              </TraitWrapper>
+            </div>
+          ) : null}
+          {verifiedFilter ? (
+            <div>
+              <TraitWrapper>
+                <TraitHeader>
+                  <Flex
+                    style={{ width: '100%' }}
+                    alignItems='center'
+                    justifyContent='space-between'
+                  >
+                    <Text size='16px' weight={500} color='black'>
+                      <FormattedMessage id='copy.verified_only' defaultMessage='Verified Only' />
+                    </Text>
+                    <Switch
+                      onClick={() =>
+                        formActions.change('nftFilter', 'verifiedOnly', !formValues?.verifiedOnly)
+                      }
+                      checked={formValues?.verifiedOnly}
                     />
                   </Flex>
                 </TraitHeader>
@@ -451,6 +475,7 @@ export type NftFilterFormValuesType =
       max: string
       min: string
       sortBy: string
+      verifiedOnly: boolean
     } & {
       [key: string]: {
         [key: string]: boolean
@@ -474,6 +499,7 @@ type OwnProps = {
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>
   total_supply?: CollectionsQuery['collections'][0]['total_supply']
   traits?: CollectionsQuery['collections'][0]['traits']
+  verifiedFilter?: boolean
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
