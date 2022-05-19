@@ -1,5 +1,5 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
-import { addDays, addMinutes, getUnixTime } from 'date-fns'
+import { addDays, addHours, addMinutes, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
@@ -188,6 +188,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
         let listingTime = getUnixTime(addMinutes(new Date(), 5))
         let expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
+
+        // Handles Minutes
+        if (action.payload.expirationDays === 0.02) {
+          expirationTime = getUnixTime(addMinutes(new Date(), 30))
+        } else if (action.payload.expirationDays === 0.04) {
+          expirationTime = getUnixTime(addHours(new Date(), 1))
+        }
 
         // For english auctions, order executes at listing time
         // highest bidder wins the auction
@@ -476,6 +483,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const guid = yield select(selectors.core.wallet.getGuid)
       let listingTime = getUnixTime(addMinutes(new Date(), 5))
       let expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
+
+      // Handles Minutes
+      if (action.payload.expirationDays === 0.02) {
+        expirationTime = getUnixTime(addMinutes(new Date(), 30))
+      } else if (action.payload.expirationDays === 0.04) {
+        expirationTime = getUnixTime(addHours(new Date(), 1))
+      }
 
       if (action.payload.waitForHighestBid) {
         listingTime = expirationTime

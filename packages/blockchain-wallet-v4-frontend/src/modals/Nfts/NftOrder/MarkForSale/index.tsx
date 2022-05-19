@@ -423,6 +423,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
+                            { text: '30 Mins', value: 0.02 },
+                            { text: '1 Hour', value: 0.04 },
                             { text: '1 Day', value: 1 },
                             { text: '3 Days', value: 3 },
                             { text: '7 Days', value: 7 },
