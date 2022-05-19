@@ -34,6 +34,7 @@ import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
 
+import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
@@ -258,6 +259,12 @@ const NftAsset: React.FC<Props> = ({
                   ) : (
                     <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
                   )}
+                  <NftAssetImageType
+                    animation_url={currentAsset.animation_url}
+                    image_url={currentAsset.image_url}
+                    top='40px'
+                    right='40px'
+                  />
                 </AssetImageContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
