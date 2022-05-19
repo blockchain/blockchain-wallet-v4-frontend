@@ -251,9 +251,7 @@ const NftAsset: React.FC<Props> = ({
                       sandbox='allow-scripts'
                       width='100%'
                       style={{ minHeight: '500px' }}
-                      src={`${
-                        domains.walletHelper
-                      }/wallet-helper/opensea/#/url/${encodeURIComponent(
+                      src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
                         currentAsset.animation_url
                       )}`}
                     />
