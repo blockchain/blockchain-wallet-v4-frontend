@@ -4,10 +4,10 @@ import { RouteComponentProps } from 'react-router'
 import { Flex } from 'components/Flex'
 import { useCoinConfig } from 'hooks'
 
-import { AboutSection } from '../AboutSection'
 import { CoinHeader } from '../CoinHeader'
 import { CoinPage } from './CoinPage'
 import {
+  useActivityFeed,
   useChart,
   useChartBalancePanel,
   useCoinAboutSection,
@@ -27,6 +27,7 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
   const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
   const [walletsCard] = useWalletsCard(coin)
   const coinfig = useCoinConfig({ coin })
+  const [activityFeed] = useActivityFeed({ coin })
 
   const displayName = useMemo(() => coinfig.name, [coinfig.name])
 
@@ -49,6 +50,7 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
         recurringBuys={recurringBuyPanel}
         holdings={holdingsCard}
         wallets={walletsCard}
+        activity={activityFeed}
       />
     </Flex>
   )
