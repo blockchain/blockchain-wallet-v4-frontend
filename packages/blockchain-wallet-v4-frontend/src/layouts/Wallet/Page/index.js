@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: ${({ center = false }) => (center ? 'center' : 'flex-start')};
   align-items: flex-start;
   height: 100%;
   width: 100%;
@@ -20,6 +20,7 @@ class PageContainer extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.children.props.url !== this.props.children.props.url) {
       try {
+        /* eslint-disable-next-line react/no-find-dom-node */
         ReactDOM.findDOMNode(this).scrollTop = 0
       } catch (e) {
         /* eslint-disable-next-line */
@@ -35,7 +36,12 @@ class PageContainer extends React.Component {
   }
 
   render() {
-    return <Wrapper ref='page' children={this.props.children} />
+    return (
+      /* eslint-disable-next-line react/no-string-refs */
+      <Wrapper ref='page' center={this.props.center}>
+        {this.props.children}
+      </Wrapper>
+    )
   }
 }
 
