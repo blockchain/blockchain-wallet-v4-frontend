@@ -8,9 +8,11 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
+import { useMedia } from 'services/styles'
 
-import { Grid, GridWrapper } from '../components'
+import { GridWrapper } from '../components'
 import NftError from '../components/NftError'
+import NftGrid from '../components/NftGrid'
 import NftGridLoading from '../components/NftGridLoading'
 import NftPageLazyLoadWrapper from '../components/NftPageLazyLoadWrapper'
 import TraitGridFilters from '../components/TraitGridFilters'
@@ -18,6 +20,7 @@ import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
 const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
+  const isTablet = useMedia('tablet')
   const [collectionsQuery] = useCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
@@ -32,7 +35,8 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
-  const [isFilterTriggered, setIsFilterTriggered] = useState<boolean>(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
+  const stringifiedForm = JSON.stringify(formValues)
 
   const refresh = () => {
     setIsFetchingNextPage(true)
@@ -45,7 +49,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
 
   useEffect(() => {
     refresh()
-  }, [formValues, refreshTrigger])
+  }, [refreshTrigger, stringifiedForm])
 
   const isFetching = isFetchingNextPage
 
@@ -56,11 +60,11 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
         formActions={formActions}
         formValues={formValues}
         traits={[]}
-        isTriggered={isFilterTriggered}
+        isFilterOpen={isFilterOpen}
         opensea_event_types={[]}
         minMaxPriceFilter
         forSaleFilter
-        setIsFilterTriggered={setIsFilterTriggered}
+        setIsFilterOpen={setIsFilterOpen}
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
@@ -68,7 +72,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
           tabs={['EXPLORE']}
           activeTab='EXPLORE'
           showSortBy
-          setIsFilterTriggered={setIsFilterTriggered}
+          setIsFilterOpen={setIsFilterOpen}
           formValues={formValues}
           formActions={formActions}
           setRefreshTrigger={setRefreshTrigger}
@@ -83,7 +87,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
                 : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
             }
           >
-            <Grid>
+            <NftGrid fullscreen={!isFilterOpen}>
               {pageVariables.length
                 ? pageVariables.map(({ page }) => (
                     <NftFirehoseResults
@@ -97,8 +101,8 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
                     />
                   ))
                 : null}
-              {isFetching ? <NftGridLoading /> : null}
-            </Grid>
+              {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
+            </NftGrid>
             {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
           </LazyLoadContainer>
         </NftPageLazyLoadWrapper>

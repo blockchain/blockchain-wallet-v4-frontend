@@ -104,13 +104,6 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
-export const StickyHeaderWrapper = styled.div`
-  background-color: ${(props) => props.theme.white};
-  position: sticky;
-  top: 0;
-  z-index: 99;
-`
-
 class Flyout extends React.Component<Props> {
   shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
@@ -129,7 +122,7 @@ class Flyout extends React.Component<Props> {
             initial={{ x: width }}
             transition={{
               bounce: 0,
-              duration: 1,
+              duration: duration / 1000,
               type: 'spring'
             }}
           >

@@ -15,7 +15,7 @@ export const getAmountColumn = () => ({
           currency='USD'
           coin={offer.payment_token_contract.symbol}
         >
-          {offer.base_price}
+          {offer.current_price}
         </FiatDisplay>
       </CellText>
     )

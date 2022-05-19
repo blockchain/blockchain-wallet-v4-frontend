@@ -60,7 +60,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.cache.exchangeEmail(email))
       yield put(actions.cache.exchangeWalletGuid(guid))
       yield put(actions.cache.setUnifiedAccount(true))
-
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))
@@ -68,7 +67,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const createWalletForExchangeAccountUpgrade = function* (action) {
-    // start some sort of form submit so state is loading
+    // TODO: start some sort of form submit so state is loading
     try {
       const { captchaToken, password } = action.payload
       const magicLinkData = yield select(selectors.auth.getMagicLinkData)
@@ -83,9 +82,10 @@ export default ({ api, coreSagas, networks }) => {
         retailToken
       )
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      // TODO: do we need to fetch legacy userCredentials? should we also write to legacy userCredentials here...?
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
       yield put(
-        actions.core.kvStore.userCredentials.setUnifiedAccountCredentials(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials(
           userId,
           nabuToken,
           userCredentialsId,
@@ -131,12 +131,14 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield put(actions.signup.registerSuccess(undefined))
+
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
           properties: {
             country,
-            country_state: state
+            country_state: `${country}-${state}`,
+            device_origin: platform
           }
         })
       )
@@ -145,7 +147,10 @@ export default ({ api, coreSagas, networks }) => {
           actions.analytics.trackEvent({
             key: Analytics.ONBOARDING_EXCHANGE_SIGNED_UP,
             properties: {
-              device: platform
+              country,
+              country_state: `${country}-${state}`,
+              device_origin: platform,
+              unified: true
             }
           })
         )

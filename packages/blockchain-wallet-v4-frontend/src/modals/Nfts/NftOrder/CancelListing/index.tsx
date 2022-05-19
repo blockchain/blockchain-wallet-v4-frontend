@@ -3,11 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
@@ -22,7 +21,7 @@ import { Props as OwnProps } from '..'
 import CancelListingFees from './fees'
 
 const CancelListing: React.FC<Props> = (props) => {
-  const { close, nftActions, openSeaAssetR, orderFlow } = props
+  const { close, isInvited, nftActions, openSeaAssetR, orderFlow } = props
   const { listingToCancel } = orderFlow
 
   const dispatch = useDispatch()
@@ -48,11 +47,9 @@ const CancelListing: React.FC<Props> = (props) => {
 
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='cancelListing' mode='back' onClick={() => close()}>
-          <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
-        </FlyoutHeader>
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='cancelListing' mode='back' onClick={() => close()}>
+        <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
+      </FlyoutHeader>
       <div
         style={{
           display: 'flex',
@@ -73,7 +70,7 @@ const CancelListing: React.FC<Props> = (props) => {
                 weight={600}
                 coin={listingToCancel?.payment_token_contract?.symbol}
               >
-                {listingToCancel?.base_price}
+                {listingToCancel?.current_price}
               </CoinDisplay>
               <FiatDisplay
                 size='12px'
@@ -81,7 +78,7 @@ const CancelListing: React.FC<Props> = (props) => {
                 weight={600}
                 coin={listingToCancel?.payment_token_contract?.symbol}
               >
-                {listingToCancel?.base_price}
+                {listingToCancel?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>
@@ -90,45 +87,53 @@ const CancelListing: React.FC<Props> = (props) => {
       <StickyCTA>
         <CancelListingFees {...props} />
         <br />
-        {orderFlow.fees.cata({
-          Failure: () => (
-            <Text size='14px' weight={600}>
-              <FormattedMessage
-                id='copy.no_active_listings'
-                defaultMessage='Error. You may not have any active listings for this asset.'
-              />
-            </Text>
-          ),
-          Loading: () => null,
-          NotAsked: () => null,
-          Success: (val) =>
-            listingToCancel ? (
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='cancelListingNft'
-                disabled={disabled}
-                onClick={() => {
-                  cancelListingClicked()
-                  nftActions.cancelListing({ asset, gasData: val, order: listingToCancel })
-                }}
-              >
-                {props.orderFlow.isSubmitting ? (
-                  <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                ) : (
-                  <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
-                )}
-              </Button>
-            ) : (
+        {isInvited ? (
+          orderFlow.fees.cata({
+            Failure: () => (
               <Text size='14px' weight={600}>
                 <FormattedMessage
                   id='copy.no_active_listings'
                   defaultMessage='Error. You may not have any active listings for this asset.'
                 />
               </Text>
-            )
-        })}
+            ),
+            Loading: () => null,
+            NotAsked: () => null,
+            Success: (val) =>
+              listingToCancel ? (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='cancelListingNft'
+                  disabled={disabled}
+                  onClick={() => {
+                    cancelListingClicked()
+                    nftActions.cancelListing({ asset, gasData: val, order: listingToCancel })
+                  }}
+                >
+                  {props.orderFlow.isSubmitting ? (
+                    <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                  ) : (
+                    <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
+                  )}
+                </Button>
+              ) : (
+                <Text size='14px' weight={600}>
+                  <FormattedMessage
+                    id='copy.no_active_listings'
+                    defaultMessage='Error. You may not have any active listings for this asset.'
+                  />
+                </Text>
+              )
+          })
+        ) : (
+          <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+            <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+              <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
+            </Button>
+          </Link>
+        )}
       </StickyCTA>
     </>
   )

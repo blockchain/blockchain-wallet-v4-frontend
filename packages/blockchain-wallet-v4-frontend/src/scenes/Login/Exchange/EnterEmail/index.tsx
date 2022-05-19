@@ -14,7 +14,6 @@ import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
@@ -27,7 +26,16 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const { busy, cache, formValues, invalid, magicLinkData, submitting, walletTabClicked } = props
+  const {
+    busy,
+    cache,
+    formValues,
+    invalid,
+    magicLinkData,
+    productAuthMetadata,
+    submitting,
+    walletTabClicked
+  } = props
 
   return (
     <LoginWrapper>
@@ -73,11 +81,6 @@ const EnterEmail = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.EXCHANGE}
-            unified={cache.unifiedAccount}
-          />
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

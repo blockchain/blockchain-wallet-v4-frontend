@@ -3,11 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { StickyHeaderWrapper, Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
@@ -24,7 +23,7 @@ import AcceptOfferFees from './fees'
 import { getData } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
-  const { close, nftActions, openSeaAssetR, orderFlow } = props
+  const { close, isInvited, nftActions, openSeaAssetR, orderFlow } = props
   const dispatch = useDispatch()
   const acceptOfferClicked = () => {
     dispatch(
@@ -47,11 +46,9 @@ const AcceptOffer: React.FC<Props> = (props) => {
   if (!asset) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
   return (
     <>
-      <StickyHeaderWrapper>
-        <FlyoutHeader data-e2e='acceptOffer' mode='back' onClick={() => close()}>
-          <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
-        </FlyoutHeader>
-      </StickyHeaderWrapper>
+      <FlyoutHeader sticky data-e2e='acceptOffer' mode='back' onClick={() => close()}>
+        <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+      </FlyoutHeader>
       <div
         style={{
           display: 'flex',
@@ -73,7 +70,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                   weight={600}
                   coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
                 >
-                  {orderFlow.orderToMatch?.base_price}
+                  {orderFlow.orderToMatch?.current_price}
                 </CoinDisplay>
                 <FiatDisplay
                   size='14px'
@@ -81,7 +78,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                   weight={500}
                   coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
                 >
-                  {orderFlow.orderToMatch?.base_price}
+                  {orderFlow.orderToMatch?.current_price}
                 </FiatDisplay>
               </Flex>
             </Flex>
@@ -90,48 +87,60 @@ const AcceptOffer: React.FC<Props> = (props) => {
         <StickyCTA>
           <AcceptOfferFees {...props} asset={asset} />
           <br />
-          {props.data.cata({
-            Failure: (e) => (
-              <>
-                <Text size='14px' weight={600} style={{ marginBottom: '8px', maxHeight: '200px' }}>
-                  {e}
-                </Text>
-                <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
+          {isInvited ? (
+            props.data.cata({
+              Failure: (e) => (
+                <>
+                  <Text
+                    size='14px'
+                    weight={600}
+                    style={{ marginBottom: '8px', maxHeight: '200px' }}
+                  >
+                    {e}
+                  </Text>
+                  <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                  </Button>
+                </>
+              ),
+              Loading: () => (
+                <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
                   <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                 </Button>
-              </>
-            ),
-            Loading: () => (
-              <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
-                <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+              ),
+              NotAsked: () => null,
+              Success: (val) => (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='acceptNftOffer'
+                  disabled={disabled}
+                  type='submit'
+                  onClick={() => {
+                    acceptOfferClicked()
+                    nftActions.acceptOffer({
+                      asset,
+                      gasData: val.fees,
+                      ...val.matchingOrder
+                    })
+                  }}
+                >
+                  {props.orderFlow.isSubmitting ? (
+                    <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                  ) : (
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                  )}
+                </Button>
+              )
+            })
+          ) : (
+            <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+              <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+                <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
               </Button>
-            ),
-            NotAsked: () => null,
-            Success: (val) => (
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='acceptNftOffer'
-                disabled={disabled}
-                type='submit'
-                onClick={() => {
-                  acceptOfferClicked()
-                  nftActions.acceptOffer({
-                    asset,
-                    gasData: val.fees,
-                    ...val.matchingOrder
-                  })
-                }}
-              >
-                {props.orderFlow.isSubmitting ? (
-                  <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                ) : (
-                  <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
-                )}
-              </Button>
-            )
-          })}
+            </Link>
+          )}
         </StickyCTA>
       </div>
     </>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
@@ -14,7 +15,6 @@ import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
@@ -82,7 +82,14 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink origin='IDENTIFIER' product={ProductAuthOptions.WALLET} />
+          <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
+            <Link size='13px' weight={600} data-e2e='loginImportAccount'>
+              <FormattedMessage
+                id='scenes.login.import_your_account'
+                defaultMessage='Import Your Account'
+              />
+            </Link>
+          </LinkContainer>
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

@@ -17,8 +17,8 @@ import {
 
 const getTableColumns = (columns: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]) =>
   [
-    columns.includes('event_type') ? getEventTypeColumn() : null,
     columns.includes('item') ? getItemColumn() : null,
+    columns.includes('event_type') ? getEventTypeColumn() : null,
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('from') ? getFromColumn() : null,
     columns.includes('to') ? getToColumn() : null,

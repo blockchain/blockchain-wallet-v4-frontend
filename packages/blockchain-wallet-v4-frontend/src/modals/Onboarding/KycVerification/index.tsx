@@ -61,7 +61,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
   initializeVerification = () => {
     const { needMoreInfo, tier } = this.props
-    this.props.actions.initializeVerification(tier, needMoreInfo)
+    this.props.actions.initializeVerification({ needMoreInfo, tier })
   }
 
   getStepComponent = (emailVerified: boolean, step: string) => {

@@ -11,18 +11,18 @@ import { getOwnersColumn } from './owners.column'
 import { getTotalSupplyColumn } from './supply.column'
 import { getVolumeColumn } from './volume.column'
 
-export const getTableColumns = (routerActions) => [
-  getNameColumn(routerActions),
+export const getTableColumns = () => [
+  getNameColumn(),
   getVolumeColumn(),
   getFloorPriceColumn(),
   getOwnersColumn(),
   getTotalSupplyColumn()
 ]
 
-const TrendingCollectionsTable: React.FC<Props> = ({ collections, routerActions }) => {
+const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
-      columns: useMemo(() => getTableColumns(routerActions), []),
+      columns: useMemo(() => getTableColumns(), []),
       data: useMemo(() => collections, [collections]),
       disableMultiSort: true,
       disableSortRemove: true,

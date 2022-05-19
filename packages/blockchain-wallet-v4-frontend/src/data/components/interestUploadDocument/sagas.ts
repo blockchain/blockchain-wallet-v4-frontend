@@ -79,8 +79,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.modals.closeModal(ModalName.INTEREST_MODAL))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
-      yield put(actions.alerts.displayError(C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR))
+      yield put(actions.logs.logErrorMessage(logLocation, 'save additional documents', error))
+      yield put(actions.alerts.displayError(C.UPLOAD_ADDITIONAL_DOCUMENTS_FILES_ERROR))
     }
   }
 

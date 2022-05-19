@@ -4,9 +4,9 @@ import { CombinedError } from 'urql'
 
 import { SpinningLoader } from 'blockchain-info-components'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql.types'
 
+import { NftTableWrapper } from '../Asset/components'
 import { Centered } from '../components'
 import NftError from '../components/NftError'
 import EventsResults from './Events.results'
@@ -56,7 +56,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
             />
           ))
         : null}
-      <TableWrapper height='auto'>
+      <NftTableWrapper height='auto'>
         {events.length ? (
           <EventsTable
             columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
@@ -68,7 +68,7 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
           ) : null}
         </Centered>
-      </TableWrapper>
+      </NftTableWrapper>
       {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
     </StyledLazyLoadContainer>
   )

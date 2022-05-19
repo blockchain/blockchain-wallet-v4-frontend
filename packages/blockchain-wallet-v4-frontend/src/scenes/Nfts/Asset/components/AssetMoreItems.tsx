@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
-import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import {
@@ -10,28 +9,9 @@ import {
   FilterOperators,
   useAssetsQuery
 } from 'generated/graphql.types'
-import { media } from 'services/styles'
 
-import { CollectionName, CustomLink } from '.'
-
-const MoreAssets = styled.div`
-  width: 100%;
-  ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
-  `}
-`
-
-const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
-`
+import NftCollectionImage from '../../components/NftCollectionImage'
+import { CollectionName, CustomLink, MoreAssets, MoreAssetsList, MoreAssetsListItem } from '.'
 
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   const limit = 4
@@ -79,7 +59,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
         <MoreAssetsList>
           {assets?.data?.assets?.length
             ? assets?.data?.assets?.map((asset) => {
-                const link = `/nfts/asset/${asset.contract?.address}/${asset.token_id}`
+                const link = `/nfts/assets/${asset.contract?.address}/${asset.token_id}`
                 return (
                   <MoreAssetsListItem key={asset.token_id}>
                     <CustomLink
@@ -100,18 +80,13 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
                       <div>
                         <CollectionName>
                           {asset.collection.image_url ? (
-                            <img
+                            <NftCollectionImage
                               alt='Dapp Logo'
-                              height='30px'
-                              width='auto'
-                              style={{
-                                borderRadius: '50%',
-                                paddingRight: '0.5em'
-                              }}
                               src={asset.collection?.image_url || ''}
+                              isVerified={asset.collection.safelist_request_status === 'verified'}
                             />
                           ) : null}
-                          <div>{asset.collection?.name}</div>
+                          <div style={{ paddingLeft: '8px' }}>{asset.collection?.name}</div>
                         </CollectionName>
                         <img
                           alt='Asset Logo'

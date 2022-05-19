@@ -101,6 +101,7 @@ type Props = {
         __typename?: 'Collection' | undefined
         image_url?: string | null | undefined
         name: string
+        safelist_request_status: string
         slug: string
       }[]
     >

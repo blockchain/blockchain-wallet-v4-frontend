@@ -7,15 +7,16 @@ import { bindActionCreators } from 'redux'
 import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/analytics/types'
-import { ProductAuthOptions } from 'data/auth/types'
+import { PlatformTypes, ProductAuthOptions } from 'data/types'
 
-const NeedHelpLink = ({ analyticsActions, origin, product, unified }: Props) => (
+const NeedHelpLink = ({ analyticsActions, origin, platform, product, unified }: Props) => (
   <LinkContainer
     to={product === ProductAuthOptions.WALLET || unified ? '/recover' : '/help-exchange'}
     onClick={() => {
       analyticsActions.trackEvent({
         key: Analytics.LOGIN_HELP_CLICKED,
         properties: {
+          device_origin: platform,
           origin,
           site_redirect: product,
           unified
@@ -37,6 +38,7 @@ const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
   origin: string
+  platform?: PlatformTypes
   product: ProductAuthOptions
   unified?: boolean
 }

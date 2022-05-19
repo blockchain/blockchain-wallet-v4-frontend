@@ -1,4 +1,3 @@
-import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import { addSeconds, differenceInMilliseconds } from 'date-fns'
@@ -29,7 +28,7 @@ import {
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
-import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,

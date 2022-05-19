@@ -21,7 +21,7 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 `
 
-const VerifyEmail = ({ email, resendEmail }: Props) => {
+const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification }: Props) => {
   return (
     <>
       <Wrapper>
@@ -69,6 +69,21 @@ const VerifyEmail = ({ email, resendEmail }: Props) => {
               />
             </Text>
           </Button>
+          {isMetadataRecovery && (
+            <Link
+              onClick={skipVerification}
+              size='14px'
+              style={{ marginTop: '16px' }}
+              weight={600}
+              data-e2e='verifyEmailLater'
+              color='blue600'
+            >
+              <FormattedMessage
+                id='scenes.verifyemail.do_it_later'
+                defaultMessage='I’ll Do This Later.'
+              />
+            </Link>
+          )}
         </ContentWrapper>
       </Wrapper>
     </>
@@ -77,7 +92,9 @@ const VerifyEmail = ({ email, resendEmail }: Props) => {
 
 type Props = {
   email: string
+  isMetadataRecovery: boolean
   resendEmail: () => void
+  skipVerification: () => void
 }
 
 export default VerifyEmail

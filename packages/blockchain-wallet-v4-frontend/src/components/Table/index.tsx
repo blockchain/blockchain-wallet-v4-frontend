@@ -1,12 +1,18 @@
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
-export const TableWrapper = styled.div<{ height?: string }>`
+export const TableWrapper = styled.div<{
+  cellWidth?: string
+  height?: string
+  minCellWidth?: string
+}>`
   display: block;
   max-width: 100%;
   height: ${(props) => props.height || '100%'};
   width: 100%;
+
   .tableWrap {
     display: block;
     max-width: 100%;
@@ -18,11 +24,17 @@ export const TableWrapper = styled.div<{ height?: string }>`
     display: block;
     height: 100%;
     border-spacing: 0;
-    border: 1px solid ${(props) => props.theme.grey100};
-    border-radius: 8px;
+    ${media.atLeastTablet`
+      border: 1px solid ${(props) => props.theme.grey100};
+      border-radius: 8px;
+  `}
 
     .th {
       display: table-header-group;
+    }
+
+    .tbody {
+      overflow: scroll;
     }
 
     .th,
@@ -32,13 +44,25 @@ export const TableWrapper = styled.div<{ height?: string }>`
       display: table-cell;
       margin: 0;
       text-align: left;
-      width: 20%;
+      min-width: ${(props) => (props.minCellWidth ? props.minCellWidth : '50px')};
+      width: ${(props) => (props.cellWidth ? props.cellWidth : '20%')};
+
+      ${media.tabletL`
+        max-width: 12em;
+        min-width: 12em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      `}
     }
 
     .td {
       height: 75px;
       padding-top: 0;
       padding-bottom: 0;
+      ${media.tabletL`
+        height: 66px;
+      `}
     }
 
     .tr {
@@ -46,7 +70,7 @@ export const TableWrapper = styled.div<{ height?: string }>`
       display: table;
       width: 100%;
       &:first-child {
-        border-top: 0px;
+        border-top: 0;
       }
     }
   }
@@ -58,6 +82,7 @@ export const StickyTableHeader = styled.div`
   border-top-right-radius: 8px;
   border-bottom: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
+  z-index: 1;
 `
 export const CellHeaderText = styled(Text)`
   font-style: normal;
@@ -80,4 +105,5 @@ export const HeaderText = styled.div`
 `
 export const HeaderToggle = styled.span`
   color: ${(props) => props.theme.grey500};
+  margin-left: 4px;
 `

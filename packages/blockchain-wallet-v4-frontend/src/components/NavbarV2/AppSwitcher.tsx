@@ -65,6 +65,13 @@ const IconWrapper = styled.div`
       fill: ${(props) => props.theme.blue600};
     }
   }
+  &.nfts {
+    border: 1px solid ${(props) => props.theme.purple600};
+    background: ${(props) => props.theme.purple000};
+    * {
+      fill: ${(props) => props.theme.purple600};
+    }
+  }
 `
 
 const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
@@ -79,17 +86,19 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
     setIsActive((isActive) => !isActive)
   }
 
+  const mainColor = app === 'nfts' ? 'purple600' : 'blue600'
+
   return (
     <Wrapper ref={ref}>
       {isTablet ? null : <Spacer style={{ marginRight: '12px' }} height='24px' />}
       {/* @ts-ignore */}
       <Flex alignItems='center' gap={8} onClick={toggleIsActive}>
         {isTablet ? null : (
-          <Text cursor='pointer' weight={600} color='blue600' size='14px'>
+          <Text cursor='pointer' weight={600} color={mainColor} size='14px'>
             {app === 'nfts' ? 'NFTs' : 'Wallet'}
           </Text>
         )}
-        <IconWrapper role='button' className={isActive ? 'active' : ''}>
+        <IconWrapper role='button' className={`${app} ${isActive ? 'active' : ''}`}>
           <Icon label='up' size='sm'>
             <IconChevronUpV2 />
           </Icon>
@@ -106,7 +115,13 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <PopoutItem role='button' onClick={() => routerActions.push('/home')}>
+            <PopoutItem
+              role='button'
+              onClick={() => {
+                setIsActive(false)
+                routerActions.push('/home')
+              }}
+            >
               <Flex flexDirection='column' gap={2}>
                 <Text size='16px' color='black' weight={600}>
                   Wallet
@@ -115,11 +130,17 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
                   Buy, Sell & Swap Crypto
                 </Text>
               </Flex>
-              <Icon label='check' size='sm' color={app === 'wallet' ? 'blue600' : 'grey100'}>
+              <Icon label='check' size='sm' color={app === 'wallet' ? mainColor : 'grey100'}>
                 <IconCheckCircle />
               </Icon>
             </PopoutItem>
-            <PopoutItem role='button' onClick={() => routerActions.push('/nfts')}>
+            <PopoutItem
+              role='button'
+              onClick={() => {
+                setIsActive(false)
+                routerActions.push('/nfts')
+              }}
+            >
               <Flex flexDirection='column' gap={2}>
                 <Text size='16px' color='black' weight={600}>
                   NFT Marketplace
@@ -128,7 +149,7 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
                   Buy, Sell & Discover NFTs
                 </Text>
               </Flex>
-              <Icon label='check' size='sm' color={app === 'nfts' ? 'blue600' : 'grey100'}>
+              <Icon label='check' size='sm' color={app === 'nfts' ? mainColor : 'grey100'}>
                 <IconCheckCircle />
               </Icon>
             </PopoutItem>

@@ -113,8 +113,8 @@ export const ReverifyIdentityInfoBox = () => {
     <RectangleBackground>
       <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
         <FormattedMessage
-          id='scenes.recovery.reverify'
-          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or rewards account.'
+          id='scenes.recovery.reverify_warning'
+          defaultMessage='For your security, you may be to re-verify your identity before accessing your Wallet or Exchange funds.'
         />
       </Text>
     </RectangleBackground>

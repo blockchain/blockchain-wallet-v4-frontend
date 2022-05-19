@@ -3,7 +3,7 @@ import { RemoteDataType } from '@core/types'
 export enum ExchangeErrorCodes {
   EMAIL_NOT_VERIFIED = 65,
   WRONG_2FA = 10, // Incorrect 2FA code
-  BAD_2FA = 11, // 2FA is undefined/missing from params
+  MISSING_2FA = 11, // 2FA is undefined/missing from params
   NOT_LINKED = 12,
   UNRECOGNIZED_DEVICE = 99,
   INVALID_CREDENTIALS = 8
@@ -33,8 +33,6 @@ export enum LoginSteps {
   ENTER_PASSWORD_WALLET = 'ENTER_PASSWORD_WALLET',
   INSTITUTIONAL_PORTAL = 'INSTITUTIONAL_PORTAL',
   LOADING = 'LOADING',
-  PRODUCT_PICKER_AFTER_AUTHENTICATION = 'PRODUCT_PICKER_AFTER_AUTHENTICATION',
-  PRODUCT_PICKER_BEFORE_AUTHENTICATION = 'PRODUCT_PICKER_BEFORE_AUTHENTICATION',
   TWO_FA_EXCHANGE = 'TWO_FA_EXCHANGE',
   TWO_FA_WALLET = 'TWO_FA_WALLET',
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
@@ -122,13 +120,6 @@ export enum AuthUserType {
   INSTITUTIONAL = 'INSTITUTIONAL'
 }
 
-export enum WalletPollingResponseType {
-  CONTINUE_POLLING = 'CONTINUE_POLLING',
-  EXCHANGE_ONLY_LOGIN = 'EXCHANGE_ONLY_LOGIN',
-  REQUEST_DENIED = 'REQUEST_DENIED',
-  WALLET_INFO_POLLED = 'WALLET_INFO_POLLED'
-}
-
 export type AuthMagicLink = {
   exchange?: {
     email?: string
@@ -139,7 +130,6 @@ export type AuthMagicLink = {
   mergeable?: boolean | null
   platform_type: PlatformTypes
   product?: ProductAuthOptions
-  response_type?: WalletPollingResponseType
   session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
@@ -179,9 +169,7 @@ export type LoginApiErrorType =
 
 // TODO: define missing types and determine if all of these types are needed/used
 export type ExchangeLoginSuccessType = {}
-
 export type ExchangeLoginFailureType = any
-
 export type ExchangeResetPasswordSuccessType = any
 
 export type ProductAuthMetadata = {

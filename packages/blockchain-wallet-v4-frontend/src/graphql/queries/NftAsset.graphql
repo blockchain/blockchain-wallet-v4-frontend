@@ -29,6 +29,7 @@ query Asset($filter: [AssetFilter], $limit: Int) {
       telegram_url
       twitter_username
       instagram_username
+      safelist_request_status
       wiki_url
       external_url
     }

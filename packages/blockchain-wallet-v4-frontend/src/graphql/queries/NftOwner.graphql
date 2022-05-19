@@ -7,14 +7,13 @@ query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int)
       name
       slug
       image_url
+      safelist_request_status
     }
     contract {
       address
     }
     last_sale {
-      payment_token {
-        symbol
-      }
+      payment_token_symbol
       total_price
     }
     token_id

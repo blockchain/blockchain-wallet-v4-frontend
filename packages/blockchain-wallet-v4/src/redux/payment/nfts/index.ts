@@ -54,6 +54,7 @@ export const getNftSellOrder = async (
   expirationTime = 0,
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
   endPrice: number | null = null,
+  reservePrice: number | undefined,
   network: string,
   waitForHighestBid = false, // True = English auction,
   paymentTokenAddress = '0x0000000000000000000000000000000000000000'
@@ -65,6 +66,7 @@ export const getNftSellOrder = async (
     signer,
     startPrice,
     endPrice,
+    reservePrice,
     waitForHighestBid,
     paymentTokenAddress,
     network
@@ -98,7 +100,8 @@ export const getNftBuyOrder = async (
   expirationTime,
   startAmount: number,
   paymentTokenAddress: string,
-  network: 'mainnet' | 'rinkeby'
+  network: 'mainnet' | 'rinkeby',
+  sellOrder?: NftOrder
 ): Promise<NftOrder> => {
   const accountAddress = await signer.getAddress()
   return createBuyOrder(
@@ -108,7 +111,8 @@ export const getNftBuyOrder = async (
     expirationTime,
     paymentTokenAddress,
     signer,
-    network
+    network,
+    sellOrder
   )
 }
 

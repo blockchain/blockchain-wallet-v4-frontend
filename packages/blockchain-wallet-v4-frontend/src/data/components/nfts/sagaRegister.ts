@@ -6,8 +6,8 @@ import * as routerActionTypes from 'data/router/actionTypes'
 import sagas from './sagas'
 import { actions } from './slice'
 
-export default ({ api }) => {
-  const nftsSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const nftsSagas = sagas({ api, coreSagas, networks })
 
   return function* nftSaga() {
     yield takeLatest(actions.acceptOffer, nftsSagas.acceptOffer)
@@ -22,7 +22,6 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchOpenSeaAsset, nftsSagas.fetchOpenSeaAsset)
     yield takeLatest(actions.fetchOpenseaStatus, nftsSagas.fetchOpenseaStatus)
     yield takeLatest(actions.handleRouterChange, nftsSagas.handleRouterChange)
-    yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.nftSearch, nftsSagas.nftSearch)
     yield takeLatest(routerActionTypes.LOCATION_CHANGE, nftsSagas.handleRouterChange)
