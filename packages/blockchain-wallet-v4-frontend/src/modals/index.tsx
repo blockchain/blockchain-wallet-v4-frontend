@@ -61,7 +61,6 @@ const AirdropSuccess = React.lazy(() => import('./Onboarding/AirdropSuccess'))
 const LinkFromExchangeAccount = React.lazy(() => import('./Onboarding/LinkFromExchangeAccount'))
 const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchangeAccount'))
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
-const ExtraFields = React.lazy(() => import('./Onboarding/KycVerification/ExtraFields'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
@@ -321,9 +320,6 @@ const Modals = (props: Props) => {
           <XlmReserveLearn />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
-          <ExtraFields />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
           <IdentityVerification />
         ) : null}

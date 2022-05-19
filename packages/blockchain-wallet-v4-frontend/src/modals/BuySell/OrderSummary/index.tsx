@@ -7,7 +7,6 @@ import { Exchange, Remote } from '@core'
 import {
   BSOrderType,
   BSPaymentMethodType,
-  BSPaymentTypes,
   ExtractSuccess,
   OrderType,
   RemoteDataType
