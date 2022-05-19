@@ -6,6 +6,9 @@ query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSo
     contract {
       address
     }
+    owners {
+      address
+    }
     image_url
     animation_url
     permalink
