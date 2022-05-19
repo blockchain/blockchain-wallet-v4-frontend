@@ -801,7 +801,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
       const error = errorHandlerCode(e)
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))

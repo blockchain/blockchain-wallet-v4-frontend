@@ -17,14 +17,8 @@ const Iframe = styled.iframe`
 `
 
 const Success = (props: Props) => {
-  let type = 'ORDER'
-
-  if (!props.order) {
-    type = 'CARD'
-  }
-
   const paymentLink = encodeURIComponent(
-    type === 'CARD' && props.providerDetails
+    !props.order && props.providerDetails
       ? props.providerDetails.cardProvider.paymentLink
       : props.order?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM'
       ? props.order?.attributes?.cardProvider.paymentLink

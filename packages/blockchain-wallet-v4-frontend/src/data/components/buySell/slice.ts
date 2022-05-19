@@ -468,6 +468,9 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
+    reseetProviderDetails: (state) => {
+      state.providerDetails = Remote.NotAsked
+    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },

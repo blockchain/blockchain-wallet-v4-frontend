@@ -43,6 +43,8 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
           throw new Error('CARD_NOT_FOUND')
         }
 
+        // Remove provider details after successfull card add
+        props.buySellActions.reseetProviderDetails()
         props.buySellActions.pollCard(card.data.id)
 
         break
