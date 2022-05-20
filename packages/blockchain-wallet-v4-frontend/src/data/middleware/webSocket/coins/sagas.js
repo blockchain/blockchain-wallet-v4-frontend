@@ -74,7 +74,14 @@ export default ({ api, socket }) => {
     // only ping phone if last logout time is more than 5 minutes
     // prevents pinging phone again right when user logs out
     const pingPhoneOnLoad = Date.now() - lastLogoutTime > 300000
-    if (phonePubkey && guid && pingPhoneOnLoad && product === ProductAuthOptions.WALLET) {
+    const isWindowActive = window.document.visibilityState === 'visible' || !window.document.hidden
+    if (
+      phonePubkey &&
+      guid &&
+      pingPhoneOnLoad &&
+      product === ProductAuthOptions.WALLET &&
+      isWindowActive
+    ) {
       yield pingPhone(channelId, secretHex, phonePubkey, guid)
     }
   }
@@ -327,13 +334,14 @@ export default ({ api, socket }) => {
                   key: Analytics.LOGIN_SIGNED_IN,
                   properties: {
                     authentication_type: 'SECURE_CHANNEL',
-                    has_cloud_backup: magicLinkData.wallet?.has_cloud_backup,
-                    is_mobile_setup: magicLinkData.wallet?.is_mobile_setup,
-                    mergeable: magicLinkData.mergeable,
-                    nabu_id: magicLinkData.wallet?.nabu?.user_id,
+                    device_origin: 'WEB',
+                    has_cloud_backup: magicLinkData?.wallet?.has_cloud_backup,
+                    is_mobile_setup: magicLinkData?.wallet?.is_mobile_setup,
+                    mergeable: magicLinkData?.mergeable,
+                    nabu_id: magicLinkData?.wallet?.nabu?.user_id,
                     site_redirect: product,
-                    unified: magicLinkData.upgradeable,
-                    upgradeable: magicLinkData.upgradeable
+                    unified: magicLinkData?.upgradeable,
+                    upgradeable: magicLinkData?.upgradeable
                   }
                 })
               )

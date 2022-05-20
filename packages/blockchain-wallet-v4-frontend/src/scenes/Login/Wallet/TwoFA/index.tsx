@@ -47,6 +47,7 @@ const TwoFAWallet = (props: Props) => {
     handleBackArrowClickWallet,
     invalid,
     magicLinkData,
+    productAuthMetadata,
     submitting,
     walletError
   } = props
@@ -57,8 +58,11 @@ const TwoFAWallet = (props: Props) => {
       walletError.toLowerCase().includes('account is locked'))
 
   const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
+  const { product } = productAuthMetadata
   const handleSmsResend = () => {
-    authActions.resendSmsCode({ email: formValues?.email, guid: formValues?.guid })
+    const email =
+      product === ProductAuthOptions.EXCHANGE ? formValues?.exchangeEmail : formValues.email
+    authActions.resendSmsCode({ email, guid: formValues?.guid })
   }
 
   return (
@@ -146,7 +150,11 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink origin='2FA' product={ProductAuthOptions.WALLET} />
+          <NeedHelpLink
+            origin='2FA'
+            platform={productAuthMetadata.platform}
+            product={ProductAuthOptions.WALLET}
+          />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

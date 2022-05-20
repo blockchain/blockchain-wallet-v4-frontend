@@ -8,15 +8,7 @@ import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import {
-  CoinfigType,
-  CoinType,
-  FiatType,
-  OrderType,
-  TimeRange,
-  WalletCurrencyType,
-  WalletFiatType
-} from '@core/types'
+import { CoinType, FiatType, OrderType, TimeRange, WalletFiatType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
@@ -244,7 +236,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <ExplainerText>{getIntroductionText(coin)}</ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown coin={coin} />
+              <WalletBalanceDropdown key={coin} coin={coin} />
               {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>

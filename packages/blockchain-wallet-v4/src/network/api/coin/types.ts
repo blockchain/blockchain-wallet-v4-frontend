@@ -1,14 +1,14 @@
 export type BalanceResponseType = {
   results: {
     balances: {
-      address: null | string
-      balance: string
+      amount: string
+      identifier: 'native'
     }[]
     pubKey: string
   }[]
 }
 
-export type BuildTxFeeType = 'LOW' | 'NORMAL' | 'PRIORITY'
+export type BuildTxFeeType = 'LOW' | 'NORMAL' | 'HIGH'
 
 export type BuildTxIntentType = {
   additional_data?: { memo: string }

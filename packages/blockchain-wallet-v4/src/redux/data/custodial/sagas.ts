@@ -1,4 +1,3 @@
-import { formatISO } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -51,18 +50,23 @@ export default ({ api }: { api: APIType }) => {
           // get all
         } else if (oldestTx) {
           // get all after the oldest tx on the first page
-          after = formatISO(oldestTx.insertedAt)
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
+          after = new Date(oldestTx.insertedAt).toISOString()
         }
       } else {
         if (!page[0]) return []
         // subsequent pages
         // before the newest
         if (newestTx) {
-          before = formatISO(newestTx.insertedAt)
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
+          before = new Date(newestTx.insertedAt).toISOString()
         }
         // after the oldest
         if (oldestTx) {
-          after = formatISO(oldestTx.insertedAt)
+          // this value has to be "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
+          after = new Date(oldestTx.insertedAt).toISOString()
         }
       }
 

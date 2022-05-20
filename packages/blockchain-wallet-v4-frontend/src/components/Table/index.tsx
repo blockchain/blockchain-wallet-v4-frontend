@@ -2,11 +2,16 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-export const TableWrapper = styled.div<{ height?: string }>`
+export const TableWrapper = styled.div<{
+  cellWidth?: string
+  height?: string
+  minCellWidth?: string
+}>`
   display: block;
   max-width: 100%;
   height: ${(props) => props.height || '100%'};
   width: 100%;
+
   .tableWrap {
     display: block;
     max-width: 100%;
@@ -25,6 +30,10 @@ export const TableWrapper = styled.div<{ height?: string }>`
       display: table-header-group;
     }
 
+    .tbody {
+      overflow: scroll;
+    }
+
     .th,
     .td {
       padding: 16px;
@@ -32,7 +41,8 @@ export const TableWrapper = styled.div<{ height?: string }>`
       display: table-cell;
       margin: 0;
       text-align: left;
-      width: 20%;
+      min-width: ${(props) => (props.minCellWidth ? props.minCellWidth : '50px')};
+      width: ${(props) => (props.cellWidth ? props.cellWidth : '20%')};
     }
 
     .td {
@@ -46,7 +56,7 @@ export const TableWrapper = styled.div<{ height?: string }>`
       display: table;
       width: 100%;
       &:first-child {
-        border-top: 0px;
+        border-top: 0;
       }
     }
   }
@@ -80,4 +90,5 @@ export const HeaderText = styled.div`
 `
 export const HeaderToggle = styled.span`
   color: ${(props) => props.theme.grey500};
+  margin-left: 4px;
 `

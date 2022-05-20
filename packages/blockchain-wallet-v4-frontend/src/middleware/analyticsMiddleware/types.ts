@@ -341,6 +341,10 @@ type LoginRequestApprovedOrFailedPayload = BasePayload & {
   method: 'SECURE_CHANNEL' | 'MAGIC_LINK'
 }
 
+type LoginViewed = BasePayload & {
+  device_origin: string
+}
+
 type SignUpCountrySelectPayload = BasePayload & {
   country: string
 }
@@ -699,6 +703,7 @@ type AnalyticsProperties =
   | LoginMethodSelectedPayload
   | LoginRequestPayload
   | LoginRequestApprovedOrFailedPayload
+  | LoginViewed
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload

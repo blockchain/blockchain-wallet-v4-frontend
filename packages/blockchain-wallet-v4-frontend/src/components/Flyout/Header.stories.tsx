@@ -40,3 +40,13 @@ export const HeaderWithChildren: Story<Props> = (args) => (
     />
   </Header>
 )
+
+export const StickyHeader: Story<Props> = (args) => (
+  <Header {...args} sticky onClick={action('back arrow clicked')}>
+    <FormattedMessage
+      id='modals.recurringbuys.get_started.buy_amount_of_currency'
+      defaultMessage='Buy {amount} of {currency}'
+      values={{ amount: '0.005', currency: 'BTC' }}
+    />
+  </Header>
+)

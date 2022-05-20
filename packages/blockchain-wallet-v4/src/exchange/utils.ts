@@ -39,10 +39,10 @@ export const coinToString = ({
     coinfig ? coinfig.displaySymbol : unit.symbol
   }`
 }
-// showNarrowSymbol - is used to show $ instead of US$
+
 export const fiatToString = ({
   digits = 2,
-  showNarrowSymbol = false,
+  showNarrowSymbol = false, // used to show $ instead of US$
   unit,
   value
 }: {

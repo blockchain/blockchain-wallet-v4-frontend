@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { pathOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 import { getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -14,9 +15,23 @@ import RecoveryOptions from './RecoveryOptions'
 import RecoveryPhrase from './RecoveryPhrase'
 import ResetAccount from './ResetAccount'
 
-class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
+class RecoverWalletContainer extends React.PureComponent<
+  InjectedFormProps<{}, Props> & Props,
+  State
+> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showPhraseStep: pathOr(false, ['location', 'state', 'showPhraseStep'], this.props)
+    }
+  }
+
   componentDidMount() {
-    this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
+    if (this.state.showPhraseStep) {
+      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
+    } else {
+      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
+    }
   }
 
   componentWillUnmount() {
@@ -29,6 +44,7 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
 
   render() {
     const { step } = this.props.formValues || RecoverSteps.RECOVERY_OPTIONS
+
     return (
       <Form>
         {(() => {
@@ -82,6 +98,7 @@ type FormProps = {
   submitting: boolean
 }
 
+type State = { showPhraseStep: boolean }
 export type Props = ConnectedProps<typeof connector> & FormProps
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

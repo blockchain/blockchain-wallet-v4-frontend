@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
+import SupportChat from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
@@ -77,6 +78,7 @@ const WalletLayout = (props) => {
             <Page>{children}</Page>
           </Content>
         </Container>
+        <SupportChat />
       </ErrorBoundary>
     </Wrapper>
   )

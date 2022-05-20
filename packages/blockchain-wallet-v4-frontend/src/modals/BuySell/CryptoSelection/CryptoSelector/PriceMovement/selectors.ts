@@ -15,8 +15,8 @@ export const getData = createDeepEqualSelector(
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       previousCoinPrices: ExtractSuccess<typeof coinPricesR>
     ) => {
-      const currentPrice = coinPrices[coin]
-      const yesterdayPrice = previousCoinPrices[coin]
+      const currentPrice = coinPrices[coin]?.price || 0
+      const yesterdayPrice = previousCoinPrices[coin]?.price || 0
       const priceChangeNum = Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100)
       return Number.isNaN(priceChangeNum) ? '0' : priceChangeNum.toFixed(2)
     }
