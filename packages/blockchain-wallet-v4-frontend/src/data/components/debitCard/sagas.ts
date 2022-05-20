@@ -43,7 +43,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       console.error('Failed to get current card account', errorHandler(e))
       const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
-      if (false) {
+      if (!isEmpty(eligibleAccounts)) {
         // In case of failure it is set the default account as current
         yield put(A.getCurrentCardAccountSuccess(eligibleAccounts[0]))
       } else {
