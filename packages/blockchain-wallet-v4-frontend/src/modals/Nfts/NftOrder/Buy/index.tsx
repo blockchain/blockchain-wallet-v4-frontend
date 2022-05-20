@@ -201,7 +201,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string
-    expirationDays: string
+    expirationMinutes: string
     fix: string
   },
   rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),

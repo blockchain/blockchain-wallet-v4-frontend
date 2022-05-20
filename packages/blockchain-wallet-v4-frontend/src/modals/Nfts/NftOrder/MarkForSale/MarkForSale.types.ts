@@ -1,6 +1,6 @@
 export type NftMarkForSaleFormValues = {
   ending: string
-  expirationDays: number
+  expirationMinutes: number
   fix: 'CRYPTO' | 'FIAT'
   fixAmount: string
   reserve: string
