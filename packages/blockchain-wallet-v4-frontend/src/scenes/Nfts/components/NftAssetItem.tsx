@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
@@ -10,7 +10,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
-import { AssetsQuery } from 'generated/graphql.types'
+import { AssetsQuery, OwnerQuery } from 'generated/graphql.types'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
 import NftAssetImageType from './NftAssetImageType'
@@ -21,7 +21,7 @@ const XSmallButton = styled(Button)`
   height: auto;
 `
 
-const NftAssetItem: React.FC<Props> = ({ asset, defaultEthAddr }) => {
+const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const dispatch = useDispatch()
 
   const logoClickTracking = () => {
@@ -59,12 +59,6 @@ const NftAssetItem: React.FC<Props> = ({ asset, defaultEthAddr }) => {
 
   const lowestListing = asset.listings
     ? asset.listings.sort((a, b) => Number(a?.starting_price) - Number(b?.starting_price))[0]
-    : null
-
-  const isOwner = asset?.owners
-    ? asset.owners.find((owner) => {
-        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
-      })
     : null
 
   return (
@@ -126,14 +120,10 @@ const NftAssetItem: React.FC<Props> = ({ asset, defaultEthAddr }) => {
               <XSmallButton
                 onClick={viewDetailsTracking}
                 data-e2e='nftAssetPage'
-                nature='dark-grey'
+                nature='empty-blue'
                 small
               >
-                {isOwner ? (
-                  <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-                ) : (
-                  <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
-                )}
+                <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
               </XSmallButton>
             )}
           </LinkContainer>
@@ -165,14 +155,8 @@ const NftAssetItem: React.FC<Props> = ({ asset, defaultEthAddr }) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = ConnectedProps<typeof connector> & {
+type Props = {
   asset: AssetsQuery['assets'][0]
 }
 
-export default connector(NftAssetItem)
+export default NftAssetItem
