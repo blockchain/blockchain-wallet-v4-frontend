@@ -157,6 +157,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
 type Props = {
   asset: AssetsQuery['assets'][0]
+  isOwner?: boolean
 }
 
 export default NftAssetItem

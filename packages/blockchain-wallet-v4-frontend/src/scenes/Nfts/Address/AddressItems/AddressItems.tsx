@@ -16,6 +16,7 @@ const AddressItems: React.FC<Props> = ({
   collections,
   formValues,
   isFilterOpen,
+  isOwner,
   refreshTrigger,
   setCollections
 }) => {
@@ -56,6 +57,7 @@ const AddressItems: React.FC<Props> = ({
             ? pageVariables.map(({ page }) => (
                 <ResultsPage
                   page={page}
+                  isOwner={isOwner}
                   formValues={formValues}
                   collections={collections}
                   setCollections={setCollections}
@@ -80,6 +82,7 @@ type Props = {
   collections: OwnerQuery['assets'][0]['collection'][]
   formValues: NftFilterFormValuesType
   isFilterOpen: boolean
+  isOwner: boolean
   refreshTrigger: number
   setCollections: React.Dispatch<React.SetStateAction<OwnerQuery['assets'][0]['collection'][]>>
 }

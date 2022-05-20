@@ -16,6 +16,7 @@ import { NftFilterFormValuesType } from '../../NftFilter'
 const NftAddressResults: React.FC<Props> = ({
   address,
   formValues,
+  isOwner,
   page,
   setCollections,
   setIsFetchingNextPage,
@@ -84,7 +85,7 @@ const NftAddressResults: React.FC<Props> = ({
   return (
     <>
       {result.data?.assets.map((asset) => {
-        return asset ? <NftAssetItem asset={asset} /> : null
+        return asset ? <NftAssetItem isOwner={isOwner} asset={asset} /> : null
       })}
     </>
   )
@@ -94,6 +95,7 @@ type Props = {
   address: string
   collections: OwnerQuery['assets'][0]['collection'][]
   formValues: NftFilterFormValuesType
+  isOwner: boolean
   page: number
   setCollections: React.Dispatch<
     React.SetStateAction<

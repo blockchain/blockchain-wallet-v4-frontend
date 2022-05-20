@@ -42,6 +42,8 @@ const NftAddress: React.FC<Props> = ({
 
   const eventFilter = getEventFilter(formValues)
 
+  const isOwner = ethAddress.toLowerCase() === address.toLowerCase() && isAuthenticated
+
   useEffect(() => {
     setActiveTab(tab)
   }, [tab])
@@ -119,6 +121,7 @@ const NftAddress: React.FC<Props> = ({
           />
           {activeTab === 'ITEMS' ? (
             <AddressItems
+              isOwner={isOwner}
               collections={collections}
               refreshTrigger={refreshTrigger}
               isFilterOpen={isFilterOpen}
