@@ -154,7 +154,7 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                   <Switch
                     checked={switches.successful_purchase}
                     onClick={() =>
-                      setSwitches((x) => ({ ...x, successful_purchas: !x.successful_purchas }))
+                      setSwitches((x) => ({ ...x, successful_purchase: !x.successful_purchase }))
                     }
                   />
                 </Flex>
