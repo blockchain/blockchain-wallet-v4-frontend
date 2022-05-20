@@ -53,11 +53,9 @@ export const PriceChange = ({
 
   return (
     <PriceChangeText>
-      {!hasNanValues && (
-        <PriceChangeColoredText change={change}>
-          {priceFormatted} ({priceChangePercentFormatted})%
-        </PriceChangeColoredText>
-      )}
+      <PriceChangeColoredText change={change}>
+        {priceFormatted} ({priceChangePercentFormatted})%
+      </PriceChangeColoredText>
       {children}
     </PriceChangeText>
   )
