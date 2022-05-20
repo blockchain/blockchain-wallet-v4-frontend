@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -6,7 +6,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { WalletOptionsType } from '@core/redux/walletOptions/types'
 import { RemoteDataType } from '@core/remote/types'
 import { actions, selectors } from 'data'
-import { DebitCardType } from 'data/components/debitCard/types'
 
 import DebitCard from './DebitCard.template'
 
