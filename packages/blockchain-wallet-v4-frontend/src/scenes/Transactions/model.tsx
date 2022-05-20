@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
@@ -31,28 +31,31 @@ export const PriceChange = ({
   isPortfolioPosition,
   priceChange
 }: {
-  children: any
+  children: ReactNode
   currency: FiatType
   isPortfolioPosition?: boolean
   priceChange: PriceChangeType
 }) => {
   const change = isPortfolioPosition ? priceChange.positionChange : priceChange.overallChange
-  let priceFormatted
   const price = formatFiat(change.diff)
-  const hidePrices = Number.isNaN(price) || Number.isNaN(change.percentChange)
+  const priceChangePercentFormatted = formatFiat(change.percentChange)
+  let priceFormatted
+
   if (change.movement === 'down') {
     priceFormatted = `-${Exchange.getSymbol(currency)}${price.substring(1)}`
   } else {
     priceFormatted = `${Exchange.getSymbol(currency)}${price}`
   }
 
+  const hasNanValues = Number.isNaN(Number(price)) || Number.isNaN(Number(change.percentChange))
+
+  if (hasNanValues) return null
+
   return (
     <PriceChangeText>
-      {!hidePrices && (
-        <PriceChangeColoredText change={change}>
-          {priceFormatted} ({formatFiat(change.percentChange)})%
-        </PriceChangeColoredText>
-      )}
+      <PriceChangeColoredText change={change}>
+        {priceFormatted} ({priceChangePercentFormatted})%
+      </PriceChangeColoredText>
       {children}
     </PriceChangeText>
   )

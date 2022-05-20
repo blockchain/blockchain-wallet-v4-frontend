@@ -3,6 +3,7 @@ import { replace } from 'ramda'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
+import SupportChat from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -35,6 +36,7 @@ const WalletLayout: WalletLayoutComponent = ({
           <Page center={center}>{children}</Page>
         </Content>
       </Container>
+      <SupportChat />
     </ErrorBoundary>
   </Wrapper>
 )

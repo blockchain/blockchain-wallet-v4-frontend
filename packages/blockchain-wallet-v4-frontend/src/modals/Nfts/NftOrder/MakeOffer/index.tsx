@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { addDays, getUnixTime } from 'date-fns'
+import { addMinutes, getUnixTime } from 'date-fns'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -247,7 +247,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           </Title>
           <Value>
             <Field
-              name='expirationDays'
+              name='expirationMinutes'
               onChange={(days: any) => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               }}
@@ -261,12 +261,14 @@ const MakeOffer: React.FC<Props> = (props) => {
                       value: item.value
                     }),
                     [
-                      { text: '1 Day', value: 1 },
-                      { text: '3 Days', value: 3 },
-                      { text: '7 Days', value: 7 },
-                      { text: '1 Months', value: 30 },
-                      { text: '3 Months', value: 90 },
-                      { text: '6 Months', value: 180 }
+                      { text: '30 Mins', value: 30 },
+                      { text: '1 Hour', value: 60 },
+                      { text: '1 Day', value: 1440 },
+                      { text: '3 Days', value: 4320 },
+                      { text: '7 Days', value: 10080 },
+                      { text: '1 Month', value: 43200 },
+                      { text: '3 Months', value: 129600 },
+                      { text: '6 Months', value: 259200 }
                     ]
                   )
                 }
@@ -358,7 +360,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
                       asset: val,
                       expirationTime: getUnixTime(
-                        addDays(new Date(), parseInt(formValues.expirationDays))
+                        addMinutes(new Date(), parseInt(formValues.expirationMinutes))
                       ),
                       offerFees,
                       wrapFees,
@@ -435,7 +437,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
     amount: string
     coin: string
-    expirationDays: string
+    expirationMinutes: string
     fix: string
   },
   rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),
@@ -455,7 +457,7 @@ const enhance = compose(
     form: 'nftMakeOffer',
     initialValues: {
       coin: 'WETH',
-      expirationDays: 1,
+      expirationMinutes: 1440,
       fix: 'CRYPTO',
       networkFees: 'network'
     }

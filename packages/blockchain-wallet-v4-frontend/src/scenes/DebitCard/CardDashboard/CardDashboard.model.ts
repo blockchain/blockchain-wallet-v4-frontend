@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-export const BoxContainer = styled.div`
+export const BoxContainer = styled.div<{ width?: string }>`
   border: 1px solid ${(props) => props.theme.grey000};
   box-sizing: border-box;
   border-radius: 16px;
@@ -10,6 +10,7 @@ export const BoxContainer = styled.div`
   width: fit-content;
   display: inline-block;
   vertical-align: top;
+  width: ${(props) => (props.width ? props.width : 'inherit')};
 `
 
 export const BoxRow = styled.div`
@@ -98,4 +99,14 @@ export const Last4Wrapper = styled.div`
   font-size: 14px;
   line-height: 20px;
   color: ${(props) => props.theme.grey600};
+`
+
+export const DashboardWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
+
+export const ColumnWrapper = styled.div`
+  flex-direction: column;
+  display: flex;
 `

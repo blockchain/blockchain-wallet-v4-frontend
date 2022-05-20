@@ -26,7 +26,7 @@ const WalletId = (props: Props) => {
           <FormattedMessage
             id='scenes.settings.general.walletid.description'
             defaultMessage='Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'
-          />
+          />{' '}
           <Text color='error' size='13px' weight={600}>
             <FormattedMessage
               id='scenes.settings.general.walletid.warning'
