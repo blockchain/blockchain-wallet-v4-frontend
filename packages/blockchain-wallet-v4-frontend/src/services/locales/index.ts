@@ -7,12 +7,12 @@ type Language = { language: string; name: string }
 
 export const languages: Array<Language> = [
   { language: 'en', name: 'English' },
-  { language: 'es', name: 'Spanish' },
-  { language: 'es-LA', name: 'Spanish - Latin America' },
-  { language: 'fr', name: 'French' },
-  { language: 'pt', name: 'Portuguese' },
-  { language: 'ru', name: 'Russian' },
-  { language: 'tr', name: 'Turkish' }
+  { language: 'es', name: 'Español' },
+  { language: 'es-la', name: 'Español (Latinoamérica)' },
+  { language: 'fr', name: 'Français' },
+  { language: 'pt', name: 'Português' },
+  { language: 'ru', name: 'Русский' },
+  { language: 'tr', name: 'Türkçe' }
 ]
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)
@@ -53,18 +53,18 @@ export const loadLocaleData = (locale, callback) => {
         'i18n-es'
       )
       break
-    case 'es-LA':
+    case 'es-la':
       require.ensure(
         [
           'date-fns/locale/es',
           '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
-          '../../assets/locales/es-LA.json'
+          '../../assets/locales/es-la.json'
         ],
         (require) => {
           require('date-fns/locale/es')
-          setLocaleData(require('../../assets/locales/es-LA.json'))
+          setLocaleData(require('../../assets/locales/es-la.json'))
         },
-        'i18n-es-LA'
+        'i18n-es-la'
       )
       break
     case 'fr':
