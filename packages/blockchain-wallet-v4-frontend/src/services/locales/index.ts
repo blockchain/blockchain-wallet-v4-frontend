@@ -41,8 +41,13 @@ export const loadLocaleData = (locale, callback) => {
   switch (locale) {
     case 'es':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/es.js', '../../assets/locales/es.json'],
+        [
+          'date-fns/locale/es',
+          '@formatjs/intl-relativetimeformat/locale-data/es.js',
+          '../../assets/locales/es.json'
+        ],
         (require) => {
+          require('date-fns/locale/es')
           setLocaleData(require('../../assets/locales/es.json'))
         },
         'i18n-es'
@@ -51,10 +56,12 @@ export const loadLocaleData = (locale, callback) => {
     case 'es-LA':
       require.ensure(
         [
+          'date-fns/locale/es',
           '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
           '../../assets/locales/es-LA.json'
         ],
         (require) => {
+          require('date-fns/locale/es')
           setLocaleData(require('../../assets/locales/es-LA.json'))
         },
         'i18n-es-LA'
@@ -62,8 +69,13 @@ export const loadLocaleData = (locale, callback) => {
       break
     case 'fr':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/fr.js', '../../assets/locales/fr.json'],
+        [
+          'date-fns/locale/fr',
+          '@formatjs/intl-relativetimeformat/locale-data/fr.js',
+          '../../assets/locales/fr.json'
+        ],
         (require) => {
+          require('date-fns/locale/fr')
           setLocaleData(require('../../assets/locales/fr.json'))
         },
         'i18n-fr'
@@ -71,8 +83,13 @@ export const loadLocaleData = (locale, callback) => {
       break
     case 'pt':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/pt.js', '../../assets/locales/pt.json'],
+        [
+          'date-fns/locale/pt',
+          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
+          '../../assets/locales/pt.json'
+        ],
         (require) => {
+          require('date-fns/locale/pt')
           setLocaleData(require('../../assets/locales/pt.json'))
         },
         'i18n-pt'
@@ -80,8 +97,13 @@ export const loadLocaleData = (locale, callback) => {
       break
     case 'pt-BR':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/pt.js', '../../assets/locales/pt-BR.json'],
+        [
+          'date-fns/locale/pt-BR',
+          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
+          '../../assets/locales/pt-BR.json'
+        ],
         (require) => {
+          require('date-fns/locale/pt-BR')
           setLocaleData(require('../../assets/locales/pt-BR.json'))
         },
         'i18n-pt-BR'
@@ -89,8 +111,13 @@ export const loadLocaleData = (locale, callback) => {
       break
     case 'ru':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/ru.js', '../../assets/locales/ru.json'],
+        [
+          'date-fns/locale/ru',
+          '@formatjs/intl-relativetimeformat/locale-data/ru.js',
+          '../../assets/locales/ru.json'
+        ],
         (require) => {
+          require('date-fns/locale/ru')
           setLocaleData(require('../../assets/locales/ru.json'))
         },
         'i18n-ru'
@@ -98,8 +125,13 @@ export const loadLocaleData = (locale, callback) => {
       break
     case 'tr':
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/tr.js', '../../assets/locales/tr.json'],
+        [
+          'date-fns/locale/tr',
+          '@formatjs/intl-relativetimeformat/locale-data/tr.js',
+          '../../assets/locales/tr.json'
+        ],
         (require) => {
+          require('date-fns/locale/tr')
           setLocaleData(require('../../assets/locales/tr.json'))
         },
         'i18n-tr'
@@ -108,8 +140,13 @@ export const loadLocaleData = (locale, callback) => {
     case 'en':
     default:
       require.ensure(
-        ['@formatjs/intl-relativetimeformat/locale-data/en.js', '../../assets/locales/en.json'],
+        [
+          'date-fns/locale/en-GB',
+          '@formatjs/intl-relativetimeformat/locale-data/en.js',
+          '../../assets/locales/en.json'
+        ],
         (require) => {
+          require('date-fns/locale/en-GB')
           setLocaleData(require('../../assets/locales/en.json'))
         },
         'i18n-en'
