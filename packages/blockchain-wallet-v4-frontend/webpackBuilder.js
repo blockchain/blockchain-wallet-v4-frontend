@@ -256,9 +256,6 @@ const buildDevServerConfig = (
         throw new Error('webpack-dev-server is not defined')
       }
 
-      devServer.app.get('/setup-middleware/some/path', (_, response) => {
-        response.send('setup-middlewares option GET')
-      })
       devServer.app.get('/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
