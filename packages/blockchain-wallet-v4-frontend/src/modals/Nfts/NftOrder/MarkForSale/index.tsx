@@ -91,7 +91,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.fixAmount = ''
     formValues.starting = ''
     formValues.ending = ''
-    formValues.expirationDays = 1
+    formValues.expirationMinutes = 1440
     formValues.timedAuctionType = 'highestBidder'
   }
   const setToFixed = () => {
@@ -408,9 +408,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </Title>
                 <Value>
                   <Field
-                    name='expirationDays'
+                    name='expirationMinutes'
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onChange={(days: any) => {
+                    onChange={(minutes: any) => {
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     }}
                     component={SelectBox}
@@ -423,12 +423,14 @@ const MarkForSale: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
-                            { text: '1 Day', value: 1 },
-                            { text: '3 Days', value: 3 },
-                            { text: '7 Days', value: 7 },
-                            { text: '1 Month', value: 30 },
-                            { text: '3 Months', value: 90 },
-                            { text: '6 Months', value: 180 }
+                            { text: '30 Mins', value: 30 },
+                            { text: '1 Hour', value: 60 },
+                            { text: '1 Day', value: 1440 },
+                            { text: '3 Days', value: 4320 },
+                            { text: '7 Days', value: 10080 },
+                            { text: '1 Month', value: 43200 },
+                            { text: '3 Months', value: 129600 },
+                            { text: '6 Months', value: 259200 }
                           ]
                         )
                       }
@@ -506,7 +508,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           nftActions.createSellOrder({
                             asset: val,
                             endPrice: null,
-                            expirationDays: formValues.expirationDays,
+                            expirationMinutes: formValues.expirationMinutes,
                             gasData: fees,
                             paymentTokenAddress: undefined,
                             reservePrice: undefined,
@@ -521,7 +523,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           nftActions.createSellOrder({
                             asset: val,
                             endPrice: null,
-                            expirationDays: formValues.expirationDays,
+                            expirationMinutes: formValues.expirationMinutes,
                             gasData: fees,
                             paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                             reservePrice: Number(formValues.reserve),
@@ -534,7 +536,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           nftActions.createSellOrder({
                             asset: val,
                             endPrice: Number(formValues.ending),
-                            expirationDays: formValues.expirationDays,
+                            expirationMinutes: formValues.expirationMinutes,
                             gasData: fees,
                             paymentTokenAddress: undefined,
                             reservePrice: undefined,
@@ -606,7 +608,7 @@ const enhance = compose(
     form: 'nftMarkForSale',
     initialValues: {
       coin: 'ETH',
-      expirationDays: 1,
+      expirationMinutes: 1440,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
       timedAuctionType: 'highestBidder'

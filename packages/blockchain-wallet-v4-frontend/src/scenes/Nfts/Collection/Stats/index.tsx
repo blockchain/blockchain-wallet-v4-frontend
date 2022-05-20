@@ -13,7 +13,7 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>
         <Stat>
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </Text>
           <Text size='16px' color='white' weight={600}>
@@ -24,7 +24,7 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
           onClick={() => formActions.change('nftFilter', 'forSale', true)}
           style={{ cursor: 'pointer' }}
         >
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
           </Text>
           <Text size='16px' color='white' weight={600}>
@@ -40,7 +40,7 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
           </Text>
         </Stat> */}
         <Stat>
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
           </Text>
           <Text size='16px' color='white' weight={600}>
