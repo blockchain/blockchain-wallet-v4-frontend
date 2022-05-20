@@ -14,7 +14,6 @@ import { GridWrapper } from '../components'
 import NftError from '../components/NftError'
 import NftGrid from '../components/NftGrid'
 import NftGridLoading from '../components/NftGridLoading'
-import NftPageLazyLoadWrapper from '../components/NftPageLazyLoadWrapper'
 import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
@@ -79,34 +78,33 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
           setRefreshTrigger={setRefreshTrigger}
           setActiveTab={() => null}
         />
-        <NftPageLazyLoadWrapper>
-          <LazyLoadContainer
-            triggerDistance={50}
-            onLazyLoad={() =>
-              isFetching || maxItemsFetched
-                ? null
-                : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
-            }
-          >
-            <NftGrid fullscreen={!isFilterOpen}>
-              {pageVariables.length
-                ? pageVariables.map(({ page }) => (
-                    <NftFirehoseResults
-                      page={page}
-                      // @ts-ignore
-                      formValues={formValues}
-                      key={page}
-                      setMaxItemsFetched={setMaxItemsFetched}
-                      setNextPageFetchError={setNextPageFetchError}
-                      setIsFetchingNextPage={setIsFetchingNextPage}
-                    />
-                  ))
-                : null}
-              {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
-            </NftGrid>
-            {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
-          </LazyLoadContainer>
-        </NftPageLazyLoadWrapper>
+        <LazyLoadContainer
+          useScroll
+          triggerDistance={50}
+          onLazyLoad={() =>
+            isFetching || maxItemsFetched
+              ? null
+              : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
+          }
+        >
+          <NftGrid fullscreen={!isFilterOpen}>
+            {pageVariables.length
+              ? pageVariables.map(({ page }) => (
+                  <NftFirehoseResults
+                    page={page}
+                    // @ts-ignore
+                    formValues={formValues}
+                    key={page}
+                    setMaxItemsFetched={setMaxItemsFetched}
+                    setNextPageFetchError={setNextPageFetchError}
+                    setIsFetchingNextPage={setIsFetchingNextPage}
+                  />
+                ))
+              : null}
+            {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
+          </NftGrid>
+          {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
+        </LazyLoadContainer>
       </div>
     </GridWrapper>
   )
