@@ -1,3 +1,4 @@
+import { isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -42,7 +43,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       console.error('Failed to get current card account', errorHandler(e))
       const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
-      yield put(A.getCurrentCardAccountFailure(eligibleAccounts[0]))
+      yield put(
+        A.getCurrentCardAccountFailure(!isEmpty(eligibleAccounts) ? eligibleAccounts[0] : null)
+      )
     }
   }
 
