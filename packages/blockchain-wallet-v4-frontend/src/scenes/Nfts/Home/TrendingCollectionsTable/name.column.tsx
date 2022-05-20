@@ -16,12 +16,6 @@ const NameCell = styled(CellText)<{ role: 'button' }>`
   white-space: nowrap;
   overflow: hidden;
 `
-const Logo = styled.img`
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  margin-right: 8px;
-`
 
 export const getNameColumn = () => ({
   Cell: ({ row: { original: values } }) => {
