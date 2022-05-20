@@ -63,7 +63,7 @@ const ManageCardBox = ({ alertActions, cards, debitCardActions, lockHandler, mod
   }
 
   return (
-    <BoxContainer style={{ minWidth: '380px' }}>
+    <BoxContainer width='380px'>
       <BoxRowWithBorder>
         <BoxRowItemTitle>
           <FormattedMessage

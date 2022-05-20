@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, SkeletonRectangle } from 'blockchain-info-components'
+import { Container } from 'components/Box'
 import {
   HeaderTextWrapper,
   IconBackground,
@@ -9,29 +10,41 @@ import {
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
+import { selectors } from 'data'
 import { ModalName } from 'data/modals/types'
+import { useRemote } from 'hooks'
 
 import CardDashboard from './CardDashboard'
 import CardOrder from './CardOrder'
 import { Props } from './DebitCard'
 import { Wrapper } from './DebitCard.model'
 
+const Loading = () => {
+  return (
+    <Container>
+      <SkeletonRectangle width='330px' height='270px' />
+    </Container>
+  )
+}
+
 const DebitCard = ({
   alertActions,
   cardToken,
-  cards,
   debitCardActions,
   domains,
   lockHandler,
   modalActions
 }: Props) => {
   useEffect(() => {
-    // Need to load cards again in case of card created in different platform while user already logged in
     debitCardActions.getCards()
     return () => {
-      debitCardActions.cleanCardToken()
+      debitCardActions.cleanCardData()
     }
   }, [])
+
+  const cardsR = useRemote(selectors.components.debitCard.getCards)
+  const { data: cards = [], isLoading } = cardsR
+
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
@@ -53,7 +66,9 @@ const DebitCard = ({
           defaultMessage='Taking crypto into the physical world.'
         />
       </SceneSubHeaderText>
-      {cards.length === 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : cards.length === 0 ? (
         <CardOrder handleOpenOrderMyCard={handleOpenOrderMyCard} />
       ) : (
         <CardDashboard

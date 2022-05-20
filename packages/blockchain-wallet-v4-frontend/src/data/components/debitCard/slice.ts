@@ -2,12 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { CardActionType, DebitCardState, DebitCardType, ProductType } from './types'
+import { AccountType, CardActionType, DebitCardState, DebitCardType, ProductType } from './types'
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
   cardToken: '',
-  cards: [],
+  cards: Remote.NotAsked,
+  currentCardAccount: Remote.NotAsked,
+  currentCardSelected: undefined,
+  eligibleAccounts: [],
   lockHandler: Remote.NotAsked,
   products: []
 }
@@ -16,8 +19,11 @@ const debitCardSlice = createSlice({
   initialState,
   name: 'debitCard',
   reducers: {
-    cleanCardToken: (state) => {
+    cleanCardData: (state) => {
+      state.cards = Remote.NotAsked
       state.cardToken = ''
+      state.currentCardSelected = undefined
+      state.currentCardAccount = Remote.NotAsked
     },
     createCard: (state, action: PayloadAction<string>) => {},
     createCardFailure: (state, action: PayloadAction<string>) => {
@@ -31,10 +37,24 @@ const debitCardSlice = createSlice({
     },
     getCards: () => {},
     getCardsFailure: (state) => {
-      state.cards = []
+      state.cards = Remote.Failure()
+    },
+    getCardsLoading: (state) => {
+      state.cards = Remote.Loading
     },
     getCardsSuccess: (state, action: PayloadAction<Array<DebitCardType>>) => {
-      state.cards = action.payload
+      state.cards = Remote.Success(action.payload)
+    },
+    getCurrentCardAccount: (state, action: PayloadAction<string>) => {},
+    getCurrentCardAccountFailure: (state, action: PayloadAction<AccountType>) => {
+      // In case of failure it is set the default account as current
+      state.currentCardAccount = Remote.Success(action.payload)
+    },
+    getCurrentCardAccountLoading: (state) => {
+      state.currentCardAccount = Remote.Loading
+    },
+    getCurrentCardAccountSuccess: (state, action: PayloadAction<AccountType>) => {
+      state.currentCardAccount = Remote.Success(action.payload)
     },
     getProducts: () => {},
     getProductsFailure: (state) => {
@@ -58,6 +78,12 @@ const debitCardSlice = createSlice({
     },
     setCardToken: (state, action: PayloadAction<string>) => {
       state.cardToken = action.payload
+    },
+    setCurrentCardSelected: (state, action: PayloadAction<DebitCardType>) => {
+      state.currentCardSelected = action.payload
+    },
+    setEligibleAccounts: (state, action: PayloadAction<Array<AccountType>>) => {
+      state.eligibleAccounts = action.payload
     },
     terminateCard: (state, action: PayloadAction<string>) => {}
   }

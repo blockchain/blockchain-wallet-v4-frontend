@@ -25,15 +25,42 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const filterTerminatedCards = (cards) =>
     cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
+  const getEligibleAccounts = function* (cardId) {
+    try {
+      const data = yield call(api.getDCEligibleAccounts, cardId)
+      yield put(A.setEligibleAccounts(data))
+    } catch (e) {
+      console.error('Failed to get eligible accounts', errorHandler(e))
+    }
+  }
+
+  const getCurrentCardAccount = function* (cardId) {
+    try {
+      yield put(A.getCurrentCardAccountLoading())
+
+      const data = yield call(api.getDCCurrentAccount, cardId)
+      yield put(A.getCurrentCardAccountSuccess(data))
+    } catch (e) {
+      console.error('Failed to get current card account', errorHandler(e))
+      const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
+      yield put(
+        A.getCurrentCardAccountFailure(!isEmpty(eligibleAccounts) ? eligibleAccounts[0] : null)
+      )
+    }
+  }
+
   const getCards = function* () {
     try {
+      yield put(A.getCardsLoading())
       let cards = yield call(api.getDCCreated)
-
       cards = filterTerminatedCards(cards)
-      if (cards.length > 0) {
-        yield call(getCardToken, cards[0].id)
-      }
       yield put(A.getCardsSuccess(cards))
+      if (cards.length > 0) {
+        yield put(A.setCurrentCardSelected(cards[0]))
+        yield call(getCardToken, cards[0].id)
+        yield call(getEligibleAccounts, cards[0].id)
+        yield call(getCurrentCardAccount, cards[0].id)
+      }
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
       yield put(A.getCardsFailure())
@@ -49,12 +76,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         const products = yield call(api.getDCProducts)
         yield put(A.getProductsSuccess(products))
-
-        // If the account is eligible it will get products
-        if (!isEmpty(products)) {
-          // Get the cards the user might have created before
-          yield call(getCards)
-        }
       } catch (e) {
         console.error('Failed to get card products', errorHandler(e))
         yield put(A.getProductsFailure())
