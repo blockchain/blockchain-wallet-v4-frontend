@@ -49,3 +49,9 @@ export const LoadingDetail = () => (
     </SkeletonLoader>
   </>
 )
+
+export const ErrorState = () => (
+  <Text size='16px' weight={500} color='grey400' capitalize lineHeight='45px'>
+    Failed to load balances
+  </Text>
+)

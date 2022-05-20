@@ -43,9 +43,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       console.error('Failed to get current card account', errorHandler(e))
       const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
-      yield put(
-        A.getCurrentCardAccountFailure(!isEmpty(eligibleAccounts) ? eligibleAccounts[0] : null)
-      )
+      if (false) {
+        // In case of failure it is set the default account as current
+        yield put(A.getCurrentCardAccountSuccess(eligibleAccounts[0]))
+      } else {
+        yield put(A.getCurrentCardAccountFailure('Could not get user funds'))
+      }
     }
   }
 
@@ -97,6 +100,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getUpdatedCards = (cards, id, updatedCard) =>
+    cards.map((card) => {
+      if (card.id === id) {
+        return updatedCard
+      }
+      return card
+    })
+
   const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
     try {
       yield put(A.handleCardLockLoading())
@@ -104,8 +115,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const lockAction = newLockState ? 'lock' : 'unlock'
 
-      yield call(api.handleDCLock, id, lockAction)
-      yield call(getCards)
+      const updatedCard = yield call(api.handleDCLock, id, lockAction)
+      const cardsR = yield select(selectors.components.debitCard.getCards)
+      const updatedCardsR = cardsR.map((cards) => getUpdatedCards(cards, id, updatedCard))
+      yield put(A.updateCurrentCard({ updatedCard, updatedCardsR }))
       yield put(A.handleCardLockSuccess(newLockState))
     } catch (e) {
       yield put(A.handleCardLockFailure(e))

@@ -10,7 +10,15 @@ import { useRemote } from 'hooks'
 
 import CoinBalance from '../../../Home/Holdings/CoinBalance/template.success'
 import { BoxContainer, BoxRow, BoxRowItemSubTitle, BoxRowWithBorder } from '../CardDashboard.model'
-import { Amount, Coin, CoinIcon, CoinName, LoadingDetail, Wrapper } from './FundsBox.model'
+import {
+  Amount,
+  Coin,
+  CoinIcon,
+  CoinName,
+  ErrorState,
+  LoadingDetail,
+  Wrapper
+} from './FundsBox.model'
 
 type Props = {
   funds: Array<AccountType>
@@ -20,7 +28,7 @@ const DEFAULT_ACCOUNT = { balance: { symbol: 'USD', value: '0' } }
 
 const FundsBox = ({ funds }: Props) => {
   const currentCardAccountRemote = useRemote(getCurrentCardAccount)
-  const { data, isLoading } = currentCardAccountRemote
+  const { data, error, isLoading } = currentCardAccountRemote
   let currentCardAccount = DEFAULT_ACCOUNT
 
   if (data) currentCardAccount = data
@@ -63,7 +71,7 @@ const FundsBox = ({ funds }: Props) => {
   return (
     <BoxContainer width='380px'>
       <BoxRowWithBorder>
-        {!data || isLoading ? <LoadingDetail /> : <CurrentAccountDetail />}
+        {error ? <ErrorState /> : !data || isLoading ? <LoadingDetail /> : <CurrentAccountDetail />}
       </BoxRowWithBorder>
       <BoxRow>
         <Button data-e2e='addFunds' nature='primary' margin='auto' disabled>

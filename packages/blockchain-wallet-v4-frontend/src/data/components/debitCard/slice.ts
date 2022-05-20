@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
+import { RemoteDataType } from '@core/remote/types'
 
 import { AccountType, CardActionType, DebitCardState, DebitCardType, ProductType } from './types'
 
@@ -46,9 +47,8 @@ const debitCardSlice = createSlice({
       state.cards = Remote.Success(action.payload)
     },
     getCurrentCardAccount: (state, action: PayloadAction<string>) => {},
-    getCurrentCardAccountFailure: (state, action: PayloadAction<AccountType>) => {
-      // In case of failure it is set the default account as current
-      state.currentCardAccount = Remote.Success(action.payload)
+    getCurrentCardAccountFailure: (state, action: PayloadAction<string>) => {
+      state.currentCardAccount = Remote.Failure(action.payload)
     },
     getCurrentCardAccountLoading: (state) => {
       state.currentCardAccount = Remote.Loading
@@ -85,7 +85,17 @@ const debitCardSlice = createSlice({
     setEligibleAccounts: (state, action: PayloadAction<Array<AccountType>>) => {
       state.eligibleAccounts = action.payload
     },
-    terminateCard: (state, action: PayloadAction<string>) => {}
+    terminateCard: (state, action: PayloadAction<string>) => {},
+    updateCurrentCard: (
+      state,
+      action: PayloadAction<{
+        updatedCard: DebitCardType
+        updatedCardsR: RemoteDataType<string, Array<DebitCardType>>
+      }>
+    ) => {
+      state.currentCardSelected = action.payload.updatedCard
+      state.cards = action.payload.updatedCardsR
+    }
   }
 })
 
