@@ -8,9 +8,9 @@ import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-co
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { AssetsQuery, OwnerQuery } from 'generated/graphql.types'
+import { AssetsQuery } from 'generated/graphql.types'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
 import NftAssetImageType from './NftAssetImageType'
