@@ -116,7 +116,7 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield all([
       call(api.updateLanguage, guid, sharedKey, language),
-      call(api.updateCommunicationLanguage, toLower(language) === 'es-la' ? 'es-419' : language)
+      call(api.updateCommunicationLanguage, language === 'es-la' ? 'es-419' : language)
     ])
     if (!contains('successfully', toLower(response))) {
       throw new Error(response)
