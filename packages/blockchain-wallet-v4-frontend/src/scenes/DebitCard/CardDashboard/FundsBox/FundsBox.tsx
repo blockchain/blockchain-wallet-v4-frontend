@@ -16,9 +16,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({})
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {}
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 const enhance = compose(connector)
 
