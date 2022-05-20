@@ -631,7 +631,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', id: string, name?: string | null, image_url?: string | null, animation_url?: string | null, permalink: string, token_id: string, contract?: { __typename?: 'Contract', schema_name?: string | null, address: string } | null, owners?: Array<{ __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null> | null, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', total_supply?: number | null, name: string, slug: string, description?: string | null, image_url?: string | null, discord_url?: string | null, telegram_url?: string | null, twitter_username?: string | null, instagram_username?: string | null, safelist_request_status: string, wiki_url?: string | null, external_url?: string | null }, traits?: Array<{ __typename?: 'Trait', value?: string | null, trait_type?: string | null, trait_count?: number | null } | null> | null }> };
+export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_url?: string | null, id: string, image_url?: string | null, name?: string | null, network?: string | null, permalink: string, token_id: string, collection: { __typename?: 'Collection', description?: string | null, discord_url?: string | null, external_url?: string | null, image_url?: string | null, instagram_username?: string | null, name: string, safelist_request_status: string, slug: string, telegram_url?: string | null, total_supply?: number | null, twitter_username?: string | null, wiki_url?: string | null }, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, contract?: { __typename?: 'Contract', address: string, schema_name?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, owners?: Array<{ __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null> | null, traits?: Array<{ __typename?: 'Trait', trait_count?: number | null, trait_type?: string | null, value?: string | null } | null> | null }> };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -643,7 +643,7 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', results?: number | null, name?: string | null, token_id: string, image_url?: string | null, animation_url?: string | null, permalink: string, contract?: { __typename?: 'Contract', address: string } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, collection: { __typename?: 'Collection', name: string, image_url?: string | null, safelist_request_status: string, slug: string } }> };
+export type AssetsQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_url?: string | null, image_url?: string | null, name?: string | null, permalink: string, results?: number | null, token_id: string, collection: { __typename?: 'Collection', image_url?: string | null, name: string, safelist_request_status: string, slug: string }, contract?: { __typename?: 'Contract', address: string } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null }> };
 
 export type CollectionsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
@@ -651,7 +651,7 @@ export type CollectionsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', chat_url?: string | null, discord_url?: string | null, external_url?: string | null, instagram_username?: string | null, twitter_username?: string | null, image_url?: string | null, banner_image_url?: string | null, short_description?: string | null, description?: string | null, created_date: string, name: string, num_owners?: number | null, safelist_request_status: string, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
+export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', banner_image_url?: string | null, chat_url?: string | null, created_date: string, description?: string | null, discord_url?: string | null, external_url?: string | null, image_url?: string | null, instagram_username?: string | null, name: string, num_owners?: number | null, safelist_request_status: string, short_description?: string | null, slug: string, total_supply?: number | null, twitter_username?: string | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null, traits?: Array<{ __typename?: 'CollectionTrait', count?: number | null, value?: string | null, trait_type?: string | null } | null> | null }> };
 
 export type EventsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<EventFilter>> | InputMaybe<EventFilter>>;
@@ -661,7 +661,7 @@ export type EventsQueryVariables = Exact<{
 }>;
 
 
-export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', event_type?: string | null, total_price?: string | null, bid_amount?: string | null, created_date: string, asset?: { __typename?: 'FlatAsset', name?: string | null, token_id: string, image_url?: string | null, contract_address?: string | null } | null, from?: { __typename?: 'Account', address?: string | null } | null, to?: { __typename?: 'Account', address?: string | null } | null, winner?: { __typename?: 'Account', address?: string | null } | null, seller?: { __typename?: 'Account', address?: string | null } | null }> };
+export type EventsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', bid_amount?: string | null, created_date: string, event_type?: string | null, total_price?: string | null, asset?: { __typename?: 'FlatAsset', name?: string | null, token_id: string, image_url?: string | null, contract_address?: string | null } | null, from?: { __typename?: 'Account', address?: string | null } | null, to?: { __typename?: 'Account', address?: string | null } | null, seller?: { __typename?: 'Account', address?: string | null } | null, winner?: { __typename?: 'Account', address?: string | null } | null }> };
 
 export type OwnerQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -671,7 +671,7 @@ export type OwnerQueryVariables = Exact<{
 }>;
 
 
-export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', name?: string | null, image_url?: string | null, animation_original_url?: string | null, token_id: string, permalink: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null, safelist_request_status: string }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'FlatEvent', payment_token_symbol?: string | null, total_price?: string | null } | null }> };
+export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_original_url?: string | null, name?: string | null, image_url?: string | null, permalink: string, token_id: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null, safelist_request_status: string }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'FlatEvent', payment_token_symbol?: string | null, total_price?: string | null } | null }> };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -3008,48 +3008,47 @@ export default {
 export const AssetDocument = gql`
     query Asset($filter: [AssetFilter], $limit: Int) {
   assets(filter: $filter, limit: $limit) {
-    id
-    name
-    image_url
     animation_url
-    contract {
-      schema_name
-    }
-    owners {
-      address
-      profile_img_url
+    collection {
+      description
+      discord_url
+      external_url
+      image_url
+      instagram_username
+      name
+      safelist_request_status
+      slug
+      telegram_url
+      total_supply
+      twitter_username
+      wiki_url
     }
     creator {
       address
       profile_img_url
     }
+    contract {
+      address
+      schema_name
+    }
+    id
+    image_url
     listings {
       payment_token_symbol
       starting_price
     }
-    collection {
-      total_supply
-      name
-      slug
-      description
-      image_url
-      discord_url
-      telegram_url
-      twitter_username
-      instagram_username
-      safelist_request_status
-      wiki_url
-      external_url
-    }
-    contract {
+    name
+    network
+    owners {
       address
+      profile_img_url
     }
     permalink
     token_id
     traits {
-      value
-      trait_type
       trait_count
+      trait_type
+      value
     }
   }
 }
@@ -3068,25 +3067,25 @@ export const AssetsDocument = gql`
     limit: $limit
     offset: $offset
   ) {
-    results
-    name
-    token_id
+    animation_url
+    collection {
+      image_url
+      name
+      safelist_request_status
+      slug
+    }
     contract {
       address
     }
     image_url
-    animation_url
-    permalink
     listings {
       payment_token_symbol
       starting_price
     }
-    collection {
-      name
-      image_url
-      safelist_request_status
-      slug
-    }
+    name
+    permalink
+    results
+    token_id
   }
 }
     `;
@@ -3097,26 +3096,26 @@ export function useAssetsQuery(options?: Omit<Urql.UseQueryArgs<AssetsQueryVaria
 export const CollectionsDocument = gql`
     query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
   collections(filter: $filter, sort: $sort) {
+    banner_image_url
     chat_url
+    created_date
+    description
     discord_url
     external_url
-    instagram_username
-    twitter_username
     image_url
-    banner_image_url
-    short_description
-    description
-    created_date
+    instagram_username
     name
     num_owners
     safelist_request_status
+    short_description
     slug
-    total_supply
     stats {
       floor_price
       one_day_volume
       total_volume
     }
+    total_supply
+    twitter_username
     traits {
       count
       value
@@ -3132,28 +3131,28 @@ export function useCollectionsQuery(options?: Omit<Urql.UseQueryArgs<Collections
 export const EventsDocument = gql`
     query Events($filter: [EventFilter], $sort: EventSort, $limit: Int, $offset: Int) {
   events(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
-    event_type
     asset {
       name
       token_id
       image_url
       contract_address
     }
-    total_price
     bid_amount
+    created_date
+    event_type
     from {
       address
     }
     to {
       address
     }
-    winner {
-      address
-    }
     seller {
       address
     }
-    created_date
+    total_price
+    winner {
+      address
+    }
   }
 }
     `;
@@ -3164,9 +3163,8 @@ export function useEventsQuery(options?: Omit<Urql.UseQueryArgs<EventsQueryVaria
 export const OwnerDocument = gql`
     query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
   assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
-    name
-    image_url
     animation_original_url
+    name
     collection {
       name
       slug
@@ -3176,12 +3174,13 @@ export const OwnerDocument = gql`
     contract {
       address
     }
+    image_url
+    permalink
     last_sale {
       payment_token_symbol
       total_price
     }
     token_id
-    permalink
   }
 }
     `;

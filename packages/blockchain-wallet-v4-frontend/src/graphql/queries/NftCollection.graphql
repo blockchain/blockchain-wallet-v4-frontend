@@ -1,25 +1,25 @@
 query Collections($filter: [CollectionFilter], $sort: CollectionSort) {
   collections(filter: $filter, sort: $sort) {
+    banner_image_url
     chat_url
+    created_date
+    description
     discord_url
     external_url
-    instagram_username
-    twitter_username
     image_url
-    banner_image_url
-    short_description
-    description
-    created_date
+    instagram_username
     name
     num_owners
     safelist_request_status
+    short_description
     slug
-    total_supply
     stats {
       floor_price
       one_day_volume
 			total_volume
     }
+    total_supply
+    twitter_username
     traits {
       count
       value

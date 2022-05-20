@@ -1,8 +1,7 @@
 query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
   assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
-	  name
-    image_url
     animation_original_url
+	  name
     collection {
       name
       slug
@@ -12,11 +11,12 @@ query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int)
     contract {
       address
     }
+    image_url
+    permalink
     last_sale {
       payment_token_symbol
       total_price
     }
     token_id
-    permalink
   }
 }
