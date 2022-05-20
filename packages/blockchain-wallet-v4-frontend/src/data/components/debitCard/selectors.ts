@@ -21,3 +21,6 @@ export const getEligibleAccounts = (state: RootState) => state.components.debitC
 
 export const getCurrentCardAccount = (state: RootState) =>
   state.components.debitCard.currentCardAccount
+
+export const getCurrentCardSelected = (state: RootState) =>
+  state.components.debitCard.currentCardSelected

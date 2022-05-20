@@ -4,8 +4,9 @@ import { RemoteDataType } from '@core/remote/types'
 export type DebitCardState = {
   cardCreationData: RemoteDataType<string, string>
   cardToken: string
-  cards: Array<DebitCardType>
+  cards: RemoteDataType<string, Array<DebitCardType>>
   currentCardAccount: RemoteDataType<string, AccountType>
+  currentCardSelected: DebitCardType | undefined
   eligibleAccounts: Array<AccountType>
   lockHandler: RemoteDataType<string, boolean>
   products: Array<ProductType>

@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -37,6 +36,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const getCurrentCardAccount = function* (cardId) {
     try {
       yield put(A.getCurrentCardAccountLoading())
+
       const data = yield call(api.getDCCurrentAccount, cardId)
       yield put(A.getCurrentCardAccountSuccess(data))
     } catch (e) {
@@ -48,15 +48,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const getCards = function* () {
     try {
+      yield put(A.getCardsLoading())
       let cards = yield call(api.getDCCreated)
-
       cards = filterTerminatedCards(cards)
+      yield put(A.getCardsSuccess(cards))
       if (cards.length > 0) {
+        yield put(A.setCurrentCardSelected(cards[0]))
         yield call(getCardToken, cards[0].id)
         yield call(getEligibleAccounts, cards[0].id)
         yield call(getCurrentCardAccount, cards[0].id)
       }
-      yield put(A.getCardsSuccess(cards))
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
       yield put(A.getCardsFailure())
@@ -72,12 +73,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         const products = yield call(api.getDCProducts)
         yield put(A.getProductsSuccess(products))
-
-        // If the account is eligible it will get products
-        if (!isEmpty(products)) {
-          // Get the cards the user might have created before
-          yield call(getCards)
-        }
       } catch (e) {
         console.error('Failed to get card products', errorHandler(e))
         yield put(A.getProductsFailure())

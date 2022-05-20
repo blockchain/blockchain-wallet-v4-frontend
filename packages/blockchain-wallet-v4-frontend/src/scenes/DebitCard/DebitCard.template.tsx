@@ -19,19 +19,12 @@ import { Wrapper } from './DebitCard.model'
 const DebitCard = ({
   alertActions,
   cardToken,
-  cards,
+  cards = [],
   debitCardActions,
   domains,
   lockHandler,
   modalActions
 }: Props) => {
-  useEffect(() => {
-    // Need to load cards again in case of card created in different platform while user already logged in
-    debitCardActions.getCards()
-    return () => {
-      debitCardActions.cleanCardToken()
-    }
-  }, [])
   const handleOpenOrderMyCard = () =>
     modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
