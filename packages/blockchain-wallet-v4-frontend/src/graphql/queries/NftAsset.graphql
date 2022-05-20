@@ -1,47 +1,46 @@
 query Asset($filter: [AssetFilter], $limit: Int) {
   assets(filter: $filter, limit: $limit) {
-    id 
-		name
-    image_url
     animation_url
-    contract {
-      schema_name
-    }
-    owners {
-      address
-      profile_img_url 
+    collection {
+      description
+      discord_url
+      external_url
+      image_url
+      instagram_username
+      name
+      safelist_request_status
+      slug
+      telegram_url
+      total_supply
+      twitter_username
+      wiki_url
     }
     creator {
       address
       profile_img_url
     }
+    contract {
+      address
+      schema_name
+    }
+    id 
+    image_url
     listings {
       payment_token_symbol
       starting_price
     }
-    collection {
-      total_supply
-      name
-      slug
-      description
-      image_url
-      discord_url
-      telegram_url
-      twitter_username
-      instagram_username
-      safelist_request_status
-      wiki_url
-      external_url
-    }
-    contract {
+		name
+    network
+    owners {
       address
+      profile_img_url 
     }
     permalink
     token_id
     traits {
-      value
-      trait_type
       trait_count
+      trait_type
+      value
     }
   }
 }
