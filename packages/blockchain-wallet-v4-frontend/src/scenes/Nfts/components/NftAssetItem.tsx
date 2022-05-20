@@ -120,10 +120,10 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               <XSmallButton
                 onClick={viewDetailsTracking}
                 data-e2e='nftAssetPage'
-                nature='dark-grey'
+                nature='empty-blue'
                 small
               >
-                <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
+                <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
               </XSmallButton>
             )}
           </LinkContainer>
