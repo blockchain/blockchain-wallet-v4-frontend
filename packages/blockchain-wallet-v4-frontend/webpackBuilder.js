@@ -88,7 +88,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       middleware: path.resolve(__dirname, 'src/middleware/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/'),
+      utils: path.resolve(__dirname, 'src/utils/')
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
@@ -251,7 +251,14 @@ const buildDevServerConfig = (
     hot: useHMR,
     https: httpsConfig,
     liveReload: !useHMR,
-    onBeforeSetupMiddleware(devServer) {
+    setupMiddlewares: (middlewares, devServer) => {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined')
+      }
+
+      devServer.app.get('/setup-middleware/some/path', (_, response) => {
+        response.send('setup-middlewares option GET')
+      })
       devServer.app.get('/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
@@ -277,6 +284,8 @@ const buildDevServerConfig = (
         }
         res.json(mockWalletOptions)
       })
+
+      return middlewares
     },
     port: 8080
   }
