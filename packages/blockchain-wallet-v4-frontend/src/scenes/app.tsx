@@ -8,7 +8,6 @@ import { createClient, Provider as UrqlProvider } from 'urql'
 
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
-import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
@@ -241,7 +240,6 @@ const App = ({
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
-                {isAuthenticated && <SupportChat />}
                 <SiftScience userId={userData.id} />
               </UrqlProvider>
             </MediaContextProvider>
