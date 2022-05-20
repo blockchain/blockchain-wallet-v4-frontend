@@ -14,15 +14,15 @@ export const StyledImage = styled.img`
 `
 const IconWrapper = styled.div`
   position: absolute;
-  top: -6px;
-  right: -6px;
-  height: 14px;
-  width: 14px;
+  top: -1px;
+  right: -1px;
+  height: 12px;
+  width: 12px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2px;
+  padding: 1px;
   background: ${(props) => props.theme.white};
 `
 
