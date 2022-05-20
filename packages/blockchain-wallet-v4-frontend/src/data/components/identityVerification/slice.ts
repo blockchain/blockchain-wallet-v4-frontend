@@ -86,8 +86,8 @@ const identityVerificationSlice = createSlice({
       state.flowConfig = Remote.Loading
     },
 
-    setKycFlowSuccess: (state, action: PayloadAction<{ flowConfig }>) => {
-      state.flowConfig = action.payload.flowConfig
+    setKycFlowSuccess: (state, action: PayloadAction<any>) => {
+      state.flowConfig = Remote.Success(action.payload)
     },
     setPreIdvDataFailure: (state, action: PayloadAction<string>) => {
       state.preIdvData = Remote.Failure(action.payload)
