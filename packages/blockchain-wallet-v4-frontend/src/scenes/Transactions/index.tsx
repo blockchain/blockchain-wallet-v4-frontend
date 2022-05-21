@@ -25,7 +25,7 @@ import {
   RecurringBuyRegisteredList,
   RecurringBuyStepType
 } from 'data/types'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
@@ -170,7 +170,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       nature='primary'
                       style={{ marginRight: '8px' }}
                       data-e2e='buyCrypto'
-                      width='100px'
+                      width={isMobile() ? '50px' : '100px'}
                       onClick={() => {
                         analyticsActions.trackEvent({
                           key: Analytics.TRANSACTIONS_BUY_BUTTON_CLICKED,
@@ -191,7 +191,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       <Button
                         disabled={!isGoldTier || !interestEligibleCoin}
                         style={{ marginRight: '8px' }}
-                        width='100px'
+                        width={isMobile() ? '50px' : '100px'}
                         nature='primary'
                         data-e2e='earnInterest'
                         onClick={() => {
@@ -216,7 +216,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     <Button
                       nature='light'
                       data-e2e='sellCrypto'
-                      width='100px'
+                      width={isMobile() ? '50px' : '100px'}
                       onClick={() => {
                         analyticsActions.trackEvent({
                           key: Analytics.TRANSACTIONS_SELL_BUTTON_CLICKED,
