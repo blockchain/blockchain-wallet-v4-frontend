@@ -81,6 +81,7 @@ import fileDownload from './img/file-download.svg'
 import globe from './img/globe.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
+import googleAuthLogo from './img/google-auth-logo.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
@@ -144,6 +145,7 @@ import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
+import yubikeyLogo from './img/yubikey-logo.svg'
 
 const Images = {
   ...fiatIcons,
@@ -231,6 +233,7 @@ const Images = {
   globe,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
+  'google-auth-logo': googleAuthLogo,
   'google-authenticator': googleAuthenticator,
   'google-pay': googlePay,
   'google-play-badge': googlePlayBadge,
@@ -291,7 +294,8 @@ const Images = {
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
   'yodlee-connect': yodleeConnect,
-  yubikey
+  yubikey,
+  'yubikey-logo': yubikeyLogo
 }
 
 export type ImageType = typeof Images

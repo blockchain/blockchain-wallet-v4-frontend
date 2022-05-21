@@ -1,3 +1,4 @@
+import { sign } from 'crypto'
 import { takeLatest } from 'redux-saga/effects'
 
 import sagas from './sagas'
@@ -7,6 +8,10 @@ export default ({ api, coreSagas, networks }) => {
   const signupSagas = sagas({ api, coreSagas, networks })
 
   return function* authSaga() {
+    yield takeLatest(
+      actions.createWalletForExchangeAccountUpgrade.type,
+      signupSagas.createWalletForExchangeAccountUpgrade
+    )
     yield takeLatest(actions.initializeSignup.type, signupSagas.initializeSignUp)
     yield takeLatest(actions.register.type, signupSagas.register)
     yield takeLatest(actions.resetAccount.type, signupSagas.resetAccount)

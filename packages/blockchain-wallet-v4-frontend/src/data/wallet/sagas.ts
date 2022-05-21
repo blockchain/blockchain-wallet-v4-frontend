@@ -232,6 +232,7 @@ export default ({ coreSagas }) => {
     checkDataErrors,
     checkXpubCacheLegitimacy,
     editBtcAccountLabel,
+    forceSyncWallet,
     setMainPassword,
     toggleSecondPassword,
     updateMnemonicBackup,

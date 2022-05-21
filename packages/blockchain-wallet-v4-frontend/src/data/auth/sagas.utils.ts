@@ -10,38 +10,47 @@ import {
   AuthMagicLink,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  UpgradeSteps
 } from './types'
 
 // checks if merge/upgrade flows are enabled. if they are and the user is eligible then initiate those flows
 const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto, authMagicLink) {
-  const runMergeAndUpgradeFlows = (yield select(
-    selectors.core.walletOptions.getMergeAndUpgradeAccounts
+  const runUpgradeAccount = (yield select(
+    selectors.core.walletOptions.getUpgradeAccount
   )).getOrElse(false)
 
-  if (runMergeAndUpgradeFlows) {
-    const { mergeable, unified, upgradeable } = authMagicLink
+  const runMergeAccount = (yield select(selectors.core.walletOptions.getUpgradeAccount)).getOrElse(
+    false
+  )
 
-    // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
-    // CREATED FROM UNIFIED SIGN UP
+  const { mergeable, unified, upgradeable } = authMagicLink
 
-    if (!unified && (mergeable || upgradeable)) {
-      if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable) {
-        // send them to wallet password screen
-        yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
-      }
-      if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable) {
-        // send them to exchange password screen
-        yield put(
-          actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
-        )
-      }
-      if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && upgradeable) {
-        // send them to exchange password screen
-        yield put(
-          actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
-        )
-      }
+  // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
+  // CREATED FROM UNIFIED SIGN UP
+  if (unified) {
+    yield put(actions.cache.setUnifiedAccount(true))
+    return yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+  }
+
+  if (!unified && (mergeable || upgradeable)) {
+    if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable && runMergeAccount) {
+      // send them to wallet password screen
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
+    }
+    if (productAuthenticatingInto === ProductAuthOptions.EXCHANGE && mergeable && runMergeAccount) {
+      // send them to exchange password screen
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE))
+    }
+    if (
+      productAuthenticatingInto === ProductAuthOptions.EXCHANGE &&
+      upgradeable &&
+      runUpgradeAccount
+    ) {
+      // send them to exchange password screen
+      yield put(
+        actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
+      )
     }
   }
 }

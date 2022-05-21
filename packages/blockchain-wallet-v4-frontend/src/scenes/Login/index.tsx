@@ -9,15 +9,38 @@ import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
   AlertsState,
+  CombinedLoginSteps,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
+  MergeSteps,
   PlatformTypes,
   ProductAuthOptions,
-  UnifiedAccountRedirectType
+  TwoFASetupSteps,
+  UnifiedAccountRedirectType,
+  UpgradeSteps
 } from 'data/types'
 import Loading from 'layouts/Auth/template.loading'
 
+import AuthSecondAccount from './AccountMerge/AuthSecondAccount'
+import ConfirmTwoFA from './AccountMerge/ConfirmTwoFA'
+import CreateNewPassword from './AccountMerge/CreateNewPassword'
+import ErrorMerge from './AccountMerge/ErrorMerge'
+import MergeOrSkip from './AccountMerge/MergeOrSkip'
+import MergeSuccess from './AccountMerge/MergeSuccess'
+import MergeWhatsNext from './AccountMerge/MergeWhatsNext'
+import TwoFASecondAccount from './AccountMerge/TwoFASecondAccount'
+import CreateWallet from './AccountUpgrade/CreateWallet'
+import ErrorAccountUpgrade from './AccountUpgrade/ErrorAccountUpgrade'
+import ErrorWalletCreation from './AccountUpgrade/ErrorWalletCreation'
+import GoogleAuthSetup from './AccountUpgrade/GoogleAuthSetup'
+import GoogleAuthVerify from './AccountUpgrade/GoogleAuthVerify'
+import Select2faType from './AccountUpgrade/Select2faType'
+import UpgradeOrSkip from './AccountUpgrade/UpgradeOrSkip'
+import UpgradeOverview from './AccountUpgrade/UpgradeOverview'
+import UpgradeSuccess from './AccountUpgrade/UpgradeSuccess'
+import YubiKeySetup from './AccountUpgrade/YubiKeySetup'
+import YubiKeyVerified from './AccountUpgrade/YubiKeyVerified'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -35,7 +58,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.props.authActions.initializeLogin()
   }
 
-  setStep = (step: LoginSteps) => {
+  setStep = (step: CombinedLoginSteps) => {
     this.props.formActions.change(LOGIN_FORM, 'step', step)
   }
 
@@ -125,7 +148,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
     }
-
     const { isMobileViewLogin } = loginProps
 
     return (
@@ -133,7 +155,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         {/* CONTENT */}
         <Form onSubmit={this.handleSubmit}>
           {(() => {
+            // TODO: figure out how to split the step checking into different files
             switch (step) {
+              // LOGIN STEPS
               case LoginSteps.INSTITUTIONAL_PORTAL:
                 return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
@@ -168,6 +192,47 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
+              // UPGRADE STEPS
+              case UpgradeSteps.UPGRADE_OR_SKIP:
+                return <UpgradeOrSkip {...loginProps} />
+              case UpgradeSteps.UPGRADE_OVERVIEW:
+                return <UpgradeOverview {...loginProps} />
+              case UpgradeSteps.CREATE_WALLET:
+                return <CreateWallet {...loginProps} />
+              case UpgradeSteps.ERROR_WALLET_CREATION:
+                return <ErrorWalletCreation {...loginProps} />
+              case UpgradeSteps.ERROR_ACCOUNT_UPGRADE:
+                return <ErrorAccountUpgrade {...loginProps} />
+              case TwoFASetupSteps.SELECT_2FA_TYPE:
+                return <Select2faType {...loginProps} />
+              case TwoFASetupSteps.GOOGLE_AUTH_SETUP:
+                return <GoogleAuthSetup {...loginProps} />
+              case TwoFASetupSteps.GOOGLE_AUTH_VERIFY:
+                return <GoogleAuthVerify {...loginProps} />
+              case UpgradeSteps.UPGRADE_SUCCESS:
+                return <UpgradeSuccess {...loginProps} />
+              case TwoFASetupSteps.YUBIKEY_SETUP:
+                return <YubiKeySetup {...loginProps} />
+              case TwoFASetupSteps.YUBIKEY_VERIFIED:
+                return <YubiKeyVerified {...loginProps} />
+              // MERGE STEPS
+              case MergeSteps.AUTH_SECOND_ACCOUNT:
+                return <AuthSecondAccount {...loginProps} />
+              case MergeSteps.CONFIRM_TWO_FA:
+                return <ConfirmTwoFA {...loginProps} />
+              case MergeSteps.CREATE_NEW_PASSWORD:
+                return <CreateNewPassword {...loginProps} />
+              case MergeSteps.ERROR:
+                return <ErrorMerge {...loginProps} />
+              case MergeSteps.MERGE_OR_SKIP:
+                return <MergeOrSkip {...loginProps} />
+              case MergeSteps.MERGE_WHATS_NEXT:
+                return <MergeWhatsNext {...loginProps} />
+              case MergeSteps.MERGE_SUCCESS:
+                return <MergeSuccess {...loginProps} />
+              case MergeSteps.TWO_FA_SECOND_ACCOUNT:
+                return <TwoFASecondAccount {...loginProps} />
+              // DEFAULT STEP
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -201,7 +266,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  jwtToken: selectors.auth.getJwtToken(state),
+  jwtToken: selectors.auth.getExchangeSessionToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>
@@ -225,7 +290,7 @@ type OwnProps = {
   invalid: boolean
   isMobileViewLogin?: boolean
   pristine: boolean
-  setStep: (step: LoginSteps) => void
+  setStep: (step: CombinedLoginSteps) => void
   submitting: boolean
   walletError?: string
   walletTabClicked?: () => void

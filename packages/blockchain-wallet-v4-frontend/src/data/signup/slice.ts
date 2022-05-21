@@ -4,6 +4,7 @@ import { Remote } from '@core'
 
 import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 import {
+  AccountUpgradePayload,
   MetadataRestoreType,
   ProductSignupMetadata,
   RegisteringFailureType,
@@ -27,6 +28,10 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
+    createWalletForExchangeAccountUpgrade: (
+      state,
+      action: PayloadAction<AccountUpgradePayload>
+    ) => {},
     initializeSignup: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {

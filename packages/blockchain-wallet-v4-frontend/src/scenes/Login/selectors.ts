@@ -11,7 +11,7 @@ export const getData = (state: RootState) => {
   const authType = selectors.auth.getAuthType(state)
   const formValues = selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType
   const exchangeLoginR = selectors.auth.getExchangeLogin(state)
-  const jwtToken = selectors.auth.getJwtToken(state)
+  const jwtToken = selectors.auth.getExchangeSessionToken(state)
   const language = selectors.preferences.getLanguage(state)
   const magicLinkData = selectors.auth.getMagicLinkData(state)
   const productAuthMetadata = selectors.auth.getProductAuthMetadata(state)

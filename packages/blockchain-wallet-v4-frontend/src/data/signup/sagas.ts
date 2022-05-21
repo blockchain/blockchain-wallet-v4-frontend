@@ -11,13 +11,15 @@ import {
   CaptchaActionName,
   ExchangeAuthOriginType,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  TwoFASetupSteps
 } from 'data/types'
 import * as C from 'services/alerts'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
+  const LOGIN_FORM = 'login'
   const { createExchangeUser, createUser, generateRetailToken, setSession } = profileSagas({
     api,
     coreSagas,
@@ -58,12 +60,44 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.cache.exchangeEmail(email))
       yield put(actions.cache.exchangeWalletGuid(guid))
       yield put(actions.cache.setUnifiedAccount(true))
-
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))
     }
   }
+
+  const createWalletForExchangeAccountUpgrade = function* (action) {
+    // TODO: start some sort of form submit so state is loading
+    try {
+      const { captchaToken, password } = action.payload
+      const magicLinkData = yield select(selectors.auth.getMagicLinkData)
+      const { email } = magicLinkData.exchange
+      const language = yield select(selectors.preferences.getLanguage)
+      const exchangeSessionToken = yield select(selectors.auth.getExchangeSessionToken)
+      yield call(coreSagas.wallet.createWalletSaga, { captchaToken, email, language, password })
+      const retailToken = yield call(generateRetailToken)
+      const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
+        api.upgradeExchangeUserAccount,
+        exchangeSessionToken,
+        retailToken
+      )
+      yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      // TODO: do we need to fetch legacy userCredentials? should we also write to legacy userCredentials here...?
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      yield put(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials(
+          userId,
+          nabuToken,
+          userCredentialsId,
+          mercuryToken
+        )
+      )
+      yield put(actions.form.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE))
+    } catch (e) {
+      // Handle Errors
+    }
+  }
+
   const register = function* (action) {
     const { country, email, language, password, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
@@ -281,6 +315,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    createWalletForExchangeAccountUpgrade,
     initializeSignUp,
     register,
     resetAccount,

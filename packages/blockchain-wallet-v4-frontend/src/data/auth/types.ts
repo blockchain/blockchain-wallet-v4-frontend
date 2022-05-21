@@ -24,6 +24,8 @@ export enum AccountUnificationFlows {
   WALLET_MERGE = 'WALLET_MERGE'
 }
 
+export type CombinedLoginSteps = LoginSteps | UpgradeSteps | MergeSteps | TwoFASetupSteps
+
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
@@ -36,7 +38,47 @@ export enum LoginSteps {
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
-export enum MergeSteps {}
+export enum UpgradeSteps {
+  // 3.0
+  CREATE_WALLET = 'CREATE_WALLET',
+  // 3.1.1
+  ERROR_ACCOUNT_UPGRADE = 'ERROR_ACCOUNT_UPGRADE',
+  // 3.1
+  ERROR_WALLET_CREATION = 'ERROR_WALLET_CREATION',
+  UPGRADE_OR_SKIP = 'UPGRADE_OR_SKIP',
+  // 2.0
+  UPGRADE_OVERVIEW = 'UPGRADE_OVERVIEW', // 3.1.2
+  UPGRADE_SUCCESS = 'UPGRADE_SUCCESS' // 3.5
+}
+
+export enum TwoFASetupSteps {
+  GOOGLE_AUTH_SETUP = 'GOOGLE_AUTH_SETUP',
+  // 4.4.1
+  GOOGLE_AUTH_VERIFY = 'GOOGLE_AUTH_VERIFY',
+  // 4.3
+  SELECT_2FA_TYPE = 'SELECT_2FA_TYPE',
+  SET_UP_2FA = 'SET_UP_TWO_FA', // 4.4.2
+  YUBIKEY_SETUP = 'YUBIKEY_SETUP', // 4.5.1
+  YUBIKEY_VERIFIED = 'YUBIKEY_VERIFIED'
+}
+
+export enum MergeSteps {
+  // 3.0 & 4.0
+  AUTH_SECOND_ACCOUNT = 'AUTH_SECOND_ACCOUNT',
+  // 3.2 & 4.2
+  CONFIRM_TWO_FA = 'CONFIRM_TWO_FA',
+  // 3.1.2 & 4.1.2
+  CREATE_NEW_PASSWORD = 'CREATE_NEW_PASSWORD',
+  // 3.3
+  ERROR = 'ERROR',
+  MERGE_OR_SKIP = 'MERGE_OR_SKIP',
+  // 4.6.1
+  MERGE_SUCCESS = 'MERGE_SUCCESS',
+  // 2.0
+  MERGE_WHATS_NEXT = 'MERGE_WHATS_NEXT',
+  // 3.1.1 && 4.1.1
+  TWO_FA_SECOND_ACCOUNT = 'TWO_FA_SECOND_ACCOUNT'
+}
 
 export enum PlatformTypes {
   ANDROID = 'ANDROID',
@@ -67,8 +109,9 @@ export type LoginFormType = {
   exchangeTwoFA?: string
   guid?: string
   guidOrEmail?: string
+  mergePassword?: string
   password?: string
-  step?: LoginSteps
+  step?: CombinedLoginSteps
   twoFA?: number | string
   upgradePassword?: string
 }

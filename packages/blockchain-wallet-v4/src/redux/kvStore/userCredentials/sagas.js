@@ -17,11 +17,14 @@ export default ({ api, networks }) => {
   }
 
   const fetchMetadataUserCredentials = function* () {
+    // this creates and fetches metadata
+
     try {
       const typeId = derivationMap[USER_CREDENTIALS]
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataUserCredentialsLoading())
+
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createUserCredentials, newkv)

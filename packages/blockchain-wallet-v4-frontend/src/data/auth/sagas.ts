@@ -15,7 +15,9 @@ import {
   CaptchaActionName,
   ExchangeAuthOriginType,
   ExchangeErrorCodes,
-  LoginRoutinePayloadType
+  LoginRoutinePayloadType,
+  MergeSteps,
+  UpgradeSteps
 } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
@@ -35,6 +37,7 @@ import {
   AuthMagicLink,
   AuthUserType,
   LoginApiErrorType,
+  LoginFormType,
   LoginSteps,
   PlatformTypes,
   ProductAuthOptions
@@ -42,7 +45,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser } = profileSagas({
+  const { createExchangeUser, createUser, generateRetailToken } = profileSagas({
     api,
     coreSagas,
     networks
@@ -50,6 +53,7 @@ export default ({ api, coreSagas, networks }) => {
   const {
     checkDataErrors,
     checkXpubCacheLegitimacy,
+    forceSyncWallet,
     updateMnemonicBackup,
     upgradeAddressLabelsSaga
   } = walletSagas({
@@ -126,6 +130,7 @@ export default ({ api, coreSagas, networks }) => {
     // start signin flow
     try {
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
+      const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
       const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
@@ -133,23 +138,30 @@ export default ({ api, coreSagas, networks }) => {
       // determine login flow method and save the result so we can run after analytics
       let finalizeLoginMethod
       switch (true) {
-        // account merge/upgrade web
-        // case unificationFlowType ===
-        //   (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
-        // // account merge mobile
-        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
-        // // account upgrade mobile
-        // case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
-        //   yield put(stopSubmit(LOGIN_FORM))
-        //   break
-
+        // account upgrade web
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account merge web
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.MERGE_OR_SKIP))
+          break
+        // account merge intended product is wallet
+        case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.CREATE_NEW_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account merge mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account upgrade mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
         // web - institutional exchange login
         // only institutional users coming from the .com page will have
         // a redirect link. All other users coming from footer in login page
@@ -162,7 +174,11 @@ export default ({ api, coreSagas, networks }) => {
         case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
           finalizeLoginMethod = () =>
             sendMessageToMobile(platform, {
-              data: { csrf: csrfToken, jwt: jwtToken, jwtExpirationTime: sessionExpirationTime },
+              data: {
+                csrf: csrfToken,
+                jwt: jwtToken,
+                jwtExpirationTime: sessionExpirationTime
+              },
               status: 'success'
             })
           break
@@ -303,6 +319,10 @@ export default ({ api, coreSagas, networks }) => {
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
+
+      // TODO: remove this, use to force upgrade/skip path
+      // return yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
+
       const guid = yield select(selectors.core.wallet.getGuid)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
@@ -448,7 +468,12 @@ export default ({ api, coreSagas, networks }) => {
       if (!session) {
         session = yield call(api.obtainSessionToken)
         if (product === ProductAuthOptions.EXCHANGE) {
-          yield put(actions.session.saveExchangeSession({ email: exchangeEmail, id: session }))
+          yield put(
+            actions.session.saveExchangeSession({
+              email: exchangeEmail,
+              id: session
+            })
+          )
         } else {
           yield put(actions.session.saveWalletSession({ email, guid, id: session }))
         }
@@ -476,17 +501,17 @@ export default ({ api, coreSagas, networks }) => {
       const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
 
       switch (true) {
-        // case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        //   break
-        case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+        case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.MERGE_OR_SKIP))
           break
-        // case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
-        //   accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
-        //   // call action to merge account
-        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+        // case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
+        //   yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
         //   break
+        case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+          accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', MergeSteps.CREATE_NEW_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
         // if account is unified, we run wallet
         // loginRoutineSaga for both. login routine
         // catches whether account is exchange or not
@@ -868,7 +893,13 @@ export default ({ api, coreSagas, networks }) => {
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
       ) {
         yield put(
-          actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+          actions.auth.login({
+            code: auth,
+            guid,
+            mobileLogin: null,
+            password,
+            sharedKey: null
+          })
         )
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
@@ -900,6 +931,82 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       // TODO add catch error state
+    }
+  }
+
+  const secondAuthenticationForMerge = function* () {
+    try {
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+      const magicLinkData: AuthMagicLink = yield select(S.getMagicLinkData)
+      const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+      const { code, exchangePassword, exchangeTwoFA, password } = formValues
+      const authType = yield select(selectors.auth.getAuthType)
+      // set code to uppercase if type is not yubikey
+      let auth = code
+      if (auth && authType !== 1) {
+        auth = auth.toUpperCase()
+      }
+      switch (true) {
+        case unificationFlowType === AccountUnificationFlows.WALLET_MERGE:
+          yield put(
+            actions.auth.exchangeLogin({
+              code: exchangeTwoFA,
+              password: exchangePassword,
+              username: magicLinkData.exchange?.email as string
+            })
+          )
+          break
+        case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
+          yield put(
+            actions.auth.login({
+              code,
+              guid: magicLinkData.wallet?.guid as string,
+              mobileLogin: null,
+              password,
+              sharedKey: null
+            })
+          )
+          break
+        default:
+          break
+      }
+    } catch (e) {
+      // TODO: handle error
+    }
+  }
+
+  const mergeAccounts = function* () {
+    try {
+      const exchangeSessionToken = yield select(selectors.auth.getExchangeSessionToken)
+      const retailToken = yield call(generateRetailToken)
+      const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
+        api.mergeUserAccount,
+        exchangeSessionToken,
+        retailToken
+      )
+      yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      // TODO: do we need to fetch legacy userCredentials? should we also write to legacy userCredentials here...?
+      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      yield put(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials(
+          userId,
+          nabuToken,
+          userCredentialsId,
+          mercuryToken
+        )
+      )
+    } catch (e) {
+      // TODO: Handle error
+    }
+  }
+
+  const mergeChangePassword = function* () {
+    try {
+      const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM)) as LoginFormType
+      yield put(actions.wallet.setMainPassword(formValues.mergePassword))
+      yield call(forceSyncWallet)
+    } catch (e) {
+      // TODO Handle error
     }
   }
 
@@ -1037,8 +1144,11 @@ export default ({ api, coreSagas, networks }) => {
     initializeLogin,
     login,
     loginRoutineSaga,
+    mergeAccounts,
+    mergeChangePassword,
     mobileLogin,
     resendSmsLoginCode,
+    secondAuthenticationForMerge,
     triggerWalletMagicLink
   }
 }
