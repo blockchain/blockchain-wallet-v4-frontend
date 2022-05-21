@@ -39,6 +39,10 @@ const PageTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 const CoinTitle = styled.div`
   display: flex;
@@ -147,6 +151,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     const interestEligibleCoin =
       interestEligible && interestEligible[coin] && interestEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
+    const buttonResponsiveWidth = isMobile() ? 'auto' : '100px'
 
     return (
       <SceneWrapper>
@@ -170,14 +175,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       nature='primary'
                       style={{ marginRight: '8px' }}
                       data-e2e='buyCrypto'
-                      width={isMobile() ? '50px' : '100px'}
+                      width={buttonResponsiveWidth}
                       onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.TRANSACTIONS_BUY_BUTTON_CLICKED,
-                          properties: {
-                            coin
-                          }
-                        })
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.BUY,
@@ -191,7 +190,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       <Button
                         disabled={!isGoldTier || !interestEligibleCoin}
                         style={{ marginRight: '8px' }}
-                        width={isMobile() ? '50px' : '100px'}
+                        width={buttonResponsiveWidth}
                         nature='primary'
                         data-e2e='earnInterest'
                         onClick={() => {
@@ -216,14 +215,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     <Button
                       nature='light'
                       data-e2e='sellCrypto'
-                      width={isMobile() ? '50px' : '100px'}
+                      width={buttonResponsiveWidth}
                       onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.TRANSACTIONS_SELL_BUTTON_CLICKED,
-                          properties: {
-                            coin
-                          }
-                        })
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.SELL,
