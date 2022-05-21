@@ -23,6 +23,7 @@ import {
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
+import NftCollectionTableLoading from './NftCollectionTable.template.loading'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
 
 // Special case of hardcoding colors
@@ -138,6 +139,7 @@ const Explore: React.FC<Props> = (props) => {
       origin: 'Nfts'
     })
   }
+
   return (
     <NftPageV2>
       <>
@@ -338,7 +340,7 @@ const Explore: React.FC<Props> = (props) => {
       {results.data?.collections ? (
         <TrendingCollectionsTable collections={results.data.collections} {...props} />
       ) : (
-        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        <NftCollectionTableLoading />
       )}
     </NftPageV2>
   )
