@@ -327,8 +327,8 @@ const Explore: React.FC<Props> = (props) => {
             color='black'
             style={
               isMobile || isTablet
-                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '24px' }
-                : { marginBottom: '16px', marginTop: '24px' }
+                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
+                : { marginBottom: '16px', marginTop: '36px' }
             }
             size={isMobile || isTablet ? '20px' : '24px'}
             weight={600}
