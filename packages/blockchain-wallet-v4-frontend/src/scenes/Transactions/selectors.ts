@@ -111,7 +111,6 @@ const coinSelectorMap = (
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const { computedMatch } = ownProps
   const { coin } = computedMatch.params
-  const interestEligibleR = selectors.components.interest.getInterestEligible(state)
   const {
     data: {
       tiers: { current = 0 }
@@ -126,10 +125,20 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       coinSelectorMap(state, coin),
       selectors.core.settings.getCurrency,
       selectors.components.recurringBuy.getRegisteredListByCoin(coin),
-      selectors.core.walletOptions.getFeatureFlagRecurringBuys
+      selectors.core.walletOptions.getFeatureFlagRecurringBuys,
+      () => selectors.components.interest.getInterestEligible(state)
     ],
-    (invitationsR, userSearch, pagesR, currencyR, recurringBuys, isRecurringBuyR) => {
+    (
+      invitationsR,
+      userSearch,
+      pagesR,
+      currencyR,
+      recurringBuys,
+      isRecurringBuyR,
+      interestEligibleResult
+    ) => {
       const empty = (page) => isEmpty(page.data)
+      const interestEligible = propOr(false, 'data', interestEligibleResult)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
       const sourceType: '' | AddressTypesType = pathOr('', ['source', 'type'], userSearch)
@@ -144,13 +153,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         coin,
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
-        interestEligible: interestEligibleR,
+        interestEligible,
         isGoldTier,
-
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))
           .getOrElse({ openBanking: false }) as boolean,
-
         isRecurringBuy: isRecurringBuyR.getOrElse(false) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',

@@ -19,6 +19,7 @@ import { getIntroductionText } from 'data/coins/selectors'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
+  Analytics,
   RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
@@ -107,6 +108,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.recurringBuyActions.fetchRegisteredList()
+    this.props.interestActions.fetchInterestEligible()
   }
 
   componentDidUpdate(prevProps) {
@@ -126,6 +128,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
+      analyticsActions,
       computedMatch,
       currency,
       hasTxResults,
@@ -141,7 +144,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
-    const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+    const interestEligibleCoin =
+      interestEligible && interestEligible[coin] && interestEligible[coin]?.eligible
+    const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
 
     return (
       <SceneWrapper>
@@ -167,6 +172,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       data-e2e='buyCrypto'
                       width='100px'
                       onClick={() => {
+                        analyticsActions.trackEvent({
+                          key: Analytics.TRANSACTIONS_BUY_BUTTON_CLICKED,
+                          properties: {
+                            coin
+                          }
+                        })
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.BUY,
@@ -176,29 +187,43 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     >
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
                     </Button>
-                    <Button
-                      disabled={!isGoldTier || !interestEligibleCoin}
-                      style={{ marginRight: '8px' }}
-                      width='100px'
-                      nature='primary'
-                      data-e2e='earnInterest'
-                      onClick={() =>
-                        this.props.interestActions.showInterestModal({
-                          coin,
-                          step: 'ACCOUNT_SUMMARY'
-                        })
-                      }
-                    >
-                      <FormattedMessage
-                        id='scenes.interest.summarycard.earnOnly'
-                        defaultMessage='Earn'
-                      />
-                    </Button>
+                    {isEarnButtonEnabled && (
+                      <Button
+                        disabled={!isGoldTier || !interestEligibleCoin}
+                        style={{ marginRight: '8px' }}
+                        width='100px'
+                        nature='primary'
+                        data-e2e='earnInterest'
+                        onClick={() => {
+                          analyticsActions.trackEvent({
+                            key: Analytics.TRANSACTIONS_EARN_BUTTON_CLICKED,
+                            properties: {
+                              coin
+                            }
+                          })
+                          this.props.interestActions.showInterestModal({
+                            coin,
+                            step: 'ACCOUNT_SUMMARY'
+                          })
+                        }}
+                      >
+                        <FormattedMessage
+                          id='scenes.interest.summarycard.earnOnly'
+                          defaultMessage='Earn'
+                        />
+                      </Button>
+                    )}
                     <Button
                       nature='light'
                       data-e2e='sellCrypto'
                       width='100px'
                       onClick={() => {
+                        analyticsActions.trackEvent({
+                          key: Analytics.TRANSACTIONS_SELL_BUTTON_CLICKED,
+                          properties: {
+                            coin
+                          }
+                        })
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.SELL,
@@ -328,6 +353,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin } = ownProps.computedMatch.params
   const { coinfig } = window.coins[coin]
   const baseActions = {
+    analyticsActions: bindActionCreators(actions.analytics, dispatch),
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
     interestActions: bindActionCreators(actions.components.interest, dispatch),

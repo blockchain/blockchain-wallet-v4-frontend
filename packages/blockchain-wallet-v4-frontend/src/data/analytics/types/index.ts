@@ -33,6 +33,10 @@ import {
   TrackEventAction as TaxCenterTrackEventAction
 } from './taxCenter'
 import {
+  Events as TransactionsEvents,
+  TrackEventAction as TransactionsTrackEventAction
+} from './transactions'
+import {
   AnalyticsProperties as ViewAndClickAnalyticsProperties,
   Events as ViewAndClickEvents,
   TrackEventAction as ViewAndClickTrackEventAction
@@ -51,6 +55,7 @@ type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | SendCryptoEvents
   | TaxCenterEvents
+  | TransactionsEvents
   | ViewAndClickEvents
 
 const Analytics = {
@@ -64,6 +69,7 @@ const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...SendCryptoEvents,
   ...TaxCenterEvents,
+  ...TransactionsEvents,
   ...ViewAndClickEvents
 }
 
@@ -86,6 +92,7 @@ type TrackEventAction =
   | OnboardingAndVerificationTrackEventAction
   | SendCryptoTrackEventAction
   | TaxCenterTrackEventAction
+  | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
 
 type AnalyticsTraits = {
