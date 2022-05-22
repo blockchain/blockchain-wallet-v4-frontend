@@ -8,8 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, Image, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
-import { ImageType } from 'blockchain-info-components/src/Images/Images'
+import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -23,7 +22,6 @@ import {
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2 } from '../components'
-import NftCollectionTableLoading from './NftCollectionTable.template.loading'
 import TrendingCollectionsTable from './TrendingCollectionsTable'
 
 // Special case of hardcoding colors
@@ -76,6 +74,24 @@ const CardWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 1em 0em;
+`
+
+const SkeletonLoader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px 0;
+  > div:last-child {
+    flex: 1;
+    margin-left: 16px;
+  }
+`
+
+const CustomRectangleHeader = styled(SkeletonRectangle)`
+  border-radius: 24px 24px 0px 0px;
+  ${media.mobile`
+      border-radius: unset;
+  `}
 `
 
 const Explore: React.FC<Props> = (props) => {
@@ -139,6 +155,24 @@ const Explore: React.FC<Props> = (props) => {
       origin: 'Nfts'
     })
   }
+
+  const Loading = () => (
+    <>
+      <CustomRectangleHeader height='40px' width='100%' />
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+    </>
+  )
 
   return (
     <NftPageV2>
@@ -340,7 +374,7 @@ const Explore: React.FC<Props> = (props) => {
       {results.data?.collections ? (
         <TrendingCollectionsTable collections={results.data.collections} {...props} />
       ) : (
-        <NftCollectionTableLoading />
+        <Loading />
       )}
     </NftPageV2>
   )
