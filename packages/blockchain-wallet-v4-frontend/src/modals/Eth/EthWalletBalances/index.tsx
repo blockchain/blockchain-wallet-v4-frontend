@@ -6,6 +6,7 @@ import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 
 import { displayFiatToFiat } from '@core/exchange'
+import { fiatToString } from '@core/exchange/utils'
 import {
   Button,
   Icon as BlockchainIcon,
@@ -94,9 +95,9 @@ class EthWalletBalance extends PureComponent<Props, State> {
                       <SkeletonRectangle height='32px' width='100px' />
                     </div>
                   ),
-                  Success: ({ total }) => (
+                  Success: ({ currency, total }) => (
                     <Text size='24px' weight={600} color='black'>
-                      {displayFiatToFiat({ value: total })}
+                      {fiatToString({ unit: currency, value: total })}
                     </Text>
                   )
                 })}
