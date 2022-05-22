@@ -36,7 +36,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
         <Flex style={{ width: '100%' }} flexDirection='column' justifyContent='space-between'>
           <Flex justifyContent='space-between' alignItems='center'>
             <Text size='16px' color='grey900' weight={600}>
-              {asset?.name}
+              {asset?.name || `#${asset?.token_id}`}
             </Text>
             {lowest_order?.current_price ? (
               <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>

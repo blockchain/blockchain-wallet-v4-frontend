@@ -8,8 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, Image, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
-import { ImageType } from 'blockchain-info-components/src/Images/Images'
+import { Button, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -18,7 +17,7 @@ import {
   CollectionSortFields,
   SortDirection,
   useAssetsQuery,
-  useCollectionsQuery
+  useTrendingCollectionsQuery
 } from 'generated/graphql.types'
 import { media, useMedia } from 'services/styles'
 
@@ -107,7 +106,7 @@ const Explore: React.FC<Props> = (props) => {
       return () => clearInterval(interval)
     }
   }, [assetId, loadedAssets])
-  const [results] = useCollectionsQuery({
+  const [results] = useTrendingCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }

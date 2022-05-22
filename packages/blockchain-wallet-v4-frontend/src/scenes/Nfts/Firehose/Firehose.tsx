@@ -7,7 +7,11 @@ import { CombinedError } from 'urql'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CollectionSortFields, SortDirection, useCollectionsQuery } from 'generated/graphql.types'
+import {
+  CollectionSortFields,
+  SortDirection,
+  useTrendingCollectionsQuery
+} from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
 import { GridWrapper } from '../components'
@@ -20,7 +24,7 @@ import NftFirehoseResults from './Firehose.results'
 
 const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   const isTablet = useMedia('tablet')
-  const [collectionsQuery] = useCollectionsQuery({
+  const [collectionsQuery] = useTrendingCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
