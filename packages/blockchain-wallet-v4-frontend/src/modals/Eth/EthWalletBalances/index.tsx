@@ -228,7 +228,6 @@ type State = {
 type OwnProps = ModalPropsType
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-// 👋 Order of composition is important, do not change!
 const enhance = compose<any>(
   modalEnhancer(ModalName.ETH_WALLET_BALANCES, { transition: duration }),
   connector
