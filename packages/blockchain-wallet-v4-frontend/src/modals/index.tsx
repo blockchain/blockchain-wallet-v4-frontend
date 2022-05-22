@@ -299,7 +299,7 @@ const Modals = (props: Props) => {
           <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
-          <EthWalletBalances fixed />
+          <EthWalletBalances />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (
