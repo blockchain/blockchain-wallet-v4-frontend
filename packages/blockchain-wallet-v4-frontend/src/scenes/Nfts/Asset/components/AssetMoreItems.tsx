@@ -100,7 +100,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
                       src={asset.image_url || ''}
                     />
                     <Text style={{ textAlign: 'center' }} size='14px' weight={600} capitalize>
-                      {asset.name || asset.token_id}
+                      {asset.name || `#${asset.token_id}`}
                     </Text>
                   </div>
                 </CustomLink>
