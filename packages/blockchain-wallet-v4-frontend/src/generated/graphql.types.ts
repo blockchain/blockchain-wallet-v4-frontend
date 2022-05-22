@@ -673,6 +673,14 @@ export type OwnerQueryVariables = Exact<{
 
 export type OwnerQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_original_url?: string | null, name?: string | null, image_url?: string | null, permalink: string, token_id: string, collection: { __typename?: 'Collection', name: string, slug: string, image_url?: string | null, safelist_request_status: string }, contract?: { __typename?: 'Contract', address: string } | null, last_sale?: { __typename?: 'FlatEvent', payment_token_symbol?: string | null, total_price?: string | null } | null }> };
 
+export type TrendingCollectionsQueryVariables = Exact<{
+  filter?: InputMaybe<Array<InputMaybe<CollectionFilter>> | InputMaybe<CollectionFilter>>;
+  sort?: InputMaybe<CollectionSort>;
+}>;
+
+
+export type TrendingCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', created_date: string, image_url?: string | null, name: string, num_owners?: number | null, safelist_request_status: string, slug: string, total_supply?: number | null, stats?: { __typename?: 'Stats', floor_price?: string | null, one_day_volume?: string | null, total_volume?: string | null } | null }> };
+
 import { IntrospectionQuery } from 'graphql';
 export default {
   "__schema": {
@@ -3187,4 +3195,26 @@ export const OwnerDocument = gql`
 
 export function useOwnerQuery(options?: Omit<Urql.UseQueryArgs<OwnerQueryVariables>, 'query'>) {
   return Urql.useQuery<OwnerQuery>({ query: OwnerDocument, ...options });
+};
+export const TrendingCollectionsDocument = gql`
+    query TrendingCollections($filter: [CollectionFilter], $sort: CollectionSort) {
+  collections(filter: $filter, sort: $sort) {
+    created_date
+    image_url
+    name
+    num_owners
+    safelist_request_status
+    slug
+    stats {
+      floor_price
+      one_day_volume
+      total_volume
+    }
+    total_supply
+  }
+}
+    `;
+
+export function useTrendingCollectionsQuery(options?: Omit<Urql.UseQueryArgs<TrendingCollectionsQueryVariables>, 'query'>) {
+  return Urql.useQuery<TrendingCollectionsQuery>({ query: TrendingCollectionsDocument, ...options });
 };
