@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Button, Image, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
@@ -91,10 +91,14 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
       >
         <Link>
-          <AssetImageContainer
-            className='asset-image-container'
-            background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
-          />
+          {asset.image_url ? (
+            <AssetImageContainer
+              className='asset-image-container'
+              background={`url(${asset.image_url.replace(/=s\d*/, '')})`}
+            />
+          ) : (
+            <Image width='100%' name='no-activity' />
+          )}
           <NftAssetImageType
             top='20px'
             right='10px'

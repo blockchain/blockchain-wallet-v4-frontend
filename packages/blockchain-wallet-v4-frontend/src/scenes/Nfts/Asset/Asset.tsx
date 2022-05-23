@@ -267,8 +267,10 @@ const NftAsset: React.FC<Props> = ({
                         currentAsset.animation_url
                       )}`}
                     />
-                  ) : (
+                  ) : currentAsset.image_url ? (
                     <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                  ) : (
+                    <Image width='100%' height='500px' name='no-activity' />
                   )}
                   <NftAssetImageType
                     animation_url={currentAsset.animation_url}
