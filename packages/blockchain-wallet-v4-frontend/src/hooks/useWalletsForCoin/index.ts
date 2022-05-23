@@ -1,2 +1,6 @@
 export { useWalletsForCoin } from './useWalletsForCoin'
-export type { WalletsForCoinHook, WalletsForCoinHookProps } from './useWalletsForCoin.types'
+export type {
+  WalletsForCoinHook,
+  WalletsForCoinHookData,
+  WalletsForCoinHookProps
+} from './useWalletsForCoin.types'
