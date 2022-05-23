@@ -11,6 +11,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import AdditionalInfo from './AdditionalInfo'
 import EmailVerification from './EmailVerification'
+import ExtraFields from './ExtraFields'
 import InfoAndResidential from './InfoAndResidential'
 import MoreInfo from './MoreInfo'
 import { getData } from './selectors'
@@ -61,7 +62,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
   initializeVerification = () => {
     const { needMoreInfo, tier } = this.props
-    this.props.actions.initializeVerification(tier, needMoreInfo)
+    this.props.actions.initializeVerification({ needMoreInfo, tier })
   }
 
   getStepComponent = (emailVerified: boolean, step: string) => {
@@ -80,6 +81,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
     if (step === STEPS.moreInfo) {
       return <MoreInfo />
+    }
+    if (step === STEPS.addExtraStep) {
+      return <ExtraFields onClose={this.handleClose} />
     }
     if (step === STEPS.additionalInfo) {
       return <AdditionalInfo onClose={this.handleClose} />

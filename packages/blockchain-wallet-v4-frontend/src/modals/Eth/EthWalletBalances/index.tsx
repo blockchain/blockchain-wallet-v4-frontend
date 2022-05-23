@@ -6,6 +6,7 @@ import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 
 import { displayFiatToFiat } from '@core/exchange'
+import { fiatToString } from '@core/exchange/utils'
 import {
   Button,
   Icon as BlockchainIcon,
@@ -36,6 +37,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
   componentDidMount() {
     // eslint-disable-next-line
     this.setState({ show: true })
+    this.refresh()
   }
 
   handleClose = () => {
@@ -45,17 +47,14 @@ class EthWalletBalance extends PureComponent<Props, State> {
     }, duration)
   }
 
+  refresh = () => {
+    this.props.fetchErc20Balances()
+    this.props.ethActions.fetchDataLoading()
+    this.props.ethActions.fetchData()
+  }
+
   render() {
-    const {
-      buySellActions,
-      close,
-      data,
-      ethActions,
-      fetchErc20Balances,
-      position,
-      total,
-      userClickedOutside
-    } = this.props
+    const { buySellActions, close, data, position, total, userClickedOutside } = this.props
     const { show } = this.state
 
     return (
@@ -96,23 +95,14 @@ class EthWalletBalance extends PureComponent<Props, State> {
                       <SkeletonRectangle height='32px' width='100px' />
                     </div>
                   ),
-                  Success: ({ total }) => (
+                  Success: ({ currency, total }) => (
                     <Text size='24px' weight={600} color='black'>
-                      {displayFiatToFiat({ value: total })}
+                      {fiatToString({ unit: currency, value: total })}
                     </Text>
                   )
                 })}
               </div>
-              <Button
-                small
-                data-e2e='refresh'
-                nature='empty-blue'
-                onClick={() => {
-                  fetchErc20Balances()
-                  ethActions.fetchDataLoading()
-                  ethActions.fetchData()
-                }}
-              >
+              <Button small data-e2e='refresh' nature='empty-blue' onClick={this.refresh}>
                 <Icon label='refresh' size='sm' color='blue600'>
                   <IconRefresh />
                 </Icon>
@@ -238,9 +228,8 @@ type State = {
 type OwnProps = ModalPropsType
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-// 👋 Order of composition is important, do not change!
 const enhance = compose<any>(
-  modalEnhancer(ModalName.ETH_WALLET_BALANCES, { transition: duration }),
+  modalEnhancer(ModalName.ETH_WALLET_BALANCES, { fixed: true, transition: duration }),
   connector
 )
 

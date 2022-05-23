@@ -1,5 +1,5 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
-import { addDays, addMinutes, getUnixTime } from 'date-fns'
+import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
@@ -27,6 +27,7 @@ import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
+import profileSagas from '../../modules/profile/sagas'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 import { nonTraitFilters } from './utils'
@@ -36,8 +37,14 @@ export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 const INSUFFICIENT_FUNDS = 'insufficient funds'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
+
+  const { generateRetailToken } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
@@ -179,8 +186,18 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order as RawOrder
         )
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        const listingTime = getUnixTime(addMinutes(new Date(), 5))
-        const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
+        let listingTime = getUnixTime(addSeconds(new Date(), 10))
+        let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
+
+        // For english auctions, order executes at listing time
+        // highest bidder wins the auction
+        if (action.payload.waitForHighestBid) {
+          listingTime = expirationTime
+          expirationTime = getUnixTime(
+            addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+          )
+        }
+
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
@@ -189,6 +206,7 @@ export default ({ api }: { api: APIType }) => {
           expirationTime,
           action.payload.startPrice,
           action.payload.endPrice,
+          action.payload.reservePrice,
           IS_TESTNET ? 'rinkeby' : 'mainnet',
           action.payload.waitForHighestBid,
           action.payload.paymentTokenAddress
@@ -240,6 +258,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
     // TODO: get coin from paymentToken
     const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
     const amount = Number(
@@ -252,7 +271,6 @@ export default ({ api }: { api: APIType }) => {
 
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
-      yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
@@ -299,11 +317,11 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
-    const currency = action?.payload?.coin || ''
+    yield put(A.setOrderFlowIsSubmitting(true))
+    const coin = action?.payload?.coin || ''
     const amount = Number(action?.payload?.amount)
-    const amount_usd = yield call(getAmountUsd, currency, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
-      yield put(A.setOrderFlowIsSubmitting(true))
       const guid = yield call(getGuid)
       const signer = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
@@ -311,7 +329,7 @@ export default ({ api }: { api: APIType }) => {
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       const { expirationTime } = action.payload
 
-      if (action.payload.amtToWrap && action.payload.wrapFees) {
+      if (action.payload.amtToWrap && action.payload.wrapFees && coin === 'WETH') {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
         const amount = Exchange.convertCoinToCoin({
           baseToStandard: false,
@@ -335,8 +353,9 @@ export default ({ api }: { api: APIType }) => {
       )
       const gasData = action.payload.offerFees
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
+      const retailToken = yield call(generateRetailToken)
       const order = yield call(fulfillNftOrder, { buy, gasData, signer })
-      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -344,7 +363,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
@@ -355,6 +374,7 @@ export default ({ api }: { api: APIType }) => {
           token_id: action.payload.asset.token_id
         })
       )
+      yield put(actions.form.reset('nftMakeOffer'))
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -363,7 +383,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }
@@ -380,6 +400,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
     // TODO: get coin from paymentToken
     const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : ('WETH' as string)
     const amount = Number(
@@ -395,7 +416,7 @@ export default ({ api }: { api: APIType }) => {
 
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
-      yield put(A.setOrderFlowIsSubmitting(true))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
@@ -437,12 +458,14 @@ export default ({ api }: { api: APIType }) => {
         error = 'You do not have enough funds to create this order.'
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.BUY }))
     }
 
     yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
     const isTimedAuction = !!action.payload.endPrice
     const coin = isTimedAuction ? 'WETH' : 'ETH'
     const startPrice = action?.payload?.startPrice
@@ -451,11 +474,19 @@ export default ({ api }: { api: APIType }) => {
     const end_usd = yield getAmountUsd(coin, endPrice)
 
     try {
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
       const guid = yield select(selectors.core.wallet.getGuid)
-      const listingTime = getUnixTime(addMinutes(new Date(), 5))
-      const expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
-      yield put(A.setOrderFlowIsSubmitting(true))
+      let listingTime = getUnixTime(addSeconds(new Date(), 10))
+      let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
+
+      if (action.payload.waitForHighestBid) {
+        listingTime = expirationTime
+        expirationTime = getUnixTime(
+          addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+        )
+      }
+
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
         getNftSellOrder,
@@ -465,13 +496,14 @@ export default ({ api }: { api: APIType }) => {
         expirationTime,
         action.payload.startPrice,
         action.payload.endPrice,
+        action.payload.reservePrice,
         IS_TESTNET ? 'rinkeby' : 'mainnet',
         action.payload.waitForHighestBid,
         action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
-      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
-      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid)
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.clearAndRefetchAssets())
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
@@ -513,6 +545,7 @@ export default ({ api }: { api: APIType }) => {
         error = 'You do not have enough funds to sell this asset.'
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MARK_FOR_SALE }))
     }
 
     yield put(A.setOrderFlowIsSubmitting(false))
@@ -564,8 +597,8 @@ export default ({ api }: { api: APIType }) => {
 
   const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
     try {
-      const signer = yield call(getEthSigner)
       yield put(A.setOrderFlowIsSubmitting(true))
+      const signer = yield call(getEthSigner)
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
@@ -606,12 +639,13 @@ export default ({ api }: { api: APIType }) => {
 
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
     const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
         coin,
-        value: action?.payload?.order?.base_price?.toString() || ''
+        value: action?.payload?.order?.current_price?.toString() || ''
       })
     )
     const amount_usd = yield call(getAmountUsd, coin, amount)
@@ -620,7 +654,6 @@ export default ({ api }: { api: APIType }) => {
         throw new Error('No offer found. It may have expired already!')
       }
       const signer = yield call(getEthSigner)
-      yield put(A.setOrderFlowIsSubmitting(true))
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
@@ -666,6 +699,11 @@ export default ({ api }: { api: APIType }) => {
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftFilter') {
+      if (window.location.hash.split('?')[0].includes('collection')) {
+        window.scrollTo(0, 300)
+      } else {
+        window.scrollTo(0, 0)
+      }
       if (['min', 'max'].includes(action.meta.field)) {
         const formValues = selectors.form.getFormValues('nftFilter')(
           yield select()
@@ -711,10 +749,6 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
   }
 
-  const nftOrderFlowClose = function* () {
-    yield put(actions.modals.closeAllModals())
-  }
-
   // watch router change so we know if we need to reset nft trait filter form
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
@@ -724,6 +758,7 @@ export default ({ api }: { api: APIType }) => {
       const params = Object.fromEntries(new URLSearchParams(query))
 
       yield put(actions.form.reset('nftFilter'))
+      window.scrollTo({ behavior: 'smooth', top: 0 })
 
       yield all(
         Object.keys(params).map(function* (key) {
@@ -771,7 +806,6 @@ export default ({ api }: { api: APIType }) => {
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,
-    nftOrderFlowClose,
     nftOrderFlowOpen,
     nftSearch
   }

@@ -4,10 +4,9 @@ import { CombinedError } from 'urql'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { OwnerQuery } from 'generated/graphql.types'
 
-import { Grid } from '../../components'
 import NftError from '../../components/NftError'
+import NftGrid from '../../components/NftGrid'
 import NftGridLoading from '../../components/NftGridLoading'
-import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import ResultsPage from './AddressItems.results'
 
@@ -15,6 +14,7 @@ const AddressItems: React.FC<Props> = ({
   address,
   collections,
   formValues,
+  isFilterOpen,
   refreshTrigger,
   setCollections
 }) => {
@@ -41,36 +41,35 @@ const AddressItems: React.FC<Props> = ({
   const isFetching = isFetchingNextPage
 
   return (
-    <NftPageLazyLoadWrapper>
-      <LazyLoadContainer
-        triggerDistance={50}
-        onLazyLoad={() =>
-          isFetching || maxItemsFetched || errorFetchingNextPage
-            ? null
-            : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
-        }
-      >
-        <Grid>
-          {pageVariables.length
-            ? pageVariables.map(({ page }) => (
-                <ResultsPage
-                  page={page}
-                  formValues={formValues}
-                  collections={collections}
-                  setCollections={setCollections}
-                  setMaxItemsFetched={setMaxItemsFetched}
-                  key={page}
-                  address={address}
-                  setNextPageFetchError={setNextPageFetchError}
-                  setIsFetchingNextPage={setIsFetchingNextPage}
-                />
-              ))
-            : null}
-          {isFetching ? <NftGridLoading /> : null}
-        </Grid>
-        {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
-      </LazyLoadContainer>
-    </NftPageLazyLoadWrapper>
+    <LazyLoadContainer
+      useScroll
+      triggerDistance={50}
+      onLazyLoad={() =>
+        isFetching || maxItemsFetched || errorFetchingNextPage
+          ? null
+          : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
+      }
+    >
+      <NftGrid fullscreen={!isFilterOpen}>
+        {pageVariables.length
+          ? pageVariables.map(({ page }) => (
+              <ResultsPage
+                page={page}
+                formValues={formValues}
+                collections={collections}
+                setCollections={setCollections}
+                setMaxItemsFetched={setMaxItemsFetched}
+                key={page}
+                address={address}
+                setNextPageFetchError={setNextPageFetchError}
+                setIsFetchingNextPage={setIsFetchingNextPage}
+              />
+            ))
+          : null}
+        {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
+      </NftGrid>
+      {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
+    </LazyLoadContainer>
   )
 }
 
@@ -78,6 +77,7 @@ type Props = {
   address: string
   collections: OwnerQuery['assets'][0]['collection'][]
   formValues: NftFilterFormValuesType
+  isFilterOpen: boolean
   refreshTrigger: number
   setCollections: React.Dispatch<React.SetStateAction<OwnerQuery['assets'][0]['collection'][]>>
 }

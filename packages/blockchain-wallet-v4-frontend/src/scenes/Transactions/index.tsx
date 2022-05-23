@@ -8,15 +8,7 @@ import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import {
-  CoinfigType,
-  CoinType,
-  FiatType,
-  OrderType,
-  TimeRange,
-  WalletCurrencyType,
-  WalletFiatType
-} from '@core/types'
+import { CoinType, FiatType, OrderType, TimeRange, WalletFiatType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
@@ -129,7 +121,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 
   handleArchive = (address) => {
-    // @ts-ignore
     if (this.props.setAddressArchived) this.props.setAddressArchived(address)
   }
 
@@ -138,6 +129,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
       computedMatch,
       currency,
       hasTxResults,
+      interestEligible,
+      isGoldTier,
       isInvited,
       isRecurringBuy,
       isSearchEntered,
@@ -148,6 +141,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
+    const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
 
     return (
       <SceneWrapper>
@@ -169,21 +163,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                   <>
                     <Button
                       nature='primary'
-                      data-e2e='sellCrypto'
-                      width='100px'
                       style={{ marginRight: '8px' }}
-                      onClick={() => {
-                        this.props.buySellActions.showModal({
-                          cryptoCurrency: coin as CoinType,
-                          orderType: OrderType.SELL,
-                          origin: 'TransactionList'
-                        })
-                      }}
-                    >
-                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
-                    </Button>
-                    <Button
-                      nature='primary'
                       data-e2e='buyCrypto'
                       width='100px'
                       onClick={() => {
@@ -195,6 +175,38 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       }}
                     >
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+                    </Button>
+                    <Button
+                      disabled={!isGoldTier || !interestEligibleCoin}
+                      style={{ marginRight: '8px' }}
+                      width='100px'
+                      nature='primary'
+                      data-e2e='earnInterest'
+                      onClick={() =>
+                        this.props.interestActions.showInterestModal({
+                          coin,
+                          step: 'ACCOUNT_SUMMARY'
+                        })
+                      }
+                    >
+                      <FormattedMessage
+                        id='scenes.interest.summarycard.earnOnly'
+                        defaultMessage='Earn'
+                      />
+                    </Button>
+                    <Button
+                      nature='light'
+                      data-e2e='sellCrypto'
+                      width='100px'
+                      onClick={() => {
+                        this.props.buySellActions.showModal({
+                          cryptoCurrency: coin as CoinType,
+                          orderType: OrderType.SELL,
+                          origin: 'TransactionList'
+                        })
+                      }}
+                    >
+                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
                     </Button>
                   </>
                 )}
@@ -318,6 +330,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+    interestActions: bindActionCreators(actions.components.interest, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)

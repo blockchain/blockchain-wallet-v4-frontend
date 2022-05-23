@@ -18,7 +18,8 @@ const Footer = (props) => {
       {props.authProduct === ProductAuthOptions.EXCHANGE &&
         props.formValues?.step !== LoginSteps.INSTITUTIONAL_PORTAL &&
         props.platform !== PlatformTypes.IOS &&
-        props.platform !== PlatformTypes.ANDROID && (
+        props.platform !== PlatformTypes.ANDROID &&
+        props.path === '/login' && (
           <FooterInner>
             <InstitutionalPortal />
           </FooterInner>
@@ -26,7 +27,7 @@ const Footer = (props) => {
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
         <Version />
-        <Help {...props} />
+        <Help />
       </FooterInner>
     </>
   )

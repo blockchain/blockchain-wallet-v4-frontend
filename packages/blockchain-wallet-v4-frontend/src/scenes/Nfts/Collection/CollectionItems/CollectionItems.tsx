@@ -4,16 +4,16 @@ import { CombinedError, UseQueryState } from 'urql'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { CollectionsQuery } from 'generated/graphql.types'
 
-import { Grid } from '../../components'
 import NftError from '../../components/NftError'
+import NftGrid from '../../components/NftGrid'
 import NftGridLoading from '../../components/NftGridLoading'
-import NftPageLazyLoadWrapper from '../../components/NftPageLazyLoadWrapper'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
 
 const CollectionItems: React.FC<Props> = ({
   collectionsQuery,
   formValues,
+  isFilterOpen,
   refreshTrigger,
   setNumOfResults,
   slug
@@ -24,6 +24,7 @@ const CollectionItems: React.FC<Props> = ({
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
+  const stringifiedForm = JSON.stringify(formValues)
 
   const refresh = () => {
     setIsFetchingNextPage(true)
@@ -36,7 +37,7 @@ const CollectionItems: React.FC<Props> = ({
 
   useEffect(() => {
     refresh()
-  }, [slug, formValues])
+  }, [slug, stringifiedForm])
 
   useEffect(() => {
     refresh()
@@ -45,42 +46,42 @@ const CollectionItems: React.FC<Props> = ({
   const isFetching = isFetchingNextPage || collectionsQuery.fetching
 
   return (
-    <NftPageLazyLoadWrapper>
-      <LazyLoadContainer
-        triggerDistance={50}
-        onLazyLoad={() =>
-          isFetching || maxItemsFetched
-            ? null
-            : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
-        }
-      >
-        <Grid>
-          {pageVariables.length
-            ? pageVariables.map(({ page }) => (
-                <CollectionItemsResults
-                  page={page}
-                  // @ts-ignore
-                  formValues={formValues}
-                  key={page}
-                  slug={slug}
-                  setNumOfResults={setNumOfResults}
-                  setMaxItemsFetched={setMaxItemsFetched}
-                  setNextPageFetchError={setNextPageFetchError}
-                  setIsFetchingNextPage={setIsFetchingNextPage}
-                />
-              ))
-            : null}
-          {isFetching ? <NftGridLoading /> : null}
-        </Grid>
-        {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
-      </LazyLoadContainer>
-    </NftPageLazyLoadWrapper>
+    <LazyLoadContainer
+      useScroll
+      triggerDistance={50}
+      onLazyLoad={() =>
+        isFetching || maxItemsFetched
+          ? null
+          : setPageVariables((pages) => [...pages, { page: pages.length + 1 }])
+      }
+    >
+      <NftGrid fullscreen={!isFilterOpen}>
+        {pageVariables.length
+          ? pageVariables.map(({ page }) => (
+              <CollectionItemsResults
+                page={page}
+                // @ts-ignore
+                formValues={formValues}
+                key={page}
+                slug={slug}
+                setNumOfResults={setNumOfResults}
+                setMaxItemsFetched={setMaxItemsFetched}
+                setNextPageFetchError={setNextPageFetchError}
+                setIsFetchingNextPage={setIsFetchingNextPage}
+              />
+            ))
+          : null}
+        {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
+      </NftGrid>
+      {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
+    </LazyLoadContainer>
   )
 }
 
 type Props = {
   collectionsQuery: UseQueryState<CollectionsQuery, object>
   formValues: NftFilterFormValuesType
+  isFilterOpen: boolean
   refreshTrigger: number
   setNumOfResults: React.Dispatch<React.SetStateAction<number | undefined>>
   slug: string

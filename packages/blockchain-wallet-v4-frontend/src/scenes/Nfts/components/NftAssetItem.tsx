@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
 
 import { Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
@@ -12,14 +12,14 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 
-import {
-  Asset,
-  AssetCollection,
-  AssetDetails,
-  AssetImageContainer,
-  CollectionImageSmall,
-  PriceCTA
-} from '.'
+import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
+import NftAssetImageType from './NftAssetImageType'
+import NftCollectionImageSmall from './NftCollectionImageSmall'
+
+const XSmallButton = styled(Button)`
+  padding: 6px 8px;
+  height: auto;
+`
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const dispatch = useDispatch()
@@ -62,23 +62,46 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
     : null
 
   return (
-    <Asset key={asset?.token_id}>
+    <Asset key={asset?.token_id} className='asset'>
       <LinkContainer onClick={logoClickTracking} to={`/nfts/collection/${asset.collection.slug}`}>
         <Link>
           <Flex alignItems='center' gap={8}>
             {asset.collection.image_url ? (
-              <CollectionImageSmall alt='Dapp Logo' src={asset.collection.image_url || ''} />
+              <NftCollectionImageSmall
+                isVerified={asset.collection.safelist_request_status === 'verified'}
+                alt='Dapp Logo'
+                src={asset.collection.image_url || ''}
+              />
             ) : null}
             <AssetCollection onClick={nameClickTracking}>
-              <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
+              <Text
+                style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                size='14px'
+                color='grey800'
+                weight={600}
+              >
                 {asset?.collection?.name}
               </Text>
             </AssetCollection>
           </Flex>
         </Link>
       </LinkContainer>
-      <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
-        <AssetImageContainer background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`} />
+      <LinkContainer
+        style={{ position: 'relative' }}
+        to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
+      >
+        <Link>
+          <AssetImageContainer
+            className='asset-image-container'
+            background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
+          />
+          <NftAssetImageType
+            top='20px'
+            right='10px'
+            animation_url={asset.animation_url}
+            image_url={asset.image_url}
+          />
+        </Link>
       </LinkContainer>
       <AssetDetails>
         <div>
@@ -88,27 +111,36 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         </div>
 
         <PriceCTA>
-          <LinkContainer to={`/nfts/asset/${asset.contract?.address}/${asset.token_id}`}>
+          <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
-              <Button data-e2e='nftAssetPage' nature='empty-blue' small>
+              <XSmallButton data-e2e='nftAssetPage' nature='primary' small>
                 <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
-              </Button>
+              </XSmallButton>
             ) : (
-              <Link onClick={viewDetailsTracking} weight={600}>
+              <XSmallButton
+                onClick={viewDetailsTracking}
+                data-e2e='nftAssetPage'
+                nature='empty-blue'
+                small
+              >
                 <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
-              </Link>
+              </XSmallButton>
             )}
           </LinkContainer>
           {lowestListing && lowestListing.starting_price ? (
-            <GreyBlueGradientCartridge>
-              <CoinDisplay
-                coin={lowestListing.payment_token_symbol || 'ETH'}
-                size='14px'
-                weight={600}
-              >
-                {lowestListing.starting_price}
-              </CoinDisplay>
-            </GreyBlueGradientCartridge>
+            <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
+              <Link>
+                <GreyBlueGradientCartridge>
+                  <CoinDisplay
+                    coin={lowestListing.payment_token_symbol || 'ETH'}
+                    size='14px'
+                    weight={600}
+                  >
+                    {lowestListing.starting_price}
+                  </CoinDisplay>
+                </GreyBlueGradientCartridge>
+              </Link>
+            </LinkContainer>
           ) : (
             <GreyCartridge>
               <FormattedMessage id='copy.not_for_sale' defaultMessage='Not for sale' />

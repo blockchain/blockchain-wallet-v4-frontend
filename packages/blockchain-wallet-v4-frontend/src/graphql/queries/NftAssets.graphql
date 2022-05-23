@@ -1,24 +1,23 @@
 query Assets($filter: [AssetFilter], $traitFilter: [TraitFilter], $sort: AssetSort, $forSale: Boolean, $limit: Int, $offset: Int) {
   assets(filter: $filter, traitFilter: $traitFilter, sort: $sort, forSale: $forSale, limit: $limit, offset: $offset) {
-    results
-    name
-    token_id
+    animation_url
+    collection {
+      image_url
+      name
+      safelist_request_status
+      slug
+    }
     contract {
       address
     }
     image_url
-    permalink
-    owners {
-      address
-    }
     listings {
       payment_token_symbol
       starting_price
     }
-    collection {
-      name
-      image_url
-      slug
-    }
+    name
+    permalink
+    results
+    token_id
   }
 }

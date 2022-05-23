@@ -4,7 +4,6 @@ import * as coinTransactions from './coinTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
 import * as fundRecovery from './fundRecovery/actionTypes'
-import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
@@ -29,7 +28,6 @@ export {
   ethTransactions,
   fiatTransactions,
   fundRecovery,
-  identityVerification,
   importBtcAddress,
   manageAddresses,
   onboarding,

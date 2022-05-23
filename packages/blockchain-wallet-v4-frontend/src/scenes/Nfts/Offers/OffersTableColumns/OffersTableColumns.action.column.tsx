@@ -20,6 +20,7 @@ export const getActionColumn = (defaultEthAddr, asset?: NftAsset) => ({
       <>
         {canPerformAction ? (
           <Button
+            style={{ padding: '4px 8px' }}
             nature={isOwner ? 'primary' : 'empty-blue'}
             onClick={() =>
               dispatch(
@@ -32,7 +33,7 @@ export const getActionColumn = (defaultEthAddr, asset?: NftAsset) => ({
                 })
               )
             }
-            size='xsmall'
+            small
             data-e2e='actionOffer'
           >
             {isOwner ? (

@@ -1,9 +1,25 @@
 import { CoinType, RemoteDataType, WalletFiatType } from '@core/types'
 
-// TODO: type this!
+type CoinPrice = {
+  marketCap: number
+  price: number
+  timestamp: number
+  volume24h: number
+}
+
 export type PricesStateType = {
-  current: RemoteDataType<any, any>
-  previousDay: RemoteDataType<any, any>
+  current: RemoteDataType<
+    any,
+    {
+      [key: string]: CoinPrice
+    }
+  >
+  previousDay: RemoteDataType<
+    any,
+    {
+      [key: string]: CoinPrice
+    }
+  >
 }
 
 export type CoinPricesRequestType = {

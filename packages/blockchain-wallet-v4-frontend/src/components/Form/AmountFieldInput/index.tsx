@@ -39,7 +39,7 @@ const AmountRow = styled(Row)<{ isError: boolean }>`
 const QuoteRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `
 
 const AmountFieldInput: React.FC<Props> = ({
@@ -70,7 +70,7 @@ const AmountFieldInput: React.FC<Props> = ({
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
       ? amountRowNode.children[0]
-      : amountRowNode.children[amountRowNode.children.length - 1]
+      : amountRowNode.children[amountRowNode.children.length - 2]
     currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
   }
 
@@ -115,27 +115,28 @@ const AmountFieldInput: React.FC<Props> = ({
               hideError: true
             }}
           />
+
           {fix === 'CRYPTO' && (
             <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
               {coin}
             </Text>
           )}
+          {showToggle ? (
+            <Icon
+              color='blue600'
+              cursor
+              style={{ marginLeft: '8px' }}
+              name='up-down-chevron'
+              onClick={onToggleFix}
+              role='button'
+              size='24px'
+              data-e2e='sendSwitchIcon'
+            />
+          ) : null}
         </div>
-        {!showCounter && showToggle && (
-          <Icon
-            color='blue600'
-            cursor
-            name='up-down-chevron'
-            onClick={onToggleFix}
-            role='button'
-            size='24px'
-            data-e2e='sendSwitchIcon'
-          />
-        )}
       </AmountRow>
       <QuoteRow>
-        <div />
-        {showCounter && (
+        {showCounter ? (
           <>
             <Text
               color={amtError ? 'red400' : 'grey600'}
@@ -145,19 +146,8 @@ const AmountFieldInput: React.FC<Props> = ({
             >
               {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
             </Text>
-            {showToggle && (
-              <Icon
-                color='blue600'
-                cursor
-                name='up-down-chevron'
-                onClick={onToggleFix}
-                role='button'
-                size='24px'
-                data-e2e='sendSwitchIcon'
-              />
-            )}
           </>
-        )}
+        ) : null}
       </QuoteRow>
     </AmountContainer>
   )

@@ -32,6 +32,7 @@ const CTA: React.FC<Props> = (props) => {
     amtToBuy,
     ethBalancesR,
     isAuthenticated,
+    isInvited,
     maxBuyPossible,
     nftActions,
     openSeaAssetR,
@@ -75,6 +76,18 @@ const CTA: React.FC<Props> = (props) => {
             </LinkContainer>
           )
         })}
+      </>
+    )
+  }
+
+  if (!isInvited) {
+    return (
+      <>
+        <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+          <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+            <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
+          </Button>
+        </Link>
       </>
     )
   }

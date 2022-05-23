@@ -62,7 +62,8 @@ class TransactionList extends PureComponent<Props> {
               <CustodialTxListItem
                 key={tx.id}
                 tx={tx as FiatBSAndSwapTransactionType}
-                {...this.props}
+                coin={coin}
+                currency={currency}
               />
             )
           })}

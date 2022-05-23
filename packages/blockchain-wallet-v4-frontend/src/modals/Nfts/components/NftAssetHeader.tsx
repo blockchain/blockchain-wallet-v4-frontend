@@ -15,7 +15,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
+    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
 
   return (
@@ -25,17 +25,26 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
           <img
             style={{
               borderRadius: '8px',
-              height: '64px',
-              marginRight: '12px',
-              width: 'auto'
+              height: '56px',
+              marginRight: '8px',
+              width: 'fit-content'
             }}
             alt='nft-asset'
             src={asset.image_url.replace(/=s\d*/, '')}
           />
-          <div>
+        </Flex>
+        <Flex style={{ width: '100%' }} flexDirection='column' justifyContent='space-between'>
+          <Flex justifyContent='space-between' alignItems='center'>
             <Text size='16px' color='grey900' weight={600}>
-              {asset?.name}
+              {asset?.name || `#${asset?.token_id}`}
             </Text>
+            {lowest_order?.current_price ? (
+              <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                {lowest_order.current_price}
+              </CoinDisplay>
+            ) : null}
+          </Flex>
+          <Flex alignItems='center' justifyContent='space-between'>
             {asset.collection.safelist_request_status === 'verified' ? (
               <Text
                 size='14px'
@@ -67,34 +76,19 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
                 Not Verified
               </Text>
             )}
-          </div>
+            {lowest_order?.current_price ? (
+              <FiatDisplay
+                size='14px'
+                color={colors.grey600}
+                weight={600}
+                currency='USD'
+                coin='ETH'
+              >
+                {lowest_order.current_price}
+              </FiatDisplay>
+            ) : null}
+          </Flex>
         </Flex>
-        {lowest_order?.base_price && (
-          <Text
-            style={{
-              justifyContent: 'right'
-            }}
-          >
-            <CoinDisplay
-              size='14px'
-              color='black'
-              weight={600}
-              coin='ETH'
-              style={{ justifyContent: 'right' }}
-            >
-              {lowest_order?.base_price}
-            </CoinDisplay>
-            <FiatDisplay
-              size='14px'
-              color={colors.grey600}
-              weight={600}
-              coin='ETH'
-              style={{ justifyContent: 'right' }}
-            >
-              {lowest_order?.base_price}
-            </FiatDisplay>
-          </Text>
-        )}
       </Flex>
     </Row>
   )

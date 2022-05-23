@@ -88,6 +88,14 @@ const selectColor = (nature, small) => {
         hoverBorderColor: 'blue600'
       }
     }
+    case 'empty-purple': {
+      return {
+        backgroundColor: 'white',
+        borderColor: 'grey100',
+        color: 'purple600',
+        hoverBorderColor: 'purple600'
+      }
+    }
     case 'empty-red': {
       return {
         backgroundColor: 'white',

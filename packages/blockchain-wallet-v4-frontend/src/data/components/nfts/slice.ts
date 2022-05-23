@@ -39,6 +39,7 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     orderToMatch: null,
+    prevStep: null,
     status: null,
     step: null,
 
@@ -79,6 +80,7 @@ const nftsSlice = createSlice({
         coin?: string
         expirationTime: number
         offerFees: GasDataI
+        order?: NftOrder
         wrapFees?: GasDataI
       }>
     ) => {},
@@ -96,9 +98,10 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         asset: NftAssetsType[0]
         endPrice: number | null
-        expirationDays: number
+        expirationMinutes: number
         gasData: GasDataI
         paymentTokenAddress: string | undefined
+        reservePrice: number | undefined
         startPrice: number
         waitForHighestBid: boolean | undefined
       }>
@@ -122,6 +125,7 @@ const nftsSlice = createSlice({
             asset: NftAsset
             offer: string
             operation: GasCalculationOperations.CreateOffer
+            order?: NftOrder
             paymentTokenAddress: string
           }
         | {
@@ -132,9 +136,10 @@ const nftsSlice = createSlice({
         | {
             asset: NftAsset
             endPrice?: number
-            expirationDays: number
+            expirationMinutes: number
             operation: GasCalculationOperations.Sell
             paymentTokenAddress?: string
+            reservePrice?: number
             startPrice: number
             waitForHighestBid?: boolean
           }
@@ -255,6 +260,13 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
+            order?: RawOrder
+            step: NftOrderStepEnum.MAKE_OFFER
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
             order?: never
             step: NftOrderStepEnum
             token_id: string
@@ -313,6 +325,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload
+    },
+    setOrderFlowPrevStep: (state, action: PayloadAction<{ prevStep: NftOrderStepEnum }>) => {
+      state.orderFlow.prevStep = action.payload.prevStep
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -50,7 +51,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     if ('profile_img_url' in item) {
       routerActions.push(`/nfts/address/${item.address}`)
     } else if ('contract_address' in item) {
-      routerActions.push(`/nfts/asset/${item.contract_address}/${item.token_id}`)
+      routerActions.push(`/nfts/assets/${item.contract_address}/${item.token_id}`)
     } else if ('num_owners' in item) {
       routerActions.push(`/nfts/collection/${item.slug}`)
     } else if ('asset_contract_type' in item) {
@@ -68,7 +69,11 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
             label: (
               <Flex alignItems='center' gap={8}>
                 {item.image_url || item.profile_img_url ? (
-                  <img alt='url' height='18px' src={item.image_url || item.profile_img_url} />
+                  <NftCollectionImageSmall
+                    isVerified={item.safelist_request_status === 'verified'}
+                    alt='url'
+                    src={item.image_url || item.profile_img_url}
+                  />
                 ) : null}
                 <Text weight={600} size='14px'>
                   {item.name || item.address}

@@ -111,6 +111,13 @@ const coinSelectorMap = (
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const { computedMatch } = ownProps
   const { coin } = computedMatch.params
+  const interestEligibleR = selectors.components.interest.getInterestEligible(state)
+  const {
+    data: {
+      tiers: { current = 0 }
+    }
+  } = selectors.modules.profile.getUserData(state)
+  const isGoldTier = current >= 2
 
   return createSelector(
     [
@@ -137,9 +144,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         coin,
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
+        interestEligible: interestEligibleR,
+        isGoldTier,
+
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))
           .getOrElse({ openBanking: false }) as boolean,
+
         isRecurringBuy: isRecurringBuyR.getOrElse(false) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',

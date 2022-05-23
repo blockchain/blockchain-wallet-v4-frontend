@@ -1,4 +1,4 @@
-export default ({ post, rootUrl }) => {
+export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
   const getSettings = (guid, sharedKey) =>
     post({
       data: { format: 'json', guid, method: 'get-info', sharedKey },
@@ -79,6 +79,14 @@ export default ({ post, rootUrl }) => {
   const updateNotificationsType = (guid, sharedKey, value) =>
     updateSettings(guid, sharedKey, 'update-notifications-type', value)
 
+  const updateCommunicationLanguage = (language) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { language },
+      endPoint: '/users/current/lang',
+      url: nabuUrl
+    })
+
   return {
     enableGoogleAuthenticator,
     enableNotifications,
@@ -91,6 +99,7 @@ export default ({ post, rootUrl }) => {
     updateAuthType,
     updateAuthTypeNeverSave,
     updateBlockTorIps,
+    updateCommunicationLanguage,
     updateCurrency,
     updateEmail,
     updateHint,

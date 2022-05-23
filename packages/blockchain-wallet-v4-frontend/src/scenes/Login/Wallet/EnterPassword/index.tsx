@@ -88,6 +88,7 @@ const EnterPasswordWallet = (props: Props) => {
     initialRedirect,
     invalid,
     magicLinkData,
+    productAuthMetadata,
     qrData,
     submitting,
     walletError
@@ -179,7 +180,11 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink origin='PASSWORD' product={ProductAuthOptions.WALLET} />
+            <NeedHelpLink
+              origin='PASSWORD'
+              platform={productAuthMetadata.platform}
+              product={ProductAuthOptions.WALLET}
+            />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignupLink platform={magicLinkData?.platform_type} />

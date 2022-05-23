@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => ({
   interest: interest({ api, coreSagas, networks }),
   interestUploadDocument: interestUploadDocument({ api }),
   manageAddresses: manageAddresses({ api, networks }),
-  nfts: nfts({ api }),
+  nfts: nfts({ api, coreSagas, networks }),
   onboarding: onboarding(),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),

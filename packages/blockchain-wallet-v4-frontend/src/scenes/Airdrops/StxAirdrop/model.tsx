@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { BigNumber } from 'bignumber.js'
 import styled from 'styled-components'
 
 import { displayCoinToCoin } from '@core/exchange'
@@ -186,7 +185,9 @@ export const StxStatus = ({
 
             return (
               <BlueCartridgeCTA
-                onClick={() => identityVerificationActions.claimCampaignClicked('BLOCKSTACK')}
+                onClick={() =>
+                  identityVerificationActions.claimCampaignClicked({ campaign: 'BLOCKSTACK' })
+                }
               >
                 <FormattedMessage id='scenes.airdrop.stx.claim' defaultMessage='Claim' />
               </BlueCartridgeCTA>

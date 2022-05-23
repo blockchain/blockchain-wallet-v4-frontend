@@ -1,9 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
+import { Link } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { CellHeaderText, CellText } from 'components/Table'
-import { actions } from 'data'
+import { useMedia } from 'services/styles'
+
+import NftCollectionImageSmall from '../../components/NftCollectionImageSmall'
 
 const NameCell = styled(CellText)<{ role: 'button' }>`
   display: flex;
@@ -11,23 +16,33 @@ const NameCell = styled(CellText)<{ role: 'button' }>`
   white-space: nowrap;
   overflow: hidden;
 `
-const Logo = styled.img`
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  margin-right: 8px;
-`
 
-export const getNameColumn = (routerActions: typeof actions.router) => ({
+export const getNameColumn = () => ({
   Cell: ({ row: { original: values } }) => {
+    const isMobile = useMedia('mobile')
+    const isTablet = useMedia('tablet')
     return (
-      <NameCell
-        cursor='pointer'
-        role='button'
-        onClick={() => routerActions.push(`/nfts/collection/${values.slug}`)}
-      >
-        <Logo src={values.image_url} />
-        {values.name.length < 24 ? values.name : `${values.name.slice(0, 20)}...`}
+      <NameCell cursor='pointer' role='button'>
+        <LinkContainer to={`/nfts/collection/${values.slug}`}>
+          <Link>
+            <Flex gap={8}>
+              <NftCollectionImageSmall
+                alt=''
+                isVerified={values.safelist_request_status === 'verified'}
+                src={values.image_url}
+              />
+              <CellText>
+                {isMobile || isTablet
+                  ? values.name.length < 14
+                    ? values.name
+                    : `${values.name.slice(0, 10)}...`
+                  : values.name.length < 24
+                  ? values.name
+                  : `${values.name.slice(0, 20)}...`}
+              </CellText>
+            </Flex>
+          </Link>
+        </LinkContainer>
       </NameCell>
     )
   },

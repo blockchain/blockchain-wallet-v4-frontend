@@ -54,8 +54,14 @@ export default ({ api, coreSagas, networks }) => {
     const settingsChange = params.get('change')
     const email = decodeURIComponent(params.get('email') as string)
     yield put(actions.cache.removeStoredLogin())
+    // after clearing cache in case previous wallet is
+    // not the same one for exchange settings
+    // repopulate cache
     yield put(actions.cache.guidStored(guid))
+    yield put(actions.cache.exchangeWalletGuid(guid))
     yield put(actions.cache.exchangeEmail(email))
+    yield put(actions.cache.emailStored(email))
+    yield put(actions.cache.setUnifiedAccount(true))
     yield put(
       actions.goals.saveGoal({
         data: {
@@ -716,7 +722,7 @@ export default ({ api, coreSagas, networks }) => {
   const runMakeOfferNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
-      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+      actions.router.push(`/nfts/assets/${goal.data.contract_address}/${goal.data.token_id}`)
     )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
@@ -730,7 +736,7 @@ export default ({ api, coreSagas, networks }) => {
   const runBuyNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
-      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+      actions.router.push(`/nfts/assets/${goal.data.contract_address}/${goal.data.token_id}`)
     )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({

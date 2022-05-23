@@ -36,6 +36,7 @@ import {
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import Form from 'components/Form/Form'
+import { Padding } from 'components/Padding'
 import { CheckoutRow } from 'components/Rows'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -360,22 +361,24 @@ const EnterAmount = ({
               }
             />
           </div>
-          <MaxButton
-            type={orderType === BrokerageOrderType.DEPOSIT ? 'Deposit' : 'Withdrawal'}
-            onClick={() => {
-              formActions.change(
-                'brokerageTx',
-                'amount',
-                convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
-              )
-              // record max click withdrawal
-              if (onMaxButtonClicked) {
-                onMaxButtonClicked()
-              }
-            }}
-          />
         </FlyoutContent>
-        <FlyoutFooter>
+        <FlyoutFooter collapsed>
+          <Padding bottom={24}>
+            <MaxButton
+              type={orderType === BrokerageOrderType.DEPOSIT ? 'Deposit' : 'Withdrawal'}
+              onClick={() => {
+                formActions.change(
+                  'brokerageTx',
+                  'amount',
+                  convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
+                )
+                // record max click withdrawal
+                if (onMaxButtonClicked) {
+                  onMaxButtonClicked()
+                }
+              }}
+            />
+          </Padding>
           <Account
             handleMethodClick={handleMethodClick}
             invalid={invalid}

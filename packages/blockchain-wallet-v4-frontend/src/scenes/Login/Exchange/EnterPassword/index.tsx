@@ -36,6 +36,7 @@ const EnterPasswordExchange = (props: Props) => {
     handleBackArrowClickExchange,
     invalid,
     magicLinkData,
+    productAuthMetadata,
     submitting,
     walletTabClicked
   } = props
@@ -101,6 +102,7 @@ const EnterPasswordExchange = (props: Props) => {
           </ActionButton>
           <NeedHelpLink
             origin='PASSWORD'
+            platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
             unified={cache.unifiedAccount}
           />

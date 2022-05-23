@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { ExtractSuccess } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import TextBox from 'components/Form/TextBox'
-import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
+import { PageTitle, SceneWrapper, StickyHeader, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
@@ -34,7 +34,7 @@ const SearchIconWrapper = styled.div`
 
 const Scene = ({ children }) => (
   <SceneWrapper>
-    <Header>
+    <StickyHeader style={{ paddingBottom: '20px' }}>
       <PageTitle>
         <div>
           <Title>
@@ -65,7 +65,7 @@ const Scene = ({ children }) => (
           </SearchIconWrapper>
         </TextFilterWrapper>
       </PageTitle>
-    </Header>
+    </StickyHeader>
     {children}
   </SceneWrapper>
 )

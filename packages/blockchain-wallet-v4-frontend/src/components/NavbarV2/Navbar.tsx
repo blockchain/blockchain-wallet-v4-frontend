@@ -31,7 +31,7 @@ export const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 22px;
-  border-bottom: 1px solid ${colors.grey100};
+  border-bottom: 1px solid ${colors.grey000};
   height: 56px;
   ${media.tablet`
     padding: 0 12px;
@@ -60,8 +60,9 @@ export const NavRight = styled.div`
   align-items: center;
 `
 
-const DropdownNavLink = styled(NavLink)`
+export const DropdownNavLink = styled(NavLink)`
   padding: 0 !important;
+  text-decoration: none;
 `
 
 const ListStyles = styled.ul`
@@ -138,7 +139,7 @@ const SecondaryNavItems = styled(ListStyles)`
   }
 `
 
-const NavButton = styled(Button)`
+export const NavButton = styled(Button)`
   display: flex;
   align-items: center;
   position: relative;

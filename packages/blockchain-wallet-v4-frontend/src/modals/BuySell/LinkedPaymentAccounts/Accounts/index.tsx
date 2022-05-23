@@ -121,7 +121,6 @@ const Accounts = (props: Props) => {
       props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(props.pair.pair),
         fiatCurrency: props.fiatCurrency,
-        order: props.order,
         pair: props.pair,
         step: 'PAYMENT_METHODS'
       })
