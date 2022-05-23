@@ -29,7 +29,8 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
 // Debit Card
-const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
+const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
@@ -255,6 +256,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
+          <TerminateCard />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}

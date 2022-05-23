@@ -4,14 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 
-import { CreateCardButton, SubTextWrapper } from '../model'
+import { CreateCardButton, SubTextWrapper } from '../../OrderMyCard/OrderMyCard.model'
 
-type Props = {
-  handleClose: () => void
-  handleCreateCard: () => void
-}
-
-const CreateCardStep = ({ handleClose, handleCreateCard }: Props) => (
+const TerminateStep = ({ handleClose, handleTerminate }) => (
   <>
     <FlyoutHeader data-e2e='orderMyCardHeader' mode='close' onClick={handleClose}>
       <FormattedMessage
@@ -37,9 +32,9 @@ const CreateCardStep = ({ handleClose, handleCreateCard }: Props) => (
       {/* disabled for MVP, will need this for V1 */}
       {/* <SeeCardDetailsBtn onClick={handleShowCardDetails} /> */}
 
-      <CreateCardButton onClick={handleCreateCard} />
+      <CreateCardButton onClick={handleTerminate} />
     </FlyoutContent>
   </>
 )
 
-export default CreateCardStep
+export default TerminateStep

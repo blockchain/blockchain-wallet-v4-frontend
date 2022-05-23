@@ -8,12 +8,12 @@ import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { Loading, LoadingTextEnum } from '../components'
-import { ModalPropsType } from '../types'
+import { Loading, LoadingTextEnum } from '../../components'
+import { ModalPropsType } from '../../types'
 import CreateCardStep from './CreateCardStep'
 import FailedCreationStep from './FailedCreationStep'
-import { LoadingWrapper } from './model'
-import { getData } from './selectors'
+import { LoadingWrapper } from './OrderMyCard.model'
+import { getData } from './OrderMyCard.selectors'
 import SuccessCreationStep from './SuccessCreationStep'
 
 const OrderMyCard = (props: Props) => {
