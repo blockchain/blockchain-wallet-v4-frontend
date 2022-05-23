@@ -79,7 +79,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...send({ apiUrl, ...http }),
-    ...settings({ rootUrl, ...http }),
+    ...settings({ authorizedPut: authorizedHttp.put, nabuUrl, rootUrl, ...http }),
     ...buySell({
       authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
