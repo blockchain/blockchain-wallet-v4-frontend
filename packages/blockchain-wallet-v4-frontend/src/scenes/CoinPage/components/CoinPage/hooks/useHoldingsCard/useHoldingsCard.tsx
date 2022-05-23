@@ -22,7 +22,7 @@ import { HoldingsCardHook } from './types'
 
 export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
   const currency = useCurrency()
-  const coinfig = useCoinConfig({ coin })
+  const { data: coinfig, isLoading: isLoadingCoinConfig } = useCoinConfig({ coin })
   const [openOpenBuyFlow] = useOpenBuyFlow()
   const [openOpenSellFlow] = useOpenSellFlow()
   const [openOpenReceiveCryptoModal] = useOpenReceiveCryptoModal()
@@ -33,12 +33,12 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
   const { data: rates, isLoading: isRatesLoading } = useCoinRates({ coin })
 
   const isLoading = useMemo(
-    () => isCoinBalanceLoading || isRatesLoading,
-    [isCoinBalanceLoading, isRatesLoading]
+    () => isCoinBalanceLoading || isRatesLoading || isLoadingCoinConfig,
+    [isCoinBalanceLoading, isRatesLoading, isLoadingCoinConfig]
   )
 
   const actions: ReactElement[] = useMemo(() => {
-    if (!coinBalance) return []
+    if (!coinBalance || !coinfig) return []
 
     const isBroke = coinBalance <= 0
     const isCustodialWalletBalance = coinfig.products.includes('CustodialWalletBalance')
@@ -99,7 +99,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
 
     const coinTotalAmount = Exchange.displayCoinToCoin({
       coin,
-      isFiat: coinfig.type.name === 'FIAT',
+      isFiat: coinfig?.type.name === 'FIAT',
       value: coinBalance
     })
 
