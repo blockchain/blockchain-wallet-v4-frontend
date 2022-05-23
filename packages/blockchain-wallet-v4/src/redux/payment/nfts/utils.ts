@@ -173,7 +173,7 @@ export async function _getOrderHash(order: UnhashedOrder, signer: Signer) {
       order.takerRelayerFee.toNumber(),
       order.makerProtocolFee.toNumber(),
       order.takerProtocolFee.toNumber(),
-      order.basePrice.toString(),
+      order.basePrice.toString(10),
       order.extra.toString(),
       order.listingTime.toString(),
       order.expirationTime.toString(),
@@ -643,7 +643,7 @@ async function _authorizeOrder(
   try {
     // We need to manually specify each field because OS orders can contain unrelated data
     const orderForSigning = {
-      basePrice: order.basePrice.toString(),
+      basePrice: order.basePrice.toString(10),
       calldata: order.calldata,
       exchange: order.exchange,
       expirationTime: order.expirationTime.toString(),
@@ -1130,7 +1130,7 @@ async function _validateOrderParameters({
       order.takerRelayerFee.toNumber(),
       order.makerProtocolFee.toNumber(),
       order.takerProtocolFee.toNumber(),
-      order.basePrice.toString(),
+      order.basePrice.toString(10),
       order.extra.toString(),
       order.listingTime.toString(),
       order.expirationTime.toString(),
@@ -1269,7 +1269,7 @@ async function _validateMatch(
         buy.takerRelayerFee.toString(),
         buy.makerProtocolFee.toString(),
         buy.takerProtocolFee.toString(),
-        buy.basePrice.toString(),
+        buy.basePrice.toString(10),
         buy.extra.toString(),
         buy.listingTime.toString(),
         buy.expirationTime.toString(),
@@ -1278,7 +1278,7 @@ async function _validateMatch(
         sell.takerRelayerFee.toString(),
         sell.makerProtocolFee.toString(),
         sell.takerProtocolFee.toString(),
-        sell.basePrice.toString(),
+        sell.basePrice.toString(10),
         sell.extra.toString(),
         sell.listingTime.toString(),
         sell.expirationTime.toString(),
@@ -1398,7 +1398,7 @@ async function _makeBuyOrder({
   }
 
   return {
-    basePrice: new BigNumber(basePrice.toString()),
+    basePrice: new BigNumber(basePrice.toString()).toString(10),
     calldata,
     exchange: network === 'rinkeby' ? WYVERN_CONTRACT_ADDR_RINKEBY : WYVERN_CONTRACT_ADDR_MAINNET,
     expirationTime: times.expirationTime,
@@ -2183,7 +2183,7 @@ export async function calculateAtomicMatchFees(
       order.takerRelayerFee.toString(),
       order.makerProtocolFee.toString(),
       order.takerProtocolFee.toString(),
-      order.basePrice.toString(),
+      order.basePrice.toString(10),
       order.extra.toString(),
       order.listingTime.toString(),
       order.expirationTime.toString(),
@@ -2192,7 +2192,7 @@ export async function calculateAtomicMatchFees(
       counterOrder.takerRelayerFee.toString(),
       counterOrder.makerProtocolFee.toString(),
       counterOrder.takerProtocolFee.toString(),
-      counterOrder.basePrice.toString(),
+      counterOrder.basePrice.toString(10),
       counterOrder.extra.toString(),
       counterOrder.listingTime.toString(),
       counterOrder.expirationTime.toString(),
@@ -2231,7 +2231,7 @@ export async function calculateAtomicMatchFees(
   return new BigNumber(
     await _safeGasEstimation(wyvernExchangeContract.estimateGas.atomicMatch_, args, {
       gasLimit: 350_000,
-      value: counterOrder.paymentToken === NULL_ADDRESS ? counterOrder.basePrice.toString() : '0'
+      value: counterOrder.paymentToken === NULL_ADDRESS ? counterOrder.basePrice.toString(10) : '0'
     })
   )
 }
@@ -2374,7 +2374,7 @@ export async function atomicMatch({
   const txnData = {
     gasLimit: gasFees,
     gasPrice,
-    value: sell.paymentToken === NULL_ADDRESS ? sell.basePrice.toString() : '0'
+    value: sell.paymentToken === NULL_ADDRESS ? sell.basePrice.toString(10) : '0'
   }
   const args = [
     [
@@ -2398,7 +2398,7 @@ export async function atomicMatch({
       buy.takerRelayerFee.toString(),
       buy.makerProtocolFee.toString(),
       buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
+      buy.basePrice.toString(10),
       buy.extra.toString(),
       buy.listingTime.toString(),
       buy.expirationTime.toString(),
@@ -2407,7 +2407,7 @@ export async function atomicMatch({
       sell.takerRelayerFee.toString(),
       sell.makerProtocolFee.toString(),
       sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
+      sell.basePrice.toString(10),
       sell.extra.toString(),
       sell.listingTime.toString(),
       sell.expirationTime.toString(),

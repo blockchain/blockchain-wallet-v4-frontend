@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   border-radius: 12px;
   padding: 16px 18px;
   margin: 10px 0;
-  cursor: pointer;
 
   ${media.atLeastLaptop`
     height: 72px;

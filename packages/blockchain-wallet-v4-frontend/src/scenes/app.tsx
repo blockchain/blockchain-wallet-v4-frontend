@@ -9,7 +9,6 @@ import { createClient, Provider as UrqlProvider } from 'urql'
 
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
-import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
@@ -211,9 +210,12 @@ const App = ({
                             component={NftsCollection}
                           />
                         )}
+                        <Route exact path='/nfts'>
+                          <Redirect to='/nfts/home' />
+                        </Route>
                         {nftExplorer && (
                           <NftsLayout
-                            path='/nfts'
+                            path='/nfts/home'
                             exact
                             component={NftsHome}
                             pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
@@ -251,13 +253,13 @@ const App = ({
                         <WalletLayout
                           path='/coins/:coin'
                           component={coinViewV2 ? CoinPage : Transactions}
-                          coinViewV2={coinViewV2}
+                          hideMenu={coinViewV2}
+                          center={coinViewV2}
                         />
                         {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                       </Switch>
                     </Suspense>
                   </ConnectedRouter>
-                  {isAuthenticated && <SupportChat />}
                   <SiftScience userId={userData.id} />
                 </UrqlProvider>
               </MediaContextProvider>

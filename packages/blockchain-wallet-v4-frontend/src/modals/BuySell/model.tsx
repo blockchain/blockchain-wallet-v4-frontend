@@ -91,7 +91,7 @@ export const ErrorCodeMappings = ({ code }: { code: number | string }) => {
     default:
       // If the error form the api is a string like a `description` or `message` just pipe it to the
       // UI else if its a numeric code that's not supported here show a default error message
-      return typeof code === 'string' ? (
+      return typeof code === 'string' && code !== '{}' ? (
         <Text>{code}</Text>
       ) : (
         <FormattedMessage id='copy.unkown_error' defaultMessage='An unknown error has occurred.' />

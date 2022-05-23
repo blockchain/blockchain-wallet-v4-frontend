@@ -49,6 +49,10 @@ const NftFirehoseResults: React.FC<Props> = ({
     })
   }
 
+  if (formValues?.verifiedOnly) {
+    // need BE support
+  }
+
   const sort = formValues?.sortBy
     ? {
         by: formValues.sortBy.split('-')[0] as AssetSortFields,

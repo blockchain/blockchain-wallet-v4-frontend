@@ -17,7 +17,7 @@ const StyledBox = styled.div`
   ${(props) =>
     props.disabled &&
     css`
-      background-color: ${(props) => props.theme.grey000}
+      background-color: ${(props) => props.theme.grey000};
       cursor: not-allowed;
     `}
 `

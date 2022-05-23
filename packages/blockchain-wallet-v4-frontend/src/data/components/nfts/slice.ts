@@ -98,7 +98,7 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         asset: NftAssetsType[0]
         endPrice: number | null
-        expirationDays: number
+        expirationMinutes: number
         gasData: GasDataI
         paymentTokenAddress: string | undefined
         reservePrice: number | undefined
@@ -136,7 +136,7 @@ const nftsSlice = createSlice({
         | {
             asset: NftAsset
             endPrice?: number
-            expirationDays: number
+            expirationMinutes: number
             operation: GasCalculationOperations.Sell
             paymentTokenAddress?: string
             reservePrice?: number

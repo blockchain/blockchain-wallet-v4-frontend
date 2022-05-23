@@ -13,6 +13,7 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 
 import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
+import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
 const XSmallButton = styled(Button)`
@@ -85,11 +86,20 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
           </Flex>
         </Link>
       </LinkContainer>
-      <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
+      <LinkContainer
+        style={{ position: 'relative' }}
+        to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
+      >
         <Link>
           <AssetImageContainer
             className='asset-image-container'
             background={`url(${asset?.image_url?.replace(/=s\d*/, '')})`}
+          />
+          <NftAssetImageType
+            top='20px'
+            right='10px'
+            animation_url={asset.animation_url}
+            image_url={asset.image_url}
           />
         </Link>
       </LinkContainer>
@@ -110,10 +120,10 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               <XSmallButton
                 onClick={viewDetailsTracking}
                 data-e2e='nftAssetPage'
-                nature='dark-grey'
+                nature='empty-blue'
                 small
               >
-                <FormattedMessage id='copy.make_offer' defaultMessage='Make Offer' />
+                <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
               </XSmallButton>
             )}
           </LinkContainer>

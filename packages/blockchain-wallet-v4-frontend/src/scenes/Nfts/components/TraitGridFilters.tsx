@@ -118,6 +118,16 @@ const TraitGridFilters: React.FC<Props> = ({
     }
   }, [isRefreshRotating])
 
+  const getTab = (tab: 'ITEMS' | 'EVENTS' | 'EXPLORE') => {
+    return tab === 'ITEMS' ? (
+      <FormattedMessage id='copy.items' defaultMessage='Items' />
+    ) : tab === 'EVENTS' ? (
+      <FormattedMessage id='copy.events' defaultMessage='Events' />
+    ) : (
+      <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+    )
+  }
+
   return (
     <Wrapper>
       <div style={{ width: '100%' }}>
@@ -126,7 +136,7 @@ const TraitGridFilters: React.FC<Props> = ({
           justifyContent='space-between'
           flexDirection={isTablet ? 'column' : 'row'}
         >
-          {tabs.length ? (
+          {tabs.length > 1 ? (
             <TabMenu style={{ marginBottom: isTablet ? '16px' : '0px', width: 'fit-content' }}>
               {tabs.map((tab) => (
                 <TabMenuItem
@@ -134,16 +144,14 @@ const TraitGridFilters: React.FC<Props> = ({
                   selected={activeTab === tab}
                   onClick={() => routerActions.push(`${route}?tab=${tab}`)}
                 >
-                  {tab === 'ITEMS' ? (
-                    <FormattedMessage id='copy.items' defaultMessage='Items' />
-                  ) : tab === 'EVENTS' ? (
-                    <FormattedMessage id='copy.events' defaultMessage='Events' />
-                  ) : (
-                    <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                  )}
+                  {getTab(tab)}
                 </TabMenuItem>
               ))}
             </TabMenu>
+          ) : tabs[0] ? (
+            <Text capitalize color='black' size='24px' weight={600}>
+              {getTab(tabs[0])}
+            </Text>
           ) : null}
 
           <div style={{ width: isTablet ? '100%' : 'auto' }}>
@@ -177,7 +185,10 @@ const TraitGridFilters: React.FC<Props> = ({
                   onClick={() => {
                     if (!isRefreshRotating) setRefreshTrigger((r) => r + 1)
                     setIsRefreshRotating(true)
-                    window.scrollTo(0, 300)
+
+                    if (route.includes('collection')) {
+                      window.scrollTo(0, 300)
+                    }
                   }}
                   style={
                     isTablet

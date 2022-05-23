@@ -47,7 +47,7 @@
         "mergeAccounts": true,
         "nftExplorer": true,
         "recurringBuys": true,
-        "showTermsAndConditions": true,
+        "showTermsAndConditions": false,
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
         "taxCenter": true,

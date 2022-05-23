@@ -66,7 +66,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalName.UPGRADE_NOW_SILVER_MODAL, { transition: duration }),
+  ModalEnhancer(ModalName.UPGRADE_NOW_SILVER_MODAL, { fixed: true, transition: duration }),
   connector
 )
 

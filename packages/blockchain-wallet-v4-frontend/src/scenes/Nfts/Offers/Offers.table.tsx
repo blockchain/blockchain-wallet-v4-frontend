@@ -50,7 +50,7 @@ const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEt
   )
 
   return (
-    <div {...getTableProps()} className='table'>
+    <div {...getTableProps()} className='table no-border'>
       <StickyTableHeader>
         {headerGroups.map((headerGroup) => (
           // eslint-disable-next-line react/jsx-key

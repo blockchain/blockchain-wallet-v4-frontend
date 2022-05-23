@@ -119,7 +119,7 @@ const Success = ({ modalActions, order, period, withdrawLockCheck }: Props) => {
 const mapStateToProps = (state: RootState) => ({
   bankAccounts: selectors.components.brokerage.getBankTransferAccounts(state).getOrElse([]),
   cards: selectors.components.buySell.getBSCards(state).getOrElse([]),
-  order: selectors.components.buySell.getBSOrder(state) as BSOrderType,
+  order: selectors.components.buySell.getBSOrder(state).getOrElse({} as BSOrderType),
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
   quote: selectors.components.buySell.getBSQuote(state).getOrFail('Could not get exchange rate'),
   withdrawLockCheck: selectors.components.send

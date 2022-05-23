@@ -25,15 +25,45 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const filterTerminatedCards = (cards) =>
     cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
+  const getEligibleAccounts = function* (cardId) {
+    try {
+      const data = yield call(api.getDCEligibleAccounts, cardId)
+      yield put(A.setEligibleAccounts(data))
+    } catch (e) {
+      console.error('Failed to get eligible accounts', errorHandler(e))
+    }
+  }
+
+  const getCurrentCardAccount = function* (cardId) {
+    try {
+      yield put(A.getCurrentCardAccountLoading())
+
+      const data = yield call(api.getDCCurrentAccount, cardId)
+      yield put(A.getCurrentCardAccountSuccess(data))
+    } catch (e) {
+      console.error('Failed to get current card account', errorHandler(e))
+      const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
+      if (!isEmpty(eligibleAccounts)) {
+        // In case of failure it is set the default account as current
+        yield put(A.getCurrentCardAccountSuccess(eligibleAccounts[0]))
+      } else {
+        yield put(A.getCurrentCardAccountFailure('Could not get user funds'))
+      }
+    }
+  }
+
   const getCards = function* () {
     try {
+      yield put(A.getCardsLoading())
       let cards = yield call(api.getDCCreated)
-
       cards = filterTerminatedCards(cards)
-      if (cards.length > 0) {
-        yield call(getCardToken, cards[0].id)
-      }
       yield put(A.getCardsSuccess(cards))
+      if (cards.length > 0) {
+        yield put(A.setCurrentCardSelected(cards[0]))
+        yield call(getCardToken, cards[0].id)
+        yield call(getEligibleAccounts, cards[0].id)
+        yield call(getCurrentCardAccount, cards[0].id)
+      }
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
       yield put(A.getCardsFailure())
@@ -49,12 +79,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         const products = yield call(api.getDCProducts)
         yield put(A.getProductsSuccess(products))
-
-        // If the account is eligible it will get products
-        if (!isEmpty(products)) {
-          // Get the cards the user might have created before
-          yield call(getCards)
-        }
       } catch (e) {
         console.error('Failed to get card products', errorHandler(e))
         yield put(A.getProductsFailure())
@@ -76,6 +100,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getUpdatedCards = (cards, id, updatedCard) =>
+    cards.map((card) => {
+      if (card.id === id) {
+        return updatedCard
+      }
+      return card
+    })
+
   const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
     try {
       yield put(A.handleCardLockLoading())
@@ -83,8 +115,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const lockAction = newLockState ? 'lock' : 'unlock'
 
-      yield call(api.handleDCLock, id, lockAction)
-      yield call(getCards)
+      const updatedCard = yield call(api.handleDCLock, id, lockAction)
+      const cardsR = yield select(selectors.components.debitCard.getCards)
+      const updatedCardsR = cardsR.map((cards) => getUpdatedCards(cards, id, updatedCard))
+      yield put(A.updateCurrentCard({ updatedCard, updatedCardsR }))
       yield put(A.handleCardLockSuccess(newLockState))
     } catch (e) {
       yield put(A.handleCardLockFailure(e))
@@ -96,6 +130,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { payload } = action
       yield call(api.terminateDC, payload)
 
+      // Currently, we only manage 1 card
+      yield put(A.cleanCardData())
       yield call(getCards)
     } catch (e) {
       console.error('Failed to terminate card', errorHandler(e))

@@ -121,7 +121,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 
   handleArchive = (address) => {
-    // @ts-ignore
     if (this.props.setAddressArchived) this.props.setAddressArchived(address)
   }
 

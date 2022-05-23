@@ -10,6 +10,7 @@ export const getData = (state: RootState) => {
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
   const interestAfterTransactionR = selectors.components.interest.getAfterTransaction(state)
   const recurringBuyListR = selectors.components.recurringBuy.getRegisteredList(state)
+  const orderR = selectors.components.buySell.getBSOrder(state)
 
   return lift(
     (
@@ -17,15 +18,17 @@ export const getData = (state: RootState) => {
       userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       interestAfterTransaction: ExtractSuccess<typeof interestAfterTransactionR>,
-      recurringBuyList: ExtractSuccess<typeof recurringBuyListR>
+      recurringBuyList: ExtractSuccess<typeof recurringBuyListR>,
+      order: ExtractSuccess<typeof orderR>
     ) => {
       return {
         cards,
         interestAfterTransaction,
         lockTime: withdrawLockCheck?.lockTime || 0,
+        order,
         recurringBuyList,
         userData
       }
     }
-  )(cardsR, userDataR, withdrawLockCheckR, interestAfterTransactionR, recurringBuyListR)
+  )(cardsR, userDataR, withdrawLockCheckR, interestAfterTransactionR, recurringBuyListR, orderR)
 }

@@ -2,18 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  BSAccountType,
-  BSOrderType,
-  BSPairType,
-  CoinType,
-  FiatType,
-  RemoteDataType
-} from '@core/types'
+import { BSPairType, CoinType, ExtractSuccess, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -52,13 +44,10 @@ export type OwnProps = {
   displayBack: boolean
   fiatCurrency: FiatType
   handleClose: () => void
-  order?: BSOrderType
   pair: BSPairType
 }
-export type SuccessStateType = {
-  account: BSAccountType
-  userData: UserDataType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }

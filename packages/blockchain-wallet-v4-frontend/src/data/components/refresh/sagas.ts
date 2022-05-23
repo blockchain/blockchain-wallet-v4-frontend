@@ -97,6 +97,10 @@ export default () => {
           yield put(actions.modules.profile.fetchUser())
           yield put(actions.modules.profile.fetchUserCampaigns())
           break
+        case contains('/debit-card', pathname):
+          const selectedCard = yield select(selectors.components.debitCard.getCurrentCardSelected)
+          yield put(actions.components.debitCard.getCurrentCardAccount(selectedCard.id))
+          break
         case contains('/settings/general', pathname):
           yield put(actions.components.buySell.fetchCards(true))
           break

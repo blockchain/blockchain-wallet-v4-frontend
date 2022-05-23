@@ -12,9 +12,9 @@ const Container = styled.div`
 `
 
 class LazyLoadContainer extends React.PureComponent<Props> {
-  wrapper: ReactNode
+  wrapper?: HTMLDivElement
 
-  container: ReactNode
+  container?: HTMLDivElement
 
   setWrapperRef = (node) => {
     this.wrapper = node
@@ -25,12 +25,18 @@ class LazyLoadContainer extends React.PureComponent<Props> {
   }
 
   onScroll = () => {
+    if (!this.wrapper || !this.container) return
     const { onLazyLoad, triggerDistance } = this.props
-    // @ts-ignore
     const wrapperRect = this.wrapper.getBoundingClientRect()
-    // @ts-ignore
     const containerRect = this.container.getBoundingClientRect()
-    if (wrapperRect.bottom + triggerDistance > containerRect.bottom) {
+
+    if (this.props.useScroll) {
+      const { scrollY } = window
+      const clientHeight = window.innerHeight
+      if (scrollY + clientHeight + triggerDistance > wrapperRect.height) {
+        onLazyLoad()
+      }
+    } else if (wrapperRect.bottom + triggerDistance > containerRect.bottom) {
       onLazyLoad()
     }
   }
@@ -56,6 +62,7 @@ type Props = {
   className?: string
   onLazyLoad: () => void
   triggerDistance: number
+  useScroll?: boolean
 }
 
 export default LazyLoadContainer

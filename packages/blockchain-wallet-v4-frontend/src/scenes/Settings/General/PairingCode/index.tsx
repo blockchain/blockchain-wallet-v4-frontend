@@ -44,11 +44,11 @@ class PairingCode extends React.PureComponent<Props> {
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description'
               defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
-            />
+            />{' '}
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description2'
               defaultMessage='Download our mobile applications below.'
-            />
+            />{' '}
             <Text color='error' size='13px' weight={600}>
               <FormattedMessage
                 id='scenes.settings.general.pairingcode.warning'

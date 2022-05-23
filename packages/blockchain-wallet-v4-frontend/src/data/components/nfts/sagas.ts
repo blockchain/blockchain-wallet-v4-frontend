@@ -1,5 +1,5 @@
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
-import { addDays, addMinutes, getUnixTime } from 'date-fns'
+import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
@@ -186,14 +186,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           action.payload.order as RawOrder
         )
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        let listingTime = getUnixTime(addMinutes(new Date(), 5))
-        let expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
+        let listingTime = getUnixTime(addSeconds(new Date(), 10))
+        let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
 
         // For english auctions, order executes at listing time
         // highest bidder wins the auction
         if (action.payload.waitForHighestBid) {
           listingTime = expirationTime
-          expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays + 7))
+          expirationTime = getUnixTime(
+            addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+          )
         }
 
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
@@ -316,9 +318,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    const currency = action?.payload?.coin || ''
+    const coin = action?.payload?.coin || ''
     const amount = Number(action?.payload?.amount)
-    const amount_usd = yield call(getAmountUsd, currency, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       const guid = yield call(getGuid)
       const signer = yield call(getEthSigner)
@@ -327,7 +329,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       const { expirationTime } = action.payload
 
-      if (action.payload.amtToWrap && action.payload.wrapFees) {
+      if (action.payload.amtToWrap && action.payload.wrapFees && coin === 'WETH') {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
         const amount = Exchange.convertCoinToCoin({
           baseToStandard: false,
@@ -361,7 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
@@ -372,6 +374,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           token_id: action.payload.asset.token_id
         })
       )
+      yield put(actions.form.reset('nftMakeOffer'))
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -380,7 +383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }
@@ -474,12 +477,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
       const guid = yield select(selectors.core.wallet.getGuid)
-      let listingTime = getUnixTime(addMinutes(new Date(), 5))
-      let expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays))
+      let listingTime = getUnixTime(addSeconds(new Date(), 10))
+      let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
 
       if (action.payload.waitForHighestBid) {
         listingTime = expirationTime
-        expirationTime = getUnixTime(addDays(new Date(), action.payload.expirationDays + 7))
+        expirationTime = getUnixTime(
+          addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+        )
       }
 
       const signer = yield call(getEthSigner)
@@ -694,7 +699,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftFilter') {
-      window.scrollTo(0, 300)
+      if (window.location.hash.split('?')[0].includes('collection')) {
+        window.scrollTo(0, 300)
+      } else {
+        window.scrollTo(0, 0)
+      }
       if (['min', 'max'].includes(action.meta.field)) {
         const formValues = selectors.form.getFormValues('nftFilter')(
           yield select()
