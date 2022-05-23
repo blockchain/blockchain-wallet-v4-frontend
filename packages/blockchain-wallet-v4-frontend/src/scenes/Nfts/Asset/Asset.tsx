@@ -49,8 +49,8 @@ import {
   EthText,
   Highest,
   LeftColWrapper,
+  NftAssetStickyWrapper,
   RightColWrapper,
-  StickyWrapper,
   Top,
   Trait,
   TraitsWrapper,
@@ -252,7 +252,7 @@ const NftAsset: React.FC<Props> = ({
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <StickyWrapper>
+              <NftAssetStickyWrapper>
                 <AssetImageContainer>
                   {currentAsset.animation_url ? (
                     <iframe
@@ -328,7 +328,7 @@ const NftAsset: React.FC<Props> = ({
                     </SocialLink> */}
                   </Socials>
                 </div>
-              </StickyWrapper>
+              </NftAssetStickyWrapper>
             </LeftColWrapper>
             <RightColWrapper>
               <div

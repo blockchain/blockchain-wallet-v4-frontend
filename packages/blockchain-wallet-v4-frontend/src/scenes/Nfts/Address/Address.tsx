@@ -16,7 +16,7 @@ import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 import { useMedia } from 'services/styles'
 
-import { GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
+import { GridWrapper, NftBannerWrapper, NftPageFullWidth, opensea_event_types } from '../components'
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
@@ -57,7 +57,7 @@ const NftAddress: React.FC<Props> = ({
   if (!address) return null
 
   return (
-    <div style={{ paddingTop: '0px', position: 'relative' }}>
+    <NftPageFullWidth>
       <div
         style={{
           background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
@@ -131,7 +131,7 @@ const NftAddress: React.FC<Props> = ({
           )}
         </div>
       </GridWrapper>
-    </div>
+    </NftPageFullWidth>
   )
 }
 

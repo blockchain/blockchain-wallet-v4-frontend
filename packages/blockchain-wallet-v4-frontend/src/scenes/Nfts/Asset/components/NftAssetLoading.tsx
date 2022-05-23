@@ -11,8 +11,8 @@ import {
   MoreAssets,
   MoreAssetsList,
   MoreAssetsListItem,
+  NftAssetStickyWrapper,
   RightColWrapper,
-  StickyWrapper,
   Top,
   Trait,
   TraitsWrapper,
@@ -26,9 +26,9 @@ const NftAssetLoading: React.FC<Props> = () => {
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <StickyWrapper>
+              <NftAssetStickyWrapper>
                 <SkeletonRectangle height='500px' />
-              </StickyWrapper>
+              </NftAssetStickyWrapper>
             </LeftColWrapper>
             <RightColWrapper>
               <div

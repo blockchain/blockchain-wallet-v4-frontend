@@ -16,7 +16,13 @@ import {
 } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import { CollectionHeader, GridWrapper, NftBannerWrapper, opensea_event_types } from '../components'
+import {
+  CollectionHeader,
+  GridWrapper,
+  NftBannerWrapper,
+  NftPageFullWidth,
+  opensea_event_types
+} from '../components'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
@@ -105,7 +111,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
   if (!collection) return null
 
   return (
-    <div style={{ paddingTop: '0px', position: 'relative' }}>
+    <NftPageFullWidth>
       <OpenSeaStatusComponent />
       <CollectionHeader bgUrl={collection.banner_image_url || ''}>
         <NftBannerWrapper>
@@ -209,7 +215,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
           )}
         </div>
       </GridWrapper>
-    </div>
+    </NftPageFullWidth>
   )
 }
 

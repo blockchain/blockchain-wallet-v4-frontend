@@ -27,10 +27,12 @@ export const NftPage = styled.div`
 
 export const NftPageV2 = styled.div`
   width: 100%;
-  ${media.atLeastTablet`
-    padding: 24px;
-  `}
+  margin-top: 8px;
   box-sizing: border-box;
+`
+
+export const NftPageFullWidth = styled.div`
+  padding: 0px !important;
 `
 
 export const LeftColWrapper = styled.div`
@@ -76,10 +78,8 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 
 export const GridWrapper = styled.div`
   display: flex;
-  padding: 24px;
-  padding-top: 0px;
+  padding: 0 24px;
   align-items: flex-start;
-  border-top: 1px solid ${(props) => props.theme.grey000};
   ${media.tablet`
     padding: 0px;
   `}
