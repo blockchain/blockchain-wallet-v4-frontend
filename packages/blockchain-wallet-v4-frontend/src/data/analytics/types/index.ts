@@ -3,6 +3,10 @@ import {
   TrackEventAction as AccountRecoveryTrackEventAction
 } from './accountRecovery'
 import {
+  Events as CoinViewEvents,
+  TrackEventAction as TransactionsTrackEventAction
+} from './coinView'
+import {
   AnalyticsProperties as DepositWithdrawalClientProperties,
   Events as DepositWithdrawalClientEvents,
   TrackEventAction as DepositWithdrawalClientEventAction
@@ -33,10 +37,6 @@ import {
   TrackEventAction as TaxCenterTrackEventAction
 } from './taxCenter'
 import {
-  Events as TransactionsEvents,
-  TrackEventAction as TransactionsTrackEventAction
-} from './transactions'
-import {
   AnalyticsProperties as ViewAndClickAnalyticsProperties,
   Events as ViewAndClickEvents,
   TrackEventAction as ViewAndClickTrackEventAction
@@ -55,7 +55,7 @@ type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | SendCryptoEvents
   | TaxCenterEvents
-  | TransactionsEvents
+  | CoinViewEvents
   | ViewAndClickEvents
 
 const Analytics = {
@@ -69,7 +69,7 @@ const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...SendCryptoEvents,
   ...TaxCenterEvents,
-  ...TransactionsEvents,
+  ...CoinViewEvents,
   ...ViewAndClickEvents
 }
 
