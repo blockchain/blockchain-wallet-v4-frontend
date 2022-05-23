@@ -225,8 +225,18 @@ export default ({ api, coreSagas, networks }) => {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
       // TODO: in future only fetch unified credentials
-      yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      const unifiedNabuCredentialsR = yield select(
+        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
+      )
+      const userCredentialsR = yield select(
+        selectors.core.kvStore.userCredentials.getLegacyNabuCredentials
+      )
+      if (!Remote.Success.is(unifiedNabuCredentialsR)) {
+        yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      }
+      if (!Remote.Success.is(userCredentialsR)) {
+        yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      }
       const { nabuLifetimeToken, nabuUserId } = (yield select(
         selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
       )).getOrElse({})
