@@ -209,7 +209,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           analyticsActions.trackEvent({
                             key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
                             properties: {
-                              coin
+                              currency: coin,
+                              device: 'WEB',
+                              platform: 'WALLET'
                             }
                           })
                           this.props.interestActions.showInterestModal({

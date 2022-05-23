@@ -5,7 +5,9 @@ export enum Events {
 type CoinViewEarnRewardsButtonClick = {
   key: Events.COINVIEW_EARN_REWARDS_BUTTON_CLICKED
   properties: {
-    coin: string
+    currency: string
+    device: string
+    platform: string
   }
 }
 
