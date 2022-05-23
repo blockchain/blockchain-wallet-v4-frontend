@@ -130,6 +130,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { payload } = action
       yield call(api.terminateDC, payload)
 
+      // Currently, we only manage 1 card
+      yield put(A.cleanCardData())
       yield call(getCards)
     } catch (e) {
       console.error('Failed to terminate card', errorHandler(e))

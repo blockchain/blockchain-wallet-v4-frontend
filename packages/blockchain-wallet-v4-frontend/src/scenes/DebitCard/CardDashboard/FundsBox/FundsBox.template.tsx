@@ -31,7 +31,8 @@ const FundsBox = ({ funds }: Props) => {
   const { data, error, isLoading } = currentCardAccountRemote
   let currentCardAccount = DEFAULT_ACCOUNT
 
-  if (data) currentCardAccount = data
+  // Waiting for BE to fix this response
+  if (data) currentCardAccount = DEFAULT_ACCOUNT
 
   const { symbol, value } = currentCardAccount.balance
 

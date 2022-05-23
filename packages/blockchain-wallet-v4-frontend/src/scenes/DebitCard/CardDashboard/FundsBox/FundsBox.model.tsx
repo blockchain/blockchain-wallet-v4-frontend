@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
@@ -52,6 +53,6 @@ export const LoadingDetail = () => (
 
 export const ErrorState = () => (
   <Text size='16px' weight={500} color='grey400' capitalize lineHeight='45px'>
-    Failed to load balances
+    <FormattedMessage id='scene.debit_card.funds_fail' defaultMessage='Failed to load balances' />
   </Text>
 )
