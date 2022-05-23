@@ -135,10 +135,9 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       currencyR,
       recurringBuys,
       isRecurringBuyR,
-      interestEligibleResult
+      interestEligibleR
     ) => {
       const empty = (page) => isEmpty(page.data)
-      const interestEligible = propOr(false, 'data', interestEligibleResult)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
       const sourceType: '' | AddressTypesType = pathOr('', ['source', 'type'], userSearch)
@@ -153,7 +152,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         coin,
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
-        interestEligible,
+        interestEligible: interestEligibleR.getOrElse({}),
         isGoldTier,
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))

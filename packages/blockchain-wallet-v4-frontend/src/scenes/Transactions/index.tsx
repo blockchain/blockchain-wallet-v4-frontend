@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { path, toLower } from 'ramda'
+import { isEmpty, path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -165,7 +165,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
     const interestEligibleCoin =
-      interestEligible && interestEligible[coin] && interestEligible[coin]?.eligible
+      !isEmpty(interestEligible) && interestEligible[coin] && interestEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
 
     return (
