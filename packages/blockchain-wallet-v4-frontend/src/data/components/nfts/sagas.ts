@@ -318,9 +318,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    const currency = action?.payload?.coin || ''
+    const coin = action?.payload?.coin || ''
     const amount = Number(action?.payload?.amount)
-    const amount_usd = yield call(getAmountUsd, currency, amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       const guid = yield call(getGuid)
       const signer = yield call(getEthSigner)
@@ -329,7 +329,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       const { expirationTime } = action.payload
 
-      if (action.payload.amtToWrap && action.payload.wrapFees) {
+      if (action.payload.amtToWrap && action.payload.wrapFees && coin === 'WETH') {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
         const amount = Exchange.convertCoinToCoin({
           baseToStandard: false,
@@ -363,7 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             type: 'SUCCESS'
           }
         })
@@ -374,6 +374,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           token_id: action.payload.asset.token_id
         })
       )
+      yield put(actions.form.reset('nftMakeOffer'))
     } catch (e) {
       let error = errorHandler(e)
       yield put(
@@ -382,7 +383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           properties: {
             amount,
             amount_usd,
-            currency,
+            currency: coin,
             error_message: error,
             type: 'FAILED'
           }

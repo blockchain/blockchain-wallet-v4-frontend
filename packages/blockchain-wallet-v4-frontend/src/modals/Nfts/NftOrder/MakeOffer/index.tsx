@@ -303,7 +303,10 @@ const MakeOffer: React.FC<Props> = (props) => {
                           style={{ display: 'flex', justifyContent: 'center' }}
                         >
                           The max you can offer from this wallet is&nbsp;
-                          <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
+                          <CoinDisplay
+                            style={{ fontSize: '12px', fontWeight: 'bold' }}
+                            coin={formValues.coin || 'WETH'}
+                          >
                             {Math.max(maxOfferPossible.toNumber(), 0)}
                           </CoinDisplay>
                         </Text>
@@ -427,22 +430,24 @@ const MakeOffer: React.FC<Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  erc20BalanceR: selectors.core.data.eth.getErc20Balance(
-    state,
-    // @ts-ignore
-    selectors.form.getFormValues('nftMakeOffer')(state)?.coin || 'WETH'
-  ),
-  ethBalancesR: getEthBalances(state),
-  formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
-    amount: string
-    coin: string
-    expirationMinutes: string
-    fix: string
-  },
-  rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
+export type NftMakeOfferFormValues = {
+  amount: string
+  coin: string
+  expirationMinutes: string
+  fix: string
+}
+
+const mapStateToProps = (state) => {
+  const formValues = selectors.form.getFormValues('nftMakeOffer')(state) as NftMakeOfferFormValues
+
+  return {
+    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues.coin || 'WETH'),
+    ethBalancesR: getEthBalances(state),
+    formValues,
+    rates: getRatesSelector(formValues.coin || 'WETH', state).getOrElse({} as RatesType),
+    walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
