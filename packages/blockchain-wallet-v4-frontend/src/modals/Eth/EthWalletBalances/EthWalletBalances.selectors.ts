@@ -27,7 +27,9 @@ export const getData = createDeepEqualSelector(
       )
       erc20Balances.map((curr) => {
         const symbol = Object.keys(window.coins).find(
-          (coin) => window.coins[coin].coinfig.type?.erc20Address === curr.tokenHash
+          (coin) =>
+            window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+            curr.tokenHash.toLowerCase()
         )
         if (!symbol) return
 
@@ -42,6 +44,7 @@ export const getData = createDeepEqualSelector(
       })
 
       return {
+        currency,
         erc20Balances,
         ethBalance,
         total

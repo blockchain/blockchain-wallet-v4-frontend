@@ -139,7 +139,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/login': {
             const state = store.getState()
-            const { platform } = state.auth.getProductAuthMetadata
+            const { platform } = state?.auth?.getProductAuthMetadata ?? { platform: 'WEB' }
             const nabuId = state.profile.userData.getOrElse({})?.id ?? null
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email

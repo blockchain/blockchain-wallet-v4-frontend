@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-import { Contract, ethers } from 'ethers'
+import { Contract } from 'ethers'
 import {
   addIndex,
   equals,
@@ -23,8 +23,6 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
-import { WETH_ABI } from '@core/redux/payment/nfts/abis'
-import { WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { EthProcessedTxType } from '@core/transactions/types'
 import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -309,37 +307,36 @@ export default ({ api }: { api: APIType }) => {
         })
       )
 
-      // For rinkeby testing
+      // Because there is a discrepancy between /eth/v2/<addr>/tokens
+      // and on chain data
       const wethAddr = window.coins.WETH.coinfig.type.erc20Address || ''
-      if (wethAddr.toLowerCase() === WETH_CONTRACT_RINKEBY) {
-        const abi = [
-          {
-            constant: true,
-            inputs: [
-              {
-                name: '_owner',
-                type: 'address'
-              }
-            ],
-            name: 'balanceOf',
-            outputs: [
-              {
-                name: 'balance',
-                type: 'uint256'
-              }
-            ],
-            payable: false,
-            type: 'function'
-          }
-        ]
-        const contract = new Contract(wethAddr, abi, api.ethProvider)
-        const balance = yield call(contract.balanceOf, ethAddr)
-        const balanceString = balance.toString()
-        const wethTokenData = constructDefaultErc20Data(ethAddr, wethAddr, 'WETH', balanceString)
-        yield put(A.fetchErc20DataSuccess('WETH', wethTokenData))
+      const wethAbi = [
+        {
+          constant: true,
+          inputs: [
+            {
+              name: '_owner',
+              type: 'address'
+            }
+          ],
+          name: 'balanceOf',
+          outputs: [
+            {
+              name: 'balance',
+              type: 'uint256'
+            }
+          ],
+          payable: false,
+          type: 'function'
+        }
+      ]
+      const contract = new Contract(wethAddr, wethAbi, api.ethProvider)
+      const balance = yield call(contract.balanceOf, ethAddr)
+      const balanceString = balance.toString()
+      const wethTokenData = constructDefaultErc20Data(ethAddr, wethAddr, 'WETH', balanceString)
+      yield put(A.fetchErc20DataSuccess('WETH', wethTokenData))
 
-        yield put(A.fetchErc20AccountTokenBalancesSuccess([...data.tokenAccounts, wethTokenData]))
-      }
+      yield put(A.fetchErc20AccountTokenBalancesSuccess([...data.tokenAccounts, wethTokenData]))
     } catch (e) {
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }

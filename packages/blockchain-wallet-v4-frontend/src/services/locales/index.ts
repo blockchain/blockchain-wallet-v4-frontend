@@ -7,12 +7,12 @@ type Language = { language: string; name: string }
 
 export const languages: Array<Language> = [
   { language: 'en', name: 'English' },
-  { language: 'es', name: 'Spanish' },
-  { language: 'es-la', name: 'Spanish - Latin America' },
-  { language: 'fr', name: 'French' },
-  { language: 'pt', name: 'Portuguese' },
-  { language: 'ru', name: 'Russian' },
-  { language: 'tr', name: 'Turkish' }
+  { language: 'es', name: 'Español' },
+  { language: 'es-la', name: 'Español (Latinoamérica)' },
+  { language: 'fr', name: 'Français' },
+  { language: 'pt', name: 'Português' },
+  { language: 'ru', name: 'Русский' },
+  { language: 'tr', name: 'Türkçe' }
 ]
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)

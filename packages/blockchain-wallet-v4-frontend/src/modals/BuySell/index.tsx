@@ -317,7 +317,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalName.SIMPLE_BUY_MODAL, { transition: duration }),
+  ModalEnhancer(ModalName.SIMPLE_BUY_MODAL, { fixed: true, transition: duration }),
   connector
 )
 

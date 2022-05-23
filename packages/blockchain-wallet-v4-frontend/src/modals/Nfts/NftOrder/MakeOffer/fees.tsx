@@ -6,6 +6,7 @@ import { NftAsset } from '@core/network/api/nfts/types'
 
 import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
+import { NftMakeOfferFormValues } from '.'
 import CreateOfferFees from './CreateOffer.fees'
 import WrapEthFees from './WrapEth.fees'
 
@@ -27,12 +28,12 @@ const Fees: React.FC<Props> = (props) => {
     <>
       <FeesDropdown totalFees={getTotalFees()}>
         <CreateOfferFees {...props} />
-        <WrapEthFees {...props} />
+        {props.formValues.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
       </FeesDropdown>
     </>
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps & { asset: NftAsset; formValues: NftMakeOfferFormValues }
 
 export default Fees

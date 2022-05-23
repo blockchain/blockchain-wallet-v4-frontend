@@ -160,6 +160,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   display: flex;
   justify-content: space-between;
   background-size: contain;
+  background-position: center;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tablet`

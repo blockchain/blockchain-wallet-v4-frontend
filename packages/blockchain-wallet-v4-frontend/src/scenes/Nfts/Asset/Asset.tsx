@@ -388,9 +388,7 @@ const NftAsset: React.FC<Props> = ({
                   <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
                 </Button>
               </div>
-              <AssetName>
-                {currentAsset.name || `${currentAsset.collection?.name}${' #'}`}
-              </AssetName>
+              <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
               {owner?.address ? (
                 <TextGroup inline style={{ marginTop: '24px' }}>
                   <Text size='16px' color='grey600' weight={600}>
