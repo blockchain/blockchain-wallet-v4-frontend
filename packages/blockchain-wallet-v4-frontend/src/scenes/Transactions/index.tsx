@@ -25,7 +25,7 @@ import {
   RecurringBuyRegisteredList,
   RecurringBuyStepType
 } from 'data/types'
-import { isMobile, media } from 'services/styles'
+import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
@@ -38,12 +38,13 @@ import WalletBalanceDropdown from './WalletBalanceDropdown'
 const PageTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 
   ${media.mobile`
     flex-direction: column;
   `}
 `
+
 const CoinTitle = styled.div`
   display: flex;
   flex-direction: row;
@@ -56,6 +57,11 @@ const CoinTitle = styled.div`
 `
 const TitleActionContainer = styled.div`
   display: flex;
+
+  ${media.mobile`
+    margin-top: 8px;
+    width: 100%;
+  `}
 `
 const Header = styled.div`
   width: 100%;
@@ -100,6 +106,16 @@ const ExplainerText = styled(Text)`
   font-size: 16px;
   font-weight: 500;
   color: ${(props) => props.theme.grey600};
+`
+
+const StyledButton = styled(Button)`
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  ${media.mobile`
+    flex: 1;
+  `}
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
@@ -151,7 +167,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
     const interestEligibleCoin =
       interestEligible && interestEligible[coin] && interestEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
-    const buttonResponsiveWidth = isMobile() ? 'auto' : '100px'
 
     return (
       <SceneWrapper>
@@ -171,11 +186,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TitleActionContainer>
                 {coinfig.type.name !== 'FIAT' && (
                   <>
-                    <Button
+                    <StyledButton
                       nature='primary'
-                      style={{ marginRight: '8px' }}
                       data-e2e='buyCrypto'
-                      width={buttonResponsiveWidth}
+                      width='100px'
                       onClick={() => {
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
@@ -185,17 +199,15 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       }}
                     >
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
-                    </Button>
+                    </StyledButton>
                     {isEarnButtonEnabled && (
-                      <Button
-                        disabled={!isGoldTier || !interestEligibleCoin}
-                        style={{ marginRight: '8px' }}
-                        width={buttonResponsiveWidth}
+                      <StyledButton
+                        width='100px'
                         nature='primary'
                         data-e2e='earnInterest'
                         onClick={() => {
                           analyticsActions.trackEvent({
-                            key: Analytics.TRANSACTIONS_EARN_BUTTON_CLICKED,
+                            key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
                             properties: {
                               coin
                             }
@@ -210,12 +222,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           id='scenes.interest.summarycard.earnOnly'
                           defaultMessage='Earn'
                         />
-                      </Button>
+                      </StyledButton>
                     )}
-                    <Button
+                    <StyledButton
                       nature='light'
                       data-e2e='sellCrypto'
-                      width={buttonResponsiveWidth}
+                      width='100px'
                       onClick={() => {
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
@@ -225,7 +237,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       }}
                     >
                       <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
-                    </Button>
+                    </StyledButton>
                   </>
                 )}
                 {coinfig.type.name === 'FIAT' && (
