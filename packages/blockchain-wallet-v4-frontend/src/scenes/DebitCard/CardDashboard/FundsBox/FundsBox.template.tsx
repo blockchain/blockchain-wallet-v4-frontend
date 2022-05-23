@@ -32,7 +32,7 @@ const FundsBox = ({ funds }: Props) => {
   let currentCardAccount = DEFAULT_ACCOUNT
 
   // Waiting for BE to fix this response
-  if (data) currentCardAccount = DEFAULT_ACCOUNT
+  if (data && data.balance) currentCardAccount = data
 
   const { symbol, value } = currentCardAccount.balance
 
