@@ -17,7 +17,7 @@ import {
   CollectionSortFields,
   SortDirection,
   useAssetsQuery,
-  useCollectionsQuery
+  useTrendingCollectionsQuery
 } from 'generated/graphql.types'
 import { media, useMedia } from 'services/styles'
 
@@ -124,7 +124,7 @@ const Explore: React.FC<Props> = (props) => {
       return () => clearInterval(interval)
     }
   }, [assetId, loadedAssets])
-  const [results] = useCollectionsQuery({
+  const [results] = useTrendingCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }

@@ -1,0 +1,16 @@
+query TrendingCollections($filter: [CollectionFilter], $sort: CollectionSort) {
+  collections(filter: $filter, sort: $sort) {
+    created_date
+    image_url
+    name
+    num_owners
+    safelist_request_status
+    slug
+    stats {
+      floor_price
+      one_day_volume
+			total_volume
+    }
+    total_supply
+  }
+}

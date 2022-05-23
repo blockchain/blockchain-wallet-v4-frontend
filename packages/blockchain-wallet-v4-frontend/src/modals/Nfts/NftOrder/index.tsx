@@ -54,6 +54,7 @@ class NftOrder extends PureComponent<Props, State> {
 
     return (
       <Flyout
+        doNotHide
         position={position}
         isOpen={show}
         userClickedOutside={userClickedOutside}
