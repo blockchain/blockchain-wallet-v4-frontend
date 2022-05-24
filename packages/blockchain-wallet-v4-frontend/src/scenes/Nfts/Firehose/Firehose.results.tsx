@@ -21,7 +21,8 @@ const NftFirehoseResults: React.FC<Props> = ({
   page,
   setIsFetchingNextPage,
   setMaxItemsFetched,
-  setNextPageFetchError
+  setNextPageFetchError,
+  setNumOfPageItems
 }) => {
   const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> =
     formValues?.collection
@@ -81,6 +82,7 @@ const NftFirehoseResults: React.FC<Props> = ({
 
   useEffect(() => {
     if (result.data?.assets.length !== undefined) {
+      setNumOfPageItems(result.data.assets.length)
       setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
     }
   }, [result.data?.assets?.length, setMaxItemsFetched])
@@ -100,6 +102,7 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
+  setNumOfPageItems: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 export default NftFirehoseResults

@@ -270,7 +270,7 @@ const NftAsset: React.FC<Props> = ({
                   ) : currentAsset.image_url ? (
                     <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
                   ) : (
-                    <Image width='100%' height='500px' name='no-activity' />
+                    <Image width='100%' height='500px' name='nft-img-placeholder' />
                   )}
                   <NftAssetImageType
                     animation_url={currentAsset.animation_url}
@@ -899,7 +899,7 @@ const NftAsset: React.FC<Props> = ({
                   </Flex>
                 ) : (
                   <Flex justifyContent='center' alignItems='center' flexDirection='column'>
-                    <Image height='100px' name='no-activity' />
+                    <Image height='100px' name='nft-img-placeholder' />
                     <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
                       <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
                     </Text>

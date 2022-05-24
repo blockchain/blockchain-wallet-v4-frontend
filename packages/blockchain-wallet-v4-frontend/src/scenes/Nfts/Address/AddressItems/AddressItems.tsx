@@ -7,6 +7,7 @@ import { OwnerQuery } from 'generated/graphql.types'
 import NftError from '../../components/NftError'
 import NftGrid from '../../components/NftGrid'
 import NftGridLoading from '../../components/NftGridLoading'
+import NftNoOwnedAssets from '../../components/NftNoOwnedAssets'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import ResultsPage from './AddressItems.results'
 
@@ -21,6 +22,7 @@ const AddressItems: React.FC<Props> = ({
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
+  const [numofPageItems, setNumOfPageItems] = useState<number | undefined>(undefined)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
@@ -29,6 +31,7 @@ const AddressItems: React.FC<Props> = ({
     setIsFetchingNextPage(true)
     setPageVariables([])
     setMaxItemsFetched(false)
+    setNumOfPageItems(undefined)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
@@ -39,6 +42,10 @@ const AddressItems: React.FC<Props> = ({
   }, [address, refreshTrigger])
 
   const isFetching = isFetchingNextPage
+
+  if (numofPageItems === 0 && pageVariables.length === 1) {
+    return <NftNoOwnedAssets />
+  }
 
   return (
     <LazyLoadContainer
@@ -61,6 +68,7 @@ const AddressItems: React.FC<Props> = ({
                 setMaxItemsFetched={setMaxItemsFetched}
                 key={page}
                 address={address}
+                setNumOfPageItems={setNumOfPageItems}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}
               />

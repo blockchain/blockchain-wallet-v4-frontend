@@ -97,7 +97,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background={`url(${asset.image_url.replace(/=s\d*/, '')})`}
             />
           ) : (
-            <Image width='100%' name='no-activity' />
+            <Image width='100%' name='nft-img-placeholder' />
           )}
           <NftAssetImageType
             top='20px'
