@@ -5,7 +5,8 @@ import {
   BSPaymentTypes,
   CoinfigType,
   ExtractSuccess,
-  SwapOrderType
+  SwapOrderType,
+  WalletFiatEnum
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -29,10 +30,14 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     .getOrElse(false) as boolean
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
   const userCountryCode = userData?.address?.country || 'default'
+  const allFiatCurrencies = Object.keys(WalletFiatEnum).filter(
+    (value) => typeof WalletFiatEnum[value] === 'number'
+  )
   const countryCurrencies = {
-    AR: bindIntegrationArEnabled ? ['ARS'] : ['USD', 'EUR', 'GBP'],
-    default: ['USD', 'EUR', 'GBP']
+    AR: !bindIntegrationArEnabled ? [WalletFiatEnum[WalletFiatEnum.ARS]] : allFiatCurrencies,
+    default: allFiatCurrencies
   }
+
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
   // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
