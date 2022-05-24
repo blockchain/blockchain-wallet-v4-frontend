@@ -27,7 +27,7 @@ const TerminateFailureStep = ({ handleClose, handleRetry }: Props) => (
         <ResultTitleWrapper>
           <FormattedMessage
             id='modals.terminate_card.failure.title'
-            defaultMessage='Failed To Terminate Create Your Card'
+            defaultMessage='Failed To Terminate Your Card'
           />
         </ResultTitleWrapper>
         <ResultSubTitleWrapper>
