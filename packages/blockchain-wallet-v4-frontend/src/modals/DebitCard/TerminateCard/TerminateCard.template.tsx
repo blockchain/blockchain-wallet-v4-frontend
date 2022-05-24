@@ -32,7 +32,9 @@ const TerminateCard = (props: Props) => {
 
   const currentView = () =>
     terminateHandler.cata({
-      Failure: () => <TerminateFailureStep />,
+      Failure: () => (
+        <TerminateFailureStep handleClose={handleClose} handleRetry={handleTerminate} />
+      ),
       Loading: () => (
         <LoadingWrapper>
           <Loading text={LoadingTextEnum.PROCESSING} />

@@ -27,7 +27,7 @@ const FailedCreationStep = ({ handleClose, handleRetry }: Props) => (
         <ResultTitleWrapper>
           <FormattedMessage
             id='modals.order_my_card.creation_failed.title'
-            defaultMessage='Failed To Successfully Create Your Card'
+            defaultMessage='Failed To Successfully Your Card'
           />
         </ResultTitleWrapper>
         <ResultSubTitleWrapper>
