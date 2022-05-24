@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError, UseQueryState } from 'urql'
 
+import { Image } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import NftError from '../../components/NftError'
 import NftGrid from '../../components/NftGrid'
 import NftGridLoading from '../../components/NftGridLoading'
+import NftNoAssets from '../../components/NftNoAssets'
 import { NftFilterFormValuesType } from '../../NftFilter'
 import CollectionItemsResults from './CollectionItems.results'
 
@@ -21,6 +24,7 @@ const CollectionItems: React.FC<Props> = ({
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
+  const [numofPageItems, setNumOfPageItems] = useState<number | undefined>(undefined)
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
@@ -30,6 +34,7 @@ const CollectionItems: React.FC<Props> = ({
     setIsFetchingNextPage(true)
     setPageVariables([])
     setMaxItemsFetched(false)
+    setNumOfPageItems(undefined)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
     }, 100)
@@ -44,6 +49,10 @@ const CollectionItems: React.FC<Props> = ({
   }, [refreshTrigger])
 
   const isFetching = isFetchingNextPage || collectionsQuery.fetching
+
+  if (numofPageItems === 0 && pageVariables.length === 1) {
+    return <NftNoAssets />
+  }
 
   return (
     <LazyLoadContainer
@@ -65,6 +74,7 @@ const CollectionItems: React.FC<Props> = ({
                 key={page}
                 slug={slug}
                 setNumOfResults={setNumOfResults}
+                setNumOfPageItems={setNumOfPageItems}
                 setMaxItemsFetched={setMaxItemsFetched}
                 setNextPageFetchError={setNextPageFetchError}
                 setIsFetchingNextPage={setIsFetchingNextPage}

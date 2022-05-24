@@ -103,7 +103,8 @@ import cryptoad2903 from './img/nfts/cryptoadz-2903.png'
 import cryptoad4502 from './img/nfts/cryptoadz-4502.png'
 import cryptoadlarge from './img/nfts/cryptoadz-large.png'
 import cryptoadsmall from './img/nfts/cryptoadz-small.png'
-import noActivity from './img/nfts/no-activity.svg'
+import nftImgPlaceholder from './img/nfts/nft-img-placeholder.svg'
+import nftNothingHere from './img/nfts/nft-nothing-here.svg'
 import nftnouns from './img/nfts/nouns.png'
 import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
@@ -248,9 +249,10 @@ const Images = {
   money,
   nft,
   'nft-collections': nftcollections,
+  'nft-img-placeholder': nftImgPlaceholder,
+  'nft-nothing-here': nftNothingHere,
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
-  'no-activity': noActivity,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-success': orderSuccess,
