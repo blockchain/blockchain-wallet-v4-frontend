@@ -11,7 +11,7 @@ import {
   ResultTitleWrapper,
   ResultWrapper,
   StyledButton
-} from '../OrderMyCard.model'
+} from '../../DebitCard.model'
 
 type Props = {
   handleClose: () => void

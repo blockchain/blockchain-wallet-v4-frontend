@@ -1,40 +1,50 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Image, Text } from 'blockchain-info-components'
-import { FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
+import { Image } from 'blockchain-info-components'
+import FlyoutContainer from 'components/Flyout/Container'
+import { FlyoutContent } from 'components/Flyout/Layout'
 
-import { CreateCardButton, SubTextWrapper } from '../../OrderMyCard/OrderMyCard.model'
+import {
+  ResultSubTitleWrapper,
+  ResultTitleWrapper,
+  ResultWrapper,
+  StyledButton
+} from '../../DebitCard.model'
 
-const TerminateStep = ({ handleClose, handleTerminate }) => (
-  <>
-    <FlyoutHeader data-e2e='orderMyCardHeader' mode='close' onClick={handleClose}>
-      <FormattedMessage
-        id='modals.order_my_card.select_your_card.title'
-        defaultMessage='Select Your Card'
-      />
-    </FlyoutHeader>
+type Props = {
+  handleClose: () => void
+  handleTerminate: () => void
+  last4: string
+}
+
+const TerminateStep = ({ handleClose, handleTerminate, last4 }: Props) => (
+  <FlyoutContainer>
     <FlyoutContent mode='middle'>
-      <Image name='order-my-card' />
-      <Text size='32px' weight={600} color='grey800'>
-        <FormattedMessage
-          id='modals.order_my_card.select_your_card.subtitle'
-          defaultMessage='Virtual'
-        />
-      </Text>
-      <SubTextWrapper>
-        <FormattedMessage
-          id='modals.order_my_card.select_your_card.content'
-          defaultMessage='Our digital only card, use instantly for online payments.'
-        />
-      </SubTextWrapper>
-
-      {/* disabled for MVP, will need this for V1 */}
-      {/* <SeeCardDetailsBtn onClick={handleShowCardDetails} /> */}
-
-      <CreateCardButton onClick={handleTerminate} />
+      <ResultWrapper>
+        <Image name='terminate-card' />
+        <ResultTitleWrapper>
+          <FormattedMessage
+            id='modals.terminate_card.title'
+            defaultMessage='Close ***{last4}'
+            values={{ last4 }}
+          />
+        </ResultTitleWrapper>
+        <ResultSubTitleWrapper>
+          <FormattedMessage
+            id='modals.terminate_card.sub_title'
+            defaultMessage='Are you sure? Once confirmed this action cannot be undone. If you do want to permanently close this card, click the big red button.'
+          />
+        </ResultSubTitleWrapper>
+        <StyledButton data-e2e='retryCreationBtn' nature='warning' onClick={handleTerminate}>
+          <FormattedMessage id='modals.terminate_card.yes_btn' defaultMessage='Yes Delete Card' />
+        </StyledButton>
+        <StyledButton data-e2e='cancelCreationBtn' nature='empty-blue' onClick={handleClose}>
+          <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
+        </StyledButton>
+      </ResultWrapper>
     </FlyoutContent>
-  </>
+  </FlyoutContainer>
 )
 
 export default TerminateStep

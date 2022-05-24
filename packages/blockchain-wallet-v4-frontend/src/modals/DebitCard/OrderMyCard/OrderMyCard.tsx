@@ -11,10 +11,10 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { Loading, LoadingTextEnum } from '../../components'
 import { ModalPropsType } from '../../types'
 import CreateCardStep from './CreateCardStep'
-import FailedCreationStep from './FailedCreationStep'
+import FailedCreationStep from './CreationFailureStep'
+import CreationSuccessStep from './CreationSuccessStep'
 import { LoadingWrapper } from './OrderMyCard.model'
 import { getData } from './OrderMyCard.selectors'
-import SuccessCreationStep from './SuccessCreationStep'
 
 const OrderMyCard = (props: Props) => {
   const [show, setShow] = useState(true)
@@ -53,7 +53,7 @@ const OrderMyCard = (props: Props) => {
       NotAsked: () => (
         <CreateCardStep handleClose={handleClose} handleCreateCard={handleCreateCard} />
       ),
-      Success: () => <SuccessCreationStep handleClose={handleClose} />
+      Success: () => <CreationSuccessStep handleClose={handleClose} />
     })
 
   return (

@@ -5,6 +5,8 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const cardCreationR = selectors.components.debitCard.getCardCreationData(state)
-  return lift((cardCreation: ExtractSuccess<typeof cardCreationR>) => cardCreation)(cardCreationR)
+  const terminateHandlerR = selectors.components.debitCard.getTerminateCardHandler(state)
+  return lift((terminateHandler: ExtractSuccess<typeof terminateHandlerR>) => terminateHandler)(
+    terminateHandlerR
+  )
 }

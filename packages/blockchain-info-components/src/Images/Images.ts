@@ -67,6 +67,7 @@ import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
+import terminateCard from './img/debitCard/terminate-card.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -276,6 +277,7 @@ const Images = {
   'swap-blue': swapBlue,
   'swap-success': swapSuccess,
   'swap-white': swapWhite,
+  'terminate-card': terminateCard,
   'tier-gold': tierGold,
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
