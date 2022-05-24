@@ -34,10 +34,9 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     (value) => typeof WalletFiatEnum[value] === 'number'
   )
   const countryCurrencies = {
-    AR: !bindIntegrationArEnabled ? [WalletFiatEnum[WalletFiatEnum.ARS]] : allFiatCurrencies,
+    AR: bindIntegrationArEnabled ? [WalletFiatEnum[WalletFiatEnum.ARS]] : allFiatCurrencies,
     default: allFiatCurrencies
   }
-
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
   // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
