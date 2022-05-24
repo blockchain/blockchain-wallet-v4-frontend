@@ -255,6 +255,14 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkWalletDefaultAccountIdxAndDefaultDerivation = function* () {
+    const accounts = yield call(coreSagas.wallet.getAccountsWithIncompleteDerivations)
+    if (accounts.length > 0) {
+      yield call(coreSagas.wallet.replenishDefaultAccountIdxAndDefaultDerivation, accounts)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
   const loginRoutineSaga = function* ({
     country = undefined,
     email = undefined,
@@ -394,6 +402,8 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkXpubCacheLegitimacy)
       // ensure derivations are correct
       yield fork(checkWalletDerivationsLegitimacy)
+      // ensure default_account_idx and default_derivation are set
+      yield fork(checkWalletDefaultAccountIdxAndDefaultDerivation)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
 
