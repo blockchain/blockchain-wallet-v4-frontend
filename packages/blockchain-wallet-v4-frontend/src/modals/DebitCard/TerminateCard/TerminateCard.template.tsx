@@ -14,8 +14,9 @@ const TerminateCard = (props: Props) => {
   const [show, setShow] = useState(true)
 
   useEffect(() => {
-    // Initialize selector for preventing wrong state
-    debitCardActions.cleanTerminateHandler()
+    return () => {
+      debitCardActions.cleanTerminateHandler()
+    }
   }, [])
 
   const handleClose = () => {
