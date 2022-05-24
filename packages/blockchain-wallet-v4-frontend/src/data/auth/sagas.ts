@@ -412,7 +412,7 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDerivationsLegitimacy)
       // ensure default_account_idx is set
       yield fork(checkWalletDefaultAccountIdx)
-      // ensure default_derivation is set on each accoutn
+      // ensure default_derivation is set on each account
       yield fork(checkWalletAccountsDefaultDerivation)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
