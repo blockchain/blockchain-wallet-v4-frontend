@@ -4,13 +4,13 @@ import { SkeletonCircle, SkeletonRectangle, SpinningLoader } from 'blockchain-in
 import { Flex } from 'components/Flex'
 import { useMedia } from 'services/styles'
 
-import { CollectionHeader, GridWrapper } from '../components'
+import { CollectionHeader, GridWrapper, NftPageFullWidth } from '../components'
 
 const NftCollectionLoading: React.FC<Props> = () => {
   const isTablet = useMedia('tablet')
 
   return (
-    <div style={{ paddingTop: '0px', position: 'relative' }}>
+    <NftPageFullWidth>
       <CollectionHeader>
         <SkeletonRectangle height='100%' width='100%' />
       </CollectionHeader>
@@ -52,7 +52,7 @@ const NftCollectionLoading: React.FC<Props> = () => {
           </div>
         </GridWrapper>
       )}
-    </div>
+    </NftPageFullWidth>
   )
 }
 

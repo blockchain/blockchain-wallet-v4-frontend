@@ -60,6 +60,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
   }
 
   const elements = Object.keys(nftSearch.getOrElse({} as ExplorerGatewaySearchType))
+    .sort((a, b) => (a === 'collections' || b === 'collections' ? -1 : 1))
     .map((key) => {
       return {
         label: key,

@@ -76,9 +76,9 @@ export const RightColWrapper = styled.div`
   `}
 `
 
-export const StickyWrapper = styled.div`
+export const NftAssetStickyWrapper = styled.div`
   position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT + 20}px);
+  top: calc(${FIXED_HEADER_HEIGHT}px);
 `
 
 export const AssetName = styled(Text)`

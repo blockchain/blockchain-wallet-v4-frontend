@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Alerts from 'components/Alerts'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import { media } from 'services/styles'
 
 import Modals from '../../modals'
 import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'
@@ -24,9 +23,8 @@ const Page = styled.div`
     z-index: 1;
     position: relative;
     top: ${FIXED_HEADER_HEIGHT}px;
-    ${media.atLeastTablet`
-      padding-top: 8px;
-    `}
+    padding: 0px 24px;
+    border-top: 0px;
   }
 `
 

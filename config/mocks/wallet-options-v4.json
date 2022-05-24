@@ -57,7 +57,8 @@
         "withdrawalLocksFundsOnHold": true,
         "unifiedAccountLogin": true,
         "upgradeAccounts": true,
-        "walletDebitCardEnabled": true
+        "walletDebitCardEnabled": true,
+        "bindIntegrationArEnabled": true
       }
     }
   },
