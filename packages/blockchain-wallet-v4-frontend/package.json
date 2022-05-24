@@ -136,6 +136,7 @@
     "react-csv": "2.0.3",
     "react-dom": "16.14.0",
     "react-dropzone": "7.0.1",
+    "react-idle-timer": "5.2.0",
     "react-intl": "5.24.4",
     "react-intl-tel-input": "5.0.7",
     "react-qr-reader": "2.2.1",
