@@ -39,6 +39,10 @@ export const Card = styled.div`
     width: 100%;
     padding: 1.5rem;
   `}
+  ${media.tablet`
+  width: 100%;
+  padding: 0;
+`}
 `
 export const CardHeader = styled.div`
   align-items: center;
