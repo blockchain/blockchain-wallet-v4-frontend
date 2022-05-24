@@ -228,13 +228,8 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const checkWalletDefaultAccountIdxOrDefaultDerivation = function* () {
-    const wallet = yield select(selectors.core.wallet.getWallet)
-  }
-
   return {
     checkDataErrors,
-    checkWalletDefaultAccountIdxOrDefaultDerivation,
     checkXpubCacheLegitimacy,
     editBtcAccountLabel,
     setMainPassword,
