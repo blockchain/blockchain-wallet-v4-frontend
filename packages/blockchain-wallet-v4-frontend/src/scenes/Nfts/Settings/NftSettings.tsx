@@ -32,16 +32,24 @@ const SettingsOptionsWrapper = styled.div`
   `}
 `
 
-const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActions }) => {
+const NftSettings: React.FC<Props> = ({
+  ethAddress,
+  isAuthenticated,
+  nftsActions,
+  routerActions
+}) => {
   const currentAddress = window.location.href.split('/nfts/address/settings/')[1]
   const [switches, setSwitches] = useState<{ [key in string]?: boolean }>({})
 
   if (!isAuthenticated) {
     routerActions.push('/login')
+    return null
   }
 
   if (ethAddress.toLowerCase() !== currentAddress?.toLowerCase()) {
     routerActions.push('/login')
+  } else {
+    nftsActions.fetchUserPreferences()
   }
 
   return (

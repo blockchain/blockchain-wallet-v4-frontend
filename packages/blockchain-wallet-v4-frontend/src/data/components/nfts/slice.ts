@@ -222,6 +222,7 @@ const nftsSlice = createSlice({
     fetchOpenseaStatusSuccess: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Success(action.payload)
     },
+    fetchUserPreferences: (state) => {},
     handleRouterChange: (state, action: PayloadAction<{ location: { pathname: string } }>) => {},
     nftOrderFlowClose: (state) => {
       state.orderFlow = initialState.orderFlow

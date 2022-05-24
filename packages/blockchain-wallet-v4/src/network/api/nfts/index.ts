@@ -7,15 +7,14 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
-  const searchNfts = (query: string): ExplorerGatewaySearchType => {
-    return post({
-      contentType: 'application/json',
-      data: {
-        query
+  const getNftUserPreferences = (jwt: string) => {
+    return get({
+      endPoint: '/preferences',
+      headers: {
+        jwt
       },
-      endPoint: `/search`,
       ignoreQueryParams: true,
-      url: `${nftUrl}`
+      url: nftUrl
     })
   }
 
@@ -31,7 +30,19 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
-      url: `${nftUrl}`
+      url: nftUrl
+    })
+  }
+
+  const searchNfts = (query: string): ExplorerGatewaySearchType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        query
+      },
+      endPoint: `/search`,
+      ignoreQueryParams: true,
+      url: nftUrl
     })
   }
 
@@ -47,11 +58,12 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       endPoint: `/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: `${nftUrl}`
+      url: nftUrl
     })
   }
 
   return {
+    getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
     postNftOrder,

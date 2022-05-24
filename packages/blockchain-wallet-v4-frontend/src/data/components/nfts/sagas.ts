@@ -71,6 +71,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const fetchUserPreferences = function* () {
+    try {
+      const retailToken = yield call(generateRetailToken)
+      const res: ReturnType<typeof api.getNftUserPreferences> = yield call(
+        api.getNftUserPreferences,
+        retailToken
+      )
+      console.log(res)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const getAmountUsd = function* (coin: string, amount: number) {
     const usdPrice: ReturnType<typeof api.getPriceIndex> = yield call(
       api.getPriceIndex,
@@ -804,6 +817,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     fetchFeesWrapEth,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,
+    fetchUserPreferences,
     formChanged,
     handleRouterChange,
     nftOrderFlowOpen,
