@@ -24,10 +24,13 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
   // TODO: Move this code to another place to clean this file
+  const bindIntegrationArEnabled = selectors.core.walletOptions
+    .getBindIntegrationArEnabled(state)
+    .getOrElse(false) as boolean
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
   const userCountryCode = userData?.address?.country || 'default'
   const countryCurrencies = {
-    AR: ['ARS'],
+    AR: bindIntegrationArEnabled ? ['ARS'] : ['USD', 'EUR', 'GBP'],
     default: ['USD', 'EUR', 'GBP']
   }
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default

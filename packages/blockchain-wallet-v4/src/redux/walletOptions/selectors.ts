@@ -134,3 +134,7 @@ export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
 
 export const getNftExplorer = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))
+
+// enable/disable BIND integration (AR)
+export const getBindIntegrationArEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
