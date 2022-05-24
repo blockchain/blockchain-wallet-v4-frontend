@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { path, toLower } from 'ramda'
+import { isEmpty, path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -19,6 +19,7 @@ import { getIntroductionText } from 'data/coins/selectors'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
+  Analytics,
   RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
@@ -37,8 +38,13 @@ import WalletBalanceDropdown from './WalletBalanceDropdown'
 const PageTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
+
 const CoinTitle = styled.div`
   display: flex;
   flex-direction: row;
@@ -51,6 +57,11 @@ const CoinTitle = styled.div`
 `
 const TitleActionContainer = styled.div`
   display: flex;
+
+  ${media.mobile`
+    margin-top: 8px;
+    width: 100%;
+  `}
 `
 const Header = styled.div`
   width: 100%;
@@ -97,6 +108,16 @@ const ExplainerText = styled(Text)`
   color: ${(props) => props.theme.grey600};
 `
 
+const StyledButton = styled(Button)`
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  ${media.mobile`
+    flex: 1;
+  `}
+`
+
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.initTxs()
@@ -107,6 +128,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.recurringBuyActions.fetchRegisteredList()
+    this.props.interestActions.fetchInterestEligible()
   }
 
   componentDidUpdate(prevProps) {
@@ -126,6 +148,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
+      analyticsActions,
       computedMatch,
       currency,
       hasTxResults,
@@ -141,7 +164,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
-    const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+    const interestEligibleCoin =
+      !isEmpty(interestEligible) && interestEligible[coin] && interestEligible[coin]?.eligible
+    const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
 
     return (
       <SceneWrapper>
@@ -161,9 +186,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TitleActionContainer>
                 {coinfig.type.name !== 'FIAT' && (
                   <>
-                    <Button
+                    <StyledButton
                       nature='primary'
-                      style={{ marginRight: '8px' }}
                       data-e2e='buyCrypto'
                       width='100px'
                       onClick={() => {
@@ -175,26 +199,34 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       }}
                     >
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
-                    </Button>
-                    <Button
-                      disabled={!isGoldTier || !interestEligibleCoin}
-                      style={{ marginRight: '8px' }}
-                      width='100px'
-                      nature='primary'
-                      data-e2e='earnInterest'
-                      onClick={() =>
-                        this.props.interestActions.showInterestModal({
-                          coin,
-                          step: 'ACCOUNT_SUMMARY'
-                        })
-                      }
-                    >
-                      <FormattedMessage
-                        id='scenes.interest.summarycard.earnOnly'
-                        defaultMessage='Earn'
-                      />
-                    </Button>
-                    <Button
+                    </StyledButton>
+                    {isEarnButtonEnabled && (
+                      <StyledButton
+                        width='100px'
+                        nature='primary'
+                        data-e2e='earnInterest'
+                        onClick={() => {
+                          analyticsActions.trackEvent({
+                            key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
+                            properties: {
+                              currency: coin,
+                              device: 'WEB',
+                              platform: 'WALLET'
+                            }
+                          })
+                          this.props.interestActions.showInterestModal({
+                            coin,
+                            step: 'ACCOUNT_SUMMARY'
+                          })
+                        }}
+                      >
+                        <FormattedMessage
+                          id='scenes.interest.summarycard.earnOnly'
+                          defaultMessage='Earn'
+                        />
+                      </StyledButton>
+                    )}
+                    <StyledButton
                       nature='light'
                       data-e2e='sellCrypto'
                       width='100px'
@@ -207,7 +239,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       }}
                     >
                       <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
-                    </Button>
+                    </StyledButton>
                   </>
                 )}
                 {coinfig.type.name === 'FIAT' && (
@@ -328,6 +360,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin } = ownProps.computedMatch.params
   const { coinfig } = window.coins[coin]
   const baseActions = {
+    analyticsActions: bindActionCreators(actions.analytics, dispatch),
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
     interestActions: bindActionCreators(actions.components.interest, dispatch),
