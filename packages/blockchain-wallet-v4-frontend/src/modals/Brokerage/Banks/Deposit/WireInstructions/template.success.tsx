@@ -68,8 +68,6 @@ const TabsContainer = styled.div`
 
 const Success: React.FC<Props> = (props) => {
   const [transferType, setTransferType] = useState(TransferType.DOMESTIC)
-
-  // TODO: Improve currency layouts logic
   const currencyLayouts = {
     ARS: <LayoutArs {...props} />,
     default: <LayoutDefault {...props} />
@@ -167,7 +165,6 @@ const Success: React.FC<Props> = (props) => {
           )}
         </FlyoutWrapper>
         {
-          // TODO: Improve currency layouts logic
           currencyLayouts[props.account.currency]
             ? currencyLayouts[props.account.currency]
             : currencyLayouts.default
