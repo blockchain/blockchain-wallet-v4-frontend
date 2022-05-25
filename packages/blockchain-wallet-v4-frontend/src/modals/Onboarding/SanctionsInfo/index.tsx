@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconAlert, IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconWarningTriangle } from '@blockchain-com/icons'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -94,7 +94,7 @@ const SanctionsInfo = (props: Props) => {
               <Flex justifyContent='center'>
                 <Padding bottom={20}>
                   <Icon label='alert' color='orange400' size='lg'>
-                    <IconAlert />
+                    <IconWarningTriangle />
                   </Icon>
                 </Padding>
               </Flex>

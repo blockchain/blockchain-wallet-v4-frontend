@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconAlert, IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconWarningTriangle } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
@@ -77,7 +77,7 @@ const SanctionsNotice = ({ cacheActions, close, products }) => {
         <Flex flexDirection='column' style={{ marginBottom: '24px' }}>
           <ImageWrapper>
             <Icon label='alert' color='orange400' size='lg'>
-              <IconAlert />
+              <IconWarningTriangle />
             </Icon>
           </ImageWrapper>
           <GroupHeader>

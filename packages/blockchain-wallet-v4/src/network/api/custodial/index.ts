@@ -177,7 +177,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   const fetchProductEligibilityForUser = () =>
     authorizedGet({
-      endPoint: `/products`,
+      endPoint: `/products?product=SIMPLEBUY`,
       url: nabuUrl
     })
 

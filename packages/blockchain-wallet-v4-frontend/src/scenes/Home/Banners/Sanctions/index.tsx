@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconAlert, IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconWarningTriangle } from '@blockchain-com/icons'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -64,7 +64,7 @@ const Sanctions = ({ cacheActions }: Props) => {
       <Row>
         <PendingIconWrapper>
           <Icon label='alert' color='orange400' size='lg'>
-            <IconAlert />
+            <IconWarningTriangle />
           </Icon>
         </PendingIconWrapper>
       </Row>
