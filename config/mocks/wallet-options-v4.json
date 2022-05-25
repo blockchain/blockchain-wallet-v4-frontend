@@ -50,7 +50,6 @@
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
         "showSilverRevamp": true,
-        "tradingCurrencyFlyout": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
         "unifiedAccountLogin": true,
