@@ -112,10 +112,6 @@ export const getTradingCurrency = (state: RootState) =>
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
 
-// show/hide wallet tax center
-export const getTaxCenterEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
-
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))

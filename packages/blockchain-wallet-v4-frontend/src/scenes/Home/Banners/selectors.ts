@@ -25,14 +25,12 @@ export type BannerType =
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
   | 'stxAirdropFundsAvailable'
-  | 'taxCenter'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
-export const getTaxCenterAnnouncement = () => `tax-center-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
   return (
@@ -150,22 +148,11 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   }
 
-  // tax center
-  const isCountryUS = userData?.address?.country === 'US'
-  const taxCenterAnnouncement = getTaxCenterAnnouncement()
-  const taxCenterEnabled = selectors.core.walletOptions
-    .getTaxCenterEnabled(state)
-    .getOrElse(false) as boolean
-  const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
-
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
-
   const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
 
   let bannerToShow: BannerType = null
-  if (showTaxCenterBanner && taxCenterEnabled) {
-    bannerToShow = 'taxCenter'
-  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
+  if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (isStxSelfCustodyAvailable) {
     bannerToShow = 'stxAirdropFundsAvailable'

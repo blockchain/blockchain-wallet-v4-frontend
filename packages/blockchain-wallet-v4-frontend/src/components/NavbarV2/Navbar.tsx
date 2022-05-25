@@ -169,7 +169,6 @@ const Navbar = ({
   refreshClickHandler,
   sendClickHandler,
   taxCenterClickHandler,
-  taxCenterEnabled,
   trackEventCallback
 }: Props) => {
   const ref = useRef(null)
@@ -259,20 +258,18 @@ const Navbar = ({
     }
   ]
 
-  if (taxCenterEnabled) {
-    tertiaryNavItems.splice(0, 0, {
-      clickHandler: taxCenterClickHandler,
-      copy: (
-        <>
-          <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
-          <UpperNewCartridge>
-            <FormattedMessage id='buttons.new' defaultMessage='new' />
-          </UpperNewCartridge>
-        </>
-      ),
-      'data-e2e': 'tax_CenterLink'
-    })
-  }
+  tertiaryNavItems.splice(0, 0, {
+    clickHandler: taxCenterClickHandler,
+    copy: (
+      <>
+        <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
+        <UpperNewCartridge>
+          <FormattedMessage id='buttons.new' defaultMessage='new' />
+        </UpperNewCartridge>
+      </>
+    ),
+    'data-e2e': 'tax_CenterLink'
+  })
 
   const secondaryNavItems = [
     {
@@ -459,7 +456,6 @@ type Props = {
   refreshClickHandler: () => void
   sendClickHandler: () => void
   taxCenterClickHandler: () => void
-  taxCenterEnabled: boolean
   trackEventCallback: (eventName: string) => void
 }
 

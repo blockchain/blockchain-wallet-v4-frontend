@@ -75,7 +75,6 @@ const App = ({
   nftExplorer,
   persistor,
   store,
-  taxCenterEnabled,
   userData,
   walletConnectEnabled,
   walletDebitCardEnabled
@@ -228,9 +227,7 @@ const App = ({
                         <WalletLayout path='/dapps' component={WalletConnect} />
                       )}
                       <WalletLayout path='/prices' component={Prices} />
-                      {taxCenterEnabled && (
-                        <WalletLayout path='/tax-center' component={TaxCenter} />
-                      )}
+                      <WalletLayout path='/tax-center' component={TaxCenter} />
                       <WalletLayout
                         path='/coins/:coin'
                         component={coinViewV2 ? CoinPage : Transactions}
@@ -258,9 +255,6 @@ const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
-  taxCenterEnabled: selectors.core.walletOptions
-    .getTaxCenterEnabled(state)
-    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)

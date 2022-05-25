@@ -8,7 +8,6 @@ import { Props } from '.'
 
 type OwnProps = Props & {
   history: { push: (path: string) => void }
-  taxCenterEnabled: boolean
 }
 
 const Header = (props: OwnProps) => {
@@ -100,7 +99,6 @@ const Header = (props: OwnProps) => {
       primaryNavItems={PrimaryNavItems}
       fabClickHandler={fabCallback}
       nftsEnabled={props.nftsEnabled}
-      taxCenterEnabled={props.taxCenterEnabled}
       limitsClickHandler={limitsCallback}
       logoutClickHandler={logoutCallback}
       receiveClickHandler={receiveCallback}
