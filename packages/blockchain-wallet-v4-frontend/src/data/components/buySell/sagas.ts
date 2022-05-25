@@ -36,7 +36,7 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
-  CURRENT_SANCTIONS,
+  CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
   UserDataType
@@ -1776,7 +1776,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // show sanctions for buy
     if (products?.buy?.reasonNotEligible) {
       const message =
-        products.buy.reasonNotEligible.reason !== CURRENT_SANCTIONS
+        products.buy.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.buy.reasonNotEligible.message
           : undefined
       yield put(
@@ -1790,7 +1790,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // show sanctions for sell
     if (products?.sell?.reasonNotEligible && orderType === OrderType.SELL) {
       const message =
-        products.sell.reasonNotEligible.reason !== CURRENT_SANCTIONS
+        products.sell.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.sell.reasonNotEligible.message
           : undefined
       yield put(

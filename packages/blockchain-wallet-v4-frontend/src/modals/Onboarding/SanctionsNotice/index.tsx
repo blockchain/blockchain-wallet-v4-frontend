@@ -10,7 +10,7 @@ import { Button, Link, Modal, ModalBody, Text } from 'blockchain-info-components
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CURRENT_SANCTIONS, ModalName, ProductEligibilityForUser } from 'data/types'
+import { CustodialSanctionsEnum, ModalName, ProductEligibilityForUser } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const GroupHeader = styled(Text)`
@@ -59,7 +59,8 @@ const SanctionsNotice = ({ cacheActions, close, products }) => {
   }, [close])
 
   const messageToShow =
-    products?.notifications[0] && products?.notifications[0]?.reason !== CURRENT_SANCTIONS
+    products?.notifications[0] &&
+    products?.notifications[0]?.reason !== CustodialSanctionsEnum.EU_5_SANCTION
       ? products?.notifications[0]?.message
       : null
 

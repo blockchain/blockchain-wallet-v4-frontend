@@ -10,7 +10,12 @@ import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { CURRENT_SANCTIONS, ModalName, NabuProducts, ProductEligibilityForUser } from 'data/types'
+import {
+  CustodialSanctionsEnum,
+  ModalName,
+  NabuProducts,
+  ProductEligibilityForUser
+} from 'data/types'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -499,7 +504,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // show sanctions for sell
     if (products?.swap?.reasonNotEligible) {
       const message =
-        products.swap.reasonNotEligible.reason !== CURRENT_SANCTIONS
+        products.swap.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.swap.reasonNotEligible.message
           : undefined
       yield put(

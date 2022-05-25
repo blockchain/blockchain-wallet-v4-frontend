@@ -6,7 +6,7 @@ import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import {
-  CURRENT_SANCTIONS,
+  CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
   WithdrawStepEnum
@@ -89,7 +89,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // show sanctions for withdrawal
     if (products?.withdrawFiat?.reasonNotEligible) {
       const message =
-        products.withdrawFiat.reasonNotEligible.reason !== CURRENT_SANCTIONS
+        products.withdrawFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.withdrawFiat.reasonNotEligible.message
           : undefined
       yield put(

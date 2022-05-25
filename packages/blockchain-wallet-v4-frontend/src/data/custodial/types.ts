@@ -1,6 +1,8 @@
 import { BeneficiariesType, RemoteDataType, SwapOrderType } from '@core/types'
 
-export const CURRENT_SANCTIONS = 'EU_5_SANCTION'
+export enum CustodialSanctionsEnum {
+  EU_5_SANCTION = 'EU_5_SANCTION'
+}
 
 type NotificationItem = {
   message: string

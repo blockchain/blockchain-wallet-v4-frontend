@@ -14,7 +14,7 @@ import {
   BankStatusType,
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
-  CURRENT_SANCTIONS,
+  CustodialSanctionsEnum,
   FastLinkType,
   ModalName,
   ProductEligibilityForUser
@@ -311,7 +311,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // show sanctions for sell
     if (products?.depositFiat?.reasonNotEligible) {
       const message =
-        products.depositFiat.reasonNotEligible.reason !== CURRENT_SANCTIONS
+        products.depositFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.depositFiat.reasonNotEligible.message
           : undefined
       yield put(
