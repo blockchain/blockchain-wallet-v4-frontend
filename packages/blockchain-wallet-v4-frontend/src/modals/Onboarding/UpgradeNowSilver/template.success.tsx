@@ -9,6 +9,7 @@ import { FlyoutContainer } from 'components/Flyout/Layout'
 import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
+import { TIER_TYPES } from '../../Settings/TradingLimits/model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const HeaderWrapper = styled(FlyoutWrapper)`
@@ -174,6 +175,8 @@ const Template = (props: Props) => {
     return null
   }
 
+  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
+
   return (
     <FlyoutContainer>
       <HeaderWrapper>
@@ -227,9 +230,14 @@ const Template = (props: Props) => {
               />
             </RowItemTitle>
             <StatusCartridge>
-              <Text color='grey900' size='12px' weight={500}>
+              {isUserTierZero ? (
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.apply_now'
+                  defaultMessage='Apply Now'
+                />
+              ) : (
                 <FormattedMessage id='copy.active' defaultMessage='Active' />
-              </Text>
+              )}
             </StatusCartridge>
           </UpgradeRowWithBorder>
           <UpgradeRowWithBorder>
@@ -268,6 +276,24 @@ const Template = (props: Props) => {
             </RowItemWrapper>
             <Image name='check-empty-blue' size='20px' />
           </UpgradeRow>
+          {isUserTierZero && (
+            <div style={{ padding: '25px' }}>
+              <Button
+                fullwidth
+                size='16px'
+                height='48px'
+                nature='empty-secondary'
+                data-e2e='getBasicUpdate'
+                type='button'
+                onClick={startVerification}
+              >
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.get_limited_access'
+                  defaultMessage='Get Limited Access'
+                />
+              </Button>
+            </div>
+          )}
         </UpgradeContainer>
 
         <UpgradeContainer second>
