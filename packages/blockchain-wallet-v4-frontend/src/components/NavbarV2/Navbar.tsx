@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { Destination } from 'layouts/Wallet/components'
-import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
 import { media, useMedia } from 'services/styles'
 
@@ -154,11 +153,6 @@ const NavButton = styled(Button)`
   }
 `
 
-const UpperNewCartridge = styled(NewCartridge)`
-  text-transform: uppercase;
-  margin-left: 2.5rem;
-`
-
 const Navbar = ({
   fabClickHandler,
   limitsClickHandler,
@@ -260,14 +254,7 @@ const Navbar = ({
 
   tertiaryNavItems.splice(0, 0, {
     clickHandler: taxCenterClickHandler,
-    copy: (
-      <>
-        <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
-        <UpperNewCartridge>
-          <FormattedMessage id='buttons.new' defaultMessage='new' />
-        </UpperNewCartridge>
-      </>
-    ),
+    copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
     'data-e2e': 'tax_CenterLink'
   })
 
