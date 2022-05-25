@@ -236,6 +236,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
                     selected={this.state.orderType === OrderType.BUY}
                     onClick={() => {
                       this.setOrderType(OrderType.BUY)
+                      // tracking event
                       this.props.buySellActions.setBuyCrypto('CurrencyList')
                     }}
                     data-e2e='sbBuyButton'
@@ -247,6 +248,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
                     selected={this.state.orderType === OrderType.SELL}
                     onClick={() => {
                       this.setOrderType(OrderType.SELL)
+                      // tracking event
                       this.props.buySellActions.setSellCrypto('CurrencyList')
                     }}
                     data-e2e='sbSellButton'

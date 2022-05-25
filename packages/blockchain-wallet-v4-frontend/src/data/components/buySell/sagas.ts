@@ -33,7 +33,6 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
-  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -968,7 +967,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/simple-buy/eligible',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchFiatEligibleFailure(error))
     }
   }
@@ -1012,27 +1018,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchOrdersSuccess(orders))
       yield put(actions.components.brokerage.fetchBankTransferAccounts())
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
+
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/simple-buy/trades',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchOrdersFailure(error))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.CLIENT_ERROR,
-          properties: {
-            error: 'OOPS_ERROR',
-            network_endpoint: '/simple-buy/trades',
-            network_error_code: e.code,
-            network_error_description: error,
-            source: 'NABU',
-            title: 'Oops! Something went wrong'
-          }
-        })
-      )
     }
   }
 
-  const fetchBSPairs = function* ({ payload }: ReturnType<typeof A.fetchPairs>) {
+  const fetchPairs = function* ({ payload }: ReturnType<typeof A.fetchPairs>) {
     const { coin, currency } = payload
     try {
       yield put(A.fetchPairsLoading())
@@ -1045,23 +1045,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
       yield put(A.fetchPairsSuccess({ coin, pairs: filteredPairs }))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
+      const { code: network_error_code, message: network_error_description } =
+        errorCodeAndMessage(e)
+      const error: PartialClientErrorProperties = {
+        network_endpoint: '/simple-buy/pairs',
+        network_error_code,
+        network_error_description,
+        source: 'NABU'
+      }
       yield put(A.fetchPairsFailure(error))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.CLIENT_ERROR,
-          properties: {
-            action: 'BUY',
-            error: 'OOPS_ERROR',
-            network_endpoint: '/simple-buy/pairs',
-            network_error_code: e.code,
-            network_error_description: error,
-            source: 'NABU',
-            title: 'Oops! Something went wrong'
-          }
-        })
-      )
     }
   }
 
@@ -1972,12 +1964,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBSBalances,
     fetchBSCards,
     fetchBSOrders,
-    fetchBSPairs,
     fetchBSQuote,
     fetchBuyQuote,
     fetchCrossBorderLimits,
     fetchFiatEligible,
     fetchLimits,
+    fetchPairs,
     fetchPaymentAccount,
     fetchPaymentMethods,
     fetchSDDEligible,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -7,51 +7,65 @@ import { Remote } from '@core'
 import { ExtractSuccess, WalletFiatEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
+import { useRemote } from 'hooks'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-class CryptoSelection extends React.Component<Props> {
-  componentDidMount() {
-    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.priceActions.fetchCoinPrices()
-      this.props.priceActions.fetchCoinPricesPreviousDay()
-      const currentCurrencyIsInSupportedFiat = this.props.fiatCurrency in WalletFiatEnum
+const CryptoSelection: React.FC<Props> = memo((props) => {
+  useEffect(() => {
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.priceActions.fetchCoinPrices()
+      props.priceActions.fetchCoinPricesPreviousDay()
+      const currentCurrencyIsInSupportedFiat = props.fiatCurrency in WalletFiatEnum
       // for other currencies use as pre fill USD
-      const currency = currentCurrencyIsInSupportedFiat ? this.props.fiatCurrency : 'USD'
-      this.props.buySellActions.fetchPairs({ currency })
-      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
-      this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchBSOrders()
+      const currency = currentCurrencyIsInSupportedFiat ? props.fiatCurrency : 'USD'
+      props.buySellActions.fetchPairs({ currency })
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchSDDEligibility()
+      props.buySellActions.fetchBSOrders()
     }
-  }
+  }, [])
 
-  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
-
-  errorCallback() {
-    this.props.buySellActions.setStep({
-      fiatCurrency: this.props.fiatCurrency,
+  const errorCallback = useCallback(() => {
+    props.buySellActions.setStep({
+      fiatCurrency: props.fiatCurrency,
       step: 'CRYPTO_SELECTION'
     })
-  }
+  }, [props.fiatCurrency, props.buySellActions])
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => (
+  const trackError = useCallback((error: PartialClientErrorProperties) => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.CLIENT_ERROR,
+      properties: {
+        ...error,
+        action: 'CoinSelection',
+        error: 'OOPS_ERROR',
+        title: 'Oops! Something went wrong'
+      } as ClientErrorProperties
+    })
+  }, [])
+
+  return props.data.cata({
+    Failure: (error) => {
+      trackError(error)
+      return (
         <FlyoutOopsError
           action='retry'
           data-e2e='sbTryCurrencySelectionAgain'
-          handler={this.errorCallback}
+          handler={errorCallback}
         />
-      ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
-}
+      )
+    },
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...props} {...val} />
+  })
+}, equals)
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
@@ -63,6 +77,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch),
