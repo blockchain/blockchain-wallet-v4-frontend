@@ -9,6 +9,7 @@ import { Expanded, Flex } from 'components/Flex'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { Padding } from 'components/Padding'
 
+import { AccountSelectBox } from '../AccountSelectBox'
 import { Header, TransactionsList } from './components'
 
 export default {
@@ -24,13 +25,17 @@ export const SuccessState = () => {
           Download
         </Button>
 
-        <Button data-e2e='download' nature='empty-blue'>
-          Last 30 Days
-        </Button>
-
-        <Button data-e2e='download' nature='empty-blue'>
-          All Accounts
-        </Button>
+        <AccountSelectBox
+          items={[
+            {
+              text: 'Private Key Wallet',
+              value: 'private key'
+            }
+          ]}
+          label='All Accounts'
+          onChange={() => {}}
+          value=''
+        />
       </Header>
 
       <TransactionsList>
