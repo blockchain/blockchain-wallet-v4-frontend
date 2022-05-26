@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Alerts from 'components/Alerts'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import { media } from 'services/styles'
 
 import Modals from '../../modals'
 import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'

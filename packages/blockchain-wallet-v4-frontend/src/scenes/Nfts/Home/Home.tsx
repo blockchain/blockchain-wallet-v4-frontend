@@ -141,7 +141,7 @@ const Explore: React.FC<Props> = (props) => {
   return (
     <NftPageV2>
       <>
-        <Banner style={{ height: '600px' }}>
+        <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
