@@ -118,7 +118,8 @@ const Explore: React.FC<Props> = (props) => {
             key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
-            size='50px'
+            size='64px'
+            lineHeight='12px'
             color={assetId === i ? 'blue600' : 'white'}
           >
             .
