@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
@@ -10,7 +10,11 @@ import { Padding } from 'components/Padding'
 import { ExpansionPanelComponent } from './types'
 
 export const ExpansionPanel: ExpansionPanelComponent = ({ children }) => {
-  const [isToggled, handleToggle] = useState(false)
+  const [isToggled, setToggle] = useState(false)
+
+  const handleToggle = useCallback(() => {
+    setToggle((t) => !t)
+  }, [isToggled])
 
   return (
     <>
@@ -21,9 +25,7 @@ export const ExpansionPanel: ExpansionPanelComponent = ({ children }) => {
             nature='white-blue'
             small
             data-e2e={isToggled ? 'showLess' : 'showMore'}
-            onClick={() => {
-              handleToggle(!isToggled)
-            }}
+            onClick={handleToggle}
           >
             <Flex gap={8} alignItems='center'>
               <FormattedMessage
