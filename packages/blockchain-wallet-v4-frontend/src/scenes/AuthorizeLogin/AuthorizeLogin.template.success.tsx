@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Separator } from '@blockchain-com/constellation'
+import { Icon, Separator } from '@blockchain-com/constellation'
+import { IconAlert, IconCheckCircle, IconLaptop } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,8 +41,22 @@ const ButtonsRow = styled.div`
     margin-top: 24px;
   }
 `
+const WarningIcon = () => (
+  <div style={{ margin: '4px 0 0 8px' }}>
+    <Icon label='warning' color='red600' size='sm'>
+      <IconAlert />
+    </Icon>
+  </div>
+)
+const SuccessIcon = () => (
+  <div style={{ margin: '4px 0 0 8px' }}>
+    <Icon label='success' color='blue600' size='sm'>
+      <IconCheckCircle />
+    </Icon>
+  </div>
+)
 
-const AuthorizeLogin = (props) => {
+const AuthorizeLogin = ({ data, onAccept, onReject }) => {
   const {
     approver_country,
     approver_device_description,
@@ -50,15 +65,20 @@ const AuthorizeLogin = (props) => {
     requester_country,
     requester_device_description,
     requester_ip
-  } = props.value
+  } = data
 
-  const requestDenied = props.value['request-denied']
+  const isBrowserMatched = approver_device_description === requester_device_description
+  const isCountryMatched = approver_country === requester_country
+  const isIpMatched = approver_ip === requester_ip
+  const requestDenied = data['request-denied']
 
   return (
     <Wrapper>
       {device_change_reason && (
         <>
-          <Image name='blockchain-icon' width='40px' height='40px' />
+          <Icon label='device' size='lg' color='blue600'>
+            <IconLaptop />
+          </Icon>
           <HeaderWrapper>
             <Text lineHeight='30px' size='20px' weight={600} color='black'>
               <FormattedMessage
@@ -102,9 +122,15 @@ const AuthorizeLogin = (props) => {
               </Text>
             </div>
             <div>
-              <Text color='black' size='14px' weight={500} lineHeight='21px'>
+              <Text
+                color={isBrowserMatched ? 'black' : 'red600'}
+                size='14px'
+                weight={500}
+                lineHeight='21px'
+              >
                 {requester_device_description}
               </Text>
+              {isBrowserMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
           <Separator variant='subtle' style={{ margin: '0' }} />
@@ -120,9 +146,15 @@ const AuthorizeLogin = (props) => {
               </Text>
             </div>
             <div>
-              <Text color='black' size='14px' weight={500} lineHeight='21px'>
+              <Text
+                color={isIpMatched ? 'black' : 'red600'}
+                size='14px'
+                weight={500}
+                lineHeight='21px'
+              >
                 {requester_ip}
               </Text>
+              {isIpMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
           <Separator variant='subtle' style={{ margin: '0' }} />
@@ -138,9 +170,15 @@ const AuthorizeLogin = (props) => {
               </Text>
             </div>
             <div>
-              <Text color='black' size='14px' weight={500} lineHeight='21px'>
+              <Text
+                color={isCountryMatched ? 'black' : 'red600'}
+                size='14px'
+                weight={500}
+                lineHeight='21px'
+              >
                 {requester_country}
               </Text>
+              {isCountryMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
           <Separator variant='subtle' style={{ margin: '0' }} />
@@ -151,7 +189,7 @@ const AuthorizeLogin = (props) => {
               size='16px'
               nature='primary'
               fullwidth
-              onClick={props.onReject}
+              onClick={onReject}
             >
               <FormattedMessage id='buttons.reject' defaultMessage='Reject' />
             </Button>
@@ -161,7 +199,7 @@ const AuthorizeLogin = (props) => {
               height='48px'
               size='16px'
               fullwidth
-              onClick={props.onAccept}
+              onClick={onAccept}
             >
               <FormattedMessage id='buttons.verify' defaultMessage='Verify' />
             </Button>
@@ -169,38 +207,42 @@ const AuthorizeLogin = (props) => {
         </>
       )}
 
-      {!device_change_reason && (
+      {!device_change_reason && requestDenied && (
         <>
-          {requestDenied ? (
-            <Icon color='error' name='close-circle' size='40px' />
-          ) : (
-            <Icon color='success' name='checkmark-circle-filled' size='40px' />
-          )}
-          <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-            {requestDenied ? (
-              <FormattedMessage
-                id='scenes.authorizelogin.loading.rejected.title'
-                defaultMessage='Login Attempt Rejected!'
-              />
-            ) : (
-              <FormattedMessage
-                id='scenes.authorizelogin.loading.approved.title'
-                defaultMessage='Login Approved!'
-              />
-            )}
+          <Icon label='warning' color='red600' size='lg'>
+            <IconAlert />
+          </Icon>
+          <Text lineHeight='48px' size='20px' weight={600} color='black'>
+            <FormattedMessage
+              id='scenes.authorizelogin.rejected.title'
+              defaultMessage='Login Attempt Rejected!'
+            />
           </Text>
-          <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
-            {requestDenied ? (
-              <FormattedMessage
-                id='scenes.authorizelogin.loading.rejected.content'
-                defaultMessage='Please contact our support team if you have any questions or concerns.'
-              />
-            ) : (
-              <FormattedMessage
-                id='scenes.authorizelogin.loading.approved'
-                defaultMessage='Please return to your previous tab to continue login.'
-              />
-            )}
+          <Text color='black' size='16px' weight={500} lineHeight='24px'>
+            <FormattedMessage
+              id='scenes.authorizelogin.rejected.message'
+              defaultMessage='Please contact our support team if you have any questions or concerns.'
+            />
+          </Text>
+        </>
+      )}
+
+      {!device_change_reason && !requestDenied && (
+        <>
+          <Icon label='success' color='green600' size='lg'>
+            <IconCheckCircle />
+          </Icon>
+          <Text lineHeight='48px' size='20px' weight={600} color='black'>
+            <FormattedMessage
+              id='scenes.authorizelogin.approved.title'
+              defaultMessage='Login Approved!'
+            />
+          </Text>
+          <Text color='black' size='16px' weight={500} lineHeight='24px'>
+            <FormattedMessage
+              id='scenes.authorizelogin.approved.message'
+              defaultMessage='Please return to your previous tab to continue login.'
+            />
           </Text>
         </>
       )}

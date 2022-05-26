@@ -76,7 +76,7 @@
   "dependencies": {
     "@babel/polyfill": "7.12.1",
     "@blockchain-com/components": "6.1.1",
-    "@blockchain-com/constellation": "0.0.34",
+    "@blockchain-com/constellation": "0.0.35",
     "@blockchain-com/icons": "0.0.4",
     "@formatjs/intl-relativetimeformat": "7.2.10",
     "@graphql-codegen/cli": "2.5.0",
