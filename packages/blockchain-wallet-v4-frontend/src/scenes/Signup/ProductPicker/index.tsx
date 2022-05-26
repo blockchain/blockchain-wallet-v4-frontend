@@ -2,6 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from '@core'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
@@ -24,11 +25,16 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
     props.signupActions.setRegisterEmail(undefined)
     props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
   }
+  const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
 
   return props.walletLoginData.cata({
     Failure: (error) => <Error error={error} />,
     Loading: () => <SpinningLoader />,
     NotAsked: () => {
+      if (isMetadataRecovery) {
+        props.routerActions.push('/home')
+        return null
+      }
       props.routerActions.push('/login?product=exchange')
       return null
     },
@@ -48,6 +54,7 @@ const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
+  isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
