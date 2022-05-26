@@ -40,7 +40,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 100px 64px;
   z-index: 2;
   ${media.mobile`
@@ -118,7 +118,7 @@ const Explore: React.FC<Props> = (props) => {
             key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
-            size='36px'
+            size='50px'
             color={assetId === i ? 'blue600' : 'white'}
           >
             .

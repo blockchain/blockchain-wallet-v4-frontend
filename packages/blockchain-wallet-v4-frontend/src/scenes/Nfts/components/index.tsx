@@ -27,7 +27,8 @@ export const NftPage = styled.div`
 
 export const NftPageV2 = styled.div`
   width: 100%;
-  margin-top: 8px;
+  max-width: 1280px;
+  margin: 8px auto;
   box-sizing: border-box;
 `
 
