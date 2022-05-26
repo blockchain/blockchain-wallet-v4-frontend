@@ -4,7 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { Field } from 'redux-form'
+import { compose } from 'redux'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
@@ -97,12 +98,15 @@ const TraitGridFilters: React.FC<Props> = ({
     (formValues &&
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
+  const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
+  const moreThanRecentlyListed = (formValues && Object.keys(formValues).length > 1) || false
 
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
       Object.keys(formValues).forEach((key) => {
         formActions.change('nftFilter', key, undefined)
       })
+      formActions.change('nftFilter', 'sortBy', recentlyListed)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -384,15 +388,13 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
-        <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
-          <Text size='14px' weight={500} color={colors.blue600}>
-            Clear All
-          </Text>
-        </ClearAll>
-        {/* analyticsActions.trackEvent({
-                  key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
-                  properties: {}
-                  }) */}
+        {moreThanRecentlyListed && (
+          <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
+            <Text size='14px' weight={500} color={colors.blue600}>
+              Clear All
+            </Text>
+          </ClearAll>
+        )}
       </TraitGrid>
     </Wrapper>
   )
@@ -416,6 +418,17 @@ type OwnProps = {
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
 }
+
+const enhance = compose<any>(
+  reduxForm({
+    form: 'nftFilter',
+    initialValues: {
+      sortBy: `${AssetSortFields.ListingDate}-DESC`
+    }
+  }),
+  connector
+)
+
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(TraitGridFilters)
+export default enhance(TraitGridFilters)
