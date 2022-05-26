@@ -28,8 +28,8 @@ const Transfer: React.FC<Props> = (props) => {
     <>
       {openSeaAssetR.cata({
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader />,
-        NotAsked: () => <NftFlyoutLoader />,
+        Loading: () => <NftFlyoutLoader close={props.close} />,
+        NotAsked: () => <NftFlyoutLoader close={props.close} />,
         Success: (val) => (
           <>
             <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>

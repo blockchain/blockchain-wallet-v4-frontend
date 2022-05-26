@@ -37,7 +37,7 @@ const CancelListing: React.FC<Props> = (props) => {
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
-  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
   if (openSeaAsset.error)
     return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 

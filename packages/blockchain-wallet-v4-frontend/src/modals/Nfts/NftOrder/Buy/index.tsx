@@ -83,7 +83,7 @@ const Buy: React.FC<Props> = (props) => {
     <>
       {openSeaAssetR.cata({
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader />,
+        Loading: () => <NftFlyoutLoader close={props.close} />,
         NotAsked: () => null,
         Success: (val) => {
           if (
