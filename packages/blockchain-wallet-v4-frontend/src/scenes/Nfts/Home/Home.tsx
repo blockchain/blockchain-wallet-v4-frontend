@@ -60,7 +60,7 @@ const AssetFooter = styled.div`
   left: 3em;
   top: 1em;
   margin-top: -12px;
-  padding: 0.25em 1em;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   ${media.atLeastMobile`
