@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Image, Link } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
-import { Brand, Public } from 'components/NavbarV2'
+import { Brand, Public } from 'components/Navbar'
 import { media } from 'services/styles'
 
 const qsParams = new URLSearchParams(window.location.hash)
