@@ -48,15 +48,9 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
             {totalFees}
           </Text>
           <IconWrapper>
-            {!isActive ? (
-              <Icon label='chevron-right' color='grey400' size='sm'>
-                <IconChevronRight />
-              </Icon>
-            ) : (
-              <Icon label='chevron-down' color='grey400' size='sm'>
-                <IconChevronDown />
-              </Icon>
-            )}
+            <Icon label='chevron-down' color='grey400' size='sm'>
+              <IconChevronDown />
+            </Icon>
           </IconWrapper>
         </Flex>
       </Top>
