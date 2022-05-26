@@ -139,7 +139,7 @@ const Explore: React.FC<Props> = (props) => {
     })
   }
   return (
-    <NftPageV2>
+    <NftPageV2 style={{ padding: 0 }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
