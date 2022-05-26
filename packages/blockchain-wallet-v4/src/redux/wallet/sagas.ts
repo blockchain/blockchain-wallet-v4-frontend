@@ -83,7 +83,13 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function* ({ captchaToken, email, language, password }) {
+  const createWalletSaga = function* ({
+    captchaToken,
+    email,
+    forceVerifyEmail = false,
+    language,
+    password
+  }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -96,7 +102,7 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createWallet, email, captchaToken, wrapper)
+    yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail)
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
