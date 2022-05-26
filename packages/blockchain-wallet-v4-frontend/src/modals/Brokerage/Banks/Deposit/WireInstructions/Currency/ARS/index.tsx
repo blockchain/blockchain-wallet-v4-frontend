@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { AgentType } from '@core/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { ExpansionPanel } from 'components/ExpansionPanel'
 import { Row, Title, Value } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '../..'
@@ -70,59 +71,61 @@ const LayoutArs: React.FC<Props> = (props) => {
           <CopyClipboardButton textToCopy={(props.account.agent as AgentType).holderDocument} />
         </Copy>
       </RowCopy>
-      {(props.account.agent as AgentType).accountType === 'CBU' ? (
+      <ExpansionPanel>
+        {(props.account.agent as AgentType).accountType === 'CBU' ? (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage id='modals.simplebuy.transferdetails.cbu' defaultMessage='CBU' />
+              </Title>
+              <Value data-e2e='sbCbu'>{(props.account.agent as AgentType).address}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            </Copy>
+          </RowCopy>
+        ) : (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage id='modals.simplebuy.transferdetails.cvu' defaultMessage='CVU' />
+              </Title>
+              <Value data-e2e='sbCvu'>{(props.account.agent as AgentType).address}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            </Copy>
+          </RowCopy>
+        )}
         <RowCopy>
           <div>
             <Title>
-              <FormattedMessage id='modals.simplebuy.transferdetails.cbu' defaultMessage='CBU' />
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.account'
+                defaultMessage='Account Number'
+              />
             </Title>
-            <Value data-e2e='sbCbu'>{(props.account.agent as AgentType).address}</Value>
+            <Value data-e2e='sbAccountNumber'>{props.account.agent.code}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            <CopyClipboardButton textToCopy={props.account.agent.code} />
           </Copy>
         </RowCopy>
-      ) : (
         <RowCopy>
           <div>
             <Title>
-              <FormattedMessage id='modals.simplebuy.transferdetails.cvu' defaultMessage='CVU' />
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.recipient'
+                defaultMessage='Recipient'
+              />
             </Title>
-            <Value data-e2e='sbCvu'>{(props.account.agent as AgentType).address}</Value>
+            <Value data-e2e='sbRecipientName'>{props.account.agent.recipient}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            <CopyClipboardButton textToCopy={props.account.agent.recipient} />
           </Copy>
         </RowCopy>
-      )}
-      <RowCopy>
-        <div>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.account'
-              defaultMessage='Account Number'
-            />
-          </Title>
-          <Value data-e2e='sbAccountNumber'>{props.account.agent.code}</Value>
-        </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={props.account.agent.code} />
-        </Copy>
-      </RowCopy>
-      <RowCopy>
-        <div>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.recipient'
-              defaultMessage='Recipient'
-            />
-          </Title>
-          <Value data-e2e='sbRecipientName'>{props.account.agent.recipient}</Value>
-        </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={props.account.agent.recipient} />
-        </Copy>
-      </RowCopy>
+      </ExpansionPanel>
     </div>
   )
 }

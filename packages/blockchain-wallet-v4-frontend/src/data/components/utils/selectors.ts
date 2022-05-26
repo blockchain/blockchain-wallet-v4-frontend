@@ -31,10 +31,11 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
   const userCountryCode = userData?.address?.country || 'default'
   const allFiatCurrencies = Object.keys(WalletFiatEnum).filter(
-    (value) => typeof WalletFiatEnum[value] === 'number'
+    (value) =>
+      typeof WalletFiatEnum[value] === 'number' && WalletFiatEnum[value] !== WalletFiatEnum.ARS
   )
   const countryCurrencies = {
-    AR: bindIntegrationArEnabled ? [WalletFiatEnum[WalletFiatEnum.ARS]] : allFiatCurrencies,
+    AR: !bindIntegrationArEnabled ? [WalletFiatEnum[WalletFiatEnum.ARS]] : allFiatCurrencies,
     default: allFiatCurrencies
   }
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
