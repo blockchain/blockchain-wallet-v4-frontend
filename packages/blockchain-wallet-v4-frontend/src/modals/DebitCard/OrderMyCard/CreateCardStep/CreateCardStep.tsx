@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 
-import { CreateCardButton, SubTextWrapper } from '../model'
+import { CreateCardButton, SubTextWrapper } from '../OrderMyCard.model'
 
 type Props = {
   handleClose: () => void

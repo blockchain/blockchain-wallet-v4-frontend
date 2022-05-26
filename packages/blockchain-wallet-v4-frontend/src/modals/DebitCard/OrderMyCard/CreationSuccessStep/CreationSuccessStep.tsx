@@ -6,12 +6,17 @@ import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutContent from 'components/Flyout/Content'
 import { FlyoutHeader } from 'components/Flyout/Layout'
 
-import { ResultSubTitleWrapper, ResultTitleWrapper, ResultWrapper, StyledButton } from '../model'
+import {
+  ResultSubTitleWrapper,
+  ResultTitleWrapper,
+  ResultWrapper,
+  StyledButton
+} from '../../DebitCard.model'
 
 type Props = {
   handleClose: () => void
 }
-const SuccessCreationStep = ({ handleClose }: Props) => {
+const CreationSuccessStep = ({ handleClose }: Props) => {
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='creationSuccessHeader' mode='close' onClick={handleClose} />
@@ -39,4 +44,4 @@ const SuccessCreationStep = ({ handleClose }: Props) => {
   )
 }
 
-export default SuccessCreationStep
+export default CreationSuccessStep

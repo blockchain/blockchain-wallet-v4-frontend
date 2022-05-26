@@ -126,6 +126,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const terminateCard = function* (action: ReturnType<typeof A.terminateCard>) {
+    yield put(A.terminateCardLoading())
     try {
       const { payload } = action
       yield call(api.terminateDC, payload)
@@ -133,8 +134,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Currently, we only manage 1 card
       yield put(A.cleanCardData())
       yield call(getCards)
+      yield put(A.terminateCardSuccess())
     } catch (e) {
       console.error('Failed to terminate card', errorHandler(e))
+      yield put(A.terminateCardFailure())
     }
   }
 

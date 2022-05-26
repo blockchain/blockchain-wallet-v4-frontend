@@ -6,7 +6,12 @@ import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutContent from 'components/Flyout/Content'
 import { FlyoutHeader } from 'components/Flyout/Layout'
 
-import { ResultSubTitleWrapper, ResultTitleWrapper, ResultWrapper, StyledButton } from '../model'
+import {
+  ResultSubTitleWrapper,
+  ResultTitleWrapper,
+  ResultWrapper,
+  StyledButton
+} from '../../DebitCard.model'
 
 type Props = {
   handleClose: () => void
