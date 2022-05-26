@@ -241,7 +241,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
           <Text color='black' size='16px' weight={500} lineHeight='24px'>
             <FormattedMessage
               id='scenes.authorizelogin.approved.message'
-              defaultMessage='Please return to your previous tab to continue login.'
+              defaultMessage='Please return to your previous device to continue the login process.'
             />
           </Text>
         </>
