@@ -338,7 +338,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.modules.settings.updateCurrency(currency, true))
         yield put(actions.core.settings.setCurrency(currency))
 
-        if (isAccountReset || recovery) {
+        if (isAccountReset) {
           if (product === ProductAuthOptions.EXCHANGE) {
             yield put(
               actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
