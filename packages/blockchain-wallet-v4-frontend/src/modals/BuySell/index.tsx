@@ -222,7 +222,7 @@ class BuySell extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'TRADING_CURRENCY_SELECTOR' && this.props.showTradingCurrency && (
+            {this.props.step === 'TRADING_CURRENCY_SELECTOR' && (
               <FlyoutChild>
                 <TradingCurrencySelector {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
@@ -300,7 +300,6 @@ const mapStateToProps = (state: RootState) => ({
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   orderType: selectors.components.buySell.getOrderType(state),
   pair: selectors.components.buySell.getBSPair(state),
-  showTradingCurrency: selectors.core.walletOptions.getTradingCurrency(state).getOrElse(false),
   step: selectors.components.buySell.getStep(state)
 })
 
