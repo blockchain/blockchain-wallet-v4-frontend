@@ -271,6 +271,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkPayloadShape = function* () {
+    yield call(coreSagas.wallet.checkPayloadShape)
+  }
+
   const loginRoutineSaga = function* ({
     country = undefined,
     email = undefined,
@@ -414,6 +418,8 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDefaultAccountIdx)
       // ensure default_derivation is set on each account
       yield fork(checkWalletAccountsDefaultDerivation)
+      // check payload shape
+      yield fork(checkPayloadShape)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
 

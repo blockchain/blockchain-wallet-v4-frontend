@@ -33,3 +33,26 @@ export const errorCodeAndMessage = (e) => ({
   code: typeof e === 'object' ? Number(e.code) : 1,
   message: errorHandler(e)
 })
+
+export const propertiesToArray = (obj) => {
+  const isObject = (val) => val && typeof val === 'object' && !Array.isArray(val)
+
+  const isArray = (val) => val && Array.isArray(val)
+
+  const addDelimiter = (a, b): string => (a ? `${a}.${b}` : b)
+
+  const paths = (obj = {}, head = '') => {
+    return Object.entries(obj).reduce((product, [key, value]) => {
+      const fullPath = addDelimiter(head, key)
+      return isObject(value)
+        ? // @ts-ignore
+          product.concat(paths(value, fullPath))
+        : isArray(value)
+        ? // @ts-ignore
+          product.concat(paths(value[0], fullPath))
+        : product.concat(`${fullPath}-${typeof value}`)
+    }, [] as string[])
+  }
+
+  return paths(obj)
+}

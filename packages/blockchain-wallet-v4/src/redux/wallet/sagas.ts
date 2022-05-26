@@ -8,6 +8,7 @@ import {
   curry,
   find,
   findLastIndex,
+  flatten,
   head,
   is,
   isEmpty,
@@ -25,8 +26,11 @@ import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
 import { DEFAULT_DERIVATION_TYPE, DERIVATION_LIST } from '@core/types/HDAccount'
+import { propertiesToArray } from '@core/utils'
 
 import { DerivationList, HDAccount, HDWallet, KVStoreEntry, Wallet, Wrapper } from '../../types'
+// eslint-disable-next-line
+import * as wrapperV4 from '../../types/__mocks__/wrapper.v4-segwit.json'
 import { callTask } from '../../utils/functional'
 import { generateMnemonic } from '../../walletCrypto'
 import * as A from '../actions'
@@ -342,6 +346,78 @@ export default ({ api, networks }) => {
     yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
   }
 
+  // log wallet payload shape discrepencies
+  const checkPayloadShape = function* () {
+    try {
+      const wallet = yield select(S.getWallet)
+      const walletJS: typeof wrapperV4['wallet'] = wallet.toJS()
+      const hdWallets = walletJS.hd_wallets
+      const hdWallet = hdWallets[0]
+      const accounts = flatten(hdWallets.map((wallet) => wallet.accounts))
+      const derivations = flatten(accounts.map((account) => account.derivations))
+      const possibleDerivationTypes = DERIVATION_LIST.map(({ type }) => type)
+      const possibleDerivationPurposes = DERIVATION_LIST.map(({ purpose }) => purpose)
+
+      if (hdWallets.length > 1) {
+        // payload should only have 1 hd_wallet
+      }
+      if (!hdWallet.seed_hex) {
+        // hd_wallet should have seed_hex
+      }
+      if (hdWallet.seed_hex.length !== 32) {
+        // seed_hex possibly malformed
+      }
+      if (hdWallet.default_account_idx === undefined || hdWallet.default_account_idx < 0) {
+        // hd_wallet default_account_idx incorrect
+      }
+      if (typeof hdWallet.mnemonic_verified !== 'boolean') {
+        // hd_wallet mnemonic_verified should be a boolean
+      }
+      if (typeof hdWallet.passphrase !== 'string') {
+        // hd_wallet passphrase should be a string
+      }
+
+      accounts.forEach((account) => {
+        if (account.derivations.length !== DERIVATION_LIST.length) {
+          // log # of derivations
+          // account derivations are incorrect size
+        }
+        if (!possibleDerivationTypes.includes(account.default_derivation)) {
+          // account default_derivation is not included in DERIVATION_LIST types
+        }
+        if (typeof account.label !== 'string') {
+          // account label should a string
+        }
+        if (typeof account.archived !== 'boolean') {
+          // account archived field should be a boolean
+        }
+        if (Object.keys(account).length > 5) {
+          // account has too many keys, mismatch
+        }
+      })
+
+      derivations.forEach((derivation) => {
+        if (!derivation.cache.receiveAccount) {
+          // no derivation cache receiveAccount
+        }
+        if (!derivation.cache.changeAccount) {
+          // no derivations cache changeAccount
+        }
+        if (!possibleDerivationPurposes.includes(derivation.purpose)) {
+          // derivation purpose is not included in DERIVATION_LIST purposes
+        }
+        if (!possibleDerivationTypes.includes(derivation.type)) {
+          // derivation type is not included in DERIVATION_LIST types
+        }
+        if (Object.keys(derivation).length > 6) {
+          // derivation has too many keys, mismatch
+        }
+      })
+    } catch (e) {
+      // dont throw
+    }
+  }
+
   // client payload bugs
   // https://www.notion.so/blockchaincom/wallet-json-historic-bugs-63f97dc837e54cd19c09c2e44b9baf21
   const getAccountsWithIncompleteDerivations = function* () {
@@ -417,6 +493,7 @@ export default ({ api, networks }) => {
 
   return {
     checkAndUpdateWalletNames,
+    checkPayloadShape,
     createWalletSaga,
     fetchWalletSaga,
     fixAccountsWithMissingDefaultDerivation,
