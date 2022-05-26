@@ -19,11 +19,7 @@ const Copy = styled.div`
 `
 
 const LayoutArs: React.FC<Props> = (props) => {
-  const accountBankName = (props.account.agent as AgentType).bankName
-  const accountLabel = (props.account.agent as AgentType).label
-  const accountHolderDocument = (props.account.agent as AgentType).holderDocument
-  const accountAddress = (props.account.agent as AgentType).address
-  const { accountType } = props.account.agent as AgentType
+  const agent = props.account.agent as AgentType
 
   return (
     <div>
@@ -35,10 +31,10 @@ const LayoutArs: React.FC<Props> = (props) => {
               defaultMessage='Bank Name'
             />
           </Title>
-          <Value data-e2e='sbBankName'>{accountBankName}</Value>
+          <Value data-e2e='sbBankName'>{agent.bankName}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={accountBankName} />
+          <CopyClipboardButton textToCopy={agent.bankName} />
         </Copy>
       </RowCopy>
       <RowCopy>
@@ -46,10 +42,10 @@ const LayoutArs: React.FC<Props> = (props) => {
           <Title>
             <FormattedMessage id='modals.simplebuy.transferdetails.label' defaultMessage='Alias' />
           </Title>
-          <Value data-e2e='sbLabel'>{accountLabel}</Value>
+          <Value data-e2e='sbLabel'>{agent.label}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={accountLabel} />
+          <CopyClipboardButton textToCopy={agent.label} />
         </Copy>
       </RowCopy>
       <RowCopy>
@@ -71,23 +67,23 @@ const LayoutArs: React.FC<Props> = (props) => {
           <Title>
             <FormattedMessage id='modals.simplebuy.transferdetails.cuit' defaultMessage='CUIT' />
           </Title>
-          <Value data-e2e='sbCuit'>{accountHolderDocument}</Value>
+          <Value data-e2e='sbCuit'>{agent.holderDocument}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={accountHolderDocument} />
+          <CopyClipboardButton textToCopy={agent.holderDocument} />
         </Copy>
       </RowCopy>
       <ExpansionPanel>
-        {accountType === 'CBU' ? (
+        {agent.accountType === 'CBU' ? (
           <RowCopy>
             <div>
               <Title>
                 <FormattedMessage id='modals.simplebuy.transferdetails.cbu' defaultMessage='CBU' />
               </Title>
-              <Value data-e2e='sbCbu'>{accountAddress}</Value>
+              <Value data-e2e='sbCbu'>{agent.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton textToCopy={accountAddress} />
+              <CopyClipboardButton textToCopy={agent.address} />
             </Copy>
           </RowCopy>
         ) : (
@@ -96,10 +92,10 @@ const LayoutArs: React.FC<Props> = (props) => {
               <Title>
                 <FormattedMessage id='modals.simplebuy.transferdetails.cvu' defaultMessage='CVU' />
               </Title>
-              <Value data-e2e='sbCvu'>{accountAddress}</Value>
+              <Value data-e2e='sbCvu'>{agent.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton textToCopy={accountAddress} />
+              <CopyClipboardButton textToCopy={agent.address} />
             </Copy>
           </RowCopy>
         )}
