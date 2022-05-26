@@ -122,11 +122,11 @@ const TraitGridFilters: React.FC<Props> = ({
     }
   }, [isRefreshRotating])
 
-  const getTab = (tab: 'ITEMS' | 'EVENTS' | 'EXPLORE') => {
+  const getTab = (tab: 'ITEMS' | 'ACTIVITY' | 'EXPLORE') => {
     return tab === 'ITEMS' ? (
       <FormattedMessage id='copy.items' defaultMessage='Items' />
-    ) : tab === 'EVENTS' ? (
-      <FormattedMessage id='copy.events' defaultMessage='Events' />
+    ) : tab === 'ACTIVITY' ? (
+      <FormattedMessage id='copy.events' defaultMessage='Activity' />
     ) : (
       <FormattedMessage id='copy.explore' defaultMessage='Explore' />
     )
@@ -407,16 +407,16 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
-  activeTab?: 'ITEMS' | 'EVENTS' | 'EXPLORE'
+  activeTab?: 'ITEMS' | 'ACTIVITY' | 'EXPLORE'
   collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   numOfResults?: number
-  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'ACTIVITY'>>
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
-  tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
+  tabs: Array<'ITEMS' | 'ACTIVITY' | 'EXPLORE'>
 }
 
 const enhance = compose<any>(
