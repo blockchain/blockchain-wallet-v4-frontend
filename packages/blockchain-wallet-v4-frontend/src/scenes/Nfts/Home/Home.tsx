@@ -54,7 +54,6 @@ const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
   border: 1.18px solid ${colors.grey000};
   z-index: 2;
-  width: 266px;
   height: 50px;
   background: white;
   left: 3em;
@@ -231,11 +230,19 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={{
-                      borderRadius: '16px 16px 0px 0px',
-                      height: '300.35px',
-                      width: '300.35px'
-                    }}
+                    style={
+                      isMobile || isTablet
+                        ? {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '300.35px',
+                            width: '300.35px'
+                          }
+                        : {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '350px',
+                            width: '350px'
+                          }
+                    }
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
                   />
