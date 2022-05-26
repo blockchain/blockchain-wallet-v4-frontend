@@ -19,10 +19,7 @@ export const ExpansionPanel: ExpansionPanelComponent = ({ children }) => {
         small
         style={{ margin: '8px auto 0px' }}
         data-e2e={isToggled ? 'showLess' : 'showMore'}
-        // @ts-ignore
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
+        onClick={() => {
           handleToggle(!isToggled)
         }}
       >
