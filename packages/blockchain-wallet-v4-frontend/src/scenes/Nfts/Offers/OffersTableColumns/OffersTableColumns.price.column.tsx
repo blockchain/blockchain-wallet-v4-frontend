@@ -18,7 +18,7 @@ export const getPriceColumn = () => ({
             size='14px'
             color='grey900'
           >
-            {offer.base_price}
+            {offer.current_price}
           </CoinDisplay>
         </Flex>
       </CellText>

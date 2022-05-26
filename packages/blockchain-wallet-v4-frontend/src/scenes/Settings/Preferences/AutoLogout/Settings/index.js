@@ -53,7 +53,7 @@ class SettingContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
   autoLogoutTime: parseInt(formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')),
-  logoutTime: parseInt(selectors.core.wallet.getLogoutTime(state) / 60000)
+  logoutTime: parseInt(selectors.core.wallet.getAutoLogoutTime(state) / 60000)
 })
 
 const mapDispatchToProps = (dispatch) => ({

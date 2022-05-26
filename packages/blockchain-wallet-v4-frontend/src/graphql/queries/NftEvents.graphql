@@ -1,28 +1,26 @@
 query Events($filter: [EventFilter], $sort: EventSort, $limit:Int, $offset: Int) {
   events(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
-    event_type
     asset {
       name
       token_id
       image_url
-      contract {
-        address
-      }
+      contract_address
     }
-    total_price
     bid_amount
+    created_date
+    event_type
     from {
       address
     }
     to {
       address
     }
-    winner {
-      address
-    }
     seller {
       address
     }
-    created_date
+    total_price
+    winner {
+      address
+    }
   }
 }

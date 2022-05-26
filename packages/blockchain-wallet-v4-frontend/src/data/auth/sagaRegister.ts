@@ -15,6 +15,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
     yield takeLatest(actions.exchangeResetPassword.type, authSagas.exchangeResetPassword)
-    yield takeLatest(actions.continueLoginProcess, authSagas.continueLoginProcess)
+    yield takeLatest(actions.continueLoginProcess.type, authSagas.continueLoginProcess)
   }
 }

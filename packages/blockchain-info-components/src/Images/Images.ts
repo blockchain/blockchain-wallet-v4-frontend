@@ -67,6 +67,7 @@ import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
+import terminateCard from './img/debitCard/terminate-card.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -96,7 +97,17 @@ import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
-import noActivity from './img/nfts/no-activity.svg'
+import nftcollections from './img/nfts/collections.png'
+import cryptoad2456 from './img/nfts/cryptoadz-2456.png'
+import cryptoad2794 from './img/nfts/cryptoadz-2794.png'
+import cryptoad2903 from './img/nfts/cryptoadz-2903.png'
+import cryptoad4502 from './img/nfts/cryptoadz-4502.png'
+import cryptoadlarge from './img/nfts/cryptoadz-large.png'
+import cryptoadsmall from './img/nfts/cryptoadz-small.png'
+import nftImgPlaceholder from './img/nfts/nft-img-placeholder.svg'
+import nftNothingHere from './img/nfts/nft-nothing-here.svg'
+import nftnouns from './img/nfts/nouns.png'
+import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import productRedirectExchange from './img/product-redirect-exchange.png'
@@ -203,6 +214,12 @@ const Images = {
   'cloud-check': cloudCheck,
   'credit-card': creditCard,
   'credit-card-blue': creditCardBlue,
+  'cryptoad-2456': cryptoad2456,
+  'cryptoad-2794': cryptoad2794,
+  'cryptoad-2903': cryptoad2903,
+  'cryptoad-4502': cryptoad4502,
+  'cryptoad-large': cryptoadlarge,
+  'cryptoad-small': cryptoadsmall,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
@@ -232,7 +249,11 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   money,
   nft,
-  'no-activity': noActivity,
+  'nft-collections': nftcollections,
+  'nft-img-placeholder': nftImgPlaceholder,
+  'nft-nothing-here': nftNothingHere,
+  'nft-nouns': nftnouns,
+  'nft-paint-hyperlink': nftpainthyperlink,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-success': orderSuccess,
@@ -258,6 +279,7 @@ const Images = {
   'swap-blue': swapBlue,
   'swap-success': swapSuccess,
   'swap-white': swapWhite,
+  'terminate-card': terminateCard,
   'tier-gold': tierGold,
   'user-success': userSuccess,
   'verify-notice': verifyNotice,

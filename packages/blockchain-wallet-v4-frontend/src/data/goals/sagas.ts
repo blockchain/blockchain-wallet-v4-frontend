@@ -722,14 +722,13 @@ export default ({ api, coreSagas, networks }) => {
   const runMakeOfferNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
-      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+      actions.router.push(`/nfts/assets/${goal.data.contract_address}/${goal.data.token_id}`)
     )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
         step: NftOrderStepEnum.MAKE_OFFER,
-        token_id: goal.data.token_id,
-        walletUserIsAssetOwnerHack: false
+        token_id: goal.data.token_id
       })
     )
   }
@@ -737,15 +736,14 @@ export default ({ api, coreSagas, networks }) => {
   const runBuyNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
-      actions.router.push(`/nfts/asset/${goal.data.contract_address}/${goal.data.token_id}`)
+      actions.router.push(`/nfts/assets/${goal.data.contract_address}/${goal.data.token_id}`)
     )
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
         order: goal.data.order,
         step: NftOrderStepEnum.BUY,
-        token_id: goal.data.token_id,
-        walletUserIsAssetOwnerHack: false
+        token_id: goal.data.token_id
       })
     )
   }
@@ -927,11 +925,7 @@ export default ({ api, coreSagas, networks }) => {
       current: 0
     }) || { current: 0 }
 
-    const showKycUpgradeRequiredNotice = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
-    if (current < 2 && showKycUpgradeRequiredNotice) {
+    if (current < 2) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

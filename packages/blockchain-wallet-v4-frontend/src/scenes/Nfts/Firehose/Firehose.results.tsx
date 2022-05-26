@@ -21,7 +21,8 @@ const NftFirehoseResults: React.FC<Props> = ({
   page,
   setIsFetchingNextPage,
   setMaxItemsFetched,
-  setNextPageFetchError
+  setNextPageFetchError,
+  setNumOfPageItems
 }) => {
   const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> =
     formValues?.collection
@@ -49,14 +50,25 @@ const NftFirehoseResults: React.FC<Props> = ({
     })
   }
 
+  if (formValues?.verifiedOnly) {
+    // need BE support
+  }
+
+  const sort = formValues?.sortBy
+    ? {
+        by: formValues.sortBy.split('-')[0] as AssetSortFields,
+        direction: formValues.sortBy.split('-')[1] as SortDirection
+      }
+    : { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
+
   const [result] = useAssetsQuery({
     requestPolicy: 'network-only',
     variables: {
       filter,
-      forSale: formValues?.forSale,
+      forSale: Boolean(formValues?.forSale),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
-      sort: { by: AssetSortFields.DateIngested, direction: SortDirection.Desc }
+      sort
     }
   })
 
@@ -70,6 +82,7 @@ const NftFirehoseResults: React.FC<Props> = ({
 
   useEffect(() => {
     if (result.data?.assets.length !== undefined) {
+      setNumOfPageItems(result.data.assets.length)
       setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
     }
   }, [result.data?.assets?.length, setMaxItemsFetched])
@@ -89,6 +102,7 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
+  setNumOfPageItems: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 export default NftFirehoseResults

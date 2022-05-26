@@ -4,92 +4,109 @@ import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
+import FlyoutHeader from 'components/Flyout/Header'
+import { useRemote } from 'hooks'
 
-import { NftOrderStepEnum } from '../../../../data/components/nfts/types'
+import { StickyCTA } from '../../components'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 
-const Title = styled.div`
+const Wrapper = styled(Text)`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding-top: 15em;
-  font-family: Inter, sans-serif;
   font-style: normal;
-  text-align: center;
-`
-const Subtitle = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-family: Inter, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  text-align: center;
-`
-
-const ButtonWrapper = styled.div`
-  display: block;
-  margin-left: 4em;
-  position: absolute;
-  bottom: 2em;
+  height: 100%;
+  bottom: 0;
 `
 
 const NftOrderNotVerified: React.FC<Props> = (props) => {
-  const { nftActions } = props
+  const { close, nftActions, openSeaAssetR, orderFlow } = props
+  const openSeaAsset = useRemote(() => openSeaAssetR)
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
-  const Continue = () => {
-    nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
-  }
+  const val = openSeaAsset.data
 
-  const Cancel = () => {
-    props.close()
-  }
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={close} />
+
   return (
-    <div>
-      <>
-        <Title>
-          <Text size='20px' color={colors.grey900} weight={600}>
+    <>
+      <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()} />
+      <Wrapper>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            justifyContent: 'center'
+          }}
+        >
+          {val.collection.image_url ? (
+            <Flex justifyContent='center'>
+              <img
+                style={{
+                  borderRadius: '8px',
+                  height: '64px',
+                  width: 'auto'
+                }}
+                alt='nft-asset'
+                src={val.collection.image_url}
+              />
+            </Flex>
+          ) : null}
+          <Text
+            size='20px'
+            color={colors.black}
+            weight={600}
+            style={{ marginTop: '1em', textAlign: 'center' }}
+          >
             This Collection Is Not Yet Verified
           </Text>
-        </Title>
-        <Subtitle>
-          <Text size='14px' color='black' weight={600} style={{ padding: '1em' }}>
+          <Text
+            size='14px'
+            color={colors.grey600}
+            weight={500}
+            style={{ padding: '1em', textAlign: 'center' }}
+          >
             Blockchain.com can not verify the validity or safety of this collection and recommend
-            you proceed with caution
+            you proceed with caution.
           </Text>
-        </Subtitle>
-        <ButtonWrapper>
-          <Button
-            nature='primary'
-            height='56px'
-            onClick={Continue}
-            size='large'
-            width='20em'
-            data-e2e='submitProfileDetails'
-          >
-            <Text color='white' size='16px' weight={500}>
+        </div>
+      </Wrapper>
+      <StickyCTA>
+        <div style={{ width: '100%' }}>
+          <Flex gap={8} flexDirection='column'>
+            <Button
+              nature='primary'
+              fullwidth
+              onClick={() => {
+                if (orderFlow.prevStep) {
+                  nftActions.setOrderFlowStep({ step: orderFlow.prevStep })
+                }
+              }}
+              jumbo
+              data-e2e='submitProfileDetails'
+            >
               <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-            </Text>
-          </Button>
-          <Button
-            nature='empty-blue'
-            height='56px'
-            size='large'
-            width='20em'
-            margin='0.5em 0em'
-            onClick={Cancel}
-            data-e2e='submitProfileDetails'
-          >
-            <Text color={colors.blue600} size='16px' weight={500}>
-              <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
-            </Text>
-          </Button>
-        </ButtonWrapper>
-      </>
-    </div>
+            </Button>
+            <Button
+              nature='empty-blue'
+              fullwidth
+              jumbo
+              onClick={() => props.close()}
+              data-e2e='submitProfileDetails'
+            >
+              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+            </Button>
+          </Flex>
+        </div>
+      </StickyCTA>
+    </>
   )
 }
 

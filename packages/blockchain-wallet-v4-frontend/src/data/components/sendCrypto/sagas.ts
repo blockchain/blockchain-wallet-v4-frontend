@@ -22,10 +22,15 @@ import { SendCryptoStepType } from './types'
 
 export default ({ api }: { api: APIType }) => {
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
+    let coin
+    let fee
+    let accountType
     try {
       yield put(A.buildTxLoading())
-      const { account, baseCryptoAmt, destination, fee } = action.payload
-      const { coin } = account
+      const { account, baseCryptoAmt, destination } = action.payload
+      coin = account.coin
+      fee = action.payload.fee
+      accountType = account.type
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
@@ -90,6 +95,18 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.buildTxFailure(error))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SEND_FAILED,
+          properties: {
+            currency: coin,
+            fee_rate: fee,
+            from_account_type: accountType,
+            originalTimestamp: new Date().toISOString(),
+            to_account_type: AccountType.USERKEY
+          }
+        })
+      )
     }
   }
 
@@ -192,12 +209,17 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const submitTransaction = function* () {
+    let coin
+    let prebuildTxFee
+    let accountType
+
     try {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
       const { amount, fix, selectedAccount, to } = formValues
-      const { coin } = selectedAccount
+      coin = selectedAccount.coin
+      accountType = selectedAccount.type
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
       const fee = feesR.getOrElse(undefined)
       const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
@@ -211,6 +233,7 @@ export default ({ api }: { api: APIType }) => {
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
         const prebuildTx = S.getPrebuildTx(yield select()).getOrFail('No prebuildTx')
+        prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
         const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(
           api.pushTx,
@@ -279,6 +302,19 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.submitTransactionFailure(error))
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SEND_FAILED,
+          properties: {
+            currency: coin,
+            fee_rate: prebuildTxFee,
+            from_account_type: accountType,
+            originalTimestamp: new Date().toISOString(),
+            to_account_type: AccountType.USERKEY
+          }
+        })
+      )
     }
   }
 

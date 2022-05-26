@@ -47,9 +47,25 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
+  const getDCEligibleAccounts = (cardId) =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/cards/${cardId}/eligible-accounts`,
+      url: nabuUrl
+    })
+
+  const getDCCurrentAccount = (cardId) =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/cards/${cardId}/account`,
+      url: nabuUrl
+    })
+
   return {
     createDCOrder,
     getDCCreated,
+    getDCCurrentAccount,
+    getDCEligibleAccounts,
     getDCProducts,
     getDCToken,
     handleDCLock,

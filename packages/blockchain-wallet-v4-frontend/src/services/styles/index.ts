@@ -67,12 +67,12 @@ export const isMobile = () => window.outerWidth <= 479
 
 export const sizes = {
   desktop: 2560,
-  laptop: 1023,
-  laptopL: 1439,
-  laptopM: 1279,
-  mobile: 479,
-  tablet: 767,
-  tabletL: 991
+  laptop: 1024,
+  laptopL: 1440,
+  laptopM: 1280,
+  mobile: 480,
+  tablet: 768,
+  tabletL: 992
 }
 
 export const heights = {

@@ -11,8 +11,7 @@ import {
   BSPaymentTypes,
   CoinType,
   FiatType,
-  MobilePaymentType,
-  SwapOrderType
+  MobilePaymentType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
@@ -299,7 +298,6 @@ const mapStateToProps = (state: RootState) => ({
   isFirstLogin: selectors.signup.getFirstLogin(state),
   method: selectors.components.buySell.getBSPaymentMethod(state),
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
-  order: selectors.components.buySell.getBSOrder(state),
   orderType: selectors.components.buySell.getOrderType(state),
   pair: selectors.components.buySell.getBSPair(state),
   step: selectors.components.buySell.getStep(state)
@@ -318,7 +316,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalName.SIMPLE_BUY_MODAL, { transition: duration }),
+  ModalEnhancer(ModalName.SIMPLE_BUY_MODAL, { fixed: true, transition: duration }),
   connector
 )
 
@@ -341,6 +339,11 @@ type LinkStatePropsType =
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
+        | 'SELL_ORDER_SUMMARY'
+        | 'CHECKOUT_CONFIRM'
+        | 'ORDER_SUMMARY'
+        | 'OPEN_BANKING_CONNECT'
+        | 'AUTHORIZE_PAYMENT'
     }
   | {
       orderType: BSOrderActionType
@@ -355,11 +358,6 @@ type LinkStatePropsType =
       step: 'BANK_WIRE_DETAILS'
     }
   | {
-      order: BSOrderType
-      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'OPEN_BANKING_CONNECT' | 'AUTHORIZE_PAYMENT'
-    }
-  | { order: SwapOrderType; step: 'SELL_ORDER_SUMMARY' }
-  | {
       cryptoCurrency: CoinType
       fastLink: FastLinkType
       pair: BSPairType
@@ -367,7 +365,6 @@ type LinkStatePropsType =
     }
   | {
       bankStatus: BankStatusType
-      order: BSOrderType
       step: 'LINK_BANK_STATUS'
     }
   | {
@@ -392,13 +389,11 @@ type LinkStatePropsType =
       step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
-      order: BSOrderType
       orderType: BSOrderActionType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
     }
   | {
-      order: BSOrderType
       orderType: BSOrderActionType
       pair: BSPairType
       step: 'LINKED_PAYMENT_ACCOUNTS'

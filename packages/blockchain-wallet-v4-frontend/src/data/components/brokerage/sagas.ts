@@ -298,13 +298,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    const showSilverRevamp = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
-
     // check is user eligible to do sell/buy
     // we skip this for gold users
-    if (!isUserTier2 && showSilverRevamp) {
+    if (!isUserTier2) {
       yield put(actions.custodial.fetchProductEligibilityForUser())
       yield take([
         custodialActions.fetchProductEligibilityForUserSuccess.type,

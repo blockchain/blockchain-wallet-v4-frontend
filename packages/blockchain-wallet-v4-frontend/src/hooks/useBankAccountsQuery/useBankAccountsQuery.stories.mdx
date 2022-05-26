@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title='Hooks/useBankAccountsQuery/Intro' />
+
+# useBankAccountsQuery hook
+
+This hook provides the user bank accounts.
+
+## Example
+
+```tsx
+import { useBankAccountsQuery } from "hooks"
+
+const App = () => {
+    const {
+        isLoading,
+        data,
+    } = useBankAccountsQuery()
+
+    if (isLoading) return <Spinner />
+
+    return (
+        <>
+            {data?.map(bankAccount) => ...}
+        </>
+    )
+}
+```

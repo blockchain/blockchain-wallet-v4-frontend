@@ -122,7 +122,7 @@ class Flyout extends React.Component<Props> {
             initial={{ x: width }}
             transition={{
               bounce: 0,
-              duration: 1,
+              duration: duration / 1000,
               type: 'spring'
             }}
           >

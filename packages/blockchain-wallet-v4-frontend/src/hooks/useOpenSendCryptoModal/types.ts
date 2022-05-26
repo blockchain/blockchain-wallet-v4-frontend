@@ -1,8 +1,11 @@
+import { CoinType } from '@core/types'
 import { ModalOriginType } from 'data/types'
 
-export type OpenSendCryptoModalHookOpenCallback = (props: {
-  coin: string
+type OpenSendCryptoModalHookOpenCallback = (props: {
+  coin: CoinType
   origin: ModalOriginType
 }) => void
 
-export type OpenSendCryptoModalHook = () => [OpenSendCryptoModalHookOpenCallback]
+type OpenSendCryptoModalHook = () => [OpenSendCryptoModalHookOpenCallback]
+
+export type { OpenSendCryptoModalHook, OpenSendCryptoModalHookOpenCallback }

@@ -27,15 +27,11 @@ const NextSteps = styled.div`
   margin: 42px 0;
 `
 
-const CloseButton = styled(Button)`
-  font-size: 16px;
-`
-
 class Submitted extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     const { campaign, identityVerificationActions } = this.props
     if (campaign) {
-      identityVerificationActions.claimCampaignClicked(campaign)
+      identityVerificationActions.claimCampaignClicked({ campaign })
     }
   }
 

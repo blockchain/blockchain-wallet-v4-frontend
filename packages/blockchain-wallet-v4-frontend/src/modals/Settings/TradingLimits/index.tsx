@@ -83,7 +83,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalName.TRADING_LIMITS_MODAL, { transition: duration }),
+  ModalEnhancer(ModalName.TRADING_LIMITS_MODAL, { fixed: true, transition: duration }),
   connector
 )
 

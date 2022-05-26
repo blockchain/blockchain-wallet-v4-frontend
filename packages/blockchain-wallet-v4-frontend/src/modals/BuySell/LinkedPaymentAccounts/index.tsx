@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { BSOrderActionType, BSOrderType, BSPairType, FiatType, RemoteDataType } from '@core/types'
+import { BSOrderActionType, BSPairType, FiatType, RemoteDataType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -60,7 +60,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  order: BSOrderType
   orderType: BSOrderActionType
   pair: BSPairType
 }

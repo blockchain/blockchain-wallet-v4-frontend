@@ -32,11 +32,10 @@ class InfoAndResidential extends PureComponent<Props> {
       identityVerificationActions,
       onCompletionCallback
     } = this.props
-    identityVerificationActions.saveInfoAndResidentialData(
+    identityVerificationActions.saveInfoAndResidentialData({
       checkSddEligibility,
-      onCompletionCallback,
-      false
-    )
+      onCompletionCallback
+    })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_PERSONAL_INFORMATION_ENTERED,
       properties: {
@@ -54,6 +53,12 @@ class InfoAndResidential extends PureComponent<Props> {
     this.props.formActions.clearFields(INFO_AND_RESIDENTIAL_FORM, false, false, 'state')
   }
 
+  setDefaultState = (state: string) => {
+    // states have prefix US- we have to remove it for preselect
+    const realState = state.replace('US-', '')
+    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'state', realState)
+  }
+
   render() {
     return this.props.data.cata({
       Failure: () => <DataError onClick={this.fetchData} />,
@@ -66,6 +71,7 @@ class InfoAndResidential extends PureComponent<Props> {
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}
+          updateDefaultState={this.setDefaultState}
           initialValues={{
             ...val.userData
           }}
@@ -80,7 +86,8 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
     | InfoAndResidentialFormValuesType
-    | undefined
+    | undefined,
+  usState: selectors.core.settings.getUsState(state).getOrElse(null)
 })
 
 const mapDispatchToProps = (dispatch) => ({

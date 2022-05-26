@@ -70,7 +70,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
   render() {
     const { accounts, userData, values } = this.props
-    const showSilverRevamp = this.props.silverRevamp && this.props.products?.swap?.maxOrdersLeft > 0
+    const showSilverRevamp = this.props.products?.swap?.maxOrdersLeft > 0
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
         <FlyoutWrapper>

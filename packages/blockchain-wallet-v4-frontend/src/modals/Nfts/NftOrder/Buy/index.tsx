@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { Field, reduxForm } from 'redux-form'
@@ -20,10 +19,13 @@ import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
 
 import { RightAlign, StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import BuyCta from './cta'
@@ -64,7 +66,7 @@ const Buy: React.FC<Props> = (props) => {
       return x.side === 1
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a?.base_price).isLessThan(b?.base_price) ? -1 : 1
+    new BigNumber(a?.current_price).isLessThan(b?.current_price) ? -1 : 1
   )[0]
 
   const ethBalance = new BigNumber(selfCustodyBalance)
@@ -73,193 +75,118 @@ const Buy: React.FC<Props> = (props) => {
   const ethStandard = convertCoinToCoin({
     baseToStandard: true,
     coin,
-    value: lowest_order?.base_price
+    value: lowest_order?.current_price
   })
   formValues.amount = ethStandard
-  const amtToBuy = new BigNumber(lowest_order?.base_price).minus(ethBalance)
+  const amtToBuy = new BigNumber(lowest_order?.current_price).minus(ethBalance)
 
   return (
     <>
       {openSeaAssetR.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => null,
-        Success: (val) => (
-          <>
-            <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-              Buy
-            </FlyoutHeader>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%'
-              }}
-            >
-              <div style={{ height: '100%' }}>
-                <Row>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex' }}>
-                      <img
-                        style={{
-                          borderRadius: '8px',
-                          height: '64px',
-                          marginRight: '12px',
-                          width: 'auto'
-                        }}
-                        alt='nft-asset'
-                        src={val.image_url.replace(/=s\d*/, '')}
-                      />
-                      <div>
-                        <Text size='16px' color='grey900' weight={600}>
-                          {val.name}
-                        </Text>
-                        {val.collection.safelist_request_status === 'verified' ? (
-                          <Text
-                            size='14px'
-                            weight={600}
-                            color='green600'
-                            style={{
-                              background: colors.green100,
-                              borderRadius: '8px',
-                              padding: '5px 8px',
-                              textAlign: 'center',
-                              width: 'fit-content'
-                            }}
-                          >
-                            Verified
-                          </Text>
-                        ) : (
-                          <Text
-                            size='14px'
-                            weight={600}
-                            color='orange600'
-                            style={{
-                              background: colors.orange100,
-                              borderRadius: '8px',
-                              padding: '5px 8px',
-                              textAlign: 'center',
-                              width: 'fit-content'
-                            }}
-                          >
-                            Not Verified
-                          </Text>
-                        )}
-                      </div>
-                    </div>
-                    {lowest_order?.base_price && (
-                      <Text
-                        style={{
-                          justifyContent: 'right'
-                        }}
-                      >
-                        <CoinDisplay
-                          size='14px'
-                          color='black'
-                          weight={600}
-                          coin='ETH'
-                          style={{ justifyContent: 'right' }}
-                        >
-                          {lowest_order?.base_price}
-                        </CoinDisplay>
-                        <FiatDisplay
-                          size='14px'
-                          color={colors.grey600}
-                          weight={600}
-                          coin='ETH'
-                          style={{ justifyContent: 'right' }}
-                        >
-                          {lowest_order?.base_price}
-                        </FiatDisplay>
-                      </Text>
-                    )}
-                  </div>
-                </Row>
-                <Row>
-                  <Title>
-                    <b>
-                      <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
-                    </b>
-                  </Title>
-                  <Value>
-                    <Field
-                      name='coin'
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      onChange={(coin: any) => {
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        const address = window.coins[coin].coinfig.type.erc20Address!
+        Success: (val) => {
+          if (
+            val.collection.safelist_request_status !== 'verified' &&
+            orderFlow.prevStep !== NftOrderStepEnum.BUY
+          ) {
+            nftActions.setOrderFlowPrevStep({ prevStep: NftOrderStepEnum.BUY })
+            nftActions.setOrderFlowStep({ step: NftOrderStepEnum.NOT_VERIFIED })
+          }
+          return (
+            <>
+              <FlyoutHeader sticky data-e2e='buyHeader' mode='back' onClick={() => close()}>
+                Buy
+              </FlyoutHeader>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%'
+                }}
+              >
+                <div style={{ height: '100%' }}>
+                  <NftAssetHeaderRow asset={val} />
+                  <Row>
+                    <Title>
+                      <b>
+                        <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
+                      </b>
+                    </Title>
+                    <Value>
+                      <Field
+                        name='coin'
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        onChange={(coin: any) => {
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          const address = window.coins[coin].coinfig.type.erc20Address!
 
-                        nftActions.fetchFees({
-                          operation: GasCalculationOperations.Buy,
-                          order: orderFromJSON(orderToMatch),
-                          paymentTokenAddress: address
-                        })
-                      }}
-                      component={SelectBox}
-                      elements={[
-                        {
-                          group: '',
-                          items: val.collection.payment_tokens
-                            .map((token) => token.symbol)
-                            .filter((symbol) => !!window.coins[symbol])
-                            .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
-                            .map((coin) => ({
-                              text: window.coins[coin].coinfig.symbol,
-                              value: window.coins[coin].coinfig.symbol
-                            }))
-                        }
-                      ]}
-                    />
-                  </Value>
-                </Row>
-                <Row>
-                  <BuyFees {...props} />
-                </Row>
-              </div>
-            </div>
-            <StickyCTA>
-              {orderToMatch ? (
-                <div style={{ marginBottom: '8px' }}>
-                  <Flex alignItems='center' justifyContent='space-between'>
-                    <Text color='black' weight={600} size='18px'>
-                      Total
-                    </Text>
-                    <RightAlign>
-                      <CoinDisplay
-                        size='14px'
-                        color='black'
-                        weight={600}
-                        coin={orderToMatch.payment_token_contract?.symbol}
-                      >
-                        {new BigNumber(buyFees.totalFees)
-                          .multipliedBy(buyFees.gasPrice)
-                          .plus(orderToMatch.base_price)
-                          .toString()}
-                      </CoinDisplay>
-                      <FiatDisplay
-                        size='14px'
-                        color='grey600'
-                        weight={600}
-                        coin={orderToMatch.payment_token_contract?.symbol}
-                      >
-                        {new BigNumber(buyFees.totalFees)
-                          .multipliedBy(buyFees.gasPrice)
-                          .plus(orderToMatch.base_price)
-                          .toString()}
-                      </FiatDisplay>
-                    </RightAlign>
-                  </Flex>
+                          nftActions.fetchFees({
+                            operation: GasCalculationOperations.Buy,
+                            order: orderFromJSON(orderToMatch),
+                            paymentTokenAddress: address
+                          })
+                        }}
+                        component={SelectBox}
+                        elements={[
+                          {
+                            group: '',
+                            items: val.collection.payment_tokens
+                              .map((token) => token.symbol)
+                              .filter((symbol) => !!window.coins[symbol])
+                              .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
+                              .map((coin) => ({
+                                text: window.coins[coin].coinfig.symbol,
+                                value: window.coins[coin].coinfig.symbol
+                              }))
+                          }
+                        ]}
+                      />
+                    </Value>
+                  </Row>
+                  {orderToMatch ? (
+                    <Row>
+                      <Flex alignItems='center' justifyContent='space-between'>
+                        <Text color='black' weight={600} size='20px'>
+                          <FormattedMessage id='copy.total' defaultMessage='Total' />
+                        </Text>
+                        <Flex flexDirection='column' alignItems='flex-end' gap={4}>
+                          <CoinDisplay
+                            size='14px'
+                            color='black'
+                            weight={600}
+                            coin={orderToMatch?.payment_token_contract?.symbol}
+                          >
+                            {orderToMatch?.current_price}
+                          </CoinDisplay>
+                          <FiatDisplay
+                            size='12px'
+                            color='grey600'
+                            weight={600}
+                            coin={orderToMatch?.payment_token_contract?.symbol}
+                          >
+                            {orderToMatch?.current_price}
+                          </FiatDisplay>
+                        </Flex>
+                      </Flex>
+                    </Row>
+                  ) : null}
                 </div>
-              ) : null}
-              <BuyCta
-                {...props}
-                amount={cryptoAmt}
-                amtToBuy={amtToBuy}
-                maxBuyPossible={maxBuyPossible}
-              />
-            </StickyCTA>
-          </>
-        )
+              </div>
+              <StickyCTA>
+                <BuyFees {...props} />
+                <br />
+                <BuyCta
+                  {...props}
+                  amount={cryptoAmt}
+                  amtToBuy={amtToBuy}
+                  maxBuyPossible={maxBuyPossible}
+                />
+              </StickyCTA>
+            </>
+          )
+        }
       })}
     </>
   )
@@ -274,7 +201,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string
-    expirationDays: string
+    expirationMinutes: string
     fix: string
   },
   rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),

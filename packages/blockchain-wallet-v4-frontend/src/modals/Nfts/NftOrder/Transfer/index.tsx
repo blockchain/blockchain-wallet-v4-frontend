@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
@@ -15,19 +14,21 @@ import { selectors } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
 import { StickyCTA } from '../../components'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
-import TransferFees from '../ShowAsset/Transfer/fees'
+import TransferFees from './fees'
 
 const Transfer: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, openSeaAssetR } = props
+  const { close, formValues, isInvited, nftActions, openSeaAssetR } = props
 
   const disabled = formValues ? !formValues.to || props.orderFlow.isSubmitting : true
 
   return (
     <>
       {openSeaAssetR.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader />,
         NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
@@ -35,58 +36,7 @@ const Transfer: React.FC<Props> = (props) => {
             <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
               Transfer Item
             </FlyoutHeader>
-            <Row>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex' }}>
-                  <img
-                    style={{
-                      borderRadius: '8px',
-                      height: '64px',
-                      marginRight: '12px',
-                      width: 'auto'
-                    }}
-                    alt='nft-asset'
-                    src={val.image_url.replace(/=s\d*/, '')}
-                  />
-                  <div>
-                    <Text size='16px' color='grey900' weight={600}>
-                      {val?.name}
-                    </Text>
-                    {val.collection.safelist_request_status === 'verified' ? (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='green600'
-                        style={{
-                          background: colors.green100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Verified
-                      </Text>
-                    ) : (
-                      <Text
-                        size='14px'
-                        weight={600}
-                        color='orange600'
-                        style={{
-                          background: colors.orange100,
-                          borderRadius: '8px',
-                          padding: '5px 8px',
-                          textAlign: 'center',
-                          width: 'fit-content'
-                        }}
-                      >
-                        Not Verified
-                      </Text>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Row>
+            <NftAssetHeaderRow asset={val} />
             <div
               style={{
                 display: 'flex',
@@ -122,51 +72,60 @@ const Transfer: React.FC<Props> = (props) => {
             </div>
             <StickyCTA>
               <TransferFees {...props} asset={val} />
-              {props.orderFlow.fees.cata({
-                Failure: (e) => (
-                  <>
-                    <Text
-                      size='14px'
-                      weight={600}
-                      style={{ marginBottom: '8px', maxHeight: '200px' }}
-                    >
-                      {e}
-                    </Text>
-                    <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
+              <br />
+              {isInvited ? (
+                props.orderFlow.fees.cata({
+                  Failure: (e) => (
+                    <>
+                      <Text
+                        size='14px'
+                        weight={600}
+                        style={{ marginBottom: '8px', maxHeight: '200px' }}
+                      >
+                        {e}
+                      </Text>
+                      <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
+                        <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                      </Button>
+                    </>
+                  ),
+                  Loading: () => (
+                    <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
                       <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
                     </Button>
-                  </>
-                ),
-                Loading: () => (
-                  <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
-                    <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                  ),
+                  NotAsked: () => null,
+                  Success: (fees) => (
+                    <Button
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      data-e2e='transferNft'
+                      disabled={disabled}
+                      type='submit'
+                      onClick={() =>
+                        nftActions.createTransfer({
+                          asset: val,
+                          gasData: fees,
+                          to: formValues.to
+                        })
+                      }
+                    >
+                      {props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                      )}
+                    </Button>
+                  )
+                })
+              ) : (
+                <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+                  <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+                    <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
                   </Button>
-                ),
-                NotAsked: () => null,
-                Success: (fees) => (
-                  <Button
-                    jumbo
-                    nature='primary'
-                    fullwidth
-                    data-e2e='transferNft'
-                    disabled={disabled}
-                    type='submit'
-                    onClick={() =>
-                      nftActions.createTransfer({
-                        asset: val,
-                        gasData: fees,
-                        to: formValues.to
-                      })
-                    }
-                  >
-                    {props.orderFlow.isSubmitting ? (
-                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                    ) : (
-                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
-                    )}
-                  </Button>
-                )
-              })}
+                </Link>
+              )}
             </StickyCTA>
           </>
         )

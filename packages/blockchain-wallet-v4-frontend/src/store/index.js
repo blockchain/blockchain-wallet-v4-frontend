@@ -18,7 +18,6 @@ import { isBrowserSupported } from 'services/browser'
 
 import {
   analyticsMiddleware,
-  autoDisconnection,
   streamingXlm,
   webSocketCoins,
   webSocketRates
@@ -126,8 +125,7 @@ const configuredStore = async function () {
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath: 'wallet.payload' }),
-      analyticsMiddleware(),
-      autoDisconnection()
+      analyticsMiddleware()
     ]),
     reducer: connectRouter(history)(
       persistCombineReducers(

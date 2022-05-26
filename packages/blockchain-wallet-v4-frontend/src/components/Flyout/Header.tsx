@@ -16,6 +16,7 @@ const Header = styled.div<{ sticky: boolean }>`
   ${(p) =>
     p.sticky &&
     css`
+      background: ${(props) => props.theme.white};
       position: sticky;
       top: 0;
       z-index: 99;

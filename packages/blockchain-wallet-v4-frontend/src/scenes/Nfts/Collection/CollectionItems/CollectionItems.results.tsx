@@ -23,6 +23,7 @@ const CollectionItemsResults: React.FC<Props> = ({
   setIsFetchingNextPage,
   setMaxItemsFetched,
   setNextPageFetchError,
+  setNumOfPageItems,
   setNumOfResults,
   slug
 }) => {
@@ -71,7 +72,7 @@ const CollectionItemsResults: React.FC<Props> = ({
     requestPolicy: 'network-only',
     variables: {
       filter,
-      forSale: !!formValues?.forSale,
+      forSale: Boolean(formValues?.forSale),
       limit: NFT_ORDER_PAGE_LIMIT,
       offset: page * NFT_ORDER_PAGE_LIMIT,
       sort,
@@ -85,7 +86,6 @@ const CollectionItemsResults: React.FC<Props> = ({
 
   useEffect(() => {
     setIsFetchingNextPage(result.fetching)
-
     if (!result.fetching && result.data?.assets[0]) {
       setNumOfResults(result.data.assets[0].results || undefined)
     }
@@ -93,9 +93,10 @@ const CollectionItemsResults: React.FC<Props> = ({
 
   useEffect(() => {
     if (result.data?.assets.length !== undefined) {
+      setNumOfPageItems(result.data.assets.length)
       setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
     }
-  }, [result.data?.assets?.length, setMaxItemsFetched])
+  }, [result.data?.assets?.length, setMaxItemsFetched, setNumOfPageItems])
 
   return (
     <>
@@ -112,6 +113,7 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
+  setNumOfPageItems: React.Dispatch<React.SetStateAction<number | undefined>>
   setNumOfResults: React.Dispatch<React.SetStateAction<number | undefined>>
   slug: string
 }

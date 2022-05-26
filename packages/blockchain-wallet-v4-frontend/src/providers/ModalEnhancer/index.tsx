@@ -16,7 +16,9 @@ const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
 })
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  buySellOrder: selectors.components.buySell.getBSOrder(state),
+  buySellOrder: selectors.components.buySell
+    .getBSOrder(state)
+    .getOrElse(null as unknown as BSOrderType),
   buySellStep: selectors.components.buySell.getStep(state),
   modals: selectors.modals.getModals(state)
 })
@@ -33,7 +35,7 @@ type LinkDispatchPropsType = {
   update: () => void
 }
 type LinkStatePropsType = {
-  buySellOrder: BSOrderType | undefined
+  buySellOrder: BSOrderType | null
   buySellStep: keyof typeof BuySellStepType
   modals: Array<ModalType>
 }
@@ -112,33 +114,45 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
 
           return filtered.length ? (
             <div>
-              {filtered.map((modal, i) => (
-                // eslint-disable-next-line
-                <div
-                  key={`${type}:${i}`} // eslint-disable-line
-                  onKeyDown={this.onKeyPressed}
-                  onMouseDown={this.handleClick}
-                  ref={setRef}
-                  tabIndex={0} // eslint-disable-line
-                  style={
-                    options.fixed
-                      ? { bottom: 0, left: 0, position: 'fixed', right: 0, top: 0, zIndex: 100 }
-                      : {}
-                  }
-                >
-                  <Component
-                    // @ts-ignore
-                    ref={this.node}
-                    position={modals.indexOf(modal) + 1}
-                    total={modals.length}
-                    {...this.state}
-                    {...modal.options}
-                    {...modal.props}
-                    {...rest}
-                    close={this.handleClose}
-                  />
-                </div>
-              ))}
+              {filtered.map((modal, i) => {
+                const position = modals.indexOf(modal) + 1
+
+                return (
+                  // eslint-disable-next-line
+                  <div
+                    role='dialog'
+                    key={modal.type}
+                    onKeyDown={this.onKeyPressed}
+                    onMouseDown={this.handleClick}
+                    ref={setRef}
+                    tabIndex={0} // eslint-disable-line
+                    style={
+                      options.fixed
+                        ? {
+                            bottom: 0,
+                            left: 0,
+                            position: 'fixed',
+                            right: 0,
+                            top: 0,
+                            zIndex: 100 + position
+                          }
+                        : {}
+                    }
+                  >
+                    <Component
+                      // @ts-ignore
+                      ref={this.node}
+                      position={position}
+                      total={modals.length}
+                      {...this.state}
+                      {...modal.options}
+                      {...modal.props}
+                      {...rest}
+                      close={this.handleClose}
+                    />
+                  </div>
+                )
+              })}
             </div>
           ) : null
         }

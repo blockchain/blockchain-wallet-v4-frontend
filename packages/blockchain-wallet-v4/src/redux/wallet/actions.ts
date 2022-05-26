@@ -51,6 +51,10 @@ export const setDefaultAccountIdx = (index) => ({
   payload: { index },
   type: T.SET_DEFAULT_ACCOUNT
 })
+export const setDefaultDerivation = (accountIdx, derivationType) => ({
+  payload: { accountIdx, derivationType },
+  type: T.SET_DEFAULT_DERIVATION
+})
 export const setTransactionNote = (txHash, txNote) => ({
   payload: { txHash, txNote },
   type: T.SET_TRANSACTION_NOTE

@@ -1,6 +1,6 @@
 // NFTs Events
 export enum Events {
-  NFT_ACCEPTED_ACCOUNTS = 'NFT Accepted Accounts',
+  NFT_ACCEPT_OFFER_CLICKED = 'NFT Accept Offer Clicked',
   NFT_ACCEPT_OFFER_SUCCESS_FAIL = 'NFT Accept Offer Success/Fail',
   NFT_ACTIVITY_CANCEL_CLICKED = 'NFT Activity Cancel Clicked',
   NFT_ACTIVITY_CHART_ENGAGED = 'NFT Activity Chart Engaged',
@@ -8,9 +8,10 @@ export enum Events {
   NFT_ATTRIBUTES_CLICKED = 'NFT Attributes Clicked',
   NFT_BUY_NOW_CLICKED = 'NFT Buy Now Clicked',
   NFT_BUY_SUCCESS_FAIL = 'NFT Buy Success/Fail',
+  NFT_CANCEL_LISTING_CLICKED = 'NFT Cancel Listing Clicked',
   NFT_CANCEL_LISTING_SUCCESS_FAIL = 'NFT Cancel Listing Success/Fail',
+  NFT_CANCEL_OFFER_CLICKED = 'NFT Cancel Offer Clicked',
   NFT_CANCEL_OFFER_SUCCESS_FAIL = 'NFT Cancel Offer Success/Fail',
-  NFT_CLICKED = 'NFT Clicked',
   NFT_CLOSE_AND_VIEW_ITEM_CLICKED = 'NFT Close And View Item Clicked',
   NFT_CONTRACT_ADDRESS_CLICKED = 'NFT Contract Address Clicked',
   NFT_ENTERED_AMOUNT = 'NFT Entered Amount',
@@ -26,10 +27,11 @@ export enum Events {
   NFT_LOAD_MORE_CLICKED = 'NFT Load More Clicked',
   NFT_MAKE_AN_OFFER_CLICKED = 'NFT Make An Offer Clicked',
   NFT_MAKE_AN_OFFER_VIEWED = 'NFT Make An Offer Viewed',
+  NFT_MAKE_OFFER_WITH_CLICKED = 'NFT Make Offer With Clicked',
   NFT_MARK_FOR_SALE = 'NFT Mark For Sale',
   NFT_MORE_CLICKED = 'NFT More Clicked',
+  NFT_NFT_CLICKED = 'NFT NFT Clicked',
   NFT_OFFER_SUCCESS_FAIL = 'NFT Offer Success/Fail',
-  NFT_OFFER_WITH_CLICKED = 'NFT Offer With Clicked',
   NFT_OWNER_CLICKED = 'NFT Owner clicked',
   NFT_RECENTLY_LISTED_CLICKED = 'NFT Recently Listed Clicked',
   NFT_REFRESH_METADATA_CLICKED = 'NFT Refresh Metadata Clicked',
@@ -43,19 +45,15 @@ export enum Events {
   NFT_VIEW_SUBMITTED_OFFER_CLICKED = 'NFT View Submitted Offer Clicked'
 }
 
-type Accounts = 'USDT' | 'WETH'
-
 type TurnOffOn = 'TURN_OFF' | 'TURN_ON'
 
 type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
 
 type Type = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
-type AcceptedAccountsAction = {
-  key: Events.NFT_ACCEPTED_ACCOUNTS
-  properties: {
-    accounts: Accounts
-  }
+type AcceptOfferClickedAction = {
+  key: Events.NFT_ACCEPT_OFFER_CLICKED
+  properties: {}
 }
 
 type AcceptOfferSuccessFailAction = {
@@ -116,12 +114,22 @@ type BuySuccessFailAction = {
   }
 }
 
+type CancelListingClickedAction = {
+  key: Events.NFT_CANCEL_LISTING_CLICKED
+  properties: {}
+}
+
 type CancelListingSuccessFailAction = {
   key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
   properties: {
     error_message?: string
     type: Type
   }
+}
+
+type CancelOfferClickedAction = {
+  key: Events.NFT_CANCEL_OFFER_CLICKED
+  properties: {}
 }
 
 type CancelOfferSuccessFailAction = {
@@ -136,7 +144,7 @@ type CancelOfferSuccessFailAction = {
 }
 
 type ClickedAction = {
-  key: Events.NFT_CLICKED
+  key: Events.NFT_NFT_CLICKED
   properties: {
     collection_name: string
     image_logo: boolean
@@ -235,6 +243,11 @@ type MakeAnOfferClickedAction = {
   properties: {}
 }
 
+type MAkeOfferWithClickedAction = {
+  key: Events.NFT_MAKE_OFFER_WITH_CLICKED
+  properties: {}
+}
+
 type MakeAnOfferViewedAction = {
   key: Events.NFT_MAKE_AN_OFFER_VIEWED
   properties: {}
@@ -250,11 +263,6 @@ type MarkForSaleAction = {
 
 type MoreClickedAction = {
   key: Events.NFT_MORE_CLICKED
-  properties: {}
-}
-
-type OfferWithClickedAction = {
-  key: Events.NFT_OFFER_WITH_CLICKED
   properties: {}
 }
 
@@ -341,7 +349,7 @@ type ViewSubmittedOfferClickedAction = {
 
 export type TrackEventAction =
   | AcceptOfferSuccessFailAction
-  | AcceptedAccountsAction
+  | AcceptOfferClickedAction
   | ActivityCancelClickedAction
   | ActivityChartEngagedAction
   | AmountEnteredSwitchedAction
@@ -350,6 +358,8 @@ export type TrackEventAction =
   | BuySuccessFailAction
   | CancelListingSuccessFailAction
   | CancelOfferSuccessFailAction
+  | CancelListingClickedAction
+  | CancelOfferClickedAction
   | ClickedAction
   | CloseAndViewItemClickedAction
   | ContractAddressClickedAction
@@ -365,11 +375,11 @@ export type TrackEventAction =
   | ListingSuccessFailAction
   | LoadMoreClickedAction
   | MakeAnOfferClickedAction
+  | MAkeOfferWithClickedAction
   | MakeAnOfferViewedAction
   | MarkForSaleAction
   | MoreClickedAction
   | OfferSuccessFailAction
-  | OfferWithClickedAction
   | OwnerClickedAction
   | RecentlyListedClickedAction
   | RefreshMetadataClickedAction

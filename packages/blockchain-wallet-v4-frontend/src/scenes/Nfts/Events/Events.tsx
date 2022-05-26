@@ -4,9 +4,9 @@ import { CombinedError } from 'urql'
 
 import { SpinningLoader } from 'blockchain-info-components'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { TableWrapper } from 'components/Table'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql.types'
 
+import { NftTableWrapper } from '../Asset/components'
 import { Centered } from '../components'
 import NftError from '../components/NftError'
 import EventsResults from './Events.results'
@@ -14,9 +14,10 @@ import EventsTable from './Events.table'
 
 const StyledLazyLoadContainer = styled(LazyLoadContainer)`
   position: relative;
+  overflow: initial;
 `
 
-const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
+const Events: React.FC<Props> = ({ columns, filters, isFetchingParent, noBorder }) => {
   const [events, setEvents] = useState([] as EventsQuery['events'])
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -56,19 +57,21 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent }) => {
             />
           ))
         : null}
-      <TableWrapper height='auto'>
+      <NftTableWrapper height='auto'>
         {events.length ? (
           <EventsTable
             columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
             events={events}
+            noBorder={noBorder}
           />
-        ) : null}
-        <Centered>
-          {isFetchingNextPage || isFetchingParent ? (
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          ) : null}
-        </Centered>
-      </TableWrapper>
+        ) : (
+          <Centered style={{ padding: '12px' }}>
+            {isFetchingNextPage || isFetchingParent ? (
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            ) : null}
+          </Centered>
+        )}
+      </NftTableWrapper>
       {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
     </StyledLazyLoadContainer>
   )
@@ -79,6 +82,7 @@ type Props = {
   columns?: ('event_type' | 'item' | 'price' | 'from' | 'to' | 'date')[]
   filters: InputMaybe<InputMaybe<EventFilter> | InputMaybe<EventFilter>[]> | undefined
   isFetchingParent: boolean
+  noBorder?: boolean
 }
 
 export default React.memo(Events)

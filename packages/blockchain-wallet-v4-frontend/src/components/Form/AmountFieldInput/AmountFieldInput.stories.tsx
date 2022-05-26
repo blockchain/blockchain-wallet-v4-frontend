@@ -4,18 +4,19 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers } from 'redux'
-import { FormErrors, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 
-import { BSPaymentTypes } from '@core/types'
 import form from 'data/form/reducers'
-import { BrokerageOrderType } from 'data/types'
 
 import AmountFieldInput, { Props } from '.'
 
 const store = configureStore({ reducer: combineReducers({ form }) })
 
 const AmountFieldForm = reduxForm<{}, Props>({
-  form: 'AmountFieldInput'
+  form: 'AmountFieldInput',
+  initialValues: {
+    amount_with_zero: '0'
+  }
 })(AmountFieldInput)
 
 export default {
@@ -40,7 +41,7 @@ export const Default = Template.bind({})
 Default.args = {
   amtError: false,
   coin: 'BTC',
-  'data-e2e': 'fooo',
+  'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
   name: 'amount',
@@ -53,7 +54,7 @@ Default.args = {
 export const NoQuoteWithToggle = Template.bind({})
 NoQuoteWithToggle.args = {
   amtError: false,
-  'data-e2e': 'fooo',
+  'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
   name: 'amount',
@@ -65,10 +66,22 @@ NoQuoteWithToggle.args = {
 export const FiatOnly = Template.bind({})
 FiatOnly.args = {
   amtError: false,
-  'data-e2e': 'fooo',
+  'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
   name: 'amount',
+  onChange: () => {},
+  showCounter: false,
+  showToggle: false
+}
+
+export const InitialValueZero = Template.bind({})
+InitialValueZero.args = {
+  amtError: false,
+  'data-e2e': 'amountField',
+  fiatCurrency: 'USD',
+  fix: 'FIAT',
+  name: 'amount_with_zero',
   onChange: () => {},
   showCounter: false,
   showToggle: false

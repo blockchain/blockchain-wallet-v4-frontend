@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { addDays, getUnixTime } from 'date-fns'
+import { addMinutes, getUnixTime } from 'date-fns'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -25,30 +25,34 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftAssetHeaderRow from '../../components/NftAssetHeader'
+import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
+    analyticsActions,
     close,
     erc20BalanceR,
     ethBalancesR,
     formActions,
     formValues,
     isAuthenticated,
+    isInvited,
     nftActions,
     openSeaAssetR,
     orderFlow,
@@ -57,7 +61,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   } = props
   const [termsAccepted, setTermsAccepted] = useState(false)
   useEffect(() => {
-    props.analyticsActions.trackEvent({
+    analyticsActions.trackEvent({
       key: Analytics.NFT_MAKE_AN_OFFER_VIEWED,
       properties: {}
     })
@@ -113,19 +117,13 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader />
-  if (openSeaAsset.error || !openSeaAsset.hasData) return <Text>{openSeaAsset.error}</Text>
+  if (openSeaAsset.error)
+    return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
   const val = openSeaAsset.data
 
-  if (!val) return <Text>No data</Text>
+  if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
-  const sellOrders =
-    val.orders?.filter((x) => {
-      return x.side === 1
-    }) || []
-  const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.base_price).isLessThan(b.base_price) ? -1 : 1
-  )[0]
   const disabled =
     !formValues.amount ||
     Remote.Loading.is(orderFlow.fees) ||
@@ -140,6 +138,33 @@ const MakeOffer: React.FC<Props> = (props) => {
     setTermsAccepted(true)
   }
 
+  const enteredAmountAnalytics = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ENTERED_AMOUNT,
+      properties: {
+        currency: coin,
+        input_amount: Number(amount)
+      }
+    })
+  }
+
+  const offerWithChangedAnalytics = (coin) => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_MAKE_OFFER_WITH_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+  }
+
+  if (
+    val.collection.safelist_request_status !== 'verified' &&
+    orderFlow.prevStep !== NftOrderStepEnum.MAKE_OFFER
+  ) {
+    nftActions.setOrderFlowPrevStep({ prevStep: NftOrderStepEnum.MAKE_OFFER })
+    nftActions.setOrderFlowStep({ step: NftOrderStepEnum.NOT_VERIFIED })
+  }
+
   return (
     <>
       <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
@@ -152,84 +177,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           height: '100%'
         }}
       >
-        <Row>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex' }}>
-              <img
-                style={{
-                  borderRadius: '8px',
-                  height: '64px',
-                  marginRight: '12px',
-                  width: 'auto'
-                }}
-                alt='nft-asset'
-                src={val.image_url.replace(/=s\d*/, '')}
-              />
-              <div>
-                <Text size='16px' color='grey900' weight={600}>
-                  {val?.name}
-                </Text>
-                {val.collection.safelist_request_status === 'verified' ? (
-                  <Text
-                    size='14px'
-                    weight={600}
-                    color='green600'
-                    style={{
-                      background: colors.green100,
-                      borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center',
-                      width: 'fit-content'
-                    }}
-                  >
-                    Verified
-                  </Text>
-                ) : (
-                  <Text
-                    size='14px'
-                    weight={600}
-                    color='orange600'
-                    style={{
-                      background: colors.orange100,
-                      borderRadius: '8px',
-                      padding: '5px 8px',
-                      textAlign: 'center',
-                      width: 'fit-content'
-                    }}
-                  >
-                    Not Verified
-                  </Text>
-                )}
-              </div>
-            </div>
-            {lowest_order?.base_price && (
-              <Text
-                style={{
-                  justifyContent: 'right'
-                }}
-              >
-                <CoinDisplay
-                  size='14px'
-                  color='black'
-                  weight={600}
-                  coin='ETH'
-                  style={{ justifyContent: 'right' }}
-                >
-                  {lowest_order?.base_price}
-                </CoinDisplay>
-                <FiatDisplay
-                  size='14px'
-                  color={colors.grey600}
-                  weight={600}
-                  coin='ETH'
-                  style={{ justifyContent: 'right' }}
-                >
-                  {lowest_order?.base_price}
-                </FiatDisplay>
-              </Text>
-            )}
-          </div>
-        </Row>
+        <NftAssetHeaderRow asset={val} />
         <Row>
           <Value>
             <AmountFieldInput
@@ -239,6 +187,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
+              onChange={enteredAmountAnalytics}
               showCounter
               showToggle
               data-e2e='amountField'
@@ -262,7 +211,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               onChange={(coin: any) => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const address = window.coins[coin].coinfig.type.erc20Address!
-
+                offerWithChangedAnalytics(coin)
                 nftActions.fetchFees({
                   asset: val,
                   offer: '0.0001',
@@ -298,7 +247,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           </Title>
           <Value>
             <Field
-              name='expirationDays'
+              name='expirationMinutes'
               onChange={(days: any) => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               }}
@@ -312,12 +261,14 @@ const MakeOffer: React.FC<Props> = (props) => {
                       value: item.value
                     }),
                     [
-                      { text: '1 Day', value: 1 },
-                      { text: '3 Days', value: 3 },
-                      { text: '7 Days', value: 7 },
-                      { text: '1 Months', value: 30 },
-                      { text: '3 Months', value: 90 },
-                      { text: '6 Months', value: 180 }
+                      { text: '30 Mins', value: 30 },
+                      { text: '1 Hour', value: 60 },
+                      { text: '1 Day', value: 1440 },
+                      { text: '3 Days', value: 4320 },
+                      { text: '7 Days', value: 10080 },
+                      { text: '1 Month', value: 43200 },
+                      { text: '3 Months', value: 129600 },
+                      { text: '6 Months', value: 259200 }
                     ]
                   )
                 }
@@ -325,143 +276,143 @@ const MakeOffer: React.FC<Props> = (props) => {
             />
           </Value>
         </Row>
-        {isAuthenticated && (
-          <Row>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%'
-              }}
-            >
-              <MakeOfferFees {...props} asset={val} />
-            </div>
-          </Row>
-        )}
       </div>
 
       <StickyCTA>
         {isAuthenticated ? (
-          <>
-            {needsWrap ? (
-              <>
-                {canWrap ? (
-                  <div />
-                ) : (
-                  <>
-                    <GetMoreEthComponent
-                      amount={cryptoAmt}
-                      amtToBuy={amtToBuy}
-                      selfCustodyBalance={new BigNumber(selfCustodyBalance)}
-                      custodialBalance={new BigNumber(custodialBalance)}
-                    />
-                    <div style={{ padding: '1em 0em' }}>
-                      <Text
-                        size='12px'
-                        weight={500}
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                      >
-                        The max you can offer from this wallet is&nbsp;
-                        <CoinDisplay style={{ fontSize: '12px', fontWeight: 'bold' }} coin='WETH'>
-                          {Math.max(maxOfferPossible.toNumber(), 0)}
-                        </CoinDisplay>
-                      </Text>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : null}
-            <div style={{ display: 'flex' }}>
-              {' '}
-              <div style={{ padding: '1.2em 0em' }}>
-                <CheckBoxInput
-                  name='terms'
-                  disabled={false}
-                  onChange={toggleTermsAccepted}
-                  checked={termsAccepted}
-                />
-              </div>
-              <Text
-                color={colors.grey200}
-                weight={500}
-                size='16px'
-                style={{ padding: '1em 0em', textAlign: 'center' }}
-              >
-                I agree to Blockchain.com’s{' '}
-                <Link
-                  onClick={acceptTerms}
-                  href='https://www.blockchain.com/legal/terms'
-                  target='_blank'
-                >
-                  Terms of Service
-                </Link>
-              </Text>
-            </div>
-            {needsWrap && !canWrap ? (
-              <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
-                <Image
-                  width='16px'
-                  height='16px'
-                  name='alert-orange'
-                  style={{ marginRight: '0.5em' }}
-                />
-                <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
-              </Button>
-            ) : (
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='makeOfferNft'
-                disabled={disabled}
-                onClick={() =>
-                  nftActions.createOffer({
-                    amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                    asset: val,
-                    expirationTime: getUnixTime(
-                      addDays(new Date(), parseInt(formValues.expirationDays))
-                    ),
-                    offerFees,
-                    wrapFees,
-                    ...formValues
-                  })
-                }
-              >
-                {formValues.amount ? (
-                  props.orderFlow.isSubmitting ? (
-                    <>
-                      {props.orderFlow.status &&
-                        (props.orderFlow.status === 'WRAP_ETH' ? (
-                          <>
-                            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-                            <div style={{ paddingLeft: '1em' }}>
-                              <FormattedMessage
-                                id='copy.wrap_eth'
-                                defaultMessage='Wrapping Eth...'
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>{props.orderFlow.status}</>
-                        ))}
-                    </>
+          isInvited ? (
+            <>
+              <MakeOfferFees {...props} asset={val} />
+              <br />
+              {needsWrap ? (
+                <>
+                  {canWrap ? (
+                    <div />
                   ) : (
-                    <FormattedMessage
-                      id='copy.make_offer_value'
-                      defaultMessage={
-                        !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
-                      }
-                      values={{
-                        val: `${formValues.amount} ${formValues.coin}`
-                      }}
-                    />
-                  )
-                ) : (
-                  <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                )}
+                    <>
+                      <GetMoreEthComponent
+                        amount={cryptoAmt}
+                        amtToBuy={amtToBuy}
+                        selfCustodyBalance={new BigNumber(selfCustodyBalance)}
+                        custodialBalance={new BigNumber(custodialBalance)}
+                      />
+                      <div style={{ padding: '1em 0em' }}>
+                        <Text
+                          size='12px'
+                          weight={500}
+                          style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                          The max you can offer from this wallet is&nbsp;
+                          <CoinDisplay
+                            style={{ fontSize: '12px', fontWeight: 'bold' }}
+                            coin={formValues.coin || 'WETH'}
+                          >
+                            {Math.max(maxOfferPossible.toNumber(), 0)}
+                          </CoinDisplay>
+                        </Text>
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : null}
+              <div style={{ display: 'flex' }}>
+                {' '}
+                <div style={{ padding: '1.2em 0em' }}>
+                  <CheckBoxInput
+                    name='terms'
+                    disabled={false}
+                    onChange={toggleTermsAccepted}
+                    checked={termsAccepted}
+                  />
+                </div>
+                <Text
+                  color={colors.grey200}
+                  weight={500}
+                  size='16px'
+                  style={{ padding: '1em 0em', textAlign: 'center' }}
+                >
+                  I agree to Blockchain.com’s{' '}
+                  <Link
+                    onClick={acceptTerms}
+                    href='https://www.blockchain.com/legal/terms'
+                    target='_blank'
+                  >
+                    Terms of Service
+                  </Link>
+                </Text>
+              </div>
+              {needsWrap && !canWrap ? (
+                <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
+                  <Image
+                    width='16px'
+                    height='16px'
+                    name='alert-orange'
+                    style={{ marginRight: '0.5em' }}
+                  />
+                  <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
+                </Button>
+              ) : (
+                <Button
+                  jumbo
+                  nature='primary'
+                  fullwidth
+                  data-e2e='makeOfferNft'
+                  disabled={disabled}
+                  onClick={() =>
+                    nftActions.createOffer({
+                      amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                      asset: val,
+                      expirationTime: getUnixTime(
+                        addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                      ),
+                      offerFees,
+                      wrapFees,
+                      ...formValues
+                    })
+                  }
+                >
+                  {formValues.amount ? (
+                    props.orderFlow.isSubmitting ? (
+                      <>
+                        {props.orderFlow.status &&
+                          (props.orderFlow.status === 'WRAP_ETH' ? (
+                            <>
+                              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+                              <div style={{ paddingLeft: '1em' }}>
+                                <FormattedMessage
+                                  id='copy.wrap_eth'
+                                  defaultMessage='Wrapping Eth...'
+                                />
+                              </div>
+                            </>
+                          ) : (
+                            <>{props.orderFlow.status}</>
+                          ))}
+                      </>
+                    ) : (
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage={
+                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                        }
+                        values={{
+                          val: `${formValues.amount} ${formValues.coin}`
+                        }}
+                      />
+                    )
+                  ) : (
+                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                  )}
+                </Button>
+              )}
+            </>
+          ) : (
+            <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
+              <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
+                <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
               </Button>
-            )}
-          </>
+            </Link>
+          )
         ) : (
           <LinkContainer
             to={`/open/${DeepLinkGoal.MAKE_OFFER_NFT}?contract_address=${val.asset_contract.address}&token_id=${val.token_id}`}
@@ -479,22 +430,24 @@ const MakeOffer: React.FC<Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  erc20BalanceR: selectors.core.data.eth.getErc20Balance(
-    state,
-    // @ts-ignore
-    selectors.form.getFormValues('nftMakeOffer')(state)?.coin || 'WETH'
-  ),
-  ethBalancesR: getEthBalances(state),
-  formValues: selectors.form.getFormValues('nftMakeOffer')(state) as {
-    amount: string
-    coin: string
-    expirationDays: string
-    fix: string
-  },
-  rates: getRatesSelector('WETH', state).getOrElse({} as RatesType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
+export type NftMakeOfferFormValues = {
+  amount: string
+  coin: string
+  expirationMinutes: string
+  fix: string
+}
+
+const mapStateToProps = (state) => {
+  const formValues = selectors.form.getFormValues('nftMakeOffer')(state) as NftMakeOfferFormValues
+
+  return {
+    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues.coin || 'WETH'),
+    ethBalancesR: getEthBalances(state),
+    formValues,
+    rates: getRatesSelector(formValues.coin || 'WETH', state).getOrElse({} as RatesType),
+    walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
@@ -509,7 +462,7 @@ const enhance = compose(
     form: 'nftMakeOffer',
     initialValues: {
       coin: 'WETH',
-      expirationDays: 1,
+      expirationMinutes: 1440,
       fix: 'CRYPTO',
       networkFees: 'network'
     }

@@ -3,19 +3,6 @@ import styled from 'styled-components'
 import { TableHeader } from 'blockchain-info-components'
 import { Row } from 'components/Flyout/model'
 
-export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>`
-  background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: ${(props) => (props.cropped ? '240px' : '480px')};
-`
-
-export const AssetDesc = styled.div`
-  padding: 0px 40px 20px;
-  display: flex;
-`
-
 export const StickyTableHeader = styled(TableHeader)`
   background: ${(props) => props.theme.white};
   position: sticky;

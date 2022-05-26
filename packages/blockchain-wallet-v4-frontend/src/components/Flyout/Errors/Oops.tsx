@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from '@blockchain-com/constellation'
+import { IconAlert } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -16,6 +18,22 @@ const Wrapper = styled.div`
 `
 const Title = styled(Text)`
   margin: 40px 0 24px;
+`
+
+const ErrorTextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+`
+const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
+  margin-bottom: 16px;
 `
 
 const Failure = (props: FailurePropsType) => {
@@ -41,6 +59,16 @@ const Failure = (props: FailurePropsType) => {
             defaultMessage='Oops. Something went wrong on our side. Please try again.'
           />
         </Title>
+        {props.errorMessage && (
+          <ErrorTextContainer>
+            <ErrorText>
+              <Icon label='alert' color='red600'>
+                <IconAlert />
+              </Icon>
+              Error: {props.errorMessage}
+            </ErrorText>
+          </ErrorTextContainer>
+        )}
         <Button
           fullwidth
           height='48px'
@@ -59,6 +87,7 @@ const Failure = (props: FailurePropsType) => {
 type FailurePropsType = {
   action: 'retry' | 'close'
   'data-e2e': string
+  errorMessage?: string
   handler: () => void
 }
 

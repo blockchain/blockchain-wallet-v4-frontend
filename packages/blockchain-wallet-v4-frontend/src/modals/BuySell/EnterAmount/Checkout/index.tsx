@@ -206,11 +206,12 @@ class Checkout extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => (
+      Failure: (error) => (
         <FlyoutOopsError
           action='retry'
           data-e2e='sbTryCurrencySelectionAgain'
           handler={this.errorCallback}
+          errorMessage={error}
         />
       ),
       Loading: () => <Loading />,

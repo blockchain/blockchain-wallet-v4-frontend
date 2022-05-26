@@ -20,7 +20,8 @@ const NftAddressResults: React.FC<Props> = ({
   setCollections,
   setIsFetchingNextPage,
   setMaxItemsFetched,
-  setNextPageFetchError
+  setNextPageFetchError,
+  setNumOfPageItems
 }) => {
   const activeCollections = formValues?.collection
     ? [{ field: AssetFilterFields.CollectionSlug, value: formValues.collection }]
@@ -39,7 +40,7 @@ const NftAddressResults: React.FC<Props> = ({
       filter: [
         {
           field: AssetFilterFields.OwnerAddress,
-          value: address
+          value: address.toLowerCase()
         },
         ...activeCollections
       ],
@@ -59,9 +60,10 @@ const NftAddressResults: React.FC<Props> = ({
 
   useEffect(() => {
     if (result.data?.assets.length !== undefined) {
+      setNumOfPageItems(result.data.assets.length)
       setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
     }
-  }, [result.data?.assets?.length, setMaxItemsFetched])
+  }, [result.data?.assets?.length, setMaxItemsFetched, setNumOfPageItems])
 
   useEffect(() => {
     setCollections((collections) => {
@@ -101,6 +103,7 @@ type Props = {
         __typename?: 'Collection' | undefined
         image_url?: string | null | undefined
         name: string
+        safelist_request_status: string
         slug: string
       }[]
     >
@@ -108,6 +111,7 @@ type Props = {
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
   setNextPageFetchError: (error: CombinedError | undefined) => void
+  setNumOfPageItems: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 export default NftAddressResults
