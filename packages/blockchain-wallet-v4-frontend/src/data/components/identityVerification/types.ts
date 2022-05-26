@@ -79,7 +79,8 @@ export type InfoAndResidentialFormValuesType = {
   dob: string
   firstName: string
   lastName: string
-} & NabuAddressType['country']
+  state?: string
+} & NabuAddressType
 
 export type VerifyEmailFormValuesType = {
   email: string
