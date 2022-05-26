@@ -297,7 +297,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
+      if (product === ProductAuthOptions.EXCHANGE && (recovery || !firstLogin)) {
         return yield put(
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
