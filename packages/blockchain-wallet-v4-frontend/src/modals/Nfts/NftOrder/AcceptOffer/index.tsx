@@ -8,13 +8,12 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -58,7 +57,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
       >
         <div style={{ height: '100%' }}>
           <NftAssetHeaderRow asset={asset} />
-          <Row>
+          <NftFlyoutRow>
             <Flex alignItems='center' justifyContent='space-between'>
               <Text color='black' weight={600} size='20px'>
                 <FormattedMessage id='copy.offer' defaultMessage='Offer' />
@@ -82,7 +81,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                 </FiatDisplay>
               </Flex>
             </Flex>
-          </Row>
+          </NftFlyoutRow>
         </div>
         <StickyCTA>
           <AcceptOfferFees {...props} asset={asset} />

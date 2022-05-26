@@ -17,14 +17,14 @@ const AmountContainer = styled.div`
 
 const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
-  padding: 24px;
-  justify-content: space-between;
+  padding: 12px;
+  justify-content: center;
   align-items: center;
   border: 0;
   width: 100%;
 
   & #amount-row {
-    max-width: 95%;
+    max-width: 90%;
     display: flex;
     flex: 1;
     justify-content: center;
@@ -125,7 +125,7 @@ const AmountFieldInput: React.FC<Props> = ({
             <Icon
               color='blue600'
               cursor
-              style={{ marginLeft: '8px' }}
+              style={{ marginLeft: '12px' }}
               name='up-down-chevron'
               onClick={onToggleFix}
               role='button'

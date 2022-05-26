@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { TableHeader } from 'blockchain-info-components'
-import { Row } from 'components/Flyout/model'
+import { Row } from 'components/Flyout'
 
 export const StickyTableHeader = styled(TableHeader)`
   background: ${(props) => props.theme.white};
@@ -18,6 +18,15 @@ export const StickyCTA = styled.div`
   display: flex;
   bottom: 0;
   left: 0;
+`
+
+export const NftFlyoutRow = styled(Row)`
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 0px;
+  &:last-child {
+    border: 0px;
+  }
 `
 
 export const CTARow = styled(Row)`

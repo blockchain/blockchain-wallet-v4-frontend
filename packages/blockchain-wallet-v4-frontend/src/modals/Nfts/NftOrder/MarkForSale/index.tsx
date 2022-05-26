@@ -13,9 +13,8 @@ import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { Title } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import NumberBox from 'components/Form/NumberBox'
 import SelectBox from 'components/Form/SelectBox'
@@ -25,7 +24,7 @@ import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -74,18 +73,20 @@ const MarkForSale: React.FC<Props> = (props) => {
   const [saleType, setSaleType] = useState<'fixed-price' | 'timed-auction'>('fixed-price')
   const [isReservedChecked, setIsReserveChecked] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
-  const disabled =
-    (saleType === 'fixed-price'
+  const disabled = (
+    saleType === 'fixed-price'
       ? // Fixed Price
         !formValues?.fixAmount
       : // Dutch (Declining)
-        ((!formValues?.starting ||
-          !formValues?.ending ||
-          formValues?.ending > formValues?.starting) &&
-          formValues?.timedAuctionType === 'decliningPrice') ||
-        // English (Ascending)
-        (!formValues.starting && formValues?.timedAuctionType === 'highestBidder')) ||
-    props.orderFlow.isSubmitting
+        formValues?.timedAuctionType === 'decliningPrice'
+  )
+    ? !formValues?.starting || !formValues?.ending || formValues?.ending >= formValues?.starting
+    : // English (Ascending)
+      !formValues.starting ||
+      (formValues.reserve &&
+        formValues.reserve >= formValues.starting &&
+        formValues?.timedAuctionType === 'highestBidder') ||
+      props.orderFlow.isSubmitting
 
   const resetForms = () => {
     formValues.fixAmount = ''
@@ -150,7 +151,7 @@ const MarkForSale: React.FC<Props> = (props) => {
             >
               {saleType === 'fixed-price' ? (
                 <>
-                  <Row>
+                  <NftFlyoutRow>
                     <Value>
                       <AmountFieldInput
                         coin={coin}
@@ -178,12 +179,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                         }}
                       />
                     </Value>
-                  </Row>
+                  </NftFlyoutRow>
                 </>
               ) : (
                 // Time Based Auction
                 <>
-                  <Row>
+                  <NftFlyoutRow>
                     <Value>
                       <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
                         <FormattedMessage
@@ -203,9 +204,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                         </Text>
                       </Flex>
                     </Value>
-                  </Row>
+                  </NftFlyoutRow>
                   {formValues?.timedAuctionType === 'decliningPrice' ? (
-                    <Row>
+                    <NftFlyoutRow>
                       <Value>
                         <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
                           <FormattedMessage id='copy.ending_price' defaultMessage='Ending Price' />
@@ -221,9 +222,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                           </Text>
                         </Flex>
                       </Value>
-                    </Row>
+                    </NftFlyoutRow>
                   ) : (
-                    <Row>
+                    <NftFlyoutRow>
                       <Value>
                         <Flex justifyContent='space-between' alignItems='center'>
                           <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
@@ -254,11 +255,11 @@ const MarkForSale: React.FC<Props> = (props) => {
                           </div>
                         ) : null}
                       </Value>
-                    </Row>
+                    </NftFlyoutRow>
                   )}
                 </>
               )}
-              <Row>
+              <NftFlyoutRow>
                 <Value>
                   <SaleType>
                     <SaleSelection
@@ -364,9 +365,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                     </SaleSelection>
                   </SaleType>
                 </Value>
-              </Row>
+              </NftFlyoutRow>
               {saleType === 'timed-auction' && (
-                <Row>
+                <NftFlyoutRow>
                   <Title>
                     <b>
                       <FormattedMessage id='copy.starting_price' defaultMessage='Method' />
@@ -398,9 +399,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </div>
                     </FormWrapper>
                   </Value>
-                </Row>
+                </NftFlyoutRow>
               )}
-              <Row>
+              <NftFlyoutRow>
                 <Title>
                   <b>
                     <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
@@ -437,8 +438,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                     ]}
                   />
                 </Value>
-              </Row>
-              <Row style={{ border: 'unset' }}>
+              </NftFlyoutRow>
+              <NftFlyoutRow>
                 {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
                     <Icon
@@ -478,7 +479,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                     </div>
                   </>
                 ) : null}
-              </Row>
+              </NftFlyoutRow>
             </div>
             <StickyCTA>
               <MarkForSaleFees {...props} asset={val} />
@@ -557,18 +558,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         })
                       }}
                     >
-                      {formValues.fixAmount || formValues.starting ? (
-                        props.orderFlow.isSubmitting ? (
-                          <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                        ) : (
-                          <FormattedMessage
-                            id='copy.sell_item_value'
-                            defaultMessage='Sell Item for {val}'
-                            values={{
-                              val: amount ? `${amount} ${coin}` : `${formValues.starting} ${coin}`
-                            }}
-                          />
-                        )
+                      {props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
                       ) : (
                         <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
                       )}

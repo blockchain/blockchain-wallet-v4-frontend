@@ -48,12 +48,12 @@ export const FlyoutChild = styled((props) => (
   width: 100%;
 `
 
-export const Row = styled.div`
+export const Row = styled.div<{ noBorder?: boolean }>`
   padding: 16px 40px;
   box-sizing: border-box;
-  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-top: ${(props) => (props.noBorder ? 'initial' : `1px solid ${props.theme.grey000}`)};
   &:last-child {
-    border-bottom: 1px solid ${(props) => props.theme.grey000};
+    border-bottom: ${(props) => (props.noBorder ? 'initial' : `1px solid ${props.theme.grey000}`)};
   }
 `
 export const Col = styled.div`

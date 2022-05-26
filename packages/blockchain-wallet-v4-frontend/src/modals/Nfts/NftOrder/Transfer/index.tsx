@@ -6,14 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { Title } from 'components/Flyout'
+import { Row, Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import TextBox from 'components/Form/TextBox'
 import { selectors } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -44,7 +43,7 @@ const Transfer: React.FC<Props> = (props) => {
                 height: '100%'
               }}
             >
-              <Row>
+              <NftFlyoutRow>
                 <Title>
                   <b>
                     <Text weight={600}>Where Is This Going?</Text>
@@ -68,7 +67,7 @@ const Transfer: React.FC<Props> = (props) => {
                 <Value>
                   <Text size='12px'>Double check the address above before clicking Transfer </Text>
                 </Value>
-              </Row>
+              </NftFlyoutRow>
             </div>
             <StickyCTA>
               <TransferFees {...props} asset={val} />
