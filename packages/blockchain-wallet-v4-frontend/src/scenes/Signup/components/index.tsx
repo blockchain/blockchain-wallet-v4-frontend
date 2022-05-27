@@ -39,8 +39,7 @@ export const Card = styled.div`
     width: 100%;
     padding: 1.5rem;
   `}
-  ${media.tablet`
-  width: 100%;
+  ${media.mobile`
   padding: 0;
 `}
 `
