@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
-import { CardStateType } from 'data/components/debitCard/types'
+import { AccountType, CardStateType } from 'data/components/debitCard/types'
 import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
@@ -34,15 +34,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const findAccount = (currentAccountSymbol, accounts) => {
+    return accounts.find((account) => account?.balance?.symbol === currentAccountSymbol)
+  }
+
   const getCurrentCardAccount = function* (cardId) {
+    const eligibleAccounts: Array<AccountType> = yield select(
+      selectors.components.debitCard.getEligibleAccounts
+    )
     try {
       yield put(A.getCurrentCardAccountLoading())
 
-      const data = yield call(api.getDCCurrentAccount, cardId)
-      yield put(A.getCurrentCardAccountSuccess(data))
+      const { accountCurrency } = yield call(api.getDCCurrentAccount, cardId)
+
+      if (!accountCurrency && isEmpty(eligibleAccounts)) throw new Error('no_funds_obtained')
+
+      yield put(A.getCurrentCardAccountSuccess(findAccount(accountCurrency, eligibleAccounts)))
     } catch (e) {
-      console.error('Failed to get current card account', errorHandler(e))
-      const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
+      console.error('Failed to get current card account', e)
       if (!isEmpty(eligibleAccounts)) {
         // In case of failure it is set the default account as current
         yield put(A.getCurrentCardAccountSuccess(eligibleAccounts[0]))
@@ -144,6 +153,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   return {
     createCard,
     getCards,
+    getCurrentCardAccount,
     getProducts,
     handleCardLock,
     terminateCard
