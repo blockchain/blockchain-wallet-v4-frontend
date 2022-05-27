@@ -78,11 +78,8 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
       // non T2 users can't sell
       if (userCurrentTier !== 2) {
-        this.props.modalsActions.showModal({
-          props: {
-            origin: 'BSEnterAmountCheckout'
-          },
-          type: ModalName.UPGRADE_NOW_SILVER_MODAL
+        this.props.modalsActions.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: 'BSEnterAmountCheckout'
         })
         return
       }

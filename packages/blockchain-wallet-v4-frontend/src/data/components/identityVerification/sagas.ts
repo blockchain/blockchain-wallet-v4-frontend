@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal({ props: payload, type: ModalName.KYC_MODAL }))
+    yield put(actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, payload))
   }
 
   const registerUserCampaign = function* (payload) {

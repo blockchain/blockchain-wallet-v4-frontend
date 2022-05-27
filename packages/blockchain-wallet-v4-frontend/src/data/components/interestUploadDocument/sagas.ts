@@ -17,11 +17,8 @@ export default ({ api }: { api: APIType }) => {
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin } = payload
     yield put(
-      actions.modals.showModal({
-        props: {
-          origin
-        },
-        type: ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL
+      actions.modals.showModal(ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL, {
+        origin
       })
     )
 

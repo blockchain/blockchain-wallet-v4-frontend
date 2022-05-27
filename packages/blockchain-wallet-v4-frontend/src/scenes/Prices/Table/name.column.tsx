@@ -29,12 +29,9 @@ export const getNameColumn = (modalActions: TableColumnsType['modalActions']) =>
     return (
       <CellWrapper
         onClick={() => {
-          modalActions.showModal({
-            props: {
-              origin: 'Prices',
-              preselectedCoin: values.coin
-            },
-            type: ModalName.REQUEST_CRYPTO_MODAL
+          modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+            origin: 'Prices',
+            preselectedCoin: values.coin
           })
         }}
       >

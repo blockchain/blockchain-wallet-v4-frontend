@@ -160,11 +160,8 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
 
       <DisplayContainer
         onClick={() => {
-          modalActions.showModal({
-            props: {
-              origin: 'SwapNoHoldings'
-            },
-            type: ModalName.REQUEST_CRYPTO_MODAL
+          modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+            origin: 'SwapNoHoldings'
           })
         }}
       >

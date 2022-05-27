@@ -38,11 +38,8 @@ const BackIcon = styled(Icon)`
 class XlmCreateAccountLearn extends React.PureComponent {
   onClose = () => {
     this.props.closeAll()
-    this.props.modalActions.showModal({
-      props: {
-        origin: 'SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL'
-      },
-      type: ModalName.SEND_XLM_MODAL
+    this.props.modalActions.showModal(ModalName.SEND_XLM_MODAL, {
+      origin: 'SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL'
     })
   }
 

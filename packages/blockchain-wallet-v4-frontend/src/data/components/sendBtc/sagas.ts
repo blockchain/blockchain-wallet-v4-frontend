@@ -106,13 +106,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const bitPayInvoiceEntered = function* (bip21Payload) {
     yield put(
-      actions.modals.showModal({
-        props: {
-          message: C.BITPAY_CONFIRM_MSG,
-          origin: 'SendBtc',
-          title: C.BITPAY_CONFIRM_TITLE
-        },
-        type: ModalName.CONFIRMATION_MODAL
+      actions.modals.showModal(ModalName.CONFIRMATION_MODAL, {
+        message: C.BITPAY_CONFIRM_MSG,
+        origin: 'SendBtc',
+        title: C.BITPAY_CONFIRM_TITLE
       })
     )
     const { canceled } = yield race({
@@ -136,11 +133,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const bitpayInvoiceExpired = function* () {
     yield put(actions.modals.closeAllModals())
     yield put(
-      actions.modals.showModal({
-        props: {
-          origin: 'SendBtc'
-        },
-        type: ModalName.BITPAY_INVOICE_EXPIRED_MODAL
+      actions.modals.showModal(ModalName.BITPAY_INVOICE_EXPIRED_MODAL, {
+        origin: 'SendBtc'
       })
     )
   }

@@ -31,9 +31,9 @@ class BchWalletsContainer extends React.Component {
       modalsActions.showModal({ props: { xpub: account.xpub }, type: ModalName.SHOW_XPUB_MODAL })
     }
     const onShowFundRecovery = (account) => {
-      modalsActions.showModal({
-        props: { accountIndex: account.index, coin: 'BCH' },
-        type: ModalName.FUND_RECOVERY_MODAL
+      modalsActions.showModal(ModalName.FUND_RECOVERY_MODAL, {
+        accountIndex: account.index,
+        coin: 'BCH'
       })
     }
     const onMakeDefault = (account) => {

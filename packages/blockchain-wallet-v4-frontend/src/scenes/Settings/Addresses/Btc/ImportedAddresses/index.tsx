@@ -18,32 +18,23 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleClickVerify = () => {
-    this.props.modalActions.showModal({
-      props: {
-        origin: 'SettingsPage'
-      },
-      type: ModalName.VERIFY_MESSAGE_MODAL
+    this.props.modalActions.showModal(ModalName.VERIFY_MESSAGE_MODAL, {
+      origin: 'SettingsPage'
     })
   }
 
   handleShowPriv = (address) => {
-    this.props.modalActions.showModal({
-      props: {
-        addr: address.addr,
-        balance: address.info.final_balance,
-        origin: 'SettingsPage'
-      },
-      type: ModalName.SHOW_BTC_PRIVATE_KEY_MODAL
+    this.props.modalActions.showModal(ModalName.SHOW_BTC_PRIVATE_KEY_MODAL, {
+      addr: address.addr,
+      balance: address.info.final_balance,
+      origin: 'SettingsPage'
     })
   }
 
   handleSignMessage = (address) => {
-    this.props.modalActions.showModal({
-      props: {
-        address: address.addr,
-        origin: 'SettingsPage'
-      },
-      type: ModalName.SIGN_MESSAGE_MODAL
+    this.props.modalActions.showModal(ModalName.SIGN_MESSAGE_MODAL, {
+      address: address.addr,
+      origin: 'SettingsPage'
     })
   }
 
@@ -57,13 +48,10 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleTransferAll = () => {
-    this.props.modalActions.showModal({
-      props: {
-        excludeHDWallets: true,
-        from: 'allImportedAddresses',
-        origin: 'SettingsPage'
-      },
-      type: model.components.sendBtc.MODAL
+    this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
+      excludeHDWallets: true,
+      from: 'allImportedAddresses',
+      origin: 'SettingsPage'
     })
   }
 

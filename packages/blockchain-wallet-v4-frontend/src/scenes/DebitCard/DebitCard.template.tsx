@@ -46,7 +46,7 @@ const DebitCard = ({
   const { data: cards = [], isLoading } = cardsR
 
   const handleOpenOrderMyCard = () =>
-    modalActions.showModal({ props: { origin: 'DebitCardPage' }, type: ModalName.ORDER_MY_CARD })
+    modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
 
   return (
     <Wrapper>

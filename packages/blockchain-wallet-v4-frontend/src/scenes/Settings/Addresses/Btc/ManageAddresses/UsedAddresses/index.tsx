@@ -15,13 +15,10 @@ class UsedAddressesContainer extends React.PureComponent<Props> {
     if (usedAddressesVisible) {
       componentActions.toggleUsedAddresses(walletIndex, derivation, false)
     } else {
-      modalsActions.showModal({
-        props: {
-          derivation,
-          origin: 'SettingsPage',
-          walletIndex
-        },
-        type: ModalName.SHOW_USED_ADDRESS_MODAL
+      modalsActions.showModal(ModalName.SHOW_USED_ADDRESS_MODAL, {
+        derivation,
+        origin: 'SettingsPage',
+        walletIndex
       })
     }
   }

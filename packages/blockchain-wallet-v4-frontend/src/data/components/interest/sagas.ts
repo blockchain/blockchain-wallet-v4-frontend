@@ -545,12 +545,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { coin, step } = payload
     yield put(A.setInterestStep({ name: step }))
     yield put(
-      actions.modals.showModal({
-        props: {
-          coin,
-          origin: 'InterestPage'
-        },
-        type: ModalName.INTEREST_MODAL
+      actions.modals.showModal(ModalName.INTEREST_MODAL, {
+        coin,
+        origin: 'InterestPage'
       })
     )
   }

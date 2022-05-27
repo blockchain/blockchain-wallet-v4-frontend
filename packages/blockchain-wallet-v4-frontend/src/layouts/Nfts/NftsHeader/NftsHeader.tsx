@@ -107,10 +107,7 @@ const ExploreHeader: React.FC<Props> = ({
               data-e2e='back'
               nature='empty-purple'
               onClick={() =>
-                modalActions.showModal({
-                  props: { origin: 'Unknown' },
-                  type: ModalName.ETH_WALLET_BALANCES
-                })
+                modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
               }
             >
               <Icon label='wallet' size='sm' color='purple600'>

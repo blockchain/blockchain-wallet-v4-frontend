@@ -197,11 +197,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenFailure(e))
       if (e.message && e.message.includes('User linked to another wallet')) {
         return yield put(
-          actions.modals.showModal({
-            options: { errorMessage: e.message },
-            props: { origin: 'NabuUserAuth' },
-            type: ModalName.NABU_USER_CONFLICT_REDIRECT
-          })
+          actions.modals.showModal(
+            ModalName.NABU_USER_CONFLICT_REDIRECT,
+            { origin: 'NabuUserAuth' },
+            { errorMessage: e.message }
+          )
         )
       }
       yield spawn(renewSession, nabuUserId, nabuLifetimeToken, email, guid, authRetryDelay)

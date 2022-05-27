@@ -44,12 +44,9 @@ const WalletLayout: Props = ({
     eventsThrottle: 5_000, // throttle event detection to 5 seconds
     onIdle: () => {
       const idleTimeInMinutes = autoLogoutTimeLength / 60_000
-      modalActions.showModal({
-        props: {
-          duration: idleTimeInMinutes,
-          origin: 'Unknown'
-        },
-        type: ModalName.AUTO_DISCONNECTION_MODAL
+      modalActions.showModal(ModalName.AUTO_DISCONNECTION_MODAL, {
+        duration: idleTimeInMinutes,
+        origin: 'Unknown'
       })
     },
     timeout: autoLogoutTimeLength

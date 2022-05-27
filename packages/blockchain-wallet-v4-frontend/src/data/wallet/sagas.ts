@@ -133,12 +133,9 @@ export default ({ coreSagas }) => {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
-        actions.modals.showModal({
-          props: {
-            duration: addressLabelSize / 20,
-            origin: 'LoginSaga'
-          },
-          type: ModalName.UPGRADE_ADDRESS_LABELS_MODAL
+        actions.modals.showModal(ModalName.UPGRADE_ADDRESS_LABELS_MODAL, {
+          duration: addressLabelSize / 20,
+          origin: 'LoginSaga'
         })
       )
     }

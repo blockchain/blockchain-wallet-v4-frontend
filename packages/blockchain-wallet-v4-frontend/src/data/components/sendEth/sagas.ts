@@ -460,12 +460,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(
-        actions.modals.showModal({
-          props: {
-            coin,
-            origin: 'RetrySendEth'
-          },
-          type: ModalName.SEND_ETH_MODAL
+        actions.modals.showModal(ModalName.SEND_ETH_MODAL, {
+          coin,
+          origin: 'RetrySendEth'
         })
       )
 

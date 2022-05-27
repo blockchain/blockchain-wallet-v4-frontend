@@ -84,15 +84,12 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onDeleteLabel = (i) => {
     const { accountIndex, derivation, modalsActions, walletIndex } = this.props
-    modalsActions.showModal({
-      props: {
-        accountIdx: accountIndex,
-        addressIdx: i,
-        derivation,
-        origin: 'SettingsPage',
-        walletIdx: walletIndex
-      },
-      type: ModalName.DELETE_ADDRESS_LABEL_MODAL
+    modalsActions.showModal(ModalName.DELETE_ADDRESS_LABEL_MODAL, {
+      accountIdx: accountIndex,
+      addressIdx: i,
+      derivation,
+      origin: 'SettingsPage',
+      walletIdx: walletIndex
     })
   }
 
@@ -108,21 +105,15 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onShowXPub = () => {
     const { modalsActions, xpub } = this.props
-    modalsActions.showModal({
-      props: { origin: 'SettingsPage', xpub },
-      type: ModalName.SHOW_XPUB_MODAL
-    })
+    modalsActions.showModal(ModalName.SHOW_XPUB_MODAL, { origin: 'SettingsPage', xpub })
   }
 
   onShowFundRecovery = (accountIndex) => {
     const { modalsActions } = this.props
-    modalsActions.showModal({
-      props: {
-        accountIndex,
-        coin: 'BTC',
-        origin: 'SettingsPage'
-      },
-      type: ModalName.FUND_RECOVERY_MODAL
+    modalsActions.showModal(ModalName.FUND_RECOVERY_MODAL, {
+      accountIndex,
+      coin: 'BTC',
+      origin: 'SettingsPage'
     })
   }
 

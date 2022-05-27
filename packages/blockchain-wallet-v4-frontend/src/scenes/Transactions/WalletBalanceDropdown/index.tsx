@@ -143,12 +143,9 @@ class WalletBalanceDropdown extends Component<Props> {
 
   handleRequest = () => {
     const { coinfig } = window.coins[this.props.coin]
-    this.props.modalActions.showModal({
-      props: {
-        coin: coinfig.type.name !== 'FIAT' && this.props.coin,
-        origin: 'WalletBalanceDropdown'
-      },
-      type: ModalName.REQUEST_CRYPTO_MODAL
+    this.props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+      coin: coinfig.type.name !== 'FIAT' && this.props.coin,
+      origin: 'WalletBalanceDropdown'
     })
   }
 

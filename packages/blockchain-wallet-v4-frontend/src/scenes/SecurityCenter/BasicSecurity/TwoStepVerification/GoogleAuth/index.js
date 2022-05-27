@@ -43,7 +43,7 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal({ props: {}, type: ModalName.TWO_STEP_SETUP_MODAL })
+    this.props.modalActions.showModal(ModalName.TWO_STEP_SETUP_MODAL)
   }
 
   onSubmit() {

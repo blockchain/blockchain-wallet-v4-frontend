@@ -61,11 +61,8 @@ export default ({ api, coreSagas }) => {
         coreSagas.settings.requestGoogleAuthenticatorSecretUrl
       )
       yield put(
-        actions.modals.showModal({
-          props: {
-            googleAuthenticatorSecretUrl
-          },
-          type: ModalName.TWO_STEP_GOOGLE_AUTH_MODAL
+        actions.modals.showModal(ModalName.TWO_STEP_GOOGLE_AUTH_MODAL, {
+          googleAuthenticatorSecretUrl
         })
       )
     } catch (e) {

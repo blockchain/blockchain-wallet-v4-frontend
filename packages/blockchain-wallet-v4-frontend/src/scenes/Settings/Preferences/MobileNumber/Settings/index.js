@@ -18,23 +18,17 @@ class SettingContainer extends Component {
     const { authType, modalActions, smsNumber, smsVerified } = this.props
 
     if (!smsVerified && smsNumber) {
-      modalActions.showModal({
-        props: { mobileNumber: smsNumber },
-        type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
-      })
+      modalActions.showModal(ModalName.MOBILE_NUMBER_VERIFY_MODAL, { mobileNumber: smsNumber })
     } else if (authType === 5) {
       this.setState({ show2FAWarning: true })
     } else if (smsVerified === 1) {
-      modalActions.showModal({ props: {}, type: ModalName.MOBILE_NUMBER_CHANGE_MODAL })
+      modalActions.showModal(ModalName.MOBILE_NUMBER_CHANGE_MODAL)
     } else if (smsNumber) {
-      modalActions.showModal({
-        props: {
-          mobileNumber: smsNumber
-        },
-        type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
+      modalActions.showModal(ModalName.MOBILE_NUMBER_VERIFY_MODAL, {
+        mobileNumber: smsNumber
       })
     } else {
-      modalActions.showModal({ props: {}, type: ModalName.MOBILE_NUMBER_ADD_MODAL })
+      modalActions.showModal(ModalName.MOBILE_NUMBER_ADD_MODAL)
     }
   }
 

@@ -68,11 +68,8 @@ class TwoStepVerificationContainer extends React.PureComponent {
   handleDisableClick() {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
-      this.props.modalActions.showModal({
-        props: {
-          authName: this.state.authName
-        },
-        type: ModalName.CONFIRM_DISABLE_2FA
+      this.props.modalActions.showModal(ModalName.CONFIRM_DISABLE_2FA, {
+        authName: this.state.authName
       })
     } else {
       this.setState((previousState) => ({

@@ -17,11 +17,8 @@ export default ({ api }: { api: APIType }) => {
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin } = payload
     yield put(
-      actions.modals.showModal({
-        props: {
-          origin
-        },
-        type: ModalName.RECURRING_BUYS_MODAL
+      actions.modals.showModal(ModalName.RECURRING_BUYS_MODAL, {
+        origin
       })
     )
 

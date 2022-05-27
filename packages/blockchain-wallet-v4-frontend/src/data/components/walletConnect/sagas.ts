@@ -161,10 +161,7 @@ export default ({ coreSagas }) => {
       yield put(A.setSessionDetails(sessionDetails))
       yield put(A.initWalletConnect({ sessionDetails, uri }))
       yield put(
-        actions.modals.showModal({
-          props: { origin: 'WalletConnect' },
-          type: ModalName.WALLET_CONNECT_MODAL
-        })
+        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
       )
       yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
     } catch (e) {
@@ -300,10 +297,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
       yield put(
-        actions.modals.showModal({
-          props: { origin: 'WalletConnect' },
-          type: ModalName.WALLET_CONNECT_MODAL
-        })
+        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
       )
       // without this delay, the flyout jarringly jumps around 🤷
       yield delay(1000)

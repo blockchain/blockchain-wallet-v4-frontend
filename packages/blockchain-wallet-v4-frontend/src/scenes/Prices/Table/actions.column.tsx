@@ -54,11 +54,8 @@ export const getActionsColumn = (
             nature='empty-blue'
             onClick={() => {
               formActions.destroy('initSwap')
-              modalActions.showModal({
-                props: {
-                  origin: 'Prices'
-                },
-                type: ModalName.SWAP_MODAL
+              modalActions.showModal(ModalName.SWAP_MODAL, {
+                origin: 'Prices'
               })
               swapActions.setStep({
                 step: 'INIT_SWAP'

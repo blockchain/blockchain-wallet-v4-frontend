@@ -10,7 +10,7 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
     let enhancedArgs = args
     const wallet = yield select(selectors.core.wallet.getWallet)
     if (Types.Wallet.isDoubleEncrypted(wallet)) {
-      yield put(actions.modals.showModal({ props: {}, type: ModalName.SECOND_PASSWORD_MODAL }))
+      yield put(actions.modals.showModal(ModalName.SECOND_PASSWORD_MODAL))
       const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
       const secPass = secPassAct.payload.password
       enhancedArgs = assoc('password', secPass, args)
@@ -21,9 +21,7 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
 export const promptForSecondPassword = function* (purposes) {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
-    yield put(
-      actions.modals.showModal({ props: { purposes }, type: ModalName.SECOND_PASSWORD_MODAL })
-    )
+    yield put(actions.modals.showModal(ModalName.SECOND_PASSWORD_MODAL, { purposes }))
     const { cancelled, response } = yield race({
       cancelled: take(actions.modals.closeModal.type),
       response: take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)

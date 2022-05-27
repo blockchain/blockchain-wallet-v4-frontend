@@ -76,11 +76,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       // prompt upgrade modal in case that user can't buy more
       if (!userCanWithdrawal) {
         yield put(
-          actions.modals.showModal({
-            props: {
-              origin: 'WithdrawModal'
-            },
-            type: ModalName.UPGRADE_NOW_SILVER_MODAL
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'WithdrawModal'
           })
         )
         // close withdrawal Modal
@@ -106,11 +103,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
 
     yield put(
-      actions.modals.showModal({
-        props: {
-          origin: 'TransactionList'
-        },
-        type: ModalName.CUSTODY_WITHDRAW_MODAL
+      actions.modals.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
+        origin: 'TransactionList'
       })
     )
 

@@ -151,12 +151,9 @@ const Explore: React.FC<Props> = (props) => {
     )
   }
   const handleGetFeatured = () => {
-    props.modalActions.showModal({
-      props: {
-        closeAllModals: props.modalActions.closeAllModals,
-        origin: 'Nfts'
-      },
-      type: ModalName.GET_FEATURED
+    props.modalActions.showModal(ModalName.GET_FEATURED, {
+      closeAllModals: props.modalActions.closeAllModals,
+      origin: 'Nfts'
     })
   }
 

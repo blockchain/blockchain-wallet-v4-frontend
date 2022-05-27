@@ -53,11 +53,8 @@ class SwapOrderTx extends PureComponent<Props, State> {
   }
 
   showModal = (order: ProcessedSwapOrderType) => {
-    this.props.modalActions.showModal({
-      props: {
-        origin: 'TransactionList'
-      },
-      type: ModalName.SWAP_MODAL
+    this.props.modalActions.showModal(ModalName.SWAP_MODAL, {
+      origin: 'TransactionList'
     })
     this.props.swapActions.setStep({
       options: {

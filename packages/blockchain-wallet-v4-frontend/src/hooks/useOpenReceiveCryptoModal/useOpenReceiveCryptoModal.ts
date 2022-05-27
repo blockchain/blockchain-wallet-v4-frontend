@@ -11,12 +11,9 @@ export const useOpenReceiveCryptoModal: OpenReceiveCryptoModalHook = () => {
 
   const open = useCallback(
     ({ coin, origin }) => {
-      actions.modals.showModal({
-        props: {
-          origin,
-          preselectedCoin: coin
-        },
-        type: ModalName.REQUEST_CRYPTO_MODAL
+      actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+        origin,
+        preselectedCoin: coin
       })
     },
     [dispatch]

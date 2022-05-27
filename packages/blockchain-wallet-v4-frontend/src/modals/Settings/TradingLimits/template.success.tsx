@@ -331,11 +331,8 @@ const Template: React.FC<Props> = (props) => {
   }, [])
 
   const showUpgradeModal = useCallback(() => {
-    modalActions.showModal({
-      props: {
-        origin: 'TradingLimits'
-      },
-      type: ModalName.UPGRADE_NOW_MODAL
+    modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
+      origin: 'TradingLimits'
     })
   }, [modalActions])
 

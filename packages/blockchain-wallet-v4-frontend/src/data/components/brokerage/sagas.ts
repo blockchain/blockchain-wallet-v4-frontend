@@ -330,18 +330,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // prompt upgrade modal in case that user can't buy more
       if (!userCanDeposit) {
         yield put(
-          actions.modals.showModal({
-            props: {
-              origin: 'DepositWithdrawalModal'
-            },
-            type: ModalName.UPGRADE_NOW_SILVER_MODAL
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'DepositWithdrawalModal'
           })
         )
         return
       }
     }
 
-    yield put(actions.modals.showModal({ props: { origin }, type: modalType }))
+    yield put(actions.modals.showModal(modalType, { origin }))
   }
 
   const ClearedStatusCheck = function* (orderId) {

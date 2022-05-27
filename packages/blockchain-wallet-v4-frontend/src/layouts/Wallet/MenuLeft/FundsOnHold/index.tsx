@@ -16,11 +16,8 @@ export const FundsOnHoldContainer = (props: Props) => {
   }, [props.walletCurrency])
 
   const handleClick = useCallback(() => {
-    props.modalActions.showModal({
-      props: {
-        origin: 'SideNav'
-      },
-      type: ModalName.CUSTODY_WITHDRAW_MODAL
+    props.modalActions.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
+      origin: 'SideNav'
     })
     props.withdrawActions.setStep({
       step: WithdrawStepEnum.ON_HOLD

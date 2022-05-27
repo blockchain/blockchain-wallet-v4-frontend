@@ -166,11 +166,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   showUpgradeModal: () => {
     dispatch(actions.modals.closeModal({ modalName: ModalName.SWAP_MODAL }))
     dispatch(
-      actions.modals.showModal({
-        props: {
-          origin: 'Swap'
-        },
-        type: ModalName.UPGRADE_NOW_SILVER_MODAL
+      actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+        origin: 'Swap'
       })
     )
     dispatch(

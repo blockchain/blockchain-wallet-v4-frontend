@@ -10,11 +10,8 @@ import Exchange from './template'
 
 class ExchangeContainer extends React.PureComponent<Props> {
   onSignup = () => {
-    this.props.modalActions.showModal({
-      props: {
-        origin: 'TheExchangePage'
-      },
-      type: ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL
+    this.props.modalActions.showModal(ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL, {
+      origin: 'TheExchangePage'
     })
   }
 

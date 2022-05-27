@@ -18,12 +18,9 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleTransferAll = () => {
-    this.props.actions.showModal({
-      props: {
-        excludeHDWallets: true,
-        from: 'allImportedAddresses'
-      },
-      type: model.components.sendBch.MODAL
+    this.props.actions.showModal(model.components.sendBch.MODAL, {
+      excludeHDWallets: true,
+      from: 'allImportedAddresses'
     })
   }
 

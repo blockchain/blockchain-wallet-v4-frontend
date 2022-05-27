@@ -11,12 +11,9 @@ import Menu from './template'
 class TransactionFiltersContainer extends React.PureComponent<Props> {
   handleClickReporting = () => {
     const { coin, modalActions } = this.props
-    modalActions.showModal({
-      props: {
-        coin,
-        origin: 'TransactionList'
-      },
-      type: ModalName.TRANSACTION_REPORT_MODAL
+    modalActions.showModal(ModalName.TRANSACTION_REPORT_MODAL, {
+      coin,
+      origin: 'TransactionList'
     })
   }
 

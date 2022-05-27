@@ -53,11 +53,8 @@ const BuyButton = styled(Button)`
 
 class CoinIntroductionContainer extends React.PureComponent<Props> {
   handleRequest = () =>
-    this.props.modalActions.showModal({
-      props: {
-        origin: 'EmptyFeed'
-      },
-      type: ModalName.REQUEST_CRYPTO_MODAL
+    this.props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+      origin: 'EmptyFeed'
     })
 
   render() {

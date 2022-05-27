@@ -746,7 +746,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   }
 
   const nftOrderFlowOpen = function* () {
-    yield put(actions.modals.showModal({ props: { origin: 'Unknown' }, type: ModalName.NFT_ORDER }))
+    yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
   }
 
   // watch router change so we know if we need to reset nft trait filter form
