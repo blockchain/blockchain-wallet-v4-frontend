@@ -11,18 +11,9 @@ export const getData = createDeepEqualSelector(
     selectors.router.getPathname,
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getDomains,
-    selectors.modules.profile.getUserData,
-    selectors.core.walletOptions.getWithdrawalLocksFundsOnHold
+    selectors.modules.profile.getUserData
   ],
-  (
-    menuOpened: boolean,
-    firstLogin: boolean,
-    pathname,
-    countryCodeR,
-    domainsR,
-    userDataR,
-    withdrawalLocksFundsOnHoldR
-  ) => {
+  (menuOpened: boolean, firstLogin: boolean, pathname, countryCodeR, domainsR, userDataR) => {
     const transform = (
       countryCode,
       domains: ExtractSuccess<typeof domainsR>,
@@ -34,8 +25,7 @@ export const getData = createDeepEqualSelector(
         firstLogin,
         menuOpened,
         pathname,
-        userData,
-        withdrawalLocksFundsOnHold: withdrawalLocksFundsOnHoldR.getOrElse(false)
+        userData
       }
     }
 

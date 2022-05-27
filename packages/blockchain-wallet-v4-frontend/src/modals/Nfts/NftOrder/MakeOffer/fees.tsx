@@ -19,7 +19,8 @@ const Fees: React.FC<Props> = (props) => {
           props?.orderFlow?.wrapEthFees?.data?.gasPrice
         )
       )
-    const totalString = !totalFees.isNaN() ? totalFees.toString() : '0'
+    if (totalFees.isNaN()) return '⚠️'
+    const totalString = totalFees.toString()
     const total = displayCoinToCoin({ coin: 'ETH', value: totalString })
     return total
   }

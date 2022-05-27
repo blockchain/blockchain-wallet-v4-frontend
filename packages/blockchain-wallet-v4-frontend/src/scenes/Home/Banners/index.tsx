@@ -18,8 +18,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
-import StxAidropFundsAvailable from './StxAirdropFundsAvailable'
-import TaxCenter from './TaxCenter'
+import StxAirdropFundsAvailable from './StxAirdropFundsAvailable'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -64,7 +63,7 @@ class Banners extends React.PureComponent<Props> {
       case 'stxAirdropFundsAvailable':
         return (
           <BannerWrapper>
-            <StxAidropFundsAvailable />
+            <StxAirdropFundsAvailable />
           </BannerWrapper>
         )
       case 'sbOrder':
@@ -107,12 +106,6 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <RecurringBuys />
-          </BannerWrapper>
-        )
-      case 'taxCenter':
-        return (
-          <BannerWrapper>
-            <TaxCenter />
           </BannerWrapper>
         )
       default:
