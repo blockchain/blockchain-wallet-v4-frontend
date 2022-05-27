@@ -70,11 +70,17 @@ const ListStyles = styled.ul`
   align-items: stretch;
   margin: 0;
   padding: 0 0 0 24px;
+  ${media.tabletL`
+    padding: 0 0 0 6px;
+  `}
 
   & > li {
     display: flex;
     align-items: center;
     padding: 10px 12px;
+    ${media.tabletL`
+      padding: 10px 6px;
+    `}
 
     &:last-child {
       padding-right: 0;
@@ -109,6 +115,9 @@ const PrimaryNavItems = styled(ListStyles)`
 
   & > li {
     padding: 10px 8px;
+    ${media.tabletL`
+      padding: 1px;
+    `}
 
     & > a > span {
       font-weight: 600;
@@ -135,6 +144,12 @@ const SecondaryNavItems = styled(ListStyles)`
 
   & > li:nth-child(3) {
     padding-left: 8px;
+  }
+
+  & > li.mobile-app {
+    ${media.tabletL`
+      display: none;
+    `}
   }
 `
 
@@ -422,7 +437,7 @@ const Navbar = ({
           ) : (
             <>
               {secondaryNavItems.map((item) => (
-                <li key={item.name} className={item.name === 'Refresh' ? 'refresh' : ''}>
+                <li key={item.name} className={item.name.toLowerCase()}>
                   {item.component()}
                 </li>
               ))}
