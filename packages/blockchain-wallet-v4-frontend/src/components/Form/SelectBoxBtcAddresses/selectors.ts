@@ -169,9 +169,8 @@ export const getData = (
             .getAddressesBalances(state)
             .map(toDropdown)
             .map(toGroup('Imported Addresses'))
-            .map((x) => {
-              console.log(x)
-              return set(
+            .map((x) =>
+              set(
                 // @ts-ignore
                 compose(lensIndex(0), lensProp('options')),
                 sort(
@@ -181,13 +180,11 @@ export const getData = (
                 ),
                 x
               )
-            })
+            )
     ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
       // @ts-ignore
       const data = reduce(concat, [], orderArray) as array
-      console.log(excludeImported)
-      console.log(data)
 
       if (includeAll) {
         return { data: prepend(allWallets, data) }
