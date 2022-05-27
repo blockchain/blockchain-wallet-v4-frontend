@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import Settings from './template.js'
 
@@ -17,17 +18,23 @@ class SettingContainer extends Component {
     const { authType, modalActions, smsNumber, smsVerified } = this.props
 
     if (!smsVerified && smsNumber) {
-      modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', { mobileNumber: smsNumber })
+      modalActions.showModal({
+        props: { mobileNumber: smsNumber },
+        type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
+      })
     } else if (authType === 5) {
       this.setState({ show2FAWarning: true })
     } else if (smsVerified === 1) {
-      modalActions.showModal('MOBILE_NUMBER_CHANGE_MODAL')
+      modalActions.showModal({ props: {}, type: ModalName.MOBILE_NUMBER_CHANGE_MODAL })
     } else if (smsNumber) {
-      modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
-        mobileNumber: smsNumber
+      modalActions.showModal({
+        props: {
+          mobileNumber: smsNumber
+        },
+        type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
       })
     } else {
-      modalActions.showModal('MOBILE_NUMBER_ADD_MODAL')
+      modalActions.showModal({ props: {}, type: ModalName.MOBILE_NUMBER_ADD_MODAL })
     }
   }
 

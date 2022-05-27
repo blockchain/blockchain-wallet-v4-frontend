@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { Remote } from '@core'
 import { actions, model } from 'data'
+import { ModalName } from 'data/types'
 import { requireUniqueWalletName } from 'services/forms'
 
 import { getData, getWalletsWithoutRemoteData } from './selectors'
@@ -19,9 +20,12 @@ class BtcWalletsContainer extends React.Component<Props> {
 
   onAddNewWallet = (wallets) => {
     const allWalletLabels = wallets.map((wallet) => wallet.label)
-    this.props.modalActions.showModal('ADD_BTC_WALLET_MODAL', {
-      origin: 'SettingsPage',
-      uniqueWalletName: (value) => requireUniqueWalletName(value, allWalletLabels)
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SettingsPage',
+        uniqueWalletName: (value) => requireUniqueWalletName(value, allWalletLabels)
+      },
+      type: ModalName.ADD_BTC_WALLET_MODAL
     })
   }
 
@@ -30,8 +34,11 @@ class BtcWalletsContainer extends React.Component<Props> {
   }
 
   onClickImport = () => {
-    this.props.modalActions.showModal('IMPORT_BTC_ADDRESS_MODAL', {
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SettingsPage'
+      },
+      type: ModalName.IMPORT_BTC_ADDRESS_MODAL
     })
   }
 

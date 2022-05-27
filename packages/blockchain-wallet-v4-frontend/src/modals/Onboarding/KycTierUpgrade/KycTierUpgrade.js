@@ -92,7 +92,7 @@ class KycTierUpgrade extends React.PureComponent {
 const mapDispatchToProps = (dispatch, { nextTier }) => ({
   dontShowAgain: () => dispatch(actions.preferences.hideSwapUpgradeModal()),
   upgrade: () => {
-    dispatch(actions.modals.closeModal())
+    dispatch(actions.modals.closeModal({}))
     dispatch(
       actions.components.identityVerification.verifyIdentity({
         origin: 'Onboarding',

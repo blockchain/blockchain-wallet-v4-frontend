@@ -86,8 +86,8 @@ const Template: React.FC<Props> = (props) => {
   } = props
   const startVerification = useCallback(
     (tier: TIER_TYPES) => () => {
-      modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
-      modalActions.closeModal(ModalName.UPGRADE_NOW_MODAL)
+      modalActions.closeModal({ modalName: ModalName.TRADING_LIMITS_MODAL })
+      modalActions.closeModal({ modalName: ModalName.UPGRADE_NOW_MODAL })
       identityVerificationActions.verifyIdentity({
         needMoreInfo: false,
         origin: 'Settings',

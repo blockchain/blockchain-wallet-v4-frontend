@@ -6,6 +6,7 @@ import { Remote, Types } from '@core'
 import { LEGACY_DERIVATION_TYPE } from '@core/types/HDAccount'
 import { actions, actionTypes, selectors } from 'data'
 import { Analytics } from 'data/analytics/types'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -132,9 +133,12 @@ export default ({ coreSagas }) => {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
-        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
-          duration: addressLabelSize / 20,
-          origin: 'LoginSaga'
+        actions.modals.showModal({
+          props: {
+            duration: addressLabelSize / 20,
+            origin: 'LoginSaga'
+          },
+          type: ModalName.UPGRADE_ADDRESS_LABELS_MODAL
         })
       )
     }
@@ -142,7 +146,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.kvStore.btc.createMetadataBtc)
     }
     if (addressLabelSize > 100) {
-      yield put(actions.modals.closeModal())
+      yield put(actions.modals.closeModal({}))
     }
   }
 
@@ -166,7 +170,7 @@ export default ({ coreSagas }) => {
       if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
-      yield put(actions.modals.closeModal())
+      yield put(actions.modals.closeModal({}))
     }
   }
 

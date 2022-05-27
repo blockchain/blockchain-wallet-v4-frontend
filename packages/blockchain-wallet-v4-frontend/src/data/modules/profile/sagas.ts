@@ -8,7 +8,7 @@ import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
-import { Analytics, AuthMagicLink, PlatformTypes } from 'data/types'
+import { Analytics, AuthMagicLink, PlatformTypes, ModalName } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -197,11 +197,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setApiTokenFailure(e))
       if (e.message && e.message.includes('User linked to another wallet')) {
         return yield put(
-          actions.modals.showModal(
-            'NABU_USER_CONFLICT_REDIRECT',
-            { origin: 'NabuUserAuth' },
-            { errorMessage: e.message }
-          )
+          actions.modals.showModal({
+            options: { errorMessage: e.message },
+            props: { origin: 'NabuUserAuth' },
+            type: ModalName.NABU_USER_CONFLICT_REDIRECT
+          })
         )
       }
       yield spawn(renewSession, nabuUserId, nabuLifetimeToken, email, guid, authRetryDelay)
@@ -627,7 +627,7 @@ export default ({ api, coreSagas, networks }) => {
           cancel: take([
             AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
             AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
-            actionTypes.modals.CLOSE_MODAL
+            actions.modals.closeModal.type
           ])
         })
       }

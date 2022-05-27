@@ -72,8 +72,11 @@ const VerifyNotice = ({ analyticsActions, cacheActions, close, modalActions }) =
 
   const verifyNowClick = useCallback(() => {
     close()
-    modalActions.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-      origin: 'VerifyNotice'
+    modalActions.showModal({
+      props: {
+        origin: 'VerifyNotice'
+      },
+      type: ModalName.UPGRADE_NOW_SILVER_MODAL
     })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_VERIFY_NOW_POPUP_CTA_CLICKED,

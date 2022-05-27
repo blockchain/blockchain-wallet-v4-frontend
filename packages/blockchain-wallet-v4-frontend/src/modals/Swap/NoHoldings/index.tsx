@@ -9,7 +9,7 @@ import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { ModalName, UserDataType } from 'data/types'
 
 import { Border, IconBackground, TopText } from '../components'
 import { Props as BaseProps } from '../index'
@@ -160,8 +160,11 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
 
       <DisplayContainer
         onClick={() => {
-          modalActions.showModal('REQUEST_CRYPTO_MODAL', {
-            origin: 'SwapNoHoldings'
+          modalActions.showModal({
+            props: {
+              origin: 'SwapNoHoldings'
+            },
+            type: ModalName.REQUEST_CRYPTO_MODAL
           })
         }}
       >

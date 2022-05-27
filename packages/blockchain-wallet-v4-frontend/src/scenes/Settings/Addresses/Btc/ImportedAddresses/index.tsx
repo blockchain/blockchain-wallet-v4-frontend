@@ -6,6 +6,7 @@ import { formValueSelector } from 'redux-form'
 
 import { Remote } from '@core'
 import { actions, model, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 import ImportedAddresses from './template'
 
@@ -17,23 +18,32 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleClickVerify = () => {
-    this.props.modalActions.showModal('VERIFY_MESSAGE_MODAL', {
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SettingsPage'
+      },
+      type: ModalName.VERIFY_MESSAGE_MODAL
     })
   }
 
   handleShowPriv = (address) => {
-    this.props.modalActions.showModal('SHOW_BTC_PRIVATE_KEY_MODAL', {
-      addr: address.addr,
-      balance: address.info.final_balance,
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        addr: address.addr,
+        balance: address.info.final_balance,
+        origin: 'SettingsPage'
+      },
+      type: ModalName.SHOW_BTC_PRIVATE_KEY_MODAL
     })
   }
 
   handleSignMessage = (address) => {
-    this.props.modalActions.showModal('SIGN_MESSAGE_MODAL', {
-      address: address.addr,
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        address: address.addr,
+        origin: 'SettingsPage'
+      },
+      type: ModalName.SIGN_MESSAGE_MODAL
     })
   }
 
@@ -47,10 +57,13 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleTransferAll = () => {
-    this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
-      excludeHDWallets: true,
-      from: 'allImportedAddresses',
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        excludeHDWallets: true,
+        from: 'allImportedAddresses',
+        origin: 'SettingsPage'
+      },
+      type: model.components.sendBtc.MODAL
     })
   }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
@@ -17,9 +18,12 @@ class MobileNumberAddContainer extends React.PureComponent {
   onSubmit() {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
-    this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
-      mobileNumber: smsNumberNew
+    this.props.modalActions.closeModal({})
+    this.props.modalActions.showModal({
+      props: {
+        mobileNumber: smsNumberNew
+      },
+      type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
     })
   }
 

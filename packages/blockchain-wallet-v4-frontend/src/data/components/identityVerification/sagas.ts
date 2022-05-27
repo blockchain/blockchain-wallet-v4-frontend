@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(ModalName.KYC_MODAL, payload))
+    yield put(actions.modals.showModal({ props: payload, type: ModalName.KYC_MODAL }))
   }
 
   const registerUserCampaign = function* (payload) {
@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }) => {
       // Buffer for tagging user
       const wallet = yield select(selectors.core.wallet.getWallet)
       if (Types.Wallet.isDoubleEncrypted(wallet)) {
-        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actionTypes.modals.CLOSE_MODAL])
+        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actions.modals.closeModal.type])
       }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
@@ -214,7 +214,7 @@ export default ({ api, coreSagas, networks }) => {
 
     if (step) return yield put(A.setVerificationStep(step))
 
-    yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+    yield put(actions.modals.closeModal({ modalName: ModalName.KYC_MODAL }))
   }
 
   const goToNextStep = function* () {
@@ -226,7 +226,7 @@ export default ({ api, coreSagas, networks }) => {
     if (step) return yield put(A.setVerificationStep(step))
 
     yield put(actions.modules.profile.fetchUser())
-    yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+    yield put(actions.modals.closeModal({ modalName: ModalName.KYC_MODAL }))
   }
 
   const updateSmsStep = ({ smsNumber, smsVerified }) => {
@@ -454,7 +454,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.components.buySell.fetchOrdersFailure.type
           ])
           // close KYC modal
-          yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+          yield put(actions.modals.closeModal({ modalName: ModalName.KYC_MODAL }))
         } else {
           // SDD denied, continue to veriff
           yield call(goToNextStep)

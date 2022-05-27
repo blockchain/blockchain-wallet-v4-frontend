@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import MobileNumberVerify from './template.js'
@@ -22,8 +23,8 @@ class MobileNumberVerifyContainer extends React.PureComponent {
   }
 
   handleChange() {
-    this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL')
+    this.props.modalActions.closeModal({})
+    this.props.modalActions.showModal({ props: {}, type: ModalName.MOBILE_NUMBER_VERIFY_MODAL })
   }
 
   onSubmit() {

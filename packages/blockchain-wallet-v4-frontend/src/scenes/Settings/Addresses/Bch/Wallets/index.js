@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { Remote } from '@core'
 import { actions, model } from 'data'
+import { ModalName } from 'data/types'
 
 import { getData } from './selectors'
 import Wallets from './template'
@@ -27,10 +28,13 @@ class BchWalletsContainer extends React.Component {
       addressesBchActions.showChangeAddrs(account.index, account.xpub)
     }
     const onShowXPub = (account) => {
-      modalsActions.showModal('SHOW_XPUB_MODAL', { xpub: account.xpub })
+      modalsActions.showModal({ props: { xpub: account.xpub }, type: ModalName.SHOW_XPUB_MODAL })
     }
     const onShowFundRecovery = (account) => {
-      modalsActions.showModal('FUND_RECOVERY_MODAL', { accountIndex: account.index, coin: 'BCH' })
+      modalsActions.showModal({
+        props: { accountIndex: account.index, coin: 'BCH' },
+        type: ModalName.FUND_RECOVERY_MODAL
+      })
     }
     const onMakeDefault = (account) => {
       kvStoreBchActions.setDefaultAccountIdx(account.index)

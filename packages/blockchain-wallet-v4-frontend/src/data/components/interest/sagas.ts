@@ -19,6 +19,7 @@ import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { ModalName } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
@@ -544,9 +545,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { coin, step } = payload
     yield put(A.setInterestStep({ name: step }))
     yield put(
-      actions.modals.showModal('INTEREST_MODAL', {
-        coin,
-        origin: 'InterestPage'
+      actions.modals.showModal({
+        props: {
+          coin,
+          origin: 'InterestPage'
+        },
+        type: ModalName.INTEREST_MODAL
       })
     )
   }
@@ -582,7 +586,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'INTEREST_PROMO_MODAL', e))
     }
-    yield put(actions.modals.closeModal('INTEREST_PROMO_MODAL'))
+    yield put(actions.modals.closeModal({ modalName: ModalName.INTEREST_PROMO_MODAL }))
   }
 
   const fetchEDDStatus = function* () {

@@ -20,16 +20,22 @@ const Header = (props: OwnProps) => {
   }, [props.sessionActions])
 
   const sendCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
+    props.modalActions.showModal({ props: { origin: 'Header' }, type: ModalName.SEND_CRYPTO_MODAL })
   }, [props.modalActions])
 
   const receiveCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
+    props.modalActions.showModal({
+      props: { origin: 'FeaturesTopNav' },
+      type: ModalName.REQUEST_CRYPTO_MODAL
+    })
   }, [props.modalActions])
 
   const fabCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.TRADE_MODAL, {
-      origin: 'Header'
+    props.modalActions.showModal({
+      props: {
+        origin: 'Header'
+      },
+      type: ModalName.TRADE_MODAL
     })
   }, [props.modalActions])
 
@@ -41,8 +47,11 @@ const Header = (props: OwnProps) => {
   )
 
   const limitsCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
-      origin: 'TradingLimits'
+    props.modalActions.showModal({
+      props: {
+        origin: 'TradingLimits'
+      },
+      type: ModalName.TRADING_LIMITS_MODAL
     })
     trackEventCallback('TradingLimits')
   }, [props.modalActions, trackEventCallback])

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutFooter, FlyoutHeader } from 'components/Flyout/Layout'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import AnimatedCarousel from './AnimatedCarousel'
 
@@ -183,7 +184,7 @@ class Notifications extends PureComponent<Props, State> {
             style={{ marginTop: '16px' }}
             onClick={() => {
               this.props.buySellActions.showModal({ origin: 'RecurringBuyPromo' })
-              this.props.modalActions.closeModal('RECURRING_BUYS_MODAL')
+              this.props.modalActions.closeModal({ modalName: ModalName.RECURRING_BUYS_MODAL })
             }}
           >
             <FormattedMessage

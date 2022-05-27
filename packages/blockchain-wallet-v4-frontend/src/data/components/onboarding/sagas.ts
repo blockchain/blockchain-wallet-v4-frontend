@@ -1,6 +1,7 @@
 import { delay, put, take } from 'redux-saga/effects'
 
 import { actions, actionTypes } from 'data'
+import { ModalName } from 'data/types'
 
 export const logLocation = 'components/onboarding/sagas'
 
@@ -19,8 +20,11 @@ export default () => {
       yield put(actions.form.stopSubmit('airdropClaim'))
       yield put(actions.modals.closeAllModals())
       yield put(
-        actions.modals.showModal('AIRDROP_SUCCESS_MODAL', {
-          origin: 'AirdropClaimGoal'
+        actions.modals.showModal({
+          props: {
+            origin: 'AirdropClaimGoal'
+          },
+          type: ModalName.AIRDROP_SUCCESS_MODAL
         })
       )
     } catch (e) {
@@ -31,7 +35,7 @@ export default () => {
   const swapGetStartedSubmitClicked = function* () {
     try {
       yield put(actions.preferences.hideKycGetStarted())
-      yield put(actions.modals.closeModal())
+      yield put(actions.modals.closeModal({}))
       yield put(
         actions.components.identityVerification.verifyIdentity({
           needMoreInfo: false,
@@ -48,7 +52,7 @@ export default () => {
     const { campaign } = payload
     try {
       yield put(actions.preferences.hideUpgradeForAirdropModal())
-      yield put(actions.modals.closeModal())
+      yield put(actions.modals.closeModal({}))
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
       yield put(actions.components.identityVerification.createRegisterUserCampaign({}))
     } catch (e) {

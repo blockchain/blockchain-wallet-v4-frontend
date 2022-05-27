@@ -42,8 +42,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
-      yield put(actions.modals.closeModal('REMOVE_BANK_MODAL'))
+      yield put(actions.modals.closeModal({ modalName: ModalName.BANK_DETAILS_MODAL }))
+      yield put(actions.modals.closeModal({ modalName: ModalName.REMOVE_BANK_MODAL }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -330,15 +330,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // prompt upgrade modal in case that user can't buy more
       if (!userCanDeposit) {
         yield put(
-          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-            origin: 'DepositWithdrawalModal'
+          actions.modals.showModal({
+            props: {
+              origin: 'DepositWithdrawalModal'
+            },
+            type: ModalName.UPGRADE_NOW_SILVER_MODAL
           })
         )
         return
       }
     }
 
-    yield put(actions.modals.showModal(modalType, { origin }))
+    yield put(actions.modals.showModal({ props: { origin }, type: modalType }))
   }
 
   const ClearedStatusCheck = function* (orderId) {

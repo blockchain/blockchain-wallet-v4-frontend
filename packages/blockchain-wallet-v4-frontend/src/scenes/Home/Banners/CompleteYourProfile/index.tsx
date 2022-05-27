@@ -80,8 +80,11 @@ const CompleteYourProfile = ({
   const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
 
   const handleClick = useCallback(() => {
-    modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
-      origin: 'SideNav'
+    modalActions.showModal({
+      props: {
+        origin: 'SideNav'
+      },
+      type: ModalName.COMPLETE_USER_PROFILE
     })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,

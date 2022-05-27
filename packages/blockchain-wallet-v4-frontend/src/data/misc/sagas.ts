@@ -25,7 +25,10 @@ export default () => {
 
         if (currentManifest && nextManifest !== currentManifest) {
           yield put(
-            actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' })
+            actions.modals.showModal({
+              props: { origin: 'Unknown' },
+              type: ModalName.NEW_VERSION_AVAILABLE
+            })
           )
         }
 

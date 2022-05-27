@@ -12,6 +12,7 @@ import { Erc20CoinType, EthPaymentType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 import { actions, actionTypes, selectors } from 'data'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -459,9 +460,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(
-        actions.modals.showModal('SEND_ETH_MODAL', {
-          coin,
-          origin: 'RetrySendEth'
+        actions.modals.showModal({
+          props: {
+            coin,
+            origin: 'RetrySendEth'
+          },
+          type: ModalName.SEND_ETH_MODAL
         })
       )
 

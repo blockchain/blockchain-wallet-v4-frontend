@@ -16,6 +16,7 @@ import {
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -105,14 +106,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const bitPayInvoiceEntered = function* (bip21Payload) {
     yield put(
-      actions.modals.showModal('CONFIRMATION_MODAL', {
-        message: C.BITPAY_CONFIRM_MSG,
-        origin: 'SendBtc',
-        title: C.BITPAY_CONFIRM_TITLE
+      actions.modals.showModal({
+        props: {
+          message: C.BITPAY_CONFIRM_MSG,
+          origin: 'SendBtc',
+          title: C.BITPAY_CONFIRM_TITLE
+        },
+        type: ModalName.CONFIRMATION_MODAL
       })
     )
     const { canceled } = yield race({
-      canceled: take(actionTypes.modals.CLOSE_MODAL),
+      canceled: take(actions.modals.closeModal.type),
       response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
     })
     if (canceled) return
@@ -132,8 +136,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const bitpayInvoiceExpired = function* () {
     yield put(actions.modals.closeAllModals())
     yield put(
-      actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
-        origin: 'SendBtc'
+      actions.modals.showModal({
+        props: {
+          origin: 'SendBtc'
+        },
+        type: ModalName.BITPAY_INVOICE_EXPIRED_MODAL
       })
     )
   }

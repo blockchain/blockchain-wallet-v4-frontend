@@ -13,6 +13,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 const BadgesContainer = styled.div`
   display: block;
@@ -25,8 +26,11 @@ const BadgesContainer = styled.div`
 
 class PairingCode extends React.PureComponent<Props> {
   onShowCode = () => {
-    this.props.modalActions.showModal('PAIRING_CODE_MODAL', {
-      origin: 'SettingsPage'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SettingsPage'
+      },
+      type: ModalName.PAIRING_CODE_MODAL
     })
   }
 

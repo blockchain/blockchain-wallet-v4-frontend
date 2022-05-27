@@ -23,7 +23,7 @@ const ModalIconContainer = ({ className, showModal }) => (
 )
 
 const mapDispatchToProps = (dispatch, props) => ({
-  showModal: dispatch.bind(null, actions.modals.showModal(props.modal, { ...props }))
+  showModal: dispatch.bind(null, actions.modals.showModal({ props, type: props.modal }))
 })
 
 export default connect(null, mapDispatchToProps)(ModalIconContainer)

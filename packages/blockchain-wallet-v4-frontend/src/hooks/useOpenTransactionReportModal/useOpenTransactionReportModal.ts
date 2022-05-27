@@ -15,9 +15,12 @@ const useOpenTransactionReportModal: OpenTransactionReportModalHook = () => {
   const open: OpenTransactionReportModalCallback = useCallback(
     ({ coin, origin }) => {
       dispatch(
-        actions.modals.showModal(ModalName.TRANSACTION_REPORT_MODAL, {
-          coin,
-          origin
+        actions.modals.showModal({
+          props: {
+            coin,
+            origin
+          },
+          type: ModalName.TRANSACTION_REPORT_MODAL
         })
       )
     },

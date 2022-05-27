@@ -170,13 +170,18 @@ export default ({ api }: { api: APIType }) => {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin
-        yield put(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Send' }))
+        yield put(
+          actions.modals.showModal({ props: { origin: 'Send' }, type: ModalName.SEND_CRYPTO_MODAL })
+        )
       } else {
         const coin = window.coins[payload].coinfig.type.erc20Address ? 'ETH' : payload
         yield put(
-          actions.modals.showModal(`SEND_${coin}_MODAL` as ModalNameType, {
-            coin: payload,
-            origin: 'Send'
+          actions.modals.showModal({
+            props: {
+              coin: payload,
+              origin: 'Send'
+            },
+            type: `SEND_${coin}_MODAL` as ModalNameType
           })
         )
       }

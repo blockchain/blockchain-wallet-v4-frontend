@@ -441,8 +441,11 @@ export default ({ api, coreSagas, networks }) => {
 
       if (new Date() > new Date(paymentRequest.expires)) {
         return yield put(
-          actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
-            origin: 'PaymentProtocolGoal'
+          actions.modals.showModal({
+            props: {
+              origin: 'PaymentProtocolGoal'
+            },
+            type: ModalName.BITPAY_INVOICE_EXPIRED_MODAL
           })
         )
       }
@@ -840,51 +843,77 @@ export default ({ api, coreSagas, networks }) => {
 
     // Order matters here
     if (linkAccount) {
-      return yield put(actions.modals.showModal(linkAccount.name, linkAccount.data))
+      return yield put(
+        actions.modals.showModal({ props: linkAccount.data, type: linkAccount.name })
+      )
     }
     if (transferEth) {
-      return yield put(actions.modals.showModal(transferEth.name, transferEth.data))
+      return yield put(
+        actions.modals.showModal({ props: transferEth.data, type: transferEth.name })
+      )
     }
     if (kycDocResubmit) {
       return yield put(
-        actions.modals.showModal(kycDocResubmit.name, {
-          origin: 'KycDocResubmitGoal'
+        actions.modals.showModal({
+          props: {
+            origin: 'KycDocResubmitGoal'
+          },
+          type: kycDocResubmit.name
         })
       )
     }
     if (walletConnect) {
-      return yield put(actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data))
+      return yield put(
+        actions.modals.showModal({
+          props: walletConnect.data,
+          type: ModalName.WALLET_CONNECT_MODAL
+        })
+      )
     }
     if (payment) {
-      return yield put(actions.modals.showModal(payment.name, payment.data))
+      return yield put(actions.modals.showModal({ props: payment.data, type: payment.name }))
     }
     if (upgradeForAirdrop) {
-      return yield put(actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data))
+      return yield put(
+        actions.modals.showModal({ props: upgradeForAirdrop.data, type: upgradeForAirdrop.name })
+      )
     }
     if (swap) {
-      return yield put(actions.modals.showModal(swap.name, swap.data))
+      return yield put(actions.modals.showModal({ props: swap.data, type: swap.name }))
     }
     if (swapGetStarted) {
-      return yield put(actions.modals.showModal(swapGetStarted.name, swapGetStarted.data))
+      return yield put(
+        actions.modals.showModal({ props: swapGetStarted.data, type: swapGetStarted.name })
+      )
     }
     if (swapUpgrade) {
-      return yield put(actions.modals.showModal(swapUpgrade.name, swapUpgrade.data))
+      return yield put(
+        actions.modals.showModal({ props: swapUpgrade.data, type: swapUpgrade.name })
+      )
     }
     if (kycUpgradeRequiredNotice) {
       return yield put(
-        actions.modals.showModal(kycUpgradeRequiredNotice.name, kycUpgradeRequiredNotice.data)
+        actions.modals.showModal({
+          props: kycUpgradeRequiredNotice.data,
+          type: kycUpgradeRequiredNotice.name
+        })
       )
     }
     if (sanctionsNotice) {
       return yield put(actions.modals.showModal(sanctionsNotice.name, sanctionsNotice.data))
     }
     if (termsAndConditions) {
-      return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
+      return yield put(
+        actions.modals.showModal({ props: termsAndConditions.data, type: termsAndConditions.name })
+      )
     }
     if (airdropClaim) {
       return yield put(
-        actions.modals.showModal(airdropClaim.name, {
-          origin: 'AirdropClaimGoal'
+        actions.modals.showModal({
+          props: {
+            origin: 'AirdropClaimGoal'
+          },
+          type: airdropClaim.name
         })
       )
     }
@@ -897,7 +926,9 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
     if (interestPromo) {
-      return yield put(actions.modals.showModal(interestPromo.name, interestPromo.data))
+      return yield put(
+        actions.modals.showModal({ props: interestPromo.data, type: interestPromo.name })
+      )
     }
     if (welcomeModal) {
       const sddEligible = yield call(api.fetchSDDEligible)
@@ -909,13 +940,18 @@ export default ({ api, coreSagas, networks }) => {
         // show new complete profile modal
         if (showCompleteYourProfile) {
           return yield put(
-            actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, welcomeModal.data)
+            actions.modals.showModal({
+              props: welcomeModal.data,
+              type: ModalName.COMPLETE_USER_PROFILE
+            })
           )
         }
 
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
-      return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
+      return yield put(
+        actions.modals.showModal({ props: welcomeModal.data, type: welcomeModal.name })
+      )
     }
   }
 

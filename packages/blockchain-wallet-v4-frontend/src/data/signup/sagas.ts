@@ -10,6 +10,7 @@ import {
   AuthMagicLink,
   CaptchaActionName,
   ExchangeAuthOriginType,
+  ModalName,
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
@@ -266,7 +267,12 @@ export default ({ api, coreSagas, networks }) => {
       )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
-      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
+      yield put(
+        actions.modals.showModal({
+          props: { origin: 'ResetAccount' },
+          type: ModalName.RESET_ACCOUNT_FAILED
+        })
+      )
     }
   }
 

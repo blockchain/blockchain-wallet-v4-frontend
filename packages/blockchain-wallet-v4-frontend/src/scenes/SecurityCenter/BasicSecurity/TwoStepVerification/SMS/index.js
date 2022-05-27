@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import { getData } from './selectors'
 import Sms from './template'
@@ -41,19 +42,21 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   handleMount() {
-    this.setState({
-      changeNumberToggled: !this.state.changeNumberToggled
-    })
+    this.setState((previousState) => ({
+      ...previousState,
+      changeNumberToggled: !previousState.changeNumberToggled
+    }))
   }
 
   handleUpdate() {
-    this.setState({
-      successToggled: !this.state.successToggled
-    })
+    this.setState((previousState) => ({
+      ...previousState,
+      successToggled: !previousState.successToggled
+    }))
   }
 
   handleClick() {
-    this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
+    this.props.modalActions.showModal({ props: {}, type: ModalName.TWO_STEP_SETUP_MODAL })
   }
 
   onSubmit() {

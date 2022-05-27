@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -51,29 +52,57 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   handleUpdate() {
-    this.setState({
-      editing: !this.state.editing
-    })
+    this.setState((previousState) => ({
+      ...previousState,
+      editing: !previousState.editing
+    }))
   }
 
   handleClick() {
-    this.setState({
-      verifyToggled: !this.state.verifyToggled
-    })
+    this.setState((previousState) => ({
+      ...previousState,
+      verifyToggled: !previousState.verifyToggled
+    }))
   }
 
   handleDisableClick() {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
-      this.props.modalActions.showModal('CONFIRM_DISABLE_2FA', {
-        authName: this.state.authName
+      this.props.modalActions.showModal({
+        props: {
+          authName: this.state.authName
+        },
+        type: ModalName.CONFIRM_DISABLE_2FA
       })
     } else {
-      this.setState({
-        editing: true,
-        verifyToggled: !this.state.verifyToggled
-      })
+      this.setState((previousState) => ({
+        ...previousState,
+        verifyToggled: !previousState.verifyToggled
+      }))
     }
+  }
+
+  handleTwoFactorChange() {
+    this.props.modalActions.showModal({
+      props: {
+        authName: this.state.authName
+      },
+      type: ModalName.CONFIRM_DISABLE_2FA
+    })
+    this.setState({
+      editing: false
+    })
+  }
+
+  handleGoBack() {
+    this.setState({ authMethod: '', verifyToggled: false })
+  }
+
+  pulseText() {
+    this.setState({ pulse: true })
+    setTimeout(() => {
+      this.setState({ pulse: false })
+    }, 500)
   }
 
   chooseMethod(method) {
@@ -88,26 +117,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
         authMethod: method
       })
     }
-  }
-
-  handleTwoFactorChange() {
-    this.props.modalActions.showModal('CONFIRM_DISABLE_2FA', {
-      authName: this.state.authName
-    })
-    this.setState({
-      editing: false
-    })
-  }
-
-  pulseText() {
-    this.setState({ pulse: true })
-    setTimeout(() => {
-      this.setState({ pulse: false })
-    }, 500)
-  }
-
-  handleGoBack() {
-    this.setState({ authMethod: '', verifyToggled: false })
   }
 
   triggerSuccess() {

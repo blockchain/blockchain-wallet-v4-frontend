@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { CoinType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 import { media } from 'services/styles'
 
 const Container = styled.div`
@@ -52,8 +53,11 @@ const BuyButton = styled(Button)`
 
 class CoinIntroductionContainer extends React.PureComponent<Props> {
   handleRequest = () =>
-    this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL', {
-      origin: 'EmptyFeed'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'EmptyFeed'
+      },
+      type: ModalName.REQUEST_CRYPTO_MODAL
     })
 
   render() {

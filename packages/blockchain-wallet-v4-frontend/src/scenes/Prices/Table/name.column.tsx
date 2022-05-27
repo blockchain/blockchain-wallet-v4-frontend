@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
 import { CellHeaderText, CellText } from 'components/Table'
+import { ModalName } from 'data/types'
 
 import { TableColumnsType } from '..'
 
@@ -28,9 +29,12 @@ export const getNameColumn = (modalActions: TableColumnsType['modalActions']) =>
     return (
       <CellWrapper
         onClick={() => {
-          modalActions.showModal('REQUEST_CRYPTO_MODAL', {
-            origin: 'Prices',
-            preselectedCoin: values.coin
+          modalActions.showModal({
+            props: {
+              origin: 'Prices',
+              preselectedCoin: values.coin
+            },
+            type: ModalName.REQUEST_CRYPTO_MODAL
           })
         }}
       >

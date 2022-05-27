@@ -14,7 +14,7 @@ const TradeContainer = (props: Props) => {
   const dispatch = useDispatch()
   const [show, setShow] = useState<boolean>(false)
   const closeTradeModal = useCallback(() => {
-    dispatch(actions.modals.closeModal('TRADE_MODAL'))
+    dispatch(actions.modals.closeModal({ modalName: ModalName.TRADE_MODAL }))
   }, [])
 
   useEffect(() => {

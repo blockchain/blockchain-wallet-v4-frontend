@@ -27,8 +27,11 @@ class LinkedCards extends PureComponent<Props> {
   }
 
   proceedToUserVerification = () => {
-    this.props.modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
-      origin: 'SettingsGeneral'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SettingsGeneral'
+      },
+      type: ModalName.COMPLETE_USER_PROFILE
     })
   }
 

@@ -10,9 +10,9 @@ import { BuySellStepType, ModalNameType, ModalType } from 'data/types'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   cancelBSOrder: compose(dispatch, actions.components.buySell.cancelOrder),
-  close: compose(dispatch, actions.modals.closeModal),
+  close: compose(dispatch, (modalName) => actions.modals.closeModal({ modalName })),
   closeAll: compose(dispatch, actions.modals.closeAllModals),
-  update: compose(dispatch, actions.modals.updateModalOptions)
+  update: compose(dispatch, (options) => actions.modals.updateModalOptions({ options }))
 })
 
 const mapStateToProps = (state): LinkStatePropsType => ({
@@ -32,7 +32,7 @@ type LinkDispatchPropsType = {
   cancelBSOrder: (order: BSOrderType) => void
   close: (modalName?: ModalNameType) => void
   closeAll: () => void
-  update: () => void
+  update: (options?: Object) => void
 }
 type LinkStatePropsType = {
   buySellOrder: BSOrderType | null

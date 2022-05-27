@@ -131,7 +131,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       origin: 'CompleteProfile',
       tier: 2
     })
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
+    this.props.modalActions.closeModal({ modalName: ModalName.COMPLETE_USER_PROFILE })
     this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
   }
 
@@ -141,7 +141,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     this.props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
+    this.props.modalActions.closeModal({ modalName: ModalName.COMPLETE_USER_PROFILE })
   }
 
   handleLinkBankOrCardClick = () => {
@@ -180,7 +180,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       })
       this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
     }
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
+    this.props.modalActions.closeModal({ modalName: ModalName.COMPLETE_USER_PROFILE })
   }
 
   trackButtonEvent = (eventType: COMPLETE_PROFILE_STEPS, isButtonClick: boolean) => {

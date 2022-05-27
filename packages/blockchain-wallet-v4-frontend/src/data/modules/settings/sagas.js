@@ -3,6 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { Types, utils } from '@core'
 import profileSagas from 'data/modules/profile/sagas.ts'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { addLanguageToUrl } from 'services/locales'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/sagas'
@@ -60,8 +61,11 @@ export default ({ api, coreSagas }) => {
         coreSagas.settings.requestGoogleAuthenticatorSecretUrl
       )
       yield put(
-        actions.modals.showModal('TWO_STEP_GOOGLE_AUTH_MODAL', {
-          googleAuthenticatorSecretUrl
+        actions.modals.showModal({
+          props: {
+            googleAuthenticatorSecretUrl
+          },
+          type: ModalName.TWO_STEP_GOOGLE_AUTH_MODAL
         })
       )
     } catch (e) {
@@ -218,7 +222,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', e))
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal())
+    yield put(actions.modals.closeModal({}))
   }
 
   const enableTwoStepGoogleAuthenticator = function* (action) {
@@ -229,7 +233,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', e))
       yield put(actions.alerts.displayError(C.TWOFA_GOOGLEAUTH_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal())
+    yield put(actions.modals.closeModal({}))
   }
 
   const enableTwoStepYubikey = function* (action) {
@@ -240,7 +244,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', e))
       yield put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal())
+    yield put(actions.modals.closeModal({}))
   }
 
   const newHDAccount = function* (action) {
@@ -252,7 +256,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
       yield put(actions.alerts.displayError(C.NEW_WALLET_CREATE_ERROR))
     }
-    yield put(actions.modals.closeModal())
+    yield put(actions.modals.closeModal({}))
   }
 
   const showBtcPrivateKey = function* (action) {

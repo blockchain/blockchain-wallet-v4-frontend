@@ -11,6 +11,7 @@ import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 
 import {
   Addresses,
@@ -52,8 +53,11 @@ class SwapOrderTx extends PureComponent<Props, State> {
   }
 
   showModal = (order: ProcessedSwapOrderType) => {
-    this.props.modalActions.showModal('SWAP_MODAL', {
-      origin: 'TransactionList'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'TransactionList'
+      },
+      type: ModalName.SWAP_MODAL
     })
     this.props.swapActions.setStep({
       options: {

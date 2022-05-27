@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import { getData } from './selectors'
 import Yubikey from './template'
@@ -11,7 +12,9 @@ class YubikeyContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       successToggled: false,
+      // eslint-disable-next-line react/no-unused-state
       updateToggled: false,
       yubikeyCode: ''
     }
@@ -31,20 +34,21 @@ class YubikeyContainer extends React.PureComponent {
   }
 
   handleUpdate() {
+    // eslint-disable-next-line react/no-unused-state
     this.setState({ successToggled: true })
   }
 
   handleClick() {
-    this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
-  }
-
-  onSubmit() {
-    this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
+    this.props.modalActions.showModal({ props: {}, type: ModalName.TWO_STEP_SETUP_MODAL })
   }
 
   handleInput(e) {
     e.preventDefault()
     this.setState({ yubikeyCode: e.target.value })
+  }
+
+  onSubmit() {
+    this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }
 
   render() {

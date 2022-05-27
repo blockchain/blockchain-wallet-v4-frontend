@@ -6,7 +6,7 @@ import { FiatType } from '@core/types'
 import WithdrawalLockHold from 'components/Brokerage/WithdrawalLockHold'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { WithdrawStepEnum } from 'data/types'
+import { ModalName, WithdrawStepEnum } from 'data/types'
 
 import getData from './selectors'
 
@@ -16,8 +16,11 @@ export const FundsOnHoldContainer = (props: Props) => {
   }, [props.walletCurrency])
 
   const handleClick = useCallback(() => {
-    props.modalActions.showModal('CUSTODY_WITHDRAW_MODAL', {
-      origin: 'SideNav'
+    props.modalActions.showModal({
+      props: {
+        origin: 'SideNav'
+      },
+      type: ModalName.CUSTODY_WITHDRAW_MODAL
     })
     props.withdrawActions.setStep({
       step: WithdrawStepEnum.ON_HOLD

@@ -249,8 +249,11 @@ const mapDispatchToProps = (dispatch) => ({
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   showUpgradeModal: () => {
     dispatch(
-      actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-        origin: 'BuySellInit'
+      actions.modals.showModal({
+        props: {
+          origin: 'BuySellInit'
+        },
+        type: ModalName.UPGRADE_NOW_SILVER_MODAL
       })
     )
     dispatch(

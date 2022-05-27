@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import { getData } from './selectors'
 import Error from './template.error'
@@ -42,7 +43,7 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
+    this.props.modalActions.showModal({ props: {}, type: ModalName.TWO_STEP_SETUP_MODAL })
   }
 
   onSubmit() {

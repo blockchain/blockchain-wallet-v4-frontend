@@ -7,6 +7,7 @@ import styled, { css } from 'styled-components'
 import { Icon } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 const customCartridge = css`
   display: flex;
@@ -27,8 +28,11 @@ const BackupLink = styled.span`
 
 class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
   handleClick = () => {
-    this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL', {
-      origin: 'Send'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'Send'
+      },
+      type: ModalName.RECOVERY_PHRASE_MODAL
     })
   }
 

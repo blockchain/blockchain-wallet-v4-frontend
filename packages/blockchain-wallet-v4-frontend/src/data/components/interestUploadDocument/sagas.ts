@@ -17,8 +17,11 @@ export default ({ api }: { api: APIType }) => {
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin } = payload
     yield put(
-      actions.modals.showModal(ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL, {
-        origin
+      actions.modals.showModal({
+        props: {
+          origin
+        },
+        type: ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL
       })
     )
 
@@ -76,7 +79,7 @@ export default ({ api }: { api: APIType }) => {
       // edd status should be changed at this point we have to fetch new one
       yield put(actions.components.interest.fetchEDDStatus())
       // close also interest modal
-      yield put(actions.modals.closeModal(ModalName.INTEREST_MODAL))
+      yield put(actions.modals.closeModal({ modalName: ModalName.INTEREST_MODAL }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save additional documents', error))

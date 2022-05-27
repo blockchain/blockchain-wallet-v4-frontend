@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -37,8 +38,11 @@ const BackIcon = styled(Icon)`
 class XlmCreateAccountLearn extends React.PureComponent {
   onClose = () => {
     this.props.closeAll()
-    this.props.modalActions.showModal('SEND_XLM_MODAL', {
-      origin: 'SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL'
+    this.props.modalActions.showModal({
+      props: {
+        origin: 'SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL'
+      },
+      type: ModalName.SEND_XLM_MODAL
     })
   }
 

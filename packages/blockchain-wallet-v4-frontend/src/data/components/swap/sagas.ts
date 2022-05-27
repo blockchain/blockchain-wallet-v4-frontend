@@ -462,10 +462,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { baseCurrency, counterCurrency, origin } = payload
     yield put(
-      actions.modals.showModal(ModalName.SWAP_MODAL, {
-        baseCurrency,
-        counterCurrency,
-        origin
+      actions.modals.showModal({
+        props: {
+          baseCurrency,
+          counterCurrency,
+          origin
+        },
+        type: ModalName.SWAP_MODAL
       })
     )
 
@@ -491,12 +494,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       // prompt upgrade modal in case that user can't buy more
       if (!userCanBuyMore) {
         yield put(
-          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
-            origin: 'BuySellInit'
+          actions.modals.showModal({
+            props: {
+              origin: 'BuySellInit'
+            },
+            type: ModalName.UPGRADE_NOW_SILVER_MODAL
           })
         )
         // close swap Modal
-        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+        yield put(actions.modals.closeModal({ modalName: ModalName.SWAP_MODAL }))
         return
       }
     }

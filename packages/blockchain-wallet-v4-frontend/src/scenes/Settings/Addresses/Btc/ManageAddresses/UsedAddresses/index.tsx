@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { HDDerivationType } from '@core/types'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 import UsedAddressesShowTemplate from './template'
 
@@ -14,10 +15,13 @@ class UsedAddressesContainer extends React.PureComponent<Props> {
     if (usedAddressesVisible) {
       componentActions.toggleUsedAddresses(walletIndex, derivation, false)
     } else {
-      modalsActions.showModal('SHOW_USED_ADDRESS_MODAL', {
-        derivation,
-        origin: 'SettingsPage',
-        walletIndex
+      modalsActions.showModal({
+        props: {
+          derivation,
+          origin: 'SettingsPage',
+          walletIndex
+        },
+        type: ModalName.SHOW_USED_ADDRESS_MODAL
       })
     }
   }
