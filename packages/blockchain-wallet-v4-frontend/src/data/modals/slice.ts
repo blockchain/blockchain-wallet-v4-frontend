@@ -24,10 +24,7 @@ const modalsSlice = createSlice({
       },
       reducer: (state, action: PayloadAction<{ modalName?: ModalNameType }>) => {
         if (action.payload.modalName) {
-          state.splice(
-            state.findIndex((modal) => modal.type !== action.payload.modalName),
-            1
-          )
+          state = state.filter((modal) => modal.type !== action.payload.modalName)
         } else {
           // remove last
           const lastIndex = state.length - 1
