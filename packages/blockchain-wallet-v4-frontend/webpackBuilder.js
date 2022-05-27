@@ -1,5 +1,4 @@
 const { concat, prepend } = require('ramda')
-const Webpack = require('webpack')
 // node
 const chalk = require('chalk')
 const path = require('path')
@@ -82,12 +81,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     alias: {
       '@core': path.resolve(__dirname, '../blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, 'src/components/'),
-      middleware: path.resolve(__dirname, 'src/middleware/'),
       data: path.resolve(__dirname, 'src/data/'),
+      generated: path.resolve(__dirname, 'src/generated/'),
+      hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
+      middleware: path.resolve(__dirname, 'src/middleware/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
+      utils: path.resolve(__dirname, 'src/utils/'),
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
@@ -115,7 +116,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         type: 'asset/resource',
         generator: { filename: 'img/[name][ext]?[contenthash:10]' }
       },
-      { test: /\.(AppImage|dmg|exe)$/, type: 'asset/resource' },
       { test: /\.(pdf)$/, type: 'asset/resource' },
       { test: /\.css$/, use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] }
     ]
@@ -139,10 +139,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         }
       ]),
       new NodePolyfillPlugin(),
-      new Webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/
-      }),
       new FaviconsWebpackPlugin({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
@@ -223,16 +219,14 @@ const buildDevServerConfig = (
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
-        `script-src-elem 'nonce-${CSP_NONCE}' 'self' https://www.googletagmanager.com`,
+        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
+        `worker-src 'self'`,
         [
           'connect-src',
           "'self'",
           'data:',
           envConfig.API_DOMAIN,
-          envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
-          envConfig.LEDGER_SOCKET_URL,
-          envConfig.LEDGER_URL,
           envConfig.ROOT_URL,
           envConfig.VERIFF_URL,
           envConfig.WALLET_HELPER_DOMAIN,
@@ -247,7 +241,6 @@ const buildDevServerConfig = (
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
           'wss://localhost:8080',
-          'wss://api.ledgerwallet.com',
           'wss://*.walletconnect.org'
         ].join(' '),
         "object-src 'none'",
@@ -266,11 +259,8 @@ const buildDevServerConfig = (
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: localhostUrl,
-          everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           opensea: envConfig.OPENSEA_API,
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
@@ -288,15 +278,7 @@ const buildDevServerConfig = (
         res.json(mockWalletOptions)
       })
     },
-    port: 8080,
-    proxy: {
-      '/ledger': {
-        target: envConfig.LEDGER_URL,
-        secure: false,
-        changeOrigin: true,
-        pathRewrite: { '^/ledger': '' }
-      }
-    }
+    port: 8080
   }
 }
 

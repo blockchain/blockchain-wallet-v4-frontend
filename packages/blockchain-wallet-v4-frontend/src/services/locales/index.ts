@@ -1,4 +1,4 @@
-import moment from 'moment'
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { findIndex, prop, propEq, sortBy, toUpper } from 'ramda'
 
 import '@formatjs/intl-relativetimeformat/polyfill'
@@ -7,12 +7,12 @@ type Language = { language: string; name: string }
 
 export const languages: Array<Language> = [
   { language: 'en', name: 'English' },
-  { language: 'es', name: 'Spanish' },
-  { language: 'es-LA', name: 'Spanish - Latin America' },
-  { language: 'fr', name: 'French' },
-  { language: 'pt', name: 'Portuguese' },
-  { language: 'ru', name: 'Russian' },
-  { language: 'tr', name: 'Turkish' }
+  { language: 'es', name: 'Español' },
+  { language: 'es-la', name: 'Español (Latinoamérica)' },
+  { language: 'fr', name: 'Français' },
+  { language: 'pt', name: 'Português' },
+  { language: 'ru', name: 'Русский' },
+  { language: 'tr', name: 'Türkçe' }
 ]
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)
@@ -32,75 +32,51 @@ export function tryParseLanguageFromUrl() {
 
 export const loadLocaleData = (locale, callback) => {
   const setLocaleData = (messages) => {
-    moment.locale(locale)
+    // TODO: set date-fns locale globally
+    // https://github.com/date-fns/date-fns/blob/master/docs/i18n.md
+    // https://github.com/date-fns/date-fns/issues/816
     callback(messages)
   }
 
   switch (locale) {
-    case 'en':
-      require.ensure(
-        [
-          'moment/locale/en-gb.js',
-          '@formatjs/intl-relativetimeformat/locale-data/en.js',
-          '../../assets/locales/en.json'
-        ],
-        (require) => {
-          require('moment/locale/en-gb.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/en.json')
-          )
-        },
-        'i18n-en'
-      )
-      break
     case 'es':
       require.ensure(
         [
-          'moment/locale/es.js',
+          'date-fns/locale/es',
           '@formatjs/intl-relativetimeformat/locale-data/es.js',
           '../../assets/locales/es.json'
         ],
         (require) => {
-          require('moment/locale/es.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/es.json')
-          )
+          require('date-fns/locale/es')
+          setLocaleData(require('../../assets/locales/es.json'))
         },
         'i18n-es'
       )
       break
-    case 'es-LA':
+    case 'es-la':
       require.ensure(
         [
-          'moment/locale/es.js',
+          'date-fns/locale/es',
           '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
-          '../../assets/locales/es-LA.json'
+          '../../assets/locales/es-la.json'
         ],
         (require) => {
-          require('moment/locale/es.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/es-LA.json')
-          )
+          require('date-fns/locale/es')
+          setLocaleData(require('../../assets/locales/es-la.json'))
         },
-        'i18n-es-LA'
+        'i18n-es-la'
       )
       break
     case 'fr':
       require.ensure(
         [
-          'moment/locale/fr.js',
+          'date-fns/locale/fr',
           '@formatjs/intl-relativetimeformat/locale-data/fr.js',
           '../../assets/locales/fr.json'
         ],
         (require) => {
-          require('moment/locale/fr.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/fr.json')
-          )
+          require('date-fns/locale/fr')
+          setLocaleData(require('../../assets/locales/fr.json'))
         },
         'i18n-fr'
       )
@@ -108,16 +84,13 @@ export const loadLocaleData = (locale, callback) => {
     case 'pt':
       require.ensure(
         [
-          'moment/locale/pt.js',
+          'date-fns/locale/pt',
           '@formatjs/intl-relativetimeformat/locale-data/pt.js',
           '../../assets/locales/pt.json'
         ],
         (require) => {
-          require('moment/locale/pt.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/pt.json')
-          )
+          require('date-fns/locale/pt')
+          setLocaleData(require('../../assets/locales/pt.json'))
         },
         'i18n-pt'
       )
@@ -125,16 +98,13 @@ export const loadLocaleData = (locale, callback) => {
     case 'pt-BR':
       require.ensure(
         [
-          'moment/locale/pt-br.js',
+          'date-fns/locale/pt-BR',
           '@formatjs/intl-relativetimeformat/locale-data/pt.js',
           '../../assets/locales/pt-BR.json'
         ],
         (require) => {
-          require('moment/locale/pt-br.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/pt-BR.json')
-          )
+          require('date-fns/locale/pt-BR')
+          setLocaleData(require('../../assets/locales/pt-BR.json'))
         },
         'i18n-pt-BR'
       )
@@ -142,16 +112,13 @@ export const loadLocaleData = (locale, callback) => {
     case 'ru':
       require.ensure(
         [
-          'moment/locale/ru.js',
+          'date-fns/locale/ru',
           '@formatjs/intl-relativetimeformat/locale-data/ru.js',
           '../../assets/locales/ru.json'
         ],
         (require) => {
-          require('moment/locale/ru.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/ru.json')
-          )
+          require('date-fns/locale/ru')
+          setLocaleData(require('../../assets/locales/ru.json'))
         },
         'i18n-ru'
       )
@@ -159,33 +126,28 @@ export const loadLocaleData = (locale, callback) => {
     case 'tr':
       require.ensure(
         [
-          'moment/locale/tr.js',
+          'date-fns/locale/tr',
           '@formatjs/intl-relativetimeformat/locale-data/tr.js',
           '../../assets/locales/tr.json'
         ],
         (require) => {
-          require('moment/locale/tr.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/tr.json')
-          )
+          require('date-fns/locale/tr')
+          setLocaleData(require('../../assets/locales/tr.json'))
         },
         'i18n-tr'
       )
       break
+    case 'en':
     default:
       require.ensure(
         [
-          'moment/locale/en-gb.js',
+          'date-fns/locale/en-GB',
           '@formatjs/intl-relativetimeformat/locale-data/en.js',
           '../../assets/locales/en.json'
         ],
         (require) => {
-          require('moment/locale/en-gb.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/en.json')
-          )
+          require('date-fns/locale/en-GB')
+          setLocaleData(require('../../assets/locales/en.json'))
         },
         'i18n-en'
       )

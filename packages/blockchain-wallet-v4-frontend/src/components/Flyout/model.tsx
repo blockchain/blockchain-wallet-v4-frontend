@@ -1,6 +1,10 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment, { Moment } from 'moment'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
+import { addWeeks, format, isToday } from 'date-fns'
 import styled, { css } from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -23,7 +27,6 @@ import {
 } from 'components/BuySell'
 import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
@@ -165,7 +168,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       text = (
         <FormattedMessage
           id='copy.bank_linked_error_alreadylinked1'
-          defaultMessage='We noticed this account is already linked to your Blockchain.com account.'
+          defaultMessage='We noticed this account is already linked to your Blockchain.com Account.'
         />
       )
       break
@@ -173,7 +176,7 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
       text = (
         <FormattedMessage
           id='copy.bank_linked'
-          defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
+          defaultMessage='Your bank account is now linked to your Blockchain.com Account'
         />
       )
       break
@@ -267,7 +270,12 @@ const getAddBankStatusText = (bankStatus: BankStatusType) => {
   return { image, text, title }
 }
 
-const getDefaultMethod = (defaultMethod, bankAccounts: BankTransferAccountType[]) => {
+const getDefaultMethod = (
+  defaultMethod,
+  bankAccounts: BankTransferAccountType[]
+):
+  | ({ type: BSPaymentTypes.BANK_TRANSFER } & (BankTransferAccountType | BeneficiaryType))
+  | undefined => {
   if (defaultMethod) {
     return { ...defaultMethod, type: BSPaymentTypes.BANK_TRANSFER }
   }
@@ -320,24 +328,24 @@ const getPeriodSubTitleText = (
   date: string | number = Date.now()
 ): React.ReactNode => {
   let text
-  const startDate = moment(date)
+  const startDate = new Date(date)
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
       text = <></>
       break
     case RecurringBuyPeriods.WEEKLY:
-      text = <>On {startDate.format('dddd')}s</>
+      text = <>On {format(startDate, 'EEEE')}s</>
       break
     case RecurringBuyPeriods.BI_WEEKLY:
       text = (
         <>
-          On the {startDate.format('Do')} and {startDate.add(2, 'weeks').format('Do')}
+          On the {format(startDate, 'do')} and {format(addWeeks(startDate, 2), 'do')}
         </>
       )
       break
     case RecurringBuyPeriods.MONTHLY:
-      text = <>On the {startDate.format('Do')}</>
+      text = <>On the {format(startDate, 'do')}</>
       break
   }
   return text
@@ -348,14 +356,14 @@ const getPeriodForSuccess = (
   date: string | number = Date.now()
 ): React.ReactNode => {
   let text
-  const startDate = moment(date)
+  const startDate = new Date(date)
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
       text = <>every day</>
       break
     case RecurringBuyPeriods.WEEKLY:
-      text = <>every {startDate.format('dddd')}</>
+      text = <>every {format(startDate, 'EEEE')}</>
       break
     case RecurringBuyPeriods.BI_WEEKLY:
       text = (
@@ -400,20 +408,21 @@ const getPeriodText = (period: RecurringBuyPeriods): React.ReactNode => {
 
 const getActionText = (action: ActionEnum, nextDate: string | number) => {
   let text
-  let isToday = false
-  let date: Moment | string = moment()
+  let isTimeToday = false
+  let date = new Date()
 
   if (nextDate) {
-    isToday = moment(nextDate).calendar().startsWith('Today')
-    date = moment(nextDate)
+    isTimeToday = isToday(new Date(nextDate))
+    date = new Date(nextDate)
   }
 
-  date = date.format('ddd, MMMM Do')
+  // @ts-ignore
+  date = format(date, 'EEE, MMMM do')
 
   switch (action) {
     default:
     case ActionEnum.BUY:
-      text = isToday ? (
+      text = isTimeToday ? (
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_buy_is_today'
           defaultMessage='Next Buy is Today'

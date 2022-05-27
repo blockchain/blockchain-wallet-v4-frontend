@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon, IconName } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
+import { IconAlert } from '@blockchain-com/icons'
 
 import { RemoteDataType } from '@core/types'
-import { Carousel, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import { Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import Carousel from 'components/Carousel'
 import { ReportType } from 'data/components/taxCenter/types'
 
 import Card from './Card'
@@ -24,14 +26,15 @@ import {
   Slide,
   StyledSelect,
   StyledSeparator,
-  StyledTextGroup,
   Title,
   VisitButton
 } from './model'
 
 const ErrorMessage = () => (
   <AlertMessage>
-    <Icon name={IconName.ALERT} color={colors.orange600} size='sm' />
+    <Icon label='reports' color='orange600' size='sm'>
+      <IconAlert />
+    </Icon>
     <Text size='12px' color='orange600' weight={500}>
       <FormattedMessage
         id='scenes.tax.center.card.report.error.message'
@@ -169,21 +172,12 @@ const TaxCenter = ({
           NotAsked: () => <Loader />,
           Success: (list) => (
             <ReportList>
-              <StyledTextGroup inline>
-                <SelectLabel size='14px' weight={600} color='black'>
-                  <FormattedMessage
-                    id='scenes.tax.center.card.report.list'
-                    defaultMessage='Generated Exports'
-                  />
-                </SelectLabel>
-                <Text size='12px' color='grey400'>
-                  {`${list.length}/5 `}
-                  <FormattedMessage
-                    id='scenes.tax.center.card.export.limit'
-                    defaultMessage='Export Limit'
-                  />
-                </Text>
-              </StyledTextGroup>
+              <SelectLabel size='14px' weight={600} color='black'>
+                <FormattedMessage
+                  id='scenes.tax.center.card.report.list'
+                  defaultMessage='Generated Exports'
+                />
+              </SelectLabel>
               <StyledSeparator />
               <List reports={list} onExportClick={onExportClick} />
             </ReportList>

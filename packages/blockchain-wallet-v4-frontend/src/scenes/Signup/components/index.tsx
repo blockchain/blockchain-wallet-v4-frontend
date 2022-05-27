@@ -1,13 +1,17 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 29rem;
+  width: 32rem;
 
   &:first-child {
     margin-right: ${(props) => (props.hideMargin ? '0' : '2.5rem')};
@@ -23,8 +27,10 @@ export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
     width: 100%;
   `}
 `
+export const PaddingWrapper = styled.div`
+  padding: 2rem 2rem 0;
+`
 export const Card = styled.div`
-  padding: 2rem;
   background: ${(props) => props.theme.white};
   border-radius: 0.75rem;
   box-sizing: border-box;
@@ -33,6 +39,9 @@ export const Card = styled.div`
     width: 100%;
     padding: 1.5rem;
   `}
+  ${media.mobile`
+  padding: 0;
+`}
 `
 export const CardHeader = styled.div`
   align-items: center;
@@ -71,6 +80,11 @@ export const CardInfo = styled.div`
   flex-direction: column;
   margin-bottom: 2rem;
 `
+export const CardTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 export const InfoTitle = styled(Text)`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -101,3 +115,66 @@ export const SignInText = styled(Text)`
     font-weight: 600;
   }
 `
+const LoginCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding-bottom: 1.5rem;
+  ${media.tabletL`
+  flex-direction: column;
+  align-items: center;
+`};
+`
+const LoginLinkText = styled(Text)`
+  margin-top: 16px;
+  cursor: pointer;
+  ${media.mobile`
+  margin-top: 0;
+`};
+  &:hover {
+    font-weight: 600;
+  }
+`
+const LoginLinkRow = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
+
+export const LoginLink = (props: { analyticsActions; unified }) => (
+  <LoginCard>
+    <LinkContainer data-e2e='signupLink' to='/login'>
+      <LoginLinkRow
+        onClick={() =>
+          props.analyticsActions.trackEvent({
+            key: Analytics.LOGIN_CLICKED,
+            properties: {
+              origin: 'SIGN_UP_FLOW',
+              unified: props.unified
+            }
+          })
+        }
+      >
+        <Text
+          size='16px'
+          color='grey600'
+          weight={500}
+          style={{ cursor: 'pointer', marginTop: '16px' }}
+        >
+          <FormattedMessage
+            id='scenes.register.account.link'
+            defaultMessage='Already have a Blockchain.com Account?'
+          />
+        </Text>
+        &nbsp;
+        <LoginLinkText size='16px' color='blue600' weight={600}>
+          <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+        </LoginLinkText>
+      </LoginLinkRow>
+    </LinkContainer>
+  </LoginCard>
+)

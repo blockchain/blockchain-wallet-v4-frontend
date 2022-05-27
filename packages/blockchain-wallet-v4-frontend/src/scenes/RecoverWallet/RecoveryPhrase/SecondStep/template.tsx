@@ -4,13 +4,22 @@ import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
 import {
   required,
+  stringContainsLowercaseLetter,
+  stringContainsNumber,
+  stringContainsSpecialChar,
+  stringContainsUppercaseLetter,
+  stringLengthBetween,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
@@ -23,6 +32,12 @@ import ImportWallet from './import.template'
 const PageHeader = styled(Column)`
   align-items: center;
   margin-bottom: 32px;
+`
+
+const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
+  font-size: 12px;
+  font-weight: 400;
+  color: ${(props) => (props.isValid ? props.theme.grey800 : props.theme.red600)};
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('recoverPassword')
@@ -45,6 +60,7 @@ class SecondStep extends React.PureComponent<Props, State> {
 
   render() {
     const { formValues, invalid, isRestoring, isRestoringFromMetadata } = this.props
+    const passwordValue = formValues?.recoverPassword || ''
     return (
       <>
         {!isRestoringFromMetadata && !this.state.importWalletPrompt && (
@@ -116,13 +132,71 @@ class SecondStep extends React.PureComponent<Props, State> {
                     name='recoverPassword'
                     validate={[required, validStrongPassword]}
                     component={PasswordBox}
-                    showPasswordScore
-                    passwordScore={
-                      has('zxcvbn', window)
-                        ? window.zxcvbn(formValues.recoverPassword || '').score
-                        : 0
-                    }
                   />
+                  {passwordValue.length > 0 && !!validStrongPassword(passwordValue) && (
+                    <div style={{ marginTop: '4px' }}>
+                      <TextGroup inline>
+                        <PasswordRequirementText isValid>
+                          <FormattedMessage
+                            id='scenes.register.password.part1'
+                            defaultMessage='Passwords must contain a'
+                          />{' '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText
+                          isValid={stringContainsLowercaseLetter(passwordValue)}
+                        >
+                          <FormattedMessage
+                            id='scenes.register.password.part2'
+                            defaultMessage='lowercase letter'
+                          />
+                          {', '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText
+                          isValid={stringContainsUppercaseLetter(passwordValue)}
+                        >
+                          <FormattedMessage
+                            id='scenes.register.password.part3'
+                            defaultMessage='uppercase letter'
+                          />
+                          {', '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText isValid={stringContainsNumber(passwordValue)}>
+                          <FormattedMessage
+                            id='scenes.register.password.part4'
+                            defaultMessage='number'
+                          />
+                          {', '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText isValid={stringContainsSpecialChar(passwordValue)}>
+                          <FormattedMessage
+                            id='scenes.register.password.part5'
+                            defaultMessage='special character'
+                          />{' '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText isValid>
+                          <FormattedMessage
+                            id='scenes.register.password.part6'
+                            defaultMessage='and be at least'
+                          />
+                        </PasswordRequirementText>
+                        <PasswordRequirementText
+                          isValid={stringLengthBetween(passwordValue, 12, 64)}
+                        >
+                          <FormattedMessage
+                            id='scenes.register.password.part7'
+                            defaultMessage='12 characters'
+                          />{' '}
+                        </PasswordRequirementText>
+                        <PasswordRequirementText isValid>
+                          <FormattedMessage
+                            id='scenes.register.password.part7'
+                            defaultMessage='long'
+                          />
+                          .
+                        </PasswordRequirementText>
+                      </TextGroup>
+                    </div>
+                  )}
                 </FormGroup>
                 <FormGroup>
                   <FormLabel htmlFor='confirmationPassword'>

@@ -3,6 +3,35 @@ import { IndexMultiResponseType, TickerResponseType } from '@core/network/api/co
 import * as AT from './actionTypes'
 import { CoinsActionTypes } from './types'
 
+// BALANCES
+export const fetchData = (password?: string, list?: string[]) => ({
+  payload: {
+    list,
+    password
+  },
+  type: AT.FETCH_COIN_DATA
+})
+export const fetchDataLoading = (coin: string): CoinsActionTypes => ({
+  payload: { coin },
+  type: AT.FETCH_COIN_DATA_LOADING
+})
+export const fetchDataSuccess = (coin: string, balance: string): CoinsActionTypes => ({
+  payload: { balance, coin },
+  type: AT.FETCH_COIN_DATA_SUCCESS
+})
+export const fetchDataFailure = (error: string, coin: string): CoinsActionTypes => ({
+  payload: { coin, error },
+  type: AT.FETCH_COIN_DATA_FAILURE
+})
+
+// COINS
+export const pollForCoinData = (): CoinsActionTypes => ({
+  type: AT.POLL_FOR_COIN_DATA
+})
+export const setCoinDataLoaded = (): CoinsActionTypes => ({
+  type: AT.SET_COIN_DATA_LOADED
+})
+
 // RATES
 export const fetchCoinsRates = () => ({
   type: AT.FETCH_COINS_RATES

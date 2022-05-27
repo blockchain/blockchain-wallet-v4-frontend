@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Carousel, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
+import Carousel from 'components/Carousel'
 import { CustomBox } from 'components/Layout'
 
 const Slide = styled.div`
@@ -40,7 +41,7 @@ const ExchangeInfo = () => {
           <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.unlockbody'
-              defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on the Exchange immediately.'
+              defaultMessage='Already Verified? Share your full or limited access to begin trading on the Exchange immediately.'
             />
           </Text>
         </Slide>

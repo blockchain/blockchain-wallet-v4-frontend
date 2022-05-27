@@ -109,7 +109,7 @@ const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
+const enhance = compose<React.ComponentType>(
   connect(null, mapDispatchToProps),
   modalEnhancer('RESET_ACCOUNT_FAILED'),
   connector

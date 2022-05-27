@@ -16,8 +16,9 @@ import {
   OpenSeaUser,
   Transaction
 } from '@core/network/api/nfts/types'
-import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
+import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 
+export const nonTraitFilters = ['min', 'max', 'sortBy', 'forSale', 'event', 'collection']
 /**
  * Special fixes for making BigNumbers using web3 results
  * @param arg An arg or the result of a web3 call to turn into a BigNumber

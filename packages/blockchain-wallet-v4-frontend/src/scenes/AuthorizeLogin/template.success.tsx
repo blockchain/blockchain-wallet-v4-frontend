@@ -109,7 +109,7 @@ const Success = (props) => {
             <Text color='grey700' style={{ marginTop: '8px' }} size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
-                defaultMessage='Someone, hopefully you, is attempting to login to your wallet from a different browser.'
+                defaultMessage='Someone, hopefully you, is attempting to login to your account from a different browser.'
               />
             </Text>
             <DeviceInfoWrapper>
@@ -136,13 +136,8 @@ const Success = (props) => {
                 <DeviceInfoRow>
                   <DeviceInfoTitleRow>
                     {/* eslint-disable */}
-                    {approver_device_description ===
-                    requester_device_description ? (
-                      <Icon
-                        name='checkmark-circle-filled'
-                        color='success'
-                        size='16px'
-                      />
+                    {approver_device_description === requester_device_description ? (
+                      <Icon name='checkmark-circle-filled' color='success' size='16px' />
                     ) : (
                       <Icon
                         name='close-circle'
@@ -162,8 +157,7 @@ const Success = (props) => {
                   <Banner type='success' inline>
                     {approver_device_description}
                   </Banner>
-                  {approver_device_description !==
-                    requester_device_description && (
+                  {approver_device_description !== requester_device_description && (
                     <Banner type='warning' inline>
                       {requester_device_description}
                     </Banner>
@@ -174,11 +168,7 @@ const Success = (props) => {
                   <DeviceInfoTitleRow>
                     {/* eslint-disable */}
                     {approver_ip === requester_ip ? (
-                      <Icon
-                        name='checkmark-circle-filled'
-                        color='success'
-                        size='16px'
-                      />
+                      <Icon name='checkmark-circle-filled' color='success' size='16px' />
                     ) : (
                       <Icon
                         name='close-circle'
@@ -209,11 +199,7 @@ const Success = (props) => {
                   <DeviceInfoTitleRow>
                     {/* eslint-disable */}
                     {approver_country === requester_country ? (
-                      <Icon
-                        name='checkmark-circle-filled'
-                        color='success'
-                        size='16px'
-                      />
+                      <Icon name='checkmark-circle-filled' color='success' size='16px' />
                     ) : (
                       <Icon
                         name='close-circle'
@@ -291,8 +277,8 @@ const Success = (props) => {
               />
             ) : (
               <FormattedMessage
-                id='scenes.authorizelogin.loading.approved.content'
-                defaultMessage='Please return to your previous tab to view your wallet.'
+                id='scenes.authorizelogin.loading.approved'
+                defaultMessage='Please return to your previous tab to continue login.'
               />
             )}
           </Text>

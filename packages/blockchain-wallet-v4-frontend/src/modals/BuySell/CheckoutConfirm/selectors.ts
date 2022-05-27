@@ -6,16 +6,19 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
+
   const quoteR = selectors.core.walletOptions.getFlexiblePricingModel(state).getOrElse(false)
     ? selectors.components.buySell.getBuyQuote(state)
     : selectors.components.buySell.getBSQuote(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
-  const userDataR = selectors.modules.profile.getUserData(state)
-  const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
   const sddEligibleR = selectors.components.buySell.getSddEligible(state)
   const userSDDTierR = selectors.components.buySell.getUserSddEligibleTier(state)
   const isUserSddVerifiedR = selectors.components.buySell.isUserSddVerified(state)
   const cardsR = selectors.components.buySell.getBSCards(state)
+
+  const userDataR = selectors.modules.profile.getUserData(state)
+
+  const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
 
   return lift(
     (

@@ -62,7 +62,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Title>
             <FormattedMessage
               id='modal.createaccountlearn.title'
-              defaultMessage='Stellar mimimum balance requirement.'
+              defaultMessage='Stellar minimum balance requirement.'
             />
           </Title>
           <Paragraph>

@@ -156,8 +156,8 @@ const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
           <FormattedMessage id='copy.upgrade_your_wallet' defaultMessage='Upgrade Your Wallet' />
         ) : (
           <FormattedMessage
-            id='modals.tradinglimits.upgrade.tier.silver.title'
-            defaultMessage='Upgrade to Gold Limits'
+            id='modals.tradinglimits.upgrade.tier.full_access.title'
+            defaultMessage='Upgrade to Full Access'
           />
         )}
       </TierTitle>
@@ -392,13 +392,13 @@ const Template: React.FC<Props> = (props) => {
           {isUserTierZero && (
             <FormattedMessage
               id='modals.tradinglimits.upgrade.unlock_tier_zero'
-              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and link a bank or card.'
+              defaultMessage='Unlock new trading features in your Blockchain.com Account by verifying your ID and link a bank or card.'
             />
           )}
           {isUserTierSilver && (
             <FormattedMessage
               id='modals.limits_and_features.subtitle.silver'
-              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
+              defaultMessage='Unlock new trading features in your Blockchain.com Account by verifying your ID and linked a bank or card.'
             />
           )}
           {isUserGold && (
@@ -429,8 +429,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.silver_limits'
-                    defaultMessage='Silver Limits'
+                    id='modals.tradinglimits.upgrade.limited_access_limits'
+                    defaultMessage='Limited Access Limits'
                   />
                 </ItemTitle>
               </ItemTitleWrapper>
@@ -450,8 +450,8 @@ const Template: React.FC<Props> = (props) => {
               <ItemTitleWrapper>
                 <ItemTitle>
                   <FormattedMessage
-                    id='modals.tradinglimits.upgrade.gold_limits'
-                    defaultMessage='Gold Limits'
+                    id='modals.tradinglimits.upgrade.full_access_limits'
+                    defaultMessage='Full Access Limits'
                   />
                 </ItemTitle>
                 <ItemSubtitle>

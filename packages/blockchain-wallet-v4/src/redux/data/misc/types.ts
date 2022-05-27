@@ -43,7 +43,7 @@ export type MiscStateType = {
       [key in CoinType | WalletFiatType]: RemoteDataType<string, PriceChangeType>
     }
   }
-  price_index_series: RemoteDataType<any, any>
+  price_index_series: RemoteDataType<any, { price: number; timestamp: number; volume24h: number }[]>
   verify_email_token: RemoteDataType<any, any>
 }
 

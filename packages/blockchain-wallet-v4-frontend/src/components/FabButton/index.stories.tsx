@@ -5,7 +5,6 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import FabButton from '.'
 
 export default {
-  argTypes: {},
   component: FabButton,
   decorators: [
     (Story) => {
@@ -25,7 +24,7 @@ export default {
       )
     }
   ],
-  title: 'FabButton'
+  title: 'Form/Inputs/FabButton'
 } as ComponentMeta<typeof FabButton>
 
 const Template: ComponentStory<typeof FabButton> = (args) => <FabButton {...args} />

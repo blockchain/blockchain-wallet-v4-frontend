@@ -1,8 +1,8 @@
 import { TermsAndConditionType } from './types'
 
-export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, rootUrl }) => {
-  const exchangeSignIn = (captchaToken, code, password, username) => {
-    return authorizedPost({
+export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
+  const exchangeSignIn = (captchaToken, code, password, username) =>
+    authorizedPost({
       contentType: 'application/json',
       data: {
         code,
@@ -14,9 +14,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/signin',
       url: nabuUrl
     })
-  }
 
-  const exchangeResetPassword = (email) => {
+  const exchangeResetPassword = (email) =>
     post({
       contentType: 'application/json',
       data: {
@@ -25,7 +24,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/password/reset/create',
       url: nabuUrl
     })
-  }
 
   const generateRetailToken = (guid, sharedKey) =>
     post({
@@ -38,8 +36,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       url: rootUrl
     })
 
-  const createUser = (retailToken) => {
-    return post({
+  const getLocation = () =>
+    get({
+      contentType: 'application/json',
+      endPoint: '/geolocation',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const createOrGetUser = (retailToken) =>
+    post({
       contentType: 'application/json',
       data: {
         jwt: retailToken
@@ -47,10 +53,39 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/users',
       url: nabuUrl
     })
-  }
 
-  const linkAccount = (linkId, email, address) => {
-    return authorizedPut({
+  const createExchangeUser = (countryCode, referrerUsername, retailToken, tuneTid) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        countryCode,
+        referrerUsername,
+        retailToken,
+        tuneTid
+      },
+      endPoint: '/mercury/users',
+      url: nabuUrl
+    })
+
+  const getExchangeAuthToken = (exchangeLifetimeToken, usersCredentialsId, retailToken) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        retailToken,
+        usersCredentialsId
+      },
+      endPoint: '/mercury/auth',
+      headers: {
+        Authorization: `Bearer ${exchangeLifetimeToken}`,
+        'X-CLIENT-TYPE': 'WEB',
+        'X-DEVICE-ID': null,
+        'x-app-version': '6.11.1'
+      },
+      url: nabuUrl
+    })
+
+  const linkAccount = (linkId, email, address) =>
+    authorizedPut({
       contentType: 'application/json',
       data: {
         address,
@@ -61,26 +96,23 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/users/link-account/existing',
       url: nabuUrl
     })
-  }
 
-  const finaliseLinking = () => {
-    return authorizedPut({
+  const finaliseLinking = () =>
+    authorizedPut({
       contentType: 'application/json',
       endPoint: '/users/link-account/finalise',
       url: nabuUrl
     })
-  }
 
-  const createLinkAccountId = () => {
-    return authorizedPut({
+  const createLinkAccountId = () =>
+    authorizedPut({
       contentType: 'application/json',
       endPoint: '/users/link-account/create/start',
       url: nabuUrl
     })
-  }
 
-  const getPaymentsAccountExchange = (currency) => {
-    return authorizedPut({
+  const getPaymentsAccountExchange = (currency) =>
+    authorizedPut({
       contentType: 'application/json',
       data: {
         currency
@@ -88,18 +120,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/payments/accounts/linked',
       url: nabuUrl
     })
-  }
 
-  const getUserCampaigns = () => {
-    return authorizedGet({
+  const getUserCampaigns = () =>
+    authorizedGet({
       contentType: 'application/json',
       endPoint: '/users/user-campaigns',
       url: nabuUrl
     })
-  }
 
-  const shareWalletDepositAddresses = (addresses) => {
-    return authorizedPost({
+  const shareWalletDepositAddresses = (addresses) =>
+    authorizedPost({
       contentType: 'application/json',
       data: {
         addresses
@@ -107,7 +137,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
       endPoint: '/users/deposit/addresses',
       url: nabuUrl
     })
-  }
 
   const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
     authorizedPut({
@@ -227,13 +256,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl, post, r
     })
 
   return {
+    createExchangeUser,
     createLinkAccountId,
-    createUser,
+    createOrGetUser,
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
     generateRetailToken,
     generateSession,
+    getExchangeAuthToken,
+    getLocation,
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,

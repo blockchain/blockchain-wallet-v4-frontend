@@ -5,7 +5,7 @@ export type XlmAccountFromType = {
   balance: string
   coin: 'XLM'
   label: string
-  type: 'ACCOUNT' | 'LOCKBOX'
+  type: 'ACCOUNT'
 }
 
 export type XlmAddressFromType = {

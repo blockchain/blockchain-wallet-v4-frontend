@@ -4,7 +4,12 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { LOGIN_FORM } from 'data/auth/model'
 import { ProductAuthOptions } from 'data/auth/types'
@@ -16,7 +21,6 @@ import { media } from 'services/styles'
 import { Props } from '../..'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -42,13 +46,13 @@ const InstitutionalPortal = (props: Props) => {
   }, [])
 
   const {
-    authActions,
     busy,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    isBrowserSupported,
+    magicLinkData,
+    productAuthMetadata,
     routerActions,
     submitting
   } = props
@@ -77,21 +81,18 @@ const InstitutionalPortal = (props: Props) => {
               </Text>
             </BackArrow>
           </BackArrowWrapper>
-          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ margin: '8px 0 16px' }}>
             <LoginFormLabel htmlFor='exchangeEmail'>
               <FormattedMessage id='copy.email' defaultMessage='Email' />
             </LoginFormLabel>
-
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
-              disabled={!isBrowserSupported}
               disableSpellcheck
               name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
-              placeholder='Enter your email'
+              placeholder='Enter Email'
               autoFocus
             />
           </FormItem>
@@ -102,9 +103,8 @@ const InstitutionalPortal = (props: Props) => {
             <Field
               component={PasswordBox}
               data-e2e='exchangePassword'
-              disabled={!isBrowserSupported}
               name='exchangePassword'
-              placeholder='Enter your password'
+              placeholder='Enter Password'
               validate={[required]}
             />
             {passwordError && (
@@ -137,13 +137,13 @@ const InstitutionalPortal = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='IDENTIFIER'
+            platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

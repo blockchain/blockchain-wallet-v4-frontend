@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { PlatformTypes } from 'data/types'
 import { media } from 'services/styles'
 
 const SubCard = styled.div`
@@ -36,28 +37,32 @@ const Row = styled.div`
   `}
 `
 
-const SignUpLink = () => (
-  <SubCard>
-    <LinkContainer data-e2e='signupLink' to='/signup'>
-      <Row>
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ cursor: 'pointer', marginTop: '16px' }}
-        >
-          <FormattedMessage
-            id='scenes.login.account_signup'
-            defaultMessage="Don't have a Blockchain Account?"
-          />
-        </Text>
-        &nbsp;
-        <SignUpText size='16px' color='blue600' weight={600}>
-          <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
-        </SignUpText>
-      </Row>
-    </LinkContainer>
-  </SubCard>
-)
+const SignUpLink = (props) => {
+  const hideSignupLink =
+    props.platform === PlatformTypes.ANDROID || props.platform === PlatformTypes.IOS
+  return hideSignupLink ? null : (
+    <SubCard>
+      <LinkContainer data-e2e='signupLink' to='/signup'>
+        <Row>
+          <Text
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ cursor: 'pointer', marginTop: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.account_signup'
+              defaultMessage="Don't have a Blockchain Account?"
+            />
+          </Text>
+          &nbsp;
+          <SignUpText size='16px' color='blue600' weight={600}>
+            <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+          </SignUpText>
+        </Row>
+      </LinkContainer>
+    </SubCard>
+  )
+}
 
 export default SignUpLink

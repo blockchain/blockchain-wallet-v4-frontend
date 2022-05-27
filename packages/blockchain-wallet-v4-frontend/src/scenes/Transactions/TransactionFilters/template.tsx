@@ -4,7 +4,8 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { IconButton, TooltipHost } from 'blockchain-info-components'
-import { TabMenuTransactionStatus, TextBox } from 'components/Form'
+import TabMenuTransactionStatus from 'components/Form/TabMenuTransactionStatus'
+import TextBox from 'components/Form/TextBox'
 import HorizontalMenu from 'components/HorizontalMenu'
 import { StickyHeader } from 'components/Layout'
 import { media } from 'services/styles'
@@ -34,7 +35,7 @@ const SearchField = styled<any>(Field)`
   }
 `
 
-const TransactionFilters = ({ handleClickReporting }) => (
+const TransactionFilters = ({ canGenerateTxReport, canSearch, handleClickReporting }) => (
   <StickyHeader>
     <HorizontalMenu marginBottom='0px' border={false}>
       <Field
@@ -43,26 +44,30 @@ const TransactionFilters = ({ handleClickReporting }) => (
         component={TabMenuTransactionStatus}
       />
       <Search>
-        <TooltipHost id='copy.on_chain_txs'>
-          <StyledIconButton
-            data-e2e='generateTxReport'
+        {canGenerateTxReport ? (
+          <TooltipHost id='copy.on_chain_txs'>
+            <StyledIconButton
+              data-e2e='generateTxReport'
+              height='45px'
+              name='download'
+              nature='light'
+              onClick={handleClickReporting}
+              width='120px'
+            >
+              <FormattedMessage id='copy.download' defaultMessage='Download' />
+            </StyledIconButton>
+          </TooltipHost>
+        ) : null}
+        {canSearch ? (
+          <SearchField
+            component={TextBox}
+            data-e2e='transactionsMenuSearchBox'
             height='45px'
-            name='download'
-            nature='light'
-            onClick={handleClickReporting}
-            width='120px'
-          >
-            <FormattedMessage id='copy.download' defaultMessage='Download' />
-          </StyledIconButton>
-        </TooltipHost>
-        <SearchField
-          component={TextBox}
-          data-e2e='transactionsMenuSearchBox'
-          height='45px'
-          icon='magnifier'
-          name='search'
-          placeholder='Search'
-        />
+            icon='magnifier'
+            name='search'
+            placeholder='Search'
+          />
+        ) : null}
       </Search>
     </HorizontalMenu>
   </StickyHeader>

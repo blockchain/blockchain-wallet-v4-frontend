@@ -1,0 +1,23 @@
+query Owner($filter: [AssetFilter], $sort: AssetSort, $limit: Int, $offset: Int) {
+  assets(filter: $filter, sort: $sort, limit: $limit, offset: $offset) {
+	  name
+    image_url
+    animation_original_url
+    collection {
+      name
+      slug
+      image_url
+    }
+    contract {
+      address
+    }
+    last_sale {
+      payment_token {
+        symbol
+      }
+      total_price
+    }
+    token_id
+    permalink
+  }
+}

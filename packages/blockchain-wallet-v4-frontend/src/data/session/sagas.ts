@@ -1,6 +1,7 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api }) => {
@@ -14,6 +15,15 @@ export default ({ api }) => {
 
   const logout = function* () {
     try {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_SIGNED_OUT,
+          properties: {
+            origin: 'SETTINGS',
+            site_redirect: 'WALLET'
+          }
+        })
+      )
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())
@@ -40,7 +50,8 @@ export default ({ api }) => {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
       const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
-      const sessionToken = yield select(selectors.session.getSession, guid, email)
+      const unified = yield select(selectors.cache.getUnifiedAccountStatus)
+      const sessionToken = yield select(selectors.session.getWalletSessionId, guid, email)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.cache.removeStoredLogin())
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))

@@ -16,7 +16,6 @@ import {
   fromCustodial,
   fromLegacy,
   fromLegacyList,
-  fromLockbox,
   fromPrivateKey,
   isValidAddressOrIndex,
   toCoin,
@@ -106,8 +105,6 @@ export default ({ api }) => {
           return fromLegacyList(origin)
         }
         return fromLegacy(origin)
-      case ADDRESS_TYPES.LOCKBOX:
-        return fromLockbox(network, appState, origin, 'BCH')
       default:
         const pkformat = detectPrivateKeyFormat(origin)
         if (pkformat != null) {
@@ -207,8 +204,6 @@ export default ({ api }) => {
   const calculateSignature = function* (
     network,
     password,
-    transport,
-    scrambleKey,
     fromType,
     selection,
     changeIndex,
@@ -231,16 +226,6 @@ export default ({ api }) => {
       case ADDRESS_TYPES.WATCH_ONLY:
       case ADDRESS_TYPES.EXTERNAL:
         return bch.signWithWIF(network, selection)
-      case ADDRESS_TYPES.LOCKBOX:
-        return yield call(
-          bch.signWithLockbox,
-          selection,
-          coinDust,
-          transport,
-          scrambleKey,
-          changeIndex,
-          api
-        )
       default:
         throw new Error('unknown_from')
     }
@@ -275,6 +260,7 @@ export default ({ api }) => {
 
       chain() {
         const chain = (gen, f) =>
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           makeChain(function* () {
             return yield f(yield gen())
           })
@@ -357,15 +343,13 @@ export default ({ api }) => {
         return makePayment(merge(p, { result }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      *sign(password) {
         // collect coin dust
         const { coinDust, lockSecret } = yield call(this.getCoinDust)
         const signed = yield call(
           calculateSignature,
           network,
           password,
-          transport,
-          scrambleKey,
           prop('fromType', p),
           prop('selection', p),
           prop('changeIndex', p),

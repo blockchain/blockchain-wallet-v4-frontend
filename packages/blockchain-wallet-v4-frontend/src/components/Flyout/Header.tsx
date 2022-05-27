@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-const Header = styled.div`
+const Header = styled.div<{ sticky: boolean }>`
   width: 100%;
   box-sizing: border-box;
   padding: 40px;
@@ -12,12 +12,19 @@ const Header = styled.div`
   @media (max-width: 767px) {
     padding: 20px;
   }
+
+  ${(p) =>
+    p.sticky &&
+    css`
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    `}
 `
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
 `
 const LeftTopCol = styled.div`
   display: flex;
@@ -27,7 +34,7 @@ const LeftTopCol = styled.div`
 const FlyoutHeader = memo(
   (props: Props) => {
     return (
-      <Header>
+      <Header sticky={props.sticky || false}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
             {props.mode === 'back' && (
@@ -47,7 +54,7 @@ const FlyoutHeader = memo(
           {props.mode === 'close' && (
             <Icon
               cursor
-              data-e2e='RecurringBuysCloseButton'
+              data-e2e='close'
               name='close'
               size='20px'
               color='grey600'
@@ -67,6 +74,7 @@ export type Props = {
   'data-e2e': string
   mode: 'close' | 'back'
   onClick: () => void
+  sticky?: true
 }
 
 export default FlyoutHeader

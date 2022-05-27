@@ -16,8 +16,8 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
-    return post({
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) =>
+    post({
       data: {
         format: 'plain',
         guid,
@@ -29,7 +29,6 @@ export default ({ get, post, rootUrl }) => {
       sessionToken,
       url: rootUrl
     })
-  }
 
   const savePayload = (data) =>
     post({
@@ -38,12 +37,13 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createPayload = (email, captchaToken, data) =>
+  const createPayload = (email, captchaToken, forceVerifyEmail, data) =>
     post({
       data: mergeRight(
         {
           captcha: captchaToken,
           email,
+          force: forceVerifyEmail,
           format: 'plain',
           method: 'insert',
           siteKey: window.CAPTCHA_KEY

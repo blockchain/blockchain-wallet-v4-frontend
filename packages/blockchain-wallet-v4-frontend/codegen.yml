@@ -1,0 +1,13 @@
+overwrite: true
+schema: "https://api.dev.blockchain.info/nft-market-api/graphql/"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "urql-introspection"
+      - "typescript-urql"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

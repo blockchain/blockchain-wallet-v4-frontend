@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { BSPairType, CoinType, WalletOptionsType } from '@core/types'
+import { BSPairType, CoinType, OrderType, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -82,9 +82,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
   if (isError) {
     return <DataError />
   }
-  if (props.addCardError) {
-    return <DataError message={{ message: props.addCardError }} />
-  }
 
   return props.data.cata({
     Failure: (e) => (
@@ -111,6 +108,7 @@ const AddCardCheckoutDotCom = (props: Props) => {
           handleClose={props.handleClose}
           paymentAccountEligible={val.eligibility?.eligible}
           fiatCurrency={props.fiatCurrency}
+          orderType={props.orderType || OrderType.BUY}
         />
       )
     }
@@ -118,7 +116,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  addCardError: selectors.components.buySell.getAddCardError(state),
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
@@ -126,7 +123,8 @@ const mapStateToProps = (state: RootState) => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
+  orderType: selectors.components.buySell.getOrderType(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

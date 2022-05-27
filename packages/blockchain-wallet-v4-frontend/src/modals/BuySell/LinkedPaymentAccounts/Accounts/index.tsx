@@ -1,5 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { Form, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -14,7 +18,6 @@ import {
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { getBankLogoImageName } from 'services/images'
 
@@ -73,7 +76,7 @@ const Accounts = (props: Props) => {
           <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
         ) : (
           <FormattedMessage
-            id='modals.simplebuy.deposit.bank_transfer'
+            id='modals.simplebuy.deposit.regular_bank_transfer'
             defaultMessage='Regular Bank Transfer'
           />
         )

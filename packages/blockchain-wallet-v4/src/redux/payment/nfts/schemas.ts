@@ -34,6 +34,45 @@ export const ERC721Schema = {
 
   functions: {
     assetsOfOwnerByIndex: [],
+    checkAndTransfer: (asset, validatorAddress, merkle) => ({
+      constant: false,
+      inputs: [
+        { kind: FunctionInputKind.Owner, name: 'from', type: 'address' },
+        { kind: FunctionInputKind.Replaceable, name: 'to', type: 'address' },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'token',
+          type: 'address',
+          value: asset.address
+        },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'tokenId',
+          type: 'uint256',
+          value: asset.id
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'root',
+          type: 'bytes32',
+          value: merkle
+            ? merkle.root
+            : '0x0000000000000000000000000000000000000000000000000000000000000000'
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'proof',
+          type: 'bytes32[]',
+          value: merkle ? merkle.proof : []
+        }
+      ],
+      name: 'matchERC721UsingCriteria',
+      outputs: [],
+      payable: false,
+      stateMutability: StateMutability.Nonpayable,
+      target: validatorAddress,
+      type: 'function'
+    }),
     ownerOf: (asset) => ({
       constant: true,
       inputs: [
@@ -110,6 +149,51 @@ export const ERC1155Schema = {
 
   functions: {
     assetsOfOwnerByIndex: [],
+    checkAndTransfer: (asset, validatorAddress, merkle) => ({
+      constant: false,
+      inputs: [
+        { kind: FunctionInputKind.Owner, name: 'from', type: 'address' },
+        { kind: FunctionInputKind.Replaceable, name: 'to', type: 'address' },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'token',
+          type: 'address',
+          value: asset.address
+        },
+        {
+          kind: FunctionInputKind.Asset,
+          name: 'tokenId',
+          type: 'uint256',
+          value: asset.id
+        },
+        {
+          kind: FunctionInputKind.Count,
+          name: 'amount',
+          type: 'uint256',
+          value: asset.quantity || 1
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'root',
+          type: 'bytes32',
+          value: merkle
+            ? merkle.root
+            : '0x0000000000000000000000000000000000000000000000000000000000000000'
+        },
+        {
+          kind: FunctionInputKind.Data,
+          name: 'proof',
+          type: 'bytes32[]',
+          value: merkle ? merkle.proof : []
+        }
+      ],
+      name: 'matchERC1155UsingCriteria',
+      outputs: [],
+      payable: false,
+      stateMutability: StateMutability.Nonpayable,
+      target: validatorAddress,
+      type: 'function'
+    }),
     countOf: (asset) => ({
       assetFromOutputs: (outputs: any) => outputs.balance,
       constant: true,
@@ -130,7 +214,12 @@ export const ERC1155Schema = {
         { kind: FunctionInputKind.Owner, name: '_from', type: 'address' },
         { kind: FunctionInputKind.Replaceable, name: '_to', type: 'address' },
         { kind: FunctionInputKind.Asset, name: '_id', type: 'uint256', value: asset.id },
-        { kind: FunctionInputKind.Count, name: '_value', type: 'uint256', value: asset.quantity },
+        {
+          kind: FunctionInputKind.Count,
+          name: '_value',
+          type: 'uint256',
+          value: asset.quantity || 1
+        },
         { kind: FunctionInputKind.Data, name: '_data', type: 'bytes', value: '0x' }
       ],
       name: 'safeTransferFrom',

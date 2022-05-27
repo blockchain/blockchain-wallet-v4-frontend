@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { getTime, getUnixTime, sub } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -35,35 +35,37 @@ export default ({ api }: { api: APIType }) => {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
 
-      const time =
-        range === TimeRange.ALL ? moment.unix(start[base] || 0) : moment().subtract(1, range)
+      const startTime =
+        range === TimeRange.ALL
+          ? getUnixTime(start[base] || 0)
+          : getTime(sub(new Date(), { [`${range}s`]: 1 }))
 
-      const previous: ReturnType<typeof api.getPriceIndex> = yield call(
+      const startData: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
-        time
+        startTime
       )
-      const current: ReturnType<typeof api.getPriceIndex> = yield call(
+      const currentData: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
-        moment()
+        getTime(new Date())
       )
 
       // Overall coin price movement
-      const overallChange = getPercentChange(current.price, previous.price)
+      const overallChange = getPercentChange(currentData.price, startData.price)
       // User's position, if given an amount will provide the
       // change for that amount or else will fallback to 0
-      const currentPosition = new BigNumber(positionAmt).times(current.price).toNumber()
-      const previousPosition = new BigNumber(positionAmt).times(previous.price).toNumber()
+      const currentPosition = new BigNumber(positionAmt).times(currentData.price).toNumber()
+      const previousPosition = new BigNumber(positionAmt).times(startData.price).toNumber()
       const positionChange = getPercentChange(currentPosition, previousPosition)
 
       yield put(
         A.fetchPriceChangeSuccess(
           base,
-          previous.price,
-          current.price,
+          startData.price,
+          currentData.price,
           range,
           overallChange,
           positionChange

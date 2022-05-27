@@ -1,7 +1,7 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from '@core'
-import { CoinfigType, CoinType, RemoteDataType } from '@core/types'
+import { CoinfigType, CoinType, InvitationsType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
@@ -14,6 +14,7 @@ import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 import * as EUR from './coins/eur'
 import * as GBP from './coins/gbp'
+import * as SELF_CUSTODY from './coins/self-custody'
 import * as USD from './coins/usd'
 import * as XLM from './coins/xlm'
 
@@ -26,6 +27,7 @@ const coinSelectors = {
   ETH,
   EUR,
   GBP,
+  SELF_CUSTODY,
   USD,
   XLM
 }
@@ -36,6 +38,9 @@ export const getSelector = (coinfig: CoinfigType) => {
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
     return 'CUSTODIAL'
+  }
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coinfig.symbol)) {
+    return 'SELF_CUSTODY'
   }
   return coinfig.symbol
 }
@@ -94,4 +99,33 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
   const accounts = accountsR?.getOrElse({}) || {}
 
   return accounts
+}
+
+export const getStxSelfCustodyAvailablity = (state): boolean => {
+  const isDoubleEncrypted = selectors.core.wallet.isSecondPasswordOn(state) as boolean
+  if (isDoubleEncrypted) return false
+
+  const featureFlagsR = selectors.core.walletOptions.getFeatureFlags(state)
+  const tagsR = selectors.modules.profile.getBlockstackTag(state)
+  const invitationsR = selectors.core.settings.getInvitations(state)
+
+  const featureFlags = featureFlagsR.getOrElse({
+    stxSelfCustodyEnableAirdrop: false,
+    stxSelfCustodyEnableAll: false
+  })
+  const tag = tagsR.getOrElse(false)
+  const invitations = invitationsR.getOrElse({ stxSelfCustody: true } as InvitationsType)
+
+  if (invitations.stxSelfCustody) {
+    if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {
+      return true
+    }
+    if (featureFlags.stxSelfCustodyEnableAll) {
+      return true
+    }
+
+    return false
+  }
+
+  return false
 }

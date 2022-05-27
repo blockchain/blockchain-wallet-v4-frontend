@@ -100,11 +100,16 @@ const EnterAmountContainer = (props: Props) => {
         val.paymentMethods.methods.length &&
         val.paymentMethods.methods.find((method) => method.limits.max !== '0')
       const paymentAccount = getDefaultMethod(props.defaultMethod, val.bankTransferAccounts)
-      const paymentMethod = val.paymentMethods.methods.find(
-        (method) =>
+      const paymentMethod = val.paymentMethods.methods.find((method) => {
+        // if a payment account is selected, make sure the payment method matches up so limits are displayed correctly
+        if (paymentAccount) {
+          return paymentAccount.type === method.type
+        }
+        return (
           method.type === BSPaymentTypes.BANK_TRANSFER ||
           method.type === BSPaymentTypes.BANK_ACCOUNT
-      )
+        )
+      })
       let handleMethodClick: () => void
       const { crossBorderLimits, formErrors } = val
 

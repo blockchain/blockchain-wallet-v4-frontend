@@ -8,9 +8,11 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { nftActions } = props
+  const { defaultEthAddr, nftActions } = props
 
-  return (
+  const isOwner = props.asset.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
+
+  return isOwner ? (
     <Button
       jumbo
       nature='empty-blue'
@@ -20,7 +22,7 @@ const CTA: React.FC<Props> = (props) => {
     >
       <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
     </Button>
-  )
+  ) : null
 }
 
 type Props = OwnProps & { asset: NftAsset }

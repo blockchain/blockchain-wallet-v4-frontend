@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 import { validEmail } from 'services/forms'
 import { media } from 'services/styles'
 
@@ -74,7 +74,7 @@ function ChangeEmailSteps(props) {
         <Text size='12px' color='grey500' weight={400}>
           <FormattedMessage
             id='scenes.security.email.changeemail.description'
-            defaultMessage='<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.'
+            defaultMessage="<b>Note:</b> This will change your Blockchain.com Account's email address."
           />
         </Text>
       </ChangeEmailWrapper>

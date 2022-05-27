@@ -1,35 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { isBefore } from 'date-fns'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 
-import { TextBox } from 'components/Form'
+import TextBox from 'components/Form/TextBox'
 
-export const normalizeCreditCardExpiry = (value, previousValue) => {
-  if (!value) return value
-  if (value.length > 5) return previousValue
-
-  const onlyNumsOrSlash = value.replace(/[^\d/]/g, '').replace(/\/{1,}/, '/')
-  const prevOnlyNumsOrSlash = previousValue || ''
-
-  if (!prevOnlyNumsOrSlash && onlyNumsOrSlash === '/') return ''
-
-  if (prevOnlyNumsOrSlash.length === 1 && onlyNumsOrSlash[onlyNumsOrSlash.length - 1] === '/') {
-    return `0${prevOnlyNumsOrSlash}/`
-  }
-
-  if (onlyNumsOrSlash.length < prevOnlyNumsOrSlash.length) {
-    return onlyNumsOrSlash
-  }
-  if (onlyNumsOrSlash.length === 2) {
-    return `${onlyNumsOrSlash}/`
-  }
-  if (onlyNumsOrSlash.length === 4 && !onlyNumsOrSlash.includes('/')) {
-    const num = onlyNumsOrSlash
-    return `${num.substring(0, 2)}/${num.substring(2, 4)}`
-  }
-  return onlyNumsOrSlash
-}
+export { normalizeCreditCardExpiry } from './utils'
 
 export const validateCreditCardExpiry = (value: string) => {
   const regex = /\d{2}\/\d{2}/
@@ -46,7 +22,7 @@ export const validateCreditCardExpiry = (value: string) => {
     )
   }
 
-  if (moment(value, 'MM/YY') < moment()) {
+  if (isBefore(new Date(), new Date(value))) {
     return <FormattedMessage id='formhelper.card_expired' defaultMessage='Card Expired' />
   }
 }

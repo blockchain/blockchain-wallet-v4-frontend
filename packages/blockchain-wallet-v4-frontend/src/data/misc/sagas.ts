@@ -1,4 +1,4 @@
-import { delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
@@ -78,7 +78,38 @@ export default () => {
     }
   }
 
+  const generateCaptchaToken = function* (actionName) {
+    let pollCount = 0
+
+    // wait up to 10 seconds for captcha library to load
+    while (true) {
+      pollCount += 1
+
+      if (pollCount >= 50) {
+        console.error('Captcha: window.grecaptcha not found')
+        break
+      }
+      if (window.grecaptcha && window.grecaptcha.enterprise) {
+        break
+      }
+
+      yield delay(200)
+    }
+
+    const getToken = () =>
+      window.grecaptcha.enterprise
+        .execute(window.CAPTCHA_KEY, { action: actionName })
+        .then((token) => token)
+        .catch((e) => {
+          console.error('Captcha: ', e)
+        })
+
+    const captchaToken = yield call(getToken)
+    return captchaToken
+  }
+
   return {
+    generateCaptchaToken,
     initAppLanguage,
     logAppConsoleWarning,
     pingManifestFile,

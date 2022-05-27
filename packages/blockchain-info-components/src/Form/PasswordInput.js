@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
+// font family needs to differ between input and placeholder due to Inter font family issue
+// https://github.com/rsms/inter/issues/112
 const BasePasswordInput = styled.input.attrs((props) => ({
   'data-lpignore': props.noLastPass,
   disabled: props.disabled,
@@ -14,17 +16,16 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   width: 100%;
   height: 48px;
   min-height: 48px;
-  padding: 6px 12px;
-  box-sizing: border-box;
+  font-family: sans-serif;
   font-size: 20px;
   font-weight: 500;
+  padding: 6px 12px;
+  box-sizing: border-box;
   color: ${(props) => props.theme.grey800};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border-radius: 8px;
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
@@ -36,6 +37,8 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   }
   &::placeholder {
     color: ${(props) => props.theme.grey400};
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 500;
   }

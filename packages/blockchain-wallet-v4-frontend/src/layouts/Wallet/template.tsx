@@ -1,9 +1,10 @@
 import React from 'react'
 import { replace } from 'ramda'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
+import SupportChat from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
@@ -28,7 +29,7 @@ const Nav = styled.div`
   flex: 0 0 60px;
   background-color: ${(props) => props.theme.white};
 `
-const Content = styled.div`
+const Content = styled.div<{ coinViewV2?: true }>`
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -37,6 +38,12 @@ const Content = styled.div`
   align-items: flex-start;
   width: calc(100% - 250px);
   max-width: calc(100% - 250px);
+  ${({ coinViewV2 }) =>
+    coinViewV2 &&
+    css`
+      width: 100%;
+      max-width: 100%;
+    `}
   background-color: ${(props) => props.theme.white};
   padding: 32px 28px 16px 36px;
   ${media.tablet`
@@ -52,7 +59,7 @@ const Content = styled.div`
 `
 
 const WalletLayout = (props) => {
-  const { children, location } = props
+  const { children, coinViewV2, location } = props
 
   return (
     <Wrapper>
@@ -66,11 +73,12 @@ const WalletLayout = (props) => {
           <Announcements type='static' />
         </Nav>
         <Container>
-          <MenuLeft />
-          <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
+          {!coinViewV2 && <MenuLeft />}
+          <Content coinViewV2 data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Page>{children}</Page>
           </Content>
         </Container>
+        <SupportChat />
       </ErrorBoundary>
     </Wrapper>
   )

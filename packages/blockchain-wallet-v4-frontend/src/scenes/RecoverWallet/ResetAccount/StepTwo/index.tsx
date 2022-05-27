@@ -1,11 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader } from 'blockchain-info-components'
-import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import FormGroup from 'components/Form/FormGroup'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
 import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
@@ -40,11 +41,15 @@ const SecondStep = (props: Props) => {
           name='resetAccountPassword'
           validate={[required, validStrongPassword]}
           component={PasswordBox}
-          showPasswordScore
-          passwordScore={
-            has('zxcvbn', window) ? window.zxcvbn(formValues.resetAccountPassword || '').score : 0
-          }
         />
+        <div>
+          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
+            <FormattedMessage
+              id='scenes.register.passwordstrengthwarn'
+              defaultMessage='Password must be at least 12 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+            />
+          </Text>
+        </div>
       </FormGroup>
       <FormGroup>
         <FormLabel htmlFor='confirmationPassword'>

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
 
@@ -154,7 +154,7 @@ function TransactionList(props: Props): ReactElement | null {
               </InterestTableCell>
               <TableCell width='20%'>
                 <Value data-e2e='interestTransactionDate'>
-                  {moment(insertedAt).local().format('MMMM D YYYY @ h:mm A')}
+                  {format(new Date(insertedAt), 'MMMM d yyyy @ h:mm a')}
                 </Value>
               </TableCell>
               {type === 'DEPOSIT' ? (

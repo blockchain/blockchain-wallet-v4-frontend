@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* stylelint-disable */
-import React, { Fragment } from 'react'
-import { pulse } from 'react-animations'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
-import styled, { css, keyframes } from 'styled-components'
+import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 import { media, spacing } from 'services/styles'
@@ -26,10 +25,6 @@ import GoogleAuth from './GoogleAuth'
 import SmsAuth from './SMS'
 import Yubikey from './Yubikey'
 
-const pulseFrames = keyframes`${pulse}`
-const pulseAnimation = css`
-  animation: ${pulseFrames} 0.5s;
-`
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;
   @media (min-width: 992px) {
@@ -84,7 +79,6 @@ const DisableLinkText = styled(Text)`
     cursor: pointer;
     padding-left: 3px;
   }
-  ${(props) => (props.pulse ? pulseAnimation : null)};
 `
 const TwoStepButton = styled(Button)`
   width: 100px;
@@ -157,7 +151,7 @@ const TwoStepVerification = (props) => {
               <DisableLinkText size='14px' weight={400} flexRow='true' pulse={props.pulse}>
                 <FormattedMessage
                   id='scenes.security.2fa.disablefirst'
-                  defaultMessage='To change your two-step verification method, disable your current one first. {link}'
+                  defaultMessage='To change your Two-Factor Authentication method, disable your current one first. {link}'
                   values={{
                     link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a>
                   }}
@@ -185,7 +179,7 @@ const TwoStepVerification = (props) => {
               <DisableLinkText size='14px' weight={400} flexRow='true' pulse={props.pulse}>
                 <FormattedMessage
                   id='scenes.security.2fa.sms.disablefirst'
-                  defaultMessage='To change your two-step verification method,{link} SMS codes first.'
+                  defaultMessage='To change your Two-Factor Authentication method,{link} SMS codes first.'
                   values={{
                     link: <a onClick={props.handleTwoFactorChange}>disable</a>
                   }}
@@ -211,7 +205,7 @@ const TwoStepVerification = (props) => {
           <br />
           <FormattedMessage
             id='scenes.security.twostepverification.description2'
-            defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.'
+            defaultMessage='Two-Factor Authentication helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.'
           />
         </>
       )
@@ -219,7 +213,7 @@ const TwoStepVerification = (props) => {
     return (
       <FormattedMessage
         id='scenes.security.twostepverification.description3'
-        defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.'
+        defaultMessage='Two-Factor Authentication helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of Two-Factor Authentication you are using.'
       />
     )
   }
@@ -235,7 +229,7 @@ const TwoStepVerification = (props) => {
         <>
           <FormattedMessage
             id='scenes.security.twostepverification.authenticator.title'
-            defaultMessage='Two-Step Verification - Authenticator App'
+            defaultMessage='Two-Factor Authentication - Authenticator App'
           />
           {goBackLink()}
         </>
@@ -246,7 +240,7 @@ const TwoStepVerification = (props) => {
         <>
           <FormattedMessage
             id='scenes.security.twostepverification.yubi.title'
-            defaultMessage='Two-Step Verification - Yubikey'
+            defaultMessage='Two-Factor Authentication - Yubikey'
           />
           {goBackLink()}
         </>
@@ -257,7 +251,7 @@ const TwoStepVerification = (props) => {
         <>
           <FormattedMessage
             id='scenes.security.twostepverification.mobile.title'
-            defaultMessage='Two-Step Verification - Mobile Phone Number'
+            defaultMessage='Two-Factor Authentication - Mobile Phone Number'
           />
           {goBackLink()}
         </>
@@ -266,7 +260,7 @@ const TwoStepVerification = (props) => {
     return (
       <FormattedMessage
         id='scenes.security.email.unverified.title'
-        defaultMessage='Two-Step Verification'
+        defaultMessage='Two-Factor Authentication'
       />
     )
   }

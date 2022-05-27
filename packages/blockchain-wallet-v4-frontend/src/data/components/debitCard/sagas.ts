@@ -4,10 +4,14 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
+import { CardStateType } from 'data/components/debitCard/types'
+import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
+
   const getCardToken = function* (cardId) {
     try {
       const data = yield call(api.getDCToken, cardId)
@@ -18,7 +22,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const filterTerminatedCards = (cards) => cards.filter((card) => card.status !== 'TERMINATED')
+  const filterTerminatedCards = (cards) =>
+    cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
   const getCards = function* () {
     try {
@@ -36,6 +41,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const getProducts = function* () {
+    yield call(waitForUserData)
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
     )).getOrElse(false)
@@ -55,6 +61,7 @@ export default ({ api }: { api: APIType }) => {
       }
     }
   }
+
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
     try {
       yield put(A.createCardLoading())
@@ -69,9 +76,36 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
+    try {
+      yield put(A.handleCardLockLoading())
+      const { id, newLockState } = action.payload
+
+      const lockAction = newLockState ? 'lock' : 'unlock'
+
+      yield call(api.handleDCLock, id, lockAction)
+      yield put(A.handleCardLockSuccess(newLockState))
+    } catch (e) {
+      yield put(A.handleCardLockFailure(e))
+    }
+  }
+
+  const terminateCard = function* (action: ReturnType<typeof A.terminateCard>) {
+    try {
+      const { payload } = action
+      yield call(api.terminateDC, payload)
+
+      yield call(getCards)
+    } catch (e) {
+      console.error('Failed to terminate card', errorHandler(e))
+    }
+  }
+
   return {
     createCard,
     getCards,
-    getProducts
+    getProducts,
+    handleCardLock,
+    terminateCard
   }
 }

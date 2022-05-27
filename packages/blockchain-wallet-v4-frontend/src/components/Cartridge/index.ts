@@ -1,7 +1,8 @@
 import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
-export const CustomCartridge = styled(Cartridge)`
+export const CustomCartridge = styled(Cartridge)<{ cursor?: boolean }>`
+  cursor: ${(props) => (props.cursor ? 'pointer' : 'default')};
   text-transform: none;
   border-radius: 8px;
   padding: 6px 8px;
@@ -15,6 +16,15 @@ export const CustomCartridge = styled(Cartridge)`
 export const GreyCartridge = styled(CustomCartridge)`
   background-color: ${(props) => props.theme.grey000};
   color: ${(props) => props.theme.grey600};
+`
+export const GreyBlueGradientCartridge = styled(CustomCartridge)`
+  background-color: ${(props) => props.theme.grey000};
+  color: ${(props) => props.theme.grey600};
+  > div {
+    background: linear-gradient(92.37deg, #7349f2 4.69%, #2e7cf6 97.22%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `
 export const BlueCartridge = styled(CustomCartridge)`
   background-color: ${(props) => props.theme.blue000};

@@ -1,7 +1,6 @@
 import { assoc, compose, curry, map, prop } from 'ramda'
 
 import { getBalance } from '../../data/xlm/selectors'
-import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { getAccounts } from '../../kvStore/xlm/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
@@ -19,11 +18,6 @@ const addBalance = curry((state, account) =>
 
 export const getAccountBalances = (state) =>
   getAccounts(state).map(compose(map(addBalance(state)), map(digest(ADDRESS_TYPES.ACCOUNT))))
-
-export const getLockboxXlmBalances = (state) =>
-  getLockboxXlmAccounts(state).map(
-    compose(map(addBalance(state)), map(digest(ADDRESS_TYPES.LOCKBOX)))
-  )
 
 export const getAccountsInfo = (state) => {
   const digest = (account) => ({

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
@@ -10,10 +10,6 @@ import { Props as OwnProps } from '../template.success'
 import Navigation from './template'
 
 const NavigationContainer = (props: Props) => {
-  useEffect(() => {
-    props.getCardProductsAction()
-  }, [])
-
   const { domains } = props
 
   return <Navigation {...props} exchangeUrl={concat(prop('exchange', domains), '/trade')} />
@@ -22,9 +18,9 @@ const NavigationContainer = (props: Props) => {
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  getCardProductsAction: bindActionCreators(actions.components.debitCard.getProducts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const mapStateToProps = (state) => ({
@@ -36,6 +32,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(connector)
 
-export type Props = OwnProps & ConnectedProps<typeof connector> & { lockboxDevices?: Array<any> }
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(NavigationContainer)

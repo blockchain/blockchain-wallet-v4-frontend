@@ -23,7 +23,7 @@ export type BtcAccountFromType = IBtcFromType & {
   coin: 'BTC'
   index: number
   label: string
-  type: 'ACCOUNT' | 'LOCKBOX'
+  type: 'ACCOUNT'
   xpub: string
 }
 

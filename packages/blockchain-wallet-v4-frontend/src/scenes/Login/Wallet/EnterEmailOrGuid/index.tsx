@@ -1,22 +1,22 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { LOGIN_FORM } from 'data/auth/model'
 import { ProductAuthOptions } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -29,18 +29,8 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const {
-    authActions,
-    busy,
-    exchangeTabClicked,
-    formActions,
-    formValues,
-    invalid,
-    isBrowserSupported,
-    routerActions,
-    submitting,
-    walletError
-  } = props
+  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
+    props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -48,23 +38,18 @@ const EnterEmailOrGuid = (props: Props) => {
       <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
       <WrapperWithPadding>
         <FormGroup>
-          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
-              <FormattedMessage
-                id='scenes.login.email_guid'
-                defaultMessage='Your Email or Wallet ID'
-              />
+              <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
             </LoginFormLabel>
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'
-              disabled={!isBrowserSupported}
               disableSpellcheck
               name='guidOrEmail'
               normalize={removeWhitespace}
               validate={[required, validWalletIdOrEmail]}
-              placeholder='Enter email or wallet ID'
+              placeholder='Enter Email or Wallet ID'
               autoFocus
             />
           </FormItem>
@@ -97,14 +82,17 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.WALLET}
-          />
+          <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
+            <Link size='13px' weight={600} data-e2e='loginImportAccount'>
+              <FormattedMessage
+                id='scenes.login.import_your_account'
+                defaultMessage='Import Your Account'
+              />
+            </Link>
+          </LinkContainer>
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

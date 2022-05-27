@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { CheckBox } from 'components/Form'
+import CheckBox from 'components/Form/CheckBox'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`

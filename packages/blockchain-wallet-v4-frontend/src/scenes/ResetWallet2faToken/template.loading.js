@@ -18,7 +18,7 @@ const Loading = () => {
       <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
         <FormattedMessage
           id='scenes.reset2fatoken.loading'
-          defaultMessage="We're handling your Two-Step Verification reset request. Please wait..."
+          defaultMessage="We're handling your Two-Factor Authentication reset request. Please wait..."
         />
       </Text>
     </Wrapper>

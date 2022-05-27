@@ -27,14 +27,14 @@ const Success = () => {
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return_mobile_new'
-            defaultMessage='Return to the app to access your Blockchain.com Wallet.'
+            defaultMessage='Return to the app to access your Blockchain.com Account.'
           />
         </Text>
       ) : (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return_new'
-            defaultMessage='Return to the previous tab to access your Blockchain.com Wallet.'
+            defaultMessage='Return to the previous tab to access your Blockchain.com Account.'
           />
         </Text>
       )}

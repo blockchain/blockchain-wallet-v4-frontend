@@ -7,7 +7,7 @@ export type CoinfigType = {
   displaySymbol: string
   name: string
   precision: number
-  products: ('CustodialWalletBalance' | 'PrivateKey')[]
+  products: ('CustodialWalletBalance' | 'PrivateKey' | 'DynamicSelfCustody')[]
   symbol: string
   type: {
     erc20Address?: string
@@ -24,7 +24,6 @@ export type SupportedCoinType = {
   availability: {
     exchangeFrom: boolean
     exchangeTo: boolean
-    lockbox: boolean
     request: boolean
     send: boolean
     syncToPit: boolean
@@ -37,7 +36,6 @@ export type SupportedCoinType = {
   }
   contractAddress?: string
   displayName: string
-  hasLockboxSupport: boolean
   invited?: boolean
   isFiat?: boolean
   isMemoBased?: boolean

@@ -1,28 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { dissoc, mergeRight } from 'ramda'
+import { dissoc } from 'ramda'
 
-import { SessionStateType } from './types'
+import { AccountSessionType, SessionStateType } from './types'
 
-const initialState: SessionStateType = {}
+const initialState: SessionStateType = {
+  exchange: undefined,
+  wallet: undefined
+}
 
 const sessionSlice = createSlice({
   initialState,
   name: 'session',
   reducers: {
+    clearSessions: (state) => {
+      state.wallet = undefined
+      state.exchange = undefined
+    },
     deauthorizeBrowser: () => {},
     logout: () => {},
     logoutClearReduxStore: () => {},
     removeSession: (state, action: PayloadAction<string>) => {
-      return dissoc(action.payload, state)
+      dissoc(action.payload, state)
     },
-    saveSession: (state, action: PayloadAction<{ [key: string]: string }>) => {
-      return mergeRight(state, action.payload)
+    saveExchangeSession: (state, action: PayloadAction<AccountSessionType>) => {
+      state.exchange = action.payload
+    },
+    saveWalletSession: (state, action: PayloadAction<AccountSessionType>) => {
+      state.wallet = action.payload
     }
   }
 })
 
-export const { deauthorizeBrowser, logout, logoutClearReduxStore, removeSession, saveSession } =
-  sessionSlice.actions
+export const {
+  clearSessions,
+  deauthorizeBrowser,
+  logout,
+  logoutClearReduxStore,
+  removeSession,
+  saveExchangeSession,
+  saveWalletSession
+} = sessionSlice.actions
 
 const { actions } = sessionSlice
 const sessionReducer = sessionSlice.reducer

@@ -104,23 +104,17 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
 `
 
-export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
-  background-color: ${(props) => props.theme.white};
-  position: sticky;
-  top: 0;
-  z-index: 99;
-`
-
 class Flyout extends React.Component<Props> {
   shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
   render() {
-    const { children, isOpen, userClickedOutside } = this.props
+    const { children, doNotHide, isOpen, userClickedOutside } = this.props
 
     return (
       <AnimatePresence>
         {isOpen && !userClickedOutside ? (
           <FlyoutModal
+            doNotHide={doNotHide}
             total={this.props.total}
             position={this.props.position}
             animate={{ x: 0 }}
@@ -145,6 +139,7 @@ class Flyout extends React.Component<Props> {
 
 type Props = Omit<ModalPropsType, 'close'> & {
   children: ReactNode
+  doNotHide?: boolean
   isOpen: boolean
   onClose: () => void
 }

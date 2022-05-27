@@ -249,6 +249,12 @@ interface FetchExtraKYCSuccess {
   }
   type: typeof AT.FETCH_KYC_EXTRA_QUESTIONS_SUCCESS
 }
+interface UpdateKYCQuestions {
+  payload: {
+    questions: any
+  }
+  type: typeof AT.UPDATE_KYC_EXTRA_QUESTIONS
+}
 
 export type IdentityVerificationActionTypes =
   | FetchSupportedDocumentAction
@@ -278,6 +284,7 @@ export type IdentityVerificationActionTypes =
   | FetchExtraKYCFailure
   | FetchExtraKYCLoading
   | FetchExtraKYCSuccess
+  | UpdateKYCQuestions
 
 export type InfoAndResidentialFormValuesType = {
   country: CountryType

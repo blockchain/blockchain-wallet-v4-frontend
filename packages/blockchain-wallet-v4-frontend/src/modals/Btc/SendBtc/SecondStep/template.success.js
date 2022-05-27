@@ -12,7 +12,7 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import { CountdownTimer } from 'components/Form'
+import CountdownTimer from 'components/Form/CountdownTimer'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0;

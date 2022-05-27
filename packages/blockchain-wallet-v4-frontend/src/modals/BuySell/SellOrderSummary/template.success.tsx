@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -81,7 +81,7 @@ const Success: React.FC<Props> = (props) => {
           <Title>
             <FormattedMessage id='modals.simplebuy.summary.created' defaultMessage='Created' />
           </Title>
-          <Value data-e2e='sbCreated'>{moment(sellOrder.createdAt).format('LLL')}</Value>
+          <Value data-e2e='sbCreated'>{format(new Date(sellOrder.createdAt), 'PPpp')}</Value>
         </Row>
 
         <>

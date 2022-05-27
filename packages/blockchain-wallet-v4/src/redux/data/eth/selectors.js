@@ -1,20 +1,17 @@
-import { concat, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import { dataPath } from '../../paths'
 
 //
 // ETH
 //
 export const getContext = createDeepEqualSelector(
-  [kvStoreSelectors.getContext, getLockboxEthContext],
-  (walletContextR, lockboxContextR) => {
-    const walletContext = walletContextR.map((x) => x).getOrElse([])
-    const lockboxContext = lockboxContextR.map((x) => x).getOrElse([])
-    return concat([walletContext], lockboxContext)
+  [kvStoreSelectors.getContext],
+  (walletContextR) => {
+    return walletContextR.map((x) => x).getOrElse([])
   }
 )
 export const getAddresses = path([dataPath, 'eth', 'addresses'])

@@ -8,7 +8,11 @@ import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/remote/types'
 import { Button, Icon, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { required, validEmail, validWalletId } from 'services/forms'
@@ -56,57 +60,15 @@ const validNullableEmail = (emailVal) => {
   return emailVal && emailVal.length ? validEmail(emailVal) : undefined
 }
 
-class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      captchaToken: undefined
-    }
-  }
-
-  componentDidMount() {
-    this.initCaptcha()
-  }
-
+class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentWillUnmount() {
     this.props.actions.resetForm()
-  }
-
-  initCaptcha = (callback?) => {
-    /* eslint-disable */
-    // @ts-ignore
-    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-    // @ts-ignore
-    window.grecaptcha.enterprise.ready(() => {
-      // @ts-ignore
-      window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, {
-          action: 'RESET_2FA'
-        })
-        .then((captchaToken) => {
-          console.log('Captcha success')
-          this.setState({ captchaToken })
-          callback && callback(captchaToken)
-        })
-        .catch((e) => {
-          console.error('Captcha error: ', e)
-        })
-    })
-    /* eslint-enable */
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
-    // sometimes captcha doesnt mount correctly (race condition?)
-    // if it's undefined, try to re-init for token
-    if (!this.state.captchaToken) {
-      return this.initCaptcha((captchaToken) => {
-        this.props.actions.resetWallet2fa(captchaToken, this.props.formValues)
-      })
-    }
-
-    this.props.actions.resetWallet2fa(this.state.captchaToken, this.props.formValues)
+    this.props.actions.resetWallet2fa(this.props.formValues)
   }
 
   render() {
@@ -169,7 +131,7 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
                 <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.reset2fa.firststep.explain'
-                    defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.'
+                    defaultMessage='Fill out the form below to regain access to your Blockchain.com Account by resetting your 2FA, restricted IP, and verified email.'
                   />
                 </Text>
                 <Text size='13px' weight={400}>
@@ -334,10 +296,6 @@ type LinkStatePropsType = {
     newEmail?: string
   }
   resetWallet2faR: RemoteDataType<string, null>
-}
-
-type StateProps = {
-  captchaToken?: string
 }
 
 type Props = LinkStatePropsType

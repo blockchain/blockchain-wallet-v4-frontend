@@ -12,7 +12,6 @@ import type {
   BuyQuoteStateType,
   CoinType,
   CrossBorderLimits,
-  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -28,6 +27,7 @@ import type {
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -41,12 +41,7 @@ export type BSAddCardFormValuesType = {
   'name-on-card': string
   sameAsBillingAddress?: boolean
 }
-export type BSAddCardErrorType =
-  | 'PENDING_CARD_AFTER_POLL'
-  | 'LINK_CARD_FAILED'
-  | 'CARD_ACTIVATION_FAILED'
-  | 'CARD_CREATION_FAILED'
-  | 'CARD_ALREADY_SAVED'
+
 export type BSBillingAddressFormValuesType = NabuAddressType
 export type BSBillingAddressFormSDDType = {
   country: CountryType
@@ -75,7 +70,6 @@ export enum BuySellStepType {
   '3DS_HANDLER_CHECKOUTDOTCOM',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
-  'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'BILLING_ADDRESS',
@@ -97,6 +91,7 @@ export enum BuySellStepType {
   'VERIFY_EMAIL'
 }
 export type BSShowModalOriginType =
+  | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
   | 'EmptyFeed'
@@ -104,6 +99,8 @@ export type BSShowModalOriginType =
   | 'PriceChart'
   | 'Prices'
   | 'InterestPage'
+  | 'Nfts'
+  | 'NftsMakeOffer'
   | 'RecurringBuyPromo'
   | 'SellEmpty'
   | 'Send'
@@ -132,19 +129,17 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
-  addCardError: undefined | BSAddCardErrorType
   applePayInfo: undefined | ApplePayInfoType
-  balances: RemoteDataType<string, BSBalancesType>
-  buyQuote: RemoteDataType<string, BuyQuoteStateType>
+  balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
+  buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
-  cards: RemoteDataType<string, Array<BSCardType>>
+  cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes: undefined | Array<string>
   checkoutDotComApiKey: undefined | string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
-  everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   googlePayInfo: undefined | GooglePayInfoType
@@ -162,9 +157,9 @@ export type BuySellState = {
   payment: RemoteDataType<string, undefined | PaymentValue>
   providerDetails: RemoteDataType<string, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
-  sddEligible: RemoteDataType<string, SDDEligibleType>
+  sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
   sddTransactionFinished: boolean
-  sddVerified: RemoteDataType<string, SDDVerifiedType>
+  sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
   sellQuote: RemoteDataType<string, SwapQuoteStateType>
   step: keyof typeof BuySellStepType
@@ -245,7 +240,6 @@ export type StepActionsPayload =
   | {
       step:
         | 'DETERMINE_CARD_PROVIDER'
-        | 'ADD_CARD_EVERYPAY'
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'

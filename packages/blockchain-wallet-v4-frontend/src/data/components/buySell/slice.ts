@@ -19,7 +19,6 @@ import {
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
-  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -33,6 +32,7 @@ import {
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import {
   BankTransferAccountType,
   BSCardStateEnum,
@@ -45,13 +45,12 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSAddCardErrorType, BuySellState } from './types'
+import { BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
   accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
-  addCardError: undefined,
   applePayInfo: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
@@ -63,7 +62,6 @@ const initialState: BuySellState = {
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
-  everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   googlePayInfo: undefined,
@@ -166,19 +164,6 @@ const buySellSlice = createSlice({
     activateCardSuccess: (state, action: PayloadAction<ProviderDetailsType>) => {
       state.providerDetails = Remote.Success(action.payload)
     },
-    // START LEGACY EVERYPAY
-    addCard: () => {},
-    addCardFailure: (state, action: PayloadAction<string>) => {
-      state.everypay3DS = Remote.Failure(action.payload)
-    },
-    addCardFinished: () => {},
-    addCardLoading: (state) => {
-      state.everypay3DS = Remote.Loading
-    },
-    addCardSuccess: (state, action: PayloadAction<Everypay3DSResponseType>) => {
-      state.everypay3DS = Remote.Success(action.payload)
-    },
-    // END LEGACY EVERYPAY
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
@@ -236,7 +221,7 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ currency?: CoinType; skipLoading?: boolean }>
     ) => {},
-    fetchBalanceFailure: (state, action: PayloadAction<string>) => {
+    fetchBalanceFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.balances = Remote.Failure(action.payload)
     },
     fetchBalanceLoading: (state) => {
@@ -254,7 +239,7 @@ const buySellSlice = createSlice({
         paymentMethodId?: BSCardType['id']
       }>
     ) => {},
-    fetchBuyQuoteFailure: (state, action: PayloadAction<string>) => {
+    fetchBuyQuoteFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.buyQuote = Remote.Failure(action.payload)
     },
     fetchBuyQuoteLoading: (state) => {
@@ -265,7 +250,7 @@ const buySellSlice = createSlice({
     },
     fetchCards: (state, action: PayloadAction<boolean>) => {},
     // cards fetch fails so often in staging that this is a temp fix
-    fetchCardsFailure: (state, action: PayloadAction<string>) => {
+    fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
 
@@ -381,7 +366,7 @@ const buySellSlice = createSlice({
       state.quote = Remote.Success(action.payload)
     },
     fetchSDDEligibility: () => {},
-    fetchSDDEligibleFailure: (state, action: PayloadAction<string>) => {
+    fetchSDDEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.sddEligible = Remote.Failure(action.payload)
     },
     fetchSDDEligibleLoading: (state) => {
@@ -391,7 +376,7 @@ const buySellSlice = createSlice({
       state.sddEligible = Remote.Success(action.payload)
     },
     fetchSDDVerified: () => {},
-    fetchSDDVerifiedFailure: (state, action: PayloadAction<string>) => {
+    fetchSDDVerifiedFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.sddVerified = Remote.Failure(action.payload)
     },
     fetchSDDVerifiedLoading: (state) => {
@@ -461,9 +446,6 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
-    setAddCardError: (state, action: PayloadAction<undefined | BSAddCardErrorType>) => {
-      state.addCardError = action.payload
-    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },

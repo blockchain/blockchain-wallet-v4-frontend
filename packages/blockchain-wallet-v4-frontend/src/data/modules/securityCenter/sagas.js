@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ coreSagas }) => {
@@ -47,9 +48,18 @@ export default ({ coreSagas }) => {
   }
 
   const resendVerifyEmail = function* (action) {
+    const { origin } = action.payload
     try {
       yield call(coreSagas.settings.resendVerifyEmail, action.payload)
       yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.ONBOARDING_EMAIL_VERIFICATION_REQUESTED,
+          properties: {
+            origin
+          }
+        })
+      )
     } catch (e) {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e))

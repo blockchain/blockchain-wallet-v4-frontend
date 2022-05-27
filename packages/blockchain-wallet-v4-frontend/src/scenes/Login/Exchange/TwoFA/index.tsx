@@ -4,7 +4,11 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
 import { ExchangeErrorCodes } from 'data/types'
@@ -26,12 +30,14 @@ const LoginWrapper = styled(Wrapper)`
 `
 const TwoFAExchange = (props: Props) => {
   const {
-    authActions,
     busy,
+    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
+    magicLinkData,
+    productAuthMetadata,
     submitting
   } = props
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
@@ -39,14 +45,19 @@ const TwoFAExchange = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClickExchange} hideGuid />
+        <BackArrowHeader
+          {...props}
+          handleBackArrowClick={handleBackArrowClickExchange}
+          hideGuid
+          platform={magicLinkData?.platform_type}
+        />
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
               {isMobile() ? (
                 <FormattedMessage
                   id='scenes.logins.twofa.enter_code.mobile_width'
-                  defaultMessage='Enter your 2FA Code'
+                  defaultMessage='Two Factor Authentication Code'
                 />
               ) : (
                 <FormattedMessage
@@ -93,13 +104,14 @@ const TwoFAExchange = (props: Props) => {
             )}
           </ActionButton>
           <NeedHelpLink
-            authActions={authActions}
             origin='2FA'
+            platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
+            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

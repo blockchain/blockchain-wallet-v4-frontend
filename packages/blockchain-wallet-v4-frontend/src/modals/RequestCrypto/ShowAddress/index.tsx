@@ -4,11 +4,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { utils } from '@core'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption } from 'components/Form'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'
@@ -16,6 +17,8 @@ import { SwapBaseCounterTypes } from 'data/types'
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper } from '../model'
 import { RequestSteps } from '../types'
+
+const { formatAddr, hasPrefix } = utils.bch
 
 const Wrapper = styled.div`
   display: flex;
@@ -128,7 +131,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address
+                Success: (val) =>
+                  hasPrefix(val.address) ? formatAddr(val.address, true) : val.address
               })}
             </Text>
           </AddressDisplay>
@@ -142,7 +146,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
                   color='blue600'
                   onClick={() => this.props.requestActions.setAddressCopied()}
                   size='24px'
-                  textToCopy={val.address}
+                  textToCopy={hasPrefix(val.address) ? formatAddr(val.address, true) : val.address}
+                  coin={selectedAccount.coin}
                 />
               )
             })}

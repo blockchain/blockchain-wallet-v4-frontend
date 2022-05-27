@@ -17,17 +17,18 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
+import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
 import {
   AddressTypesType,
   BSOrderType,
   BSTransactionType,
-  CoinfigType,
   ProcessedTxType,
   RemoteDataType
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { OwnProps } from '.'
 import { TransferType, TxType } from './types'
 
 const { WALLET_TX_SEARCH } = model.form
@@ -45,7 +46,9 @@ const filterTransactions = curry(
           filter === '' ||
           (x && toUpper(x) === toUpper(filter)) ||
           (x === 'DEPOSIT' && filter === 'received') ||
-          (x === 'WITHDRAWAL' && filter === 'sent'),
+          (x === 'WITHDRAWAL' && filter === 'sent') ||
+          (x === 'RECEIVED' && filter === 'received') ||
+          (x === 'SENT' && filter === 'sent'),
         'type',
         tx
       )
@@ -74,7 +77,7 @@ const filterTransactions = curry(
         case '':
           return tx
         default:
-          return (tx as ProcessedTxType).blockHeight
+          return (tx as ProcessedTxType).blockHeight || (tx as IngestedSelfCustodyType).movements
       }
     }
 
@@ -86,13 +89,15 @@ const filterTransactions = curry(
 
 const coinSelectorMap = (
   state,
-  coin,
-  coinfig: CoinfigType
+  coin
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
+    return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
+  }
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {
@@ -103,12 +108,15 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, coinfig: CoinfigType) =>
-  createSelector(
+export const getData = (state: RootState, ownProps: OwnProps) => {
+  const { computedMatch } = ownProps
+  const { coin } = computedMatch.params
+
+  return createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap(state, coin, coinfig),
+      coinSelectorMap(state, coin),
       selectors.core.settings.getCurrency,
       selectors.components.recurringBuy.getRegisteredListByCoin(coin),
       selectors.core.walletOptions.getFeatureFlagRecurringBuys
@@ -126,6 +134,7 @@ export const getData = (state, coin, coinfig: CoinfigType) =>
           : []
 
       return {
+        coin,
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         isInvited: invitationsR
@@ -140,5 +149,6 @@ export const getData = (state, coin, coinfig: CoinfigType) =>
       }
     }
   )(state)
+}
 
 export default getData

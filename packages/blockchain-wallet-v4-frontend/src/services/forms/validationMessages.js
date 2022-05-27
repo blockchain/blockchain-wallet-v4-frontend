@@ -66,14 +66,8 @@ export const InvalidXlmAddressMessage = () => (
 export const InvalidIpListMessage = () => (
   <FormattedMessage id='formhelper.invalidiplist' defaultMessage='Invalid IP list' />
 )
-export const InvalidMobileNumberMessage = () => (
-  <FormattedMessage id='formhelper.invalidmobilenumber' defaultMessage='Invalid mobile number' />
-)
 export const InvalidNumberMessage = () => (
   <FormattedMessage id='formhelper.invalidnumber' defaultMessage='Invalid number' />
-)
-export const InvalidPassphraseMessage = () => (
-  <FormattedMessage id='formhelper.invalidphrase' defaultMessage='Invalid phrase' />
 )
 export const InvalidPasswordStretchingNumberMessage = () => (
   <FormattedMessage
@@ -105,10 +99,7 @@ export const PartnerStateWhitelist = () => (
   />
 )
 export const InvalidStrongPassword = () => (
-  <FormattedMessage
-    id='scenes.register.invalidstrongpassword'
-    defaultMessage='Your password is not strong enough'
-  />
+  <FormattedMessage id='scenes.register.invalidpassword' defaultMessage='Insecure password' />
 )
 export const PasswordsDoNotMatch = () => (
   <FormattedMessage id='formhelper.passwordsdonotmatch' defaultMessage='Passwords do not match' />
@@ -156,36 +147,27 @@ export const RequiredSSNMessage = () => (
 export const RequiredUSZipCodeMessage = () => (
   <FormattedMessage id='formhelper.requireduszipcode' defaultMessage='Must be a valid US Zipcode' />
 )
-
-export const InvalidZipCodeMessage = () => (
-  <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
-)
-
 export const UnacceptedTermsMessage = () => (
   <FormattedMessage
     id='formhelper.unacceptedterms'
     defaultMessage='You must agree to the terms and conditions'
   />
 )
-
 export const UniqueDeviceName = () => (
   <FormattedMessage
     id='formhelper.uniquedevicename'
     defaultMessage='Device name is already in use.'
   />
 )
-
 export const UniqueWalletName = () => (
   <FormattedMessage
     id='formhelper.uniquewalletname'
     defaultMessage='Wallet name is already taken.'
   />
 )
-
 export const ValueOverMaxMessage = () => (
   <FormattedMessage id='formhelper.valueovermax' defaultMessage='Value is over the max' />
 )
-
 export const ValueIsEqualToMaxMessage = () => (
   <FormattedMessage
     id='formhelper.valueisequaltomax'

@@ -5,8 +5,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormGroup } from 'components/Form'
-import { BSAddCardErrorType } from 'data/types'
+import FormGroup from 'components/Form/FormGroup'
 
 import { NavText } from '../../../../components'
 import { Props as _P, SuccessStateType } from '.'
@@ -141,7 +140,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
 
 type OwnProps = { handleBack: () => void }
 export type Props = _P & SuccessStateType & OwnProps
-export type ErrorType = BSAddCardErrorType
+export type ErrorType = string
 
 export default reduxForm<{}, Props, ErrorType>({
   destroyOnUnmount: false,

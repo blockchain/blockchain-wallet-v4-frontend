@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
@@ -13,14 +13,11 @@ import {
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  UnifiedAccountRedirectType
 } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
+import Loading from 'layouts/Auth/template.loading'
 
-import Loading from '../loading.public'
-import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
-import UpgradePassword from './AccountUnification/UpgradePassword'
-import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
@@ -33,39 +30,13 @@ import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPassword'
 import TwoFAWallet from './Wallet/TwoFA'
 
-class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      captchaToken: undefined
-    }
-  }
-
+class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     this.props.authActions.initializeLogin()
-    this.initCaptcha()
   }
 
   setStep = (step: LoginSteps) => {
     this.props.formActions.change(LOGIN_FORM, 'step', step)
-  }
-
-  initCaptcha = (callback?) => {
-    /* eslint-disable */
-    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-    window.grecaptcha.enterprise.ready(() => {
-      window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
-        .then((captchaToken) => {
-          console.log('Captcha success')
-          this.setState({ captchaToken })
-          callback && callback(captchaToken)
-        })
-        .catch((e) => {
-          console.error('Captcha error: ', e)
-        })
-    })
-    /* eslint-enable */
   }
 
   handleBackArrowClick = () => {
@@ -73,17 +44,22 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
     authActions.clearLoginError()
-    this.initCaptcha()
   }
 
   handleBackArrowClickWallet = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeWalletLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeExchangeLogin()
+    }
   }
 
   handleBackArrowClickExchange = () => {
     this.handleBackArrowClick()
     this.props.cacheActions.removeExchangeLogin()
+    if (this.props.cache.unifiedAccount) {
+      this.props.cacheActions.removeWalletLogin()
+    }
   }
 
   exchangeTabClicked = () => {
@@ -115,36 +91,22 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   handleSubmit = (e) => {
     e.preventDefault()
-    // sometimes captcha doesnt mount correctly (race condition?)
-    // if it's undefined, try to re-init for token
-    if (!this.state.captchaToken) {
-      return this.initCaptcha(
-        this.props.authActions.continueLoginProcess({
-          captchaToken: this.state.captchaToken,
-          initCaptcha: this.initCaptcha
-        })
-      )
-    }
-    // we have a captcha token, continue login process
-    this.props.authActions.continueLoginProcess({
-      captchaToken: this.state.captchaToken,
-      initCaptcha: this.initCaptcha
-    })
+    this.props.authActions.continueLoginProcess()
   }
 
   render() {
-    const { exchangeLoginData, formValues, productAuthMetadata, walletLoginData } = this.props
+    const { exchangeLoginDataR, formValues, productAuthMetadata, walletLoginDataR } = this.props
     const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
 
-    const { exchangeError } = exchangeLoginData.cata({
+    const { exchangeError } = exchangeLoginDataR.cata({
       Failure: (val) => ({ busy: false, exchangeError: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, exchangeError: null }),
       Success: () => ({ busy: false, exchangeError: null })
     })
 
-    const { busy, walletError } = walletLoginData.cata({
+    const { busy, walletError } = walletLoginDataR.cata({
       Failure: (val) => ({ busy: false, walletError: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, walletError: null }),
@@ -160,7 +122,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       ...this.props,
       handleBackArrowClickExchange: this.handleBackArrowClickExchange,
       handleBackArrowClickWallet: this.handleBackArrowClickWallet,
-      isBrowserSupported: isBrowserSupported(),
       setStep: this.setStep,
       walletTabClicked: this.walletTabClicked
     }
@@ -207,12 +168,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.UPGRADE_CONFIRM:
-                return <MergeAccountConfirm {...loginProps} />
-              case LoginSteps.UPGRADE_PASSWORD:
-                return <UpgradePassword {...loginProps} />
-              case LoginSteps.UPGRADE_SUCCESS:
-                return <UpgradeSuccess {...loginProps} />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -240,15 +195,16 @@ const mapStateToProps = (state) => ({
   authType: selectors.auth.getAuthType(state) as Number,
   cache: selectors.cache.getCache(state),
   data: getData(state),
-  exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
+  exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
+  initialRedirect: selectors.goals.getInitialRedirect(state) as UnifiedAccountRedirectType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
-  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
+  walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -267,20 +223,16 @@ type OwnProps = {
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
   invalid: boolean
-  isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
-  walletError?: any
+  walletError?: string
   walletTabClicked?: () => void
 }
 
-type StateProps = {
-  captchaToken?: string
-}
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
-const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
+const enhance = compose<React.ComponentType>(reduxForm({ form: LOGIN_FORM }), connector)
 
 export default enhance(Login)

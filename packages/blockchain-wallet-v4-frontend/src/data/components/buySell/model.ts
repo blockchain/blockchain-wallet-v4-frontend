@@ -1,8 +1,6 @@
-import moment from 'moment'
 import { defaultTo, filter } from 'ramda'
 
 import {
-  BSCardType,
   BSOrderActionType,
   BSOrderType,
   BSPairsType,
@@ -17,7 +15,6 @@ import {
 
 import { BankTransferAccountType } from '../brokerage/types'
 import { convertBaseToStandard } from '../exchange/services'
-import { BSAddCardFormValuesType } from './types'
 
 export const DEFAULT_BS_BALANCE = {
   available: '0',
@@ -40,16 +37,50 @@ export const LIMIT_FACTOR = 100 // we get 10000 from API
 
 export const SDD_TIER = 3
 
-// ERRORS
-export const NO_CHECKOUT_VALUES = 'NO_CHECKOUT_VALUES'
-export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
-export const NO_ACCOUNT = 'NO_ACCOUNT'
-export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
-export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
-export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
+export enum BS_ERROR {
+  APPLE_PAY_INFO_NOT_FOUND = 'APPLE_PAY_INFO_NOT_FOUND',
+  APPLE_PAY_SESSION_NOT_SUPPORTED = 'APPLE_PAY_SESSION_NOT_SUPPORTED',
+  CARD_CREATION_FAILED = 'CARD_CREATION_FAILED',
+  CHECKOUTDOTCOM_NOT_FOUND = 'CHECKOUTDOTCOM_NOT_FOUND',
+  FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN = 'FAILED_TO_GENERATE_GOOGLE_PAY_TOKEN',
+  FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT = 'FAILED_TO_VALIDATE_APPLE_PAY_MERCHANT',
+  GOOGLE_PAY_INFO_NOT_FOUND = 'GOOGLE_PAY_INFO_NOT_FOUND',
+  GOOGLE_PAY_PARAMETERS_MALFORMED = 'GOOGLE_PAY_PARAMETERS_MALFORMED',
+  GOOGLE_PAY_PARAMETERS_NOT_FOUND = 'GOOGLE_PAY_PARAMETERS_NOT_FOUND',
+  NO_ACCOUNT = 'NO_ACCOUNT',
+  NO_ADDRESS = 'NO_ADDRESS',
+  NO_CHECKOUT_VALUES = 'NO_CHECKOUT_VALUES',
+  NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY',
+  NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM',
+  NO_PAIR_SELECTED = 'NO_PAIR_SELECTED',
+  NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE',
+  NO_QUOTE = 'NO_QUOTE',
+  NO_USER_DATA = 'NO_USER_DATA',
+  ORDER_NOT_FOUND = 'ORDER_NOT_FOUND',
+  ORDER_VALUE_CHANGED = 'ORDER_VALUE_CHANGED',
+  ORDER_VERIFICATION_TIMED_OUT = 'ORDER_VERIFICATION_TIMED_OUT',
+  RETRYING_TO_GET_AUTH_URL = 'RETRYING_TO_GET_AUTH_URL',
+  UNHANDLED_PAYMENT_STATE = 'UNHANDLED_PAYMENT_STATE',
+  USER_CANCELLED_APPLE_PAY = 'USER_CANCELLED_APPLE_PAY'
+}
 
-// FORMS
-export const FORM_BS_ADD_EVERYPAY_CARD = 'addCardEverypayForm'
+export enum CARD_ERROR_CODE {
+  INTERNAL_SERVER_ERROR = 1,
+  INSUFFICIENT_FUNDS = 10000,
+  BANK_DECLINE = 10001,
+  DUPLICATE = 10002,
+  BLOCKCHAIN_DECLINE = 10003,
+  ACQUIRER_DECLINE = 10004,
+  PAYMENT_NOT_SUPPORTED = 10005,
+  CREATE_FAILED = 10006,
+  PAYMENT_FAILED = 10007,
+  CREATE_DEBIT_ONLY = 10011,
+  PAYMENT_DEBIT_ONLY = 10012,
+  PENDING_CARD_AFTER_POLL = 'PENDING_CARD_AFTER_POLL',
+  BLOCKED_CARD_AFTER_POLL = 'BLOCKED_CARD_AFTER_POLL',
+  LINK_CARD_FAILED = 'LINK_CARD_FAILED'
+}
+
 export const FORM_BS_CANCEL_ORDER = 'cancelBSOrderForm'
 export const FORM_BS_CHANGE_EMAIL = 'bsChangeEmail'
 export const FORM_BS_CHECKOUT_CONFIRM = 'bsCheckoutConfirm'
@@ -130,25 +161,6 @@ export const getSellBaseAmount = (sellOrder: SwapOrderType): string => {
 
 export const getSellCounterAmount = (sellOrder: SwapOrderType): string => {
   return convertBaseToStandard('FIAT', sellOrder.priceFunnel.outputMoney)
-}
-
-export const getNextCardExists = (
-  existingCards: Array<BSCardType>,
-  formValues: BSAddCardFormValuesType
-) => {
-  return existingCards.find((card) => {
-    if (card.state === 'BLOCKED' || card.state === 'FRAUD_REVIEW' || card.state === 'CREATED')
-      return false
-    if (!card.card) return false
-    if (card.card.number !== formValues['card-number'].slice(-4)) return false
-    if (
-      moment(`${card.card.expireMonth}/${card.card.expireYear}`, 'MM/YYYY').toString() !==
-      moment(formValues['expiry-date'], 'MM/YY').toString()
-    )
-      return false
-
-    return true
-  })
 }
 
 export const getValidPaymentMethod = (method: BSPaymentTypes) => {

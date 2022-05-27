@@ -6,7 +6,8 @@ import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types
 import { SpinningLoader } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Title, Value } from 'components/Flyout/model'
+import { Title } from 'components/Flyout'
+import { Value } from 'components/Flyout/model'
 
 import { CTARow } from '../../../components'
 import { Props as OwnProps } from '../..'
@@ -19,7 +20,7 @@ const Fees: React.FC<Props> = (props) => {
       nftActions.fetchFees({
         asset: props.asset,
         operation: GasCalculationOperations.Transfer,
-        to: '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3'
+        to: '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3' // dummy address
       })
     }
   }, [])

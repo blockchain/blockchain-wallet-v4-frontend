@@ -9,6 +9,7 @@ import { FlyoutContainer } from 'components/Flyout/Layout'
 import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
+import { TIER_TYPES } from '../../Settings/TradingLimits/model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const HeaderWrapper = styled(FlyoutWrapper)`
@@ -118,7 +119,7 @@ const CloseIconContainer = styled.div`
 `
 
 const IconsContainerRight = styled(IconsContainer)`
-  justify-content: flex-end;
+  justify-content: space-between;
 `
 
 type Props = OwnProps & SuccessStateType
@@ -174,10 +175,13 @@ const Template = (props: Props) => {
     return null
   }
 
+  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
+
   return (
     <FlyoutContainer>
       <HeaderWrapper>
         <IconsContainerRight>
+          <Image width='32px' name='blue-verified' />
           <CloseIconContainer>
             <Icon
               cursor
@@ -190,9 +194,7 @@ const Template = (props: Props) => {
             />
           </CloseIconContainer>
         </IconsContainerRight>
-
-        <Image width='32px' name='blue-verified' style={{ marginTop: '8px' }} />
-        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
+        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '10px' }}>
           <FormattedMessage
             id='modals.onboarding.upgrade_now.title'
             defaultMessage='Upgrade Your Account.'
@@ -223,14 +225,19 @@ const Template = (props: Props) => {
             <Image name='grey-verified' size='20px' />
             <RowItemTitle>
               <FormattedMessage
-                id='modals.onboarding.upgrade_now.basic_level'
-                defaultMessage='Basic Level'
+                id='modals.onboarding.upgrade_now.limited_access'
+                defaultMessage='Limited Access'
               />
             </RowItemTitle>
             <StatusCartridge>
-              <Text color='grey900' size='12px' weight={500}>
+              {isUserTierZero ? (
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.apply_now'
+                  defaultMessage='Apply Now'
+                />
+              ) : (
                 <FormattedMessage id='copy.active' defaultMessage='Active' />
-              </Text>
+              )}
             </StatusCartridge>
           </UpgradeRowWithBorder>
           <UpgradeRowWithBorder>
@@ -269,6 +276,24 @@ const Template = (props: Props) => {
             </RowItemWrapper>
             <Image name='check-empty-blue' size='20px' />
           </UpgradeRow>
+          {isUserTierZero && (
+            <div style={{ padding: '25px' }}>
+              <Button
+                fullwidth
+                size='16px'
+                height='48px'
+                nature='empty-secondary'
+                data-e2e='getBasicUpdate'
+                type='button'
+                onClick={startVerification}
+              >
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.get_limited_access'
+                  defaultMessage='Get Limited Access'
+                />
+              </Button>
+            </div>
+          )}
         </UpgradeContainer>
 
         <UpgradeContainer second>
@@ -276,15 +301,15 @@ const Template = (props: Props) => {
             <Image name='white-verified' size='20px' />
             <RowItemTitleWhite>
               <FormattedMessage
-                id='modals.onboarding.upgrade_now.verified_level'
-                defaultMessage='Verified Level'
+                id='modals.onboarding.upgrade_now.full_access'
+                defaultMessage='Full Access'
               />
             </RowItemTitleWhite>
             <StatusCartridgeBlue>
               <Text color='white' size='12px' weight={500}>
                 <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
+                  id='modals.onboarding.upgrade_now.apply_now'
+                  defaultMessage='Apply Now'
                 />
               </Text>
             </StatusCartridgeBlue>
@@ -368,8 +393,8 @@ const Template = (props: Props) => {
         <Disclaimer>
           <RowItemSubTitle>
             <FormattedMessage
-              id='modals.onboarding.upgrade_now.disclaimer'
-              defaultMessage='Verified level includes all basic level features'
+              id='modals.onboarding.upgrade_now.disclaimer_full_access'
+              defaultMessage='Full Access includes all limited access features'
             />
           </RowItemSubTitle>
         </Disclaimer>

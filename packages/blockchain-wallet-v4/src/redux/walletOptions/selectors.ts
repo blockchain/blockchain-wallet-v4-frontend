@@ -55,10 +55,6 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
 
-// signup country feature flag
-export const getFeatureSignupCountry = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
-
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
@@ -70,6 +66,9 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+// login for unified accounts
+export const getUnifiedAccountLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'unifiedAccountLogin']))
 
 // apple pay as new payment method feature flag
 export const getApplePayAsNewPaymentMethod = (state: RootState) =>
@@ -117,10 +116,6 @@ export const getWalletDebitCardEnabled = (state: RootState) =>
 export const getTaxCenterEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
 
-// refresh captcha token if there's an error on signup
-export const getRefreshCaptchaOnSignupError = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'refreshCaptchaWithSignupError']))
-
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'institutionalPortal']))
@@ -132,3 +127,14 @@ export const getSilverRevamp = (state: RootState) =>
 // show terms and conditions
 export const getShowTermsAndConditions = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showTermsAndConditions']))
+
+export const getCoinViewV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
+
+// SSO creating exchange users under the hood
+// for all wallet logins and signup
+export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createExchangeUserOnSignupOrLogin']))
+
+export const getNftExplorer = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))

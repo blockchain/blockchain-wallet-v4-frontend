@@ -8,7 +8,7 @@ import * as C from 'services/alerts'
 import CopyClipboard from './template'
 
 export interface OwnProps {
-  alertActions: any
+  coin?: string
   color?: string
   onClick?: Function
   size?: string
@@ -34,19 +34,29 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   }
 
   handleClick() {
-    const { alertActions } = this.props
+    const { alertActions, coin } = this.props
     this.setState({ active: true })
     // @ts-ignore
     this.timeout = setTimeout(() => {
       this.setState({ active: false })
     }, 2000)
-    alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
+
+    if (coin) {
+      const { coinfig } = window.coins[coin]
+      alertActions.displaySuccess(C.COPY_ADDRESS_CLIPBOARD_SUCCESS, {
+        coinName: coinfig.name || coin
+      })
+    } else {
+      alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
+    }
+
     if (this.props.onClick) this.props.onClick()
   }
 
   render() {
     return (
       <CopyClipboard
+        alertActions={this.props.alertActions}
         active={this.state.active}
         color={this.props.color}
         handleClick={this.handleClick}

@@ -8,9 +8,14 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
-import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption, TextBox } from 'components/Form'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutHeader,
+  FlyoutSubHeader
+} from 'components/Flyout/Layout'
+import CoinAccountListOption from 'components/Form/CoinAccountListOption'
+import TextBox from 'components/Form/TextBox'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
@@ -19,17 +24,6 @@ import { REQUEST_FORM } from '../model'
 import { RequestSteps } from '../types'
 import { getData } from './selectors'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  .coin-account-option {
-    border-top: ${(props) => `1px solid ${props.theme.grey000}`};
-  }
-`
-const Header = styled(StepHeader)`
-  margin-bottom: 40px;
-`
 const HeaderContent = styled.div`
   position: relative;
 `
@@ -99,100 +93,98 @@ class RequestCoinSelect extends React.PureComponent<Props> {
     }
 
     return (
-      <Wrapper>
-        <StickyHeaderFlyoutWrapper>
-          <Header spaceBetween>
-            <Icon name='arrow-bottom-right' color='blue600' size='24px' />
-            <Icon
-              name='close'
-              color='grey600'
-              role='button'
-              data-e2e='close'
-              size='24px'
-              cursor
-              onClick={handleClose}
-            />
-          </Header>
-          <HeaderContent>
+      <FlyoutContainer>
+        <FlyoutHeader onClick={handleClose} data-e2e='ReceiveCryptoFlyout' mode='close'>
+          <Icon name='arrow-bottom-right' color='blue600' size='24px' />
+        </FlyoutHeader>
+        <FlyoutSubHeader
+          data-e2e='receiveCryptoSubHeader'
+          title={
             <Text size='24px' color='grey900' weight={600}>
               <FormattedMessage
                 id='modals.requestcrypto.coinselect.title'
                 defaultMessage='Receive Crypto'
               />
             </Text>
-            <Text size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='modals.requestcrypto.coinselect.subtitle'
-                defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
-              />
-            </Text>
-            <InputContainer>
-              <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
-              <StyledIcon color='grey200' name='magnifier' />
-            </InputContainer>
-            {formValues.coinSearch && (
-              <ResultsText size='12px' color='grey600' weight={600}>
-                {data.accounts.length ? (
-                  <>
-                    {data.accounts.length}{' '}
-                    <FormattedMessage id='copy.results' defaultMessage='Results' />
-                  </>
-                ) : (
-                  <FormattedMessage id='copy.no_results' defaultMessage='No Results' />
-                )}
-              </ResultsText>
-            )}
-          </HeaderContent>
-        </StickyHeaderFlyoutWrapper>
-        {data.accounts.length ? (
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                className='List'
-                height={height}
-                itemData={data.accounts}
-                itemCount={data.accounts.length}
-                itemSize={74}
-                width={width}
-              >
-                {Row}
-              </List>
-            )}
-          </AutoSizer>
-        ) : (
-          <NoAccounts
-            role='button'
-            onClick={() => {
-              formActions.change(REQUEST_FORM, 'selectedAccount', data.ethAccount)
-              formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
-            }}
-          >
-            <div>
-              <PlusIconContainer>
-                <Icon name='plus-in-circle-filled' color='green600' size='24px' />
-              </PlusIconContainer>
+          }
+          subTitle={
+            <HeaderContent>
+              <Text size='16px' color='grey600' weight={500}>
+                <FormattedMessage
+                  id='modals.requestcrypto.coinselect.subtitle'
+                  defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
+                />
+              </Text>
+              <InputContainer>
+                <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
+                <StyledIcon color='grey200' name='magnifier' />
+              </InputContainer>
+              {formValues.coinSearch && (
+                <ResultsText size='12px' color='grey600' weight={600}>
+                  {data.accounts.length ? (
+                    <>
+                      {data.accounts.length}{' '}
+                      <FormattedMessage id='copy.results' defaultMessage='Results' />
+                    </>
+                  ) : (
+                    <FormattedMessage id='copy.no_results' defaultMessage='No Results' />
+                  )}
+                </ResultsText>
+              )}
+            </HeaderContent>
+          }
+        />
+        <FlyoutContent mode='top'>
+          {data.accounts.length ? (
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  className='List'
+                  height={height}
+                  itemData={data.accounts}
+                  itemCount={data.accounts.length}
+                  itemSize={74}
+                  width={width}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          ) : (
+            <NoAccounts
+              role='button'
+              onClick={() => {
+                formActions.change(REQUEST_FORM, 'selectedAccount', data.ethAccount)
+                formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
+              }}
+            >
               <div>
-                <Text size='16px' color='grey900' weight={600}>
-                  <FormattedMessage
-                    id='copy.receive_any_erc20'
-                    defaultMessage='Receive Any Erc20 Token'
-                  />
-                </Text>
-                <Text size='14px' color='grey800' weight={500} style={{ marginTop: '2px' }}>
-                  <FormattedMessage
-                    id='copy.view_eth_addr'
-                    defaultMessage='View Your {eth} Address'
-                    values={{
-                      eth: ethCoinfig.name
-                    }}
-                  />
-                </Text>
+                <PlusIconContainer>
+                  <Icon name='plus-in-circle-filled' color='green600' size='24px' />
+                </PlusIconContainer>
+                <div>
+                  <Text size='16px' color='grey900' weight={600}>
+                    <FormattedMessage
+                      id='copy.receive_any_erc20'
+                      defaultMessage='Receive Any Erc20 Token'
+                    />
+                  </Text>
+                  <Text size='14px' color='grey800' weight={500} style={{ marginTop: '2px' }}>
+                    <FormattedMessage
+                      id='copy.view_eth_addr'
+                      defaultMessage='View Your {eth} Address'
+                      values={{
+                        eth: ethCoinfig.name
+                      }}
+                    />
+                  </Text>
+                </div>
               </div>
-            </div>
-            <Icon name='chevron-right' size='32px' color='grey400' />
-          </NoAccounts>
-        )}
-      </Wrapper>
+              <Icon name='chevron-right' size='32px' color='grey400' />
+            </NoAccounts>
+          )}
+        </FlyoutContent>
+      </FlyoutContainer>
     )
   }
 }

@@ -182,6 +182,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Currency has been successfully updated'
         />
       )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_error'
+          defaultMessage='Failed to change Card Lock'
+        />
+      )
+    case C.DEBIT_CARD_DASHBOARD_LOCK_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.debit_card_dashboard_lock_success'
+          defaultMessage='Card Lock changed successfully'
+        />
+      )
     case C.DOCUMENT_UPLOAD_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -364,7 +378,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='components.alerts.iprestriction_login_error'
-                defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
+                defaultMessage='This account is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
               />
             </Text>
             <Text>
@@ -449,7 +463,10 @@ const getAlertContent = (message, data = undefined) => {
       )
     case C.LOGIN_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
+        <FormattedMessage
+          id='components.alerts.login_failed'
+          defaultMessage='Login failed. Please refresh and try again.'
+        />
       )
 
     case C.MAGIC_LINK_PARSE_ERROR:
@@ -1073,50 +1090,6 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Not a valid Bitcoin Private Key or Address.'
         />
       )
-    case C.LOCKBOX_SETUP_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.success_lockbox_setup'
-          defaultMessage='Successfully setup your {deviceType}.'
-          values={data}
-        />
-      )
-    case C.LOCKBOX_SETUP_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.error_lockbox_setup'
-          defaultMessage='Failed to setup your {deviceType}.'
-          values={data}
-        />
-      )
-    case C.LOCKBOX_UPDATE_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_update_success'
-          defaultMessage='Lockbox settings successfully updated.'
-        />
-      )
-    case C.LOCKBOX_UPDATE_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_update_error'
-          defaultMessage='Failed to update Lockbox settings.'
-        />
-      )
-    case C.LOCKBOX_DELETE_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_delete_success'
-          defaultMessage='Lockbox successfully deleted.'
-        />
-      )
-    case C.LOCKBOX_DELETE_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.lockbox_delete_error'
-          defaultMessage='Failed to remove Lockbox.'
-        />
-      )
     case C.LOCKED_WITHDRAW_ERROR:
       return buildMessageTemplate(
         data === 0 || data === 1 ? (
@@ -1146,7 +1119,7 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Save of additional information failed'
         />
       )
-    case C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR:
+    case C.UPLOAD_ADDITIONAL_DOCUMENTS_FILES_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.upload_additional_documents_files_error'

@@ -14,7 +14,8 @@ import {
   PasswordInput,
   Text
 } from 'blockchain-info-components'
-import { Form, FormLabel } from 'components/Form'
+import Form from 'components/Form/Form'
+import FormLabel from 'components/Form/FormLabel'
 
 const SecPasswordHeader = styled(ModalHeader)`
   border-bottom: 0;

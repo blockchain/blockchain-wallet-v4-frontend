@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { format } from 'date-fns'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { CoinType, IOType, ProcessedTxType } from '@core/types'
@@ -149,6 +149,8 @@ export const IconTx = ({
     | 'WITHDRAWAL'
     | 'PENDING'
     | 'SWAP'
+    | 'SENT'
+    | 'RECEIVED'
     | 'sent'
     | 'received'
     | 'transferred'
@@ -183,8 +185,10 @@ export const IconTx = ({
         )
       case 'SWAP':
         return <Icon size='12px' weight={600} name='arrows-horizontal' color={color} />
+      case 'RECEIVED':
       case 'received':
         return <Icon size='12px' weight={600} name='arrow-bottom-right' color={color} />
+      case 'SENT':
       case 'sent':
         return <Icon size='18px' weight={600} name='arrow-top-right' color={color} />
       case 'transferred':
@@ -234,16 +238,14 @@ export const StyledBuyFiatDisplay = styled.div`
 export const StatusAndType = styled.div`
   margin-left: 16px;
 `
-export const Timestamp = ({ time }: { time: string | number }) => {
-  return (
-    <Text
-      size='13px'
-      weight={500}
-      color='grey600'
-      style={{ marginTop: '4px' }}
-      data-e2e='txTimeOrStatus'
-    >
-      {moment(time).local().format('h:mm a on D MMM YYYY')}
-    </Text>
-  )
-}
+export const Timestamp = ({ time }: { time: string | number }) => (
+  <Text
+    size='13px'
+    weight={500}
+    color='grey600'
+    style={{ marginTop: '4px' }}
+    data-e2e='txTimeOrStatus'
+  >
+    {format(new Date(time), "h:mm a 'on' d MMM yyyy")}
+  </Text>
+)

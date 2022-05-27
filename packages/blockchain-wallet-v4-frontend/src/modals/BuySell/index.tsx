@@ -26,7 +26,6 @@ import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import Rejected from '../components/Rejected'
 import { ModalPropsType } from '../types'
 import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
-import AddCardEverypay from './AddCardEverypay'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
@@ -51,8 +50,7 @@ import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
-const { FORM_BS_ADD_EVERYPAY_CARD, FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } =
-  model.components.buySell
+const { FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } = model.components.buySell
 
 class BuySell extends PureComponent<Props, State> {
   constructor(props) {
@@ -73,7 +71,6 @@ class BuySell extends PureComponent<Props, State> {
     this.props.buySellActions.destroyCheckout()
     this.props.formActions.destroy(FORM_BS_CHECKOUT)
     this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)
-    this.props.formActions.destroy(FORM_BS_ADD_EVERYPAY_CARD)
   }
 
   backToEnterAmount = () => {
@@ -184,11 +181,6 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
                 <Loading />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'ADD_CARD_EVERYPAY' && (
-              <FlyoutChild>
-                <AddCardEverypay {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
@@ -304,7 +296,7 @@ const mapStateToProps = (state: RootState) => ({
   displayBack: selectors.components.buySell.getDisplayBack(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state),
   goals: selectors.goals.getGoals(state),
-  isFirstLogin: selectors.auth.getFirstLogin(state),
+  isFirstLogin: selectors.signup.getFirstLogin(state),
   method: selectors.components.buySell.getBSPaymentMethod(state),
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   order: selectors.components.buySell.getBSOrder(state),
@@ -389,12 +381,6 @@ type LinkStatePropsType =
       cardId?: string
       cryptoCurrency?: CoinType
       pair: BSPairType
-      step: 'ADD_CARD_EVERYPAY'
-    }
-  | {
-      cardId?: string
-      cryptoCurrency?: CoinType
-      pair: BSPairType
       step: 'ADD_CARD_CHECKOUTDOTCOM'
     }
   | {
@@ -419,7 +405,7 @@ type LinkStatePropsType =
       step: 'LINKED_PAYMENT_ACCOUNTS'
     }
 
-type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector> & { children: never }
 type State = { show: boolean }
 
 export default enhance(BuySell)

@@ -1,6 +1,7 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/analytics/types'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
@@ -20,6 +21,10 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
 
   if (runMergeAndUpgradeFlows) {
     const { mergeable, unified, upgradeable } = authMagicLink
+
+    // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
+    // CREATED FROM UNIFIED SIGN UP
+
     if (!unified && (mergeable || upgradeable)) {
       if (productAuthenticatingInto === ProductAuthOptions.WALLET && mergeable) {
         // send them to wallet password screen
@@ -37,23 +42,24 @@ const checkAndExecuteMergeAndUpgradeFlows = function* (productAuthenticatingInto
           actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
         )
       }
-    } else if (unified) {
-      // TODO: what does this do? is it needed?
-      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
     }
   }
 }
 
-export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean) {
+export const determineAuthenticationFlow = function* (
+  skipSessionCheck?: boolean,
+  sessionIdMobile?: string
+) {
   try {
     const authMagicLink = yield select(selectors.auth.getMagicLinkData)
-    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       exchange: exchangeData,
       platform_type: platformType,
       product,
+      unified,
       wallet: walletData
     } = authMagicLink as AuthMagicLink
+
     // handles cases where we don't yet know which product user wants to authenticate to
     // if there's only wallet data or exchange data, we can deduce which product they want
     let productAuthenticatingInto = product
@@ -65,12 +71,27 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         productAuthenticatingInto = ProductAuthOptions.WALLET
       }
     }
-    const userEmail = walletData?.email || exchangeData?.email || formValues?.email
-    const currentLoginSession = yield select(
-      selectors.session.getSession,
-      walletData?.guid,
-      userEmail
-    )
+
+    let currentLoginSession
+    let userEmail
+
+    if (product === ProductAuthOptions.EXCHANGE) {
+      userEmail = unified ? walletData?.exchange?.email : exchangeData?.email
+      currentLoginSession = yield select(selectors.session.getExchangeSessionId, userEmail)
+    } else {
+      // product === wallet
+      userEmail = walletData?.email
+      currentLoginSession = yield select(
+        selectors.session.getWalletSessionId,
+        walletData?.guid,
+        userEmail
+      )
+    }
+
+    if (unified) {
+      yield put(actions.cache.setUnifiedAccount(true))
+      yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+    }
 
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
@@ -81,6 +102,7 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
     switch (true) {
       // EXCHANGE AUTHENTICATION AND DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
+        const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
         // determine if we need to verify the login attempt from another device or
         // continue login from the same device
         if (!skipSessionCheck) {
@@ -93,17 +115,24 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         if (skipSessionCheck) {
           // This is the tab that is polling for wallet data
           // set state with all exchange login information
-          yield put(actions.cache.exchangeEmail(exchangeData?.email))
-          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
-          if (walletData) {
+          yield put(actions.cache.exchangeEmail(userEmail))
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', userEmail))
+          // if an account is unified, we are using wallet data
+          // under the hood to log the user into the exchage
+          if (unified) {
             yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
             yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+            yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
+            yield put(actions.cache.guidStored(walletData?.guid))
+            yield put(actions.cache.emailStored(userEmail))
           }
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
             actions.auth.setProductAuthMetadata({
               platform: platformType as PlatformTypes,
-              product: ProductAuthOptions.EXCHANGE
+              product: ProductAuthOptions.EXCHANGE,
+              redirect,
+              sessionIdMobile
             })
           )
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
@@ -111,6 +140,10 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         break
       // WALLET DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.WALLET:
+        if (unified) {
+          yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
+          yield put(actions.cache.exchangeEmail(userEmail))
+        }
         if (
           currentLoginSession !== authMagicLink.session_id ||
           (currentLoginSession === authMagicLink.session_id && !skipSessionCheck)
@@ -143,7 +176,20 @@ export const determineAuthenticationFlow = function* (skipSessionCheck?: boolean
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
         break
     }
-    yield put(actions.auth.analyticsMagicLinkParsed())
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.LOGIN_DEVICE_VERIFIED,
+        properties: {
+          device_origin: platformType,
+          exchange: exchangeData,
+          mergeable: authMagicLink.mergeable,
+          site_redirect: product,
+          unified,
+          upgradeable: authMagicLink.upgradeable,
+          wallet: walletData
+        }
+      })
+    )
   } catch (e) {
     yield put(actions.logs.logErrorMessage('auth/sagas.utils', 'parseLink', e))
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -171,7 +217,16 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
   if (n === 0) {
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
     yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
-    yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.LOGIN_REQUEST_DENIED,
+        properties: {
+          error: 'TIMED_OUT',
+          method: 'MAGIC_LINK',
+          request_platform: 'WALLET'
+        }
+      })
+    )
     return false
   }
   try {

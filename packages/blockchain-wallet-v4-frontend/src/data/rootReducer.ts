@@ -19,6 +19,7 @@ import { transferEthReducer } from './modules/transferEth/reducers'
 import { preferencesReducer } from './preferences/reducers'
 import { pricesReducer as prices } from './prices/slice'
 import { sessionReducer as session } from './session/slice'
+import { signupReducer as signup } from './signup/slice'
 
 const rootReducer = {
   alerts,
@@ -37,6 +38,7 @@ const rootReducer = {
   rates,
   securityCenter,
   session,
+  signup,
   transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,

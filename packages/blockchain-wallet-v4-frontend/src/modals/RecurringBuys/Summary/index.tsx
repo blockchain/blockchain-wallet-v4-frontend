@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import moment from 'moment'
+import { intervalToDuration } from 'date-fns'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -57,7 +57,7 @@ const Success = ({ modalActions, order, period, withdrawLockCheck }: Props) => {
     value: getCounterAmount(order)
   })
   const coin = order.outputCurrency
-  const days = moment.duration(withdrawLockCheck.lockTime, 'seconds').days()
+  const { days } = intervalToDuration({ end: withdrawLockCheck.lockTime, start: 0 })
   return (
     <FlyoutContainer>
       <FlyoutContent mode='middle'>

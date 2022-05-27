@@ -4,7 +4,9 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, TextBox } from 'components/Form'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
 import { required, validEmail } from 'services/forms'
@@ -12,10 +14,8 @@ import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
-import UnsupportedBrowser from '../../components/UnsupportedBrowser'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -27,35 +27,38 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterEmail = (props: Props) => {
   const {
-    authActions,
     busy,
+    cache,
     formValues,
     invalid,
-    isBrowserSupported,
+    magicLinkData,
+    productAuthMetadata,
     submitting,
     walletTabClicked
   } = props
 
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
+      <ProductTabMenu
+        active={ProductAuthOptions.EXCHANGE}
+        onWalletTabClick={walletTabClicked}
+        platform={magicLinkData?.platform_type}
+        product={ProductAuthOptions.EXCHANGE}
+      />
       <WrapperWithPadding>
         <FormGroup>
-          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='exchangeEmail'>
-              <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
+              <FormattedMessage id='scenes.register.youremail' defaultMessage='Email' />
             </LoginFormLabel>
-
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
-              disabled={!isBrowserSupported}
               disableSpellcheck
               name='exchangeEmail'
               normalize={removeWhitespace}
               validate={[required, validEmail]}
-              placeholder='Enter your email'
+              placeholder='Enter Email'
               autoFocus
             />
           </FormItem>
@@ -78,14 +81,9 @@ const EnterEmail = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink
-            authActions={authActions}
-            origin='IDENTIFIER'
-            product={ProductAuthOptions.EXCHANGE}
-          />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink />
+      <SignupLink platform={magicLinkData?.platform_type} />
     </LoginWrapper>
   )
 }

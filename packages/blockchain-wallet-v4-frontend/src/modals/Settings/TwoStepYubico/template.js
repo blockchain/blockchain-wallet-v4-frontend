@@ -12,7 +12,8 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import Form from 'components/Form/Form'
+import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 
 const Code = styled.div`
@@ -39,7 +40,7 @@ const TwoStepYubico = (props) => {
         <ModalHeader onClose={closeAll}>
           <FormattedMessage
             id='modals.twostepyubico.title'
-            defaultMessage='Enable Two-Step Verification'
+            defaultMessage='Enable Two-Factor Authentication'
           />
         </ModalHeader>
         <ModalBody>

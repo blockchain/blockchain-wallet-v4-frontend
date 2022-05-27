@@ -1,0 +1,48 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs/blocks'
+import { Padding } from './'
+
+<Meta title='Structural/Padding/Intro' component={Padding} />
+
+# Padding
+
+---
+
+This component is build to provide a simple way to apply padding
+
+## Example
+
+This example is adding a padding of 10px on all directions
+
+```jsx
+<Padding all={10}>
+  <span>Padding content</span>
+</Padding>
+```
+
+<Canvas>
+  <Story id='structural-padding--padding-all' />
+</Canvas>
+
+## Symetric
+
+```jsx
+<Padding horizontal={16} vertical={10}>
+  <span>Padding content</span>
+</Padding>
+```
+
+<Canvas>
+  <Story id='structural-padding--padding-symmetric' />
+</Canvas>
+
+## Specific directions
+
+```jsx
+<Padding top={10} left={20} right={30} bottom={40}>
+  <span>Padding content</span>
+</Padding>
+```
+
+<Canvas>
+  <Story id='structural-padding--padding-edge-inset' />
+</Canvas>

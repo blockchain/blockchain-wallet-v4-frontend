@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { TableHeader } from 'blockchain-info-components'
 import { Row } from 'components/Flyout/model'
 
 export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>`
@@ -11,7 +12,14 @@ export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>
 `
 
 export const AssetDesc = styled.div`
-  padding: 40px;
+  padding: 0px 40px 20px;
+  display: flex;
+`
+
+export const StickyTableHeader = styled(TableHeader)`
+  background: ${(props) => props.theme.white};
+  position: sticky;
+  top: 0;
 `
 
 export const StickyCTA = styled.div`
@@ -19,6 +27,8 @@ export const StickyCTA = styled.div`
   border-top: 1px solid ${(props) => props.theme.grey000};
   position: sticky;
   padding: 20px 40px;
+  flex-direction: column;
+  display: flex;
   bottom: 0;
   left: 0;
 `
@@ -29,5 +39,11 @@ export const CTARow = styled(Row)`
   &:first-child {
     padding-top: 0px;
     border-top: 0;
+  }
+`
+
+export const RightAlign = styled.div`
+  > div {
+    justify-content: flex-end;
   }
 `

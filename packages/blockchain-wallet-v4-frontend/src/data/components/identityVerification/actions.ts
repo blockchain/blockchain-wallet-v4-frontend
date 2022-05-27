@@ -195,3 +195,8 @@ export const fetchExtraKYCFailure = (e): IdentityVerificationActionTypes => ({
   payload: { e },
   type: AT.FETCH_KYC_EXTRA_QUESTIONS_FAILURE
 })
+
+export const updateExtraKYCQuestions = (questions): IdentityVerificationActionTypes => ({
+  payload: { questions },
+  type: AT.UPDATE_KYC_EXTRA_QUESTIONS
+})

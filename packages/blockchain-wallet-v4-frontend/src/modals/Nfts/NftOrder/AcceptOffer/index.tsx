@@ -2,14 +2,15 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Row, Title, Value } from 'components/Flyout/model'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { Title } from 'components/Flyout'
+import { Row, Value } from 'components/Flyout/model'
 import { RootState } from 'data/rootReducer'
 
 import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
+import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import AcceptOfferFees from './fees'
 import { getData } from './selectors'
@@ -21,21 +22,13 @@ const AcceptOffer: React.FC<Props> = (props) => {
     <>
       {data.cata({
         Failure: (e) => <Text>{e}</Text>,
-        Loading: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
-        NotAsked: () => (
-          <AssetDesc>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-          </AssetDesc>
-        ),
+        Loading: () => <NftFlyoutLoader />,
+        NotAsked: () => <NftFlyoutLoader />,
         Success: (val) => (
           <>
             <div style={{ position: 'relative' }}>
               <Icon
-                onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.SHOW_ASSET })}
+                onClick={() => close()}
                 name='arrow-left'
                 cursor
                 role='button'
@@ -107,13 +100,13 @@ const AcceptOffer: React.FC<Props> = (props) => {
                       {e}
                     </Text>
                     <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
-                      <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
+                      <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                     </Button>
                   </>
                 ),
                 Loading: () => (
                   <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
-                    <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
+                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                   </Button>
                 ),
                 NotAsked: () => null,

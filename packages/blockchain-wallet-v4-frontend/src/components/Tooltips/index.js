@@ -19,12 +19,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
         </Tooltip>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
-        <Tooltip id='lockbox.exportkeyswarning'>
-          <FormattedMessage
-            id='modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip'
-            defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
-          />
-        </Tooltip>
         <Tooltip id='import.privatekeys'>
           <FormattedMessage
             id='modals.import.privatekeys.tooltip'
@@ -185,8 +179,8 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={400} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1'
-                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
+                id='scenes.profile.identityverification.swaplimit.full_access_completeairdropeligible-1'
+                defaultMessage='By completing the Full Access requirements you are automatically eligible for our airdrop programs extended to your region.'
               />
             </Text>
             <Link
@@ -212,12 +206,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.verifymessage.tooltip'
             defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
-          />
-        </Tooltip>
-        <Tooltip id='lockboxRequired'>
-          <FormattedMessage
-            id='lockboxrequired.tooltip'
-            defaultMessage='Hardware device is required'
           />
         </Tooltip>
         <Tooltip id='txlist.change.tooltip'>
@@ -310,6 +298,12 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='copy.opensea_offer_approval_fees'
             defaultMessage='A one time fee required to make offers in the selected ERC20.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.nft_asset_not_for_sale' maxWidth='160px'>
+          <FormattedMessage
+            id='copy.nft_asset_not_for_sale'
+            defaultMessage='You can still make an offer using an ERC20 like WETH.'
           />
         </Tooltip>
       </TooltipWrapper>

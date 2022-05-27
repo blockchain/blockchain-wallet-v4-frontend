@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import { intervalToDuration } from 'date-fns'
 import { defaultTo, filter, path } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
+import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -19,7 +19,7 @@ import {
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
-import { Form } from 'components/Form'
+import Form from 'components/Form/Form'
 import { model } from 'data'
 import {
   getBaseAmount,
@@ -31,6 +31,7 @@ import {
 } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
+import { useDefer3rdPartyScript } from 'hooks'
 
 import {
   displayFiat,
@@ -164,24 +165,36 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
   const [isActiveFeeTooltip, setFeeToolTip] = useState(props.isFlexiblePricingModel)
+
+  const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
+
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
+
   const baseCurrency = getBaseCurrency(props.order)
   const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
   const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
+
   const requiresTerms =
     props.order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
     props.order.paymentType === BSPaymentTypes.USER_CARD
+
   const [bankAccount] = filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
     defaultTo([])(path(['bankAccounts'], props))
   )
 
   const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
-  const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
+  const days = showLock
+    ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
+    : 0
 
   const cardDetails =
     (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null
@@ -516,7 +529,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           height='48px'
           type='submit'
           style={{ marginTop: '28px' }}
-          disabled={props.submitting || !acceptTerms}
+          disabled={
+            props.submitting ||
+            !acceptTerms ||
+            (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !isGooglePayReady)
+          }
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
