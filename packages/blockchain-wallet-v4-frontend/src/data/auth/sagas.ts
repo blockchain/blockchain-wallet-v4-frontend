@@ -848,7 +848,7 @@ export default ({ api, coreSagas, networks }) => {
       step
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const unificationFlowType = yield select(S.getAccountUnificationFlowType)
-    const { unifiedAccount } = yield select(selectors.cache.getCache)
+    const unified = yield select(selectors.cache.getUnifiedAccountStatus)
     const authType = yield select(S.getAuthType)
     const { product, userType } = yield select(S.getProductAuthMetadata)
     try {
@@ -878,7 +878,7 @@ export default ({ api, coreSagas, networks }) => {
             properties: {
               identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
               site_redirect: product,
-              unified: unifiedAccount
+              unified
             }
           })
         )
@@ -890,7 +890,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
       } else if (
-        (unificationFlowType === AccountUnificationFlows.UNIFIED || unifiedAccount) &&
+        (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
         userType !== AuthUserType.INSTITUTIONAL
       ) {
         // exchange login but it is a unified account
