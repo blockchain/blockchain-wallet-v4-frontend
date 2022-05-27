@@ -138,7 +138,7 @@ const Explore: React.FC<Props> = (props) => {
     })
   }
   return (
-    <NftPageV2 style={{ padding: 0 }}>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>

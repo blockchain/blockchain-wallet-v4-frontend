@@ -103,14 +103,24 @@ const GetFeatured = (props) => {
       </ModalBody>
       <FlexVertical>
         <Link href='https://twitter.com/blockchain' target='_blank'>
-          <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='twitter'>
+          <Button
+            style={{ display: 'flex', gap: '4px' }}
+            width={isTablet ? '300px' : '185px'}
+            nature='primary'
+            data-e2e='twitter'
+          >
             <Image name='twitter' width='18px' height='18px' />
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
 
         <Link href='https://www.instagram.com/blockchainofficial' target='_blank'>
-          <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='instagram'>
+          <Button
+            style={{ display: 'flex', gap: '4px' }}
+            width={isTablet ? '300px' : '185px'}
+            nature='primary'
+            data-e2e='instagram'
+          >
             <Image name='instagramWhite' width='18px' height='18px' />
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>

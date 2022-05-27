@@ -27,7 +27,6 @@ export const NftPage = styled.div`
 
 export const NftPageV2 = styled.div`
   width: 100%;
-  max-width: 1280px;
   margin: 8px auto;
   box-sizing: border-box;
 `
@@ -178,7 +177,7 @@ export const Centered = styled.div`
   gap: 8px;
   margin-top: 8px;
 `
-
+//
 export const NftBannerWrapper = styled.div`
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
   backdrop-filter: blur(10px);
