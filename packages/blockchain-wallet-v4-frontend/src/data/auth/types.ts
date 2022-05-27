@@ -63,6 +63,7 @@ export type LoginFormType = {
   email?: string
   emailToken?: string
   exchangeEmail?: string
+  exchangeGuid?: string
   exchangePassword?: string
   exchangeTwoFA?: string
   guid?: string
@@ -143,6 +144,7 @@ export type AuthStateType = {
   authorizeVerifyDevice: RemoteDataType<string, any> // TODO: type out auth device API response
   exchangeAuth: {
     exchangeAccountConflict?: boolean
+    exchangeAccountFailure?: boolean
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
     jwtToken?: string

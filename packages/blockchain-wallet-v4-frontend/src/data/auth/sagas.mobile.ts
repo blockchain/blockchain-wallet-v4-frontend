@@ -123,6 +123,7 @@ export const initMobileWalletAuthFlow = function* () {
       yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
       yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
       yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+      yield put(actions.form.change(LOGIN_FORM, 'exchangeGuid', walletData?.guid))
       yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
       yield put(
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_MERGE)
