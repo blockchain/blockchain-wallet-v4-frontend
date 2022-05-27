@@ -96,7 +96,7 @@ const NftAddress: React.FC<Props> = ({
       </div>
       <GridWrapper>
         <NftFilter
-          collections={activeTab === 'ITEMS' ? collections : []}
+          collections={activeTab === 'ITEMS' && collections.length >= 2 ? collections : []}
           formActions={formActions}
           formValues={formValues}
           isFilterOpen={isFilterOpen}
