@@ -1727,7 +1727,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const cleanupCancellableOrders = function* () {
     const order = S.getCancelableOrder(yield select())
     if (order) {
-      yield call(api.cancelBSOrder, order)
+      try {
+        yield call(api.cancelBSOrder, order)
+      } catch (error) {
+        if (error.status !== 409) {
+          throw error
+        }
+      }
+
       yield put(A.fetchOrders())
       yield take(A.fetchOrdersSuccess.type)
     }
