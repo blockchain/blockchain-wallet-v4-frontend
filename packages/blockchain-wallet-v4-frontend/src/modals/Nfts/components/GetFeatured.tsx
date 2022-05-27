@@ -35,7 +35,8 @@ const FlexVertical = styled.div`
   gap: 8px;
   ${media.atLeastTablet`
     flex-direction: row;
-    justify-content: space-between;
+    gap: unset;
+    justify-content: space-around;
   `};
 `
 
@@ -102,13 +103,13 @@ const GetFeatured = (props) => {
       </ModalBody>
       <FlexVertical>
         <Link href='https://twitter.com/blockchain' target='_blank'>
-          <Button width={isTablet ? '225px' : '185px'} nature='primary' data-e2e='twitter'>
+          <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='twitter'>
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
 
         <Link href='https://www.instagram.com/blockchainofficial' target='_blank'>
-          <Button width={isTablet ? '225px' : '185px'} nature='primary' data-e2e='instagram'>
+          <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='instagram'>
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>
