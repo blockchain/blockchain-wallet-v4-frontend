@@ -10,6 +10,7 @@ import { Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  ChainOperators,
   CollectionFilterFields,
   EventFilterFields,
   useCollectionsQuery
@@ -206,9 +207,16 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             <Events
               isFetchingParent={collectionsQuery.fetching}
               filters={[
-                { field: EventFilterFields.CollectionSlug, value: slug },
-                ...(formValues?.event
-                  ? [{ field: EventFilterFields.EventType, value: formValues.event }]
+                {
+                  field: EventFilterFields.CollectionSlug,
+                  value: slug
+                },
+                ...(formValues?.events
+                  ? Object.keys(formValues.events).map((event) => ({
+                      chain_operator: ChainOperators.Or,
+                      field: EventFilterFields.EventType,
+                      value: event
+                    }))
                   : [])
               ]}
             />

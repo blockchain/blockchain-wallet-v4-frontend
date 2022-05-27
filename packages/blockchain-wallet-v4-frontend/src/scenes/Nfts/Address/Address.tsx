@@ -20,7 +20,7 @@ import { GridWrapper, NftBannerWrapper, NftPageFullWidth, opensea_event_types } 
 import TraitGridFilters from '../components/TraitGridFilters'
 import Events from '../Events'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
-import { getEventFilter } from '../utils/NftUtils'
+import { getEventsFilter } from '../utils/NftUtils'
 import AddressItems from './AddressItems'
 
 const NftAddress: React.FC<Props> = ({
@@ -40,7 +40,7 @@ const NftAddress: React.FC<Props> = ({
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
-  const eventFilter = getEventFilter(formValues)
+  const eventsFilter = getEventsFilter(formValues)
 
   useEffect(() => {
     setActiveTab(tab)
@@ -50,8 +50,10 @@ const NftAddress: React.FC<Props> = ({
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
 
-  if (eventFilter) {
-    filters.push({ field: EventFilterFields.EventType, value: eventFilter })
+  if (eventsFilter) {
+    filters.push(
+      ...eventsFilter.map((event) => ({ field: EventFilterFields.EventType, value: event }))
+    )
   }
 
   if (!address) return null

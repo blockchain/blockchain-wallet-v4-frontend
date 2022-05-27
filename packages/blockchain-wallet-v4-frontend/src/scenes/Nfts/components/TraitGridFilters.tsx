@@ -19,7 +19,7 @@ import { media, useMedia } from 'services/styles'
 import { NftFilterFormValuesType } from '../NftFilter'
 import {
   getCollectionFilter,
-  getEventFilter,
+  getEventsFilter,
   getMinMaxFilters,
   getTraitFilters
 } from '../utils/NftUtils'
@@ -90,7 +90,7 @@ const TraitGridFilters: React.FC<Props> = ({
   const route = window.location.hash.split('?')[0].substr(1)
   const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
-  const eventFilter = getEventFilter(formValues)
+  const eventsFilter = getEventsFilter(formValues)
   const collectionFilter = getCollectionFilter(formValues, collections)
 
   const hasSomeFilters =
@@ -280,32 +280,38 @@ const TraitGridFilters: React.FC<Props> = ({
             </ActiveTraitFilter>
           </div>
         ) : null}
-        {eventFilter ? (
-          <div style={{ height: '100%' }}>
-            <ActiveTraitFilter>
-              <Text size='14px' color='black' weight={500} capitalize>
-                Event:{' '}
-                <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
-              </Text>
-              <div
-                style={{
-                  background: 'white',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
-                <Icon label='close' color='blue600'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', `event`, undefined)}
-                  />
-                </Icon>
-              </div>
-            </ActiveTraitFilter>
-          </div>
-        ) : null}
+        {eventsFilter
+          ? eventsFilter.map((event) => {
+              return (
+                <div key={event} style={{ height: '100%' }}>
+                  <ActiveTraitFilter>
+                    <Text size='14px' color='black' weight={500} capitalize>
+                      Event:{' '}
+                      <EventTypeName event_type={event as keyof typeof opensea_event_types} />
+                    </Text>
+                    <div
+                      style={{
+                        background: 'white',
+                        borderRadius: '50%',
+                        lineHeight: '0',
+                        marginLeft: '8px'
+                      }}
+                    >
+                      <Icon label='close' color='blue600'>
+                        <IconCloseCircle
+                          role='button'
+                          cursor='pointer'
+                          onClick={() =>
+                            formActions.change('nftFilter', `events.${event}`, undefined)
+                          }
+                        />
+                      </Icon>
+                    </div>
+                  </ActiveTraitFilter>
+                </div>
+              )
+            })
+          : null}
         {minMaxFilters && formValues
           ? minMaxFilters.map((key) => {
               return (

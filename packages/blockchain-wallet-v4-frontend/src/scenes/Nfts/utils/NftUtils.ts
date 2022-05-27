@@ -17,7 +17,7 @@ export const getCollectionFilter = (
     ? collections.find((collection) => collection.slug === formValues.collection)?.name || null
     : null
 
-export const getEventFilter = (formValues: NftFilterFormValuesType) =>
-  formValues ? formValues.event : null
+export const getEventsFilter = (formValues: NftFilterFormValuesType) =>
+  formValues?.events ? Object.keys(formValues.events) : null
 
 export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.sortBy

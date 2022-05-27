@@ -22,6 +22,7 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
+import { opensea_event_types } from '../components'
 import EventTypeName from '../components/EventTypeName'
 import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
@@ -287,8 +288,8 @@ const NftFilter: React.FC<Props> = ({
                           </label>
                           <Field
                             component='input'
-                            name='event'
-                            type='radio'
+                            name={`events.${event}`}
+                            type='checkbox'
                             value={event}
                             id={event}
                           />
@@ -352,7 +353,7 @@ const NftFilter: React.FC<Props> = ({
                           </label>
                           <Field
                             component='input'
-                            name='collection'
+                            name={`collections.${collection.slug}`}
                             type='radio'
                             id={collection.slug}
                             value={collection.slug}
@@ -470,12 +471,15 @@ const NftFilter: React.FC<Props> = ({
 export type NftFilterFormValuesType =
   | ({
       collection: string
-      event: string
       forSale: boolean
       max: string
       min: string
       sortBy: string
       verifiedOnly: boolean
+    } & {
+      events: {
+        [key: string]: boolean
+      }
     } & {
       [key: string]: {
         [key: string]: boolean
