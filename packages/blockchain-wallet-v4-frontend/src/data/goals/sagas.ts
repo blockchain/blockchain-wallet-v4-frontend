@@ -963,7 +963,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'sanctionsNotice',
-          name: ModalName.SANCTIONS_NOTICE_MODAL
+          name: ModalName.SANCTIONS_INFO_MODAL
         })
       )
     }

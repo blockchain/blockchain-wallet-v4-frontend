@@ -69,7 +69,6 @@ const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdro
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
-const SanctionsNotice = React.lazy(() => import('./Onboarding/SanctionsNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
 
 // MOBILE
@@ -269,9 +268,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_NOTICE) ? (
           <VerifyNotice disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_NOTICE_MODAL) ? (
-          <SanctionsNotice disableOutsideClose />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
