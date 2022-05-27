@@ -24,7 +24,8 @@ const NftAssetCountdown: React.FC<Props> = ({ countDownDate }) => {
       const days = Math.floor(duration / (1000 * 60 * 60 * 24)).toString()
       const hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString()
       const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60)).toString()
-      setCountdown(() => `${days},${hours},${minutes}`)
+      const seconds = Math.floor((duration % (1000 * 60)) / 1000)
+      setCountdown(() => `${days},${hours},${minutes},${seconds}`)
       return { duration }
     }
     const interval = setInterval(function () {
@@ -50,10 +51,21 @@ const NftAssetCountdown: React.FC<Props> = ({ countDownDate }) => {
       <GreyLetter size='24px' lineHeight='32px' weight={600}>
         h
       </GreyLetter>{' '}
-      {Countdown.split(',')[2]}
-      <GreyLetter size='24px' lineHeight='32px' weight={600}>
-        m
-      </GreyLetter>
+      {Number(Countdown.split(',')[2]) > 0 ? (
+        <>
+          {Countdown.split(',')[2]}
+          <GreyLetter size='24px' lineHeight='32px' weight={600}>
+            m
+          </GreyLetter>
+        </>
+      ) : (
+        <>
+          {Countdown.split(',')[3]}
+          <GreyLetter size='24px' lineHeight='32px' weight={600}>
+            s
+          </GreyLetter>
+        </>
+      )}
     </CountdownText>
   )
 }

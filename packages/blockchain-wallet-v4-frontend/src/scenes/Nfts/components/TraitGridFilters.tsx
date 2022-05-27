@@ -126,7 +126,7 @@ const TraitGridFilters: React.FC<Props> = ({
     return tab === 'ITEMS' ? (
       <FormattedMessage id='copy.items' defaultMessage='Items' />
     ) : tab === 'ACTIVITY' ? (
-      <FormattedMessage id='copy.events' defaultMessage='Activity' />
+      <FormattedMessage id='copy.activity' defaultMessage='Activity' />
     ) : (
       <FormattedMessage id='copy.explore' defaultMessage='Explore' />
     )
