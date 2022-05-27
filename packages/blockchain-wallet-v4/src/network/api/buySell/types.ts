@@ -19,7 +19,10 @@ type AgentSimple = {
 export type AgentType = AgentSimple & {
   accountType: string
   address: string
+  bankName: string
   country: string
+  holderDocument: string
+  label: string
   recipientAddress: string
   routingNumber: string
   swiftCode: string
@@ -37,6 +40,10 @@ export type BSAccountType =
   | (IBSAccountType & {
       agent: AgentSimple
       currency: 'GBP'
+    })
+  | (IBSAccountType & {
+      agent: AgentType
+      currency: 'ARS'
     })
 
 export type BSBalanceType = {

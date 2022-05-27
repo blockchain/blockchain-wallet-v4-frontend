@@ -27,6 +27,7 @@ import { RootState } from 'data/rootReducer'
 import { BSCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import { Border, TopText } from '../../Swap/components'
+import { ErrorCodeMappings } from '../model'
 import Loading from '../template.loading'
 
 const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
@@ -558,7 +559,11 @@ class PreviewSell extends PureComponent<
                 {this.props.error && (
                   <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
                     <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-                    Error: {this.props.error}
+                    {Number(this.props.error) ? (
+                      <ErrorCodeMappings code={this.props.error} />
+                    ) : (
+                      `Error: ${this.props.error}`
+                    )}
                   </ErrorCartridge>
                 )}
               </BottomActions>

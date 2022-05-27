@@ -255,6 +255,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkWalletDefaultAccountIdx = function* () {
+    const needsUpdate = yield call(coreSagas.wallet.getHdWalletWithMissingDefaultAccountIdx)
+    if (needsUpdate) {
+      yield call(coreSagas.wallet.fixHdWalletWithMissingDefaultAccountIdx)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
+  const checkWalletAccountsDefaultDerivation = function* () {
+    const accounts = yield call(coreSagas.wallet.getAccountsWithMissingDefaultDerivation)
+    if (accounts.length > 0) {
+      yield call(coreSagas.wallet.fixAccountsWithMissingDefaultDerivation, accounts)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
   const loginRoutineSaga = function* ({
     country = undefined,
     email = undefined,
@@ -298,11 +314,12 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
-      if (product === ProductAuthOptions.EXCHANGE && !firstLogin) {
+      if (product === ProductAuthOptions.EXCHANGE && (recovery || !firstLogin)) {
         return yield put(
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
+
       const guid = yield select(selectors.core.wallet.getGuid)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
@@ -319,10 +336,12 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.cache.exchangeWalletGuid(guid))
           yield put(actions.cache.setUnifiedAccount(true))
         } else {
-          yield take([
-            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS,
-            actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
-          ])
+          // We likely don't need this, don't remember why it was added
+          // Leaving in case bugs arise - LB
+          // yield take([
+          //   actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS,
+          //   actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
+          // ])
           const existingUserCountryCode = (yield select(
             selectors.modules.profile.getUserCountryCode
           )).getOrElse('US')
@@ -391,6 +410,10 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkXpubCacheLegitimacy)
       // ensure derivations are correct
       yield fork(checkWalletDerivationsLegitimacy)
+      // ensure default_account_idx is set
+      yield fork(checkWalletDefaultAccountIdx)
+      // ensure default_derivation is set on each account
+      yield fork(checkWalletAccountsDefaultDerivation)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
 

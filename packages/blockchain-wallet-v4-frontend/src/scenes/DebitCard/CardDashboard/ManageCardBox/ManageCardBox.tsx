@@ -45,16 +45,7 @@ const ManageCardBox = ({ alertActions, cards, debitCardActions, lockHandler, mod
   }, [lockHandler])
 
   const onTerminate = () => {
-    modalActions.showModal(ModalName.CUSTOMIZABLE_CONFIRM_MODAL, {
-      body: (
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.confirm_terminate'
-          defaultMessage='Terminate Card?'
-        />
-      ),
-      onConfirm: () => debitCardActions.terminateCard(activeCard.id),
-      origin: 'DebitCardDashboard'
-    })
+    modalActions.showModal(ModalName.TERMINATE_CARD, { origin: 'DashboardPage' })
   }
 
   const toggleLock = () => {

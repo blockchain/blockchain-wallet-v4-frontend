@@ -55,10 +55,6 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
 
-// on hold funds feature flag
-export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
-
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
@@ -104,17 +100,9 @@ export const getHotWalletAddresses = (state: RootState, product: Product) =>
 export const getCompleteYourProfile = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
 
-// show/hide trading currency flyout
-export const getTradingCurrency = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))
-
 // show/hide wallet debit card
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
-
-// show/hide wallet tax center
-export const getTaxCenterEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
 
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
@@ -134,3 +122,7 @@ export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
 
 export const getNftExplorer = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))
+
+// enable/disable BIND integration (AR)
+export const getBindIntegrationArEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))

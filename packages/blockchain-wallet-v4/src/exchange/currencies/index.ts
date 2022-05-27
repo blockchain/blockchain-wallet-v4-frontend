@@ -1,3 +1,4 @@
+import ARS from './ARS'
 import AUD from './AUD'
 import BRL from './BRL'
 import CAD from './CAD'
@@ -23,6 +24,7 @@ import TWD from './TWD'
 import USD from './USD'
 
 export const FiatCurrencies = {
+  ARS,
   AUD,
   BRL,
   CAD,
