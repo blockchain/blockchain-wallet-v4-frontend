@@ -354,7 +354,7 @@ const NftFilter: React.FC<Props> = ({
                           <Field
                             component='input'
                             name={`collections.${collection.slug}`}
-                            type='radio'
+                            type='checkbox'
                             id={collection.slug}
                             value={collection.slug}
                           />
@@ -470,7 +470,6 @@ const NftFilter: React.FC<Props> = ({
 
 export type NftFilterFormValuesType =
   | ({
-      collection: string
       forSale: boolean
       max: string
       min: string
@@ -478,6 +477,10 @@ export type NftFilterFormValuesType =
       verifiedOnly: boolean
     } & {
       events: {
+        [key: string]: boolean
+      }
+    } & {
+      collections: {
         [key: string]: boolean
       }
     } & {

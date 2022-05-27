@@ -699,7 +699,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftFilter') {
-      if (window.location.hash.split('?')[0].includes('collection')) {
+      if (
+        window.location.hash.split('?')[0].includes('collection') ||
+        window.location.hash.split('?')[0].includes('address')
+      ) {
         window.scrollTo(0, 300)
       } else {
         window.scrollTo(0, 0)
@@ -716,14 +719,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       // GET CURRENT URL
       const url = new URL(window.location.href)
       const [hash, query] = url.href.split('#')[1].split('?')
+      const field = action.meta.field.split('.')[0]
       // @ts-ignore
       const params = Object.fromEntries(new URLSearchParams(query))
       // NON-TRAITS
-      if (nonTraitFilters.includes(action.meta.field)) {
+      if (nonTraitFilters.includes(field)) {
         params[action.meta.field] = action.payload
       }
       // TRAITS
-      if (!nonTraitFilters.includes(action.meta.field)) {
+      if (!nonTraitFilters.includes(field)) {
         const traits = params.traits ? JSON.parse(params.traits) : []
         if (action.payload) {
           if (traits.includes(action.meta.field)) return
@@ -761,9 +765,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       window.scrollTo({ behavior: 'smooth', top: 0 })
 
       yield all(
-        Object.keys(params).map(function* (key) {
+        Object.keys(params).map(function* (fullkey) {
+          const key = fullkey.split('.')[0]
           if (nonTraitFilters.includes(key)) {
-            yield put(actions.form.change('nftFilter', key, params[key]))
+            yield put(actions.form.change('nftFilter', fullkey, params[fullkey]))
           }
         })
       )

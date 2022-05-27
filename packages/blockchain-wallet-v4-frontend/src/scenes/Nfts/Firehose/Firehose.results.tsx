@@ -7,6 +7,7 @@ import {
   AssetFilter,
   AssetFilterFields,
   AssetSortFields,
+  ChainOperators,
   FilterOperators,
   InputMaybe,
   SortDirection,
@@ -25,13 +26,14 @@ const NftFirehoseResults: React.FC<Props> = ({
   setNumOfPageItems
 }) => {
   const filter: InputMaybe<InputMaybe<AssetFilter> | InputMaybe<AssetFilter>[]> =
-    formValues?.collection
-      ? [
-          {
+    formValues?.collections
+      ? Object.keys(formValues.collections)
+          .filter((collection) => formValues.collections[collection])
+          .map((collection) => ({
+            chain_operator: ChainOperators.Or,
             field: AssetFilterFields.CollectionSlug,
-            value: formValues.collection
-          }
-        ]
+            value: collection
+          }))
       : []
 
   if (formValues?.max) {

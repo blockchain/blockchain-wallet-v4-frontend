@@ -18,7 +18,7 @@ import { media, useMedia } from 'services/styles'
 
 import { NftFilterFormValuesType } from '../NftFilter'
 import {
-  getCollectionFilter,
+  getCollectionsFilter,
   getEventsFilter,
   getMinMaxFilters,
   getTraitFilters
@@ -91,7 +91,7 @@ const TraitGridFilters: React.FC<Props> = ({
   const minMaxFilters = getMinMaxFilters(formValues)
   const traitFilters = getTraitFilters(formValues)
   const eventsFilter = getEventsFilter(formValues)
-  const collectionFilter = getCollectionFilter(formValues, collections)
+  const collectionsFilter = getCollectionsFilter(formValues, collections)
 
   const hasSomeFilters =
     (formValues &&
@@ -100,9 +100,7 @@ const TraitGridFilters: React.FC<Props> = ({
 
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
-      Object.keys(formValues).forEach((key) => {
-        formActions.change('nftFilter', key, undefined)
-      })
+      formActions.reset('nftFilter')
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -247,39 +245,44 @@ const TraitGridFilters: React.FC<Props> = ({
         </Flex>
       </div>
       <TraitGrid hasSomeFilters={hasSomeFilters}>
-        {collectionFilter ? (
-          <div style={{ height: '100%' }}>
-            <ActiveTraitFilter>
-              <Text size='14px' color='black' weight={500} capitalize>
-                Collection: {collectionFilter}
-              </Text>
-              <div
-                style={{
-                  background: 'white',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
-                <Icon label='close-circle' color='blue600'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => {
-                      formActions.change('nftFilter', 'collection', undefined)
-                      analyticsActions.trackEvent({
-                        key: Analytics.NFT_FILTER_REMOVED,
-                        properties: {
-                          filter_characteristic: 'collection'
-                        }
-                      })
-                    }}
-                  />
-                </Icon>
-              </div>
-            </ActiveTraitFilter>
-          </div>
-        ) : null}
+        {collectionsFilter
+          ? collectionsFilter.map((collection) => {
+              return (
+                <div key={collection} style={{ height: '100%' }}>
+                  <ActiveTraitFilter>
+                    <Text size='14px' color='black' weight={500} capitalize>
+                      Collection: {collection}
+                    </Text>
+                    <div
+                      style={{
+                        background: 'white',
+                        borderRadius: '50%',
+                        lineHeight: '0',
+                        marginLeft: '8px'
+                      }}
+                    >
+                      <Icon label='close-circle' color='blue600'>
+                        <IconCloseCircle
+                          role='button'
+                          cursor='pointer'
+                          onClick={() => {
+                            const slug = collections.find(({ name }) => name === collection)?.slug
+                            formActions.change('nftFilter', `collections.${slug}`, undefined)
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_FILTER_REMOVED,
+                              properties: {
+                                filter_characteristic: 'collection'
+                              }
+                            })
+                          }}
+                        />
+                      </Icon>
+                    </div>
+                  </ActiveTraitFilter>
+                </div>
+              )
+            })
+          : null}
         {eventsFilter
           ? eventsFilter.map((event) => {
               return (

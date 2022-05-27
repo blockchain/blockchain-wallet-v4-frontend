@@ -19,7 +19,7 @@ import {
 import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 
 export const nonTraitFilters = [
-  'collection',
+  'collections',
   'events',
   'forSale',
   'max',

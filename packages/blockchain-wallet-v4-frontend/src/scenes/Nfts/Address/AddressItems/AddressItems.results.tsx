@@ -5,6 +5,7 @@ import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
   AssetFilterFields,
   AssetSortFields,
+  ChainOperators,
   OwnerQuery,
   SortDirection,
   useOwnerQuery
@@ -23,8 +24,12 @@ const NftAddressResults: React.FC<Props> = ({
   setNextPageFetchError,
   setNumOfPageItems
 }) => {
-  const activeCollections = formValues?.collection
-    ? [{ field: AssetFilterFields.CollectionSlug, value: formValues.collection }]
+  const activeCollections = formValues?.collections
+    ? Object.keys(formValues.collections).map((collection) => ({
+        chain_operator: ChainOperators.Or,
+        field: AssetFilterFields.CollectionSlug,
+        value: collection
+      }))
     : []
 
   const sort = formValues?.sortBy

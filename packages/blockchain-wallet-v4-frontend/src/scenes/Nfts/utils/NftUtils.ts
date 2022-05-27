@@ -9,15 +9,23 @@ export const getTraitFilters = (formValues: NftFilterFormValuesType) =>
 export const getMinMaxFilters = (formValues: NftFilterFormValuesType) =>
   formValues ? Object.keys(formValues).filter((val) => val === 'min' || val === 'max') : null
 
-export const getCollectionFilter = (
+export const getCollectionsFilter = (
   formValues: NftFilterFormValuesType,
   collections: OwnerQuery['assets'][0]['collection'][]
 ) =>
-  formValues
-    ? collections.find((collection) => collection.slug === formValues.collection)?.name || null
+  formValues?.collections
+    ? collections
+        .filter((collection) =>
+          Object.keys(formValues.collections)
+            .filter((collection) => formValues.collections[collection])
+            .includes(collection.slug)
+        )
+        .map(({ name }) => name) || null
     : null
 
 export const getEventsFilter = (formValues: NftFilterFormValuesType) =>
-  formValues?.events ? Object.keys(formValues.events) : null
+  formValues?.events
+    ? Object.keys(formValues.events).filter((event) => formValues.events[event])
+    : null
 
 export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.sortBy

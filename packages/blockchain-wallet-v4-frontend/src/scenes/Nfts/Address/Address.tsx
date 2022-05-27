@@ -12,7 +12,7 @@ import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
+import { ChainOperators, EventFilterFields, OwnerQuery } from 'generated/graphql.types'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 import { useMedia } from 'services/styles'
 
@@ -52,7 +52,11 @@ const NftAddress: React.FC<Props> = ({
 
   if (eventsFilter) {
     filters.push(
-      ...eventsFilter.map((event) => ({ field: EventFilterFields.EventType, value: event }))
+      ...eventsFilter.map((event, i) => ({
+        chain_operator: i === 0 ? ChainOperators.And : ChainOperators.Or,
+        field: EventFilterFields.EventType,
+        value: event
+      }))
     )
   }
 
