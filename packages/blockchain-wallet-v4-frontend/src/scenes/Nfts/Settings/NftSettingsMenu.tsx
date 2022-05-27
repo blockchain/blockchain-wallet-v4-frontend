@@ -50,11 +50,11 @@ const NftSettingsMenu: React.FC<Props> = () => {
       </Text>
       <List>
         {/* TODO: user profile */}
-        <Item pointer={false} style={{ opacity: 0.5 }} isActive={false}>
+        {/* <Item pointer={false} style={{ opacity: 0.5 }} isActive={false}>
           <Text size='14px' weight={600}>
             <FormattedMessage id='copy.profile' defaultMessage='Profile' />
           </Text>
-        </Item>
+        </Item> */}
         <Item pointer isActive role='button'>
           <Text size='14px' weight={600} color='blue600'>
             <FormattedMessage id='copy.notifications' defaultMessage='Notifications' />
