@@ -145,8 +145,8 @@ const Template = (props: Props) => {
   const userCurrentTier = userData?.tiers?.current ?? 0
 
   const startVerification = useCallback(() => {
-    modalActions.closeModal({ modalName: ModalName.TRADING_LIMITS_MODAL })
-    modalActions.closeModal({ modalName: ModalName.UPGRADE_NOW_SILVER_MODAL })
+    modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
+    modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
       origin: 'UpgradeNowSilver'

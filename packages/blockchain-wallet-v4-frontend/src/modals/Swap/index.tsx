@@ -164,7 +164,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   showUpgradeModal: () => {
-    dispatch(actions.modals.closeModal({ modalName: ModalName.SWAP_MODAL }))
+    dispatch(actions.modals.closeModal(ModalName.SWAP_MODAL))
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
         origin: 'Swap'

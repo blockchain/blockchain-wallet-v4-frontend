@@ -102,7 +102,7 @@ class ResetAccountFailed extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  closeModal: () => dispatch(actions.modals.closeModal({}))
+  closeModal: () => dispatch(actions.modals.closeModal())
 })
 
 const connector = connect(null, mapDispatchToProps)

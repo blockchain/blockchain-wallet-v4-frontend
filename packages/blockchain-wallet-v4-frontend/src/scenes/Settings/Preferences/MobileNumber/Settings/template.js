@@ -24,17 +24,14 @@ const Setting = (props) => {
             nature='primary'
             onClick={() => {
               resetWarning()
-              modalActions.showModal({
-                props: {
-                  authName: '2FA using SMS',
-                  extraCopy: (
-                    <FormattedMessage
-                      id='scenes.settings.preferences.mobilenumber.settings.reenableseccenter'
-                      defaultMessage='If you want to re-enable this feature, please go to the Security Center.'
-                    />
-                  )
-                },
-                type: ModalName.CONFIRM_DISABLE_2FA
+              modalActions.showModal(ModalName.CONFIRM_DISABLE_2FA, {
+                authName: '2FA using SMS',
+                extraCopy: (
+                  <FormattedMessage
+                    id='scenes.settings.preferences.mobilenumber.settings.reenableseccenter'
+                    defaultMessage='If you want to re-enable this feature, please go to the Security Center.'
+                  />
+                )
               })
             }}
           >

@@ -262,7 +262,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       } else {
-        yield put(actions.modals.closeModal({ modalName: ModalName.SIMPLE_BUY_MODAL }))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       }
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -1618,7 +1618,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const origin = S.getOrigin(yield select())
 
       if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeModal({ modalName: ModalName.SIMPLE_BUY_MODAL }))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
         yield put(actions.alerts.displaySuccess('Card Added.'))
       }

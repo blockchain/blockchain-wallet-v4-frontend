@@ -9,7 +9,7 @@ import WalletRecoveryPhrase from './template'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   handleBackupNow = () => {
-    this.props.modalActions.showModal({ props: {}, type: ModalName.RECOVERY_PHRASE_MODAL })
+    this.props.modalActions.showModal(ModalName.RECOVERY_PHRASE_MODAL)
   }
 
   render() {

@@ -16,7 +16,7 @@ class SecondPasswordContainer extends React.PureComponent {
     e.preventDefault()
     if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
-      this.props.modalActions.closeModal({})
+      this.props.modalActions.closeModal()
     } else {
       this.props.alertActions.displayError(C.SECOND_PASSWORD_INVALID_ERROR)
       this.setState({ secondPassword: '' })

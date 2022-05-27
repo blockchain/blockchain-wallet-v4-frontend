@@ -101,11 +101,11 @@ export default ({ api }: { api: APIType }) => {
       const data: RecurringBuyRegisteredList = yield call(api.deleteRecurringBuy, payload)
       if (data.state === RecurringBuyItemState.INACTIVE) {
         yield put(A.fetchRegisteredList())
-        yield put(actions.modals.closeModal({}))
+        yield put(actions.modals.closeModal())
       }
     } catch (error) {
       // toast notif
-      yield put(actions.modals.closeModal({}))
+      yield put(actions.modals.closeModal())
     }
   }
 

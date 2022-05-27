@@ -27,12 +27,12 @@ class AutoDisconnectionContainer extends React.PureComponent {
   handleCancel() {
     clearTimeout(this.timeout)
     this.props.authActions.startLogoutTimer()
-    this.props.modalActions.closeModal({})
+    this.props.modalActions.closeModal()
   }
 
   onSubmit() {
     this.props.sessionActions.logout()
-    this.props.modalActions.closeModal({})
+    this.props.modalActions.closeModal()
   }
 
   render() {

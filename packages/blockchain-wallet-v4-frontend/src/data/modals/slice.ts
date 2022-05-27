@@ -1,4 +1,4 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { merge } from 'ramda'
 
 import {
@@ -47,12 +47,18 @@ const modalsSlice = createSlice({
         }
       }
     },
-    updateModalOptions: (state, action: PayloadAction<UpdateModalOptionsPayload>) => {
-      const { options = {} } = action.payload
-      const lastIndex = state.length - 1
-      const lastModal = state[lastIndex]
-      const updatedModal = merge(lastModal, options)
-      state[lastIndex] = updatedModal
+
+    updateModalOptions: {
+      prepare: (options = {}) => {
+        return { payload: { options } }
+      },
+      reducer: (state, action: PayloadAction<UpdateModalOptionsPayload>) => {
+        const { options = {} } = action.payload
+        const lastIndex = state.length - 1
+        const lastModal = state[lastIndex]
+        const updatedModal = merge(lastModal, options)
+        state[lastIndex] = updatedModal
+      }
     }
   }
 })

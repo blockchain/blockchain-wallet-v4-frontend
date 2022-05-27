@@ -143,7 +143,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.kvStore.btc.createMetadataBtc)
     }
     if (addressLabelSize > 100) {
-      yield put(actions.modals.closeModal({}))
+      yield put(actions.modals.closeModal())
     }
   }
 
@@ -167,7 +167,7 @@ export default ({ coreSagas }) => {
       if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
-      yield put(actions.modals.closeModal({}))
+      yield put(actions.modals.closeModal())
     }
   }
 

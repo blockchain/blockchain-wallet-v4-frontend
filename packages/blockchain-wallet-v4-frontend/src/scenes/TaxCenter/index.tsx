@@ -24,7 +24,7 @@ const TaxCenterContainer = ({
     const limits = getFirstAndLastDaysOfYear(option)
 
     taxCenterActions.createReport({ walletData: walletDataR, ...limits })
-    modalActions.showModal({ type: ModalName.GENERATE_REPORT_MODAL })
+    modalActions.showModal(ModalName.GENERATE_REPORT_MODAL)
 
     analyticsActions.trackEvent({
       key: Analytics.TAX_CENTER_REPORT_EXPORT_CLICKED,

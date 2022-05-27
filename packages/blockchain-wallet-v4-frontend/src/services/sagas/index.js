@@ -60,7 +60,7 @@ export const promptForInput = function* ({
   if (cancelled) {
     throw new Error('PROMPT_INPUT_CANCEL')
   } else {
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
     return response.payload.value
   }
 }
@@ -95,7 +95,7 @@ export const confirm = function* ({
   if (cancelled) {
     throw new Error('CONFIRM_CANCELED')
   } else {
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
     return response.payload.value
   }
 }

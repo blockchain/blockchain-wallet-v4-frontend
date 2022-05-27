@@ -496,7 +496,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
         )
         // close swap Modal
-        yield put(actions.modals.closeModal({ modalName: ModalName.SWAP_MODAL }))
+        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
         return
       }
     }

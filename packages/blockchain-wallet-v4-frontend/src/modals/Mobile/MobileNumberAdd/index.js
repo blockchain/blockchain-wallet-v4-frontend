@@ -18,12 +18,9 @@ class MobileNumberAddContainer extends React.PureComponent {
   onSubmit() {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
-    this.props.modalActions.closeModal({})
-    this.props.modalActions.showModal({
-      props: {
-        mobileNumber: smsNumberNew
-      },
-      type: ModalName.MOBILE_NUMBER_VERIFY_MODAL
+    this.props.modalActions.closeModal()
+    this.props.modalActions.showModal(ModalName.MOBILE_NUMBER_VERIFY_MODAL, {
+      mobileNumber: smsNumberNew
     })
   }
 

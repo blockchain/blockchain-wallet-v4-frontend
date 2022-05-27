@@ -23,7 +23,7 @@ class MobileNumberVerifyContainer extends React.PureComponent {
   }
 
   handleChange() {
-    this.props.modalActions.closeModal({})
+    this.props.modalActions.closeModal()
     this.props.modalActions.showModal(ModalName.MOBILE_NUMBER_VERIFY_MODAL)
   }
 

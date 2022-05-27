@@ -42,8 +42,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal({ modalName: ModalName.BANK_DETAILS_MODAL }))
-      yield put(actions.modals.closeModal({ modalName: ModalName.REMOVE_BANK_MODAL }))
+      yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
+      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))

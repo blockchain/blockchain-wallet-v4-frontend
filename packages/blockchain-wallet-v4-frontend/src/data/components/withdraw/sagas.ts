@@ -81,7 +81,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
         )
         // close withdrawal Modal
-        yield put(actions.modals.closeModal({ modalName: ModalName.CUSTODY_WITHDRAW_MODAL }))
+        yield put(actions.modals.closeModal(ModalName.CUSTODY_WITHDRAW_MODAL))
         return
       }
     }

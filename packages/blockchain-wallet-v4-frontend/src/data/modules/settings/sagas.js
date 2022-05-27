@@ -219,7 +219,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', e))
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
   }
 
   const enableTwoStepGoogleAuthenticator = function* (action) {
@@ -230,7 +230,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', e))
       yield put(actions.alerts.displayError(C.TWOFA_GOOGLEAUTH_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
   }
 
   const enableTwoStepYubikey = function* (action) {
@@ -241,7 +241,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', e))
       yield put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
     }
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
   }
 
   const newHDAccount = function* (action) {
@@ -253,7 +253,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
       yield put(actions.alerts.displayError(C.NEW_WALLET_CREATE_ERROR))
     }
-    yield put(actions.modals.closeModal({}))
+    yield put(actions.modals.closeModal())
   }
 
   const showBtcPrivateKey = function* (action) {

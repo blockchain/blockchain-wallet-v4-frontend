@@ -184,7 +184,7 @@ class Notifications extends PureComponent<Props, State> {
             style={{ marginTop: '16px' }}
             onClick={() => {
               this.props.buySellActions.showModal({ origin: 'RecurringBuyPromo' })
-              this.props.modalActions.closeModal({ modalName: ModalName.RECURRING_BUYS_MODAL })
+              this.props.modalActions.closeModal(ModalName.RECURRING_BUYS_MODAL)
             }}
           >
             <FormattedMessage

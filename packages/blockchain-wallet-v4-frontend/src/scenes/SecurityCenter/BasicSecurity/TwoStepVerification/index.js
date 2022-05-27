@@ -80,11 +80,8 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   handleTwoFactorChange() {
-    this.props.modalActions.showModal({
-      props: {
-        authName: this.state.authName
-      },
-      type: ModalName.CONFIRM_DISABLE_2FA
+    this.props.modalActions.showModal(ModalName.CONFIRM_DISABLE_2FA, {
+      authName: this.state.authName
     })
     this.setState({
       editing: false
