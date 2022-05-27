@@ -1,17 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon } from '@blockchain-com/constellation'
+import { colors } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
 import {
   Button,
+  Image,
   Link,
   Modal,
   ModalBody,
   ModalHeader,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -104,12 +104,14 @@ const GetFeatured = (props) => {
       <FlexVertical>
         <Link href='https://twitter.com/blockchain' target='_blank'>
           <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='twitter'>
+            <Image name='twitter' width='18px' height='18px' />
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
 
         <Link href='https://www.instagram.com/blockchainofficial' target='_blank'>
           <Button width={isTablet ? '300px' : '185px'} nature='primary' data-e2e='instagram'>
+            <Image name='instagramWhite' width='18px' height='18px' />
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>
