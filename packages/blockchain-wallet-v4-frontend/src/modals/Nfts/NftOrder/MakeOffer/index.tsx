@@ -25,9 +25,8 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { Title } from 'components/Flyout'
+import { Row, Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
@@ -35,7 +34,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Analytics, DeepLinkGoal } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
@@ -116,7 +115,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
-  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
   if (openSeaAsset.error)
     return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
@@ -178,7 +177,7 @@ const MakeOffer: React.FC<Props> = (props) => {
         }}
       >
         <NftAssetHeaderRow asset={val} />
-        <Row>
+        <NftFlyoutRow>
           <Value>
             <AmountFieldInput
               coin={coin}
@@ -197,8 +196,8 @@ const MakeOffer: React.FC<Props> = (props) => {
               }}
             />
           </Value>
-        </Row>
-        <Row>
+        </NftFlyoutRow>
+        <NftFlyoutRow>
           <Title>
             <b>
               <FormattedMessage id='copy.offer_with' defaultMessage='Offer With' />
@@ -238,8 +237,8 @@ const MakeOffer: React.FC<Props> = (props) => {
           <Value>
             <Text size='12px'>ETH will automatically be wrapped to WETH during transaction </Text>
           </Value>
-        </Row>
-        <Row>
+        </NftFlyoutRow>
+        <NftFlyoutRow>
           <Title>
             <b>
               <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
@@ -275,7 +274,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               ]}
             />
           </Value>
-        </Row>
+        </NftFlyoutRow>
       </div>
 
       <StickyCTA>
