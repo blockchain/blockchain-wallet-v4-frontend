@@ -53,14 +53,6 @@ const Title = styled(Text)<{ asValue?: boolean }>`
   margin-top: ${(props) => (props.asValue ? '4px' : '0px')};
 `
 
-const Row = styled.div`
-  padding: 16px 40px;
-  box-sizing: border-box;
-  border-top: 1px solid ${(props) => props.theme.grey000};
-  &:last-child {
-    border-bottom: 1px solid ${(props) => props.theme.grey000};
-  }
-`
 const Col = styled.div`
   display: flex;
   align-items: center;
@@ -970,7 +962,6 @@ export {
   renderCardText,
   renderFund,
   RightArrowIcon,
-  Row,
   SectionTitle,
   Title,
   Value
