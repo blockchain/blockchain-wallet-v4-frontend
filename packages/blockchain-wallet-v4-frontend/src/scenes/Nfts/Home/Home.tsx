@@ -176,7 +176,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey900'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <Flex
                   justifyContent={isMobile || isTablet ? 'space-evenly' : 'space-between'}
@@ -209,7 +210,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey600'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
                   <Button jumbo nature='primary' data-e2e='Explore'>
