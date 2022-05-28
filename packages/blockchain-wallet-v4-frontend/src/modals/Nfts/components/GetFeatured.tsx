@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconChevronUpV2, IconInstagram, IconTwitter } from '@blockchain-com/icons'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
@@ -109,7 +110,9 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='twitter'
           >
-            <Image name='twitter' width='18px' height='18px' />
+            <Icon label='' size='sm' color='white900'>
+              <IconTwitter />
+            </Icon>
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
@@ -121,7 +124,9 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='instagram'
           >
-            <Image name='instagramWhite' width='18px' height='18px' />
+            <Icon label='' size='sm' color='white900'>
+              <IconInstagram />
+            </Icon>
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>

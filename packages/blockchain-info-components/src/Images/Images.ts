@@ -89,7 +89,6 @@ import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
 import instagram from './img/instagram.svg'
-import instagramWhite from './img/instagram-white.svg'
 import interest from './img/interest.svg'
 import introHand from './img/intro-hand.png'
 import latamSignupPhone from './img/latam-signup-phone.svg'
@@ -132,7 +131,6 @@ import swapBlue from './img/swap-blue.svg'
 import swapSuccess from './img/swap-success.svg'
 import swapWhite from './img/swap-white.svg'
 import tierGold from './img/tier-gold.svg'
-import twitter from './img/twitter.svg'
 import userSuccess from './img/user-success.svg'
 import verifyNotice from './img/verify-notice.svg'
 import visaLogo from './img/visa-logo.svg'
@@ -242,7 +240,6 @@ const Images = {
   identification,
   'identity-verification': identityVerification,
   instagram,
-  instagramWhite,
   interest,
   'intro-card': introCard,
   'intro-hand': introHand,
@@ -284,7 +281,6 @@ const Images = {
   'swap-white': swapWhite,
   'terminate-card': terminateCard,
   'tier-gold': tierGold,
-  twitter,
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
