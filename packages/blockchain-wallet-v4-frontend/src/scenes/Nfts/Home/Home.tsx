@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -75,6 +75,24 @@ const CardWrapper = styled.div`
   padding: 1em 0em;
 `
 
+const SkeletonLoader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px 0;
+  > div:last-child {
+    flex: 1;
+    margin-left: 16px;
+  }
+`
+
+const CustomRectangleHeader = styled(SkeletonRectangle)`
+  border-radius: 24px 24px 0px 0px;
+  ${media.mobile`
+      border-radius: unset;
+  `}
+`
+
 const Explore: React.FC<Props> = (props) => {
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
@@ -137,6 +155,25 @@ const Explore: React.FC<Props> = (props) => {
       origin: 'Nfts'
     })
   }
+
+  const Loading = () => (
+    <>
+      <CustomRectangleHeader height='40px' width='100%' />
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+    </>
+  )
+
   return (
     <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
       <>
@@ -334,8 +371,8 @@ const Explore: React.FC<Props> = (props) => {
             color='black'
             style={
               isMobile || isTablet
-                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '24px' }
-                : { marginBottom: '16px', marginTop: '24px' }
+                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
+                : { marginBottom: '16px', marginTop: '36px' }
             }
             size={isMobile || isTablet ? '20px' : '24px'}
             weight={600}
@@ -347,7 +384,7 @@ const Explore: React.FC<Props> = (props) => {
       {results.data?.collections ? (
         <TrendingCollectionsTable collections={results.data.collections} {...props} />
       ) : (
-        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        <Loading />
       )}
     </NftPageV2>
   )

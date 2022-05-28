@@ -5,7 +5,6 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
 
-import { displayFiatToFiat } from '@core/exchange'
 import { fiatToString } from '@core/exchange/utils'
 import {
   Button,
@@ -17,7 +16,7 @@ import {
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import Flyout, { duration, FlyoutChild, FlyoutWrapper, Row, Value } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild, FlyoutWrapper, Row } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'

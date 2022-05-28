@@ -4,8 +4,9 @@ import { IconPhone } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import TextInputWithClipboard from 'components/Form/TextInputWithClipboard'
-import { DropdownMenu, DropdownMenuArrow } from 'components/NavbarV2/Dropdown'
+import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/Dropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { useMedia } from 'services/styles'
 
 import Switch from './Switch'
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Navbar } from 'components/NavbarV2'
+import { Navbar } from 'components/Navbar'
 import { Analytics, ModalName } from 'data/types'
 
 import { Props } from '.'

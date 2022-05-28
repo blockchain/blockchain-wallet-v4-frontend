@@ -78,7 +78,7 @@ const IconWrapper = styled.div<{ nfts: string }>`
 `
 
 const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
-  const isTablet = useMedia('tablet')
+  const isTablet = useMedia('tabletL')
   const ref = useRef(null)
   const [isActive, setIsActive] = useState<boolean>(false)
   const app = window.location.hash.includes('nfts') ? 'nfts' : 'wallet'
