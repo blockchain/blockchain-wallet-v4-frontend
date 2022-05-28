@@ -42,7 +42,7 @@ const Wrapper = styled.div`
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
-  background: #fafbff;
+  background: ${colors.grey000};
   border: 1px solid ${colors.grey000};
   border-radius: 6px;
   box-sizing: border-box;
