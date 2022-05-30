@@ -1,4 +1,11 @@
-import { ExplorerGatewaySearchType, NftAsset, NftOrder, OpenSeaStatus } from './types'
+import {
+  ExplorerGatewaySearchType,
+  NftAsset,
+  NftOrder,
+  NftUserPreferencesReturnType,
+  NftUserPreferencesType,
+  OpenSeaStatus
+} from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
 
@@ -14,6 +21,23 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
         jwt
       },
       ignoreQueryParams: true,
+      url: nftUrl
+    })
+  }
+
+  const setNftUserPreferences = (
+    jwt: string,
+    userPrefs: NftUserPreferencesType
+  ): NftUserPreferencesReturnType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        jwt,
+        userPrefs
+      },
+      endPoint: '/preferences',
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
       url: nftUrl
     })
   }
@@ -67,6 +91,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     getOpenSeaAsset,
     getOpenSeaStatus,
     postNftOrder,
-    searchNfts
+    searchNfts,
+    setNftUserPreferences
   }
 }

@@ -22,6 +22,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchOpenSeaAsset, nftsSagas.fetchOpenSeaAsset)
     yield takeLatest(actions.fetchOpenseaStatus, nftsSagas.fetchOpenseaStatus)
     yield takeLatest(actions.fetchUserPreferences, nftsSagas.fetchUserPreferences)
+    yield takeLatest(actions.updateUserPreferences, nftsSagas.updateUserPreferences)
     yield takeLatest(actions.handleRouterChange, nftsSagas.handleRouterChange)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
     yield takeLatest(actions.nftSearch, nftsSagas.nftSearch)

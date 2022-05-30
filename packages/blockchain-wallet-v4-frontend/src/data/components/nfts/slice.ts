@@ -9,6 +9,7 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrder,
+  NftUserPreferencesType,
   OpenSeaStatus,
   RawOrder,
   UnsignedOrder
@@ -335,7 +336,11 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
-    }
+    },
+    updateUserPreferences: (
+      state,
+      action: PayloadAction<{ userPrefs: NftUserPreferencesType }>
+    ) => {}
   }
 })
 

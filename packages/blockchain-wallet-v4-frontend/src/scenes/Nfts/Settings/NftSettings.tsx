@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Switch } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { NftUserPreferencesType } from '@core/network/api/nfts/types'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
@@ -32,6 +33,15 @@ const SettingsOptionsWrapper = styled.div`
   `}
 `
 
+const DEFAULT_PREFS: NftUserPreferencesType = {
+  auction_expired: null,
+  bid_activity: null,
+  item_sold: null,
+  offer_accepted: null,
+  outbid: null,
+  successful_purchase: null
+}
+
 const NftSettings: React.FC<Props> = ({
   ethAddress,
   isAuthenticated,
@@ -39,18 +49,23 @@ const NftSettings: React.FC<Props> = ({
   routerActions
 }) => {
   const currentAddress = window.location.href.split('/nfts/address/settings/')[1]
-  const [switches, setSwitches] = useState<{ [key in string]?: boolean }>({})
+  const [switches, setSwitches] = useState<NftUserPreferencesType>(DEFAULT_PREFS)
 
-  if (!isAuthenticated) {
-    routerActions.push('/login')
-    return null
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      routerActions.push('/login')
+    }
 
-  if (ethAddress.toLowerCase() !== currentAddress?.toLowerCase()) {
-    routerActions.push('/login')
-  } else {
-    nftsActions.fetchUserPreferences()
-  }
+    if (ethAddress.toLowerCase() !== currentAddress?.toLowerCase()) {
+      routerActions.push('/login')
+    } else {
+      nftsActions.fetchUserPreferences()
+    }
+  }, [routerActions, nftsActions, ethAddress, currentAddress, isAuthenticated])
+
+  useEffect(() => {
+    nftsActions.updateUserPreferences({ userPrefs: switches })
+  }, [switches])
 
   return (
     <div style={{ paddingTop: '0px' }}>
@@ -87,7 +102,7 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.item_sold}
+                    checked={!!switches.item_sold}
                     onClick={() => setSwitches((x) => ({ ...x, item_sold: !x.item_sold }))}
                   />
                 </Flex>
@@ -100,14 +115,16 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                     <Text size='14px' weight={500}>
                       <FormattedMessage
-                        id='copy.when_auction_ended'
+                        id='copy.when_auction_expired'
                         defaultMessage='When a timed auction you created ends'
                       />
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.auction_ended}
-                    onClick={() => setSwitches((x) => ({ ...x, auction_ended: !x.auction_ended }))}
+                    checked={!!switches.auction_expired}
+                    onClick={() =>
+                      setSwitches((x) => ({ ...x, auction_expired: !x.auction_expired }))
+                    }
                   />
                 </Flex>
               </SettingsOption>
@@ -125,7 +142,7 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.bid_activity}
+                    checked={!!switches.bid_activity}
                     onClick={() => setSwitches((x) => ({ ...x, bid_activity: !x.bid_activity }))}
                   />
                 </Flex>
@@ -160,7 +177,7 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.successful_purchase}
+                    checked={!!switches.successful_purchase}
                     onClick={() =>
                       setSwitches((x) => ({ ...x, successful_purchase: !x.successful_purchase }))
                     }
@@ -181,7 +198,7 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.offer_accepted}
+                    checked={!!switches.offer_accepted}
                     onClick={() =>
                       setSwitches((x) => ({ ...x, offer_accepted: !x.offer_accepted }))
                     }
@@ -202,7 +219,7 @@ const NftSettings: React.FC<Props> = ({
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.outbid}
+                    checked={!!switches.outbid}
                     onClick={() => setSwitches((x) => ({ ...x, outbid: !x.outbid }))}
                   />
                 </Flex>
