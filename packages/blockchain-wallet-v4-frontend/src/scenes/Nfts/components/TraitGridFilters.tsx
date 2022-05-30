@@ -102,7 +102,6 @@ const TraitGridFilters: React.FC<Props> = ({
     false
   const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
   const moreThanRecentlyListed = (formValues && Object.keys(formValues).length > 1) || false
-
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
       Object.keys(formValues).forEach((key) => {
@@ -117,6 +116,7 @@ const TraitGridFilters: React.FC<Props> = ({
   }
 
   useEffect(() => {
+    formActions.change('nftFilter', 'sortBy', recentlyListed)
     if (isRefreshRotating) {
       setTimeout(() => {
         setIsRefreshRotating(false)
@@ -420,17 +420,6 @@ type OwnProps = {
   showSortBy?: boolean
   tabs: Array<'ITEMS' | 'ACTIVITY' | 'EXPLORE'>
 }
-
-const enhance = compose<any>(
-  reduxForm({
-    form: 'nftFilter',
-    initialValues: {
-      sortBy: `${AssetSortFields.ListingDate}-DESC`
-    }
-  }),
-  connector
-)
-
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default enhance(TraitGridFilters)
+export default connector(TraitGridFilters)
