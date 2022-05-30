@@ -28,7 +28,7 @@ class BchWalletsContainer extends React.Component {
       addressesBchActions.showChangeAddrs(account.index, account.xpub)
     }
     const onShowXPub = (account) => {
-      modalsActions.showModal({ props: { xpub: account.xpub }, type: ModalName.SHOW_XPUB_MODAL })
+      modalsActions.showModal(ModalName.SHOW_XPUB_MODAL, { xpub: account.xpub })
     }
     const onShowFundRecovery = (account) => {
       modalsActions.showModal(ModalName.FUND_RECOVERY_MODAL, {

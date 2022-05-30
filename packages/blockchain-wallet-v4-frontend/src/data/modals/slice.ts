@@ -24,12 +24,11 @@ const modalsSlice = createSlice({
       },
       reducer: (state, action: PayloadAction<{ modalName?: ModalNameType }>) => {
         if (action.payload.modalName) {
-          state = state.filter((modal) => modal.type !== action.payload.modalName)
-        } else {
-          // remove last
-          const lastIndex = state.length - 1
-          state.splice(lastIndex, 1)
+          return state.filter((modal) => modal.type !== action.payload.modalName)
         }
+        // remove last
+        const lastIndex = state.length - 1
+        state.splice(lastIndex, 1)
       }
     },
     showModal: {

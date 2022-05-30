@@ -42,15 +42,12 @@ export const promptForInput = function* ({
   validations = []
 }) {
   yield put(
-    actions.modals.showModal({
-      props: {
-        initial,
-        maxLength,
-        secret,
-        title,
-        validations
-      },
-      type: ModalName.PROMPT_INPUT_MODAL
+    actions.modals.showModal(ModalName.PROMPT_INPUT_MODAL, {
+      initial,
+      maxLength,
+      secret,
+      title,
+      validations
     })
   )
   const { cancelled, response } = yield race({
@@ -75,17 +72,14 @@ export const confirm = function* ({
   title
 }) {
   yield put(
-    actions.modals.showModal({
-      props: {
-        cancel,
-        confirm,
-        image,
-        message,
-        messageValues,
-        nature,
-        title
-      },
-      type: ModalName.CONFIRMATION_MODAL
+    actions.modals.showModal(ModalName.CONFIRMATION_MODAL, {
+      cancel,
+      confirm,
+      image,
+      message,
+      messageValues,
+      nature,
+      title
     })
   )
   const { cancelled, response } = yield race({
