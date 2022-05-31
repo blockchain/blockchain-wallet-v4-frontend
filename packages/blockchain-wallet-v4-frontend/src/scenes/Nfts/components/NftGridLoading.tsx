@@ -26,7 +26,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
           <div className='asset-image-container'>
             <SkeletonRectangle width='100%' height='100%' />
           </div>
-          <div style={{ boxSizing: 'border-box', padding: '12px 8px 0px 8px' }}>
+          <div style={{ boxSizing: 'border-box', padding: '12px 0px 0px' }}>
             <Flex style={{ height: '100%' }} justifyContent='space-between' flexDirection='column'>
               <div>
                 <SkeletonRectangle height='24px' width='100px' />
