@@ -40,7 +40,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 100px 64px;
   z-index: 2;
   ${media.mobile`
@@ -54,13 +54,12 @@ const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
   border: 1.18px solid ${colors.grey000};
   z-index: 2;
-  width: 266px;
   height: 50px;
   background: white;
   left: 3em;
   top: 1em;
   margin-top: -12px;
-  padding: 0.25em 1em;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   ${media.atLeastMobile`
@@ -136,7 +135,8 @@ const Explore: React.FC<Props> = (props) => {
             key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
-            size='36px'
+            size='64px'
+            lineHeight='12px'
             color={assetId === i ? 'blue600' : 'white'}
           >
             .
@@ -175,9 +175,9 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
       <>
-        <Banner style={{ height: '600px' }}>
+        <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
@@ -213,7 +213,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey900'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <Flex
                   justifyContent={isMobile || isTablet ? 'space-evenly' : 'space-between'}
@@ -246,7 +247,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey600'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
                   <Button jumbo nature='primary' data-e2e='Explore'>
@@ -267,11 +269,19 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={{
-                      borderRadius: '16px 16px 0px 0px',
-                      height: '300.35px',
-                      width: '300.35px'
-                    }}
+                    style={
+                      isMobile || isTablet
+                        ? {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '300.35px',
+                            width: '300.35px'
+                          }
+                        : {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '350px',
+                            width: '350px'
+                          }
+                    }
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
                   />
