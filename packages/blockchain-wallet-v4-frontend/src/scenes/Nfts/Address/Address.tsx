@@ -32,11 +32,11 @@ const NftAddress: React.FC<Props> = ({
 }) => {
   const address = pathname.split('/nfts/address/')[1]
   const params = new URLSearchParams(window.location.hash.split('?')[1])
-  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
+  const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
   const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
@@ -96,7 +96,7 @@ const NftAddress: React.FC<Props> = ({
       </div>
       <GridWrapper>
         <NftFilter
-          collections={activeTab === 'ITEMS' ? collections : []}
+          collections={activeTab === 'ITEMS' && collections.length >= 2 ? collections : []}
           formActions={formActions}
           formValues={formValues}
           isFilterOpen={isFilterOpen}
@@ -108,7 +108,7 @@ const NftAddress: React.FC<Props> = ({
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
-            tabs={['ITEMS', 'EVENTS']}
+            tabs={['ITEMS', 'ACTIVITY']}
             activeTab={activeTab}
             formActions={formActions}
             formValues={formValues}
