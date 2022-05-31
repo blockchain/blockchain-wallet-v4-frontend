@@ -122,6 +122,7 @@ export const determineAuthenticationFlow = function* (
           if (unified) {
             yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
             yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+            yield put(actions.form.change(LOGIN_FORM, 'exchangeUnifiedGuid', walletData?.guid))
             yield put(actions.cache.exchangeWalletGuid(walletData?.guid))
             yield put(actions.cache.guidStored(walletData?.guid))
             yield put(actions.cache.emailStored(userEmail))
@@ -160,6 +161,7 @@ export const determineAuthenticationFlow = function* (
           yield put(actions.cache.hasCloudBackup(walletData?.has_cloud_backup))
           yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+          yield put(actions.form.change(LOGIN_FORM, 'exchangeUnifiedGuid', walletData?.guid))
           yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(

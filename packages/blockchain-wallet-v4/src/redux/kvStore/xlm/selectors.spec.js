@@ -9,12 +9,12 @@ describe('kvstore stellar selectors', () => {
       label: 'first account',
       publicKey: 'GDRXE2BQUC3AZNPVFSCEZ76NJ3WWL25FYFK6RGZGIEKWE4SOOHSUJUJ6',
       secret: 'BSGWSG6BTNCKCOB3DIFBGCVMUPQFYPA2G4O34RMTB343OYPXU5DJDVMN'
-    },
-    {
-      label: 'second account',
-      publicKey: 'GAVXVW5MCK7Q66RIBWZZKZEDQTRXWCZUP4DIIFXCCENGW2P6W4OA34RH',
-      secret: 'SAKS7I2PNDBE5SJSUSU2XLJ7K5XJ3V3K4UDFAHMBSQYPOKE247VHAGDB'
     }
+    // {
+    //   label: 'second account',
+    //   publicKey: 'GAVXVW5MCK7Q66RIBWZZKZEDQTRXWCZUP4DIIFXCCENGW2P6W4OA34RH',
+    //   secret: 'SAKS7I2PNDBE5SJSUSU2XLJ7K5XJ3V3K4UDFAHMBSQYPOKE247VHAGDB'
+    // }
   ]
 
   const defaultIdx = 0
