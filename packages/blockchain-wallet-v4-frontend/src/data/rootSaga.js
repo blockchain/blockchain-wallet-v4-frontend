@@ -22,7 +22,7 @@ import wallet from './wallet/sagaRegister'
 
 export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
   const coreSagas = coreSagasFactory({ api, networks, options })
-  const { initAppLanguage, logAppConsoleWarning } = miscSagas()
+  const { initAppLanguage, logAppConsoleWarning, pingManfestFile } = miscSagas()
 
   yield all([
     put(actions.core.data.coins.pollForCoinData()),
@@ -43,6 +43,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(router()),
     fork(session({ api })),
     fork(signup({ api, coreSagas, networks })),
+    call(pingManfestFile),
     call(initAppLanguage)
   ])
 }
