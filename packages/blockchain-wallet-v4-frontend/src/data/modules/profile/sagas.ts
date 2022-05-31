@@ -343,6 +343,7 @@ export default ({ api, coreSagas, networks }) => {
       if (e.code === 4) {
         yield put(actions.auth.setExchangeAccountConflict(true))
       }
+      yield put(actions.auth.setExchangeAccountCreationFailure(true))
     }
   }
 
