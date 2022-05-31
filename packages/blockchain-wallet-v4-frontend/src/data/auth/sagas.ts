@@ -839,9 +839,9 @@ export default ({ api, coreSagas, networks }) => {
       code,
       email,
       exchangeEmail,
-      exchangeGuid,
       exchangePassword,
       exchangeTwoFA,
+      exchangeUnifiedGuid,
       guid,
       guidOrEmail,
       password,
@@ -900,7 +900,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({
             code: auth,
-            guid: exchangeGuid,
+            guid: exchangeUnifiedGuid,
             mobileLogin: null,
             password: exchangePassword,
             sharedKey: null
