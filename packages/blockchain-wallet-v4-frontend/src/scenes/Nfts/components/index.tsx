@@ -159,7 +159,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   height: 300px;
   display: flex;
   justify-content: space-between;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
