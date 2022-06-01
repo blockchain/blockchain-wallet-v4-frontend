@@ -8,7 +8,7 @@ import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
-import { AuthMagicLink, PlatformTypes } from 'data/types'
+import { Analytics, AuthMagicLink, PlatformTypes } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -418,6 +418,15 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.LOGIN_PASSWORD_DENIED,
+          properties: {
+            site_redirect: 'EXCHANGE',
+            unified: true
+          }
+        })
+      )
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
