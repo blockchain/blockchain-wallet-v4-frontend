@@ -24,7 +24,7 @@ export default ({ api }: { api: APIType }) => {
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
     try {
       yield put(A.buildTxLoading())
-      const { account, baseCryptoAmt, destination, fee } = action.payload
+      const { account, baseCryptoAmt, destination, fee, memo } = action.payload
       const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
@@ -43,6 +43,9 @@ export default ({ api }: { api: APIType }) => {
             amount: baseCryptoAmt,
             currency: coin,
             destination,
+            extraData: {
+              memo
+            },
             fee,
             sources: [
               {
