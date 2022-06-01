@@ -18,11 +18,11 @@
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6007",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
-    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "test": "cross-env ./../../node_modules/.bin/jest --silent --maxWorkers=50%",
     "test:build": "cross-env rimraf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll --maxWorkers=50%"
   },
   "jest": {
     "collectCoverageFrom": [
