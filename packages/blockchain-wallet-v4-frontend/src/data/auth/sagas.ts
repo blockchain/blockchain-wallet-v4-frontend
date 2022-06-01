@@ -848,7 +848,6 @@ export default ({ api, coreSagas, networks }) => {
             sessionIdMobile
           )
       }
-      yield put(actions.misc.pingManifestFile())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }
@@ -860,9 +859,9 @@ export default ({ api, coreSagas, networks }) => {
       code,
       email,
       exchangeEmail,
-      exchangeGuid,
       exchangePassword,
       exchangeTwoFA,
+      exchangeUnifiedGuid,
       guid,
       guidOrEmail,
       password,
@@ -921,7 +920,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({
             code: auth,
-            guid: exchangeGuid,
+            guid: exchangeUnifiedGuid,
             mobileLogin: null,
             password: exchangePassword,
             sharedKey: null

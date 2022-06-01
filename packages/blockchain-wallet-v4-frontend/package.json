@@ -26,11 +26,11 @@
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
-    "test": "cross-env npx jest",
+    "test": "cross-env npx jest --runInBand",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env npx --inspect-brk jest --runInBand",
     "test:update": "cross-env npx jest -u",
-    "test:watch": "cross-env npx jest --watchAll",
+    "test:watch": "cross-env npx jest --watchAll --runInBand",
     "codegen": "graphql-codegen --config codegen.yml",
     "graphql-codegen": "graphql-codegen --config codegen.yml"
   },
