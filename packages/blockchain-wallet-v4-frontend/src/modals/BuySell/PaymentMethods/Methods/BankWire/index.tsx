@@ -37,17 +37,30 @@ const BankWire: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <Content>
       <DisplayTitleBank>{text}</DisplayTitleBank>
       <DisplaySubTitle>
-        <FormattedMessage
-          id='copy.number_of_business_days'
-          defaultMessage='{first} to {second} Business Days'
-          values={{ first: '3', second: '5' }}
-        />
+        {value.currency === 'ARS' ? (
+          <FormattedMessage
+            id='copy.number_of_business_days_ars'
+            defaultMessage='{first} to {second} Business Days'
+            values={{ first: '1', second: '3' }}
+          />
+        ) : (
+          <FormattedMessage
+            id='copy.number_of_business_days'
+            defaultMessage='{first} to {second} Business Days'
+            values={{ first: '3', second: '5' }}
+          />
+        )}
       </DisplaySubTitle>
       <Description>
         {value.currency === 'USD' ? (
           <FormattedMessage
             id='modals.simplebuy.bankwire.description_v'
             defaultMessage='Send funds directly from your bank to your Blockchain.com Account. Once we receive the wire transfer, we’ll complete your purchase.'
+          />
+        ) : value.currency === 'ARS' ? (
+          <FormattedMessage
+            id='modals.simplebuy.banktransfer.description_ars'
+            defaultMessage='Transfer funds from your bank account to your Blockchain.com Wallet with a bank transfer. Your bank may charge additional fees.'
           />
         ) : (
           <FormattedMessage
