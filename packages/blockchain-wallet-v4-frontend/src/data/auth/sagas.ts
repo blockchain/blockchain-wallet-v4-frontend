@@ -848,7 +848,6 @@ export default ({ api, coreSagas, networks }) => {
             sessionIdMobile
           )
       }
-      yield put(actions.misc.pingManifestFile())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }

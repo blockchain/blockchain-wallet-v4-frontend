@@ -115,6 +115,7 @@ export const AssetImageContainer = styled.div<{
   justify-content: center;
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
   margin-top: 12px;
   overflow: hidden;
   position: relative;
