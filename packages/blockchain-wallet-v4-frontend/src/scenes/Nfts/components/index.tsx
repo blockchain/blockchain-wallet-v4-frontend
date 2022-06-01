@@ -27,7 +27,7 @@ export const NftPage = styled.div`
 
 export const NftPageV2 = styled.div`
   width: 100%;
-  margin-top: 8px;
+  margin: 8px auto;
   box-sizing: border-box;
 `
 
@@ -115,6 +115,7 @@ export const AssetImageContainer = styled.div<{
   justify-content: center;
   max-height: 100%;
   max-width: 100%;
+  width: 100%;
   margin-top: 12px;
   overflow: hidden;
   position: relative;
@@ -159,7 +160,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   height: 300px;
   display: flex;
   justify-content: space-between;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
@@ -177,10 +178,10 @@ export const Centered = styled.div`
   gap: 8px;
   margin-top: 8px;
 `
-
+//
 export const NftBannerWrapper = styled.div`
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(3px);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
+  backdrop-filter: blur(10px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;

@@ -314,32 +314,34 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
-              <div style={{ display: 'flex' }}>
-                {' '}
-                <div style={{ padding: '1.2em 0em' }}>
-                  <CheckBoxInput
-                    name='terms'
-                    disabled={false}
-                    onChange={toggleTermsAccepted}
-                    checked={termsAccepted}
-                  />
-                </div>
-                <Text
-                  color={colors.grey200}
-                  weight={500}
-                  size='16px'
-                  style={{ padding: '1em 0em', textAlign: 'center' }}
-                >
-                  I agree to Blockchain.com’s{' '}
-                  <Link
-                    onClick={acceptTerms}
-                    href='https://www.blockchain.com/legal/terms'
-                    target='_blank'
+              {((needsWrap && canWrap) || !needsWrap) && (
+                <div style={{ display: 'flex' }}>
+                  {' '}
+                  <div style={{ padding: '1.2em 0em' }}>
+                    <CheckBoxInput
+                      name='terms'
+                      disabled={false}
+                      onChange={toggleTermsAccepted}
+                      checked={termsAccepted}
+                    />
+                  </div>
+                  <Text
+                    color={colors.grey200}
+                    weight={500}
+                    size='16px'
+                    style={{ padding: '1em 0em', textAlign: 'center' }}
                   >
-                    Terms of Service
-                  </Link>
-                </Text>
-              </div>
+                    I agree to Blockchain.com’s{' '}
+                    <Link
+                      onClick={acceptTerms}
+                      href='https://www.blockchain.com/legal/terms'
+                      target='_blank'
+                    >
+                      Terms of Service
+                    </Link>
+                  </Text>
+                </div>
+              )}
               {needsWrap && !canWrap ? (
                 <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                   <Image
