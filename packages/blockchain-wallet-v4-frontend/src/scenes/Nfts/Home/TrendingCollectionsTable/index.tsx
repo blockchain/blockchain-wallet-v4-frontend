@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
+import { colors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
 import { CollectionsQuery } from 'generated/graphql.types'
@@ -19,6 +21,14 @@ export const getTableColumns = () => [
   getTotalSupplyColumn()
 ]
 
+export const NftTableWrapper = styled(TableWrapper)`
+  .table {
+    .th {
+      background: ${colors.grey000};
+    }
+  }
+`
+
 const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
@@ -34,8 +44,8 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   )
 
   return (
-    <TableWrapper>
-      <div {...getTableProps({ style: { height: '360px', overflow: 'scroll' } })} className='table'>
+    <NftTableWrapper>
+      <div {...getTableProps({ style: { height: '100%', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
@@ -80,7 +90,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
           })}
         </div>
       </div>
-    </TableWrapper>
+    </NftTableWrapper>
   )
 }
 

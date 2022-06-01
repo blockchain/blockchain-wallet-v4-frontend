@@ -16,10 +16,10 @@ import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
+import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
-import StxAidropFundsAvailable from './StxAirdropFundsAvailable'
-import TaxCenter from './TaxCenter'
+import StxAirdropFundsAvailable from './StxAirdropFundsAvailable'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -64,7 +64,7 @@ class Banners extends React.PureComponent<Props> {
       case 'stxAirdropFundsAvailable':
         return (
           <BannerWrapper>
-            <StxAidropFundsAvailable />
+            <StxAirdropFundsAvailable />
           </BannerWrapper>
         )
       case 'sbOrder':
@@ -109,10 +109,10 @@ class Banners extends React.PureComponent<Props> {
             <RecurringBuys />
           </BannerWrapper>
         )
-      case 'taxCenter':
+      case 'sanctions':
         return (
           <BannerWrapper>
-            <TaxCenter />
+            <Sanctions />
           </BannerWrapper>
         )
       default:

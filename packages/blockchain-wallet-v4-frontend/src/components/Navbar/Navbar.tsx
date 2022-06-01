@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { Destination } from 'layouts/Wallet/components'
-import { NewCartridge } from 'layouts/Wallet/MenuLeft/Navigation/template'
 import { useOnClickOutside } from 'services/misc'
 import { media, useMedia } from 'services/styles'
 
@@ -71,11 +70,17 @@ const ListStyles = styled.ul`
   align-items: stretch;
   margin: 0;
   padding: 0 0 0 24px;
+  ${media.tabletL`
+    padding: 0 0 0 6px;
+  `}
 
   & > li {
     display: flex;
     align-items: center;
     padding: 10px 12px;
+    ${media.tabletL`
+      padding: 10px 6px;
+    `}
 
     &:last-child {
       padding-right: 0;
@@ -110,6 +115,9 @@ const PrimaryNavItems = styled(ListStyles)`
 
   & > li {
     padding: 10px 8px;
+    ${media.tabletL`
+      padding: 1px;
+    `}
 
     & > a > span {
       font-weight: 600;
@@ -137,6 +145,12 @@ const SecondaryNavItems = styled(ListStyles)`
   & > li:nth-child(3) {
     padding-left: 8px;
   }
+
+  & > li.mobile-app {
+    ${media.tabletL`
+      display: none;
+    `}
+  }
 `
 
 export const NavButton = styled(Button)`
@@ -155,11 +169,6 @@ export const NavButton = styled(Button)`
   }
 `
 
-const UpperNewCartridge = styled(NewCartridge)`
-  text-transform: uppercase;
-  margin-left: 2.5rem;
-`
-
 const Navbar = ({
   fabClickHandler,
   limitsClickHandler,
@@ -170,7 +179,6 @@ const Navbar = ({
   refreshClickHandler,
   sendClickHandler,
   taxCenterClickHandler,
-  taxCenterEnabled,
   trackEventCallback
 }: Props) => {
   const ref = useRef(null)
@@ -260,20 +268,11 @@ const Navbar = ({
     }
   ]
 
-  if (taxCenterEnabled) {
-    tertiaryNavItems.splice(0, 0, {
-      clickHandler: taxCenterClickHandler,
-      copy: (
-        <>
-          <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />
-          <UpperNewCartridge>
-            <FormattedMessage id='buttons.new' defaultMessage='new' />
-          </UpperNewCartridge>
-        </>
-      ),
-      'data-e2e': 'tax_CenterLink'
-    })
-  }
+  tertiaryNavItems.splice(0, 0, {
+    clickHandler: taxCenterClickHandler,
+    copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
+    'data-e2e': 'tax_CenterLink'
+  })
 
   const secondaryNavItems = [
     {
@@ -438,7 +437,7 @@ const Navbar = ({
           ) : (
             <>
               {secondaryNavItems.map((item) => (
-                <li key={item.name} className={item.name === 'Refresh' ? 'refresh' : ''}>
+                <li key={item.name} className={item.name.toLowerCase()}>
                   {item.component()}
                 </li>
               ))}
@@ -460,7 +459,6 @@ type Props = {
   refreshClickHandler: () => void
   sendClickHandler: () => void
   taxCenterClickHandler: () => void
-  taxCenterEnabled: boolean
   trackEventCallback: (eventName: string) => void
 }
 

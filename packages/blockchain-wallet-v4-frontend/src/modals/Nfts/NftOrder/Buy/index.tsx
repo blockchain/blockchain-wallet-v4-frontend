@@ -14,16 +14,15 @@ import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { Title } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
 
-import { RightAlign, StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -84,7 +83,7 @@ const Buy: React.FC<Props> = (props) => {
     <>
       {openSeaAssetR.cata({
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader />,
+        Loading: () => <NftFlyoutLoader close={props.close} />,
         NotAsked: () => null,
         Success: (val) => {
           if (
@@ -108,7 +107,7 @@ const Buy: React.FC<Props> = (props) => {
               >
                 <div style={{ height: '100%' }}>
                   <NftAssetHeaderRow asset={val} />
-                  <Row>
+                  <NftFlyoutRow>
                     <Title>
                       <b>
                         <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
@@ -144,9 +143,9 @@ const Buy: React.FC<Props> = (props) => {
                         ]}
                       />
                     </Value>
-                  </Row>
+                  </NftFlyoutRow>
                   {orderToMatch ? (
-                    <Row>
+                    <NftFlyoutRow>
                       <Flex alignItems='center' justifyContent='space-between'>
                         <Text color='black' weight={600} size='20px'>
                           <FormattedMessage id='copy.total' defaultMessage='Total' />
@@ -170,7 +169,7 @@ const Buy: React.FC<Props> = (props) => {
                           </FiatDisplay>
                         </Flex>
                       </Flex>
-                    </Row>
+                    </NftFlyoutRow>
                   ) : null}
                 </div>
               </div>

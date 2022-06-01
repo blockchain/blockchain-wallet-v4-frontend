@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { keys, map, mergeAll } from 'ramda'
 
 import Remote from '@core/remote'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 
 import { CoinPricesRequestType, PricesStateType } from './types'
 
@@ -33,7 +33,7 @@ const pricesSlice = createSlice({
       prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
       reducer: () => {}
     },
-    fetchCoinPricesFailure: (state, action: PayloadAction<string>) => {
+    fetchCoinPricesFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.current = Remote.Failure(action.payload)
     },
     fetchCoinPricesLoading: (state) => {

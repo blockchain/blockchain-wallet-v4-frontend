@@ -17,9 +17,6 @@ const mapStateToProps = (state: RootState) => ({
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
   nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
-  taxCenterEnabled: selectors.core.walletOptions
-    .getTaxCenterEnabled(state)
-    .getOrElse(false) as boolean,
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean

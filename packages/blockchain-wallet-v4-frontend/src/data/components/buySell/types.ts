@@ -141,7 +141,7 @@ export type BuySellState = {
   cryptoCurrency?: CoinType
   displayBack: boolean
   fiatCurrency?: FiatType
-  fiatEligible: RemoteDataType<string, FiatEligibleType>
+  fiatEligible: RemoteDataType<PartialClientErrorProperties, FiatEligibleType>
   googlePayInfo?: GooglePayInfoType
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method?: BSPaymentMethodType
@@ -149,11 +149,11 @@ export type BuySellState = {
   mobilePaymentMethod?: MobilePaymentType
   order: RemoteDataType<string, BSOrderType>
   orderType?: BSOrderActionType
-  orders: RemoteDataType<string, Array<BSOrderType>>
+  orders: RemoteDataType<PartialClientErrorProperties, Array<BSOrderType>>
   origin?: BSShowModalOriginType
   originalFiatCurrency?: FiatType
   pair?: BSPairType
-  pairs: RemoteDataType<string, Array<BSPairType>>
+  pairs: RemoteDataType<PartialClientErrorProperties, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
   pendingOrder?: BSOrderType
   providerDetails: RemoteDataType<string, ProviderDetailsType>

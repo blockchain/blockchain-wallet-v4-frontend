@@ -7,13 +7,13 @@ import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
+import { Row } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row } from 'components/Flyout/model'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -37,7 +37,7 @@ const CancelListing: React.FC<Props> = (props) => {
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
-  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
   if (openSeaAsset.error)
     return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 
@@ -58,7 +58,7 @@ const CancelListing: React.FC<Props> = (props) => {
         }}
       >
         <NftAssetHeaderRow asset={asset} />
-        <Row>
+        <NftFlyoutRow>
           <Flex alignItems='center' justifyContent='space-between'>
             <Text color='black' weight={600} size='20px'>
               <FormattedMessage id='copy.price' defaultMessage='Price' />
@@ -82,7 +82,7 @@ const CancelListing: React.FC<Props> = (props) => {
               </FiatDisplay>
             </Flex>
           </Flex>
-        </Row>
+        </NftFlyoutRow>
       </div>
       <StickyCTA>
         <CancelListingFees {...props} />

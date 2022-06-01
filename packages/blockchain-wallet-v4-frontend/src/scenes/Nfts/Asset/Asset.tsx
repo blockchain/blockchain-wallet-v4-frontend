@@ -503,16 +503,21 @@ const NftAsset: React.FC<Props> = ({
                     ) : lowest_order ? (
                       <>
                         <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Sale ends in{' '}
-                            {formatDistanceToNow(
-                              new Date(
-                                (is_lowest_order_english
-                                  ? lowest_order.listing_time
-                                  : lowest_order?.expiration_time) * 1000
-                              )
-                            )}
-                          </div>
+                          {is_lowest_order_english || is_lowest_order_dutch ? (
+                            <div style={{ marginBottom: '1em' }}>Auction Ends In </div>
+                          ) : (
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends in{' '}
+                              {formatDistanceToNow(
+                                new Date(
+                                  (is_lowest_order_english
+                                    ? lowest_order.listing_time
+                                    : lowest_order?.expiration_time) * 1000
+                                )
+                              )}
+                            </div>
+                          )}
+
                           <NftAssetCountdown
                             countDownDate={
                               (is_lowest_order_english
@@ -675,7 +680,8 @@ const NftAsset: React.FC<Props> = ({
                         is_lowest_order_english || is_lowest_order_dutch ? (
                           <Button
                             data-e2e='openNftFlow'
-                            nature='dark'
+                            nature='primary'
+                            width='50%'
                             jumbo
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({

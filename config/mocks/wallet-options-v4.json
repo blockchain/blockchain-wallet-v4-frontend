@@ -50,11 +50,9 @@
         "showTermsAndConditions": false,
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
-        "taxCenter": true,
-        "tradingCurrencyFlyout": true,
+        "showSilverRevamp": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
         "unifiedAccountLogin": true,
         "walletDebitCardEnabled": true
       }

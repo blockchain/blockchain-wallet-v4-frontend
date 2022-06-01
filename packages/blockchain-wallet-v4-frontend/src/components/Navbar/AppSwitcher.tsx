@@ -4,7 +4,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle, IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 import { AnimatePresence, motion } from 'framer-motion'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -46,7 +46,7 @@ const PopoutItem = styled.div`
   }
 `
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.div<{ nfts: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,25 +57,28 @@ const IconWrapper = styled.div`
   background: ${(props) => props.theme.white};
   cursor: pointer;
   transition: all 0.3s;
-  &.active,
   &:hover {
-    border: 1px solid ${(props) => props.theme.blue600};
-    background: ${(props) => props.theme.blue000};
-    * {
-      fill: ${(props) => props.theme.blue600};
-    }
-  }
-  &.nfts {
-    border: 1px solid ${(props) => props.theme.purple600};
-    background: ${(props) => props.theme.purple000};
-    * {
-      fill: ${(props) => props.theme.purple600};
-    }
+    ${(props) =>
+      props.nfts === 'nfts'
+        ? css`
+            border: 1px solid ${(props) => props.theme.purple600};
+            background: ${(props) => props.theme.purple000};
+            * {
+              fill: ${(props) => props.theme.purple600};
+            }
+          `
+        : css`
+            border: 1px solid ${(props) => props.theme.blue600};
+            background: ${(props) => props.theme.blue000};
+            * {
+              fill: ${(props) => props.theme.blue600};
+            }
+          `}
   }
 `
 
 const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
-  const isTablet = useMedia('tablet')
+  const isTablet = useMedia('tabletL')
   const ref = useRef(null)
   const [isActive, setIsActive] = useState<boolean>(false)
   const app = window.location.hash.includes('nfts') ? 'nfts' : 'wallet'
@@ -98,7 +101,7 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
             {app === 'nfts' ? 'NFTs' : 'Wallet'}
           </Text>
         )}
-        <IconWrapper role='button' className={`${app} ${isActive ? 'active' : ''}`}>
+        <IconWrapper nfts={app} role='button' className={`${app} ${isActive ? 'active' : ''}`}>
           <Icon label='up' size='sm'>
             <IconChevronUpV2 />
           </Icon>

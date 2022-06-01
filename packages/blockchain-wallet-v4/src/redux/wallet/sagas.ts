@@ -24,7 +24,7 @@ import {
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
-import { DERIVATION_LIST } from '@core/types/HDAccount'
+import { DEFAULT_DERIVATION_TYPE, DERIVATION_LIST } from '@core/types/HDAccount'
 
 import { DerivationList, HDAccount, HDWallet, KVStoreEntry, Wallet, Wrapper } from '../../types'
 import { callTask } from '../../utils/functional'
@@ -83,7 +83,13 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function* ({ captchaToken, email, language, password }) {
+  const createWalletSaga = function* ({
+    captchaToken,
+    email,
+    forceVerifyEmail = false,
+    language,
+    password
+  }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -96,7 +102,7 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createWallet, email, captchaToken, wrapper)
+    yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail)
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
@@ -319,6 +325,31 @@ export default ({ api, networks }) => {
     }
   }
 
+  const updateMnemonicBackup = function* () {
+    try {
+      const sharedKey = yield select(S.getSharedKey)
+      const guid = yield select(S.getGuid)
+      yield call(api.updateMnemonicBackup, sharedKey, guid)
+    } catch (e) {
+      // shouldn't block login
+    }
+  }
+
+  const triggerMnemonicViewedAlert = function* () {
+    const sharedKey = yield select(S.getSharedKey)
+    const guid = yield select(S.getGuid)
+    yield call(api.triggerMnemonicViewedAlert, sharedKey, guid)
+  }
+
+  const triggerNonCustodialSendAlert = function* (action) {
+    const { amount, currency } = action.payload
+    const sharedKey = yield select(S.getSharedKey)
+    const guid = yield select(S.getGuid)
+    yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
+  }
+
+  // client payload bugs
+  // https://www.notion.so/blockchaincom/wallet-json-historic-bugs-63f97dc837e54cd19c09c2e44b9baf21
   const getAccountsWithIncompleteDerivations = function* () {
     const isEncrypted = yield select(S.isSecondPasswordOn)
     if (isEncrypted) return []
@@ -353,34 +384,52 @@ export default ({ api, networks }) => {
     }
   }
 
-  const updateMnemonicBackup = function* () {
+  const getHdWalletWithMissingDefaultAccountIdx = function* () {
+    const wallet = yield select(S.getWallet)
+    const hdWallets = Wallet.selectHdWallets(wallet)
+
+    const hdWalletsWithMissingDefaultAccountIdx = hdWallets
+      .filter((wallet) => wallet.default_account_idx === undefined)
+      .toJS()
+
+    return hdWalletsWithMissingDefaultAccountIdx.length > 0
+  }
+
+  const fixHdWalletWithMissingDefaultAccountIdx = function* () {
+    yield put(A.wallet.setDefaultAccountIdx(0))
+  }
+
+  const getAccountsWithMissingDefaultDerivation = function* () {
+    const wallet = yield select(S.getWallet)
+    const accounts = Wallet.selectHDAccounts(wallet)
+    const accountsWithMissingDefaultDerivation = accounts
+      .filter((acct) => acct.default_derivation === undefined)
+      .toJS()
+
+    return accountsWithMissingDefaultDerivation
+  }
+
+  const fixAccountsWithMissingDefaultDerivation = function* (accounts) {
     try {
-      const sharedKey = yield select(S.getSharedKey)
-      const guid = yield select(S.getGuid)
-      yield call(api.updateMnemonicBackup, sharedKey, guid)
+      // eslint-disable-next-line no-restricted-syntax
+      for (const acct of accounts) {
+        const accountIdx = acct.index
+        yield put(A.wallet.setDefaultDerivation(accountIdx, DEFAULT_DERIVATION_TYPE))
+      }
     } catch (e) {
-      // shouldn't block login
+      // dont throw
     }
-  }
-
-  const triggerMnemonicViewedAlert = function* () {
-    const sharedKey = yield select(S.getSharedKey)
-    const guid = yield select(S.getGuid)
-    yield call(api.triggerMnemonicViewedAlert, sharedKey, guid)
-  }
-
-  const triggerNonCustodialSendAlert = function* (action) {
-    const { amount, currency } = action.payload
-    const sharedKey = yield select(S.getSharedKey)
-    const guid = yield select(S.getGuid)
-    yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
   }
 
   return {
     checkAndUpdateWalletNames,
     createWalletSaga,
     fetchWalletSaga,
+    fixAccountsWithMissingDefaultDerivation,
+    fixHdWalletWithMissingDefaultAccountIdx,
     getAccountsWithIncompleteDerivations,
+    getAccountsWithMissingDefaultDerivation,
+    getHdWalletWithMissingDefaultAccountIdx,
     importLegacyAddress,
     newHDAccount,
     refetchContextData,

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { AgentType } from '@core/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
+import { ExpansionPanel } from 'components/ExpansionPanel'
 import { Row, Title, Value } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '../..'
@@ -18,6 +19,8 @@ const Copy = styled.div`
 `
 
 const LayoutArs: React.FC<Props> = (props) => {
+  const agent = props.account.agent as AgentType
+
   return (
     <div>
       <RowCopy>
@@ -28,10 +31,10 @@ const LayoutArs: React.FC<Props> = (props) => {
               defaultMessage='Bank Name'
             />
           </Title>
-          <Value data-e2e='sbBankName'>{(props.account.agent as AgentType).bankName}</Value>
+          <Value data-e2e='sbBankName'>{agent.bankName}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={(props.account.agent as AgentType).bankName} />
+          <CopyClipboardButton textToCopy={agent.bankName} />
         </Copy>
       </RowCopy>
       <RowCopy>
@@ -39,10 +42,10 @@ const LayoutArs: React.FC<Props> = (props) => {
           <Title>
             <FormattedMessage id='modals.simplebuy.transferdetails.label' defaultMessage='Alias' />
           </Title>
-          <Value data-e2e='sbLabel'>{(props.account.agent as AgentType).label}</Value>
+          <Value data-e2e='sbLabel'>{agent.label}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={(props.account.agent as AgentType).label} />
+          <CopyClipboardButton textToCopy={agent.label} />
         </Copy>
       </RowCopy>
       <RowCopy>
@@ -64,65 +67,67 @@ const LayoutArs: React.FC<Props> = (props) => {
           <Title>
             <FormattedMessage id='modals.simplebuy.transferdetails.cuit' defaultMessage='CUIT' />
           </Title>
-          <Value data-e2e='sbCuit'>{(props.account.agent as AgentType).holderDocument}</Value>
+          <Value data-e2e='sbCuit'>{agent.holderDocument}</Value>
         </div>
         <Copy>
-          <CopyClipboardButton textToCopy={(props.account.agent as AgentType).holderDocument} />
+          <CopyClipboardButton textToCopy={agent.holderDocument} />
         </Copy>
       </RowCopy>
-      {(props.account.agent as AgentType).accountType === 'CBU' ? (
+      <ExpansionPanel>
+        {agent.accountType === 'CBU' ? (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage id='modals.simplebuy.transferdetails.cbu' defaultMessage='CBU' />
+              </Title>
+              <Value data-e2e='sbCbu'>{agent.address}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton textToCopy={agent.address} />
+            </Copy>
+          </RowCopy>
+        ) : (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage id='modals.simplebuy.transferdetails.cvu' defaultMessage='CVU' />
+              </Title>
+              <Value data-e2e='sbCvu'>{agent.address}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton textToCopy={agent.address} />
+            </Copy>
+          </RowCopy>
+        )}
         <RowCopy>
           <div>
             <Title>
-              <FormattedMessage id='modals.simplebuy.transferdetails.cbu' defaultMessage='CBU' />
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.account'
+                defaultMessage='Account Number'
+              />
             </Title>
-            <Value data-e2e='sbCbu'>{(props.account.agent as AgentType).address}</Value>
+            <Value data-e2e='sbAccountNumber'>{props.account.agent.code}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            <CopyClipboardButton textToCopy={props.account.agent.code} />
           </Copy>
         </RowCopy>
-      ) : (
         <RowCopy>
           <div>
             <Title>
-              <FormattedMessage id='modals.simplebuy.transferdetails.cvu' defaultMessage='CVU' />
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.recipient'
+                defaultMessage='Recipient'
+              />
             </Title>
-            <Value data-e2e='sbCvu'>{(props.account.agent as AgentType).address}</Value>
+            <Value data-e2e='sbRecipientName'>{props.account.agent.recipient}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton textToCopy={(props.account.agent as AgentType).address} />
+            <CopyClipboardButton textToCopy={props.account.agent.recipient} />
           </Copy>
         </RowCopy>
-      )}
-      <RowCopy>
-        <div>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.account'
-              defaultMessage='Account Number'
-            />
-          </Title>
-          <Value data-e2e='sbAccountNumber'>{props.account.agent.code}</Value>
-        </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={props.account.agent.code} />
-        </Copy>
-      </RowCopy>
-      <RowCopy>
-        <div>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.recipient'
-              defaultMessage='Recipient'
-            />
-          </Title>
-          <Value data-e2e='sbRecipientName'>{props.account.agent.recipient}</Value>
-        </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={props.account.agent.recipient} />
-        </Copy>
-      </RowCopy>
+      </ExpansionPanel>
     </div>
   )
 }
