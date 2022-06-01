@@ -10,6 +10,7 @@ import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { CountryType } from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -64,7 +65,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { signupActions, websocketActions } = this.props
+    const { identityVerificationActions, signupActions, websocketActions } = this.props
+    // load countries and states
+    identityVerificationActions.fetchSupportedCountries()
+    identityVerificationActions.fetchStates()
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
     signupActions.initializeSignup()
@@ -153,6 +157,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
+  supportedCountries: selectors.components.identityVerification
+    .getSupportedCountries(state)
+    .getOrElse([]),
   unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
 })
 
@@ -161,6 +168,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })
@@ -174,6 +185,7 @@ type LinkStatePropsType = {
   isLoadingR: RemoteDataType<string, undefined>
   language: string
   search: string
+  supportedCountries: Array<CountryType>
   unified: boolean
 }
 type StateProps = {

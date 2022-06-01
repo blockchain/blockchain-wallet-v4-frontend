@@ -11,7 +11,7 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
-import SelectBoxCountry from 'components/Form/SelectBoxCountry'
+// import SelectBoxCountry from 'components/Form/SelectBoxCountry'
 import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
@@ -66,9 +66,26 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
+const getCountryElements = (countries) => [
+  {
+    group: '',
+    items: countries.map((country) => ({
+      text: country.name,
+      value: country
+    }))
+  }
+]
+
 const SignupForm = (props: Props) => {
-  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
-    props
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    onCountrySelect,
+    onSignupSubmit,
+    showState,
+    supportedCountries
+  } = props
   const passwordValue = formValues?.password || ''
 
   return (
@@ -189,7 +206,8 @@ const SignupForm = (props: Props) => {
             data-e2e='selectCountryDropdown'
             name='country'
             validate={required}
-            component={SelectBoxCountry as ReturnType<typeof SelectBox>}
+            elements={getCountryElements(supportedCountries)}
+            component={SelectBox}
             menuPlacement='auto'
             onChange={onCountrySelect}
             label={
