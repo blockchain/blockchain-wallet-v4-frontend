@@ -15,10 +15,10 @@
     "compile": "npx babel -d lib/ --ignore spec.js src/ --copy-files",
     "coverage": "cross-env npx jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/blockchain-wallet-v4-frontend ./node_modules",
-    "test": "cross-env npx jest --maxWorkers=50%",
+    "test": "cross-env npx jest --runInBand",
     "test:build": "yarn compile",
     "test:debug": "cross-env npx --inspect-brk jest --runInBand",
-    "test:watch": "cross-env npx jest --watchAll --maxWorkers=50%"
+    "test:watch": "cross-env npx jest --watchAll --runInBand"
   },
   "jest": {
     "collectCoverageFrom": [
