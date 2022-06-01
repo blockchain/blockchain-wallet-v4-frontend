@@ -21,7 +21,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
         // eslint-disable-next-line react/no-array-index-key
         <Asset key={i}>
           <div style={{ marginBottom: '12px' }}>
-            <SkeletonRectangle height='28px' width='50%' />
+            <SkeletonRectangle height='28px' width='100%' />
           </div>
           <div className='asset-image-container'>
             <SkeletonRectangle width='100%' height='100%' />
@@ -29,7 +29,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
           <div style={{ boxSizing: 'border-box', padding: '12px 0px 0px' }}>
             <Flex style={{ height: '100%' }} justifyContent='space-between' flexDirection='column'>
               <div>
-                <SkeletonRectangle height='24px' width='100px' />
+                <SkeletonRectangle height='24px' width='100%' />
               </div>
               <div style={{ marginTop: '16px' }}>
                 <SkeletonRectangle height='30px' width='100%' />
