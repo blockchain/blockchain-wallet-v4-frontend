@@ -167,7 +167,7 @@ const NftAsset: React.FC<Props> = ({
   const { contract, id } = rest.computedMatch.params
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
-  const [assetQuery, reexecuteQuery] = useAssetQuery({
+  const [assetQuery, reExecuteQuery] = useAssetQuery({
     requestPolicy: 'network-only',
     variables: {
       filter: [
@@ -287,7 +287,7 @@ const NftAsset: React.FC<Props> = ({
                   <Socials>
                     <SocialLink
                       onClick={() => {
-                        reexecuteQuery()
+                        reExecuteQuery()
                         nftsActions.fetchOpenSeaAsset({
                           asset_contract_address: contract,
                           token_id: id

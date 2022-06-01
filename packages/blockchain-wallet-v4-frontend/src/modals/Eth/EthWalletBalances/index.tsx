@@ -15,6 +15,7 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
+import DataError from 'components/DataError'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -158,7 +159,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
             </Flex>
           </FlyoutWrapper>
           {data.cata({
-            Failure: () => <>error</>,
+            Failure: (e) => <DataError message={{ message: e }} />,
             Loading: () => <BottomLoader />,
             NotAsked: () => <BottomLoader />,
             Success: ({ erc20Balances, ethBalance }) => (
