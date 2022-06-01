@@ -810,7 +810,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmBSFundsOrder = function* () {
     try {
-      const order = S.getBSOrder(yield select())
+      const order = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
