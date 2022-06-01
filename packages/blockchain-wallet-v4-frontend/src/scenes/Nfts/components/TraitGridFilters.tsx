@@ -216,7 +216,7 @@ const TraitGridFilters: React.FC<Props> = ({
                         </Text>
                       </Flex>
                     )}
-                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} />
+                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} color='blue600' />
                   </Flex>
                 </Button>
               </Flex>

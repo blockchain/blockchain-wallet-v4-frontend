@@ -19,13 +19,14 @@ export const StyledIconRefresh = styled(IconRefresh)`
 
 const NftRefreshIcon = (props: Props) => {
   return (
-    <Icon label='refresh' size={props.size} color='blue600'>
+    <Icon label='refresh' size={props.size} color={props.color}>
       <StyledIconRefresh className={props.isActive ? 'active' : ''} />
     </Icon>
   )
 }
 
 type Props = {
+  color: 'blue600' | 'grey600'
   isActive: boolean
   size: 'sm' | 'md' | 'lg'
 }
