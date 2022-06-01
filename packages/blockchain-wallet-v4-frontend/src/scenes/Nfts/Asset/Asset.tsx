@@ -65,10 +65,14 @@ const AssetImageContainer = styled.div`
   border-radius: 8px;
   border-width: 1px;
   border: 1px solid ${(props) => props.theme.grey100};
-  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
-  box-sizing: border-box;
   margin-bottom: 0.5rem;
   padding: 30px;
+`
+
+const AssetImg = styled.img`
+  border-radius: 8px;
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-sizing: border-box;
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -268,7 +272,7 @@ const NftAsset: React.FC<Props> = ({
                       )}`}
                     />
                   ) : currentAsset.image_url ? (
-                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                    <AssetImg alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
                   ) : (
                     <Image width='100%' height='500px' name='nft-img-placeholder' />
                   )}
