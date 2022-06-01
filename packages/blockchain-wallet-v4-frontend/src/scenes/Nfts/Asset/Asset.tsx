@@ -71,6 +71,14 @@ const AssetImageContainer = styled.div`
   padding: 30px;
 `
 
+const Description = styled.div<{ isLongEnough: boolean }>`
+  padding-top: 1em;
+  ${({ isLongEnough }) =>
+    isLongEnough &&
+    `
+    cursor: pointer;
+  `}
+`
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
   > img {
@@ -175,6 +183,7 @@ const NftAsset: React.FC<Props> = ({
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const [Tab, setTab] = useState('about')
+  const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
@@ -200,6 +209,8 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+  const description = currentAsset?.collection?.description || ''
+  const isLongEnough = description?.length > 82
 
   let bids =
     openSeaAsset.data?.orders?.filter((x) => {
@@ -752,6 +763,34 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 )}
               </CurrentPriceBox>
+              {description !== '' ? (
+                <Description
+                  isLongEnough={isLongEnough}
+                  onClick={() => {
+                    if (isLongEnough) setIsMore(!moreToggle)
+                  }}
+                >
+                  <Flex flexDirection='column' gap={8}>
+                    <Text size='14px' color='grey600' weight={600}>
+                      <FormattedMessage id='copy.description' defaultMessage='Description' />
+                    </Text>
+                    <Text size='16px' color='grey900' weight={500}>
+                      {moreToggle && isLongEnough
+                        ? `${description.substring(0, 82)}...`
+                        : description}
+                    </Text>
+                    {isLongEnough && (
+                      <Text size='16px' color='blue600' weight={500}>
+                        {moreToggle ? (
+                          <FormattedMessage id='copy.more' defaultMessage='More' />
+                        ) : (
+                          <FormattedMessage id='copy.less' defaultMessage='Less' />
+                        )}
+                      </Text>
+                    )}
+                  </Flex>
+                </Description>
+              ) : null}
               <CustomTabMenu>
                 <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
                   <FormattedMessage id='copy.about' defaultMessage='About' />
