@@ -25,8 +25,7 @@ describe('debitCard sagas', () => {
     const saga = debitCardSagas.getCurrentCardAccount
     const currentAccountSelectedMock = { accountCurrency: 'USD' }
     const accountMock = { balance: { symbol: 'USD', value: '1' } }
-    const eligibleAccountsMock = []
-    eligibleAccountsMock.push(accountMock)
+    const eligibleAccountsMock = [accountMock]
 
     const validateYieldSelectGetEligibleAccounts = (generator) => {
       const actual = generator.next().value
@@ -44,6 +43,12 @@ describe('debitCard sagas', () => {
       const actual = generator.next().value
 
       const expected = call(api.getDCCurrentAccount, CARD_ID)
+      expect(actual).toEqual(expected)
+    }
+    const validateShouldBeDone = (generator) => {
+      const actual = generator.next().done
+      const expected = true
+
       expect(actual).toEqual(expected)
     }
 
@@ -70,10 +75,7 @@ describe('debitCard sagas', () => {
       })
 
       it('should be done', () => {
-        const actual = generator.next().done
-        const expected = true
-
-        expect(actual).toEqual(expected)
+        validateShouldBeDone(generator)
       })
     })
 
@@ -103,10 +105,7 @@ describe('debitCard sagas', () => {
       })
 
       it('should be done', () => {
-        const actual = generator.next().done
-        const expected = true
-
-        expect(actual).toEqual(expected)
+        validateShouldBeDone(generator)
       })
     })
 
@@ -136,10 +135,7 @@ describe('debitCard sagas', () => {
       })
 
       it('should be done', () => {
-        const actual = generator.next().done
-        const expected = true
-
-        expect(actual).toEqual(expected)
+        validateShouldBeDone(generator)
       })
     })
   })

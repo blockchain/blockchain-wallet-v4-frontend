@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
