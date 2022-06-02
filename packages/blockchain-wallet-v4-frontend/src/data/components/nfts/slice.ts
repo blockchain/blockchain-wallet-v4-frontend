@@ -9,6 +9,7 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrder,
+  NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus,
   RawOrder,
@@ -46,7 +47,8 @@ const initialState: NftsStateType = {
 
     wrapEthFees: Remote.NotAsked
   },
-  search: Remote.NotAsked
+  search: Remote.NotAsked,
+  userPreferences: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -197,6 +199,19 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
+    fetchNftUserPreferences: (state) => {},
+    fetchNftUserPreferencesFailure: (state, action: PayloadAction<string>) => {
+      state.userPreferences = Remote.Failure(action.payload)
+    },
+    fetchNftUserPreferencesLoading: (state) => {
+      state.userPreferences = Remote.Loading
+    },
+    fetchNftUserPreferencesSuccess: (
+      state,
+      action: PayloadAction<NftUserPreferencesReturnType>
+    ) => {
+      state.userPreferences = Remote.Success(action.payload)
+    },
     fetchOpenSeaAsset: (
       state,
       action: PayloadAction<{
@@ -223,7 +238,6 @@ const nftsSlice = createSlice({
     fetchOpenseaStatusSuccess: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Success(action.payload)
     },
-    fetchUserPreferences: (state) => {},
     handleRouterChange: (state, action: PayloadAction<{ location: { pathname: string } }>) => {},
     nftOrderFlowClose: (state) => {
       state.orderFlow = initialState.orderFlow

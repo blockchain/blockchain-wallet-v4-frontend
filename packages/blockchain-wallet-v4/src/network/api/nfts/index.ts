@@ -14,7 +14,9 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
-  const getNftUserPreferences = (jwt: string) => {
+  const getNftUserPreferences = (
+    jwt: string
+  ): { jwt: string; userPrefs: NftUserPreferencesReturnType } => {
     return get({
       endPoint: '/preferences',
       headers: {
@@ -28,7 +30,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const setNftUserPreferences = (
     jwt: string,
     userPrefs: NftUserPreferencesType
-  ): NftUserPreferencesReturnType => {
+  ): { jwt: string; userPrefs: NftUserPreferencesReturnType } => {
     return post({
       contentType: 'application/json',
       data: {

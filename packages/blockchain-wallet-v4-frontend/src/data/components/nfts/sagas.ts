@@ -3,7 +3,7 @@ import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
-import { Exchange } from '@core'
+import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { GasCalculationOperations, GasDataI, RawOrder } from '@core/network/api/nfts/types'
@@ -28,6 +28,7 @@ import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import profileSagas from '../../modules/profile/sagas'
+import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 import { nonTraitFilters } from './utils'
@@ -71,27 +72,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
-  const fetchUserPreferences = function* () {
+  const fetchNftUserPreferences = function* () {
     try {
+      const prefs = S.getNftUserPreferences(yield select())
+      if (Remote.Success.is(prefs)) return
+      yield put(A.fetchNftUserPreferencesLoading())
       const retailToken = yield call(generateRetailToken)
       const res: ReturnType<typeof api.getNftUserPreferences> = yield call(
         api.getNftUserPreferences,
         retailToken
       )
-      console.log(res)
+      yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(A.fetchNftUserPreferencesFailure(error))
     }
   }
 
   const updateUserPreferences = function* (action: ReturnType<typeof A.updateUserPreferences>) {
-    const retailToken = yield call(generateRetailToken)
-    const res: ReturnType<typeof api.setNftUserPreferences> = yield call(
-      api.setNftUserPreferences,
-      retailToken,
-      action.payload.userPrefs
-    )
-    console.log(res)
+    try {
+      yield put(A.fetchNftUserPreferencesLoading())
+      const retailToken = yield call(generateRetailToken)
+      const res: ReturnType<typeof api.setNftUserPreferences> = yield call(
+        api.setNftUserPreferences,
+        retailToken,
+        action.payload.userPrefs
+      )
+      yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
+    } catch (e) {
+      yield put(actions.alerts.displayError('Error updating notification preferences.'))
+    }
   }
 
   const getAmountUsd = function* (coin: string, amount: number) {
@@ -825,9 +835,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
+    fetchNftUserPreferences,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,
-    fetchUserPreferences,
     formChanged,
     handleRouterChange,
     nftOrderFlowOpen,
