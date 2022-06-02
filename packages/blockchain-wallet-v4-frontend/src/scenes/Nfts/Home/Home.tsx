@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
-import { Button, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -40,7 +40,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 100px 64px;
   z-index: 2;
   ${media.mobile`
@@ -54,13 +54,12 @@ const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
   border: 1.18px solid ${colors.grey000};
   z-index: 2;
-  width: 266px;
   height: 50px;
   background: white;
   left: 3em;
   top: 1em;
   margin-top: -12px;
-  padding: 0.25em 1em;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   ${media.atLeastMobile`
@@ -74,6 +73,24 @@ const CardWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 1em 0em;
+`
+
+const SkeletonLoader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px 0;
+  > div:last-child {
+    flex: 1;
+    margin-left: 16px;
+  }
+`
+
+const CustomRectangleHeader = styled(SkeletonRectangle)`
+  border-radius: 24px 24px 0px 0px;
+  ${media.mobile`
+      border-radius: unset;
+  `}
 `
 
 const Explore: React.FC<Props> = (props) => {
@@ -118,7 +135,8 @@ const Explore: React.FC<Props> = (props) => {
             key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
-            size='36px'
+            size='64px'
+            lineHeight='12px'
             color={assetId === i ? 'blue600' : 'white'}
           >
             .
@@ -137,10 +155,29 @@ const Explore: React.FC<Props> = (props) => {
       origin: 'Nfts'
     })
   }
+
+  const Loading = () => (
+    <>
+      <CustomRectangleHeader height='40px' width='100%' />
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+      <SkeletonLoader>
+        <SkeletonCircle height='32px' width='32px' />
+        <SkeletonRectangle height='40px' width='100%' />
+      </SkeletonLoader>
+    </>
+  )
+
   return (
-    <NftPageV2>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
       <>
-        <Banner style={{ height: '600px' }}>
+        <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
@@ -176,7 +213,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey900'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <Flex
                   justifyContent={isMobile || isTablet ? 'space-evenly' : 'space-between'}
@@ -209,7 +247,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey600'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
                   <Button jumbo nature='primary' data-e2e='Explore'>
@@ -230,11 +269,19 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={{
-                      borderRadius: '16px 16px 0px 0px',
-                      height: '300.35px',
-                      width: '300.35px'
-                    }}
+                    style={
+                      isMobile || isTablet
+                        ? {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '300.35px',
+                            width: '300.35px'
+                          }
+                        : {
+                            borderRadius: '16px 16px 0px 0px',
+                            height: '350px',
+                            width: '350px'
+                          }
+                    }
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
                   />
@@ -324,8 +371,8 @@ const Explore: React.FC<Props> = (props) => {
             color='black'
             style={
               isMobile || isTablet
-                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '24px' }
-                : { marginBottom: '16px', marginTop: '24px' }
+                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
+                : { marginBottom: '16px', marginTop: '36px' }
             }
             size={isMobile || isTablet ? '20px' : '24px'}
             weight={600}
@@ -337,7 +384,7 @@ const Explore: React.FC<Props> = (props) => {
       {results.data?.collections ? (
         <TrendingCollectionsTable collections={results.data.collections} {...props} />
       ) : (
-        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        <Loading />
       )}
     </NftPageV2>
   )

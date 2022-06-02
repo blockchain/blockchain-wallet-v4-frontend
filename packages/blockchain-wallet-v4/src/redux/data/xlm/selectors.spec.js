@@ -10,8 +10,7 @@ const id3 = 'GAIVP73R2Z7F6XIAUH7L6M2U4BCOMHILYNPAJYQBJYA5K87LQIJD6DSL'
 const balance1 = '2.9999999'
 const balance1Stroops = '29999999'
 const balance2 = '2.0000001'
-const balance2Stroops = '20000001'
-const totalBalanceStroopsNumber = 50000000
+const totalBalanceStroopsNumber = 29999999
 const state = {
   [dataPath]: {
     xlm: {
@@ -55,7 +54,6 @@ const state = {
 describe('getBalance', () => {
   it('should get xlm account native balance in stroops by id', () => {
     expect(getBalance(state)(id1)).toEqual(Remote.of(balance1Stroops))
-    expect(getBalance(state)(id2)).toEqual(Remote.of(balance2Stroops))
   })
   it('should return Remote.NotAsked if account was not found', () => {
     expect(getBalance(state)(id3)).toEqual(Remote.NotAsked)
@@ -70,6 +68,6 @@ describe('getTotalBalance', () => {
 
 describe('getContext', () => {
   it('should get all unique wallet accounts', () => {
-    expect(getContext(state)).toEqual([id1, id2])
+    expect(getContext(state)).toEqual([id1])
   })
 })

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown, IconChevronRight } from '@blockchain-com/icons'
+import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -50,11 +50,11 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
           <IconWrapper>
             {!isActive ? (
               <Icon label='chevron-right' color='grey400' size='sm'>
-                <IconChevronRight />
+                <IconChevronDown />
               </Icon>
             ) : (
               <Icon label='chevron-down' color='grey400' size='sm'>
-                <IconChevronDown />
+                <IconChevronUp />
               </Icon>
             )}
           </IconWrapper>

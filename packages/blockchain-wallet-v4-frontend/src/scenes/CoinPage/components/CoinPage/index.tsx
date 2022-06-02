@@ -26,10 +26,10 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
   const [recurringBuyPanel] = useRecurringBuyPanel({ coin })
   const [tabsNode, { selectedTimeRange }] = useTabs({ coin })
   const [walletsCard] = useWalletsCard(coin)
-  const coinfig = useCoinConfig({ coin })
+  const { data: coinfig, isLoading: isLoadingCoinConfig } = useCoinConfig({ coin })
   const [activityFeed] = useActivityFeed({ coin })
 
-  const displayName = useMemo(() => coinfig.name, [coinfig.name])
+  const displayName = useMemo(() => coinfig?.name, [coinfig])
 
   const [chart] = useChart({
     timeRange: selectedTimeRange
@@ -39,13 +39,17 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
     coin
   })
 
+  if (isLoadingCoinConfig) {
+    return <span>Loading</span>
+  }
+
   return (
     <Flex alignItems='center'>
       <CoinPage
         chartTabs={tabsNode}
         about={acoutSection}
         chart={chart}
-        header={<CoinHeader coinCode={coin} coinDescription='' coinName={displayName} />}
+        header={<CoinHeader coinCode={coin} coinDescription='' coinName={coinfig?.name ?? ''} />}
         chartBalancePanel={chartBalancePanel}
         recurringBuys={recurringBuyPanel}
         holdings={holdingsCard}

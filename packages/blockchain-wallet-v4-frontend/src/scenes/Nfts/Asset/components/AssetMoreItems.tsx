@@ -92,7 +92,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
                       width='100%'
                       height='auto'
                       style={{
-                        borderRadius: '10%',
+                        borderRadius: '16px',
                         boxSizing: 'border-box',
                         marginBottom: '0.5rem',
                         marginTop: '1em'

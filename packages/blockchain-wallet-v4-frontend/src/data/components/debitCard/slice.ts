@@ -13,7 +13,8 @@ const initialState: DebitCardState = {
   currentCardSelected: undefined,
   eligibleAccounts: [],
   lockHandler: Remote.NotAsked,
-  products: []
+  products: [],
+  terminateHandler: Remote.NotAsked
 }
 
 const debitCardSlice = createSlice({
@@ -25,6 +26,10 @@ const debitCardSlice = createSlice({
       state.cardToken = ''
       state.currentCardSelected = undefined
       state.currentCardAccount = Remote.NotAsked
+      state.lockHandler = Remote.NotAsked
+    },
+    cleanTerminateHandler: (state) => {
+      state.terminateHandler = Remote.NotAsked
     },
     createCard: (state, action: PayloadAction<string>) => {},
     createCardFailure: (state, action: PayloadAction<string>) => {
@@ -86,6 +91,15 @@ const debitCardSlice = createSlice({
       state.eligibleAccounts = action.payload
     },
     terminateCard: (state, action: PayloadAction<string>) => {},
+    terminateCardFailure: (state) => {
+      state.terminateHandler = Remote.Failure(null)
+    },
+    terminateCardLoading: (state) => {
+      state.terminateHandler = Remote.Loading
+    },
+    terminateCardSuccess: (state) => {
+      state.terminateHandler = Remote.Success(null)
+    },
     updateCurrentCard: (
       state,
       action: PayloadAction<{

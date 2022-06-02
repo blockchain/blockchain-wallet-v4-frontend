@@ -107,7 +107,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
-      yield call(coreSagas.wallet.createWalletSaga, { captchaToken, email, language, password })
+      yield call(coreSagas.wallet.createWalletSaga, {
+        captchaToken,
+        email,
+        forceVerifyEmail: isAccountReset,
+        language,
+        password
+      })
       // We don't want to show the account success message if user is resetting their account
       if (!isAccountReset) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))

@@ -29,7 +29,8 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
 // Debit Card
-const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
+const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
@@ -68,6 +69,7 @@ const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdro
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
+const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -258,6 +260,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
+          <TerminateCard />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}
@@ -304,6 +309,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (
           <UpgradeNowSilver />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_INFO_MODAL) ? (
+          <SanctionsInfo />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />

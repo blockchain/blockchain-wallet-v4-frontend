@@ -296,7 +296,7 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-    fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
+    fetchFiatEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
 
@@ -324,7 +324,7 @@ const buySellSlice = createSlice({
       state.limits = Remote.Success(action.payload)
     },
     fetchOrders: () => {},
-    fetchOrdersFailure: (state, action: PayloadAction<string>) => {
+    fetchOrdersFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.orders = Remote.Failure(action.payload)
     },
     fetchOrdersLoading: (state) => {
@@ -334,7 +334,7 @@ const buySellSlice = createSlice({
       state.orders = Remote.Success(action.payload)
     },
     fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency?: FiatType }>) => {},
-    fetchPairsFailure: (state, action: PayloadAction<string>) => {
+    fetchPairsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.pairs = Remote.Failure(action.payload)
     },
     fetchPairsLoading: (state) => {

@@ -5,7 +5,12 @@ import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { ModalName, ProductEligibilityForUser, WithdrawStepEnum } from 'data/types'
+import {
+  CustodialSanctionsEnum,
+  ModalName,
+  ProductEligibilityForUser,
+  WithdrawStepEnum
+} from 'data/types'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -50,21 +55,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      custodialActions.fetchProductEligibilityForUserSuccess.type,
+      custodialActions.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      custodialWallets: { canWithdrawCrypto: false, canWithdrawFiat: false, enabled: false },
+      withdrawFiat: { enabled: false, reasonNotEligible: undefined }
+    } as ProductEligibilityForUser)
+
     // check is user eligible to do withdrawal
     // we skip this for gold users
     if (!isUserTier2) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        custodialWallets: { canWithdrawCrypto: false, canWithdrawFiat: false, enabled: false }
-      } as ProductEligibilityForUser)
-
       const userCanWithdrawal =
-        products.custodialWallets?.canWithdrawCrypto && products.custodialWallets?.canWithdrawFiat
+        products.custodialWallets?.canWithdrawCrypto &&
+        products.custodialWallets?.canWithdrawFiat &&
+        products.withdrawFiat?.enabled
       // prompt upgrade modal in case that user can't buy more
       if (!userCanWithdrawal) {
         yield put(
@@ -76,6 +84,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(actions.modals.closeModal(ModalName.CUSTODY_WITHDRAW_MODAL))
         return
       }
+    }
+
+    // show sanctions for withdrawal
+    if (products?.withdrawFiat?.reasonNotEligible) {
+      const message =
+        products.withdrawFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.withdrawFiat.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'WithdrawModal'
+        })
+      )
+      yield put(actions.modals.closeModal(ModalName.CUSTODY_WITHDRAW_MODAL))
+      return
     }
 
     yield put(

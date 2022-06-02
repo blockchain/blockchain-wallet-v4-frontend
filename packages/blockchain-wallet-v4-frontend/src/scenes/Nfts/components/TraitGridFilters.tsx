@@ -4,7 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { Field } from 'redux-form'
+import { compose } from 'redux'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
@@ -41,19 +42,21 @@ const Wrapper = styled.div`
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
-  background: ${colors.blue000};
-  border: 1px solid ${colors.blue200};
-  border-radius: 8px;
+  background: ${colors.grey000};
+  border: 1px solid ${colors.grey000};
+  border-radius: 6px;
   box-sizing: border-box;
   display: flex;
   height: 100%;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 10px;
 `
 
 const ClearAll = styled(ActiveTraitFilter)`
   cursor: pointer;
-  padding: 16px 32px;
+  padding: 10px 12px;
+  background: ${colors.blue000};
+  border: unset;
 `
 
 const TraitGrid = styled.div<{ hasSomeFilters: boolean }>`
@@ -97,12 +100,18 @@ const TraitGridFilters: React.FC<Props> = ({
     (formValues &&
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
-
+  const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
+  const moreThanSortBy =
+    (formValues && Object.keys(formValues).filter((val) => val !== 'sortBy').length >= 1) || false
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
-      Object.keys(formValues).forEach((key) => {
-        formActions.change('nftFilter', key, undefined)
-      })
+      const url = new URL(window.location.href)
+      const base = `${url.href.split('#')[0]}#`
+      const [hash] = url.href.split('#')[1].split('?')
+      window.location.replace(base + hash)
+
+      formActions.reset('nftFilter')
+      formActions.change('nftFilter', 'sortBy', recentlyListed)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -118,11 +127,11 @@ const TraitGridFilters: React.FC<Props> = ({
     }
   }, [isRefreshRotating])
 
-  const getTab = (tab: 'ITEMS' | 'EVENTS' | 'EXPLORE') => {
+  const getTab = (tab: 'ITEMS' | 'ACTIVITY' | 'EXPLORE') => {
     return tab === 'ITEMS' ? (
       <FormattedMessage id='copy.items' defaultMessage='Items' />
-    ) : tab === 'EVENTS' ? (
-      <FormattedMessage id='copy.events' defaultMessage='Events' />
+    ) : tab === 'ACTIVITY' ? (
+      <FormattedMessage id='copy.activity' defaultMessage='Activity' />
     ) : (
       <FormattedMessage id='copy.explore' defaultMessage='Explore' />
     )
@@ -210,7 +219,7 @@ const TraitGridFilters: React.FC<Props> = ({
                         </Text>
                       </Flex>
                     )}
-                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} />
+                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} color='blue600' />
                   </Flex>
                 </Button>
               </Flex>
@@ -228,6 +237,8 @@ const TraitGridFilters: React.FC<Props> = ({
                         })
                       }
                     }}
+                    // @ts-ignore
+                    searchEnabled={false}
                     // @ts-ignore
                     elements={[
                       {
@@ -250,18 +261,18 @@ const TraitGridFilters: React.FC<Props> = ({
         {collectionFilter ? (
           <div style={{ height: '100%' }}>
             <ActiveTraitFilter>
-              <Text size='14px' color='black' weight={500} capitalize>
+              <Text size='12px' lineHeight='18px' color='grey900' weight={600} capitalize>
                 Collection: {collectionFilter}
               </Text>
               <div
                 style={{
-                  background: 'white',
+                  background: 'grey400',
                   borderRadius: '50%',
                   lineHeight: '0',
                   marginLeft: '8px'
                 }}
               >
-                <Icon label='close-circle' color='blue600'>
+                <Icon label='close-circle' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
                     cursor='pointer'
@@ -283,19 +294,19 @@ const TraitGridFilters: React.FC<Props> = ({
         {eventFilter ? (
           <div style={{ height: '100%' }}>
             <ActiveTraitFilter>
-              <Text size='14px' color='black' weight={500} capitalize>
+              <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
                 Event:{' '}
                 <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
               <div
                 style={{
-                  background: 'white',
+                  background: 'grey400',
                   borderRadius: '50%',
                   lineHeight: '0',
                   marginLeft: '8px'
                 }}
               >
-                <Icon label='close' color='blue600'>
+                <Icon label='close' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
                     cursor='pointer'
@@ -311,18 +322,18 @@ const TraitGridFilters: React.FC<Props> = ({
               return (
                 <div key={key} style={{ height: '100%' }}>
                   <ActiveTraitFilter>
-                    <Text size='14px' color='black' weight={500} capitalize>
+                    <Text size='12px' lineHeight='18px' color='grey900' weight={600} capitalize>
                       {key}: {formValues[key]} ETH
                     </Text>
                     <div
                       style={{
-                        background: 'white',
+                        background: 'grey400',
                         borderRadius: '50%',
                         lineHeight: '0',
                         marginLeft: '8px'
                       }}
                     >
-                      <Icon label='close' color='blue600'>
+                      <Icon label='close' color='grey200' size='sm'>
                         <IconCloseCircle
                           role='button'
                           cursor='pointer'
@@ -351,18 +362,18 @@ const TraitGridFilters: React.FC<Props> = ({
                   return (
                     <div key={value} style={{ height: '100%' }}>
                       <ActiveTraitFilter>
-                        <Text size='14px' color='black' weight={500} capitalize>
+                        <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
                           {trait}: {value}
                         </Text>
                         <div
                           style={{
-                            background: 'white',
+                            background: 'grey400',
                             borderRadius: '50%',
                             lineHeight: '0',
                             marginLeft: '8px'
                           }}
                         >
-                          <Icon label='close' color='blue600'>
+                          <Icon label='close' color='grey200' size='sm'>
                             <IconCloseCircle
                               role='button'
                               cursor='pointer'
@@ -384,15 +395,13 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
-        <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
-          <Text size='14px' weight={500} color={colors.blue600}>
-            Clear All
-          </Text>
-        </ClearAll>
-        {/* analyticsActions.trackEvent({
-                  key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
-                  properties: {}
-                  }) */}
+        {moreThanSortBy && (
+          <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
+            <Text size='12px' lineHeight='20px' weight={600} color='blue600'>
+              Clear All
+            </Text>
+          </ClearAll>
+        )}
       </TraitGrid>
     </Wrapper>
   )
@@ -405,16 +414,16 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
-  activeTab?: 'ITEMS' | 'EVENTS' | 'EXPLORE'
+  activeTab?: 'ITEMS' | 'ACTIVITY' | 'EXPLORE'
   collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   numOfResults?: number
-  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'EVENTS'>>
+  setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'ACTIVITY'>>
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>
   setRefreshTrigger: React.Dispatch<React.SetStateAction<number>>
   showSortBy?: boolean
-  tabs: Array<'ITEMS' | 'EVENTS' | 'EXPLORE'>
+  tabs: Array<'ITEMS' | 'ACTIVITY' | 'EXPLORE'>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

@@ -164,11 +164,9 @@ const Success: React.FC<Props> = (props) => {
             </TabsContainer>
           )}
         </FlyoutWrapper>
-        {
-          currencyLayouts[props.account.currency]
-            ? currencyLayouts[props.account.currency]
-            : currencyLayouts.default
-        }
+        {currencyLayouts[props.account.currency]
+          ? currencyLayouts[props.account.currency]
+          : currencyLayouts.default}
       </div>
       <Bottom>
         <BottomInfoContainer>
@@ -195,6 +193,11 @@ const Success: React.FC<Props> = (props) => {
                   <FormattedMessage
                     id='modals.simplebuy.deposit.important_transfer_only_description'
                     defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
+                  />
+                ) : props.account.currency === 'ARS' ? (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.bank_transfer_only_description_ars'
+                    defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be rejected.'
                   />
                 ) : (
                   <FormattedMessage

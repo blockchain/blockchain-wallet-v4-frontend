@@ -149,8 +149,8 @@ export const Trait = styled.div`
 export const Highest = styled(Text)`
   margin-bottom: 12px;
   font-weight: 600;
-  font-size: 14px;
-  color: ${colors.grey600};
+  line-height: 32px;
+  color: ${colors.grey900};
 `
 
 export const EthText = styled(Highest)`

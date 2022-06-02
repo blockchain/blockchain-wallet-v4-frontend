@@ -35,6 +35,7 @@
         "applePayPaymentMethod": false,
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
+        "bindIntegrationArEnabled": true,
         "coinViewV2": false,
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
@@ -50,15 +51,12 @@
         "showTermsAndConditions": false,
         "stxSelfCustodyEnableAll": true,
         "stxSelfCustodyEnableAirdrop": true,
-        "taxCenter": true,
-        "tradingCurrencyFlyout": true,
+        "showSilverRevamp": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
         "unifiedAccountLogin": true,
         "upgradeAccounts": true,
-        "walletDebitCardEnabled": true,
-        "bindIntegrationArEnabled": true
+        "walletDebitCardEnabled": true
       }
     }
   },

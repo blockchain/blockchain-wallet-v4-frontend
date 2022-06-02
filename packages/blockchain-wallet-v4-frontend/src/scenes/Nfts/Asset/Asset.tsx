@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
@@ -65,10 +66,18 @@ const AssetImageContainer = styled.div`
   border-radius: 8px;
   border-width: 1px;
   border: 1px solid ${(props) => props.theme.grey100};
-  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
-  box-sizing: border-box;
   margin-bottom: 0.5rem;
   padding: 30px;
+`
+
+const AssetImg = styled.img`
+  border-radius: 18px;
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-sizing: border-box;
+`
+
+const Description = styled.div<{ isLongEnough: boolean }>`
+  padding-top: 1em;
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -89,6 +98,7 @@ const SocialLink = styled.div`
   display: flex;
   width: 40px;
   height: 40px;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-right: 1px solid ${(props) => props.theme.grey000};
@@ -163,7 +173,7 @@ const NftAsset: React.FC<Props> = ({
   const { contract, id } = rest.computedMatch.params
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
-  const [assetQuery, reexecuteQuery] = useAssetQuery({
+  const [assetQuery, reExecuteQuery] = useAssetQuery({
     requestPolicy: 'network-only',
     variables: {
       filter: [
@@ -175,6 +185,7 @@ const NftAsset: React.FC<Props> = ({
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const [Tab, setTab] = useState('about')
+  const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
@@ -200,6 +211,8 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+  const description = currentAsset?.collection?.description || ''
+  const isLongEnough = description?.length > 82
 
   let bids =
     openSeaAsset.data?.orders?.filter((x) => {
@@ -268,7 +281,7 @@ const NftAsset: React.FC<Props> = ({
                       )}`}
                     />
                   ) : currentAsset.image_url ? (
-                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                    <AssetImg alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
                   ) : (
                     <Image width='100%' height='500px' name='nft-img-placeholder' />
                   )}
@@ -281,6 +294,18 @@ const NftAsset: React.FC<Props> = ({
                 </AssetImageContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
+                    <SocialLink
+                      onClick={() => {
+                        reExecuteQuery()
+                        nftsActions.fetchOpenSeaAsset({
+                          asset_contract_address: contract,
+                          token_id: id
+                        })
+                        setIsRefreshRotating(true)
+                      }}
+                    >
+                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey600' />
+                    </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
                         color='grey600'
@@ -367,28 +392,6 @@ const NftAsset: React.FC<Props> = ({
                     </CollectionName>
                   </CustomLink>
                 </div>
-                <Button
-                  id='nft-refresh'
-                  data-e2e='nftAssetRefresh'
-                  style={{
-                    borderRadius: '50%',
-                    height: '40px',
-                    maxWidth: '40px',
-                    minWidth: '40px',
-                    padding: '12px'
-                  }}
-                  nature='empty-blue'
-                  onClick={() => {
-                    reexecuteQuery()
-                    nftsActions.fetchOpenSeaAsset({
-                      asset_contract_address: contract,
-                      token_id: id
-                    })
-                    setIsRefreshRotating(true)
-                  }}
-                >
-                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
-                </Button>
               </div>
               <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
               {owner?.address ? (
@@ -503,16 +506,21 @@ const NftAsset: React.FC<Props> = ({
                     ) : lowest_order ? (
                       <>
                         <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Sale ends in{' '}
-                            {formatDistanceToNow(
-                              new Date(
-                                (is_lowest_order_english
-                                  ? lowest_order.listing_time
-                                  : lowest_order?.expiration_time) * 1000
-                              )
-                            )}
-                          </div>
+                          {is_lowest_order_english || is_lowest_order_dutch ? (
+                            <div style={{ marginBottom: '1em' }}>Auction Ends In </div>
+                          ) : (
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends in{' '}
+                              {formatDistanceToNow(
+                                new Date(
+                                  (is_lowest_order_english
+                                    ? lowest_order.listing_time
+                                    : lowest_order?.expiration_time) * 1000
+                                )
+                              )}
+                            </div>
+                          )}
+
                           <NftAssetCountdown
                             countDownDate={
                               (is_lowest_order_english
@@ -675,7 +683,8 @@ const NftAsset: React.FC<Props> = ({
                         is_lowest_order_english || is_lowest_order_dutch ? (
                           <Button
                             data-e2e='openNftFlow'
-                            nature='dark'
+                            nature='primary'
+                            width='50%'
                             jumbo
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
@@ -746,6 +755,41 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 )}
               </CurrentPriceBox>
+              {description !== '' ? (
+                <Description isLongEnough={isLongEnough}>
+                  <Flex flexDirection='column' gap={8}>
+                    <Text size='14px' color='grey600' weight={600}>
+                      <FormattedMessage id='copy.description' defaultMessage='Description' />
+                    </Text>
+                    <Text size='16px' color='grey900' weight={500}>
+                      {moreToggle && isLongEnough ? (
+                        <ReactMarkdown linkTarget='_blank'>
+                          {`${description.substring(0, 82)}...`}
+                        </ReactMarkdown>
+                      ) : (
+                        <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
+                      )}
+                    </Text>
+                    {isLongEnough && (
+                      <Text
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          if (isLongEnough) setIsMore(!moreToggle)
+                        }}
+                        size='16px'
+                        color='blue600'
+                        weight={500}
+                      >
+                        {moreToggle ? (
+                          <FormattedMessage id='copy.more' defaultMessage='More' />
+                        ) : (
+                          <FormattedMessage id='copy.less' defaultMessage='Less' />
+                        )}
+                      </Text>
+                    )}
+                  </Flex>
+                </Description>
+              ) : null}
               <CustomTabMenu>
                 <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
                   <FormattedMessage id='copy.about' defaultMessage='About' />
@@ -852,7 +896,11 @@ const NftAsset: React.FC<Props> = ({
                       </Text>
 
                       <TokenDisplay size='16px' weight={600} color='grey600'>
-                        {currentAsset.token_id}{' '}
+                        {currentAsset.token_id.length > 20 ? (
+                          <CryptoAddress>{currentAsset.token_id}</CryptoAddress>
+                        ) : (
+                          currentAsset.token_id
+                        )}
                       </TokenDisplay>
                     </Detail>
                     <Detail>

@@ -139,6 +139,12 @@ const authSlice = createSlice({
     ) => {
       state.exchangeAuth.exchangeAccountConflict = action.payload
     },
+    setExchangeAccountCreationFailure: (
+      state,
+      action: PayloadAction<AuthStateType['exchangeAuth']['exchangeAccountFailure']>
+    ) => {
+      state.exchangeAuth.exchangeAccountFailure = action.payload
+    },
     setJwtToken: (state, action: PayloadAction<AuthStateType['exchangeAuth']['jwtToken']>) => {
       state.exchangeAuth.jwtToken = action.payload
     },
