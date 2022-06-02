@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${(props) => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.orange900};
   border-radius: 8px;
   padding: 20px;
   ${media.atLeastLaptop`

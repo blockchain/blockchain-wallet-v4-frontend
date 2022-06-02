@@ -177,7 +177,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   let bannerToShow: BannerType = null
   if (showSanctionsBanner) {
-    bannerToShow = 'taxCenter'
+    bannerToShow = 'sanctions'
   } else if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
