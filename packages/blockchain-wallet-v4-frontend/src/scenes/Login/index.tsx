@@ -99,12 +99,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   walletTabClicked = () => {
-    const { lastEmail, lastGuid, storedGuid } = this.props.cache
+    const { guidStored, lastEmail, lastGuid } = this.props.cache
     const { authActions, formActions, routerActions } = this.props
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
     routerActions.push('/login?product=wallet')
-    if (storedGuid || lastGuid) {
-      formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
+    if (guidStored || lastGuid) {
+      formActions.change(LOGIN_FORM, 'guid', lastGuid || guidStored)
       formActions.change(LOGIN_FORM, 'email', lastEmail)
       formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
     } else {
