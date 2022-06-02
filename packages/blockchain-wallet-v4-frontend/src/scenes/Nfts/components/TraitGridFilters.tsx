@@ -101,12 +101,16 @@ const TraitGridFilters: React.FC<Props> = ({
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
   const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
-  const moreThanRecentlyListed = (formValues && Object.keys(formValues).length > 1) || false
+  const moreThanSortBy =
+    (formValues && Object.keys(formValues).filter((val) => val !== 'sortBy').length >= 1) || false
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
-      Object.keys(formValues).forEach((key) => {
-        formActions.change('nftFilter', key, undefined)
-      })
+      const url = new URL(window.location.href)
+      const base = `${url.href.split('#')[0]}#`
+      const [hash] = url.href.split('#')[1].split('?')
+      window.location.replace(base + hash)
+
+      formActions.reset('nftFilter')
       formActions.change('nftFilter', 'sortBy', recentlyListed)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
@@ -116,7 +120,6 @@ const TraitGridFilters: React.FC<Props> = ({
   }
 
   useEffect(() => {
-    formActions.change('nftFilter', 'sortBy', recentlyListed)
     if (isRefreshRotating) {
       setTimeout(() => {
         setIsRefreshRotating(false)
@@ -234,6 +237,8 @@ const TraitGridFilters: React.FC<Props> = ({
                         })
                       }
                     }}
+                    // @ts-ignore
+                    searchEnabled={false}
                     // @ts-ignore
                     elements={[
                       {
@@ -390,9 +395,9 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
-        {moreThanRecentlyListed && (
+        {moreThanSortBy && (
           <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
-            <Text size='14px' lineHeight='20px' weight={600} color='blue600'>
+            <Text size='12px' lineHeight='20px' weight={600} color='blue600'>
               Clear All
             </Text>
           </ClearAll>
