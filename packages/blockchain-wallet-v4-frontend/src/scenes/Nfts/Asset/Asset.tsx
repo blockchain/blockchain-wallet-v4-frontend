@@ -66,15 +66,20 @@ const AssetImageContainer = styled.div`
   border-radius: 8px;
   border-width: 1px;
   border: 1px solid ${(props) => props.theme.grey100};
-  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
-  box-sizing: border-box;
   margin-bottom: 0.5rem;
   padding: 30px;
+`
+
+const AssetImg = styled.img`
+  border-radius: 8px;
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-sizing: border-box;
 `
 
 const Description = styled.div<{ isLongEnough: boolean }>`
   padding-top: 1em;
 `
+
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
   > img {
@@ -167,7 +172,7 @@ const NftAsset: React.FC<Props> = ({
   const { contract, id } = rest.computedMatch.params
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
-  const [assetQuery, reexecuteQuery] = useAssetQuery({
+  const [assetQuery, reExecuteQuery] = useAssetQuery({
     requestPolicy: 'network-only',
     variables: {
       filter: [
@@ -275,7 +280,7 @@ const NftAsset: React.FC<Props> = ({
                       )}`}
                     />
                   ) : currentAsset.image_url ? (
-                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                    <AssetImg alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
                   ) : (
                     <Image width='100%' height='500px' name='nft-img-placeholder' />
                   )}
@@ -288,6 +293,18 @@ const NftAsset: React.FC<Props> = ({
                 </AssetImageContainer>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
+                    <SocialLink
+                      onClick={() => {
+                        reExecuteQuery()
+                        nftsActions.fetchOpenSeaAsset({
+                          asset_contract_address: contract,
+                          token_id: id
+                        })
+                        setIsRefreshRotating(true)
+                      }}
+                    >
+                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey600' />
+                    </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
                         color='grey600'
@@ -374,28 +391,6 @@ const NftAsset: React.FC<Props> = ({
                     </CollectionName>
                   </CustomLink>
                 </div>
-                <Button
-                  id='nft-refresh'
-                  data-e2e='nftAssetRefresh'
-                  style={{
-                    borderRadius: '50%',
-                    height: '40px',
-                    maxWidth: '40px',
-                    minWidth: '40px',
-                    padding: '12px'
-                  }}
-                  nature='empty-blue'
-                  onClick={() => {
-                    reexecuteQuery()
-                    nftsActions.fetchOpenSeaAsset({
-                      asset_contract_address: contract,
-                      token_id: id
-                    })
-                    setIsRefreshRotating(true)
-                  }}
-                >
-                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
-                </Button>
               </div>
               <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
               {owner?.address ? (

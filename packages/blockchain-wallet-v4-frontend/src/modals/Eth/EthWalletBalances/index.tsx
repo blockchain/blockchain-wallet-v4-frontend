@@ -4,15 +4,18 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import {
   Button,
   Icon as BlockchainIcon,
+  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
+import DataError from 'components/DataError'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -55,7 +58,49 @@ class EthWalletBalance extends PureComponent<Props, State> {
   render() {
     const { buySellActions, close, data, position, total, userClickedOutside } = this.props
     const { show } = this.state
+    const SkeletonLoader = styled.div`
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      margin: 12px 0;
+      > div:last-child {
+        flex: 1;
+        margin-left: 16px;
+      }
+    `
+    const Wrapper = styled.div`
+      margin: 1em 1.5em;
+    `
+    const TopLoader = () => (
+      <>
+        <Flex alignItems='center' flexDirection='column' gap={8}>
+          <SkeletonRectangle height='40px' width='180px' />
+          <SkeletonRectangle height='40px' width='180px' />
+        </Flex>
+      </>
+    )
 
+    const BottomLoader = () => (
+      <Wrapper>
+        <SkeletonLoader>
+          <SkeletonCircle height='32px' width='32px' />
+          <SkeletonRectangle height='40px' width='80%' />
+        </SkeletonLoader>
+        <SkeletonLoader>
+          <SkeletonCircle height='32px' width='32px' />
+          <SkeletonRectangle height='40px' width='80%' />
+        </SkeletonLoader>
+        <SkeletonLoader>
+          <SkeletonCircle height='32px' width='32px' />
+          <SkeletonRectangle height='40px' width='80%' />
+        </SkeletonLoader>
+        <SkeletonLoader>
+          <SkeletonCircle height='32px' width='32px' />
+          <SkeletonRectangle height='40px' width='80%' />
+        </SkeletonLoader>
+      </Wrapper>
+    )
     return (
       <Flyout
         position={position}
@@ -72,12 +117,6 @@ class EthWalletBalance extends PureComponent<Props, State> {
           <FlyoutWrapper>
             <Flex justifyContent='space-between'>
               <div>
-                <Text color='black' size='12px' weight={600}>
-                  <FormattedMessage
-                    id='copy.your_total_balance'
-                    defaultMessage='Your Total Balance'
-                  />
-                </Text>
                 {data.cata({
                   Failure: () => (
                     <Text size='24px' weight={600} color='red'>
@@ -86,18 +125,26 @@ class EthWalletBalance extends PureComponent<Props, State> {
                   ),
                   Loading: () => (
                     <div style={{ marginTop: '4px' }}>
-                      <SkeletonRectangle height='32px' width='100px' />
+                      <TopLoader />
                     </div>
                   ),
                   NotAsked: () => (
                     <div style={{ marginTop: '4px' }}>
-                      <SkeletonRectangle height='32px' width='100px' />
+                      <TopLoader />
                     </div>
                   ),
                   Success: ({ currency, total }) => (
-                    <Text size='24px' weight={600} color='black'>
-                      {fiatToString({ unit: currency, value: total })}
-                    </Text>
+                    <>
+                      <Text color='black' size='12px' weight={600}>
+                        <FormattedMessage
+                          id='copy.your_total_balance'
+                          defaultMessage='Your Total Balance'
+                        />
+                      </Text>
+                      <Text size='24px' weight={600} color='black'>
+                        {fiatToString({ unit: currency, value: total })}
+                      </Text>
+                    </>
                   )
                 })}
               </div>
@@ -106,23 +153,15 @@ class EthWalletBalance extends PureComponent<Props, State> {
                   <IconRefresh />
                 </Icon>
                 <span style={{ marginLeft: '4px' }}>
-                  <FormattedMessage id='copy.refresh' defaultMessage='Refresh' />
+                  <FormattedMessage id='copy.refresh_funds' defaultMessage='Refresh Funds' />
                 </span>
               </Button>
             </Flex>
           </FlyoutWrapper>
           {data.cata({
-            Failure: () => <>error</>,
-            Loading: () => (
-              <Flex justifyContent='center'>
-                <SpinningLoader height='20px' width='20px' borderWidth='3px' />
-              </Flex>
-            ),
-            NotAsked: () => (
-              <Flex justifyContent='center'>
-                <SpinningLoader height='20px' width='20px' borderWidth='3px' />
-              </Flex>
-            ),
+            Failure: (e) => <DataError message={{ message: e }} />,
+            Loading: () => <BottomLoader />,
+            NotAsked: () => <BottomLoader />,
             Success: ({ erc20Balances, ethBalance }) => (
               <>
                 <Row>
