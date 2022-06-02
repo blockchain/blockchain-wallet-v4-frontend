@@ -4,15 +4,21 @@ import { CreateNabuErrorRejectedInterceptorUtility } from './createNabuErrorReje
 
 const createNabuErrorRejectedInterceptor: CreateNabuErrorRejectedInterceptorUtility =
   () => (error) => {
-    const { data } = error.response
+    try {
+      const { data } = error.response
 
-    if (isNabuErrorInNetworkResponse(data)) {
-      const nabuError = new NabuError(data.ux)
+      if (isNabuErrorInNetworkResponse(data)) {
+        const nabuError = new NabuError(data.ux)
 
-      return Promise.reject(nabuError)
+        return Promise.reject(nabuError)
+      }
+
+      return Promise.reject(error)
+    } catch (parsingError) {
+      console.error(parsingError)
+
+      return Promise.reject(error)
     }
-
-    return Promise.reject(error)
   }
 
 export default createNabuErrorRejectedInterceptor
