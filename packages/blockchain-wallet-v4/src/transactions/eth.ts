@@ -113,7 +113,7 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     insertedAt: Number(time) * 1000,
     state: tx.state,
     time,
-    timeFormatted: getTime(parseInt(time)),
+    timeFormatted: getTime(new Date(time * 1000)),
     to: getErc20Label(tx.to, token, state),
     type
   }

@@ -122,7 +122,9 @@ export type TxHistoryResponseType = {
 }
 
 type SelfCustodyTxType = {
-  extraData: {}
+  extraData: {
+    memo?: string
+  }
   fee: string
   movements: {
     address: string
