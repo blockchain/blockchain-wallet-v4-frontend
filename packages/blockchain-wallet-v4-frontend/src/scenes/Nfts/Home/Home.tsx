@@ -12,6 +12,7 @@ import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -150,7 +151,7 @@ const Explore: React.FC<Props> = (props) => {
     )
   }
   const handleGetFeatured = () => {
-    props.modalActions.showModal('GET_FEATURED', {
+    props.modalActions.showModal(ModalName.GET_FEATURED, {
       closeAllModals: props.modalActions.closeAllModals,
       origin: 'Nfts'
     })

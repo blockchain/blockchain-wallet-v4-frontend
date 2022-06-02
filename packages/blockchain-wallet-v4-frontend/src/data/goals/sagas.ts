@@ -441,7 +441,7 @@ export default ({ api, coreSagas, networks }) => {
 
       if (new Date() > new Date(paymentRequest.expires)) {
         return yield put(
-          actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
+          actions.modals.showModal(ModalName.BITPAY_INVOICE_EXPIRED_MODAL, {
             origin: 'PaymentProtocolGoal'
           })
         )
