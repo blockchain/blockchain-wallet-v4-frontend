@@ -238,6 +238,8 @@ const TraitGridFilters: React.FC<Props> = ({
                       }
                     }}
                     // @ts-ignore
+                    searchEnabled={false}
+                    // @ts-ignore
                     elements={[
                       {
                         group: '',
