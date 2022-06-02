@@ -99,6 +99,11 @@ const AdditionalInfoWrapper = styled.div`
   }
 `
 
+const Separator = styled.div`
+  padding-bottom: 0;
+  border-top: solid 1px ${(props) => props.theme.blue900};
+`
+
 const isMobile = window.matchMedia('(max-width: 760px)')
 
 const renderAdditionalSectionIDAndPassport = () => {
@@ -312,13 +317,17 @@ const UploadDocuments = ({
             defaultMessage='Please upload the following documents: '
           />
         </Text>
-        {prop('documentsTypes', data) &&
-          data.documentsTypes.map((type) => (
-            <Text color='blue900' key={type} size='24px' weight={600}>
-              {type}
-            </Text>
-          ))}
-
+        <ul>
+          {prop('documentsTypes', data) &&
+            data.documentsTypes.map((type) => (
+              <li key={type}>
+                <Text color='blue900' size='24px' weight={600}>
+                  {type}
+                </Text>
+              </li>
+            ))}
+        </ul>
+        <Separator />
         {isIDPresent ? renderAdditionalSectionIDAndPassport() : null}
         {isSelfiePresent ? renderAdditionalSectionSelfie() : null}
       </TextContainer>
