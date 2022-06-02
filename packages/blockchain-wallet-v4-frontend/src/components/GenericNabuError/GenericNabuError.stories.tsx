@@ -39,7 +39,7 @@ Generic.args = {
   error: genericNabuError
 }
 
-export const paymnetFailure = Template.bind({})
-paymnetFailure.args = {
+export const PaymnetFailure = Template.bind({})
+PaymnetFailure.args = {
   error: paymentFailureError
 }

@@ -5,10 +5,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
 import CardError from 'components/BuySell/CardError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -71,6 +73,10 @@ class CheckoutConfirm extends PureComponent<Props> {
     return this.props.data.cata({
       Failure: (e) => {
         this.trackError(e)
+
+        if (isNabuError(e)) {
+          return <GenericNabuErrorFlyout error={e} onClickClose={this.handleBack} />
+        }
 
         return (
           <CardError

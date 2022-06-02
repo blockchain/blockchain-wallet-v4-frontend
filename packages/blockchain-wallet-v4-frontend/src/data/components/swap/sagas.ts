@@ -16,6 +16,7 @@ import {
   NabuProducts,
   ProductEligibilityForUser
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -239,8 +240,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       )
       yield put(actions.custodial.fetchRecentSwapTxs())
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
+      if (isNabuError(e)) {
+        yield put(actions.form.stopSubmit('previewSwap', { _error: e }))
+      } else {
+        const error = errorHandler(e)
+        yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
+      }
     }
   }
 
