@@ -17,7 +17,11 @@ export function getExchangeConflictStatus(
 ): AuthStateType['exchangeAuth']['exchangeAccountConflict'] {
   return state.auth.exchangeAuth.exchangeAccountConflict
 }
-
+export function getExchangeFailureStatus(
+  state: RootState
+): AuthStateType['exchangeAuth']['exchangeAccountFailure'] {
+  return state.auth.exchangeAuth.exchangeAccountFailure
+}
 export function getProductAuthMetadata(state: RootState): AuthStateType['productAuthMetadata'] {
   return state.auth.productAuthMetadata
 }

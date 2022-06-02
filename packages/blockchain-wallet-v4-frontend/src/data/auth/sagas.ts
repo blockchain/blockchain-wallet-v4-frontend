@@ -331,10 +331,19 @@ export default ({ api, coreSagas, networks }) => {
       }
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
-          yield fork(createExchangeUser, country)
-          yield put(actions.cache.exchangeEmail(email))
-          yield put(actions.cache.exchangeWalletGuid(guid))
-          yield put(actions.cache.setUnifiedAccount(true))
+          yield call(createExchangeUser, country)
+          const exchangeAccountFailure = yield select(selectors.auth.getExchangeFailureStatus)
+
+          if (exchangeAccountFailure) {
+            // Clear cache of all previously stores exchange info
+            // if exchange account creation fails so cache + login
+            // doesn't get into a weird state
+            yield put(actions.cache.removeExchangeLogin())
+          } else {
+            yield put(actions.cache.exchangeEmail(email))
+            yield put(actions.cache.exchangeWalletGuid(guid))
+            yield put(actions.cache.setUnifiedAccount(true))
+          }
         } else {
           // We likely don't need this, don't remember why it was added
           // Leaving in case bugs arise - LB
@@ -786,6 +795,9 @@ export default ({ api, coreSagas, networks }) => {
           // logic to be compatible with lastGuid in cache make sure that email matches
           // guid being used for login eventually can be cleared after some time
           yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
+          if (exchangeWalletGuid) {
+            yield put(actions.form.change(LOGIN_FORM, 'exchangeUnifiedGuid', exchangeWalletGuid))
+          }
           yield put(actions.form.change(LOGIN_FORM, 'email', email))
           // determine initial step
           const initialStep =
@@ -805,7 +817,11 @@ export default ({ api, coreSagas, networks }) => {
               yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
               if (isUnified && exchangeWalletGuid) {
                 yield put(actions.form.change(LOGIN_FORM, 'guid', exchangeWalletGuid))
+                yield put(
+                  actions.form.change(LOGIN_FORM, 'exchangeUnifiedGuid', exchangeWalletGuid)
+                )
               }
+
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
             } else {
               yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -832,7 +848,6 @@ export default ({ api, coreSagas, networks }) => {
             sessionIdMobile
           )
       }
-      yield put(actions.misc.pingManifestFile())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }
@@ -846,6 +861,7 @@ export default ({ api, coreSagas, networks }) => {
       exchangeEmail,
       exchangePassword,
       exchangeTwoFA,
+      exchangeUnifiedGuid,
       guid,
       guidOrEmail,
       password,
@@ -904,7 +920,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({
             code: auth,
-            guid,
+            guid: exchangeUnifiedGuid,
             mobileLogin: null,
             password: exchangePassword,
             sharedKey: null
