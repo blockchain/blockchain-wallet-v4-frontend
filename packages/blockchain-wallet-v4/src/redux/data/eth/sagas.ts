@@ -1,13 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-import { Contract, ethers } from 'ethers'
+import { Contract } from 'ethers'
 import {
   addIndex,
   equals,
   filter,
   flatten,
   isNil,
-  join,
   last,
   length,
   map,
@@ -15,7 +14,6 @@ import {
   path,
   pluck,
   prop,
-  takeLast,
   toLower,
   toUpper
 } from 'ramda'
@@ -23,8 +21,7 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
-import { WETH_ABI } from '@core/redux/payment/nfts/abis'
-import { WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
+import { WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { EthProcessedTxType } from '@core/transactions/types'
 import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -163,21 +160,12 @@ export default ({ api }: { api: APIType }) => {
   const __buildTransactionReportModel = function (
     prunedTxList,
     historicalPrices,
-    currentPrices,
+    currentPrice,
+    fiatCurrencySymbol,
     coin
   ) {
     const mapIndexed = addIndex(map)
-    const fiatSymbol = prop('symbol', currentPrices)
-    const currentPrice = new BigNumber(prop('last', currentPrices))
     return mapIndexed((tx, idx) => {
-      const timeFormatted = join(
-        ' ',
-        takeLast(
-          2,
-          // @ts-ignore
-          getUnixTime(tx.time).toString().split(' ')
-        )
-      )
       // @ts-ignore
       const txType = prop('type', tx) as string
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
@@ -194,21 +182,22 @@ export default ({ api }: { api: APIType }) => {
         })
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
-      const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
+      const valueNow = amountBig.multipliedBy(new BigNumber(currentPrice)).toFixed(2)
+      // @ts-ignore
+      const txDate = new Date(tx.timeFormatted)
+
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
-        // @ts-ignore
-        date: format(getUnixTime(prop('time', tx), 'yyyy-MM-dd')),
+        date: format(txDate, 'yyyy-MM-dd'),
         // @ts-ignore
         description: prop('description', tx),
-
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
+        exchange_rate_then: fiatCurrencySymbol + priceAtTime.toFixed(2),
         // @ts-ignore
         hash: prop('hash', tx),
-        time: timeFormatted,
+        time: getUnixTime(txDate),
         type: txType,
-        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
+        value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
+        value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`
       }
     }, prunedTxList)
   }
@@ -479,12 +468,12 @@ export default ({ api }: { api: APIType }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter((tx) => {
-      // returns true if tx is inbetween startDate and endDate
+      // returns true if tx is in-between startDate and endDate
       return (
         // @ts-ignore
-        isAfter(getUnixTime(new Date(tx.time)), startDate) &&
+        isAfter(new Date(tx.timeFormatted), new Date(startDate)) &&
         // @ts-ignore
-        isBefore(getUnixTime(new Date(tx.time)), endDate)
+        isBefore(new Date(tx.timeFormatted), new Date(endDate))
       )
     }, fullTxList)
 
@@ -492,17 +481,23 @@ export default ({ api }: { api: APIType }) => {
     if (!length(prunedTxList)) return []
     // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+    const fiatCurrency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
 
     // fetch historical price data
-    const historicalPrices = yield call(api.getPriceTimestampSeries, 'ETH', currency, txTimestamps)
+    const historicalPrices = yield call(
+      api.getPriceTimestampSeries,
+      'ETH',
+      fiatCurrency,
+      txTimestamps
+    )
 
     // build and return report model
     return yield call(
       __buildTransactionReportModel,
       prunedTxList,
       historicalPrices,
-      prop(currency, ethMarketData),
+      ethMarketData.price,
+      Exchange.getSymbol(fiatCurrency),
       'ETH'
     )
   }
@@ -514,26 +509,27 @@ export default ({ api }: { api: APIType }) => {
     const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
-    const prunedTxList = filter(
-      (tx) =>
+    const prunedTxList = filter((tx) => {
+      // returns true if tx is in-between startDate and endDate
+      return (
         // @ts-ignore
-        isAfter(getUnixTime(tx.time), startDate) &&
+        isAfter(new Date(tx.timeFormatted), new Date(startDate)) &&
         // @ts-ignore
-        isBefore(getUnixTime(tx.time), endDate),
-      fullTxList
-    )
+        isBefore(new Date(tx.timeFormatted), new Date(endDate))
+      )
+    }, fullTxList)
 
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
     // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+    const fiatCurrency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
 
     // fetch historical price data
     const historicalPrices = yield call(
       api.getPriceTimestampSeries,
       toUpper(token),
-      currency,
+      fiatCurrency,
       txTimestamps
     )
 
@@ -542,7 +538,8 @@ export default ({ api }: { api: APIType }) => {
       __buildTransactionReportModel,
       prunedTxList,
       historicalPrices,
-      prop(currency, marketData),
+      marketData.price,
+      Exchange.getSymbol(fiatCurrency),
       toUpper(token)
     )
   }
