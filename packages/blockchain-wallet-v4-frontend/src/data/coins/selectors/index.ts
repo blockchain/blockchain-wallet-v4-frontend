@@ -7,6 +7,7 @@ import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 
+import * as ARS from './coins/ars'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
 import * as CUSTODIAL from './coins/custodial'
@@ -20,6 +21,7 @@ import * as XLM from './coins/xlm'
 
 // create a function map of all coins
 const coinSelectors = {
+  ARS,
   BCH,
   BTC,
   CUSTODIAL,

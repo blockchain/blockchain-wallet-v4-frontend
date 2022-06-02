@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
@@ -73,6 +74,10 @@ const AssetImg = styled.img`
   border-radius: 8px;
   box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
   box-sizing: border-box;
+`
+
+const Description = styled.div<{ isLongEnough: boolean }>`
+  padding-top: 1em;
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -179,6 +184,7 @@ const NftAsset: React.FC<Props> = ({
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
   const [Tab, setTab] = useState('about')
+  const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
@@ -204,6 +210,8 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+  const description = currentAsset?.collection?.description || ''
+  const isLongEnough = description?.length > 82
 
   let bids =
     openSeaAsset.data?.orders?.filter((x) => {
@@ -746,6 +754,41 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 )}
               </CurrentPriceBox>
+              {description !== '' ? (
+                <Description isLongEnough={isLongEnough}>
+                  <Flex flexDirection='column' gap={8}>
+                    <Text size='14px' color='grey600' weight={600}>
+                      <FormattedMessage id='copy.description' defaultMessage='Description' />
+                    </Text>
+                    <Text size='16px' color='grey900' weight={500}>
+                      {moreToggle && isLongEnough ? (
+                        <ReactMarkdown linkTarget='_blank'>
+                          {`${description.substring(0, 82)}...`}
+                        </ReactMarkdown>
+                      ) : (
+                        <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
+                      )}
+                    </Text>
+                    {isLongEnough && (
+                      <Text
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          if (isLongEnough) setIsMore(!moreToggle)
+                        }}
+                        size='16px'
+                        color='blue600'
+                        weight={500}
+                      >
+                        {moreToggle ? (
+                          <FormattedMessage id='copy.more' defaultMessage='More' />
+                        ) : (
+                          <FormattedMessage id='copy.less' defaultMessage='Less' />
+                        )}
+                      </Text>
+                    )}
+                  </Flex>
+                </Description>
+              ) : null}
               <CustomTabMenu>
                 <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
                   <FormattedMessage id='copy.about' defaultMessage='About' />
