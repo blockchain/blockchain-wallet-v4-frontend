@@ -46,6 +46,7 @@ const sendCryptoSlice = createSlice({
         destination: string
         fee: BuildTxFeeType
         fix: 'FIAT' | 'CRYPTO'
+        memo?: string
         rates: RatesType
         walletCurrency: keyof FiatCurrenciesType
       }>

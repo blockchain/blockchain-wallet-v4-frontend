@@ -436,9 +436,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         )}
 
         {(sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ||
-          (amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit)) && (
-          <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={verifyIdentity} />
-        )}
+          (amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit)) &&
+          !isAccount && <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={verifyIdentity} />}
 
         {amtError === 'ABOVE_MAX' && (
           <BuyMoreLine
