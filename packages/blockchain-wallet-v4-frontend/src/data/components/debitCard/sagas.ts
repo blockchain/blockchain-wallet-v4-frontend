@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { selectors } from 'data'
-import { AccountType, CardStateType } from 'data/components/debitCard/types'
+import { CardStateType } from 'data/components/debitCard/types'
 import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
@@ -38,9 +38,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const getCurrentCardAccount = function* (cardId) {
-    const eligibleAccounts: Array<AccountType> = yield select(
-      selectors.components.debitCard.getEligibleAccounts
-    )
+    const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
     try {
       yield put(A.getCurrentCardAccountLoading())
 
