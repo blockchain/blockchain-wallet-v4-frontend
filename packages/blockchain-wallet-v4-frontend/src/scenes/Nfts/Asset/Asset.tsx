@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
@@ -73,11 +74,6 @@ const AssetImageContainer = styled.div`
 
 const Description = styled.div<{ isLongEnough: boolean }>`
   padding-top: 1em;
-  ${({ isLongEnough }) =>
-    isLongEnough &&
-    `
-    cursor: pointer;
-  `}
 `
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   margin-right: 8px;
@@ -764,23 +760,30 @@ const NftAsset: React.FC<Props> = ({
                 )}
               </CurrentPriceBox>
               {description !== '' ? (
-                <Description
-                  isLongEnough={isLongEnough}
-                  onClick={() => {
-                    if (isLongEnough) setIsMore(!moreToggle)
-                  }}
-                >
+                <Description isLongEnough={isLongEnough}>
                   <Flex flexDirection='column' gap={8}>
                     <Text size='14px' color='grey600' weight={600}>
                       <FormattedMessage id='copy.description' defaultMessage='Description' />
                     </Text>
                     <Text size='16px' color='grey900' weight={500}>
-                      {moreToggle && isLongEnough
-                        ? `${description.substring(0, 82)}...`
-                        : description}
+                      {moreToggle && isLongEnough ? (
+                        <ReactMarkdown linkTarget='_blank'>
+                          {`${description.substring(0, 82)}...`}
+                        </ReactMarkdown>
+                      ) : (
+                        <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
+                      )}
                     </Text>
                     {isLongEnough && (
-                      <Text size='16px' color='blue600' weight={500}>
+                      <Text
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          if (isLongEnough) setIsMore(!moreToggle)
+                        }}
+                        size='16px'
+                        color='blue600'
+                        weight={500}
+                      >
                         {moreToggle ? (
                           <FormattedMessage id='copy.more' defaultMessage='More' />
                         ) : (
