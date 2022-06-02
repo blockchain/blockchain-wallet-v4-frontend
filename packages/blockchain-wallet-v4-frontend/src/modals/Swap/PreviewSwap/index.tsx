@@ -79,7 +79,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
   }
 
   componentWillUnmount() {
-    this.props.formActions.clearSubmitErrors('previewSwap')
+    this.clearSubmitErrors()
   }
 
   handleSubmit = (e) => {
@@ -91,6 +91,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     this.props.swapActions.setStep({
       step: 'ENTER_AMOUNT'
     })
+  }
+
+  clearSubmitErrors() {
+    this.props.formActions.clearSubmitErrors('previewSwap')
   }
 
   render() {
@@ -106,7 +110,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     const counterCoinDisplaySymbol = window.coins[COUNTER.coin].coinfig.displaySymbol
 
     if (isNabuError(error)) {
-      return <GenericNabuErrorFlyout error={error} onClickClose={this.handleOnClickBack} />
+      return <GenericNabuErrorFlyout error={error} onDismiss={this.clearSubmitErrors} />
     }
 
     return (

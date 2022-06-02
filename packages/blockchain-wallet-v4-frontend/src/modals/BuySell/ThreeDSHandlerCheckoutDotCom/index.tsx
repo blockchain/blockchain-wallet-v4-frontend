@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import Error from 'components/BuySell/Error'
 import DataError from 'components/DataError'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
-import { CARD_ERROR_CODE } from 'data/components/buySell/model'
+import { CARD_ERROR_CODE, FORM_BS_PREVIEW_SELL } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
@@ -20,6 +21,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   const order = useRemote(() => props.orderR)
   const card = useRemote(() => props.cardR)
   const providerDetails = useRemote(() => props.providerDetailsR)
+  const dispatch = useDispatch()
 
   const handlePostMessage = async ({ data }: { data: { payment: 'SUCCESS' } }) => {
     if (data.payment !== 'SUCCESS') return
@@ -49,7 +51,9 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   const handleReset = useCallback(() => {
     props.buySellActions.destroyCheckout()
-  }, [props.buySellActions])
+
+    dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
+  }, [props.buySellActions, dispatch])
 
   const handleRetry = useCallback(() => {
     props.buySellActions.setStep({
@@ -66,7 +70,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   const renderError = useCallback(
     (error: string | Error) => {
       if (isNabuError(error)) {
-        return <GenericNabuErrorFlyout error={error} onClickClose={handleBack} />
+        return <GenericNabuErrorFlyout error={error} onDismiss={handleBack} />
       }
       if (typeof error === 'string') {
         return (
