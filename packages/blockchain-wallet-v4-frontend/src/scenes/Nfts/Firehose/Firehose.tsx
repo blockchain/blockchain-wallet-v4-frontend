@@ -8,6 +8,7 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  AssetSortFields,
   CollectionSortFields,
   SortDirection,
   useTrendingCollectionsQuery
@@ -46,6 +47,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   const refresh = () => {
     setIsFetchingNextPage(true)
     setPageVariables([])
+    setNumOfPageItems(undefined)
     setMaxItemsFetched(false)
     setTimeout(() => {
       setPageVariables([{ page: 0 }])
@@ -134,7 +136,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector>
 
 const enhance = compose(
-  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
+  reduxForm<{}, Props>({
+    destroyOnUnmount: false,
+    form: 'nftFilter',
+    initialValues: { sortBy: `${AssetSortFields.ListingDate}-DESC` }
+  }),
   connector
 )
 

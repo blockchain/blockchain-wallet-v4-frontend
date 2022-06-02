@@ -10,6 +10,7 @@ import { Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
+  AssetSortFields,
   CollectionFilterFields,
   EventFilterFields,
   useCollectionsQuery
@@ -233,7 +234,11 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
+  reduxForm<{}, Props>({
+    destroyOnUnmount: false,
+    form: 'nftFilter',
+    initialValues: { sortBy: `${AssetSortFields.ListingDate}-DESC` }
+  }),
   connector
 )
 
