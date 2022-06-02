@@ -1,12 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { CoinType } from '@core/types'
+import { CoinType, RemoteDataType } from '@core/types'
 import { Button } from 'blockchain-info-components'
-import { getCurrentCardAccount } from 'data/components/debitCard/selectors'
-import { AccountType } from 'data/components/debitCard/types'
+import { AccountType, BalanceType } from 'data/components/debitCard/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { useRemote } from 'hooks'
 
 import CoinBalance from '../../../Home/Holdings/CoinBalance/template.success'
 import { BoxContainer, BoxRow, BoxRowItemSubTitle, BoxRowWithBorder } from '../CardDashboard.model'
@@ -21,21 +19,11 @@ import {
 } from './FundsBox.model'
 
 type Props = {
-  funds: Array<AccountType>
+  currentCard: RemoteDataType<string, AccountType>
 }
 
-const DEFAULT_ACCOUNT = { balance: { symbol: 'USD', value: '0' } }
-
-const FundsBox = ({ funds }: Props) => {
-  const currentCardAccountRemote = useRemote(getCurrentCardAccount)
-  const { data, error, isLoading } = currentCardAccountRemote
-  let currentCardAccount = DEFAULT_ACCOUNT
-
-  if (data && data.balance) currentCardAccount = data
-
-  const { symbol, value } = currentCardAccount.balance
-
-  const fundTypeLabel = () => (
+const FundsBox = ({ currentCard }: Props) => {
+  const fundTypeLabel = (symbol: string) => (
     <BoxRowItemSubTitle>
       {window.coins[symbol].coinfig.type.name === 'FIAT' ? (
         <FormattedMessage
@@ -51,14 +39,14 @@ const FundsBox = ({ funds }: Props) => {
     </BoxRowItemSubTitle>
   )
 
-  const CurrentAccountDetail = () => (
+  const CurrentAccountDetail = ({ symbol, value }: BalanceType) => (
     <div style={{ flex: 1 }}>
       <Wrapper>
         <Coin>
           <CoinIcon name={symbol as CoinType} size='32px' />
           <div>
             <CoinName>{window.coins[symbol].coinfig.name}</CoinName>
-            {fundTypeLabel()}
+            {fundTypeLabel(symbol)}
           </div>
         </Coin>
         <Amount>
@@ -71,7 +59,12 @@ const FundsBox = ({ funds }: Props) => {
   return (
     <BoxContainer width='380px'>
       <BoxRowWithBorder>
-        {error ? <ErrorState /> : !data || isLoading ? <LoadingDetail /> : <CurrentAccountDetail />}
+        {currentCard.cata({
+          Failure: () => <ErrorState />,
+          Loading: () => <LoadingDetail />,
+          NotAsked: () => <LoadingDetail />,
+          Success: (value) => <CurrentAccountDetail {...value.balance} />
+        })}
       </BoxRowWithBorder>
       <BoxRow>
         <Button data-e2e='addFunds' nature='primary' margin='auto' disabled>
