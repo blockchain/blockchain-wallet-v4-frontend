@@ -73,7 +73,8 @@ const NftSettings: React.FC<Props> = ({
   }, [routerActions, nftsActions, ethAddress, currentAddress, isAuthenticated])
 
   useEffect(() => {
-    if (nftUserPreferences.hasData) {
+    const anyNotNull = !Object.values(switches).every((x) => x === null)
+    if (nftUserPreferences.hasData && anyNotNull) {
       nftsActions.updateUserPreferences({ userPrefs: switches })
     }
   }, [stringifiedSwitches])
