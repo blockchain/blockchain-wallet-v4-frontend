@@ -16,6 +16,7 @@ import {
   Icon as BlockchainIcon,
   Image,
   Link,
+  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
   TabMenu,
@@ -63,9 +64,8 @@ import NftAssetLoading from './components/NftAssetLoading'
 
 const AssetImageContainer = styled.div`
   position: relative;
-  border-radius: 8px;
-  border-width: 1px;
-  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 16px;
+  border: 1px solid #f0f2f7;
   margin-bottom: 0.5rem;
   padding: 30px;
 `
@@ -156,6 +156,14 @@ const Detail = styled(Text)`
   &:last-child {
     border-bottom: none;
   }
+`
+
+const ShadowTag = styled.div`
+  background: ${colors.white900};
+  box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
+  border-radius: 40px;
+  padding: 6px;
+  width: 200px;
 `
 
 const DetailsAndOffers = styled.div``
@@ -292,9 +300,107 @@ const NftAsset: React.FC<Props> = ({
                     right='40px'
                   />
                 </AssetImageContainer>
+              </NftAssetStickyWrapper>
+            </LeftColWrapper>
+            <RightColWrapper>
+              <div
+                style={{
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Flex gap={24} style={{ marginTop: '2px' }}>
+                  <div>
+                    <Text
+                      size='14px'
+                      weight={600}
+                      style={{
+                        alignItems: 'center',
+                        padding: '0em 0em 0.5em 0em'
+                      }}
+                    >
+                      Collection
+                    </Text>
+                    <div style={{ padding: '6px 0px' }}>
+                      <ShadowTag>
+                        <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
+                          <CollectionName>
+                            {currentAsset.collection.image_url ? (
+                              <NftCollectionImage
+                                alt='Dapp Logo'
+                                src={currentAsset.collection?.image_url || ''}
+                                isVerified={
+                                  currentAsset.collection.safelist_request_status === 'verified'
+                                }
+                              />
+                            ) : null}
+                            <Text
+                              size='16px'
+                              weight={600}
+                              style={{
+                                maxWidth: '200px',
+                                overflow: 'hidden',
+                                paddingLeft: '8px',
+                                textOverflow: 'ellipsis'
+                              }}
+                            >
+                              {currentAsset.collection?.name}
+                            </Text>
+                          </CollectionName>
+                        </CustomLink>
+                      </ShadowTag>
+                    </div>
+                  </div>
+                  {owner?.address ? (
+                    <div>
+                      <Text
+                        size='14px'
+                        weight={600}
+                        style={{
+                          alignItems: 'center',
+                          padding: '0em 0em 0.5em 0em'
+                        }}
+                      >
+                        Owner
+                      </Text>
+                      <div style={{ padding: '6px 0px' }}>
+                        <ShadowTag>
+                          <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
+                            <CollectionName>
+                              {owner?.profile_img_url ? (
+                                <NftCollectionImage
+                                  alt='Owner Logo'
+                                  src={currentAsset.collection?.image_url || ''}
+                                  isVerified={
+                                    currentAsset.collection.safelist_request_status === 'verified'
+                                  }
+                                />
+                              ) : (
+                                <Flex alignItems='center' flexDirection='row'>
+                                  <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                </Flex>
+                              )}
+
+                              <Text
+                                size='16px'
+                                weight={600}
+                                color='blue600'
+                                style={{ paddingLeft: '8px' }}
+                              >
+                                <CryptoAddress>{owner.address}</CryptoAddress>
+                              </Text>
+                            </CollectionName>
+                          </CustomLink>
+                        </ShadowTag>
+                      </div>
+                    </div>
+                  ) : null}
+                </Flex>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
                     <SocialLink
+                      id='nft-refresh'
                       onClick={() => {
                         reExecuteQuery()
                         nftsActions.fetchOpenSeaAsset({
@@ -304,11 +410,11 @@ const NftAsset: React.FC<Props> = ({
                         setIsRefreshRotating(true)
                       }}
                     >
-                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey600' />
+                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
                     </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
-                        color='grey600'
+                        color='grey700'
                         textToCopy={`${domains.comWalletApp}/#/nfts/assets/${contract}/${id}`}
                         onClick={() =>
                           analyticsActions.trackEvent({
@@ -333,7 +439,7 @@ const NftAsset: React.FC<Props> = ({
                             })
                           }}
                           cursor
-                          color='grey600'
+                          color='grey700'
                           name='send'
                         />
                       </SocialLink>
@@ -355,83 +461,8 @@ const NftAsset: React.FC<Props> = ({
                     </SocialLink> */}
                   </Socials>
                 </div>
-              </NftAssetStickyWrapper>
-            </LeftColWrapper>
-            <RightColWrapper>
-              <div
-                style={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <div style={{ display: 'block', marginTop: '2px' }}>
-                  <Text
-                    size='14px'
-                    weight={600}
-                    style={{
-                      alignItems: 'center',
-                      padding: '0em 0em 0.5em 0em'
-                    }}
-                  >
-                    Collection
-                  </Text>
-                  <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
-                    <CollectionName>
-                      {currentAsset.collection.image_url ? (
-                        <NftCollectionImage
-                          alt='Dapp Logo'
-                          src={currentAsset.collection?.image_url || ''}
-                          isVerified={
-                            currentAsset.collection.safelist_request_status === 'verified'
-                          }
-                        />
-                      ) : null}
-
-                      <div style={{ paddingLeft: '8px' }}>{currentAsset.collection?.name}</div>
-                    </CollectionName>
-                  </CustomLink>
-                </div>
               </div>
               <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
-              {owner?.address ? (
-                <TextGroup inline style={{ marginTop: '24px' }}>
-                  <Text size='16px' color='grey600' weight={600}>
-                    <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
-                  </Text>
-                  {!isOwner ? (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      <CryptoAddress>{owner.address}</CryptoAddress>
-                    </Text>
-                  ) : (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      You
-                    </Text>
-                  )}
-                </TextGroup>
-              ) : null}
               <CurrentPriceBox>
                 {openSeaAsset.isLoading ? (
                   <div>
