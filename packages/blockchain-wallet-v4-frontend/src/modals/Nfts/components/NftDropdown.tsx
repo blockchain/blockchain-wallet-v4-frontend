@@ -31,8 +31,14 @@ const FeeChild = styled.div<{ hasPadding: boolean }>`
   padding: ${({ hasPadding }) => (hasPadding ? '1em' : '0')};
 `
 
-const NftDropdown: React.FC<Props> = ({ children, hasPadding = false, title, totalFees }) => {
-  const [isActive, setIsActive] = useState(false)
+const NftDropdown: React.FC<Props> = ({
+  children,
+  expanded = false,
+  hasPadding = false,
+  title,
+  totalFees
+}) => {
+  const [isActive, setIsActive] = useState(expanded)
   const toggleDropdown = () => {
     setIsActive(!isActive)
   }
@@ -70,6 +76,7 @@ const NftDropdown: React.FC<Props> = ({ children, hasPadding = false, title, tot
 }
 
 type Props = {
+  expanded?: boolean
   hasPadding?: boolean
   title?: string
   totalFees?: string
