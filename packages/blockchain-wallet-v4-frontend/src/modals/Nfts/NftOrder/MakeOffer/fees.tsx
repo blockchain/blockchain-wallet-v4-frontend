@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { displayCoinToCoin } from '@core/exchange'
 import { NftAsset } from '@core/network/api/nfts/types'
 
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 import { NftMakeOfferFormValues } from '.'
 import CreateOfferFees from './CreateOffer.fees'
@@ -27,10 +27,10 @@ const Fees: React.FC<Props> = (props) => {
 
   return (
     <>
-      <FeesDropdown totalFees={getTotalFees()}>
+      <NftDropdown title='Total Fees' hasPadding totalFees={getTotalFees()}>
         <CreateOfferFees {...props} />
         {props.formValues.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
-      </FeesDropdown>
+      </NftDropdown>
     </>
   )
 }

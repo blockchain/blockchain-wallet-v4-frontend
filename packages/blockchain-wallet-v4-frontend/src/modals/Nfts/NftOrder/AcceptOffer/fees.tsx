@@ -10,7 +10,7 @@ import { Flex } from 'components/Flex'
 import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 import { getTotalFees } from '../NftOrderUtils'
 
@@ -32,7 +32,7 @@ const Fees: React.FC<Props> = (props) => {
         NotAsked: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
         Success: (val) => {
           return (
-            <FeesDropdown totalFees={getTotalFees(asset, val)}>
+            <NftDropdown title='Total Fees' hasPadding totalFees={getTotalFees(asset, val)}>
               {asset.asset_contract?.opensea_seller_fee_basis_points > 0 ? (
                 <Flex justifyContent='space-between' alignItems='center'>
                   <Text size='14px' weight={500}>
@@ -66,7 +66,7 @@ const Fees: React.FC<Props> = (props) => {
                   </FiatDisplay>
                 </RightAlign>
               </Flex>
-            </FeesDropdown>
+            </NftDropdown>
           )
         }
       })}

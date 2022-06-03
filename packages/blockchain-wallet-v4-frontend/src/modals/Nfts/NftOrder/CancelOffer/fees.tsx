@@ -10,7 +10,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
@@ -35,7 +35,9 @@ const Fees: React.FC<Props> = (props) => {
         Success: (val) => {
           return (
             <>
-              <FeesDropdown
+              <NftDropdown
+                title='Total Fees'
+                hasPadding
                 totalFees={displayCoinToCoin({
                   coin: 'ETH',
                   value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
@@ -54,7 +56,7 @@ const Fees: React.FC<Props> = (props) => {
                     </FiatDisplay>
                   </RightAlign>
                 </Flex>
-              </FeesDropdown>
+              </NftDropdown>
             </>
           )
         }

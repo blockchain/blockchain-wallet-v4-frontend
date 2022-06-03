@@ -26,12 +26,12 @@ const IconWrapper = styled.div`
 
 const FeesWrapper = styled.div``
 
-const FeeChild = styled.div`
-  padding: 1em;
+const FeeChild = styled.div<{ hasPadding: boolean }>`
   border-top: 1px solid ${(props) => props.theme.grey100};
+  padding: ${({ hasPadding }) => (hasPadding ? '1em' : '0')};
 `
 
-const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
+const NftDropdown: React.FC<Props> = ({ children, hasPadding = false, title, totalFees }) => {
   const [isActive, setIsActive] = useState(false)
   const toggleDropdown = () => {
     setIsActive(!isActive)
@@ -40,12 +40,12 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
   return (
     <Wrapper>
       <Top onClick={toggleDropdown}>
-        <Text weight={500} size='14px'>
-          <FormattedMessage id='copy.total_fees' defaultMessage='Total Fees' />
+        <Text weight={600} size='14px' color='grey900'>
+          {title}
         </Text>
         <Flex alignItems='center' gap={8}>
           <Text weight={600} size='14px'>
-            {totalFees}
+            {totalFees || ''}
           </Text>
           <IconWrapper>
             {!isActive ? (
@@ -61,14 +61,18 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
         </Flex>
       </Top>
       <FeesWrapper style={isActive ? {} : { display: 'none' }}>
-        {React.Children.map(children, (child) => (child ? <FeeChild>{child}</FeeChild> : null))}
+        {React.Children.map(children, (child) =>
+          child ? <FeeChild hasPadding={hasPadding}>{child}</FeeChild> : null
+        )}
       </FeesWrapper>
     </Wrapper>
   )
 }
 
 type Props = {
-  totalFees: string
+  hasPadding?: boolean
+  title?: string
+  totalFees?: string
 }
 
-export default FeesDropdown
+export default NftDropdown
