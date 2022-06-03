@@ -714,7 +714,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         }
       }
       if (action.meta.field === 'sortBy') {
-        if (action.payload === AssetSortFields.Price) {
+        if (action.payload.includes(AssetSortFields.Price)) {
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }

@@ -106,11 +106,12 @@ const TraitGridFilters: React.FC<Props> = ({
     if (formValues && hasSomeFilters) {
       const url = new URL(window.location.href)
       const base = `${url.href.split('#')[0]}#`
-      const [hash] = url.href.split('#')[1].split('?')
-      window.location.replace(base + hash)
+      const [hash, query] = url.href.split('#')[1].split('?')
+      const searchParams = new URLSearchParams(query)
+      const tab = searchParams.get('tab') ? `?tab=${searchParams.get('tab')}` : ''
+      window.location.replace(base + hash + tab)
 
       formActions.reset('nftFilter')
-      formActions.change('nftFilter', 'sortBy', defaultSortBy)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -203,7 +204,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     }
                   }}
                   style={
-                    isTablet
+                    isTablet || !numOfResults
                       ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
                       : {}
                   }
@@ -211,7 +212,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   nature='empty-blue'
                 >
                   <Flex gap={12} alignItems='center'>
-                    {isTablet ? null : (
+                    {isTablet || !numOfResults ? null : (
                       <Flex flexDirection='column' alignItems='start' gap={4}>
                         <Text size='12px' weight={600}>
                           {numOfResults || '---'}{' '}
@@ -231,6 +232,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   <Field
                     name='sortBy'
                     component={SelectBox}
+                    label={<FormattedMessage id='copy.sort_by' defaultMessage='Sort By' />}
                     // @ts-ignore
                     searchEnabled={false}
                     // @ts-ignore

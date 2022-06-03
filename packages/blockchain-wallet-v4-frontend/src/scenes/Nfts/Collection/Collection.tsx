@@ -98,6 +98,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
 
   useEffect(() => {
     setActiveTab(tab)
+    setNumOfResults(undefined)
   }, [tab])
 
   if (collectionsQuery.error)
@@ -186,7 +187,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             tabs={['ITEMS', 'ACTIVITY']}
             formValues={formValues}
             numOfResults={numOfResults}
-            showSortBy
+            showSortBy={activeTab === 'ITEMS'}
             defaultSortBy={`${AssetSortFields.Price}-ASC`}
             setIsFilterOpen={setIsFilterOpen}
             formActions={formActions}
@@ -237,8 +238,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: 'nftFilter',
-    initialValues: { sortBy: `${AssetSortFields.ListingDate}-DESC` }
+    form: 'nftFilter'
   }),
   connector
 )
