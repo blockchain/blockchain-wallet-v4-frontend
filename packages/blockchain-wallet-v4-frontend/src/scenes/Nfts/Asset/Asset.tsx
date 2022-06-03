@@ -351,7 +351,7 @@ const NftAsset: React.FC<Props> = ({
                       {currentAsset.traits?.length ? (
                         <Flex flexDirection='column'>
                           <Text size='14px' color='grey600' weight={600}>
-                            <FormattedMessage id='copy.description' defaultMessage='Description' />
+                            <FormattedMessage id='copy.properties' defaultMessage='Properties' />
                           </Text>
                           <TraitsWrapper>
                             {currentAsset.traits.map((trait) => {
