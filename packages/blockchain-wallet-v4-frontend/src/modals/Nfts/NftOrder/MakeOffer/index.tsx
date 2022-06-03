@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
@@ -25,7 +24,7 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { Row, Title, Value } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
@@ -41,6 +40,7 @@ import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
+import { validate } from './validation'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const {
@@ -49,6 +49,7 @@ const MakeOffer: React.FC<Props> = (props) => {
     erc20BalanceR,
     ethBalancesR,
     formActions,
+    formErrors,
     formValues,
     isAuthenticated,
     isInvited,
@@ -65,6 +66,11 @@ const MakeOffer: React.FC<Props> = (props) => {
       properties: {}
     })
   }, [])
+
+  const openSeaAsset = useRemote(() => openSeaAssetR)
+
+  if (!formValues) return null
+
   const { amount, coin, fix } = formValues
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
@@ -97,7 +103,8 @@ const MakeOffer: React.FC<Props> = (props) => {
   const maxWrapPossible = ethBalance
     .minus(offerFees.totalFees * offerFees.gasPrice)
     .minus(wrapFees.totalFees * offerFees.gasPrice)
-  const maxOfferPossible = maxWrapPossible.plus(erc20Balance)
+  const maxOfferPossible =
+    coin === 'WETH' ? maxWrapPossible.plus(erc20Balance) : new BigNumber(erc20Balance)
   const amtToBuy = maxOfferPossible
     .times(-1)
     .plus(convertCoinToCoin({ baseToStandard: false, coin, value: cryptoAmt }))
@@ -114,7 +121,6 @@ const MakeOffer: React.FC<Props> = (props) => {
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
   const needsWrap = amtToWrap.isGreaterThan(0) && formValues.coin === 'WETH'
 
-  const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
   if (openSeaAsset.error)
     return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
@@ -125,6 +131,8 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const disabled =
     !formValues.amount ||
+    Number(formValues.amount) <= 0 ||
+    formErrors.amount ||
     Remote.Loading.is(orderFlow.fees) ||
     props.orderFlow.isSubmitting ||
     !termsAccepted
@@ -234,9 +242,11 @@ const MakeOffer: React.FC<Props> = (props) => {
               ]}
             />
           </Value>
-          <Value>
-            <Text size='12px'>ETH will automatically be wrapped to WETH during transaction </Text>
-          </Value>
+          {canWrap && needsWrap ? (
+            <Value>
+              <Text size='12px'>ETH will automatically be wrapped to WETH during transaction </Text>
+            </Value>
+          ) : null}
         </NftFlyoutRow>
         <NftFlyoutRow>
           <Title>
@@ -303,8 +313,26 @@ const MakeOffer: React.FC<Props> = (props) => {
                         >
                           The max you can offer from this wallet is&nbsp;
                           <CoinDisplay
-                            style={{ fontSize: '12px', fontWeight: 'bold' }}
+                            size='12px'
+                            weight={600}
+                            color='blue600'
+                            style={{ cursor: 'pointer' }}
+                            role='button'
                             coin={formValues.coin || 'WETH'}
+                            onClick={() => {
+                              formActions.change('nftMakeOffer', 'fix', 'CRYPTO')
+                              formActions.change(
+                                'nftMakeOffer',
+                                'amount',
+                                Number(
+                                  convertCoinToCoin({
+                                    baseToStandard: true,
+                                    coin,
+                                    value: Math.max(maxOfferPossible.toNumber(), 0)
+                                  })
+                                ).toFixed(Math.min(8, window.coins[coin].coinfig.precision))
+                              )
+                            }}
                           >
                             {Math.max(maxOfferPossible.toNumber(), 0)}
                           </CoinDisplay>
@@ -314,7 +342,20 @@ const MakeOffer: React.FC<Props> = (props) => {
                   )}
                 </>
               ) : null}
-              {((needsWrap && canWrap) || !needsWrap) && (
+              {formErrors.amount ? (
+                <Text
+                  color='red600'
+                  weight={500}
+                  style={{ padding: '1em 0em', textAlign: 'center' }}
+                >
+                  <FormattedMessage
+                    id='copy.not_enough_funds_make_offer'
+                    defaultMessage='Not enough {coin} to make an offer.'
+                    values={{ coin: formValues.coin }}
+                  />
+                </Text>
+              ) : null}
+              {((needsWrap && canWrap) || !needsWrap) && !formErrors.amount ? (
                 <div style={{ display: 'flex' }}>
                   {' '}
                   <div style={{ padding: '1.2em 0em' }}>
@@ -325,23 +366,20 @@ const MakeOffer: React.FC<Props> = (props) => {
                       checked={termsAccepted}
                     />
                   </div>
-                  <Text
-                    color={colors.grey200}
-                    weight={500}
-                    size='16px'
-                    style={{ padding: '1em 0em', textAlign: 'center' }}
-                  >
-                    I agree to Blockchain.com’s{' '}
-                    <Link
-                      onClick={acceptTerms}
-                      href='https://www.blockchain.com/legal/terms'
-                      target='_blank'
-                    >
-                      Terms of Service
-                    </Link>
-                  </Text>
+                  <label htmlFor='terms'>
+                    <Text weight={500} style={{ padding: '1em 0em', textAlign: 'center' }}>
+                      I agree to Blockchain.com’s{' '}
+                      <Link
+                        onClick={acceptTerms}
+                        href='https://www.blockchain.com/legal/terms'
+                        target='_blank'
+                      >
+                        Terms of Service
+                      </Link>
+                    </Text>
+                  </label>
                 </div>
-              )}
+              ) : null}
               {needsWrap && !canWrap ? (
                 <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                   <Image
@@ -355,7 +393,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               ) : (
                 <Button
                   jumbo
-                  nature='primary'
+                  nature={formErrors.amount ? 'sent' : 'primary'}
                   fullwidth
                   data-e2e='makeOfferNft'
                   disabled={disabled}
@@ -372,7 +410,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     })
                   }
                 >
-                  {formValues.amount ? (
+                  {formValues.amount && Number(formValues.amount) > 0 ? (
                     props.orderFlow.isSubmitting ? (
                       <>
                         {props.orderFlow.status &&
@@ -442,10 +480,11 @@ const mapStateToProps = (state) => {
   const formValues = selectors.form.getFormValues('nftMakeOffer')(state) as NftMakeOfferFormValues
 
   return {
-    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues.coin || 'WETH'),
+    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
     ethBalancesR: getEthBalances(state),
+    formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
-    rates: getRatesSelector(formValues.coin || 'WETH', state).getOrElse({} as RatesType),
+    rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),
     walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
   }
 }
@@ -458,7 +497,8 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  reduxForm<{}, OwnProps>({
+  connector,
+  reduxForm<{}, Props>({
     destroyOnUnmount: false,
     form: 'nftMakeOffer',
     initialValues: {
@@ -466,11 +506,11 @@ const enhance = compose(
       expirationMinutes: 1440,
       fix: 'CRYPTO',
       networkFees: 'network'
-    }
-  }),
-  connector
+    },
+    validate
+  })
 )
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(MakeOffer) as React.FC<OwnProps>
