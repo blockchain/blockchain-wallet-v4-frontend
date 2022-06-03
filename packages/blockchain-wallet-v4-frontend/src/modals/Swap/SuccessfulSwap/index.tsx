@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
@@ -54,20 +55,28 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
   } = props
   if (!order) return null
 
-  const swappedCurrency = getOutput(order)
-  const swappedCurrencyHasRate = interestRate[swappedCurrency]
+  const swappedCurrency = useMemo(() => getOutput(order), [order])
+  const swappedCurrencyHasRate = useMemo(
+    () => interestRate[swappedCurrency],
+    [swappedCurrency, interestRate]
+  )
 
-  const interestEligibleCoin =
-    !isEmpty(interestEligible) &&
-    !isEmpty(swappedCurrency) &&
-    order.state === 'FINISHED' &&
-    interestEligible[swappedCurrency] &&
-    interestEligible[swappedCurrency]?.eligible
+  const interestEligibleCoin = useMemo(
+    () =>
+      !isEmpty(interestEligible) &&
+      !isEmpty(swappedCurrency) &&
+      order.state === 'FINISHED' &&
+      interestEligible[swappedCurrency] &&
+      interestEligible[swappedCurrency]?.eligible,
+    []
+  )
 
-  const isRewardsFullyEnabled =
-    isRewardsFlowAfterSwapEnabled && interestEligibleCoin && swappedCurrencyHasRate
+  const isRewardsFullyEnabled = useMemo(
+    () => isRewardsFlowAfterSwapEnabled && interestEligibleCoin && swappedCurrencyHasRate,
+    [isRewardsFlowAfterSwapEnabled, interestEligibleCoin, swappedCurrencyHasRate]
+  )
 
-  const handleEarnRewardsButton = () => {
+  const handleEarnRewardsButton = useCallback(() => {
     analyticsActions.trackEvent({
       key: Analytics.SWAP_EARN_REWARDS_BUTTON_CLICKED,
       properties: {
@@ -82,9 +91,8 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
         step: 'ACCOUNT_SUMMARY'
       })
     }, duration)
-  }
+  }, [])
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (isRewardsFullyEnabled) {
       analyticsActions.trackEvent({
@@ -95,7 +103,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
         }
       })
     }
-  }, [])
+  }, [isRewardsFullyEnabled, swappedCurrency])
 
   return (
     <Wrapper>
