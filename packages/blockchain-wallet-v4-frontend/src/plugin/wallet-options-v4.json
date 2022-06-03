@@ -1,0 +1,74 @@
+{
+  "platforms": {
+    "web": {
+      "application": {
+        "environment": "dev",
+        "announcements": {
+          "public": {},
+          "swap": {},
+          "wallet": {}
+        }
+      },
+      "coinListing": "",
+      "coinRename": "",
+      "sift": {
+        "apiKey": "0ecd212038"
+      },
+      "hotWalletAddresses": {
+        "swap": {
+          "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
+        },
+        "exchange": {
+          "eth": "0x95eFeFA0A4564BfABfBB1Ee08A359C062EB0A94b"
+        },
+        "simplebuy": {
+          "eth": "0xFF202CBC6C794516164E45621143acDe4a3FEa24"
+        },
+        "lending": {
+          "eth": "0xBA0145434A0a53E58D10680254756F679c359463"
+        },
+        "rewards": {
+          "eth": "0x7d9d70c1A99FcC952d48b781947FAa0a3795083E"
+        }
+      },
+      "featureFlags": {
+        "applePayPaymentMethod": false,
+        "addCheckoutPaymentProvider": true,
+        "addStripePaymentProvider": false,
+        "bindIntegrationArEnabled": true,
+        "coinViewV2": false,
+        "completeYourProfile": true,
+        "createExchangeUserOnSignupOrLogin": true,
+        "developerMobilePairing": true,
+        "eddInterestFileUpload": true,
+        "flexiblePricingModel": true,
+        "googlePayPaymentMethod": false,
+        "institutionalPortal": true,
+        "mergeAndUpgrade": false,
+        "nftExplorer": true,
+        "recurringBuys": true,
+        "showTermsAndConditions": false,
+        "stxSelfCustodyEnableAll": true,
+        "stxSelfCustodyEnableAirdrop": true,
+        "showSilverRevamp": true,
+        "useNewPaymentProviders": true,
+        "walletConnect": true,
+        "unifiedAccountLogin": true,
+        "walletDebitCardEnabled": true
+      }
+    }
+  },
+  "domains": {
+    "api": "https://api.blockchain.info",
+    "bitpay": "https://bitpay.com",
+    "comRoot": "https://www.blockchain.com",
+    "comWalletApp": "https://login.blockchain.com",
+    "exchange": "https://exchange.blockchain.com",
+    "horizon": "https://horizon.stellar.org",
+    "opensea": "https://testnets-api.opensea.io",
+    "root": "https://blockchain.info",
+    "veriff": "https://magic.veriff.me",
+    "walletHelper": "https://wallet-helper.blockchain.com",
+    "webSocket": "wss://ws.blockchain.info"
+  }
+}
