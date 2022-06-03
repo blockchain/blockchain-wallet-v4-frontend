@@ -24,7 +24,6 @@ export type GoalsType =
   | 'syncPit'
   | 'transferEth'
   | 'upgradeForAirdrop'
-  | 'walletConnect'
   | 'welcomeModal'
   | 'interest'
   | 'interestPromo'

@@ -84,16 +84,6 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (props.walletConnectEnabled) {
-    PrimaryNavItems.push({
-      dest: '/dapps',
-      e2e: 'dappsLink',
-      text: (
-        <FormattedMessage id='layouts.wallet.menuleft.navigation.dapps' defaultMessage='Dapps' />
-      )
-    })
-  }
-
   return (
     <Navbar
       primaryNavItems={PrimaryNavItems}

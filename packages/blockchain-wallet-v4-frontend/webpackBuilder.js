@@ -220,7 +220,7 @@ const buildDevServerConfig = (
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
-        `worker-src 'self'`,
+        `worker-src 'self' blob:`,
         [
           'connect-src',
           "'self'",
@@ -240,8 +240,7 @@ const buildDevServerConfig = (
           'https://static.zdassets.com',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
-          'wss://localhost:8080',
-          'wss://*.walletconnect.org'
+          'wss://localhost:8080'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
