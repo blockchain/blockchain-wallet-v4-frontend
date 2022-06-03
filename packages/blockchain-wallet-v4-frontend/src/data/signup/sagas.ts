@@ -10,6 +10,7 @@ import {
   AuthMagicLink,
   CaptchaActionName,
   ExchangeAuthOriginType,
+  ModalName,
   PlatformTypes,
   ProductAuthOptions,
   TwoFASetupSteps
@@ -300,7 +301,9 @@ export default ({ api, coreSagas, networks }) => {
       )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
-      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
+      yield put(
+        actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
+      )
     }
   }
 

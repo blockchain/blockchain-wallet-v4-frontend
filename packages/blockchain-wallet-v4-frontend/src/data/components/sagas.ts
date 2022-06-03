@@ -32,7 +32,6 @@ import taxCenter from './taxCenter/sagas'
 import termsAndConditions from './termsAndConditions/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
-import walletConnect from './walletConnect/sagas'
 import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
@@ -71,7 +70,6 @@ export default ({ api, coreSagas, networks }) => ({
   termsAndConditions: termsAndConditions({ api }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
-  walletConnect: walletConnect({ coreSagas }),
   withdraw: withdraw({ api, coreSagas, networks }),
   xlmTransactions: xlmTransactions()
 })

@@ -262,7 +262,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       } else {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       }
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -1618,7 +1618,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const origin = S.getOrigin(yield select())
 
       if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
         yield put(actions.alerts.displaySuccess('Card Added.'))
       }
@@ -1815,7 +1815,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
     }
 
-    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
+    yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
       .getOrElse('USD') as FiatType

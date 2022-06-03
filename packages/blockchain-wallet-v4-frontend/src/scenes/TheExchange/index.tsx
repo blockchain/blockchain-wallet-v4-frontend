@@ -4,12 +4,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { WalletOptionsType } from '@core/types'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 import Exchange from './template'
 
 class ExchangeContainer extends React.PureComponent<Props> {
   onSignup = () => {
-    this.props.modalActions.showModal('LINK_TO_EXCHANGE_ACCOUNT_MODAL', {
+    this.props.modalActions.showModal(ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL, {
       origin: 'TheExchangePage'
     })
   }
