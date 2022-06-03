@@ -188,7 +188,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             formValues={formValues}
             numOfResults={numOfResults}
             showSortBy={activeTab === 'ITEMS'}
-            defaultSortBy={`${AssetSortFields.Price}-ASC`}
             setIsFilterOpen={setIsFilterOpen}
             formActions={formActions}
             setRefreshTrigger={setRefreshTrigger}
