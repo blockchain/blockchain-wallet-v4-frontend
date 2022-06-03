@@ -1,11 +1,12 @@
 // Misc Wallet Events
 export enum Events {
+  CUSOMER_SUPPORT_CLICKED = 'Customer Support Clicked',
   WRONG_CHANGE_CACHE = 'Wrong Change Cache',
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
 type MiscTrackEventAction = {
-  key: Events.WRONG_CHANGE_CACHE | Events.WRONG_RECEIVE_CACHE
+  key: Events.CUSOMER_SUPPORT_CLICKED | Events.WRONG_CHANGE_CACHE | Events.WRONG_RECEIVE_CACHE
   properties: {}
 }
 
