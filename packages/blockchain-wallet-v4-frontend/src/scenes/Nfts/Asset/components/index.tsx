@@ -188,6 +188,9 @@ export const NftTableWrapper = styled(TableWrapper)`
     .td {
       padding: 6px 8px;
     }
+    .th {
+      background: ${colors.grey000};
+    }
     .td {
       height: 42px;
     }
