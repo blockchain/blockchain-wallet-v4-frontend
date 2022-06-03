@@ -36,7 +36,7 @@ const SupportChat: React.FC = () => {
   const dispatch = useDispatch()
 
   const trackEvent = (widgetOpen: boolean) => {
-    if (widgetOpen === true) {
+    if (widgetOpen) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.CUSTOMER_SUPPORT_CLICKED,
