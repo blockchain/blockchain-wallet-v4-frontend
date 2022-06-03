@@ -26,6 +26,6 @@ export const derivationMap = {
   [USER_CREDENTIALS]: 10, // Deprecated
   [XLM]: 11,
   [WALLET_CREDENTIALS]: 12,
-  [WALLET_CONNECT]: 13, // TODO: add support for entry
+  [WALLET_CONNECT]: 13, // Not used by web
   [UNIFIED_CREDENTIALS]: 14
 }

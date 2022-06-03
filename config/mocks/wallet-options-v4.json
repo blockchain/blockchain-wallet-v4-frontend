@@ -52,7 +52,6 @@
         "stxSelfCustodyEnableAirdrop": true,
         "showSilverRevamp": true,
         "useNewPaymentProviders": true,
-        "walletConnect": true,
         "unifiedAccountLogin": true,
         "walletDebitCardEnabled": true
       }

@@ -76,7 +76,7 @@
   "dependencies": {
     "@babel/polyfill": "7.12.1",
     "@blockchain-com/components": "6.1.1",
-    "@blockchain-com/constellation": "0.0.34",
+    "@blockchain-com/constellation": "0.0.35",
     "@blockchain-com/icons": "0.0.6",
     "@formatjs/intl-relativetimeformat": "7.2.10",
     "@graphql-codegen/cli": "2.5.0",
@@ -91,9 +91,6 @@
     "@visx/tooltip": "1.7.2",
     "@visx/axis": "2.6.0",
     "@types/d3-array": "3.0.2",
-    "@walletconnect/client": "1.6.5",
-    "@walletconnect/types": "1.6.5",
-    "@walletconnect/utils": "1.6.5",
     "axios": "0.21.4",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",
