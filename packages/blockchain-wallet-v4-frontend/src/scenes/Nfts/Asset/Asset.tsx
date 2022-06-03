@@ -569,7 +569,11 @@ const NftAsset: React.FC<Props> = ({
                   </Socials>
                 </div>
               </div>
-              <AssetName>{`#${currentAsset?.token_id}`}</AssetName>
+              <AssetName>
+                {currentAsset?.token_id?.length > 10
+                  ? `#${currentAsset?.token_id.substring(0, 10)}...`
+                  : `#${currentAsset?.token_id}`}
+              </AssetName>
               <CurrentPriceBox>
                 {openSeaAsset.isLoading ? (
                   <div>
