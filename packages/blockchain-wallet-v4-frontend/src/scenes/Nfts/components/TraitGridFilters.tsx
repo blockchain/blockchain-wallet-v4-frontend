@@ -98,10 +98,15 @@ const TraitGridFilters: React.FC<Props> = ({
 
   const hasSomeFilters =
     (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+      Object.keys(formValues)
+        .filter((val) => val !== 'sortBy')
+        .some(
+          (key) =>
+            Object.keys(formValues[key]).some(Boolean) ||
+            // @ts-ignore
+            (typeof formValues[key] === 'boolean' && formValues[key] === true)
+        )) ||
     false
-  const moreThanSortBy =
-    (formValues && Object.keys(formValues).filter((val) => val !== 'sortBy').length >= 1) || false
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
       const url = new URL(window.location.href)
@@ -129,7 +134,9 @@ const TraitGridFilters: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   useEffect(() => {
-    formActions.change('nftFilter', 'sortBy', defaultSortBy)
+    if (defaultSortBy) {
+      formActions.change('nftFilter', 'sortBy', defaultSortBy)
+    }
   }, [formActions, defaultSortBy])
 
   const getTab = (tab: 'ITEMS' | 'ACTIVITY' | 'EXPLORE') => {
@@ -392,7 +399,7 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
-        {moreThanSortBy && (
+        {hasSomeFilters && (
           <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
             <Text size='12px' lineHeight='20px' weight={600} color='blue600'>
               Clear All
