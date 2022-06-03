@@ -220,7 +220,7 @@ const buildDevServerConfig = (
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
-        `worker-src 'self'`,
+        `worker-src 'self' blob:`,
         [
           'connect-src',
           "'self'",
