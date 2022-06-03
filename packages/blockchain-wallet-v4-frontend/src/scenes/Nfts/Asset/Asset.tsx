@@ -36,6 +36,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
+import { media, useMedia } from 'services/styles'
 
 import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
@@ -162,6 +163,14 @@ const ShadowTag = styled.div`
   border-radius: 40px;
   padding: 6px 12px;
   width: fit-content;
+`
+
+const CollectionHeader = styled.div`
+  ${media.atLeastTablet`
+    display: flex;
+    marginTop: 2px;
+    gap: 24px;
+    `};
 `
 
 const DetailsAndOffers = styled.div``
@@ -404,7 +413,7 @@ const NftAsset: React.FC<Props> = ({
                   justifyContent: 'space-between'
                 }}
               >
-                <Flex gap={24} style={{ marginTop: '2px' }}>
+                <CollectionHeader>
                   <div>
                     <Text
                       size='14px'
@@ -494,7 +503,7 @@ const NftAsset: React.FC<Props> = ({
                       </div>
                     </div>
                   ) : null}
-                </Flex>
+                </CollectionHeader>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
                     <SocialLink
@@ -560,7 +569,7 @@ const NftAsset: React.FC<Props> = ({
                   </Socials>
                 </div>
               </div>
-              <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
+              <AssetName>{`#${currentAsset?.token_id}`}</AssetName>
               <CurrentPriceBox>
                 {openSeaAsset.isLoading ? (
                   <div>
