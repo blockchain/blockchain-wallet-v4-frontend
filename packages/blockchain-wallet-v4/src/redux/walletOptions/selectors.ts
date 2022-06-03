@@ -122,3 +122,7 @@ export const getNftExplorer = (state: RootState) =>
 // enable/disable BIND integration (AR)
 export const getBindIntegrationArEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
+
+// check for rewards flow under swap Feature Flag
+export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsFlowUnderSwapEnabled']))
