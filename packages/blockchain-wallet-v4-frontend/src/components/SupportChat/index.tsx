@@ -1,11 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { WalletOptionsType } from '@core/types'
-import { selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
+import { useRemote } from 'hooks'
 
 // must be section so global style doesnt overwrite position style
 const RelativeWrapper = styled.section`
@@ -17,44 +16,65 @@ const AbsoluteWrapper = styled.div`
   right: 0;
   z-index: 10;
 `
-const Iframe = styled.iframe<{ widgetOpen: State['widgetOpen'] }>`
+const Iframe = styled.iframe<{ widgetOpen: boolean }>`
   height: ${(props) => (props.widgetOpen ? '580px' : '60px')};
   width: ${(props) => (props.widgetOpen ? '400px' : '190px')};
   border: none;
 `
 
-class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
-  state = {
-    chatEnabled: false,
-    widgetOpen: false
+const SupportChat: React.FC = () => {
+  const {
+    data: domains = {
+      walletHelper: 'https://wallet-helper.blockchain.com'
+    },
+    isLoading: isDomainsLoading
+  } = useRemote(selectors.core.walletOptions.getDomains)
+  const { data: userData } = useRemote(selectors.modules.profile.getUserData)
+
+  const [widgetOpen, setWidgetOpen] = useState(false)
+  const [chatEnabled, setChatEnabled] = useState(false)
+  const dispatch = useDispatch()
+
+  const trackEvent = (widgetOpen: boolean) => {
+    if (widgetOpen) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.CUSTOMER_SUPPORT_CLICKED,
+          properties: {}
+        })
+      )
+    }
   }
 
-  componentDidMount() {
-    // listen for messages about widget open/close state
-    window.addEventListener('message', this.updateWidgetState, false)
-  }
-
-  updateWidgetState = (e) => {
+  const updateWidgetState = (e) => {
     const message = e.data
     // HMR/zendesk combo sends empty messages sometimes that result in widget state
     // being set to close when it really is still open
     if (message && typeof message.widgetOpen === 'boolean') {
-      this.setState({ widgetOpen: message.widgetOpen })
+      setWidgetOpen(message.widgetOpen)
+      trackEvent(message.widgetOpen)
     }
   }
 
-  postMsgToWalletHelper = (methodName, data) => {
+  useEffect(() => {
+    // listen for messages about widget open/close state
+    window.addEventListener('message', updateWidgetState, false)
+
+    return () => {
+      window.removeEventListener('message', updateWidgetState, false)
+    }
+  })
+
+  const postMsgToWalletHelper = (methodName, data) => {
     const zendeskIframe = document.getElementById('zendesk-iframe') as HTMLIFrameElement
     let intervalStarted = false
 
     const waitForFrameLoad = () => {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this
       const interval = setInterval(() => {
         setTimeout(function () {
           if (!zendeskIframe || !zendeskIframe.contentWindow) return
           zendeskIframe?.contentWindow.postMessage({ messageData: data, method: methodName }, '*')
-          that.setState({ chatEnabled: true })
+          setChatEnabled(true)
         }, 3000)
         clearInterval(interval)
       }, 3000)
@@ -69,54 +89,30 @@ class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
     }
   }
 
-  render() {
-    const { domains, userData } = this.props
+  // if we dont have user data or domains are loading return
+  if (!userData || isDomainsLoading) return null
+  const tier = userData.tiers?.current || 0
 
-    // if we dont have user data return
-    if (!userData) return null
-    const tier = userData.tiers?.current || 0
-
-    // only show chat to gold users
-    if (tier === 2 && !this.state.chatEnabled) {
-      this.postMsgToWalletHelper('showChat', {
-        email: userData.email,
-        fullName:
-          userData.firstName && userData.lastName
-            ? `${userData.firstName} ${userData.lastName}`
-            : ''
-      })
-    }
-
-    return (
-      <RelativeWrapper>
-        <AbsoluteWrapper>
-          <Iframe
-            id='zendesk-iframe'
-            src={`${domains.walletHelper}/wallet-helper/zendesk/#/`}
-            widgetOpen={this.state.widgetOpen}
-          />
-        </AbsoluteWrapper>
-      </RelativeWrapper>
-    )
+  // only show chat to gold users
+  if (tier === 2 && !chatEnabled) {
+    postMsgToWalletHelper('showChat', {
+      email: userData.email,
+      fullName:
+        userData.firstName && userData.lastName ? `${userData.firstName} ${userData.lastName}` : ''
+    })
   }
+
+  return (
+    <RelativeWrapper>
+      <AbsoluteWrapper>
+        <Iframe
+          id='zendesk-iframe'
+          src={`${domains.walletHelper}/wallet-helper/zendesk/#/`}
+          widgetOpen={widgetOpen}
+        />
+      </AbsoluteWrapper>
+    </RelativeWrapper>
+  )
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
-    walletHelper: 'https://wallet-helper.blockchain.com'
-  } as WalletOptionsType['domains']),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
-})
-
-const connector = connect(mapStateToProps)
-
-type LinkStatePropsType = {
-  domains: { [key in string]: string }
-  userData: UserDataType | null
-}
-type State = {
-  chatEnabled: boolean
-  widgetOpen: boolean
-}
-
-export default connector(SupportChat)
+export default SupportChat
