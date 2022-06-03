@@ -4,8 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
@@ -79,6 +78,7 @@ const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
   collections,
+  defaultSortBy,
   formActions,
   formValues,
   numOfResults,
@@ -100,7 +100,6 @@ const TraitGridFilters: React.FC<Props> = ({
     (formValues &&
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
     false
-  const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
   const moreThanSortBy =
     (formValues && Object.keys(formValues).filter((val) => val !== 'sortBy').length >= 1) || false
   const clearAllFilters = () => {
@@ -111,7 +110,7 @@ const TraitGridFilters: React.FC<Props> = ({
       window.location.replace(base + hash)
 
       formActions.reset('nftFilter')
-      formActions.change('nftFilter', 'sortBy', recentlyListed)
+      formActions.change('nftFilter', 'sortBy', defaultSortBy)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -126,6 +125,10 @@ const TraitGridFilters: React.FC<Props> = ({
       }, 500)
     }
   }, [isRefreshRotating])
+
+  useEffect(() => {
+    formActions.change('nftFilter', 'sortBy', defaultSortBy)
+  }, [formActions, defaultSortBy])
 
   const getTab = (tab: 'ITEMS' | 'ACTIVITY' | 'EXPLORE') => {
     return tab === 'ITEMS' ? (
@@ -228,15 +231,6 @@ const TraitGridFilters: React.FC<Props> = ({
                   <Field
                     name='sortBy'
                     component={SelectBox}
-                    onChange={(e) => {
-                      if (e.includes('price')) {
-                        formActions.change('nftFilter', 'forSale', true)
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_RECENTLY_LISTED_CLICKED,
-                          properties: {}
-                        })
-                      }
-                    }}
                     // @ts-ignore
                     searchEnabled={false}
                     // @ts-ignore
@@ -244,9 +238,9 @@ const TraitGridFilters: React.FC<Props> = ({
                       {
                         group: '',
                         items: [
+                          { text: 'Most Recent', value: `${AssetSortFields.DateIngested}-DESC` },
                           { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                          { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` }
                         ]
                       }
                     ]}
@@ -416,6 +410,7 @@ const connector = connect(null, mapDispatchToProps)
 type OwnProps = {
   activeTab?: 'ITEMS' | 'ACTIVITY' | 'EXPLORE'
   collections: OwnerQuery['assets'][0]['collection'][]
+  defaultSortBy?: `${AssetSortFields}-${'ASC' | 'DESC'}`
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   numOfResults?: number
