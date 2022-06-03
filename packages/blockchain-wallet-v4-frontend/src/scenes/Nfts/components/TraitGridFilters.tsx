@@ -112,6 +112,7 @@ const TraitGridFilters: React.FC<Props> = ({
       window.location.replace(base + hash + tab)
 
       formActions.reset('nftFilter')
+      formActions.change('nftFilter', 'sortBy', defaultSortBy)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
