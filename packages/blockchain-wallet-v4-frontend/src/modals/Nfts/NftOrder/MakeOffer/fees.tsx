@@ -29,7 +29,7 @@ const Fees: React.FC<Props> = (props) => {
     <>
       <FeesDropdown totalFees={getTotalFees()}>
         <CreateOfferFees {...props} />
-        {props.formValues.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
+        {props.formValues?.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
       </FeesDropdown>
     </>
   )
