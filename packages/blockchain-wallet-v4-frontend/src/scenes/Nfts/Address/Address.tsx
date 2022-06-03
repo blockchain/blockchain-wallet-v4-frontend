@@ -28,6 +28,7 @@ const NftAddress: React.FC<Props> = ({
   formActions,
   formValues,
   isAuthenticated,
+  nftsActions,
   pathname
 }) => {
   const address = pathname.split('/nfts/address/')[1]
@@ -40,11 +41,19 @@ const NftAddress: React.FC<Props> = ({
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
+  const isOwner = ethAddress?.toLowerCase() === address?.toLowerCase() && isAuthenticated
+
   const eventFilter = getEventFilter(formValues)
 
   useEffect(() => {
     setActiveTab(tab)
   }, [tab])
+
+  useEffect(() => {
+    if (isOwner) {
+      nftsActions.fetchNftUserPreferences()
+    }
+  }, [isOwner, nftsActions])
 
   if (!address) return null
 
@@ -70,7 +79,7 @@ const NftAddress: React.FC<Props> = ({
             <Text color='white' size='24px' weight={600}>
               <CryptoAddress>{address}</CryptoAddress>
             </Text>
-            {ethAddress.toLowerCase() === address.toLowerCase() && isAuthenticated ? (
+            {isOwner ? (
               <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
                 <a>
                   <Icon label='settings' color='white900'>
