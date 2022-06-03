@@ -236,18 +236,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineWalletConnectGoal = function* (search) {
-    // cant use URLSearchParams as it parses the oddly formed uri incorrectly
-    const walletConnectURI = search.split('?uri=')[1]
-    yield put(actions.goals.saveGoal({ data: walletConnectURI, name: 'walletConnect' }))
-  }
-
   const defineDeepLinkGoals = function* (pathname, search) {
-    // /#/open/wc?uri={wc_uri}
-    if (startsWith(DeepLinkGoal.WALLET_CONNECT, pathname)) {
-      return yield call(defineWalletConnectGoal, search)
-    }
-
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
       return yield call(defineMakeOfferNftGoal, search)
     }
@@ -624,31 +613,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runWalletConnectGoal = function* (goal: GoalType) {
-    try {
-      const { data: uri, id } = goal
-      const walletConnectEnabled = (yield select(
-        selectors.core.walletOptions.getWalletConnectEnabled
-      )).getOrElse(false)
-      yield put(actions.goals.deleteGoal(id))
-      if (walletConnectEnabled) {
-        yield put(
-          actions.goals.addInitialModal({
-            data: {
-              origin,
-              uri
-            },
-            key: 'walletConnect',
-            name: ModalName.WALLET_CONNECT_MODAL
-          })
-        )
-      }
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.logs.logErrorMessage('goals', 'runWalletConnectGoal', error))
-    }
-  }
-
   const runSyncPitGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -832,7 +796,6 @@ export default ({ api, coreSagas, networks }) => {
       termsAndConditions,
       transferEth,
       upgradeForAirdrop,
-      walletConnect,
       welcomeModal
     } = initialModals
 
@@ -849,9 +812,6 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
-    }
-    if (walletConnect) {
-      return yield put(actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
@@ -1030,9 +990,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
-          break
-        case 'walletConnect':
-          yield call(runWalletConnectGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)

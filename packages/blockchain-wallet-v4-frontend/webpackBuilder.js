@@ -240,8 +240,7 @@ const buildDevServerConfig = (
           'https://static.zdassets.com',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
-          'wss://localhost:8080',
-          'wss://*.walletconnect.org'
+          'wss://localhost:8080'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
