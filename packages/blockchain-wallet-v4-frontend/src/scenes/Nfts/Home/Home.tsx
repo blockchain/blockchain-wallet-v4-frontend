@@ -100,7 +100,7 @@ const Explore: React.FC<Props> = (props) => {
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
     : ['nouns', 'mfers', 'superrare']
-  const [randomContract] = useState(Math.floor(Math.random() * 4))
+  const [randomContract] = useState(Math.floor(Math.random() * contracts.length))
   const [assetId, setAssetId] = useState(0)
   const limit = 5
   const [assets] = useAssetsQuery({

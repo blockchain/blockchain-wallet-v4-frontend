@@ -137,7 +137,6 @@ import visaLogo from './img/visa-logo.svg'
 import wallet from './img/wallet.svg'
 import walletGrayscale from './img/wallet-grayscale.svg'
 import walletNoBackground from './img/wallet-no-background.svg'
-import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import whiteVerified from './img/white-verified.svg'
 import withdrawBlueCircle from './img/withdraw-blue-circle.svg'
@@ -287,7 +286,6 @@ const Images = {
   wallet,
   'wallet-grayscale': walletGrayscale,
   'wallet-no-background': walletNoBackground,
-  'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'white-verified': whiteVerified,
   'withdraw-blue-circle': withdrawBlueCircle,

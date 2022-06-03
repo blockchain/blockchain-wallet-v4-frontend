@@ -319,7 +319,7 @@ const NftAsset: React.FC<Props> = ({
                                 defaultMessage='Description'
                               />
                             </Text>
-                            <Text size='14px' color='grey600' weight={500}>
+                            <Text size='14px' color='grey600' weight={500} style={{ wordBreak: 'break-word' }}>
                               {moreToggle && isLongEnough ? (
                                 <ReactMarkdown linkTarget='_blank'>
                                   {`${description.substring(0, 82)}...`}
