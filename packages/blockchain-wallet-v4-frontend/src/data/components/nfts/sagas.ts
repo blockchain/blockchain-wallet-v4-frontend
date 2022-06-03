@@ -83,6 +83,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         api.getNftUserPreferences,
         retailToken
       )
+
+      // first time user, opt-out
+      if (!res) {
+        yield put(
+          A.updateUserPreferences({
+            userPrefs: {
+              auction_expired: true,
+              bid_activity: true,
+              item_sold: true,
+              offer_accepted: true,
+              outbid: true,
+              successful_purchase: true
+            }
+          })
+        )
+      }
       yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
     } catch (e) {
       const error = errorHandler(e)
