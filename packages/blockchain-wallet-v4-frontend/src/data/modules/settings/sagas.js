@@ -3,6 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { Types, utils } from '@core'
 import profileSagas from 'data/modules/profile/sagas.ts'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { addLanguageToUrl } from 'services/locales'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/sagas'
@@ -60,7 +61,7 @@ export default ({ api, coreSagas }) => {
         coreSagas.settings.requestGoogleAuthenticatorSecretUrl
       )
       yield put(
-        actions.modals.showModal('TWO_STEP_GOOGLE_AUTH_MODAL', {
+        actions.modals.showModal(ModalName.TWO_STEP_GOOGLE_AUTH_MODAL, {
           googleAuthenticatorSecretUrl
         })
       )

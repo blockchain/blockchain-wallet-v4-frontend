@@ -1,4 +1,3 @@
-import { isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -34,21 +33,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const findAccount = (currentAccountSymbol, accounts) => {
+    return accounts.find((account) => account?.balance?.symbol === currentAccountSymbol)
+  }
+
   const getCurrentCardAccount = function* (cardId) {
+    const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
     try {
       yield put(A.getCurrentCardAccountLoading())
 
-      const data = yield call(api.getDCCurrentAccount, cardId)
-      yield put(A.getCurrentCardAccountSuccess(data))
+      const { accountCurrency } = yield call(api.getDCCurrentAccount, cardId)
+
+      const accountFound = findAccount(accountCurrency, eligibleAccounts)
+
+      if (!accountCurrency || !accountFound) throw new Error('no_funds_obtained')
+
+      yield put(A.getCurrentCardAccountSuccess(accountFound))
     } catch (e) {
-      console.error('Failed to get current card account', errorHandler(e))
-      const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
-      if (!isEmpty(eligibleAccounts)) {
-        // In case of failure it is set the default account as current
-        yield put(A.getCurrentCardAccountSuccess(eligibleAccounts[0]))
-      } else {
-        yield put(A.getCurrentCardAccountFailure('Could not get user funds'))
-      }
+      yield put(
+        A.getCurrentCardAccountFailure(`Could not get current user funds, ${errorHandler(e)}`)
+      )
     }
   }
 
@@ -144,6 +148,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   return {
     createCard,
     getCards,
+    getCurrentCardAccount,
     getProducts,
     handleCardLock,
     terminateCard

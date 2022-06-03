@@ -25,6 +25,7 @@ import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
+import { AssetSortFields } from 'generated/graphql.types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -742,6 +743,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield select()
         ) as NftFilterFormValuesType
         if (formValues?.min || formValues?.max) {
+          yield put(actions.form.change('nftFilter', 'forSale', true))
+        }
+      }
+      if (action.meta.field === 'sortBy') {
+        if (action.payload?.includes(AssetSortFields.Price)) {
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }

@@ -11,6 +11,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import Form from 'components/Form/Form'
+import TextBox from 'components/Form/TextBox'
 import TextWithQRScanner from 'components/Form/TextWithQRScanner'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { debounce } from 'utils/helpers'
@@ -24,13 +25,14 @@ const Wrapper = styled(Form)`
   justify-content: space-between;
   min-height: 100%;
 `
-const ToWrapper = styled(FlyoutWrapper)`
+const FieldWrapper = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
   padding-bottom: 12px;
 `
 const ErrorWrapper = styled(FlyoutWrapper)`
   display: flex;
+  padding-bottom: 0px;
   padding-top: 0px;
 `
 
@@ -88,7 +90,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
           <FormLabelWithBorder>
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </FormLabelWithBorder>
-          <ToWrapper>
+          <FieldWrapper>
             <Field
               name='to'
               // @ts-ignore
@@ -102,7 +104,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
               }, 100)}
               placeholder={`${coinfig.name} Address`}
             />
-          </ToWrapper>
+          </FieldWrapper>
           {isValidAddress.cata({
             Failure: () => null,
             Loading: () => null,
@@ -117,6 +119,16 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
               )
             }
           })}
+          {coinfig.type.isMemoBased ? (
+            <>
+              <FormLabelWithBorder>
+                <FormattedMessage id='copy.memo' defaultMessage='Memo' />
+              </FormLabelWithBorder>
+              <FieldWrapper>
+                <Field component={TextBox} type='text' name='memo' />
+              </FieldWrapper>
+            </>
+          ) : null}
         </div>
         <FlyoutWrapper>
           <Button

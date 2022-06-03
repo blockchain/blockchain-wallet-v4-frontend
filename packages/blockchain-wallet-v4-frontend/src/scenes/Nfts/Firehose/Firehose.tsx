@@ -138,8 +138,7 @@ type Props = ConnectedProps<typeof connector>
 const enhance = compose(
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: 'nftFilter',
-    initialValues: { sortBy: `${AssetSortFields.ListingDate}-DESC` }
+    form: 'nftFilter'
   }),
   connector
 )

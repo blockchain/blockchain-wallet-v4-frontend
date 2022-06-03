@@ -35,7 +35,6 @@ const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
-const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 const EthWalletBalances = React.lazy(() => import('./Eth/EthWalletBalances'))
 
 // XLM
@@ -299,9 +298,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
-          <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
           <EthWalletBalances />

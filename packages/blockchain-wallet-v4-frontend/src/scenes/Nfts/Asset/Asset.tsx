@@ -71,7 +71,7 @@ const AssetImageContainer = styled.div`
 `
 
 const AssetImg = styled.img`
-  border-radius: 8px;
+  border-radius: 18px;
   box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
   box-sizing: border-box;
 `
@@ -98,6 +98,7 @@ const SocialLink = styled.div`
   display: flex;
   width: 40px;
   height: 40px;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-right: 1px solid ${(props) => props.theme.grey000};
@@ -760,7 +761,12 @@ const NftAsset: React.FC<Props> = ({
                     <Text size='14px' color='grey600' weight={600}>
                       <FormattedMessage id='copy.description' defaultMessage='Description' />
                     </Text>
-                    <Text size='16px' color='grey900' weight={500}>
+                    <Text
+                      size='16px'
+                      color='grey900'
+                      weight={500}
+                      style={{ wordBreak: 'break-word' }}
+                    >
                       {moreToggle && isLongEnough ? (
                         <ReactMarkdown linkTarget='_blank'>
                           {`${description.substring(0, 82)}...`}
@@ -895,7 +901,11 @@ const NftAsset: React.FC<Props> = ({
                       </Text>
 
                       <TokenDisplay size='16px' weight={600} color='grey600'>
-                        {currentAsset.token_id}{' '}
+                        {currentAsset.token_id.length > 20 ? (
+                          <CryptoAddress>{currentAsset.token_id}</CryptoAddress>
+                        ) : (
+                          currentAsset.token_id
+                        )}
                       </TokenDisplay>
                     </Detail>
                     <Detail>
