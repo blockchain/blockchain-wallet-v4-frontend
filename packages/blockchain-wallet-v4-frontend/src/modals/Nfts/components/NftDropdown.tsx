@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -24,9 +23,9 @@ const IconWrapper = styled.div`
   display: flex;
 `
 
-const FeesWrapper = styled.div``
+const ChildWrapper = styled.div``
 
-const FeeChild = styled.div<{ hasPadding: boolean }>`
+const Child = styled.div<{ hasPadding: boolean }>`
   border-top: 1px solid ${(props) => props.theme.grey100};
   padding: ${({ hasPadding }) => (hasPadding ? '1em' : '0')};
 `
@@ -66,11 +65,11 @@ const NftDropdown: React.FC<Props> = ({
           </IconWrapper>
         </Flex>
       </Top>
-      <FeesWrapper style={isActive ? {} : { display: 'none' }}>
+      <ChildWrapper style={isActive ? {} : { display: 'none' }}>
         {React.Children.map(children, (child) =>
-          child ? <FeeChild hasPadding={hasPadding}>{child}</FeeChild> : null
+          child ? <Child hasPadding={hasPadding}>{child}</Child> : null
         )}
-      </FeesWrapper>
+      </ChildWrapper>
     </Wrapper>
   )
 }
