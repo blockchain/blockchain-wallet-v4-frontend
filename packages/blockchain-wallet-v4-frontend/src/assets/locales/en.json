@@ -569,6 +569,7 @@
   "copy.successful_purchase": "Successful Purchase",
   "copy.suggested": "Suggested",
   "copy.swap": "Swap",
+  "copy.swap_earn_paragraph": "Don't keep it waiting, earn up to {rate}% on it with our Rewards Program",
   "copy.swap_account_from_error": "You cannot swap between these types of accounts. Try changing the From account.",
   "copy.swap_add_name": "Add Your Name and Address",
   "copy.swap_amount_change_disclaimer": "Final amount may change due to market activity. By approving this Swap you agree to Blockchain.com’s",
