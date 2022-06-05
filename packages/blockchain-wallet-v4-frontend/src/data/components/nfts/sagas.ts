@@ -3,7 +3,7 @@ import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
 import { all, call, put, select } from 'redux-saga/effects'
 
-import { Exchange } from '@core'
+import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { GasCalculationOperations, GasDataI, RawOrder } from '@core/network/api/nfts/types'
@@ -25,9 +25,11 @@ import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
+import { AssetSortFields } from 'generated/graphql.types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import profileSagas from '../../modules/profile/sagas'
+import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
 import { nonTraitFilters } from './utils'
@@ -68,6 +70,54 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.fetchOpenseaStatusSuccess(res))
     } catch (e) {
       yield put(A.fetchOpenseaStatusFailure(e))
+    }
+  }
+
+  const fetchNftUserPreferences = function* () {
+    try {
+      const prefs = S.getNftUserPreferences(yield select())
+      if (Remote.Success.is(prefs)) return
+      yield put(A.fetchNftUserPreferencesLoading())
+      const retailToken = yield call(generateRetailToken)
+      const res: ReturnType<typeof api.getNftUserPreferences> = yield call(
+        api.getNftUserPreferences,
+        retailToken
+      )
+
+      // first time user, opt-out
+      if (!res) {
+        yield put(
+          A.updateUserPreferences({
+            userPrefs: {
+              auction_expired: true,
+              bid_activity: true,
+              item_sold: true,
+              offer_accepted: true,
+              outbid: true,
+              successful_purchase: true
+            }
+          })
+        )
+      }
+      yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftUserPreferencesFailure(error))
+    }
+  }
+
+  const updateUserPreferences = function* (action: ReturnType<typeof A.updateUserPreferences>) {
+    try {
+      yield put(A.fetchNftUserPreferencesLoading())
+      const retailToken = yield call(generateRetailToken)
+      const res: ReturnType<typeof api.setNftUserPreferences> = yield call(
+        api.setNftUserPreferences,
+        retailToken,
+        action.payload.userPrefs
+      )
+      yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
+    } catch (e) {
+      yield put(actions.alerts.displayError('Error updating notification preferences.'))
     }
   }
 
@@ -715,6 +765,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(actions.form.change('nftFilter', 'forSale', true))
         }
       }
+      if (action.meta.field === 'sortBy') {
+        if (action.payload?.includes(AssetSortFields.Price)) {
+          yield put(actions.form.change('nftFilter', 'forSale', true))
+        }
+      }
 
       // GET CURRENT URL
       const url = new URL(window.location.href)
@@ -807,11 +862,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
+    fetchNftUserPreferences,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,
     nftOrderFlowOpen,
-    nftSearch
+    nftSearch,
+    updateUserPreferences
   }
 }

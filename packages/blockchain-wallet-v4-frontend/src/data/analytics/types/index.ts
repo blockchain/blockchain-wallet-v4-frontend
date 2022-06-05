@@ -32,6 +32,7 @@ import {
   Events as SendCryptoEvents,
   TrackEventAction as SendCryptoTrackEventAction
 } from './sendCrypto'
+import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
 import {
   Events as TaxCenterEvents,
   TrackEventAction as TaxCenterTrackEventAction
@@ -57,10 +58,12 @@ type AnalyticsKey =
   | TaxCenterEvents
   | CoinViewEvents
   | ViewAndClickEvents
+  | SwapEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
   ...ClientErrorEvents,
+  ...CoinViewEvents,
   ...DepositWithdrawalClientEvents,
   ...InterestClientEvents,
   ...LoginEvents,
@@ -68,8 +71,8 @@ const Analytics = {
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
   ...SendCryptoEvents,
+  ...SwapEvents,
   ...TaxCenterEvents,
-  ...CoinViewEvents,
   ...ViewAndClickEvents
 }
 
@@ -91,6 +94,7 @@ type TrackEventAction =
   | NftsTrackEventAction
   | OnboardingAndVerificationTrackEventAction
   | SendCryptoTrackEventAction
+  | SwapTrackEventAction
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction

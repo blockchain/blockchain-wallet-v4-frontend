@@ -25,23 +25,27 @@ export const getData = createDeepEqualSelector(
       let total = Number(
         convertCoinToFiat({ coin: 'ETH', currency, rates: ethRates, value: ethBalance })
       )
-      erc20Balances.map((curr) => {
-        const symbol = Object.keys(window.coins).find(
-          (coin) =>
-            window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
-            curr.tokenHash.toLowerCase()
-        )
-        if (!symbol) return
+      erc20Balances
+        .filter((curr) => !!window.coins[curr.tokenSymbol])
+        .map((curr) => {
+          const symbol = Object.keys(window.coins).find(
+            (coin) =>
+              window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+              curr.tokenHash.toLowerCase()
+          )
+          if (!symbol) return
 
-        const transform2 = (rates) => {
-          if (!rates.price) return 0
+          const transform2 = (rates) => {
+            if (!rates.price) return 0
 
-          total += Number(convertCoinToFiat({ coin: symbol, currency, rates, value: curr.balance }))
-        }
+            total += Number(
+              convertCoinToFiat({ coin: symbol, currency, rates, value: curr.balance })
+            )
+          }
 
-        const ratesR = selectors.core.data.coins.getRates(symbol, state)
-        return lift(transform2)(ratesR)
-      })
+          const ratesR = selectors.core.data.coins.getRates(symbol, state)
+          return lift(transform2)(ratesR)
+        })
 
       return {
         currency,

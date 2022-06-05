@@ -36,6 +36,7 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
   UserDataType
@@ -261,7 +262,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       } else {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       }
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -810,7 +811,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmBSFundsOrder = function* () {
     try {
-      const order = S.getBSOrder(yield select())
+      const order = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
@@ -1617,7 +1618,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const origin = S.getOrigin(yield select())
 
       if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
         yield put(actions.alerts.displaySuccess('Card Added.'))
       }
@@ -1752,19 +1753,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      custodialActions.fetchProductEligibilityForUserSuccess.type,
+      custodialActions.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      buy: { enabled: false, maxOrdersLeft: 0, reasonNotEligible: undefined },
+      sell: { reasonNotEligible: undefined }
+    } as ProductEligibilityForUser)
+
     // check is user eligible to do sell/buy
     // we skip this for gold users
     if (!isUserTier2 && !latestPendingOrder) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        buy: { enabled: false, maxOrdersLeft: 0 }
-      } as ProductEligibilityForUser)
-
       const userCanBuyMore = products.buy?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
       // users with diff tier than 2 can't sell
@@ -1778,13 +1780,42 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    // show sanctions for buy
+    if (products?.buy?.reasonNotEligible) {
+      const message =
+        products.buy.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.buy.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'BuySellInit'
+        })
+      )
+      return
+    }
+    // show sanctions for sell
+    if (products?.sell?.reasonNotEligible && orderType === OrderType.SELL) {
+      const message =
+        products.sell.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.sell.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'BuySellInit'
+        })
+      )
+      return
+    }
+
     // Check if there is a pending_deposit Open Banking order
     if (latestPendingOrder) {
       const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
       hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
     }
 
-    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
+    yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
       .getOrElse('USD') as FiatType

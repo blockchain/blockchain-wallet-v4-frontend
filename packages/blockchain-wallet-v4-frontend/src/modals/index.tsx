@@ -35,7 +35,6 @@ const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
-const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 const EthWalletBalances = React.lazy(() => import('./Eth/EthWalletBalances'))
 
 // XLM
@@ -69,6 +68,7 @@ const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdro
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
+const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -299,15 +299,15 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
-          <WalletConnect />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
           <EthWalletBalances />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_SILVER_MODAL) ? (
           <UpgradeNowSilver />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_INFO_MODAL) ? (
+          <SanctionsInfo />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />

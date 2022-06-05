@@ -14,12 +14,12 @@ import {
   BankStatusType,
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
+  CustodialSanctionsEnum,
   FastLinkType,
   ModalName,
   ProductEligibilityForUser
 } from 'data/types'
 
-import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
@@ -42,8 +42,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
-      yield put(actions.modals.closeModal('REMOVE_BANK_MODAL'))
+      yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
+      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -297,20 +297,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // get current user tier
     const isUserTier2 = yield call(isTier2)
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      actions.custodial.fetchProductEligibilityForUserSuccess.type,
+      actions.custodial.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      custodialWallets: { canDepositCrypto: false, enabled: false },
+      depositFiat: { reasonNotEligible: undefined }
+    } as ProductEligibilityForUser)
+
+    // show sanctions for sell
+    if (products?.depositFiat?.reasonNotEligible) {
+      const message =
+        products.depositFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.depositFiat.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'DepositWithdrawalModal'
+        })
+      )
+      return
+    }
 
     // check is user eligible to do sell/buy
     // we skip this for gold users
     if (!isUserTier2) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        custodialWallets: { canDepositCrypto: false, enabled: false }
-      } as ProductEligibilityForUser)
-
       const userCanDeposit = products.custodialWallets.canDepositCrypto
       // prompt upgrade modal in case that user can't buy more
       if (!userCanDeposit) {

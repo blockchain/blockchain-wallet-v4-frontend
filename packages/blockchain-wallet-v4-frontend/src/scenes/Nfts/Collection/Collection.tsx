@@ -79,11 +79,11 @@ const LinksContainer = styled.div`
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
-  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
+  const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
   const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
@@ -98,6 +98,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
 
   useEffect(() => {
     setActiveTab(tab)
+    setNumOfResults(undefined)
   }, [tab])
 
   if (collectionsQuery.error)
@@ -183,10 +184,10 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
-            tabs={['ITEMS', 'EVENTS']}
+            tabs={['ITEMS', 'ACTIVITY']}
             formValues={formValues}
             numOfResults={numOfResults}
-            showSortBy
+            showSortBy={activeTab === 'ITEMS'}
             setIsFilterOpen={setIsFilterOpen}
             formActions={formActions}
             setRefreshTrigger={setRefreshTrigger}
@@ -241,7 +242,10 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'nftFilter' }),
+  reduxForm<{}, Props>({
+    destroyOnUnmount: false,
+    form: 'nftFilter'
+  }),
   connector
 )
 

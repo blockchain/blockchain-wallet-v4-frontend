@@ -87,7 +87,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         </Link>
       </LinkContainer>
       <LinkContainer
-        style={{ position: 'relative' }}
+        style={{ display: 'flex', height: '100%', position: 'relative' }}
         to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
       >
         <Link>

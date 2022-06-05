@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(ModalName.KYC_MODAL, payload))
+    yield put(actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, payload))
   }
 
   const registerUserCampaign = function* (payload) {
@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }) => {
       // Buffer for tagging user
       const wallet = yield select(selectors.core.wallet.getWallet)
       if (Types.Wallet.isDoubleEncrypted(wallet)) {
-        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actionTypes.modals.CLOSE_MODAL])
+        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actions.modals.closeModal.type])
       }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
