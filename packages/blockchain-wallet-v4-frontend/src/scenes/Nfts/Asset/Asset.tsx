@@ -20,10 +20,7 @@ import {
   SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
-  TabMenu,
-  TabMenuItem,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
@@ -111,15 +108,8 @@ const SocialLink = styled.div`
 
 const ActivityWrapper = styled.div`
   max-height: 300px;
-  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   overflow: auto;
-`
-
-const CustomTabMenu = styled(TabMenu)`
-  color: ${colors.grey900};
-  margin: 24px 0;
-  background: ${colors.grey000};
 `
 
 const CreatorOwnerAddress = styled.div`
@@ -937,9 +927,14 @@ const NftAsset: React.FC<Props> = ({
                       <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                     </Flex>
                   ) : (
-                    <Flex justifyContent='center' alignItems='center' flexDirection='column'>
+                    <Flex
+                      style={{ padding: '1em' }}
+                      justifyContent='center'
+                      alignItems='center'
+                      flexDirection='column'
+                    >
                       <Image height='100px' name='nft-img-placeholder' />
-                      <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
+                      <Text style={{ marginTop: '8px' }} size='14px' weight={600}>
                         <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
                       </Text>
                     </Flex>
@@ -947,14 +942,14 @@ const NftAsset: React.FC<Props> = ({
                 </NftDropdown>
               </DropdownPadding>
               <DropdownPadding>
-                <NftDropdown title='Details'>
+                <NftDropdown title='Details' expanded>
                   <DetailsAndOffers>
                     <Detail>
                       <Text size='16px' weight={500} color='grey900'>
                         Blockchain
                       </Text>{' '}
-                      <Text size='16px' weight={600} color='grey600'>
-                        Ethereum
+                      <Text capitalize size='16px' weight={600} color='grey600'>
+                        {currentAsset.network}
                       </Text>
                     </Detail>
                     <Detail>

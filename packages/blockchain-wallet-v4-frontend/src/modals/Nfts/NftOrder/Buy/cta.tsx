@@ -133,13 +133,19 @@ const CTA: React.FC<Props> = (props) => {
                       size='16px'
                       style={{ padding: '1em 0em', textAlign: 'center' }}
                     >
-                      I agree to Blockchain.com’s{' '}
+                      <FormattedMessage
+                        id='copy.agree_to_blockchain'
+                        defaultMessage='I agree to Blockchain.com’s'
+                      />
                       <Link
                         onClick={acceptTerms}
                         href='https://www.blockchain.com/legal/terms'
                         target='_blank'
                       >
-                        Terms of Service
+                        <FormattedMessage
+                          id='copy.terms_of_service'
+                          defaultMessage='Terms of Service'
+                        />
                       </Link>
                     </Text>
                     <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
@@ -186,21 +192,29 @@ const CTA: React.FC<Props> = (props) => {
                   checked={termsAccepted}
                 />
               </div>
-              <Text
-                color={colors.grey200}
-                weight={500}
-                size='16px'
-                style={{ padding: '1em 0em', textAlign: 'center' }}
-              >
-                I agree to Blockchain.com’s{' '}
-                <Link
-                  onClick={acceptTerms}
-                  href='https://www.blockchain.com/legal/terms'
-                  target='_blank'
+              <label htmlFor='terms'>
+                <Text
+                  color={colors.grey200}
+                  weight={500}
+                  size='16px'
+                  style={{ padding: '1em 0em', textAlign: 'center' }}
                 >
-                  Terms of Service
-                </Link>
-              </Text>
+                  <FormattedMessage
+                    id='copy.agree_to_blockchain'
+                    defaultMessage='I agree to Blockchain.com’s'
+                  />{' '}
+                  <Link
+                    onClick={acceptTerms}
+                    href='https://www.blockchain.com/legal/terms'
+                    target='_blank'
+                  >
+                    <FormattedMessage
+                      id='copy.terms_of_service'
+                      defaultMessage='Terms of Service'
+                    />
+                  </Link>
+                </Text>
+              </label>
             </div>
             <Button
               onClick={() =>

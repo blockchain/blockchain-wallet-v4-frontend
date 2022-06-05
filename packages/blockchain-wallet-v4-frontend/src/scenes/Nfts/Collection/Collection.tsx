@@ -76,7 +76,7 @@ const LinksContainer = styled.div`
   }
 `
 
-const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
@@ -163,6 +163,8 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             </LinksContainer>
           </CollectionInfo>
           <Stats
+            slug={collection.slug}
+            routerActions={routerActions}
             formActions={formActions}
             total_supply={collection.total_supply}
             stats={collection.stats}
@@ -229,7 +231,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
