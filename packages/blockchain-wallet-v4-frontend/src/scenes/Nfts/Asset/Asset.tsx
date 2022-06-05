@@ -76,6 +76,9 @@ const AssetImg = styled.img`
 
 const Description = styled.div<{ isLongEnough: boolean }>`
   margin-bottom: 1em;
+  p:last-child {
+    margin-bottom: 4px;
+  }
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -107,6 +110,7 @@ const SocialLink = styled.div`
 
 const ActivityWrapper = styled.div`
   max-height: 300px;
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   overflow: auto;
 `
@@ -188,7 +192,6 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
-  const [Tab, setTab] = useState('about')
   const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
@@ -295,104 +298,109 @@ const NftAsset: React.FC<Props> = ({
                   right='40px'
                 />
               </AssetImageContainer>
-              <DropdownPadding style={{ paddingTop: '1em' }}>
-                <NftDropdown expanded title='About'>
-                  <div style={{ padding: '1em' }}>
-                    {description !== '' ? (
-                      <Description isLongEnough={isLongEnough}>
-                        <Flex flexDirection='column'>
-                          <Text size='14px' color='grey600' weight={600}>
-                            <FormattedMessage id='copy.description' defaultMessage='Description' />
-                          </Text>
-                          <Text
-                            size='14px'
-                            color='grey600'
-                            weight={500}
-                            style={{ wordBreak: 'break-word' }}
-                          >
-                            {moreToggle && isLongEnough ? (
-                              <ReactMarkdown linkTarget='_blank'>
-                                {`${description.substring(0, 82)}...`}
-                              </ReactMarkdown>
-                            ) : (
-                              <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
-                            )}
-                          </Text>
-                          {isLongEnough && (
+              {currentAsset.traits?.length || description !== '' ? (
+                <DropdownPadding style={{ paddingTop: '1em' }}>
+                  <NftDropdown expanded title='About'>
+                    <div style={{ padding: '1em' }}>
+                      {description !== '' ? (
+                        <Description isLongEnough={isLongEnough}>
+                          <Flex flexDirection='column'>
+                            <Text size='14px' color='grey600' weight={600}>
+                              <FormattedMessage
+                                id='copy.description'
+                                defaultMessage='Description'
+                              />
+                            </Text>
                             <Text
-                              style={{ cursor: 'pointer' }}
-                              onClick={() => {
-                                if (isLongEnough) setIsMore(!moreToggle)
-                              }}
-                              size='12px'
-                              color='blue600'
-                              weight={600}
+                              size='14px'
+                              color='grey600'
+                              weight={500}
+                              style={{ wordBreak: 'break-word' }}
                             >
-                              {moreToggle ? (
-                                <FormattedMessage id='copy.more' defaultMessage='More' />
+                              {moreToggle && isLongEnough ? (
+                                <ReactMarkdown linkTarget='_blank'>
+                                  {`${description.substring(0, 82)}...`}
+                                </ReactMarkdown>
                               ) : (
-                                <FormattedMessage id='copy.less' defaultMessage='Less' />
+                                <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
                               )}
                             </Text>
-                          )}
-                        </Flex>
-                      </Description>
-                    ) : null}
-                    {currentAsset.traits?.length ? (
-                      <Flex flexDirection='column'>
-                        <Text size='14px' color='grey600' weight={600}>
-                          <FormattedMessage id='copy.properties' defaultMessage='Properties' />
-                        </Text>
-                        <TraitsWrapper>
-                          {currentAsset.traits.map((trait) => {
-                            if (!trait) return null
-
-                            const assetTraits = currentAsset.traits?.find(
-                              (t) => t?.trait_type === trait.trait_type
-                            )
-                            const traitCount = assetTraits?.trait_count
-                            const rarity =
-                              traitCount && currentAsset.collection.total_supply
-                                ? `${parseFloat(
-                                    (
-                                      (traitCount / currentAsset.collection.total_supply) *
-                                      100
-                                    ).toFixed(1)
-                                  )}%`
-                                : 'New Trait'
-
-                            return (
-                              <Trait
-                                key={trait.value}
+                            {isLongEnough && (
+                              <Text
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => {
-                                  routerActions.push(
-                                    `/nfts/collection/${currentAsset.collection.slug}`
-                                  )
-                                  formActions.change(
-                                    'nftFilter',
-                                    `${trait.trait_type}.${trait.value}`,
-                                    true
-                                  )
+                                  if (isLongEnough) setIsMore(!moreToggle)
                                 }}
+                                size='12px'
+                                color='blue600'
+                                weight={600}
                               >
-                                <Text capitalize color='blue400' size='12px' weight={400}>
-                                  <b>{trait?.trait_type}</b>
-                                </Text>
-                                <Text capitalize color='blue600' size='14px' weight={600}>
-                                  {trait?.value}
-                                </Text>
-                                <Text capitalize color='grey900' size='12px' weight={500}>
-                                  {rarity}
-                                </Text>
-                              </Trait>
-                            )
-                          })}
-                        </TraitsWrapper>
-                      </Flex>
-                    ) : null}
-                  </div>
-                </NftDropdown>
-              </DropdownPadding>
+                                {moreToggle ? (
+                                  <FormattedMessage id='copy.more' defaultMessage='More' />
+                                ) : (
+                                  <FormattedMessage id='copy.less' defaultMessage='Less' />
+                                )}
+                              </Text>
+                            )}
+                          </Flex>
+                        </Description>
+                      ) : null}
+                      {currentAsset.traits?.length ? (
+                        <Flex flexDirection='column'>
+                          <Text size='14px' color='grey600' weight={600}>
+                            <FormattedMessage id='copy.properties' defaultMessage='Properties' />
+                          </Text>
+                          <TraitsWrapper>
+                            {currentAsset.traits.map((trait) => {
+                              if (!trait) return null
+
+                              const assetTraits = currentAsset.traits?.find(
+                                (t) => t?.trait_type === trait.trait_type
+                              )
+                              const traitCount = assetTraits?.trait_count
+                              const rarity =
+                                traitCount && currentAsset.collection.total_supply
+                                  ? `${parseFloat(
+                                      (
+                                        (traitCount / currentAsset.collection.total_supply) *
+                                        100
+                                      ).toFixed(1)
+                                    )}%`
+                                  : 'New Trait'
+
+                              return (
+                                <Trait
+                                  key={trait.value}
+                                  onClick={() => {
+                                    routerActions.push(
+                                      `/nfts/collection/${currentAsset.collection.slug}`
+                                    )
+                                    formActions.change(
+                                      'nftFilter',
+                                      `${trait.trait_type}.${trait.value}`,
+                                      true
+                                    )
+                                  }}
+                                >
+                                  <Text capitalize color='blue400' size='12px' weight={400}>
+                                    <b>{trait?.trait_type}</b>
+                                  </Text>
+                                  <Text capitalize color='blue600' size='14px' weight={600}>
+                                    {trait?.value}
+                                  </Text>
+                                  <Text capitalize color='grey900' size='12px' weight={500}>
+                                    {rarity}
+                                  </Text>
+                                </Trait>
+                              )
+                            })}
+                          </TraitsWrapper>
+                        </Flex>
+                      ) : null}
+                    </div>
+                  </NftDropdown>
+                </DropdownPadding>
+              ) : null}
             </LeftColWrapper>
             <RightColWrapper>
               <div
@@ -921,14 +929,9 @@ const NftAsset: React.FC<Props> = ({
                       <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                     </Flex>
                   ) : (
-                    <Flex
-                      style={{ padding: '1em' }}
-                      justifyContent='center'
-                      alignItems='center'
-                      flexDirection='column'
-                    >
+                    <Flex justifyContent='center' alignItems='center' flexDirection='column'>
                       <Image height='100px' name='nft-img-placeholder' />
-                      <Text style={{ marginTop: '8px' }} size='14px' weight={600}>
+                      <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
                         <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
                       </Text>
                     </Flex>
@@ -936,7 +939,7 @@ const NftAsset: React.FC<Props> = ({
                 </NftDropdown>
               </DropdownPadding>
               <DropdownPadding>
-                <NftDropdown title='Details' expanded>
+                <NftDropdown expanded title='Details'>
                   <DetailsAndOffers>
                     <Detail>
                       <Text size='16px' weight={500} color='grey900'>

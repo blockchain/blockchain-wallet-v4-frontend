@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { SkeletonCircle, SkeletonRectangle, SpinningLoader, Text } from 'blockchain-info-components'
+import { SkeletonCircle, SkeletonRectangle } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 
 import {
   AssetName,
@@ -8,13 +9,8 @@ import {
   Divider,
   Highest,
   LeftColWrapper,
-  MoreAssets,
-  MoreAssetsList,
-  MoreAssetsListItem,
   RightColWrapper,
   Top,
-  Trait,
-  TraitsWrapper,
   Wrapper
 } from '.'
 
@@ -25,7 +21,12 @@ const NftAssetLoading: React.FC<Props> = () => {
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <SkeletonRectangle height='500px' width='100%' />
+              <SkeletonRectangle height='500px' />
+              <div>
+                <div style={{ marginTop: '24px' }}>
+                  <SkeletonRectangle width='100%' height='240px' />
+                </div>
+              </div>
             </LeftColWrapper>
             <RightColWrapper>
               <div
@@ -36,19 +37,17 @@ const NftAssetLoading: React.FC<Props> = () => {
                 }}
               >
                 <div style={{ display: 'block', marginTop: '2px' }}>
-                  <Text
-                    size='14px'
-                    weight={600}
-                    style={{
-                      alignItems: 'center',
-                      padding: '0em 0em 0.5em 0em'
-                    }}
-                  >
-                    Collection
-                  </Text>
-                  <SkeletonRectangle height='24px' width='100px' />
+                  <Flex gap={24}>
+                    <Flex gap={8}>
+                      <SkeletonCircle height='40px' width='40px' />
+                      <SkeletonRectangle height='40px' width='100px' />
+                    </Flex>
+                    <Flex gap={8}>
+                      <SkeletonCircle height='40px' width='40px' />
+                      <SkeletonRectangle height='40px' width='100px' />
+                    </Flex>
+                  </Flex>
                 </div>
-                <SkeletonCircle height='40px' width='40px' />
               </div>
               <AssetName>
                 <SkeletonRectangle height='48px' width='120px' />
@@ -61,79 +60,23 @@ const NftAssetLoading: React.FC<Props> = () => {
                     </div>
                     <SkeletonRectangle height='24px' width='200px' />
                     <Divider style={{ marginBottom: '1em' }} />
-                    <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                   </Highest>
                   <SkeletonRectangle width='200px' height='56px' />
                 </div>
               </CurrentPriceBox>
-              <div>
-                <TraitsWrapper>
-                  <Trait>
-                    <SkeletonRectangle width='100px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='200px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='40px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='100px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='100px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='50px' height='76px' />
-                  </Trait>
-                  <Trait>
-                    <SkeletonRectangle width='70px' height='76px' />
-                  </Trait>
-                </TraitsWrapper>
-              </div>
-              <div style={{ marginTop: '24px' }}>
-                <SkeletonRectangle width='100%' height='240px' />
-              </div>
-            </RightColWrapper>
-          </Top>
-          <div style={{ display: 'flex', width: '100%' }}>
-            <MoreAssets>
-              <div
+              <Flex
+                flexDirection='column'
+                gap={24}
                 style={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  marginTop: '40px'
+                  padding: '1em 0em'
                 }}
               >
-                <Text color='grey700' weight={600} capitalize>
-                  More from this collection
-                </Text>
-              </div>
-              <MoreAssetsList>
-                <MoreAssetsListItem>
-                  <div style={{ margin: '1em' }}>
-                    <SkeletonRectangle width='100%' height='280px' />
-                  </div>
-                </MoreAssetsListItem>
-                <MoreAssetsListItem>
-                  <div style={{ margin: '1em' }}>
-                    <SkeletonRectangle width='100%' height='280px' />
-                  </div>
-                </MoreAssetsListItem>
-                <MoreAssetsListItem>
-                  <div style={{ margin: '1em' }}>
-                    <SkeletonRectangle width='100%' height='280px' />
-                  </div>
-                </MoreAssetsListItem>
-                <MoreAssetsListItem>
-                  <div style={{ margin: '1em' }}>
-                    <SkeletonRectangle width='100%' height='280px' />
-                  </div>
-                </MoreAssetsListItem>
-              </MoreAssetsList>
-            </MoreAssets>
-          </div>
+                <SkeletonRectangle width='500px' height='48px' />
+                <SkeletonRectangle width='500px' height='48px' />
+                <SkeletonRectangle width='500px' height='48px' />
+              </Flex>
+            </RightColWrapper>
+          </Top>
         </div>
       </>
     </Wrapper>
