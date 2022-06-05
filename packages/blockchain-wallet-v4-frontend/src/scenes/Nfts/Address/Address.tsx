@@ -12,7 +12,12 @@ import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AssetSortFields, EventFilterFields, OwnerQuery } from 'generated/graphql.types'
+import {
+  AssetSortFields,
+  ChainOperators,
+  EventFilterFields,
+  OwnerQuery
+} from 'generated/graphql.types'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 import { useMedia } from 'services/styles'
 
