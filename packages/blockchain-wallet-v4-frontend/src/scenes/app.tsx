@@ -23,6 +23,7 @@ import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
+import ExtensionRoutes from '../routes/extensionRoutes'
 
 const queryClient = new QueryClient()
 
@@ -115,6 +116,7 @@ const App = ({
                       <Switch>
                         {/* Unauthenticated Wallet routes */}
                         <Route path='/app-error' component={AppError} />
+                        <Route path='/extension' component={ExtensionRoutes} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'
