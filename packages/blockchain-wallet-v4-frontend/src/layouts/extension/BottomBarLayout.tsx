@@ -8,10 +8,12 @@ const Wrapper = styled.div`
   background: ${(props) => props.theme.exchangeLogin};
   width: ${() => `${extensionWidth}px`};
   height: ${() => `${extensionHeight}px`};
+  //overflow: hidden;
 `
 
 const Content = styled.div`
   padding: 20px 20px 70px 20px;
+  box-sizing: border-box;
   overflow-y: scroll;
   height: 100%;
 `
@@ -22,6 +24,7 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background: ${(props) => props.theme.exchangeLogin};
   bottom: 0;
   width: 100%;
 `
