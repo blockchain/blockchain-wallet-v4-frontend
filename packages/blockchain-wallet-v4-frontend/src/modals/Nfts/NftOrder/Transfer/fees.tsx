@@ -38,7 +38,7 @@ const Fees: React.FC<Props> = (props) => {
               <NftDropdown
                 title='Total Fees'
                 hasPadding
-                totalFees={displayCoinToCoin({
+                titleRight={displayCoinToCoin({
                   coin: 'ETH',
                   value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
                 })}

@@ -35,7 +35,7 @@ const NftDropdown: React.FC<Props> = ({
   expanded = false,
   hasPadding = false,
   title,
-  totalFees
+  titleRight
 }) => {
   const [isActive, setIsActive] = useState(expanded)
   const toggleDropdown = () => {
@@ -50,7 +50,7 @@ const NftDropdown: React.FC<Props> = ({
         </Text>
         <Flex alignItems='center' gap={8}>
           <Text weight={600} size='14px'>
-            {totalFees || ''}
+            {titleRight || ''}
           </Text>
           <IconWrapper>
             {!isActive ? (
@@ -78,7 +78,7 @@ type Props = {
   expanded?: boolean
   hasPadding?: boolean
   title?: string
-  totalFees?: string
+  titleRight?: string
 }
 
 export default NftDropdown

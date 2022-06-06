@@ -33,7 +33,7 @@ const Fees: React.FC<Props> = (props: Props) => {
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <NftDropdown title='Total Fees' hasPadding totalFees={getTotalFees(asset, val)}>
+            <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees(asset, val)}>
               {asset.asset_contract?.opensea_seller_fee_basis_points > 0 ? (
                 <Flex justifyContent='space-between' alignItems='center'>
                   <Text size='14px' weight={500}>

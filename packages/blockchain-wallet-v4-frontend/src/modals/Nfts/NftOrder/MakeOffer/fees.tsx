@@ -27,7 +27,7 @@ const Fees: React.FC<Props> = (props) => {
 
   return (
     <>
-      <NftDropdown title='Total Fees' hasPadding totalFees={getTotalFees()}>
+      <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees()}>
         <CreateOfferFees {...props} />
         {props.formValues?.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
       </NftDropdown>
