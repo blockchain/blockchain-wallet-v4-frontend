@@ -25,7 +25,6 @@ export type BannerType =
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
-  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
   | null
 
@@ -159,15 +158,12 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   }
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
-  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
 
   let bannerToShow: BannerType = null
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
-  } else if (isStxSelfCustodyAvailable) {
-    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (
