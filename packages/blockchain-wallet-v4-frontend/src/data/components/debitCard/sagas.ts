@@ -24,12 +24,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const filterTerminatedCards = (cards) =>
     cards.filter((card) => card.status !== CardStateType.TERMINATED)
 
-  const getEligibleAccounts = function* (cardId) {
+  const getEligibleAccounts = function* () {
+    yield put(A.getEligibleAccountsLoading())
+    const { id } = yield select(selectors.components.debitCard.getCurrentCardSelected)
     try {
-      const data = yield call(api.getDCEligibleAccounts, cardId)
-      yield put(A.setEligibleAccounts(data))
+      const data = yield call(api.getDCEligibleAccounts, id)
+      yield put(A.getEligibleAccountsSuccess(data))
     } catch (e) {
       console.error('Failed to get eligible accounts', errorHandler(e))
+      yield put(A.getEligibleAccountsFailure(e))
     }
   }
 
@@ -38,13 +41,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const getCurrentCardAccount = function* (cardId) {
-    const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccounts)
+    const eligibleAccountsR = yield select(selectors.components.debitCard.getEligibleAccounts)
     try {
       yield put(A.getCurrentCardAccountLoading())
 
       const { accountCurrency } = yield call(api.getDCCurrentAccount, cardId)
 
-      const accountFound = findAccount(accountCurrency, eligibleAccounts)
+      const accountFound = findAccount(accountCurrency, eligibleAccountsR.data)
 
       if (!accountCurrency || !accountFound) throw new Error('no_funds_obtained')
 
@@ -65,7 +68,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (cards.length > 0) {
         yield put(A.setCurrentCardSelected(cards[0]))
         yield call(getCardToken, cards[0].id)
-        yield call(getEligibleAccounts, cards[0].id)
+        yield call(getEligibleAccounts)
         yield call(getCurrentCardAccount, cards[0].id)
       }
     } catch (e) {
@@ -149,6 +152,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     createCard,
     getCards,
     getCurrentCardAccount,
+    getEligibleAccounts,
     getProducts,
     handleCardLock,
     terminateCard

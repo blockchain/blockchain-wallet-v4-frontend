@@ -31,6 +31,7 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // Debit Card
 const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
 const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
+const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
@@ -175,6 +176,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.EDIT_TX_DESCRIPTION_MODAL) ? (
           <EditTxDescription />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.FUNDS_LIST) ? <FundsList /> : null}
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}

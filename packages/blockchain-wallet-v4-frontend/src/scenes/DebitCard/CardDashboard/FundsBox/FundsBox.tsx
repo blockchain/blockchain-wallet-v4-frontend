@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose, Dispatch } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+
+import { actions } from 'data'
 
 import { getData } from './FundsBox.selector'
 import FundsBox from './FundsBox.template'
@@ -11,7 +13,9 @@ const mapStateToProps = (state) => ({
   currentCard: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
