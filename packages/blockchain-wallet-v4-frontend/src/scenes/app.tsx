@@ -14,6 +14,7 @@ import { UserDataType } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
+import { ExtensionLayoutContainer } from 'layouts/Extension'
 import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
@@ -70,6 +71,9 @@ const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
+
+// EXTENSION
+const Funding = React.lazy(() => import('./Funding'))
 
 const App = ({
   apiUrl,
@@ -253,6 +257,7 @@ const App = ({
                           hideMenu={coinViewV2}
                           center={coinViewV2}
                         />
+                        <ExtensionLayoutContainer path='/extension/test' component={Funding} />
                         {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                       </Switch>
                     </Suspense>
