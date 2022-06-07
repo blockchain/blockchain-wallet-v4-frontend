@@ -271,6 +271,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeSignUp = function* () {
+    yield put(actions.modules.profile.clearSession())
+    yield put(actions.modules.profile.clearProfileState())
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
     const referrerUsername = queryParams.get('referrerUsername') as string
     const tuneTid = queryParams.get('tuneTid') as string
