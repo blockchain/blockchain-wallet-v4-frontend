@@ -15,11 +15,11 @@ import {
   RatesType,
   RemoteDataType
 } from '@core/types'
-import { errorHandler } from '@core/utils'
+import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { ModalName } from 'data/types'
+import { CustodialSanctionsErrorCodeEnum, ModalName } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
@@ -124,8 +124,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         coin as CoinType
       )
       yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
+      yield put(A.setUnderSanctions({ message: null }))
     } catch (e) {
       const error = errorHandler(e)
+      const errorCode: number | string = errorHandlerCode(e)
+      if (errorCode === CustodialSanctionsErrorCodeEnum.EU_5_SANCTION_ERROR) {
+        yield put(A.setUnderSanctions({ message: e?.ux?.message }))
+      }
       yield put(A.fetchInterestAccountFailure(error))
     }
   }
