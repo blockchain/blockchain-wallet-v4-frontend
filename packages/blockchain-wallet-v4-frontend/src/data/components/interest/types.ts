@@ -91,5 +91,6 @@ export interface InterestState {
   transactions: Array<InterestTransactionType>
   transactionsNextPage: string | null
   transactionsReport: RemoteDataType<string, Array<InterestTransactionType>>
+  underSanctionsMessage: string | null
   withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>
 }

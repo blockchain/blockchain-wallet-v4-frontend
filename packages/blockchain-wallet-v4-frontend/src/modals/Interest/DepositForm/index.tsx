@@ -7,7 +7,7 @@ import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { getCurrency, getData } from './selectors'
+import { getCurrency, getData, getUnderSanctionsMessage } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -43,11 +43,16 @@ class DepositForm extends PureComponent<Props> {
   }
 
   render() {
-    const { currency, data } = this.props
+    const { currency, data, underSanctionsMessage } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
     return data.cata({
-      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Failure: () =>
+        underSanctionsMessage ? (
+          <DataError onClick={this.handleRefresh} message={{ message: underSanctionsMessage }} />
+        ) : (
+          <DataError onClick={this.handleRefresh} />
+        ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => (
@@ -64,7 +69,8 @@ class DepositForm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   currency: getCurrency(state),
-  data: getData(state)
+  data: getData(state),
+  underSanctionsMessage: getUnderSanctionsMessage(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
