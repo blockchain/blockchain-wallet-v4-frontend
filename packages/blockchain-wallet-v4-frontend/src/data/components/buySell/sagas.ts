@@ -687,11 +687,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      // TODO add loading state
-
-      // TODO add polling for order
-
-      // TODO pass confirmed order here
+      if (confirmedOrder.paymentError) {
+        throw new Error(confirmedOrder.paymentError)
+      }
 
       // Check if the user has a yapily account and if they're submitting a bank transfer order
       if (
