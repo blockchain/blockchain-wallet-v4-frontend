@@ -21,7 +21,7 @@ const NftAssetLoading: React.FC<Props> = () => {
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <SkeletonRectangle height='500px' />
+              <SkeletonRectangle width='500px' height='500px' />
               <div>
                 <div style={{ marginTop: '24px' }}>
                   <SkeletonRectangle width='100%' height='240px' />
