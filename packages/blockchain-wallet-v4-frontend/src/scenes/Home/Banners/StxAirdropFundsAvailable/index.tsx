@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon as ConstellationIcon } from '@blockchain-com/constellation'
+import { IconCloseCircleV2 } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
 
@@ -10,7 +12,8 @@ import { RootState } from 'data/rootReducer'
 import { TagsType } from 'data/types'
 import { media } from 'services/styles'
 
-import { BannerButton, IconWrapper } from '../styles'
+import { getSTXAnnouncement } from '../selectors'
+import { BannerButton, CloseLink, IconWrapper } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,7 +64,7 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
 
   render() {
     const { tags } = this.props
-
+    const completeSTX = getSTXAnnouncement()
     return (
       <Wrapper>
         <Row>
@@ -103,6 +106,19 @@ class StxAirdropFundsAvailable extends PureComponent<Props> {
             <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </BannerButton>
         </Link>
+        <CloseLink
+          data-e2e='newCoinCloseButton'
+          onClick={() => this.props.cacheActions.announcementDismissed(completeSTX)}
+        >
+          <ConstellationIcon
+            label='close'
+            color='grey600'
+            data-e2e='completeProfileCloseModalIcon'
+            size='md'
+          >
+            <IconCloseCircleV2 />
+          </ConstellationIcon>
+        </CloseLink>
       </Wrapper>
     )
   }
@@ -113,6 +129,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 

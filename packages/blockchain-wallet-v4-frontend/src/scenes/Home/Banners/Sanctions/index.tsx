@@ -10,7 +10,7 @@ import { Link, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { getCompleteProfileAnnouncement } from '../selectors'
+import { getSanctionsAnnouncement } from '../selectors'
 import { BannerButton, CloseLink } from '../styles'
 
 const Wrapper = styled.div`
@@ -57,7 +57,7 @@ const PendingIconWrapper = styled.div`
 `
 
 const Sanctions = ({ cacheActions }: Props) => {
-  const completeAnnouncement = getCompleteProfileAnnouncement()
+  const completeSanctions = getSanctionsAnnouncement()
 
   return (
     <Wrapper>
@@ -103,7 +103,7 @@ const Sanctions = ({ cacheActions }: Props) => {
 
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(completeSanctions)}
       >
         <Icon label='close' color='grey600' data-e2e='completeProfileCloseModalIcon' size='md'>
           <IconCloseCircleV2 />

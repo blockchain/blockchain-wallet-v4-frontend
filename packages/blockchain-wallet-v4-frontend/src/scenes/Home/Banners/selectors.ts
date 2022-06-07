@@ -33,6 +33,7 @@ export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
 export const getSanctionsAnnouncement = () => `sanctions-homepage`
+export const getSTXAnnouncement = () => `stx-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
   return (
@@ -162,14 +163,18 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   }
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
+
+  // STX banner
   const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
+  const stxAnnouncement = getSTXAnnouncement()
+  const showStxBanner = showBanner(isStxSelfCustodyAvailable, stxAnnouncement, announcementState)
 
   let bannerToShow: BannerType = null
   if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
-  } else if (isStxSelfCustodyAvailable) {
+  } else if (showStxBanner) {
     bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
