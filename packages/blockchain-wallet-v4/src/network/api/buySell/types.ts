@@ -1,6 +1,7 @@
 import { CardNameType } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
+import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type IBSAccountType = {
@@ -234,6 +235,7 @@ export type BSOrderProperties = {
   inputQuantity: string
   insertedAt: string
   outputQuantity: string
+  paymentError?: ORDER_ERROR_CODE
   paymentMethodId?: string
   paymentType?: BSPaymentMethodType['type']
   period?: RecurringBuyPeriods
