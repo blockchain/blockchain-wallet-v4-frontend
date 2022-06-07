@@ -27,7 +27,7 @@ const NftAssetLoading: React.FC<Props> = () => {
           <Top>
             <LeftColWrapper>
               <NftAssetStickyWrapper>
-                <SkeletonRectangle height='500px' />
+                <SkeletonRectangle width='500px' height='500px' />
               </NftAssetStickyWrapper>
             </LeftColWrapper>
             <RightColWrapper>
