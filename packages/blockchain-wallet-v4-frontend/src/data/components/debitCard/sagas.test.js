@@ -1,8 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import * as S from 'data/components/debitCard/selectors'
-
 import sagas from './sagas'
+import { getEligibleAccountsData } from './selectors'
 import { actions as A } from './slice'
 
 const API_MOCK = {
@@ -27,9 +26,9 @@ describe('debitCard sagas', () => {
     const accountMock = { balance: { symbol: 'USD', value: '1' } }
     const eligibleAccountsMock = [accountMock]
 
-    const validateYieldSelectGetEligibleAccounts = (generator) => {
+    const validateYieldSelectGetEligibleAccountsData = (generator) => {
       const actual = generator.next().value
-      const expected = select(S.getEligibleAccounts)
+      const expected = select(getEligibleAccountsData)
 
       expect(actual).toEqual(expected)
     }
@@ -55,8 +54,8 @@ describe('debitCard sagas', () => {
     describe('success flow with currentAccount data', () => {
       const generator = saga(CARD_ID)
 
-      it('should yields select getEligibleAccounts', () => {
-        validateYieldSelectGetEligibleAccounts(generator)
+      it('should yields select getEligibleAccountsData', () => {
+        validateYieldSelectGetEligibleAccountsData(generator)
       })
 
       it('should yields put getCurrentCardAccountLoading', () => {
@@ -83,7 +82,7 @@ describe('debitCard sagas', () => {
       const generator = saga(CARD_ID)
 
       it('should yields select getEligibleAccounts', () => {
-        validateYieldSelectGetEligibleAccounts(generator)
+        validateYieldSelectGetEligibleAccountsData(generator)
       })
 
       it('should yields put getCurrentCardAccountLoading', () => {
@@ -113,7 +112,7 @@ describe('debitCard sagas', () => {
       const generator = saga(CARD_ID)
 
       it('should yields select getEligibleAccounts', () => {
-        validateYieldSelectGetEligibleAccounts(generator)
+        validateYieldSelectGetEligibleAccountsData(generator)
       })
 
       it('should yields put getCurrentCardAccountLoading', () => {
