@@ -20,6 +20,9 @@ export const getLockHandler = (state: RootState) => state.components.debitCard.l
 
 export const getEligibleAccounts = (state: RootState) => state.components.debitCard.eligibleAccounts
 
+export const getEligibleAccountsData = (state: RootState) =>
+  state.components.debitCard.eligibleAccounts.getOrElse([] as Array<AccountType>)
+
 export const getCurrentCardAccount = (state: RootState) =>
   state.components.debitCard.currentCardAccount
 

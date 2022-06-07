@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 
 export const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  width: 100%;
 `
 export const Coin = styled.div`
   display: flex;

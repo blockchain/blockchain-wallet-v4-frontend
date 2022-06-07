@@ -2,11 +2,12 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { CoinType } from '@core/types'
+import { Flex } from 'components/Flex'
 import { BalanceType } from 'data/components/debitCard/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 
 import CoinBalanceDisplay from './CoinBalanceDisplay'
-import { Amount, Coin, CoinIcon, CoinName, FundSubTitle, Wrapper } from './CoinWithBalance.selector'
+import { Amount, Coin, CoinIcon, CoinName, FundSubTitle, Wrapper } from './CoinWithBalance.model'
 
 const fundTypeLabel = (symbol: string) => (
   <FundSubTitle>
@@ -25,8 +26,8 @@ const fundTypeLabel = (symbol: string) => (
 )
 
 const CoinWithBalance = ({ symbol, value }: BalanceType) => (
-  <div style={{ flex: 1 }}>
-    <Wrapper>
+  <Wrapper>
+    <Flex justifyContent='space-between' alignItems='center'>
       <Coin>
         <CoinIcon name={symbol as CoinType} size='32px' />
         <div>
@@ -37,8 +38,8 @@ const CoinWithBalance = ({ symbol, value }: BalanceType) => (
       <Amount>
         <CoinBalanceDisplay coin={symbol} balance={convertStandardToBase(symbol, value)} />
       </Amount>
-    </Wrapper>
-  </div>
+    </Flex>
+  </Wrapper>
 )
 
 export default CoinWithBalance

@@ -41,13 +41,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const getCurrentCardAccount = function* (cardId) {
-    const eligibleAccountsR = yield select(selectors.components.debitCard.getEligibleAccounts)
+    const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccountsData)
     try {
       yield put(A.getCurrentCardAccountLoading())
 
       const { accountCurrency } = yield call(api.getDCCurrentAccount, cardId)
 
-      const accountFound = findAccount(accountCurrency, eligibleAccountsR.data)
+      const accountFound = findAccount(accountCurrency, eligibleAccounts)
 
       if (!accountCurrency || !accountFound) throw new Error('no_funds_obtained')
 
