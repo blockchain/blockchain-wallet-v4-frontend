@@ -18,6 +18,7 @@ export type GoalsType =
   | 'make-offer-nft'
   | 'nfts'
   | 'settings'
+  | 'sanctionsNotice'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
