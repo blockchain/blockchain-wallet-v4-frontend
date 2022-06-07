@@ -55,6 +55,10 @@ const pluginWebpackConfig = evolve(
           {
             force: true,
             from: CONFIG_PATH.src + '/plugin',
+          },
+          {
+            force: true,
+            from: CONFIG_PATH.mocksConfig,
           }
         ]
       }),
