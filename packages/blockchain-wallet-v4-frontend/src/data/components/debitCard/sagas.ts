@@ -155,7 +155,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { id } = yield select(selectors.components.debitCard.getCurrentCardSelected)
       const { payload: symbol } = action
 
-      yield call(api.selectAccount, id, symbol)
+      yield call(api.selectDCAccount, id, symbol)
       yield call(getCurrentCardAccount, id)
       yield put(A.selectAccountSuccess(symbol))
     } catch (e) {
