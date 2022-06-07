@@ -33,9 +33,6 @@ const LayoutArs: React.FC<Props> = (props) => {
           </Title>
           <Value data-e2e='sbBankName'>{agent.bankName}</Value>
         </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={agent.bankName} />
-        </Copy>
       </RowCopy>
       <RowCopy>
         <div>
@@ -58,9 +55,6 @@ const LayoutArs: React.FC<Props> = (props) => {
           </Title>
           <Value data-e2e='sbAccountHolder'>{props.account.agent.name}</Value>
         </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={props.account.agent.name} />
-        </Copy>
       </RowCopy>
       <RowCopy>
         <div>
@@ -69,9 +63,6 @@ const LayoutArs: React.FC<Props> = (props) => {
           </Title>
           <Value data-e2e='sbCuit'>{agent.holderDocument}</Value>
         </div>
-        <Copy>
-          <CopyClipboardButton textToCopy={agent.holderDocument} />
-        </Copy>
       </RowCopy>
       <ExpansionPanel>
         {agent.accountType === 'CBU' ? (
@@ -82,9 +73,6 @@ const LayoutArs: React.FC<Props> = (props) => {
               </Title>
               <Value data-e2e='sbCbu'>{agent.address}</Value>
             </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={agent.address} />
-            </Copy>
           </RowCopy>
         ) : (
           <RowCopy>
@@ -94,9 +82,6 @@ const LayoutArs: React.FC<Props> = (props) => {
               </Title>
               <Value data-e2e='sbCvu'>{agent.address}</Value>
             </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={agent.address} />
-            </Copy>
           </RowCopy>
         )}
         <RowCopy>
@@ -109,9 +94,6 @@ const LayoutArs: React.FC<Props> = (props) => {
             </Title>
             <Value data-e2e='sbAccountNumber'>{props.account.agent.code}</Value>
           </div>
-          <Copy>
-            <CopyClipboardButton textToCopy={props.account.agent.code} />
-          </Copy>
         </RowCopy>
         <RowCopy>
           <div>
@@ -123,9 +105,6 @@ const LayoutArs: React.FC<Props> = (props) => {
             </Title>
             <Value data-e2e='sbRecipientName'>{props.account.agent.recipient}</Value>
           </div>
-          <Copy>
-            <CopyClipboardButton textToCopy={props.account.agent.recipient} />
-          </Copy>
         </RowCopy>
       </ExpansionPanel>
     </div>

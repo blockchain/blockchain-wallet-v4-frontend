@@ -2,6 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 import { RB_ERROR } from './model'
 import { actions as A } from './slice'
@@ -16,7 +17,7 @@ export default ({ api }: { api: APIType }) => {
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin } = payload
     yield put(
-      actions.modals.showModal('RECURRING_BUYS_MODAL', {
+      actions.modals.showModal(ModalName.RECURRING_BUYS_MODAL, {
         origin
       })
     )

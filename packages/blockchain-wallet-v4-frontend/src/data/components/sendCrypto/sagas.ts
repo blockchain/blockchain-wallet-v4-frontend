@@ -27,10 +27,8 @@ export default ({ api }: { api: APIType }) => {
     let accountType
     try {
       yield put(A.buildTxLoading())
-      const { account, baseCryptoAmt, destination } = action.payload
-      coin = account.coin
-      fee = action.payload.fee
-      accountType = account.type
+      const { account, baseCryptoAmt, destination, fee, memo } = action.payload
+      const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
@@ -48,6 +46,9 @@ export default ({ api }: { api: APIType }) => {
             amount: baseCryptoAmt,
             currency: coin,
             destination,
+            extraData: {
+              memo
+            },
             fee,
             sources: [
               {

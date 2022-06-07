@@ -4,8 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
-import { compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
@@ -79,6 +78,7 @@ const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
   collections,
+  defaultSortBy,
   formActions,
   formValues,
   numOfResults,
@@ -98,16 +98,26 @@ const TraitGridFilters: React.FC<Props> = ({
 
   const hasSomeFilters =
     (formValues &&
-      Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
+      Object.keys(formValues)
+        .filter((val) => val !== 'sortBy')
+        .some(
+          (key) =>
+            Object.keys(formValues[key]).some(Boolean) ||
+            // @ts-ignore
+            (typeof formValues[key] === 'boolean' && formValues[key] === true)
+        )) ||
     false
-  const recentlyListed = `${AssetSortFields.ListingDate}-DESC`
-  const moreThanRecentlyListed = (formValues && Object.keys(formValues).length > 1) || false
   const clearAllFilters = () => {
     if (formValues && hasSomeFilters) {
-      Object.keys(formValues).forEach((key) => {
-        formActions.change('nftFilter', key, undefined)
-      })
-      formActions.change('nftFilter', 'sortBy', recentlyListed)
+      const url = new URL(window.location.href)
+      const base = `${url.href.split('#')[0]}#`
+      const [hash, query] = url.href.split('#')[1].split('?')
+      const searchParams = new URLSearchParams(query)
+      const tab = searchParams.get('tab') ? `?tab=${searchParams.get('tab')}` : ''
+      window.location.replace(base + hash + tab)
+
+      formActions.reset('nftFilter')
+      formActions.change('nftFilter', 'sortBy', defaultSortBy)
       analyticsActions.trackEvent({
         key: Analytics.NFT_FILTER_CLEAR_ALL_CLICKED,
         properties: {}
@@ -116,13 +126,18 @@ const TraitGridFilters: React.FC<Props> = ({
   }
 
   useEffect(() => {
-    formActions.change('nftFilter', 'sortBy', recentlyListed)
     if (isRefreshRotating) {
       setTimeout(() => {
         setIsRefreshRotating(false)
       }, 500)
     }
   }, [isRefreshRotating])
+
+  useEffect(() => {
+    if (defaultSortBy) {
+      formActions.change('nftFilter', 'sortBy', defaultSortBy)
+    }
+  }, [formActions, defaultSortBy])
 
   const getTab = (tab: 'ITEMS' | 'ACTIVITY' | 'EXPLORE') => {
     return tab === 'ITEMS' ? (
@@ -197,7 +212,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     }
                   }}
                   style={
-                    isTablet
+                    isTablet || !numOfResults
                       ? { borderRadius: '50%', height: '40px', minWidth: 'initial', width: '40px' }
                       : {}
                   }
@@ -205,7 +220,7 @@ const TraitGridFilters: React.FC<Props> = ({
                   nature='empty-blue'
                 >
                   <Flex gap={12} alignItems='center'>
-                    {isTablet ? null : (
+                    {isTablet || !numOfResults ? null : (
                       <Flex flexDirection='column' alignItems='start' gap={4}>
                         <Text size='12px' weight={600}>
                           {numOfResults || '---'}{' '}
@@ -216,7 +231,7 @@ const TraitGridFilters: React.FC<Props> = ({
                         </Text>
                       </Flex>
                     )}
-                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} />
+                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} color='blue600' />
                   </Flex>
                 </Button>
               </Flex>
@@ -225,23 +240,17 @@ const TraitGridFilters: React.FC<Props> = ({
                   <Field
                     name='sortBy'
                     component={SelectBox}
-                    onChange={(e) => {
-                      if (e.includes('price')) {
-                        formActions.change('nftFilter', 'forSale', true)
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_RECENTLY_LISTED_CLICKED,
-                          properties: {}
-                        })
-                      }
-                    }}
+                    label={<FormattedMessage id='copy.sort_by' defaultMessage='Sort By' />}
+                    // @ts-ignore
+                    searchEnabled={false}
                     // @ts-ignore
                     elements={[
                       {
                         group: '',
                         items: [
+                          { text: 'Most Recent', value: `${AssetSortFields.DateIngested}-DESC` },
                           { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
-                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
-                          { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
+                          { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` }
                         ]
                       }
                     ]}
@@ -390,9 +399,9 @@ const TraitGridFilters: React.FC<Props> = ({
                 })
             })
           : null}
-        {moreThanRecentlyListed && (
+        {hasSomeFilters && (
           <ClearAll onClick={clearAllFilters} data-e2e='clear-all'>
-            <Text size='14px' lineHeight='20px' weight={600} color='blue600'>
+            <Text size='12px' lineHeight='20px' weight={600} color='blue600'>
               Clear All
             </Text>
           </ClearAll>
@@ -411,6 +420,7 @@ const connector = connect(null, mapDispatchToProps)
 type OwnProps = {
   activeTab?: 'ITEMS' | 'ACTIVITY' | 'EXPLORE'
   collections: OwnerQuery['assets'][0]['collection'][]
+  defaultSortBy?: `${AssetSortFields}-${'ASC' | 'DESC'}`
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   numOfResults?: number

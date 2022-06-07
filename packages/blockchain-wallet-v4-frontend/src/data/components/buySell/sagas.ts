@@ -262,7 +262,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       } else {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       }
     } catch (e) {
       // TODO: adding error handling with different error types and messages
@@ -277,9 +277,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
-    const isFlexiblePricingModel = (yield select(
-      selectors.core.walletOptions.getFlexiblePricingModel
-    )).getOrElse(false)
     try {
       const pair = S.getBSPair(yield select())
 
@@ -294,9 +291,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
-        if (isFlexiblePricingModel) {
-          buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
-        }
+        buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
         yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
@@ -364,33 +359,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
-      if (isFlexiblePricingModel) {
-        // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
-        // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
-        const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-        const standardRate = convertBaseToStandard(coin, buyQuote.rate)
-        const standardInputAmount = convertBaseToStandard(coin, input.amount)
-        const inputAmount = new BigNumber(standardInputAmount || '0')
-          .dividedBy(standardRate)
-          .toFixed(decimals)
-        if (orderType === OrderType.BUY && fix === 'CRYPTO') {
-          // @ts-ignore
-          delete output.amount
-          input.amount = convertStandardToBase('FIAT', inputAmount) // ex. 5 -> 500
-        }
-        if (orderType === OrderType.BUY && fix === 'FIAT') {
-          // @ts-ignore
-          delete output.amount
-        }
-      } else {
-        if (orderType === OrderType.BUY && fix === 'CRYPTO') {
-          // @ts-ignore
-          delete input.amount
-        }
-        if (orderType === OrderType.BUY && fix === 'FIAT') {
-          // @ts-ignore
-          delete output.amount
-        }
+
+      // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
+      // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
+      const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+      const standardRate = convertBaseToStandard(coin, buyQuote.rate)
+      const standardInputAmount = convertBaseToStandard(coin, input.amount)
+      const inputAmount = new BigNumber(standardInputAmount || '0')
+        .dividedBy(standardRate)
+        .toFixed(decimals)
+      if (orderType === OrderType.BUY && fix === 'CRYPTO') {
+        // @ts-ignore
+        delete output.amount
+        input.amount = convertStandardToBase('FIAT', inputAmount) // ex. 5 -> 500
+      }
+      if (orderType === OrderType.BUY && fix === 'FIAT') {
+        // @ts-ignore
+        delete output.amount
       }
 
       let buyOrder: BSOrderType
@@ -412,50 +397,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
-      if (isFlexiblePricingModel) {
-        while (true) {
-          // non gold users can only make one order at a time so we need to cancel the old one
-          if (oldBuyOrder) {
-            yield call(api.cancelBSOrder, oldBuyOrder)
-          }
-          // get the current order, if any
-          const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
-
-          buyOrder = yield call(
-            api.createBSOrder,
-            pair.pair,
-            orderType,
-            true,
-            input,
-            output,
-            paymentType,
-            period,
-            paymentMethodId,
-            currentBuyQuote.quote.quoteId
-          )
-
-          // first time creating the order when the user submits the enter amount form
-          if (!oldBuyOrder) {
-            yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
-          }
-
-          yield put(A.fetchOrders())
-          yield put(A.createOrderSuccess(buyOrder))
-
-          yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
-
-          oldBuyOrder = buyOrder
-
-          // pause the while loop here until if/when the quote expires again, then refresh the order
-          yield take(A.fetchBuyQuoteSuccess)
-          // need to get curren step and break if not checkout confirm
-          // usually happens when the user goes back to the enter amount form
-          const currentStep = S.getStep(yield select())
-          if (currentStep !== 'CHECKOUT_CONFIRM') {
-            break
-          }
+      while (true) {
+        // non gold users can only make one order at a time so we need to cancel the old one
+        if (oldBuyOrder) {
+          yield call(api.cancelBSOrder, oldBuyOrder)
         }
-      } else {
+        // get the current order, if any
+        const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
+
         buyOrder = yield call(
           api.createBSOrder,
           pair.pair,
@@ -466,14 +415,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           paymentType,
           period,
           paymentMethodId,
-          buyQuote?.quote?.quoteId
+          currentBuyQuote.quote.quoteId
         )
 
-        yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+        // first time creating the order when the user submits the enter amount form
+        if (!oldBuyOrder) {
+          yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+        }
+
         yield put(A.fetchOrders())
         yield put(A.createOrderSuccess(buyOrder))
 
         yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
+
+        oldBuyOrder = buyOrder
+
+        // pause the while loop here until if/when the quote expires again, then refresh the order
+        yield take(A.fetchBuyQuoteSuccess)
+        // need to get curren step and break if not checkout confirm
+        // usually happens when the user goes back to the enter amount form
+        const currentStep = S.getStep(yield select())
+        if (currentStep !== 'CHECKOUT_CONFIRM') {
+          break
+        }
       }
     } catch (e) {
       const error: number | string = errorHandlerCode(e)
@@ -556,7 +520,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
     const { mobilePaymentMethod, paymentMethodId } = payload
 
-    let { order } = payload
+    const { order } = payload
 
     try {
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
@@ -706,18 +670,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const isFlexiblePricingModel = (yield select(
-        selectors.core.walletOptions.getFlexiblePricingModel
-      )).getOrElse(false)
+      const freshOrder = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
 
-      if (isFlexiblePricingModel) {
-        const freshOrder = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
-
-        if (freshOrder.inputQuantity !== order.inputQuantity) {
-          throw new Error(BS_ERROR.ORDER_VALUE_CHANGED)
-        }
-
-        order = freshOrder
+      if (freshOrder.inputQuantity !== order.inputQuantity) {
+        throw new Error(BS_ERROR.ORDER_VALUE_CHANGED)
       }
 
       yield put(A.confirmOrderLoading())
@@ -726,20 +682,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // then we will have to poll this order until it's confirmed and has the 3DS url
       const confirmedOrder: BSOrderType = yield call(
         api.confirmBSOrder,
-        order,
+        freshOrder,
         attributes,
         paymentMethodId
       )
 
-      // TODO add loading state
-
-      // TODO add polling for order
-
-      // TODO pass confirmed order here
+      if (confirmedOrder.paymentError) {
+        throw new Error(confirmedOrder.paymentError)
+      }
 
       // Check if the user has a yapily account and if they're submitting a bank transfer order
       if (
-        order.paymentType === BSPaymentTypes.BANK_TRANSFER &&
+        freshOrder.paymentType === BSPaymentTypes.BANK_TRANSFER &&
         account?.partner === BankPartners.YAPILY
       ) {
         const { RETRY_AMOUNT, SECONDS } = POLLING
@@ -811,7 +765,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmBSFundsOrder = function* () {
     try {
-      const order = S.getBSOrder(yield select())
+      const order = S.getBSOrder(yield select()).getOrFail(BS_ERROR.ORDER_NOT_FOUND)
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
@@ -1490,28 +1444,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        const isFlexiblePricingModel = (yield select(
-          selectors.core.walletOptions.getFlexiblePricingModel
-        )).getOrElse(false)
+        const amount = '500'
 
-        if (isFlexiblePricingModel) {
-          const amount = '500'
-
-          yield put(
-            A.startPollBuyQuote({
-              amount,
-              pair: pair.pair,
-              paymentMethod: BSPaymentTypes.FUNDS
-            })
-          )
-          yield race({
-            failure: take(A.fetchBuyQuoteFailure.type),
-            success: take(A.fetchBuyQuoteSuccess.type)
+        yield put(
+          A.startPollBuyQuote({
+            amount,
+            pair: pair.pair,
+            paymentMethod: BSPaymentTypes.FUNDS
           })
-        } else {
-          yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
-        }
-      } else {
+        )
+        yield race({
+          failure: take(A.fetchBuyQuoteFailure.type),
+          success: take(A.fetchBuyQuoteSuccess.type)
+        })
+      } else if (orderType === OrderType.SELL) {
         if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
@@ -1618,7 +1564,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const origin = S.getOrigin(yield select())
 
       if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
         yield put(actions.alerts.displaySuccess('Card Added.'))
       }
@@ -1815,7 +1761,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
     }
 
-    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
+    yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
       .getOrElse('USD') as FiatType

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
@@ -47,7 +48,7 @@ const Bold = styled.b`
 class XlmReserveLearn extends React.PureComponent {
   onClose = () => {
     this.props.closeAll()
-    this.props.modalActions.showModal('SEND_XLM_MODAL', {
+    this.props.modalActions.showModal(ModalName.SEND_XLM_MODAL, {
       origin: '@SEND.XLM.RESERVE_LEARN_MODAL'
     })
   }
