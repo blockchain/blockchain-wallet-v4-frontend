@@ -93,9 +93,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   googlePayInfo: selectors.components.buySell.getGooglePayInfo(state),
-  isFlexiblePricingModel: selectors.core.walletOptions
-    .getFlexiblePricingModel(state)
-    .getOrElse(false),
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   pendingOrder: selectors.components.buySell.getBSPendingOrder(state)
 })

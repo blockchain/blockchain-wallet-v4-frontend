@@ -41,7 +41,6 @@
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
-        "flexiblePricingModel": true,
         "googlePayPaymentMethod": false,
         "institutionalPortal": true,
         "mergeAndUpgrade": false,
