@@ -16,6 +16,7 @@ import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
+import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
 import TaxCenter from './TaxCenter'
@@ -100,6 +101,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <RecurringBuys />
+          </BannerWrapper>
+        )
+      case 'sanctions':
+        return (
+          <BannerWrapper>
+            <Sanctions />
           </BannerWrapper>
         )
       case 'taxCenter':

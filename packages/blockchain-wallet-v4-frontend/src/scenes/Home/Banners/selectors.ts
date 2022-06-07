@@ -9,7 +9,7 @@ import {
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { ProductEligibilityForUser, UserDataType } from 'data/types'
 
 const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
 export type BannerType =
@@ -20,6 +20,7 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
+  | 'sanctions'
   | 'coinListing'
   | 'coinRename'
   | 'servicePriceUnavailable'
@@ -31,6 +32,7 @@ export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
+export const getSanctionsAnnouncement = () => `sanctions-homepage`
 export const getTaxCenterAnnouncement = () => `tax-center-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
@@ -67,6 +69,17 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showCompleteYourProfileBanner = showBanner(
     !!showCompleteYourProfile,
     completeProfileAnnouncement,
+    announcementState
+  )
+
+  const products = selectors.custodial.getProductEligibilityForUser(state).getOrElse({
+    notifications: []
+  } as ProductEligibilityForUser)
+
+  const sanctionsAnnouncement = getSanctionsAnnouncement()
+  const showSanctionsBanner = showBanner(
+    products?.notifications?.length > 0,
+    sanctionsAnnouncement,
     announcementState
   )
 
@@ -160,7 +173,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
-  if (showTaxCenterBanner && taxCenterEnabled) {
+  if (showSanctionsBanner) {
+    bannerToShow = 'sanctions'
+  } else if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'

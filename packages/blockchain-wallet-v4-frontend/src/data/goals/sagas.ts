@@ -19,6 +19,7 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
+import { ProductEligibilityForUser } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -828,6 +829,7 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
+      sanctionsNotice,
       swap,
       swapGetStarted,
       swapUpgrade,
@@ -874,6 +876,9 @@ export default ({ api, coreSagas, networks }) => {
       return yield put(
         actions.modals.showModal(kycUpgradeRequiredNotice.name, kycUpgradeRequiredNotice.data)
       )
+    }
+    if (sanctionsNotice) {
+      return yield put(actions.modals.showModal(sanctionsNotice.name, sanctionsNotice.data))
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
@@ -937,6 +942,34 @@ export default ({ api, coreSagas, networks }) => {
           data: { origin },
           key: 'kycUpgradeRequiredNotice',
           name: ModalName.VERIFY_NOTICE
+        })
+      )
+    }
+  }
+
+  const runSanctionsNoticeGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      actions.custodial.fetchProductEligibilityForUserSuccess.type,
+      actions.custodial.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      notifications: []
+    } as ProductEligibilityForUser)
+
+    if (products?.notifications?.length > 0) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'sanctionsNotice',
+          name: ModalName.SANCTIONS_INFO_MODAL
         })
       )
     }
@@ -1057,6 +1090,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'kycUpgradeRequiredNotice':
           yield call(runKycUpgradeRequiredNoticeGoal, goal)
           break
+        case 'sanctionsNotice':
+          yield call(runSanctionsNoticeGoal, goal)
+          break
         default:
           break
       }
@@ -1089,6 +1125,7 @@ export default ({ api, coreSagas, networks }) => {
     // only for existing users
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
+      yield put(actions.goals.saveGoal({ data: {}, name: 'sanctionsNotice' }))
     }
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
