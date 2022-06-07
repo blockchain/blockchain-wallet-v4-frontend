@@ -8,7 +8,7 @@ import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
 
-const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
+const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total_supply }) => {
   return (
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>
@@ -21,7 +21,10 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
           </Text>
         </Stat>
         <Stat
-          onClick={() => formActions.change('nftFilter', 'forSale', true)}
+          onClick={() => {
+            routerActions.push(`/nfts/collection/${slug}`)
+            formActions.change('nftFilter', 'forSale', true)
+          }}
           style={{ cursor: 'pointer' }}
         >
           <Text size='16px' weight={500} color='white'>
@@ -54,6 +57,8 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
 
 type Props = {
   formActions: typeof actions.form
+  routerActions: typeof actions.router
+  slug: string
   stats: CollectionsQuery['collections'][0]['stats']
   total_supply: CollectionsQuery['collections'][0]['total_supply']
 }

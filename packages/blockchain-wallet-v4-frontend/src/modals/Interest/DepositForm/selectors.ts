@@ -16,6 +16,10 @@ export const getCurrency = (state) => {
   return selectors.core.settings.getCurrency(state)
 }
 
+export const getUnderSanctionsMessage = (state) => {
+  return selectors.components.interest.getUnderSanctionsMessage(state)
+}
+
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)

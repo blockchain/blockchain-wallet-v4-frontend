@@ -155,6 +155,9 @@ export interface ProfileState {
 // Actions
 // Keep these sorted alphabetically
 
+interface ClearProfileStateAction {
+  type: typeof AT.CLEAR_PROFILE_STATE
+}
 interface FetchTiersFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
@@ -315,6 +318,7 @@ interface ShareWalletAddressWithExchangeSuccessAction {
 
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
+  | ClearProfileStateAction
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction

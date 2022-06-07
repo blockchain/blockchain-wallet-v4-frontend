@@ -814,3 +814,22 @@ export type ExplorerGatewaySearchType = {
     total_supply: string
   }[]
 }
+
+export type NftUserPreferencesType = {
+  auction_expired: boolean | null
+  bid_activity: boolean | null
+  item_sold: boolean | null
+  offer_accepted: boolean | null
+  outbid: boolean | null
+  successful_purchase: boolean | null
+}
+
+export type NftUserPreferencesReturnType = {
+  auction_expired: boolean | null
+  bid_activity: boolean | null
+  item_sold: boolean | null
+  last_updated: string
+  offer_accepted: boolean | null
+  outbid: boolean | null
+  successful_purchase: boolean | null
+}
