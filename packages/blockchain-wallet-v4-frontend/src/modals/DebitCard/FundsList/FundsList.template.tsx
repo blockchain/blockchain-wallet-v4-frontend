@@ -8,6 +8,8 @@ import Flyout from 'components/Flyout'
 import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutContent from 'components/Flyout/Content'
 import FlyoutHeader from 'components/Flyout/Header'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import { Props } from './FundsList'
@@ -38,7 +40,11 @@ const ErrorMessage = () => (
 )
 
 const FundsList = (props: Props) => {
-  const { accountsR, close } = props
+  const { accountsR, close, debitCardActions } = props
+  const { isLoading: isSelectionInProgress } = useRemote(
+    selectors.components.debitCard.getSelectAccountHandler
+  )
+
   const [show, setShow] = useState(true)
 
   const handleClose = () => {
@@ -46,6 +52,10 @@ const FundsList = (props: Props) => {
     setTimeout(() => {
       close()
     })
+  }
+
+  const handleSelectAccount = (symbol) => {
+    debitCardActions.selectAccount(symbol)
   }
 
   return (
@@ -59,12 +69,15 @@ const FundsList = (props: Props) => {
             Failure: () => <ErrorMessage />,
             Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
             NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />,
-            Success: (accounts) =>
-              accounts.map(({ balance }) => (
-                <ItemWrapper key={balance.symbol}>
-                  <CoinWithBalance symbol={balance.symbol} value={balance.value} />
+            Success: (accounts) => {
+              if (isSelectionInProgress) return <Loading text={LoadingTextEnum.PROCESSING} />
+
+              return accounts.map(({ balance: { symbol, value } }) => (
+                <ItemWrapper key={symbol} onClick={() => handleSelectAccount(symbol)}>
+                  <CoinWithBalance symbol={symbol} value={value} />
                 </ItemWrapper>
               ))
+            }
           })}
         </FlyoutContent>
       </FlyoutContainer>

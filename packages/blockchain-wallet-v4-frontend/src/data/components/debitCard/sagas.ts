@@ -2,8 +2,9 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { CardStateType } from 'data/components/debitCard/types'
+import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 
 import { actions as A } from './slice'
@@ -148,6 +149,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const selectAccount = function* (action: ReturnType<typeof A.selectAccount>) {
+    yield put(A.selectAccountLoading())
+    try {
+      const { id } = yield select(selectors.components.debitCard.getCurrentCardSelected)
+      const { payload: symbol } = action
+
+      yield call(api.selectAccount, id, symbol)
+      yield call(getCurrentCardAccount, id)
+      yield put(A.selectAccountSuccess(symbol))
+    } catch (e) {
+      // This will be logged until error display definition
+      console.error('Failed to terminate card', errorHandler(e))
+      yield put(A.selectAccountFailure(errorHandler(e)))
+    } finally {
+      yield put(actions.modals.closeModal(ModalName.FUNDS_LIST))
+    }
+  }
+
   return {
     createCard,
     getCards,
@@ -155,6 +174,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     getEligibleAccounts,
     getProducts,
     handleCardLock,
+    selectAccount,
     terminateCard
   }
 }
