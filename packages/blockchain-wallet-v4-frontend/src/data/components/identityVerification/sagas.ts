@@ -197,7 +197,7 @@ export default ({ api, coreSagas, networks }) => {
     // filter steps if tier 2, only extraKYC if needed.
     let filteredSteps = steps
     if (tiers.current === 2) {
-      filteredSteps = steps.filter((i) => {
+      filteredSteps = steps.filter((step) => {
         return step !== 'additionalInfo' && step !== 'submitted'
       })
     }
