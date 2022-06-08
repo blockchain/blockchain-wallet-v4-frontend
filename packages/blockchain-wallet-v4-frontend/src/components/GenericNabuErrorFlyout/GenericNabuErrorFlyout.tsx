@@ -24,7 +24,7 @@ const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onClic
 
       <Flex alignItems='center' justifyContent='center' style={{ flexGrow: 1 }}>
         <Padding horizontal={40}>
-          <GenericNabuError error={error} />
+          <GenericNabuError error={error} onClickClose={onClickClose} />
         </Padding>
       </Flex>
     </Flex>
