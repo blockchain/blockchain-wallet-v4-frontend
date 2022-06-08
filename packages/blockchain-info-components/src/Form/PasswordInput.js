@@ -1,4 +1,6 @@
 import React from 'react'
+import { Icon } from '@blockchain-com/constellation'
+import { IconVisibilityOff, IconVisibilityOn } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
@@ -9,19 +11,22 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   'data-lpignore': props.noLastPass,
   disabled: props.disabled,
   spellCheck: 'false',
-  type: 'password'
+  type: props.isPasswordVisible ? 'text' : 'password'
 }))`
   position: relative;
   display: block;
   width: 100%;
   height: 48px;
   min-height: 48px;
-  font-family: sans-serif;
-  font-size: 20px;
+  font-family: ${({ isPasswordVisible }) =>
+    isPasswordVisible
+      ? "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif"
+      : 'sans-serif'};
+  font-size: ${({ isPasswordVisible }) => (isPasswordVisible ? '16px' : '20px')};
   font-weight: 500;
   padding: 6px 12px;
   box-sizing: border-box;
-  color: ${(props) => props.theme.grey800};
+  color: ${({ theme }) => theme.grey800};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
@@ -49,6 +54,20 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   }
 `
 
+const Wrapper = styled.div`
+  display: inline-block;
+  width: 100%;
+  height: 48px;
+`
+const ToggleVisibilityWrapper = styled.div`
+  float: right;
+  position: relative;
+  bottom: 36px;
+  right: 12px;
+  cursor: pointer;
+  z-index: 99;
+`
+
 class PasswordInput extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
@@ -61,17 +80,40 @@ class PasswordInput extends React.Component {
   }
 
   render() {
-    const { active, errorState, noLastPass, value, ...rest } = this.props
+    const {
+      errorState,
+      isPasswordVisible,
+      noLastPass,
+      setPasswordVisible,
+      showVisibilityToggle,
+      value,
+      ...rest
+    } = this.props
 
     return (
-      <BasePasswordInput
-        ref={this.refInput}
-        borderColor={selectBorderColor(errorState)}
-        data-e2e={this.props['data-e2e']}
-        focusedBorderColor={selectFocusBorderColor(errorState)}
-        value={value}
-        {...rest}
-      />
+      <Wrapper>
+        <BasePasswordInput
+          borderColor={selectBorderColor(errorState)}
+          data-e2e={this.props['data-e2e']}
+          focusedBorderColor={selectFocusBorderColor(errorState)}
+          isPasswordVisible={isPasswordVisible}
+          noLastPass={noLastPass}
+          ref={this.refInput}
+          value={value}
+          {...rest}
+        />
+        {showVisibilityToggle ? (
+          <ToggleVisibilityWrapper onClick={() => setPasswordVisible(!isPasswordVisible)}>
+            <Icon
+              color='grey400'
+              label={isPasswordVisible ? 'hide password' : 'show password'}
+              size='md'
+            >
+              {isPasswordVisible ? <IconVisibilityOff /> : <IconVisibilityOn />}
+            </Icon>
+          </ToggleVisibilityWrapper>
+        ) : null}
+      </Wrapper>
     )
   }
 }

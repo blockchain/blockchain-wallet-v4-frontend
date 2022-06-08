@@ -76,7 +76,10 @@ const SignupForm = (props: Props) => {
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
-            <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
+            <FormattedMessage
+              id='scenes.security.email.verifiedtitle'
+              defaultMessage='Email Address'
+            />
           </FormLabel>
           <Field
             autoFocus
@@ -84,7 +87,7 @@ const SignupForm = (props: Props) => {
             component={TextBox}
             data-e2e='signupEmail'
             name='email'
-            placeholder='Enter Email'
+            placeholder='Enter Email Address'
             validate={[required, validEmail]}
           />
         </FormItem>
@@ -100,6 +103,7 @@ const SignupForm = (props: Props) => {
             data-e2e='signupPassword'
             name='password'
             placeholder='Enter Password'
+            showVisibilityToggle
             validate={[required, validStrongPassword]}
           />
         </FormItem>
@@ -168,7 +172,9 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            placeholder='Enter Password'
+            noLastPass
+            placeholder='Reenter Password'
+            showVisibilityToggle
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
