@@ -27,6 +27,7 @@ type OwnProps = {
   emailVerified: boolean
   needMoreInfo: boolean
   onCompletionCallback?: () => void
+  origin: string
   position: number
   step: string
   steps: RemoteDataType<any, any>
@@ -61,8 +62,8 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   }
 
   initializeVerification = () => {
-    const { needMoreInfo, tier } = this.props
-    this.props.actions.initializeVerification({ needMoreInfo, tier })
+    const { needMoreInfo, origin, tier } = this.props
+    this.props.actions.initializeVerification({ needMoreInfo, origin, tier })
   }
 
   getStepComponent = (emailVerified: boolean, step: string) => {
