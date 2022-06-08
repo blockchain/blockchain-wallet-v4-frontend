@@ -194,8 +194,8 @@ const SignupForm = (props: Props) => {
             onChange={onCountrySelect}
             label={
               <FormattedMessage
-                id='scenes.register.select_a_country'
-                defaultMessage='Select a Country'
+                id='scenes.register.select_country'
+                defaultMessage='Select Country'
               />
             }
           />
