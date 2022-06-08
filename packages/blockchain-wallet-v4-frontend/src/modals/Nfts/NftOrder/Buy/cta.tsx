@@ -123,7 +123,12 @@ const CTA: React.FC<Props> = (props) => {
                       onClick={() =>
                         nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
                       }
-                      style={{ display: 'block', textAlign: 'center', width: '100%' }}
+                      style={{
+                        display: 'block',
+                        marginBottom: '8px',
+                        textAlign: 'center',
+                        width: '100%'
+                      }}
                     >
                       Make an Offer
                     </Link>
