@@ -122,6 +122,7 @@ export const AssetImageContainer = styled.div<{
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
+  backdrop-filter: blur(40px);
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
