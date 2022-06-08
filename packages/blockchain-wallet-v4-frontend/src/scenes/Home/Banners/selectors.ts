@@ -73,13 +73,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
+  const userHadNotifications = selectors.custodial.getUserHadNotifications(state)
   const products = selectors.custodial.getProductEligibilityForUser(state).getOrElse({
     notifications: []
   } as ProductEligibilityForUser)
 
   const sanctionsAnnouncement = getSanctionsAnnouncement()
   const showSanctionsBanner = showBanner(
-    products?.notifications?.length > 0,
+    products?.notifications?.length > 0 || userHadNotifications,
     sanctionsAnnouncement,
     announcementState
   )
