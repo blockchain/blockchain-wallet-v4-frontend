@@ -70,7 +70,7 @@ const AssetImageContainer = styled.div`
 
 const AssetImg = styled.img`
   border-radius: 18px;
-  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey000};
   box-sizing: border-box;
 `
 
