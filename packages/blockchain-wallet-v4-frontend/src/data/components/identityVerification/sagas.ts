@@ -198,7 +198,7 @@ export default ({ api, coreSagas, networks }) => {
     let filteredSteps = steps
     if (tiers.current === 2) {
       filteredSteps = steps.filter((i) => {
-        return i !== 'additionalInfo' && i !== 'submitted'
+        return step !== 'additionalInfo' && step !== 'submitted'
       })
     }
 
