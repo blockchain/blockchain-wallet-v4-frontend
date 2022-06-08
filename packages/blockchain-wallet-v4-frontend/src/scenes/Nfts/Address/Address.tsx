@@ -40,11 +40,10 @@ const NftAddress: React.FC<Props> = ({
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
-  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
-  const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   const isOwner = ethAddress?.toLowerCase() === address?.toLowerCase() && isAuthenticated
 
