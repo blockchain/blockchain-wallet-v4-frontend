@@ -91,12 +91,11 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: ${(props) => `1px solid ${props.theme.grey000}`};
+  border-color: transparent;
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -113,28 +112,27 @@ export const AssetImageContainer = styled.div<{
   align-items: center;
   display: flex;
   justify-content: center;
-  max-height: 100%;
+  max-height: fit-content;
   max-width: 100%;
   width: 100%;
-  margin-top: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
   background-position: center;
-  border-radius: 6px;
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
-  margin-top: 12px;
   flex: 1;
   height: 100%;
   display: flex;
+  padding: 0.75em;
   flex-direction: column;
   justify-content: space-between;
-  background: ${(props) => props.theme.white};
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(40px);
   ${media.laptopL`
     padding-bottom: 4px;
   `}

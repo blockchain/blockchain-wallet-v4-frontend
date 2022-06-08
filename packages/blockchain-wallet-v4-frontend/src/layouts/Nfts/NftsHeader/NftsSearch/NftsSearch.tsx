@@ -75,7 +75,13 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
                     alt='url'
                     src={item.image_url || item.profile_img_url}
                   />
-                ) : null}
+                ) : (
+                  <NftCollectionImageSmall
+                    isVerified={item.safelist_request_status === 'verified'}
+                    alt='url'
+                    src=''
+                  />
+                )}
                 <Text weight={600} size='14px'>
                   {item.name || item.address}
                 </Text>
