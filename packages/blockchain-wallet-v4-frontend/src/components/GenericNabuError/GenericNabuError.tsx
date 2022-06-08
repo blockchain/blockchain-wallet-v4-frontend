@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button } from 'blockchain-info-components'
 import {
@@ -23,6 +24,12 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onClickClose, onCl
 
       {!!actions?.length && (
         <ActionsList>
+          <LinkContainer to='/test-deep-link-action'>
+            <Button key={1} data-e2e='close-action' nature='primary'>
+              Deep link test
+            </Button>
+          </LinkContainer>
+
           {actions.map((action) => {
             if (isNabuErrorCloseAction(action)) {
               return (

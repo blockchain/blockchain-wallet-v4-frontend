@@ -1,7 +1,9 @@
 import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -25,10 +27,11 @@ import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { BSCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { useLocationInterceptor } from 'hooks'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
-import { clearSubmitErrors } from 'redux-form'
+
 import { AlertButton } from '../../../components'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
@@ -46,7 +49,6 @@ import {
   maximumAmount,
   minimumAmount
 } from './validation'
-import { useDispatch } from 'react-redux'
 
 const { FORM_BS_CHECKOUT, LIMIT, LIMIT_FACTOR } = model.components.buySell
 
@@ -182,12 +184,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     cryptoCurrency,
     defaultMethod,
     fiatCurrency,
+    history,
     method: selectedMethod,
     orderType,
     products
   } = props
 
   const dispatch = useDispatch()
+  useLocationInterceptor({ history })
 
   const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
@@ -927,9 +931,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & { error?: string | NabuError }
+export type Props = OwnProps &
+  SuccessStateType & { error?: string | NabuError } & RouteComponentProps
 
-export default reduxForm<{}, Props>({
-  destroyOnUnmount: false,
-  form: FORM_BS_CHECKOUT
-})(Success)
+export default withRouter(
+  reduxForm<{}, Props>({
+    destroyOnUnmount: false,
+    form: FORM_BS_CHECKOUT
+  })(Success)
+)
