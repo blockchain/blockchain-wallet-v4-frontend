@@ -12,5 +12,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.getCards.type, debitCardSagas.getCards)
     yield takeLatest(actions.handleCardLock.type, debitCardSagas.handleCardLock)
     yield takeLatest(actions.terminateCard.type, debitCardSagas.terminateCard)
+    yield takeLatest(actions.getEligibleAccounts.type, debitCardSagas.getEligibleAccounts)
+    yield takeLatest(actions.selectAccount.type, debitCardSagas.selectAccount)
   }
 }

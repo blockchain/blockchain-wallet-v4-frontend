@@ -9,7 +9,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 import { getTotalFees } from '../NftOrderUtils'
 
@@ -33,7 +33,7 @@ const Fees: React.FC<Props> = (props: Props) => {
         NotAsked: () => null,
         Success: (val) => {
           return (
-            <FeesDropdown totalFees={getTotalFees(asset, val)}>
+            <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees(asset, val)}>
               {asset.asset_contract?.opensea_seller_fee_basis_points > 0 ? (
                 <Flex justifyContent='space-between' alignItems='center'>
                   <Text size='14px' weight={500}>
@@ -67,7 +67,7 @@ const Fees: React.FC<Props> = (props: Props) => {
                   </FiatDisplay>
                 </RightAlign>
               </Flex>
-            </FeesDropdown>
+            </NftDropdown>
           )
         }
       })}

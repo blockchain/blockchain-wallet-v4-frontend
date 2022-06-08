@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import CardError from 'components/BuySell/CardError'
+import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { CARD_ERROR_CODE } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -60,37 +63,36 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+  const renderError = useCallback(
+    (error: string | Error) => {
+      if (isNabuError(error)) {
+        return <GenericNabuErrorFlyout error={error} onClickClose={handleBack} />
+      }
+      if (typeof error === 'string') {
+        return (
+          <CardError
+            code={error}
+            handleReset={handleReset}
+            handleBack={handleBack}
+            handleRetry={handleRetry}
+          />
+        )
+      }
+      return <DataError message={{ message: error.toString() }} />
+    },
+    [handleReset, handleBack, handleRetry]
+  )
+
   if (order.hasError && order.error) {
-    return (
-      <CardError
-        code={order.error}
-        handleReset={handleReset}
-        handleBack={handleBack}
-        handleRetry={handleRetry}
-      />
-    )
+    return renderError(order.error)
   }
 
   if (card.hasError && card.error) {
-    return (
-      <CardError
-        code={card.error}
-        handleReset={handleReset}
-        handleBack={handleBack}
-        handleRetry={handleRetry}
-      />
-    )
+    return renderError(card.error)
   }
 
   if (providerDetails.hasError && providerDetails.error) {
-    return (
-      <CardError
-        code={providerDetails.error}
-        handleReset={handleReset}
-        handleBack={handleBack}
-        handleRetry={handleRetry}
-      />
-    )
+    return renderError(providerDetails.error)
   }
 
   if (order.isLoading || card.isLoading) {

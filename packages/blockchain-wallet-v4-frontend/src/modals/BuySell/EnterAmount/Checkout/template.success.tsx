@@ -1,7 +1,8 @@
 import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -21,10 +22,12 @@ import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { BSCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
+import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { AlertButton } from '../../../components'
@@ -184,17 +187,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     products
   } = props
 
+  const dispatch = useDispatch()
+
   const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [props.buySellActions])
 
-  const errorCallback = useCallback(() => {
+  const goToCryptoSelection = useCallback(() => {
+    dispatch(clearSubmitErrors(props.form))
+
     props.buySellActions.setStep({
       fiatCurrency: props.fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency, props.buySellActions])
+  }, [props.fiatCurrency, props.buySellActions, dispatch, props.form])
 
   const isSddBuy = props.isSddFlow && props.orderType === OrderType.BUY
 
@@ -224,7 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   // TODO: Remove this ordertype check when flexible pricing is implemented for SELL
   const quoteAmt =
-    props.isFlexiblePricingModel && props.orderType === OrderType.BUY
+    props.orderType === OrderType.BUY
       ? getBuyQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
       : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
@@ -234,7 +241,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <FlyoutOopsError
         action='retry'
         data-e2e='sbTryCurrencySelectionAgain'
-        handler={errorCallback}
+        handler={goToCryptoSelection}
       />
     )
 
@@ -249,7 +256,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     props.orderType,
     props.quote,
     props.pair,
-    props.isFlexiblePricingModel,
     props.payment,
     props.formValues,
     method,
@@ -264,7 +270,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     props.orderType,
     props.quote,
     props.pair,
-    props.isFlexiblePricingModel,
     props.payment,
     props.formValues,
     method,
@@ -298,7 +303,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.orderType,
       props.quote,
       props.pair,
-      props.isFlexiblePricingModel,
       props.payment,
       props.formValues,
       method,
@@ -332,7 +336,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.orderType,
       props.quote,
       props.pair,
-      props.isFlexiblePricingModel,
       props.payment,
       props.formValues,
       method,
@@ -397,6 +400,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
 
   const isFundsMethod = method && method.type === BSPaymentTypes.FUNDS
+
+  const { error } = props
+
+  if (isNabuError(error)) {
+    return <GenericNabuErrorFlyout error={error} onClickClose={goToCryptoSelection} />
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -454,7 +464,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               component={AmountTextBox}
               validate={[maximumAmount, minimumAmount, checkCrossBorderLimit]}
               normalize={normalizeAmount}
-              isFlexiblePricingModel={props.isFlexiblePricingModel}
               // eslint-disable-next-line
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
@@ -918,7 +927,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType & { error?: string | NabuError }
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
