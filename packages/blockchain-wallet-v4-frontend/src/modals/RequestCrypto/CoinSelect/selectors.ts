@@ -47,7 +47,9 @@ export const getData = createDeepEqualSelector(
     } as ProductEligibilityForUser)
 
     const includeCustodialWallets =
-      products.custodialWallets?.enabled && products.custodialWallets?.canDepositCrypto
+      products.custodialWallets?.enabled &&
+      products.custodialWallets?.canDepositCrypto &&
+      products?.notifications?.length === 0
 
     // @ts-ignore
     map(

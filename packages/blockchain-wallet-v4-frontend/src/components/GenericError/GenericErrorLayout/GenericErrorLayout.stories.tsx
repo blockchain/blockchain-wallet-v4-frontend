@@ -1,15 +1,12 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { combineReducers, createStore } from 'redux'
 
 import { Button, Icon } from 'blockchain-info-components'
 
-import {
-  ActionsList,
-  ErrorContent,
-  GenericErrorLayout,
-  GenericErrorLayoutComponent,
-  ImageWithSeverity
-} from '..'
+import { ActionsList, ErrorContent, GenericErrorLayout, GenericErrorLayoutComponent } from '..'
+import { ErrorIconWithSeverity } from '../ErrorIconWithSeverity'
 
 export default {
   component: GenericErrorLayout,
@@ -34,9 +31,11 @@ Default.args = {
   ),
   children: (
     <>
-      <ImageWithSeverity>
-        <Icon size='72px' name='BTC' />
-      </ImageWithSeverity>
+      <ErrorIconWithSeverity
+        iconStatusUrl=''
+        iconUrl=''
+        iconFallback={<Icon size='72px' name='BTC' />}
+      />
 
       <ErrorContent
         title='Error Title'

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError, UseQueryState } from 'urql'
 
-import { Image } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { CollectionsQuery } from 'generated/graphql.types'
 

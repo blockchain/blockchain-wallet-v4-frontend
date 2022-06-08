@@ -31,11 +31,11 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // Debit Card
 const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
 const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
+const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
-const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 const EthWalletBalances = React.lazy(() => import('./Eth/EthWalletBalances'))
 
 // XLM
@@ -175,6 +175,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.EDIT_TX_DESCRIPTION_MODAL) ? (
           <EditTxDescription />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.FUNDS_LIST) ? <FundsList /> : null}
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}
@@ -299,9 +300,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
-          <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
           <EthWalletBalances />

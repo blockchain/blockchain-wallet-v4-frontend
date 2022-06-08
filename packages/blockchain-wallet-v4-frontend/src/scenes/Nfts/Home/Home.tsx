@@ -12,6 +12,7 @@ import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -40,7 +41,7 @@ const Banner = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 100px 64px;
   z-index: 2;
   ${media.mobile`
@@ -52,15 +53,13 @@ const Banner = styled.div`
 
 const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
-  border: 1.18px solid ${colors.grey000};
+  border: 1px solid ${colors.grey000};
   z-index: 2;
-  width: 266px;
   height: 50px;
   background: white;
   left: 3em;
   top: 1em;
-  margin-top: -12px;
-  padding: 0.25em 1em;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   ${media.atLeastMobile`
@@ -100,7 +99,7 @@ const Explore: React.FC<Props> = (props) => {
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
     : ['nouns', 'mfers', 'superrare']
-  const [randomContract] = useState(Math.floor(Math.random() * 4))
+  const [randomContract] = useState(Math.floor(Math.random() * contracts.length))
   const [assetId, setAssetId] = useState(0)
   const limit = 5
   const [assets] = useAssetsQuery({
@@ -136,7 +135,8 @@ const Explore: React.FC<Props> = (props) => {
             key={asset.image_url}
             onClick={() => setAssetId(i)}
             style={{ cursor: 'pointer' }}
-            size='36px'
+            size='64px'
+            lineHeight='12px'
             color={assetId === i ? 'blue600' : 'white'}
           >
             .
@@ -150,7 +150,7 @@ const Explore: React.FC<Props> = (props) => {
     )
   }
   const handleGetFeatured = () => {
-    props.modalActions.showModal('GET_FEATURED', {
+    props.modalActions.showModal(ModalName.GET_FEATURED, {
       closeAllModals: props.modalActions.closeAllModals,
       origin: 'Nfts'
     })
@@ -175,9 +175,9 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
       <>
-        <Banner style={{ height: '600px' }}>
+        <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
@@ -213,7 +213,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey900'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <Flex
                   justifyContent={isMobile || isTablet ? 'space-evenly' : 'space-between'}
@@ -246,7 +247,8 @@ const Explore: React.FC<Props> = (props) => {
                   weight={500}
                   color='grey600'
                 >
-                  Unlock a best in class NFT experience with the Blockchain.com NFT Marketplace
+                  Access the world’s most popular NFT collections right from your Blockchain.com
+                  Wallet
                 </Text>
                 <LinkContainer to='/nfts/explore' style={{ marginTop: '16px' }}>
                   <Button jumbo nature='primary' data-e2e='Explore'>
@@ -269,8 +271,9 @@ const Explore: React.FC<Props> = (props) => {
                   <img
                     style={{
                       borderRadius: '16px 16px 0px 0px',
-                      height: '300.35px',
-                      width: '300.35px'
+                      display: 'block',
+                      height: isMobile || isTablet ? '300.35px' : '350px',
+                      width: isMobile || isTablet ? '300.35px' : '350px'
                     }}
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
@@ -338,7 +341,11 @@ const Explore: React.FC<Props> = (props) => {
             ) : (
               <CardWrapper style={{ opacity: '50%' }}>
                 <div>
-                  <SkeletonRectangle height='300.35px' width='300.35px' bgColor='white' />
+                  <SkeletonRectangle
+                    height={isMobile || isTablet ? '300.35px' : '350px'}
+                    width={isMobile || isTablet ? '300.35px' : '350px'}
+                    bgColor='white'
+                  />
                 </div>
                 <AssetFooter>
                   <Flex alignItems='center'>
@@ -352,6 +359,7 @@ const Explore: React.FC<Props> = (props) => {
                     </Button>
                   </Flex>
                 </AssetFooter>
+                <div style={{ height: '12px' }} />
               </CardWrapper>
             )}
           </div>

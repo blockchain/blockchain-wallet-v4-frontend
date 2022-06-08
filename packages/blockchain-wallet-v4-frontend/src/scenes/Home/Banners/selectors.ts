@@ -21,11 +21,13 @@ export type BannerType =
   | 'continueToGold'
   | 'sanctions'
   | 'recurringBuys'
+  | 'sanctions'
   | 'coinListing'
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
   | 'stxAirdropFundsAvailable'
+  | 'taxCenter'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -71,13 +73,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
+  const userHadNotifications = selectors.custodial.getUserHadNotifications(state)
   const products = selectors.custodial.getProductEligibilityForUser(state).getOrElse({
     notifications: []
   } as ProductEligibilityForUser)
 
   const sanctionsAnnouncement = getSanctionsAnnouncement()
   const showSanctionsBanner = showBanner(
-    products?.notifications?.length > 0,
+    products?.notifications?.length > 0 || userHadNotifications,
     sanctionsAnnouncement,
     announcementState
   )
@@ -165,7 +168,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
 
   let bannerToShow: BannerType = null
-  if (showCompleteYourProfileBanner && !isProfileCompleted) {
+  if (showSanctionsBanner) {
+    bannerToShow = 'sanctions'
+  } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showSanctionsBanner) {
     bannerToShow = 'sanctions'

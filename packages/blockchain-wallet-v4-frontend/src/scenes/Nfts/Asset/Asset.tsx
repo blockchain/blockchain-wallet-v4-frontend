@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
+import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -15,12 +17,10 @@ import {
   Icon as BlockchainIcon,
   Image,
   Link,
+  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
-  TabMenu,
-  TabMenuItem,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
@@ -33,6 +33,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
+import { media } from 'services/styles'
 
 import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
@@ -49,7 +50,6 @@ import {
   EthText,
   Highest,
   LeftColWrapper,
-  NftAssetStickyWrapper,
   RightColWrapper,
   Top,
   Trait,
@@ -62,13 +62,23 @@ import NftAssetLoading from './components/NftAssetLoading'
 
 const AssetImageContainer = styled.div`
   position: relative;
-  border-radius: 8px;
-  border-width: 1px;
-  border: 1px solid ${(props) => props.theme.grey100};
-  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
-  box-sizing: border-box;
+  border-radius: 16px;
+  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 0.5rem;
   padding: 30px;
+`
+
+const AssetImg = styled.img`
+  border-radius: 18px;
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-sizing: border-box;
+`
+
+const Description = styled.div<{ isLongEnough: boolean }>`
+  margin-bottom: 1em;
+  p:last-child {
+    margin-bottom: 4px;
+  }
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -89,6 +99,7 @@ const SocialLink = styled.div`
   display: flex;
   width: 40px;
   height: 40px;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-right: 1px solid ${(props) => props.theme.grey000};
@@ -102,12 +113,6 @@ const ActivityWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   overflow: auto;
-`
-
-const CustomTabMenu = styled(TabMenu)`
-  color: ${colors.grey900};
-  margin: 24px 0;
-  background: ${colors.grey000};
 `
 
 const CreatorOwnerAddress = styled.div`
@@ -128,11 +133,8 @@ const TokenDisplay = styled(Text)`
   width: 200px;
   text-align: right;
 `
-
-const AdditionalDetailsWrapper = styled.div`
-  border: 1px solid ${colors.grey000};
-  border-radius: 8px;
-  margin-top: 24px;
+const DropdownPadding = styled.div`
+  padding-bottom: 1em;
 `
 
 const Detail = styled(Text)`
@@ -146,6 +148,22 @@ const Detail = styled(Text)`
   &:last-child {
     border-bottom: none;
   }
+`
+
+const ShadowTag = styled.div`
+  background: ${colors.white900};
+  box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
+  border-radius: 40px;
+  padding: 6px 12px;
+  width: fit-content;
+`
+
+const CollectionHeader = styled.div`
+  ${media.atLeastTablet`
+    display: flex;
+    marginTop: 2px;
+    gap: 24px;
+    `};
 `
 
 const DetailsAndOffers = styled.div``
@@ -163,7 +181,7 @@ const NftAsset: React.FC<Props> = ({
   const { contract, id } = rest.computedMatch.params
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
-  const [assetQuery, reexecuteQuery] = useAssetQuery({
+  const [assetQuery, reExecuteQuery] = useAssetQuery({
     requestPolicy: 'network-only',
     variables: {
       filter: [
@@ -174,7 +192,7 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
-  const [Tab, setTab] = useState('about')
+  const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
@@ -200,6 +218,8 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = currentAsset?.owners ? currentAsset.owners[0] : null
   const collectionName = currentAsset?.collection?.name || ''
+  const description = currentAsset?.collection?.description || ''
+  const isLongEnough = description?.length > 82
 
   let bids =
     openSeaAsset.data?.orders?.filter((x) => {
@@ -252,38 +272,253 @@ const NftAsset: React.FC<Props> = ({
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <NftAssetStickyWrapper>
-                <AssetImageContainer>
-                  {currentAsset.animation_url ? (
-                    <iframe
-                      title='Asset Animation'
-                      allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-                      frameBorder='0'
-                      height='100%'
-                      sandbox='allow-scripts'
-                      width='100%'
-                      style={{ minHeight: '500px' }}
-                      src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
-                        currentAsset.animation_url
-                      )}`}
-                    />
-                  ) : currentAsset.image_url ? (
-                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
-                  ) : (
-                    <Image width='100%' height='500px' name='nft-img-placeholder' />
-                  )}
-                  <NftAssetImageType
-                    animation_url={currentAsset.animation_url}
-                    image_url={currentAsset.image_url}
-                    top='40px'
-                    right='40px'
+              <AssetImageContainer>
+                {currentAsset.animation_url ? (
+                  <iframe
+                    title='Asset Animation'
+                    allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                    frameBorder='0'
+                    height='100%'
+                    sandbox='allow-scripts'
+                    width='100%'
+                    style={{ minHeight: '500px' }}
+                    src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
+                      currentAsset.animation_url
+                    )}`}
                   />
-                </AssetImageContainer>
+                ) : currentAsset.image_url ? (
+                  <AssetImg alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                ) : (
+                  <Image width='100%' height='500px' name='nft-img-placeholder' />
+                )}
+                <NftAssetImageType
+                  animation_url={currentAsset.animation_url}
+                  image_url={currentAsset.image_url}
+                  top='40px'
+                  right='40px'
+                />
+              </AssetImageContainer>
+              {currentAsset.traits?.length || description !== '' ? (
+                <DropdownPadding style={{ paddingTop: '1em' }}>
+                  <NftDropdown expanded title='About'>
+                    <div style={{ padding: '1em' }}>
+                      {description !== '' ? (
+                        <Description isLongEnough={isLongEnough}>
+                          <Flex flexDirection='column'>
+                            <Text size='14px' color='grey600' weight={600}>
+                              <FormattedMessage
+                                id='copy.description'
+                                defaultMessage='Description'
+                              />
+                            </Text>
+                            <Text
+                              size='14px'
+                              color='grey600'
+                              weight={500}
+                              style={{ wordBreak: 'break-word' }}
+                            >
+                              {moreToggle && isLongEnough ? (
+                                <ReactMarkdown linkTarget='_blank'>
+                                  {`${description.substring(0, 82)}...`}
+                                </ReactMarkdown>
+                              ) : (
+                                <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
+                              )}
+                            </Text>
+                            {isLongEnough && (
+                              <Text
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  if (isLongEnough) setIsMore(!moreToggle)
+                                }}
+                                size='12px'
+                                color='blue600'
+                                weight={600}
+                              >
+                                {moreToggle ? (
+                                  <FormattedMessage id='copy.more' defaultMessage='More' />
+                                ) : (
+                                  <FormattedMessage id='copy.less' defaultMessage='Less' />
+                                )}
+                              </Text>
+                            )}
+                          </Flex>
+                        </Description>
+                      ) : null}
+                      {currentAsset.traits?.length ? (
+                        <Flex flexDirection='column'>
+                          <Text size='14px' color='grey600' weight={600}>
+                            <FormattedMessage id='copy.properties' defaultMessage='Properties' />
+                          </Text>
+                          <TraitsWrapper>
+                            {currentAsset.traits.map((trait) => {
+                              if (!trait) return null
+
+                              const assetTraits = currentAsset.traits?.find(
+                                (t) => t?.trait_type === trait.trait_type
+                              )
+                              const traitCount = assetTraits?.trait_count
+                              const rarity =
+                                traitCount && currentAsset.collection.total_supply
+                                  ? `${parseFloat(
+                                      (
+                                        (traitCount / currentAsset.collection.total_supply) *
+                                        100
+                                      ).toFixed(1)
+                                    )}%`
+                                  : 'New Trait'
+
+                              return (
+                                <Trait
+                                  key={trait.value}
+                                  onClick={() => {
+                                    routerActions.push(
+                                      `/nfts/collection/${currentAsset.collection.slug}`
+                                    )
+                                    formActions.change(
+                                      'nftFilter',
+                                      `${trait.trait_type}.${trait.value}`,
+                                      true
+                                    )
+                                  }}
+                                >
+                                  <Text capitalize color='blue400' size='12px' weight={400}>
+                                    <b>{trait?.trait_type}</b>
+                                  </Text>
+                                  <Text capitalize color='blue600' size='14px' weight={600}>
+                                    {trait?.value}
+                                  </Text>
+                                  <Text capitalize color='grey900' size='12px' weight={500}>
+                                    {rarity}
+                                  </Text>
+                                </Trait>
+                              )
+                            })}
+                          </TraitsWrapper>
+                        </Flex>
+                      ) : null}
+                    </div>
+                  </NftDropdown>
+                </DropdownPadding>
+              ) : null}
+            </LeftColWrapper>
+            <RightColWrapper>
+              <div
+                style={{
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <CollectionHeader>
+                  <div>
+                    <Text
+                      size='14px'
+                      weight={600}
+                      style={{
+                        alignItems: 'center',
+                        padding: '0em 0em 0.5em 0em'
+                      }}
+                    >
+                      Collection
+                    </Text>
+                    <div style={{ padding: '6px 0px' }}>
+                      <ShadowTag>
+                        <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
+                          <CollectionName>
+                            {currentAsset.collection.image_url ? (
+                              <NftCollectionImage
+                                alt='Dapp Logo'
+                                src={currentAsset.collection?.image_url || ''}
+                                isVerified={
+                                  currentAsset.collection.safelist_request_status === 'verified'
+                                }
+                              />
+                            ) : (
+                              <Flex alignItems='center' flexDirection='row'>
+                                <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                              </Flex>
+                            )}
+                            <Text
+                              size='16px'
+                              weight={600}
+                              style={{
+                                maxWidth: '200px',
+                                overflow: 'hidden',
+                                paddingLeft: '8px',
+                                textOverflow: 'ellipsis'
+                              }}
+                            >
+                              {currentAsset.collection?.name}
+                            </Text>
+                          </CollectionName>
+                        </CustomLink>
+                      </ShadowTag>
+                    </div>
+                  </div>
+                  {owner?.address ? (
+                    <div>
+                      <Text
+                        size='14px'
+                        weight={600}
+                        style={{
+                          alignItems: 'center',
+                          padding: '0em 0em 0.5em 0em'
+                        }}
+                      >
+                        Owner
+                      </Text>
+                      <div style={{ padding: '6px 0px' }}>
+                        <ShadowTag>
+                          <CustomLink to={`/nfts/address/${owner.address}`}>
+                            <CollectionName>
+                              {owner?.profile_img_url ? (
+                                <NftCollectionImage
+                                  alt='Owner Logo'
+                                  src={owner?.profile_img_url || ''}
+                                  isVerified={
+                                    currentAsset.collection.safelist_request_status === 'verified'
+                                  }
+                                />
+                              ) : (
+                                <Flex alignItems='center' flexDirection='row'>
+                                  <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                </Flex>
+                              )}
+
+                              <Text
+                                size='16px'
+                                weight={600}
+                                color='blue600'
+                                style={{ paddingLeft: '8px' }}
+                              >
+                                <CryptoAddress>{owner.address}</CryptoAddress>
+                              </Text>
+                            </CollectionName>
+                          </CustomLink>
+                        </ShadowTag>
+                      </div>
+                    </div>
+                  ) : null}
+                </CollectionHeader>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Socials>
+                    <SocialLink
+                      id='nft-refresh'
+                      onClick={() => {
+                        reExecuteQuery()
+                        nftsActions.fetchOpenSeaAsset({
+                          asset_contract_address: contract,
+                          token_id: id
+                        })
+                        setIsRefreshRotating(true)
+                      }}
+                    >
+                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
+                    </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
-                        color='grey600'
+                        color='grey700'
                         textToCopy={`${domains.comWalletApp}/#/nfts/assets/${contract}/${id}`}
                         onClick={() =>
                           analyticsActions.trackEvent({
@@ -308,7 +543,7 @@ const NftAsset: React.FC<Props> = ({
                             })
                           }}
                           cursor
-                          color='grey600'
+                          color='grey700'
                           name='send'
                         />
                       </SocialLink>
@@ -330,105 +565,12 @@ const NftAsset: React.FC<Props> = ({
                     </SocialLink> */}
                   </Socials>
                 </div>
-              </NftAssetStickyWrapper>
-            </LeftColWrapper>
-            <RightColWrapper>
-              <div
-                style={{
-                  alignItems: 'center',
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <div style={{ display: 'block', marginTop: '2px' }}>
-                  <Text
-                    size='14px'
-                    weight={600}
-                    style={{
-                      alignItems: 'center',
-                      padding: '0em 0em 0.5em 0em'
-                    }}
-                  >
-                    Collection
-                  </Text>
-                  <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
-                    <CollectionName>
-                      {currentAsset.collection.image_url ? (
-                        <NftCollectionImage
-                          alt='Dapp Logo'
-                          src={currentAsset.collection?.image_url || ''}
-                          isVerified={
-                            currentAsset.collection.safelist_request_status === 'verified'
-                          }
-                        />
-                      ) : null}
-
-                      <div style={{ paddingLeft: '8px' }}>{currentAsset.collection?.name}</div>
-                    </CollectionName>
-                  </CustomLink>
-                </div>
-                <Button
-                  id='nft-refresh'
-                  data-e2e='nftAssetRefresh'
-                  style={{
-                    borderRadius: '50%',
-                    height: '40px',
-                    maxWidth: '40px',
-                    minWidth: '40px',
-                    padding: '12px'
-                  }}
-                  nature='empty-blue'
-                  onClick={() => {
-                    reexecuteQuery()
-                    nftsActions.fetchOpenSeaAsset({
-                      asset_contract_address: contract,
-                      token_id: id
-                    })
-                    setIsRefreshRotating(true)
-                  }}
-                >
-                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
-                </Button>
               </div>
-              <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
-              {owner?.address ? (
-                <TextGroup inline style={{ marginTop: '24px' }}>
-                  <Text size='16px' color='grey600' weight={600}>
-                    <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
-                  </Text>
-                  {!isOwner ? (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      <CryptoAddress>{owner.address}</CryptoAddress>
-                    </Text>
-                  ) : (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      You
-                    </Text>
-                  )}
-                </TextGroup>
-              ) : null}
+              <AssetName>
+                {currentAsset?.token_id?.length > 10
+                  ? `#${currentAsset?.token_id.substring(0, 10)}...`
+                  : `#${currentAsset?.token_id}`}
+              </AssetName>
               <CurrentPriceBox>
                 {openSeaAsset.isLoading ? (
                   <div>
@@ -503,16 +645,21 @@ const NftAsset: React.FC<Props> = ({
                     ) : lowest_order ? (
                       <>
                         <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Sale ends in{' '}
-                            {formatDistanceToNow(
-                              new Date(
-                                (is_lowest_order_english
-                                  ? lowest_order.listing_time
-                                  : lowest_order?.expiration_time) * 1000
-                              )
-                            )}
-                          </div>
+                          {is_lowest_order_english || is_lowest_order_dutch ? (
+                            <div style={{ marginBottom: '1em' }}>Auction Ends In </div>
+                          ) : (
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends in{' '}
+                              {formatDistanceToNow(
+                                new Date(
+                                  (is_lowest_order_english
+                                    ? lowest_order.listing_time
+                                    : lowest_order?.expiration_time) * 1000
+                                )
+                              )}
+                            </div>
+                          )}
+
                           <NftAssetCountdown
                             countDownDate={
                               (is_lowest_order_english
@@ -675,7 +822,8 @@ const NftAsset: React.FC<Props> = ({
                         is_lowest_order_english || is_lowest_order_dutch ? (
                           <Button
                             data-e2e='openNftFlow'
-                            nature='dark'
+                            nature='primary'
+                            width='50%'
                             jumbo
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
@@ -746,78 +894,59 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 )}
               </CurrentPriceBox>
-              <CustomTabMenu>
-                <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
-                  <FormattedMessage id='copy.about' defaultMessage='About' />
-                </TabMenuItem>
-                <TabMenuItem
-                  width='33%'
-                  onClick={() => setTab('activity')}
-                  selected={Tab === 'activity'}
-                >
-                  <FormattedMessage id='copy.activity' defaultMessage='Activity' />
-                </TabMenuItem>
-                <TabMenuItem
-                  width='33%'
-                  onClick={() => setTab('offers')}
-                  selected={Tab === 'offers'}
-                >
-                  <FormattedMessage id='copy.offers' defaultMessage='Offers' />
-                </TabMenuItem>
-              </CustomTabMenu>
-              {Tab === 'about' && (
-                <DetailsAndOffers>
-                  {currentAsset.traits?.length ? (
-                    <TraitsWrapper>
-                      {currentAsset.traits.map((trait) => {
-                        if (!trait) return null
-
-                        const assetTraits = currentAsset.traits?.find(
-                          (t) => t?.trait_type === trait.trait_type
-                        )
-                        const traitCount = assetTraits?.trait_count
-                        const rarity =
-                          traitCount && currentAsset.collection.total_supply
-                            ? `${parseFloat(
-                                ((traitCount / currentAsset.collection.total_supply) * 100).toFixed(
-                                  1
-                                )
-                              )}%`
-                            : 'New Trait'
-
-                        return (
-                          <Trait
-                            key={trait.value}
-                            onClick={() => {
-                              routerActions.push(`/nfts/collection/${currentAsset.collection.slug}`)
-                              formActions.change(
-                                'nftFilter',
-                                `${trait.trait_type}.${trait.value}`,
-                                true
-                              )
-                            }}
-                          >
-                            <Text capitalize color='blue400' size='12px' weight={400}>
-                              <b>{trait?.trait_type}</b>
-                            </Text>
-                            <Text capitalize color='blue600' size='14px' weight={600}>
-                              {trait?.value}
-                            </Text>
-                            <Text capitalize color='grey900' size='12px' weight={500}>
-                              {rarity}
-                            </Text>
-                          </Trait>
-                        )
-                      })}
-                    </TraitsWrapper>
-                  ) : null}
-                  <AdditionalDetailsWrapper>
+              <DropdownPadding style={{ paddingTop: '1em' }}>
+                <NftDropdown title='Activity'>
+                  <ActivityWrapper>
+                    <Events
+                      noBorder
+                      columns={['event_type', 'price', 'from', 'date']}
+                      isFetchingParent={false}
+                      filters={[
+                        {
+                          field: EventFilterFields.AssetContractAddress,
+                          value: currentAsset.contract?.address
+                        },
+                        { field: EventFilterFields.AssetTokenId, value: currentAsset.token_id }
+                      ]}
+                      key='events'
+                    />
+                  </ActivityWrapper>
+                </NftDropdown>
+              </DropdownPadding>
+              <DropdownPadding>
+                <NftDropdown title='Offers'>
+                  {bidsAndOffers.length > 0 ? (
+                    <ActivityWrapper>
+                      <Offers
+                        asset={openSeaAsset.data}
+                        columns={['price', 'from', 'expiration', 'action']}
+                        bidsAndOffers={bidsAndOffers}
+                        defaultEthAddr={defaultEthAddr}
+                      />
+                    </ActivityWrapper>
+                  ) : openSeaAsset.isLoading ? (
+                    <Flex justifyContent='center'>
+                      <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+                    </Flex>
+                  ) : (
+                    <Flex justifyContent='center' alignItems='center' flexDirection='column'>
+                      <Image height='100px' name='nft-img-placeholder' />
+                      <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
+                        <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
+                      </Text>
+                    </Flex>
+                  )}
+                </NftDropdown>
+              </DropdownPadding>
+              <DropdownPadding>
+                <NftDropdown expanded title='Details'>
+                  <DetailsAndOffers>
                     <Detail>
                       <Text size='16px' weight={500} color='grey900'>
                         Blockchain
                       </Text>{' '}
-                      <Text size='16px' weight={600} color='grey600'>
-                        Ethereum
+                      <Text capitalize size='16px' weight={600} color='grey600'>
+                        {currentAsset.network}
                       </Text>
                     </Detail>
                     <Detail>
@@ -852,7 +981,11 @@ const NftAsset: React.FC<Props> = ({
                       </Text>
 
                       <TokenDisplay size='16px' weight={600} color='grey600'>
-                        {currentAsset.token_id}{' '}
+                        {currentAsset.token_id.length > 20 ? (
+                          <CryptoAddress>{currentAsset.token_id}</CryptoAddress>
+                        ) : (
+                          currentAsset.token_id
+                        )}
                       </TokenDisplay>
                     </Detail>
                     <Detail>
@@ -863,56 +996,16 @@ const NftAsset: React.FC<Props> = ({
                         {currentAsset.contract?.schema_name}
                       </Text>
                     </Detail>
-                  </AdditionalDetailsWrapper>
-                </DetailsAndOffers>
-              )}
-              {Tab === 'activity' && (
-                <ActivityWrapper>
-                  <Events
-                    noBorder
-                    columns={['event_type', 'price', 'from', 'date']}
-                    isFetchingParent={false}
-                    filters={[
-                      {
-                        field: EventFilterFields.AssetContractAddress,
-                        value: currentAsset.contract?.address
-                      },
-                      { field: EventFilterFields.AssetTokenId, value: currentAsset.token_id }
-                    ]}
-                    key='events'
-                  />
-                </ActivityWrapper>
-              )}
-              {Tab === 'offers' ? (
-                bidsAndOffers.length > 0 ? (
-                  <ActivityWrapper>
-                    <Offers
-                      asset={openSeaAsset.data}
-                      columns={['price', 'from', 'expiration', 'action']}
-                      bidsAndOffers={bidsAndOffers}
-                      defaultEthAddr={defaultEthAddr}
-                    />
-                  </ActivityWrapper>
-                ) : openSeaAsset.isLoading ? (
-                  <Flex justifyContent='center'>
-                    <SpinningLoader height='14px' width='14px' borderWidth='3px' />
-                  </Flex>
-                ) : (
-                  <Flex justifyContent='center' alignItems='center' flexDirection='column'>
-                    <Image height='100px' name='nft-img-placeholder' />
-                    <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
-                      <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
-                    </Text>
-                  </Flex>
-                )
-              ) : null}
+                  </DetailsAndOffers>
+                </NftDropdown>
+              </DropdownPadding>
             </RightColWrapper>
           </Top>
-          {currentAsset &&
+          {/* {currentAsset &&
           ((currentAsset?.collection?.total_supply && currentAsset.collection.total_supply > 2) ||
             !currentAsset.collection.total_supply) ? (
             <AssetMoreItems asset={currentAsset} />
-          ) : null}
+          ) : null} */}
         </div>
       </>
     </Wrapper>

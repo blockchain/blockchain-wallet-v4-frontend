@@ -61,6 +61,16 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
+  const selectDCAccount = (cardId, accountCurrency) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: {
+        accountCurrency
+      },
+      endPoint: `/card-issuing/cards/${cardId}/account`,
+      url: nabuUrl
+    })
+
   return {
     createDCOrder,
     getDCCreated,
@@ -69,6 +79,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     getDCProducts,
     getDCToken,
     handleDCLock,
+    selectDCAccount,
     terminateDC
   }
 }

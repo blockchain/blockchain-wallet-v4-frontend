@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { CellHeaderText } from 'components/Table'
+import { ModalName } from 'data/types'
 
 import { TableColumnsType } from '..'
 
@@ -53,7 +54,7 @@ export const getActionsColumn = (
             nature='empty-blue'
             onClick={() => {
               formActions.destroy('initSwap')
-              modalActions.showModal('SWAP_MODAL', {
+              modalActions.showModal(ModalName.SWAP_MODAL, {
                 origin: 'Prices'
               })
               swapActions.setStep({

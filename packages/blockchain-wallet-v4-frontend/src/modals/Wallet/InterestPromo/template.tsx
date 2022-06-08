@@ -62,7 +62,7 @@ const Success: React.FC<Props> = ({
             id='modals.interestpromo.title'
             defaultMessage='Earn {interestRate}% Rewards on your {coin}'
             values={{
-              coin: 'BTC',
+              coin: currency,
               interestRate: interestRate[currency]
             }}
           />

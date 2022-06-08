@@ -10,6 +10,7 @@ import {
   AuthMagicLink,
   CaptchaActionName,
   ExchangeAuthOriginType,
+  ModalName,
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
@@ -266,11 +267,15 @@ export default ({ api, coreSagas, networks }) => {
       )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
-      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
+      yield put(
+        actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
+      )
     }
   }
 
   const initializeSignUp = function* () {
+    yield put(actions.modules.profile.clearSession())
+    yield put(actions.modules.profile.clearProfileState())
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
     const referrerUsername = queryParams.get('referrerUsername') as string
     const tuneTid = queryParams.get('tuneTid') as string

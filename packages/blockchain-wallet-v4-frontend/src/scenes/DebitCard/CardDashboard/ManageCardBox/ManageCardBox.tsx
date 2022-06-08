@@ -45,7 +45,7 @@ const ManageCardBox = ({ alertActions, cards, debitCardActions, lockHandler, mod
   }, [lockHandler])
 
   const onTerminate = () => {
-    modalActions.showModal(ModalName.TERMINATE_CARD, { origin: 'DashboardPage' })
+    modalActions.showModal(ModalName.TERMINATE_CARD, { origin: 'DebitCardDashboard' })
   }
 
   const toggleLock = () => {

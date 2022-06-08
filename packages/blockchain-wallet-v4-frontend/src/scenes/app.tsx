@@ -66,7 +66,6 @@ const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
-const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
@@ -80,7 +79,6 @@ const App = ({
   persistor,
   store,
   userData,
-  walletConnectEnabled,
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
@@ -242,9 +240,6 @@ const App = ({
                         <WalletLayout path='/settings/addresses' component={Addresses} />
                         <WalletLayout path='/settings/general' component={General} />
                         <WalletLayout path='/settings/preferences' component={Preferences} />
-                        {walletConnectEnabled && (
-                          <WalletLayout path='/dapps' component={WalletConnect} />
-                        )}
                         <WalletLayout path='/prices' component={Prices} />
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                         <WalletLayout
@@ -277,9 +272,6 @@ const mapStateToProps = (state) => ({
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
-  walletConnectEnabled: selectors.core.walletOptions
-    .getWalletConnectEnabled(state)
-    .getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.core.walletOptions
     .getWalletDebitCardEnabled(state)
     .getOrElse(false)

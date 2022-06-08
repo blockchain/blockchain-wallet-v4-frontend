@@ -45,7 +45,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
 
   return (
     <NftTableWrapper>
-      <div {...getTableProps({ style: { height: '360px', overflow: 'scroll' } })} className='table'>
+      <div {...getTableProps({ style: { height: '100%', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
