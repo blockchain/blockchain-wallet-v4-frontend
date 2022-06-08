@@ -90,4 +90,5 @@ export type CustodialState = {
   beneficiaries: RemoteDataType<string, BeneficiariesType>
   productEligibilityForUser: RemoteDataType<string, ProductEligibilityForUser>
   recentSwapTxs: RemoteDataType<string, SwapOrderType[]>
+  userHadNotifications: boolean
 }
