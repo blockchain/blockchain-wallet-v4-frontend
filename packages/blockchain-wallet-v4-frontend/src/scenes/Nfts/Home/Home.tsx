@@ -176,7 +176,7 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2 style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
+    <NftPageV2 style={{ padding: 0 }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
@@ -371,26 +371,30 @@ const Explore: React.FC<Props> = (props) => {
             )}
           </div>
         </Banner>
-        <div>
-          <Text
-            color='black'
-            style={
-              isMobile || isTablet
-                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
-                : { marginBottom: '16px', marginTop: '36px' }
-            }
-            size={isMobile || isTablet ? '20px' : '24px'}
-            weight={600}
-          >
-            Trending Collections
-          </Text>
+        <div style={{ padding: '1em' }}>
+          <div>
+            <Text
+              color='black'
+              style={
+                isMobile || isTablet
+                  ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
+                  : { marginBottom: '16px', marginTop: '36px' }
+              }
+              size={isMobile || isTablet ? '20px' : '24px'}
+              weight={600}
+            >
+              Trending Collections
+            </Text>
+          </div>
         </div>
       </>
-      {results.data?.collections ? (
-        <TrendingCollectionsTable collections={results.data.collections} {...props} />
-      ) : (
-        <Loading />
-      )}
+      <div style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
+        {results.data?.collections ? (
+          <TrendingCollectionsTable collections={results.data.collections} {...props} />
+        ) : (
+          <Loading />
+        )}
+      </div>
     </NftPageV2>
   )
 }
