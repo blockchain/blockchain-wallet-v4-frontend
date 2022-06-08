@@ -2,10 +2,11 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { Funding } from '../../scenes/extension/Funding'
 import HomeRoutes from './HomeRoutes'
 
 export const extensionHeight = 600
-export const extensionWidth = 800
+export const extensionWidth = 360
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ const ExtensionRoutes = (props) => {
       <InnerWrapper>
         <Switch>
           <Route path={`${path}/home`} component={HomeRoutes} />
+          <Route path={`${path}/funding`} component={Funding} />
         </Switch>
       </InnerWrapper>
     </Wrapper>
