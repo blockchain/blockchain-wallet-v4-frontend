@@ -11,6 +11,7 @@ import * as C from 'services/alerts'
 import profileSagas from '../../modules/profile/sagas'
 import {
   BAD_CODE_ERROR,
+  CONTEXTS,
   EMAIL_STEPS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
@@ -119,8 +120,8 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const contextMapper = function* (origin = 'DEFAULT_CONTEXT') {
-    return yield origin === 'BuySell' ? 'FIAT_DEPOSIT' : 'DEFAULT_CONTEXT'
+  const contextMapper = function* (origin) {
+    return yield origin === 'BuySell' ? CONTEXTS.FIAT_DEPOSIT : CONTEXTS.DEFAULT_CONTEXT
   }
 
   const defineSteps = function* (tier, needMoreInfo, origin) {

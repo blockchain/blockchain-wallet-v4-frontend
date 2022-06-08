@@ -74,3 +74,8 @@ export const CAMPAIGNS = {
     coinName: 'Stellar'
   }
 }
+
+export enum CONTEXTS {
+  DEFAULT_CONTEXT = 'DEFAULT_CONTEXT',
+  FIAT_DEPOSIT = 'FIAT_DEPOSIT'
+}
