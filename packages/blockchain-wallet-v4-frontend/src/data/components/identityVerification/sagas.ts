@@ -11,8 +11,8 @@ import * as C from 'services/alerts'
 import profileSagas from '../../modules/profile/sagas'
 import {
   BAD_CODE_ERROR,
-  CONTEXTS,
   EMAIL_STEPS,
+  EXTRA_KYC_CONTEXTS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
@@ -121,7 +121,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const contextMapper = function* (origin) {
-    return yield origin === 'BuySell' ? CONTEXTS.FIAT_DEPOSIT : CONTEXTS.DEFAULT_CONTEXT
+    return yield origin === 'BuySell' ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT : EXTRA_KYC_CONTEXTS.DEFAULT
   }
 
   const defineSteps = function* (tier, needMoreInfo, origin) {
@@ -196,7 +196,7 @@ export default ({ api, coreSagas, networks }) => {
 
     // filter steps if tier 2, only extraKYC if needed.
     let filteredSteps = steps
-    if (tiers.current === 2) {
+    if (tiers.current === TIERS[2]) {
       filteredSteps = steps.filter((step) => {
         return step !== 'additionalInfo' && step !== 'submitted'
       })
