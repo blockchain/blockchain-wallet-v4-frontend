@@ -23,6 +23,7 @@ import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import PendingTxMessage from '../../components/PendingTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
@@ -38,7 +39,7 @@ const CTA: React.FC<Props> = (props) => {
     openSeaAssetR,
     orderFlow
   } = props
-  const { orderToMatch } = orderFlow
+  const { orderToMatch, userHasPendingTxR } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -47,13 +48,15 @@ const CTA: React.FC<Props> = (props) => {
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
   }
+  const userHasPendingTx = userHasPendingTxR.getOrElse(false)
 
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
+
   if (!orderToMatch) return null
 
-  const disabled = props.orderFlow.isSubmitting || !termsAccepted
+  const disabled = props.orderFlow.isSubmitting || !termsAccepted || userHasPendingTx
 
   if (!isAuthenticated) {
     return (
@@ -88,6 +91,18 @@ const CTA: React.FC<Props> = (props) => {
             <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
           </Button>
         </Link>
+      </>
+    )
+  }
+
+  if (userHasPendingTx) {
+    return (
+      <>
+        <PendingTxMessage />
+        <br />
+        <Button disabled jumbo nature='primary' fullwidth data-e2e='buyNftPendingTx'>
+          <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+        </Button>
       </>
     )
   }

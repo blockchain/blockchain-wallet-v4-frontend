@@ -38,6 +38,7 @@ import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
+import PendingTxMessage from '../../components/PendingTxMessage'
 import { Props as OwnProps } from '..'
 import MakeOfferFees from './fees'
 import { validate } from './validation'
@@ -69,6 +70,8 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
+  const { fees, isSubmitting, userHasPendingTxR, wrapEthFees } = orderFlow
+
   if (!formValues) return null
 
   const { amount, coin, fix } = formValues
@@ -96,8 +99,9 @@ const MakeOffer: React.FC<Props> = (props) => {
           value: amount || 0
         })
       : amount
-  const wrapFees = orderFlow.wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
-  const offerFees = orderFlow.fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const userHasPendingTx = userHasPendingTxR.getOrElse(false)
+  const wrapFees = wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const offerFees = fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const ethBalance = new BigNumber(selfCustodyBalance)
   const erc20Balance = erc20BalanceR.getOrElse(0)
   const maxWrapPossible = ethBalance
@@ -133,8 +137,9 @@ const MakeOffer: React.FC<Props> = (props) => {
     !formValues.amount ||
     Number(formValues.amount) <= 0 ||
     formErrors.amount ||
-    Remote.Loading.is(orderFlow.fees) ||
-    props.orderFlow.isSubmitting ||
+    Remote.Loading.is(fees) ||
+    userHasPendingTx ||
+    isSubmitting ||
     !termsAccepted
 
   const toggleTermsAccepted = () => {
@@ -355,7 +360,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   />
                 </Text>
               ) : null}
-              {((needsWrap && canWrap) || !needsWrap) && !formErrors.amount ? (
+              {disabled ? null : (
                 <div style={{ display: 'flex' }}>
                   {' '}
                   <div style={{ padding: '1.2em 0em' }}>
@@ -385,7 +390,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                     </Text>
                   </label>
                 </div>
-              ) : null}
+              )}
               {needsWrap && !canWrap ? (
                 <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                   <Image
@@ -397,58 +402,66 @@ const MakeOffer: React.FC<Props> = (props) => {
                   <FormattedMessage id='copy.not_enough_eth' defaultMessage='Not Enough ETH' />
                 </Button>
               ) : (
-                <Button
-                  jumbo
-                  nature={formErrors.amount ? 'sent' : 'primary'}
-                  fullwidth
-                  data-e2e='makeOfferNft'
-                  disabled={disabled}
-                  onClick={() =>
-                    nftActions.createOffer({
-                      amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                      asset: val,
-                      expirationTime: getUnixTime(
-                        addMinutes(new Date(), parseInt(formValues.expirationMinutes))
-                      ),
-                      offerFees,
-                      wrapFees,
-                      ...formValues
-                    })
-                  }
-                >
-                  {formValues.amount && Number(formValues.amount) > 0 ? (
-                    props.orderFlow.isSubmitting ? (
-                      <>
-                        {props.orderFlow.status &&
-                          (props.orderFlow.status === 'WRAP_ETH' ? (
-                            <>
-                              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-                              <div style={{ paddingLeft: '1em' }}>
-                                <FormattedMessage
-                                  id='copy.wrap_eth'
-                                  defaultMessage='Wrapping Eth...'
-                                />
-                              </div>
-                            </>
-                          ) : (
-                            <>{props.orderFlow.status}</>
-                          ))}
-                      </>
+                <>
+                  {userHasPendingTx ? (
+                    <>
+                      <PendingTxMessage />
+                      <br />
+                    </>
+                  ) : null}
+                  <Button
+                    jumbo
+                    nature={formErrors.amount ? 'sent' : 'primary'}
+                    fullwidth
+                    data-e2e='makeOfferNft'
+                    disabled={disabled}
+                    onClick={() =>
+                      nftActions.createOffer({
+                        amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                        asset: val,
+                        expirationTime: getUnixTime(
+                          addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                        ),
+                        offerFees,
+                        wrapFees,
+                        ...formValues
+                      })
+                    }
+                  >
+                    {formValues.amount && Number(formValues.amount) > 0 ? (
+                      props.orderFlow.isSubmitting ? (
+                        <>
+                          {props.orderFlow.status &&
+                            (props.orderFlow.status === 'WRAP_ETH' ? (
+                              <>
+                                <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+                                <div style={{ paddingLeft: '1em' }}>
+                                  <FormattedMessage
+                                    id='copy.wrap_eth'
+                                    defaultMessage='Wrapping Eth...'
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>{props.orderFlow.status}</>
+                            ))}
+                        </>
+                      ) : (
+                        <FormattedMessage
+                          id='copy.make_offer_value'
+                          defaultMessage={
+                            !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                          }
+                          values={{
+                            val: `${formValues.amount} ${formValues.coin}`
+                          }}
+                        />
+                      )
                     ) : (
-                      <FormattedMessage
-                        id='copy.make_offer_value'
-                        defaultMessage={
-                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
-                        }
-                        values={{
-                          val: `${formValues.amount} ${formValues.coin}`
-                        }}
-                      />
-                    )
-                  ) : (
-                    <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
-                  )}
-                </Button>
+                      <FormattedMessage id='copy.make_an_offer' defaultMessage='Make an Offer' />
+                    )}
+                  </Button>
+                </>
               )}
             </>
           ) : (
