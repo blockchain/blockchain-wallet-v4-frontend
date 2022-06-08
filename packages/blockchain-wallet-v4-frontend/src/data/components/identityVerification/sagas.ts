@@ -120,10 +120,6 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const contextMapper = function* (origin) {
-    return yield origin === 'BuySell' ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT : EXTRA_KYC_CONTEXTS.DEFAULT
-  }
-
   const defineSteps = function* (tier, needMoreInfo, origin) {
     yield put(A.setStepsLoading())
     try {
@@ -175,7 +171,8 @@ export default ({ api, coreSagas, networks }) => {
 
     let addExtraStep = false
     // check extra KYC fields
-    const context = yield call(contextMapper, origin)
+    const context =
+      origin === 'BuySell' ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT : EXTRA_KYC_CONTEXTS.DEFAULT
 
     yield put(actions.components.identityVerification.fetchExtraKYC(context))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
@@ -547,7 +544,6 @@ export default ({ api, coreSagas, networks }) => {
   return {
     checkKycFlow,
     claimCampaignClicked,
-    contextMapper,
     createRegisterUserCampaign,
     createUser,
     defineSteps,
