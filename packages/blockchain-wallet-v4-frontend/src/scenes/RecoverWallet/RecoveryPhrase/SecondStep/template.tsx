@@ -180,11 +180,11 @@ class SecondStep extends React.PureComponent<Props, State> {
                           />
                         </PasswordRequirementText>
                         <PasswordRequirementText
-                          isValid={stringLengthBetween(passwordValue, 12, 64)}
+                          isValid={stringLengthBetween(passwordValue, 8, 64)}
                         >
                           <FormattedMessage
                             id='scenes.register.password.part7'
-                            defaultMessage='12 characters'
+                            defaultMessage='8 characters'
                           />{' '}
                         </PasswordRequirementText>
                         <PasswordRequirementText isValid>

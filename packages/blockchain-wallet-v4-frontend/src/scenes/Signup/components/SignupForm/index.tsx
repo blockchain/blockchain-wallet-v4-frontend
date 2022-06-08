@@ -146,10 +146,10 @@ const SignupForm = (props: Props) => {
                   defaultMessage='and be at least'
                 />
               </PasswordRequirementText>
-              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 12, 64)}>
+              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 8, 64)}>
                 <FormattedMessage
                   id='scenes.register.password.part7'
-                  defaultMessage='12 characters'
+                  defaultMessage='8 characters'
                 />{' '}
               </PasswordRequirementText>
               <PasswordRequirementText isValid>
