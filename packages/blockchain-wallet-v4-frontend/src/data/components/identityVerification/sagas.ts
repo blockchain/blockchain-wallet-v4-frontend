@@ -215,7 +215,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.setEmailStep(STEPS.edit as EmailSmsStepType))
     yield call(defineSteps, tier, needMoreInfo, origin)
     const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
-    if (steps.length === 0) {
+    if (!steps.length) {
       // if no steps to be shown, close modal
       yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
     } else {
