@@ -1,4 +1,5 @@
 import { call, delay, put, select } from 'redux-saga/effects'
+import Cookies from 'universal-cookie'
 
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
@@ -69,9 +70,11 @@ export default () => {
   const initAppLanguage = function* () {
     try {
       yield delay(250)
+      const cookies = new Cookies()
       const lang = tryParseLanguageFromUrl()
+      const cookieLang = cookies.get('clang')
       if (lang?.language) {
-        yield put(actions.preferences.setLanguage(lang.language, false))
+        yield put(actions.preferences.setLanguage(lang.language || cookieLang, false))
       }
     } catch (e) {
       // do nothing, app will fallback to english
