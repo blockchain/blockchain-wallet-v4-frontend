@@ -17,7 +17,6 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   display: block;
   width: 100%;
   height: 48px;
-  min-height: 48px;
   font-family: ${({ isPasswordVisible }) =>
     isPasswordVisible
       ? "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif"
@@ -31,15 +30,19 @@ const BasePasswordInput = styled.input.attrs((props) => ({
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border-radius: 8px;
+  border-radius: 8px 0 0 8px;
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
+  border-right: none;
 
   &:focus {
     border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    border-right: none;
   }
+
   &:focus::placeholder {
     opacity: 0.25;
   }
+
   &::placeholder {
     color: ${(props) => props.theme.grey400};
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
@@ -47,6 +50,7 @@ const BasePasswordInput = styled.input.attrs((props) => ({
     font-size: 14px;
     font-weight: 500;
   }
+
   &:disabled {
     cursor: not-allowed;
     background-color: ${(props) => props.theme.grey100};
@@ -55,24 +59,52 @@ const BasePasswordInput = styled.input.attrs((props) => ({
 `
 
 const Wrapper = styled.div`
-  display: inline-block;
+  display: flex;
   width: 100%;
   height: 48px;
 `
 const ToggleVisibilityWrapper = styled.div`
-  float: right;
-  position: relative;
-  bottom: 36px;
-  right: 12px;
+  display: flex;
+  align-items: center;
+  height: 46px;
+  padding-right: 8px;
+  border-radius: 0 8px 8px 0;
+  border: ${({ borderColor, focusedBorderColor, isFocused, theme }) =>
+    `1px solid ${theme[isFocused ? focusedBorderColor : borderColor]}`};
+  border-left: none;
   cursor: pointer;
   z-index: 99;
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(props) => props.theme.grey100};
+    border: 1px solid transparent;
+    border-left: none;
+  }
 `
 
 class PasswordInput extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { focused: false }
+    this.onBlur = this.onBlur.bind(this)
+    this.onFocus = this.onFocus.bind(this)
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
+  }
+
+  onFocus = (e) => {
+    this.setState({ focused: true })
+    this.props.onFocus(e)
+  }
+
+  onBlur = (e) => {
+    this.setState({ focused: false })
+    this.props.onBlur(e)
   }
 
   refInput = (input) => {
@@ -85,7 +117,6 @@ class PasswordInput extends React.Component {
       isPasswordVisible,
       noLastPass,
       setPasswordVisible,
-      showVisibilityToggle,
       value,
       ...rest
     } = this.props
@@ -101,18 +132,23 @@ class PasswordInput extends React.Component {
           ref={this.refInput}
           value={value}
           {...rest}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
         />
-        {showVisibilityToggle ? (
-          <ToggleVisibilityWrapper onClick={() => setPasswordVisible(!isPasswordVisible)}>
-            <Icon
-              color='grey400'
-              label={isPasswordVisible ? 'hide password' : 'show password'}
-              size='md'
-            >
-              {isPasswordVisible ? <IconVisibilityOff /> : <IconVisibilityOn />}
-            </Icon>
-          </ToggleVisibilityWrapper>
-        ) : null}
+        <ToggleVisibilityWrapper
+          onClick={() => setPasswordVisible(!isPasswordVisible)}
+          borderColor={selectBorderColor(errorState)}
+          focusedBorderColor={selectFocusBorderColor(errorState)}
+          isFocused={this.state.focused}
+        >
+          <Icon
+            color='grey400'
+            label={isPasswordVisible ? 'hide password' : 'show password'}
+            size='md'
+          >
+            {isPasswordVisible ? <IconVisibilityOff /> : <IconVisibilityOn />}
+          </Icon>
+        </ToggleVisibilityWrapper>
       </Wrapper>
     )
   }

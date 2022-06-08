@@ -87,6 +87,7 @@ const SignupForm = (props: Props) => {
             component={TextBox}
             data-e2e='signupEmail'
             name='email'
+            noLastPass
             placeholder='Enter Email Address'
             validate={[required, validEmail]}
           />
@@ -103,7 +104,6 @@ const SignupForm = (props: Props) => {
             data-e2e='signupPassword'
             name='password'
             placeholder='Enter Password'
-            showVisibilityToggle
             validate={[required, validStrongPassword]}
           />
         </FormItem>
@@ -172,9 +172,7 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            noLastPass
             placeholder='Reenter Password'
-            showVisibilityToggle
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
