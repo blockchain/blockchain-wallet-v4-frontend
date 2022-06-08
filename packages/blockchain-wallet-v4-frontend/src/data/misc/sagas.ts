@@ -71,10 +71,11 @@ export default () => {
     try {
       yield delay(250)
       const cookies = new Cookies()
-      const lang = tryParseLanguageFromUrl()
+      const urlLang = tryParseLanguageFromUrl()
       const cookieLang = cookies.get('clang')
-      if (lang?.language) {
-        yield put(actions.preferences.setLanguage(lang.language || cookieLang, false))
+      const lang = urlLang?.language || cookieLang
+      if (lang) {
+        yield put(actions.preferences.setLanguage(lang, false))
       }
     } catch (e) {
       // do nothing, app will fallback to english
