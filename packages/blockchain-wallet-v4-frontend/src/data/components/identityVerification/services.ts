@@ -45,10 +45,6 @@ const computeSteps = ({
       return false
     }
 
-    // if(((step === STEPS.additionalInfo || step === STEPS.submitted ) && TIERS[2] === 2) && addExtraStep) {
-    //   return false
-    // }
-
     return compose(both(lte(next), gte(selectedTier)), getStepTier)(step)
   }
   return filter(isStepRequired, values(STEPS))
