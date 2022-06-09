@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { Button } from '@blockchain-com/constellation'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { ContinueButton, FundingHeading } from '../SelectAccount'
+import { FundingHeading } from '../SelectAccount'
 
 const WalletAddressWrapper = styled.div`
   margin: 53px 0 40px;
@@ -24,12 +25,15 @@ const WalletAddress = styled(Text)`
   overflow-wrap: anywhere;
 `
 
-const CopyButton = styled(ContinueButton)`
+const CopyButton = styled(Button)`
   width: unset;
   padding: 5px 8px;
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
+  background: #65a5ff;
+  border: none;
+  border-radius: 8px;
 `
 
 const QrCodeWrapper = styled.div`

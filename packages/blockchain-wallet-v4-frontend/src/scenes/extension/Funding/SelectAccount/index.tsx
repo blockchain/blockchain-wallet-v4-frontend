@@ -1,6 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -37,16 +36,18 @@ const ButtonWrapper = styled.div`
   align-items: end;
 `
 
-export const ContinueButton = styled(Button)`
-  background: #65a5ff;
-  border: none;
-  padding: 16px;
-  border-radius: 8px;
+export const Continue = styled(Link)`
   width: 100%;
-  cursor: pointer;
+  padding: 16px;
+  background: #65a5ff;
+  border-radius: 8px;
+  color: #0e121b;
+  text-align: center;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
+  text-decoration: none;
+  cursor: pointer;
 `
 
 export const FundingHeading = styled(Text)`
@@ -55,18 +56,9 @@ export const FundingHeading = styled(Text)`
   color: white;
 `
 
-export const SelectAccount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>> }> = ({
-  setFundingStep
-}) => {
+export const SelectAccount = (props) => {
+  const { path } = props.match
   const [selectedAccount, setSelectedAccount] = useState<string>('Trading')
-
-  const selectAccount = () => {
-    if (selectedAccount) {
-      setFundingStep(2)
-    } else {
-      setFundingStep(3)
-    }
-  }
 
   return (
     <>
@@ -111,9 +103,9 @@ export const SelectAccount: React.FC<{ setFundingStep: Dispatch<SetStateAction<n
         </li>
       </List>
       <ButtonWrapper>
-        <ContinueButton onClick={selectAccount} color='black'>
+        <Continue to={`/extension/funding/${selectedAccount ? 'amount' : 'receive'}`}>
           Continue
-        </ContinueButton>
+        </Continue>
       </ButtonWrapper>
     </>
   )

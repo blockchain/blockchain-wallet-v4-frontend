@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { ContinueButton } from '../SelectAccount'
+import { Continue } from '../SelectAccount'
 
 const ImageWrapper = styled.div`
   flex-grow: 1;
@@ -27,7 +27,9 @@ export const Success = () => {
           Your funds are now available
         </Text>
       </ImageWrapper>
-      <ContinueButton>Continue</ContinueButton>
+      <Continue style={{ width: 'unset' }} to='/extension/home'>
+        Continue
+      </Continue>
     </>
   )
 }

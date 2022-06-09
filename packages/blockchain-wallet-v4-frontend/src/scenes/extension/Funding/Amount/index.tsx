@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { ContinueButton, FundingHeading, ListItem } from '../SelectAccount'
+import { Continue, FundingHeading, ListItem } from '../SelectAccount'
 
 const AmountInputWrapper = styled.div`
   display: flex;
@@ -70,9 +70,7 @@ class MockGasFee {
   }
 }
 
-export const Amount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>> }> = ({
-  setFundingStep
-}) => {
+export const Amount = () => {
   const [fundingAmount, setFundingAmount] = useState<string>('0')
   const [fundingCurrency, setFundingCurrency] = useState<string>('USD')
   const MOCK_CURRENCY_MULTIPLIER = 2400
@@ -84,10 +82,6 @@ export const Amount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>>
 
   const changeCurrency = () => {
     setFundingCurrency(CurrencyExchangeLabel[fundingCurrency])
-  }
-
-  const confirm = () => {
-    setFundingStep(4)
   }
 
   const exchangeCurrency = () => {
@@ -127,10 +121,13 @@ export const Amount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>>
         </ListItem>
       ))}
       <div style={{ display: 'flex' }}>
-        <ContinueButton style={{ background: 'none', color: '#65A5FF', marginRight: '10px' }}>
+        <Continue
+          to='/extension/funding/select-account'
+          style={{ background: 'none', color: '#65A5FF', marginRight: '10px' }}
+        >
           Cancel
-        </ContinueButton>
-        <ContinueButton onClick={confirm}>Confirm</ContinueButton>
+        </Continue>
+        <Continue to='/extension/funding/success'>Confirm</Continue>
       </div>
     </>
   )
