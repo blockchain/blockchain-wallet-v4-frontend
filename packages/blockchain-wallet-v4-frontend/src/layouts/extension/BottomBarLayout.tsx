@@ -8,7 +8,6 @@ const Wrapper = styled.div`
   background: ${(props) => props.theme.exchangeLogin};
   width: ${() => `${extensionWidth}px`};
   height: ${() => `${extensionHeight}px`};
-  //overflow: hidden;
 `
 
 const Content = styled.div`
