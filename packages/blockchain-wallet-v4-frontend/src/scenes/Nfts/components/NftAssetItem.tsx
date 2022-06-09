@@ -24,7 +24,6 @@ const XSmallButton = styled(Button)`
 `
 
 const HoverBackground = styled.div`
-  backdrop-filter: blur(10px);
   background: rgba(0, 0, 0, 0.2);
   bottom: 0;
   display: flex;
@@ -216,6 +215,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         <Link>
           {image ? (
             <AssetImageContainer
+              style={{ filter: 'blur(8px)' }}
               className='asset-image-container'
               background={`linear-gradient(180deg, rgba(14, 18, 27, 0.4) 0%, #0E121B 100%), url(${image.replace(
                 /=s\d*/,
