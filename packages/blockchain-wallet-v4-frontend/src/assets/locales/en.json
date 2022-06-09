@@ -566,6 +566,8 @@
   "copy.stx_avail": "STX is Available",
   "copy.stx_support_send_receive_added": "STX support has been added to the Blockchain.com Web Wallet. You can now send and receive STX.",
   "copy.stx_supported_added": "You can now access your STX airdrop in your new STX Private Key Wallet.",
+  "copy.banner_rewards_header": "Start earning with just $1 in crypto",
+  "copy.banner_rewards_body": "You can now move as little as $1 to a Rewards Account to start earning rewards.",
   "copy.successful_purchase": "Successful Purchase",
   "copy.suggested": "Suggested",
   "copy.swap": "Swap",
