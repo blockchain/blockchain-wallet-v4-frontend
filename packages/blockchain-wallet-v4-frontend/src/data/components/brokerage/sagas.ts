@@ -353,7 +353,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const ClearedStatusCheck = function* (orderId) {
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE' || order.state === 'FAILED') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED' ||
+      order.state === 'MANUAL_REVIEW'
+    ) {
       return order
     }
     throw new Error('retrying to fetch for cleared status')

@@ -34,7 +34,8 @@ const DepositStatus = (props) => {
     Success: (val) =>
       props.formValues?.order?.state === 'CLEARED' ||
       props.formValues?.order?.state === 'COMPLETE' ||
-      props.formValues?.order?.state === 'COMPLETED' ? (
+      props.formValues?.order?.state === 'COMPLETED' ||
+      props.formValues?.order?.state === 'MANUAL_REVIEW' ? (
         <Success {...val} {...props} />
       ) : props.formValues?.retryTimeout ? (
         <TimedOut {...props} />
