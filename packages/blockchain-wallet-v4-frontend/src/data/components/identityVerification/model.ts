@@ -76,6 +76,6 @@ export const CAMPAIGNS = {
 }
 
 export enum EXTRA_KYC_CONTEXTS {
-  DEFAULT = 'DEFAULT_CONTEXT',
+  DEFAULT = 'DEFAULT',
   FIAT_DEPOSIT = 'FIAT_DEPOSIT'
 }
