@@ -1712,10 +1712,10 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@0.0.34":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.34.tgz#e440c8f7ec909aec62a3aa35b39a3d41532d3e6b"
-  integrity sha512-wUQT2uJOFB+aDCvRmX99t9BntUfRSKguFvJgAGuGQC3aP3NvV/cxxEkxa3gUVhNBNiXT69w+gHfdWoO8ksWbWw==
+"@blockchain-com/constellation@0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.35.tgz#97835570acbf481a6475da9cff8f15e8e5496ff7"
+  integrity sha512-4jKKEZzVjfxVFNHPdf5YyMuDE5YizO+4rC2fEC5JGmidPXW3xfLVm17FpadmmoHaZQBeWlV2Lu3FN45CPW0W6Q==
   dependencies:
     "@radix-ui/colors" "0.1.8"
     "@radix-ui/react-accessible-icon" "0.1.4"
