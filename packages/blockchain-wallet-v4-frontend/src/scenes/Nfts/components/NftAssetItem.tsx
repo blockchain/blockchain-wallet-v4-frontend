@@ -23,6 +23,24 @@ const XSmallButton = styled(Button)`
   height: auto;
 `
 
+const HoverBackground = styled.div`
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  height: 100%;
+  justify-content: flex-end;
+  position: absolute;
+  text-align: left;
+  width: 100%;
+  &:hover {
+    transform: scale(1.01);
+    transition: 0.3s ease-out;
+  }
+`
+
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const [hover, setHover] = useState(false)
   const dispatch = useDispatch()
@@ -208,23 +226,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
             <Image width='100%' name='nft-img-placeholder' />
           )}
 
-          <div
-            style={{
-              backdropFilter: 'blur(10px)',
-              background: 'rgba(0, 0, 0, 0.3)',
-              bottom: '0',
-              color: '#f1f1f1',
-              display: 'flex',
-              flexDirection: 'column',
-              fontSize: '20px',
-              height: '100%',
-              justifyContent: 'flex-end',
-              position: 'absolute',
-              textAlign: 'left',
-              transition: '.5s ease',
-              width: '100%'
-            }}
-          >
+          <HoverBackground>
             {' '}
             <div style={{ padding: '1em' }}>
               {image ? (
@@ -312,7 +314,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                 See Details
               </Button>
             </div>
-          </div>
+          </HoverBackground>
         </Link>
       </LinkContainer>
     </Asset>

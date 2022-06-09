@@ -132,8 +132,7 @@ export const AssetDetails = styled.div`
   padding: 0.75em;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(40px);
+  background: black;
   ${media.laptopL`
     padding-bottom: 4px;
   `}
