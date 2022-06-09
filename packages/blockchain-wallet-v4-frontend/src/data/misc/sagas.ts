@@ -79,6 +79,11 @@ export default () => {
   }
 
   const generateCaptchaToken = function* (actionName) {
+    const isPlugin = yield select(selectors.cache.getIsPluginStatus)
+    if (isPlugin) {
+      return ''
+    }
+
     let pollCount = 0
 
     // wait up to 10 seconds for captcha library to load
