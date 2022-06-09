@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { ContinueButton, ListItem } from '../SelectAccount'
+import { ContinueButton, FundingHeading, ListItem } from '../SelectAccount'
 
 const AmountInputWrapper = styled.div`
   display: flex;
@@ -99,9 +99,7 @@ export const Amount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>>
 
   return (
     <>
-      <Text size='20px' color='white' style={{ margin: '34px 0 67px' }}>
-        Enter amount
-      </Text>
+      <FundingHeading>Enter amount</FundingHeading>
       <AmountInputWrapper>
         <AmountInput
           type='number'

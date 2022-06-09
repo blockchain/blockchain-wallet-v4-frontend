@@ -49,6 +49,12 @@ export const ContinueButton = styled(Button)`
   line-height: 24px;
 `
 
+export const FundingHeading = styled(Text)`
+  font-size: 20px;
+  margin: 34px 0 67px;
+  color: white;
+`
+
 export const SelectAccount: React.FC<{ setFundingStep: Dispatch<SetStateAction<number>> }> = ({
   setFundingStep
 }) => {
@@ -64,9 +70,7 @@ export const SelectAccount: React.FC<{ setFundingStep: Dispatch<SetStateAction<n
 
   return (
     <>
-      <Text size='20px' color='white' style={{ marginTop: '34px' }}>
-        Add crypto
-      </Text>
+      <FundingHeading style={{ marginBottom: 0 }}>Add crypto</FundingHeading>
       <Text size='14px' lineHeight='20px' style={{ color: '#98A1B2', marginTop: '12px' }}>
         You can transfer crypto from your Blockchain account or another wallet
         <Link to='/' style={{ display: 'block' }}>
