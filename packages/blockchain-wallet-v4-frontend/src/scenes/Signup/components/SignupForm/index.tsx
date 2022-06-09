@@ -76,7 +76,10 @@ const SignupForm = (props: Props) => {
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
-            <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
+            <FormattedMessage
+              id='scenes.security.email.verifiedtitle'
+              defaultMessage='Email Address'
+            />
           </FormLabel>
           <Field
             autoFocus
@@ -84,7 +87,8 @@ const SignupForm = (props: Props) => {
             component={TextBox}
             data-e2e='signupEmail'
             name='email'
-            placeholder='Enter Email'
+            noLastPass
+            placeholder='Enter Email Address'
             validate={[required, validEmail]}
           />
         </FormItem>
@@ -142,10 +146,10 @@ const SignupForm = (props: Props) => {
                   defaultMessage='and be at least'
                 />
               </PasswordRequirementText>
-              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 12, 64)}>
+              <PasswordRequirementText isValid={stringLengthBetween(passwordValue, 8, 64)}>
                 <FormattedMessage
                   id='scenes.register.password.part7'
-                  defaultMessage='12 characters'
+                  defaultMessage='8 characters'
                 />{' '}
               </PasswordRequirementText>
               <PasswordRequirementText isValid>
@@ -168,7 +172,7 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            placeholder='Enter Password'
+            placeholder='Reenter Password'
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
@@ -190,8 +194,8 @@ const SignupForm = (props: Props) => {
             onChange={onCountrySelect}
             label={
               <FormattedMessage
-                id='scenes.register.select_a_country'
-                defaultMessage='Select a Country'
+                id='scenes.register.select_country'
+                defaultMessage='Select Country'
               />
             }
           />
