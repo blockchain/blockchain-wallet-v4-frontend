@@ -47,6 +47,7 @@
         "nftExplorer": true,
         "recurringBuys": true,
         "rewardsFlowUnderSwapEnabled": true,
+        "rewardsPromoBanner": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stxSelfCustodyEnableAirdrop": true,
