@@ -11,6 +11,8 @@ import CreateOfferFees from './CreateOffer.fees'
 import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
+  const { isAuthenticated, isInvited } = props
+
   const getTotalFees = () => {
     const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
       .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
@@ -24,6 +26,9 @@ const Fees: React.FC<Props> = (props) => {
     const total = displayCoinToCoin({ coin: 'ETH', value: totalString })
     return total
   }
+
+  if (!isAuthenticated) return null
+  if (!isInvited) return null
 
   return (
     <>

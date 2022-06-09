@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
 `
 
-const PendingTxMessage: React.FC<Props> = () => {
+const PendingEthTxMessage: React.FC<Props> = () => {
   return (
     <Wrapper>
       <Flex gap={8} flexDirection='column'>
@@ -42,4 +42,4 @@ const PendingTxMessage: React.FC<Props> = () => {
 
 type Props = {}
 
-export default PendingTxMessage
+export default PendingEthTxMessage

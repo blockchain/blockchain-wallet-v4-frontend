@@ -23,7 +23,8 @@ import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
-import PendingTxMessage from '../../components/PendingTxMessage'
+import NftNotInvited from '../../components/NftNotInvited'
+import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
@@ -84,21 +85,13 @@ const CTA: React.FC<Props> = (props) => {
   }
 
   if (!isInvited) {
-    return (
-      <>
-        <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
-          <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
-            <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
-          </Button>
-        </Link>
-      </>
-    )
+    return <NftNotInvited />
   }
 
   if (userHasPendingTx) {
     return (
       <>
-        <PendingTxMessage />
+        <PendingEthTxMessage />
         <br />
         <Button disabled jumbo nature='primary' fullwidth data-e2e='buyNftPendingTx'>
           <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
