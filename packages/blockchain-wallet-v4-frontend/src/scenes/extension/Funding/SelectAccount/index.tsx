@@ -20,7 +20,7 @@ const List = styled.ul`
     border: none;
   }
 `
-export const ListItem = styled.div`
+export const ListItemContent = styled.div`
   margin-left: 16px;
   width: 100%;
   display: grid;
@@ -55,20 +55,22 @@ export const FundingHeading = styled(Text)`
   margin: 34px 0 67px;
   color: white;
 `
+export const Subtitle = styled(Text)`
+  font-size: 14px;
+  line-height: 20px;
+  color: #98a1b2;
+`
 
-export const SelectAccount = (props) => {
-  const { path } = props.match
+export const SelectAccount = () => {
   const [selectedAccount, setSelectedAccount] = useState<string>('Trading')
 
   return (
     <>
-      <FundingHeading style={{ marginBottom: 0 }}>Add crypto</FundingHeading>
-      <Text size='14px' lineHeight='20px' style={{ color: '#98A1B2', marginTop: '12px' }}>
-        You can transfer crypto from your Blockchain account or another wallet
-        <Link to='/' style={{ display: 'block' }}>
-          Learn more
-        </Link>
-      </Text>
+      <FundingHeading style={{ marginBottom: '12px' }}>Add crypto</FundingHeading>
+      <Subtitle>
+        You can transfer crypto from your Blockchain account or another wallet <br />
+        <Link to='/'>Learn more</Link>
+      </Subtitle>
       <List>
         <li style={{ cursor: 'pointer' }}>
           <button type='button' className='item' onClick={() => setSelectedAccount('Trading')}>
@@ -76,7 +78,7 @@ export const SelectAccount = (props) => {
               innerColor={selectedAccount ? '#619FF7' : 'transparent'}
               outerColor={selectedAccount ? '#619FF7' : '#98A1B2'}
             />
-            <ListItem>
+            <ListItemContent>
               <Text color='white'>Trading Account</Text>
               <Text color='white' style={{ textAlign: 'right' }}>
                 $3,225.01
@@ -87,7 +89,7 @@ export const SelectAccount = (props) => {
               <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
                 5.3655 ETH
               </Text>
-            </ListItem>
+            </ListItemContent>
           </button>
         </li>
         <li style={{ cursor: 'pointer' }}>

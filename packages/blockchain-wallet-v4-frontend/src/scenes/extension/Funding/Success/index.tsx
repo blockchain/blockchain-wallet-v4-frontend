@@ -15,6 +15,11 @@ const ImageWrapper = styled.div`
   align-items: center;
 `
 
+const SuccessMessage = styled(Text)`
+  margin-top: 20px;
+  text-align: center;
+`
+
 export const Success = () => {
   return (
     <>
@@ -22,10 +27,10 @@ export const Success = () => {
         <Icon size='lg' color='blue300' label='icon Check'>
           <IconCheck />
         </Icon>
-        <Text style={{ marginTop: '20px', textAlign: 'center' }}>
+        <SuccessMessage>
           Success! <br />
           Your funds are now available
-        </Text>
+        </SuccessMessage>
       </ImageWrapper>
       <Continue style={{ width: 'unset' }} to='/extension/home'>
         Continue

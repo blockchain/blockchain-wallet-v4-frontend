@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { Continue, FundingHeading, ListItem } from '../SelectAccount'
+import { Continue, FundingHeading, ListItemContent } from '../SelectAccount'
 
 const AmountInputWrapper = styled.div`
   display: flex;
@@ -107,7 +107,7 @@ export const Amount = () => {
       </AmountInputWrapper>
       <ExchangedValue>{exchangeCurrency()}</ExchangedValue>
       {mockedFees.map((gasFee: MockGasFee) => (
-        <ListItem style={{ margin: '30px 0' }} key={gasFee.label}>
+        <ListItemContent style={{ margin: '30px 0' }} key={gasFee.label}>
           <Text size='16px' lineHeight='24px' color='#fff'>
             {gasFee.label}
           </Text>
@@ -118,7 +118,7 @@ export const Amount = () => {
           <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
             {gasFee.usd}
           </Text>
-        </ListItem>
+        </ListItemContent>
       ))}
       <div style={{ display: 'flex' }}>
         <Continue
