@@ -25,7 +25,7 @@ const Grid = styled.div<{ fullscreen: boolean }>`
     grid-template-columns: repeat(${(props) =>
       props.fullscreen ? LAPTOP_L : LAPTOP_M}, minmax(0, 1fr));
       .asset-image-container {
-        height: ${(props) => (props.fullscreen ? '250px' : '215px')};
+        height: 300px;
       }
   `}
   ${media.laptopL`
@@ -33,7 +33,7 @@ const Grid = styled.div<{ fullscreen: boolean }>`
       props.fullscreen ? LAPTOP_M : LAPTOP}, minmax(0, 1fr));
 
       .asset-image-container {
-        height: ${(props) => (props.fullscreen ? '140px' : '215px')};
+        height: 300px;
       }
   `}
   ${media.laptop`

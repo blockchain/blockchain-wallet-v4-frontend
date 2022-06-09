@@ -94,6 +94,7 @@ export const Asset = styled.div`
   border-radius: 16px;
   overflow: hidden;
   display: flex;
+  position: relative;
   flex-direction: column;
   border-color: transparent;
 `
@@ -122,7 +123,6 @@ export const AssetImageContainer = styled.div<{
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
-  backdrop-filter: blur(40px);
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
@@ -142,7 +142,7 @@ export const AssetCollection = styled.div`
   overflow: hidden;
 `
 export const PriceCTA = styled.div`
-  margin-top: 16px;
+  margin: 16px 0px;
   display: flex;
   width: 100%;
   align-items: center;
@@ -180,7 +180,7 @@ export const Centered = styled.div`
 //
 export const NftBannerWrapper = styled.div`
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
