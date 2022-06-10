@@ -28,6 +28,7 @@ export type BannerType =
   | 'completeYourProfile'
   | 'stxAirdropFundsAvailable'
   | 'taxCenter'
+  | 'earnRewards'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -162,6 +163,17 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
   const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
 
+  // earnRewards
+  const interestEligible = selectors.components.interest.getInterestEligible(state).getOrElse({})
+  const isEarnRewardsPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
+    .getRewardsPromoBannerEnabled(state)
+    .getOrElse(false) as boolean
+  const isUserEligibleToEarnRewards =
+    !isEmpty(interestEligible) && Object.values(interestEligible).some((obj) => !!obj?.eligible)
+  const isEarnRewardsPromoBannerEnabled = !!(
+    isEarnRewardsPromoBannerFeatureFlagEnabled && isUserEligibleToEarnRewards
+  )
+
   let bannerToShow: BannerType = null
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
@@ -197,6 +209,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'newCurrency'
   } else if (showRenameBanner) {
     bannerToShow = 'coinRename'
+  } else if (isEarnRewardsPromoBannerEnabled) {
+    bannerToShow = 'earnRewards'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {
