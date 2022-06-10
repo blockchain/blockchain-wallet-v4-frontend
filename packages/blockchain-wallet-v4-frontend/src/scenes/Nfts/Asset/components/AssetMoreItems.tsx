@@ -15,7 +15,7 @@ import NftGrid from '../../components/NftGrid'
 import { CustomLink, MoreAssets, MoreAssetsWrapper } from '.'
 
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
-  const limit = 4
+  const limit = 5
   const offset = useMemo(
     () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 20) - limit)),
     [asset]
