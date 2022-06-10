@@ -987,7 +987,7 @@ const NftAsset: React.FC<Props> = ({
 
                       <TokenDisplay size='16px' weight={600} color='grey600'>
                         {currentAsset.token_id.length > 20 ? (
-                          <CryptoAddress>{currentAsset.token_id}</CryptoAddress>
+                          <CryptoAddress canCopy>{currentAsset.token_id}</CryptoAddress>
                         ) : (
                           currentAsset.token_id
                         )}
