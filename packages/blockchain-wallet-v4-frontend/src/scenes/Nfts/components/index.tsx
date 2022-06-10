@@ -101,6 +101,7 @@ export const Asset = styled.div`
   position: relative;
   flex-direction: column;
   height: 100%;
+  background: black;
   border-color: transparent;
   &:hover {
     box-shadow: 0px 0px 30px 0px ${(props) => props.theme.grey200};
@@ -118,6 +119,7 @@ export const InfoStatsWrapper = styled.div`
 export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
+  backgroundImage?: string
 }>`
   align-items: center;
   display: flex;

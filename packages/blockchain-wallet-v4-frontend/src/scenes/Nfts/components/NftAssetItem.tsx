@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { colors } from '@blockchain-com/constellation'
 import { F } from 'ramda'
 import styled from 'styled-components'
 
@@ -106,7 +107,10 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background={`url(${image.replace(/=s\d*/, '')})`}
             />
           ) : (
-            <Image width='100%' name='nft-img-placeholder' />
+            <AssetImageContainer
+              className='asset-image-container'
+              background='linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)'
+            />
           )}
           <NftAssetImageType
             top='10px'
@@ -219,7 +223,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     /=s\d*/,
                     ''
                   )})`
-                : 'rgba(0, 0, 0, 0.2)'
+                : `linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, #0E121B 100%)`
             }
           >
             {' '}
@@ -232,9 +236,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   style={{ borderRadius: '8px' }}
                   src={image.replace(/=s\d*/, '')}
                 />
-              ) : (
-                <Image width='100%' name='nft-img-placeholder' />
-              )}
+              ) : null}
               <Text weight={600} lineHeight='150%' color='white'>
                 #{asset?.token_id}
               </Text>
