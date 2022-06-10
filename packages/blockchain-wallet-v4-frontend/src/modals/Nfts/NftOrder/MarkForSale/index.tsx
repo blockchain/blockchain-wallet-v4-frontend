@@ -403,6 +403,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
+                            { text: '3 Mins', value: 3 },
                             { text: '30 Mins', value: 30 },
                             { text: '1 Hour', value: 60 },
                             { text: '1 Day', value: 1440 },
@@ -435,7 +436,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         fontSize: '16px',
                         padding: '0.3em',
                         position: 'absolute',
-                        right: '48px',
+                        right: '-48px',
                         top: '16px'
                       }}
                     />
