@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -15,11 +16,15 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
 
   const items = getNftGridSize(fullscreen, isDesktop, isLaptopL, isLaptop, isTablet)
 
+  const LoadingAsset = styled(Asset)`
+    background: white;
+  `
+
   return (
     <>
       {[...Array(items * 2)].map((e, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <Asset key={i}>
+        <LoadingAsset key={i}>
           <div style={{ marginBottom: '12px' }}>
             <SkeletonRectangle height='28px' width='100%' />
           </div>
@@ -36,7 +41,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
               </div>
             </Flex>
           </div>
-        </Asset>
+        </LoadingAsset>
       ))}
     </>
   )
