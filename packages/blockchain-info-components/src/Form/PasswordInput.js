@@ -73,7 +73,6 @@ const ToggleVisibilityWrapper = styled.div`
     `1px solid ${theme[isFocused ? focusedBorderColor : borderColor]}`};
   border-left: none;
   cursor: pointer;
-  z-index: 99;
 
   &:disabled {
     cursor: not-allowed;

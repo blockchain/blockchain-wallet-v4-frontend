@@ -33,7 +33,6 @@ export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
-export const getSanctionsAnnouncement = () => `sanctions-homepage`
 export const getTaxCenterAnnouncement = () => `tax-center-homepage`
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
@@ -78,12 +77,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     notifications: []
   } as ProductEligibilityForUser)
 
-  const sanctionsAnnouncement = getSanctionsAnnouncement()
-  const showSanctionsBanner = showBanner(
-    products?.notifications?.length > 0 || userHadNotifications,
-    sanctionsAnnouncement,
-    announcementState
-  )
+  const showSanctionsBanner = products?.notifications?.length > 0 || userHadNotifications
 
   const isFirstLogin = selectors.signup.getFirstLogin(state)
 

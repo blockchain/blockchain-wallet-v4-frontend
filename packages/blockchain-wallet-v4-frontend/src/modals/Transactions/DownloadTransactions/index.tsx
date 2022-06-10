@@ -62,14 +62,19 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
         address: derivation.xpub,
         type: derivation.type
       }))
+    // hack to get correct dates
+    const startParts = start.split('-')
+    const endParts = end.split('-')
+    const startDate = new Date(startParts[0], startParts[1] - 1, startParts[2])
+    const endDate = endOfDay(new Date(endParts[0], endParts[1] - 1, endParts[2]))
     const address = from && (addressDerivations || from.xpub || from.address || from)
     // start/end are moment objects due to react-datetime :(
-    const filename = `${coin}_${format(new Date(start.toString()), 'MM-dd-yyyy')}_${format(
-      new Date(end.toString()),
+    const filename = `${coin}_${format(startDate, 'MM-dd-yyyy')}_${format(
+      endDate,
       'MM-dd-yyyy'
     )}.csv`
     this.setState({ filename, generating: true })
-    fetchTransactions(address, start, end)
+    fetchTransactions(address, startDate.toString(), endDate.toString())
   }
 
   render() {
