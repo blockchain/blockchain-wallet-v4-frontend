@@ -7,7 +7,7 @@ import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
 const Wrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
 `
 
@@ -26,7 +26,7 @@ const IconWrapper = styled.div`
 const ChildWrapper = styled.div``
 
 const Child = styled.div<{ hasPadding: boolean }>`
-  border-top: 1px solid ${(props) => props.theme.grey100};
+  border-top: 1px solid ${(props) => props.theme.grey000};
   padding: ${({ hasPadding }) => (hasPadding ? '1em' : '0')};
 `
 

@@ -268,7 +268,7 @@ const NftAsset: React.FC<Props> = ({
 
   return (
     <Wrapper>
-      <>
+      <div style={{ marginTop: '20px' }}>
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
@@ -505,6 +505,7 @@ const NftAsset: React.FC<Props> = ({
                   <Socials>
                     <SocialLink
                       id='nft-refresh'
+                      role='button'
                       onClick={() => {
                         reExecuteQuery()
                         nftsActions.fetchOpenSeaAsset({
@@ -531,6 +532,7 @@ const NftAsset: React.FC<Props> = ({
                     {isOwner && (
                       <SocialLink>
                         <BlockchainIcon
+                          role='button'
                           onClick={() => {
                             analyticsActions.trackEvent({
                               key: Analytics.NFT_TRANSFER_CLICKED,
@@ -931,7 +933,7 @@ const NftAsset: React.FC<Props> = ({
                   ) : (
                     <Flex justifyContent='center' alignItems='center' flexDirection='column'>
                       <Image height='100px' name='nft-img-placeholder' />
-                      <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
+                      <Text style={{ marginTop: '8px' }} size='14px' weight={600}>
                         <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
                       </Text>
                     </Flex>
@@ -1007,7 +1009,7 @@ const NftAsset: React.FC<Props> = ({
             <AssetMoreItems asset={currentAsset} />
           ) : null} */}
         </div>
-      </>
+      </div>
     </Wrapper>
   )
 }
