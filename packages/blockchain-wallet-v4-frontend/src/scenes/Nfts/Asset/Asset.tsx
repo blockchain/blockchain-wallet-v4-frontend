@@ -441,7 +441,7 @@ const NftAsset: React.FC<Props> = ({
                               size='16px'
                               weight={600}
                               style={{
-                                maxWidth: '200px',
+                                maxWidth: '160px',
                                 overflow: 'hidden',
                                 paddingLeft: '8px',
                                 textOverflow: 'ellipsis'

@@ -422,31 +422,30 @@ const MarkForSale: React.FC<Props> = (props) => {
               <NftFlyoutRow>
                 {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
-                    <Icon
-                      onClick={() => {
-                        setOpen(false)
-                      }}
-                      name='close'
-                      cursor
-                      role='button'
-                      style={{
-                        background: 'lightgrey',
-                        borderRadius: '12px',
-                        color: 'grey',
-                        fontSize: '16px',
-                        padding: '0.3em',
-                        position: 'absolute',
-                        right: '-48px',
-                        top: '16px'
-                      }}
-                    />
                     <GreyMessage>
-                      <Text color='grey900' weight={600}>
-                        <FormattedMessage
-                          id='copy.listing_is_free'
-                          defaultMessage='Listing Is Free'
+                      <Flex alignItems='center' justifyContent='space-between'>
+                        <Text color='grey900' weight={600}>
+                          <FormattedMessage
+                            id='copy.listing_is_free'
+                            defaultMessage='Listing Is Free'
+                          />
+                        </Text>
+                        <Icon
+                          onClick={() => {
+                            setOpen(false)
+                          }}
+                          name='close'
+                          cursor
+                          role='button'
+                          style={{
+                            background: 'lightgrey',
+                            borderRadius: '12px',
+                            color: 'grey',
+                            fontSize: '16px',
+                            padding: '0.3em'
+                          }}
                         />
-                      </Text>
+                      </Flex>
                       <Text size='12px'>
                         Once sold, the above fees will be deducted from the sale.{' '}
                         <Link
