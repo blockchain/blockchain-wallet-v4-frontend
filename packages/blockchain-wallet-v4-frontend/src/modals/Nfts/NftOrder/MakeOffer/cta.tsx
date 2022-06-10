@@ -53,8 +53,7 @@ const CTA: React.FC<Props> = ({
     formErrors.amount ||
     Remote.Loading.is(fees) ||
     userHasPendingTx ||
-    isSubmitting ||
-    !termsAccepted
+    isSubmitting
 
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
@@ -185,7 +184,7 @@ const CTA: React.FC<Props> = ({
             nature={formErrors.amount ? 'sent' : 'primary'}
             fullwidth
             data-e2e='makeOfferNft'
-            disabled={disabled}
+            disabled={disabled || !termsAccepted}
             onClick={() =>
               nftActions.createOffer({
                 amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',

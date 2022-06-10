@@ -433,10 +433,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                         borderRadius: '12px',
                         color: 'grey',
                         fontSize: '16px',
-                        marginTop: '16px',
                         padding: '0.3em',
                         position: 'absolute',
-                        right: '16px'
+                        right: '48px',
+                        top: '16px'
                       }}
                     />
                     <GreyMessage>
