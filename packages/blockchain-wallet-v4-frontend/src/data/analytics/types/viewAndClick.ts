@@ -7,18 +7,12 @@ export enum Events {
 
 type BannerEarnRewardsButtonView = {
   key: Events.BANNER_REWARDS_VIEWED
-  properties: {
-    device: 'APP-Android' | 'APP-iOS' | 'WEB'
-    platform: 'EXCHANGE' | 'WALLET'
-  }
+  properties: {}
 }
 
 type BannerEarnRewardsButtonClick = {
   key: Events.BANNER_REWARDS_CLICKED
-  properties: {
-    device: 'APP-Android' | 'APP-iOS' | 'WEB'
-    platform: 'EXCHANGE' | 'WALLET'
-  }
+  properties: {}
 }
 
 type ClickFiatCurrencyAction = {
