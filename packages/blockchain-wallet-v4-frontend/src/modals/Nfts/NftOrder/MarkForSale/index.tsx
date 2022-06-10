@@ -25,6 +25,7 @@ import { required } from 'services/forms'
 import { media } from 'services/styles'
 
 import { NftFlyoutRow, StickyCTA } from '../../components'
+import GreyMessage from '../../components/GreyMessage'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -432,29 +433,30 @@ const MarkForSale: React.FC<Props> = (props) => {
                         borderRadius: '12px',
                         color: 'grey',
                         fontSize: '16px',
-                        marginTop: '1.1em',
+                        marginTop: '16px',
                         padding: '0.3em',
                         position: 'absolute',
-                        right: '3.5em'
+                        right: '16px'
                       }}
                     />
-                    <div
-                      style={{ background: colors.grey000, borderRadius: '8px', padding: '1em' }}
-                    >
-                      <Text weight={600} style={{ padding: '0.5em 0em' }}>
-                        Listing Is Free
+                    <GreyMessage>
+                      <Text color='grey900' weight={600}>
+                        <FormattedMessage
+                          id='copy.listing_is_free'
+                          defaultMessage='Listing Is Free'
+                        />
                       </Text>
-                      <Text size='14px' weight={500} style={{ paddingBottom: '1em' }}>
+                      <Text size='12px'>
                         Once sold, the above fees will be deducted from the sale.{' '}
                         <Link
                           href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
-                          size='14px'
+                          size='12px'
                           target='_blank'
                         >
                           Learn more about fees.
                         </Link>
                       </Text>
-                    </div>
+                    </GreyMessage>
                   </>
                 ) : null}
               </NftFlyoutRow>
