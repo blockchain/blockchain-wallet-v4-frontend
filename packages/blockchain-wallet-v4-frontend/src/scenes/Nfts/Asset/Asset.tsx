@@ -110,8 +110,6 @@ const SocialLink = styled.div`
 
 const ActivityWrapper = styled.div`
   max-height: 300px;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
   overflow: auto;
 `
 
@@ -927,13 +925,18 @@ const NftAsset: React.FC<Props> = ({
                       />
                     </ActivityWrapper>
                   ) : openSeaAsset.isLoading ? (
-                    <Flex justifyContent='center'>
+                    <Flex style={{ padding: '12px' }} justifyContent='center'>
                       <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                     </Flex>
                   ) : (
-                    <Flex justifyContent='center' alignItems='center' flexDirection='column'>
-                      <Image height='100px' name='nft-img-placeholder' />
-                      <Text style={{ marginTop: '8px' }} size='14px' weight={600}>
+                    <Flex
+                      style={{ padding: '12px' }}
+                      justifyContent='center'
+                      alignItems='center'
+                      flexDirection='column'
+                    >
+                      <Image height='80px' name='nft-img-placeholder' />
+                      <Text style={{ margin: '8px 0' }} size='14px' weight={600}>
                         <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
                       </Text>
                     </Flex>
