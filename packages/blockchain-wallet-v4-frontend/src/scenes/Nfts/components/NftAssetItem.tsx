@@ -30,7 +30,6 @@ const HoverBackground = styled.div<{ background: string }>`
   display: flex;
   flex-direction: column;
   font-size: 20px;
-  height: 100%;
   justify-content: flex-end;
   text-align: left;
   width: 100%;
@@ -160,7 +159,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
           </LinkContainer>
         </Flex>
 
-        <PriceCTA style={{ height: '5em' }}>
+        <PriceCTA>
           <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
               <Flex flexDirection='column' gap={4} alignItems='flex-start'>
@@ -261,7 +260,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   {asset?.collection?.name}
                 </Text>
               </Flex>
-              <PriceCTA style={{ height: '7em' }}>
+              <PriceCTA>
                 <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
                   {lowestListing && lowestListing.starting_price ? (
                     <Flex flexDirection='column' gap={4} alignItems='flex-start'>
