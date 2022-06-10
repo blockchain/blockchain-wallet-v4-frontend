@@ -78,12 +78,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     notifications: []
   } as ProductEligibilityForUser)
 
-  const sanctionsAnnouncement = getSanctionsAnnouncement()
-  const showSanctionsBanner = showBanner(
-    products?.notifications?.length > 0 || userHadNotifications,
-    sanctionsAnnouncement,
-    announcementState
-  )
+  const showSanctionsBanner = products?.notifications?.length > 0 || userHadNotifications
 
   const isFirstLogin = selectors.signup.getFirstLogin(state)
 
