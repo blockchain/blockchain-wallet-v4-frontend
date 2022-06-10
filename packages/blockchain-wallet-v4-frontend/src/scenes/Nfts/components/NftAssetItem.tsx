@@ -261,7 +261,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   {asset?.collection?.name}
                 </Text>
               </Flex>
-              <PriceCTA style={{ height: '9em' }}>
+              <PriceCTA style={{ height: '7em' }}>
                 <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
                   {lowestListing && lowestListing.starting_price ? (
                     <Flex flexDirection='column' gap={4} alignItems='flex-start'>
