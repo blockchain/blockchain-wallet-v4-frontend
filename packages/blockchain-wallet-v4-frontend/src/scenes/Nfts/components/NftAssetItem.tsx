@@ -23,15 +23,15 @@ const XSmallButton = styled(Button)`
   height: auto;
 `
 
-const HoverBackground = styled.div`
-  background: rgba(0, 0, 0, 0.2);
-  bottom: 0;
+const HoverBackground = styled.div<{ background: string }>`
+  background: ${(props) => props.background};
+  background-size: 100%;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   font-size: 20px;
   height: 100%;
   justify-content: flex-end;
-  position: absolute;
   text-align: left;
   width: 100%;
   &:hover {
@@ -160,7 +160,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
           </LinkContainer>
         </Flex>
 
-        <PriceCTA>
+        <PriceCTA style={{ height: '5em' }}>
           <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
               <Flex flexDirection='column' gap={4} alignItems='flex-start'>
@@ -213,20 +213,16 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
       >
         <Link>
-          {image ? (
-            <AssetImageContainer
-              style={{ filter: 'blur(8px)' }}
-              className='asset-image-container'
-              background={`linear-gradient(180deg, rgba(14, 18, 27, 0.4) 0%, #0E121B 100%), url(${image.replace(
-                /=s\d*/,
-                ''
-              )})`}
-            />
-          ) : (
-            <Image width='100%' name='nft-img-placeholder' />
-          )}
-
-          <HoverBackground>
+          <HoverBackground
+            background={
+              image
+                ? `linear-gradient(180deg, rgba(0, 0, 0, .8) 0%, #0E121B 100%), url(${image.replace(
+                    /=s\d*/,
+                    ''
+                  )})`
+                : 'rgba(0, 0, 0, 0.2)'
+            }
+          >
             {' '}
             <div style={{ padding: '1em' }}>
               {image ? (
@@ -265,7 +261,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   {asset?.collection?.name}
                 </Text>
               </Flex>
-              <PriceCTA>
+              <PriceCTA style={{ height: '9em' }}>
                 <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
                   {lowestListing && lowestListing.starting_price ? (
                     <Flex flexDirection='column' gap={4} alignItems='flex-start'>

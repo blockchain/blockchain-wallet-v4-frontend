@@ -8,11 +8,12 @@ import { media } from 'services/styles'
 const DESKTOP = 8
 const LAPTOP_L = 6
 const LAPTOP_M = 5
+const MORE_ASSETS = 5
 const LAPTOP = 3
 const TABLET = 2
 const MOBILE = 1
 
-const Grid = styled.div<{ fullscreen: boolean }>`
+const Grid = styled.div<{ fullscreen: boolean; moreAssetsPage?: boolean }>`
   width: 100%;
   display: grid;
   overflow: scroll;
@@ -23,15 +24,14 @@ const Grid = styled.div<{ fullscreen: boolean }>`
   );
   ${media.desktop`
     grid-template-columns: repeat(${(props) =>
-      props.fullscreen ? LAPTOP_L : LAPTOP_M}, minmax(0, 1fr));
+      props.moreAssetsPage ? MORE_ASSETS : props.fullscreen ? LAPTOP_L : LAPTOP_M}, minmax(0, 1fr));
       .asset-image-container {
         height: ${(props) => (props.fullscreen ? '250px' : '215px')};
       }
   `}
   ${media.laptopL`
     grid-template-columns: repeat(${(props) =>
-      props.fullscreen ? LAPTOP_M : LAPTOP}, minmax(0, 1fr));
-
+      props.moreAssetsPage ? MORE_ASSETS : props.fullscreen ? LAPTOP_M : LAPTOP}, minmax(0, 1fr));
       .asset-image-container {
         height: ${(props) => (props.fullscreen ? '250px' : '215px')};
       }
@@ -80,7 +80,7 @@ export const getNftGridSize = (
   return items
 }
 
-const NftGrid: React.FC<Props> = ({ children, fullscreen }) => {
+const NftGrid: React.FC<Props> = ({ children, fullscreen, moreAssetsPage }) => {
   //   const isDesktop = useMedia('desktop')
   //   const isLaptopL = useMedia('laptopL')
   //   const isLaptop = useMedia('laptop')
@@ -110,11 +110,16 @@ const NftGrid: React.FC<Props> = ({ children, fullscreen }) => {
   //     setTimeout(handleResize, DELAY)
   //   }, [fullscreen, handleResize])
 
-  return <Grid fullscreen={fullscreen}>{children}</Grid>
+  return (
+    <Grid fullscreen={fullscreen} moreAssetsPage={moreAssetsPage}>
+      {children}
+    </Grid>
+  )
 }
 
 type Props = {
   fullscreen: boolean
+  moreAssetsPage?: boolean
 }
 
 export default NftGrid

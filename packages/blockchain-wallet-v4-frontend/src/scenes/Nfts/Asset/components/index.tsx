@@ -108,15 +108,8 @@ export const MoreAssets = styled.div`
   `}
 `
 
-export const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-export const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
+export const MoreAssetsWrapper = styled.div`
+  padding: 1em 0em;
 `
 
 export const TraitsWrapper = styled.div`

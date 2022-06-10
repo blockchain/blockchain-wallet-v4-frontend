@@ -11,8 +11,8 @@ import {
 } from 'generated/graphql.types'
 
 import NftAssetItem from '../../components/NftAssetItem'
-import NftCollectionImage from '../../components/NftCollectionImage'
-import { CollectionName, CustomLink, MoreAssets, MoreAssetsList, MoreAssetsListItem } from '.'
+import NftGrid from '../../components/NftGrid'
+import { CustomLink, MoreAssets, MoreAssetsWrapper } from '.'
 
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   const limit = 4
@@ -57,12 +57,17 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
             </Button>
           </CustomLink>
         </div>
-        <MoreAssetsList>
-          {assets?.data?.assets?.map((asset) => {
-            const link = `/nfts/assets/${asset.contract?.address}/${asset.token_id}`
-            return <NftAssetItem asset={asset} key={asset.token_id} />
-          })}
-        </MoreAssetsList>
+        <MoreAssetsWrapper>
+          <NftGrid moreAssetsPage fullscreen>
+            {assets?.data?.assets?.map((asset) => {
+              return (
+                <div key={asset.token_id}>
+                  <NftAssetItem asset={asset} />
+                </div>
+              )
+            })}
+          </NftGrid>
+        </MoreAssetsWrapper>
       </MoreAssets>
     </div>
   ) : null
