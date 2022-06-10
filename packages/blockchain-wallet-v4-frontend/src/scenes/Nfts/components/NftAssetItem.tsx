@@ -35,7 +35,7 @@ const HoverBackground = styled.div`
   text-align: left;
   width: 100%;
   &:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
     transition: 0.3s ease-out;
   }
 `
@@ -110,7 +110,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
             <Image width='100%' name='nft-img-placeholder' />
           )}
           <NftAssetImageType
-            top='20px'
+            top='10px'
             right='10px'
             animation_url={asset.animation_url}
             image_url={image}

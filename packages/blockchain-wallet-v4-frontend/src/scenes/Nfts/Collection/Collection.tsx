@@ -45,6 +45,8 @@ const LinksContainer = styled.div`
   display: flex;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
+  width: 34px;
+  justify-content: center;
   > a {
     display: flex;
     align-items: center;

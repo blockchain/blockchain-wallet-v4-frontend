@@ -29,6 +29,10 @@ export const NftPageV2 = styled.div`
   width: 100%;
   margin: 8px auto;
   box-sizing: border-box;
+  margin-top: -56px;
+  ${media.mobile`
+    margin-top: 0;
+  `}
 `
 
 export const NftPageFullWidth = styled.div`
@@ -97,6 +101,10 @@ export const Asset = styled.div`
   position: relative;
   flex-direction: column;
   border-color: transparent;
+  &:hover {
+    box-shadow: 0px 0px 30px 0px ${(props) => props.theme.grey200};
+    transition: 0.3s ease-out;
+  }
 `
 
 export const InfoStatsWrapper = styled.div`
