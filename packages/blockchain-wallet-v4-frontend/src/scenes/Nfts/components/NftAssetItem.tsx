@@ -107,10 +107,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background={`url(${image.replace(/=s\d*/, '')})`}
             />
           ) : (
-            <AssetImageContainer
-              className='asset-image-container'
-              background='linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)'
-            />
+            <AssetImageContainer className='asset-image-container' backgroundColor={colors.black} />
           )}
           <NftAssetImageType
             top='10px'

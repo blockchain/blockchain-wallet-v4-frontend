@@ -92,6 +92,7 @@ const AssetFooter = styled.div`
   padding: 16px;
   display: flex;
   justify-content: space-between;
+  margin-top: -8px;
   ${media.atLeastMobile`
     left: unset;
     top: unset;

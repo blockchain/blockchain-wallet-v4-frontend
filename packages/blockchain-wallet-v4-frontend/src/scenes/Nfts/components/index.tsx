@@ -100,9 +100,12 @@ export const Asset = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 100%;
+  height: 400px;
   background: black;
   border-color: transparent;
+  ${media.laptopM`
+    height: 100%;
+  `}
   &:hover {
     box-shadow: 0px 0px 30px 0px ${(props) => props.theme.grey200};
     transition: 0.3s ease-out;
@@ -155,7 +158,6 @@ export const PriceCTA = styled.div`
   margin: 16px 0px;
   display: flex;
   width: 100%;
-  height: 75px;
   align-items: center;
   flex-wrap: wrap-reverse;
   gap: 8px;
