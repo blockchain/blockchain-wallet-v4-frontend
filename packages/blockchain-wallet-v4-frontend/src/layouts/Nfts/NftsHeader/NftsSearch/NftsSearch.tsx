@@ -35,14 +35,40 @@ const Wrapper = styled.div`
       width: 100%;
       height: 100%;
       position: fixed;
+      overflow: scroll;
       background: ${(props) => props.theme.white};
     }
   `}
 `
 
+const MobileMenu = styled(Flex)`
+  padding: 12px;
+  background: ${(props) => props.theme.white};
+  z-index: 100;
+  position: sticky;
+  top: 0;
+`
+
 const InputResultWrapper = styled.div`
   border-top: 1px solid ${(props) => props.theme.grey000};
   padding: 12px;
+  ${media.tablet`
+    .bc__menu {
+      box-shadow: none;
+    }
+    .bc__menu-list {
+      margin: 0;
+      max-height: 100%;
+    }
+    .bc__group-heading {
+      font-size: 14px;
+    }
+    .bc__option {
+      overflow: hidden;
+      padding: 16px 8px;
+      border-top: 1px solid ${(props) => props.theme.grey000};
+    }
+  `}
 `
 
 const IconWrapper = styled.div`
@@ -121,7 +147,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
   return (
     <Wrapper className={isActive ? 'isActive' : ''}>
       {isTablet && isActive ? (
-        <Flex justifyContent='space-between' style={{ padding: '12px' }}>
+        <MobileMenu justifyContent='space-between'>
           <Image width='25px' name='blockchain-icon' />
           <div
             role='button'
@@ -132,7 +158,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
               <IconCloseCircleV2 />
             </Icon>
           </div>
-        </Flex>
+        </MobileMenu>
       ) : null}
       {!isTablet || (isTablet && isActive) ? (
         <InputResultWrapper>
