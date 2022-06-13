@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
-import { AgentType } from '@core/types'
+import { AgentType, WalletFiatEnum } from '@core/types'
 import { Icon, Link, TabMenu, TabMenuItem, Text, TextGroup } from 'blockchain-info-components'
 import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/BuySell'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
@@ -69,6 +69,7 @@ const TabsContainer = styled.div`
 
 const LayoutDefault: React.FC<Props> = (props) => {
   const [transferType, setTransferType] = useState(TransferType.DOMESTIC)
+  const agent = props.account.agent as AgentType
 
   const formatIbanAddress = (): string => {
     const EVERY_FOUR_CHARS = /(.{4})(?!$)/g
@@ -76,7 +77,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
   }
 
   const recipientName =
-    props.account.currency === 'USD'
+    props.account.currency === WalletFiatEnum[WalletFiatEnum.USD]
       ? props.account.agent.recipient
       : `${props.userData.firstName} ${props.userData.lastName}`
 
@@ -107,7 +108,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
 
         <InfoContainer>
           <TopText color='grey800' size='24px' weight={600}>
-            {props.account.currency === 'USD' ? (
+            {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
               <FormattedMessage
                 id='modals.brokerage.deposit_currency'
                 defaultMessage='Deposit {currency}'
@@ -126,7 +127,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
             )}
           </TopText>
           <TopText color='grey600' size='24px' weight={600}>
-            {props.account.currency === 'USD' ? (
+            {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.wire_transfer'
                 defaultMessage='Wire Transfer'
@@ -140,7 +141,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
           </TopText>
         </InfoContainer>
 
-        {props.account.currency === 'USD' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] && (
           <TabsContainer>
             <TabMenu>
               <TabMenuItem
@@ -171,7 +172,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
         )}
       </FlyoutWrapper>
       <div>
-        {props.account.currency === 'USD' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] && (
           <RowCopy>
             <div>
               <Title>
@@ -201,7 +202,9 @@ const LayoutDefault: React.FC<Props> = (props) => {
             <CopyClipboardButton textToCopy={recipientName} />
           </Copy>
         </RowCopy>
-        {['USD', 'EUR'].includes(props.account.currency) && (
+        {[WalletFiatEnum[WalletFiatEnum.USD], WalletFiatEnum[WalletFiatEnum.EUR]].includes(
+          props.account.currency
+        ) && (
           <RowCopy>
             <div>
               <Title>
@@ -217,24 +220,25 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === 'USD' && transferType === TransferType.INTERNATIONAL && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.accountType'
-                  defaultMessage='Account Type'
-                />
-              </Title>
-              <Value data-e2e='sbAccountType'>{props.account.agent.accountType}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.accountType} />
-            </Copy>
-          </RowCopy>
-        )}
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.accountType'
+                    defaultMessage='Account Type'
+                  />
+                </Title>
+                <Value data-e2e='sbAccountType'>{agent.accountType}</Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton textToCopy={agent.accountType} />
+              </Copy>
+            </RowCopy>
+          )}
 
-        {props.account.currency === 'EUR' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
           <RowCopy>
             <div>
               <Title>
@@ -250,7 +254,8 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {(props.account.currency === 'USD' || props.account.currency === 'GBP') &&
+        {(props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ||
+          props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP]) &&
           !!props.account.agent.account && (
             <RowCopy>
               <div>
@@ -267,7 +272,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
               </Copy>
             </RowCopy>
           )}
-        {props.account.currency === 'GBP' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
           <RowCopy>
             <div>
               <Title>
@@ -283,7 +288,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === 'EUR' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
           <RowCopy>
             <div>
               <Title>
@@ -299,7 +304,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === 'USD' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] && (
           <RowCopy>
             <div>
               <Title>
@@ -308,32 +313,31 @@ const LayoutDefault: React.FC<Props> = (props) => {
                   defaultMessage='Routing Number'
                 />
               </Title>
-              <Value data-e2e='sbRoutingNumber'>
-                {(props.account.agent as AgentType).routingNumber}
-              </Value>
+              <Value data-e2e='sbRoutingNumber'>{agent.routingNumber}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton textToCopy={(props.account.agent as AgentType).routingNumber} />
+              <CopyClipboardButton textToCopy={agent.routingNumber} />
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === 'USD' && transferType === TransferType.INTERNATIONAL && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.swift.usdInternational'
-                  defaultMessage='SWIFT / BIC Code'
-                />
-              </Title>
-              <Value data-e2e='sbSwiftCode'>{props.account.agent.swiftCode}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.swiftCode} />
-            </Copy>
-          </RowCopy>
-        )}
-        {props.account.currency === 'USD' && (
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.swift.usdInternational'
+                    defaultMessage='SWIFT / BIC Code'
+                  />
+                </Title>
+                <Value data-e2e='sbSwiftCode'>{agent.swiftCode}</Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton textToCopy={agent.swiftCode} />
+              </Copy>
+            </RowCopy>
+          )}
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] && (
           <RowCopy>
             <div>
               <Title>
@@ -342,29 +346,30 @@ const LayoutDefault: React.FC<Props> = (props) => {
                   defaultMessage='Bank Address'
                 />
               </Title>
-              <Value data-e2e='sbBankAddress'>{props.account.agent.address}</Value>
+              <Value data-e2e='sbBankAddress'>{agent.address}</Value>
             </div>
             <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.address} />
+              <CopyClipboardButton textToCopy={agent.address} />
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === 'USD' && transferType === TransferType.INTERNATIONAL && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.recipientAddress'
-                  defaultMessage='Recipient Address'
-                />
-              </Title>
-              <Value data-e2e='sbRecipientAddress'>{props.account.agent.recipientAddress}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.recipientAddress} />
-            </Copy>
-          </RowCopy>
-        )}
+        {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.recipientAddress'
+                    defaultMessage='Recipient Address'
+                  />
+                </Title>
+                <Value data-e2e='sbRecipientAddress'>{agent.recipientAddress}</Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton textToCopy={agent.recipientAddress} />
+              </Copy>
+            </RowCopy>
+          )}
       </div>
       <Bottom>
         <BottomInfoContainer>
@@ -374,7 +379,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </DisplayIcon>
             <BottomMultiRowContainer>
               <DisplayTitle>
-                {props.account.currency === 'USD' ? (
+                {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.important_transfer_only'
                     defaultMessage='Important Transfer Information'
@@ -387,7 +392,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
                 )}
               </DisplayTitle>
               <DisplaySubTitle>
-                {props.account.currency === 'USD' ? (
+                {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.important_transfer_only_description'
                     defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
@@ -413,19 +418,19 @@ const LayoutDefault: React.FC<Props> = (props) => {
                 />
               </DisplayTitle>
               <DisplaySubTitle>
-                {props.account.currency === 'GBP' && (
+                {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.gbp1'
                     defaultMessage='Funds will be credited to your GBP Account as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
                   />
                 )}
-                {props.account.currency === 'EUR' && (
+                {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.eur1'
                     defaultMessage='Funds will be credited to your EUR Account as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
                   />
                 )}
-                {props.account.currency === 'USD' && (
+                {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] && (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.usd1'
                     defaultMessage='Funds will be credited to your USD Account as soon as we receive them. Funds are generally available within one business day.'
@@ -435,7 +440,7 @@ const LayoutDefault: React.FC<Props> = (props) => {
             </BottomMultiRowContainer>
           </BottomRow>
 
-          {props.account.currency === 'GBP' && (
+          {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
             <LegalWrapper inline>
               <Text size='12px' weight={500} color='grey600'>
                 <FormattedMessage

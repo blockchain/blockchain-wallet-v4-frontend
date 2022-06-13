@@ -93,7 +93,7 @@ const WithdrawalDetails = ({ fiatCurrency, handleClose, userData, withdrawal }: 
         <Button
           fullwidth
           height='48px'
-          data-e2e='withdrawReload'
+          data-e2e='withdrawalCloseButton'
           nature='primary'
           size='16px'
           onClick={handleClose}

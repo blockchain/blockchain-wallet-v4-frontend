@@ -236,7 +236,7 @@ const LayoutUsdArs: React.FC<Props> = (props) => {
               <DisplaySubTitle>
                 <FormattedMessage
                   id='modals.simplebuy.deposit.processing_time.info.usdars1'
-                  defaultMessage='Funds will be credited to your {currency} wallet as soon as we receive them. Funds are generally available within 3 business days. We will send you a mail with the confirmation.'
+                  defaultMessage='Funds will be credited to your {currency} wallet as soon as we receive them. Funds are generally available within 3 business days. We will send you an email with the confirmation.'
                   values={{
                     currency: Currencies[props.account.currency].displayName
                   }}
