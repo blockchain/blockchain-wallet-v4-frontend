@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { WalletFiatType, WithdrawResponseType } from '@core/types'
+import { WalletFiatEnum, WalletFiatType, WithdrawResponseType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -45,20 +45,46 @@ const WithdrawalDetails = ({ fiatCurrency, handleClose, withdrawal }: Props) => 
         <SuccessIcon name='checkmark-circle-filled' color='USD' size='28px' />
       </IconContainer>
       <Title weight={600} size='20px'>
-        {fiatToString({
-          unit: withdrawal.amount.symbol as WalletFiatType,
-          value: withdrawal.amount.value
-        })}{' '}
-        {withdrawal.amount.symbol}
+        {fiatCurrency === WalletFiatEnum[WalletFiatEnum.ARS] ? (
+          <FormattedMessage
+            id='modals.withdraw.title_ar'
+            defaultMessage='{fiatString} Withdrawal Started!'
+            values={{
+              fiatString: fiatToString({
+                unit: withdrawal.amount.symbol as WalletFiatType,
+                value: withdrawal.amount.value
+              })
+            }}
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.withdraw.title'
+            defaultMessage='{fiatString} {unit}'
+            values={{
+              fiatString: fiatToString({
+                unit: withdrawal.amount.symbol as WalletFiatType,
+                value: withdrawal.amount.value
+              }),
+              unit: withdrawal.amount.symbol as WalletFiatType
+            }}
+          />
+        )}
       </Title>
       <SubTitle size='14px' color='grey600' weight={500}>
-        <FormattedMessage
-          id='modals.withdraw.success'
-          defaultMessage='Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
-          values={{
-            currency: fiatCurrency
-          }}
-        />
+        {fiatCurrency === WalletFiatEnum[WalletFiatEnum.ARS] ? (
+          <FormattedMessage
+            id='modals.withdraw.success_ar'
+            defaultMessage='We are sending the cash now. The funds can take up to 3 business days to arrive. Check the status of your Withdrawal at anytime from your Activity screen.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.withdraw.success'
+            defaultMessage='Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
+            values={{
+              currency: fiatCurrency
+            }}
+          />
+        )}
       </SubTitle>
       <Button
         fullwidth

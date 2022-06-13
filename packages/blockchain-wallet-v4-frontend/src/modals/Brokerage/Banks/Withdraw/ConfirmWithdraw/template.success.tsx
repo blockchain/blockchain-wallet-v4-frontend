@@ -4,7 +4,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, NabuSymbolNumberType } from '@core/types'
+import { FiatType, NabuSymbolNumberType, WalletFiatEnum } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -19,11 +19,22 @@ const Top = styled(Text)`
   align-items: center;
   margin-bottom: 16px;
 `
+const SubTitle = styled(Text)`
+  text-align: center;
+  line-height: 150%;
+  margin-top: 32px;
+`
 const AmountContainer = styled.div`
   margin-top: 40px;
   margin-bottom: 24px;
   display: flex;
 `
+
+const RowDisclaimer = styled(Row)`
+  padding-top: 0px;
+  padding-bottom: 0px;
+`
+
 const ErrorContainer = styled(FlyoutWrapper)`
   display: flex;
   justify-content: center;
@@ -111,6 +122,21 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
         })}
       </Value>
     </Row>
+    <RowDisclaimer>
+      <SubTitle size='14px' color='grey600' weight={500}>
+        {props.fiatCurrency === WalletFiatEnum[WalletFiatEnum.ARS] ? (
+          <FormattedMessage
+            id='modals.simplebuy.withdrawal.arrive_description_ARS'
+            defaultMessage='The funds can take up to 3 business days to arrive. Check the status of your Withdrawal at anytime from your Activity screen.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.withdrawal.arrive_description_default'
+            defaultMessage='The funds can take up to 5 business days to arrive. Check the status of your Withdrawal at anytime from your Activity screen.'
+          />
+        )}
+      </SubTitle>
+    </RowDisclaimer>
     <FlyoutWrapper>
       <Button
         data-e2e='withdrawCustody'
@@ -127,6 +153,31 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           <FormattedMessage
             id='modals.simplebuy.withdrawal.withdrawal_button'
             defaultMessage='Withdraw Now'
+          />
+        )}
+      </Button>
+      <Button
+        data-e2e='cancelCustody'
+        disabled={props.submitting}
+        fullwidth
+        height='48px'
+        nature='empty-red'
+        size='16px'
+        margin='20px 0 0'
+        onClick={() =>
+          props.withdrawActions.setStep({
+            beneficiary: props.beneficiary,
+            fiatCurrency: props.fiatCurrency,
+            step: WithdrawStepEnum.ENTER_AMOUNT
+          })
+        }
+      >
+        {props.submitting ? (
+          <HeartbeatLoader height='20px' width='20px' color='white' />
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.withdrawal.cancel_button'
+            defaultMessage='Cancel'
           />
         )}
       </Button>
