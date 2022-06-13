@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
 import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
@@ -7,12 +9,12 @@ import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { ExplorerGatewaySearchType } from '@core/network/api/nfts/types'
-import { Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 import { debounce } from 'utils/helpers'
 
 const Wrapper = styled.div`
@@ -24,12 +26,35 @@ const Wrapper = styled.div`
     text-transform: capitalize;
   }
   ${media.tablet`
-    width: 200px;
+    width: auto;
+    &.isActive {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background: ${(props) => props.theme.white};
+    }
   `}
+`
+
+const IconWrapper = styled.div`
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: 1px solid ${(props) => props.theme.grey100};
 `
 
 const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) => {
   const [input, setInput] = useState('')
+  const isTablet = useMedia('tablet')
+  const [isActive, setIsActive] = useState(false)
 
   const handleInputChange = (e: any) => {
     setInput(e)
@@ -89,24 +114,47 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     .filter((group) => group.options.length > 0)
 
   return (
-    <Wrapper>
-      <Field
-        component={SelectBox}
-        // @ts-ignore
-        elements={elements}
-        grouped
-        hideIndicator
-        hideValue
-        name='search'
-        label='Collections or items'
-        cursor='initial'
-        filterOption={() => true}
-        onChange={(e) => handleSelect(e)}
-        onInputChange={debounce((e) => handleInputChange(e), 500)}
-        noOptionsMessage={() => null}
-        isLoading={Remote.Loading.is(nftSearch)}
-        placeholder='Collections or items'
-      />
+    <Wrapper className={isActive ? 'isActive' : ''}>
+      {isTablet && isActive ? (
+        <Flex justifyContent='space-between' style={{ padding: '12px' }}>
+          <Image width='25px' name='blockchain-icon' />
+          <div
+            role='button'
+            aria-hidden='true'
+            onClick={() => setIsActive((isActive) => !isActive)}
+          >
+            <Icon label='close'>
+              <IconCloseCircleV2 />
+            </Icon>
+          </div>
+        </Flex>
+      ) : null}
+      {!isTablet || (isTablet && isActive) ? (
+        <Field
+          component={SelectBox}
+          // @ts-ignore
+          elements={elements}
+          grouped
+          hideIndicator
+          hideValue
+          name='search'
+          label='Collections or items'
+          cursor='initial'
+          filterOption={() => true}
+          onChange={(e) => handleSelect(e)}
+          onInputChange={debounce((e) => handleInputChange(e), 500)}
+          noOptionsMessage={() => null}
+          isLoading={Remote.Loading.is(nftSearch)}
+          placeholder='Collections or items'
+        />
+      ) : null}
+      {isTablet && !isActive ? (
+        <IconWrapper role='button' onClick={() => setIsActive(true)}>
+          <Icon color='purple600' size='sm' label='search'>
+            <IconSearch />
+          </Icon>
+        </IconWrapper>
+      ) : null}
     </Wrapper>
   )
 }
