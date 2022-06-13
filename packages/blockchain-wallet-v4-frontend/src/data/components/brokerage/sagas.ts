@@ -3,7 +3,12 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
-import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
+import {
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  BSTransactionStateEnum,
+  BSTransactionType
+} from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -354,10 +359,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
-      order.state === 'CLEARED' ||
-      order.state === 'COMPLETE' ||
-      order.state === 'FAILED' ||
-      order.state === 'MANUAL_REVIEW'
+      order.state === BSTransactionStateEnum.CLEARED ||
+      order.state === BSTransactionStateEnum.COMPLETE ||
+      order.state === BSTransactionStateEnum.FAILED ||
+      order.state === BSTransactionStateEnum.MANUAL_REVIEW
     ) {
       return order
     }
@@ -371,7 +376,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       (order.extraAttributes &&
         'authorisationUrl' in order.extraAttributes &&
         order.extraAttributes.authorisationUrl) ||
-      order.state === 'FAILED'
+      order.state === BSTransactionStateEnum.FAILED
     ) {
       return order
     }
