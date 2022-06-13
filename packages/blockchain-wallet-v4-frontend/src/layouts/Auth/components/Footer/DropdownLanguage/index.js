@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Cookies from 'universal-cookie'
 
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
@@ -8,7 +9,12 @@ import { languagesSortedByName } from 'services/locales'
 
 class DropdownLanguageContainer extends React.PureComponent {
   handleClick = (selectedLanguage) => {
+    const cookies = new Cookies()
     this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
+    cookies.set('clang', selectedLanguage.language, {
+      domain: '.blockchain.com',
+      path: '/'
+    })
   }
 
   render() {

@@ -14,6 +14,7 @@ const initialState: DebitCardState = {
   eligibleAccounts: Remote.NotAsked,
   lockHandler: Remote.NotAsked,
   products: [],
+  selectAccountHandler: Remote.NotAsked,
   terminateHandler: Remote.NotAsked
 }
 
@@ -90,6 +91,16 @@ const debitCardSlice = createSlice({
     },
     resetCreateCardState: (state) => {
       state.cardCreationData = Remote.NotAsked
+    },
+    selectAccount: (state, action: PayloadAction<string>) => {},
+    selectAccountFailure: (state, action: PayloadAction<string>) => {
+      state.selectAccountHandler = Remote.Failure(action.payload)
+    },
+    selectAccountLoading: (state) => {
+      state.selectAccountHandler = Remote.Loading
+    },
+    selectAccountSuccess: (state, action: PayloadAction<string>) => {
+      state.selectAccountHandler = Remote.Success(action.payload)
     },
     setCardToken: (state, action: PayloadAction<string>) => {
       state.cardToken = action.payload

@@ -83,13 +83,12 @@ const Banner = styled.div`
 
 const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
-  border: 1.18px solid ${colors.grey000};
+  border: 1px solid ${colors.grey000};
   z-index: 2;
   height: 50px;
   background: white;
   left: 3em;
   top: 1em;
-  margin-top: -12px;
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -300,19 +299,12 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={
-                      isMobile || isTablet
-                        ? {
-                            borderRadius: '16px 16px 0px 0px',
-                            height: '300.35px',
-                            width: '300.35px'
-                          }
-                        : {
-                            borderRadius: '16px 16px 0px 0px',
-                            height: '350px',
-                            width: '350px'
-                          }
-                    }
+                    style={{
+                      borderRadius: '16px 16px 0px 0px',
+                      display: 'block',
+                      height: isMobile || isTablet ? '300.35px' : '350px',
+                      width: isMobile || isTablet ? '300.35px' : '350px'
+                    }}
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
                   />
@@ -380,8 +372,8 @@ const Explore: React.FC<Props> = (props) => {
               <CardWrapper style={{ opacity: '50%' }}>
                 <div>
                   <SkeletonRectangle
-                    height={isMobile || isTablet ? '350px' : '300.35px'}
-                    width={isMobile || isTablet ? '350px' : '300.35px'}
+                    height={isMobile || isTablet ? '300.35px' : '350px'}
+                    width={isMobile || isTablet ? '300.35px' : '350px'}
                     bgColor='white'
                   />
                 </div>
@@ -397,6 +389,7 @@ const Explore: React.FC<Props> = (props) => {
                     </Button>
                   </Flex>
                 </AssetFooter>
+                <div style={{ height: '12px' }} />
               </CardWrapper>
             )}
           </div>

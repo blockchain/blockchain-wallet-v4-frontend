@@ -41,6 +41,7 @@ import {
   ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -440,6 +441,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
     } catch (e) {
+      if (isNabuError(e)) {
+        return yield put(
+          actions.form.stopSubmit(
+            values?.orderType === OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT,
+            {
+              _error: e
+            }
+          )
+        )
+      }
+
       const error: number | string = errorHandlerCode(e)
 
       const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT, BS_ERROR.NO_AMOUNT]
@@ -755,11 +767,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
-      const error = errorHandlerCode(e)
+      if (isNabuError(e)) {
+        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
+        yield put(A.confirmOrderFailure(e))
+      } else {
+        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      yield put(A.confirmOrderFailure(error))
+        yield put(A.confirmOrderFailure(errorHandlerCode(e)))
+      }
     }
   }
 
@@ -776,9 +792,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
+      if (isNabuError(e)) {
+        yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: e }))
+      } else {
+        const error = errorHandler(e)
+        yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
+      }
     }
   }
 
@@ -835,9 +854,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.createCardSuccess(card))
     } catch (e) {
-      const error = errorHandlerCode(e)
+      if (isNabuError(e)) {
+        yield put(A.createCardFailure(e))
+      } else {
+        const error = errorHandlerCode(e)
 
-      yield put(A.createCardFailure(error))
+        yield put(A.createCardFailure(error))
+      }
     }
   }
 
@@ -922,6 +945,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchFiatEligibleSuccess(fiatEligible))
     } catch (e) {
+      if (isNabuError(e)) {
+        yield put(A.fetchFiatEligibleFailure(e))
+      }
+
       const { code: network_error_code, message: network_error_description } =
         errorCodeAndMessage(e)
       const error: PartialClientErrorProperties = {
@@ -930,6 +957,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         network_error_description,
         source: 'NABU'
       }
+
       yield put(A.fetchFiatEligibleFailure(error))
     }
   }

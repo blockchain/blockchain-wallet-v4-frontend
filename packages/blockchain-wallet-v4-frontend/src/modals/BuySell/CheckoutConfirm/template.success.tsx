@@ -49,6 +49,8 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { isNabuError } from 'services/errors'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -343,6 +345,10 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           step: 'CRYPTO_SELECTION'
         })
     }
+  }
+
+  if (isNabuError(props.error)) {
+    return <GenericNabuErrorFlyout error={props.error} onClickClose={handleCancel} />
   }
 
   return (

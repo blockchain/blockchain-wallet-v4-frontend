@@ -10,6 +10,7 @@ export type DebitCardState = {
   eligibleAccounts: RemoteDataType<string, Array<AccountType>>
   lockHandler: RemoteDataType<string, boolean>
   products: Array<ProductType>
+  selectAccountHandler: RemoteDataType<string, string>
   terminateHandler: RemoteDataType<string, string>
 }
 

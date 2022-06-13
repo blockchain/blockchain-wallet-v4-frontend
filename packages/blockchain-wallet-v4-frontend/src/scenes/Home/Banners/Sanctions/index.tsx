@@ -1,17 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2, IconWarningTriangle } from '@blockchain-com/icons'
-import { bindActionCreators, Dispatch } from 'redux'
+import { IconWarningTriangle } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
-import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { getSanctionsAnnouncement } from '../selectors'
-import { BannerButton, CloseLink } from '../styles'
+import { BannerButton } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,69 +51,48 @@ const PendingIconWrapper = styled.div`
   margin-right: 20px;
 `
 
-const Sanctions = ({ cacheActions }: Props) => {
-  const sanctionsAnnouncement = getSanctionsAnnouncement()
-
-  return (
-    <Wrapper>
-      <Row>
-        <PendingIconWrapper>
-          <Icon label='alert' color='orange400' size='lg'>
-            <IconWarningTriangle />
-          </Icon>
-        </PendingIconWrapper>
-      </Row>
-      <CentralRow>
-        <Column>
-          <Text size='20px' weight={600} color='grey800'>
-            <FormattedMessage
-              id='scenes.home.banner.sanctions_notifications.title'
-              defaultMessage='Your Account has Restrictions Due to European Sanctions'
-            />
-          </Text>
-          <Text size='16px' weight={500} color='grey800'>
-            <FormattedMessage
-              id='modals.sanctions_notifications.description'
-              defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
-            />
-          </Text>
-        </Column>
-      </CentralRow>
-
-      <Link
-        href='https://ec.europa.eu/commission/presscorner/detail/en/ip_22_2332'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        <BannerButton
-          nature='primary'
-          data-e2e='learnMoreSanctionsBanner'
-          height='48px'
-          size='16px'
-          disabled={false}
-        >
-          <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-        </BannerButton>
-      </Link>
-
-      <CloseLink
-        data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(sanctionsAnnouncement)}
-      >
-        <Icon label='close' color='grey600' data-e2e='completeProfileCloseModalIcon' size='md'>
-          <IconCloseCircleV2 />
+const Sanctions = () => (
+  <Wrapper>
+    <Row>
+      <PendingIconWrapper>
+        <Icon label='alert' color='orange400' size='lg'>
+          <IconWarningTriangle />
         </Icon>
-      </CloseLink>
-    </Wrapper>
-  )
-}
+      </PendingIconWrapper>
+    </Row>
+    <CentralRow>
+      <Column>
+        <Text size='20px' weight={600} color='grey800'>
+          <FormattedMessage
+            id='scenes.home.banner.sanctions_notifications.title'
+            defaultMessage='Your Account has Restrictions Due to European Sanctions'
+          />
+        </Text>
+        <Text size='16px' weight={500} color='grey800'>
+          <FormattedMessage
+            id='modals.sanctions_notifications.description'
+            defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
+          />
+        </Text>
+      </Column>
+    </CentralRow>
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  cacheActions: bindActionCreators(actions.cache, dispatch)
-})
+    <Link
+      href='https://ec.europa.eu/commission/presscorner/detail/en/ip_22_2332'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <BannerButton
+        nature='primary'
+        data-e2e='learnMoreSanctionsBanner'
+        height='48px'
+        size='16px'
+        disabled={false}
+      >
+        <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+      </BannerButton>
+    </Link>
+  </Wrapper>
+)
 
-const connector = connect(null, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(Sanctions)
+export default Sanctions

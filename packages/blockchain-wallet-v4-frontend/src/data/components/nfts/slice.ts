@@ -44,6 +44,7 @@ const initialState: NftsStateType = {
     prevStep: null,
     status: null,
     step: null,
+    userHasPendingTxR: Remote.NotAsked,
 
     wrapEthFees: Remote.NotAsked
   },
@@ -184,6 +185,15 @@ const nftsSlice = createSlice({
       action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
     ) => {
       state.orderFlow.wrapEthFees = Remote.Success(action.payload)
+    },
+    fetchLatestPendingTxsFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.userHasPendingTxR = Remote.Failure(action.payload)
+    },
+    fetchLatestPendingTxsLoading: (state) => {
+      state.orderFlow.userHasPendingTxR = Remote.Loading
+    },
+    fetchLatestPendingTxsSuccess: (state, action: PayloadAction<boolean>) => {
+      state.orderFlow.userHasPendingTxR = Remote.Success(action.payload)
     },
     fetchMatchingOrder: (state) => {},
     fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {

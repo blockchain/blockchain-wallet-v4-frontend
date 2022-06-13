@@ -74,6 +74,7 @@ export type NftsStateType = {
     prevStep: NftOrderStepEnum | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
+    userHasPendingTxR: RemoteDataType<string, boolean>
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
   search: RemoteDataType<string, ExplorerGatewaySearchType>

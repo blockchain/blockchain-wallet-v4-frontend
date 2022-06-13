@@ -216,6 +216,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'BuySell',
+        tier: 1
+      })
+    )
+
     yield put(
       actions.components.brokerage.showModal({
         modalType: 'BANK_DEPOSIT_MODAL',
@@ -344,7 +353,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const ClearedStatusCheck = function* (orderId) {
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE' || order.state === 'FAILED') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED' ||
+      order.state === 'MANUAL_REVIEW'
+    ) {
       return order
     }
     throw new Error('retrying to fetch for cleared status')

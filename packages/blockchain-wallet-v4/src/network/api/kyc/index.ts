@@ -111,11 +111,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const fetchKYCExtraQuestions = (): ExtraQuestionsType =>
+  const fetchKYCExtraQuestions = (context): ExtraQuestionsType =>
     authorizedGet({
       contentType: 'application/json',
+      data: { context },
       endPoint: '/kyc/extra-questions',
-      ignoreQueryParams: true,
+      ignoreQueryParams: false,
       url: nabuUrl
     })
 
