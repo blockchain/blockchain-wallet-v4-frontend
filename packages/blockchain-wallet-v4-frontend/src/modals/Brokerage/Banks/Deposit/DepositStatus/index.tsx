@@ -15,7 +15,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import TimedOut from './template.timedOut'
 
-const DepositStatus = (props) => {
+const DepositStatus = (props: Props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
@@ -53,7 +53,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
