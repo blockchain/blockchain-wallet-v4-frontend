@@ -40,6 +40,11 @@ const Wrapper = styled.div`
   `}
 `
 
+const InputResultWrapper = styled.div`
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 12px;
+`
+
 const IconWrapper = styled.div`
   height: 32px;
   width: 32px;
@@ -130,23 +135,25 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         </Flex>
       ) : null}
       {!isTablet || (isTablet && isActive) ? (
-        <Field
-          component={SelectBox}
-          // @ts-ignore
-          elements={elements}
-          grouped
-          hideIndicator
-          hideValue
-          name='search'
-          label='Collections or items'
-          cursor='initial'
-          filterOption={() => true}
-          onChange={(e) => handleSelect(e)}
-          onInputChange={debounce((e) => handleInputChange(e), 500)}
-          noOptionsMessage={() => null}
-          isLoading={Remote.Loading.is(nftSearch)}
-          placeholder='Collections or items'
-        />
+        <InputResultWrapper>
+          <Field
+            component={SelectBox}
+            // @ts-ignore
+            elements={elements}
+            grouped
+            hideIndicator
+            hideValue
+            name='search'
+            label='Collections or items'
+            cursor='initial'
+            filterOption={() => true}
+            onChange={(e) => handleSelect(e)}
+            onInputChange={debounce((e) => handleInputChange(e), 500)}
+            noOptionsMessage={() => null}
+            isLoading={Remote.Loading.is(nftSearch)}
+            placeholder='Collections or items'
+          />
+        </InputResultWrapper>
       ) : null}
       {isTablet && !isActive ? (
         <IconWrapper role='button' onClick={() => setIsActive(true)}>
