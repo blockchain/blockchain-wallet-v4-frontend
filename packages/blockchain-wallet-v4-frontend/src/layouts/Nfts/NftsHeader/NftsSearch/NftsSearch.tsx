@@ -113,6 +113,8 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     } else if ('asset_contract_type' in item) {
       routerActions.push(`/nfts/collection/${item.address}`)
     }
+
+    setIsActive(false)
   }
 
   const elements = Object.keys(nftSearch.getOrElse({} as ExplorerGatewaySearchType))
