@@ -88,6 +88,13 @@ export const ErrorCodeMappings = ({ code }: { code: number | string }) => {
           defaultMessage='Destination amount is negative'
         />
       )
+    case 165:
+      return (
+        <FormattedMessage
+          id='error.sanctioned_country'
+          defaultMessage='You are not eligible to perform requested operation because you are from a sanctioned country or state'
+        />
+      )
     default:
       // If the error form the api is a string like a `description` or `message` just pipe it to the
       // UI else if its a numeric code that's not supported here show a default error message

@@ -1,13 +1,12 @@
 import BigNumber from 'bignumber.js'
-import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-import { Contract, ethers } from 'ethers'
+import { format, fromUnixTime, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
+import { Contract } from 'ethers'
 import {
   addIndex,
   equals,
   filter,
   flatten,
   isNil,
-  join,
   last,
   length,
   map,
@@ -15,7 +14,6 @@ import {
   path,
   pluck,
   prop,
-  takeLast,
   toLower,
   toUpper
 } from 'ramda'
@@ -23,8 +21,7 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
-import { WETH_ABI } from '@core/redux/payment/nfts/abis'
-import { WETH_CONTRACT_MAINNET, WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
+import { WETH_CONTRACT_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { EthProcessedTxType } from '@core/transactions/types'
 import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -161,54 +158,69 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const __buildTransactionReportModel = function (
+    ethAddress,
     prunedTxList,
     historicalPrices,
-    currentPrices,
+    currentPrice,
+    fiatCurrencySymbol,
     coin
   ) {
     const mapIndexed = addIndex(map)
-    const fiatSymbol = prop('symbol', currentPrices)
-    const currentPrice = new BigNumber(prop('last', currentPrices))
     return mapIndexed((tx, idx) => {
-      const timeFormatted = join(
-        ' ',
-        takeLast(
-          2,
-          // @ts-ignore
-          getUnixTime(tx.time).toString().split(' ')
-        )
-      )
+      // check if tx was just gas fees for erc20
       // @ts-ignore
-      const txType = prop('type', tx) as string
+      const isTxEthGasFee = tx.erc20 && coin === 'ETH'
+      // @ts-ignore
+      let txType = prop('type', tx) as string
+
+      // attempt to identify the type if unknown
+      if (txType === 'unknown') {
+        const ethAddrLower = ethAddress.toLowerCase()
+        // @ts-ignore
+        if (tx.from.toLowerCase() === ethAddrLower) {
+          txType = 'sent'
+        }
+        // @ts-ignore
+        if (tx.to.toLowerCase() === ethAddrLower) {
+          txType = 'received'
+        }
+        // @ts-ignore
+        if (isTxEthGasFee) {
+          txType = 'gas_fee'
+        }
+      }
+
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
         // @ts-ignore
         prop('price', nth(idx, historicalPrices))
       )
+
       // @ts-ignore
-      const value = tx.amount as string
-      const amountBig = new BigNumber(
-        Exchange.convertCoinToCoin({
-          coin,
-          value
-        })
-      )
+      const value = isTxEthGasFee ? tx.fee.data : (tx.amount as string)
+      const valueConverted = Exchange.convertCoinToCoin({
+        coin,
+        value
+      })
+
+      const amountBig = new BigNumber(valueConverted)
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
-      const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
+      const valueNow = amountBig.multipliedBy(new BigNumber(currentPrice)).toFixed(2)
+
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: format(getUnixTime(prop('time', tx), 'yyyy-MM-dd')),
+        date: format(fromUnixTime(tx.time), 'yyyy-MM-dd'),
         // @ts-ignore
         description: prop('description', tx),
-
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
+        exchange_rate_then: fiatCurrencySymbol + priceAtTime.toFixed(2),
         // @ts-ignore
         hash: prop('hash', tx),
-        time: timeFormatted,
+        // @ts-ignore
+        time: tx.time,
         type: txType,
-        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
+        value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
+        value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`
       }
     }, prunedTxList)
   }
@@ -251,7 +263,7 @@ export default ({ api }: { api: APIType }) => {
       }
       // process txs further for report
       // eslint-disable-next-line
-      const processedTxList = yield call(__processReportTxs, fullTxList, startDate, endDate)
+      const processedTxList = yield call(__processReportTxs, ethAddress, fullTxList, startDate, endDate)
       yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
@@ -261,8 +273,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchLegacyBalance = function* () {
     try {
       yield put(A.fetchLegacyBalanceLoading())
-      const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
-      const addr = addrR.getOrElse('')
+      const addr = (yield select(kvStoreSelectors.getLegacyAccountAddress)).getOrElse('')
       const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
       yield put(A.fetchLegacyBalanceSuccess(balance))
@@ -459,6 +470,7 @@ export default ({ api }: { api: APIType }) => {
       const processedTxList = yield call(
         // eslint-disable-next-line
         __processErc20ReportTxs,
+        ethAddress,
         fullTxList,
         startDate,
         endDate,
@@ -472,19 +484,19 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processReportTxs = function* (rawTxList, startDate, endDate) {
+  const __processReportTxs = function* (ethAddress, rawTxList, startDate, endDate) {
     // eslint-disable-next-line
     const fullTxList = yield call(__processTxs, rawTxList)
     const ethMarketData = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter((tx) => {
-      // returns true if tx is inbetween startDate and endDate
+      // returns true if tx is in-between startDate and endDate
       return (
         // @ts-ignore
-        isAfter(getUnixTime(new Date(tx.time)), startDate) &&
+        isAfter(fromUnixTime(tx.time), new Date(startDate)) &&
         // @ts-ignore
-        isBefore(getUnixTime(new Date(tx.time)), endDate)
+        isBefore(fromUnixTime(tx.time), new Date(endDate))
       )
     }, fullTxList)
 
@@ -492,57 +504,67 @@ export default ({ api }: { api: APIType }) => {
     if (!length(prunedTxList)) return []
     // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
-
-    // fetch historical price data
-    const historicalPrices = yield call(api.getPriceTimestampSeries, 'ETH', currency, txTimestamps)
-
-    // build and return report model
-    return yield call(
-      __buildTransactionReportModel,
-      prunedTxList,
-      historicalPrices,
-      prop(currency, ethMarketData),
-      'ETH'
-    )
-  }
-
-  const __processErc20ReportTxs = function* (rawTxList, startDate, endDate, token) {
-    // @ts-ignore
-    // eslint-disable-next-line
-    const fullTxList = yield call(__processErc20Txs, rawTxList)
-    const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
-
-    // remove txs that dont match coin type and are not within date range
-    const prunedTxList = filter(
-      (tx) =>
-        // @ts-ignore
-        isAfter(getUnixTime(tx.time), startDate) &&
-        // @ts-ignore
-        isBefore(getUnixTime(tx.time), endDate),
-      fullTxList
-    )
-
-    // return empty list if no tx found in filter set
-    if (!length(prunedTxList)) return []
-    // @ts-ignore
-    const txTimestamps = pluck('time', prunedTxList)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+    const fiatCurrency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
 
     // fetch historical price data
     const historicalPrices = yield call(
       api.getPriceTimestampSeries,
-      toUpper(token),
-      currency,
+      'ETH',
+      fiatCurrency,
       txTimestamps
     )
 
     // build and return report model
     return yield call(
       __buildTransactionReportModel,
+      ethAddress,
       prunedTxList,
       historicalPrices,
-      prop(currency, marketData),
+      ethMarketData.price,
+      Exchange.getSymbol(fiatCurrency),
+      'ETH'
+    )
+  }
+
+  const __processErc20ReportTxs = function* (ethAddress, rawTxList, startDate, endDate, token) {
+    // @ts-ignore
+    // eslint-disable-next-line
+    const fullTxList = yield call(__processErc20Txs, rawTxList)
+    const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
+
+    // remove txs that dont match coin type and are not within date range
+    const prunedTxList = filter((tx) => {
+      // returns true if tx is in-between startDate and endDate
+      return (
+        // @ts-ignore
+        isAfter(fromUnixTime(tx.time), new Date(startDate)) &&
+        // @ts-ignore
+        isBefore(fromUnixTime(tx.time), new Date(endDate))
+      )
+    }, fullTxList)
+
+    // return empty list if no tx found in filter set
+    if (!length(prunedTxList)) return []
+    // @ts-ignore
+    const txTimestamps = pluck('time', prunedTxList)
+    const fiatCurrency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+
+    // fetch historical price data
+    const historicalPrices = yield call(
+      api.getPriceTimestampSeries,
+      toUpper(token),
+      fiatCurrency,
+      txTimestamps
+    )
+
+    // build and return report model
+    return yield call(
+      __buildTransactionReportModel,
+      ethAddress,
+      prunedTxList,
+      historicalPrices,
+      marketData.price,
+      Exchange.getSymbol(fiatCurrency),
       toUpper(token)
     )
   }

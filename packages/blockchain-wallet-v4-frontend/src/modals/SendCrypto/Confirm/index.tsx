@@ -59,7 +59,7 @@ const isInsufficientBalance = (e: string) => {
 
 const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { formValues, rates, sendCryptoActions, walletCurrency } = props
-  const { amount, fee, fix, selectedAccount, selectedAccount: account, to } = formValues
+  const { amount, fee, fix, memo, selectedAccount, selectedAccount: account, to } = formValues
   const { coin } = selectedAccount
 
   const isMax = amount === 'MAX'
@@ -83,6 +83,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       destination: to,
       fee,
       fix,
+      memo,
       rates,
       walletCurrency
     })
@@ -131,6 +132,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     destination: to,
                     fee,
                     fix,
+                    memo,
                     rates,
                     walletCurrency
                   })
@@ -210,6 +212,20 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </FiatDisplay>
                 </div>
               </CustomRow>
+              {tx.rawTx?.payload.payload.memo.content ? (
+                <CustomRow>
+                  <div>
+                    <Text size='16px' weight={500} color='black'>
+                      <FormattedMessage id='copy.memo' defaultMessage='Memo' />
+                    </Text>
+                  </div>
+                  <div>
+                    <Text size='16px' weight={500} color='black'>
+                      {tx.rawTx.payload.payload.memo.content}
+                    </Text>
+                  </div>
+                </CustomRow>
+              ) : null}
               <CustomRow>
                 <div>
                   <Text size='16px' weight={600} color='black'>

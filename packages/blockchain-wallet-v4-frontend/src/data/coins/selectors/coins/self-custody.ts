@@ -1,8 +1,12 @@
 import { lift } from 'ramda'
 
 import { getBalance } from '@core/redux/data/coins/selectors'
+import { BSBalanceType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { generateSelfCustodyAccount } from 'data/coins/utils'
+import { generateSelfCustodyAccount, generateTradingAccount } from 'data/coins/utils'
+import { SwapAccountType } from 'data/types'
+
+import { getTradingBalance } from '..'
 
 export const getTransactionPageHeaderText = () => null
 
@@ -11,15 +15,24 @@ export const getTransactionPageHeaderText = () => null
 export const getAccounts = createDeepEqualSelector(
   [
     (state, ownProps) => getBalance(ownProps.coin, state),
+    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (balanceR, ownProps) => {
+  (balanceR, sbBalanceR, ownProps) => {
     const { coin } = ownProps
+    const { coinfig } = window.coins[coin]
+    let accounts: SwapAccountType[] = []
 
-    const transform = (balance) => {
-      return generateSelfCustodyAccount(coin, balance)
+    const transform = (balance, sbBalance) => {
+      accounts = accounts.concat(generateSelfCustodyAccount(coin, balance))
+
+      // add trading accounts if requested
+      if (ownProps?.tradingAccounts && coinfig.products.includes('CustodialWalletBalance')) {
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as BSBalanceType))
+      }
+      return accounts
     }
 
-    return lift(transform)(balanceR)
+    return lift(transform)(balanceR, sbBalanceR)
   }
 )

@@ -9,7 +9,7 @@ import {
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { ProductEligibilityForUser, UserDataType } from 'data/types'
 
 const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
 export type BannerType =
@@ -20,11 +20,11 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
+  | 'sanctions'
   | 'coinListing'
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
-  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
   | null
 
@@ -70,6 +70,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     completeProfileAnnouncement,
     announcementState
   )
+
+  const userHadNotifications = selectors.custodial.getUserHadNotifications(state)
+  const products = selectors.custodial.getProductEligibilityForUser(state).getOrElse({
+    notifications: []
+  } as ProductEligibilityForUser)
+
+  const showSanctionsBanner = products?.notifications?.length > 0 || userHadNotifications
 
   const isFirstLogin = selectors.signup.getFirstLogin(state)
 
@@ -160,15 +167,13 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
-  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
-
   let bannerToShow: BannerType = null
-  if (showTaxCenterBanner && taxCenterEnabled) {
+  if (showSanctionsBanner) {
+    bannerToShow = 'sanctions'
+  } else if (showTaxCenterBanner && taxCenterEnabled) {
     bannerToShow = 'taxCenter'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
-  } else if (isStxSelfCustodyAvailable) {
-    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (

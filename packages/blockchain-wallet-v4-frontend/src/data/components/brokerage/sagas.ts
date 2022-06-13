@@ -14,12 +14,12 @@ import {
   BankStatusType,
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
+  CustodialSanctionsEnum,
   FastLinkType,
   ModalName,
   ProductEligibilityForUser
 } from 'data/types'
 
-import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
@@ -298,23 +298,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    const showSilverRevamp = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      actions.custodial.fetchProductEligibilityForUserSuccess.type,
+      actions.custodial.fetchProductEligibilityForUserFailure.type
+    ])
 
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      custodialWallets: { canDepositCrypto: false, enabled: false },
+      depositFiat: { reasonNotEligible: undefined }
+    } as ProductEligibilityForUser)
+
+    // show sanctions for sell
+    if (products?.depositFiat?.reasonNotEligible) {
+      const message =
+        products.depositFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.depositFiat.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'DepositWithdrawalModal'
+        })
+      )
+      return
+    }
     // check is user eligible to do sell/buy
     // we skip this for gold users
-    if (!isUserTier2 && showSilverRevamp) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        custodialWallets: { canDepositCrypto: false, enabled: false }
-      } as ProductEligibilityForUser)
-
+    if (!isUserTier2) {
       const userCanDeposit = products.custodialWallets.canDepositCrypto
       // prompt upgrade modal in case that user can't buy more
       if (!userCanDeposit) {
@@ -333,7 +344,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const ClearedStatusCheck = function* (orderId) {
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE' || order.state === 'FAILED') {
+    if (
+      order.state === 'CLEARED' ||
+      order.state === 'COMPLETE' ||
+      order.state === 'FAILED' ||
+      order.state === 'MANUAL_REVIEW'
+    ) {
       return order
     }
     throw new Error('retrying to fetch for cleared status')

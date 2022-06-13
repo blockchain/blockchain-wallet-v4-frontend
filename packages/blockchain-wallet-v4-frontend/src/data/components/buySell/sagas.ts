@@ -1,4 +1,3 @@
-import { act } from '@testing-library/react-hooks'
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
 import { addSeconds, differenceInMilliseconds } from 'date-fns'
@@ -29,7 +28,7 @@ import {
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
-import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
@@ -37,6 +36,7 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
   UserDataType
@@ -1718,23 +1718,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    const showSilverRevamp = selectors.core.walletOptions
-      .getSilverRevamp(yield select())
-      .getOrElse(null)
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      custodialActions.fetchProductEligibilityForUserSuccess.type,
+      custodialActions.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      buy: { enabled: false, maxOrdersLeft: 0, reasonNotEligible: undefined },
+      sell: { reasonNotEligible: undefined }
+    } as ProductEligibilityForUser)
 
     // check is user eligible to do sell/buy
     // we skip this for gold users
-    if (!isUserTier2 && showSilverRevamp && !latestPendingOrder) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        buy: { enabled: false, maxOrdersLeft: 0 }
-      } as ProductEligibilityForUser)
-
+    if (!isUserTier2 && !latestPendingOrder) {
       const userCanBuyMore = products.buy?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
       // users with diff tier than 2 can't sell
@@ -1746,6 +1743,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         return
       }
+    }
+
+    // show sanctions for buy
+    if (products?.buy?.reasonNotEligible) {
+      const message =
+        products.buy.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.buy.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'BuySellInit'
+        })
+      )
+      return
+    }
+    // show sanctions for sell
+    if (products?.sell?.reasonNotEligible && orderType === OrderType.SELL) {
+      const message =
+        products.sell.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.sell.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'BuySellInit'
+        })
+      )
+      return
     }
 
     // Check if there is a pending_deposit Open Banking order
@@ -1774,7 +1800,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // For all silver/silver+ users if they have pending transaction and they are from silver revamp
       // we want to let users to be able to approve/cancel transaction otherwise they will be blocked
-    } else if (!isUserTier2 && latestPendingOrder && showSilverRevamp) {
+    } else if (!isUserTier2 && latestPendingOrder) {
       const step: T.StepActionsPayload['step'] =
         latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
