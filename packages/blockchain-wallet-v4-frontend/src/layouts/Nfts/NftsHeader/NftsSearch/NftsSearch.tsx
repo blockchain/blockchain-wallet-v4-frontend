@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
 import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
 import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import { bindActionCreators } from 'redux'
@@ -91,6 +91,14 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     setInput(e)
   }
 
+  const handleClose = () => {
+    setIsActive(false)
+  }
+
+  const handleOpen = () => {
+    setIsActive(true)
+  }
+
   useEffect(() => {
     if (input) {
       nftActions.nftSearch({ search: input })
@@ -151,11 +159,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
       {isTablet && isActive ? (
         <MobileMenu justifyContent='space-between'>
           <Image width='25px' name='blockchain-icon' />
-          <div
-            role='button'
-            aria-hidden='true'
-            onClick={() => setIsActive((isActive) => !isActive)}
-          >
+          <div role='button' aria-hidden='true' onClick={handleClose}>
             <Icon label='close'>
               <IconCloseCircleV2 />
             </Icon>
@@ -184,7 +188,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         </InputResultWrapper>
       ) : null}
       {isTablet && !isActive ? (
-        <IconWrapper role='button' onClick={() => setIsActive(true)}>
+        <IconWrapper role='button' onClick={handleOpen}>
           <Icon color='purple600' size='sm' label='search'>
             <IconSearch />
           </Icon>
