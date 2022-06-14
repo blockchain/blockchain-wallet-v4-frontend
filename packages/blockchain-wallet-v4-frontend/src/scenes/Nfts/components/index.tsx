@@ -148,7 +148,8 @@ export const AssetDetails = styled.div`
   flex-direction: column;
   gap: 12px;
   justify-content: center;
-  background: ${colors.smoke900};
+  background: linear-gradient(270deg, rgba(25, 14, 60, 0.7744) 0%, rgba(14, 18, 27, 0.7744) 102.1%);
+  backdrop-filter: blur(40px);
   ${media.laptopL`
     padding-bottom: 4px;
   `}
