@@ -168,7 +168,7 @@ const Explore: React.FC<Props> = (props) => {
             style={{ cursor: 'pointer' }}
             size='64px'
             lineHeight='12px'
-            color={assetId === i ? 'grey900' : 'white'}
+            color={assetId === i ? 'white' : 'grey900'}
           >
             .
           </Text>
