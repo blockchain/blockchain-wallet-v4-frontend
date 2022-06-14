@@ -127,8 +127,8 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
       </LinkContainer>
       <AssetDetails>
         <Flex flexDirection='column' gap={8}>
-          <Text style={{ marginTop: '4px' }} size='16px' color='white' weight={600}>
-            {asset?.name}
+          <Text size='18px' style={{ marginTop: '4px' }} color='white' weight={600}>
+            #{asset?.token_id}
           </Text>
           <LinkContainer
             onClick={logoClickTracking}
@@ -172,14 +172,14 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
           <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
             {lowestListing && lowestListing.starting_price ? (
               <Flex flexDirection='column' gap={4} alignItems='flex-start'>
-                <Text weight={500} color='grey400'>
+                <Text size='14px' weight={500} color='grey400'>
                   <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                 </Text>
                 <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
                   <Link>
                     <CoinDisplay
                       coin={lowestListing.payment_token_symbol || 'ETH'}
-                      size='14px'
+                      size='16px'
                       weight={500}
                       lineHeight='21px'
                       style={{
@@ -196,7 +196,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                 </LinkContainer>
               </Flex>
             ) : (
-              <NotForSale>
+              <NotForSale style={{ marginBottom: '1em' }}>
                 <Text weight={500} color='white'>
                   <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
                 </Text>
@@ -244,7 +244,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   src={image.replace(/=s\d*/, '')}
                 />
               ) : null}
-              <Text weight={600} lineHeight='150%' color='white'>
+              <Text size='18px' weight={600} lineHeight='150%' color='white'>
                 #{asset?.token_id}
               </Text>
               <Flex alignItems='center' gap={8}>
@@ -273,7 +273,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                 <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}>
                   {lowestListing && lowestListing.starting_price ? (
                     <Flex flexDirection='column' gap={4} alignItems='flex-start'>
-                      <Text size='16px' weight={500} color='grey400'>
+                      <Text size='14px' weight={500} color='grey400'>
                         <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
                       </Text>
                       <LinkContainer

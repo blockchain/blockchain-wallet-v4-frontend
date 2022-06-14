@@ -26,14 +26,14 @@ const Grid = styled.div<{ fullscreen: boolean; moreAssetsPage?: boolean }>`
     grid-template-columns: repeat(${(props) =>
       props.moreAssetsPage ? MORE_ASSETS : props.fullscreen ? LAPTOP_L : LAPTOP_M}, minmax(0, 1fr));
       .asset-image-container {
-        height: ${(props) => (props.fullscreen ? '250px' : '215px')};
+        height: 215px;
       }
   `}
   ${media.laptopL`
     grid-template-columns: repeat(${(props) =>
       props.moreAssetsPage ? MORE_ASSETS : props.fullscreen ? LAPTOP_M : LAPTOP}, minmax(0, 1fr));
       .asset-image-container {
-        height: ${(props) => (props.fullscreen ? '250px' : '215px')};
+        height: height: 215px;
       }
   `}
   ${media.laptop`

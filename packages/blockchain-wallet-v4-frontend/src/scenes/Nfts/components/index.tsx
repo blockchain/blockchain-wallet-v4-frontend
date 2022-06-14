@@ -1,3 +1,4 @@
+import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -100,7 +101,7 @@ export const Asset = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 375px;
+  height: 350px;
   background: black;
   border-color: transparent;
   ${media.laptopM`
@@ -147,7 +148,7 @@ export const AssetDetails = styled.div`
   flex-direction: column;
   gap: 12px;
   justify-content: center;
-  background: black;
+  background: ${colors.smoke900};
   ${media.laptopL`
     padding-bottom: 4px;
   `}
