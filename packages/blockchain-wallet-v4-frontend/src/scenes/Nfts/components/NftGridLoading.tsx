@@ -23,7 +23,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
   `
 
   const GridLoadingFooter = styled.div`
-    background-color: colors.grey000;
+    background-color: ${colors.grey000};
     border-radius: 0px 0px 4px 4px;
     margin-top: -12px;
     padding: 1em;
