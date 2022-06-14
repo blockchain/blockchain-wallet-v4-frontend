@@ -100,7 +100,7 @@ export const Asset = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 400px;
+  height: 375px;
   background: black;
   border-color: transparent;
   ${media.laptopM`
@@ -145,7 +145,8 @@ export const AssetDetails = styled.div`
   display: flex;
   padding: 0.75em;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 12px;
+  justify-content: center;
   background: black;
   ${media.laptopL`
     padding-bottom: 4px;
