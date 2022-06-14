@@ -145,7 +145,7 @@ export const AssetDetails = styled.div`
   display: flex;
   padding: 0.75em;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background: black;
   ${media.laptopL`
     padding-bottom: 4px;
@@ -155,7 +155,6 @@ export const AssetCollection = styled.div`
   overflow: hidden;
 `
 export const PriceCTA = styled.div`
-  margin: 16px 0px;
   display: flex;
   width: 100%;
   align-items: center;

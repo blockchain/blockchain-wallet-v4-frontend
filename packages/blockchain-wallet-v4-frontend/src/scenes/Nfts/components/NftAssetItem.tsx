@@ -40,6 +40,14 @@ const HoverBackground = styled.div<{ background: string }>`
   }
 `
 
+const NotForSale = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid ${colors.grey700};
+  border-radius: 8px;
+  padding: 0.5em;
+  width: fit-content;
+`
+
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const [hover, setHover] = useState(false)
   const dispatch = useDispatch()
@@ -188,9 +196,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                 </LinkContainer>
               </Flex>
             ) : (
-              <Text weight={500} color='white'>
-                <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-              </Text>
+              <NotForSale>
+                <Text weight={500} color='white'>
+                  <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                </Text>
+              </NotForSale>
             )}
           </LinkContainer>
         </PriceCTA>
@@ -291,15 +301,17 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     </Flex>
                   ) : (
                     <>
-                      <Text weight={500} color='white'>
-                        <FormattedMessage
-                          id='copy.item_not_for_sale'
-                          defaultMessage='You can still make offers with ERC-20 assets like WETH'
-                        />
-                      </Text>
-                      <Text weight={500} color='white'>
-                        <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-                      </Text>
+                      <NotForSale>
+                        <Text style={{ paddingBottom: '1em' }} weight={500} color='white'>
+                          <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                        </Text>
+                        <Text size='12px' weight={500} color='white'>
+                          <FormattedMessage
+                            id='copy.item_not_for_sale'
+                            defaultMessage='You can still make offers with ERC-20 assets like WETH'
+                          />
+                        </Text>
+                      </NotForSale>
                     </>
                   )}
                 </LinkContainer>

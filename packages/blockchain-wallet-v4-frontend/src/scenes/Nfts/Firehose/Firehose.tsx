@@ -32,7 +32,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   })
 
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-
+  const isTablet = useMedia('tablet')
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -40,7 +40,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   const [errorFetchingNextPage, setNextPageFetchError] = useState<CombinedError | undefined>(
     undefined
   )
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
   const stringifiedForm = JSON.stringify(formValues)
 
   const refresh = () => {

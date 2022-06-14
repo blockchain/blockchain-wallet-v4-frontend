@@ -79,6 +79,7 @@ const LinksContainer = styled.div`
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
+  const isTablet = useMedia('tablet')
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
@@ -86,7 +87,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
   const [collectionsQuery] = useCollectionsQuery({
     requestPolicy: 'network-only',
