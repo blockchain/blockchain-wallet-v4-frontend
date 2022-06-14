@@ -123,6 +123,8 @@ const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 // TAX CENTER
 const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
 
+const LoadingFlyout = React.lazy(() => import('./LoadingFlyout'))
+
 const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
@@ -187,6 +189,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.INTEREST_MODAL) ? (
           <Interest />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOADING_FLYOUT) ? (
+          <LoadingFlyout />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.LINK_FROM_EXCHANGE_ACCOUNT_MODAL) ? (
           <LinkFromExchangeAccount disableOutsideClose />
