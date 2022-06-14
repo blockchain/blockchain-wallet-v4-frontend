@@ -122,7 +122,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
               <NftCollectionImage
-                alt='Collection'
+                alt=''
                 isVerified={collection.safelist_request_status === 'verified'}
                 src={collection.image_url || ''}
               />

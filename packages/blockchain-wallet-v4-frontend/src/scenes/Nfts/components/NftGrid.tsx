@@ -7,9 +7,9 @@ import { media } from 'services/styles'
 
 const DESKTOP = 8
 const LAPTOP_L = 6
-const LAPTOP_M = 5
+const LAPTOP_M = 6
 const MORE_ASSETS = 5
-const LAPTOP = 3
+const LAPTOP = 4
 const TABLET = 2
 const MOBILE = 1
 

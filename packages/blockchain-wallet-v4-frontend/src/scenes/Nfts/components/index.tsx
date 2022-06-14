@@ -101,7 +101,7 @@ export const Asset = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 350px;
+  height: 340px;
   background: black;
   border-color: transparent;
   ${media.laptopM`
@@ -144,9 +144,9 @@ export const AssetDetails = styled.div`
   flex: 1;
   height: 100%;
   display: flex;
-  padding: 0.75em;
+  padding: 0 0.75em 0;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   justify-content: center;
   background: linear-gradient(270deg, rgba(25, 14, 60, 0.7744) 0%, rgba(14, 18, 27, 0.7744) 102.1%);
   backdrop-filter: blur(40px);
@@ -176,7 +176,10 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   justify-content: space-between;
   background-size: cover;
   background-position: center;
-  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
+  background-image: ${(props) =>
+    props.bgUrl
+      ? `url(${props.bgUrl})`
+      : 'linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'};
   position: relative;
   ${media.tablet`
     flex-direction: column;

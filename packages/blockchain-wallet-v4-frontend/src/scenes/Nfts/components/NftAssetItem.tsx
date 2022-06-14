@@ -104,7 +104,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
         style={
           image
             ? { background: 'black', display: 'flex', height: 'fit-content', position: 'relative' }
-            : { display: 'flex', height: '100%', position: 'relative' }
+            : { display: 'flex', height: 'fit-content', position: 'relative' }
         }
         to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
       >
@@ -115,7 +115,10 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background={`url(${image.replace(/=s\d*/, '')})`}
             />
           ) : (
-            <AssetImageContainer className='asset-image-container' backgroundColor={colors.black} />
+            <AssetImageContainer
+              className='asset-image-container'
+              background='linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'
+            />
           )}
           <NftAssetImageType
             top='10px'
@@ -302,7 +305,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   ) : (
                     <>
                       <NotForSale>
-                        <Text style={{ paddingBottom: '1em' }} weight={500} color='white'>
+                        <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
                           <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
                         </Text>
                         <Text size='12px' weight={500} color='white'>
