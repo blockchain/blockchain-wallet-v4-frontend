@@ -9,7 +9,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 
-import { CTARow, RightAlign } from '../../components'
+import { RightAlign } from '../../components'
 import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 

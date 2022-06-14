@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { CoinType } from '@core/types'
+import { CoinType, WalletFiatEnum, WalletFiatType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { ModalName } from 'data/types'
@@ -60,6 +60,12 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
   render() {
     const { brokerageActions, buySellActions, coin } = this.props
     const { coinfig } = window.coins[coin]
+    const brokerageCurrencies = Object.keys(WalletFiatEnum).filter(
+      (value) =>
+        typeof WalletFiatEnum[value] === 'number' &&
+        [WalletFiatEnum.ARS, WalletFiatEnum.USD].includes(WalletFiatEnum[value])
+    )
+    const isBrokerageCurrency = brokerageCurrencies.includes(coin)
 
     return (
       <Container>
@@ -90,10 +96,10 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
             nature='empty-secondary'
             onClick={() => {
               if (coinfig.type.name === 'FIAT') {
-                // ACH Deposits/Withdrawals is only for USD right now
+                // ACH Deposits/Withdrawals is only for USD and ARS right now
                 // so keeping the existing functionality for EUR
-                return coin === 'USD'
-                  ? brokerageActions.handleDepositFiatClick(coin)
+                return isBrokerageCurrency
+                  ? brokerageActions.handleDepositFiatClick(coin as WalletFiatType)
                   : buySellActions.handleDepositFiatClick({ coin, origin: 'TransactionList' })
               }
               buySellActions.showModal({ origin: 'EmptyFeed' })

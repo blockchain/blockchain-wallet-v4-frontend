@@ -4,20 +4,17 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import { actions } from 'data'
 
-import { getData } from './FundsBox.selector'
 import FundsBox from './FundsBox.template'
 
 const FundsBoxContainer = (props) => <FundsBox {...props} />
 
-const mapStateToProps = (state) => ({
-  currentCard: getData(state)
-})
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 

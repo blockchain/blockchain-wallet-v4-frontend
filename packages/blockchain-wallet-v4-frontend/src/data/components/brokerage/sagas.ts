@@ -3,7 +3,12 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
-import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
+import {
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  BSTransactionStateEnum,
+  BSTransactionType
+} from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -216,6 +221,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'BuySell',
+        tier: 1
+      })
+    )
+
     yield put(
       actions.components.brokerage.showModal({
         modalType: 'BANK_DEPOSIT_MODAL',
@@ -344,7 +358,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const ClearedStatusCheck = function* (orderId) {
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
-    if (order.state === 'CLEARED' || order.state === 'COMPLETE' || order.state === 'FAILED') {
+    if (
+      order.state === BSTransactionStateEnum.CLEARED ||
+      order.state === BSTransactionStateEnum.COMPLETE ||
+      order.state === BSTransactionStateEnum.FAILED ||
+      order.state === BSTransactionStateEnum.MANUAL_REVIEW
+    ) {
       return order
     }
     throw new Error('retrying to fetch for cleared status')
@@ -357,7 +376,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       (order.extraAttributes &&
         'authorisationUrl' in order.extraAttributes &&
         order.extraAttributes.authorisationUrl) ||
-      order.state === 'FAILED'
+      order.state === BSTransactionStateEnum.FAILED
     ) {
       return order
     }

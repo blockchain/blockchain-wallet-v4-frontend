@@ -8,7 +8,7 @@ import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
-import { Analytics, AuthMagicLink, PlatformTypes, ModalName } from 'data/types'
+import { Analytics, AuthMagicLink, ModalName, PlatformTypes } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'

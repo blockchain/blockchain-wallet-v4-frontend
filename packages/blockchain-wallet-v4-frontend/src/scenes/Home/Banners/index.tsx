@@ -16,6 +16,7 @@ import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
+import RewardsBanner from './RewardsBanner'
 import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
@@ -29,6 +30,7 @@ class Banners extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.buySellActions.fetchOrders()
     this.props.buySellActions.fetchSDDEligibility()
+    this.props.interestActions.fetchInterestEligible()
     if (this.props.userData.tiers?.current > 0) {
       // we need such to distinguish is profile completed
       this.props.buySellActions.fetchCards(false)
@@ -115,6 +117,12 @@ class Banners extends React.PureComponent<Props> {
             <Sanctions />
           </BannerWrapper>
         )
+      case 'earnRewards':
+        return (
+          <BannerWrapper>
+            <RewardsBanner />
+          </BannerWrapper>
+        )
       default:
         return null
     }
@@ -130,7 +138,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

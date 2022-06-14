@@ -94,6 +94,7 @@ export type BSShowModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
+  | 'DebitCardDashboard'
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'

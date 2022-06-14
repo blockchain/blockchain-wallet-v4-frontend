@@ -151,14 +151,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     return guid
   }
 
+  // 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
   // This is a very important function. Not only is it used to fetch fees
   // it is also used to create matching orders for the order/offer passed in
   // and then those matching orders are put on state.
+  // It is also responsible for fetching latest pending eth transaction
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
       yield put(A.fetchFeesLoading())
-      const signer: Signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       let fees
+
+      try {
+        yield put(A.fetchLatestPendingTxsLoading())
+        const { transactions: tx } = yield call(api.getEthTransactionsV2, signer.address, 0, 1)
+        const isLatestTxPending =
+          tx[0] && tx[0].state === 'PENDING' && tx[0].from === signer.address
+        yield put(A.fetchLatestPendingTxsSuccess(isLatestTxPending))
+      } catch (e) {
+        yield put(A.fetchLatestPendingTxsFailure('Error fetching pending txs'))
+      }
 
       if (action.payload.operation === GasCalculationOperations.Buy) {
         try {
