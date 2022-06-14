@@ -102,8 +102,6 @@ export const Asset = styled.div`
   position: relative;
   flex-direction: column;
   height: 340px;
-  background: black;
-  border-color: transparent;
   ${media.laptopM`
     height: 100%;
   `}
@@ -148,8 +146,7 @@ export const AssetDetails = styled.div`
   flex-direction: column;
   gap: 6px;
   justify-content: center;
-  background: linear-gradient(270deg, rgba(25, 14, 60, 0.7744) 0%, rgba(14, 18, 27, 0.7744) 102.1%);
-  backdrop-filter: blur(40px);
+  background: linear-gradient(270deg, rgba(25, 14, 60, 0.95) 0%, rgba(14, 18, 27, 0.95) 102.1%);
   ${media.laptopL`
     padding-bottom: 4px;
   `}

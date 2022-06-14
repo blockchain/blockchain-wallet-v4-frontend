@@ -101,11 +101,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
   return !hover ? (
     <Asset key={asset?.token_id} className='asset' onMouseEnter={() => setHoverTrue()}>
       <LinkContainer
-        style={
-          image
-            ? { background: 'black', display: 'flex', height: 'fit-content', position: 'relative' }
-            : { display: 'flex', height: 'fit-content', position: 'relative' }
-        }
+        style={{ display: 'flex', height: 'fit-content', position: 'relative' }}
         to={`/nfts/assets/${asset.contract?.address}/${asset.token_id}`}
       >
         <Link>
