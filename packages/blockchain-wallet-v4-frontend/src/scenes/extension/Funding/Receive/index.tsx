@@ -26,7 +26,7 @@ const WalletAddress = styled(Text)`
 `
 
 const CopyButton = styled(Button)`
-  width: unset;
+  min-width: 62px;
   padding: 5px 8px;
   font-size: 12px;
   font-weight: 500;
@@ -34,6 +34,7 @@ const CopyButton = styled(Button)`
   background: #65a5ff;
   border: none;
   border-radius: 8px;
+  cursor: copy;
 `
 
 const QrCodeWrapper = styled.div`
@@ -51,12 +52,20 @@ export const Receive = () => {
   const [walletAddress, setWalletAddress] = useState<string>(
     '0xF351db55d029F4A56E744afE1adA81dad4284c1D'
   )
+  const [isCoppied, setIsCoppied] = useState<boolean>(false)
+
+  /** Copies wallet addres into clipboard */
+  const copyAddress = () => {
+    navigator.clipboard.writeText(walletAddress)
+    setIsCoppied(true)
+  }
+
   return (
     <>
       <FundingHeading>Receive tokens and NFTs</FundingHeading>
       <WalletAddressWrapper>
         <WalletAddress>{walletAddress}</WalletAddress>
-        <CopyButton>Copy</CopyButton>
+        <CopyButton onClick={copyAddress}>{isCoppied ? 'Coppied' : 'Copy'}</CopyButton>
       </WalletAddressWrapper>
       <QrCodeWrapper>
         <QRCodeReact value={walletAddress} size={85} />
