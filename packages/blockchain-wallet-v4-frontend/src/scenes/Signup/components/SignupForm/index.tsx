@@ -11,10 +11,9 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
-// import SelectBoxCountry from 'components/Form/SelectBoxCountry'
-import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
+import { CountryType, StateType } from 'data/types'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -66,12 +65,22 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const getCountryElements = (countries) => [
+const getCountryElements = (countries: Array<CountryType>) => [
   {
     group: '',
-    items: countries.map((country) => ({
+    items: countries.map((country: CountryType) => ({
       text: country.name,
       value: country
+    }))
+  }
+]
+
+const getStateElements = (states: Array<StateType>) => [
+  {
+    group: '',
+    items: states.map((state: StateType) => ({
+      text: state.name,
+      value: state
     }))
   }
 ]
@@ -84,7 +93,8 @@ const SignupForm = (props: Props) => {
     onCountrySelect,
     onSignupSubmit,
     showState,
-    supportedCountries
+    supportedCountries,
+    supportedStates
   } = props
   const passwordValue = formValues?.password || ''
 
@@ -222,7 +232,8 @@ const SignupForm = (props: Props) => {
           <FieldWithoutTopRadius setBorder={showState}>
             <Field
               name='state'
-              component={SelectBoxUSState}
+              elements={getStateElements(supportedStates)}
+              component={SelectBox}
               errorBottom
               validate={[required]}
               normalize={(val) => val && val.code}

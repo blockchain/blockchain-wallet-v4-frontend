@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { GoalsType } from 'data/types'
+import { CountryType, GoalsType } from 'data/types'
 
 import { Props as OwnProps } from '.'
 
@@ -31,7 +31,7 @@ export type GoalDataType = Array<{
 export type SubviewProps = {
   isFormSubmitting: boolean
   isLinkAccountGoal: boolean
-  onCountrySelect: (e: React.ChangeEvent<any> | undefined, value: string) => void
+  onCountrySelect: (e: React.ChangeEvent<any> | undefined, value: CountryType) => void
   onSignupSubmit: (e: React.SyntheticEvent, value: string) => void
   showForm: boolean
   showState: boolean

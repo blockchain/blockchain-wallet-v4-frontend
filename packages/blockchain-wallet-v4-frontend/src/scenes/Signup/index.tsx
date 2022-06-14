@@ -10,7 +10,7 @@ import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CountryType } from 'data/types'
+import { CountryType, StateType } from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -74,7 +74,7 @@ class SignupContainer extends React.PureComponent<
     signupActions.initializeSignup()
   }
 
-  onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: CountryType) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
@@ -93,13 +93,13 @@ class SignupContainer extends React.PureComponent<
     })
   }
 
-  setCountryOnLoad = (country: string) => {
+  setCountryOnLoad = (country: CountryType) => {
     this.setDefaultCountry(country)
     this.props.formActions.change(SIGNUP_FORM, 'country', country)
   }
 
-  setDefaultCountry = (country: string) => {
-    this.setState({ showState: country === 'US' })
+  setDefaultCountry = (country: CountryType) => {
+    this.setState({ showState: country?.code === 'US' })
   }
 
   toggleSignupFormVisibility = () => {
@@ -160,6 +160,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   supportedCountries: selectors.components.identityVerification
     .getSupportedCountries(state)
     .getOrElse([]),
+  supportedStates: selectors.components.identityVerification.getStates(state).getOrElse([]),
   unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
 })
 
@@ -186,6 +187,7 @@ type LinkStatePropsType = {
   language: string
   search: string
   supportedCountries: Array<CountryType>
+  supportedStates: Array<StateType>
   unified: boolean
 }
 type StateProps = {
