@@ -49,6 +49,8 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { isNabuError } from 'services/errors'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -173,7 +175,7 @@ const StickyFooter = styled.div`
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
-  const [isActiveFeeTooltip, setFeeToolTip] = useState(props.isFlexiblePricingModel)
+  const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -222,22 +224,20 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }, [requiresTerms])
 
   useEffect(() => {
-    if (props.isFlexiblePricingModel) {
-      props.buySellActions.fetchBuyQuote({
-        amount: props.order.inputQuantity,
-        pair: props.order.pair,
-        paymentMethod:
-          props.order.paymentType === undefined ? BSPaymentTypes.FUNDS : props.order.paymentType,
-        paymentMethodId: props.order.paymentMethodId
-      })
-    } else {
-      props.buySellActions.fetchQuote({
-        amount: props.order.inputQuantity,
-        orderType: getOrderType(props.order),
-        pair: props.order.pair
-      })
-    }
-  }, [])
+    props.buySellActions.fetchBuyQuote({
+      amount: props.order.inputQuantity,
+      pair: props.order.pair,
+      paymentMethod:
+        props.order.paymentType === undefined ? BSPaymentTypes.FUNDS : props.order.paymentType,
+      paymentMethodId: props.order.paymentMethodId
+    })
+  }, [
+    props.buySellActions,
+    props.order.inputQuantity,
+    props.order.pair,
+    props.order.paymentMethodId,
+    props.order.paymentType
+  ])
 
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
@@ -347,6 +347,10 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }
 
+  if (isNabuError(props.error)) {
+    return <GenericNabuErrorFlyout error={props.error} onClickClose={handleCancel} />
+  }
+
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutWrapper>
@@ -400,18 +404,14 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {props.isFlexiblePricingModel
-                ? fiatToString({
-                    unit: counterCurrency as FiatType,
-                    value:
-                      (1 /
-                        parseFloat(props.quote.rate.toString()) /
-                        parseFloat(
-                          convertBaseToStandard(baseCurrency, props.quote.rate.toString())
-                        )) *
-                      parseFloat(props.quote.rate.toString())
-                  })
-                : displayFiat(props.order, props.quote.rate.toString())}
+              {fiatToString({
+                unit: counterCurrency as FiatType,
+                value:
+                  (1 /
+                    parseFloat(props.quote.rate.toString()) /
+                    parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
+                  parseFloat(props.quote.rate.toString())
+              })}
             </RowText>
           </TopRow>
           {isActiveCoinTooltip && (
@@ -479,89 +479,39 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
-      {props.isFlexiblePricingModel ? (
-        <>
-          <RowItem>
-            <RowText>
-              <FormattedMessage id='modals.simplebuy.confirm.purchase' defaultMessage='Purchase' />
-            </RowText>
-            <RowText>
-              <RowTextWrapper data-e2e='sbFee'>
-                {props.order.fee && props.formValues?.fix === 'FIAT'
-                  ? displayFiat(
-                      props.order,
-                      (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
+      <>
+        <RowItem>
+          <RowText>
+            <FormattedMessage id='modals.simplebuy.confirm.purchase' defaultMessage='Purchase' />
+          </RowText>
+          <RowText>
+            <RowTextWrapper data-e2e='sbFee'>
+              {props.order.fee && props.formValues?.fix === 'FIAT'
+                ? displayFiat(
+                    props.order,
+                    (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
+                  )
+                : props.order.fee && props.formValues?.fix === 'CRYPTO'
+                ? coinToString({
+                    unit: { symbol: props.order.outputCurrency },
+                    value: convertBaseToStandard(
+                      props.order.outputCurrency,
+                      parseInt(props.order.outputQuantity) - parseInt(props.order.fee)
                     )
-                  : props.order.fee && props.formValues?.fix === 'CRYPTO'
-                  ? coinToString({
-                      unit: { symbol: props.order.outputCurrency },
-                      value: convertBaseToStandard(
-                        props.order.outputCurrency,
-                        parseInt(props.order.outputQuantity) - parseInt(props.order.fee)
-                      )
-                    })
-                  : `${displayFiat(
-                      props.order,
-                      (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
-                    )} ${props.order.inputCurrency}`}
-              </RowTextWrapper>
-            </RowText>
-          </RowItem>
-          <RowItem>
-            <RowItemContainer>
-              <TopRow>
-                <RowIcon>
-                  <RowText>
-                    <FormattedMessage
-                      id='copy.blockchain_fee'
-                      defaultMessage='Blockchain.com Fee'
-                    />
-                  </RowText>
-                  <IconWrapper>
-                    <Icon
-                      name='question-in-circle-filled'
-                      size='16px'
-                      color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                      onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
-                    />
-                  </IconWrapper>
-                </RowIcon>
-                <RowText data-e2e='sbFee'>
-                  {props.order.fee && props.formValues?.fix === 'FIAT'
-                    ? displayFiat(props.order, props.order.fee)
-                    : props.order.fee && props.formValues?.fix === 'CRYPTO'
-                    ? coinToString({
-                        unit: { symbol: props.order.inputCurrency },
-                        value: convertBaseToStandard(props.order.inputCurrency, props.order.fee)
-                      })
-                    : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
-                </RowText>
-              </TopRow>
-              {isActiveFeeTooltip && (
-                <ToolTipText>
-                  <Text size='12px' weight={500} color='grey600'>
-                    <TextGroup inline>
-                      <Text size='14px'>
-                        <FormattedMessage
-                          id='modals.simplebuy.flexible_pricing'
-                          defaultMessage='This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
-                        />
-                      </Text>
-                    </TextGroup>
-                  </Text>
-                </ToolTipText>
-              )}
-            </RowItemContainer>
-          </RowItem>
-        </>
-      ) : null}
-      {isCardPayment && !props.isFlexiblePricingModel ? (
+                  })
+                : `${displayFiat(
+                    props.order,
+                    (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
+                  )} ${props.order.inputCurrency}`}
+            </RowTextWrapper>
+          </RowText>
+        </RowItem>
         <RowItem>
           <RowItemContainer>
             <TopRow>
               <RowIcon>
                 <RowText>
-                  <FormattedMessage id='copy.card_fee' defaultMessage='Card Fee' />
+                  <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
                 </RowText>
                 <IconWrapper>
                   <Icon
@@ -573,8 +523,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 </IconWrapper>
               </RowIcon>
               <RowText data-e2e='sbFee'>
-                {props.order.fee
+                {props.order.fee && props.formValues?.fix === 'FIAT'
                   ? displayFiat(props.order, props.order.fee)
+                  : props.order.fee && props.formValues?.fix === 'CRYPTO'
+                  ? coinToString({
+                      unit: { symbol: props.order.inputCurrency },
+                      value: convertBaseToStandard(props.order.inputCurrency, props.order.fee)
+                    })
                   : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
               </RowText>
             </TopRow>
@@ -584,28 +539,18 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   <TextGroup inline>
                     <Text size='14px'>
                       <FormattedMessage
-                        id='modals.simplebuy.paying_with_card'
-                        defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                        id='modals.simplebuy.flexible_pricing'
+                        defaultMessage='This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
                       />
                     </Text>
-                    <Link
-                      href='https://support.blockchain.com/hc/en-us/articles/360061672651'
-                      size='14px'
-                      rel='noopener noreferrer'
-                      target='_blank'
-                    >
-                      <FormattedMessage
-                        id='modals.simplebuy.summary.learn_more'
-                        defaultMessage='Learn more'
-                      />
-                    </Link>
                   </TextGroup>
                 </Text>
               </ToolTipText>
             )}
           </RowItemContainer>
         </RowItem>
-      ) : null}
+      </>
+
       <RowItem>
         <RowText>
           <FormattedMessage id='copy.total' defaultMessage='Total' />

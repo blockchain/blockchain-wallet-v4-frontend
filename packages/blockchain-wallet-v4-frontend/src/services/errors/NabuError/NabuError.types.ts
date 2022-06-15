@@ -1,7 +1,17 @@
+type NabuErrorIconProps = {
+  accessibility: {
+    description: string
+  }
+  status: {
+    url: string
+  }
+  url: string
+}
+
 type NabuErrorProps = {
-  icon?: string
+  icon?: NabuErrorIconProps
   message: string
   title: string
 }
 
-export type { NabuErrorProps }
+export type { NabuErrorIconProps, NabuErrorProps }

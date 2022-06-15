@@ -29,6 +29,7 @@ export enum ModalName {
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
   EDIT_TX_DESCRIPTION_MODAL = 'EDIT_TX_DESCRIPTION_MODAL',
   ETH_WALLET_BALANCES = 'ETH_WALLET_BALANCES',
+  FUNDS_LIST = 'FUNDS_LIST',
   FUND_RECOVERY_MODAL = 'FUND_RECOVERY_MODAL',
   GENERATE_REPORT_MODAL = 'GENERATE_REPORT_MODAL',
   GET_FEATURED = 'GET_FEATURED',
@@ -159,7 +160,6 @@ export type ModalOriginType =
   | 'TransactionList'
   | 'Unknown'
   | 'WalletBalanceDropdown'
-  | 'WalletConnect'
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'CurrencyList'

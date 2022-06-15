@@ -1,4 +1,11 @@
-import { ExplorerGatewaySearchType, NftAsset, NftOrder, OpenSeaStatus } from './types'
+import {
+  ExplorerGatewaySearchType,
+  NftAsset,
+  NftOrder,
+  NftUserPreferencesReturnType,
+  NftUserPreferencesType,
+  OpenSeaStatus
+} from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
 
@@ -7,15 +14,33 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
-  const searchNfts = (query: string): ExplorerGatewaySearchType => {
+  const getNftUserPreferences = (
+    jwt: string
+  ): { jwt: string; userPrefs: NftUserPreferencesReturnType } => {
+    return get({
+      endPoint: '/preferences',
+      headers: {
+        jwt
+      },
+      ignoreQueryParams: true,
+      url: nftUrl
+    })
+  }
+
+  const setNftUserPreferences = (
+    jwt: string,
+    userPrefs: NftUserPreferencesType
+  ): { jwt: string; userPrefs: NftUserPreferencesReturnType } => {
     return post({
       contentType: 'application/json',
       data: {
-        query
+        jwt,
+        userPrefs
       },
-      endPoint: `/search`,
+      endPoint: '/preferences',
       ignoreQueryParams: true,
-      url: `${nftUrl}`
+      removeDefaultPostData: true,
+      url: nftUrl
     })
   }
 
@@ -31,7 +56,19 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
-      url: `${nftUrl}`
+      url: nftUrl
+    })
+  }
+
+  const searchNfts = (query: string): ExplorerGatewaySearchType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        query
+      },
+      endPoint: `/search`,
+      ignoreQueryParams: true,
+      url: nftUrl
     })
   }
 
@@ -47,14 +84,16 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       endPoint: `/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: `${nftUrl}`
+      url: nftUrl
     })
   }
 
   return {
+    getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
     postNftOrder,
-    searchNfts
+    searchNfts,
+    setNftUserPreferences
   }
 }

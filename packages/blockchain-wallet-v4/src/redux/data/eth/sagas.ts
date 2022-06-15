@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
+import { format, fromUnixTime, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
 import { Contract } from 'ethers'
 import {
   addIndex,
@@ -157,6 +157,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const __buildTransactionReportModel = function (
+    ethAddress,
     prunedTxList,
     historicalPrices,
     currentPrice,
@@ -165,35 +166,57 @@ export default ({ api }: { api: APIType }) => {
   ) {
     const mapIndexed = addIndex(map)
     return mapIndexed((tx, idx) => {
+      // check if tx was just gas fees for erc20
       // @ts-ignore
-      const txType = prop('type', tx) as string
+      const isTxEthGasFee = tx.erc20 && coin === 'ETH'
+      // @ts-ignore
+      let txType = prop('type', tx) as string
+
+      // attempt to identify the type if unknown
+      if (txType === 'unknown') {
+        const ethAddrLower = ethAddress.toLowerCase()
+        // @ts-ignore
+        if (tx.from.toLowerCase() === ethAddrLower) {
+          txType = 'sent'
+        }
+        // @ts-ignore
+        if (tx.to.toLowerCase() === ethAddrLower) {
+          txType = 'received'
+        }
+        // @ts-ignore
+        if (isTxEthGasFee) {
+          txType = 'gas_fee'
+        }
+      }
+
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
         // @ts-ignore
         prop('price', nth(idx, historicalPrices))
       )
+
       // @ts-ignore
-      const value = tx.amount as string
-      const amountBig = new BigNumber(
-        Exchange.convertCoinToCoin({
-          coin,
-          value
-        })
-      )
+      const value = isTxEthGasFee ? tx.fee.data : (tx.amount as string)
+      const valueConverted = Exchange.convertCoinToCoin({
+        coin,
+        value
+      })
+
+      const amountBig = new BigNumber(valueConverted)
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
       const valueNow = amountBig.multipliedBy(new BigNumber(currentPrice)).toFixed(2)
-      // @ts-ignore
-      const txDate = new Date(tx.timeFormatted)
 
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
-        date: format(txDate, 'yyyy-MM-dd'),
+        // @ts-ignore
+        date: format(fromUnixTime(tx.time), 'yyyy-MM-dd'),
         // @ts-ignore
         description: prop('description', tx),
         exchange_rate_then: fiatCurrencySymbol + priceAtTime.toFixed(2),
         // @ts-ignore
         hash: prop('hash', tx),
-        time: getUnixTime(txDate),
+        // @ts-ignore
+        time: tx.time,
         type: txType,
         value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
         value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`
@@ -239,7 +262,7 @@ export default ({ api }: { api: APIType }) => {
       }
       // process txs further for report
       // eslint-disable-next-line
-      const processedTxList = yield call(__processReportTxs, fullTxList, startDate, endDate)
+      const processedTxList = yield call(__processReportTxs, ethAddress, fullTxList, startDate, endDate)
       yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
@@ -249,8 +272,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchLegacyBalance = function* () {
     try {
       yield put(A.fetchLegacyBalanceLoading())
-      const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
-      const addr = addrR.getOrElse('')
+      const addr = (yield select(kvStoreSelectors.getLegacyAccountAddress)).getOrElse('')
       const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
       yield put(A.fetchLegacyBalanceSuccess(balance))
@@ -446,6 +468,7 @@ export default ({ api }: { api: APIType }) => {
       const processedTxList = yield call(
         // eslint-disable-next-line
         __processErc20ReportTxs,
+        ethAddress,
         fullTxList,
         startDate,
         endDate,
@@ -459,7 +482,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processReportTxs = function* (rawTxList, startDate, endDate) {
+  const __processReportTxs = function* (ethAddress, rawTxList, startDate, endDate) {
     // eslint-disable-next-line
     const fullTxList = yield call(__processTxs, rawTxList)
     const ethMarketData = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
@@ -469,9 +492,9 @@ export default ({ api }: { api: APIType }) => {
       // returns true if tx is in-between startDate and endDate
       return (
         // @ts-ignore
-        isAfter(new Date(tx.timeFormatted), new Date(startDate)) &&
+        isAfter(fromUnixTime(tx.time), new Date(startDate)) &&
         // @ts-ignore
-        isBefore(new Date(tx.timeFormatted), new Date(endDate))
+        isBefore(fromUnixTime(tx.time), new Date(endDate))
       )
     }, fullTxList)
 
@@ -492,6 +515,7 @@ export default ({ api }: { api: APIType }) => {
     // build and return report model
     return yield call(
       __buildTransactionReportModel,
+      ethAddress,
       prunedTxList,
       historicalPrices,
       ethMarketData.price,
@@ -500,7 +524,7 @@ export default ({ api }: { api: APIType }) => {
     )
   }
 
-  const __processErc20ReportTxs = function* (rawTxList, startDate, endDate, token) {
+  const __processErc20ReportTxs = function* (ethAddress, rawTxList, startDate, endDate, token) {
     // @ts-ignore
     // eslint-disable-next-line
     const fullTxList = yield call(__processErc20Txs, rawTxList)
@@ -511,9 +535,9 @@ export default ({ api }: { api: APIType }) => {
       // returns true if tx is in-between startDate and endDate
       return (
         // @ts-ignore
-        isAfter(new Date(tx.timeFormatted), new Date(startDate)) &&
+        isAfter(fromUnixTime(tx.time), new Date(startDate)) &&
         // @ts-ignore
-        isBefore(new Date(tx.timeFormatted), new Date(endDate))
+        isBefore(fromUnixTime(tx.time), new Date(endDate))
       )
     }, fullTxList)
 
@@ -534,6 +558,7 @@ export default ({ api }: { api: APIType }) => {
     // build and return report model
     return yield call(
       __buildTransactionReportModel,
+      ethAddress,
       prunedTxList,
       historicalPrices,
       marketData.price,

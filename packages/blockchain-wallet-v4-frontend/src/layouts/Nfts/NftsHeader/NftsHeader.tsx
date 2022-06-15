@@ -32,12 +32,13 @@ const StickyNav = styled(NavContainer)`
 `
 const NavCenter = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   margin: 0 40px;
   ${media.tablet`
-    width: auto;
+    margin: 0px;
+    margin-right: 12px;
   `}
 `
 const NavLinkButton = styled(NavLink)`

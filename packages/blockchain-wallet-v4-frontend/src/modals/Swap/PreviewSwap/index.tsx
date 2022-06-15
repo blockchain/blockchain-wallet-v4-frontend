@@ -17,9 +17,11 @@ import {
 } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import { Props as BaseProps, SuccessStateType } from '..'
 import { FeeBreakdownBox, FromToLogoLeft, TopText } from '../components'
@@ -85,6 +87,12 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     this.props.swapActions.createOrder()
   }
 
+  handleOnClickBack = () => {
+    this.props.swapActions.setStep({
+      step: 'ENTER_AMOUNT'
+    })
+  }
+
   render() {
     if (!this.props.initSwapFormValues?.BASE || !this.props.initSwapFormValues?.COUNTER) {
       this.props.swapActions.setStep({ step: 'INIT_SWAP' })
@@ -93,9 +101,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
 
-    const { swapActions } = this.props
+    const { error } = this.props
     const baseCoinDisplaySymbol = window.coins[BASE.coin].coinfig.displaySymbol
     const counterCoinDisplaySymbol = window.coins[COUNTER.coin].coinfig.displaySymbol
+
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onClickClose={this.handleOnClickBack} />
+    }
+
     return (
       <>
         <FlyoutWrapper>
@@ -107,11 +120,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
               cursor
               size='24px'
               color='grey600'
-              onClick={() =>
-                swapActions.setStep({
-                  step: 'ENTER_AMOUNT'
-                })
-              }
+              onClick={this.handleOnClickBack}
             />{' '}
             <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '24px' }}>
               <FormattedMessage id='copy.confirm_swap' defaultMessage='Confirm Swap' />

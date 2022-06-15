@@ -176,7 +176,7 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
-    confirmOrderFailure: (state, action: PayloadAction<string | number>) => {
+    confirmOrderFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.order = Remote.Failure(action.payload)
     },
     confirmOrderLoading: (state) => {
@@ -188,7 +188,7 @@ const buySellSlice = createSlice({
       state.pendingOrder = undefined
     },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
-    createCardFailure: (state, action: PayloadAction<string | number>) => {
+    createCardFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.card = Remote.Failure(action.payload)
     },
     createCardLoading: (state) => {
@@ -296,7 +296,10 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-    fetchFiatEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
+    fetchFiatEligibleFailure: (
+      state,
+      action: PayloadAction<PartialClientErrorProperties | Error>
+    ) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
 

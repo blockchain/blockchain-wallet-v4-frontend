@@ -38,7 +38,7 @@ const identityVerificationSlice = createSlice({
     checkKycFlow: (state, action) => {},
     claimCampaignClicked: (state, action: PayloadAction<{ campaign: CampaignsType }>) => {},
     createRegisterUserCampaign: (state, action) => {},
-    fetchExtraKYC: () => {},
+    fetchExtraKYC: (state, action: PayloadAction<string>) => {},
     fetchExtraKYCFailure: (state, action: PayloadAction<string>) => {
       state.kycExtraQuestions = Remote.Failure(action.payload)
     },
@@ -58,7 +58,7 @@ const identityVerificationSlice = createSlice({
 
     initializeVerification: (
       state,
-      action: PayloadAction<{ needMoreInfo: boolean; tier: number }>
+      action: PayloadAction<{ needMoreInfo: boolean; origin: string; tier: number }>
     ) => {},
 
     preIdvCheckFinished: () => {},

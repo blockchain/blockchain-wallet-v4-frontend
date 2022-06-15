@@ -76,11 +76,6 @@ export const RightColWrapper = styled.div`
   `}
 `
 
-export const NftAssetStickyWrapper = styled.div`
-  position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT}px);
-`
-
 export const AssetName = styled(Text)`
   font-style: normal;
   font-weight: 600;
@@ -125,7 +120,7 @@ export const MoreAssetsListItem = styled.div`
 `
 
 export const TraitsWrapper = styled.div`
-  margin-top: 1.5em;
+  margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -187,6 +182,9 @@ export const NftTableWrapper = styled(TableWrapper)`
     .th,
     .td {
       padding: 6px 8px;
+    }
+    .th {
+      background: ${colors.grey000};
     }
     .td {
       height: 42px;

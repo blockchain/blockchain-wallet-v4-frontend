@@ -9,6 +9,8 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrder,
+  NftUserPreferencesReturnType,
+  NftUserPreferencesType,
   OpenSeaStatus,
   RawOrder,
   UnsignedOrder
@@ -42,10 +44,12 @@ const initialState: NftsStateType = {
     prevStep: null,
     status: null,
     step: null,
+    userHasPendingTxR: Remote.NotAsked,
 
     wrapEthFees: Remote.NotAsked
   },
-  search: Remote.NotAsked
+  search: Remote.NotAsked,
+  userPreferences: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -182,6 +186,15 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.wrapEthFees = Remote.Success(action.payload)
     },
+    fetchLatestPendingTxsFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.userHasPendingTxR = Remote.Failure(action.payload)
+    },
+    fetchLatestPendingTxsLoading: (state) => {
+      state.orderFlow.userHasPendingTxR = Remote.Loading
+    },
+    fetchLatestPendingTxsSuccess: (state, action: PayloadAction<boolean>) => {
+      state.orderFlow.userHasPendingTxR = Remote.Success(action.payload)
+    },
     fetchMatchingOrder: (state) => {},
     fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.matchingOrder = Remote.Failure(action.payload)
@@ -196,6 +209,19 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
+    fetchNftUserPreferences: (state) => {},
+    fetchNftUserPreferencesFailure: (state, action: PayloadAction<string>) => {
+      state.userPreferences = Remote.Failure(action.payload)
+    },
+    fetchNftUserPreferencesLoading: (state) => {
+      state.userPreferences = Remote.Loading
+    },
+    fetchNftUserPreferencesSuccess: (
+      state,
+      action: PayloadAction<NftUserPreferencesReturnType>
+    ) => {
+      state.userPreferences = Remote.Success(action.payload)
+    },
     fetchOpenSeaAsset: (
       state,
       action: PayloadAction<{
@@ -334,7 +360,11 @@ const nftsSlice = createSlice({
     },
     setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
       state.orderFlow.orderToMatch = action.payload.order
-    }
+    },
+    updateUserPreferences: (
+      state,
+      action: PayloadAction<{ userPrefs: NftUserPreferencesType }>
+    ) => {}
   }
 })
 

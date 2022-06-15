@@ -555,12 +555,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 defaultMessage='I have read and agreed to the'
               />
             </Text>{' '}
-            <Link
-              href='https://www.blockchain.com/legal/reward-terms'
-              target='_blank'
-              size='14px'
-              weight={500}
-            >
+            <Link href='https://www.blockchain.com/legal' target='_blank' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.termsservice'
                 defaultMessage='Terms of Service'

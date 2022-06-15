@@ -54,6 +54,7 @@ const initialState: InterestState = {
   transactions: [],
   transactionsNextPage: null,
   transactionsReport: Remote.NotAsked,
+  underSanctionsMessage: null,
   withdrawalMinimums: Remote.NotAsked
 }
 
@@ -114,7 +115,7 @@ const interestSlice = createSlice({
 
     // ACCOUNT
     // eslint-disable-next-line
-    fetchInterestAccount: (state, action: PayloadAction<{coin?: CoinType}>) => {},
+    fetchInterestAccount: (state, action: PayloadAction<{ coin?: CoinType }>) => {},
 
     fetchInterestAccountFailure: (state, action: PayloadAction<string>) => {
       state.account = Remote.Failure(action.payload)
@@ -360,10 +361,10 @@ const interestSlice = createSlice({
     setPaymentFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.payment = Remote.Failure(action.payload.error)
     },
+
     setPaymentLoading: (state) => {
       state.payment = Remote.Loading
     },
-
     setPaymentSuccess: (state, action: PayloadAction<{ payment?: PaymentValue }>) => {
       state.payment = Remote.Success(action.payload.payment)
     },
@@ -371,6 +372,11 @@ const interestSlice = createSlice({
     setTransactionsNextPage: (state, action: PayloadAction<{ nextPage: string | null }>) => {
       state.transactionsNextPage = action.payload.nextPage
     },
+
+    setUnderSanctions: (state, action: PayloadAction<{ message: string | null }>) => {
+      state.underSanctionsMessage = action.payload.message
+    },
+
     setWithdrawalMinimumsFailure: (state, action: PayloadAction<ErrorStringType>) => {
       state.withdrawalMinimums = Remote.Failure(action.payload.error)
     },
