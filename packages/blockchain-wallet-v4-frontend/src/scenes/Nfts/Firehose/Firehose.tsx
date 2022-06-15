@@ -25,7 +25,6 @@ import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
 const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
-  const isTablet = useMedia('tablet')
   const [collectionsQuery] = useTrendingCollectionsQuery({
     variables: {
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
@@ -33,7 +32,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
   })
 
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-
+  const isTablet = useMedia('tablet')
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)

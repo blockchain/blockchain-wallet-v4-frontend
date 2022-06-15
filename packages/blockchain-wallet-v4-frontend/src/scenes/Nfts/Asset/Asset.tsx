@@ -70,7 +70,7 @@ const AssetImageContainer = styled.div`
 
 const AssetImg = styled.img`
   border-radius: 18px;
-  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey200};
   box-sizing: border-box;
 `
 
@@ -363,7 +363,7 @@ const NftAsset: React.FC<Props> = ({
                                         (traitCount / currentAsset.collection.total_supply) *
                                         100
                                       ).toFixed(1)
-                                    )}%`
+                                    )}% Rarity`
                                   : 'New Trait'
 
                               return (
@@ -1016,11 +1016,11 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
             </RightColWrapper>
           </Top>
-          {/* {currentAsset &&
+          {currentAsset &&
           ((currentAsset?.collection?.total_supply && currentAsset.collection.total_supply > 2) ||
             !currentAsset.collection.total_supply) ? (
             <AssetMoreItems asset={currentAsset} />
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     </Wrapper>

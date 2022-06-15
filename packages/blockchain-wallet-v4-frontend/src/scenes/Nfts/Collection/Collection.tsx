@@ -46,6 +46,8 @@ const LinksContainer = styled.div`
   display: flex;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
+  width: 34px;
+  justify-content: center;
   > a {
     display: flex;
     align-items: center;
@@ -78,11 +80,11 @@ const LinksContainer = styled.div`
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
+  const isTablet = useMedia('tablet')
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
-  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
@@ -134,7 +136,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                   colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
                 />
               )}
-
               <Text color='white' size='32px' weight={600}>
                 {collection.name}
               </Text>
