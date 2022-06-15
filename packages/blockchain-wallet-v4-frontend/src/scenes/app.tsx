@@ -68,7 +68,6 @@ const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
-const WalletConnect = React.lazy(() => import('./WalletConnect'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
@@ -78,11 +77,11 @@ const App = ({
   coinViewV2,
   history,
   isAuthenticated,
+  isPlugin,
   nftExplorer,
   persistor,
   store,
   userData,
-  walletConnectEnabled,
   walletDebitCardEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
@@ -93,12 +92,15 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  // lazy load google tag manager
-  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-    attributes: {
-      nonce: window.nonce
-    }
-  })
+  if (!isPlugin) {
+    // lazy load google tag manager
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+      attributes: {
+        nonce: window.nonce
+      }
+    })
+  }
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
@@ -245,9 +247,6 @@ const App = ({
                         <WalletLayout path='/settings/addresses' component={Addresses} />
                         <WalletLayout path='/settings/general' component={General} />
                         <WalletLayout path='/settings/preferences' component={Preferences} />
-                        {walletConnectEnabled && (
-                          <WalletLayout path='/dapps' component={WalletConnect} />
-                        )}
                         <WalletLayout path='/prices' component={Prices} />
                         <WalletLayout path='/tax-center' component={TaxCenter} />
                         <WalletLayout
@@ -278,11 +277,9 @@ const mapStateToProps = (state) => ({
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
+  isPlugin: selectors.cache.getIsPluginStatus(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
-  walletConnectEnabled: selectors.core.walletOptions
-    .getWalletConnectEnabled(state)
-    .getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.core.walletOptions
     .getWalletDebitCardEnabled(state)
     .getOrElse(false)

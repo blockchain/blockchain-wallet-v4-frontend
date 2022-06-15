@@ -12,5 +12,6 @@ module.exports = {
   src: resolveRoot('packages/blockchain-wallet-v4-frontend/src'),
   sslConfig: resolveRoot('config/ssl'),
   tsConfig: resolveRoot('tsconfig.json'),
-  wellKnownConfig: resolveRoot('.well-known')
+  wellKnownConfig: resolveRoot('.well-known'),
+  mocksConfig: resolveRoot('config/mocks')
 }

@@ -73,20 +73,24 @@ const AuthLayoutContainer = ({
   component: Component,
   exact = false,
   formValues,
+  isPlugin,
   pageTitle,
   path,
   platform,
   unified
 }: Props) => {
-  // lazy load google captcha
-  useDefer3rdPartyScript(
-    `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
-    {
-      attributes: {
-        nonce: window.nonce
+  if (!isPlugin) {
+    // lazy load google captcha
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useDefer3rdPartyScript(
+      `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
+      {
+        attributes: {
+          nonce: window.nonce
+        }
       }
-    }
-  )
+    )
+  }
 
   // update page title from route
   if (pageTitle) document.title = pageTitle
@@ -124,6 +128,7 @@ const AuthLayoutContainer = ({
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
+  isPlugin: selectors.cache.getIsPluginStatus(state),
   platform: selectors.auth.getMagicLinkData(state)?.platform_type,
   unified: selectors.cache.getUnifiedAccountStatus(state)
 })

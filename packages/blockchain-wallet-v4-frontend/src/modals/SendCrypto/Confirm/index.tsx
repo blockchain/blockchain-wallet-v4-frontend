@@ -212,7 +212,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </FiatDisplay>
                 </div>
               </CustomRow>
-              {tx.rawTx.payload.payload.memo.content ? (
+              {tx.rawTx?.payload.payload.memo.content ? (
                 <CustomRow>
                   <div>
                     <Text size='16px' weight={500} color='black'>

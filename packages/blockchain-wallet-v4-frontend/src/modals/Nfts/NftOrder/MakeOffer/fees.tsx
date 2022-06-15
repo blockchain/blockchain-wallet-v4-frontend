@@ -4,13 +4,15 @@ import BigNumber from 'bignumber.js'
 import { displayCoinToCoin } from '@core/exchange'
 import { NftAsset } from '@core/network/api/nfts/types'
 
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 import { NftMakeOfferFormValues } from '.'
 import CreateOfferFees from './CreateOffer.fees'
 import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
+  const { isAuthenticated, isInvited } = props
+
   const getTotalFees = () => {
     const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
       .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
@@ -25,12 +27,15 @@ const Fees: React.FC<Props> = (props) => {
     return total
   }
 
+  if (!isAuthenticated) return null
+  if (!isInvited) return null
+
   return (
     <>
-      <FeesDropdown totalFees={getTotalFees()}>
+      <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees()}>
         <CreateOfferFees {...props} />
-        {props.formValues.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
-      </FeesDropdown>
+        {props.formValues?.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
+      </NftDropdown>
     </>
   )
 }

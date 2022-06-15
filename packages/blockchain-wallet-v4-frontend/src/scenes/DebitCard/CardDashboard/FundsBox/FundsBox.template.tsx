@@ -1,84 +1,74 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { CoinType } from '@core/types'
+import { OrderType } from '@core/network/api/buySell/types'
+import { CoinType, WalletFiatType } from '@core/types'
 import { Button } from 'blockchain-info-components'
+import CoinWithBalance from 'components/CoinWithBalance'
+import { actions } from 'data'
 import { getCurrentCardAccount } from 'data/components/debitCard/selectors'
-import { AccountType } from 'data/components/debitCard/types'
-import { convertStandardToBase } from 'data/components/exchange/services'
+import { ModalName } from 'data/modals/types'
 import { useRemote } from 'hooks'
 
-import CoinBalance from '../../../Home/Holdings/CoinBalance/template.success'
-import { BoxContainer, BoxRow, BoxRowItemSubTitle, BoxRowWithBorder } from '../CardDashboard.model'
-import {
-  Amount,
-  Coin,
-  CoinIcon,
-  CoinName,
-  ErrorState,
-  LoadingDetail,
-  Wrapper
-} from './FundsBox.model'
+import { BoxContainer, BoxRow, BoxRowWithBorder } from '../CardDashboard.model'
+import { ErrorState, LoadingDetail } from './FundsBox.model'
 
 type Props = {
-  funds: Array<AccountType>
+  brokerageActions: typeof actions.components.brokerage
+  buySellActions: typeof actions.components.buySell
+  modalActions: typeof actions.modals
 }
 
-const DEFAULT_ACCOUNT = { balance: { symbol: 'USD', value: '0' } }
+const FundsBox = ({ brokerageActions, buySellActions, modalActions }: Props) => {
+  const { data, hasError, isLoading, isNotAsked } = useRemote(getCurrentCardAccount)
+  const isLoadingState = (isNotAsked || isLoading) && !hasError
 
-const FundsBox = ({ funds }: Props) => {
-  const currentCardAccountRemote = useRemote(getCurrentCardAccount)
-  const { data, error, isLoading } = currentCardAccountRemote
-  let currentCardAccount = DEFAULT_ACCOUNT
+  const openFundsList = () => {
+    modalActions.showModal(ModalName.FUNDS_LIST, { origin: 'DebitCardDashboard' })
+  }
+  const handleAddFunds = () => {
+    // This handle will not be called if no value in data object
+    const symbol = data?.balance.symbol || 'USD'
 
-  // Waiting for BE to fix this response
-  if (data && data.balance) currentCardAccount = data
-
-  const { symbol, value } = currentCardAccount.balance
-
-  const fundTypeLabel = () => (
-    <BoxRowItemSubTitle>
-      {window.coins[symbol].coinfig.type.name === 'FIAT' ? (
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.funds.type.cash_balance'
-          defaultMessage='Cash Balance'
-        />
-      ) : (
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.funds.type.trading_account'
-          defaultMessage='Trading Account'
-        />
-      )}
-    </BoxRowItemSubTitle>
-  )
-
-  const CurrentAccountDetail = () => (
-    <div style={{ flex: 1 }}>
-      <Wrapper>
-        <Coin>
-          <CoinIcon name={symbol as CoinType} size='32px' />
-          <div>
-            <CoinName>{window.coins[symbol].coinfig.name}</CoinName>
-            {fundTypeLabel()}
-          </div>
-        </Coin>
-        <Amount>
-          <CoinBalance coin={symbol} balance={convertStandardToBase(symbol, value)} />
-        </Amount>
-      </Wrapper>
-    </div>
-  )
+    if (window.coins[symbol].coinfig.type.name === 'FIAT') {
+      brokerageActions.handleDepositFiatClick(symbol as WalletFiatType)
+    } else {
+      buySellActions.showModal({
+        cryptoCurrency: symbol as CoinType,
+        orderType: OrderType.BUY,
+        origin: 'DebitCardDashboard'
+      })
+    }
+  }
 
   return (
     <BoxContainer width='380px'>
       <BoxRowWithBorder>
-        {error ? <ErrorState /> : !data || isLoading ? <LoadingDetail /> : <CurrentAccountDetail />}
+        {data && !isLoading ? (
+          <CoinWithBalance {...data.balance} />
+        ) : isLoadingState ? (
+          <LoadingDetail />
+        ) : (
+          <ErrorState />
+        )}
       </BoxRowWithBorder>
       <BoxRow>
-        <Button data-e2e='addFunds' nature='primary' margin='auto' disabled>
+        <Button
+          data-e2e='addFunds'
+          nature='primary'
+          margin='auto'
+          onClick={handleAddFunds}
+          disabled={isLoadingState}
+        >
           <FormattedMessage id='buttons.add_funds' defaultMessage='Add Funds' />
         </Button>
-        <Button data-e2e='changeSource' nature='empty-blue' margin='auto' disabled>
+        <Button
+          data-e2e='changeSource'
+          nature='empty-blue'
+          margin='auto'
+          onClick={openFundsList}
+          disabled={isLoadingState}
+        >
           <FormattedMessage id='buttons.change_source' defaultMessage='Change Source' />
         </Button>
       </BoxRow>

@@ -7,7 +7,7 @@ import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName, WithdrawStepEnum } from 'data/types'
+import { ModalName, UserDataType, WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE } from '../../../components'
@@ -122,6 +122,7 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   step: selectors.components.withdraw.getStep(state),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   withdrawal: selectors.components.withdraw.getWithdrawal(state)
 })
 

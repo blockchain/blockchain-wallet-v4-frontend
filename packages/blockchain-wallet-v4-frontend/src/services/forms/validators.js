@@ -78,7 +78,7 @@ export const validStrongPassword = (value) => {
     stringContainsLowercaseLetter(value) &&
     stringContainsUppercaseLetter(value) &&
     stringContainsNumber(value) &&
-    stringLengthBetween(value, 12, 64) &&
+    stringLengthBetween(value, 8, 64) &&
     stringContainsSpecialChar(value) ? undefined : (
     <M.InvalidStrongPassword />
   )

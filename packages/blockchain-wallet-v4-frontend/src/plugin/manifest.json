@@ -5,14 +5,14 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "plugin.html",
+    "default_popup": "index.html",
     "default_title": "Open plugin"
   },
   "background": {
     "service_worker": "background.js"
   },
   "icons": {
-    "16": "/img/favicons/favicon.png"
+    "16": "/img/favicons/favicon-16x16.png"
   },
   "content_security_policy": {
     "extension_scripts": "default-src 'self'; script-src 'self'"

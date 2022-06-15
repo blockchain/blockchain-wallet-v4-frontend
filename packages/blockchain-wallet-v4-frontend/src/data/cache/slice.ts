@@ -9,6 +9,7 @@ const initialState = {
   exchangeWalletGuid: undefined,
   guidStored: undefined,
   hasCloudBackup: undefined,
+  isPlugin: window.location.protocol === 'chrome-extension:',
   lastEmail: undefined,
   lastGuid: undefined,
   lastLogoutTimestamp: undefined,
