@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { NodeItemTypes, NodeType } from '@core/types'
+import { NodeItemTypes, NodeTextType, NodeType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
@@ -13,7 +13,7 @@ import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
-import { required } from 'services/forms'
+import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { getNodeQuestionElements } from './model'
@@ -355,6 +355,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
+  const RenderTextBoxQuestion = (node: NodeTextType) => {
+    const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
+
+    const validations = [required, validFormatCb]
+    return (
+      <FormGroup>
+        <QuestionTitle>{node.text}</QuestionTitle>
+
+        <QuestionDescription>{node.instructions}</QuestionDescription>
+
+        <FormItem key={node.id} style={{ marginBottom: '10px' }}>
+          <Field
+            name={node.id}
+            errorBottom
+            validate={validations}
+            component={TextBox}
+            placeholder={node.hint}
+            pattern={node.regex ? node.regex : ''}
+          />
+        </FormItem>
+      </FormGroup>
+    )
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -386,6 +410,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               return node.isDropdown
                 ? RenderDropDownBasedQuestion(node, updateItem)
                 : RenderSingleSelectionQuestion(node, updateItem)
+            }
+            if (node.type === NodeItemTypes.OPEN_ENDED) {
+              return RenderTextBoxQuestion(node)
             }
             return null
           })}
