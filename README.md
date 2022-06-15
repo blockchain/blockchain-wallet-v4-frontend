@@ -17,7 +17,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 14.16 is installed. Using [NVM](https://github.com/nvm-sh/nvm) is recommended.
+1. Ensure Node version 16.11.0 is installed. Using [NVM](https://github.com/nvm-sh/nvm) is recommended.
 2. From the project root, run the following command to install dependencies: `./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`

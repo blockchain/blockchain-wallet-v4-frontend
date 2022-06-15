@@ -21,7 +21,7 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 14.16",
+    "node": "16.11.0",
     "yarn": ">= 1.22"
   },
   "workspaces": [
