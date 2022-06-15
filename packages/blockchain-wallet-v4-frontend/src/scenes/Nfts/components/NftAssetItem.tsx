@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
+import Avatar from 'boring-avatars'
 import { F } from 'ramda'
 import styled from 'styled-components'
 
@@ -41,8 +42,8 @@ const HoverBackground = styled.div<{ background: string }>`
 `
 
 const NotForSale = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid ${colors.grey700};
+  background-color: ${colors.smoke800};
+  border: 1px solid ${colors.smoke600};
   border-radius: 8px;
   padding: 0.5em;
   width: fit-content;
@@ -144,12 +145,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     width='16px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={16}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
                   />
                 )}
                 <AssetCollection onClick={nameClickTracking}>
@@ -256,12 +256,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     width='16px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={16}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
                   />
                 )}
                 <Text weight={600} lineHeight='150%' color='white'>
