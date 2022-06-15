@@ -26,8 +26,7 @@ import {
   createSellOrder,
   getNetwork,
   sellOrderValidationAndApprovals,
-  transferAsset,
-  verifyTransfered
+  transferAsset
 } from './utils'
 
 export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasData: GasDataI) => {
