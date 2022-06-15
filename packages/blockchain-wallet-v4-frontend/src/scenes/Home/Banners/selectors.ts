@@ -26,8 +26,8 @@ export type BannerType =
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
-  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
+  | 'earnRewards'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -73,16 +73,12 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
+  const userHadNotifications = selectors.custodial.getUserHadNotifications(state)
   const products = selectors.custodial.getProductEligibilityForUser(state).getOrElse({
     notifications: []
   } as ProductEligibilityForUser)
 
-  const sanctionsAnnouncement = getSanctionsAnnouncement()
-  const showSanctionsBanner = showBanner(
-    products?.notifications?.length > 0,
-    sanctionsAnnouncement,
-    announcementState
-  )
+  const showSanctionsBanner = products?.notifications?.length > 0 || userHadNotifications
 
   const isFirstLogin = selectors.signup.getFirstLogin(state)
 
@@ -164,17 +160,23 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   }
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
-  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
+
+  // earnRewards
+  const interestEligible = selectors.components.interest.getInterestEligible(state).getOrElse({})
+  const isEarnRewardsPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
+    .getRewardsPromoBannerEnabled(state)
+    .getOrElse(false) as boolean
+  const isUserEligibleToEarnRewards =
+    !isEmpty(interestEligible) && Object.values(interestEligible).some((obj) => !!obj?.eligible)
+  const isEarnRewardsPromoBannerEnabled = !!(
+    isEarnRewardsPromoBannerFeatureFlagEnabled && isUserEligibleToEarnRewards
+  )
 
   let bannerToShow: BannerType = null
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
-  } else if (showSanctionsBanner) {
-    bannerToShow = 'sanctions'
-  } else if (isStxSelfCustodyAvailable) {
-    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (
@@ -201,6 +203,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'newCurrency'
   } else if (showRenameBanner) {
     bannerToShow = 'coinRename'
+  } else if (isEarnRewardsPromoBannerEnabled) {
+    bannerToShow = 'earnRewards'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {

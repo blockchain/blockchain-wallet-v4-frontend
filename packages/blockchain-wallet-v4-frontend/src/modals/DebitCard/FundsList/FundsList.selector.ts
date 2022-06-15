@@ -5,8 +5,8 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const currentAccountR = selectors.components.debitCard.getCurrentCardAccount(state)
-  return lift((currentAccount: ExtractSuccess<typeof currentAccountR>) => currentAccount)(
-    currentAccountR
+  const eligibleAccountsR = selectors.components.debitCard.getEligibleAccounts(state)
+  return lift((eligibleAccounts: ExtractSuccess<typeof eligibleAccountsR>) => eligibleAccounts)(
+    eligibleAccountsR
   )
 }

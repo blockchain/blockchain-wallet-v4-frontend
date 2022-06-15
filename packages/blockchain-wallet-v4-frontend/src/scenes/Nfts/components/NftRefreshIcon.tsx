@@ -28,7 +28,7 @@ const NftRefreshIcon = (props: Props) => {
 }
 
 type Props = {
-  color: 'blue600' | 'grey600'
+  color: 'blue600' | 'grey700'
   isActive: boolean
   size: 'sm' | 'md' | 'lg'
 }

@@ -1,9 +1,9 @@
-import { NabuErrorProps } from './NabuError.types'
+import { NabuErrorIconProps, NabuErrorProps } from './NabuError.types'
 
 class NabuError extends Error {
   title: string
 
-  icon?: string
+  icon?: NabuErrorIconProps
 
   message: string
 

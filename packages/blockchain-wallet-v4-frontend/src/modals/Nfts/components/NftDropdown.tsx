@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -8,7 +7,7 @@ import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
 const Wrapper = styled.div`
-  border: 1px solid ${(props) => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
 `
 
@@ -24,15 +23,21 @@ const IconWrapper = styled.div`
   display: flex;
 `
 
-const FeesWrapper = styled.div``
+const ChildWrapper = styled.div``
 
-const FeeChild = styled.div`
-  padding: 1em;
-  border-top: 1px solid ${(props) => props.theme.grey100};
+const Child = styled.div<{ hasPadding: boolean }>`
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: ${({ hasPadding }) => (hasPadding ? '1em' : '0')};
 `
 
-const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
-  const [isActive, setIsActive] = useState(false)
+const NftDropdown: React.FC<Props> = ({
+  children,
+  expanded = false,
+  hasPadding = false,
+  title,
+  titleRight
+}) => {
+  const [isActive, setIsActive] = useState(expanded)
   const toggleDropdown = () => {
     setIsActive(!isActive)
   }
@@ -40,12 +45,12 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
   return (
     <Wrapper>
       <Top onClick={toggleDropdown}>
-        <Text weight={500} size='14px'>
-          <FormattedMessage id='copy.total_fees' defaultMessage='Total Fees' />
+        <Text weight={600} size='14px' color='grey900'>
+          {title}
         </Text>
         <Flex alignItems='center' gap={8}>
           <Text weight={600} size='14px'>
-            {totalFees}
+            {titleRight || ''}
           </Text>
           <IconWrapper>
             {!isActive ? (
@@ -60,15 +65,20 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
           </IconWrapper>
         </Flex>
       </Top>
-      <FeesWrapper style={isActive ? {} : { display: 'none' }}>
-        {React.Children.map(children, (child) => (child ? <FeeChild>{child}</FeeChild> : null))}
-      </FeesWrapper>
+      <ChildWrapper style={isActive ? {} : { display: 'none' }}>
+        {React.Children.map(children, (child) =>
+          child ? <Child hasPadding={hasPadding}>{child}</Child> : null
+        )}
+      </ChildWrapper>
     </Wrapper>
   )
 }
 
 type Props = {
-  totalFees: string
+  expanded?: boolean
+  hasPadding?: boolean
+  title?: string
+  titleRight?: string
 }
 
-export default FeesDropdown
+export default NftDropdown

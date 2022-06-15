@@ -20,20 +20,22 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             {numeral(total_supply).format('0,0')}
           </Text>
         </Stat>
-        <Stat
-          onClick={() => {
-            routerActions.push(`/nfts/collection/${slug}`)
-            formActions.change('nftFilter', 'forSale', true)
-          }}
-          style={{ cursor: 'pointer' }}
-        >
-          <Text size='16px' weight={500} color='white'>
-            <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
-          </Text>
-          <Text size='16px' color='white' weight={600}>
-            {stats?.floor_price} ETH
-          </Text>
-        </Stat>
+        {stats?.floor_price ? (
+          <Stat
+            onClick={() => {
+              routerActions.push(`/nfts/collection/${slug}`)
+              formActions.change('nftFilter', 'forSale', true)
+            }}
+            style={{ cursor: 'pointer' }}
+          >
+            <Text size='16px' weight={500} color='white'>
+              <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
+            </Text>
+            <Text size='16px' color='white' weight={600}>
+              {stats?.floor_price} ETH
+            </Text>
+          </Stat>
+        ) : null}
         {/* <Stat>
           <Text size='16px' weight={500} color='grey600'>
             <FormattedMessage id='copy.owners' defaultMessage='Owners' />
@@ -42,14 +44,16 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             {numeral(stats?.num_owners).format('0,0')}
           </Text>
         </Stat> */}
-        <Stat>
-          <Text size='16px' weight={500} color='white'>
-            <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
-          </Text>
-          <Text size='16px' color='white' weight={600}>
-            {numeral(stats?.total_volume).format('0a')} ETH
-          </Text>
-        </Stat>
+        {typeof stats?.total_volume === 'number' ? (
+          <Stat>
+            <Text size='16px' weight={500} color='white'>
+              <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
+            </Text>
+            <Text size='16px' color='white' weight={600}>
+              {numeral(stats?.total_volume).format('0a')} ETH
+            </Text>
+          </Stat>
+        ) : null}
       </StatsWrapper>
     </div>
   )

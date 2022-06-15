@@ -23,6 +23,8 @@ import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
+import NftNotInvited from '../../components/NftNotInvited'
+import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
@@ -38,7 +40,7 @@ const CTA: React.FC<Props> = (props) => {
     openSeaAssetR,
     orderFlow
   } = props
-  const { orderToMatch } = orderFlow
+  const { orderToMatch, userHasPendingTxR } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -47,13 +49,15 @@ const CTA: React.FC<Props> = (props) => {
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
   }
+  const userHasPendingTx = userHasPendingTxR.getOrElse(false)
 
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
+
   if (!orderToMatch) return null
 
-  const disabled = props.orderFlow.isSubmitting || !termsAccepted
+  const disabled = props.orderFlow.isSubmitting || !termsAccepted || userHasPendingTx
 
   if (!isAuthenticated) {
     return (
@@ -81,13 +85,17 @@ const CTA: React.FC<Props> = (props) => {
   }
 
   if (!isInvited) {
+    return <NftNotInvited />
+  }
+
+  if (userHasPendingTx) {
     return (
       <>
-        <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
-          <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
-            <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
-          </Button>
-        </Link>
+        <PendingEthTxMessage />
+        <br />
+        <Button disabled jumbo nature='primary' fullwidth data-e2e='buyNftPendingTx'>
+          <FormattedMessage id='copy.buy_now' defaultMessage='Buy Now' />
+        </Button>
       </>
     )
   }
@@ -123,31 +131,15 @@ const CTA: React.FC<Props> = (props) => {
                       onClick={() =>
                         nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
                       }
-                      style={{ display: 'block', textAlign: 'center', width: '100%' }}
+                      style={{
+                        display: 'block',
+                        marginBottom: '8px',
+                        textAlign: 'center',
+                        width: '100%'
+                      }}
                     >
                       Make an Offer
                     </Link>
-                    <Text
-                      color={colors.grey200}
-                      weight={500}
-                      size='16px'
-                      style={{ padding: '1em 0em', textAlign: 'center' }}
-                    >
-                      <FormattedMessage
-                        id='copy.agree_to_blockchain'
-                        defaultMessage='I agree to Blockchain.com’s'
-                      />
-                      <Link
-                        onClick={acceptTerms}
-                        href='https://www.blockchain.com/legal/terms'
-                        target='_blank'
-                      >
-                        <FormattedMessage
-                          id='copy.terms_of_service'
-                          defaultMessage='Terms of Service'
-                        />
-                      </Link>
-                    </Text>
                     <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
                       <Image
                         width='16px'

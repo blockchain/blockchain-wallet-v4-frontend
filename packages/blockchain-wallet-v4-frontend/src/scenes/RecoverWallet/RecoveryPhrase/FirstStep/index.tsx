@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import TextArea from 'components/Form/TextArea'
+import TextBox from 'components/Form/TextBox'
 import { Analytics, RecoverSteps } from 'data/types'
 import { required } from 'services/forms'
 
@@ -75,11 +75,10 @@ const FirstStep = (props: Props) => {
             bgColor='grey000'
             autoComplete='off'
             autoFocus
-            component={TextArea}
+            component={TextBox}
             disableSpellcheck
             name='mnemonic'
             validate={[required, validMnemonic]}
-            height='96px'
             placeholder='Enter your secret private key recovery phrase'
           />
         </FormBody>

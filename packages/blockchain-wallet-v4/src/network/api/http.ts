@@ -74,8 +74,11 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
       .catch((error) => {
         const errorData = pathOr({}, ['response', 'data'], error)
         const status = path(['response', 'status'], error)
+
         if (typeof errorData === 'string') throw errorData
-        throw merge(errorData, { status })
+        if (typeof status === 'number') throw merge(errorData, { status })
+
+        return Promise.reject(error)
       })
       .then(prop('data'))
   }

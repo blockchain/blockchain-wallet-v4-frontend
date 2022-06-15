@@ -82,7 +82,7 @@ const NftAddress: React.FC<Props> = ({
         <NftBannerWrapper>
           <Flex justifyContent='space-between' alignItems='center'>
             <Text color='white' size='24px' weight={600}>
-              <CryptoAddress>{address}</CryptoAddress>
+              <CryptoAddress canCopy>{address}</CryptoAddress>
             </Text>
             {isOwner ? (
               <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
