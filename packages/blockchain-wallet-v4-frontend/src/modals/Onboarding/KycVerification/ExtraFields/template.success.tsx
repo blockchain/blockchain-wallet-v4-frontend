@@ -358,13 +358,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const RenderTextBoxQuestion = (node: NodeTextType) => {
     const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
     const validations = [required, validFormatCb]
+    const displayInstructions = node.instructions && !!node.instructions.length
     return (
       <FormGroup>
         <QuestionTitle>{node.text}</QuestionTitle>
 
-        {node.instructions && node.instructions !== '' && (
-          <QuestionDescription>{node.instructions}</QuestionDescription>
-        )}
+        {displayInstructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
 
         <FormItem key={node.id} style={{ marginBottom: '10px' }}>
           <Field
@@ -373,7 +372,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             validate={validations}
             component={TextBox}
             placeholder={node.hint}
-            pattern={node.regex ? node.regex : ''}
+            pattern={node.regex || ''}
           />
         </FormItem>
       </FormGroup>
