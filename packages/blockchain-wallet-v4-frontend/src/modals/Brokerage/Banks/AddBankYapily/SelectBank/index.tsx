@@ -6,6 +6,7 @@ import { WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankPartners } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'

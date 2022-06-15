@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { AddBankStepType, OBInstitution } from 'data/types'
+import { AddBankStepType, BankPartners, OBInstitution } from 'data/types'
 
 import {
   BankSearchIcon,
@@ -16,11 +16,14 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 type Props = LinkDispatchPropsType & OwnProps & SuccessStateType
 
 const Success = (props: Props) => {
-  const [banks, setBanks] = useState<OBInstitution[]>(props.bankCredentials.attributes.institutions)
+  const { partner } = props.bankCredentials
+  const institutions =
+    partner === BankPartners.YAPILY ? props.bankCredentials.attributes.institutions : []
+  const [banks, setBanks] = useState<OBInstitution[]>(institutions)
 
   const simpleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    const searchResults = props.bankCredentials.attributes.institutions.filter((bank) =>
+    const searchResults = institutions.filter((bank) =>
       bank.name.toLowerCase().match(value.toLowerCase())
     )
     setBanks(searchResults)

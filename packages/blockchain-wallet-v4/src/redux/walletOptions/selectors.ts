@@ -75,6 +75,10 @@ export const getGooglePayAsNewPaymentMethod = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'googlePayPaymentMethod']))
 
 // send the card to new payment processors feature flag (checkout)
+export const getAddPlaidPaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addPlaidPaymentProvider']))
+
+// send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
 

@@ -30,7 +30,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { OBType } from './types'
+import { BankCredentialsType, OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
@@ -180,15 +180,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchBankLinkCredentials = function* ({
-    payload
+    payload: currency
   }: ReturnType<typeof A.fetchBankLinkCredentials>) {
+    const plaidEnabled = (yield select(
+      selectors.core.walletOptions.getAddPlaidPaymentProvider
+    )).getOrElse(false)
+    const data = {
+      attributes: plaidEnabled
+        ? {
+            supportedPartners: ['PLAID', 'YAPILY']
+          }
+        : undefined,
+      currency
+    }
     try {
       yield put(A.fetchBankLinkCredentialsLoading())
-      const credentials = yield call(api.createBankAccountLink, payload)
-      if (credentials.partner === BankPartners.YODLEE) {
-        yield put(A.setFastLink(credentials))
-      } else if (credentials.partner === BankPartners.YAPILY) {
-        yield put(A.setBankCredentials(credentials))
+      const credentials: BankCredentialsType = yield call(api.createBankAccountLink, data)
+      switch (credentials.partner) {
+        case BankPartners.YODLEE:
+          yield put(A.setFastLink(credentials))
+          break
+        case BankPartners.YAPILY:
+        case BankPartners.PLAID:
+          yield put(A.setBankCredentials(credentials))
+          break
+        default:
+          throw new Error('No available banking partner')
       }
     } catch (e) {
       yield put(A.fetchBankLinkCredentialsError(e.description))

@@ -9,6 +9,7 @@ import { BankTransferAccountType } from 'data/types'
 
 import {
   AddBankStepType,
+  BankCredentialsType,
   BankDetailsPayload,
   BankDWStepType,
   BrokerageAddBankStepPayload,
@@ -16,7 +17,6 @@ import {
   BrokerageModalOriginType,
   BrokerageState,
   FastLinkType,
-  OBType,
   YodleeAccountType
 } from './types'
 
@@ -90,7 +90,7 @@ const brokerageSlice = createSlice({
         state.bankStatus = Remote.Success(action.payload.bankStatus)
       }
     },
-    setBankCredentials: (state, action: PayloadAction<OBType>) => {
+    setBankCredentials: (state, action: PayloadAction<BankCredentialsType>) => {
       state.bankCredentials = Remote.Success(action.payload)
     },
     setBankDetails: (state, action: PayloadAction<BankDetailsPayload>) => {

@@ -169,12 +169,15 @@ export default ({
       url: nabuUrl
     })
 
-  const createBankAccountLink = (currency: WalletCurrencyType) =>
+  const createBankAccountLink = (data: {
+    attributes?: {
+      supportedPartners: string[]
+    }
+    currency: WalletCurrencyType
+  }) =>
     authorizedPost({
       contentType: 'application/json',
-      data: {
-        currency
-      },
+      data,
       endPoint: `/payments/banktransfer`,
       removeDefaultPostData: true,
       url: nabuUrl

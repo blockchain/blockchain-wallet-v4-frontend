@@ -7,6 +7,7 @@ import {
 } from '@core/types'
 
 export enum BankPartners {
+  PLAID = 'PLAID',
   YAPILY = 'YAPILY',
   YODLEE = 'YODLEE'
 }
@@ -16,15 +17,17 @@ export enum OBEntityType {
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
 }
 
-export type FastLinkType = {
-  attributes: {
-    fastlinkParams: {
-      configName: 'Verification'
-    }
-    fastlinkUrl: string
-    token: string
-    tokenExpiresAt: string
+export type YodleeAttributesType = {
+  fastlinkParams: {
+    configName: 'Verification'
   }
+  fastlinkUrl: string
+  token: string
+  tokenExpiresAt: string
+}
+
+export type FastLinkType = {
+  attributes: YodleeAttributesType
   id: string
   partner: BankPartners.YODLEE
 }
@@ -34,6 +37,19 @@ export type OBType = {
   id: string
   partner: BankPartners.YAPILY
 }
+
+export type PlaidAttributesType = {
+  link_token: string
+  tokenExpiresAt: string
+}
+
+export type BankCredentialsType = {
+  id: string
+} & (
+  | { attributes: OBAttributesType; partner: BankPartners.YAPILY }
+  | { attributes: PlaidAttributesType; partner: BankPartners.PLAID }
+  | { attributes: YodleeAttributesType; partner: BankPartners.YODLEE }
+)
 
 interface OBCountryType {
   countryCode2: string
@@ -201,7 +217,7 @@ export type BrokerageState = {
   account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
   addNew: boolean
-  bankCredentials: RemoteDataType<string, OBType>
+  bankCredentials: RemoteDataType<string, BankCredentialsType>
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>

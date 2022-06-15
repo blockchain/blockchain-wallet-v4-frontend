@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
+import { WalletOptionsType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -27,6 +28,17 @@ export const getAddBankStatus = (state: RootState) => state.components.brokerage
 export const getFiatCurrency = (state: RootState) => state.components.brokerage.fiatCurrency
 
 export const getIsFlow = (state: RootState) => state.components.brokerage.isFlow
+
+export const getPlaidWalletHelperLink = createSelector(
+  (state: RootState) => selectors.core.walletOptions.getDomains(state),
+  (domainsR) => {
+    const { walletHelper } = domainsR.getOrElse({
+      walletHelper: 'https://wallet-helper.blockchain.com'
+    } as WalletOptionsType['domains'])
+
+    return `${walletHelper}/plaid`
+  }
+)
 
 export const getCrossBorderLimits = (state: RootState) =>
   state.components.brokerage.crossBorderLimits
