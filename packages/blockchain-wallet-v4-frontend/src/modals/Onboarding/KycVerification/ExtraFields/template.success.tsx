@@ -357,13 +357,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const RenderTextBoxQuestion = (node: NodeTextType) => {
     const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
-
     const validations = [required, validFormatCb]
     return (
       <FormGroup>
         <QuestionTitle>{node.text}</QuestionTitle>
 
-        <QuestionDescription>{node.instructions}</QuestionDescription>
+        {node.instructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
 
         <FormItem key={node.id} style={{ marginBottom: '10px' }}>
           <Field
