@@ -362,7 +362,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <FormGroup>
         <QuestionTitle>{node.text}</QuestionTitle>
 
-        {node.instructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
+        {node.instructions && node.instructions !== '' && (
+          <QuestionDescription>{node.instructions}</QuestionDescription>
+        )}
 
         <FormItem key={node.id} style={{ marginBottom: '10px' }}>
           <Field
