@@ -304,10 +304,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchSupportedCountries = function* () {
+  const fetchSupportedCountries = function* ({ payload }) {
     try {
       yield put(A.setSupportedCountriesLoading())
-      const countries = yield call(api.getSupportedCountries)
+      const { scope } = payload
+      const countries = yield call(api.getSupportedCountries, scope)
       yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
       yield put(A.setSupportedCountriesFailure(e))

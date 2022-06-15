@@ -3,7 +3,7 @@ import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { WalletOptionsType } from '@core/types'
+import { CountryScope, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
 import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
@@ -61,7 +61,9 @@ export default ({ api, coreSagas, networks }) => {
   const LOGIN_FORM = 'login'
 
   const authNabu = function* () {
-    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield put(
+      actions.components.identityVerification.fetchSupportedCountries({ scope: CountryScope.KYC })
+    )
     yield take([
       identityVerificationActions.setSupportedCountriesSuccess.type,
       identityVerificationActions.setSupportedCountriesFailure.type

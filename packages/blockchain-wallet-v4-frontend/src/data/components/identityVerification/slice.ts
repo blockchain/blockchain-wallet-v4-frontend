@@ -49,7 +49,7 @@ const identityVerificationSlice = createSlice({
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
     fetchStates: () => {},
-    fetchSupportedCountries: () => {},
+    fetchSupportedCountries: (state, action: PayloadAction<{ scope?: string }>) => {},
     fetchSupportedDocuments: (state, action: PayloadAction<{ countryCode?: string }>) => {},
 
     getPreIdvData: () => {},

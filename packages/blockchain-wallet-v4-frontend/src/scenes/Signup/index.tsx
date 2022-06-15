@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { RemoteDataType, WalletOptionsType } from '@core/types'
+import { CountryScope, RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -67,7 +67,7 @@ class SignupContainer extends React.PureComponent<
   componentDidMount() {
     const { identityVerificationActions, signupActions, websocketActions } = this.props
     // load countries and states
-    identityVerificationActions.fetchSupportedCountries()
+    identityVerificationActions.fetchSupportedCountries({ scope: CountryScope.SIGNUP })
     identityVerificationActions.fetchStates()
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()

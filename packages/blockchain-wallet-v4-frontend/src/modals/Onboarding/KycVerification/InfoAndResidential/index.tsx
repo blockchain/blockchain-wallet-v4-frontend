@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { ExtractSuccess } from '@core/types'
+import { CountryScope, ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -21,7 +21,7 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   fetchData = () => {
-    this.props.identityVerificationActions.fetchSupportedCountries()
+    this.props.identityVerificationActions.fetchSupportedCountries({ scope: CountryScope.KYC })
     this.props.identityVerificationActions.fetchStates()
   }
 
