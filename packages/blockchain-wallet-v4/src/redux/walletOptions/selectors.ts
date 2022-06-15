@@ -86,10 +86,6 @@ export const getUseNewPaymentProviders = (state: RootState) =>
 export const getFlexiblePricingModel = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
 
-// show/hide wallet connect
-export const getWalletConnectEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
-
 export const getHotWalletAddresses = (state: RootState, product: Product) =>
   getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
 
@@ -132,3 +128,7 @@ export const getNftExplorer = (state: RootState) =>
 // enable/disable BIND integration (AR)
 export const getBindIntegrationArEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
+
+// check for rewards flow under swap Feature Flag
+export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsFlowUnderSwapEnabled']))

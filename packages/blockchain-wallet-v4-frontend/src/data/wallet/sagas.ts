@@ -6,6 +6,7 @@ import { Remote, Types } from '@core'
 import { LEGACY_DERIVATION_TYPE } from '@core/types/HDAccount'
 import { actions, actionTypes, selectors } from 'data'
 import { Analytics } from 'data/analytics/types'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -132,7 +133,7 @@ export default ({ coreSagas }) => {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
-        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
+        actions.modals.showModal(ModalName.UPGRADE_ADDRESS_LABELS_MODAL, {
           duration: addressLabelSize / 20,
           origin: 'LoginSaga'
         })

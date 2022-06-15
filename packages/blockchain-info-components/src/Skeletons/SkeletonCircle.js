@@ -1,22 +1,33 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import Teaser from './Teaser'
 
 const Wrapper = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border-radius: ${(props) => `${parseFloat(props.width) / 2}px`};
-  background-color: ${(props) => props.theme[props.bgColor]};
 `
 
-const SkeletonCircle = (props) => <Wrapper {...props} />
+const SkeletonCircle = (props) => {
+  const ref = useRef()
+  const [width, setWidth] = useState(null)
 
-SkeletonCircle.defaultProps = {
-  bgColor: 'grey000'
+  useEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect()
+      setWidth(rect.width)
+    }
+  }, [width, setWidth])
+
+  return (
+    <Wrapper>
+      <Teaser {...props} borderRadius='50%' />
+    </Wrapper>
+  )
 }
 
 SkeletonCircle.propTypes = {
-  bgColor: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   width: PropTypes.string.isRequired
 }

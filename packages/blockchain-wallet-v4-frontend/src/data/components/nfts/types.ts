@@ -5,6 +5,7 @@ import {
   NftAssetsType,
   NftCollection,
   NftOrder,
+  NftUserPreferencesReturnType,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -76,4 +77,5 @@ export type NftsStateType = {
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
   search: RemoteDataType<string, ExplorerGatewaySearchType>
+  userPreferences: RemoteDataType<string, NftUserPreferencesReturnType>
 }

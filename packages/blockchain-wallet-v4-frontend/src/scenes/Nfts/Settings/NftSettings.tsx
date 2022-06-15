@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { Switch } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { NftUserPreferencesType } from '@core/network/api/nfts/types'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import { RootState } from 'data/rootReducer'
+import { useRemote } from 'hooks'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 import { media } from 'services/styles'
 
@@ -32,17 +36,54 @@ const SettingsOptionsWrapper = styled.div`
   `}
 `
 
-const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActions }) => {
+const DEFAULT_PREFS: NftUserPreferencesType = {
+  auction_expired: null,
+  bid_activity: null,
+  item_sold: null,
+  offer_accepted: null,
+  outbid: null,
+  successful_purchase: null
+}
+
+const NftSettings: React.FC<Props> = ({
+  ethAddress,
+  isAuthenticated,
+  nftUserPreferencesR,
+  nftsActions,
+  routerActions
+}) => {
   const currentAddress = window.location.href.split('/nfts/address/settings/')[1]
-  const [switches, setSwitches] = useState<{ [key in string]?: boolean }>({})
 
-  if (!isAuthenticated) {
-    routerActions.push('/login')
-  }
+  const [switches, setSwitches] = useState<NftUserPreferencesType>(DEFAULT_PREFS)
+  const nftUserPreferences = useRemote(() => nftUserPreferencesR)
+  const stringifiedSwitches = JSON.stringify(switches)
 
-  if (ethAddress.toLowerCase() !== currentAddress?.toLowerCase()) {
-    routerActions.push('/login')
-  }
+  const disabled = nftUserPreferences.isLoading || nftUserPreferences.isNotAsked
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      routerActions.push('/login')
+    }
+
+    if (ethAddress.toLowerCase() !== currentAddress?.toLowerCase()) {
+      routerActions.push('/login')
+    } else {
+      nftsActions.fetchNftUserPreferences()
+    }
+  }, [routerActions, nftsActions, ethAddress, currentAddress, isAuthenticated])
+
+  useEffect(() => {
+    const anyNotNull = !Object.values(switches).every((x) => x === null)
+    if (nftUserPreferences.hasData && anyNotNull) {
+      nftsActions.updateUserPreferences({ userPrefs: switches })
+    }
+  }, [stringifiedSwitches])
+
+  useEffect(() => {
+    if (nftUserPreferences.hasData && nftUserPreferences.data) {
+      setSwitches(nftUserPreferences.data)
+    }
+  }, [nftUserPreferences.hasData, nftUserPreferences.data])
 
   return (
     <div style={{ paddingTop: '0px' }}>
@@ -79,7 +120,8 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.item_sold}
+                    disabled={disabled}
+                    checked={!!switches.item_sold}
                     onClick={() => setSwitches((x) => ({ ...x, item_sold: !x.item_sold }))}
                   />
                 </Flex>
@@ -92,14 +134,17 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                     <Text size='14px' weight={500}>
                       <FormattedMessage
-                        id='copy.when_auction_ended'
+                        id='copy.when_auction_expired'
                         defaultMessage='When a timed auction you created ends'
                       />
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.auction_ended}
-                    onClick={() => setSwitches((x) => ({ ...x, auction_ended: !x.auction_ended }))}
+                    disabled={disabled}
+                    checked={!!switches.auction_expired}
+                    onClick={() =>
+                      setSwitches((x) => ({ ...x, auction_expired: !x.auction_expired }))
+                    }
                   />
                 </Flex>
               </SettingsOption>
@@ -117,7 +162,8 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.bid_activity}
+                    disabled={disabled}
+                    checked={!!switches.bid_activity}
                     onClick={() => setSwitches((x) => ({ ...x, bid_activity: !x.bid_activity }))}
                   />
                 </Flex>
@@ -152,7 +198,8 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.successful_purchase}
+                    disabled={disabled}
+                    checked={!!switches.successful_purchase}
                     onClick={() =>
                       setSwitches((x) => ({ ...x, successful_purchase: !x.successful_purchase }))
                     }
@@ -173,7 +220,8 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.offer_accepted}
+                    disabled={disabled}
+                    checked={!!switches.offer_accepted}
                     onClick={() =>
                       setSwitches((x) => ({ ...x, offer_accepted: !x.offer_accepted }))
                     }
@@ -194,7 +242,8 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
                     </Text>
                   </Flex>
                   <Switch
-                    checked={switches.outbid}
+                    disabled={disabled}
+                    checked={!!switches.outbid}
                     onClick={() => setSwitches((x) => ({ ...x, outbid: !x.outbid }))}
                   />
                 </Flex>
@@ -207,6 +256,12 @@ const NftSettings: React.FC<Props> = ({ ethAddress, isAuthenticated, routerActio
   )
 }
 
-type Props = OwnProps
+const mapStateToProps = (state: RootState) => ({
+  nftUserPreferencesR: state.components.nfts.userPreferences
+})
 
-export default NftSettings
+const connector = connect(mapStateToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(NftSettings)

@@ -12,6 +12,7 @@ import { Button, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -99,7 +100,7 @@ const Explore: React.FC<Props> = (props) => {
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
     : ['nouns', 'mfers', 'superrare']
-  const [randomContract] = useState(Math.floor(Math.random() * 4))
+  const [randomContract] = useState(Math.floor(Math.random() * contracts.length))
   const [assetId, setAssetId] = useState(0)
   const limit = 5
   const [assets] = useAssetsQuery({
@@ -150,7 +151,7 @@ const Explore: React.FC<Props> = (props) => {
     )
   }
   const handleGetFeatured = () => {
-    props.modalActions.showModal('GET_FEATURED', {
+    props.modalActions.showModal(ModalName.GET_FEATURED, {
       closeAllModals: props.modalActions.closeAllModals,
       origin: 'Nfts'
     })
@@ -175,7 +176,7 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
@@ -348,7 +349,11 @@ const Explore: React.FC<Props> = (props) => {
             ) : (
               <CardWrapper style={{ opacity: '50%' }}>
                 <div>
-                  <SkeletonRectangle height='300.35px' width='300.35px' bgColor='white' />
+                  <SkeletonRectangle
+                    height={isMobile || isTablet ? '350px' : '300.35px'}
+                    width={isMobile || isTablet ? '350px' : '300.35px'}
+                    bgColor='white'
+                  />
                 </div>
                 <AssetFooter>
                   <Flex alignItems='center'>
