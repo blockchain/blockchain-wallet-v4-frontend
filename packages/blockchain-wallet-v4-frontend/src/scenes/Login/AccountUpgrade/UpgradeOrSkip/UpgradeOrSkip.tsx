@@ -175,13 +175,10 @@ const UpgradeOrSkip: React.FC<{ formActions: { change: Function } }> = (props) =
         >
           <FormattedMessage
             id='scenes.login.upgrade.upsell.button_2'
-            defaultMessage='I´ll Do This Later'
+            defaultMessage="I'll Do This Later"
           />
         </ButtonLater>
       </Wrapper>
-      <StyledTemporaryButton style={{ margin: '20px 0 0' }} onClick={handleNext} type='button'>
-        Next Step
-      </StyledTemporaryButton>
     </>
   )
 }

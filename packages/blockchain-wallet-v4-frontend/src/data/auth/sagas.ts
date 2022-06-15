@@ -142,6 +142,7 @@ export default ({ api, coreSagas, networks }) => {
         case unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE:
           yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
           yield put(stopSubmit(LOGIN_FORM))
+          finalizeLoginMethod = () => null
           break
         // account merge web
         case unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE:
@@ -161,6 +162,7 @@ export default ({ api, coreSagas, networks }) => {
         case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
           yield put(actions.form.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP))
           yield put(stopSubmit(LOGIN_FORM))
+          finalizeLoginMethod = () => null
           break
         // web - institutional exchange login
         // only institutional users coming from the .com page will have
@@ -181,16 +183,6 @@ export default ({ api, coreSagas, networks }) => {
               },
               status: 'success'
             })
-          break
-        // web - exchange sso login with redirect from deeplink
-        // TODO: this is just for FF off testing on staging
-        // TODO: change this to work for real, where we use
-        // redirect from exchange deeplink into login
-        case typeof redirect === 'string' &&
-          redirect.includes('beta') &&
-          platform === PlatformTypes.WEB:
-          finalizeLoginMethod = () =>
-            window.open(`${redirect}?jwt=${jwtToken}`, '_self', 'noreferrer')
           break
         case typeof exchangeAuthUrl === 'string' && platform === PlatformTypes.WEB:
           finalizeLoginMethod = () =>
