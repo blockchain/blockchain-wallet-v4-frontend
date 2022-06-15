@@ -8,6 +8,7 @@ import {
   IconCloseCircleV2,
   IconFilter
 } from '@blockchain-com/icons'
+import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -338,7 +339,14 @@ const NftFilter: React.FC<Props> = ({
                                   alt='Dapp Logo'
                                   src={collection.image_url || ''}
                                 />
-                              ) : null}
+                              ) : (
+                                <Avatar
+                                  size={24}
+                                  name={collection.slug || ''}
+                                  variant='marble'
+                                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                />
+                              )}
                               <Text
                                 style={{ marginLeft: '4px' }}
                                 size='12px'

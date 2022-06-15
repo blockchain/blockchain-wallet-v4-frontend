@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import Avatar from 'boring-avatars'
 import styled from 'styled-components'
 
 import { Link } from 'blockchain-info-components'
@@ -26,11 +27,21 @@ export const getNameColumn = () => ({
         <LinkContainer to={`/nfts/collection/${values.slug}`}>
           <Link>
             <Flex gap={8}>
-              <NftCollectionImageSmall
-                alt=''
-                isVerified={values.safelist_request_status === 'verified'}
-                src={values.image_url}
-              />
+              {values.image_url ? (
+                <NftCollectionImageSmall
+                  alt=''
+                  isVerified={values.safelist_request_status === 'verified'}
+                  src={values.image_url}
+                />
+              ) : (
+                <Avatar
+                  size={24}
+                  name={values.slug || ''}
+                  variant='marble'
+                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                />
+              )}
+
               <CellText>
                 {isMobile || isTablet
                   ? values.name.length < 14

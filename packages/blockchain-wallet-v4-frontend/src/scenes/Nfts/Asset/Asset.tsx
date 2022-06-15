@@ -5,6 +5,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
+import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -17,7 +18,6 @@ import {
   Icon as BlockchainIcon,
   Image,
   Link,
-  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
   Text
@@ -434,7 +434,12 @@ const NftAsset: React.FC<Props> = ({
                               />
                             ) : (
                               <Flex alignItems='center' flexDirection='row'>
-                                <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                <Avatar
+                                  size={34}
+                                  name={currentAsset.collection.slug || ''}
+                                  variant='marble'
+                                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                />
                               </Flex>
                             )}
                             <Text
@@ -480,7 +485,12 @@ const NftAsset: React.FC<Props> = ({
                                 />
                               ) : (
                                 <Flex alignItems='center' flexDirection='row'>
-                                  <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                  <Avatar
+                                    size={34}
+                                    name={owner.address || ''}
+                                    variant='marble'
+                                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                  />{' '}
                                 </Flex>
                               )}
 

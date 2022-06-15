@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconLink } from '@blockchain-com/icons'
+import Avatar from 'boring-avatars'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -119,11 +120,21 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
         <NftBannerWrapper>
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              <NftCollectionImage
-                alt='Collection'
-                isVerified={collection.safelist_request_status === 'verified'}
-                src={collection.image_url || ''}
-              />
+              {collection.image_url ? (
+                <NftCollectionImage
+                  alt=''
+                  isVerified={collection.safelist_request_status === 'verified'}
+                  src={collection.image_url || ''}
+                />
+              ) : (
+                <Avatar
+                  size={30}
+                  name={collection.slug || ''}
+                  variant='marble'
+                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                />
+              )}
+
               <Text color='white' size='32px' weight={600}>
                 {collection.name}
               </Text>
