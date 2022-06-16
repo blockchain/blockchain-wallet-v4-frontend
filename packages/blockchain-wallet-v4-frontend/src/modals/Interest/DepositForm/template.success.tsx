@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
@@ -147,6 +147,16 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     props.setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DEPOSIT_TRANSFER_CLICKED,
+      properties: {
+        amount: depositAmount,
+        amount_usd: depositAmountFiat,
+        currency: coin,
+        type: fromAccountType
+      }
+    })
+
+    analyticsActions.trackEvent({
       key: Analytics.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED,
       properties: {}
     })
@@ -166,21 +176,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
       }
     })
   }
-
-  const handleConfirmTransfer = useCallback(
-    (e) => {
-      analyticsActions.trackEvent({
-        key: Analytics.WALLET_REWARDS_DEPOSIT_TRANSFER_CLICKED,
-        properties: {
-          amount: Number(e.target.value),
-          amount_usd: depositAmountFiat,
-          currency: coin,
-          type: fromAccountType
-        }
-      })
-    },
-    [coin]
-  )
 
   if (submitting) {
     return (
@@ -631,8 +626,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             height='48px'
             nature='primary'
             type='submit'
-            // @ts-ignore
-            onClick={handleConfirmTransfer}
           >
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage
