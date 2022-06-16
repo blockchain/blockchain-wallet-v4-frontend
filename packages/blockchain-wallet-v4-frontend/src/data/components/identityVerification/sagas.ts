@@ -172,7 +172,9 @@ export default ({ api, coreSagas, networks }) => {
     let addExtraStep = false
     // check extra KYC fields
     const context =
-      origin === 'BuySell' ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT : EXTRA_KYC_CONTEXTS.DEFAULT
+      origin === 'BuySell'
+        ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT
+        : EXTRA_KYC_CONTEXTS.TIER_TWO_VERIFICATION
 
     yield put(actions.components.identityVerification.fetchExtraKYC(context))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
