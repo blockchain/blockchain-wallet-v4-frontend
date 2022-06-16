@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -13,6 +13,7 @@ import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
 
 const ProductPickerContainer: React.FC<Props> = (props) => {
+  const [showExchangeUserConflict, setExchangeUserConflict] = useState(false)
   const walletRedirect = () => {
     props.signupActions.setRegisterEmail(undefined)
     props.routerActions.push('/home')
@@ -22,8 +23,12 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   }
 
   const exchangeRedirect = () => {
-    props.signupActions.setRegisterEmail(undefined)
-    props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
+    if (props.exchangeUserConflict) {
+      setExchangeUserConflict(true)
+    } else {
+      props.signupActions.setRegisterEmail(undefined)
+      props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
+    }
   }
   const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
 
@@ -39,7 +44,7 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
       return null
     },
     Success: () =>
-      props.exchangeUserConflict ? (
+      showExchangeUserConflict ? (
         <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
       ) : (
         <ProductPicker
