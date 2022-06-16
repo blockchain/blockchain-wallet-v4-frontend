@@ -11,6 +11,10 @@
   "background": {
     "service_worker": "background.js"
   },
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
   "icons": {
     "16": "/img/favicons/favicon-16x16.png"
   },

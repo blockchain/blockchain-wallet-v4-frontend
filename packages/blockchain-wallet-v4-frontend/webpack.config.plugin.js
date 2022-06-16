@@ -9,12 +9,7 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
 
-const { devServerConfig, webpackConfig } = webpackBuilder({
-  useDevServer: true,
-  useHMR: true,
-  allowUnsafeStyles: true,
-  allowUnsafeScripts: true,
-})
+const { webpackConfig } = webpackBuilder({})
 
 // evolve base config for plugin mode and HMR
 const pluginWebpackConfig = evolve(
@@ -90,5 +85,4 @@ const pluginWebpackConfig = evolve(
 
 module.exports = {
   ...pluginWebpackConfig,
-  devServer: devServerConfig
 }

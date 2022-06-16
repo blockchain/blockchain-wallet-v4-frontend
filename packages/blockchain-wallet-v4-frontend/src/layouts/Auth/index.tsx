@@ -1,6 +1,7 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { ChromePlugin } from 'plugin/internal'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -73,13 +74,12 @@ const AuthLayoutContainer = ({
   component: Component,
   exact = false,
   formValues,
-  isPlugin,
   pageTitle,
   path,
   platform,
   unified
 }: Props) => {
-  if (!isPlugin) {
+  if (!ChromePlugin.isPlugin()) {
     // lazy load google captcha
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useDefer3rdPartyScript(
@@ -128,7 +128,6 @@ const AuthLayoutContainer = ({
 const mapStateToProps = (state) => ({
   authProduct: selectors.auth.getProduct(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
   platform: selectors.auth.getMagicLinkData(state)?.platform_type,
   unified: selectors.cache.getUnifiedAccountStatus(state)
 })

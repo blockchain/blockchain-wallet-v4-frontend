@@ -89,7 +89,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       middleware: path.resolve(__dirname, 'src/middleware/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
+      utils: path.resolve(__dirname, 'src/utils/'),
+      plugin: path.resolve(__dirname, 'src/plugin/')
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },

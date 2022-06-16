@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import { ChromePlugin } from 'plugin/internal'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
@@ -75,7 +76,6 @@ const App = ({
   coinViewV2,
   history,
   isAuthenticated,
-  isPlugin,
   nftExplorer,
   persistor,
   store,
@@ -90,7 +90,7 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  if (!isPlugin) {
+  if (!ChromePlugin.isPlugin()) {
     // lazy load google tag manager
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
@@ -274,7 +274,6 @@ const mapStateToProps = (state) => ({
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletDebitCardEnabled: selectors.core.walletOptions
