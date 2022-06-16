@@ -6,6 +6,7 @@ export type SDDEligibleType = {
 
 export enum NodeItemTypes {
   MULTIPLE_SELECTION = 'MULTIPLE_SELECTION',
+  OPEN_ENDED = 'OPEN_ENDED',
   SINGLE_SELECTION = 'SINGLE_SELECTION'
 }
 
@@ -33,9 +34,22 @@ type NodeItem = {
 
 export type NodeType = {
   children: Array<NodeItem>
+  hint?: string
   id: string
+  input?: string
   instructions?: string
   isDropdown?: boolean
+  regex?: string
+  text: string
+  type: string
+}
+
+export type NodeTextType = {
+  hint?: string
+  id: string
+  input?: string
+  instructions?: string
+  regex?: string
   text: string
   type: string
 }

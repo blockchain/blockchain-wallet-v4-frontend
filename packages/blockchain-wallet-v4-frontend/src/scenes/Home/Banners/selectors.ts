@@ -26,7 +26,6 @@ export type BannerType =
   | 'coinRename'
   | 'servicePriceUnavailable'
   | 'completeYourProfile'
-  | 'stxAirdropFundsAvailable'
   | 'taxCenter'
   | 'earnRewards'
   | null
@@ -161,7 +160,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   }
 
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
-  const isStxSelfCustodyAvailable = selectors.coins.getStxSelfCustodyAvailablity(state)
 
   // earnRewards
   const interestEligible = selectors.components.interest.getInterestEligible(state).getOrElse({})
@@ -179,10 +177,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'sanctions'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
-  } else if (showSanctionsBanner) {
-    bannerToShow = 'sanctions'
-  } else if (isStxSelfCustodyAvailable) {
-    bannerToShow = 'stxAirdropFundsAvailable'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (
