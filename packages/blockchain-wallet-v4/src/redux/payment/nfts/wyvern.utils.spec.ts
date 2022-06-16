@@ -2,7 +2,7 @@
 import { MockSigner, MockUnhashedOrder } from './__mocks__'
 import { ERC721Schema, schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
-import { _encodeBuy, _encodeReplacementPattern, _encodeSell, _getOrderHash } from './utils'
+import { _encodeBuy, _encodeReplacementPattern, _encodeSell, _getOrderHash } from './wyvern.utils'
 import { WYVERN_MERKLE_VALIDATOR_MAINNET } from './constants'
 
 describe('nft utils', () => {

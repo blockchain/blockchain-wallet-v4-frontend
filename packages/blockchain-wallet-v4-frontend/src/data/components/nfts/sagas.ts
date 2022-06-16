@@ -19,6 +19,7 @@ import {
   getNftSellOrder
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
+import { createBuyOrder } from '@core/redux/payment/nfts/seaport'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -32,7 +33,7 @@ import profileSagas from '../../modules/profile/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
-import { nonTraitFilters } from './utils'
+import { assetFromJSON, nonTraitFilters } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -385,7 +386,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       const guid = yield call(getGuid)
-      const signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
       if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
@@ -404,39 +405,50 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
-      const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
-        getNftBuyOrder,
-        action.payload.asset,
-        signer,
+      const seaport_buy = yield call(createBuyOrder, {
+        accountAddress: signer.address,
         expirationTime,
-        Number(action.payload.amount || '0'),
-        coinfig.type.erc20Address,
-        IS_TESTNET ? 'rinkeby' : 'mainnet'
-      )
-      const gasData = action.payload.offerFees
-      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
-      const retailToken = yield call(generateRetailToken)
-      const order = yield call(fulfillNftOrder, { buy, gasData, signer })
-      yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
-      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
-          properties: {
-            amount,
-            amount_usd,
-            currency: coin,
-            type: 'SUCCESS'
-          }
-        })
-      )
-      yield put(
-        A.fetchOpenSeaAsset({
-          asset_contract_address: action.payload.asset.asset_contract.address,
-          token_id: action.payload.asset.token_id
-        })
-      )
-      yield put(actions.form.reset('nftMakeOffer'))
+        network: IS_TESTNET ? 'rinkeby' : 'mainnet',
+        openseaAsset: assetFromJSON(action.payload.asset),
+        paymentTokenAddress: coinfig.type.erc20Address,
+        quantity: 1,
+        signer,
+        startAmount: action.payload.amount || '0'
+      })
+      console.log(seaport_buy)
+      // const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+      //   getNftBuyOrder,
+      //   action.payload.asset,
+      //   signer,
+      //   expirationTime,
+      //   Number(action.payload.amount || '0'),
+      //   coinfig.type.erc20Address,
+      //   IS_TESTNET ? 'rinkeby' : 'mainnet'
+      // )
+      // const gasData = action.payload.offerFees
+      // yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
+      // const retailToken = yield call(generateRetailToken)
+      // const order = yield call(fulfillNftOrder, { buy, gasData, signer })
+      // yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
+      // yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
+      // yield put(
+      //   actions.analytics.trackEvent({
+      //     key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+      //     properties: {
+      //       amount,
+      //       amount_usd,
+      //       currency: coin,
+      //       type: 'SUCCESS'
+      //     }
+      //   })
+      // )
+      // yield put(
+      //   A.fetchOpenSeaAsset({
+      //     asset_contract_address: action.payload.asset.asset_contract.address,
+      //     token_id: action.payload.asset.token_id
+      //   })
+      // )
+      // yield put(actions.form.reset('nftMakeOffer'))
     } catch (e) {
       let error = errorHandler(e)
       yield put(

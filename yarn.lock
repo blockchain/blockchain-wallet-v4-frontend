@@ -4116,10 +4116,10 @@
   dependencies:
     "@octokit/openapi-types" "^10.6.4"
 
-"@opensea/seaport-js@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@opensea/seaport-js/-/seaport-js-1.0.0.tgz#bcfa983a790f53c6f3b68ea355926543dcfcd823"
-  integrity sha512-Qr1uUDI18f2y5xc1f+6xCTvlzDg4gV4Ql/tH6wqmRXfqtFdmCXtJq/3yrYKd7QW7hEwWR/7x/PD2aGJcqQlCsw==
+"@opensea/seaport-js@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@opensea/seaport-js/-/seaport-js-1.0.1.tgz#9bbf09fe861e191a6ada55b5cab9ce9c5f7af0b9"
+  integrity sha512-tu58z5Tpry8D5hkK+TpSqz2LUSBjpMJLrudJo3bZVYiz5SXv/6bEhvTwZTv3VCALJjvn1qpcoK0HFMPYV1Yg6w==
   dependencies:
     "@0xsequence/multicall" "0.39.0"
     ethers "5.6.7"
