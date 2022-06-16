@@ -18,10 +18,14 @@ import { _getPriceParameters } from './wyvern.utils'
 
 export type BigNumberInput = number | string | BigNumber
 
-const getSeaport = async (signer: ethers.Wallet) => {
-  const network = await signer.provider.getNetwork()
-  const provider = new ethers.providers.JsonRpcProvider(network._defaultProvider)
-  return new Seaport(provider, {
+const getSeaport = (signer: ethers.Wallet) => {
+  // Make seaport think we are a JsonRpcProvider
+  // @ts-ignore
+  signer.getSigner = () => signer
+  // @ts-ignore
+  signer.getNetwork = () => signer.provider.getNetwork()
+  // @ts-ignore
+  return new Seaport(signer, {
     conduitKeyToConduit: CONDUIT_KEYS_TO_CONDUIT,
     overrides: {
       defaultConduitKey: CROSS_CHAIN_DEFAULT_CONDUIT_KEY
@@ -75,6 +79,7 @@ export const createBuyOrder = async ({
     )
 
     const { collectionSellerFee, openseaSellerFee } = await getFees({
+      network,
       openseaAsset,
       paymentTokenAddress,
       startAmount: basePrice.toNumber()

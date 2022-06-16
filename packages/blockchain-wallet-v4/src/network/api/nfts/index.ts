@@ -10,8 +10,8 @@ import {
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
-  // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
-  const nftUrl = `${apiUrl}/nft-market-api/nft`
+  const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
+  // const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}/api/v1`
 
   const getNftUserPreferences = (
@@ -72,7 +72,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const postNftOrder = (
+  const postNftOrderV1 = (
     order: NftOrder,
     asset_collection_slug: string,
     guid: string,
@@ -88,11 +88,31 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
+  const postNftOrderV2 = (order, network: string, side: string) => {
+    const chain = network === 'rinkeby' ? 'rinkeby' : 'ethereum'
+    const sidePath = side === 'ask' ? 'listings' : 'offers'
+
+    return post({
+      contentType: 'application/json',
+      data: {
+        chain,
+        order,
+        protocol: 'seaport',
+        sidePath
+      },
+      endPoint: '/order-v2',
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
+      url: nftUrl
+    })
+  }
+
   return {
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
-    postNftOrder,
+    postNftOrderV1,
+    postNftOrderV2,
     searchNfts,
     setNftUserPreferences
   }
