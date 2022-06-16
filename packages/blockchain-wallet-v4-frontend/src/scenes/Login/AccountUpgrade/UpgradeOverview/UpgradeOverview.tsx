@@ -11,14 +11,13 @@ import { actions } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { UpgradeSteps } from 'data/auth/types'
 
+import BackArrow from '../../components/BackArrow'
 import {
-  BackArrow,
   ButtonNext,
   CenteredTitle,
   Item,
   Items,
   StyledTemporaryButton,
-  SubHeaderWrapper,
   TierDescription,
   TierTitle
 } from '../AccountUpgrade.models'
@@ -26,15 +25,15 @@ import {
 const UpgradeOverview = (props) => {
   const handleNext = () => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.CREATE_WALLET)
 
-  const handlePrev = () =>
+  const handleBackArrow = () =>
     props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OR_SKIP)
 
   return (
     <>
       <Wrapper>
-        <SubHeaderWrapper>
-          <BackArrow onClick={() => null}>
-            {!props.hideBackArrow && (
+        {/* <SubHeaderWrapper> */}
+        <BackArrow handleBack={handleBackArrow} additionalText='Upgrade Accounts' />
+        {/* {!props.hideBackArrow && (
               <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
                 <IconArrowLeft />
               </Icon>
@@ -46,14 +45,14 @@ const UpgradeOverview = (props) => {
           <Text color='blue600' variant='micro'>
             <FormattedMessage
               id='scenes.login.upgrade.next_steps.upgrading_accounts'
-              defaultMessage='Upgrading accounts'
+              defaultMessage='Upgrading Accounts'
             />
-          </Text>
-        </SubHeaderWrapper>
+          </Text> */}
+        {/* </SubHeaderWrapper> */}
         <CenteredTitle color='black' variant='title-3'>
           <FormattedMessage
             id='scenes.login.upgrade.next_steps.header'
-            defaultMessage='What´s Next'
+            defaultMessage="What's Next"
           />
         </CenteredTitle>
         <Items>
@@ -135,9 +134,7 @@ const UpgradeOverview = (props) => {
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </ButtonNext>
       </Wrapper>
-      <StyledTemporaryButton onClick={handlePrev} type='button'>
-        Prev Step
-      </StyledTemporaryButton>
+
       <StyledTemporaryButton onClick={handleNext} type='button'>
         Next Step
       </StyledTemporaryButton>
