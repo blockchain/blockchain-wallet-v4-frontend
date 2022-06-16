@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -16,6 +16,7 @@ import Spacer from 'components/Spacer'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
 
 import { amountToCrypto, amountToFiat } from '../conversions'
@@ -52,6 +53,7 @@ const FORM_NAME = 'interestWithdrawalForm'
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     accountBalances,
+    analyticsActions,
     availToWithdraw,
     coin,
     displayCoin,
@@ -68,6 +70,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     walletCurrency
   } = props
 
+  const accountType = values?.interestWithdrawalAccount.type
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
@@ -101,13 +104,26 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     rates
   )
 
-  const handleOnClickCryptoAmount = () => {
+  const handleOnClickCryptoAmount = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
     formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawCrypto)
-  }
-  const handleOnClickFiatAmount = () => {
+  }, [coin])
+
+  const handleOnClickFiatAmount = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
     formActions.touch(FORM_NAME, 'withdrawalAmount')
     formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawFiat)
-  }
+  }, [coin])
 
   if (!account) return null
 
@@ -117,8 +133,18 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       : false) &&
     !interestEDDStatus?.eddSubmitted &&
     !interestEDDStatus?.eddPassed
+
   const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
+      properties: {
+        amount: withdrawalAmountCrypto,
+        amount_usd: withdrawalAmountFiat,
+        currency: coin,
+        type: accountType === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+      }
+    })
     interestActions.requestWithdrawal({
       coin,
       withdrawalAmountCrypto,
