@@ -43,14 +43,15 @@ const EnterEmailOrGuid = (props: Props) => {
               <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
             </LoginFormLabel>
             <Field
+              autoFocus
               component={TextBox}
               data-e2e='loginGuidOrEmail'
               disableSpellcheck
+              errorBottom
               name='guidOrEmail'
               normalize={removeWhitespace}
               validate={[required, validWalletIdOrEmail]}
               placeholder='Enter Email or Wallet ID'
-              autoFocus
             />
           </FormItem>
           {guidError && (
