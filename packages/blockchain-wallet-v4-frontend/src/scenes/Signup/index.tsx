@@ -85,7 +85,7 @@ class SignupContainer extends React.PureComponent<
     const { country, email, password, state } = formValues
 
     signupActions.register({
-      country,
+      country: country.code,
       email,
       language,
       password,

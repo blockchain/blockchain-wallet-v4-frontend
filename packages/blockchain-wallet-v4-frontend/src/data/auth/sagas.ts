@@ -316,9 +316,7 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
-        // store initial address in case of US state we add prefix
-        const userState = country === 'US' ? `US-${state}` : state
-        yield call(api.setUserInitialAddress, country, userState)
+        yield call(api.setUserInitialAddress, country, state)
         yield call(coreSagas.settings.fetchSettings)
       }
       if (!isAccountReset && !recovery && createExchangeUserFlag) {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { CountryType, GoalsType } from 'data/types'
+import { CountryType, GoalsType, StateType } from 'data/types'
 
 import { Props as OwnProps } from '.'
 
@@ -16,10 +16,10 @@ export type GeoLocationType = {
   ip: string
 }
 export type SignupFormType = {
-  country: string
+  country: CountryType
   email: string
   password: string
-  state: string
+  state: StateType
 }
 export type GoalDataType = Array<{
   data: never
