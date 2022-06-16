@@ -191,7 +191,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           <FormattedMessage id='copy.ending_price' defaultMessage='Ending Price' />
                         </Text>
                         <Field
-                          validate={[endingLessThanStarting]}
+                          validate={[endingLessThanStarting, required]}
                           name='ending'
                           component={NumberBox}
                         />
