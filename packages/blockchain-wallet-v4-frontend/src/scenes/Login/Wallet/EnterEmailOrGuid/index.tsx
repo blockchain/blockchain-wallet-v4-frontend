@@ -27,11 +27,6 @@ const LoginWrapper = styled(Wrapper)`
     padding: 0 0 16px 0;
   `}
 `
-const CustomFormItem = styled(FormItem)`
-  & > div > div:last-child {
-    padding-top: 4px;
-  }
-`
 
 const EnterEmailOrGuid = (props: Props) => {
   const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
@@ -43,7 +38,7 @@ const EnterEmailOrGuid = (props: Props) => {
       <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
       <WrapperWithPadding>
         <FormGroup>
-          <CustomFormItem style={{ marginTop: '40px' }}>
+          <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
               <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
             </LoginFormLabel>
@@ -59,7 +54,7 @@ const EnterEmailOrGuid = (props: Props) => {
               validate={[required, validWalletIdOrEmail]}
               placeholder='Enter Email or Wallet ID'
             />
-          </CustomFormItem>
+          </FormItem>
           {guidError && (
             <GuidError inline>
               <Text size='12px' color='error' weight={400} data-e2e='walletIdError'>

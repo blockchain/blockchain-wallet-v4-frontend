@@ -11,6 +11,7 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: ${(props) => props.height};
+  ${({ errorBottom }) => errorBottom && `padding-bottom: 4px;`}
 `
 const Error = styled(Text)`
   position: absolute;
@@ -19,6 +20,7 @@ const Error = styled(Text)`
   left: ${(props) => (props.errorLeft ? '0' : 'initial')};
   bottom: ${(props) => (props.errorBottom ? '-20px' : 'initial')};
   right: 0;
+  ${({ errorBottom }) => errorBottom && `padding-top: 4px;`}
   height: 15px;
 `
 const WarningIcon = styled(Icon)`
@@ -54,7 +56,7 @@ const TextBox = (field) => {
   const errorState = getErrorState(meta)
 
   return (
-    <Container className={className} height={height}>
+    <Container className={className} height={height} errorBottom={errorBottom}>
       <TextInput
         {...input}
         active={active}
