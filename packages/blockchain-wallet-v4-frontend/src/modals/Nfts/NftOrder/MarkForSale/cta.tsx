@@ -36,20 +36,18 @@ const CTA: React.FC<Props> = ({
       </>
     )
 
-  const disabled = (
-    saleType === 'fixed-price'
+  const disabled =
+    (saleType === 'fixed-price'
       ? // Fixed Price
         !formValues?.fixAmount
       : // Dutch (Declining)
-        formValues?.timedAuctionType === 'decliningPrice'
-  )
-    ? !formValues?.starting || !formValues?.ending || formValues?.ending >= formValues?.starting
-    : // English (Ascending)
-      !formValues.starting ||
-      (formValues.reserve &&
-        formValues.reserve >= formValues.starting &&
-        formValues?.timedAuctionType === 'highestBidder') ||
-      orderFlow.isSubmitting
+      formValues?.timedAuctionType === 'decliningPrice'
+      ? !formValues?.starting || !formValues?.ending || formValues?.ending >= formValues?.starting
+      : // English (Ascending)
+        !formValues.starting ||
+        (formValues.reserve &&
+          formValues.reserve >= formValues.starting &&
+          formValues?.timedAuctionType === 'highestBidder')) || orderFlow.isSubmitting
 
   return (
     <div>

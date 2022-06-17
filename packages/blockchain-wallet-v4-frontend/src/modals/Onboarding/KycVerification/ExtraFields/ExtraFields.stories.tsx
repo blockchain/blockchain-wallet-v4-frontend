@@ -9,6 +9,15 @@ import ExtraFields from './template.success'
 const EXTRA_STEPS_RESPONSE = {
   nodes: [
     {
+      hint: 'CUIL Number',
+      id: 'ARG_CUIL_SET-q1',
+      input: '',
+      instructions: '(Select all that apply)',
+      regex: '^(20|23|27|30|33)([0-9]{9}|-[0-9]{8}-[0-9]{1})$',
+      text: 'CUIL',
+      type: 'OPEN_ENDED'
+    },
+    {
       children: [
         {
           checked: false,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { addMonths, format, startOfMonth } from 'date-fns'
 import { pathOr } from 'ramda'
@@ -9,7 +9,7 @@ import { CoinType, FiatType } from '@core/types'
 import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { InterestStepMetadata } from 'data/types'
+import { Analytics, InterestStepMetadata } from 'data/types'
 
 import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
 import {
@@ -33,6 +33,7 @@ import {
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
+    analyticsActions,
     coin,
     flagEDDInterestFileUpload,
     handleBSClick,
@@ -61,6 +62,25 @@ const AccountSummary: React.FC<Props> = (props) => {
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const pendingInterestStandard = convertBaseToStandard(coin, pendingInterestBase)
+
+  const handleBuyCoin = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DETAIL_BUY_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+    handleBSClick(coin)
+  }, [coin])
+
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DETAIL_VIEWED,
+      properties: {
+        currency: coin
+      }
+    })
+  }, [coin])
 
   return (
     <Wrapper>
@@ -328,7 +348,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               data-e2e='interestDepositBuyButton'
               height='48px'
               nature='empty'
-              onClick={() => handleBSClick(coin)}
+              onClick={handleBuyCoin}
               width='192px'
             >
               <Text size='16px' weight={600} color='blue600'>
