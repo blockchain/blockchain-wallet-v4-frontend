@@ -14,7 +14,7 @@ import {
   OPENSEA_FEE_RECIPIENT_RINKEBY
 } from './constants'
 
-const getAmountWithBasisPointsApplied = (amount: number, basisPoints: number) => {
+const getAmountWithBasisPointsApplied = (amount: string, basisPoints: string) => {
   return makeBigNumber(amount).multipliedBy(basisPoints).dividedBy(INVERSE_BASIS_POINT).toString()
 }
 
@@ -66,7 +66,7 @@ export const getFees = async ({
   network: string
   openseaAsset: OpenSeaAsset
   paymentTokenAddress: string
-  startAmount: number
+  startAmount: string
 }): Promise<{
   collectionBuyerFee?: ConsiderationInputItem
   collectionSellerFee?: ConsiderationInputItem
@@ -89,8 +89,11 @@ export const getFees = async ({
 
   const getConsiderationItem = (basisPoints: number, recipient?: string) => {
     return {
-      amount: getAmountWithBasisPointsApplied(startAmount, basisPoints),
-      endAmount: getAmountWithBasisPointsApplied(endAmount ?? startAmount, basisPoints),
+      amount: getAmountWithBasisPointsApplied(startAmount, basisPoints.toString()),
+      endAmount: getAmountWithBasisPointsApplied(
+        endAmount?.toString() ?? startAmount.toString(),
+        basisPoints.toString()
+      ),
       recipient,
       token: paymentTokenAddress
     }

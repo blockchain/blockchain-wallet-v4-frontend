@@ -210,7 +210,15 @@ const CTA: React.FC<Props> = ({
                         </div>
                       </>
                     ) : (
-                      <>{orderFlow.status}</>
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage={
+                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                        }
+                        values={{
+                          val: `${formValues.amount} ${formValues.coin}`
+                        }}
+                      />
                     ))}
                 </>
               ) : (

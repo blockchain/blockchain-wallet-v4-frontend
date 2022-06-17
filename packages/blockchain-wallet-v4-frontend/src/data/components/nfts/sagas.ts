@@ -406,6 +406,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const seaportOrder = yield call(createBuyOrder, {
         accountAddress: signer.address,
         expirationTime,
@@ -416,7 +417,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         signer,
         startAmount: action.payload.amount || '0'
       })
-      console.log(seaportOrder)
       yield call(api.postNftOrderV2, seaportOrder, network, 'bid')
       // const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
       //   getNftBuyOrder,
@@ -428,7 +428,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       //   IS_TESTNET ? 'rinkeby' : 'mainnet'
       // )
       // const gasData = action.payload.offerFees
-      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       // const retailToken = yield call(generateRetailToken)
       // const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       // yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)

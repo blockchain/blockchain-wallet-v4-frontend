@@ -10,6 +10,7 @@ import {
   CONDUIT_KEYS_TO_CONDUIT,
   CROSS_CHAIN_DEFAULT_CONDUIT_KEY,
   DEFAULT_ZONE,
+  DEFAULT_ZONE_RINKEBY,
   WETH_CONTRACT_MAINNET,
   WETH_CONTRACT_RINKEBY
 } from './constants'
@@ -66,8 +67,10 @@ export const createBuyOrder = async ({
     if (!openseaAsset.tokenId) {
       throw new Error('Asset must have a tokenId')
     }
-    paymentTokenAddress =
-      paymentTokenAddress || network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+
+    if (!paymentTokenAddress) {
+      paymentTokenAddress = network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+    }
 
     const considerationAssetItems = getAssetItems([openseaAsset], [makeBigNumber(quantity)])
 
@@ -82,7 +85,7 @@ export const createBuyOrder = async ({
       network,
       openseaAsset,
       paymentTokenAddress,
-      startAmount: basePrice.toNumber()
+      startAmount: basePrice.toString()
     })
     const considerationFeeItems = [openseaSellerFee, collectionSellerFee].filter(
       (item): item is ConsiderationInputItem => item !== undefined
@@ -91,6 +94,7 @@ export const createBuyOrder = async ({
     const seaport = getSeaport(signer)
     const { executeAllActions } = await seaport.createOrder(
       {
+        allowPartialFills: false,
         consideration: [...considerationAssetItems, ...considerationFeeItems],
         endTime: expirationTime?.toString() ?? getMaxOrderExpirationTimestamp().toString(),
         offer: [
@@ -99,7 +103,8 @@ export const createBuyOrder = async ({
             token: paymentTokenAddress
           }
         ],
-        zone: DEFAULT_ZONE
+        restrictedByZone: true,
+        zone: network === 'rinkeby' ? DEFAULT_ZONE_RINKEBY : DEFAULT_ZONE
       },
       accountAddress
     )
