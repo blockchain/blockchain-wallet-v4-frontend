@@ -17,10 +17,9 @@ import { CustomLink, MoreAssets, MoreAssetsWrapper } from '.'
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   const limit = 5
   const offset = useMemo(
-    () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 20) - limit)),
+    () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 0) - limit)),
     [asset]
   )
-
   const [assets] = useAssetsQuery({
     variables: {
       filter: [
