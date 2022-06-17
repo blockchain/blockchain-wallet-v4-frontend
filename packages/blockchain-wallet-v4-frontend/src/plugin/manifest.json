@@ -12,8 +12,7 @@
     "service_worker": "background.js"
   },
   "permissions": [
-    "storage",
-    "unlimitedStorage"
+    "storage"
   ],
   "icons": {
     "16": "/img/favicons/favicon-16x16.png"
