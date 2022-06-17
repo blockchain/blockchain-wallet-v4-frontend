@@ -209,7 +209,8 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const isOwner = false
+  const isOwner =
+    openSeaAsset.data?.ownership?.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
 
   const owner = isOwner ? defaultEthAddr : openSeaAsset.data?.owner?.address
   const collectionName = currentAsset?.collection?.name || ''
