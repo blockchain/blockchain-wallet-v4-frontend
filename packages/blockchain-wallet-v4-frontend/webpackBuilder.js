@@ -72,9 +72,9 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
+    chunkFilename: '[name].[chunkhash:8].js',
     crossOriginLoading: 'anonymous',
     filename: '[name].[fullhash:8].js',
-    chunkFilename: '[name].[chunkhash:8].js',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
   },
@@ -87,10 +87,10 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       middleware: path.resolve(__dirname, 'src/middleware/'),
+      plugin: path.resolve(__dirname, 'src/plugin/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
       utils: path.resolve(__dirname, 'src/utils/'),
-      plugin: path.resolve(__dirname, 'src/plugin/')
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },

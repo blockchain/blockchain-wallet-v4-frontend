@@ -27,10 +27,10 @@
       "hooks": ["blockchain-wallet-v4-frontend/src/hooks"],
       "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
       "middleware/*": ["blockchain-wallet-v4-frontend/src/middleware/*"],
+      "plugin/*": ["blockchain-wallet-v4-frontend/src/plugin/*"],
       "providers/*": ["blockchain-wallet-v4-frontend/src/providers/*"],
       "services/*": ["blockchain-wallet-v4-frontend/src/services/*"],
-      "utils/*": ["blockchain-wallet-v4-frontend/src/utils/*"],
-      "plugin/*": ["blockchain-wallet-v4-frontend/src/plugin/*"]
+      "utils/*": ["blockchain-wallet-v4-frontend/src/utils/*"]
     }
   },
   "include": [

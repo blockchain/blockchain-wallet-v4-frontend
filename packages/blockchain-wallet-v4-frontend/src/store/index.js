@@ -18,7 +18,7 @@ import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 import { isBrowserSupported } from 'services/browser'
 import { createNabuErrorFulfilledInterceptor, createNabuErrorRejectedInterceptor } from "services/errors/NabuError"
-import { ChromePlugin } from 'plugin/internal'
+import { AbstractPlugin } from 'plugin/internal'
 
 import {
   analyticsMiddleware,
@@ -141,7 +141,7 @@ const configuredStore = async function () {
       persistCombineReducers(
         {
           key: 'root',
-          storage: ChromePlugin.isPlugin() ? localStorage : storage,
+          storage: AbstractPlugin.isPlugin() ? localStorage : storage,
           whitelist: persistWhitelist
         },
         {

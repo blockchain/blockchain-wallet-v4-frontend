@@ -1,5 +1,4 @@
 const { compose, evolve, adjust, set, lensProp } = require('ramda')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
@@ -63,11 +62,6 @@ const pluginWebpackConfig = evolve(
         prefix: 'img/favicons/',
         icons: {
           favicons: true,
-        }
-      }),
-      new ForkTsCheckerWebpackPlugin({
-        typescript: {
-          configFile: CONFIG_PATH.tsConfig
         }
       }),
     ],

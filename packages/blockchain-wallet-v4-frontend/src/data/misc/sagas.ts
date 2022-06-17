@@ -1,4 +1,4 @@
-import { ChromePlugin } from 'plugin/internal'
+import { AbstractPlugin } from 'plugin/internal'
 import { call, delay, put, select } from 'redux-saga/effects'
 import Cookies from 'universal-cookie'
 
@@ -84,7 +84,7 @@ export default () => {
   }
 
   const generateCaptchaToken = function* (actionName) {
-    if (ChromePlugin.isPlugin()) {
+    if (AbstractPlugin.isPlugin()) {
       return ''
     }
 
