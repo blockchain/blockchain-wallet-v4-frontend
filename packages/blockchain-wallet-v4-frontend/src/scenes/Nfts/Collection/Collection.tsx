@@ -45,6 +45,8 @@ const LinksContainer = styled.div`
   display: flex;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
+  width: 34px;
+  justify-content: center;
   > a {
     display: flex;
     align-items: center;
@@ -77,11 +79,11 @@ const LinksContainer = styled.div`
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
+  const isTablet = useMedia('tablet')
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
-  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
@@ -120,7 +122,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
               <NftCollectionImage
-                alt='Collection'
+                alt=''
                 isVerified={collection.safelist_request_status === 'verified'}
                 src={collection.image_url || ''}
               />
