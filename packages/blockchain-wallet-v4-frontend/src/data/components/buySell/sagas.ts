@@ -46,6 +46,7 @@ import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
+import { OBType } from '../brokerage/types'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
@@ -1445,10 +1446,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
       case BSPaymentTypes.LINK_BANK:
+        // FIXME: need to fetch fast link too???
+        yield put(
+          actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType)
+        )
+        const { bankCredentials, fastLink } = yield race({
+          bankCredentials: take(actions.components.brokerage.setBankCredentials.type),
+          fastLink: take(actions.components.brokerage.setFastLink.type)
+        })
+
+        let modalType: ModalName
+        switch (true) {
+          case bankCredentials && bankCredentials.payload.partner === 'YAPILY':
+            modalType = ModalName.ADD_BANK_YAPILY_MODAL
+            break
+          case bankCredentials && bankCredentials.payload.partner === 'PLAID':
+            modalType = ModalName.ADD_BANK_PLAID_MODAL
+            break
+          case fastLink: // YODLEE
+          default:
+            modalType = ModalName.ADD_BANK_YODLEE_MODAL
+            break
+        }
         yield put(
           actions.components.brokerage.showModal({
             isFlow,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            modalType,
             origin: BrokerageModalOriginType.ADD_BANK_BUY
           })
         )

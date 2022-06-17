@@ -36,7 +36,7 @@ export const getPlaidWalletHelperLink = createSelector(
       walletHelper: 'https://wallet-helper.blockchain.com'
     } as WalletOptionsType['domains'])
 
-    return `${walletHelper}/plaid`
+    return `${walletHelper}/wallet-helper/plaid`
   }
 )
 

@@ -33,7 +33,7 @@
       },
       "featureFlags": {
         "addCheckoutPaymentProvider": true,
-        "addPlaidPaymentProvider": false,
+        "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": false,
