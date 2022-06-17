@@ -171,12 +171,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   height: 300px;
   display: flex;
   justify-content: space-between;
-  background-size: cover;
-  background-position: center;
-  background-image: ${(props) =>
-    props.bgUrl
-      ? `url(${props.bgUrl})`
-      : 'linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'};
+  background: center ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : colors.blue700)};
   position: relative;
   ${media.tablet`
     flex-direction: column;
