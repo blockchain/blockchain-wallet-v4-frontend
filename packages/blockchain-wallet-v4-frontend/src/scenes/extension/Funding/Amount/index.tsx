@@ -1,7 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import { IconChevronDown } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
+import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { Text } from 'blockchain-info-components'
 
 import { Continue, FundingHeading, ListItemContent } from '../SelectAccount'
@@ -45,51 +47,55 @@ const AmountCurrency = styled.span`
   white-space: nowrap;
 `
 const ExchangedValue = styled.div`
-  text-align: center;
   margin-bottom: 90px;
+  text-transform: uppercase;
+  text-align: center;
   color: #98a1b2;
 `
+class CurrencyAmounts {
+  public eth: number
 
-enum CurrencyExchangeLabel {
-  'ETH' = 'USD',
-  'USD' = 'ETH'
-}
+  public usd: number
 
-/** TODO: remove after connection to api */
-class MockGasFee {
-  public label: string
-
-  public eth: string
-
-  public usd: string
-
-  constructor(label, eth, usd) {
-    this.label = label
+  constructor(eth = 0, usd = 0) {
     this.eth = eth
     this.usd = usd
   }
 }
 
-export const Amount = () => {
-  const [fundingAmount, setFundingAmount] = useState<string>('0')
-  const [fundingCurrency, setFundingCurrency] = useState<string>('USD')
-  const MOCK_CURRENCY_MULTIPLIER = 2400
+enum Currencies {
+  'eth' = 'usd',
+  'usd' = 'eth'
+}
 
-  const mockedFees = [
-    new MockGasFee('Gas Fee', '5.3655 ETH', '5.3655 USD'),
-    new MockGasFee('Total', '5.3655 ETH', '5.3655 USD')
-  ]
+export const Amount = (props) => {
+  const [fundingAmount, setFundingAmount] = useState<string>('0')
+  const [currencyAmounts, setCurrencyAmounts] = useState(new CurrencyAmounts())
+  const [fundingCurrency, setFundingCurrency] = useState<string>('usd')
+  const {
+    rate: {
+      data: { price }
+    }
+  } = props
 
   const changeCurrency = () => {
-    setFundingCurrency(CurrencyExchangeLabel[fundingCurrency])
+    setFundingCurrency(Currencies[fundingCurrency])
   }
 
   const exchangeCurrency = () => {
-    if (fundingCurrency === 'USD') {
-      return `${Number(fundingAmount) / MOCK_CURRENCY_MULTIPLIER} ETH`
+    if (fundingCurrency === Currencies.eth) {
+      return +(Number(fundingAmount) / price).toFixed(4)
     }
-    return `${Number(fundingAmount) * MOCK_CURRENCY_MULTIPLIER} USD`
+    return +(Number(fundingAmount) * price).toFixed(4)
   }
+
+  useEffect(() => {
+    setCurrencyAmounts((currencies: CurrencyAmounts) => {
+      currencies[fundingCurrency] = fundingAmount
+      currencies[Currencies[fundingCurrency]] = exchangeCurrency()
+      return { ...currencies }
+    })
+  }, [fundingAmount])
 
   return (
     <>
@@ -100,26 +106,36 @@ export const Amount = () => {
           value={fundingAmount}
           onChange={(e) => setFundingAmount(e.target.value)}
         />
-        <AmountCurrency onClick={changeCurrency}>
+        <AmountCurrency onClick={changeCurrency} style={{ textTransform: 'uppercase' }}>
           {`${fundingCurrency} `}
           <IconChevronDown />
         </AmountCurrency>
       </AmountInputWrapper>
-      <ExchangedValue>{exchangeCurrency()}</ExchangedValue>
-      {mockedFees.map((gasFee: MockGasFee) => (
-        <ListItemContent style={{ margin: '30px 0' }} key={gasFee.label}>
-          <Text size='16px' lineHeight='24px' color='#fff'>
-            {gasFee.label}
-          </Text>
-          <Text size='16px' lineHeight='24px' color='#fff' style={{ textAlign: 'right' }}>
-            {gasFee.eth}
-          </Text>
-          <Text />
-          <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
-            {gasFee.usd}
-          </Text>
-        </ListItemContent>
-      ))}
+      <ExchangedValue>{`${exchangeCurrency()} ${Currencies[fundingCurrency]}`}</ExchangedValue>
+      <ListItemContent style={{ margin: '30px 0' }}>
+        <Text size='16px' lineHeight='24px' color='#fff'>
+          Gas Fee
+        </Text>
+        <Text size='16px' lineHeight='24px' color='#fff' style={{ textAlign: 'right' }}>
+          {`${0.0001} ETH`}
+        </Text>
+        <Text />
+        <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
+          {`${2} USD`}
+        </Text>
+      </ListItemContent>
+      <ListItemContent style={{ margin: '30px 0' }}>
+        <Text size='16px' lineHeight='24px' color='#fff'>
+          Total
+        </Text>
+        <Text size='16px' lineHeight='24px' color='#fff' style={{ textAlign: 'right' }}>
+          {`${currencyAmounts.eth} ETH`}
+        </Text>
+        <Text />
+        <Text size='14px' lineHeight='20px' style={{ textAlign: 'right' }}>
+          {`${currencyAmounts.usd} USD`}
+        </Text>
+      </ListItemContent>
       <div style={{ display: 'flex' }}>
         <Continue
           to='/extension/funding/select-account'
@@ -132,3 +148,9 @@ export const Amount = () => {
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  rate: getRatesSelector('ETH', state)
+})
+
+export default connect(mapStateToProps, null)(Amount)

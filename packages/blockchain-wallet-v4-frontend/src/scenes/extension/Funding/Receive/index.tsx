@@ -1,27 +1,40 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Button } from '@blockchain-com/constellation'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-import { FundingHeading } from '../SelectAccount'
+import { RootState } from '../../../../data/rootReducer'
+
+export const ReceiveHeading = styled(Text)`
+  font-size: 20px;
+  margin: 34px 0 12px;
+  color: white;
+`
+const QrCodeWrapper = styled.div`
+  margin: 46px 0 40px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+`
 
 const WalletAddressWrapper = styled.div`
-  margin: 53px 0 40px;
-  padding: 19px 25px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 16px;
   flex-wrap: nowrap;
-  background: #20242c;
-  border-radius: 16px;
 `
 const WalletAddress = styled(Text)`
-  font-size: 14px;
+  font-size: 16px;
   line-height: 21px;
   font-weight: 500;
+  color: white;
   overflow-wrap: anywhere;
 `
 
@@ -31,50 +44,67 @@ const CopyButton = styled(Button)`
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  background: #65a5ff;
+  background: #0c6cf2;
   border: none;
   border-radius: 8px;
   cursor: copy;
 `
-
-const QrCodeWrapper = styled.div`
-  margin-bottom: 20px;
+const GoBackWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  border-color: #2c3038;
-  border-style: solid;
-  border-width: 0.5px 0;
+  align-items: flex-end;
+  flex-grow: 1;
+`
+const GoBack = styled(Link)`
+  width: 100%;
+  padding: 16px;
+  background: #0c6cf2;
+  border-radius: 8px;
+  color: #0e121b;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-decoration: none;
+  cursor: pointer;
+`
+const InlineLink = styled.a`
+  color: #0c6cf2;
+  text-decoration: none;
 `
 
 export const Receive = () => {
-  const [walletAddress, setWalletAddress] = useState<string>(
-    '0xF351db55d029F4A56E744afE1adA81dad4284c1D'
-  )
+  // @ts-ignore
+  const address = useSelector((state: RootState) => state.dataPath.eth.addresses.data)
   const [isCoppied, setIsCoppied] = useState<boolean>(false)
 
   /** Copies wallet addres into clipboard */
   const copyAddress = () => {
-    navigator.clipboard.writeText(walletAddress)
+    navigator.clipboard.writeText(Object.keys(address)[0])
     setIsCoppied(true)
   }
 
   return (
     <>
-      <FundingHeading>Receive tokens and NFTs</FundingHeading>
-      <WalletAddressWrapper>
-        <WalletAddress>{walletAddress}</WalletAddress>
-        <CopyButton onClick={copyAddress}>{isCoppied ? 'Coppied' : 'Copy'}</CopyButton>
-      </WalletAddressWrapper>
+      <ReceiveHeading>Receive</ReceiveHeading>
+      <Text size='14px' weight={500} lineHeight='21px'>
+        This wallet supports tokens and NFTs
+      </Text>
       <QrCodeWrapper>
-        <QRCodeReact value={walletAddress} size={85} />
+        <QRCodeReact value={Object.keys(address)[0]} size={104} />
+        <WalletAddressWrapper>
+          <WalletAddress>{Object.keys(address)[0]}</WalletAddress>
+          <CopyButton onClick={copyAddress}>{isCoppied ? 'Coppied' : 'Copy'}</CopyButton>
+        </WalletAddressWrapper>
       </QrCodeWrapper>
       <Text size='12px' lineHeight='18px' weight={500}>
-        By depositing tokens to this address, you agree to our terms of service. Depositing tokens
-        other than ETH to this address may result in your funds being lost. See all compatible
-        tokens with this wallet.
+        By depositing tokens to this address, you agree to our{' '}
+        <InlineLink href=''>terms of service</InlineLink>. Depositing tokens other than ETH to this
+        address may result in your funds being lost. See all{' '}
+        <InlineLink href=''>compatible tokens</InlineLink> with this wallet.
       </Text>
+      <GoBackWrapper>
+        <GoBack to='/extension/home'>Go back</GoBack>
+      </GoBackWrapper>
     </>
   )
 }

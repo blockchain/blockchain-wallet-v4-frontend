@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
-import { Button, Icon } from '@blockchain-com/constellation'
+import { Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Amount } from './Amount'
 import { Receive } from './Receive'
-import { SelectAccount } from './SelectAccount'
-import { Success } from './Success'
 
 export const FundingWrapper = styled.section`
   display: flex;
@@ -25,16 +22,13 @@ export const Funding = (props) => {
 
   return (
     <FundingWrapper>
-      <Link to={`${path}/select-account`}>
+      <Link to='/extension/home'>
         <Icon color='white060' label='IconActivity' size='md'>
           <IconArrowLeft />
         </Icon>
       </Link>
       <Switch>
-        <Route path={`${path}/select-account`} component={SelectAccount} />
-        <Route path={`${path}/amount`} component={Amount} />
-        <Route path={`${path}/success`} component={Success} />
-        <Route path={`${path}/receive`} component={Receive} />
+        <Route path={`${path}/`} component={Receive} />
       </Switch>
     </FundingWrapper>
   )
