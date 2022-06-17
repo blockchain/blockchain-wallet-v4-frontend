@@ -26,6 +26,7 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+import BackArrow from '../../components/BackArrow'
 import ScreenHeader from '../../components/ScreenHeader'
 import { StyledTemporaryButton } from '../AccountUpgrade.models'
 
@@ -38,9 +39,14 @@ const validatePasswordConfirmation = validPasswordConfirmation('upgradePassword'
 
 const CreateWallet = (props) => {
   const passwordValue = props.formValues?.upgradePassword || ''
+
+  const handleBackArrow = () =>
+    props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)
+
   return (
     <>
       <Wrapper>
+        <BackArrow handleBack={handleBackArrow} additionalText='Step 1 of 3' />
         <ScreenHeader
           title={
             <FormattedMessage
@@ -135,26 +141,15 @@ const CreateWallet = (props) => {
         </FormGroup>
 
         <Button
+          type='submit'
           nature='primary'
           data-e2e='createWalletUpgradeAccount'
           fullwidth
           height='48px'
-          onClick={() =>
-            props.signupActions.createWalletForExchangeAccountUpgrade({
-              captchaToken: '',
-              password: 'blockchain'
-            })
-          }
         >
           Next
         </Button>
       </Wrapper>
-      <StyledTemporaryButton
-        onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_OVERVIEW)}
-        type='button'
-      >
-        Prev Step
-      </StyledTemporaryButton>
       <StyledTemporaryButton
         onClick={() =>
           props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.ERROR_WALLET_CREATION)

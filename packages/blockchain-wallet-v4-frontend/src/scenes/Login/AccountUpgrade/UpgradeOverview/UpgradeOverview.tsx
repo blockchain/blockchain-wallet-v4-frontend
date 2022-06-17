@@ -31,24 +31,7 @@ const UpgradeOverview = (props) => {
   return (
     <>
       <Wrapper>
-        {/* <SubHeaderWrapper> */}
         <BackArrow handleBack={handleBackArrow} additionalText='Upgrade Accounts' />
-        {/* {!props.hideBackArrow && (
-              <Icon data-e2e='upgradeBack' label='back' size='md' color='blue600'>
-                <IconArrowLeft />
-              </Icon>
-            )}
-            <Text color='grey900' variant='paragraph-1'>
-              <FormattedMessage id='copy.back' defaultMessage='Back' />
-            </Text>
-          </BackArrow>
-          <Text color='blue600' variant='micro'>
-            <FormattedMessage
-              id='scenes.login.upgrade.next_steps.upgrading_accounts'
-              defaultMessage='Upgrading Accounts'
-            />
-          </Text> */}
-        {/* </SubHeaderWrapper> */}
         <CenteredTitle color='black' variant='title-3'>
           <FormattedMessage
             id='scenes.login.upgrade.next_steps.header'

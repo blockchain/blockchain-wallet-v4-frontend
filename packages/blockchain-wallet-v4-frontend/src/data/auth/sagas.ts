@@ -893,71 +893,74 @@ export default ({ api, coreSagas, networks }) => {
       if (auth && authType !== 1) {
         auth = auth.toUpperCase()
       }
-      // CHECKS FORM STEP TO SEE IF WE WANT TO TRIGGER THE VERIFICATION LINK
-      if (step === LoginSteps.ENTER_EMAIL_GUID || step === LoginSteps.CHECK_EMAIL) {
-        // If it's a guid, we take them to the enter mobile verification step
-        if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
-          yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        } else if (product === ProductAuthOptions.EXCHANGE) {
-          // trigger email for exchange form
-          yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
-          yield put(actions.auth.triggerWalletMagicLink({ email: exchangeEmail }))
-        } else {
-          // trigger email from wallet form
-          yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
-          yield put(actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail }))
-        }
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.LOGIN_IDENTIFIER_ENTERED,
-            properties: {
-              identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
-              site_redirect: product,
-              unified
-            }
-          })
-        )
-      } else if (
-        step === LoginSteps.ENTER_PASSWORD_WALLET ||
-        (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
-      ) {
-        yield put(
-          actions.auth.login({
-            code: auth,
-            guid,
-            mobileLogin: null,
-            password,
-            sharedKey: null
-          })
-        )
-      } else if (
-        (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
-        userType !== AuthUserType.INSTITUTIONAL
-      ) {
-        // exchange login but it is a unified account
-        // so it's using wallet login under the hood
-        // create a new saga that logs into the wallet and retrieves
-        // the jwt token underneath
-        yield put(
-          actions.auth.login({
-            code: auth,
-            guid: exchangeUnifiedGuid,
-            mobileLogin: null,
-            password: exchangePassword,
-            sharedKey: null
-          })
-        )
-      } else {
-        // User only has an exchange account to far, and they're 'upgrading'
-        // i.e. creating a new wallet and merging it to their exchange account
-        yield put(
-          actions.auth.exchangeLogin({
-            code: exchangeTwoFA,
-            password: exchangePassword,
-            username: exchangeEmail
-          })
-        )
+      switch (true) {
+        case step === LoginSteps.ENTER_EMAIL_GUID || step === LoginSteps.CHECK_EMAIL:
+          // If it's a guid, we take them to the enter mobile verification step
+          if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
+            yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
+            yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          } else if (product === ProductAuthOptions.EXCHANGE) {
+            // trigger email for exchange form
+            yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
+            yield put(actions.auth.triggerWalletMagicLink({ email: exchangeEmail }))
+          } else {
+            // trigger email from wallet form
+            yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
+            yield put(actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail }))
+          }
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.LOGIN_IDENTIFIER_ENTERED,
+              properties: {
+                identifier_type: isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL',
+                site_redirect: product,
+                unified
+              }
+            })
+          )
+          break
+        case step === LoginSteps.ENTER_PASSWORD_WALLET ||
+          (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET):
+          yield put(
+            actions.auth.login({
+              code: auth,
+              guid,
+              mobileLogin: null,
+              password,
+              sharedKey: null
+            })
+          )
+          break
+        case step === UpgradeSteps.CREATE_WALLET:
+          yield put(actions.signup.createWalletForExchangeAccountUpgrade())
+          break
+        case (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
+          userType !== AuthUserType.INSTITUTIONAL:
+          // exchange login but it is a unified account
+          // so it's using wallet login under the hood
+          // create a new saga that logs into the wallet and retrieves
+          // the jwt token underneath
+          yield put(
+            actions.auth.login({
+              code: auth,
+              guid: exchangeUnifiedGuid,
+              mobileLogin: null,
+              password: exchangePassword,
+              sharedKey: null
+            })
+          )
+          break
+        default:
+          // User only has an exchange account to far, and they're 'upgrading'
+          // i.e. creating a new wallet and merging it to their exchange account
+          yield put(
+            actions.auth.exchangeLogin({
+              code: exchangeTwoFA,
+              password: exchangePassword,
+              username: exchangeEmail
+            })
+          )
+          break
       }
     } catch (e) {
       // TODO add catch error state

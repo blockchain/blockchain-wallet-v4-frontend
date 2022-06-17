@@ -1,3 +1,4 @@
+import { startSubmit, stopSubmit } from 'redux-form'
 import { call, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
@@ -67,15 +68,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const createWalletForExchangeAccountUpgrade = function* (action) {
-    // TODO: start some sort of form submit so state is loading
+  const createWalletForExchangeAccountUpgrade = function* () {
+    yield put(startSubmit(LOGIN_FORM))
+
     try {
-      const { captchaToken, password } = action.payload
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.UPGRADE_ACCOUNT)
+      const { upgradePassword } = yield select(selectors.form.getFormValues(LOGIN_FORM))
       const magicLinkData = yield select(selectors.auth.getMagicLinkData)
       const { email } = magicLinkData.exchange
       const language = yield select(selectors.preferences.getLanguage)
       const exchangeSessionToken = yield select(selectors.auth.getExchangeSessionToken)
-      yield call(coreSagas.wallet.createWalletSaga, { captchaToken, email, language, password })
+      yield call(coreSagas.wallet.createWalletSaga, {
+        captchaToken,
+        email,
+        language,
+        upgradePassword
+      })
       const retailToken = yield call(generateRetailToken)
       const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
         api.upgradeExchangeUserAccount,
@@ -93,8 +101,10 @@ export default ({ api, coreSagas, networks }) => {
           mercuryToken
         )
       )
+      yield put(stopSubmit(LOGIN_FORM))
       yield put(actions.form.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE))
     } catch (e) {
+      yield put(stopSubmit(LOGIN_FORM))
       // Handle Errors
     }
   }

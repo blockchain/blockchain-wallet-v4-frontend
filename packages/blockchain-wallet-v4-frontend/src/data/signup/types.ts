@@ -44,8 +44,3 @@ export type SignupStateType = {
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
 }
-
-export type AccountUpgradePayload = {
-  captchaToken: string
-  password: string
-}
