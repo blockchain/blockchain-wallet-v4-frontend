@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { AbstractPlugin } from 'plugin/internal'
 
 import { ScriptStatus, UseDefer3rdPartyScriptHook } from './types'
 
@@ -25,8 +26,12 @@ function useClientHydrated() {
  * @param options.attributes {} attributes object for Script tag attributes
  * */
 export const useDefer3rdPartyScript: UseDefer3rdPartyScriptHook = (url, options) => {
+  if (AbstractPlugin.isPlugin()) return [true, ScriptStatus.READY]
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const clientHydrated = useClientHydrated()
   const attributes = options?.attributes
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [status, setStatus] = useState<ScriptStatus>(() => {
     if (clientHydrated) {
       const script: HTMLScriptElement | null = document.querySelector(`script[src="${url}"]`)
@@ -37,6 +42,7 @@ export const useDefer3rdPartyScript: UseDefer3rdPartyScriptHook = (url, options)
     return url ? ScriptStatus.LOADING : ScriptStatus.IDLE
   })
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (!url) {
       setStatus(ScriptStatus.IDLE)

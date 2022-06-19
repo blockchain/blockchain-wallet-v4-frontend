@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { AbstractPlugin } from 'plugin/internal'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
@@ -90,15 +89,12 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  if (!AbstractPlugin.isPlugin()) {
-    // lazy load google tag manager
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-      attributes: {
-        nonce: window.nonce
-      }
-    })
-  }
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`

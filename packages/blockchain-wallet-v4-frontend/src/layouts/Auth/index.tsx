@@ -1,7 +1,6 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { AbstractPlugin } from 'plugin/internal'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -79,18 +78,15 @@ const AuthLayoutContainer = ({
   platform,
   unified
 }: Props) => {
-  if (!AbstractPlugin.isPlugin()) {
-    // lazy load google captcha
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDefer3rdPartyScript(
-      `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
-      {
-        attributes: {
-          nonce: window.nonce
-        }
+  // lazy load google captcha
+  useDefer3rdPartyScript(
+    `https://www.google.com/recaptcha/enterprise.js?render=${window.CAPTCHA_KEY}`,
+    {
+      attributes: {
+        nonce: window.nonce
       }
-    )
-  }
+    }
+  )
 
   // update page title from route
   if (pageTitle) document.title = pageTitle
