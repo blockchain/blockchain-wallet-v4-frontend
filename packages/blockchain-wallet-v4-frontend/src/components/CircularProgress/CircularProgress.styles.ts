@@ -9,5 +9,6 @@ export const ProgressCircle = styled.circle<{ value: number }>`
     stroke-dasharray: 100;
     stroke-dashoffset: calc(100 - ${value});
     transition: stroke-dashoffset 250ms;
+    stroke-linecap: round;
   `}
 `
