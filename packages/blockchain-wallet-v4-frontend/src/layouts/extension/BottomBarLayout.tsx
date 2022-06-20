@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 const Content = styled.div`
   padding: 20px 20px 70px 20px;
   box-sizing: border-box;
-  overflow-y: scroll;
   height: 100%;
 `
 

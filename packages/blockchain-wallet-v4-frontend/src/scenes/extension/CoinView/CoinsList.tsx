@@ -1,10 +1,13 @@
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
+import { useCoinBalances } from '../../../hooks/useCoinBalances'
 import EmptyState from './EmptyState'
 
 const listItemHeight = 73
@@ -29,9 +32,17 @@ const Cell: any = styled.div`
   }
 `
 
+const BalanceWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
 const ListRow = memo(
   ({ data, index, style }: { data: any; index: number; style: { height: number } }) => {
-    const { name, symbol } = data[index][1].coinfig
+    const {
+      balance,
+      coinfig: { name, symbol }
+    } = data[index]
     return (
       <ListRowStyled style={style}>
         <Cell style={{ flex: '20%', paddingLeft: '14px' }}>
@@ -46,29 +57,30 @@ const ListRow = memo(
           </Text>
         </Cell>
         <Cell align='right'>
-          <Text color='white900' size='16px' weight={600}>
-            5.3655 {symbol}
-          </Text>
-          <Text color='grey400' size='12px' weight={500}>
-            3,225.01 USD
-          </Text>
+          <BalanceWrapper>
+            <CoinDisplay
+              coin={symbol}
+              size='16px'
+              color='white900'
+              weight={600}
+              data-e2e={`${symbol}Balance`}
+            >
+              {balance}
+            </CoinDisplay>
+          </BalanceWrapper>
+          <BalanceWrapper>
+            <FiatDisplay color='grey400' size='12px' weight={500} coin={symbol}>
+              {balance}
+            </FiatDisplay>
+          </BalanceWrapper>
         </Cell>
       </ListRowStyled>
     )
   }
 )
 
-const CoinsList = (): JSX.Element => {
-  const [coins, setCoins] = useState<Array<any> | null>(null)
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (window.coins) {
-        const coinsArr: Array<any> = Object.entries(window.coins) || []
-        setCoins(coinsArr)
-      }
-    }, 500)
-  }, [window.coins])
+const CoinsList: React.FC = (): JSX.Element => {
+  const coins = useCoinBalances()
 
   if (coins && !coins.length) {
     return <EmptyState />
@@ -77,10 +89,9 @@ const CoinsList = (): JSX.Element => {
   const coinsCount = coins ? coins.length : 0
 
   return (
-    <AutoSizer style={{ height: '100%', width: '100%' }}>
+    <AutoSizer style={{ height: '300px', width: '100%' }}>
       {({ height, width }: { height: number; width: number }) => (
         <List
-          style={{ flex: 'auto', overflowX: 'hidden' }}
           height={height}
           width={width}
           itemCount={coinsCount}
