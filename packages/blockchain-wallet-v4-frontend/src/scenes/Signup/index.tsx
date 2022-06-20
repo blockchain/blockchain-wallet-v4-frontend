@@ -6,11 +6,10 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { CountryScope, RemoteDataType, WalletOptionsType } from '@core/types'
+import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { CountryType, StateType } from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -65,16 +64,13 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { identityVerificationActions, signupActions, websocketActions } = this.props
-    // load countries and states
-    identityVerificationActions.fetchSupportedCountries({ scope: CountryScope.SIGNUP })
-    identityVerificationActions.fetchStates()
+    const { signupActions, websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
     signupActions.initializeSignup()
   }
 
-  onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: CountryType) => {
+  onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
@@ -85,7 +81,7 @@ class SignupContainer extends React.PureComponent<
     const { country, email, password, state } = formValues
 
     signupActions.register({
-      country: country.code,
+      country,
       email,
       language,
       password,
@@ -93,13 +89,13 @@ class SignupContainer extends React.PureComponent<
     })
   }
 
-  setCountryOnLoad = (country: CountryType) => {
+  setCountryOnLoad = (country: string) => {
     this.setDefaultCountry(country)
     this.props.formActions.change(SIGNUP_FORM, 'country', country)
   }
 
-  setDefaultCountry = (country: CountryType) => {
-    this.setState({ showState: country?.code === 'US' })
+  setDefaultCountry = (country: string) => {
+    this.setState({ showState: country === 'US' })
   }
 
   toggleSignupFormVisibility = () => {
@@ -157,10 +153,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
-  supportedCountries: selectors.components.identityVerification
-    .getSupportedCountries(state)
-    .getOrElse([]),
-  supportedStates: selectors.components.identityVerification.getStates(state).getOrElse([]),
   unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
 })
 
@@ -169,10 +161,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })
@@ -186,8 +174,6 @@ type LinkStatePropsType = {
   isLoadingR: RemoteDataType<string, undefined>
   language: string
   search: string
-  supportedCountries: Array<CountryType>
-  supportedStates: Array<StateType>
   unified: boolean
 }
 type StateProps = {

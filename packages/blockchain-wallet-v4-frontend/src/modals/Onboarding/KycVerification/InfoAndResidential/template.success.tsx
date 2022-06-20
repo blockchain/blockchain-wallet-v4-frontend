@@ -3,10 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
-import { defaultTo, map, path, replace } from 'ramda'
+import { defaultTo, path, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { CountryScope } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import DateInputBox from 'components/Form/DateInputBox'
@@ -15,12 +16,11 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import SelectBox from 'components/Form/SelectBox'
-import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
-import { CountryType } from 'data/components/identityVerification/types'
+import { CountryType, StateType } from 'data/types'
+import { useCountryList, useUSStateList } from 'hooks'
 import { ageOverEighteen, countryUsesZipcode, required, requiredDOB } from 'services/forms'
-import { getStateNameFromAbbreviation } from 'services/locales'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -60,13 +60,11 @@ const SpinnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 export const FullNameContainer = styled.div`
   justify-content: space-between;
   display: flex;
   flex-direction: row;
 `
-
 export const CaptionContainer = styled.div`
   margin-top: 8px;
   display: flex;
@@ -93,7 +91,6 @@ const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
 `
-
 const ErrorTextContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -109,16 +106,24 @@ const ErrorText = styled(Text)`
   color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
-const getCountryElements = (countries) => [
+
+const getCountryElements = (countries: Array<CountryType>) => [
   {
     group: '',
-    items: map(
-      (country) => ({
-        text: country.name,
-        value: country
-      }),
-      countries
-    )
+    items: countries.map((country: CountryType) => ({
+      text: country.name,
+      value: country.code
+    }))
+  }
+]
+
+const getStateElements = (states: Array<StateType>) => [
+  {
+    group: '',
+    items: states.map((state: StateType) => ({
+      text: state.name,
+      value: state
+    }))
   }
 ]
 
@@ -135,10 +140,13 @@ const DOBToObject = (value) => {
   }
 }
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
+  const { data: supportedUSStates } = useUSStateList()
+
   const disabled = props.invalid || props.submitting
   const [isCountryStateSet, setCountyStateSet] = useState(false)
 
-  if (props.submitting) {
+  if (props.submitting || !supportedCountries?.countries || !supportedUSStates?.states) {
     return (
       <SpinnerWrapper>
         <BlockchainLoader width='80px' height='80px' />
@@ -164,15 +172,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
-  const defaultCountry = props.supportedCountries.find((country) => country.code === countryCode)
+  const defaultCountry = supportedCountries.countries.find(
+    (country) => country.code === countryCode
+  )
 
   if (defaultCountry && (!props.formValues || (props.formValues && !props.formValues.country))) {
-    props.updateDefaultCountry(defaultCountry)
+    props.updateDefaultCountry(defaultCountry.code)
   }
 
   if (countryIsUS && props.userData?.state && !isCountryStateSet) {
-    props.updateDefaultState(stateCode)
-    setCountyStateSet(true)
+    const defaultState = supportedUSStates.states.find((state) => state.code === stateCode)
+    if (defaultState) {
+      props.updateDefaultState(defaultState)
+      setCountyStateSet(true)
+    }
   }
 
   return (
@@ -366,15 +379,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             {countryIsUS ? (
               <Field
                 name='state'
-                component={SelectBoxUSState}
+                elements={getStateElements(supportedUSStates.states)}
+                component={SelectBox}
                 errorBottom
                 validate={[required]}
-                normalize={(val) => val && val.code}
                 disabled={!!stateCode}
-                format={(val) => ({
-                  code: val,
-                  name: getStateNameFromAbbreviation(val)
-                })}
               />
             ) : (
               <Field name='state' component={TextBox} errorBottom countryCode={countryCode} />
@@ -417,7 +426,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               data-e2e='selectCountryDropdown'
               name='country'
               validate={required}
-              elements={getCountryElements(props.supportedCountries)}
+              elements={getCountryElements(supportedCountries.countries)}
               component={SelectBox}
               menuPlacement='auto'
               onChange={props.onCountrySelect}
@@ -455,7 +464,7 @@ export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value: CountryType) => void
     updateDefaultCountry: (country: CountryType) => void
-    updateDefaultState: (state: string) => void
+    updateDefaultState: (state: StateType) => void
   }
 
 export default reduxForm<{}, Props>({

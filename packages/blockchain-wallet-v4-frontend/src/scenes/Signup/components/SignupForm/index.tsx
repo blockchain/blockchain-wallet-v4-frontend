@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
+import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
@@ -14,6 +15,7 @@ import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
 import { CountryType, StateType } from 'data/types'
+import { useCountryList, useUSStateList } from 'hooks'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -70,7 +72,7 @@ const getCountryElements = (countries: Array<CountryType>) => [
     group: '',
     items: countries.map((country: CountryType) => ({
       text: country.name,
-      value: country
+      value: country.code
     }))
   }
 ]
@@ -80,23 +82,22 @@ const getStateElements = (states: Array<StateType>) => [
     group: '',
     items: states.map((state: StateType) => ({
       text: state.name,
-      value: state
+      value: state.code
     }))
   }
 ]
 
 const SignupForm = (props: Props) => {
-  const {
-    formValues,
-    invalid,
-    isFormSubmitting,
-    onCountrySelect,
-    onSignupSubmit,
-    showState,
-    supportedCountries,
-    supportedStates
-  } = props
+  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
+    props
   const passwordValue = formValues?.password || ''
+
+  const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
+  const { data: supportedUSStates } = useUSStateList()
+
+  if (!supportedCountries?.countries || !supportedUSStates?.states) {
+    return <></>
+  }
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -216,7 +217,7 @@ const SignupForm = (props: Props) => {
             data-e2e='selectCountryDropdown'
             name='country'
             validate={required}
-            elements={getCountryElements(supportedCountries)}
+            elements={getCountryElements(supportedCountries.countries)}
             component={SelectBox}
             menuPlacement='auto'
             onChange={onCountrySelect}
@@ -232,11 +233,10 @@ const SignupForm = (props: Props) => {
           <FieldWithoutTopRadius setBorder={showState}>
             <Field
               name='state'
-              elements={getStateElements(supportedStates)}
+              elements={getStateElements(supportedUSStates.states)}
               component={SelectBox}
               errorBottom
               validate={[required]}
-              normalize={(val) => val && val.code}
               label={
                 <FormattedMessage
                   id='components.selectboxstate.label'

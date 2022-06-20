@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { CountryScope, ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -16,15 +15,6 @@ import Success from './template.success'
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  fetchData = () => {
-    this.props.identityVerificationActions.fetchSupportedCountries({ scope: CountryScope.KYC })
-    this.props.identityVerificationActions.fetchStates()
-  }
-
   handleSubmit = () => {
     const {
       analyticsActions,
@@ -54,14 +44,12 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   setDefaultState = (state: string) => {
-    // states have prefix US- we have to remove it for preselect
-    const realState = state.replace('US-', '')
-    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'state', realState)
+    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'state', state)
   }
 
   render() {
     return this.props.data.cata({
-      Failure: () => <DataError onClick={this.fetchData} />,
+      Failure: () => <DataError />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => (
@@ -104,7 +92,7 @@ export type OwnProps = {
   onCompletionCallback?: () => void
 }
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

@@ -423,15 +423,13 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
-      // in case of US we have to append state with prefix
-      const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
         city,
-        country: country.code,
+        country,
         line1,
         line2,
         postCode,
-        state: userState
+        state: state.code
       }
 
       yield call(updateUser, { payload: { data: personalData } })
