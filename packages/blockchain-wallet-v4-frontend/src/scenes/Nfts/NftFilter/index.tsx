@@ -23,6 +23,7 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
+import { AvatarGradientColors } from '../components'
 import EventTypeName from '../components/EventTypeName'
 import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
@@ -344,7 +345,7 @@ const NftFilter: React.FC<Props> = ({
                                   size={24}
                                   name={collection.slug || ''}
                                   variant='marble'
-                                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                  colors={AvatarGradientColors}
                                 />
                               )}
                               <Text

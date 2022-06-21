@@ -3,6 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  AssetImageContainer,
+  AvatarGradientColors,
+  PriceCTA
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
 import { F } from 'ramda'
 import styled from 'styled-components'
@@ -16,7 +24,6 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
 import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
@@ -149,7 +156,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     size={16}
                     name={asset.collection.slug || ''}
                     variant='marble'
-                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <AssetCollection onClick={nameClickTracking}>
@@ -260,7 +267,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     size={16}
                     name={asset.collection.slug || ''}
                     variant='marble'
-                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <Text weight={600} lineHeight='150%' color='white'>

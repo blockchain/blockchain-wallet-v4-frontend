@@ -221,3 +221,11 @@ export const Stat = styled.div`
     }
   `}
 `
+
+export const AvatarGradientColors = [
+  colors.blue600,
+  colors.purple600,
+  colors.purple300,
+  colors.green300,
+  colors.grey900
+]

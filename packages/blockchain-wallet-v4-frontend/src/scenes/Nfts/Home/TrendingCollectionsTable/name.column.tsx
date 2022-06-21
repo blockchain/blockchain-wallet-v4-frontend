@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { colors } from '@blockchain-com/constellation'
+import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
 import styled from 'styled-components'
 
@@ -38,7 +40,7 @@ export const getNameColumn = () => ({
                   size={24}
                   name={values.slug || ''}
                   variant='marble'
-                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                  colors={AvatarGradientColors}
                 />
               )}
 

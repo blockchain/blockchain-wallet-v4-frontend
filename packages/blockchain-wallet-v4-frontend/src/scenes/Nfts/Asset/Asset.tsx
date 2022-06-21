@@ -5,6 +5,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
+import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
@@ -438,7 +439,7 @@ const NftAsset: React.FC<Props> = ({
                                   size={34}
                                   name={currentAsset.collection.slug || ''}
                                   variant='marble'
-                                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                  colors={AvatarGradientColors}
                                 />
                               </Flex>
                             )}
@@ -489,7 +490,7 @@ const NftAsset: React.FC<Props> = ({
                                     size={34}
                                     name={owner.address || ''}
                                     variant='marble'
-                                    colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                                    colors={AvatarGradientColors}
                                   />{' '}
                                 </Flex>
                               )}

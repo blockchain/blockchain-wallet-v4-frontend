@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import { IconLink } from '@blockchain-com/icons'
+import {
+  AvatarGradientColors,
+  CollectionHeader,
+  GridWrapper,
+  NftBannerWrapper,
+  NftPageFullWidth,
+  opensea_event_types
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
@@ -18,13 +26,6 @@ import {
 } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import {
-  CollectionHeader,
-  GridWrapper,
-  NftBannerWrapper,
-  NftPageFullWidth,
-  opensea_event_types
-} from '../components'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
@@ -110,7 +111,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
         <NftError error={collectionsQuery.error} />
       </div>
     )
-
   if (collectionsQuery.fetching) return <NftCollectionLoading />
 
   if (!collection) return null
@@ -133,7 +133,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                   size={30}
                   name={collection.slug || ''}
                   variant='marble'
-                  colors={['#0C6CF2', '#5322E5', '#F00699', '#06D6A0', '#121D33']}
+                  colors={AvatarGradientColors}
                 />
               )}
               <Text color='white' size='32px' weight={600}>
