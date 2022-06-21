@@ -122,3 +122,7 @@ export const getNftExplorer = (state: RootState) =>
 // enable/disable BIND integration (AR)
 export const getBindIntegrationArEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
+
+// show referral signup input in sign up
+export const getReferralEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
