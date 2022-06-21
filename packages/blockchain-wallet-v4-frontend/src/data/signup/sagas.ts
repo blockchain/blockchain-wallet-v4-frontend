@@ -82,7 +82,7 @@ export default ({ api, coreSagas, networks }) => {
         captchaToken,
         email,
         language,
-        upgradePassword
+        password: upgradePassword
       })
       const retailToken = yield call(generateRetailToken)
       const { mercuryToken, nabuToken, userCredentialsId, userId } = yield call(
@@ -102,6 +102,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       )
       yield put(stopSubmit(LOGIN_FORM))
+      yield call(coreSagas.settings.fetchSettings)
       yield put(actions.form.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE))
     } catch (e) {
       yield put(stopSubmit(LOGIN_FORM))

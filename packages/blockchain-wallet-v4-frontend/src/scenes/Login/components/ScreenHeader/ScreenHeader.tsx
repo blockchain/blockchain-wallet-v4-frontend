@@ -1,7 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 import BackArrow from '../BackArrow'
 
@@ -55,7 +56,7 @@ const ScreenHeader: React.FC<{
           {(hasBackArrow || handleBack) && <BackArrow handleBack={handleBack} />}
           {((!hasBackArrow && !handleBack) || !hasSteps) && <span />}
           {hasSteps && (
-            <Text color='blue600' variant='micro'>
+            <Text color='blue600' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.upgrade.unable_retry.steps'
                 defaultMessage='Steps {actualStep} of {totalSteps}'
@@ -68,12 +69,12 @@ const ScreenHeader: React.FC<{
       <HeaderContentWrapper>
         {!!icon && <HeadingIcon>{icon}</HeadingIcon>}
         {!!title && (
-          <CenteredTitle color='black' variant='title-3'>
+          <CenteredTitle color='grey900' size='20px' lineHeight='1.5' weight={600}>
             {title}
           </CenteredTitle>
         )}
         {!!description && (
-          <CenteredDescription color='grey900' variant='paragraph-1'>
+          <CenteredDescription color='grey900' size='14px' lineHeight='1.5' weight={500}>
             {description}
           </CenteredDescription>
         )}

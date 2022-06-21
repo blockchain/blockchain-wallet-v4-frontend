@@ -37,14 +37,17 @@ const BackArrow = (props: { additionalText?: string; handleBack?: () => void }) 
           <FormattedMessage id='copy.back' defaultMessage='Back' />
         </Text>
       </BackArrowSpan>
-      <AdditionalHeaderText>
-        <Text color='blue600' size='12px' weight={500} lineHeight='1.5'>
-          <FormattedMessage
-            id={`copy.${props.additionalText}`}
-            defaultMessage={props.additionalText}
-          />
-        </Text>
-      </AdditionalHeaderText>
+
+      {props.additionalText && (
+        <AdditionalHeaderText>
+          <Text color='blue600' size='12px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id={`copy.${props.additionalText}`}
+              defaultMessage={props.additionalText}
+            />
+          </Text>
+        </AdditionalHeaderText>
+      )}
     </BackArrowWrapper>
   )
 }

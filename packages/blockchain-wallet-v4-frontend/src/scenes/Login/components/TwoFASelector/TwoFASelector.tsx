@@ -39,7 +39,7 @@ const StyledImage = styled(Image)`
   margin-right: 1rem;
 `
 
-const TfaSelector = ({ onChange }) => {
+const TwoFASelector = ({ onChange }) => {
   return (
     <>
       <ButtonPanel onClick={() => onChange(AUTH_TYPE_SELECTION.GOOGLE)}>
@@ -91,4 +91,4 @@ const TfaSelector = ({ onChange }) => {
   )
 }
 
-export default TfaSelector
+export default TwoFASelector

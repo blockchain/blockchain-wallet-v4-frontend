@@ -9,7 +9,7 @@ import { LOGIN_FORM } from 'data/auth/model'
 import { TwoFASetupSteps, UpgradeSteps } from 'data/types'
 
 import ScreenHeader from '../../components/ScreenHeader'
-import TfaSelector, { AUTH_TYPE_SELECTION } from '../../components/TfaSelector'
+import TwoFASelector, { AUTH_TYPE_SELECTION } from '../../components/TwoFASelector'
 import { StyledTemporaryButton } from '../AccountUpgrade.models'
 
 const Select2faType = (props) => {
@@ -39,7 +39,6 @@ const Select2faType = (props) => {
     <>
       <Wrapper>
         <ScreenHeader
-          handleBack={handlePrev}
           steps={steps}
           title={
             <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />
@@ -51,7 +50,7 @@ const Select2faType = (props) => {
             />
           }
         />
-        <TfaSelector onChange={handleAuthSelection} />
+        <TwoFASelector onChange={handleAuthSelection} />
       </Wrapper>
 
       <StyledTemporaryButton onClick={handlePrev} type='button'>
