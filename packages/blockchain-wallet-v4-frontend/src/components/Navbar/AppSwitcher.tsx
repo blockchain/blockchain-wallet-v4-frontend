@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle, IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
@@ -6,10 +7,12 @@ import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
 
+import { WalletOptionsType } from '@core/redux/walletOptions/types'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import Spacer from 'components/Spacer'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { UserDataType } from 'data/modules/profile/types'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
@@ -77,11 +80,55 @@ const IconWrapper = styled.div<{ nfts: string }>`
   }
 `
 
-const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
+// order of the object determines rendering order of dropdown
+/* eslint-disable sort-keys, sort-keys-fix/sort-keys-fix */
+const appConfigMap = {
+  wallet: {
+    color: 'blue600',
+    displayName: 'Wallet',
+    name: 'wallet',
+    route: '/home',
+    subtitle: () => (
+      <FormattedMessage id='navbar.wallet.desc' defaultMessage='Buy, Sell & Swap Crypto' />
+    ),
+    title: () => <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+  },
+  nfts: {
+    color: 'purple600',
+    displayName: 'NFTs',
+    name: 'nfts',
+    route: '/nfts/home',
+    subtitle: () => (
+      <FormattedMessage id='navbar.nfts.desc' defaultMessage='Buy, Sell & Discover NFTs' />
+    ),
+    title: () => <FormattedMessage id='navbar.nfts.title' defaultMessage='NFT Marketplace' />
+  },
+  dex: {
+    color: 'blue600',
+    displayName: 'DEX',
+    name: 'dex',
+    route: '/dex',
+    subtitle: () => <FormattedMessage id='copy.dex' defaultMessage='Decentralized Exchange' />,
+    title: () => 'DEX'
+  }
+}
+/* eslint-enable sort-keys, sort-keys-fix/sort-keys-fix */
+
+const getAppConfig = () => {
+  if (window.location.hash.includes('dex')) {
+    return appConfigMap.dex
+  }
+  if (window.location.hash.includes('nfts')) {
+    return appConfigMap.nfts
+  }
+  return appConfigMap.wallet
+}
+
+const AppSwitcher: React.FC<Props> = ({ isDexEnabled, routerActions }) => {
   const isTablet = useMedia('tabletL')
   const ref = useRef(null)
   const [isActive, setIsActive] = useState<boolean>(false)
-  const app = window.location.hash.includes('nfts') ? 'nfts' : 'wallet'
+  const currentApp = getAppConfig()
 
   useOnClickOutside(ref, () => setIsActive(false))
 
@@ -89,19 +136,21 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
     setIsActive((isActive) => !isActive)
   }
 
-  const mainColor = app === 'nfts' ? 'purple600' : 'blue600'
-
   return (
     <Wrapper ref={ref}>
       {isTablet ? null : <Spacer style={{ marginRight: '12px' }} height='24px' />}
       {/* @ts-ignore */}
       <Flex alignItems='center' gap={8} onClick={toggleIsActive}>
         {isTablet ? null : (
-          <Text cursor='pointer' weight={600} color={mainColor} size='14px'>
-            {app === 'nfts' ? 'NFTs' : 'Wallet'}
+          <Text cursor='pointer' weight={600} color={currentApp.color} size='14px'>
+            {currentApp.displayName}
           </Text>
         )}
-        <IconWrapper nfts={app} role='button' className={`${app} ${isActive ? 'active' : ''}`}>
+        <IconWrapper
+          nfts={currentApp.name}
+          role='button'
+          className={`${currentApp.name} ${isActive ? 'active' : ''}`}
+        >
           <Icon label='up' size='sm'>
             <IconChevronUpV2 />
           </Icon>
@@ -118,44 +167,36 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <PopoutItem
-              role='button'
-              onClick={() => {
-                setIsActive(false)
-                routerActions.push('/home')
-              }}
-            >
-              <Flex flexDirection='column' gap={2}>
-                <Text size='16px' color='black' weight={600}>
-                  Wallet
-                </Text>
-                <Text size='14px' weight={600}>
-                  Buy, Sell & Swap Crypto
-                </Text>
-              </Flex>
-              <Icon label='check' size='sm' color={app === 'wallet' ? mainColor : 'grey100'}>
-                <IconCheckCircle />
-              </Icon>
-            </PopoutItem>
-            <PopoutItem
-              role='button'
-              onClick={() => {
-                setIsActive(false)
-                routerActions.push('/nfts/home')
-              }}
-            >
-              <Flex flexDirection='column' gap={2}>
-                <Text size='16px' color='black' weight={600}>
-                  NFT Marketplace
-                </Text>
-                <Text size='14px' weight={600}>
-                  Buy, Sell & Discover NFTs
-                </Text>
-              </Flex>
-              <Icon label='check' size='sm' color={app === 'nfts' ? mainColor : 'grey100'}>
-                <IconCheckCircle />
-              </Icon>
-            </PopoutItem>
+            {Object.keys(appConfigMap).map((app: string) => {
+              if (!isDexEnabled && app === 'dex') return null
+              const appConfig = appConfigMap[app]
+              return (
+                <PopoutItem
+                  key={appConfig.name}
+                  role='button'
+                  onClick={() => {
+                    setIsActive(false)
+                    routerActions.push(appConfig.route)
+                  }}
+                >
+                  <Flex flexDirection='column' gap={2}>
+                    <Text size='16px' color='black' weight={600}>
+                      {appConfig.title()}
+                    </Text>
+                    <Text size='14px' weight={600}>
+                      {appConfig.subtitle()}
+                    </Text>
+                  </Flex>
+                  <Icon
+                    label='check'
+                    size='sm'
+                    color={currentApp.name === appConfig.name ? appConfig.color : 'grey100'}
+                  >
+                    <IconCheckCircle />
+                  </Icon>
+                </PopoutItem>
+              )
+            })}
           </Popout>
         ) : null}
       </AnimatePresence>
@@ -163,11 +204,15 @@ const AppSwitcher: React.FC<Props> = ({ routerActions }) => {
   )
 }
 
+const mapStateToProps = (state) => ({
+  isDexEnabled: selectors.core.walletOptions.getDexProductEnabled(state).getOrElse(false) as boolean
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

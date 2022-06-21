@@ -127,3 +127,7 @@ export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
 // check for rewards promo banner to be enabled
 export const getRewardsPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
+
+// dex feature flag
+export const getDexProductEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'dex']))
