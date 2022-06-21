@@ -4,6 +4,14 @@ export type SDDEligibleType = {
   tier: 0 | 1 | 2 | 3 | 4
 }
 
+export enum CountryScope {
+  KYC = 'KYC',
+  MERCURY = 'MERCURY',
+  SIGNUP = 'SIGNUP'
+}
+
+export type CountryScopeType = keyof typeof CountryScope
+
 export enum NodeItemTypes {
   MULTIPLE_SELECTION = 'MULTIPLE_SELECTION',
   OPEN_ENDED = 'OPEN_ENDED',
