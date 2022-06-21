@@ -10,16 +10,16 @@ import {
   useAssetsQuery
 } from 'generated/graphql.types'
 
-import NftCollectionImage from '../../components/NftCollectionImage'
-import { CollectionName, CustomLink, MoreAssets, MoreAssetsList, MoreAssetsListItem } from '.'
+import NftAssetItem from '../../components/NftAssetItem'
+import NftGrid from '../../components/NftGrid'
+import { CustomLink, MoreAssets, MoreAssetsWrapper } from '.'
 
 const AssetMoreItems: React.FC<Props> = ({ asset }) => {
-  const limit = 4
+  const limit = 5
   const offset = useMemo(
-    () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 20) - limit)),
+    () => Math.max(0, Math.floor(Math.random() * (asset?.collection?.total_supply || 0) - limit)),
     [asset]
   )
-
   const [assets] = useAssetsQuery({
     variables: {
       filter: [
@@ -56,58 +56,17 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
             </Button>
           </CustomLink>
         </div>
-        <MoreAssetsList>
-          {assets?.data?.assets?.map((asset) => {
-            const link = `/nfts/assets/${asset.contract?.address}/${asset.token_id}`
-            return (
-              <MoreAssetsListItem key={asset.token_id}>
-                <CustomLink
-                  onClick={() => {
-                    window.scrollTo({ behavior: 'smooth', top: 0 })
-                  }}
-                  to={link}
-                  style={{
-                    border: `1px solid ${colors.grey000}`,
-                    borderRadius: '10%',
-                    borderWidth: '1px',
-                    boxSizing: 'border-box',
-                    justifyContent: 'center',
-                    margin: '1em',
-                    padding: '10px'
-                  }}
-                >
-                  <div>
-                    <CollectionName>
-                      {asset.collection.image_url ? (
-                        <NftCollectionImage
-                          alt='Dapp Logo'
-                          src={asset.collection?.image_url || ''}
-                          isVerified={asset.collection.safelist_request_status === 'verified'}
-                        />
-                      ) : null}
-                      <div style={{ paddingLeft: '8px' }}>{asset.collection?.name}</div>
-                    </CollectionName>
-                    <img
-                      alt='Asset Logo'
-                      width='100%'
-                      height='auto'
-                      style={{
-                        borderRadius: '16px',
-                        boxSizing: 'border-box',
-                        marginBottom: '0.5rem',
-                        marginTop: '1em'
-                      }}
-                      src={asset.image_url || ''}
-                    />
-                    <Text style={{ textAlign: 'center' }} size='14px' weight={600} capitalize>
-                      {asset.name || `#${asset.token_id}`}
-                    </Text>
-                  </div>
-                </CustomLink>
-              </MoreAssetsListItem>
-            )
-          })}
-        </MoreAssetsList>
+        <MoreAssetsWrapper>
+          <NftGrid moreAssetsPage fullscreen>
+            {assets?.data?.assets?.map((asset) => {
+              return (
+                <div key={asset.token_id}>
+                  <NftAssetItem asset={asset} />
+                </div>
+              )
+            })}
+          </NftGrid>
+        </MoreAssetsWrapper>
       </MoreAssets>
     </div>
   ) : null
