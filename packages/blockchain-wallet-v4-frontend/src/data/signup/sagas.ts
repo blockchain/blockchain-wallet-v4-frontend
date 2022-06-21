@@ -71,6 +71,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setIsValidReferralCode(true))
     } catch (e) {
       yield put(actions.signup.setIsValidReferralCode(false))
+      throw new Error('Invalid Referral Code')
     }
   }
 
