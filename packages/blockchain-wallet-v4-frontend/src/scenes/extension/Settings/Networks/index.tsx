@@ -7,11 +7,12 @@ import { Ethereum } from '../../../../icons/Ethereum'
 import { Near } from '../../../../icons/Near'
 import { Optimist } from '../../../../icons/Optimist'
 import { Polygon } from '../../../../icons/Polygon'
-import { SettingsHeading } from '..'
 import { SettingsList } from '../Overal'
 
-const NetworkHeading = styled(SettingsHeading)`
-  margin-bottom: 58px;
+const NetworkHeading = styled(Text)`
+  font-size: 20px;
+  margin: 34px 0 58px;
+  color: white;
 `
 
 const NetworkButton = styled.button`
