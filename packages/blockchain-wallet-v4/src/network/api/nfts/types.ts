@@ -668,6 +668,100 @@ export interface NftAsset {
     quantity: number
   }
   permalink: string
+  seaport_sell_orders: {
+    cancelled: false
+    client_signature: string
+    closing_date: string
+    created_date: string
+    current_price: string
+    expiration_time: number
+    finalized: boolean
+    listing_time: number
+    maker: {
+      address: string
+      config: ''
+      profile_img_url: string
+      user: number | null
+    }
+    maker_fees: [
+      {
+        account: {
+          address: string
+          config: ''
+          profile_img_url: string
+          user: number | null
+        }
+        basis_points: string
+      },
+      {
+        account: {
+          address: string
+          config: ''
+          profile_img_url: string
+          user: number | null
+        }
+        basis_points: string
+      }
+    ]
+    marked_invalid: boolean
+    order_hash: string
+    order_type: 'basic'
+    protocol_address: string
+    protocol_data: {
+      parameters: {
+        conduitKey: string
+        consideration: [
+          {
+            endAmount: string
+            identifierOrCriteria: string
+            itemType: number
+            recipient: string
+            startAmount: string
+            token: string
+          },
+          {
+            endAmount: string
+            identifierOrCriteria: string
+            itemType: number
+            recipient: string
+            startAmount: string
+            token: string
+          },
+          {
+            endAmount: string
+            identifierOrCriteria: string
+            itemType: number
+            recipient: string
+            startAmount: string
+            token: string
+          }
+        ]
+        counter: number
+        endTime: string
+        offer: [
+          {
+            endAmount: string
+            identifierOrCriteria: string
+            itemType: number
+            startAmount: string
+            token: string
+          }
+        ]
+        offerer: string
+        orderType: number
+        salt: string
+        startTime: string
+        totalOriginalConsiderationItems: number
+        zone: string
+        zoneHash: string
+      }
+      signature: string
+    }
+    relay_id: string
+    side: 'ask'
+    taker: null
+    taker_fees: []
+  }[]
   token_id: string
   token_metadata: null
   top_bid: null

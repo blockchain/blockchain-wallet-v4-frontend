@@ -1,8 +1,13 @@
+import { Seaport } from '@opensea/seaport-js'
 import { ItemType } from '@opensea/seaport-js/lib/constants'
-import { ConsiderationInputItem, CreateInputItem } from '@opensea/seaport-js/lib/types'
+import {
+  ConsiderationInputItem,
+  CreateInputItem,
+  OrderComponents
+} from '@opensea/seaport-js/lib/types'
 import { BigNumber } from 'bignumber.js'
 
-import { OpenSeaAsset, WyvernSchemaName } from '@core/network/api/nfts/types'
+import { GasDataI, NftAsset, OpenSeaAsset, WyvernSchemaName } from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
 
 import {
@@ -142,4 +147,21 @@ export const getPrivateListingConsiderations = (
   return offer.map((item) => {
     return { ...item, recipient: privateSaleRecipient }
   })
+}
+
+export const cancelSeaportOrders = async ({
+  accountAddress,
+  gasData,
+  orders,
+  seaport
+}: {
+  accountAddress: string
+  gasData: GasDataI
+  orders: OrderComponents[]
+  seaport: Seaport
+}): Promise<string> => {
+  const transaction = await seaport
+    .cancelOrders(orders, accountAddress)
+    .transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
+  return transaction.hash
 }

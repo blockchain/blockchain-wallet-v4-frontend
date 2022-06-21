@@ -20,7 +20,9 @@ const Fees: React.FC<Props> = (props) => {
   useEffect(() => {
     nftActions.fetchFees({
       operation: GasCalculationOperations.Cancel,
-      order: offerToCancel as unknown as RawOrder
+      // TODO: SEAPORT
+      // @ts-ignore
+      order: offerToCancel
     })
   }, [])
 

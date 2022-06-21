@@ -230,6 +230,7 @@ const NftAsset: React.FC<Props> = ({
     openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
     }) || []
+  const seaportSellOrders = openSeaAsset.data?.seaport_sell_orders || []
   bids = bids.length
     ? bids.sort((a: any, b: any) => {
         return b.current_price - a.current_price
@@ -247,6 +248,9 @@ const NftAsset: React.FC<Props> = ({
   const highest_bid = bids[0]
   const highest_offer = offers[0]
   const lowest_order = sellOrders.sort((a, b) =>
+    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
+  )[0]
+  const lowest_seaport_order = seaportSellOrders.sort((a, b) =>
     new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
   )[0]
   const is_lowest_order_dutch = lowest_order && lowest_order.sale_kind === 1
@@ -748,7 +752,7 @@ const NftAsset: React.FC<Props> = ({
                     <Flex gap={8}>
                       {isOwner ? (
                         <>
-                          {!lowest_order ? (
+                          {!lowest_seaport_order ? (
                             <Button
                               data-e2e='openNftFlow'
                               nature='primary'
@@ -782,7 +786,7 @@ const NftAsset: React.FC<Props> = ({
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
                                   offer: undefined,
-                                  order: lowest_order,
+                                  order: lowest_seaport_order,
                                   step: NftOrderStepEnum.CANCEL_LISTING,
                                   token_id: id
                                 })

@@ -49,20 +49,10 @@ const CancelListing: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.price' defaultMessage='Price' />
             </Text>
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-              <CoinDisplay
-                size='14px'
-                color='black'
-                weight={600}
-                coin={listingToCancel?.payment_token_contract?.symbol}
-              >
+              <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
                 {listingToCancel?.current_price}
               </CoinDisplay>
-              <FiatDisplay
-                size='12px'
-                color='grey600'
-                weight={600}
-                coin={listingToCancel?.payment_token_contract?.symbol}
-              >
+              <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
                 {listingToCancel?.current_price}
               </FiatDisplay>
             </Flex>

@@ -6,13 +6,12 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { GasCalculationOperations, GasDataI, RawOrder } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,
   executeWrapEth,
   fulfillNftOrder,
-  fulfillNftSellOrder,
   fulfillTransfer,
   getNftBuyOrder,
   getNftMatchingOrders,
@@ -20,6 +19,8 @@ import {
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import {
+  calculateSeaportGasFees,
+  cancelOrder as cancelSeaportOrder,
   createBuyOrder,
   createSellOrder as createSellOrderSeaport
 } from '@core/redux/payment/nfts/seaport'
@@ -246,12 +247,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           throw e
         }
       } else if (action.payload.operation === GasCalculationOperations.Cancel) {
-        fees = yield call(
-          calculateGasFees,
-          GasCalculationOperations.Cancel,
-          signer,
-          action.payload.order as RawOrder
-        )
+        fees = yield call(calculateSeaportGasFees, {
+          operation: GasCalculationOperations.Cancel,
+          order: action.payload.order,
+          signer
+        })
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
         let listingTime = getUnixTime(addSeconds(new Date(), 10))
         let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
@@ -697,7 +697,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: ethers.Wallet = yield call(getEthSigner)
-      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
+      yield call(cancelSeaportOrder, {
+        accountAddress: signer.address,
+        gasData: action.payload.gasData,
+        order: action.payload.order,
+        signer
+      })
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
       yield put(

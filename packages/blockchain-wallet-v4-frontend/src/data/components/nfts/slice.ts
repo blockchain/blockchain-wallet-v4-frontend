@@ -11,6 +11,7 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
+  OpenSeaAsset,
   OpenSeaStatus,
   RawOrder,
   UnsignedOrder
@@ -67,7 +68,11 @@ const nftsSlice = createSlice({
     ) => {},
     cancelListing: (
       state,
-      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder }>
+      action: PayloadAction<{
+        asset: NftAsset
+        gasData: GasDataI
+        order: NftAsset['seaport_sell_orders'][0]
+      }>
     ) => {},
     cancelOffer: (
       state,
@@ -152,7 +157,7 @@ const nftsSlice = createSlice({
           }
         | {
             operation: GasCalculationOperations.Cancel
-            order: RawOrder
+            order: NftAsset['seaport_sell_orders'][0]
           }
       >
     ) => {},
@@ -278,7 +283,7 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
-            order: RawOrder
+            order: NftAsset['seaport_sell_orders'][0]
             step: NftOrderStepEnum.CANCEL_LISTING
             token_id: string
           }
@@ -300,14 +305,12 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.step = action.payload.step
 
-      if (action.payload.order) {
-        state.orderFlow.orderToMatch = action.payload.order
-      }
       if (action.payload.offer && action.payload.step === NftOrderStepEnum.CANCEL_OFFER) {
         state.orderFlow.offerToCancel = action.payload.offer
-      }
-      if (action.payload.order && action.payload.step === NftOrderStepEnum.CANCEL_LISTING) {
+      } else if (action.payload.order && action.payload.step === NftOrderStepEnum.CANCEL_LISTING) {
         state.orderFlow.listingToCancel = action.payload.order
+      } else if (action.payload.order) {
+        state.orderFlow.orderToMatch = action.payload.order
       }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
@@ -339,7 +342,10 @@ const nftsSlice = createSlice({
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
     },
-    setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
+    setListingToCancel: (
+      state,
+      action: PayloadAction<{ order: NftAsset['seaport_sell_orders'][0] }>
+    ) => {
       state.orderFlow.listingToCancel = action.payload.order
     },
     setNftOrderStatus: (state, action: PayloadAction<NftOrderStatusEnum>) => {

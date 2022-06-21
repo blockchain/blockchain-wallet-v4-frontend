@@ -1,9 +1,17 @@
 import { Seaport } from '@opensea/seaport-js'
+import { CROSS_CHAIN_SEAPORT_ADDRESS } from '@opensea/seaport-js/lib/constants'
 import { ConsiderationInputItem } from '@opensea/seaport-js/lib/types'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
-import { NftOrderSide, OpenSeaAsset } from '@core/network/api/nfts/types'
+import {
+  FeeMethod,
+  GasCalculationOperations,
+  GasDataI,
+  NftAsset,
+  NftOrderSide,
+  OpenSeaAsset
+} from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
 
 import {
@@ -16,6 +24,7 @@ import {
   WETH_CONTRACT_RINKEBY
 } from './constants'
 import {
+  cancelSeaportOrders,
   getAssetItems,
   getFees,
   getMaxOrderExpirationTimestamp,
@@ -38,6 +47,46 @@ const getSeaport = (signer: ethers.Wallet) => {
       defaultConduitKey: CROSS_CHAIN_DEFAULT_CONDUIT_KEY
     }
   })
+}
+
+/**
+ * Cancel an order on-chain, preventing it from ever being fulfilled.
+ * @param param0 __namedParameters Object
+ * @param order The order to cancel
+ * @param accountAddress The order maker's wallet address
+ */
+export const cancelOrder = async ({
+  accountAddress,
+  gasData,
+  order,
+  signer
+}: {
+  accountAddress: string
+  gasData: GasDataI
+  order: NftAsset['seaport_sell_orders'][0]
+  signer: ethers.Wallet
+}) => {
+  // Transact and get the transaction hash
+  let transactionHash: string
+
+  const seaport = getSeaport(signer)
+  switch (order.protocol_address) {
+    case CROSS_CHAIN_SEAPORT_ADDRESS: {
+      transactionHash = await cancelSeaportOrders({
+        accountAddress,
+        gasData,
+        orders: [order.protocol_data.parameters],
+        seaport
+      })
+      break
+    }
+    default:
+      throw new Error('Unsupported protocol')
+  }
+
+  // Await transaction confirmation
+  await signer.provider.waitForTransaction(transactionHash, 1)
+  return transactionHash
 }
 
 /**
@@ -110,9 +159,11 @@ export const createSellOrder = async ({
   const seaport = getSeaport(signer)
   const { executeAllActions } = await seaport.createOrder(
     {
+      allowPartialFills: false,
       consideration: considerationFeeItems,
       endTime: expirationTime?.toString() ?? getMaxOrderExpirationTimestamp().toString(),
       offer: offerAssetItems,
+      restrictedByZone: true,
       startTime: listingTime,
       zone: network === 'rinkeby' ? DEFAULT_ZONE_RINKEBY : DEFAULT_ZONE
     },
@@ -121,7 +172,7 @@ export const createSellOrder = async ({
   const order = await executeAllActions()
   await seaport.validate([order], accountAddress)
 
-  console.log(order)
+  return order
 }
 
 /**
@@ -207,4 +258,36 @@ export const createBuyOrder = async ({
   }
 
   // return this.api.postOrder(order, { protocol: 'seaport', side: 'bid' })
+}
+
+export const calculateSeaportGasFees = async ({
+  operation,
+  order,
+  signer
+}: { signer: ethers.Wallet } & {
+  operation: GasCalculationOperations.Cancel
+  order: NftAsset['seaport_sell_orders'][0]
+}): Promise<GasDataI> => {
+  let totalFees = 0
+  const proxyFees = 0
+  const approvalFees = 0
+  let gasFees = 0
+  const seaport = getSeaport(signer)
+
+  if (operation === GasCalculationOperations.Cancel && order) {
+    const estimate = await (
+      await seaport.cancelOrders([order.protocol_data.parameters]).estimateGas()
+    )._hex
+    gasFees = Math.ceil(parseInt(estimate) * 1.2)
+  }
+
+  const gasPrice = await (await signer.getGasPrice()).toNumber()
+  totalFees = approvalFees + proxyFees + gasFees
+  return {
+    approvalFees,
+    gasFees,
+    gasPrice,
+    proxyFees,
+    totalFees
+  }
 }

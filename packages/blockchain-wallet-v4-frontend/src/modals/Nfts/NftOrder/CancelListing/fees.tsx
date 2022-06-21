@@ -21,7 +21,7 @@ const Fees: React.FC<Props> = (props) => {
     if (listingToCancel) {
       nftActions.fetchFees({
         operation: GasCalculationOperations.Cancel,
-        order: listingToCancel as unknown as RawOrder
+        order: listingToCancel
       })
     }
   }, [])
