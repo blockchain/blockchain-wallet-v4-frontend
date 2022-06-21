@@ -19,7 +19,10 @@ import {
   getNftSellOrder
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
-import { createBuyOrder } from '@core/redux/payment/nfts/seaport'
+import {
+  createBuyOrder,
+  createSellOrder as createSellOrderSeaport
+} from '@core/redux/payment/nfts/seaport'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -547,11 +550,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     const endPrice = action?.payload?.endPrice || 0
     const start_usd = yield getAmountUsd(coin, startPrice)
     const end_usd = yield getAmountUsd(coin, endPrice)
+    const { coinfig } = window.coins[coin]
 
     try {
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
       const guid = yield select(selectors.core.wallet.getGuid)
+      const network = IS_TESTNET ? 'rinkeby' : 'mainnet'
       let listingTime = getUnixTime(addSeconds(new Date(), 10))
       let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
 
@@ -562,24 +567,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         )
       }
 
-      const signer = yield call(getEthSigner)
-      const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
-        getNftSellOrder,
-        action.payload.asset,
-        signer,
-        listingTime,
+      const signer: ethers.Wallet = yield call(getEthSigner)
+      const seaportOrder = yield call(createSellOrderSeaport, {
+        accountAddress: signer.address,
+        endAmount: action.payload.endPrice || undefined,
         expirationTime,
-        action.payload.startPrice,
-        action.payload.endPrice,
-        action.payload.reservePrice,
-        IS_TESTNET ? 'rinkeby' : 'mainnet',
-        action.payload.waitForHighestBid,
-        action.payload.paymentTokenAddress
-      )
-      const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
-      const retailToken = yield call(generateRetailToken)
-      yield call(api.postNftOrderV1, order, action.payload.asset.collection.slug, guid, retailToken)
-      yield put(A.clearAndRefetchAssets())
+        listingTime: listingTime.toString(),
+        network,
+        openseaAsset: assetFromJSON(action.payload.asset),
+        paymentTokenAddress: isTimedAuction ? coinfig.type.erc20Address : NULL_ADDRESS,
+        quantity: 1,
+        signer,
+        startAmount: action.payload.startPrice
+      })
+      yield call(api.postNftOrderV2, seaportOrder, network, 'ask')
+      // const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+      //   getNftSellOrder,
+      //   action.payload.asset,
+      //   signer,
+      //   listingTime,
+      //   expirationTime,
+      //   action.payload.startPrice,
+      //   action.payload.endPrice,
+      //   action.payload.reservePrice,
+      //   IS_TESTNET ? 'rinkeby' : 'mainnet',
+      //   action.payload.waitForHighestBid,
+      //   action.payload.paymentTokenAddress
+      // )
+      // const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      // const retailToken = yield call(generateRetailToken)
+      // yield call(api.postNftOrderV1, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -675,7 +692,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
-      yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
       yield put(

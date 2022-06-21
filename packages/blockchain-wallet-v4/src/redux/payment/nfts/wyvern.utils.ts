@@ -575,12 +575,13 @@ export async function _getPriceParameters(
   //     ? new BigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
   //     : WyvernProtocol.toBaseUnitAmount(new BigNumber(englishAuctionReservePrice), token.decimals)
   //   : undefined
+  const endPrice = ethers.utils.parseEther(endAmount?.toString() || '0')
   const basePrice = ethers.utils.parseEther(startAmount.toString())
   const extra = ethers.utils.parseEther(priceDiff.toString())
   const reservePrice = englishAuctionReservePrice
     ? ethers.utils.parseEther(englishAuctionReservePrice.toString())
     : undefined
-  return { basePrice, extra, paymentToken, reservePrice }
+  return { basePrice, endPrice, extra, paymentToken, reservePrice }
 }
 
 async function _signOrder(

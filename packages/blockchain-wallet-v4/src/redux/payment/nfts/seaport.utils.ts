@@ -134,3 +134,12 @@ export const getMaxOrderExpirationTimestamp = () => {
 
   return Math.round(maxExpirationDate.getTime() / 1000)
 }
+
+export const getPrivateListingConsiderations = (
+  offer: CreateInputItem[],
+  privateSaleRecipient: string
+): ConsiderationInputItem[] => {
+  return offer.map((item) => {
+    return { ...item, recipient: privateSaleRecipient }
+  })
+}

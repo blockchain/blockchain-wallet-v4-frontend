@@ -73,8 +73,6 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder | null }>
     ) => {},
-    clearAndRefetchAssets: (state) => {},
-    clearAndRefetchOrders: (state) => {},
     createOffer: (
       state,
       action: PayloadAction<{
