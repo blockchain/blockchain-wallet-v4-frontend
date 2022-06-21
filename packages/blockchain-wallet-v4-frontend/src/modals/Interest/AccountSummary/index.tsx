@@ -8,7 +8,7 @@ import { getCurrency } from '@core/redux/settings/selectors'
 import { CoinType, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
-import { InterestStepMetadata } from 'data/types'
+import { Analytics, InterestStepMetadata } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -21,7 +21,13 @@ class AccountSummaryContainer extends PureComponent<Props> {
   }
 
   handleDepositClick = () => {
-    const { coin, interestActions } = this.props
+    const { analyticsActions, coin, interestActions } = this.props
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
     interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
   }
 
@@ -63,6 +69,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   interestUploadDocumentActions: bindActionCreators(
@@ -83,6 +90,7 @@ export type OwnProps = {
 }
 
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   buySellActions: typeof actions.components.buySell
   interestActions: typeof actions.components.interest
   interestUploadDocumentActions: typeof actions.components.interestUploadDocument

@@ -32,6 +32,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })

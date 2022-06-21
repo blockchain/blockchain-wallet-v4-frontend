@@ -10,8 +10,8 @@ import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@
 import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
-import { actions, selectors } from 'data'
-import { UserDataType } from 'data/types'
+import { actions } from 'data'
+import { Analytics, UserDataType } from 'data/types'
 
 import IneligibilityCard from './IneligibilityCard'
 import IntroCard from './IntroCard'
@@ -59,6 +59,13 @@ class Interest extends React.PureComponent<Props, StateType> {
     this.setState({ isGoldTier })
   }
 
+  handleHistoryClick = () => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_TRANSACTION_HISTORY_CLICKED,
+      properties: {}
+    })
+  }
+
   render() {
     const { isGoldTier } = this.state
     const { data } = this.props
@@ -73,7 +80,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                   <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
                 </TabMenuItem>
               </LinkContainer>
-              <LinkContainer to='/rewards/history'>
+              <LinkContainer to='/rewards/history' onClick={this.handleHistoryClick}>
                 <TabMenuItem data-e2e='interestTabMenuHistory'>
                   <FormattedMessage
                     id='scenes.interest.tab.history'
@@ -123,6 +130,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
@@ -143,6 +151,7 @@ type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   idvActions: typeof actions.components.identityVerification
   interestActions: typeof actions.components.interest
 }

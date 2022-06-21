@@ -5,9 +5,9 @@ import { CreateNabuErrorFulfilledInterceptorUtility } from './createNabuErrorFul
 const createNabuErrorFulfilledInterceptor: CreateNabuErrorFulfilledInterceptorUtility =
   () => (response) => {
     try {
-      const { data } = response
+      const data = response?.data
 
-      if (isNabuErrorInNetworkResponse(data)) {
+      if (!!data && isNabuErrorInNetworkResponse(data)) {
         const error = new NabuError(data.ux)
 
         return Promise.reject(error)
