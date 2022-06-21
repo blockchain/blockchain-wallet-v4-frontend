@@ -88,8 +88,7 @@ export default ({ api, networks }) => {
     email,
     forceVerifyEmail = false,
     language,
-    password,
-    referral
+    password
   }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
@@ -104,10 +103,6 @@ export default ({ api, networks }) => {
       networks.btc
     )
     yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail)
-    // insert api to set referral code
-    if (referral) {
-      // yield call()
-    }
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
