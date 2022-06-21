@@ -7,7 +7,7 @@ import { AxiosErrorResponse } from './createNabuErrorRejectedInterceptor.types'
 describe('#createNabuErrorRejectedInterceptor()', () => {
   const rejectedInterceptor = createNabuErrorRejectedInterceptor()
 
-  it('Should return the error then there is no nabu UX attrbiute', async () => {
+  it('Should return the error then there is no nabu UX attribute', async () => {
     const axiosResponse = {
       data: {
         id: '1'
@@ -22,7 +22,7 @@ describe('#createNabuErrorRejectedInterceptor()', () => {
     await expect(rejectedInterceptor(error)).rejects.toEqual(error)
   })
 
-  it('Should intercept the nabu error UX and thorw the NabuError', async () => {
+  it('Should intercept the nabu error UX and throw the NabuError', async () => {
     const axiosResponse = {
       data: {
         ux: {
@@ -43,5 +43,11 @@ describe('#createNabuErrorRejectedInterceptor()', () => {
     })
 
     await expect(rejectedInterceptor(error)).rejects.toEqual(nabuError)
+  })
+
+  it('Should not handle the error if response is not present in error', async () => {
+    const error = new Error('Some error') as AxiosErrorResponse
+
+    await expect(rejectedInterceptor(error)).rejects.toEqual(error)
   })
 })
