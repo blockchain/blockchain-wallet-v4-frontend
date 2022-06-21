@@ -18,12 +18,12 @@ const ListRowStyled = styled.div`
   height: ${() => `${listItemHeight}px`};
 `
 
-const Cell: any = styled.div`
+const Cell = styled.div<{ align?: string }>`
   width: 100%;
   height: 100%;
   color: #ffffff;
   display: flex;
-  text-align: ${(p: { align: string }) => p.align || 'left'};
+  text-align: ${(p) => p.align || 'left'};
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
