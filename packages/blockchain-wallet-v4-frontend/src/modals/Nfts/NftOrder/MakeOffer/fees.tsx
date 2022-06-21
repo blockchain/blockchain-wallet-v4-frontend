@@ -11,16 +11,19 @@ import CreateOfferFees from './CreateOffer.fees'
 import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
-  const { isAuthenticated, isInvited } = props
+  const { canWrap, isAuthenticated, isInvited, needsWrap } = props
 
   const getTotalFees = () => {
-    const totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees)
-      .multipliedBy(props?.orderFlow?.wrapEthFees?.data?.gasPrice)
-      .plus(
+    let totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees).multipliedBy(
+      props?.orderFlow?.wrapEthFees?.data?.gasPrice
+    )
+    if (canWrap && needsWrap) {
+      totalFees = totalFees.plus(
         new BigNumber(props?.orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
           props?.orderFlow?.wrapEthFees?.data?.gasPrice
         )
       )
+    }
     if (totalFees.isNaN()) return '⚠️'
     const totalString = totalFees.toString()
     const total = displayCoinToCoin({ coin: 'ETH', value: totalString })
@@ -34,12 +37,19 @@ const Fees: React.FC<Props> = (props) => {
     <>
       <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees()}>
         <CreateOfferFees {...props} />
-        {props.formValues?.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
+        {props.formValues?.coin === 'WETH' && canWrap && needsWrap ? (
+          <WrapEthFees {...props} />
+        ) : null}
       </NftDropdown>
     </>
   )
 }
 
-type Props = OwnProps & { asset: NftAsset; formValues: NftMakeOfferFormValues }
+type Props = OwnProps & {
+  asset: NftAsset
+  canWrap: boolean
+  formValues: NftMakeOfferFormValues
+  needsWrap: boolean
+}
 
 export default Fees
