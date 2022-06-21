@@ -9,6 +9,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { useCoinBalances } from '../../../hooks/useCoinBalances'
 import EmptyState from './EmptyState'
+import { CoinDataItem } from './types'
 
 const listItemHeight = 73
 
@@ -38,7 +39,7 @@ const BalanceWrapper = styled.div`
 `
 
 const ListRow = memo(
-  ({ data, index, style }: { data: any; index: number; style: { height: number } }) => {
+  ({ data, index, style }: { data: CoinDataItem; index: number; style: { height: number } }) => {
     const {
       balance,
       coinfig: { name, symbol }
@@ -79,14 +80,14 @@ const ListRow = memo(
   }
 )
 
-const CoinsList: React.FC = (): JSX.Element => {
-  const coins = useCoinBalances()
+const CoinsList: React.FC = () => {
+  const coins: CoinDataItem[] | null = useCoinBalances()
 
-  if (coins && !coins.length) {
+  const coinsCount: number = coins ? coins.length : 0
+
+  if (coins && !coinsCount) {
     return <EmptyState />
   }
-
-  const coinsCount = coins ? coins.length : 0
 
   return (
     <AutoSizer style={{ height: '300px', width: '100%' }}>

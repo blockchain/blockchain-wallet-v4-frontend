@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux'
 import { getBalanceSelector } from 'components/Balances/selectors'
 import { RootState } from 'data/rootReducer'
 
+import { CoinDataItem } from '../../scenes/extension/CoinView/types'
+
 export const useCoinBalances = () => {
   const state = useSelector((state: RootState) => state)
-  const [coins, setCoins] = useState<Array<any> | null>(null)
+  const [coins, setCoins] = useState<CoinDataItem[] | null>(null)
 
   const allowedChains = ['ETH', 'BTC', 'XLM', 'BCH', 'STX']
 

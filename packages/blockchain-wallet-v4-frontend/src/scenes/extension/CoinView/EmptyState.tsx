@@ -18,17 +18,15 @@ const ButtonStyled = styled(Button)`
   color: ${(props) => props.theme.exchangeLogin};
 `
 
-const EmptyState = () => {
-  return (
-    <Wrapper>
-      <div>
-        <Text style={{ color: '#ffffff' }} size='14px' weight={500}>
-          Receive
-        </Text>
-      </div>
-      <ButtonStyled data-e2e=''>Add crypto</ButtonStyled>
-    </Wrapper>
-  )
-}
+const EmptyState = () => (
+  <Wrapper>
+    <div>
+      <Text style={{ color: '#ffffff' }} size='14px' weight={500}>
+        Receive
+      </Text>
+    </div>
+    <ButtonStyled data-e2e=''>Add crypto</ButtonStyled>
+  </Wrapper>
+)
 
 export default EmptyState
