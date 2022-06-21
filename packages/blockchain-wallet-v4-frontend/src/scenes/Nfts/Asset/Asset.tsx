@@ -212,7 +212,7 @@ const NftAsset: React.FC<Props> = ({
   const isOwner =
     openSeaAsset.data?.ownership?.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
 
-  const owner = isOwner ? defaultEthAddr : openSeaAsset.data?.owner?.address
+  const owner = isOwner ? openSeaAsset.data?.ownership?.owner : openSeaAsset.data?.owner
   const collectionName = currentAsset?.collection?.name || ''
   const description = currentAsset?.collection?.description || ''
   const isLongEnough = description?.length > 82
