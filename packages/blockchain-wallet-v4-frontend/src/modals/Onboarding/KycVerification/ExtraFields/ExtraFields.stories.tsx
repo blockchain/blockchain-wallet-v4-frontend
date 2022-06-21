@@ -7,6 +7,8 @@ import { combineReducers, createStore } from 'redux'
 import ExtraFields from './template.success'
 
 const EXTRA_STEPS_RESPONSE = {
+  blocking: true,
+  context: 'TIER_TWO_UPGRADE',
   nodes: [
     {
       hint: 'CUIL Number',

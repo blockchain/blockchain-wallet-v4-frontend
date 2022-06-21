@@ -12,6 +12,11 @@ export enum CountryScope {
 
 export type CountryScopeType = keyof typeof CountryScope
 
+export enum ExtraKYCContext {
+  FIAT_DEPOSIT = 'FIAT_DEPOSIT',
+  TIER_TWO_VERIFICATION = 'TIER_TWO_VERIFICATION'
+}
+
 export enum NodeItemTypes {
   MULTIPLE_SELECTION = 'MULTIPLE_SELECTION',
   OPEN_ENDED = 'OPEN_ENDED',
@@ -63,5 +68,7 @@ export type NodeTextType = {
 }
 
 export type ExtraQuestionsType = {
+  blocking: boolean
+  context: keyof typeof ExtraKYCContext
   nodes: Array<NodeType>
 }
