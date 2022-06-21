@@ -5,6 +5,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
+import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -17,7 +19,6 @@ import {
   Icon as BlockchainIcon,
   Image,
   Link,
-  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
   Text
@@ -432,7 +433,12 @@ const NftAsset: React.FC<Props> = ({
                               />
                             ) : (
                               <Flex alignItems='center' flexDirection='row'>
-                                <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                <Avatar
+                                  size={34}
+                                  name={currentAsset.collection.slug || ''}
+                                  variant='marble'
+                                  colors={AvatarGradientColors}
+                                />
                               </Flex>
                             )}
                             <Text
@@ -478,7 +484,12 @@ const NftAsset: React.FC<Props> = ({
                                 />
                               ) : (
                                 <Flex alignItems='center' flexDirection='row'>
-                                  <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                  <Avatar
+                                    size={34}
+                                    name={owner.address || ''}
+                                    variant='marble'
+                                    colors={AvatarGradientColors}
+                                  />{' '}
                                 </Flex>
                               )}
 
