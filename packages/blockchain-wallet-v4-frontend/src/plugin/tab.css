@@ -1,0 +1,22 @@
+html,
+body,
+#app,
+#app > div {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+html,
+body {
+    background-color: rgb(18, 29, 51);
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.grecaptcha-badge {
+    visibility: hidden;
+}

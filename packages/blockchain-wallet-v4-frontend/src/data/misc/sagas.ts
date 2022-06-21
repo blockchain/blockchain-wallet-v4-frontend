@@ -1,3 +1,4 @@
+import { AbstractPlugin } from 'plugin/internal'
 import { call, delay, put, select } from 'redux-saga/effects'
 import Cookies from 'universal-cookie'
 
@@ -83,6 +84,10 @@ export default () => {
   }
 
   const generateCaptchaToken = function* (actionName) {
+    if (AbstractPlugin.isPlugin()) {
+      return ''
+    }
+
     let pollCount = 0
 
     // wait up to 10 seconds for captcha library to load

@@ -51,6 +51,7 @@
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
+    "build:plugin": "yarn workspace blockchain-wallet-v4-frontend build:plugin",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
     "ci:lint": "eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,tsx}'",
     "ci:test:build": "yarn wsrun --serial test:build",

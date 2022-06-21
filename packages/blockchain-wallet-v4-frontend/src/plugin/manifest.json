@@ -1,0 +1,27 @@
+{
+  "name": "Blockchain Wallet Extension",
+  "short_name": "Blockchain Extension",
+  "description": "Blockchain Crypto Wallet Extension",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Open plugin"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "16": "/img/favicons/favicon-16x16.png"
+  },
+  "content_security_policy": {
+    "extension_scripts": "default-src 'self'; script-src 'self'"
+  },
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "key": "oglcnddafdppkfghbjgfbgmmmdompgmp"
+}

@@ -7,6 +7,7 @@ module.exports = {
   appBuild: resolveRoot('lib'),
   ciBuild: resolveRoot('dist'),
   legacyPages: resolveRoot('legacy-pages'),
+  mocksConfig: resolveRoot('config/mocks'),
   pkgJson: resolveRoot('package.json'),
   envConfig: resolveRoot('config/env'),
   src: resolveRoot('packages/blockchain-wallet-v4-frontend/src'),
