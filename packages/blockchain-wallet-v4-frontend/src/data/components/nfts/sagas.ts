@@ -58,7 +58,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.asset_contract_address,
-        action.payload.token_id
+        action.payload.token_id,
+        action.payload.defaultEthAddr
       )
       yield put(A.fetchOpenSeaAssetSuccess(res))
     } catch (e) {
@@ -337,7 +338,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
-      const signer: Signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
@@ -356,6 +357,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -449,6 +451,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -496,7 +499,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
       const { buy, gasData, sell } = action.payload
-      const signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
 
@@ -514,6 +517,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -614,6 +618,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -646,7 +651,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const createTransfer = function* (action: ReturnType<typeof A.createTransfer>) {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
-      const signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
         gasLimit: action.payload.gasData.gasFees.toString(),
         gasPrice: action.payload.gasData.gasPrice.toString()
@@ -664,6 +669,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -690,7 +696,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
-      const signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
@@ -705,6 +711,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )
@@ -744,7 +751,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (!action.payload.order) {
         throw new Error('No offer found. It may have expired already!')
       }
-      const signer = yield call(getEthSigner)
+      const signer: ethers.Wallet = yield call(getEthSigner)
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
@@ -762,6 +769,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(
         A.fetchOpenSeaAsset({
           asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
           token_id: action.payload.asset.token_id
         })
       )

@@ -195,9 +195,10 @@ const NftAsset: React.FC<Props> = ({
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
+      defaultEthAddr,
       token_id: id
     })
-  }, [contract, id, nftsActions])
+  }, [contract, id, nftsActions, defaultEthAddr])
 
   useEffect(() => {
     if (isRefreshRotating) {
@@ -208,13 +209,10 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const isOwner = currentAsset?.owners
-    ? currentAsset.owners.find((owner) => {
-        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
-      })
-    : null
+  const isOwner =
+    openSeaAsset.data?.ownership?.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
 
-  const owner = currentAsset?.owners ? currentAsset.owners[0] : null
+  const owner = isOwner ? openSeaAsset.data?.ownership?.owner : openSeaAsset.data?.owner
   const collectionName = currentAsset?.collection?.name || ''
   const description = currentAsset?.collection?.description || ''
   const isLongEnough = description?.length > 82
@@ -508,6 +506,7 @@ const NftAsset: React.FC<Props> = ({
                         reExecuteQuery()
                         nftsActions.fetchOpenSeaAsset({
                           asset_contract_address: contract,
+                          defaultEthAddr,
                           token_id: id
                         })
                         setIsRefreshRotating(true)
