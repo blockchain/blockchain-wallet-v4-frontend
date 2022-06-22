@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { intervalToDuration } from 'date-fns'
 import { isEmpty } from 'ramda'
@@ -124,6 +124,15 @@ const OrderSummary: React.FC<Props> = ({
       })
     }, duration)
   }, [outputCurrency, handleClose])
+
+  useEffect(() => {
+    if (isInterestEligibleCoin) {
+      analyticsActions.trackEvent({
+        key: Analytics.WALLET_BUY_EARN_REWARDS_VIEWED,
+        properties: {}
+      })
+    }
+  }, [outputCurrency])
 
   return (
     <Container>
