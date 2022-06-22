@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink, Route, Switch } from 'react-router-dom'
+import { IconHistory, IconListBullets, IconNft } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -8,16 +9,16 @@ import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import BottomBarLayout from 'layouts/extension/BottomBarLayout'
 
-import HistoryIcon from '../../icons/HistoryIcon'
-import ListIcon from '../../icons/ListIcon'
-import MoreIcon from '../../icons/MoreIcon'
-import NFTIcon from '../../icons/NFTIcon'
+// FIXME:
+// eslint-disable-next-line import/no-named-as-default
 import CoinView from '../../scenes/extension/CoinView'
 
 const HomeNavbarItem = styled(NavLink)`
   display: block;
   position: relative;
   padding: 10px;
+  font-size: 24px;
+  color: #fff;
   &:not(:first-child),
   &:not(:last-child) {
     margin: 0 10px;
@@ -51,16 +52,13 @@ const HomeNavbarWrapper = styled.div`
 const HomeNavbar = ({ path }: { path: string }) => (
   <HomeNavbarWrapper>
     <HomeNavbarItem exact to={`${path}`}>
-      <ListIcon color='#fff' size={20} />
+      <IconListBullets />
     </HomeNavbarItem>
     <HomeNavbarItem to={`${path}/activity`}>
-      <HistoryIcon color='#fff' />
+      <IconHistory />
     </HomeNavbarItem>
     <HomeNavbarItem to={`${path}/nft`}>
-      <NFTIcon color='#fff' />
-    </HomeNavbarItem>
-    <HomeNavbarItem to={`${path}/settings`}>
-      <MoreIcon color='#fff' />
+      <IconNft />
     </HomeNavbarItem>
   </HomeNavbarWrapper>
 )

@@ -14,7 +14,7 @@ export const useCoinBalances = () => {
 
   useEffect(() => {
     const getCoins = () => {
-      const coinsArr: Array<any> = []
+      const coinsArr: CoinDataItem[] = []
       Object.entries(window.coins).forEach((coin: any) => {
         const balance = getBalanceSelector(coin[0])(state).getOrElse(0).valueOf()
         const { coinfig } = coin[1]
