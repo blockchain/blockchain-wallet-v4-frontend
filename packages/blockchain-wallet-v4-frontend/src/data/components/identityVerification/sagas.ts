@@ -2,7 +2,7 @@ import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
-import { ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
+import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/types'
@@ -12,7 +12,6 @@ import profileSagas from '../../modules/profile/sagas'
 import {
   BAD_CODE_ERROR,
   EMAIL_STEPS,
-  EXTRA_KYC_CONTEXTS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
@@ -172,9 +171,7 @@ export default ({ api, coreSagas, networks }) => {
     let addExtraStep = false
     // check extra KYC fields
     const context =
-      origin === 'BuySell'
-        ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT
-        : EXTRA_KYC_CONTEXTS.TIER_TWO_VERIFICATION
+      origin === 'BuySell' ? ExtraKYCContext.FIAT_DEPOSIT : ExtraKYCContext.TIER_TWO_VERIFICATION
 
     yield put(actions.components.identityVerification.fetchExtraKYC(context))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])

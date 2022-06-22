@@ -156,7 +156,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const updateItem = (nodeId: string, childId: string) => {
     props.formActions.change(KYC_EXTRA_QUESTIONS_FORM, nodeId, childId)
 
-    const { nodes } = props.extraSteps
+    const { blocking, context, nodes } = props.extraSteps
     let isChanged = false
 
     nodes.map(
@@ -177,14 +177,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         })
     )
     if (isChanged) {
-      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+      props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
     }
   }
 
   const onChangeInput = (e, value) => {
     const itemId = e.currentTarget.name
 
-    const { nodes } = props.extraSteps
+    const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
     nodes.map(
@@ -203,7 +203,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
 
     if (isChanged) {
-      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+      props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
     }
   }
 
