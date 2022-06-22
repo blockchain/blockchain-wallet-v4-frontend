@@ -100,6 +100,7 @@ const OrderSummary: React.FC<Props> = ({
 
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
 
+  // Getting the interest rate for the coin that was bought
   const coinInterestRate = !!interestRate[outputCurrency] && interestRate[outputCurrency]
 
   const isInterestEligibleCoin = useMemo(
@@ -112,10 +113,6 @@ const OrderSummary: React.FC<Props> = ({
   )
 
   const handleEarnRewardsButton = useCallback(() => {
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_BUY_EARN_REWARDS_CLICKED,
-      properties: {}
-    })
     handleClose()
     setTimeout(() => {
       interestActions.showInterestModal({
@@ -123,6 +120,10 @@ const OrderSummary: React.FC<Props> = ({
         step: 'ACCOUNT_SUMMARY'
       })
     }, duration)
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_BUY_EARN_REWARDS_CLICKED,
+      properties: {}
+    })
   }, [outputCurrency, handleClose])
 
   useEffect(() => {
