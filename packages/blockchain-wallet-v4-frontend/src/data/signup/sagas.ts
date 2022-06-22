@@ -29,6 +29,8 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
+  const REFERRAL_ERROR_MESSAGE = 'Invalid Referral Code'
+
   const { generateCaptchaToken } = miscSagas()
 
   const exchangeMobileAppSignup = function* ({
@@ -71,7 +73,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setIsValidReferralCode(true))
     } catch (e) {
       yield put(actions.signup.setIsValidReferralCode(false))
-      throw new Error('Invalid Referral Code')
+      throw new Error(REFERRAL_ERROR_MESSAGE)
     }
   }
 
@@ -148,10 +150,12 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.createReferral(referral))
       }
     } catch (e) {
-      yield put(actions.signup.registerFailure(undefined))
-      yield put(actions.auth.loginFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
-      yield put(actions.alerts.displayError(C.REGISTER_ERROR))
+      if (e.message !== REFERRAL_ERROR_MESSAGE) {
+        yield put(actions.signup.registerFailure(undefined))
+        yield put(actions.auth.loginFailure(e))
+        yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
+        yield put(actions.alerts.displayError(C.REGISTER_ERROR))
+      }
     }
   }
 
