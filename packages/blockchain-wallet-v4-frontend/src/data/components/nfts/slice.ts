@@ -14,6 +14,7 @@ import {
   OpenSeaAsset,
   OpenSeaStatus,
   RawOrder,
+  SeaportRawOrder,
   UnsignedOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -71,12 +72,12 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         asset: NftAsset
         gasData: GasDataI
-        order: NftAsset['seaport_sell_orders'][0]
+        order: SeaportRawOrder
       }>
     ) => {},
     cancelOffer: (
       state,
-      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder | null }>
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: SeaportRawOrder | null }>
     ) => {},
     createOffer: (
       state,
@@ -106,7 +107,6 @@ const nftsSlice = createSlice({
         asset: NftAssetsType[0]
         endPrice: number | null
         expirationMinutes: number
-        gasData: GasDataI
         paymentTokenAddress: string | undefined
         reservePrice: number | undefined
         startPrice: number
@@ -142,22 +142,12 @@ const nftsSlice = createSlice({
           }
         | {
             asset: NftAsset
-            endPrice?: number
-            expirationMinutes: number
-            operation: GasCalculationOperations.Sell
-            paymentTokenAddress?: string
-            reservePrice?: number
-            startPrice: number
-            waitForHighestBid?: boolean
-          }
-        | {
-            asset: NftAsset
             operation: GasCalculationOperations.Transfer
             to: string
           }
         | {
             operation: GasCalculationOperations.Cancel
-            order: NftAsset['seaport_sell_orders'][0]
+            order: SeaportRawOrder
           }
       >
     ) => {},
@@ -261,7 +251,7 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | {
             asset_contract_address: string
-            offer: RawOrder
+            offer: SeaportRawOrder
             order?: never
             step: NftOrderStepEnum.CANCEL_OFFER
             token_id: string
@@ -283,7 +273,7 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
-            order: NftAsset['seaport_sell_orders'][0]
+            order: SeaportRawOrder
             step: NftOrderStepEnum.CANCEL_LISTING
             token_id: string
           }
@@ -342,16 +332,13 @@ const nftsSlice = createSlice({
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
     },
-    setListingToCancel: (
-      state,
-      action: PayloadAction<{ order: NftAsset['seaport_sell_orders'][0] }>
-    ) => {
+    setListingToCancel: (state, action: PayloadAction<{ order: SeaportRawOrder }>) => {
       state.orderFlow.listingToCancel = action.payload.order
     },
     setNftOrderStatus: (state, action: PayloadAction<NftOrderStatusEnum>) => {
       state.orderFlow.status = action.payload
     },
-    setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
+    setOfferToCancel: (state, action: PayloadAction<{ offer: SeaportRawOrder }>) => {
       state.orderFlow.offerToCancel = action.payload.offer
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {

@@ -87,7 +87,7 @@ const Default = {
   teal700: '#055E66',
   teal800: '#08474C',
   teal900: '#052F33',
-  // COINS
+  // OLD - AVOID USE \\
   AAVE: '#2EBAC6',
   ALGO: '#000000',
   BAT: '#FF4724',
@@ -125,13 +125,11 @@ const Default = {
   YFI: '#0074FA',
   ZEN: '#041742',
   ZRX: '#000000',
-  // FIAT
   USD: '#00B26B',
   EUR: '#00B26B',
   GBP: '#00B26B',
   RUB: '#00B26B',
   TRY: '#00B26B',
-  // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',
   'brand-yellow-lighter': '#FFE6CC',

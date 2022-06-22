@@ -303,7 +303,6 @@ type SellItemClickedAction = {
     amount: number
     collection: string
     collection_id: string
-    selling_fees: number
     type: SaleType
   }
 }

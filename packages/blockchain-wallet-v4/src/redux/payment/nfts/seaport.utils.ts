@@ -67,7 +67,7 @@ export const getFees = async ({
   paymentTokenAddress,
   startAmount
 }: {
-  endAmount?: number
+  endAmount?: string
   network: string
   openseaAsset: OpenSeaAsset
   paymentTokenAddress: string

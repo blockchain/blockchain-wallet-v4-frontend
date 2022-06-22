@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
+import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'

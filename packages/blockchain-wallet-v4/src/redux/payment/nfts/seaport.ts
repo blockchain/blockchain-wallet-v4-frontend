@@ -5,12 +5,11 @@ import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
 import {
-  FeeMethod,
   GasCalculationOperations,
   GasDataI,
-  NftAsset,
   NftOrderSide,
-  OpenSeaAsset
+  OpenSeaAsset,
+  SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
 
@@ -63,7 +62,7 @@ export const cancelOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: NftAsset['seaport_sell_orders'][0]
+  order: SeaportRawOrder
   signer: ethers.Wallet
 }) => {
   // Transact and get the transaction hash
@@ -142,7 +141,7 @@ export const createSellOrder = async ({
   )
 
   const { collectionSellerFee, openseaSellerFee, sellerFee } = await getFees({
-    endAmount: endPrice.toNumber(),
+    endAmount: endPrice.toString(),
     network,
     openseaAsset,
     paymentTokenAddress,
@@ -204,82 +203,83 @@ export const createBuyOrder = async ({
   signer: ethers.Wallet
   startAmount: BigNumberInput
 }) => {
-  try {
-    if (!openseaAsset.tokenId) {
-      throw new Error('Asset must have a tokenId')
-    }
-
-    if (!paymentTokenAddress) {
-      paymentTokenAddress = network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
-    }
-
-    const considerationAssetItems = getAssetItems([openseaAsset], [makeBigNumber(quantity)])
-
-    const { basePrice } = await _getPriceParameters(
-      NftOrderSide.Buy,
-      paymentTokenAddress,
-      makeBigNumber(expirationTime ?? getMaxOrderExpirationTimestamp()).toNumber(),
-      makeBigNumber(startAmount).toNumber()
-    )
-
-    const { collectionSellerFee, openseaSellerFee } = await getFees({
-      network,
-      openseaAsset,
-      paymentTokenAddress,
-      startAmount: basePrice.toString()
-    })
-    const considerationFeeItems = [openseaSellerFee, collectionSellerFee].filter(
-      (item): item is ConsiderationInputItem => item !== undefined
-    )
-
-    const seaport = getSeaport(signer)
-    const { executeAllActions } = await seaport.createOrder(
-      {
-        allowPartialFills: false,
-        consideration: [...considerationAssetItems, ...considerationFeeItems],
-        endTime: expirationTime?.toString() ?? getMaxOrderExpirationTimestamp().toString(),
-        offer: [
-          {
-            amount: basePrice.toString(),
-            token: paymentTokenAddress
-          }
-        ],
-        restrictedByZone: true,
-        zone: network === 'rinkeby' ? DEFAULT_ZONE_RINKEBY : DEFAULT_ZONE
-      },
-      accountAddress
-    )
-    const order = await executeAllActions()
-    await seaport.validate([order], accountAddress)
-
-    return order
-  } catch (e) {
-    console.log(e)
+  if (!openseaAsset.tokenId) {
+    throw new Error('Asset must have a tokenId')
   }
 
-  // return this.api.postOrder(order, { protocol: 'seaport', side: 'bid' })
+  if (!paymentTokenAddress) {
+    paymentTokenAddress = network === 'rinkeby' ? WETH_CONTRACT_RINKEBY : WETH_CONTRACT_MAINNET
+  }
+
+  const considerationAssetItems = getAssetItems([openseaAsset], [makeBigNumber(quantity)])
+
+  const { basePrice } = await _getPriceParameters(
+    NftOrderSide.Buy,
+    paymentTokenAddress,
+    makeBigNumber(expirationTime ?? getMaxOrderExpirationTimestamp()).toNumber(),
+    makeBigNumber(startAmount).toNumber()
+  )
+
+  const { collectionSellerFee, openseaSellerFee } = await getFees({
+    network,
+    openseaAsset,
+    paymentTokenAddress,
+    startAmount: basePrice.toString()
+  })
+  const considerationFeeItems = [openseaSellerFee, collectionSellerFee].filter(
+    (item): item is ConsiderationInputItem => item !== undefined
+  )
+
+  const seaport = getSeaport(signer)
+  const { executeAllActions } = await seaport.createOrder(
+    {
+      allowPartialFills: false,
+      consideration: [...considerationAssetItems, ...considerationFeeItems],
+      endTime: expirationTime?.toString() ?? getMaxOrderExpirationTimestamp().toString(),
+      offer: [
+        {
+          amount: basePrice.toString(),
+          token: paymentTokenAddress
+        }
+      ],
+      restrictedByZone: true,
+      zone: network === 'rinkeby' ? DEFAULT_ZONE_RINKEBY : DEFAULT_ZONE
+    },
+    accountAddress
+  )
+  const order = await executeAllActions()
+  await seaport.validate([order], accountAddress)
+
+  return order
 }
 
 export const calculateSeaportGasFees = async ({
   operation,
   order,
   signer
-}: { signer: ethers.Wallet } & {
-  operation: GasCalculationOperations.Cancel
-  order: NftAsset['seaport_sell_orders'][0]
-}): Promise<GasDataI> => {
+}:
+  | { signer: ethers.Wallet } & {
+      operation: GasCalculationOperations.Cancel
+      order: SeaportRawOrder
+    }): Promise<GasDataI> => {
   let totalFees = 0
+  let gasFees = 0
+  let estimate = '0'
   const proxyFees = 0
   const approvalFees = 0
-  let gasFees = 0
   const seaport = getSeaport(signer)
 
-  if (operation === GasCalculationOperations.Cancel && order) {
-    const estimate = await (
-      await seaport.cancelOrders([order.protocol_data.parameters]).estimateGas()
-    )._hex
-    gasFees = Math.ceil(parseInt(estimate) * 1.2)
+  switch (operation) {
+    case GasCalculationOperations.Cancel:
+      estimate = await (
+        await seaport
+          .cancelOrders([(order as SeaportRawOrder).protocol_data.parameters])
+          .estimateGas()
+      )._hex
+      break
+    default:
   }
+  gasFees = Math.ceil(parseInt(estimate) * 1.2)
 
   const gasPrice = await (await signer.getGasPrice()).toNumber()
   totalFees = approvalFees + proxyFees + gasFees

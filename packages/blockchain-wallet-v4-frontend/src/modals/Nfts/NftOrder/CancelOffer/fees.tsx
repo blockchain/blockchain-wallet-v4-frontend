@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
+import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -18,13 +18,13 @@ const Fees: React.FC<Props> = (props) => {
   const { offerToCancel } = orderFlow
 
   useEffect(() => {
-    nftActions.fetchFees({
-      operation: GasCalculationOperations.Cancel,
-      // TODO: SEAPORT
-      // @ts-ignore
-      order: offerToCancel
-    })
-  }, [])
+    if (offerToCancel) {
+      nftActions.fetchFees({
+        operation: GasCalculationOperations.Cancel,
+        order: offerToCancel
+      })
+    }
+  }, [offerToCancel, nftActions])
 
   if (!offerToCancel) return null
 

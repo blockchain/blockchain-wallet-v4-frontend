@@ -9,20 +9,18 @@ import { APIType } from '@core/network/api'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
-  cancelNftOrder,
   executeWrapEth,
   fulfillNftOrder,
   fulfillTransfer,
   getNftBuyOrder,
-  getNftMatchingOrders,
-  getNftSellOrder
+  getNftMatchingOrders
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import {
   calculateSeaportGasFees,
   cancelOrder as cancelSeaportOrder,
   createBuyOrder,
-  createSellOrder as createSellOrderSeaport
+  createSellOrder as createSeaportSellOrder
 } from '@core/redux/payment/nfts/seaport'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -252,40 +250,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           order: action.payload.order,
           signer
         })
-      } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        let listingTime = getUnixTime(addSeconds(new Date(), 10))
-        let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
-
-        // For english auctions, order executes at listing time
-        // highest bidder wins the auction
-        if (action.payload.waitForHighestBid) {
-          listingTime = expirationTime
-          expirationTime = getUnixTime(
-            addMinutes(new Date(), action.payload.expirationMinutes + 10080)
-          )
-        }
-
-        const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
-          getNftSellOrder,
-          action.payload.asset,
-          signer,
-          listingTime,
-          expirationTime,
-          action.payload.startPrice,
-          action.payload.endPrice,
-          action.payload.reservePrice,
-          IS_TESTNET ? 'rinkeby' : 'mainnet',
-          action.payload.waitForHighestBid,
-          action.payload.paymentTokenAddress
-        )
-        fees = yield call(
-          calculateGasFees,
-          GasCalculationOperations.Sell,
-          signer,
-          undefined,
-          undefined,
-          order
-        )
       } else if (action.payload.operation === GasCalculationOperations.Transfer) {
         fees = yield call(
           calculateGasFees,
@@ -548,12 +512,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    const isTimedAuction = !!action.payload.endPrice
-    const coin = isTimedAuction ? 'WETH' : 'ETH'
-    const startPrice = action?.payload?.startPrice
-    const endPrice = action?.payload?.endPrice || 0
+    const { asset, endPrice, expirationMinutes, startPrice, waitForHighestBid } = action.payload
+    const coin = action.payload.waitForHighestBid ? 'WETH' : 'ETH'
     const start_usd = yield getAmountUsd(coin, startPrice)
-    const end_usd = yield getAmountUsd(coin, endPrice)
+    const end_usd = yield getAmountUsd(coin, endPrice || 0)
     const { coinfig } = window.coins[coin]
 
     try {
@@ -562,53 +524,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const guid = yield select(selectors.core.wallet.getGuid)
       const network = IS_TESTNET ? 'rinkeby' : 'mainnet'
       let listingTime = getUnixTime(addSeconds(new Date(), 10))
-      let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
+      let expirationTime = getUnixTime(addMinutes(new Date(), expirationMinutes))
 
-      if (action.payload.waitForHighestBid) {
+      if (waitForHighestBid) {
         listingTime = expirationTime
-        expirationTime = getUnixTime(
-          addMinutes(new Date(), action.payload.expirationMinutes + 10080)
-        )
+        expirationTime = getUnixTime(addMinutes(new Date(), expirationMinutes + 10080))
       }
 
       const signer: ethers.Wallet = yield call(getEthSigner)
-      const seaportOrder = yield call(createSellOrderSeaport, {
+      const seaportOrder = yield call(createSeaportSellOrder, {
         accountAddress: signer.address,
-        endAmount: action.payload.endPrice || undefined,
+        endAmount: endPrice || undefined,
         expirationTime,
         listingTime: listingTime.toString(),
         network,
-        openseaAsset: assetFromJSON(action.payload.asset),
-        paymentTokenAddress: isTimedAuction ? coinfig.type.erc20Address : NULL_ADDRESS,
+        openseaAsset: assetFromJSON(asset),
+        paymentTokenAddress: waitForHighestBid ? coinfig.type.erc20Address : NULL_ADDRESS,
         quantity: 1,
         signer,
         startAmount: action.payload.startPrice
       })
       yield call(api.postNftOrderV2, seaportOrder, network, 'ask')
-      // const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
-      //   getNftSellOrder,
-      //   action.payload.asset,
-      //   signer,
-      //   listingTime,
-      //   expirationTime,
-      //   action.payload.startPrice,
-      //   action.payload.endPrice,
-      //   action.payload.reservePrice,
-      //   IS_TESTNET ? 'rinkeby' : 'mainnet',
-      //   action.payload.waitForHighestBid,
-      //   action.payload.paymentTokenAddress
-      // )
-      // const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
-      // const retailToken = yield call(generateRetailToken)
-      // yield call(api.postNftOrderV1, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
             currency: coin,
-            end_price: isTimedAuction ? Number(endPrice) : undefined,
-            end_usd: isTimedAuction ? end_usd : undefined,
+            end_price: endPrice ? Number(endPrice) : undefined,
+            end_usd: endPrice ? end_usd : undefined,
             start_price: Number(startPrice),
             start_usd,
             type: 'SUCCESS'
@@ -617,9 +561,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       )
       yield put(
         A.fetchOpenSeaAsset({
-          asset_contract_address: action.payload.asset.asset_contract.address,
+          asset_contract_address: asset.asset_contract.address,
           defaultEthAddr: signer.address,
-          token_id: action.payload.asset.token_id
+          token_id: asset.token_id
         })
       )
     } catch (e) {
@@ -629,8 +573,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           key: Analytics.NFT_LISTING_SUCCESS_FAIL,
           properties: {
             currency: coin,
-            end_price: isTimedAuction ? Number(endPrice) : undefined,
-            end_usd: isTimedAuction ? end_usd : undefined,
+            end_price: endPrice ? Number(endPrice) : undefined,
+            end_usd: endPrice ? end_usd : undefined,
             error_message: error,
             start_price: Number(startPrice),
             start_usd,
@@ -743,7 +687,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
+    // TODO: SEAPORT
+    const coin = 'WETH'
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
@@ -757,7 +702,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         throw new Error('No offer found. It may have expired already!')
       }
       const signer: ethers.Wallet = yield call(getEthSigner)
-      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
+      yield call(cancelSeaportOrder, {
+        accountAddress: signer.address,
+        gasData: action.payload.gasData,
+        order: action.payload.order,
+        signer
+      })
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
       yield put(

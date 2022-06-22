@@ -6,7 +6,8 @@ import {
   NftCollection,
   NftOrder,
   NftUserPreferencesReturnType,
-  RawOrder
+  RawOrder,
+  SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
@@ -67,9 +68,9 @@ export type NftsStateType = {
   orderFlow: {
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
-    listingToCancel: NftAsset['seaport_sell_orders'][0] | null
+    listingToCancel: SeaportRawOrder | null
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
-    offerToCancel: RawOrder | null
+    offerToCancel: SeaportRawOrder | null
     orderToMatch: RawOrder | null
     prevStep: NftOrderStepEnum | null
     status: NftOrderStatusEnum | null

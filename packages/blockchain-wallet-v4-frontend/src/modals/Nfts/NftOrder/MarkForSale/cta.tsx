@@ -51,87 +51,68 @@ const CTA: React.FC<Props> = ({
 
   return (
     <div>
-      {orderFlow.fees.cata({
-        Failure: () => (
-          <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
-            <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-          </Button>
-        ),
-        Loading: () => (
-          <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
-            <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-          </Button>
-        ),
-        NotAsked: () => null,
-        Success: (fees) => (
-          <Button
-            jumbo
-            nature='primary'
-            fullwidth
-            data-e2e='sellNft'
-            disabled={disabled}
-            onClick={() => {
-              if (saleType === 'fixed-price') {
-                nftActions.createSellOrder({
-                  asset,
-                  endPrice: null,
-                  expirationMinutes: formValues.expirationMinutes,
-                  gasData: fees,
-                  paymentTokenAddress: undefined,
-                  reservePrice: undefined,
-                  startPrice: Number(amount),
-                  waitForHighestBid: false
-                })
-                // English Auction
-              } else if (
-                saleType === 'timed-auction' &&
-                formValues?.timedAuctionType === 'highestBidder'
-              ) {
-                nftActions.createSellOrder({
-                  asset,
-                  endPrice: null,
-                  expirationMinutes: formValues.expirationMinutes,
-                  gasData: fees,
-                  paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
-                  reservePrice: Number(formValues.reserve),
-                  startPrice: Number(formValues.starting),
-                  waitForHighestBid: true
-                })
-              }
-              // Dutch Auction
-              else {
-                nftActions.createSellOrder({
-                  asset,
-                  endPrice: Number(formValues.ending),
-                  expirationMinutes: formValues.expirationMinutes,
-                  gasData: fees,
-                  paymentTokenAddress: undefined,
-                  reservePrice: undefined,
-                  startPrice: Number(formValues.starting),
-                  waitForHighestBid: false
-                })
-              }
+      <Button
+        jumbo
+        nature='primary'
+        fullwidth
+        data-e2e='sellNft'
+        disabled={disabled}
+        onClick={() => {
+          if (saleType === 'fixed-price') {
+            nftActions.createSellOrder({
+              asset,
+              endPrice: null,
+              expirationMinutes: formValues.expirationMinutes,
+              paymentTokenAddress: undefined,
+              reservePrice: undefined,
+              startPrice: Number(amount),
+              waitForHighestBid: false
+            })
+            // English Auction
+          } else if (
+            saleType === 'timed-auction' &&
+            formValues?.timedAuctionType === 'highestBidder'
+          ) {
+            nftActions.createSellOrder({
+              asset,
+              endPrice: null,
+              expirationMinutes: formValues.expirationMinutes,
+              paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+              reservePrice: Number(formValues.reserve),
+              startPrice: Number(formValues.starting),
+              waitForHighestBid: true
+            })
+          }
+          // Dutch Auction
+          else {
+            nftActions.createSellOrder({
+              asset,
+              endPrice: Number(formValues.ending),
+              expirationMinutes: formValues.expirationMinutes,
+              paymentTokenAddress: undefined,
+              reservePrice: undefined,
+              startPrice: Number(formValues.starting),
+              waitForHighestBid: false
+            })
+          }
 
-              analyticsActions.trackEvent({
-                key: Analytics.NFT_SELL_ITEM_CLICKED,
-                properties: {
-                  amount: Number(amount),
-                  collection: asset.collection.name,
-                  collection_id: asset.token_id,
-                  selling_fees: Number(fees.totalFees),
-                  type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
-                }
-              })
-            }}
-          >
-            {orderFlow.isSubmitting ? (
-              <HeartbeatLoader color='blue100' height='20px' width='20px' />
-            ) : (
-              <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-            )}
-          </Button>
-        )
-      })}
+          analyticsActions.trackEvent({
+            key: Analytics.NFT_SELL_ITEM_CLICKED,
+            properties: {
+              amount: Number(amount),
+              collection: asset.collection.name,
+              collection_id: asset.token_id,
+              type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
+            }
+          })
+        }}
+      >
+        {orderFlow.isSubmitting ? (
+          <HeartbeatLoader color='blue100' height='20px' width='20px' />
+        ) : (
+          <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
+        )}
+      </Button>
     </div>
   )
 }
