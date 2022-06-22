@@ -192,9 +192,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           <BalanceItem>
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
-                id='modals.interest.withdrawal.balance1'
-                defaultMessage='Your {coinTicker} Balance'
-                values={{ coinTicker }}
+                id='modals.interest.withdrawal.balance2'
+                defaultMessage='Your Rewards Balance'
               />
             </Text>
 
