@@ -12,15 +12,6 @@ const ContentWrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const IconWrapper = styled.div`
-  display: flex;
-  background: ${(props) => props.theme.blue600};
-  height: 40px;
-  width: 40px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-`
 
 const ExchangeUserConflict = ({ email, walletRedirect }: Props) => {
   return (

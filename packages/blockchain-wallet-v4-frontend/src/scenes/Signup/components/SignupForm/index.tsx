@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
@@ -7,6 +7,7 @@ import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
+import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
@@ -27,6 +28,7 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
+import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SubviewProps } from '../../types'
 
@@ -88,9 +90,21 @@ const getStateElements = (states: Array<StateType>) => [
 ]
 
 const SignupForm = (props: Props) => {
-  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
-    props
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    isReferralEnabled,
+    isValidReferralCode,
+    onCountrySelect,
+    onSignupSubmit,
+    showState
+  } = props
+  const intl = useIntl()
   const passwordValue = formValues?.password || ''
+  const referralValue = formValues?.referral || ''
+  const showReferralError =
+    referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode
 
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
@@ -247,7 +261,37 @@ const SignupForm = (props: Props) => {
           </FieldWithoutTopRadius>
         ) : null}
       </FormGroup>
-
+      {isReferralEnabled && (
+        <FormGroup>
+          <FormItem>
+            <FormLabel htmlFor='referral' id='referral'>
+              <FormattedMessage
+                defaultMessage='Have a referral code?'
+                id='scenes.register.referralcode'
+              />
+            </FormLabel>
+            <Field
+              bgColor='grey000'
+              component={TextBox}
+              data-e2e='referral'
+              name='referral'
+              normalize={applyToUpperCase}
+              placeholder={intl.formatMessage({
+                defaultMessage: 'Enter referral code',
+                id: 'scenes.register.referralcode.placeholder'
+              })}
+            />
+            {showReferralError && (
+              <FormError data-e2e='referralError' style={{ paddingTop: '5px' }}>
+                <FormattedMessage
+                  defaultMessage='Please enter a valid referral code'
+                  id='scenes.register.referralcode.error'
+                />
+              </FormError>
+            )}
+          </FormItem>
+        </FormGroup>
+      )}
       <FormGroup inline>
         <FieldWrapper>
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />

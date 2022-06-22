@@ -78,13 +78,14 @@ class SignupContainer extends React.PureComponent<
   onSubmit = (e) => {
     e.preventDefault()
     const { formValues, language, signupActions } = this.props
-    const { country, email, password, state } = formValues
+    const { country, email, password, referral, state } = formValues
 
     signupActions.register({
       country,
       email,
       language,
       password,
+      referral,
       state
     })
   }
@@ -151,6 +152,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
+  isReferralEnabled: selectors.core.walletOptions
+    .getReferralEnabled(state)
+    .getOrElse(false) as boolean,
+  isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
   unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
@@ -172,6 +177,8 @@ type LinkStatePropsType = {
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>
+  isReferralEnabled: boolean
+  isValidReferralCode?: boolean
   language: string
   search: string
   unified: boolean
