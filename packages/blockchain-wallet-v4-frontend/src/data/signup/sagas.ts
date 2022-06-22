@@ -80,8 +80,9 @@ export default ({ api, coreSagas, networks }) => {
     const { country, email, language, password, referral, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
-    const isReferralEntered = referral.length > 0
+
     try {
+      const isReferralEntered = referral && referral.length > 0
       if (isReferralEntered) {
         yield call(checkReferralCode, referral)
       }
