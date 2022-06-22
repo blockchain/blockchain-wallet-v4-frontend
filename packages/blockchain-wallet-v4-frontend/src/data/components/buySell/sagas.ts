@@ -1446,6 +1446,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
       case BSPaymentTypes.LINK_BANK:
+        yield put(actions.components.buySell.setStep({ step: 'LOADING' }))
         // FIXME: need to fetch fast link too???
         yield put(
           actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType)
@@ -1475,12 +1476,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             origin: BrokerageModalOriginType.ADD_BANK_BUY
           })
         )
-        return yield put(
+        yield put(
           actions.components.brokerage.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
           })
         )
-
+        // Small delay before setting the buy/sell modal back to payment method step
+        // This is simply for a better visual UX
+        yield delay(2000)
+        return yield put(
+          actions.components.buySell.setStep({
+            cryptoCurrency,
+            fiatCurrency,
+            pair,
+            step: 'PAYMENT_METHODS'
+          })
+        )
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {
           return yield put(

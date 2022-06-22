@@ -17,6 +17,7 @@ import {
   BrokerageModalOriginType,
   BrokerageState,
   FastLinkType,
+  PlaidAccountType,
   YodleeAccountType
 } from './types'
 
@@ -66,7 +67,10 @@ const brokerageSlice = createSlice({
       const accounts = action.payload.filter((a) => a.state !== 'PENDING' && a.state !== 'BLOCKED')
       state.bankTransferAccounts = Remote.Success(accounts)
     },
-    fetchBankTransferUpdate: (state, action: PayloadAction<YodleeAccountType | string>) => {},
+    fetchBankTransferUpdate: (
+      state,
+      action: PayloadAction<PlaidAccountType | YodleeAccountType | string>
+    ) => {},
 
     // cross border limits
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},

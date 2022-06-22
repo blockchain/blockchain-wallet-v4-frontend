@@ -174,6 +174,11 @@ export type YodleeAccountType = {
   status: string
 }
 
+export type PlaidAccountType = {
+  account_id: string
+  public_token: string
+}
+
 export enum AddBankStepType {
   ADD_BANK = 'ADD_BANK',
   ADD_BANK_AUTHORIZE = 'ADD_BANK_AUTHORIZE',
