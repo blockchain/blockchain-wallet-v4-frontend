@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
@@ -79,7 +79,6 @@ const SignupForm = (props: Props) => {
     onSignupSubmit,
     showState
   } = props
-  const intl = useIntl()
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
   const showReferralError =
@@ -222,12 +221,7 @@ const SignupForm = (props: Props) => {
               errorBottom
               validate={[required]}
               normalize={(val) => val && val.code}
-              label={
-                <FormattedMessage
-                  id='components.selectboxstate.label'
-                  defaultMessage='Select state'
-                />
-              }
+              label='Select State'
             />
           </FieldWithoutTopRadius>
         ) : null}
@@ -247,10 +241,7 @@ const SignupForm = (props: Props) => {
               data-e2e='referral'
               name='referral'
               normalize={applyToUpperCase}
-              placeholder={intl.formatMessage({
-                defaultMessage: 'Enter referral code',
-                id: 'scenes.register.referralcode.placeholder'
-              })}
+              placeholder='Enter Referral Code'
             />
             {showReferralError && (
               <FormError data-e2e='referralError' style={{ paddingTop: '5px' }}>
