@@ -8,6 +8,7 @@ import {
   IconCloseCircleV2,
   IconFilter
 } from '@blockchain-com/icons'
+import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -22,6 +23,7 @@ import { CollectionsQuery, OwnerQuery } from 'generated/graphql.types'
 import { FIXED_HEADER_HEIGHT } from 'layouts/Nfts/NftsHeader'
 import { media } from 'services/styles'
 
+import { AvatarGradientColors } from '../components'
 import EventTypeName from '../components/EventTypeName'
 import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 
@@ -339,10 +341,11 @@ const NftFilter: React.FC<Props> = ({
                                   src={collection.image_url}
                                 />
                               ) : (
-                                <NftCollectionImageSmall
-                                  isVerified={collection.safelist_request_status === 'verified'}
-                                  alt='Dapp Logo'
-                                  src=''
+                                <Avatar
+                                  size={24}
+                                  name={collection.slug || ''}
+                                  variant='marble'
+                                  colors={AvatarGradientColors}
                                 />
                               )}
                               <Text

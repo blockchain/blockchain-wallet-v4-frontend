@@ -40,6 +40,12 @@ export const NftGreyTable = styled(TableWrapper)`
   }
 `
 
+const HoverRow = styled.div`
+  &:hover {
+    background: ${colors.grey000};
+  }
+`
+
 const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
@@ -91,7 +97,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
           {rows.map((row) => {
             prepareRow(row)
             return (
-              <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
+              <HoverRow key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
                 {row.cells.map((cell) => (
                   <StickyColumn
                     style={cell.column.id === 'name' ? { zIndex: 1 } : {}}
@@ -102,7 +108,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
                     {cell.render('Cell')}
                   </StickyColumn>
                 ))}
-              </div>
+              </HoverRow>
             )
           })}
         </div>

@@ -128,6 +128,10 @@ export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
 export const getRewardsPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
 
+// show referral signup input in sign up
+export const getReferralEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
+
 // dex feature flag
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))

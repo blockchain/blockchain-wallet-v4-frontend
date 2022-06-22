@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 

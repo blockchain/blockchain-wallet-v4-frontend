@@ -73,7 +73,7 @@ const NftAddress: React.FC<Props> = ({
     <NftPageFullWidth>
       <div
         style={{
-          background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
+          background: colors.blue700,
           height: '300px',
           position: 'relative'
         }}
