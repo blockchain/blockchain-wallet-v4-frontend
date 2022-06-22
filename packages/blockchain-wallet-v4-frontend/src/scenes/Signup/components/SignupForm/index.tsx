@@ -205,12 +205,7 @@ const SignupForm = (props: Props) => {
             component={SelectBoxCountry as ReturnType<typeof SelectBox>}
             menuPlacement='auto'
             onChange={onCountrySelect}
-            label={
-              <FormattedMessage
-                id='scenes.register.select_country'
-                defaultMessage='Select Country'
-              />
-            }
+            label='Select Country'
           />
         </FieldWithoutBottomRadius>
         {showState ? (
