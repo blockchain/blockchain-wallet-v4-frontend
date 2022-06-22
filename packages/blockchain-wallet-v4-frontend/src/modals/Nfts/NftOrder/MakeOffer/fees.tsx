@@ -11,16 +11,15 @@ import CreateOfferFees from './CreateOffer.fees'
 import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
-  const { canWrap, isAuthenticated, isInvited, needsWrap } = props
-
+  const { canWrap, formValues, isAuthenticated, isInvited, needsWrap, orderFlow } = props
   const getTotalFees = () => {
-    let totalFees = new BigNumber(props?.orderFlow?.wrapEthFees?.data?.approvalFees).multipliedBy(
-      props?.orderFlow?.wrapEthFees?.data?.gasPrice
+    let totalFees = new BigNumber(orderFlow?.wrapEthFees?.data?.approvalFees).multipliedBy(
+      orderFlow?.wrapEthFees?.data?.gasPrice
     )
     if (canWrap && needsWrap) {
       totalFees = totalFees.plus(
-        new BigNumber(props?.orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
-          props?.orderFlow?.wrapEthFees?.data?.gasPrice
+        new BigNumber(orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
+          orderFlow?.wrapEthFees?.data?.gasPrice
         )
       )
     }
@@ -37,9 +36,7 @@ const Fees: React.FC<Props> = (props) => {
     <>
       <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees()}>
         <CreateOfferFees {...props} />
-        {props.formValues?.coin === 'WETH' && canWrap && needsWrap ? (
-          <WrapEthFees {...props} />
-        ) : null}
+        {formValues?.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
       </NftDropdown>
     </>
   )
