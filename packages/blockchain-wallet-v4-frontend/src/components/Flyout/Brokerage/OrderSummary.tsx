@@ -43,7 +43,7 @@ const IconWrapper = styled.div`
   justify-content: center;
 `
 const TitleWrapper = styled(Text)`
-  padding: 32px 0 24px 0;
+  padding: 2rem 0 1.5rem 0;
   width: 100%;
 `
 const BottomInfo = styled(Bottom)`
@@ -58,7 +58,7 @@ const BottomPromo = styled.div`
   justify-content: flex-end;
   flex-direction: column;
   height: 180px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 `
 
 const SecondaryInfoText = styled.div`
@@ -66,11 +66,11 @@ const SecondaryInfoText = styled.div`
 `
 
 const StyledDoneButton = styled(Button)`
-  margin-top: 16px;
+  margin-top: 1rem;
 `
 
 const StyledEarnButton = styled(Button)`
-  margin-top: 24px;
+  margin-top: 1.5rem;
 `
 
 const OrderSummary: React.FC<Props> = ({
