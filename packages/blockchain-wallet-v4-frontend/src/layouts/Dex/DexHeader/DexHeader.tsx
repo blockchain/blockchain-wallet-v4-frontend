@@ -1,12 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconUser, IconWallet } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Button, Image, Link } from 'blockchain-info-components'
+import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
+import { getTotalBalance } from 'components/Balances/total/selectors'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/Navbar/AppSwitcher'
 import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
@@ -26,7 +28,7 @@ const StickyNav = styled(NavContainer)`
   align-items: center;
 `
 
-const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname }) => {
+const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname, totalBalanceR }) => {
   const isTablet = useMedia('tablet')
 
   return (
@@ -42,22 +44,33 @@ const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname }) => {
       <NavRight>
         {isAuthenticated ? (
           <Flex gap={8} alignItems='center'>
-            <Button small data-e2e='back' nature='empty-purple'>
-              <Icon label='wallet' size='sm' color='purple600'>
-                <IconWallet />
-              </Icon>
-              <span style={{ marginLeft: '4px' }}>
-                <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-              </span>
+            <Button small data-e2e='back' nature='empty'>
+              {totalBalanceR.cata({
+                Failure: () => <>N/A</>,
+                Loading: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
+                NotAsked: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
+                Success: ({ totalBalance }) => (
+                  <>
+                    <Icon label='wallet' size='sm' color='grey400'>
+                      <IconWallet />
+                    </Icon>
+                    <Text
+                      color='grey900'
+                      lineHeight='20px'
+                      size='14px'
+                      weight={600}
+                      style={{ marginLeft: '10px' }}
+                    >
+                      {totalBalance}
+                    </Text>
+                  </>
+                )
+              })}
             </Button>
             <NavButton data-e2e='settingsLink'>
-              <LinkContainer to='/nfts/address'>
-                <Link>
-                  <Icon color='grey400' label='open-menu' size='sm'>
-                    <IconUser />
-                  </Icon>
-                </Link>
-              </LinkContainer>
+              <Icon color='grey400' label='open-menu' size='sm'>
+                <IconUser />
+              </Icon>
             </NavButton>
           </Flex>
         ) : (
@@ -85,6 +98,11 @@ const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname }) => {
   )
 }
 
-type Props = OwnProps
+const mapStateToProps = (state) => ({
+  totalBalanceR: getTotalBalance(state)
+})
 
-export default DexHeader
+const connector = connect(mapStateToProps)
+type Props = ConnectedProps<typeof connector> & OwnProps
+
+export default connect(mapStateToProps)(DexHeader)

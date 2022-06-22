@@ -4,30 +4,30 @@ import { ModalNameType } from 'data/modals/types'
 // State
 export type GoalsType =
   | 'airdropClaim'
-  | 'kycUpgradeRequiredNotice'
-  | 'termsAndConditions'
-  | 'kyc'
-  | 'kycDocResubmit'
-  | 'linkAccount'
-  | 'changePassword'
-  | 'payment'
-  | 'paymentProtocol'
-  | 'referral'
   | 'buySell'
   | 'buy-nft'
+  | 'dex'
+  | 'kyc'
+  | 'kycDocResubmit'
+  | 'kycUpgradeRequiredNotice'
+  | 'interest'
+  | 'interestPromo'
+  | 'linkAccount'
+  | 'payment'
+  | 'paymentProtocol'
   | 'make-offer-nft'
   | 'nfts'
-  | 'settings'
+  | 'referral'
   | 'sanctionsNotice'
+  | 'settings'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
   | 'syncPit'
+  | 'termsAndConditions'
   | 'transferEth'
   | 'upgradeForAirdrop'
   | 'welcomeModal'
-  | 'interest'
-  | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
 export type BuySellWidgetGoalDataType = {
@@ -60,6 +60,7 @@ export type GoalsState = {
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
   BUY_NFT = 'buy-nft',
+  DEX = 'dex',
   INTEREST = 'interest',
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
@@ -70,6 +71,5 @@ export enum DeepLinkGoal {
   REWARDS = 'rewards',
   SETTINGS = 'settings',
   SIMPLE_BUY = 'simple-buy',
-  SWAP = 'swap',
-  WALLET_CONNECT = 'wc'
+  SWAP = 'swap'
 }
