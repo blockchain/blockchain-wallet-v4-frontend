@@ -1,6 +1,6 @@
 import { Seaport } from '@opensea/seaport-js'
 import { CROSS_CHAIN_SEAPORT_ADDRESS } from '@opensea/seaport-js/lib/constants'
-import { ConsiderationInputItem } from '@opensea/seaport-js/lib/types'
+import { ConsiderationInputItem, TransactionMethods } from '@opensea/seaport-js/lib/types'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
@@ -25,10 +25,12 @@ import {
 } from './constants'
 import {
   cancelSeaportOrders,
+  constructPrivateListingCounterOrder,
   getAssetItems,
   getFees,
   getMaxOrderExpirationTimestamp,
-  getPrivateListingConsiderations
+  getPrivateListingConsiderations,
+  getPrivateListingFulfillments
 } from './seaport.utils'
 import { _getPriceParameters } from './wyvern.utils'
 
@@ -40,6 +42,8 @@ const getSeaport = (signer: ethers.Wallet) => {
   signer.getSigner = () => signer
   // @ts-ignore
   signer.getNetwork = () => signer.provider.getNetwork()
+  // @ts-ignore
+  signer.getBlock = () => signer.provider.getBlock()
   // @ts-ignore
   return new Seaport(signer, {
     conduitKeyToConduit: CONDUIT_KEYS_TO_CONDUIT,
@@ -254,6 +258,106 @@ export const createBuyOrder = async ({
   return order
 }
 
+export const fulfillPrivateOrder = async ({
+  accountAddress,
+  gasData,
+  order,
+  signer
+}: {
+  accountAddress: string
+  gasData: GasDataI
+  order: SeaportOffer
+  signer: ethers.Wallet
+}): Promise<string> => {
+  let transactionHash: string
+  switch (order.protocol_address) {
+    case CROSS_CHAIN_SEAPORT_ADDRESS: {
+      if (!order.taker?.address) {
+        throw new Error('Order is not a private listing must have a taker address')
+      }
+      const counterOrder = constructPrivateListingCounterOrder(
+        order.protocol_data,
+        order.taker.address
+      )
+      const fulfillments = getPrivateListingFulfillments(order.protocol_data)
+      const seaport = getSeaport(signer)
+      const transaction = await seaport
+        .matchOrders({
+          accountAddress,
+          fulfillments,
+          orders: [order.protocol_data, counterOrder],
+          overrides: {
+            value: counterOrder.parameters.offer[0].startAmount
+          }
+        })
+        .transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
+      const transactionReceipt = await transaction.wait()
+      transactionHash = transactionReceipt.transactionHash
+      break
+    }
+    default:
+      throw new Error('Unsupported protocol')
+  }
+
+  return transactionHash
+}
+
+/**
+ * Fullfill or "take" an order for an asset, either a buy or sell order
+ * @param options fullfillment options
+ * @param options.order The order to fulfill, a.k.a. "take"
+ * @param options.accountAddress The taker's wallet address
+ * @param options.recipientAddress The optional address to receive the order's item(s) or curriencies. If not specified, defaults to accountAddress
+ * @returns Transaction hash for fulfilling the order
+ */
+export const fulfillOrder = async ({
+  accountAddress,
+  gasData,
+  order,
+  recipientAddress,
+  signer
+}: {
+  accountAddress: string
+  gasData: GasDataI
+  order: SeaportOffer
+  recipientAddress?: string
+  signer: ethers.Wallet
+}): Promise<string> => {
+  const isPrivateListing = !!order.taker
+  if (isPrivateListing) {
+    if (recipientAddress) {
+      throw new Error('Private listings cannot be fulfilled with a recipient address')
+    }
+    return fulfillPrivateOrder({
+      accountAddress,
+      gasData,
+      order,
+      signer
+    })
+  }
+
+  let transactionHash: string
+  switch (order.protocol_address) {
+    case CROSS_CHAIN_SEAPORT_ADDRESS: {
+      const seaport = getSeaport(signer)
+      const { executeAllActions } = await seaport.fulfillOrder({
+        accountAddress,
+        order: order.protocol_data,
+        recipientAddress
+      })
+      const transaction = await executeAllActions()
+      transactionHash = transaction.hash
+      break
+    }
+    default:
+      throw new Error('Unsupported protocol')
+  }
+
+  return transactionHash
+}
+// CODE COPIED (and modified to add signer for getSeaport function) FROM opensea-js sdk 👆
+
+// BCDC SPECIFIC CODE 👇
 export const calculateSeaportGasFees = async ({
   offer,
   operation,
@@ -269,6 +373,11 @@ export const calculateSeaportGasFees = async ({
       | {
           offer: SeaportOffer
           operation: GasCalculationOperations.CancelOffer
+          order?: never
+        }
+      | {
+          offer: SeaportOffer
+          operation: GasCalculationOperations.AcceptOffer
           order?: never
         }
     )): Promise<GasDataI> => {
@@ -291,6 +400,14 @@ export const calculateSeaportGasFees = async ({
       estimate = await (
         await seaport.cancelOrders([(offer as SeaportOffer).protocol_data.parameters]).estimateGas()
       )._hex
+      break
+    case GasCalculationOperations.AcceptOffer:
+      const { actions } = await seaport.fulfillOrder({
+        accountAddress: signer.address,
+        order: (offer as SeaportOffer).protocol_data
+      })
+      const [methods] = actions
+      estimate = (await methods.transactionMethods.estimateGas())._hex
       break
     default:
   }

@@ -12,7 +12,6 @@ import {
   executeWrapEth,
   fulfillNftOrder,
   fulfillTransfer,
-  getNftBuyOrder,
   getNftMatchingOrders
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
@@ -20,7 +19,8 @@ import {
   calculateSeaportGasFees,
   cancelOrder as cancelSeaportOrder,
   createBuyOrder,
-  createSellOrder as createSeaportSellOrder
+  createSellOrder as createSeaportSellOrder,
+  fulfillOrder as fulfillSeaportOrder
 } from '@core/redux/payment/nfts/seaport'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -218,30 +218,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           throw e
         }
       } else if (action.payload.operation === GasCalculationOperations.AcceptOffer) {
-        const { order } = action.payload
-        yield put(A.fetchMatchingOrderLoading())
-        try {
-          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
-            getNftMatchingOrders,
-            order,
-            signer,
-            undefined,
-            IS_TESTNET ? 'rinkeby' : 'mainnet'
-          )
-          fees = yield call(
-            calculateGasFees,
-            GasCalculationOperations.AcceptOffer,
-            signer,
-            undefined,
-            buy,
-            sell
-          )
-          yield put(A.fetchMatchingOrderSuccess({ buy, sell }))
-        } catch (e) {
-          const error = errorHandler(e)
-          yield put(A.fetchMatchingOrderFailure(error))
-          throw e
-        }
+        fees = yield call(calculateSeaportGasFees, {
+          offer: action.payload.offer,
+          operation: GasCalculationOperations.AcceptOffer,
+          signer
+        })
       } else if (action.payload.operation === GasCalculationOperations.CancelOrder) {
         fees = yield call(calculateSeaportGasFees, {
           operation: GasCalculationOperations.CancelOrder,
@@ -294,21 +275,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    // TODO: get coin from paymentToken
-    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
+    // TODO: SEAPORT
+    const coin = 'WETH'
     const amount = Number(
       convertCoinToCoin({
         baseToStandard: true,
         coin,
-        value: action?.payload?.buy?.basePrice?.toString() || ''
+        value: action?.payload?.offer?.current_price?.toString() || ''
       })
     )
 
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       const signer: ethers.Wallet = yield call(getEthSigner)
-      const { buy, gasData, sell } = action.payload
-      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
+      const { gasData, offer } = action.payload
+      yield call(fulfillSeaportOrder, {
+        accountAddress: signer.address,
+        gasData,
+        order: offer,
+        signer
+      })
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
       yield put(
@@ -391,19 +377,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         startAmount: action.payload.amount || '0'
       })
       yield call(api.postNftOrderV2, seaportOrder, network, 'bid')
-      // const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
-      //   getNftBuyOrder,
-      //   action.payload.asset,
-      //   signer,
-      //   expirationTime,
-      //   Number(action.payload.amount || '0'),
-      //   coinfig.type.erc20Address,
-      //   IS_TESTNET ? 'rinkeby' : 'mainnet'
-      // )
-      // const gasData = action.payload.offerFees
-      // const retailToken = yield call(generateRetailToken)
-      // const order = yield call(fulfillNftOrder, { buy, gasData, signer })
-      // yield call(api.postNftOrder, order, action.payload.asset.collection.slug, guid, retailToken)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({

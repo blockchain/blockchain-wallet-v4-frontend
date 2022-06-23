@@ -68,7 +68,7 @@ const CTA: React.FC<Props> = ({ asset, data, isInvited, nftActions, orderFlow })
               nftActions.acceptOffer({
                 asset,
                 gasData: val.fees,
-                ...val.matchingOrder
+                offer: orderFlow.seaportOffer!
               })
             }}
           >

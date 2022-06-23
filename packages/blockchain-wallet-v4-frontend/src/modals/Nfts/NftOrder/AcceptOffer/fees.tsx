@@ -7,7 +7,6 @@ import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
 import NftDropdown from '../../components/NftDropdown'
@@ -18,11 +17,13 @@ const Fees: React.FC<Props> = (props) => {
   const { asset, nftActions, orderFlow } = props
 
   useEffect(() => {
-    nftActions.fetchFees({
-      operation: GasCalculationOperations.AcceptOffer,
-      order: orderFromJSON(orderFlow.orderToMatch)
-    })
-  }, [])
+    if (orderFlow.seaportOffer) {
+      nftActions.fetchFees({
+        offer: orderFlow.seaportOffer,
+        operation: GasCalculationOperations.AcceptOffer
+      })
+    }
+  }, [orderFlow.seaportOffer, nftActions])
 
   return (
     <>

@@ -65,9 +65,8 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         asset: NftAsset
-        buy: UnsignedOrder
         gasData: GasDataI
-        sell: UnsignedOrder
+        offer: SeaportOffer
       }>
     ) => {},
     cancelListing: (
@@ -127,8 +126,8 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<
         | {
+            offer: SeaportOffer
             operation: GasCalculationOperations.AcceptOffer
-            order: NftOrder
           }
         | {
             operation: GasCalculationOperations.Buy

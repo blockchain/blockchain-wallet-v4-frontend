@@ -51,20 +51,12 @@ const AcceptOffer: React.FC<Props> = (props) => {
                 <FormattedMessage id='copy.offer' defaultMessage='Offer' />
               </Text>
               <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-                <CoinDisplay
-                  size='20px'
-                  color='black'
-                  weight={600}
-                  coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
-                >
+                {/* TODO: SEAPORT */}
+                <CoinDisplay size='20px' color='black' weight={600} coin='WETH'>
                   {orderFlow.orderToMatch?.current_price}
                 </CoinDisplay>
-                <FiatDisplay
-                  size='14px'
-                  color='grey600'
-                  weight={500}
-                  coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
-                >
+                {/* TODO: SEAPORT */}
+                <FiatDisplay size='14px' color='grey600' weight={500} coin='WETH'>
                   {orderFlow.orderToMatch?.current_price}
                 </FiatDisplay>
               </Flex>

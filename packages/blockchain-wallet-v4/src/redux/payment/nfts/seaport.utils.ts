@@ -3,11 +3,16 @@ import { ItemType } from '@opensea/seaport-js/lib/constants'
 import {
   ConsiderationInputItem,
   CreateInputItem,
-  OrderComponents
+  MatchOrdersFulfillment,
+  Order,
+  OrderComponents,
+  OrderWithCounter
 } from '@opensea/seaport-js/lib/types'
+import { isCurrencyItem } from '@opensea/seaport-js/lib/utils/item'
+import { generateRandomSalt } from '@opensea/seaport-js/lib/utils/order'
 import { BigNumber } from 'bignumber.js'
 
-import { GasDataI, NftAsset, OpenSeaAsset, WyvernSchemaName } from '@core/network/api/nfts/types'
+import { GasDataI, OpenSeaAsset, WyvernSchemaName } from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
 
 import {
@@ -147,6 +152,123 @@ export const getPrivateListingConsiderations = (
   return offer.map((item) => {
     return { ...item, recipient: privateSaleRecipient }
   })
+}
+
+export const constructPrivateListingCounterOrder = (
+  order: OrderWithCounter,
+  privateSaleRecipient: string
+): Order => {
+  // Counter order offers up all the items in the private listing consideration
+  // besides the items that are going to the private listing recipient
+  const paymentItems = order.parameters.consideration.filter(
+    (item) => item.recipient.toLowerCase() !== privateSaleRecipient.toLowerCase()
+  )
+
+  if (!paymentItems.every((item) => isCurrencyItem(item))) {
+    throw new Error('The consideration for the private listing did not contain only currency items')
+  }
+  if (!paymentItems.every((item) => item.itemType === paymentItems[0].itemType)) {
+    throw new Error('Not all currency items were the same for private order')
+  }
+
+  const { aggregatedEndAmount, aggregatedStartAmount } = paymentItems.reduce(
+    ({ aggregatedEndAmount, aggregatedStartAmount }, item) => ({
+      aggregatedEndAmount: aggregatedEndAmount.plus(item.endAmount),
+      aggregatedStartAmount: aggregatedStartAmount.plus(item.startAmount)
+    }),
+    {
+      aggregatedEndAmount: new BigNumber(0),
+      aggregatedStartAmount: new BigNumber(0)
+    }
+  )
+
+  const counterOrder: Order = {
+    parameters: {
+      ...order.parameters,
+      // The consideration here is empty as the original private listing order supplies
+      // the taker address to receive the desired items.
+      consideration: [],
+
+      offer: [
+        {
+          endAmount: aggregatedEndAmount.toString(),
+          identifierOrCriteria: paymentItems[0].identifierOrCriteria,
+          itemType: paymentItems[0].itemType,
+          startAmount: aggregatedStartAmount.toString(),
+          token: paymentItems[0].token
+        }
+      ],
+
+      offerer: privateSaleRecipient,
+      salt: generateRandomSalt(),
+      totalOriginalConsiderationItems: 0
+    },
+    signature: '0x'
+  }
+
+  return counterOrder
+}
+
+export const getPrivateListingFulfillments = (
+  privateListingOrder: OrderWithCounter
+): MatchOrdersFulfillment[] => {
+  const nftRelatedFulfillments: MatchOrdersFulfillment[] = []
+
+  // For the original order, we need to match everything offered with every consideration item
+  // on the original order that's set to go to the private listing recipient
+  privateListingOrder.parameters.offer.forEach((offerItem, offerIndex) => {
+    const considerationIndex = privateListingOrder.parameters.consideration.findIndex(
+      (considerationItem) =>
+        considerationItem.itemType === offerItem.itemType &&
+        considerationItem.token === offerItem.token &&
+        considerationItem.identifierOrCriteria === offerItem.identifierOrCriteria
+    )
+    if (considerationIndex === -1) {
+      throw new Error('Could not find matching offer item in the consideration for private listing')
+    }
+    nftRelatedFulfillments.push({
+      considerationComponents: [
+        {
+          itemIndex: considerationIndex,
+          orderIndex: 0
+        }
+      ],
+      offerComponents: [
+        {
+          itemIndex: offerIndex,
+          orderIndex: 0
+        }
+      ]
+    })
+  })
+
+  const currencyRelatedFulfillments: MatchOrdersFulfillment[] = []
+
+  // For the original order, we need to match everything offered with every consideration item
+  // on the original order that's set to go to the private listing recipient
+  privateListingOrder.parameters.consideration.forEach((considerationItem, considerationIndex) => {
+    if (!isCurrencyItem(considerationItem)) {
+      return
+    }
+    // We always match the offer item (index 0) of the counter order (index 1)
+    // with all of the payment items on the private listing
+    currencyRelatedFulfillments.push({
+      considerationComponents: [
+        {
+          itemIndex: considerationIndex,
+          orderIndex: 0
+        }
+      ],
+      offerComponents: [
+        {
+          itemIndex: 0,
+          orderIndex: 1
+        }
+      ]
+    })
+  })
+
+  return [...nftRelatedFulfillments, ...currencyRelatedFulfillments]
 }
 
 export const cancelSeaportOrders = async ({
