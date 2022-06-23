@@ -3,6 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  AssetImageContainer,
+  AvatarGradientColors,
+  PriceCTA
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { F } from 'ramda'
 import styled from 'styled-components'
 
@@ -15,7 +24,6 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
 import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
@@ -41,8 +49,8 @@ const HoverBackground = styled.div<{ background: string }>`
 `
 
 const NotForSale = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid ${colors.grey700};
+  background-color: ${colors.smoke800};
+  border: 1px solid ${colors.smoke600};
   border-radius: 8px;
   padding: 0.5em;
   width: fit-content;
@@ -144,12 +152,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     width='16px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={16}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <AssetCollection onClick={nameClickTracking}>
@@ -256,12 +263,11 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     width='16px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={16}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <Text weight={600} lineHeight='150%' color='white'>

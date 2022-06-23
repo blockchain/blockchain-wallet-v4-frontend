@@ -2,16 +2,19 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCloseCircleV2, IconPercent } from '@blockchain-com/icons'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
-import { BannerButton, IconWrapper } from '../styles'
+import { getEarnRewardsAnnouncement } from '../selectors'
+import { BannerButton, CloseLink, IconWrapper, Row } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,10 +34,7 @@ const Wrapper = styled.div`
     flex-direction: column;
   `}
 `
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-`
+
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,11 +79,15 @@ const StartEarningRewards: React.FC<Props> = (props) => {
     })
   }
 
+  const completeAnnouncement = getEarnRewardsAnnouncement()
+
   return (
     <Wrapper>
       <Row>
         <PendingIconWrapper>
-          <Icon name='percentage' color='blue600' size='30px' />
+          <Icon label='percentage' color='blue600' size='md'>
+            <IconPercent />
+          </Icon>
         </PendingIconWrapper>
         <Column>
           <Text size='20px' weight={600} color='grey800'>
@@ -105,12 +109,21 @@ const StartEarningRewards: React.FC<Props> = (props) => {
           <FormattedMessage id='modals.tradinglimits.earn_interest' defaultMessage='Earn Rewards' />
         </BannerButton>
       </LinkContainer>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon label='close' color='grey600' data-e2e='sanctionsInfoCloseModalIcon' size='md'>
+          <IconCloseCircleV2 />
+        </Icon>
+      </CloseLink>
     </Wrapper>
   )
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

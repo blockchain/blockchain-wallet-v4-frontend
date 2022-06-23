@@ -123,7 +123,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   const updateKYCExtraQuestions = (extraQuestions: ExtraQuestionsType): SDDVerifiedType =>
     authorizedPut({
       contentType: 'application/json',
-      data: { nodes: extraQuestions.nodes },
+      data: { context: extraQuestions.context, nodes: extraQuestions.nodes },
       endPoint: '/kyc/extra-questions',
       ignoreQueryParams: true,
       url: nabuUrl

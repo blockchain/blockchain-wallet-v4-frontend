@@ -8,7 +8,7 @@ import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import { GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
@@ -54,7 +54,7 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
-  const { fees, wrapEthFees } = orderFlow
+  const { wrapEthFees } = orderFlow
 
   if (!formValues) return null
 
@@ -84,12 +84,9 @@ const MakeOffer: React.FC<Props> = (props) => {
         })
       : amount
   const wrapFees = wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
-  const offerFees = fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const ethBalance = new BigNumber(selfCustodyBalance)
   const erc20Balance = erc20BalanceR.getOrElse(0)
-  const maxWrapPossible = ethBalance
-    .minus(offerFees.totalFees * offerFees.gasPrice)
-    .minus(wrapFees.totalFees * offerFees.gasPrice)
+  const maxWrapPossible = ethBalance.minus(wrapFees.totalFees * wrapFees.gasPrice)
   const maxOfferPossible =
     coin === 'WETH' ? maxWrapPossible.plus(erc20Balance) : new BigNumber(erc20Balance)
   const amtToBuy = maxOfferPossible
@@ -187,15 +184,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               name='coin'
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(coin: any) => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const address = window.coins[coin].coinfig.type.erc20Address!
                 offerWithChangedAnalytics(coin)
-                nftActions.fetchFees({
-                  asset,
-                  offer: '0.0001',
-                  operation: GasCalculationOperations.CreateOffer,
-                  paymentTokenAddress: address
-                })
               }}
               component={SelectBox}
               elements={[
@@ -259,7 +248,7 @@ const MakeOffer: React.FC<Props> = (props) => {
       </div>
 
       <StickyCTA>
-        <MakeOfferFees {...props} asset={asset} />
+        <MakeOfferFees {...props} asset={asset} canWrap={canWrap} needsWrap={needsWrap} />
         <br />
         <MakeOfferCTA
           {...props}
@@ -271,7 +260,6 @@ const MakeOffer: React.FC<Props> = (props) => {
           selfCustodyBalance={selfCustodyBalance}
           custodialBalance={custodialBalance}
           cryptoAmt={cryptoAmt}
-          offerFees={offerFees}
           amtToWrap={amtToWrap}
           maxOfferPossible={maxOfferPossible}
         />

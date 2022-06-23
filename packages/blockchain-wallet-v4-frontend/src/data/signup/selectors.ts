@@ -36,3 +36,7 @@ export function getMetadataRestore(state: RootState): SignupStateType['metadataR
 export function getKycResetStatus(state: RootState): SignupStateType['kycReset'] {
   return state.signup.kycReset
 }
+
+export function getIsValidReferralCode(state: RootState): SignupStateType['isValidReferralCode'] {
+  return state.signup.isValidReferralCode
+}

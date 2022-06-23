@@ -12,7 +12,7 @@ import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
+  const { canWrap, needsWrap, nftActions, orderFlow } = props
 
   useEffect(() => {
     nftActions.fetchFeesWrapEth({
@@ -53,10 +53,14 @@ const Fees: React.FC<Props> = (props) => {
               <div>
                 <RightAlign>
                   <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                    {canWrap && needsWrap
+                      ? new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
+                      : new BigNumber(0).toString()}
                   </CoinDisplay>
                   <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                    {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                    {canWrap && needsWrap
+                      ? new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
+                      : new BigNumber(0).toString()}
                   </FiatDisplay>
                 </RightAlign>
               </div>
@@ -68,6 +72,9 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & {
+  canWrap: boolean
+  needsWrap: boolean
+}
 
 export default Fees
