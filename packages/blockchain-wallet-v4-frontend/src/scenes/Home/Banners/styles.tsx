@@ -71,6 +71,7 @@ export const CartridgeContainer = styled.div`
 export const Row = styled.div`
   display: flex;
   align-items: center;
+  flex: 1;
 `
 
 export const Copy = styled(Text)`

@@ -1,6 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { bindActionCreators } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -8,7 +11,8 @@ import { Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { BannerButton } from '../styles'
+import { getContinueToGoldAnnouncement } from '../selectors'
+import { BannerButton, CloseLink, Row } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,10 +31,6 @@ const Wrapper = styled.div`
     padding: 12px;
     flex-direction: column;
   `}
-`
-const Row = styled.div`
-  display: flex;
-  align-items: center;
 `
 const Column = styled.div`
   display: flex;
@@ -61,37 +61,49 @@ const Copy = styled(Text)`
   `}
 `
 
-const ContinueToGold = ({ verifyIdentity }: Props) => (
-  <Wrapper>
-    <Row>
-      <PendingIconWrapper>
-        <Image name='tier-gold' size='32px' />
-      </PendingIconWrapper>
-      <Column>
-        <Text size='20px' weight={600} color='grey800'>
-          <FormattedMessage
-            id='scenes.home.banner.continue_to_gold.increase_your_limits'
-            defaultMessage='Increase your limits'
-          />
-        </Text>
-        <Copy size='16px' color='grey600' weight={500}>
-          <FormattedMessage
-            id='scenes.home.banner.continue_to_full_access.description'
-            defaultMessage='Continue your verification to become full access and increase your limits and payment methods'
-          />
-        </Copy>
-      </Column>
-    </Row>
-    <BannerButton onClick={verifyIdentity} jumbo data-e2e='continueToGoldSDD' nature='primary'>
-      <FormattedMessage
-        id='scenes.home.banner.continue_to_full_access.button'
-        defaultMessage='Continue to Full Access'
-      />
-    </BannerButton>
-  </Wrapper>
-)
+const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
+  const completeAnnouncement = getContinueToGoldAnnouncement()
+  return (
+    <Wrapper>
+      <Row>
+        <PendingIconWrapper>
+          <Image name='tier-gold' size='32px' />
+        </PendingIconWrapper>
+        <Column>
+          <Text size='20px' weight={600} color='grey800'>
+            <FormattedMessage
+              id='scenes.home.banner.continue_to_gold.increase_your_limits'
+              defaultMessage='Increase your limits'
+            />
+          </Text>
+          <Copy size='16px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banner.continue_to_full_access.description'
+              defaultMessage='Continue your verification to become full access and increase your limits and payment methods'
+            />
+          </Copy>
+        </Column>
+      </Row>
+      <BannerButton onClick={verifyIdentity} jumbo data-e2e='continueToGoldSDD' nature='primary'>
+        <FormattedMessage
+          id='scenes.home.banner.continue_to_full_access.button'
+          defaultMessage='Continue to Full Access'
+        />
+      </BannerButton>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon label='close' color='grey600' data-e2e='sanctionsInfoCloseModalIcon' size='md'>
+          <IconCloseCircleV2 />
+        </Icon>
+      </CloseLink>
+    </Wrapper>
+  )
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   verifyIdentity: () =>
     dispatch(
       actions.components.identityVerification.verifyIdentity({
