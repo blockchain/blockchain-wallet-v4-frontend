@@ -50,16 +50,13 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
       yield call(createUser)
       // store initial address in case of US state we add prefix
-      const userState = country === 'US' ? `US-${state}` : state
+      const userState = country === 'US' ? state : undefined
       yield call(api.setUserInitialAddress, country, userState)
       yield call(coreSagas.settings.fetchSettings)
 
       const guid = yield select(selectors.core.wallet.getGuid)
 
       yield call(createExchangeUser, country)
-      yield put(actions.cache.exchangeEmail(email))
-      yield put(actions.cache.exchangeWalletGuid(guid))
-      yield put(actions.cache.setUnifiedAccount(true))
 
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
