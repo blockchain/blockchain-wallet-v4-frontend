@@ -78,7 +78,9 @@ export default ({ api, coreSagas, networks }) => {
     const { country, email, language, password, referral, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
-
+    const isExchangeMobileSignup =
+      product === ProductAuthOptions.EXCHANGE &&
+      (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
     try {
       const isReferralEntered = referral && referral.length > 0
       if (isReferralEntered) {
@@ -97,13 +99,10 @@ export default ({ api, coreSagas, networks }) => {
         password
       })
       // We don't want to show the account success message if user is resetting their account
-      if (!isAccountReset) {
+      if (!isAccountReset && !isExchangeMobileSignup) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       }
-      if (
-        product === ProductAuthOptions.EXCHANGE &&
-        (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
-      ) {
+      if (isExchangeMobileSignup) {
         yield call(exchangeMobileAppSignup, {
           country,
           email,
