@@ -217,24 +217,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(A.fetchMatchingOrderFailure(error))
           throw e
         }
-      } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
-        const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
-          getNftBuyOrder,
-          action.payload.asset,
-          signer,
-          undefined,
-          Number(action.payload.offer),
-          action.payload.paymentTokenAddress,
-          IS_TESTNET ? 'rinkeby' : 'mainnet'
-        )
-
-        fees = yield call(
-          calculateGasFees,
-          GasCalculationOperations.CreateOffer,
-          signer,
-          undefined,
-          buy
-        )
       } else if (action.payload.operation === GasCalculationOperations.AcceptOffer) {
         const { order } = action.payload
         yield put(A.fetchMatchingOrderLoading())
