@@ -93,6 +93,8 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // TODO: do we need to fetch legacy userCredentials? should we also write to legacy userCredentials here...?
       yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+      yield call(authNabu)
       yield put(
         actions.core.kvStore.unifiedCredentials.setUnifiedCredentials(
           userId,
