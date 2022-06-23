@@ -50,9 +50,9 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     token_id: string
   ): SeaportOffersResponseType => {
     return get({
-      endPoint: `/offers-v2?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
+      endPoint: `/v2/orders/ethereum/seaport/offers?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
       ignoreQueryParams: true,
-      url: nftUrl
+      url: openSeaUrl
     })
   }
 
