@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 
 import { Ethereum } from '../../../../icons/Ethereum'
 import { Near } from '../../../../icons/Near'
@@ -17,9 +18,6 @@ const NetworkHeading = styled(Text)`
 
 const NetworkButton = styled.button`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0;
   background-color: transparent;
   border: unset;
@@ -77,9 +75,11 @@ export const Networks = () => {
         {networks.map((network: Network) => (
           <li key={network.label}>
             <NetworkButton>
-              {network.icon}
-              <ButtonLabel>{network.label}</ButtonLabel>
-              <ButtonSatus>{network.isConnected && 'Connected'}</ButtonSatus>
+              <Flex justifyContent='space-between' alignItems='center'>
+                {network.icon}
+                <ButtonLabel>{network.label}</ButtonLabel>
+                <ButtonSatus>{network.isConnected && 'Connected'}</ButtonSatus>
+              </Flex>
             </NetworkButton>
           </li>
         ))}

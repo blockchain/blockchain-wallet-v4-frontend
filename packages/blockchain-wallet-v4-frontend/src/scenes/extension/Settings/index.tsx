@@ -5,8 +5,12 @@ import { IconArrowLeft, IconClose } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 
 import { Account } from './Account'
+import { Connected } from './Connected'
+import { General } from './General'
+import { Info } from './Info'
 import { Networks } from './Networks'
 import { Overal } from './Overal'
 
@@ -16,14 +20,7 @@ export const SettingsHeading = styled(Text)`
   color: white;
 `
 
-export const Close = styled(Link)`
-  width: 100%;
-  display: flex;
-  justify-content: end;
-`
-
-export const SettingsContainer = styled.section`
-  display: flex;
+export const SettingsContainer = styled(Flex)`
   flex-direction: column;
   flex-grow: 1;
 `
@@ -45,26 +42,36 @@ export class Setting {
 export const Settings = (props) => {
   const { path } = props.match
 
+  const goBack = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    props.history.goBack()
+  }
   return (
     <SettingsContainer>
-      {`#${path}` === window.location.hash ? (
-        <Close to='/extension/home'>
+      <Flex justifyContent='space-between'>
+        {`#${path}` !== window.location.hash ? (
+          <Link to={path} onClick={goBack}>
+            <Icon color='white800' label='IconBack' size='md'>
+              <IconArrowLeft />
+            </Icon>
+          </Link>
+        ) : (
+          <span />
+        )}
+        <Link to='/extension/home'>
           <Icon color='white600' label='IconClose' size='md'>
             <IconClose />
           </Icon>
-        </Close>
-      ) : (
-        <Link to={`${path}`}>
-          <Icon color='white800' label='IconBack' size='md'>
-            <IconArrowLeft />
-          </Icon>
         </Link>
-      )}
+      </Flex>
       <SettingsContainer>
         <Switch>
           <Route component={Overal} path={path} exact />
-          <Route component={Account} path={`${path}/account`} exact />
-          <Route component={Networks} path={`${path}/networks`} exact />
+          <Route component={Account} path={`${path}/account`} />
+          <Route component={Networks} path={`${path}/networks`} />
+          <Route component={Connected} path={`${path}/connected-dapps`} />
+          <Route component={General} path={`${path}/general`} />
+          <Route component={Info} path={`${path}/info`} />
         </Switch>
       </SettingsContainer>
     </SettingsContainer>

@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 
 import { Setting, SettingsHeading } from '..'
 
@@ -26,9 +27,6 @@ export const SettingsList = styled.ul`
 `
 
 export const SettingsLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   text-decoration: none;
 `
 
@@ -52,7 +50,7 @@ export const Overal = (props) => {
   const overalSettings = [
     new Setting('Account', `${path}/account`, <IconWallet />),
     new Setting('Network', `${path}/networks`, <IconWallet />),
-    new Setting('Connected Dapps', `${path}/dapps`, <IconWallet />),
+    new Setting('Connected Dapps', `${path}/connected-dapps`, <IconWallet />),
     new Setting('General', `${path}/general`, <IconSettings />),
     new Setting('Info', `${path}/info`, <IconInformation />)
   ]
@@ -64,13 +62,15 @@ export const Overal = (props) => {
         {overalSettings.map((setting: Setting) => (
           <li key={setting.label}>
             <SettingsLink to={setting.path}>
-              <Icon color='white800' label='IconBack' size='md'>
-                {setting.icon}
-              </Icon>
-              <SettingsLinkLabel>{setting.label}</SettingsLinkLabel>
-              <Icon color='white800' label='IconBack' size='md'>
-                <IconChevronRightV2 />
-              </Icon>
+              <Flex justifyContent='space-between' alignItems='center'>
+                <Icon color='white800' label='IconBack' size='md'>
+                  {setting.icon}
+                </Icon>
+                <SettingsLinkLabel>{setting.label}</SettingsLinkLabel>
+                <Icon color='white800' label='IconBack' size='md'>
+                  <IconChevronRightV2 />
+                </Icon>
+              </Flex>
             </SettingsLink>
           </li>
         ))}
