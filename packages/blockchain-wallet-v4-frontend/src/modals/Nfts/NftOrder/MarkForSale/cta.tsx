@@ -46,8 +46,12 @@ const CTA: React.FC<Props> = ({
       : // English (Ascending)
         !formValues.starting ||
         (formValues.reserve &&
-          formValues.reserve >= formValues.starting &&
-          formValues?.timedAuctionType === 'highestBidder')) || orderFlow.isSubmitting
+          formValues.reserve < formValues.starting &&
+          formValues?.timedAuctionType === 'highestBidder')) ||
+    orderFlow.isSubmitting ||
+    // TODO: SEAPORT
+    // opensea v2 api does not currently support english auctions
+    formValues.timedAuctionType === 'highestBidder'
 
   return (
     <div>

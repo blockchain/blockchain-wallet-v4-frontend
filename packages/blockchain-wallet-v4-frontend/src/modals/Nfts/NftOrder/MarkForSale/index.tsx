@@ -72,7 +72,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.starting = ''
     formValues.ending = ''
     formValues.expirationMinutes = 1440
-    formValues.timedAuctionType = 'highestBidder'
+    formValues.timedAuctionType = 'decliningPrice'
   }
   const setToFixed = () => {
     setSaleType('fixed-price')
@@ -462,6 +462,25 @@ const MarkForSale: React.FC<Props> = (props) => {
               </NftFlyoutRow>
             </div>
             <StickyCTA>
+              {formValues.timedAuctionType === 'highestBidder' ? (
+                <>
+                  <GreyMessage>
+                    <Text color='grey900' weight={600}>
+                      <FormattedMessage
+                        id='copy.english_auction_not_supported'
+                        defaultMessage='English Auctions Not Supported'
+                      />
+                    </Text>
+                    <Text size='12px'>
+                      <FormattedMessage
+                        id='copy.english_auction_explainer'
+                        defaultMessage='We are working closely with the OpenSea team to add support for selling to the highest bidder. In the meantime, please select another method.'
+                      />
+                    </Text>
+                  </GreyMessage>
+                  <br />
+                </>
+              ) : null}
               <MarkForSaleFees {...props} asset={asset} />
               <br />
               <MarkForSaleCTA {...props} asset={asset} amount={amount} saleType={saleType} />
@@ -494,7 +513,7 @@ const enhance = compose(
       expirationMinutes: 1440,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
-      timedAuctionType: 'highestBidder'
+      timedAuctionType: 'decliningPrice'
     }
   }),
   connector

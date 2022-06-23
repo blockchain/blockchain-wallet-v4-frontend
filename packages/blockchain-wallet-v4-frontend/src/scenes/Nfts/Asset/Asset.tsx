@@ -190,12 +190,17 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
+  const openSeaSeaportOffers = useRemote(selectors.components.nfts.getOpenSeaSeaportOffers)
   const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
       defaultEthAddr,
+      token_id: id
+    })
+    nftsActions.fetchOpenseaSeaportOffers({
+      asset_contract_address: contract,
       token_id: id
     })
   }, [contract, id, nftsActions, defaultEthAddr])
@@ -216,36 +221,16 @@ const NftAsset: React.FC<Props> = ({
   const collectionName = currentAsset?.collection?.name || ''
   const description = currentAsset?.collection?.description || ''
   const isLongEnough = description?.length > 82
+  let offers = openSeaSeaportOffers.data?.orders || []
 
-  let bids =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address !== NULL_ADDRESS
-    }, []) || []
-  // Offers have taker as null address
-  let offers =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address === NULL_ADDRESS
-    }, []) || []
   const sellOrders =
     openSeaAsset.data?.orders?.filter((x) => {
       return x.side === 1
     }) || []
   const seaportSellOrders = openSeaAsset.data?.seaport_sell_orders || []
-  bids = bids.length
-    ? bids.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  offers = offers.length
-    ? offers.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  const bidsAndOffers = bids.concat(offers).sort((a: any, b: any) => {
+  offers = offers.sort((a: any, b: any) => {
     return b.current_price - a.current_price
   })
-  if (offers.length < 1) offers = bids
-  const highest_bid = bids[0]
   const highest_offer = offers[0]
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
@@ -601,51 +586,7 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : (
                   <>
-                    {highest_bid ? (
-                      <>
-                        <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Bid expires in{' '}
-                            {formatDistanceToNow(new Date(highest_bid?.expiration_time * 1000))}:
-                          </div>
-                          <NftAssetCountdown countDownDate={highest_bid.expiration_time * 1000} />
-                        </Highest>
-                        <Divider style={{ marginBottom: '1em' }} />
-                        <Highest>Top Bid</Highest>
-                        <EthText>
-                          <CoinIcon
-                            name={bidsAndOffers[0].payment_token_contract.symbol || 'ETH'}
-                          />
-                          <CoinDisplay
-                            weight={600}
-                            color={colors.grey900}
-                            size='24px'
-                            coin={bidsAndOffers[0].payment_token_contract.symbol}
-                          >
-                            {bidsAndOffers[0].current_price}
-                          </CoinDisplay>
-                          &nbsp;{' '}
-                          <Text
-                            size='16px'
-                            weight={500}
-                            style={{ display: 'flex' }}
-                            color='grey500'
-                          >
-                            (
-                            <FiatDisplay
-                              weight={500}
-                              currency={walletCurrency}
-                              color='grey500'
-                              size='16px'
-                              coin={bidsAndOffers[0].payment_token_contract.symbol}
-                            >
-                              {bidsAndOffers[0].current_price}
-                            </FiatDisplay>
-                            )
-                          </Text>
-                        </EthText>
-                      </>
-                    ) : lowest_order ? (
+                    {lowest_order ? (
                       <>
                         <Highest>
                           {is_lowest_order_english || is_lowest_order_dutch ? (
@@ -718,13 +659,10 @@ const NftAsset: React.FC<Props> = ({
                         <Divider style={{ marginBottom: '1em' }} />
                         <Highest>Highest Offer</Highest>
                         <EthText>
-                          <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
-                          <CoinDisplay
-                            weight={600}
-                            color={colors.grey900}
-                            size='24px'
-                            coin={highest_offer.payment_token_contract.symbol}
-                          >
+                          {/* TODO: SEAPORT */}
+                          <CoinIcon name='WETH' />
+                          {/* TODO: SEAPORT */}
+                          <CoinDisplay weight={600} color={colors.grey900} size='24px' coin='WETH'>
                             {highest_offer.current_price}
                           </CoinDisplay>
                           &nbsp;{' '}
@@ -740,7 +678,8 @@ const NftAsset: React.FC<Props> = ({
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={highest_offer.payment_token_contract.symbol}
+                              {/* TODO: SEAPORT */}
+                              coin='WETH'
                             >
                               {highest_offer.current_price}
                             </FiatDisplay>
@@ -752,52 +691,52 @@ const NftAsset: React.FC<Props> = ({
                     <Flex gap={8}>
                       {isOwner ? (
                         <>
-                          {/* {!lowest_seaport_order ? ( */}
-                          <Button
-                            data-e2e='openNftFlow'
-                            nature='primary'
-                            jumbo
-                            onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                step: NftOrderStepEnum.MARK_FOR_SALE,
-                                token_id: id
-                              })
-                              analyticsActions.trackEvent({
-                                key: Analytics.NFT_MARK_FOR_SALE,
-                                properties: {
-                                  collection: collectionName,
-                                  collection_id: id
-                                }
-                              })
-                            }}
-                          >
-                            <FormattedMessage
-                              id='copy.mark_for_sale'
-                              defaultMessage='Mark for Sale'
-                            />
-                          </Button>
-                          {/* ) : ( */}
-                          <Button
-                            data-e2e='openNftFlow'
-                            nature='primary'
-                            jumbo
-                            onClick={() =>
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                offer: undefined,
-                                order: lowest_seaport_order,
-                                step: NftOrderStepEnum.CANCEL_LISTING,
-                                token_id: id
-                              })
-                            }
-                          >
-                            <FormattedMessage
-                              id='copy.cancel_listing'
-                              defaultMessage='Cancel Listing'
-                            />
-                          </Button>
-                          {/* )} */}
+                          {!lowest_seaport_order ? (
+                            <Button
+                              data-e2e='openNftFlow'
+                              nature='primary'
+                              jumbo
+                              onClick={() => {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MARK_FOR_SALE,
+                                  token_id: id
+                                })
+                                analyticsActions.trackEvent({
+                                  key: Analytics.NFT_MARK_FOR_SALE,
+                                  properties: {
+                                    collection: collectionName,
+                                    collection_id: id
+                                  }
+                                })
+                              }}
+                            >
+                              <FormattedMessage
+                                id='copy.mark_for_sale'
+                                defaultMessage='Mark for Sale'
+                              />
+                            </Button>
+                          ) : (
+                            <Button
+                              data-e2e='openNftFlow'
+                              nature='primary'
+                              jumbo
+                              onClick={() =>
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  offer: undefined,
+                                  order: lowest_seaport_order,
+                                  step: NftOrderStepEnum.CANCEL_LISTING,
+                                  token_id: id
+                                })
+                              }
+                            >
+                              <FormattedMessage
+                                id='copy.cancel_listing'
+                                defaultMessage='Cancel Listing'
+                              />
+                            </Button>
+                          )}
 
                           {highest_offer && !sellOrders.length ? (
                             <Button

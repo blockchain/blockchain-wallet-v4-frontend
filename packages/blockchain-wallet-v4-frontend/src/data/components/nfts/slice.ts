@@ -14,6 +14,7 @@ import {
   OpenSeaAsset,
   OpenSeaStatus,
   RawOrder,
+  SeaportOffersResponseType,
   SeaportRawOrder,
   UnsignedOrder
 } from '@core/network/api/nfts/types'
@@ -35,6 +36,7 @@ const initialState: NftsStateType = {
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
   openSeaAsset: Remote.NotAsked,
+  openSeaSeaportOffers: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     fees: Remote.NotAsked,
@@ -232,6 +234,22 @@ const nftsSlice = createSlice({
     fetchOpenSeaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.openSeaAsset = Remote.Success(action.payload)
     },
+    fetchOpenSeaSeaportOffersFailure: (state, action: PayloadAction<string>) => {
+      state.openSeaSeaportOffers = Remote.Failure(action.payload)
+    },
+    fetchOpenSeaSeaportOffersLoading: (state) => {
+      state.openSeaSeaportOffers = Remote.Loading
+    },
+    fetchOpenSeaSeaportOffersSuccess: (state, action: PayloadAction<SeaportOffersResponseType>) => {
+      state.openSeaSeaportOffers = Remote.Success(action.payload)
+    },
+    fetchOpenseaSeaportOffers: (
+      state,
+      action: PayloadAction<{
+        asset_contract_address: string
+        token_id: string
+      }>
+    ) => {},
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Failure(action.payload)
@@ -259,7 +277,7 @@ const nftsSlice = createSlice({
         | {
             asset_contract_address: string
             offer?: never
-            order: RawOrder
+            order: SeaportOffersResponseType['orders'][0]
             step: NftOrderStepEnum.ACCEPT_OFFER
             token_id: string
           }

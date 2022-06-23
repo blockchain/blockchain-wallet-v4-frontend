@@ -7,6 +7,7 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   RawOrder,
+  SeaportOffersResponseType,
   SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -49,6 +50,7 @@ export type NftsStateType = {
   collection: RemoteDataType<string, NftCollection>
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   openSeaAsset: RemoteDataType<string, NftAsset>
+  openSeaSeaportOffers: RemoteDataType<string, SeaportOffersResponseType>
   openSeaStatus: RemoteDataType<
     string,
     {
@@ -71,7 +73,7 @@ export type NftsStateType = {
     listingToCancel: SeaportRawOrder | null
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
     offerToCancel: SeaportRawOrder | null
-    orderToMatch: RawOrder | null
+    orderToMatch: SeaportOffersResponseType['orders'][0] | null
     prevStep: NftOrderStepEnum | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
