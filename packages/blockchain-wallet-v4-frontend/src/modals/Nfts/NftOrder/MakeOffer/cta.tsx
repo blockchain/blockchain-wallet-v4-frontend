@@ -197,7 +197,7 @@ const CTA: React.FC<Props> = ({
               })
             }
           >
-            {formValues.amount && Number(formValues.amount) > 0 ? (
+            {cryptoAmt && Number(cryptoAmt) > 0 ? (
               orderFlow.isSubmitting ? (
                 <>
                   {orderFlow.status &&
@@ -215,7 +215,7 @@ const CTA: React.FC<Props> = ({
                           !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
                         }
                         values={{
-                          val: `${formValues.amount} ${formValues.coin}`
+                          val: `${cryptoAmt} ${formValues.coin}`
                         }}
                       />
                     ))}
@@ -225,7 +225,7 @@ const CTA: React.FC<Props> = ({
                   id='copy.make_offer_value'
                   defaultMessage={!needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'}
                   values={{
-                    val: `${formValues.amount} ${formValues.coin}`
+                    val: `${cryptoAmt} ${formValues.coin}`
                   }}
                 />
               )
