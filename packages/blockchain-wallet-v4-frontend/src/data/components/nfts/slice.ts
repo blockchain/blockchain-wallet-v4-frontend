@@ -14,6 +14,7 @@ import {
   OpenSeaAsset,
   OpenSeaStatus,
   RawOrder,
+  SeaportOffer,
   SeaportOffersResponseType,
   SeaportRawOrder,
   UnsignedOrder
@@ -41,11 +42,11 @@ const initialState: NftsStateType = {
   orderFlow: {
     fees: Remote.NotAsked,
     isSubmitting: false,
-    listingToCancel: null,
     matchingOrder: Remote.NotAsked,
-    offerToCancel: null,
     orderToMatch: null,
     prevStep: null,
+    seaportOffer: null,
+    seaportOrder: null,
     status: null,
     step: null,
     userHasPendingTxR: Remote.NotAsked,
@@ -79,7 +80,7 @@ const nftsSlice = createSlice({
     ) => {},
     cancelOffer: (
       state,
-      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: SeaportRawOrder | null }>
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; offer: SeaportOffer | null }>
     ) => {},
     createOffer: (
       state,
@@ -148,8 +149,12 @@ const nftsSlice = createSlice({
             to: string
           }
         | {
-            operation: GasCalculationOperations.Cancel
+            operation: GasCalculationOperations.CancelOrder
             order: SeaportRawOrder
+          }
+        | {
+            offer: SeaportOffer
+            operation: GasCalculationOperations.CancelOffer
           }
       >
     ) => {},
@@ -234,6 +239,13 @@ const nftsSlice = createSlice({
     fetchOpenSeaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.openSeaAsset = Remote.Success(action.payload)
     },
+    fetchOpenSeaSeaportOffers: (
+      state,
+      action: PayloadAction<{
+        asset_contract_address: string
+        token_id: string
+      }>
+    ) => {},
     fetchOpenSeaSeaportOffersFailure: (state, action: PayloadAction<string>) => {
       state.openSeaSeaportOffers = Remote.Failure(action.payload)
     },
@@ -243,13 +255,6 @@ const nftsSlice = createSlice({
     fetchOpenSeaSeaportOffersSuccess: (state, action: PayloadAction<SeaportOffersResponseType>) => {
       state.openSeaSeaportOffers = Remote.Success(action.payload)
     },
-    fetchOpenseaSeaportOffers: (
-      state,
-      action: PayloadAction<{
-        asset_contract_address: string
-        token_id: string
-      }>
-    ) => {},
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
       state.openSeaStatus = Remote.Failure(action.payload)
@@ -269,15 +274,19 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | {
             asset_contract_address: string
-            offer: SeaportRawOrder
+            offer?: never
             order?: never
+            seaportOffer: SeaportOffer
+            seaportOrder?: never
             step: NftOrderStepEnum.CANCEL_OFFER
             token_id: string
           }
         | {
             asset_contract_address: string
             offer?: never
-            order: SeaportOffersResponseType['orders'][0]
+            order?: never
+            seaportOffer: SeaportOffer
+            seaportOrder?: never
             step: NftOrderStepEnum.ACCEPT_OFFER
             token_id: string
           }
@@ -285,13 +294,17 @@ const nftsSlice = createSlice({
             asset_contract_address: string
             offer?: never
             order: RawOrder
+            seaportOffer?: never
+            seaportOrder?: never
             step: NftOrderStepEnum.BUY
             token_id: string
           }
         | {
             asset_contract_address: string
             offer?: never
-            order: SeaportRawOrder
+            order?: never
+            seaportOffer?: never
+            seaportOrder: SeaportRawOrder
             step: NftOrderStepEnum.CANCEL_LISTING
             token_id: string
           }
@@ -299,6 +312,8 @@ const nftsSlice = createSlice({
             asset_contract_address: string
             offer?: never
             order?: RawOrder
+            seaportOffer?: never
+            seaportOrder?: never
             step: NftOrderStepEnum.MAKE_OFFER
             token_id: string
           }
@@ -306,6 +321,8 @@ const nftsSlice = createSlice({
             asset_contract_address: string
             offer?: never
             order?: never
+            seaportOffer?: never
+            seaportOrder?: never
             step: NftOrderStepEnum
             token_id: string
           }
@@ -313,10 +330,10 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.step = action.payload.step
 
-      if (action.payload.offer && action.payload.step === NftOrderStepEnum.CANCEL_OFFER) {
-        state.orderFlow.offerToCancel = action.payload.offer
-      } else if (action.payload.order && action.payload.step === NftOrderStepEnum.CANCEL_LISTING) {
-        state.orderFlow.listingToCancel = action.payload.order
+      if (action.payload.seaportOffer) {
+        state.orderFlow.seaportOffer = action.payload.seaportOffer
+      } else if (action.payload.seaportOrder) {
+        state.orderFlow.seaportOrder = action.payload.seaportOrder
       } else if (action.payload.order) {
         state.orderFlow.orderToMatch = action.payload.order
       }
@@ -350,14 +367,8 @@ const nftsSlice = createSlice({
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
     },
-    setListingToCancel: (state, action: PayloadAction<{ order: SeaportRawOrder }>) => {
-      state.orderFlow.listingToCancel = action.payload.order
-    },
     setNftOrderStatus: (state, action: PayloadAction<NftOrderStatusEnum>) => {
       state.orderFlow.status = action.payload
-    },
-    setOfferToCancel: (state, action: PayloadAction<{ offer: SeaportRawOrder }>) => {
-      state.orderFlow.offerToCancel = action.payload.offer
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload

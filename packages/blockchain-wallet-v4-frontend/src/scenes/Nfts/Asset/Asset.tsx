@@ -199,10 +199,6 @@ const NftAsset: React.FC<Props> = ({
       defaultEthAddr,
       token_id: id
     })
-    nftsActions.fetchOpenseaSeaportOffers({
-      asset_contract_address: contract,
-      token_id: id
-    })
   }, [contract, id, nftsActions, defaultEthAddr])
 
   useEffect(() => {
@@ -672,13 +668,12 @@ const NftAsset: React.FC<Props> = ({
                             style={{ display: 'flex' }}
                             color='grey500'
                           >
-                            (
+                            ({/* TODO: SEAPORT */}
                             <FiatDisplay
                               weight={500}
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              {/* TODO: SEAPORT */}
                               coin='WETH'
                             >
                               {highest_offer.current_price}
@@ -724,8 +719,7 @@ const NftAsset: React.FC<Props> = ({
                               onClick={() =>
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
-                                  offer: undefined,
-                                  order: lowest_seaport_order,
+                                  seaportOrder: lowest_seaport_order,
                                   step: NftOrderStepEnum.CANCEL_LISTING,
                                   token_id: id
                                 })
@@ -746,7 +740,7 @@ const NftAsset: React.FC<Props> = ({
                               onClick={() => {
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
-                                  order: highest_offer,
+                                  seaportOffer: highest_offer,
                                   step: NftOrderStepEnum.ACCEPT_OFFER,
                                   token_id: id
                                 })
@@ -857,12 +851,13 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
               <DropdownPadding>
                 <NftDropdown title='Offers'>
-                  {bidsAndOffers.length > 0 ? (
+                  {offers.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
                         asset={openSeaAsset.data}
+                        isOwner={isOwner}
                         columns={['price', 'from', 'expiration', 'action']}
-                        bidsAndOffers={bidsAndOffers}
+                        offers={offers}
                         defaultEthAddr={defaultEthAddr}
                       />
                     </ActivityWrapper>

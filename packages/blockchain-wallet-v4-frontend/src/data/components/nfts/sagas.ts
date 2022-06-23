@@ -51,16 +51,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     networks
   })
 
+  // Fetch asset and offers at the same time
   const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
       yield put(A.fetchOpenSeaAssetLoading())
-      const res: ReturnType<typeof api.getOpenSeaAsset> = yield call(
+      yield put(A.fetchOpenSeaSeaportOffersLoading())
+      const asset: ReturnType<typeof api.getOpenSeaAsset> = yield call(
         api.getOpenSeaAsset,
         action.payload.asset_contract_address,
         action.payload.token_id,
         action.payload.defaultEthAddr
       )
-      yield put(A.fetchOpenSeaAssetSuccess(res))
+      try {
+        yield put(A.fetchOpenSeaSeaportOffersLoading())
+        const offers: ReturnType<typeof api.getOpenSeaOffersV2> = yield call(
+          api.getOpenSeaOffersV2,
+          action.payload.asset_contract_address,
+          action.payload.token_id
+        )
+        yield put(A.fetchOpenSeaSeaportOffersSuccess(offers))
+      } catch (e) {
+        // eslint-disable-next-line
+          console.log(`Error fetching offers: ${e}`)
+        const error = errorHandler(e)
+        yield put(A.fetchOpenSeaSeaportOffersFailure(error))
+      }
+      yield put(A.fetchOpenSeaAssetSuccess(asset))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchOpenSeaAssetFailure(error))
@@ -244,10 +260,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(A.fetchMatchingOrderFailure(error))
           throw e
         }
-      } else if (action.payload.operation === GasCalculationOperations.Cancel) {
+      } else if (action.payload.operation === GasCalculationOperations.CancelOrder) {
         fees = yield call(calculateSeaportGasFees, {
-          operation: GasCalculationOperations.Cancel,
+          operation: GasCalculationOperations.CancelOrder,
           order: action.payload.order,
+          signer
+        })
+      } else if (action.payload.operation === GasCalculationOperations.CancelOffer) {
+        fees = yield call(calculateSeaportGasFees, {
+          offer: action.payload.offer,
+          operation: GasCalculationOperations.CancelOffer,
           signer
         })
       } else if (action.payload.operation === GasCalculationOperations.Transfer) {
@@ -693,19 +715,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       convertCoinToCoin({
         baseToStandard: true,
         coin,
-        value: action?.payload?.order?.current_price?.toString() || ''
+        value: action?.payload?.offer?.current_price?.toString() || ''
       })
     )
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
-      if (!action.payload.order) {
+      if (!action.payload.offer) {
         throw new Error('No offer found. It may have expired already!')
       }
       const signer: ethers.Wallet = yield call(getEthSigner)
       yield call(cancelSeaportOrder, {
         accountAddress: signer.address,
         gasData: action.payload.gasData,
-        order: action.payload.order,
+        order: action.payload.offer,
         signer
       })
       yield put(actions.modals.closeAllModals())

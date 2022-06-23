@@ -18,7 +18,7 @@ import CancelListingFees from './fees'
 
 const CancelListing: React.FC<Props> = (props) => {
   const { close, openSeaAssetR, orderFlow } = props
-  const { listingToCancel } = orderFlow
+  const { seaportOrder } = orderFlow
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
@@ -50,10 +50,10 @@ const CancelListing: React.FC<Props> = (props) => {
             </Text>
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
               <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                {listingToCancel?.current_price}
+                {seaportOrder?.current_price}
               </CoinDisplay>
               <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
-                {listingToCancel?.current_price}
+                {seaportOrder?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>

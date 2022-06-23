@@ -13,7 +13,7 @@ import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 
 const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
-  const { offerToCancel, userHasPendingTxR } = orderFlow
+  const { seaportOffer, userHasPendingTxR } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
 
   const disabled = Remote.Loading.is(orderFlow.fees) || orderFlow.isSubmitting
@@ -56,7 +56,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
         Loading: () => null,
         NotAsked: () => null,
         Success: (gasData) =>
-          offerToCancel ? (
+          seaportOffer ? (
             <Button
               jumbo
               nature='primary'
@@ -68,7 +68,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
                 nftActions.cancelOffer({
                   asset,
                   gasData,
-                  order: offerToCancel
+                  offer: seaportOffer
                 })
               }}
             >

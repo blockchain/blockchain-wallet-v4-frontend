@@ -412,6 +412,8 @@ export enum GasCalculationOperations {
   AcceptOffer = 'accept-offer',
   Buy = 'buy',
   Cancel = 'cancel',
+  CancelOffer = 'cancel-offer',
+  CancelOrder = 'cancel-order',
   CreateOffer = 'create-offer',
   Sell = 'sell',
   Transfer = 'transfer',
@@ -909,72 +911,72 @@ export type SeaportRawOrder = {
   taker_fees: []
 }
 
+export type SeaportOffer = {
+  cancelled: boolean
+  client_signature: string
+  closing_date: string
+  created_date: string
+  current_price: string
+  expiration_time: number
+  finalized: boolean
+  listing_time: number
+  maker: null | {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  maker_asset_bundle: {
+    asset_contract: AssetContractType
+    assets: NftAsset[]
+    description: null
+    external_link: null
+    maker: null
+    name: string
+    permalink: string
+    seaport_sell_orders: null
+    sell_orders: null
+    slug: null
+  }
+  maker_fees: []
+  marked_invalid: true
+  order_hash: string
+  order_type: string
+  protocol_address: string
+  protocol_data: SeaportRawOrder['protocol_data']
+  relay_id: string
+  side: 'bid' | 'ask'
+  taker: null | {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  taker_asset_bundle: {
+    asset_contract: AssetContractType
+    assets: NftAsset[]
+    description: null
+    external_link: null
+    maker: null
+    name: null
+    permalink: 'https://opensea.io/bundles/None'
+    seaport_sell_orders: null
+    sell_orders: null
+    slug: null
+  }
+  taker_fees: {
+    account: {
+      address: string
+      config: ''
+      profile_img_url: string
+      user: number | null
+    }
+    basis_points: string
+  }[]
+}
+
 export type SeaportOffersResponseType = {
   next: null | string
-  orders: [
-    {
-      cancelled: boolean
-      client_signature: string
-      closing_date: string
-      created_date: string
-      current_price: string
-      expiration_time: number
-      finalized: boolean
-      listing_time: number
-      maker: null | {
-        address: string
-        config: string
-        profile_img_url: string
-        user: number
-      }
-      maker_asset_bundle: {
-        asset_contract: AssetContractType
-        assets: NftAsset[]
-        description: null
-        external_link: null
-        maker: null
-        name: string
-        permalink: string
-        seaport_sell_orders: null
-        sell_orders: null
-        slug: null
-      }
-      maker_fees: []
-      marked_invalid: true
-      order_hash: string
-      order_type: string
-      protocol_address: string
-      protocol_data: SeaportRawOrder['protocol_data']
-      relay_id: string
-      side: 'bid' | 'ask'
-      taker: null | {
-        address: string
-        config: string
-        profile_img_url: string
-        user: number
-      }
-      taker_asset_bundle: {
-        asset_contract: AssetContractType
-        assets: NftAsset[]
-        description: null
-        external_link: null
-        maker: null
-        name: null
-        permalink: 'https://opensea.io/bundles/None'
-        seaport_sell_orders: null
-        sell_orders: null
-        slug: null
-      }
-      taker_fees: {
-        account: {
-          address: string
-          config: ''
-          profile_img_url: string
-          user: number | null
-        }
-        basis_points: string
-      }[]
-    }
-  ]
+  orders: SeaportOffer[]
   previous: null | string
 }

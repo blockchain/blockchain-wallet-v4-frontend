@@ -1,17 +1,18 @@
 import React from 'react'
 
-import { NftAsset, RawOrder } from '@core/network/api/nfts/types'
+import { NftAsset, SeaportOffer } from '@core/network/api/nfts/types'
 
 import { NftTableWrapper } from '../Asset/components'
 import OffersTable from './Offers.table'
 
-const Offers: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEthAddr }) => {
+const Offers: React.FC<Props> = ({ asset, columns, defaultEthAddr, isOwner, offers }) => {
   return (
     <NftTableWrapper height='auto'>
       <OffersTable
         asset={asset}
+        isOwner={isOwner}
         columns={columns || ['price', 'from', 'expiration', 'action']}
-        bidsAndOffers={bidsAndOffers}
+        offers={offers}
         defaultEthAddr={defaultEthAddr}
       />
     </NftTableWrapper>
@@ -21,9 +22,10 @@ const Offers: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEthAddr
 type Props = {
   address?: never
   asset?: NftAsset
-  bidsAndOffers: RawOrder[]
   columns?: ('price' | 'amount' | 'from' | 'expiration' | 'action')[]
   defaultEthAddr: string
+  isOwner: boolean
+  offers: SeaportOffer[]
 }
 
 export default Offers

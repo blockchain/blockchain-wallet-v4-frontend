@@ -13,7 +13,7 @@ import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 
 const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
-  const { listingToCancel, userHasPendingTxR } = orderFlow
+  const { seaportOrder, userHasPendingTxR } = orderFlow
 
   const dispatch = useDispatch()
   const cancelListingClicked = () => {
@@ -51,7 +51,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
         Loading: () => null,
         NotAsked: () => null,
         Success: (val) =>
-          listingToCancel ? (
+          seaportOrder ? (
             <Button
               jumbo
               nature='primary'
@@ -60,7 +60,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
               disabled={disabled}
               onClick={() => {
                 cancelListingClicked()
-                nftActions.cancelListing({ asset, gasData: val, order: listingToCancel })
+                nftActions.cancelListing({ asset, gasData: val, order: seaportOrder })
               }}
             >
               {orderFlow.isSubmitting ? (

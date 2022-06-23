@@ -13,7 +13,7 @@ export const NFT_ORDER_PAGE_LIMIT = 30
 export default ({ apiUrl, get, openSeaApi, post }) => {
   const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
   // const nftUrl = `${apiUrl}/nft-market-api/nft`
-  const openSeaUrl = `${openSeaApi}/api/v1`
+  const openSeaUrl = `${openSeaApi}`
 
   const getNftUserPreferences = (
     jwt: string
@@ -50,9 +50,9 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     token_id: string
   ): SeaportOffersResponseType => {
     return get({
-      endPoint: `/v2/orders/ethereum/seaport/offers?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
+      endPoint: `/offers-v2?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
       ignoreQueryParams: true,
-      url: openSeaUrl
+      url: nftUrl
     })
   }
 
@@ -62,7 +62,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     defaultEthAddr?: string
   ): NftAsset => {
     return get({
-      endPoint: `/asset/${collection_id}/${asset_number}?include_orders=true${
+      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true${
         defaultEthAddr ? `&account_address=${defaultEthAddr}` : ''
       }`,
       ignoreQueryParams: true,

@@ -3,7 +3,7 @@ import { useSortBy, useTable } from 'react-table'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 
-import { NftAsset, RawOrder } from '@core/network/api/nfts/types'
+import { NftAsset, SeaportOffer } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 
 import {
@@ -17,17 +17,18 @@ import {
 const getTableColumns = (
   columns: ('price' | 'amount' | 'from' | 'expiration' | 'action')[],
   defaultEthAddr,
-  asset
+  isOwner: boolean,
+  asset?: NftAsset
 ) =>
   [
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('amount') ? getAmountColumn() : null,
     columns.includes('expiration') ? getExpirationColumn() : null,
     columns.includes('from') ? getFromColumn() : null,
-    columns.includes('action') ? getActionColumn(defaultEthAddr, asset) : null
+    columns.includes('action') ? getActionColumn(defaultEthAddr, isOwner, asset) : null
   ].filter(Boolean)
 
-const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEthAddr }) => {
+const OffersTable: React.FC<Props> = ({ asset, columns, defaultEthAddr, isOwner, offers }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -38,10 +39,10 @@ const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEt
       autoResetSelectedRows: false,
       autoResetSortBy: false,
       columns: useMemo(
-        () => getTableColumns(columns, defaultEthAddr, asset),
-        [columns, defaultEthAddr, asset]
+        () => getTableColumns(columns, defaultEthAddr, isOwner, asset),
+        [columns, defaultEthAddr, isOwner, asset]
       ),
-      data: useMemo(() => bidsAndOffers, [bidsAndOffers]),
+      data: useMemo(() => offers, [offers]),
       disableMultiSort: true,
       disableSortRemove: true,
       initialState: {}
@@ -122,9 +123,10 @@ const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEt
 
 type Props = {
   asset?: NftAsset
-  bidsAndOffers: RawOrder[]
   columns: ('price' | 'amount' | 'from' | 'expiration' | 'action')[]
   defaultEthAddr: string
+  isOwner: boolean
+  offers: SeaportOffer[]
 }
 
 export default OffersTable

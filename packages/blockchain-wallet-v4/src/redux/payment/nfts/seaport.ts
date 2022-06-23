@@ -9,6 +9,7 @@ import {
   GasDataI,
   NftOrderSide,
   OpenSeaAsset,
+  SeaportOffer,
   SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
@@ -62,7 +63,7 @@ export const cancelOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: SeaportRawOrder
+  order: SeaportRawOrder | SeaportOffer
   signer: ethers.Wallet
 }) => {
   // Transact and get the transaction hash
@@ -254,14 +255,23 @@ export const createBuyOrder = async ({
 }
 
 export const calculateSeaportGasFees = async ({
+  offer,
   operation,
   order,
   signer
 }:
-  | { signer: ethers.Wallet } & {
-      operation: GasCalculationOperations.Cancel
-      order: SeaportRawOrder
-    }): Promise<GasDataI> => {
+  | { signer: ethers.Wallet } & (
+      | {
+          offer?: never
+          operation: GasCalculationOperations.CancelOrder
+          order: SeaportRawOrder
+        }
+      | {
+          offer: SeaportOffer
+          operation: GasCalculationOperations.CancelOffer
+          order?: never
+        }
+    )): Promise<GasDataI> => {
   let totalFees = 0
   let gasFees = 0
   let estimate = '0'
@@ -270,16 +280,21 @@ export const calculateSeaportGasFees = async ({
   const seaport = getSeaport(signer)
 
   switch (operation) {
-    case GasCalculationOperations.Cancel:
+    case GasCalculationOperations.CancelOrder:
       estimate = await (
         await seaport
           .cancelOrders([(order as SeaportRawOrder).protocol_data.parameters])
           .estimateGas()
       )._hex
       break
+    case GasCalculationOperations.CancelOffer:
+      estimate = await (
+        await seaport.cancelOrders([(offer as SeaportOffer).protocol_data.parameters]).estimateGas()
+      )._hex
+      break
     default:
   }
-  gasFees = Math.ceil(parseInt(estimate) * 1.2)
+  gasFees = Math.ceil(parseInt(estimate) * 1.5)
 
   const gasPrice = await (await signer.getGasPrice()).toNumber()
   totalFees = approvalFees + proxyFees + gasFees

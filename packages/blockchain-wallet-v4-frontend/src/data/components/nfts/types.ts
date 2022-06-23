@@ -7,6 +7,7 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   RawOrder,
+  SeaportOffer,
   SeaportOffersResponseType,
   SeaportRawOrder
 } from '@core/network/api/nfts/types'
@@ -70,11 +71,11 @@ export type NftsStateType = {
   orderFlow: {
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
-    listingToCancel: SeaportRawOrder | null
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
-    offerToCancel: SeaportRawOrder | null
-    orderToMatch: SeaportOffersResponseType['orders'][0] | null
+    orderToMatch: RawOrder | null
     prevStep: NftOrderStepEnum | null
+    seaportOffer: SeaportOffer | null
+    seaportOrder: SeaportRawOrder | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
     userHasPendingTxR: RemoteDataType<string, boolean>
