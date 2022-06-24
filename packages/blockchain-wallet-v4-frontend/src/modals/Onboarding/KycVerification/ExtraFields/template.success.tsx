@@ -69,6 +69,27 @@ const LeftTopCol = styled.div`
   align-items: left;
 `
 
+const TopHeader = styled(Text)`
+  display: flex;
+  align-items: left;
+  margin-bottom: 16px;
+  flex-direction: column;
+`
+
+const TopHeaderTitle = styled.div`
+  display: flex;
+  align-items: left;
+`
+
+const TopHeaderDescription = styled(Text)`
+  margin: 10px 0 0 0;
+  display: flex;
+  color: ${(props) => props.theme.grey600};
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+`
+
 const ErrorTextContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -379,19 +400,38 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
+  const RenderHeader = (header) => {
+    return (
+      <TopHeader color='grey800' size='20px' weight={600}>
+        <Icon
+          name='user'
+          size='27px'
+          color='blue600'
+          style={{ marginBottom: '10px', marginRight: '4px' }}
+        />
+        <TopHeaderTitle>{header.title}</TopHeaderTitle>
+        {header.description && <TopHeaderDescription>{header.description}</TopHeaderDescription>}
+      </TopHeader>
+    )
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
-        <TopText color='grey800' size='20px' weight={600}>
-          <LeftTopCol>
-            <FormattedMessage
-              id='identityverification.extra_fields.title'
-              defaultMessage='Use of Account Information'
-            />
-          </LeftTopCol>
-        </TopText>
+        {props.extraSteps.header ? (
+          RenderHeader(props.extraSteps.header)
+        ) : (
+          <TopText color='grey800' size='20px' weight={600}>
+            <LeftTopCol>
+              <FormattedMessage
+                id='identityverification.extra_fields.title'
+                defaultMessage='Use of Account Information'
+              />
+            </LeftTopCol>
+          </TopText>
+        )}
       </FlyoutWrapper>
-      <FlyoutWrapper style={{ paddingTop: '36px' }}>
+      <FlyoutWrapper style={{ paddingTop: '20px' }}>
         {props.error && (
           <ErrorTextContainer>
             <ErrorText>
