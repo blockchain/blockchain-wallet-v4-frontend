@@ -418,9 +418,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
-        {props.extraSteps.header ? (
-          RenderHeader(props.extraSteps.header)
-        ) : (
+        {props.extraSteps.header && RenderHeader(props.extraSteps.header)}
+        {!props.extraSteps.header && (
           <TopText color='grey800' size='20px' weight={600}>
             <LeftTopCol>
               <FormattedMessage
