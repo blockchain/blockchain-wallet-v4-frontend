@@ -67,13 +67,11 @@ export const getAssetItems = (
 
 export const getFees = async ({
   endAmount,
-  network,
   openseaAsset: asset,
   paymentTokenAddress,
   startAmount
 }: {
   endAmount?: string
-  network: string
   openseaAsset: OpenSeaAsset
   paymentTokenAddress: string
   startAmount: string
@@ -84,7 +82,6 @@ export const getFees = async ({
   openseaSellerFee: ConsiderationInputItem
   sellerFee: ConsiderationInputItem
 }> => {
-  const IS_TESTNET = network === 'rinkeby'
   // Seller fee basis points
   const openseaSellerFeeBasisPoints = DEFAULT_SELLER_FEE_BASIS_POINTS
   const collectionSellerFeeBasisPoints = asset.collection.devSellerFeeBasisPoints
@@ -120,15 +117,9 @@ export const getFees = async ({
         : undefined,
     openseaBuyerFee:
       openseaBuyerFeeBasisPoints > 0
-        ? getConsiderationItem(
-            openseaBuyerFeeBasisPoints,
-            IS_TESTNET ? OPENSEA_FEE_RECIPIENT_RINKEBY : OPENSEA_FEE_RECIPIENT
-          )
+        ? getConsiderationItem(openseaBuyerFeeBasisPoints, OPENSEA_FEE_RECIPIENT)
         : undefined,
-    openseaSellerFee: getConsiderationItem(
-      openseaSellerFeeBasisPoints,
-      IS_TESTNET ? OPENSEA_FEE_RECIPIENT_RINKEBY : OPENSEA_FEE_RECIPIENT
-    ),
+    openseaSellerFee: getConsiderationItem(openseaSellerFeeBasisPoints, OPENSEA_FEE_RECIPIENT),
     sellerFee: getConsiderationItem(sellerBasisPoints)
   }
 }

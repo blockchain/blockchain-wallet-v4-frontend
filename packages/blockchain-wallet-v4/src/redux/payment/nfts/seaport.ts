@@ -147,7 +147,6 @@ export const createSellOrder = async ({
 
   const { collectionSellerFee, openseaSellerFee, sellerFee } = await getFees({
     endAmount: endPrice.toString(),
-    network,
     openseaAsset,
     paymentTokenAddress,
     startAmount: basePrice.toString()
@@ -226,7 +225,6 @@ export const createBuyOrder = async ({
   )
 
   const { collectionSellerFee, openseaSellerFee } = await getFees({
-    network,
     openseaAsset,
     paymentTokenAddress,
     startAmount: basePrice.toString()
