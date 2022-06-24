@@ -47,8 +47,6 @@ export const getData = createDeepEqualSelector(
           return lift(transform2)(ratesR)
         })
 
-      console.log(erc20Balances)
-
       return {
         currency,
         erc20Balances,
