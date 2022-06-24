@@ -152,6 +152,7 @@ interface BankTransferAccountAttrs {
   entity: OBEntityType
   media: OBMediaType[]
   qrcodeUrl: string
+  requiresRefresh?: true
 }
 
 export type BankTransferAccountType = {

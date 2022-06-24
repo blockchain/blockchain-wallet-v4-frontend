@@ -138,7 +138,9 @@ export enum CardFundSourceType {
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
-  attributes?: {}
+  attributes?: {
+    requiresRefresh?: true
+  }
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import {
+  BankCredentialsType,
   BankTransferAccountType,
   RecurringBuyNextPayment,
   RecurringBuyPeriods,
@@ -188,6 +189,15 @@ export default ({
       contentType: 'application/json',
       data: { attributes },
       endPoint: `/payments/banktransfer/${bankId}/update`,
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const refreshBankAccountLink = (bankId: string, attributes): BankCredentialsType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: { attributes },
+      endPoint: `/payments/banktransfer/${bankId}/refresh`,
       removeDefaultPostData: true,
       url: nabuUrl
     })
@@ -554,6 +564,7 @@ export default ({
     getRBPaymentInfo,
     getRBRegisteredList,
     getUnifiedSellTrades,
+    refreshBankAccountLink,
     updateBankAccountLink,
     validateApplePayMerchant,
     withdrawBSFunds

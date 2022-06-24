@@ -36,7 +36,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchPaymentMethods.type, buySellSagas.fetchPaymentMethods)
     yield takeLatest(actions.fetchQuote.type, buySellSagas.fetchBSQuote)
     yield takeLatest(actions.handleDepositFiatClick.type, buySellSagas.handleBSDepositFiatClick)
-    yield takeLatest(actions.handleMethodChange.type, buySellSagas.handleBSMethodChange)
+    yield takeLatest(actions.handleMethodChange.type, buySellSagas.handleMethodChange)
     yield takeLatest(actions.handleBuyMaxAmountClick.type, buySellSagas.handleBuyMaxAmountClick)
     yield takeLatest(actions.handleBuyMinAmountClick.type, buySellSagas.handleBuyMinAmountClick)
     yield takeLatest(actions.handleSellMaxAmountClick.type, buySellSagas.handleSellMaxAmountClick)
