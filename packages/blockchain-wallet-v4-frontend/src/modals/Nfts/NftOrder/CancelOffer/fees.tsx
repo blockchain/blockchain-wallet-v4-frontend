@@ -15,18 +15,18 @@ import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { seaportOffer } = orderFlow
+  const { seaportOrder } = orderFlow
 
   useEffect(() => {
-    if (seaportOffer) {
+    if (seaportOrder) {
       nftActions.fetchFees({
-        offer: seaportOffer,
+        offer: seaportOrder,
         operation: GasCalculationOperations.CancelOffer
       })
     }
-  }, [seaportOffer, nftActions])
+  }, [seaportOrder, nftActions])
 
-  if (!seaportOffer) return null
+  if (!seaportOrder) return null
 
   return (
     <>

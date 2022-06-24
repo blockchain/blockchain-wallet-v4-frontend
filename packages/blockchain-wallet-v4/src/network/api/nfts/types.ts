@@ -906,7 +906,7 @@ export type SeaportRawOrder = {
     signature: string
   }
   relay_id: string
-  side: 'ask'
+  side: 'ask' | 'bid'
   taker: null
   taker_fees: []
 }

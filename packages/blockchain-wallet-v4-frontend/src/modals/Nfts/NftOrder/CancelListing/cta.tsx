@@ -60,7 +60,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
               disabled={disabled}
               onClick={() => {
                 cancelListingClicked()
-                nftActions.cancelListing({ asset, gasData: val, order: seaportOrder })
+                nftActions.cancelListing({ asset, gasData: val, seaportOrder })
               }}
             >
               {orderFlow.isSubmitting ? (

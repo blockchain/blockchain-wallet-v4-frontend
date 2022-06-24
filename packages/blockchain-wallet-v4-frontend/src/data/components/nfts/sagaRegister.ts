@@ -20,6 +20,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchFees, nftsSagas.fetchFees)
     yield takeLatest(actions.fetchFeesWrapEth, nftsSagas.fetchFeesWrapEth)
     yield takeLatest(actions.fetchOpenSeaAsset, nftsSagas.fetchOpenSeaAsset)
+    yield takeLatest(actions.fetchOpenSeaSeaportOffers, nftsSagas.fetchOpenSeaSeaportOffers)
     yield takeLatest(actions.fetchOpenseaStatus, nftsSagas.fetchOpenseaStatus)
     yield takeLatest(actions.fetchNftUserPreferences, nftsSagas.fetchNftUserPreferences)
     yield takeLatest(actions.updateUserPreferences, nftsSagas.updateUserPreferences)

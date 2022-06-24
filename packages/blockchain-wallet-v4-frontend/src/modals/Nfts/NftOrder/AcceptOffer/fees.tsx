@@ -17,13 +17,13 @@ const Fees: React.FC<Props> = (props) => {
   const { asset, nftActions, orderFlow } = props
 
   useEffect(() => {
-    if (orderFlow.seaportOffer) {
+    if (orderFlow.seaportOrder) {
       nftActions.fetchFees({
-        offer: orderFlow.seaportOffer,
+        offer: orderFlow.seaportOrder,
         operation: GasCalculationOperations.AcceptOffer
       })
     }
-  }, [orderFlow.seaportOffer, nftActions])
+  }, [orderFlow.seaportOrder, nftActions])
 
   return (
     <>

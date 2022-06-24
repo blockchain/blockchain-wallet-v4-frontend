@@ -211,7 +211,7 @@ const CTA: React.FC<Props> = (props) => {
                 nftActions.createOrder({
                   asset: val.asset,
                   gasData: val.fees,
-                  order: seaportOrder!
+                  seaportOrder: orderFlow.seaportOrder!
                 })
               }
               jumbo

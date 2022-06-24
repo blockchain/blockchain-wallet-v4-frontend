@@ -25,8 +25,7 @@ export const getActionColumn = (defaultEthAddr, isOwner: boolean, asset?: NftAss
               dispatch(
                 actions.components.nfts.nftOrderFlowOpen({
                   asset_contract_address: asset.asset_contract.address,
-                  seaportOffer: isOwner ? undefined : values,
-                  seaportOrder: isOwner ? values : undefined,
+                  seaportOrder: values,
                   step: isOwner ? NftOrderStepEnum.ACCEPT_OFFER : NftOrderStepEnum.CANCEL_OFFER,
                   token_id: asset.token_id
                 })

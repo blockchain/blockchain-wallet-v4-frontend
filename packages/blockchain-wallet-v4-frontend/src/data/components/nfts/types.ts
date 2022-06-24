@@ -72,7 +72,6 @@ export type NftsStateType = {
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
     prevStep: NftOrderStepEnum | null
-    seaportOffer: SeaportOffer | null
     seaportOrder: SeaportRawOrder | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
