@@ -43,6 +43,7 @@
         "eddInterestFileUpload": true,
         "googlePayPaymentMethod": false,
         "institutionalPortal": true,
+        "isReferralEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,

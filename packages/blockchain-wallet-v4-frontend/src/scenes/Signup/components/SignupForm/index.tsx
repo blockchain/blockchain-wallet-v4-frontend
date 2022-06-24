@@ -3,18 +3,20 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
+import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
+import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
-import SelectBoxCountry from 'components/Form/SelectBoxCountry'
-import SelectBoxUSState from 'components/Form/SelectBoxUSState'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
+import { CountryType, StateType } from 'data/types'
+import { useCountryList, useUSStateList } from 'hooks'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -26,6 +28,7 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
+import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SubviewProps } from '../../types'
 
@@ -66,10 +69,47 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
+const getCountryElements = (countries: Array<CountryType>) => [
+  {
+    group: '',
+    items: countries.map((country: CountryType) => ({
+      text: country.name,
+      value: country.code
+    }))
+  }
+]
+
+const getStateElements = (states: Array<StateType>) => [
+  {
+    group: '',
+    items: states.map((state: StateType) => ({
+      text: state.name,
+      value: state.code
+    }))
+  }
+]
+
 const SignupForm = (props: Props) => {
-  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
-    props
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    isReferralEnabled,
+    isValidReferralCode,
+    onCountrySelect,
+    onSignupSubmit,
+    showState
+  } = props
   const passwordValue = formValues?.password || ''
+  const referralValue = formValues?.referral || ''
+  const showReferralError =
+    referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode
+
+  const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
+  const { data: supportedUSStates } = useUSStateList()
+  if (!supportedCountries?.countries || !supportedUSStates?.states) {
+    return <></>
+  }
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -189,36 +229,54 @@ const SignupForm = (props: Props) => {
             data-e2e='selectCountryDropdown'
             name='country'
             validate={required}
-            component={SelectBoxCountry as ReturnType<typeof SelectBox>}
+            elements={getCountryElements(supportedCountries.countries)}
+            component={SelectBox}
             menuPlacement='auto'
             onChange={onCountrySelect}
-            label={
-              <FormattedMessage
-                id='scenes.register.select_country'
-                defaultMessage='Select Country'
-              />
-            }
+            label='Select Country'
           />
         </FieldWithoutBottomRadius>
         {showState ? (
           <FieldWithoutTopRadius setBorder={showState}>
             <Field
               name='state'
-              component={SelectBoxUSState}
+              elements={getStateElements(supportedUSStates.states)}
+              component={SelectBox}
               errorBottom
               validate={[required]}
-              normalize={(val) => val && val.code}
-              label={
-                <FormattedMessage
-                  id='components.selectboxstate.label'
-                  defaultMessage='Select state'
-                />
-              }
+              label='Select State'
             />
           </FieldWithoutTopRadius>
         ) : null}
       </FormGroup>
-
+      {isReferralEnabled && (
+        <FormGroup>
+          <FormItem>
+            <FormLabel htmlFor='referral' id='referral'>
+              <FormattedMessage
+                defaultMessage='Have a referral code?'
+                id='scenes.register.referralcode'
+              />
+            </FormLabel>
+            <Field
+              bgColor='grey000'
+              component={TextBox}
+              data-e2e='referral'
+              name='referral'
+              normalize={applyToUpperCase}
+              placeholder='Enter Referral Code'
+            />
+            {showReferralError && (
+              <FormError data-e2e='referralError' style={{ paddingTop: '5px' }}>
+                <FormattedMessage
+                  defaultMessage='Please enter a valid referral code'
+                  id='scenes.register.referralcode.error'
+                />
+              </FormError>
+            )}
+          </FormItem>
+        </FormGroup>
+      )}
       <FormGroup inline>
         <FieldWrapper>
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />

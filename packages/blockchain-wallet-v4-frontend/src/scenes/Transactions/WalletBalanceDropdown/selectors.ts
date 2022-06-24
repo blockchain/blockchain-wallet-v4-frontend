@@ -77,6 +77,7 @@ export const getData = (state, ownProps: OwnProps) => {
         case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
+            includeCustodial: true,
             includeSelfCustody: true
           })
           balanceDataR = getBalance(coin)(state)

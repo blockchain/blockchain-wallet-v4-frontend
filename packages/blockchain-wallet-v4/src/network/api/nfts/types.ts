@@ -658,12 +658,20 @@ export interface NftAsset {
       username: string | null
     }
   }
-
+  ownership?: {
+    owner: {
+      address: string
+      config: string
+      profile_img_url: string
+      user: { username: string }
+    }
+    quantity: number
+  }
   permalink: string
   token_id: string
   token_metadata: null
   top_bid: null
-  top_ownerships: [
+  top_ownerships?: [
     {
       owner: {
         address: string
