@@ -174,7 +174,16 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <div style={{ display: 'flex' }}>
+            <div
+              style={{
+                background: termsAccepted ? colors.white900 : colors.grey000,
+                border: `1px solid ${colors.grey000}`,
+                borderRadius: '8px',
+                display: 'flex',
+                justifyContent: 'center',
+                margin: '1em 0em'
+              }}
+            >
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
                 <CheckBoxInput

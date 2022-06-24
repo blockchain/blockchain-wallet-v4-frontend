@@ -36,7 +36,6 @@ import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/g
 import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
-import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
@@ -64,7 +63,6 @@ import NftAssetLoading from './components/NftAssetLoading'
 const AssetImageContainer = styled.div`
   position: relative;
   border-radius: 16px;
-  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 0.5rem;
   padding: 30px;
 `
@@ -152,7 +150,7 @@ const Detail = styled(Text)`
 const ShadowTag = styled.div`
   background: ${colors.white900};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
-  border-radius: 40px;
+  border-radius: 16px;
   padding: 6px 12px;
   width: fit-content;
 `
@@ -288,12 +286,6 @@ const NftAsset: React.FC<Props> = ({
                 ) : (
                   <Image width='100%' height='500px' name='nft-img-placeholder' />
                 )}
-                <NftAssetImageType
-                  animation_url={currentAsset.animation_url}
-                  image_url={currentAsset.image_url}
-                  top='40px'
-                  right='40px'
-                />
               </AssetImageContainer>
               {currentAsset.traits?.length || description !== '' ? (
                 <DropdownPadding style={{ paddingTop: '1em' }}>

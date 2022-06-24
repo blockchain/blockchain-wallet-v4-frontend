@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
 
@@ -139,7 +140,16 @@ const CTA: React.FC<Props> = ({
         </Text>
       ) : null}
       {disabled ? null : (
-        <div style={{ display: 'flex' }}>
+        <div
+          style={{
+            background: termsAccepted ? colors.white900 : colors.grey000,
+            border: `1px solid ${colors.grey100}`,
+            borderRadius: '8px',
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '1em 0em'
+          }}
+        >
           {' '}
           <div style={{ padding: '1.2em 0em' }}>
             <CheckBoxInput

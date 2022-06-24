@@ -24,7 +24,6 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
 const XSmallButton = styled(Button)`
@@ -124,17 +123,21 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background='linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'
             />
           )}
-          <NftAssetImageType
-            top='10px'
-            right='10px'
-            animation_url={asset.animation_url}
-            image_url={image}
-          />
         </Link>
       </LinkContainer>
       <AssetDetails>
         <Flex flexDirection='column' gap={8}>
-          <Text size='18px' style={{ marginTop: '4px' }} color='white' weight={600}>
+          <Text
+            size='18px'
+            style={{
+              marginTop: '4px',
+              maxWidth: '200px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}
+            color='white'
+            weight={600}
+          >
             #{asset?.token_id}
           </Text>
           <LinkContainer
@@ -250,7 +253,17 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   src={image.replace(/=s\d*/, '')}
                 />
               ) : null}
-              <Text size='18px' weight={600} lineHeight='150%' color='white'>
+              <Text
+                size='18px'
+                weight={600}
+                lineHeight='150%'
+                color='white'
+                style={{
+                  maxWidth: '200px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+                }}
+              >
                 #{asset?.token_id}
               </Text>
               <Flex alignItems='center' gap={8}>

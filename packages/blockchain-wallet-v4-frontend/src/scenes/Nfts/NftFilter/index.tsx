@@ -33,7 +33,7 @@ export const FILTER_WIDTH_CLOSED = '20'
 const Wrapper = styled.div<{ isFilterOpen: boolean }>`
   top: calc(${FIXED_HEADER_HEIGHT}px);
   padding-right: 24px;
-  padding-top: 20px;
+  padding-top: 24px;
   position: sticky;
   transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};

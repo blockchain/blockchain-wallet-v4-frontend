@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconLink } from '@blockchain-com/icons'
+import {
+  IconCamera,
+  IconComputer,
+  IconInstagram,
+  IconLink,
+  IconTwitter
+} from '@blockchain-com/icons'
 import {
   AvatarGradientColors,
   CollectionHeader,
+  CollectionInfoWrapper,
   GridWrapper,
   NftBannerWrapper,
   NftPageFullWidth,
@@ -37,9 +44,14 @@ import NftCollectionLoading from './NftCollection.template.loading'
 import Stats from './Stats'
 
 const CollectionInfo = styled.div`
-  width: 100%;
+  background: ${colors.white900};
+  box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
+  border-radius: 16px;
+  padding: 6px 12px;
+  width: fit-content;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
+  gap: 8px;
   align-items: center;
 `
 
@@ -47,7 +59,6 @@ const LinksContainer = styled.div`
   display: flex;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
-  width: 34px;
   justify-content: center;
   > a {
     display: flex;
@@ -78,6 +89,10 @@ const LinksContainer = styled.div`
       display: none;
     }
   }
+`
+
+const Flex = styled.div`
+  display: flex;
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -118,71 +133,81 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
   return (
     <NftPageFullWidth>
       <OpenSeaStatusComponent />
-      <CollectionHeader bgUrl={collection.banner_image_url || ''}>
-        <NftBannerWrapper>
-          <CollectionInfo>
-            <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              {collection.image_url ? (
-                <NftCollectionImage
-                  alt=''
-                  isVerified={collection.safelist_request_status === 'verified'}
-                  src={collection.image_url || ''}
-                />
-              ) : (
-                <Avatar
-                  size={30}
-                  name={collection.slug || ''}
-                  variant='marble'
-                  colors={AvatarGradientColors}
-                />
-              )}
-              <Text color='white' size='32px' weight={600}>
-                {collection.name}
-              </Text>
-            </div>
-            <LinksContainer>
-              {collection.external_url ? (
-                <Link target='_blank' href={collection.external_url}>
-                  <Icon size='sm' label='globe' color='white900'>
-                    <IconLink />
-                  </Icon>
-                </Link>
-              ) : null}
-              {/* {collection.instagram_username ? (
-                <Link
-                  target='_blank'
-                  href={`https://instagram.com/${collection.instagram_username}`}
-                >
-                  <Icon size='md' label='camera' color='white900'>
-                    <IconCamera />
-                  </Icon>
-                </Link>
-              ) : null}
-              {collection.discord_url ? (
-                <Link target='_blank' href={`${collection.discord_url}`}>
-                  <Icon size='md' label='computer' color='white900'>
-                    <IconComputer />
-                  </Icon>
-                </Link>
-              ) : null}
-              {collection.twitter_username ? (
-                <Link target='_blank' href={`https://twitter.com/${collection.twitter_username}`}>
-                  <Icon size='md' label='twitter' color='white900'>
-                    <IconTwitter />
-                  </Icon>
-                </Link>
-              ) : null} */}
-            </LinksContainer>
-          </CollectionInfo>
-          <Stats
-            slug={collection.slug}
-            routerActions={routerActions}
-            formActions={formActions}
-            total_supply={collection.total_supply}
-            stats={collection.stats}
-          />
-        </NftBannerWrapper>
-      </CollectionHeader>
+      {collection.banner_image_url && (
+        <>
+          <CollectionHeader bgUrl={collection.banner_image_url}>
+            <NftBannerWrapper />
+          </CollectionHeader>
+          <Flex>
+            <CollectionInfoWrapper>
+              <CollectionInfo>
+                <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
+                  {collection.image_url ? (
+                    <NftCollectionImage
+                      alt=''
+                      isVerified={collection.safelist_request_status === 'verified'}
+                      src={collection.image_url || ''}
+                    />
+                  ) : (
+                    <Avatar
+                      size={30}
+                      name={collection.slug || ''}
+                      variant='marble'
+                      colors={AvatarGradientColors}
+                    />
+                  )}
+                  <Text color='black' size='14px' weight={600}>
+                    {collection.name}
+                  </Text>
+                </div>
+                <LinksContainer>
+                  {collection.external_url ? (
+                    <Link target='_blank' href={collection.external_url}>
+                      <Icon size='sm' label='globe'>
+                        <IconLink fill={colors.blue600} />
+                      </Icon>
+                    </Link>
+                  ) : null}
+                  {collection.twitter_username ? (
+                    <Link
+                      target='_blank'
+                      href={`https://twitter.com/${collection.twitter_username}`}
+                    >
+                      <Icon size='sm' label='twitter'>
+                        <IconTwitter fill={colors.blue600} />
+                      </Icon>
+                    </Link>
+                  ) : null}
+                  {collection.instagram_username ? (
+                    <Link
+                      target='_blank'
+                      href={`https://instagram.com/${collection.instagram_username}`}
+                    >
+                      <Icon size='sm' label='camera'>
+                        <IconInstagram fill={colors.blue600} />
+                      </Icon>
+                    </Link>
+                  ) : null}
+                  {collection.discord_url ? (
+                    <Link target='_blank' href={`${collection.discord_url}`}>
+                      <Icon size='sm' label='computer'>
+                        <IconComputer fill={colors.blue600} />
+                      </Icon>
+                    </Link>
+                  ) : null}
+                </LinksContainer>
+              </CollectionInfo>
+            </CollectionInfoWrapper>
+            <Stats
+              slug={collection.slug}
+              routerActions={routerActions}
+              formActions={formActions}
+              total_supply={collection.total_supply}
+              stats={collection.stats}
+            />
+          </Flex>
+        </>
+      )}
       <GridWrapper>
         <NftFilter
           collections={[]}
