@@ -50,7 +50,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
       yield call(createUser)
       // store initial address in case of US state we add prefix
-      const userState = country === 'US' ? state : undefined
+      const userState = country === 'US' ? `US-${state}` : state
       yield call(api.setUserInitialAddress, country, userState)
       yield call(coreSagas.settings.fetchSettings)
 
@@ -115,9 +115,8 @@ export default ({ api, coreSagas, networks }) => {
           firstLogin: true,
           state
         })
+        yield put(actions.signup.registerSuccess(undefined))
       }
-
-      yield put(actions.signup.registerSuccess(undefined))
 
       yield put(
         actions.analytics.trackEvent({

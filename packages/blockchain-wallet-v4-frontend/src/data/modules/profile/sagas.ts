@@ -405,6 +405,7 @@ export default ({ api, coreSagas, networks }) => {
             data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
           })
+          yield put(actions.signup.registerSuccess(undefined))
           break
         case origin === ExchangeAuthOriginType.SideMenu:
           window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
@@ -427,6 +428,7 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
