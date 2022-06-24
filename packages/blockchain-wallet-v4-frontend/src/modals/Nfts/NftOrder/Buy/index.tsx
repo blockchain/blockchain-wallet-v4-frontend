@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useQuery } from 'react-query'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -20,7 +19,6 @@ import FlyoutHeader from 'components/Flyout/Header'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
 
 import { NftFlyoutRow, StickyCTA } from '../../components'
@@ -43,7 +41,7 @@ const Buy: React.FC<Props> = (props) => {
     walletCurrency
   } = props
   const { amount, coin, fix } = formValues
-  const { orderToMatch } = orderFlow
+  const { seaportOrder } = orderFlow
 
   const cryptoAmt =
     fix === 'FIAT'
@@ -124,7 +122,7 @@ const Buy: React.FC<Props> = (props) => {
 
                           nftActions.fetchFees({
                             operation: GasCalculationOperations.Buy,
-                            order: orderFromJSON(orderToMatch),
+                            order: seaportOrder!,
                             paymentTokenAddress: address
                           })
                         }}
@@ -145,28 +143,20 @@ const Buy: React.FC<Props> = (props) => {
                       />
                     </Value>
                   </NftFlyoutRow>
-                  {orderToMatch ? (
+                  {seaportOrder ? (
                     <NftFlyoutRow>
                       <Flex alignItems='center' justifyContent='space-between'>
                         <Text color='black' weight={600} size='20px'>
                           <FormattedMessage id='copy.total' defaultMessage='Total' />
                         </Text>
                         <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-                          <CoinDisplay
-                            size='14px'
-                            color='black'
-                            weight={600}
-                            coin={orderToMatch?.payment_token_contract?.symbol}
-                          >
-                            {orderToMatch?.current_price}
+                          {/* TODO: SEAPORT */}
+                          <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                            {seaportOrder?.current_price}
                           </CoinDisplay>
-                          <FiatDisplay
-                            size='12px'
-                            color='grey600'
-                            weight={600}
-                            coin={orderToMatch?.payment_token_contract?.symbol}
-                          >
-                            {orderToMatch?.current_price}
+                          {/* TODO: SEAPORT */}
+                          <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
+                            {seaportOrder?.current_price}
                           </FiatDisplay>
                         </Flex>
                       </Flex>

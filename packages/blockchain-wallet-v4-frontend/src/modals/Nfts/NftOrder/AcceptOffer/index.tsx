@@ -53,11 +53,11 @@ const AcceptOffer: React.FC<Props> = (props) => {
               <Flex flexDirection='column' alignItems='flex-end' gap={4}>
                 {/* TODO: SEAPORT */}
                 <CoinDisplay size='20px' color='black' weight={600} coin='WETH'>
-                  {orderFlow.orderToMatch?.current_price}
+                  {orderFlow.seaportOffer?.current_price}
                 </CoinDisplay>
                 {/* TODO: SEAPORT */}
                 <FiatDisplay size='14px' color='grey600' weight={500} coin='WETH'>
-                  {orderFlow.orderToMatch?.current_price}
+                  {orderFlow.seaportOffer?.current_price}
                 </FiatDisplay>
               </Flex>
             </Flex>

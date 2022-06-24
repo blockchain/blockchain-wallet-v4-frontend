@@ -319,7 +319,7 @@ export const fulfillOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: SeaportOffer
+  order: SeaportOffer | SeaportRawOrder
   recipientAddress?: string
   signer: ethers.Wallet
 }): Promise<string> => {
@@ -357,30 +357,16 @@ export const fulfillOrder = async ({
 }
 // CODE COPIED (and modified to add signer for getSeaport function) FROM opensea-js sdk 👆
 
-// BCDC SPECIFIC CODE 👇
+// Blockchain Wallet Specific Code 👇
 export const calculateSeaportGasFees = async ({
-  offer,
   operation,
-  order,
+  protocol_data,
   signer
-}:
-  | { signer: ethers.Wallet } & (
-      | {
-          offer?: never
-          operation: GasCalculationOperations.CancelOrder
-          order: SeaportRawOrder
-        }
-      | {
-          offer: SeaportOffer
-          operation: GasCalculationOperations.CancelOffer
-          order?: never
-        }
-      | {
-          offer: SeaportOffer
-          operation: GasCalculationOperations.AcceptOffer
-          order?: never
-        }
-    )): Promise<GasDataI> => {
+}: {
+  operation: GasCalculationOperations
+  protocol_data: SeaportRawOrder['protocol_data']
+  signer: ethers.Wallet
+}): Promise<GasDataI> => {
   let totalFees = 0
   let gasFees = 0
   let estimate = '0'
@@ -390,21 +376,15 @@ export const calculateSeaportGasFees = async ({
 
   switch (operation) {
     case GasCalculationOperations.CancelOrder:
-      estimate = await (
-        await seaport
-          .cancelOrders([(order as SeaportRawOrder).protocol_data.parameters])
-          .estimateGas()
-      )._hex
+      estimate = await (await seaport.cancelOrders([protocol_data.parameters]).estimateGas())._hex
       break
     case GasCalculationOperations.CancelOffer:
-      estimate = await (
-        await seaport.cancelOrders([(offer as SeaportOffer).protocol_data.parameters]).estimateGas()
-      )._hex
+      estimate = await (await seaport.cancelOrders([protocol_data.parameters]).estimateGas())._hex
       break
+    case GasCalculationOperations.Buy:
     case GasCalculationOperations.AcceptOffer:
       const { actions } = await seaport.fulfillOrder({
-        accountAddress: signer.address,
-        order: (offer as SeaportOffer).protocol_data
+        order: protocol_data
       })
       const [methods] = actions
       estimate = (await methods.transactionMethods.estimateGas())._hex

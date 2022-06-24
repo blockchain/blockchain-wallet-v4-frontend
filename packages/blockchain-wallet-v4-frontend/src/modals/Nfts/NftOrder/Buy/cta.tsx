@@ -40,7 +40,7 @@ const CTA: React.FC<Props> = (props) => {
     openSeaAssetR,
     orderFlow
   } = props
-  const { orderToMatch, userHasPendingTxR } = orderFlow
+  const { seaportOrder, userHasPendingTxR } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -54,8 +54,6 @@ const CTA: React.FC<Props> = (props) => {
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
-
-  if (!orderToMatch) return null
 
   const disabled = props.orderFlow.isSubmitting || !termsAccepted || userHasPendingTx
 
@@ -71,7 +69,7 @@ const CTA: React.FC<Props> = (props) => {
               to={`/open/${DeepLinkGoal.BUY_NFT}?contract_address=${
                 val.asset_contract.address
               }&token_id=${val.token_id}&order=${lz.compressToEncodedURIComponent(
-                JSON.stringify(orderToMatch)
+                JSON.stringify(seaportOrder)
               )}`}
             >
               <Button jumbo nature='primary' fullwidth data-e2e='buyNftLogin'>
@@ -213,7 +211,7 @@ const CTA: React.FC<Props> = (props) => {
                 nftActions.createOrder({
                   asset: val.asset,
                   gasData: val.fees,
-                  ...val.matchingOrder
+                  order: seaportOrder!
                 })
               }
               jumbo

@@ -8,7 +8,6 @@ import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
 import NftDropdown from '../../components/NftDropdown'
@@ -16,18 +15,18 @@ import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { orderToMatch } = orderFlow
+  const { seaportOrder } = orderFlow
 
   useEffect(() => {
-    if (orderToMatch) {
+    if (seaportOrder) {
       nftActions.fetchFees({
         operation: GasCalculationOperations.Buy,
-        order: orderFromJSON(orderToMatch)
+        order: seaportOrder
       })
     }
   }, [])
 
-  if (!orderToMatch)
+  if (!seaportOrder)
     return (
       <Text size='12px' weight={600}>
         No order found.

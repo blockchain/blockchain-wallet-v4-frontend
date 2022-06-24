@@ -71,8 +71,6 @@ export type NftsStateType = {
   orderFlow: {
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
-    matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
-    orderToMatch: RawOrder | null
     prevStep: NftOrderStepEnum | null
     seaportOffer: SeaportOffer | null
     seaportOrder: SeaportRawOrder | null

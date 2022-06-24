@@ -706,7 +706,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
-        order: goal.data.order,
+        seaportOrder: goal.data.order,
         step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id
       })

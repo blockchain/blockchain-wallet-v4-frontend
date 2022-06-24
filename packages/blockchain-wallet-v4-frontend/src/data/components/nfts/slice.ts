@@ -11,13 +11,10 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
-  OpenSeaAsset,
   OpenSeaStatus,
-  RawOrder,
   SeaportOffer,
   SeaportOffersResponseType,
-  SeaportRawOrder,
-  UnsignedOrder
+  SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
@@ -42,15 +39,12 @@ const initialState: NftsStateType = {
   orderFlow: {
     fees: Remote.NotAsked,
     isSubmitting: false,
-    matchingOrder: Remote.NotAsked,
-    orderToMatch: null,
     prevStep: null,
     seaportOffer: null,
     seaportOrder: null,
     status: null,
     step: null,
     userHasPendingTxR: Remote.NotAsked,
-
     wrapEthFees: Remote.NotAsked
   },
   search: Remote.NotAsked,
@@ -97,9 +91,8 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         asset: NftAsset
-        buy: UnsignedOrder
         gasData: GasDataI
-        sell: UnsignedOrder
+        order: SeaportRawOrder
       }>
     ) => {},
     createSellOrder: (
@@ -131,7 +124,7 @@ const nftsSlice = createSlice({
           }
         | {
             operation: GasCalculationOperations.Buy
-            order: NftOrder
+            order: SeaportRawOrder
             paymentTokenAddress?: string
           }
         | {
@@ -185,19 +178,6 @@ const nftsSlice = createSlice({
     },
     fetchLatestPendingTxsSuccess: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.userHasPendingTxR = Remote.Success(action.payload)
-    },
-    fetchMatchingOrder: (state) => {},
-    fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {
-      state.orderFlow.matchingOrder = Remote.Failure(action.payload)
-    },
-    fetchMatchingOrderLoading: (state) => {
-      state.orderFlow.matchingOrder = Remote.Loading
-    },
-    fetchMatchingOrderSuccess: (
-      state,
-      action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
-    ) => {
-      state.orderFlow.matchingOrder = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
     fetchNftUserPreferences: (state) => {},
@@ -265,8 +245,6 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | {
             asset_contract_address: string
-            offer?: never
-            order?: never
             seaportOffer: SeaportOffer
             seaportOrder?: never
             step: NftOrderStepEnum.CANCEL_OFFER
@@ -274,8 +252,6 @@ const nftsSlice = createSlice({
           }
         | {
             asset_contract_address: string
-            offer?: never
-            order?: never
             seaportOffer: SeaportOffer
             seaportOrder?: never
             step: NftOrderStepEnum.ACCEPT_OFFER
@@ -283,17 +259,13 @@ const nftsSlice = createSlice({
           }
         | {
             asset_contract_address: string
-            offer?: never
-            order: RawOrder
             seaportOffer?: never
-            seaportOrder?: never
+            seaportOrder: SeaportRawOrder
             step: NftOrderStepEnum.BUY
             token_id: string
           }
         | {
             asset_contract_address: string
-            offer?: never
-            order?: never
             seaportOffer?: never
             seaportOrder: SeaportRawOrder
             step: NftOrderStepEnum.CANCEL_LISTING
@@ -301,8 +273,6 @@ const nftsSlice = createSlice({
           }
         | {
             asset_contract_address: string
-            offer?: never
-            order?: RawOrder
             seaportOffer?: never
             seaportOrder?: never
             step: NftOrderStepEnum.MAKE_OFFER
@@ -310,8 +280,6 @@ const nftsSlice = createSlice({
           }
         | {
             asset_contract_address: string
-            offer?: never
-            order?: never
             seaportOffer?: never
             seaportOrder?: never
             step: NftOrderStepEnum
@@ -325,8 +293,6 @@ const nftsSlice = createSlice({
         state.orderFlow.seaportOffer = action.payload.seaportOffer
       } else if (action.payload.seaportOrder) {
         state.orderFlow.seaportOrder = action.payload.seaportOrder
-      } else if (action.payload.order) {
-        state.orderFlow.orderToMatch = action.payload.order
       }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
@@ -369,9 +335,6 @@ const nftsSlice = createSlice({
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
-    },
-    setOrderToMatch: (state, action: PayloadAction<{ order: RawOrder }>) => {
-      state.orderFlow.orderToMatch = action.payload.order
     },
     updateUserPreferences: (
       state,

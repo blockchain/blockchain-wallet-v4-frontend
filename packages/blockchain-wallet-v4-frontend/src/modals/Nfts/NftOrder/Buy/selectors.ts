@@ -9,13 +9,11 @@ export const getData = createDeepEqualSelector(
   (assetR, orderFlow) => {
     const transform = (
       asset: ExtractSuccess<typeof assetR>,
-      fees: ExtractSuccess<typeof orderFlow['fees']>,
-      matchingOrder: ExtractSuccess<typeof orderFlow['matchingOrder']>
+      fees: ExtractSuccess<typeof orderFlow['fees']>
     ) => ({
       asset,
-      fees,
-      matchingOrder
+      fees
     })
-    return lift(transform)(assetR, orderFlow.fees, orderFlow.matchingOrder)
+    return lift(transform)(assetR, orderFlow.fees)
   }
 )
