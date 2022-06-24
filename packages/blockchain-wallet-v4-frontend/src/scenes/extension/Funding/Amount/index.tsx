@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { IconChevronDown } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -18,12 +19,12 @@ const AmountInputWrapper = styled.div`
 const AmountInput = styled.input`
   width: 140px;
   background: transparent;
-  color: white;
+  color: ${(props) => props.theme.white};
   border: none;
   font-size: 40px;
   font-weight: 600;
   line-height: 50px;
-  caret-color: #65a5ff;
+  caret-color: ${(props) => props.theme.blue600};
   text-align: center;
   &:focus {
     outline: none;
@@ -50,7 +51,7 @@ const ExchangedValue = styled.div`
   margin-bottom: 90px;
   text-transform: uppercase;
   text-align: center;
-  color: #98a1b2;
+  color: ${(props) => props.theme.grey400};
 `
 class CurrencyAmounts {
   public eth: number
@@ -113,10 +114,10 @@ export const Amount = (props) => {
       </AmountInputWrapper>
       <ExchangedValue>{`${exchangeCurrency()} ${Currencies[fundingCurrency]}`}</ExchangedValue>
       <ListItemContent style={{ margin: '30px 0' }}>
-        <Text size='16px' lineHeight='24px' color='#fff'>
+        <Text size='16px' lineHeight='24px'>
           Gas Fee
         </Text>
-        <Text size='16px' lineHeight='24px' color='#fff' style={{ textAlign: 'right' }}>
+        <Text size='16px' lineHeight='24px' style={{ textAlign: 'right' }}>
           {`${0.0001} ETH`}
         </Text>
         <Text />
@@ -125,10 +126,10 @@ export const Amount = (props) => {
         </Text>
       </ListItemContent>
       <ListItemContent style={{ margin: '30px 0' }}>
-        <Text size='16px' lineHeight='24px' color='#fff'>
+        <Text size='16px' lineHeight='24px'>
           Total
         </Text>
-        <Text size='16px' lineHeight='24px' color='#fff' style={{ textAlign: 'right' }}>
+        <Text size='16px' lineHeight='24px' style={{ textAlign: 'right' }}>
           {`${currencyAmounts.eth} ETH`}
         </Text>
         <Text />
@@ -137,11 +138,8 @@ export const Amount = (props) => {
         </Text>
       </ListItemContent>
       <div style={{ display: 'flex' }}>
-        <Continue
-          to='/extension/funding/select-account'
-          style={{ background: 'none', color: '#65A5FF', marginRight: '10px' }}
-        >
-          Cancel
+        <Continue to='/extension/funding/select-account'>
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Continue>
         <Continue to='/extension/funding/success'>Confirm</Continue>
       </div>

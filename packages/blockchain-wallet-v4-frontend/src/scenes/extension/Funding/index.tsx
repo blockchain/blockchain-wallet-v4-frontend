@@ -5,15 +5,16 @@ import { IconArrowLeft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Receive } from './Receive'
+import { Success } from './Success'
 
 export const FundingWrapper = styled.section`
   display: flex;
   flex-direction: column;
   height: 100%;
-  font-family: Inter, sans-serif;
   letter-spacing: 0em;
-  color: white;
-  background-color: #0e121b;
+  font-family: Inter, sans-serif;
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.exchangeLogin};
   padding: 24px;
 `
 

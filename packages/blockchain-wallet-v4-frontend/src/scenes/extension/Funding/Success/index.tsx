@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheck } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -33,7 +34,7 @@ export const Success = () => {
         </SuccessMessage>
       </ImageWrapper>
       <Continue style={{ width: 'unset' }} to='/extension/home'>
-        Continue
+        <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
       </Continue>
     </>
   )

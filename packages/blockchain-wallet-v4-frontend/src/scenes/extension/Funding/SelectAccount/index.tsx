@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -46,9 +47,9 @@ const ButtonWrapper = styled.div`
 export const Continue = styled(Link)`
   width: 100%;
   padding: 16px;
-  background: #65a5ff;
+  background: ${(props) => props.theme.white};
   border-radius: 8px;
-  color: #0e121b;
+  color: ${(props) => props.theme.exchangeLogin};
   text-align: center;
   font-size: 16px;
   font-weight: 600;
@@ -60,12 +61,12 @@ export const Continue = styled(Link)`
 export const FundingHeading = styled(Text)`
   font-size: 20px;
   margin: 34px 0 67px;
-  color: white;
+  color: ${(props) => props.theme.white};
 `
 export const Subtitle = styled(Text)`
   font-size: 14px;
   line-height: 20px;
-  color: #98a1b2;
+  color: ${(props) => props.theme.grey400};
 `
 
 const SelectAccount = (props) => {
@@ -128,7 +129,7 @@ const SelectAccount = (props) => {
       </List>
       <ButtonWrapper>
         <Continue to={`/extension/funding/${selectedAccount ? 'amount' : 'receive'}`}>
-          Continue
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Continue>
       </ButtonWrapper>
     </>
