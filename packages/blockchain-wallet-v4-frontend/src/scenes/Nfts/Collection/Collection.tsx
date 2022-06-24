@@ -91,8 +91,12 @@ const LinksContainer = styled.div`
   }
 `
 
-const Flex = styled.div`
+const OuterCollectionInfo = styled.div`
+  position: sticky;
+  top: calc(56px);
   display: flex;
+  z-index: 6;
+  background: white;
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -138,7 +142,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           <CollectionHeader bgUrl={collection.banner_image_url}>
             <NftBannerWrapper />
           </CollectionHeader>
-          <Flex>
+          <OuterCollectionInfo>
             <CollectionInfoWrapper>
               <CollectionInfo>
                 <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
@@ -205,7 +209,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
               total_supply={collection.total_supply}
               stats={collection.stats}
             />
-          </Flex>
+          </OuterCollectionInfo>
         </>
       )}
       <GridWrapper>
@@ -220,6 +224,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           setIsFilterOpen={setIsFilterOpen}
+          isSticky={!collection.banner_image_url}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -233,6 +238,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             collections={[]}
+            isSticky={!collection.banner_image_url}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems
