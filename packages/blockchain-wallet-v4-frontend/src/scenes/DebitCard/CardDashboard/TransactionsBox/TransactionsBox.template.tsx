@@ -36,26 +36,30 @@ const TransactionsWrapper = styled.div`
 `
 
 const LoadingDetail = () => (
-  <>
+  <BoxRow>
     <SkeletonLoader>
       <SkeletonRectangle height='45px' width='100%' />
     </SkeletonLoader>
-  </>
+  </BoxRow>
 )
 
 const ErrorState = () => (
-  <Text size='16px' weight={500} color='grey400' capitalize lineHeight='45px'>
-    <FormattedMessage id='scene.debit_card.funds_fail' defaultMessage='Failed to load balances' />
-  </Text>
+  <BoxRow>
+    <Text size='16px' weight={500} color='grey400' capitalize lineHeight='45px'>
+      <FormattedMessage id='scene.debit_card.funds_fail' defaultMessage='Failed to load balances' />
+    </Text>
+  </BoxRow>
 )
 
 const EmptyList = () => (
-  <BoxRowItemSubTitle style={{ margin: 'auto' }}>
-    <FormattedMessage
-      id='scenes.debit_card.dashboard.transactions.empty_state'
-      defaultMessage='Your most recent purchases will show up here'
-    />
-  </BoxRowItemSubTitle>
+  <BoxRow>
+    <BoxRowItemSubTitle style={{ margin: 'auto' }}>
+      <FormattedMessage
+        id='scenes.debit_card.dashboard.transactions.empty_state'
+        defaultMessage='Your most recent purchases will show up here'
+      />
+    </BoxRowItemSubTitle>
+  </BoxRow>
 )
 
 function dateTimeFormatter(userTransactionTime) {
@@ -127,17 +131,7 @@ const TransactionsBox = () => {
           />
         </BoxRowItemTitle>
       </BoxRowWithBorder>
-      {displayData ? (
-        <ListComponent />
-      ) : displayInitialLoading ? (
-        <BoxRow>
-          <LoadingDetail />
-        </BoxRow>
-      ) : (
-        <BoxRow>
-          <ErrorState />
-        </BoxRow>
-      )}
+      {displayData ? <ListComponent /> : displayInitialLoading ? <LoadingDetail /> : <ErrorState />}
     </BoxContainer>
   )
 }
