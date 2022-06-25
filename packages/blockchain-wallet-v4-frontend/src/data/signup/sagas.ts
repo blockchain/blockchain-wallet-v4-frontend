@@ -53,11 +53,7 @@ export default ({ api, coreSagas, networks }) => {
       const userState = country === 'US' ? `US-${state}` : state
       yield call(api.setUserInitialAddress, country, userState)
       yield call(coreSagas.settings.fetchSettings)
-
-      const guid = yield select(selectors.core.wallet.getGuid)
-
       yield call(createExchangeUser, country)
-
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))

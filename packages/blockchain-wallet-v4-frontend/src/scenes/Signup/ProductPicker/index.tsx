@@ -6,14 +6,20 @@ import { Remote } from '@core'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
-import { ExchangeAuthOriginType } from 'data/types'
+import { ExchangeAuthOriginType, PlatformTypes, ProductSignupMetadata } from 'data/types'
 
 import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
+import ExchangeMobileUserConflict from './template.error.exchangeMobile'
 
 const ProductPickerContainer: React.FC<Props> = (props) => {
   const [showExchangeUserConflict, setExchangeUserConflict] = useState(false)
+
+  const isExchangeMobileSignup =
+    props.signupMetadata?.platform === PlatformTypes.ANDROID ||
+    props.signupMetadata?.platform === PlatformTypes.IOS
+
   const walletRedirect = () => {
     props.signupActions.setRegisterEmail(undefined)
     props.routerActions.push('/home')
@@ -33,7 +39,12 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
 
   return props.walletLoginData.cata({
-    Failure: (error) => <Error error={error} />,
+    Failure: (error) =>
+      error === 4 && isExchangeMobileSignup ? (
+        <ExchangeMobileUserConflict {...props} />
+      ) : (
+        <Error error={error} />
+      ),
     Loading: () => <SpinningLoader />,
     NotAsked: () => {
       if (isMetadataRecovery) {
@@ -60,6 +71,7 @@ const mapStateToProps = (state) => ({
   email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
