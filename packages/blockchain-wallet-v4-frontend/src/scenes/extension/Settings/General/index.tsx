@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 
-import { Currency } from './Currency'
-import { Language } from './Language'
+import Currency from './Currency'
+import Language from './Language'
 import { Overal } from './Overal'
 
 export const General = (props) => {

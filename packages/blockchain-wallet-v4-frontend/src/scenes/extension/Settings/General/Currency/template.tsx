@@ -3,47 +3,48 @@ import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import styled from 'styled-components'
 
-import { getLanguage } from '@core/redux/settings/selectors'
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
 import { SettingsHeading } from '../..'
 import Selection from './selection'
 
-const Language = (props) => {
+const Updated = styled(Text)`
+  max-width: 280px;
+  color: #98a1b2;
+`
+
+const Currency = (props) => {
   useEffect(() => {
-    props.formActions.initialize('settingLanguage', {
-      language: props.language
+    props.formActions.initialize('settingCurrency', {
+      currency: props.currency
     })
   }, [])
 
   useEffect(() => {
-    const { language, newLanguage } = props
-    if (!isNil(newLanguage) && !equals(language, newLanguage)) {
-      props.settingsActions.updateLanguage(newLanguage)
-      props.preferencesActions.setLanguage(newLanguage, true)
+    const { currency, newCurrency } = props
+    if (!isNil(newCurrency) && !equals(currency, newCurrency)) {
+      props.settingsActions.updateCurrency(newCurrency)
     }
   })
-
   return (
-    <div data-e2e='prefsWalletLanguage'>
+    <div>
       <SettingsHeading>Local currency</SettingsHeading>
-      <Text>Select your language</Text>
+      <Updated>Updated Tue May 31 2022 11:44:04 GMT+0100 (British Summer Time)</Updated>
       <Selection />
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-  language: getLanguage(state),
-  newLanguage: formValueSelector('settingLanguage')(state, 'language')
+  newCurrency: formValueSelector('settingCurrency')(state, 'currency')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Language)
+export default connect(mapStateToProps, mapDispatchToProps)(Currency)

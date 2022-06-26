@@ -1,20 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-import { Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 
-import { SettingsHeading } from '../..'
+import Template from './template'
 
-const Updated = styled(Text)`
-  max-width: 280px;
-  color: #98a1b2;
-`
+const LocalCurrencyContainer = (props) => {
+  const { data } = props
 
-export const Currency = () => {
-  return (
-    <>
-      <SettingsHeading>Local currency</SettingsHeading>
-      <Updated>Updated Tue May 31 2022 11:44:04 GMT+0100 (British Summer Time)</Updated>
-    </>
-  )
+  return data.cata({
+    Failure: (message) => <>{message}</>,
+    Loading: () => <Template />,
+    NotAsked: () => <Template />,
+    Success: (value) => <Template currency={value} />
+  })
 }
+
+const mapStateToProps = (state) => ({
+  data: selectors.core.settings.getCurrency(state)
+})
+
+export default connect(mapStateToProps)(LocalCurrencyContainer)
