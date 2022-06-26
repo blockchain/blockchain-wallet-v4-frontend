@@ -12,7 +12,7 @@ import { Connected } from './Connected'
 import { General } from './General'
 import { Info } from './Info'
 import { Networks } from './Networks'
-import { Overal } from './Overal'
+import Overal from './Overal'
 
 export const SettingsHeading = styled(Text)`
   font-size: 20px;

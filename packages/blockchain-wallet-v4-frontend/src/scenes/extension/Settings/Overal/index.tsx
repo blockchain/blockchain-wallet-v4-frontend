@@ -1,4 +1,6 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import {
@@ -7,10 +9,12 @@ import {
   IconSettings,
   IconWallet
 } from '@blockchain-com/icons'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
 
 import { Setting, SettingsHeading } from '..'
 
@@ -44,16 +48,18 @@ const LogoutButton = styled.button`
   border-radius: 10px;
 `
 
-export const Overal = (props) => {
+const Overal = (props) => {
   const { path } = props.match
 
   const overalSettings = [
-    new Setting('Account', `${path}/account`, <IconWallet />),
     new Setting('Network', `${path}/networks`, <IconWallet />),
     new Setting('Connected Dapps', `${path}/connected-dapps`, <IconWallet />),
     new Setting('General', `${path}/general`, <IconSettings />),
     new Setting('Info', `${path}/info`, <IconInformation />)
   ]
+  const logout = () => {
+    props.sessionActions.deauthorizeBrowser()
+  }
 
   return (
     <>
@@ -75,7 +81,16 @@ export const Overal = (props) => {
           </li>
         ))}
       </SettingsList>
-      <LogoutButton>Sign out</LogoutButton>
+      <LogoutButton onClick={logout}>
+        <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
+      </LogoutButton>
     </>
   )
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  routerActions: bindActionCreators(actions.router, dispatch),
+  sessionActions: bindActionCreators(actions.session, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(Overal)
