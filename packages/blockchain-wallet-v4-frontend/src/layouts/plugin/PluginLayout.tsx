@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { selectors } from 'data'
-import { LOGIN_FORM } from 'data/auth/model'
 
 const MainWrapper = styled.div`
   width: 100%;
