@@ -29,7 +29,7 @@ const HomeNavbarItem = styled(NavLink)`
     margin-top: -3px;
   }
   &.active:after {
-    background: #ffffff;
+    background: ${(p) => p.theme.white};
   }
 `
 
