@@ -17,7 +17,6 @@ const UpgradeAddressLabels = React.lazy(() => import('./Addresses/UpgradeAddress
 const BitpayInformational = React.lazy(() => import('./BitPay/Informational'))
 const BitpayInvoiceExpired = React.lazy(() => import('./BitPay/InvoiceExpired'))
 
-// COINS
 // BTC
 const AddBtcWallet = React.lazy(() => import('./Btc/AddBtcWallet'))
 const ImportBtcAddress = React.lazy(() => import('./Btc/ImportBtcAddress'))
@@ -32,6 +31,9 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
 const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
+
+// DEX
+const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
@@ -168,6 +170,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
           <Deposit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.DEX_SWAP_SETTINGS) ? (
+          <DexSwapSettings />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
