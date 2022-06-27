@@ -46,11 +46,12 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   }
 
   const getOpenSeaOffersV2 = (
+    network: 'ethereum' | 'rinkeby',
     asset_contract_address: string,
     token_id: string
   ): SeaportOffersResponseType => {
     return get({
-      endPoint: `/v2/orders/ethereum/seaport/offers?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
+      endPoint: `/v2/orders/${network}/seaport/offers?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })

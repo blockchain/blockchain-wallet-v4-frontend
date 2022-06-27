@@ -67,6 +67,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.fetchOpenSeaSeaportOffersLoading())
       const offers: ReturnType<typeof api.getOpenSeaOffersV2> = yield call(
         api.getOpenSeaOffersV2,
+        IS_TESTNET ? 'rinkeby' : 'ethereum',
         action.payload.asset_contract_address,
         action.payload.token_id
       )
