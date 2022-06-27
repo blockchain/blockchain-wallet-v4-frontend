@@ -13,8 +13,8 @@ import {
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
-  const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
-  // const nftUrl = `${apiUrl}/nft-market-api/nft`
+  // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
+  const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}`
 
   const getNftUserPreferences = (

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { CoinfigType, CoinType } from '@core/types'
+import { CoinfigType, CoinType, WalletOptionsType } from '@core/types'
 import { actions, selectors } from 'data'
 
 import Loading from '../Auth/template.loading'
@@ -60,6 +60,10 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftSearch')(state) as { search: string },
   isAuthenticated: selectors.auth.isAuthenticated(state),
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
+  isTestnet: selectors.core.walletOptions
+    .getDomains(state)
+    .getOrElse({ opensea: 'https://api.opensea.io' } as WalletOptionsType['domains'])
+    .opensea.includes('testnets'),
   pathname: selectors.router.getPathname(state)
 })
 

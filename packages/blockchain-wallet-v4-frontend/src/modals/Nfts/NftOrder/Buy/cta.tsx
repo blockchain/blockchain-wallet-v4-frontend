@@ -104,7 +104,8 @@ const CTA: React.FC<Props> = (props) => {
         Failure: (e) => (
           <div>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
-              {e === 'INSUFFICIENT_FUNDS' ? (
+              {e === 'INSUFFICIENT_FUNDS' ||
+              e === 'The offerer does not have the amount needed to create or fulfill.' ? (
                 <>
                   <GetMoreEthComponent
                     amount={amount}

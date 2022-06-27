@@ -60,8 +60,8 @@ const Buy: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 1
+    openSeaAsset.data?.seaport_sell_orders?.filter((x) => {
+      return x.side === 'ask'
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a?.current_price).isLessThan(b?.current_price) ? -1 : 1

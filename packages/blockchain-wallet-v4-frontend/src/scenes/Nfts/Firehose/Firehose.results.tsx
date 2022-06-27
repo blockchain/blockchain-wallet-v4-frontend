@@ -18,6 +18,7 @@ import { NftFilterFormValuesType } from '../NftFilter'
 
 const NftFirehoseResults: React.FC<Props> = ({
   formValues,
+  isTestnet,
   page,
   setIsFetchingNextPage,
   setMaxItemsFetched,
@@ -53,6 +54,11 @@ const NftFirehoseResults: React.FC<Props> = ({
   if (formValues?.verifiedOnly) {
     // need BE support
   }
+
+  filter.push({
+    field: AssetFilterFields.Network,
+    value: isTestnet ? 'rinkeby' : 'ethereum'
+  })
 
   const sort = formValues?.sortBy
     ? {
@@ -98,6 +104,7 @@ const NftFirehoseResults: React.FC<Props> = ({
 
 type Props = {
   formValues: NftFilterFormValuesType
+  isTestnet: boolean
   page: number
   setIsFetchingNextPage: (isFetching: boolean) => void
   setMaxItemsFetched: (maxItemsFetched: boolean) => void
