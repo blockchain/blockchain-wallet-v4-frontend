@@ -1057,6 +1057,14 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
   }
+  const sendLoginMessageToExchangeMobileApp = function* () {
+    const { platform } = yield select(selectors.signup.getProductSignupMetadata)
+    sendMessageToMobile(platform, {
+      data: {
+        action: 'login'
+      }
+    })
+  }
 
   return {
     authNabu,
@@ -1069,6 +1077,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     resendSmsLoginCode,
+    sendLoginMessageToExchangeMobileApp,
     triggerWalletMagicLink
   }
 }
