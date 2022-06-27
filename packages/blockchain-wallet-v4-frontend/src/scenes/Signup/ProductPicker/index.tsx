@@ -71,6 +71,9 @@ const mapStateToProps = (state) => ({
   email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  showExchangeLoginButton: selectors.core.walletOptions
+    .getExchangeMobileDuplicateAccountRedirect(state)
+    .getOrElse(false) as boolean,
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })

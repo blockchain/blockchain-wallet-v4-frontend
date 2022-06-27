@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
+import { Props as OwnProps } from '.'
+
 const ContentWrapper = styled.div`
   display: flex;
   text-align: center;
@@ -13,7 +15,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `
 
-const ExchangeMobileUserConflict = ({ email }: Props) => {
+const ExchangeMobileUserConflict = ({ authActions, email, showExchangeLoginButton }: Props) => {
   return (
     <>
       <Wrapper>
@@ -46,20 +48,36 @@ const ExchangeMobileUserConflict = ({ email }: Props) => {
               }}
             />
           </Text>
-          <Button
-            data-e2e='openExchange'
-            fullwidth
-            height='48px'
-            nature='primary'
-            style={{ marginTop: '16px' }}
-          >
-            <Text color='white' size='16px' weight={600}>
+          {showExchangeLoginButton ? (
+            <Button
+              data-e2e='openExchange'
+              fullwidth
+              height='48px'
+              nature='primary'
+              style={{ marginTop: '16px' }}
+              onClick={() => authActions.sendLoginMessageToMobile()}
+            >
+              <Text color='white' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.exchange.user_conflict_mobile.log_into_exchange'
+                  defaultMessage='Log In Here'
+                />
+              </Text>
+            </Button>
+          ) : (
+            <Text
+              color='grey900'
+              style={{ marginTop: '8px' }}
+              size='16px'
+              weight={500}
+              lineHeight='1.5'
+            >
               <FormattedMessage
-                id='scenes.register.exchange.user_conflict_mobile.log_into_exchange'
-                defaultMessage='Log In Here'
+                id='scenes.register.exchange.user_conflict_mobile.log_into_exchange.text'
+                defaultMessage='Go back and log into your account.'
               />
             </Text>
-          </Button>
+          )}
         </ContentWrapper>
       </Wrapper>
     </>
@@ -68,6 +86,7 @@ const ExchangeMobileUserConflict = ({ email }: Props) => {
 
 type Props = {
   email: string
-}
+  showExchangeLoginButton: boolean
+} & OwnProps
 
 export default ExchangeMobileUserConflict
