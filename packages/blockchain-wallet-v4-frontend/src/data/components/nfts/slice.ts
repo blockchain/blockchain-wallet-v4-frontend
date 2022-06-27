@@ -85,7 +85,8 @@ const nftsSlice = createSlice({
         asset: NftAsset
         coin?: string
         expirationTime: number
-        wrapFees?: GasDataI
+        offerFees: GasDataI
+        wrapFees: GasDataI
       }>
     ) => {},
     createOrder: (
@@ -132,6 +133,14 @@ const nftsSlice = createSlice({
             asset: NftAsset
             operation: GasCalculationOperations.Transfer
             to: string
+          }
+        | {
+            amount?: string
+            amtToWrap?: string
+            asset: NftAsset
+            coin?: string
+            expirationTime?: number
+            operation: GasCalculationOperations.CreateOffer
           }
         | {
             operation: GasCalculationOperations.CancelOrder

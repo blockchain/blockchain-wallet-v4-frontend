@@ -54,7 +54,7 @@ const MakeOffer: React.FC<Props> = (props) => {
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
 
-  const { wrapEthFees } = orderFlow
+  const { fees, wrapEthFees } = orderFlow
 
   if (!formValues) return null
 
@@ -84,9 +84,12 @@ const MakeOffer: React.FC<Props> = (props) => {
         })
       : amount
   const wrapFees = wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
+  const offerFees = fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const ethBalance = new BigNumber(selfCustodyBalance)
   const erc20Balance = erc20BalanceR.getOrElse(0)
-  const maxWrapPossible = ethBalance.minus(wrapFees.totalFees * wrapFees.gasPrice)
+  const maxWrapPossible = ethBalance
+    .minus(wrapFees.totalFees * wrapFees.gasPrice)
+    .minus(offerFees.totalFees * offerFees.gasPrice)
   const maxOfferPossible =
     coin === 'WETH' ? maxWrapPossible.plus(erc20Balance) : new BigNumber(erc20Balance)
   const amtToBuy = maxOfferPossible
@@ -257,6 +260,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           canWrap={canWrap}
           needsWrap={needsWrap}
           wrapFees={wrapFees}
+          offerFees={offerFees}
           selfCustodyBalance={selfCustodyBalance}
           custodialBalance={custodialBalance}
           cryptoAmt={cryptoAmt}

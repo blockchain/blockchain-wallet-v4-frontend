@@ -38,6 +38,7 @@ const CTA: React.FC<Props> = ({
   maxOfferPossible,
   needsWrap,
   nftActions,
+  offerFees,
   orderFlow,
   selfCustodyBalance,
   wrapFees
@@ -191,6 +192,7 @@ const CTA: React.FC<Props> = ({
                 expirationTime: getUnixTime(
                   addMinutes(new Date(), parseInt(formValues.expirationMinutes))
                 ),
+                offerFees,
                 wrapFees,
                 ...formValues,
                 amount: cryptoAmt
@@ -248,6 +250,7 @@ type Props = OwnProps & {
   custodialBalance: any
   maxOfferPossible: BigNumber
   needsWrap: boolean
+  offerFees: GasDataI
   selfCustodyBalance: any
   wrapFees: GasDataI
 }

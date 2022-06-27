@@ -212,6 +212,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           protocol_data: action.payload.offer.protocol_data,
           signer
         })
+      } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
+        const { asset, expirationTime } = action.payload
+        const { coinfig } = window.coins[action.payload.coin || 'WETH']
+
+        const actions = yield call(createBuyOrder, {
+          accountAddress: signer.address,
+          execute: false,
+          expirationTime,
+          network: IS_TESTNET ? 'rinkeby' : 'mainnet',
+          openseaAsset: assetFromJSON(asset),
+          paymentTokenAddress: coinfig.type.erc20Address,
+          quantity: 1,
+          signer,
+          startAmount: action.payload.amount || '0'
+        })
+        fees = yield call(calculateSeaportGasFees, {
+          actions,
+          operation: GasCalculationOperations.CreateOffer,
+          signer
+        })
       } else if (action.payload.operation === GasCalculationOperations.Transfer) {
         fees = yield call(
           calculateGasFees,
@@ -318,7 +338,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
     const coin = action?.payload?.coin || ''
-    const amount = Number(action?.payload?.amount)
+    const { amount: formAmount, amtToWrap, asset, offerFees, wrapFees } = action.payload
+    const amount = Number(formAmount)
     const amount_usd = yield call(getAmountUsd, coin, amount)
     try {
       const guid = yield call(getGuid)
@@ -329,14 +350,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const { expirationTime } = action.payload
       const network = IS_TESTNET ? 'rinkeby' : 'mainnet'
 
-      if (action.payload.amtToWrap && action.payload.wrapFees && coin === 'WETH') {
+      if (amtToWrap && wrapFees && coin === 'WETH') {
         yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
         const amount = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin: 'WETH',
-          value: action.payload.amtToWrap
+          value: amtToWrap
         })
-        yield call(executeWrapEth, signer, amount, action.payload.wrapFees)
+        yield call(executeWrapEth, signer, amount, wrapFees)
         yield put(actions.core.data.eth.fetchData())
         yield put(actions.core.data.eth.fetchErc20Data())
       }
@@ -345,13 +366,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const seaportOrder = yield call(createBuyOrder, {
         accountAddress: signer.address,
+        execute: true,
         expirationTime,
+        gasData: offerFees,
         network,
-        openseaAsset: assetFromJSON(action.payload.asset),
+        openseaAsset: assetFromJSON(asset),
         paymentTokenAddress: coinfig.type.erc20Address,
         quantity: 1,
         signer,
-        startAmount: action.payload.amount || '0'
+        startAmount: amount || '0'
       })
       yield call(api.postNftOrderV2, seaportOrder, network, 'bid')
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))

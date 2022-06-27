@@ -78,7 +78,7 @@ type Props = {
   expanded?: boolean
   hasPadding?: boolean
   title?: string
-  titleRight?: string
+  titleRight?: string | JSX.Element
 }
 
 export default NftDropdown

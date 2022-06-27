@@ -224,12 +224,12 @@ const NftAsset: React.FC<Props> = ({
   // seaport sell orders (aka listing)
   const seaportAsks =
     openSeaAsset.data?.seaport_sell_orders
-      .filter(({ side }) => side === 'ask')
+      ?.filter(({ side }) => side === 'ask')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1)) || []
   // seaport buy orders (aka offer)
   const seaportBids =
     openSeaAsset.data?.seaport_sell_orders
-      .filter(({ side }) => side === 'bid')
+      ?.filter(({ side }) => side === 'bid')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1)) || []
   const highestBid = seaportBids[0]
   const lowestAsk = seaportAsks[0]

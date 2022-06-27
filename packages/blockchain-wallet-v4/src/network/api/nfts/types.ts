@@ -670,7 +670,7 @@ export interface NftAsset {
     quantity: number
   }
   permalink: string
-  seaport_sell_orders: SeaportRawOrder[]
+  seaport_sell_orders: SeaportRawOrder[] | null
   token_id: string
   token_metadata: null
   top_bid: null

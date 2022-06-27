@@ -1,6 +1,6 @@
 import { Seaport } from '@opensea/seaport-js'
 import { CROSS_CHAIN_SEAPORT_ADDRESS } from '@opensea/seaport-js/lib/constants'
-import { ConsiderationInputItem, TransactionMethods } from '@opensea/seaport-js/lib/types'
+import { ConsiderationInputItem, CreateOrderActions } from '@opensea/seaport-js/lib/types'
 import BigNumber from 'bignumber.js'
 import { ethers } from 'ethers'
 
@@ -58,6 +58,7 @@ const getSeaport = (signer: ethers.Wallet) => {
  * @param param0 __namedParameters Object
  * @param order The order to cancel
  * @param accountAddress The order maker's wallet address
+ * @param options.signer ethers.Wallet
  */
 export const cancelOrder = async ({
   accountAddress,
@@ -104,6 +105,7 @@ export const cancelOrder = async ({
  * @param options.listingTime Optional time when the order will become fulfillable, in UTC seconds. Undefined means it will start now.
  * @param options.expirationTime Expiration time for the order, in UTC seconds.
  * @param options.paymentTokenAddress Address of the ERC-20 token to accept in return. If undefined or null, uses Ether.
+ * @param options.signer ethers.Wallet
  * @param options.buyerAddress Optional address that's allowed to purchase this item. If specified, no other address will be able to take the order, unless its value is the null address.
  */
 export const createSellOrder = async ({
@@ -186,11 +188,15 @@ export const createSellOrder = async ({
  * @param options.startAmount Value of the offer, in units of the payment token (or wrapped ETH if no payment token address specified)
  * @param options.quantity The number of assets to bid for (if fungible or semi-fungible). Defaults to 1. In units, not base units, e.g. not wei
  * @param options.expirationTime Expiration time for the order, in seconds
+ * @param options.execute Should buy order be executed and sent to OpenSea, if false returns fee information
+ * @param options.signer ethers.Wallet
  * @param options.paymentTokenAddress Optional address for using an ERC-20 token in the order. If unspecified, defaults to WETH
  */
 export const createBuyOrder = async ({
   accountAddress,
+  execute,
   expirationTime,
+  gasData,
   network,
   openseaAsset,
   paymentTokenAddress,
@@ -199,7 +205,9 @@ export const createBuyOrder = async ({
   startAmount
 }: {
   accountAddress: string
+  execute: boolean
   expirationTime?: BigNumberInput
+  gasData?: GasDataI
   network: string
   openseaAsset: OpenSeaAsset
   paymentTokenAddress?: string
@@ -234,7 +242,7 @@ export const createBuyOrder = async ({
   )
 
   const seaport = getSeaport(signer)
-  const { executeAllActions } = await seaport.createOrder(
+  const { actions, executeAllActions } = await seaport.createOrder(
     {
       allowPartialFills: false,
       consideration: [...considerationAssetItems, ...considerationFeeItems],
@@ -250,10 +258,19 @@ export const createBuyOrder = async ({
     },
     accountAddress
   )
-  const order = await executeAllActions()
-  await seaport.validate([order], accountAddress)
 
-  return order
+  if (execute && gasData) {
+    const order = await executeAllActions()
+    await (
+      await seaport
+        .validate([order], accountAddress)
+        .transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
+    ).wait()
+
+    return order
+  }
+
+  return actions
 }
 
 export const fulfillPrivateOrder = async ({
@@ -306,6 +323,7 @@ export const fulfillPrivateOrder = async ({
  * @param options.order The order to fulfill, a.k.a. "take"
  * @param options.accountAddress The taker's wallet address
  * @param options.recipientAddress The optional address to receive the order's item(s) or curriencies. If not specified, defaults to accountAddress
+ * @param options.signer ethers.Wallet
  * @returns Transaction hash for fulfilling the order
  */
 export const fulfillOrder = async ({
@@ -353,36 +371,59 @@ export const fulfillOrder = async ({
 
   return transactionHash
 }
-// CODE COPIED (and modified to add signer for getSeaport function) FROM opensea-js sdk 👆
+
+// CODE COPIED FROM opensea-js sdk
+// with some modifications:
+// - gasData: GasData
+// - signer: ethers.Wallet
+// - execute?: boolean
+// 👆
 
 // Blockchain Wallet Specific Code 👇
-export const calculateSeaportGasFees = async ({
-  operation,
-  protocol_data,
-  signer
-}: {
-  operation: GasCalculationOperations
-  protocol_data: SeaportRawOrder['protocol_data']
-  signer: ethers.Wallet
-}): Promise<GasDataI> => {
+export const calculateSeaportGasFees = async (
+  params:
+    | { operation: GasCalculationOperations; signer: ethers.Wallet } & (
+        | {
+            actions?: undefined
+            protocol_data: SeaportRawOrder['protocol_data']
+          }
+        | {
+            actions: CreateOrderActions
+            operation: GasCalculationOperations.CreateOffer
+            protocol_data?: never
+          }
+      )
+): Promise<GasDataI> => {
+  const { operation, signer } = params
   let totalFees = 0
   let gasFees = 0
+  let approvalFees = 0
   let estimate = '0'
-  const proxyFees = 0
-  const approvalFees = 0
   const seaport = getSeaport(signer)
 
   switch (operation) {
     case GasCalculationOperations.CancelOrder:
-      estimate = await (await seaport.cancelOrders([protocol_data.parameters]).estimateGas())._hex
+      estimate = await (
+        await seaport.cancelOrders([params.protocol_data.parameters]).estimateGas()
+      )._hex
       break
     case GasCalculationOperations.CancelOffer:
-      estimate = await (await seaport.cancelOrders([protocol_data.parameters]).estimateGas())._hex
+      estimate = await (
+        await seaport.cancelOrders([params.protocol_data.parameters]).estimateGas()
+      )._hex
+      break
+    case GasCalculationOperations.CreateOffer:
+      if (params.actions) {
+        const [methods] = params.actions
+        if (methods.type === 'approval') {
+          approvalFees = parseInt((await methods.transactionMethods.estimateGas())._hex)
+        }
+      }
       break
     case GasCalculationOperations.Buy:
     case GasCalculationOperations.AcceptOffer:
       const { actions } = await seaport.fulfillOrder({
-        order: protocol_data
+        order: params.protocol_data
       })
       const [methods] = actions
       estimate = (await methods.transactionMethods.estimateGas())._hex
@@ -392,12 +433,12 @@ export const calculateSeaportGasFees = async ({
   gasFees = Math.ceil(parseInt(estimate) * 1.5)
 
   const gasPrice = await (await signer.getGasPrice()).toNumber()
-  totalFees = approvalFees + proxyFees + gasFees
+  totalFees = approvalFees + gasFees
   return {
     approvalFees,
     gasFees,
     gasPrice,
-    proxyFees,
+    proxyFees: 0,
     totalFees
   }
 }
