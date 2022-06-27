@@ -1,16 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { NavLink, Route, Switch } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { IconHistory, IconListBullets, IconNft } from '@blockchain-com/icons'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
-import { actions } from 'data'
-
-// FIXME:
-// eslint-disable-next-line import/no-named-as-default
-import CoinView from '../../scenes/plugin/CoinView'
 
 const HomeNavbarItem = styled(NavLink)`
   display: block;
@@ -48,15 +39,15 @@ const HomeNavbarWrapper = styled.div`
   justify-content: center;
 `
 
-const HomeNavbar = ({ path }: { path: string }) => (
+const HomeNavbar = () => (
   <HomeNavbarWrapper>
-    <HomeNavbarItem exact to='/plugin'>
+    <HomeNavbarItem exact to='/coinview'>
       <IconListBullets />
     </HomeNavbarItem>
-    <HomeNavbarItem to='/plugin/activity'>
+    <HomeNavbarItem to='/activity'>
       <IconHistory />
     </HomeNavbarItem>
-    <HomeNavbarItem to='/plugin/nft'>
+    <HomeNavbarItem to='/nft'>
       <IconNft />
     </HomeNavbarItem>
   </HomeNavbarWrapper>

@@ -79,13 +79,7 @@ const PluginLayout = ({
 }
 
 const mapStateToProps = (state) => ({
-  authProduct: selectors.auth.getProduct(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM)(state),
-  isAuthenticated: selectors.auth.isAuthenticated(state),
-  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
-  platform: selectors.auth.getMagicLinkData(state)?.platform_type,
-  unified: selectors.cache.getUnifiedAccountStatus(state)
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
 })
 
 const connector = connect(mapStateToProps)
