@@ -5,6 +5,8 @@ import styled, { css } from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
+const INPUT_ID = 'clickableInput'
+
 // 🚨🚨🚨
 // react-select overrides
 // shared with CreatableInput
@@ -160,9 +162,9 @@ const Option = (props) => {
 }
 
 const ValueContainer = ({ children, ...props }) => {
-  const selectInput = React.Children.toArray(children).find(
-    (input) => input.type.name === 'Input' || input.type.name === 'DummyInput'
-  )
+  const selectInput = React.Children.map(children, (child) => {
+    return child.props.id === INPUT_ID ? child : null
+  })
   const displayProps = assoc(
     'text',
     path(['selectProps', 'value', 'label'], props),
@@ -236,6 +238,7 @@ const SelectInput = (props) => {
           Option,
           ValueContainer
         }}
+        inputId={INPUT_ID}
         noOptionsMessage={noOptionsMessage}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         filterOption={filterOption}
