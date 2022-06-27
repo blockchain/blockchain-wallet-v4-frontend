@@ -1398,7 +1398,7 @@
   "modals.simplebuy.add_card.description": "Adicione seu cartão com segurança para financiar suas compras de criptomoedas. Aceitamos cartões Visa ou Mastercard.",
   "modals.simplebuy.add_card.pricacy_disclaimer": "Privacidade protegida com criptografia SSL de 256 bits.",
   "modals.simplebuy.add_card.residential_address": "Igual ao endereço residencial",
-  "modals.simplebuy.applepay": "[%key_id:156736901%]",
+  "modals.simplebuy.applepay": "Apple Pay",
   "modals.simplebuy.applepay.description": "Basta tocar em Comprar com o Apple Pay",
   "modals.simplebuy.banklink": "Vincular um Banco",
   "modals.simplebuy.banktransfer.description": "Envie fundos diretamente do seu banco para sua Blockchain.com Wallet. Assim que recebermos a transferência bancária, concluiremos sua compra.",

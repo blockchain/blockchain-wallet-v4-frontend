@@ -2255,7 +2255,7 @@
   "scenes.settings.addresses.menutop.btc": "Bitcoin",
   "scenes.settings.addresses.menutop.eth": "Ethereum",
   "scenes.settings.addresses.menutop.xlm": "Stellar",
-  "scenes.settings.addresses.show_fund_recovery": "[%key_id:12837463%]",
+  "scenes.settings.addresses.show_fund_recovery": "Recuperar fondos",
   "scenes.settings.addresses.sign_message": "Firmar mensaje",
   "scenes.settings.addresses.subtitle": "Gestione sus monederos, direcciones y claves privadas.",
   "scenes.settings.addresses.unarchive": "Desarchivar",

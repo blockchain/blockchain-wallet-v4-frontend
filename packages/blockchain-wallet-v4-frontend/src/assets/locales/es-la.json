@@ -1726,7 +1726,7 @@
   "modals.withdraw.success": "¡Éxito! Estamos retirando el dinero de tu Wallet en {currency} ahora. Los fondos deberían estar en tu banco en 1-3 días hábiles.",
   "modals.withdraw.tooltip_info": "El saldo restante estará disponible para ser retirado dentro de {days} días.",
   "modals.withdraw.tooltip_info_day": "El saldo restante estará disponible para ser retirado dentro de 1 día.",
-  "navbar.settings.general": "[%key_id:23381666%]",
+  "navbar.settings.general": "General",
   "navbar.tax": "Tax Center",
   "orderdetails.recurring.tooltip": "Las órdenes recurrentes se realizarán automáticamente de forma regular desde tu tarjeta de crédito asociada.",
   "price.chart.buy.coin": "Comprar {coinName}",
