@@ -173,7 +173,7 @@ const ValueContainer = ({ children, ...props }) => {
       {props.selectProps.templateDisplay
         ? props.selectProps.templateDisplay(displayProps, children)
         : children}
-      <span className='dummy-input-wrapper'>{selectInput}</span>
+      {selectInput && <span className='dummy-input-wrapper'>{selectInput}</span>}
     </components.ValueContainer>
   )
 }
