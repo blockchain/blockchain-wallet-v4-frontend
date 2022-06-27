@@ -243,3 +243,39 @@ export const AvatarGradientColors = [
   colors.green300,
   colors.grey900
 ]
+
+export const LinksContainer = styled.div`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  justify-content: center;
+  > a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    padding-right: 0px;
+    svg {
+      fill: ${(props) => props.theme.grey200};
+      transition: fill 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        fill: ${(props) => props.theme.white};
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      height: 90%;
+      width: 1px;
+      margin-left: 16px;
+      background-color: ${(props) => props.theme.grey000};
+    }
+    &:last-child {
+      padding-right: 16px;
+    }
+    &:last-child:after {
+      display: none;
+    }
+  }
+`

@@ -11,6 +11,7 @@ import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
   CheckBoxInput,
+  Color,
   Image,
   Link,
   SpinningLoader,
@@ -59,13 +60,11 @@ const CTA: React.FC<Props> = ({
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
   }
-
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
 
   const { coin } = formValues
-
   if (!isAuthenticated)
     return (
       <LinkContainer
@@ -142,8 +141,8 @@ const CTA: React.FC<Props> = ({
       {disabled ? null : (
         <div
           style={{
-            background: termsAccepted ? colors.white900 : colors.grey000,
-            border: `1px solid ${colors.grey100}`,
+            background: termsAccepted ? colors.white900 : Color('greyFade000'),
+            border: `1px solid ${colors.grey000}`,
             borderRadius: '8px',
             display: 'flex',
             justifyContent: 'center',

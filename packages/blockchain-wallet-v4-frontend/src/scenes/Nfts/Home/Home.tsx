@@ -28,7 +28,7 @@ import TrendingCollectionsTable from './TrendingCollectionsTable'
 // Special case of hardcoding colors
 // don't let this be a bad influence on the rest of the app
 const Banner = styled.div`
-  background: linear-gradient(40deg, #121d33, #0c6cf2, #f00699);
+  background: linear-gradient(40deg, #121d33, ${colors.blue300}, #f00699);
   background-size: 600% 600%;
   -webkit-animation: AnimationName 40s ease infinite;
   -moz-animation: AnimationName 40s ease infinite;

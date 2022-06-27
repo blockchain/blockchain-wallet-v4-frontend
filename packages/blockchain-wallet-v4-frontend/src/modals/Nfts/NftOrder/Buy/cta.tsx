@@ -10,6 +10,7 @@ import * as lz from 'lz-string'
 import {
   Button,
   CheckBoxInput,
+  Color,
   HeartbeatLoader,
   Image,
   Link,
@@ -176,7 +177,7 @@ const CTA: React.FC<Props> = (props) => {
           <div>
             <div
               style={{
-                background: termsAccepted ? colors.white900 : colors.grey000,
+                background: termsAccepted ? colors.white900 : Color('greyFade000'),
                 border: `1px solid ${colors.grey000}`,
                 borderRadius: '8px',
                 display: 'flex',
