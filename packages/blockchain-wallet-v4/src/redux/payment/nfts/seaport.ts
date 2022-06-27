@@ -259,13 +259,15 @@ export const createBuyOrder = async ({
     accountAddress
   )
 
-  if (execute && gasData) {
+  if (execute) {
     const order = await executeAllActions()
-    await (
-      await seaport
-        .validate([order], accountAddress)
-        .transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
-    ).wait()
+    const validation = await seaport.validate([order], accountAddress)
+
+    if (gasData && gasData.totalFees) {
+      await (
+        await validation.transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
+      ).wait()
+    }
 
     return order
   }
