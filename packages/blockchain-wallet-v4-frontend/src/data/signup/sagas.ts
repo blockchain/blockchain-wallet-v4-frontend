@@ -138,7 +138,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       if (isReferralEntered) {
-        yield call(api.createReferral(referral))
+        yield call(api.createReferral, referral)
       }
     } catch (e) {
       if (e.message !== REFERRAL_ERROR_MESSAGE) {
