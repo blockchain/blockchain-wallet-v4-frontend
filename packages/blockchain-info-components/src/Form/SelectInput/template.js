@@ -125,6 +125,11 @@ export const sharedSelect = css`
 
 const StyledSelect = styled(Select)`
   ${sharedSelect}
+
+  .dummy-input-wrapper {
+    position: absolute;
+    top: -1000px;
+  }
 `
 
 // A fake button so that vimium and other assistive tech can pick up dropdown
@@ -155,6 +160,9 @@ const Option = (props) => {
 }
 
 const ValueContainer = ({ children, ...props }) => {
+  const selectInput = React.Children.toArray(children).find(
+    (input) => input.type.name === 'Input' || input.type.name === 'DummyInput'
+  )
   const displayProps = assoc(
     'text',
     path(['selectProps', 'value', 'label'], props),
@@ -165,6 +173,7 @@ const ValueContainer = ({ children, ...props }) => {
       {props.selectProps.templateDisplay
         ? props.selectProps.templateDisplay(displayProps, children)
         : children}
+      <span className='dummy-input-wrapper'>{selectInput}</span>
     </components.ValueContainer>
   )
 }
