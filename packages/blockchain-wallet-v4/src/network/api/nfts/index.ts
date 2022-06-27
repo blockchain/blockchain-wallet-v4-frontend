@@ -1,3 +1,5 @@
+import { OrderWithCounter } from '@opensea/seaport-js/lib/types'
+
 import {
   ExplorerGatewaySearchType,
   NftAsset,
@@ -107,7 +109,17 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const postNftOrderV2 = (order, network: string, side: string) => {
+  const postNftOrderV2 = ({
+    guid,
+    network,
+    order,
+    side
+  }: {
+    guid: string
+    network: string
+    order: OrderWithCounter
+    side: string
+  }) => {
     const chain = network === 'rinkeby' ? 'rinkeby' : 'ethereum'
     const sidePath = side === 'ask' ? 'listings' : 'offers'
 
@@ -115,6 +127,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       contentType: 'application/json',
       data: {
         chain,
+        guid,
         order,
         protocol: 'seaport',
         sidePath

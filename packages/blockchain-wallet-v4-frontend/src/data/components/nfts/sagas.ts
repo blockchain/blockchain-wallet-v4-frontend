@@ -95,10 +95,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const prefs = S.getNftUserPreferences(yield select())
       if (Remote.Success.is(prefs)) return
       yield put(A.fetchNftUserPreferencesLoading())
-      const retailToken = yield call(generateRetailToken)
+      const jwt = yield call(generateRetailToken)
       const res: ReturnType<typeof api.getNftUserPreferences> = yield call(
         api.getNftUserPreferences,
-        retailToken
+        jwt
       )
 
       // first time user, opt-out
@@ -126,10 +126,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const updateUserPreferences = function* (action: ReturnType<typeof A.updateUserPreferences>) {
     try {
       yield put(A.fetchNftUserPreferencesLoading())
-      const retailToken = yield call(generateRetailToken)
+      const jwt = yield call(generateRetailToken)
       const res: ReturnType<typeof api.setNftUserPreferences> = yield call(
         api.setNftUserPreferences,
-        retailToken,
+        jwt,
         action.payload.userPrefs
       )
       yield put(A.fetchNftUserPreferencesSuccess(res.userPrefs))
@@ -377,7 +377,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         signer,
         startAmount: amount || '0'
       })
-      yield call(api.postNftOrderV2, seaportOrder, network, 'bid')
+      yield call(api.postNftOrderV2, { guid, network, order: seaportOrder, side: 'bid' })
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -525,7 +525,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         signer,
         startAmount: action.payload.startPrice
       })
-      yield call(api.postNftOrderV2, seaportOrder, network, 'ask')
+      yield call(api.postNftOrderV2, { guid, network, order: seaportOrder, side: 'ask' })
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
