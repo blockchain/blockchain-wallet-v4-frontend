@@ -7,11 +7,10 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import BottomBarLayout from 'layouts/extension/BottomBarLayout'
 
 // FIXME:
 // eslint-disable-next-line import/no-named-as-default
-import CoinView from '../../scenes/extension/CoinView'
+import CoinView from '../../scenes/plugin/CoinView'
 
 const HomeNavbarItem = styled(NavLink)`
   display: block;
@@ -51,40 +50,16 @@ const HomeNavbarWrapper = styled.div`
 
 const HomeNavbar = ({ path }: { path: string }) => (
   <HomeNavbarWrapper>
-    <HomeNavbarItem exact to={`${path}`}>
+    <HomeNavbarItem exact to='/plugin'>
       <IconListBullets />
     </HomeNavbarItem>
-    <HomeNavbarItem to={`${path}/activity`}>
+    <HomeNavbarItem to='/plugin/activity'>
       <IconHistory />
     </HomeNavbarItem>
-    <HomeNavbarItem to={`${path}/nft`}>
+    <HomeNavbarItem to='/plugin/nft'>
       <IconNft />
     </HomeNavbarItem>
   </HomeNavbarWrapper>
 )
 
-const HomeRoutes = (props) => {
-  const { path } = props.match
-  return (
-    <BottomBarLayout footer={<HomeNavbar path={path} />}>
-      <Switch>
-        <Route path={`${path}`} exact component={CoinView} />
-        <Route path={`${path}/activity`}>
-          <Text color='white'>B</Text>
-        </Route>
-        <Route path={`${path}/nft`}>
-          <Text color='white'>C</Text>
-        </Route>
-        <Route path={`${path}/settings`}>
-          <Text color='white'>D</Text>
-        </Route>
-      </Switch>
-    </BottomBarLayout>
-  )
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  router: bindActionCreators(actions.router, dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(HomeRoutes)
+export default HomeNavbar

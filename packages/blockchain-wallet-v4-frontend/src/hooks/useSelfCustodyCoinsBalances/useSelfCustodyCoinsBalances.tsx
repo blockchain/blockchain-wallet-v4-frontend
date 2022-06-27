@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { getBalanceSelector } from 'components/Balances/selectors'
 import { RootState } from 'data/rootReducer'
 
-import { CoinDataItem } from '../../scenes/extension/CoinView/types'
+import { CoinDataItem } from '.'
 
-export const useCoinBalances = () => {
+export const useSelfCustodyCoinsBalances = () => {
   const state = useSelector((state: RootState) => state)
   const [coins, setCoins] = useState<CoinDataItem[] | null>(null)
 
@@ -17,9 +17,8 @@ export const useCoinBalances = () => {
       const coinsArr: CoinDataItem[] = []
 
       // TODO: Check active wallet
-      Object.entries(window.coins).forEach((coin: any) => {
-        const balance = getBalanceSelector(coin[0])(state).getOrElse(0).valueOf()
-        const { coinfig } = coin[1]
+      Object.entries(window.coins).forEach(([coin, { coinfig }]: any) => {
+        const balance = getBalanceSelector(coin)(state).getOrElse(0)
         if (
           (allowedChains.includes(coinfig.symbol) ||
             allowedChains.includes(coinfig.type.parentChain)) &&
@@ -33,13 +32,7 @@ export const useCoinBalances = () => {
       })
       setCoins(coinsArr)
     }
-    if (window.coins) {
-      getCoins()
-    } else {
-      setTimeout(() => {
-        getCoins()
-      }, 500)
-    }
+    getCoins()
   }, [window.coins])
 
   return coins

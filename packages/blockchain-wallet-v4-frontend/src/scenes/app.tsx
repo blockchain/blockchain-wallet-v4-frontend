@@ -15,6 +15,7 @@ import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
 import NftsLayout from 'layouts/Nfts'
+import PluginLayout from 'layouts/plugin/PluginLayout'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
@@ -24,7 +25,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import ExtensionRoutes from '../routes/extensionRoutes'
+import { CoinView } from './plugin/CoinView'
 
 const queryClient = new QueryClient()
 
@@ -119,7 +120,7 @@ const App = ({
                       <Switch>
                         {/* Unauthenticated Wallet routes */}
                         <Route path='/app-error' component={AppError} />
-                        <Route path='/extension' component={ExtensionRoutes} />
+                        <PluginLayout path='/plugin' component={CoinView} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'

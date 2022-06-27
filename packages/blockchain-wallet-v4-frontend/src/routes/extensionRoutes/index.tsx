@@ -24,11 +24,16 @@ const ExtensionRoutes = (props) => {
   const { path } = props.match
   return (
     <Wrapper>
-      <InnerWrapper>
-        <Switch>
-          <Route path={`${path}/home`} component={HomeRoutes} />
-        </Switch>
-      </InnerWrapper>
+      <Switch>
+        <Route
+          path={`${path}/home`}
+          render={(props) => (
+            <InnerWrapper>
+              <HomeRoutes {...props} />
+            </InnerWrapper>
+          )}
+        />
+      </Switch>
     </Wrapper>
   )
 }
