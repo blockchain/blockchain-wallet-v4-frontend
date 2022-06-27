@@ -41,7 +41,7 @@
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
-        "exchangeMobileDuplicateAccountRedirect": false,
+        "exchangeMobileDuplicateAccountRedirect": true,
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": false,
         "institutionalPortal": true,
