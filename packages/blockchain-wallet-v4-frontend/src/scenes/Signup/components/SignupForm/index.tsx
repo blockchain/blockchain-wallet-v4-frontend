@@ -212,7 +212,7 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            placeholder='Reenter Password'
+            placeholder='Re-enter Password'
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
