@@ -120,7 +120,7 @@ const App = ({
                       <Switch>
                         {/* Unauthenticated Wallet routes */}
                         <Route path='/app-error' component={AppError} />
-                        <PluginLayout path='/plugin' component={CoinView} />
+                        <PluginLayout path='/coinview' component={CoinView} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'
