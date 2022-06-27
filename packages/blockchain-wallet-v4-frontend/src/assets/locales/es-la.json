@@ -1986,7 +1986,7 @@
   "scenes.preferences.email.description2": "para recordarte el ID de inicio de sesión de tu billetera,",
   "scenes.preferences.email.description3": "y para enviar alertas de pago de bitcoin cuando recibas fondos.",
   "scenes.preferences.email.settings.updateform.change": "Cambiar",
-  "scenes.preferences.email.title": "[%key_id:12837602%]",
+  "scenes.preferences.email.title": "Email",
   "scenes.preferences.loading.email.description": "Tu dirección de correo electrónico verificada se utiliza para enviar códigos de inicio de sesión cuando se detecta actividad sospechosa o inusual,",
   "scenes.preferences.loading.email.description2": "para recordarte el ID de inicio de sesión de tu billetera,",
   "scenes.preferences.loading.email.description3": "y para enviar alertas de pago de bitcoin cuando recibas fondos.",

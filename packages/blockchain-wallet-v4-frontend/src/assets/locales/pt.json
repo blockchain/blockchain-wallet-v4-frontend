@@ -1986,7 +1986,7 @@
   "scenes.preferences.email.description2": "para lembrá-lo do ID de início de sessão da sua carteira,",
   "scenes.preferences.email.description3": "e para enviar alertas de pagamento de Bitcoin quando recebe fundos.",
   "scenes.preferences.email.settings.updateform.change": "Alterar",
-  "scenes.preferences.email.title": "[%key_id:12837606%]",
+  "scenes.preferences.email.title": "E-mail",
   "scenes.preferences.loading.email.description": "O seu endereço de e-mail verificado é usado para enviar códigos de início de sessão quando é detectada uma atividade suspeita ou fora do habitual,",
   "scenes.preferences.loading.email.description2": "para lembrá-lo do ID de início de sessão da sua carteira,",
   "scenes.preferences.loading.email.description3": "e para enviar alertas de pagamento de Bitcoin quando recebe fundos.",
