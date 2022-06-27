@@ -95,8 +95,9 @@ const OuterCollectionInfo = styled.div`
   position: sticky;
   top: calc(56px);
   display: flex;
-  z-index: 6;
+  z-index: 21;
   background: white;
+  border-bottom: 1px solid ${colors.grey000};
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -237,7 +238,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
             setRefreshTrigger={setRefreshTrigger}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
-            collections={[]}
+            collections={collectionsQuery.data?.collections || []}
             isSticky={!collection.banner_image_url}
           />
           {activeTab === 'ITEMS' ? (

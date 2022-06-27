@@ -31,7 +31,7 @@ export const FILTER_WIDTH = '300'
 export const FILTER_WIDTH_CLOSED = '20'
 
 const Wrapper = styled.div<{ isFilterOpen: boolean; isSticky: boolean }>`
-  top: ${(props) => (props.isSticky ? `calc(${FIXED_HEADER_HEIGHT}px)` : `initial`)};
+  top: ${(props) => (props.isSticky ? `calc(151px)` : `calc(${FIXED_HEADER_HEIGHT}px)`)};
   position: ${(props) => (props.isSticky ? `sticky` : `initial`)};
   padding-right: 24px;
   padding-top: 24px;
@@ -50,7 +50,7 @@ const Wrapper = styled.div<{ isFilterOpen: boolean; isSticky: boolean }>`
     z-index: 1000;
     height: 100vh;
     width: 100%;
-    position: fixed;
+    position: ${(props) => (props.isSticky ? `sticky` : `initial`)};
     padding: 20px;
     top: ${FIXED_HEADER_HEIGHT}px;
     bottom: 0;

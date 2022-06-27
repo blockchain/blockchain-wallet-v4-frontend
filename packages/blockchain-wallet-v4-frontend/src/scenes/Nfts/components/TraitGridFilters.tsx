@@ -20,8 +20,10 @@ import { NftFilterFormValuesType } from '../NftFilter'
 import {
   getCollectionFilter,
   getEventFilter,
+  getForSaleFilter,
   getMinMaxFilters,
-  getTraitFilters
+  getTraitFilters,
+  getVerifiedFilter
 } from '../utils/NftUtils'
 import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
@@ -96,7 +98,8 @@ const TraitGridFilters: React.FC<Props> = ({
   const traitFilters = getTraitFilters(formValues)
   const eventFilter = getEventFilter(formValues)
   const collectionFilter = getCollectionFilter(formValues, collections)
-
+  const forSaleFilter = getForSaleFilter(formValues)
+  const verifiedFilter = getVerifiedFilter(formValues)
   const hasSomeFilters =
     (formValues &&
       Object.keys(formValues)
@@ -316,6 +319,56 @@ const TraitGridFilters: React.FC<Props> = ({
                     role='button'
                     cursor='pointer'
                     onClick={() => formActions.change('nftFilter', `event`, undefined)}
+                  />
+                </Icon>
+              </div>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
+        {forSaleFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
+                Buy Now
+              </Text>
+              <div
+                style={{
+                  background: 'grey400',
+                  borderRadius: '50%',
+                  lineHeight: '0',
+                  marginLeft: '8px'
+                }}
+              >
+                <Icon label='close' color='grey200' size='sm'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', `forSale`, undefined)}
+                  />
+                </Icon>
+              </div>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
+        {verifiedFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
+                Verified Only
+              </Text>
+              <div
+                style={{
+                  background: 'grey400',
+                  borderRadius: '50%',
+                  lineHeight: '0',
+                  marginLeft: '8px'
+                }}
+              >
+                <Icon label='close' color='grey200' size='sm'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', `verifiedOnly`, undefined)}
                   />
                 </Icon>
               </div>

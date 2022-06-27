@@ -85,7 +85,6 @@ export const GridWrapper = styled.div`
   display: flex;
   padding: 0 24px;
   align-items: flex-start;
-  border-top: 1px solid ${colors.grey000};
   ${media.tablet`
     padding: 0px;
   `}
