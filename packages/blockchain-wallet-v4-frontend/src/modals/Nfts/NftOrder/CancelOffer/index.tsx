@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
+import { OPENSEA_SHARED_MARKETPLACE_RINKEBY } from '@core/redux/payment/nfts/constants'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -18,7 +20,7 @@ import CancelOfferFees from './fees'
 
 const CancelOffer: React.FC<Props> = (props) => {
   const { close, openSeaAssetR, orderFlow } = props
-  const { seaportOrder } = orderFlow
+  const { seaportOrder, wyvernOrder } = orderFlow
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
@@ -28,6 +30,8 @@ const CancelOffer: React.FC<Props> = (props) => {
   const asset = openSeaAsset.data
 
   if (!asset) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
+
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   return (
     <>
@@ -44,11 +48,15 @@ const CancelOffer: React.FC<Props> = (props) => {
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
               {/* TODO: SEAPORT */}
               <CoinDisplay size='14px' color='black' weight={600} coin='WETH'>
-                {seaportOrder?.current_price}
+                {IS_SHARED_STOREFRONT && wyvernOrder
+                  ? wyvernOrder.current_price
+                  : seaportOrder?.current_price}
               </CoinDisplay>
               {/* TODO: SEAPORT */}
               <FiatDisplay size='12px' color='grey600' weight={600} coin='WETH'>
-                {seaportOrder?.current_price}
+                {IS_SHARED_STOREFRONT && wyvernOrder
+                  ? wyvernOrder.current_price
+                  : seaportOrder?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>

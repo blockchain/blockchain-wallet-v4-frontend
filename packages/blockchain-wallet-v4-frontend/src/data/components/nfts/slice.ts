@@ -13,6 +13,7 @@ import {
   NftUserPreferencesType,
   OpenSeaStatus,
   SeaportRawOrder,
+  UnsignedOrder,
   WyvernRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -61,6 +62,15 @@ const nftsSlice = createSlice({
         asset: NftAsset
         gasData: GasDataI
         seaportOrder: SeaportRawOrder
+      }>
+    ) => {},
+    acceptOffer_LEGACY: (
+      state,
+      action: PayloadAction<{
+        asset: NftAsset
+        buy: UnsignedOrder
+        gasData: GasDataI
+        sell: UnsignedOrder
       }>
     ) => {},
     cancelListing: (

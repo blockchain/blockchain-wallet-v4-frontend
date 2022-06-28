@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  OPENSEA_SHARED_MARKETPLACE_RINKEBY
-} from '@core/redux/payment/nfts/constants'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -20,9 +17,7 @@ import { Props as OwnProps } from '..'
 const Fees: React.FC<Props> = (props) => {
   const { asset, nftActions, orderFlow } = props
   const { seaportOrder, wyvernOrder } = orderFlow
-  const IS_SHARED_STOREFRONT =
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   useEffect(() => {
     if (seaportOrder) {

@@ -1,13 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { Remote } from '@core'
 import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  OPENSEA_SHARED_MARKETPLACE_RINKEBY
-} from '@core/redux/payment/nfts/constants'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -19,9 +16,7 @@ import { Props as OwnProps } from '..'
 const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
   const { seaportOrder, userHasPendingTxR, wyvernOrder } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
-  const IS_SHARED_STOREFRONT =
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   const disabled = Remote.Loading.is(orderFlow.fees) || orderFlow.isSubmitting
 

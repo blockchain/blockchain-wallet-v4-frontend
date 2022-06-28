@@ -2,15 +2,12 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 import { addMinutes, getUnixTime } from 'date-fns'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  OPENSEA_SHARED_MARKETPLACE_RINKEBY
-} from '@core/redux/payment/nfts/constants'
 import {
   Button,
   CheckBoxInput,
@@ -48,9 +45,7 @@ const CTA: React.FC<Props> = ({
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
-  const IS_SHARED_STOREFRONT =
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
-    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
 

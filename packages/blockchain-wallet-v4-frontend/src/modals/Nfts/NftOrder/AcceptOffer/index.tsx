@@ -17,7 +17,7 @@ import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import AcceptOfferCTA from './cta'
 import AcceptOfferFees from './fees'
-import { getData } from './selectors'
+import { getData_LEGACY } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
   const { close, openSeaAssetR, orderFlow } = props
@@ -74,7 +74,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data_LEGACY: getData_LEGACY(state)
 })
 
 const connector = connect(mapStateToProps)

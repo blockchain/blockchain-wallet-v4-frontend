@@ -973,6 +973,66 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const acceptOffer_LEGACY = function* (action: ReturnType<typeof A.acceptOffer_LEGACY>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : 'WETH'
+    const amount = Number(
+      convertCoinToCoin({
+        baseToStandard: true,
+        coin,
+        value: action?.payload?.buy?.basePrice?.toString() || ''
+      })
+    )
+
+    const amount_usd = yield call(getAmountUsd, coin, amount)
+    try {
+      const signer: ethers.Wallet = yield call(getEthSigner)
+      const { buy, gasData, sell } = action.payload
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+    } catch (e) {
+      let error = errorHandler(e)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_ACCEPT_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to accept this offer.'
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
+
   const createOffer_LEGACY = function* (action: ReturnType<typeof A.createOffer>) {
     yield put(A.setOrderFlowIsSubmitting(true))
     const coin = action?.payload?.coin || ''
@@ -1120,6 +1180,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   return {
     acceptOffer,
+    acceptOffer_LEGACY,
     cancelListing,
     cancelOffer,
     cancelOffer_LEGACY,

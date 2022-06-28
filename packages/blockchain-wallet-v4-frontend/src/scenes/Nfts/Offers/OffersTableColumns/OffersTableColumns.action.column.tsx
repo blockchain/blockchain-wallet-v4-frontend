@@ -4,21 +4,17 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
 import { NftAsset } from '@core/network/api/nfts/types'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  OPENSEA_SHARED_MARKETPLACE_RINKEBY
-} from '@core/redux/payment/nfts/constants'
 import { Button } from 'blockchain-info-components'
 import { CellHeaderText } from 'components/Table'
 import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
+import { getIsSharedStorefront } from '../../utils/NftUtils'
+
 export const getActionColumn = (defaultEthAddr, isOwner: boolean, asset?: NftAsset) => ({
   Cell: ({ row: { original: values } }) => {
     const dispatch = useDispatch()
-    const IS_SHARED_STOREFRONT =
-      asset?.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
-      asset?.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
+    const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset as NftAsset)
     const isMaker = defaultEthAddr.toLowerCase() === values.maker.address.toLowerCase()
     const canPerformAction = isOwner || isMaker
 
