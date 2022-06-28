@@ -98,7 +98,8 @@ const EnterPasswordWallet = (props: Props) => {
   const accountLocked =
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
-      walletError.toLowerCase().includes('account is locked'))
+      walletError.toLowerCase().includes('account is locked') ||
+      walletError.toLowerCase().includes('account deactivated'))
   const settingsRedirect = Object.values(UnifiedAccountRedirectType).includes(initialRedirect)
 
   return (
