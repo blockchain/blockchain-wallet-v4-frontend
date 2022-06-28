@@ -94,7 +94,7 @@ const LinksContainer = styled.div`
 
 const OuterCollectionInfo = styled.div`
   position: sticky;
-  top: calc(${FIXED_HEADER_HEIGHT});
+  top: calc(${FIXED_HEADER_HEIGHT}px);
   display: flex;
   z-index: 21;
   background: ${(props) => props.theme.white};
