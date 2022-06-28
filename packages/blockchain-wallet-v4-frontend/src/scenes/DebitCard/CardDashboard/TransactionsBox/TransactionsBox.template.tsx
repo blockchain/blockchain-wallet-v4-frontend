@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
-import { IconMinusCircle } from '@blockchain-com/icons'
+import { IconMinusCircle, IconPlusCircle } from '@blockchain-com/icons'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
@@ -62,8 +62,8 @@ const EmptyList = () => (
   </BoxRow>
 )
 
-function dateTimeFormatter(userTransactionTime) {
-  return new Date(userTransactionTime).toLocaleDateString('en-US', {
+const dateTimeFormatter = (userTransactionTime) =>
+  new Date(userTransactionTime).toLocaleDateString('en-US', {
     day: '2-digit',
     hour: 'numeric',
     hour12: true,
@@ -71,7 +71,6 @@ function dateTimeFormatter(userTransactionTime) {
     month: '2-digit',
     year: 'numeric'
   })
-}
 
 const TransactionsBox = () => {
   const { data, isLoading, isNotAsked } = useRemote(
@@ -87,7 +86,6 @@ const TransactionsBox = () => {
   ) => {
     switch (type) {
       case TransactionType.PAYMENT:
-      default:
         return (
           <FormattedMessage
             id='scenes.debit_card.dashboard.transactions.title.payment'
@@ -95,7 +93,27 @@ const TransactionsBox = () => {
             values={{ place: merchantName, symbol }}
           />
         )
+      case TransactionType.REFUND:
+        return (
+          <FormattedMessage
+            id='scenes.debit_card.dashboard.transactions.title.payment'
+            defaultMessage='Refund {symbol} at {place}'
+            values={{ place: merchantName, symbol }}
+          />
+        )
+      default:
+        return (
+          <FormattedMessage
+            id='scenes.debit_card.dashboard.transactions.title.payment'
+            defaultMessage='{type} {symbol} at {place}'
+            values={{ place: merchantName, symbol, type }}
+          />
+        )
     }
+  }
+
+  const generateTransactionIcon = (type) => {
+    return type === TransactionType.PAYMENT ? <IconMinusCircle /> : <IconPlusCircle />
   }
 
   const ListComponent = () => (
@@ -107,7 +125,7 @@ const TransactionsBox = () => {
           {data.map(({ id, merchantName, originalAmount, type, userTransactionTime }) => (
             <BoxRowWithBorder key={id}>
               <Icon color='blue300' label='Spent' size='sm'>
-                <IconMinusCircle />
+                {generateTransactionIcon(type)}
               </Icon>
               <BoxRowItemTitle>
                 {generateTransactionTitle(type, originalAmount, merchantName)}
