@@ -31,7 +31,7 @@ import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
-export const CheckboxWraper = styled(Flex)<{ termsAccepted: boolean }>`
+export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
   background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
   border: 1px solid ${colors.grey000};
   border-radius: 8px;
@@ -185,7 +185,7 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <CheckboxWraper termsAccepted={termsAccepted}>
+            <CheckboxWrapper termsAccepted={termsAccepted}>
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
                 <CheckBoxInput
@@ -218,7 +218,7 @@ const CTA: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </label>
-            </CheckboxWraper>
+            </CheckboxWrapper>
             <Button
               onClick={() =>
                 nftActions.createOrder({

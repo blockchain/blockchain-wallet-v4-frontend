@@ -150,7 +150,7 @@ const EnterPasswordWallet = (props: Props) => {
                 validate={[required]}
               />
               {passwordError && (
-                <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
+                <FormError data-e2e='passwordError' style={{ paddingTop: '4px' }}>
                   <FormattedMessage
                     id='scenes.login.wrong_password'
                     defaultMessage='Wrong password.'

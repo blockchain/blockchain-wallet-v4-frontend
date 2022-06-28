@@ -8,7 +8,7 @@ import { ExtractSuccess, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
-import { Analytics, AuthMagicLink, ModalName, PlatformTypes } from 'data/types'
+import { Analytics, AuthMagicLink, ModalName, PlatformTypes, ProductAuthOptions } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -321,8 +321,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const generateExchangeAuthCredentials = function* (countryCode) {
+    const { platform, product, referrerUsername, tuneTid } = yield select(
+      selectors.signup.getProductSignupMetadata
+    )
     try {
-      const { referrerUsername, tuneTid } = yield select(selectors.signup.getProductSignupMetadata)
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
@@ -342,7 +344,16 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       if (e.code === 4) {
         yield put(actions.auth.setExchangeAccountConflict(true))
+        // If it's an exchange mobile signup, we want to take user
+        // directly to conflict error message
+        if (
+          product === ProductAuthOptions.EXCHANGE &&
+          (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
+        ) {
+          yield put(actions.router.push('/select-product'))
+        }
       }
+      yield put(actions.auth.loginFailure(e.code))
       yield put(actions.auth.setExchangeAccountCreationFailure(true))
     }
   }
@@ -405,6 +416,7 @@ export default ({ api, coreSagas, networks }) => {
             data: { csrf: csrfToken, jwt: token, jwtExpirationTime: sessionExpirationTime },
             status: 'success'
           })
+          yield put(actions.signup.registerSuccess(undefined))
           break
         case origin === ExchangeAuthOriginType.SideMenu:
           window.open(`${exchangeDomain}/trade/auth?jwt=${token}`, '_blank', 'noreferrer')
@@ -427,6 +439,7 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
