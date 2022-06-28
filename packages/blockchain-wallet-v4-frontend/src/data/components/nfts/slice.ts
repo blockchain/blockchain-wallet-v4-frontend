@@ -8,11 +8,9 @@ import {
   GasDataI,
   NftAsset,
   NftAssetsType,
-  NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus,
-  SeaportOffersResponseType,
   SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -33,7 +31,6 @@ const initialState: NftsStateType = {
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
   openSeaAsset: Remote.NotAsked,
-  openSeaSeaportOffers: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     fees: Remote.NotAsked,
@@ -219,22 +216,6 @@ const nftsSlice = createSlice({
     },
     fetchOpenSeaAssetSuccess: (state, action: PayloadAction<NftAsset>) => {
       state.openSeaAsset = Remote.Success(action.payload)
-    },
-    fetchOpenSeaSeaportOffers: (
-      state,
-      action: PayloadAction<{
-        asset_contract_address: string
-        token_id: string
-      }>
-    ) => {},
-    fetchOpenSeaSeaportOffersFailure: (state, action: PayloadAction<string>) => {
-      state.openSeaSeaportOffers = Remote.Failure(action.payload)
-    },
-    fetchOpenSeaSeaportOffersLoading: (state) => {
-      state.openSeaSeaportOffers = Remote.Loading
-    },
-    fetchOpenSeaSeaportOffersSuccess: (state, action: PayloadAction<SeaportOffersResponseType>) => {
-      state.openSeaSeaportOffers = Remote.Success(action.payload)
     },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {

@@ -9,7 +9,6 @@ import {
   GasDataI,
   NftOrderSide,
   OpenSeaAsset,
-  SeaportOffer,
   SeaportRawOrder
 } from '@core/network/api/nfts/types'
 import { makeBigNumber } from 'data/components/nfts/utils'
@@ -68,7 +67,7 @@ export const cancelOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: SeaportRawOrder | SeaportOffer
+  order: SeaportRawOrder
   signer: ethers.Wallet
 }) => {
   // Transact and get the transaction hash
@@ -283,7 +282,7 @@ export const fulfillPrivateOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: SeaportOffer
+  order: SeaportRawOrder
   signer: ethers.Wallet
 }): Promise<string> => {
   let transactionHash: string
@@ -337,7 +336,7 @@ export const fulfillOrder = async ({
 }: {
   accountAddress: string
   gasData: GasDataI
-  order: SeaportOffer | SeaportRawOrder
+  order: SeaportRawOrder
   recipientAddress?: string
   signer: ethers.Wallet
 }): Promise<string> => {

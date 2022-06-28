@@ -6,8 +6,7 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
-  OpenSeaStatus,
-  SeaportOffersResponseType
+  OpenSeaStatus
 } from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
@@ -44,18 +43,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       ignoreQueryParams: true,
       removeDefaultPostData: true,
       url: nftUrl
-    })
-  }
-
-  const getOpenSeaOffersV2 = (
-    network: 'ethereum' | 'rinkeby',
-    asset_contract_address: string,
-    token_id: string
-  ): SeaportOffersResponseType => {
-    return get({
-      endPoint: `/v2/orders/${network}/seaport/offers?asset_contract_address=${asset_contract_address}&token_ids=${token_id}`,
-      ignoreQueryParams: true,
-      url: openSeaUrl
     })
   }
 
@@ -142,7 +129,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   return {
     getNftUserPreferences,
     getOpenSeaAsset,
-    getOpenSeaOffersV2,
     getOpenSeaStatus,
     postNftOrderV1,
     postNftOrderV2,

@@ -60,26 +60,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
-  const fetchOpenSeaSeaportOffers = function* (
-    action: ReturnType<typeof A.fetchOpenSeaSeaportOffers>
-  ) {
-    try {
-      yield put(A.fetchOpenSeaSeaportOffersLoading())
-      const offers: ReturnType<typeof api.getOpenSeaOffersV2> = yield call(
-        api.getOpenSeaOffersV2,
-        IS_TESTNET ? 'rinkeby' : 'ethereum',
-        action.payload.asset_contract_address,
-        action.payload.token_id
-      )
-      yield put(A.fetchOpenSeaSeaportOffersSuccess(offers))
-    } catch (e) {
-      // eslint-disable-next-line
-        console.log(`Error fetching offers: ${e}`)
-      const error = errorHandler(e)
-      yield put(A.fetchOpenSeaSeaportOffersFailure(error))
-    }
-  }
-
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchOpenseaStatusLoading())
@@ -844,7 +824,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     fetchFeesWrapEth,
     fetchNftUserPreferences,
     fetchOpenSeaAsset,
-    fetchOpenSeaSeaportOffers,
     fetchOpenseaStatus,
     formChanged,
     handleRouterChange,

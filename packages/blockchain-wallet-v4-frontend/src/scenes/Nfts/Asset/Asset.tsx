@@ -189,17 +189,12 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
-  const openSeaSeaportOffers = useRemote(selectors.components.nfts.getOpenSeaSeaportOffers)
   const [moreToggle, setIsMore] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
       defaultEthAddr,
-      token_id: id
-    })
-    nftsActions.fetchOpenSeaSeaportOffers({
-      asset_contract_address: contract,
       token_id: id
     })
   }, [contract, id, nftsActions, defaultEthAddr])
@@ -504,10 +499,6 @@ const NftAsset: React.FC<Props> = ({
                         nftsActions.fetchOpenSeaAsset({
                           asset_contract_address: contract,
                           defaultEthAddr,
-                          token_id: id
-                        })
-                        nftsActions.fetchOpenSeaSeaportOffers({
-                          asset_contract_address: contract,
                           token_id: id
                         })
                         setIsRefreshRotating(true)
@@ -865,17 +856,17 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
               <DropdownPadding>
                 <NftDropdown title='Offers'>
-                  {openSeaSeaportOffers.data && openSeaSeaportOffers.data.orders.length > 0 ? (
+                  {seaportBids && seaportBids.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
                         asset={openSeaAsset.data}
                         isOwner={isOwner}
                         columns={['price', 'from', 'expiration', 'action']}
-                        offers={openSeaSeaportOffers.data.orders}
+                        offers={seaportBids}
                         defaultEthAddr={defaultEthAddr}
                       />
                     </ActivityWrapper>
-                  ) : openSeaSeaportOffers.isLoading ? (
+                  ) : openSeaAsset.isLoading ? (
                     <Flex style={{ padding: '12px' }} justifyContent='center'>
                       <SpinningLoader height='14px' width='14px' borderWidth='3px' />
                     </Flex>

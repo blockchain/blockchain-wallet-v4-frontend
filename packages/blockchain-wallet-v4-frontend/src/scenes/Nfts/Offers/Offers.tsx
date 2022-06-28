@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { NftAsset, SeaportOffer } from '@core/network/api/nfts/types'
+import { NftAsset, SeaportRawOrder } from '@core/network/api/nfts/types'
 
 import { NftTableWrapper } from '../Asset/components'
 import OffersTable from './Offers.table'
@@ -25,7 +25,7 @@ type Props = {
   columns?: ('price' | 'amount' | 'from' | 'expiration' | 'action')[]
   defaultEthAddr: string
   isOwner: boolean
-  offers: SeaportOffer[]
+  offers: SeaportRawOrder[]
 }
 
 export default Offers
