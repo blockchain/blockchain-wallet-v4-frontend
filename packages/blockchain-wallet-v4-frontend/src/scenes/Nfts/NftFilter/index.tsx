@@ -337,7 +337,7 @@ const NftFilter: React.FC<Props> = ({
                               <div />
                               {collection.image_url ? (
                                 <NftCollectionImageSmall
-                                  isVerified={collection.safelist_request_status !== 'verified'}
+                                  isVerified={collection.safelist_request_status === 'verified'}
                                   alt='Dapp Logo'
                                   src={collection.image_url}
                                 />

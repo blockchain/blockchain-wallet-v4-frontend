@@ -44,7 +44,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
   `
 
   return assets?.data?.assets?.length ? (
-    <Wrapper style={{ display: 'flex', width: '100%' }}>
+    <Wrapper>
       <MoreAssets>
         <div
           style={{
