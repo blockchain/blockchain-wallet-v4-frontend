@@ -1,9 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from '@reduxjs/toolkit'
+import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import { media } from 'services/styles'
+
+import { getServicePriceUnavailableAnnouncement } from '../selectors'
+import { CloseLink } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,7 +51,8 @@ const Description = styled(Text)`
   `}
 `
 
-const ServicePriceUnavailable = () => {
+const ServicePriceUnavailable = ({ cacheActions }: Props) => {
+  const completeAnnouncement = getServicePriceUnavailableAnnouncement()
   return (
     <Wrapper>
       <MessageWrapper>
@@ -64,8 +72,22 @@ const ServicePriceUnavailable = () => {
           </Description>
         </div>
       </MessageWrapper>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon size='20px' color='grey400' name='close-circle' />
+      </CloseLink>
     </Wrapper>
   )
 }
 
-export default ServicePriceUnavailable
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(ServicePriceUnavailable)

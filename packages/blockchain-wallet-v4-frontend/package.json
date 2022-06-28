@@ -98,6 +98,7 @@
     "bip21": "2.0.3",
     "bitcoinforksjs-lib": "https://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "5.2.0",
+    "boring-avatars": "^1.7.0",
     "bowser": "2.11.0",
     "browser-locale": "1.0.3",
     "connected-react-router": "6.9.1",

@@ -16,6 +16,7 @@ import {
   LoginPayloadType,
   LoginSuccessType,
   MagicLinkRequestPayloadType,
+  MobileAuthLoginPayloadType,
   PlatformTypes,
   ProductAuthMetadata,
   ProductAuthOptions
@@ -124,6 +125,7 @@ const authSlice = createSlice({
     ) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
+    sendLoginMessageToMobile: () => {},
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
       state.accountUnificationFlow = action.payload
     },

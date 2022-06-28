@@ -1,3 +1,4 @@
+import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -29,6 +30,10 @@ export const NftPageV2 = styled.div`
   width: 100%;
   margin: 8px auto;
   box-sizing: border-box;
+  margin-top: -56px;
+  ${media.mobile`
+    margin-top: 0;
+  `}
 `
 
 export const NftPageFullWidth = styled.div`
@@ -91,12 +96,19 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
+  position: relative;
   flex-direction: column;
-  border: ${(props) => `1px solid ${props.theme.grey000}`};
+  height: 340px;
+  ${media.laptopM`
+    height: 100%;
+  `}
+  &:hover {
+    box-shadow: 0px 0px 30px 0px ${(props) => props.theme.grey200};
+    transition: 0.3s ease-out;
+  }
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -109,32 +121,32 @@ export const InfoStatsWrapper = styled.div`
 export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
+  backgroundImage?: string
 }>`
   align-items: center;
   display: flex;
   justify-content: center;
-  max-height: 100%;
+  max-height: fit-content;
   max-width: 100%;
   width: 100%;
-  margin-top: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
   background-position: center;
-  border-radius: 6px;
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
-  margin-top: 12px;
   flex: 1;
   height: 100%;
   display: flex;
+  padding: 0 0.75em 0;
   flex-direction: column;
-  justify-content: space-between;
-  background: ${(props) => props.theme.white};
+  gap: 6px;
+  justify-content: center;
+  background: linear-gradient(270deg, rgba(25, 14, 60, 0.95) 0%, rgba(14, 18, 27, 0.95) 102.1%);
   ${media.laptopL`
     padding-bottom: 4px;
   `}
@@ -143,7 +155,6 @@ export const AssetCollection = styled.div`
   overflow: hidden;
 `
 export const PriceCTA = styled.div`
-  margin-top: 16px;
   display: flex;
   width: 100%;
   align-items: center;
@@ -160,9 +171,7 @@ export const CollectionHeader = styled.div<{ bgUrl?: string }>`
   height: 300px;
   display: flex;
   justify-content: space-between;
-  background-size: cover;
-  background-position: center;
-  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
+  background: center ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : colors.blue700)};
   position: relative;
   ${media.tablet`
     flex-direction: column;
@@ -181,7 +190,7 @@ export const Centered = styled.div`
 //
 export const NftBannerWrapper = styled.div`
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
@@ -212,3 +221,11 @@ export const Stat = styled.div`
     }
   `}
 `
+
+export const AvatarGradientColors = [
+  colors.blue600,
+  colors.purple600,
+  colors.purple300,
+  colors.green300,
+  colors.grey900
+]

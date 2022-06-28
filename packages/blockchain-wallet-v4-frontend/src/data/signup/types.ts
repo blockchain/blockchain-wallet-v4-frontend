@@ -36,6 +36,7 @@ export type RestoringType = undefined
 
 export type SignupStateType = {
   firstLogin: boolean
+  isValidReferralCode?: boolean
   kycReset?: boolean
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   productSignupMetadata?: ProductSignupMetadata

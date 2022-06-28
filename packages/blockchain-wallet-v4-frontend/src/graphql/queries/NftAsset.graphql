@@ -31,10 +31,6 @@ query Asset($filter: [AssetFilter], $limit: Int) {
     }
 		name
     network
-    owners {
-      address
-      profile_img_url 
-    }
     permalink
     token_id
     traits {
