@@ -154,12 +154,12 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
                   <Avatar
-                    size={16}
+                    size={24}
                     name={asset.collection.slug || ''}
                     variant='marble'
                     colors={AvatarGradientColors}
@@ -265,12 +265,12 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
                   <Avatar
-                    size={16}
+                    size={24}
                     name={asset.collection.slug || ''}
                     variant='marble'
                     colors={AvatarGradientColors}

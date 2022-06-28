@@ -17,7 +17,6 @@ export const StyledImage = styled.img<{ height: string; width: string }>`
 `
 const IconWrapper = styled.div`
   position: absolute;
-  top: -4px;
   right: -4px;
   height: 12px;
   width: 12px;

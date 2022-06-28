@@ -335,7 +335,7 @@ const Explore: React.FC<Props> = (props) => {
                       <Flex gap={2} alignItems='center'>
                         {loadedAssets[assetId]?.collection?.safelist_request_status ===
                           'verified' && (
-                          <Icon size='sm' label='verified' color='blue600'>
+                          <Icon size='sm' label='verified' color='orange400'>
                             <IconVerified />
                           </Icon>
                         )}
