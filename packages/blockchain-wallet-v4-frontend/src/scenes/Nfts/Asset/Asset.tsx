@@ -11,6 +11,11 @@ import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import {
+  NULL_ADDRESS,
+  OPENSEA_SHARED_MARKETPLACE,
+  OPENSEA_SHARED_MARKETPLACE_RINKEBY
+} from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
@@ -170,12 +175,15 @@ const NftAsset: React.FC<Props> = ({
   defaultEthAddr,
   domains,
   formActions,
+  isTestnet,
   nftsActions,
   routerActions,
   walletCurrency,
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
+  const IS_SHARED_STOREFRONT =
+    contract === (isTestnet ? OPENSEA_SHARED_MARKETPLACE_RINKEBY : OPENSEA_SHARED_MARKETPLACE)
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
   const [assetQuery, reExecuteQuery] = useAssetQuery({
@@ -217,22 +225,75 @@ const NftAsset: React.FC<Props> = ({
   const isLongEnough = description?.length > 82
 
   // seaport sell orders (aka listing)
-  const seaportAsks =
+  let asks =
     openSeaAsset.data?.seaport_sell_orders
       ?.filter(({ side }) => side === 'ask')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1)) || []
   // seaport buy orders (aka offer)
-  const seaportBids =
+  let bids =
     openSeaAsset.data?.seaport_sell_orders
       ?.filter(({ side }) => side === 'bid')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1)) || []
-  const highestBid = seaportBids[0]
-  const lowestAsk = seaportAsks[0]
-  const isLowestAskDutch = lowestAsk?.protocol_data.parameters.consideration.find(
+  let highestBid = bids[0]
+  let lowestAsk = asks[0]
+  let isLowestAskDutch = !!lowestAsk?.protocol_data.parameters.consideration.find(
     (x) => x.token === window.coins.WETH.coinfig.type.erc20Address
   )
   // TODO: SEAPORT
-  const isLowestAskEnglish = false
+  let isLowestAskEnglish = false
+
+  // TODO: SEAPORT - remove wyvern 👇
+  if (IS_SHARED_STOREFRONT) {
+    let bids_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 0 && x.taker.address !== NULL_ADDRESS
+      }, []) || []
+    // Offers have taker as null address
+    let offers_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 0 && x.taker.address === NULL_ADDRESS
+      }, []) || []
+    bids_LEGACY = bids_LEGACY.length
+      ? bids_LEGACY.sort((a: any, b: any) => {
+          return b.current_price - a.current_price
+        })
+      : []
+    offers_LEGACY = offers_LEGACY.length
+      ? offers_LEGACY.sort((a: any, b: any) => {
+          return b.current_price - a.current_price
+        })
+      : []
+    const asks_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 1
+      }) || []
+    const bidsAndOffers_LEGACY = bids_LEGACY.concat(offers_LEGACY).sort((a: any, b: any) => {
+      return b.current_price - a.current_price
+    })
+    if (offers_LEGACY.length < 1) offers_LEGACY = bids_LEGACY
+    const highestBid_LEGACY = bids_LEGACY[0]
+    const highestOffer_LEGACY = offers_LEGACY[0]
+    const lowestAsk_LEGACY = asks_LEGACY.sort((a, b) =>
+      new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
+    )[0]
+    const isLowestAskDutch_LEGACY = lowestAsk_LEGACY && lowestAsk_LEGACY.sale_kind === 1
+    const isLowestAskEnglish_LEGACY =
+      lowestAsk_LEGACY && !lowestAsk_LEGACY.r && !lowestAsk_LEGACY.s && !lowestAsk_LEGACY.v
+
+    isLowestAskDutch = isLowestAskDutch_LEGACY
+    isLowestAskEnglish = isLowestAskEnglish_LEGACY
+    // @ts-ignore
+    asks = asks_LEGACY
+    // @ts-ignore
+    bids = bidsAndOffers_LEGACY
+    // @ts-ignore
+    lowestAsk = lowestAsk_LEGACY
+    // @ts-ignore
+    highestBid =
+      isLowestAskDutch_LEGACY || isLowestAskEnglish_LEGACY ? highestBid_LEGACY : highestOffer_LEGACY
+  }
+  // TODO: SEAPORT - remove wyvern 👆
+
   const paymentTokenContractSymbol = isLowestAskDutch ? 'WETH' : 'ETH'
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
@@ -738,7 +799,7 @@ const NftAsset: React.FC<Props> = ({
                             </Button>
                           )}
 
-                          {highestBid && !seaportAsks.length ? (
+                          {highestBid && !asks.length ? (
                             <Button
                               data-e2e='acceptNftOffer'
                               nature='dark'
@@ -856,13 +917,13 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
               <DropdownPadding>
                 <NftDropdown title='Offers'>
-                  {seaportBids && seaportBids.length > 0 ? (
+                  {bids && bids.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
                         asset={openSeaAsset.data}
                         isOwner={isOwner}
                         columns={['price', 'from', 'expiration', 'action']}
-                        offers={seaportBids}
+                        offers={bids}
                         defaultEthAddr={defaultEthAddr}
                       />
                     </ActivityWrapper>
@@ -979,6 +1040,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { contract: string; id: string } }
+  isTestnet: boolean
 }
 
 export default connector(NftAsset)

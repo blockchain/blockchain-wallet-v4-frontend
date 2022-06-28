@@ -8,6 +8,10 @@ import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
+  OPENSEA_SHARED_MARKETPLACE,
+  OPENSEA_SHARED_MARKETPLACE_RINKEBY
+} from '@core/redux/payment/nfts/constants'
+import {
   Button,
   CheckBoxInput,
   Image,
@@ -44,6 +48,9 @@ const CTA: React.FC<Props> = ({
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
+  const IS_SHARED_STOREFRONT =
+    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
+    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
 
@@ -185,19 +192,32 @@ const CTA: React.FC<Props> = ({
             fullwidth
             data-e2e='makeOfferNft'
             disabled={disabled || !termsAccepted}
-            onClick={() =>
-              nftActions.createOffer({
-                amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                asset,
-                expirationTime: getUnixTime(
-                  addMinutes(new Date(), parseInt(formValues.expirationMinutes))
-                ),
-                offerFees,
-                wrapFees,
-                ...formValues,
-                amount: cryptoAmt
-              })
-            }
+            onClick={() => {
+              if (IS_SHARED_STOREFRONT) {
+                nftActions.createOffer_LEGACY({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues
+                })
+              } else {
+                nftActions.createOffer({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues,
+                  amount: cryptoAmt
+                })
+              }
+            }}
           >
             {cryptoAmt && Number(cryptoAmt) > 0 ? (
               orderFlow.isSubmitting ? (

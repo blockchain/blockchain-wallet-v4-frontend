@@ -3,6 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
+import {
+  OPENSEA_SHARED_MARKETPLACE,
+  OPENSEA_SHARED_MARKETPLACE_RINKEBY
+} from '@core/redux/payment/nfts/constants'
 import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -10,18 +14,35 @@ import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
+import { NftMakeOfferFormValues } from '.'
 
 const Fees: React.FC<Props> = (props: Props) => {
-  const { nftActions, orderFlow } = props
+  const { asset, formValues, nftActions, orderFlow } = props
+  const { coin } = formValues
+  const IS_SHARED_STOREFRONT =
+    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE_RINKEBY ||
+    asset.asset_contract.address === OPENSEA_SHARED_MARKETPLACE
 
   useEffect(() => {
-    nftActions.fetchFees({
-      amount: '0.000001',
-      asset: props.asset,
-      // TODO: SEAPORT
-      coin: 'WETH',
-      operation: GasCalculationOperations.CreateOffer
-    })
+    if (IS_SHARED_STOREFRONT) {
+      // Default to WETH
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const WETH = window.coins.WETH.coinfig.type.erc20Address!
+
+      nftActions.fetchFees_LEGACY({
+        asset: props.asset,
+        offer: '0.000001',
+        operation: GasCalculationOperations.CreateOffer,
+        paymentTokenAddress: WETH
+      })
+    } else {
+      nftActions.fetchFees({
+        amount: '0.000001',
+        asset,
+        coin,
+        operation: GasCalculationOperations.CreateOffer
+      })
+    }
   }, [])
 
   return (
@@ -72,6 +93,6 @@ const Fees: React.FC<Props> = (props: Props) => {
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps & { asset: NftAsset; formValues: NftMakeOfferFormValues }
 
 export default Fees

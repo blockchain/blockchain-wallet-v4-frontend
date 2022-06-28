@@ -8,10 +8,12 @@ import {
   GasDataI,
   NftAsset,
   NftAssetsType,
+  NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus,
-  SeaportRawOrder
+  SeaportRawOrder,
+  WyvernRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
@@ -34,13 +36,16 @@ const initialState: NftsStateType = {
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     fees: Remote.NotAsked,
+    fees_LEGACY: Remote.NotAsked,
     isSubmitting: false,
+    matchingOrder_LEGACY: Remote.NotAsked,
     prevStep: null,
     seaportOrder: null,
     status: null,
     step: null,
     userHasPendingTxR: Remote.NotAsked,
-    wrapEthFees: Remote.NotAsked
+    wrapEthFees: Remote.NotAsked,
+    wyvernOrder: null
   },
   search: Remote.NotAsked,
   userPreferences: Remote.NotAsked
@@ -74,6 +79,10 @@ const nftsSlice = createSlice({
         seaportOrder: SeaportRawOrder | null
       }>
     ) => {},
+    cancelOffer_LEGACY: (
+      state,
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: WyvernRawOrder | null }>
+    ) => {},
     createOffer: (
       state,
       action: PayloadAction<{
@@ -84,6 +93,18 @@ const nftsSlice = createSlice({
         expirationTime: number
         offerFees: GasDataI
         wrapFees: GasDataI
+      }>
+    ) => {},
+    createOffer_LEGACY: (
+      state,
+      action: PayloadAction<{
+        amount?: string
+        amtToWrap?: string
+        asset: NftAsset
+        coin?: string
+        expirationTime: number
+        offerFees: GasDataI
+        wrapFees?: GasDataI
       }>
     ) => {},
     createOrder: (
@@ -165,6 +186,7 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ operation: GasCalculationOperations.WrapEth }>
     ) => {},
+
     fetchFeesWrapEthFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.wrapEthFees = Remote.Failure(action.payload)
     },
@@ -177,6 +199,57 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.wrapEthFees = Remote.Success(action.payload)
     },
+    fetchFees_LEGACY: (
+      state,
+      action: PayloadAction<
+        | {
+            operation: GasCalculationOperations.AcceptOffer
+            order: WyvernRawOrder
+          }
+        | {
+            asset: NftAsset
+            offer: string
+            operation: GasCalculationOperations.CreateOffer
+            paymentTokenAddress: string
+          }
+        | {
+            operation: GasCalculationOperations.Buy
+            order: WyvernRawOrder
+            paymentTokenAddress?: string
+          }
+        | {
+            asset: NftAsset
+            endPrice?: number
+            expirationMinutes: number
+            operation: GasCalculationOperations.Sell
+            paymentTokenAddress?: string
+            reservePrice?: number
+            startPrice: number
+            waitForHighestBid?: boolean
+          }
+        | {
+            asset: NftAsset
+            operation: GasCalculationOperations.Transfer
+            to: string
+          }
+        | {
+            operation: GasCalculationOperations.Cancel
+            order: WyvernRawOrder
+          }
+      >
+    ) => {},
+    fetchFees_LEGACY_Failure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.fees = Remote.Failure(action.payload)
+    },
+    fetchFees_LEGACY_Loading: (state) => {
+      state.orderFlow.fees = Remote.Loading
+    },
+    fetchFees_LEGACY_Success: (
+      state,
+      action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
+    ) => {
+      state.orderFlow.fees = Remote.Success(action.payload)
+    },
     fetchLatestPendingTxsFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.userHasPendingTxR = Remote.Failure(action.payload)
     },
@@ -185,6 +258,19 @@ const nftsSlice = createSlice({
     },
     fetchLatestPendingTxsSuccess: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.userHasPendingTxR = Remote.Success(action.payload)
+    },
+    fetchMatchingOrder_LEGACY: (state) => {},
+    fetchMatchingOrder_LEGACY_Failure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.matchingOrder_LEGACY = Remote.Failure(action.payload)
+    },
+    fetchMatchingOrder_LEGACY_Loading: (state) => {
+      state.orderFlow.matchingOrder_LEGACY = Remote.Loading
+    },
+    fetchMatchingOrder_LEGACY_Success: (
+      state,
+      action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
+    ) => {
+      state.orderFlow.matchingOrder_LEGACY = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
     fetchNftUserPreferences: (state) => {},
@@ -276,6 +362,58 @@ const nftsSlice = createSlice({
 
       if (action.payload.seaportOrder) {
         state.orderFlow.seaportOrder = action.payload.seaportOrder
+      }
+      // @ts-ignore
+      if (action.payload.wyvernOrder) {
+        // @ts-ignore
+        state.orderFlow.wyvernOrder = action.payload.wyvernOrder
+      }
+    },
+    nftOrderFlowOpen_LEGACY: (
+      state,
+      action: PayloadAction<
+        | {
+            asset_contract_address: string
+            order: WyvernRawOrder
+            step: NftOrderStepEnum.CANCEL_OFFER
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            order: WyvernRawOrder
+            step: NftOrderStepEnum.ACCEPT_OFFER
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            order: WyvernRawOrder
+            step: NftOrderStepEnum.BUY
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            order: WyvernRawOrder
+            step: NftOrderStepEnum.CANCEL_LISTING
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            order?: never
+            step: NftOrderStepEnum.MAKE_OFFER
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            order?: never
+            step: NftOrderStepEnum
+            token_id: string
+          }
+      >
+    ) => {
+      state.orderFlow.step = action.payload.step
+
+      if (action.payload.order) {
+        state.orderFlow.wyvernOrder = action.payload.order
       }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},

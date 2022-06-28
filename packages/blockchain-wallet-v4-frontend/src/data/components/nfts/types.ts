@@ -4,8 +4,10 @@ import {
   NftAsset,
   NftAssetsType,
   NftCollection,
+  NftOrder,
   NftUserPreferencesReturnType,
-  SeaportRawOrder
+  SeaportRawOrder,
+  WyvernRawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
@@ -65,13 +67,16 @@ export type NftsStateType = {
   >
   orderFlow: {
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    fees_LEGACY: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
+    matchingOrder_LEGACY: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
     prevStep: NftOrderStepEnum | null
     seaportOrder: SeaportRawOrder | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
     userHasPendingTxR: RemoteDataType<string, boolean>
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    wyvernOrder: WyvernRawOrder | null
   }
   search: RemoteDataType<string, ExplorerGatewaySearchType>
   userPreferences: RemoteDataType<string, NftUserPreferencesReturnType>

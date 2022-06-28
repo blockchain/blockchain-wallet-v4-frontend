@@ -7,7 +7,16 @@ import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
-import { calculateGasFees, executeWrapEth, fulfillTransfer } from '@core/redux/payment/nfts'
+import {
+  calculateGasFees,
+  cancelNftOrder,
+  executeWrapEth,
+  fulfillNftOrder,
+  fulfillTransfer,
+  getNftBuyOrder,
+  getNftMatchingOrders,
+  getNftSellOrder
+} from '@core/redux/payment/nfts'
 import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import {
   calculateSeaportGasFees,
@@ -16,6 +25,7 @@ import {
   createSellOrder as createSeaportSellOrder,
   fulfillOrder as fulfillSeaportOrder
 } from '@core/redux/payment/nfts/seaport'
+import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
@@ -28,7 +38,7 @@ import profileSagas from '../../modules/profile/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { NftOrderStatusEnum, NftOrderStepEnum } from './types'
-import { assetFromJSON, nonTraitFilters } from './utils'
+import { assetFromJSON, nonTraitFilters, orderFromJSON } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 export const WALLET_SIGNER_ERR = 'Error getting eth wallet signer.'
@@ -812,16 +822,315 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  // TODO: SEAPORT - remove wyvern 👇
+  const fetchFees_LEGACY = function* (action: ReturnType<typeof A.fetchFees_LEGACY>) {
+    try {
+      yield put(A.fetchFees_LEGACY_Loading())
+      const signer: ethers.Wallet = yield call(getEthSigner)
+      let fees
+
+      try {
+        yield put(A.fetchLatestPendingTxsLoading())
+        const { transactions: tx } = yield call(api.getEthTransactionsV2, signer.address, 0, 1)
+        const isLatestTxPending =
+          tx[0] && tx[0].state === 'PENDING' && tx[0].from === signer.address
+        yield put(A.fetchLatestPendingTxsSuccess(isLatestTxPending))
+      } catch (e) {
+        yield put(A.fetchLatestPendingTxsFailure('Error fetching pending txs'))
+      }
+
+      if (action.payload.operation === GasCalculationOperations.Buy) {
+        try {
+          const { order } = action.payload
+          yield put(A.fetchMatchingOrder_LEGACY_Loading())
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
+            orderFromJSON(order),
+            signer,
+            undefined,
+            IS_TESTNET ? 'rinkeby' : 'mainnet',
+            action.payload.paymentTokenAddress
+          )
+          fees = yield call(
+            calculateGasFees,
+            GasCalculationOperations.Buy,
+            signer,
+            undefined,
+            buy,
+            sell
+          )
+          yield put(A.fetchMatchingOrder_LEGACY_Success({ buy, sell }))
+        } catch (e) {
+          const error = errorHandler(e)
+          yield put(A.fetchMatchingOrder_LEGACY_Failure(error))
+          throw e
+        }
+      } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
+        const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+          getNftBuyOrder,
+          action.payload.asset,
+          signer,
+          undefined,
+          Number(action.payload.offer),
+          action.payload.paymentTokenAddress,
+          IS_TESTNET ? 'rinkeby' : 'mainnet'
+        )
+
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.CreateOffer,
+          signer,
+          undefined,
+          buy
+        )
+      } else if (action.payload.operation === GasCalculationOperations.AcceptOffer) {
+        const { order } = action.payload
+        yield put(A.fetchMatchingOrder_LEGACY_Loading())
+        try {
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
+            orderFromJSON(order),
+            signer,
+            undefined,
+            IS_TESTNET ? 'rinkeby' : 'mainnet'
+          )
+          fees = yield call(
+            calculateGasFees,
+            GasCalculationOperations.AcceptOffer,
+            signer,
+            undefined,
+            buy,
+            sell
+          )
+          yield put(A.fetchMatchingOrder_LEGACY_Success({ buy, sell }))
+        } catch (e) {
+          const error = errorHandler(e)
+          yield put(A.fetchMatchingOrder_LEGACY_Failure(error))
+          throw e
+        }
+      } else if (action.payload.operation === GasCalculationOperations.Cancel) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Cancel,
+          signer,
+          action.payload.order
+        )
+      } else if (action.payload.operation === GasCalculationOperations.Sell) {
+        let listingTime = getUnixTime(addSeconds(new Date(), 10))
+        let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
+
+        // For english auctions, order executes at listing time
+        // highest bidder wins the auction
+        if (action.payload.waitForHighestBid) {
+          listingTime = expirationTime
+          expirationTime = getUnixTime(
+            addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+          )
+        }
+
+        const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+          getNftSellOrder,
+          action.payload.asset,
+          signer,
+          listingTime,
+          expirationTime,
+          action.payload.startPrice,
+          action.payload.endPrice,
+          action.payload.reservePrice,
+          IS_TESTNET ? 'rinkeby' : 'mainnet',
+          action.payload.waitForHighestBid,
+          action.payload.paymentTokenAddress
+        )
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Sell,
+          signer,
+          undefined,
+          undefined,
+          order
+        )
+      } else if (action.payload.operation === GasCalculationOperations.Transfer) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Transfer,
+          signer,
+          undefined,
+          undefined,
+          undefined,
+          action.payload.asset,
+          action.payload.to
+        )
+      } else {
+        throw new Error('Invalid gas operation')
+      }
+
+      yield put(A.fetchFees_LEGACY_Success(fees as GasDataI))
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+      const error = errorHandler(e)
+      yield put(A.fetchFees_LEGACY_Failure(error))
+    }
+  }
+
+  const createOffer_LEGACY = function* (action: ReturnType<typeof A.createOffer>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+    const coin = action?.payload?.coin || ''
+    const amount = Number(action?.payload?.amount)
+    const amount_usd = yield call(getAmountUsd, coin, amount)
+    try {
+      const guid = yield call(getGuid)
+      const signer: ethers.Wallet = yield call(getEthSigner)
+      if (!action.payload.coin) throw new Error('No coin selected for offer.')
+      const { coinfig } = window.coins[action.payload.coin]
+      if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
+      const { expirationTime } = action.payload
+
+      if (action.payload.amtToWrap && action.payload.wrapFees && coin === 'WETH') {
+        yield put(A.setNftOrderStatus(NftOrderStatusEnum.WRAP_ETH))
+        const amount = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin: 'WETH',
+          value: action.payload.amtToWrap
+        })
+        yield call(executeWrapEth, signer, amount, action.payload.wrapFees)
+        yield put(actions.core.data.eth.fetchData())
+        yield put(actions.core.data.eth.fetchErc20Data())
+      }
+
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+      const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+        getNftBuyOrder,
+        action.payload.asset,
+        signer,
+        expirationTime,
+        Number(action.payload.amount || '0'),
+        coinfig.type.erc20Address,
+        IS_TESTNET ? 'rinkeby' : 'mainnet'
+      )
+      const gasData = action.payload.offerFees
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
+      const retailToken = yield call(generateRetailToken)
+      const order = yield call(fulfillNftOrder, { buy, gasData, signer })
+      yield call(api.postNftOrderV1, order, action.payload.asset.collection.slug, guid, retailToken)
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+      yield put(actions.form.reset('nftMakeOffer'))
+    } catch (e) {
+      let error = errorHandler(e)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER }))
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to create this offer.'
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
+
+  const cancelOffer_LEGACY = function* (action: ReturnType<typeof A.cancelOffer_LEGACY>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+    const coin = action?.payload?.order?.payment_token_contract?.symbol || ''
+    const amount = Number(
+      convertCoinToCoin({
+        baseToStandard: true,
+        coin,
+        value: action?.payload?.order?.current_price?.toString() || ''
+      })
+    )
+    const amount_usd = yield call(getAmountUsd, coin, amount)
+    try {
+      if (!action.payload.order) {
+        throw new Error('No offer found. It may have expired already!')
+      }
+      const signer: ethers.Wallet = yield call(getEthSigner)
+      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+    } catch (e) {
+      let error = errorHandler(e)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_OFFER_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to cancel this offer.'
+      yield put(actions.alerts.displayError(error))
+      yield put(actions.logs.logErrorMessage(error))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
+  // TODO: SEAPORT - remove wyvern 👆
+
   return {
     acceptOffer,
     cancelListing,
     cancelOffer,
+    cancelOffer_LEGACY,
     createOffer,
+    createOffer_LEGACY,
     createOrder,
     createSellOrder,
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
+    fetchFees_LEGACY,
     fetchNftUserPreferences,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,

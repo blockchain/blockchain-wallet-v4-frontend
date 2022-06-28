@@ -55,7 +55,7 @@ const CancelOffer: React.FC<Props> = (props) => {
         </NftFlyoutRow>
       </div>
       <StickyCTA>
-        <CancelOfferFees {...props} />
+        <CancelOfferFees {...props} asset={asset} />
         <br />
         <CancelOfferCTA {...props} asset={asset} />
       </StickyCTA>
