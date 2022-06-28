@@ -428,7 +428,7 @@ export default ({ api, coreSagas, networks }) => {
         line1,
         line2,
         postCode,
-        state: state.code
+        state: state?.code ?? null
       }
 
       yield call(updateUser, { payload: { data: personalData } })
