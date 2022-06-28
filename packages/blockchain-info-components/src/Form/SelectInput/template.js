@@ -163,7 +163,7 @@ const Option = (props) => {
 
 const ValueContainer = ({ children, ...props }) => {
   const selectInput = React.Children.map(children, (child) => {
-    return child.props.id === INPUT_ID ? child : null
+    return child && child.props && child.props.id === INPUT_ID ? child : null
   })
   const displayProps = assoc(
     'text',
