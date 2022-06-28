@@ -550,7 +550,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
     yield put(A.confirmOrderSuccess(confirmedOrder))
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
-    yield put(A.fetchOrders())
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
@@ -754,7 +753,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
         // Now we need to poll for the order success
-        return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+        yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
 
       // Refresh recurring buy list to check for new pending RBs for next step
@@ -770,9 +769,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
       ) {
-        yield put(A.confirmOrderSuccess(confirmedOrder))
+        // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
+        if (confirmedOrder.state !== 'FINISHED') {
+          yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+        } else {
+          yield put(A.confirmOrderSuccess(confirmedOrder))
 
-        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+        }
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
