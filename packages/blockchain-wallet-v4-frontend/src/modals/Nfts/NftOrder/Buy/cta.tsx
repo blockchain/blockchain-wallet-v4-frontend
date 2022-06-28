@@ -6,6 +6,7 @@ import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import * as lz from 'lz-string'
+import styled from 'styled-components'
 
 import {
   Button,
@@ -28,6 +29,14 @@ import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
+
+export const CheckboxWraper = styled(Flex)<{ termsAccepted: boolean }>`
+  background: ${(props) => (props.termsAccepted ? colors.white900 : colors.grey000)};
+  border: 1px solid ${colors.grey100};
+  border-radius: 8px;
+  margin: 1em 0em;
+  justify-content: center;
+`
 
 const CTA: React.FC<Props> = (props) => {
   const {
@@ -175,15 +184,7 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <Flex
-              style={{
-                background: termsAccepted ? colors.white900 : colors.grey000,
-                border: `1px solid ${colors.grey100}`,
-                borderRadius: '8px',
-                margin: '1em 0em'
-              }}
-              justifyContent='center'
-            >
+            <CheckboxWraper termsAccepted={termsAccepted}>
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
                 <CheckBoxInput
@@ -216,7 +217,7 @@ const CTA: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </label>
-            </Flex>
+            </CheckboxWraper>
             <Button
               onClick={() =>
                 nftActions.createOrder({
