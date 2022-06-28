@@ -15,6 +15,8 @@ import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+const FORM_NAME = 'dexSwapSettings'
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -34,6 +36,7 @@ const SlippageButtons = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-top: 8px;
+
   > button {
     width: calc(25% - 8px);
     min-width: calc(25% - 8px);
@@ -67,7 +70,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
   const activeSlippage = determineActiveSlippage(formValues)
 
   return (
-    <Modal size='medium' position={position} total={total} style={{ padding: '24px' }}>
+    <Modal size='small' position={position} total={total} style={{ padding: '24px' }}>
       <Header>
         <Text color='textBlack' lineHeight='135%' size='24px' weight={600}>
           <FormattedMessage id='copy.swap_settings' defaultMessage='Swap Settings' />
@@ -90,7 +93,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
           <SlippageButtons>
             {['0.5', '2', '5', 'auto'].map((val) => (
               <Button
-                className={activeSlippage === val && !formValues.customSlippage ? 'active' : ''}
+                className={activeSlippage === val && !formValues?.customSlippage ? 'active' : ''}
                 data-e2e={`dexSlippage${val}Btn`}
                 height='48px'
                 key={val}
@@ -136,7 +139,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
 }
 
 const mapStateToProps = (state: RootState) => ({
-  formValues: getFormValues('dexSwapSettings')(state) as FormFieldProps
+  formValues: getFormValues(FORM_NAME)(state) as FormFieldProps
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -161,7 +164,7 @@ const enhance = compose<React.ComponentType>(
   connector,
   reduxForm({
     destroyOnUnmount: false,
-    form: 'dexSwapSettings'
+    form: FORM_NAME
   })
 )
 

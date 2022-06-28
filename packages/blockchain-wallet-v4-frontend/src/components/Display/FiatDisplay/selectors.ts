@@ -25,7 +25,6 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const convert = (currency, rates) => {
     if (isFiat) {
       if (coin === currency) return fiatToString({ unit: currency, value: amount })
-
       value = Exchange.convertFiatToFiat({
         fromCurrency: coin,
         rates,
@@ -34,6 +33,7 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
       })
       return fiatToString({ unit: currency, value })
     }
+
     return Exchange.displayCoinToFiat({
       rates: defaultRates || rates,
       toCurrency: defaultCurrency || currency,

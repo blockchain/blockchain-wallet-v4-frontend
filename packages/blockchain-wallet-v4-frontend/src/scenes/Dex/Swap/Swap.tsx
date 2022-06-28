@@ -81,13 +81,29 @@ const DexSwap = ({ modalActions }: Props) => {
         </SettingsIcon>
       </Header>
       <SwapWrapper>
-        <PairWrapper />
+        <PairWrapper>
+          <div
+            onClick={() => {
+              modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex' })
+            }}
+          >
+            <span>Select</span>
+          </div>
+        </PairWrapper>
         <PairTransition>
           <Icon label='arrow down' color='grey400' size='sm'>
             <IconDeposit />
           </Icon>
         </PairTransition>
-        <PairWrapper />
+        <PairWrapper>
+          <div
+            onClick={() => {
+              modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex' })
+            }}
+          >
+            <span>Select</span>
+          </div>
+        </PairWrapper>
       </SwapWrapper>
       <Button data-e2e='swap' fullwidth jumbo nature='primary' style={{ marginTop: '20px' }}>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />

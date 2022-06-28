@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 
 import { CoinfigType, CoinType } from '@core/types'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 
 import Loading from '../Auth/template.loading'
 import DexTemplate from './DexTemplate'
 
 const DexContainer = (props) => {
-  const { component: Component, isCoinDataLoaded, pageTitle, path, ...rest } = props
+  const { coinsActions, component: Component, isCoinDataLoaded, pageTitle, path, ...rest } = props
   if (pageTitle) document.title = pageTitle
+
+  useEffect(() => {
+    if (isCoinDataLoaded) {
+      coinsActions.fetchCoinsRates()
+    }
+  }, [coinsActions, isCoinDataLoaded])
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
@@ -33,7 +40,11 @@ const mapStateToProps = (state) => ({
   pathname: selectors.router.getPathname(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector> & {
   coin?: CoinType

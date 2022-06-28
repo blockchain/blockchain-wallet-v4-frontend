@@ -34,6 +34,7 @@ const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 
 // DEX
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
+const DexSelectToken = React.lazy(() => import('./Dex/SelectToken'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
@@ -173,6 +174,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DEX_SWAP_SETTINGS) ? (
           <DexSwapSettings />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.DEX_TOKEN_SELECT) ? (
+          <DexSelectToken />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
