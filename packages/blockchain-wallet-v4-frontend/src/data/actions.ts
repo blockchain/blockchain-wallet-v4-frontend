@@ -8,6 +8,7 @@ import { actions as auth } from './auth/slice'
 import { actions as cache } from './cache/slice'
 import * as components from './components/actions'
 import { actions as custodial } from './custodial/slice'
+import { actions as dex } from './dex/slice'
 import * as form from './form/actions'
 import { actions as goals } from './goals/slice'
 import { actions as logs } from './logs/slice'
@@ -15,7 +16,6 @@ import * as middleware from './middleware/actions'
 import * as ws from './middleware/webSocket/coins/actions'
 import { actions as misc } from './misc/slice'
 import { actions as modals } from './modals/slice'
-// import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
 import { actions as prices } from './prices/slice'
@@ -31,6 +31,7 @@ export {
   components,
   core,
   custodial,
+  dex,
   form,
   goals,
   logs,

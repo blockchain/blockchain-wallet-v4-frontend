@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { actions } from 'data'
 import { media } from 'services/styles'
 
 import { DEX_INTRO_VIEWED_KEY } from './Dex.model'
@@ -29,7 +32,11 @@ const ContentWrapper = styled.div`
   `}
 `
 
-const Dex = () => {
+const Dex = ({ dexActions }: Props) => {
+  useEffect(() => {
+    dexActions.fetchDexChains()
+  }, [dexActions])
+
   const wasIntroViewed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
   return (
     <PageWrapper>
@@ -38,4 +45,12 @@ const Dex = () => {
   )
 }
 
-export default Dex
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  dexActions: bindActionCreators(actions.dex, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(Dex)

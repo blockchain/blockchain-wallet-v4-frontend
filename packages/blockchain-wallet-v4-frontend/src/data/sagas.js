@@ -2,6 +2,7 @@ import * as analytics from './analytics/sagas'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
 import * as custodial from './custodial/sagas'
+import * as dex from './dex/sagas'
 import * as middleware from './middleware/sagas'
 import * as misc from './misc/sagas'
 import * as modules from './modules/sagas'
@@ -9,7 +10,6 @@ import * as preferences from './preferences/sagas'
 import * as prices from './prices/sagas'
 import * as router from './router/sagas'
 import * as session from './session/sagas'
-import * as signup from './signup/sagas'
 import * as wallet from './wallet/sagas'
 
 export {
@@ -17,6 +17,7 @@ export {
   auth,
   components,
   custodial,
+  dex,
   middleware,
   misc,
   modules,

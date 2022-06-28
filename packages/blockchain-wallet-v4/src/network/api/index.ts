@@ -6,6 +6,7 @@ import buySell from './buySell'
 import coin from './coin'
 import custodial from './custodial'
 import debitCard from './debitCard'
+import dex from './dex'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -51,6 +52,10 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
       nabuUrl,
+      ...http
+    }),
+    ...dex({
+      apiUrl,
       ...http
     }),
     ...eth({ apiUrl, openSeaApi, ...http }),
@@ -112,6 +117,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof coin> &
   ReturnType<typeof custodial> &
   ReturnType<typeof debitCard> &
+  ReturnType<typeof dex> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof kyc> &
