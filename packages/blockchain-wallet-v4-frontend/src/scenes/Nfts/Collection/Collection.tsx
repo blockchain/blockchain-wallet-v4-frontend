@@ -33,6 +33,7 @@ import {
 } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
+import { FIXED_HEADER_HEIGHT } from '../../../layouts/Nfts/NftsHeader'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
@@ -93,10 +94,10 @@ const LinksContainer = styled.div`
 
 const OuterCollectionInfo = styled.div`
   position: sticky;
-  top: calc(56px);
+  top: calc(${FIXED_HEADER_HEIGHT});
   display: flex;
   z-index: 21;
-  background: white;
+  background: ${(props) => props.theme.white};
   border-bottom: 1px solid ${colors.grey000};
 `
 

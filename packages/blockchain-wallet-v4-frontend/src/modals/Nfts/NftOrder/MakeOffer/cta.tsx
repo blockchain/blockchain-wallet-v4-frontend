@@ -24,7 +24,7 @@ import { DeepLinkGoal } from 'data/types'
 import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
-import { CheckboxWraper } from '../Buy/cta'
+import { CheckboxWrapper } from '../Buy/cta'
 import { Props as OwnProps } from '.'
 
 const CTA: React.FC<Props> = ({
@@ -142,7 +142,7 @@ const CTA: React.FC<Props> = ({
         </Text>
       ) : null}
       {disabled ? null : (
-        <CheckboxWraper termsAccepted={termsAccepted}>
+        <CheckboxWrapper termsAccepted={termsAccepted}>
           {' '}
           <div style={{ padding: '1.2em 0em' }}>
             <CheckBoxInput
@@ -167,7 +167,7 @@ const CTA: React.FC<Props> = ({
               </Link>
             </Text>
           </label>
-        </CheckboxWraper>
+        </CheckboxWrapper>
       )}
       {needsWrap && !canWrap ? (
         <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
