@@ -76,6 +76,13 @@ const SortByWrapper = styled.div`
 `}
 `
 
+const ClosedBackground = styled.div`
+  background: grey400;
+  border-radius: 50%;
+  line-height: 0;
+  margin-left: 8px;
+`
+
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
@@ -272,14 +279,7 @@ const TraitGridFilters: React.FC<Props> = ({
               <Text size='12px' lineHeight='18px' color='grey900' weight={600} capitalize>
                 Collection: {collectionFilter}
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close-circle' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -295,7 +295,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     }}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}
@@ -306,14 +306,7 @@ const TraitGridFilters: React.FC<Props> = ({
                 Event:{' '}
                 <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -321,7 +314,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     onClick={() => formActions.change('nftFilter', `event`, undefined)}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}
@@ -331,14 +324,7 @@ const TraitGridFilters: React.FC<Props> = ({
               <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
                 Buy Now
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -346,7 +332,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     onClick={() => formActions.change('nftFilter', `forSale`, undefined)}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}
@@ -356,14 +342,7 @@ const TraitGridFilters: React.FC<Props> = ({
               <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
                 Verified Only
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -371,7 +350,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     onClick={() => formActions.change('nftFilter', `verifiedOnly`, undefined)}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}

@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
+import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -18,11 +19,13 @@ import {
   Text
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import { Flex } from 'components/Flex'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
+import { CheckboxWraper } from '../Buy/cta'
 import { Props as OwnProps } from '.'
 
 const CTA: React.FC<Props> = ({
@@ -48,7 +51,6 @@ const CTA: React.FC<Props> = ({
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
-
   const disabled =
     !formValues.amount ||
     Number(formValues.amount) <= 0 ||
@@ -139,16 +141,7 @@ const CTA: React.FC<Props> = ({
         </Text>
       ) : null}
       {disabled ? null : (
-        <div
-          style={{
-            background: termsAccepted ? colors.white900 : Color('greyFade000'),
-            border: `1px solid ${colors.grey000}`,
-            borderRadius: '8px',
-            display: 'flex',
-            justifyContent: 'center',
-            margin: '1em 0em'
-          }}
-        >
+        <CheckboxWraper termsAccepted={termsAccepted}>
           {' '}
           <div style={{ padding: '1.2em 0em' }}>
             <CheckBoxInput
@@ -173,7 +166,7 @@ const CTA: React.FC<Props> = ({
               </Link>
             </Text>
           </label>
-        </div>
+        </CheckboxWraper>
       )}
       {needsWrap && !canWrap ? (
         <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>

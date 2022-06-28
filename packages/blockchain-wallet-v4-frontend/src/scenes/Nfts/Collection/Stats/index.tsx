@@ -36,14 +36,6 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             </Text>
           </Stat>
         ) : null}
-        {/* <Stat>
-          <Text size='16px' weight={500} color='grey600'>
-            <FormattedMessage id='copy.owners' defaultMessage='Owners' />
-          </Text>
-          <Text size='16px' color='black' weight={600}>
-            {numeral(stats?.num_owners).format('0,0')}
-          </Text>
-        </Stat> */}
         {typeof stats?.total_volume === 'number' ? (
           <Stat>
             <Text size='16px' weight={500} color='grey400'>
