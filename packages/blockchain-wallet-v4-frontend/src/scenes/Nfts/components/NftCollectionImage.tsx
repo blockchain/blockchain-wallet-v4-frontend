@@ -36,7 +36,7 @@ const NftCollectionImage: React.FC<Props> = ({ alt, isVerified, src }) => {
     <Wrapper>
       {isVerified ? (
         <IconWrapper>
-          <Icon label='verified' color='blue600'>
+          <Icon label='verified' color='orange400'>
             <IconVerified />
           </Icon>
         </IconWrapper>

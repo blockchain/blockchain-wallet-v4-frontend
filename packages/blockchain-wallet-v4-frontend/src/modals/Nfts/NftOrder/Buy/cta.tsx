@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import {
   Button,
   CheckBoxInput,
+  Color,
   HeartbeatLoader,
   Image,
   Link,
@@ -31,8 +32,8 @@ import { Props as OwnProps } from '..'
 import { getData } from './selectors'
 
 export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
-  background: ${(props) => (props.termsAccepted ? colors.white900 : colors.grey000)};
-  border: 1px solid ${colors.grey100};
+  background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
+  border: 1px solid ${colors.grey000};
   border-radius: 8px;
   margin: 1em 0em;
   justify-content: center;

@@ -45,11 +45,11 @@ const NftDropdown: React.FC<Props> = ({
   return (
     <Wrapper>
       <Top onClick={toggleDropdown}>
-        <Text weight={600} size='14px' color='grey900'>
+        <Text weight={600} size='16px' color='grey900'>
           {title}
         </Text>
         <Flex alignItems='center' gap={8}>
-          <Text weight={600} size='14px'>
+          <Text weight={600} size='16px'>
             {titleRight || ''}
           </Text>
           <IconWrapper>
