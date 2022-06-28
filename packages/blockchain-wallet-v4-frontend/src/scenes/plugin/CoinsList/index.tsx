@@ -1,20 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import CoinsList from './CoinsList'
+import CoinsVirtList from './CoinsVirtList'
 import Header from './Header'
 
 const Wrapper = styled.div`
   height: 100%;
 `
 
-export const CoinView = () => {
+const CoinList = () => {
   return (
     <Wrapper>
       <Header />
-      <CoinsList />
+      <CoinsVirtList />
     </Wrapper>
   )
 }
 
-export default CoinView
+export default CoinList

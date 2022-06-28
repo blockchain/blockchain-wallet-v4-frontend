@@ -25,7 +25,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import { CoinView } from './plugin/CoinView'
+import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
 
 const queryClient = new QueryClient()
@@ -122,9 +122,9 @@ const App = ({
                         {/* Unauthenticated Wallet routes */}
                         <Route path='/app-error' component={AppError} />
                         <PluginLayout
-                          path='/coinview'
+                          path='/plugin/coinslist'
                           footer={<HomeNavbar />}
-                          component={CoinView}
+                          component={CoinsList}
                         />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
