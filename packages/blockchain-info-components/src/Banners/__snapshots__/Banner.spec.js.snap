@@ -82,6 +82,21 @@ exports[`Banner component type success renders correctly 1`] = `
 </styled.div>
 `;
 
+exports[`Banner component type success without icon renders correctly 1`] = `
+<styled.div
+  color="success"
+>
+  <Styled(Text)
+    color="success"
+    size="12px"
+    uppercase={false}
+    weight={500}
+  >
+    SUCCESS
+  </Styled(Text)>
+</styled.div>
+`;
+
 exports[`Banner component type warning renders correctly 1`] = `
 <styled.div
   color="error"

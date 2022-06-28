@@ -9,10 +9,12 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from '@core/types'
+import { BannerType as BType } from './src/Banners'
 
 export type AllCoinsType = WalletCurrencyType | 'STX'
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
+export const BannerType: typeof BType
 export const Box: FunctionComponent<any>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
