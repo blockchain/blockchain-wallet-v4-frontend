@@ -5,10 +5,10 @@ import { IconMinusCircle, IconPlusCircle } from '@blockchain-com/icons'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Banner, BannerType, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
 import { selectors } from 'data'
-import { BalanceType, TransactionType } from 'data/components/debitCard/types'
+import { BalanceType, TransactionState, TransactionType } from 'data/components/debitCard/types'
 import { useRemote } from 'hooks'
 
 import {
@@ -33,6 +33,13 @@ const SkeletonLoader = styled.div`
 const TransactionsWrapper = styled.div`
   max-height: 350px;
   overflow: auto;
+`
+
+const StyledBanner = styled(Banner)`
+  max-width: fit-content;
+  display: inline-flex;
+  margin-left: 8px;
+  border: unset;
 `
 
 const LoadingDetail = () => (
@@ -116,20 +123,38 @@ const TransactionsBox = () => {
     return type === TransactionType.PAYMENT ? <IconMinusCircle /> : <IconPlusCircle />
   }
 
+  const getBannerType = (state: TransactionState) => {
+    switch (state) {
+      case TransactionState.COMPLETED:
+        return BannerType.SUCCESS
+      case TransactionState.CANCELLED:
+      case TransactionState.DECLINED:
+        return BannerType.WARNING
+      case TransactionState.PENDING:
+      default:
+        return BannerType.INFORMATIONAL
+    }
+  }
+
   const ListComponent = () => (
     <>
       {!data || isEmpty(data) ? (
         <EmptyList />
       ) : (
         <TransactionsWrapper>
-          {data.map(({ id, merchantName, originalAmount, type, userTransactionTime }) => (
+          {data.map(({ id, merchantName, originalAmount, state, type, userTransactionTime }) => (
             <BoxRowWithBorder key={id}>
               <Icon color='blue300' label='Spent' size='sm'>
                 {generateTransactionIcon(type)}
               </Icon>
               <BoxRowItemTitle>
                 {generateTransactionTitle(type, originalAmount, merchantName)}
-                <BoxRowItemSubTitle>{dateTimeFormatter(userTransactionTime)}</BoxRowItemSubTitle>
+                <BoxRowItemSubTitle>
+                  {dateTimeFormatter(userTransactionTime)}
+                  <StyledBanner type={getBannerType(state)} icon={null}>
+                    {state}
+                  </StyledBanner>
+                </BoxRowItemSubTitle>
               </BoxRowItemTitle>
               <CoinBalanceDisplay coin={originalAmount.symbol} balance={originalAmount.value} />
             </BoxRowWithBorder>

@@ -1,5 +1,5 @@
 export { Badge } from './Badges'
-export { Banner } from './Banners'
+export { Banner, BannerType } from './Banners'
 export { default as Box } from './Box'
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Color, Palette } from './Colors/index.ts'
