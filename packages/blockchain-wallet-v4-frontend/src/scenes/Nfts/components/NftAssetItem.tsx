@@ -55,6 +55,12 @@ const NotForSale = styled.div`
   width: fit-content;
 `
 
+const OverflowText = styled(Text)`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
   const [hover, setHover] = useState(false)
   const dispatch = useDispatch()
@@ -127,19 +133,16 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
       </LinkContainer>
       <AssetDetails>
         <Flex flexDirection='column' gap={8}>
-          <Text
+          <OverflowText
             size='18px'
             style={{
-              marginTop: '4px',
-              maxWidth: '200px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              marginTop: '4px'
             }}
             color='white'
             weight={600}
           >
             #{asset?.token_id}
-          </Text>
+          </OverflowText>
           <LinkContainer
             onClick={logoClickTracking}
             to={`/nfts/collection/${asset.collection.slug}`}
@@ -253,19 +256,9 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   src={image.replace(/=s\d*/, '')}
                 />
               ) : null}
-              <Text
-                size='18px'
-                weight={600}
-                lineHeight='150%'
-                color='white'
-                style={{
-                  maxWidth: '200px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}
-              >
+              <OverflowText size='18px' weight={600} lineHeight='150%' color='white'>
                 #{asset?.token_id}
-              </Text>
+              </OverflowText>
               <Flex alignItems='center' gap={8}>
                 {asset.collection.image_url ? (
                   <NftCollectionImageSmall

@@ -4,6 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
+import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -17,6 +18,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import { Flex } from 'components/Flex'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
@@ -47,7 +49,6 @@ const CTA: React.FC<Props> = ({
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
-
   const disabled =
     !formValues.amount ||
     Number(formValues.amount) <= 0 ||
@@ -140,15 +141,14 @@ const CTA: React.FC<Props> = ({
         </Text>
       ) : null}
       {disabled ? null : (
-        <div
+        <Flex
           style={{
             background: termsAccepted ? colors.white900 : colors.grey000,
             border: `1px solid ${colors.grey100}`,
             borderRadius: '8px',
-            display: 'flex',
-            justifyContent: 'center',
             margin: '1em 0em'
           }}
+          justifyContent='center'
         >
           {' '}
           <div style={{ padding: '1.2em 0em' }}>
@@ -174,7 +174,7 @@ const CTA: React.FC<Props> = ({
               </Link>
             </Text>
           </label>
-        </div>
+        </Flex>
       )}
       {needsWrap && !canWrap ? (
         <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>

@@ -17,6 +17,7 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import { Flex } from 'components/Flex'
 import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
@@ -174,15 +175,14 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <div
+            <Flex
               style={{
                 background: termsAccepted ? colors.white900 : colors.grey000,
-                border: `1px solid ${colors.grey000}`,
+                border: `1px solid ${colors.grey100}`,
                 borderRadius: '8px',
-                display: 'flex',
-                justifyContent: 'center',
                 margin: '1em 0em'
               }}
+              justifyContent='center'
             >
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
@@ -216,7 +216,7 @@ const CTA: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </label>
-            </div>
+            </Flex>
             <Button
               onClick={() =>
                 nftActions.createOrder({
