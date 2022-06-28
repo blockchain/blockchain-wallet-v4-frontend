@@ -55,7 +55,8 @@ const TwoFAWallet = (props: Props) => {
   const accountLocked =
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
-      walletError.toLowerCase().includes('account is locked'))
+      walletError.toLowerCase().includes('account is locked')) ||
+      walletError.toLowerCase().includes('account deactivated'))  
 
   const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
   const { product } = productAuthMetadata
