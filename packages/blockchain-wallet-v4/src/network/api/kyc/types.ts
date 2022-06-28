@@ -67,8 +67,14 @@ export type NodeTextType = {
   type: string
 }
 
+export type HeaderType = {
+  description?: string
+  title: string
+}
+
 export type ExtraQuestionsType = {
   blocking: boolean
   context: keyof typeof ExtraKYCContext
+  header?: Array<HeaderType>
   nodes: Array<NodeType>
 }

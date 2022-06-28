@@ -34,3 +34,5 @@ export const getTerminateCardHandler = (state: RootState) =>
 
 export const getSelectAccountHandler = (state: RootState) =>
   state.components.debitCard.selectAccountHandler
+
+export const getCardTransactions = (state: RootState) => state.components.debitCard.transactions

@@ -23,12 +23,10 @@ exports[`<CoinWithBalance /> should display correctly and send correct balance v
         </Styled(Text)>
       </div>
     </styled.div>
-    <styled.div>
-      <CoinBalanceDisplay
-        balance="100000000"
-        coin="BTC"
-      />
-    </styled.div>
+    <CoinBalanceDisplay
+      balance="100000000"
+      coin="BTC"
+    />
   </styled.div>
 </styled.div>
 `;
@@ -56,12 +54,10 @@ exports[`<CoinWithBalance /> should display correctly and send correct balance v
         </Styled(Text)>
       </div>
     </styled.div>
-    <styled.div>
-      <CoinBalanceDisplay
-        balance="100"
-        coin="USD"
-      />
-    </styled.div>
+    <CoinBalanceDisplay
+      balance="100"
+      coin="USD"
+    />
   </styled.div>
 </styled.div>
 `;

@@ -3,9 +3,11 @@ import React from 'react'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
+import { Amount } from './CoinWithBalance.model'
+
 const CoinBalanceDisplay = ({ balance, coin }: { balance: number | string; coin: string }) => {
   return (
-    <>
+    <Amount>
       <FiatDisplay
         coin={coin}
         size='16px'
@@ -29,7 +31,7 @@ const CoinBalanceDisplay = ({ balance, coin }: { balance: number | string; coin:
       >
         {balance}
       </CoinDisplay>
-    </>
+    </Amount>
   )
 }
 

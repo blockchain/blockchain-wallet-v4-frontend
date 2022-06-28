@@ -20,4 +20,10 @@ export const getCollectionFilter = (
 export const getEventFilter = (formValues: NftFilterFormValuesType) =>
   formValues ? formValues.event : null
 
+export const getForSaleFilter = (formValues: NftFilterFormValuesType) =>
+  formValues ? formValues.forSale : null
+
+export const getVerifiedFilter = (formValues: NftFilterFormValuesType) =>
+  formValues ? formValues.verifiedOnly : null
+
 export const getSortBy = (formValues: NftFilterFormValuesType) => formValues?.sortBy

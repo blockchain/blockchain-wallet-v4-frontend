@@ -7,7 +7,7 @@ import { BalanceType } from 'data/components/debitCard/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 
 import CoinBalanceDisplay from './CoinBalanceDisplay'
-import { Amount, Coin, CoinIcon, CoinName, FundSubTitle, Wrapper } from './CoinWithBalance.model'
+import { Coin, CoinIcon, CoinName, FundSubTitle, Wrapper } from './CoinWithBalance.model'
 
 const isFiat = (symbol) => window.coins[symbol].coinfig.type.name === 'FIAT'
 
@@ -47,9 +47,7 @@ const CoinWithBalance = ({ symbol, value }: BalanceType) => {
             {fundTypeLabel(symbol)}
           </div>
         </Coin>
-        <Amount>
-          <CoinBalanceDisplay coin={symbol} balance={convertedBalance} />
-        </Amount>
+        <CoinBalanceDisplay coin={symbol} balance={convertedBalance} />
       </Flex>
     </Wrapper>
   )
