@@ -27,6 +27,7 @@ import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
+import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
 
@@ -122,6 +123,7 @@ const App = ({
                           footer={<HomeNavbar />}
                           component={CoinsList}
                         />
+                        <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'

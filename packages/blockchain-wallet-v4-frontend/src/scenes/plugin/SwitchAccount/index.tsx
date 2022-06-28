@@ -17,8 +17,8 @@ import { RootState } from 'data/rootReducer'
 import { Account } from './Account'
 
 const Wrapper = styled.div`
-  height: 552px;
-  padding: 27px 24px;
+  /* height: 552px;
+  padding: 27px 24px; */
   background: ${(props) => props.theme.exchangeLogin};
 `
 const IconWrapper = styled.div`
