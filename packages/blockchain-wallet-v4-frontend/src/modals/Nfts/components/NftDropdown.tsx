@@ -65,7 +65,17 @@ const NftDropdown: React.FC<Props> = ({
           </IconWrapper>
         </Flex>
       </Top>
-      <ChildWrapper style={isActive ? {} : { display: 'none' }}>
+      <ChildWrapper
+        style={
+          isActive
+            ? { transition: 'opacity 0.5s linear' }
+            : {
+                height: '0',
+                opacity: '0',
+                visibility: 'hidden'
+              }
+        }
+      >
         {React.Children.map(children, (child) =>
           child ? <Child hasPadding={hasPadding}>{child}</Child> : null
         )}
