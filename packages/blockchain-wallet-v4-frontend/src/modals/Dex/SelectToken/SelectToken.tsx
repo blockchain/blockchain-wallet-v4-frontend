@@ -13,8 +13,8 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import TextBox from 'components/Form/TextBox'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
+import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import Loading from './SelectToken.loading'
@@ -83,13 +83,28 @@ const TokenBalanceColumn = styled.div`
 `
 
 const DexSelectToken = ({
+  formActions,
   modalActions,
   position,
+  swapFormValues,
+  swapSide,
   tokenListR,
   tokenSearch,
   total,
   walletCurrency
 }: Props) => {
+  const onTokenSelect = (token) => {
+    formActions.change('dexSwap', swapSide, token)
+    // get opposite side of pair
+    const oppositeSide =
+      DexSwapSideEnum.BASE === swapSide ? DexSwapSideEnum.COUNTER : DexSwapSideEnum.BASE
+    // if same token would now be on both sides of swap, clear other side of swap
+    if (swapFormValues?.[oppositeSide] === token) {
+      formActions.change('dexSwap', oppositeSide, undefined)
+    }
+    modalActions.closeModal()
+  }
+
   return (
     <Modal size='small' position={position} total={total} style={{ padding: '24px' }}>
       <Header>
@@ -137,7 +152,7 @@ const DexSelectToken = ({
                 return (
                   <TokenRow
                     key={token.displaySymbol}
-                    onClick={() => window.alert(token.displaySymbol)}
+                    onClick={() => onTokenSelect(token.displaySymbol)}
                   >
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
@@ -154,6 +169,7 @@ const DexSelectToken = ({
                           coin={token.symbol}
                           color='textBlack'
                           currency={walletCurrency}
+                          cursor='pointer'
                           data-e2e={`${token.displaySymbol}FiatBalance`}
                           lineHeight='150%'
                           loadingHeight='20px'
@@ -165,6 +181,7 @@ const DexSelectToken = ({
                         <CoinDisplay
                           coin={token.symbol}
                           color='grey600'
+                          cursor='pointer'
                           data-e2e={`${token.displaySymbol}Balance`}
                           lineHeight='20px'
                           size='14px'
@@ -186,6 +203,7 @@ const DexSelectToken = ({
 }
 
 const mapStateToProps = (state: RootState) => ({
+  swapFormValues: selectors.form.getFormValues('dexSwap')(state) as DexSwapForm,
   tokenListR: getData(state),
   tokenSearch: formValueSelector(FORM_NAME)(state, 'textFilter'),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
@@ -200,6 +218,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector> &
   InjectedFormProps & {
     position: number
+    swapSide: DexSwapSideEnum
     total: number
   }
 

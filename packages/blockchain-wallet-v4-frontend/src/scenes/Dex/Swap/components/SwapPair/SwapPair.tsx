@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown } from '@blockchain-com/icons'
@@ -10,7 +11,7 @@ import { Icon as TokenIcon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
+import { DexSwapSideEnum, ModalName } from 'data/types'
 
 const PairWrapper = styled.div`
   height: 48px;
@@ -27,9 +28,9 @@ const PairValueColumn = styled.div`
   justify-content: center;
   align-items: flex-start;
 `
-const PairSelectColumn = styled.div`
+const PairSelectColumn = styled.div<{ isCoinSelected: boolean }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ isCoinSelected }) => (isCoinSelected ? 'column' : 'row')};
   justify-content: space-between;
   align-items: center;
 `
@@ -51,8 +52,11 @@ const TokenSelectRow = styled.div`
   width: 100%;
   margin-left: 8px;
 `
+const TokenSelectRowEmpty = styled(TokenSelectRow)`
+  justify-content: space-between;
+`
 
-const DexSwapPair = ({ balance, coin, modalActions }: Props) => {
+const DexSwapPair = ({ balance, coin, modalActions, swapSide }: Props) => {
   return (
     <PairWrapper>
       <PairValueColumn>
@@ -71,26 +75,42 @@ const DexSwapPair = ({ balance, coin, modalActions }: Props) => {
           {0}
         </FiatDisplay>
       </PairValueColumn>
-      <PairSelectColumn>
+      <PairSelectColumn isCoinSelected={!!coin}>
         <TokenSelectWrapper
           role='button'
           onClick={() => {
-            modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex' })
+            modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
           }}
         >
-          <TokenIcon name={coin} size='16px' />
-          <TokenSelectRow>
-            <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
-              {coin}
-            </Text>
-            <Icon label='select dropdown' color='grey400' size='sm'>
-              <IconChevronDown />
-            </Icon>
-          </TokenSelectRow>
+          {coin && (
+            <>
+              <TokenIcon name={coin} size='16px' />
+              <TokenSelectRow>
+                <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
+                  {coin}
+                </Text>
+                <Icon label='select dropdown' color='grey400' size='sm'>
+                  <IconChevronDown />
+                </Icon>
+              </TokenSelectRow>
+            </>
+          )}
+          {!coin && (
+            <TokenSelectRowEmpty>
+              <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
+                <FormattedMessage id='buttons.select' defaultMessage='Select' />
+              </Text>
+              <Icon label='select dropdown' color='grey400' size='sm'>
+                <IconChevronDown />
+              </Icon>
+            </TokenSelectRowEmpty>
+          )}
         </TokenSelectWrapper>
-        <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
-          {balance}
-        </CoinDisplay>
+        {coin && (
+          <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
+            {balance}
+          </CoinDisplay>
+        )}
       </PairSelectColumn>
     </PairWrapper>
   )
@@ -103,8 +123,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
-  balance: number
-  coin: CoinType
+  balance?: number
+  coin?: CoinType
+  swapSide: DexSwapSideEnum
 }
 
 export default connector(DexSwapPair)

@@ -3,12 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconSettings } from '@blockchain-com/icons'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { actions } from 'data'
-import { ModalName } from 'data/types'
+import Form from 'components/Form/Form'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 
 import PairFlipButton from './components/PairFlipButton'
 import SwapPair from './components/SwapPair'
@@ -27,14 +30,15 @@ const SettingsIcon = styled.div`
 `
 const SwapWrapper = styled.div`
   position: relative;
+  margin-bottom: 20px;
   > :nth-child(3) {
     margin-top: 8px;
   }
 `
 
-const DexSwap = ({ modalActions }: Props) => {
+const DexSwap = ({ formValues, modalActions }: Props) => {
   return (
-    <>
+    <Form>
       <Header>
         <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
           <FormattedMessage id='copy.swap' defaultMessage='Swap' />
@@ -50,23 +54,38 @@ const DexSwap = ({ modalActions }: Props) => {
         </SettingsIcon>
       </Header>
       <SwapWrapper>
-        <SwapPair coin='ETH' balance={2338934453434522342} />
+        <SwapPair coin={formValues?.[DexSwapSideEnum.BASE]} swapSide={DexSwapSideEnum.BASE} />
         <PairFlipButton />
-        <SwapPair coin='UNI' balance={8342393453434522342} />
+        <SwapPair coin={formValues?.[DexSwapSideEnum.COUNTER]} swapSide={DexSwapSideEnum.COUNTER} />
       </SwapWrapper>
-      <Button data-e2e='swap' fullwidth jumbo nature='primary' style={{ marginTop: '20px' }}>
+      <Button data-e2e='swap' disabled fullwidth jumbo nature='primary'>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />
       </Button>
-    </>
+    </Form>
   )
 }
+
+const mapStateToProps = (state: RootState) => ({
+  formValues: selectors.form.getFormValues('dexSwap')(state) as DexSwapForm
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & InjectedFormProps
 
-export default connector(DexSwap)
+const enhance = compose<React.ComponentType>(
+  reduxForm({
+    form: 'dexSwap',
+    initialValues: {
+      [DexSwapSideEnum.BASE]: undefined,
+      [DexSwapSideEnum.COUNTER]: undefined
+    }
+  }),
+  connector
+)
+
+export default enhance(DexSwap)

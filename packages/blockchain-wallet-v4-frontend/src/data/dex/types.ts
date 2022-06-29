@@ -30,3 +30,13 @@ export type DexStateType = {
   currentChain?: DexChain
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
 }
+
+export enum DexSwapSideEnum {
+  BASE = 'baseToken',
+  COUNTER = 'counterToken'
+}
+
+export type DexSwapForm = {
+  [DexSwapSideEnum.BASE]?: CoinType
+  [DexSwapSideEnum.COUNTER]?: CoinType
+}
