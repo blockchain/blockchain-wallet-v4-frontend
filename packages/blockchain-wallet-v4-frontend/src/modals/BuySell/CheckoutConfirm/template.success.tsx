@@ -243,7 +243,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     props.buySellActions.cancelOrder(props.order)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
         isSddFlow: false,
