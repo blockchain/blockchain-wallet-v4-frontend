@@ -278,11 +278,7 @@ const Accounts = (props: Props) => {
       setApplePayAvailable(true)
     }
 
-    if (
-      (window as any).google &&
-      (window as any).google.payments.api &&
-      (props.googlePayEnabled || props.isInternalTester)
-    ) {
+    if (props.googlePayEnabled || props.isInternalTester) {
       setGooglePayAvailable(true)
     }
   }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
