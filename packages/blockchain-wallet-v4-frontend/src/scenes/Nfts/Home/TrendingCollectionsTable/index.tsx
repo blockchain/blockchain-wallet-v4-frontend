@@ -3,7 +3,13 @@ import { useSortBy, useTable } from 'react-table'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { HeaderText, HeaderToggle, StickyTableHeader, TableWrapper } from 'components/Table'
+import {
+  HeaderText,
+  HeaderToggle,
+  StickyColumn,
+  StickyTableHeader,
+  TableWrapper
+} from 'components/Table'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Props as OwnProps } from '../Home'
@@ -21,11 +27,22 @@ export const getTableColumns = () => [
   getTotalSupplyColumn()
 ]
 
-export const NftTableWrapper = styled(TableWrapper)`
+export const NftGreyTable = styled(TableWrapper)`
   .table {
     .th {
       background: ${colors.grey000};
     }
+    .th,
+    .td {
+      max-width: 10em;
+      min-width: 10em;
+    }
+  }
+`
+
+const HoverRow = styled.div`
+  &:hover {
+    background: ${colors.grey000};
   }
 `
 
@@ -44,17 +61,18 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
   )
 
   return (
-    <NftTableWrapper>
+    <NftGreyTable>
       <div {...getTableProps({ style: { height: '100%', overflow: 'scroll' } })} className='table'>
         <StickyTableHeader>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
             <div {...headerGroup.getHeaderGroupProps({})} className='tr'>
               {headerGroup.headers.map((column) => (
-                <div
+                <StickyColumn
                   key={column.key}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                   className='th'
+                  style={column.id === 'name' ? { zIndex: 1 } : {}}
                 >
                   <HeaderText>
                     {column.render('Header')}
@@ -70,7 +88,7 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
                       )}
                     </div>
                   </HeaderText>
-                </div>
+                </StickyColumn>
               ))}
             </div>
           ))}
@@ -79,18 +97,23 @@ const TrendingCollectionsTable: React.FC<Props> = ({ collections }) => {
           {rows.map((row) => {
             prepareRow(row)
             return (
-              <div key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
+              <HoverRow key={`row-${row.id}`} {...row.getRowProps()} className='tr'>
                 {row.cells.map((cell) => (
-                  <div key={`cell-${cell.row.id}`} {...cell.getCellProps()} className='td'>
+                  <StickyColumn
+                    style={cell.column.id === 'name' ? { zIndex: 1 } : {}}
+                    key={`cell-${cell.row.id}`}
+                    {...cell.getCellProps()}
+                    className='td'
+                  >
                     {cell.render('Cell')}
-                  </div>
+                  </StickyColumn>
                 ))}
-              </div>
+              </HoverRow>
             )
           })}
         </div>
       </div>
-    </NftTableWrapper>
+    </NftGreyTable>
   )
 }
 

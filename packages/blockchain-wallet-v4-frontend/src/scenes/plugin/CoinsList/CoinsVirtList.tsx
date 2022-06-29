@@ -78,7 +78,7 @@ const ListRow = memo(
   }
 )
 
-const CoinsList: React.FC = () => {
+const CoinsVirtList: React.FC = () => {
   const coins: CoinDataItem[] | null = useSelfCustodyCoinsBalances()
 
   const coinsCount: number = coins ? coins.length : 0
@@ -104,4 +104,4 @@ const CoinsList: React.FC = () => {
   )
 }
 
-export default CoinsList
+export default CoinsVirtList

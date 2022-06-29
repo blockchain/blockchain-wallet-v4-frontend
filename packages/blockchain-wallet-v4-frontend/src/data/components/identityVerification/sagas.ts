@@ -2,7 +2,7 @@ import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
-import { ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
+import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/types'
@@ -12,7 +12,6 @@ import profileSagas from '../../modules/profile/sagas'
 import {
   BAD_CODE_ERROR,
   EMAIL_STEPS,
-  EXTRA_KYC_CONTEXTS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
@@ -172,7 +171,9 @@ export default ({ api, coreSagas, networks }) => {
     let addExtraStep = false
     // check extra KYC fields
     const context =
-      origin === 'BuySell' ? EXTRA_KYC_CONTEXTS.FIAT_DEPOSIT : EXTRA_KYC_CONTEXTS.DEFAULT
+      origin === 'BuySell' && tiers.current === TIERS[2]
+        ? ExtraKYCContext.FIAT_DEPOSIT
+        : ExtraKYCContext.TIER_TWO_VERIFICATION
 
     yield put(actions.components.identityVerification.fetchExtraKYC(context))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
@@ -302,10 +303,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchSupportedCountries = function* () {
+  const fetchSupportedCountries = function* ({ payload }) {
     try {
       yield put(A.setSupportedCountriesLoading())
-      const countries = yield call(api.getSupportedCountries)
+      const { scope } = payload
+      const countries = yield call(api.getSupportedCountries, scope)
       yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
       yield put(A.setSupportedCountriesFailure(e))
@@ -420,15 +422,13 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
-      // in case of US we have to append state with prefix
-      const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
         city,
-        country: country.code,
+        country,
         line1,
         line2,
         postCode,
-        state: userState
+        state: state.code
       }
 
       yield call(updateUser, { payload: { data: personalData } })

@@ -2,9 +2,11 @@ import React from 'react'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { CountryScope } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import SelectBox from 'components/Form/SelectBox'
-import { countries } from 'components/Form/SelectBoxCountry'
+import { CountryType } from 'data/types'
+import { useCountryList } from 'hooks'
 
 import { Props } from '../template.success'
 
@@ -50,29 +52,27 @@ const Display = styled.div`
     height: 0;
   }
 `
-const IconContainer = styled.div`
-  min-width: 32px;
-  height: 32px;
-  font-size: 40px;
-  overflow: hidden;
-  border-radius: 16px;
-  background-color: ${(props) => props.theme.blue000};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
-class CountrySelect extends React.PureComponent<Props> {
-  renderElements = () => {
-    return [
-      {
-        group: '',
-        items: countries
-      }
-    ]
+const CountrySelect = (props: Props) => {
+  const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
+
+  const { formValues } = props
+
+  if (!supportedCountries?.countries) {
+    return <></>
   }
 
-  renderDisplay = (
+  const getCountryElements = (countries: Array<CountryType>) => [
+    {
+      group: '',
+      items: countries.map((country: CountryType) => ({
+        text: country.name,
+        value: country.code
+      }))
+    }
+  ]
+
+  const renderDisplay = (
     props: {
       text: string
       value: string
@@ -80,15 +80,12 @@ class CountrySelect extends React.PureComponent<Props> {
     children
   ) => {
     if (!props.value) return
-    if (!this.props.formValues) return
+    if (!formValues) return
 
     const isItem = !children
 
     return (
       <DisplayContainer isItem={isItem}>
-        <IconContainer>
-          {countries.find((country) => country.value === props.value)?.emoji || ''}
-        </IconContainer>
         <Display>
           {children || props.text}
           <Text size='14px' color='grey600' weight={500}>
@@ -99,18 +96,16 @@ class CountrySelect extends React.PureComponent<Props> {
     )
   }
 
-  render() {
-    return (
-      <Field
-        component={SelectBoxCountry}
-        elements={this.renderElements()}
-        name='country'
-        searchEnabled={false}
-        templateDisplay={this.renderDisplay}
-        templateItem={this.renderDisplay}
-      />
-    )
-  }
+  return (
+    <Field
+      component={SelectBoxCountry}
+      elements={getCountryElements(supportedCountries.countries)}
+      name='country'
+      searchEnabled={false}
+      templateDisplay={renderDisplay}
+      templateItem={renderDisplay}
+    />
+  )
 }
 
 export default CountrySelect

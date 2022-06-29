@@ -108,15 +108,8 @@ export const MoreAssets = styled.div`
   `}
 `
 
-export const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-export const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
+export const MoreAssetsWrapper = styled.div`
+  padding: 1em 0em;
 `
 
 export const TraitsWrapper = styled.div`
@@ -133,8 +126,8 @@ export const Trait = styled.div`
   flex-direction: column;
   gap: 6px;
   border-radius: 8px;
-  background: ${(props) => props.theme.blue000};
-  border: 1px solid ${(props) => props.theme.blue600};
+  background: ${(props) => props.theme.greyFade000};
+  border: 1px solid ${(props) => props.theme.grey100};
   &:hover {
     transform: scale(1.02);
     -webkit-transition: transform 0.1s ease-in-out;

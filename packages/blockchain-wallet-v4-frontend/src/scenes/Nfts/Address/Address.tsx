@@ -36,11 +36,10 @@ const NftAddress: React.FC<Props> = ({
   nftsActions,
   pathname
 }) => {
+  const isTablet = useMedia('tablet')
   const address = pathname.split('/nfts/address/')[1]
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
-
-  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
@@ -74,7 +73,7 @@ const NftAddress: React.FC<Props> = ({
     <NftPageFullWidth>
       <div
         style={{
-          background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
+          background: colors.blue700,
           height: '300px',
           position: 'relative'
         }}

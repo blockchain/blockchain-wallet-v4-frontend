@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import CoinsList from './CoinsList'
+import CoinsVirtList from './CoinsVirtList'
 import Header from './Header'
 
 const Wrapper = styled.div`
@@ -9,13 +9,13 @@ const Wrapper = styled.div`
   padding: 70px 20px 70px 20px;
 `
 
-export const CoinView = () => {
+const CoinList = () => {
   return (
     <Wrapper>
       <Header />
-      <CoinsList />
+      <CoinsVirtList />
     </Wrapper>
   )
 }
 
-export default CoinView
+export default CoinList

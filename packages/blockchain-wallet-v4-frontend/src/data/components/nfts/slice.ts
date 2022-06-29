@@ -226,6 +226,7 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         asset_contract_address: string
+        defaultEthAddr: string | undefined
         token_id: string
       }>
     ) => {},

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -6,6 +6,7 @@ import { Button, Icon, Text, TooltipHost, TooltipIcon } from 'blockchain-info-co
 import { Box } from 'components/Box'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Analytics } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -40,6 +41,7 @@ const Separator = styled.div`
 
 function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   const {
+    analyticsActions,
     coin,
     interestAccountBalance,
     interestActions,
@@ -56,6 +58,16 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+
+  const handleClick = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DETAIL_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+    interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+  }, [coin])
 
   return (
     <DepositBox>
@@ -161,7 +173,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           data-e2e='viewInterestDetails'
           fullwidth
-          onClick={() => interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })}
+          onClick={handleClick}
         >
           <FormattedMessage id='copy.view' defaultMessage='View' />
         </Button>
@@ -172,7 +184,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
-          onClick={() => interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })}
+          onClick={handleClick}
         >
           <FormattedMessage
             id='scenes.interest.summarycard.earnbutton'

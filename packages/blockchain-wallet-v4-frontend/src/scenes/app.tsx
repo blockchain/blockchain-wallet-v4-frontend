@@ -25,7 +25,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
-import { CoinView } from './plugin/CoinView'
+import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
 import Send from './plugin/Send'
 
@@ -80,7 +80,6 @@ const App = ({
   coinViewV2,
   history,
   isAuthenticated,
-  isPlugin,
   nftExplorer,
   persistor,
   store,
@@ -95,15 +94,12 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  if (!isPlugin) {
-    // lazy load google tag manager
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-      attributes: {
-        nonce: window.nonce
-      }
-    })
-  }
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
@@ -123,9 +119,9 @@ const App = ({
                         {/* Unauthenticated Wallet routes */}
                         <Route path='/app-error' component={AppError} />
                         <PluginLayout
-                          path='/coinview'
+                          path='/plugin/coinslist'
                           footer={<HomeNavbar />}
-                          component={CoinView}
+                          component={CoinsList}
                         />
                         <PluginLayout path='/send' component={Send} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
@@ -285,7 +281,6 @@ const mapStateToProps = (state) => ({
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletDebitCardEnabled: selectors.core.walletOptions

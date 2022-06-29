@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { NodeItemTypes, NodeType } from '@core/types'
+import { NodeItemTypes, NodeTextType, NodeType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
@@ -13,7 +13,7 @@ import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
-import { required } from 'services/forms'
+import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { getNodeQuestionElements } from './model'
@@ -67,6 +67,27 @@ const TopText = styled(Text)`
 const LeftTopCol = styled.div`
   display: flex;
   align-items: left;
+`
+
+const TopHeader = styled(Text)`
+  display: flex;
+  align-items: left;
+  margin-bottom: 16px;
+  flex-direction: column;
+`
+
+const TopHeaderTitle = styled.div`
+  display: flex;
+  align-items: left;
+`
+
+const TopHeaderDescription = styled(Text)`
+  margin: 10px 0 0 0;
+  display: flex;
+  color: ${(props) => props.theme.grey600};
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
 `
 
 const ErrorTextContainer = styled.div`
@@ -156,7 +177,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const updateItem = (nodeId: string, childId: string) => {
     props.formActions.change(KYC_EXTRA_QUESTIONS_FORM, nodeId, childId)
 
-    const { nodes } = props.extraSteps
+    const { blocking, context, nodes } = props.extraSteps
     let isChanged = false
 
     nodes.map(
@@ -177,14 +198,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         })
     )
     if (isChanged) {
-      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+      props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
     }
   }
 
   const onChangeInput = (e, value) => {
     const itemId = e.currentTarget.name
 
-    const { nodes } = props.extraSteps
+    const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
     nodes.map(
@@ -203,7 +224,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
 
     if (isChanged) {
-      props.identityVerificationActions.updateExtraKYCQuestions({ nodes })
+      props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
     }
   }
 
@@ -355,19 +376,61 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
+  const RenderTextBoxQuestion = (node: NodeTextType) => {
+    const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
+    const validations = [required, validFormatCb]
+    const displayInstructions = node.instructions && !!node.instructions.length
+    return (
+      <FormGroup>
+        <QuestionTitle>{node.text}</QuestionTitle>
+
+        {displayInstructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
+
+        <FormItem key={node.id} style={{ marginBottom: '10px' }}>
+          <Field
+            name={node.id}
+            errorBottom
+            validate={validations}
+            component={TextBox}
+            placeholder={node.hint}
+            pattern={node.regex || ''}
+          />
+        </FormItem>
+      </FormGroup>
+    )
+  }
+
+  const RenderHeader = (header) => {
+    return (
+      <TopHeader color='grey800' size='20px' weight={600}>
+        <Icon
+          name='user'
+          size='27px'
+          color='blue600'
+          style={{ marginBottom: '10px', marginRight: '4px' }}
+        />
+        <TopHeaderTitle>{header.title}</TopHeaderTitle>
+        {header.description && <TopHeaderDescription>{header.description}</TopHeaderDescription>}
+      </TopHeader>
+    )
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
-        <TopText color='grey800' size='20px' weight={600}>
-          <LeftTopCol>
-            <FormattedMessage
-              id='identityverification.extra_fields.title'
-              defaultMessage='Use of Account Information'
-            />
-          </LeftTopCol>
-        </TopText>
+        {props.extraSteps.header && RenderHeader(props.extraSteps.header)}
+        {!props.extraSteps.header && (
+          <TopText color='grey800' size='20px' weight={600}>
+            <LeftTopCol>
+              <FormattedMessage
+                id='identityverification.extra_fields.title'
+                defaultMessage='Use of Account Information'
+              />
+            </LeftTopCol>
+          </TopText>
+        )}
       </FlyoutWrapper>
-      <FlyoutWrapper style={{ paddingTop: '36px' }}>
+      <FlyoutWrapper style={{ paddingTop: '20px' }}>
         {props.error && (
           <ErrorTextContainer>
             <ErrorText>
@@ -386,6 +449,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               return node.isDropdown
                 ? RenderDropDownBasedQuestion(node, updateItem)
                 : RenderSingleSelectionQuestion(node, updateItem)
+            }
+            if (node.type === NodeItemTypes.OPEN_ENDED) {
+              return RenderTextBoxQuestion(node)
             }
             return null
           })}

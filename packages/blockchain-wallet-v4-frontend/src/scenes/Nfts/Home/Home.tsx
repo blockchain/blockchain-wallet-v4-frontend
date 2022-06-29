@@ -28,16 +28,46 @@ import TrendingCollectionsTable from './TrendingCollectionsTable'
 // Special case of hardcoding colors
 // don't let this be a bad influence on the rest of the app
 const Banner = styled.div`
-  background: linear-gradient(
-      97.19deg,
-      rgba(250, 251, 255, 0) -0.9%,
-      rgba(255, 0, 149, 0.16) 49.02%,
-      rgba(91, 165, 210, 0.48) 100%
-    ),
-    #f0f2f7;
+  background: linear-gradient(40deg, #121d33, #0c6cf2, #f00699);
+  background-size: 600% 600%;
+  -webkit-animation: AnimationName 40s ease infinite;
+  -moz-animation: AnimationName 40s ease infinite;
+  animation: AnimationName 40s ease infinite;
+  @-webkit-keyframes AnimationName {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @-moz-keyframes AnimationName {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @keyframes AnimationName {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
   height: 400px;
   width: 100%;
-  border-radius: 8px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -62,6 +92,7 @@ const AssetFooter = styled.div`
   padding: 16px;
   display: flex;
   justify-content: space-between;
+  margin-top: -8px;
   ${media.atLeastMobile`
     left: unset;
     top: unset;
@@ -137,7 +168,7 @@ const Explore: React.FC<Props> = (props) => {
             style={{ cursor: 'pointer' }}
             size='64px'
             lineHeight='12px'
-            color={assetId === i ? 'blue600' : 'white'}
+            color={assetId === i ? 'white' : 'grey900'}
           >
             .
           </Text>
@@ -175,17 +206,17 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2 style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
+    <NftPageV2 style={{ padding: 0 }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
-                <Icon label='logo'>
+                <Icon color='white900' label='logo'>
                   <IconBlockchain />
                 </Icon>
-                &nbsp;|&nbsp;
-                <Text color='black' size='20px' weight={600}>
+                <Text color='white'>&nbsp;|&nbsp;</Text>
+                <Text color='white' size='20px' weight={600}>
                   NFT
                 </Text>
               </div>
@@ -195,7 +226,7 @@ const Explore: React.FC<Props> = (props) => {
               size={isTablet || isMobile ? '20px' : '32px'}
               style={isTablet || isMobile ? { paddingTop: '1em', textAlign: 'center' } : {}}
               weight={600}
-              color='black'
+              color='white'
             >
               Discover, Collect & Create NFTs.
             </Text>
@@ -211,7 +242,7 @@ const Explore: React.FC<Props> = (props) => {
                   }}
                   size='14px'
                   weight={500}
-                  color='grey900'
+                  color='white'
                 >
                   Access the world’s most popular NFT collections right from your Blockchain.com
                   Wallet
@@ -245,7 +276,7 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ marginTop: '8px', maxWidth: '500px' }}
                   size='20px'
                   weight={500}
-                  color='grey600'
+                  color='white'
                 >
                   Access the world’s most popular NFT collections right from your Blockchain.com
                   Wallet
@@ -364,26 +395,30 @@ const Explore: React.FC<Props> = (props) => {
             )}
           </div>
         </Banner>
-        <div>
-          <Text
-            color='black'
-            style={
-              isMobile || isTablet
-                ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
-                : { marginBottom: '16px', marginTop: '36px' }
-            }
-            size={isMobile || isTablet ? '20px' : '24px'}
-            weight={600}
-          >
-            Trending Collections
-          </Text>
+        <div style={{ padding: '1em' }}>
+          <div>
+            <Text
+              color='black'
+              style={
+                isMobile || isTablet
+                  ? { marginBottom: '16px', marginLeft: '16px', marginTop: '36px' }
+                  : { marginBottom: '16px', marginTop: '36px' }
+              }
+              size={isMobile || isTablet ? '20px' : '24px'}
+              weight={600}
+            >
+              Trending Collections
+            </Text>
+          </div>
         </div>
       </>
-      {results.data?.collections ? (
-        <TrendingCollectionsTable collections={results.data.collections} {...props} />
-      ) : (
-        <Loading />
-      )}
+      <div style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
+        {results.data?.collections ? (
+          <TrendingCollectionsTable collections={results.data.collections} {...props} />
+        ) : (
+          <Loading />
+        )}
+      </div>
     </NftPageV2>
   )
 }
