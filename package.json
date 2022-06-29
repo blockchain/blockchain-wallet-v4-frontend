@@ -78,7 +78,6 @@
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
     "start:staging": "yarn workspace blockchain-wallet-v4-frontend start:staging",
-    "start:plugin": "yarn workspace blockchain-wallet-v4-frontend start:plugin",
     "storybook:build-wallet": "build-storybook",
     "storybook:build-base": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve-wallet": "start-storybook -p 6006",

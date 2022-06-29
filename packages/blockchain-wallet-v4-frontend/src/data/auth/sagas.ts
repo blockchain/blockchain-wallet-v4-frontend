@@ -3,7 +3,7 @@ import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { WalletOptionsType } from '@core/types'
+import { CountryScope, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
 import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
@@ -61,7 +61,9 @@ export default ({ api, coreSagas, networks }) => {
   const LOGIN_FORM = 'login'
 
   const authNabu = function* () {
-    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield put(
+      actions.components.identityVerification.fetchSupportedCountries({ scope: CountryScope.KYC })
+    )
     yield take([
       identityVerificationActions.setSupportedCountriesSuccess.type,
       identityVerificationActions.setSupportedCountriesFailure.type
@@ -314,9 +316,7 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
-        // store initial address in case of US state we add prefix
-        const userState = country === 'US' ? `US-${state}` : state
-        yield call(api.setUserInitialAddress, country, userState)
+        yield call(api.setUserInitialAddress, country, state)
         yield call(coreSagas.settings.fetchSettings)
       }
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
@@ -1056,6 +1056,14 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
   }
+  const sendLoginMessageToExchangeMobileApp = function* () {
+    const { platform } = yield select(selectors.signup.getProductSignupMetadata)
+    sendMessageToMobile(platform, {
+      data: {
+        action: 'login'
+      }
+    })
+  }
 
   return {
     authNabu,
@@ -1068,6 +1076,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     resendSmsLoginCode,
+    sendLoginMessageToExchangeMobileApp,
     triggerWalletMagicLink
   }
 }

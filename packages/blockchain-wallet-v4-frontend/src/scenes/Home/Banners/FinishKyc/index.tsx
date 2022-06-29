@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -8,7 +8,8 @@ import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { BannerButton } from '../styles'
+import { getKYCFinishAnnouncement } from '../selectors'
+import { BannerButton, CloseLink, Row } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,9 +29,7 @@ const Wrapper = styled.div`
     flex-direction: column;
   `}
 `
-const Row = styled.div`
-  display: flex;
-  align-items: center;
+const StyledRow = styled(Row)`
   margin-right: 12px;
 `
 const Column = styled.div`
@@ -63,49 +62,55 @@ const Copy = styled(Text)`
   `}
 `
 
-class FinishKyc extends PureComponent<Props> {
-  render() {
-    return (
-      <Wrapper>
-        <Row>
-          <PendingIconWrapper>
-            <Icon name='pending' color='orange600' size='20px' />
-          </PendingIconWrapper>
-          <Column>
-            <Text size='20px' weight={600} color='grey800'>
-              <FormattedMessage
-                id='scenes.home.banner.finishsigningup'
-                defaultMessage='Finish Signing Up'
-              />
-            </Text>
-            <Copy size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.home.banner.signupapprove'
-                defaultMessage='Once you finish and get approved, start buying crypto.'
-              />
-            </Copy>
-          </Column>
-        </Row>
-        <BannerButton
-          onClick={() =>
-            this.props.identityVerificationActions.verifyIdentity({
-              needMoreInfo: false,
-              origin: 'DashboardPromo',
-              tier: 2
-            })
-          }
-          jumbo
-          data-e2e='openKycTier2'
-          nature='primary'
-        >
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-        </BannerButton>
-      </Wrapper>
-    )
-  }
+const FinishKyc = (props: Props) => {
+  const completeAnnouncement = getKYCFinishAnnouncement()
+  return (
+    <Wrapper>
+      <StyledRow>
+        <PendingIconWrapper>
+          <Icon name='pending' color='orange600' size='20px' />
+        </PendingIconWrapper>
+        <Column>
+          <Text size='20px' weight={600} color='grey800'>
+            <FormattedMessage
+              id='scenes.home.banner.finishsigningup'
+              defaultMessage='Finish Signing Up'
+            />
+          </Text>
+          <Copy size='16px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banner.signupapprove'
+              defaultMessage='Once you finish and get approved, start buying crypto.'
+            />
+          </Copy>
+        </Column>
+      </StyledRow>
+      <BannerButton
+        onClick={() =>
+          props.identityVerificationActions.verifyIdentity({
+            needMoreInfo: false,
+            origin: 'DashboardPromo',
+            tier: 2
+          })
+        }
+        jumbo
+        data-e2e='openKycTier2'
+        nature='primary'
+      >
+        <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+      </BannerButton>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon size='20px' color='grey400' name='close-circle' />
+      </CloseLink>
+    </Wrapper>
+  )
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 

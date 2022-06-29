@@ -203,3 +203,9 @@ export const requireUniqueWalletName = (value, allWalletLabels, index) => {
   const walletIdx = allWalletLabels.indexOf(value)
   return walletIdx !== index && walletIdx > -1 ? <M.UniqueWalletName /> : undefined
 }
+
+export const validFormat = (regex) => (value) => {
+  if (!value || !regex) return undefined
+
+  return new RegExp(regex).test(value) ? undefined : <M.InvalidFormat />
+}

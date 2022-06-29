@@ -12,9 +12,11 @@ import { FlyoutWrapper } from 'components/Flyout'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
-import SelectBoxUSState from 'components/Form/SelectBoxUSState'
+import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
+import { StateType } from 'data/types'
+import { useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -54,7 +56,19 @@ const Top = styled(Text)`
 export type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  if (!props.formValues) return null
+  const { data: supportedUSStates } = useUSStateList()
+
+  if (!props.formValues || !supportedUSStates?.states) return null
+
+  const getStateElements = (states: Array<StateType>) => [
+    {
+      group: '',
+      items: states.map((state: StateType) => ({
+        text: state.name,
+        value: state.code
+      }))
+    }
+  ]
 
   const countryCode = props.formValues.country
   const countryIsUS = countryCode === 'US'
@@ -146,9 +160,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               {countryIsUS ? (
                 <Field
                   name='state'
-                  component={SelectBoxUSState}
+                  elements={getStateElements(supportedUSStates.states)}
+                  component={SelectBox}
                   validate={[required]}
-                  normalize={(val) => val?.name}
                 />
               ) : (
                 <Field name='state' component={TextBox} />

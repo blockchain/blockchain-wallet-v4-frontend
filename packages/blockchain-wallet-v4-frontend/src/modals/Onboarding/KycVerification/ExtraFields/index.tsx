@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { ExtraKYCContext } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { EXTRA_KYC_CONTEXTS } from 'data/components/identityVerification/model'
 import { RootState } from 'data/rootReducer'
 import { Analytics, ExtraKeyFieldsFormValuesType } from 'data/types'
 
@@ -16,7 +16,7 @@ const { KYC_EXTRA_QUESTIONS_FORM } = model.components.identityVerification
 
 const KYCExtraQuestionnaire = (props: Props) => {
   useEffect(() => {
-    props.identityVerificationActions.fetchExtraKYC(EXTRA_KYC_CONTEXTS.DEFAULT)
+    props.identityVerificationActions.fetchExtraKYC(ExtraKYCContext.TIER_TWO_VERIFICATION)
     props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED,
       properties: {}

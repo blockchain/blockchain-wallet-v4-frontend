@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CoinWithBalance /> should display correctly and send correct balance value for Crypto 1`] = `
+<styled.div>
+  <styled.div
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <styled.div>
+      <Styled(Icon)
+        name="BTC"
+        size="32px"
+      />
+      <div>
+        <Styled(Text)>
+          Bitcoin
+        </Styled(Text)>
+        <Styled(Text)>
+          <MemoizedFormattedMessage
+            defaultMessage="Trading Account"
+            id="scenes.debit_card.dashboard.funds.type.trading_account"
+          />
+        </Styled(Text)>
+      </div>
+    </styled.div>
+    <CoinBalanceDisplay
+      balance="100000000"
+      coin="BTC"
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<CoinWithBalance /> should display correctly and send correct balance value for FIAT 1`] = `
+<styled.div>
+  <styled.div
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <styled.div>
+      <Styled(Icon)
+        name="USD"
+        size="32px"
+      />
+      <div>
+        <Styled(Text)>
+          US Dollar
+        </Styled(Text)>
+        <Styled(Text)>
+          <MemoizedFormattedMessage
+            defaultMessage="Cash Balance"
+            id="scenes.debit_card.dashboard.funds.type.cash_balance"
+          />
+        </Styled(Text)>
+      </div>
+    </styled.div>
+    <CoinBalanceDisplay
+      balance="100"
+      coin="USD"
+    />
+  </styled.div>
+</styled.div>
+`;

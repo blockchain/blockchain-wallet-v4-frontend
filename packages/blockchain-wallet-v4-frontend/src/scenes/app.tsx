@@ -79,7 +79,6 @@ const App = ({
   coinViewV2,
   history,
   isAuthenticated,
-  isPlugin,
   nftExplorer,
   persistor,
   store,
@@ -94,15 +93,12 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  if (!isPlugin) {
-    // lazy load google tag manager
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-      attributes: {
-        nonce: window.nonce
-      }
-    })
-  }
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
@@ -283,7 +279,6 @@ const mapStateToProps = (state) => ({
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletDebitCardEnabled: selectors.core.walletOptions

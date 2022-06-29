@@ -7,8 +7,7 @@ import {
   AuthMagicLink,
   LoginSteps,
   MobileAuthConnectedMessage,
-  MobileAuthExchangeMessage,
-  MobileAuthWalletMergeMessage,
+  MobileMessageTypes,
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
@@ -34,10 +33,7 @@ const pollForMessageFromMobile = () => {
 }
 
 // sends messages to mobile clients based on platform
-export const sendMessageToMobile = (
-  platform: PlatformTypes,
-  message: MobileAuthConnectedMessage | MobileAuthWalletMergeMessage | MobileAuthExchangeMessage
-) => {
+export const sendMessageToMobile = (platform: PlatformTypes, message: MobileMessageTypes) => {
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
 

@@ -493,9 +493,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // we skip this for gold users
     if (!isUserTier2 && !latestPendingOrder) {
       // in case that there are no maxOrdersLeft user can swap freely
-      const userSwapBuyMore = !products.swap?.maxOrdersLeft || products.swap?.maxOrdersLeft > 0
+      const userCanSwapMore = !products.swap?.maxOrdersLeft || products.swap?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
-      if (!userSwapBuyMore) {
+      if (!userCanSwapMore) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
             origin: 'BuySellInit'

@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
 import { IconLink } from '@blockchain-com/icons'
+import {
+  AvatarGradientColors,
+  CollectionHeader,
+  GridWrapper,
+  NftBannerWrapper,
+  NftPageFullWidth,
+  opensea_event_types
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -17,13 +26,6 @@ import {
 } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import {
-  CollectionHeader,
-  GridWrapper,
-  NftBannerWrapper,
-  NftPageFullWidth,
-  opensea_event_types
-} from '../components'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import OpenSeaStatusComponent from '../components/openSeaStatus'
@@ -45,6 +47,8 @@ const LinksContainer = styled.div`
   display: flex;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
+  width: 34px;
+  justify-content: center;
   > a {
     display: flex;
     align-items: center;
@@ -77,11 +81,11 @@ const LinksContainer = styled.div`
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
+  const isTablet = useMedia('tablet')
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
 
-  const isTablet = useMedia('tablet')
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [numOfResults, setNumOfResults] = useState<number | undefined>(undefined)
@@ -107,7 +111,6 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
         <NftError error={collectionsQuery.error} />
       </div>
     )
-
   if (collectionsQuery.fetching) return <NftCollectionLoading />
 
   if (!collection) return null
@@ -119,11 +122,20 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
         <NftBannerWrapper>
           <CollectionInfo>
             <div style={{ alignItems: 'center', display: 'flex', gap: '8px' }}>
-              <NftCollectionImage
-                alt='Collection'
-                isVerified={collection.safelist_request_status === 'verified'}
-                src={collection.image_url || ''}
-              />
+              {collection.image_url ? (
+                <NftCollectionImage
+                  alt=''
+                  isVerified={collection.safelist_request_status === 'verified'}
+                  src={collection.image_url || ''}
+                />
+              ) : (
+                <Avatar
+                  size={30}
+                  name={collection.slug || ''}
+                  variant='marble'
+                  colors={AvatarGradientColors}
+                />
+              )}
               <Text color='white' size='32px' weight={600}>
                 {collection.name}
               </Text>

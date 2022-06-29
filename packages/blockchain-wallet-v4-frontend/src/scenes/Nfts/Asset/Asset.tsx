@@ -5,6 +5,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
+import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -17,7 +19,6 @@ import {
   Icon as BlockchainIcon,
   Image,
   Link,
-  SkeletonCircle,
   SkeletonRectangle,
   SpinningLoader,
   Text
@@ -70,7 +71,7 @@ const AssetImageContainer = styled.div`
 
 const AssetImg = styled.img`
   border-radius: 18px;
-  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey400};
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey200};
   box-sizing: border-box;
 `
 
@@ -195,9 +196,10 @@ const NftAsset: React.FC<Props> = ({
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
+      defaultEthAddr,
       token_id: id
     })
-  }, [contract, id, nftsActions])
+  }, [contract, id, nftsActions, defaultEthAddr])
 
   useEffect(() => {
     if (isRefreshRotating) {
@@ -208,13 +210,10 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const isOwner = currentAsset?.owners
-    ? currentAsset.owners.find((owner) => {
-        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
-      })
-    : null
+  const isOwner =
+    openSeaAsset.data?.ownership?.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
 
-  const owner = currentAsset?.owners ? currentAsset.owners[0] : null
+  const owner = isOwner ? openSeaAsset.data?.ownership?.owner : openSeaAsset.data?.owner
   const collectionName = currentAsset?.collection?.name || ''
   const description = currentAsset?.collection?.description || ''
   const isLongEnough = description?.length > 82
@@ -363,7 +362,7 @@ const NftAsset: React.FC<Props> = ({
                                         (traitCount / currentAsset.collection.total_supply) *
                                         100
                                       ).toFixed(1)
-                                    )}%`
+                                    )}% Rarity`
                                   : 'New Trait'
 
                               return (
@@ -434,7 +433,12 @@ const NftAsset: React.FC<Props> = ({
                               />
                             ) : (
                               <Flex alignItems='center' flexDirection='row'>
-                                <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                <Avatar
+                                  size={34}
+                                  name={currentAsset.collection.slug || ''}
+                                  variant='marble'
+                                  colors={AvatarGradientColors}
+                                />
                               </Flex>
                             )}
                             <Text
@@ -480,7 +484,12 @@ const NftAsset: React.FC<Props> = ({
                                 />
                               ) : (
                                 <Flex alignItems='center' flexDirection='row'>
-                                  <SkeletonCircle height='34px' width='34px' bgColor='grey000' />
+                                  <Avatar
+                                    size={34}
+                                    name={owner.address || ''}
+                                    variant='marble'
+                                    colors={AvatarGradientColors}
+                                  />{' '}
                                 </Flex>
                               )}
 
@@ -508,6 +517,7 @@ const NftAsset: React.FC<Props> = ({
                         reExecuteQuery()
                         nftsActions.fetchOpenSeaAsset({
                           asset_contract_address: contract,
+                          defaultEthAddr,
                           token_id: id
                         })
                         setIsRefreshRotating(true)
@@ -1006,11 +1016,11 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
             </RightColWrapper>
           </Top>
-          {/* {currentAsset &&
+          {currentAsset &&
           ((currentAsset?.collection?.total_supply && currentAsset.collection.total_supply > 2) ||
             !currentAsset.collection.total_supply) ? (
             <AssetMoreItems asset={currentAsset} />
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     </Wrapper>

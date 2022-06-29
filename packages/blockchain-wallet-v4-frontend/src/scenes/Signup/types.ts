@@ -19,6 +19,7 @@ export type SignupFormType = {
   country: string
   email: string
   password: string
+  referral?: string
   state: string
 }
 export type GoalDataType = Array<{
