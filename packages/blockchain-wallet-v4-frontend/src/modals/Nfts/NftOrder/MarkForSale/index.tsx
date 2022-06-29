@@ -447,7 +447,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         />
                       </Flex>
                       <Text size='12px'>
-                        Once sold, the above fees will be deducted from the sale.{' '}
+                        Once sold, the below fees will be deducted from the sale.{' '}
                         <Link
                           href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
                           size='12px'

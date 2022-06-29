@@ -36,7 +36,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
               width: 'fit-content'
             }}
             alt='nft-asset'
-            src={asset.image_url.replace(/=s\d*/, '')}
+            src={asset.image_url?.replace(/=s\d*/, '')}
           />
         </Flex>
         <Flex style={{ width: '100%' }} flexDirection='column' justifyContent='space-between'>

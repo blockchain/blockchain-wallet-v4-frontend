@@ -193,6 +193,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           protocol_data: action.payload.offer.protocol_data,
           signer
         })
+      } else if (action.payload.operation === GasCalculationOperations.Sell) {
+        const { asset } = action.payload
+        const signer: ethers.Wallet = yield call(getEthSigner)
+        const actions = yield call(createSeaportSellOrder, {
+          accountAddress: signer.address,
+          execute: false,
+          network: IS_TESTNET ? 'rinkeby' : 'mainnet',
+          openseaAsset: assetFromJSON(asset),
+          paymentTokenAddress: NULL_ADDRESS,
+          quantity: 1,
+          signer,
+          startAmount: '0'
+        })
+        fees = yield call(calculateSeaportGasFees, {
+          actions,
+          operation: GasCalculationOperations.Sell,
+          signer
+        })
       } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
         const { asset, expirationTime } = action.payload
         const { coinfig } = window.coins[action.payload.coin || 'WETH']
@@ -473,7 +491,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     yield put(A.setOrderFlowIsSubmitting(true))
-    const { asset, endPrice, expirationMinutes, startPrice, waitForHighestBid } = action.payload
+    const { asset, endPrice, expirationMinutes, gasData, startPrice, waitForHighestBid } =
+      action.payload
     const coin = action.payload.waitForHighestBid ? 'WETH' : 'ETH'
     const start_usd = yield getAmountUsd(coin, startPrice)
     const end_usd = yield getAmountUsd(coin, endPrice || 0)
@@ -496,7 +515,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const seaportOrder = yield call(createSeaportSellOrder, {
         accountAddress: signer.address,
         endAmount: endPrice || undefined,
+        execute: true,
         expirationTime,
+        gasData,
         listingTime: listingTime.toString(),
         network,
         openseaAsset: assetFromJSON(asset),

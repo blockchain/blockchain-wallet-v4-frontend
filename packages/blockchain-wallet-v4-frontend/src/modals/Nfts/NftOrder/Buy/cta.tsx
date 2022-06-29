@@ -166,6 +166,15 @@ const CTA: React.FC<Props> = (props) => {
                   id='copy.may_already_have_completed'
                   defaultMessage='Invalid order. This asset has already been purchased.'
                 />
+              ) : e.includes('UNPREDICTABLE_GAS_LIMIT') ? (
+                <Flex gap={4} flexDirection='column'>
+                  <FormattedMessage
+                    id='copy.unpredictable_gas_limit'
+                    defaultMessage='Cannot estimate gas, transaction may fail. Check console for full error.'
+                  />
+                  {/* eslint-disable-next-line no-console */}
+                  {console.log(e)}
+                </Flex>
               ) : (
                 e
               )}

@@ -109,6 +109,8 @@ export const cancelOrder = async ({
  */
 export const createSellOrder = async ({
   openseaAsset,
+  execute,
+  gasData,
   accountAddress,
   startAmount,
   endAmount,
@@ -123,7 +125,9 @@ export const createSellOrder = async ({
   accountAddress: string
   buyerAddress?: string
   endAmount?: BigNumberInput
+  execute: boolean
   expirationTime?: BigNumberInput
+  gasData?: GasDataI
   listingTime?: string
   network: string
   openseaAsset: OpenSeaAsset
@@ -161,7 +165,7 @@ export const createSellOrder = async ({
   }
 
   const seaport = getSeaport(signer)
-  const { executeAllActions } = await seaport.createOrder(
+  const { actions, executeAllActions } = await seaport.createOrder(
     {
       allowPartialFills: false,
       consideration: considerationFeeItems,
@@ -173,10 +177,21 @@ export const createSellOrder = async ({
     },
     accountAddress
   )
-  const order = await executeAllActions()
-  await seaport.validate([order], accountAddress)
 
-  return order
+  if (execute) {
+    const order = await executeAllActions()
+    const validation = await seaport.validate([order], accountAddress)
+
+    if (gasData && gasData.gasFees) {
+      await (
+        await validation.transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
+      ).wait()
+    }
+
+    return order
+  }
+
+  return actions
 }
 
 /**
@@ -262,7 +277,7 @@ export const createBuyOrder = async ({
     const order = await executeAllActions()
     const validation = await seaport.validate([order], accountAddress)
 
-    if (gasData && gasData.totalFees) {
+    if (gasData && gasData.gasFees) {
       await (
         await validation.transact({ gasLimit: gasData.gasFees, gasPrice: gasData.gasPrice })
       ).wait()
@@ -390,7 +405,7 @@ export const calculateSeaportGasFees = async (
           }
         | {
             actions: CreateOrderActions
-            operation: GasCalculationOperations.CreateOffer
+            operation: GasCalculationOperations.CreateOffer | GasCalculationOperations.Sell
             protocol_data?: never
           }
       )
@@ -398,7 +413,6 @@ export const calculateSeaportGasFees = async (
   const { operation, signer } = params
   let totalFees = 0
   let gasFees = 0
-  let approvalFees = 0
   let estimate = '0'
   const seaport = getSeaport(signer)
 
@@ -413,11 +427,12 @@ export const calculateSeaportGasFees = async (
         await seaport.cancelOrders([params.protocol_data.parameters]).estimateGas()
       )._hex
       break
+    case GasCalculationOperations.Sell:
     case GasCalculationOperations.CreateOffer:
       if (params.actions) {
         const [methods] = params.actions
         if (methods.type === 'approval') {
-          approvalFees = parseInt((await methods.transactionMethods.estimateGas())._hex)
+          estimate = await (await methods.transactionMethods.estimateGas())._hex
         }
       }
       break
@@ -434,9 +449,9 @@ export const calculateSeaportGasFees = async (
   gasFees = Math.ceil(parseInt(estimate) * 1.5)
 
   const gasPrice = await (await signer.getGasPrice()).toNumber()
-  totalFees = approvalFees + gasFees
+  totalFees = gasFees
   return {
-    approvalFees,
+    approvalFees: 0,
     gasFees,
     gasPrice,
     proxyFees: 0,

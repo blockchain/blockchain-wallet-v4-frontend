@@ -16,7 +16,7 @@ const Fees: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     nftActions.fetchFees({
-      amount: '0.000001',
+      amount: '0',
       asset: props.asset,
       // TODO: SEAPORT
       coin: 'WETH',
@@ -50,7 +50,7 @@ const Fees: React.FC<Props> = (props: Props) => {
                 <Text size='14px' weight={500}>
                   <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
                 </Text>
-                {val.approvalFees > 0 ? (
+                {val.gasFees > 0 ? (
                   <TooltipHost id='tooltip.opensea_offer_approval_fees'>
                     <TooltipIcon name='question-in-circle-filled' />
                   </TooltipHost>
@@ -58,10 +58,10 @@ const Fees: React.FC<Props> = (props: Props) => {
               </Flex>
               <RightAlign>
                 <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                  {new BigNumber(val.gasFees).multipliedBy(val.gasPrice).toString()}
                 </CoinDisplay>
                 <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                  {new BigNumber(val.gasFees).multipliedBy(val.gasPrice).toString()}
                 </FiatDisplay>
               </RightAlign>
             </Flex>

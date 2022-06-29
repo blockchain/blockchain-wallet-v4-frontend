@@ -20,7 +20,7 @@ const Fees: React.FC<Props> = (props) => {
     if (fees.isLoading) return <SpinningLoader height='12px' width='12px' borderWidth='3px' />
     if (!fees.data) return '⚠️'
 
-    let totalFees = new BigNumber(fees.data?.approvalFees).multipliedBy(fees.data?.gasPrice)
+    let totalFees = new BigNumber(fees.data?.gasFees).multipliedBy(fees.data?.gasPrice)
     if (canWrap && needsWrap) {
       totalFees = totalFees.plus(
         new BigNumber(orderFlow?.wrapEthFees?.data?.totalFees).multipliedBy(
