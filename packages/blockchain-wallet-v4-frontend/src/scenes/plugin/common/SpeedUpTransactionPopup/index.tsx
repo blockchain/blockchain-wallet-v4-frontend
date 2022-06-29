@@ -145,7 +145,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
       </IconWrapper>
       <Text size='20px' lineHeight='30px' weight={700} color='black'>
         <FormattedMessage
-          id='plugin.common.speed-up-popup.title'
+          id='plugin.common.speed-up-transaction-popup.title'
           defaultMessage='Sped up transaction'
         />
       </Text>
@@ -155,7 +155,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
         </Text>
         <Text size='12px' lineHeight='18px' weight={500} color='black'>
           <FormattedMessage
-            id='plugin.common.speed-up-popup.max_fee_label'
+            id='plugin.common.speed-up-transaction-popup.max_fee_label'
             defaultMessage='Max fee'
           />
           : {MAX_GAS_FEE_ETH_VALUE} ({MAX_GAS_FEE_USD_VALUE} USD)
@@ -163,7 +163,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
       </Flex>
       <Text size='12px' lineHeight='18px' weight={500} color='black'>
         <FormattedMessage
-          id='plugin.common.speed-up-popup.time_label'
+          id='plugin.common.speed-up-transaction-popup.time_label'
           defaultMessage='Likely in < 30 seconds'
         />
       </Text>
@@ -178,7 +178,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
             />
             <Text lineHeight='18px' size='12px' weight={500} color='black'>
               <FormattedMessage
-                id='plugin.common.speed-up-popup.low_priority'
+                id='plugin.common.speed-up-transaction-popup.low_priority'
                 defaultMessage='Low'
               />
             </Text>
@@ -195,7 +195,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
             />
             <Text lineHeight='18px' size='12px' weight={500} color='black'>
               <FormattedMessage
-                id='plugin.common.speed-up-popup.medium_priority'
+                id='plugin.common.speed-up-transaction-popup.medium_priority'
                 defaultMessage='Medium'
               />
             </Text>
@@ -211,7 +211,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
             />
             <Text lineHeight='18px' size='12px' weight={500} color='black'>
               <FormattedMessage
-                id='plugin.common.speed-up-popup.high_priority'
+                id='plugin.common.speed-up-transaction-popup.high_priority'
                 defaultMessage='High'
               />
             </Text>
@@ -221,7 +221,7 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
       </PriorityList>
       <Text size='12px' lineHeight='18px' weight={600} color='black'>
         <FormattedMessage
-          id='plugin.common.speed-up-popup.help_label'
+          id='plugin.common.speed-up-transaction-popup.help_label'
           defaultMessage='Need Help?'
         />
       </Text>
@@ -234,7 +234,10 @@ const SpeedUpTransactionPopup: React.FC<SpeedUpTransactionPopupProps> = ({ close
           onClick={saveGasPriority}
         >
           <Text size='16px' lineHeight='24px' weight={600} color='white'>
-            <FormattedMessage id='plugin.common.speed-up-popup.button_save' defaultMessage='Save' />
+            <FormattedMessage
+              id='plugin.common.speed-up-transaction-popup.button_save'
+              defaultMessage='Save'
+            />
           </Text>
         </Button>
       </ButtonWrapper>
