@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 import { BuySellWidgetGoalDataType } from 'data/types'
 
+import { SIGNUP_FORM } from '..'
 import { Card, CardHeader, CardsWrapper, LoginLink, PaddingWrapper } from '../components'
 import SignupForm from '../components/SignupForm'
 import { SubviewProps } from '../types'
@@ -53,13 +56,17 @@ const Amount = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
-  const { goals } = props
+const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps & Props) => {
+  const { formActions, goals, isCoinDataLoaded } = props
   const dataGoal = find(propEq('name', 'buySell'), goals)
   const goalData: BuySellWidgetGoalDataType = propOr({}, 'data', dataGoal)
-  const { amount, crypto, fiatCurrency } = goalData
+  const { amount, crypto, email, fiatCurrency } = goalData
   const showBuyHeader =
     !isNil(goalData) && !isEmpty(goalData) && !!fiatCurrency && !!crypto && !!amount
+
+  useEffect(() => {
+    formActions.change(SIGNUP_FORM, 'email', email)
+  }, [formActions])
   return (
     <>
       <CardsWrapper>
@@ -73,8 +80,7 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
                 />
               </Text>
             </CardHeader>
-
-            {showBuyHeader && (
+            {showBuyHeader && isCoinDataLoaded && (
               <>
                 <BuyItemWrapper>
                   <AmountWrapper>
@@ -87,7 +93,6 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
                       </Amount>
                     </SimpleWrapper>
                   </AmountWrapper>
-
                   <CryptoWrapper>
                     <Icon color={crypto} name={crypto} size='24px' weight={400} />
                     <Text capitalize color='black' size='16px' weight={500}>
@@ -107,7 +112,6 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
                 </Text>
               </>
             )}
-
             <SignupForm {...props} />
           </PaddingWrapper>
           <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
@@ -117,4 +121,12 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
   )
 }
 
-export default BuyGoal
+const mapStateToProps = (state) => ({
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
+})
+
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(BuyGoal)

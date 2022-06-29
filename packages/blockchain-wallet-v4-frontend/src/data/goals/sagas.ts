@@ -13,7 +13,7 @@ import {
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
@@ -182,6 +182,8 @@ export default ({ api, coreSagas, networks }) => {
     )
 
     if (amount && crypto && email && fiatCurrency) {
+      // add comment explaining
+      yield take(actionTypes.router.LOCATION_CHANGE)
       yield put(actions.router.push('/signup'))
     }
   }
