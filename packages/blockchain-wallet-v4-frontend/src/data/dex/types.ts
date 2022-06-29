@@ -6,7 +6,7 @@ export type DexToken = {
   decimals: number
   name: string
   symbol: CoinType
-  verifiedBy: number
+  verifiedBy?: number
 }
 
 export type DexChainTokenList = Array<DexToken>

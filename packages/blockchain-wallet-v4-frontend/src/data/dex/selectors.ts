@@ -4,6 +4,10 @@ export function getChains(state: RootState) {
   return state.dex.chains
 }
 
-export function getCurrentChainId(state: RootState) {
-  return state.dex.currentChain?.chainId
+export function getCurrentChain(state: RootState) {
+  return state.dex.currentChain
+}
+
+export function getCurrentChainTokens(state: RootState) {
+  return state.dex.currentChainTokens
 }

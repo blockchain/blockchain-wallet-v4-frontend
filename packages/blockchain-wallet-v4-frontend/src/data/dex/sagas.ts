@@ -26,9 +26,14 @@ export default ({ api }: { api: APIType }) => {
   const fetchChainTopTokens = function* () {
     try {
       yield put(A.fetchChainTopTokensLoading())
-      const currentChainId = yield select(S.getCurrentChainId)
-      const data: DexChainTokenList = yield call(api.getDexChainTopTokens, currentChainId)
-      yield put(A.fetchChainTopTokensSuccess(data))
+      const currentChain = yield select(S.getCurrentChain)
+      const tokenList: DexChainTokenList = yield call(
+        api.getDexChainTopTokens,
+        currentChain.chainId
+      )
+      // append the native currency of chain to full token list
+      const fullTokenList = [currentChain.nativeCurrency].concat(tokenList).filter(Boolean)
+      yield put(A.fetchChainTopTokensSuccess(fullTokenList))
     } catch (e) {
       yield put(A.fetchChainTopTokensFailure(e.toString()))
     }

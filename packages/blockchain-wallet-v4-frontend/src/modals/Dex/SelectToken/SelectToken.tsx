@@ -17,6 +17,7 @@ import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import Loading from './SelectToken.loading'
 import { getData } from './SelectToken.selectors'
 
 const FORM_NAME = 'dexTokenSelect'
@@ -82,9 +83,9 @@ const TokenBalanceColumn = styled.div`
 `
 
 const DexSelectToken = ({
-  coinResults,
   modalActions,
   position,
+  tokenListR,
   tokenSearch,
   total,
   walletCurrency
@@ -119,63 +120,73 @@ const DexSelectToken = ({
           </Icon>
         </SearchIconWrapper>
       </TextFilterWrapper>
-      {tokenSearch?.length && !coinResults.length ? (
-        <NoResultsWrapper>
-          <Text color='textBlack' size='18px'>
-            <FormattedMessage id='copy.no_results_found' defaultMessage='No results found!' />
-          </Text>
-        </NoResultsWrapper>
-      ) : (
-        <TokenList>
-          {coinResults.map((token) => {
-            return (
-              <TokenRow key={token.displaySymbol} onClick={() => window.alert(token.displaySymbol)}>
-                <TokenIcon name={token.symbol as CoinType} size='24px' />
-                <TokenDetails>
-                  <div>
-                    <Text color='textBlack' size='16px' weight={600} lineHeight='150%'>
-                      {token.name}
-                    </Text>
-                    <Text color='grey600' size='14px' weight={500} lineHeight='20px'>
-                      {token.displaySymbol}
-                    </Text>
-                  </div>
-                  <TokenBalanceColumn>
-                    <FiatDisplay
-                      coin={token.symbol}
-                      color='textBlack'
-                      currency={walletCurrency}
-                      data-e2e={`${token.displaySymbol}FiatBalance`}
-                      lineHeight='150%'
-                      loadingHeight='20px'
-                      size='16px'
-                      weight={600}
-                    >
-                      {token.balance}
-                    </FiatDisplay>
-                    <CoinDisplay
-                      coin={token.symbol}
-                      color='grey600'
-                      data-e2e={`${token.displaySymbol}Balance`}
-                      lineHeight='20px'
-                      size='14px'
-                      weight={500}
-                    >
-                      {token.balance}
-                    </CoinDisplay>
-                  </TokenBalanceColumn>
-                </TokenDetails>
-              </TokenRow>
-            )
-          })}
-        </TokenList>
-      )}
+      {tokenListR.cata({
+        Failure: (error) => <span>{error}</span>,
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />,
+        Success: (tokenList) => {
+          return tokenSearch?.length && !tokenList.length ? (
+            <NoResultsWrapper>
+              <Text color='textBlack' size='18px'>
+                <FormattedMessage id='copy.no_results_found' defaultMessage='No results found!' />
+              </Text>
+            </NoResultsWrapper>
+          ) : (
+            <TokenList>
+              {tokenList.map((token) => {
+                return (
+                  <TokenRow
+                    key={token.displaySymbol}
+                    onClick={() => window.alert(token.displaySymbol)}
+                  >
+                    <TokenIcon name={token.symbol as CoinType} size='24px' />
+                    <TokenDetails>
+                      <div>
+                        <Text color='textBlack' size='16px' weight={600} lineHeight='150%'>
+                          {token.name}
+                        </Text>
+                        <Text color='grey600' size='14px' weight={500} lineHeight='20px'>
+                          {token.displaySymbol}
+                        </Text>
+                      </div>
+                      <TokenBalanceColumn>
+                        <FiatDisplay
+                          coin={token.symbol}
+                          color='textBlack'
+                          currency={walletCurrency}
+                          data-e2e={`${token.displaySymbol}FiatBalance`}
+                          lineHeight='150%'
+                          loadingHeight='20px'
+                          size='16px'
+                          weight={600}
+                        >
+                          {token.balance}
+                        </FiatDisplay>
+                        <CoinDisplay
+                          coin={token.symbol}
+                          color='grey600'
+                          data-e2e={`${token.displaySymbol}Balance`}
+                          lineHeight='20px'
+                          size='14px'
+                          weight={500}
+                        >
+                          {token.balance}
+                        </CoinDisplay>
+                      </TokenBalanceColumn>
+                    </TokenDetails>
+                  </TokenRow>
+                )
+              })}
+            </TokenList>
+          )
+        }
+      })}
     </Modal>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  coinResults: getData(state),
+  tokenListR: getData(state),
   tokenSearch: formValueSelector(FORM_NAME)(state, 'textFilter'),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
