@@ -123,7 +123,7 @@ const App = ({
                           footer={<HomeNavbar />}
                           component={CoinsList}
                         />
-                        <PluginLayout path='/send' component={Send} />
+                        <PluginLayout path='/plugin/send' component={Send} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'
