@@ -629,18 +629,24 @@ const renderCard = (value: BSPaymentMethodType) => (
   </>
 )
 
-const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => (
-  <>
-    <DisplayValue>{value.currency}</DisplayValue>
-    <DisplayTitle>
-      {fiatToString({
-        unit: value.currency as FiatType,
-        value: convertBaseToStandard('FIAT', sbBalances[value.currency]?.available || '0')
-      })}{' '}
-      <FormattedMessage id='copy.available' defaultMessage='Available' />
-    </DisplayTitle>
-  </>
-)
+const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => {
+  const { currency } = value
+
+  const displayValue = window.coins[currency]?.coinfig.name ?? currency
+
+  return (
+    <>
+      <DisplayValue>{displayValue}</DisplayValue>
+      <DisplayTitle>
+        {fiatToString({
+          unit: currency,
+          value: convertBaseToStandard('FIAT', sbBalances[currency]?.available || '0')
+        })}{' '}
+        <FormattedMessage id='copy.available' defaultMessage='Available' />
+      </DisplayTitle>
+    </>
+  )
+}
 
 const getIcon = (
   method: BSPaymentMethodType | undefined,
