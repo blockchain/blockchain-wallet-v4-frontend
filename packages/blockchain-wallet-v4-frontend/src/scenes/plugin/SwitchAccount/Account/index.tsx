@@ -1,4 +1,5 @@
 import React, { MouseEvent, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import { IconCheckCircle, IconCopy } from '@blockchain-com/icons'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/plugin/SwitchAccount/Tooltip'
@@ -128,37 +129,12 @@ export const Account: React.FC<AccountProps> = ({
     )
   }
 
-  const shortingAddress = (address: string | number): string => {
-    const addressString: string = address.toString()
-    return `${addressString.slice(0, 4)}...${addressString.slice(-4)}`
-  }
-
-  const displayAccountIcon = () => {
-    switch (account.coin) {
-      case 'ETH':
-        return <Icon size='24' name={account.coin} />
-        break
-      case 'BTC':
-        return <Icon size='24' name={account.coin} />
-        break
-      case 'BCH':
-        return <Icon size='24' name={account.coin} />
-        break
-      case 'XLM':
-        return <Icon size='24' name={account.coin} />
-        break
-      default:
-        return <Icon size='24' name={account.coin} />
-        break
-    }
-  }
-
   return (
     <AccountBlock
       key={account.accountIndex}
       onClick={() => setActiveAccountIndex(account.accountIndex)}
     >
-      {displayAccountIcon()}
+      <Icon size='24' name={account.coin} />
       <AccountInfo>
         {account.address === copiedWalletAddress ? (
           <Tooltip tooltipProperties={tooltipProperties} />
@@ -175,9 +151,12 @@ export const Account: React.FC<AccountProps> = ({
             lineHeight='150%'
             style={{ marginRight: '9px' }}
           >
-            {shortingAddress(account.address)}
+            <FormattedMessage
+              id='switch.account.private_key_wallet'
+              defaultMessage='Private Key Wallet'
+            />
           </Text>
-          <IconCopy color={`${(props) => props.theme.exchangeLogin}`} width={16} height={16} />
+          <IconCopy width={16} height={16} />
         </WalletBlock>
         <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
           {balance}

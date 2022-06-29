@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, useSelector } from 'react-redux'
 import { IconClose } from '@blockchain-com/icons'
 import Failure from 'blockchain-wallet-v4-frontend/src/scenes/Prices/template.failure'
@@ -34,6 +35,10 @@ const BalanceText = styled(Text)`
 const HeaderText = styled(Text)`
   margin: 30px 0 12px;
 `
+const CloseIconWrapper = styled(IconClose)`
+  color: ${(props) => props.theme.grey400};
+`
+
 export class SwapAccountType {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -114,7 +119,8 @@ const SwitchAccount = (props) => {
       getWallet('xlm'),
       false,
       3
-    )
+    ),
+    new SwapAccountType(0, 'STX', 'STX', 'STX account', getAddressType('STX'), 4, '', false, 4)
   ]
 
   const totalBalance = data.cata({
@@ -135,10 +141,10 @@ const SwitchAccount = (props) => {
   return (
     <Wrapper>
       <IconWrapper>
-        <IconClose color='#98A1B2' height='24px' width='24px' onClick={closeSwitchAccountModal} />
+        <CloseIconWrapper height='24px' width='24px' onClick={closeSwitchAccountModal} />
       </IconWrapper>
       <HeaderText size='20px' color='white' weight={500}>
-        Select account
+        <FormattedMessage id='switch.account.select-account' defaultMessage='Select account' />
       </HeaderText>
       {totalBalance}
       {switchAccounts.map((account: SwapAccountType) => (
@@ -159,6 +165,7 @@ const mapStateToProps = (state) => {
   const data = getTotalBalance(state)
   const coins = selectors.components.swap.getCoins()
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
+
   return { accounts, data }
 }
 
