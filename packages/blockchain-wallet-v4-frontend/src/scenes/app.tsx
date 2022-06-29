@@ -27,6 +27,7 @@ import { getTracking } from 'services/tracking'
 
 import { CoinView } from './plugin/CoinView'
 import HomeNavbar from './plugin/HomeNavbar'
+import Send from './plugin/Send'
 
 const queryClient = new QueryClient()
 
@@ -126,6 +127,7 @@ const App = ({
                           footer={<HomeNavbar />}
                           component={CoinView}
                         />
+                        <PluginLayout path='/send' component={Send} />
                         <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                         <AuthLayout
                           path='/help'

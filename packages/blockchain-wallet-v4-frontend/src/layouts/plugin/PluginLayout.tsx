@@ -15,9 +15,10 @@ const MainWrapper = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  background: ${(props) => props.theme.exchangeLogin};
-  width: 360px;
-  height: 600px;
+  background: ${(props) => props.theme.black};
+  width: 312px;
+  height: 566px;
+  padding: 17px 24px;
 `
 
 const Header = styled.div`
@@ -26,13 +27,12 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   top: 0;
   width: 100%;
 `
 
 const Content = styled.div`
-  padding: 70px 20px 70px 20px;
   box-sizing: border-box;
   height: 100%;
 `
@@ -43,8 +43,9 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.exchangeLogin};
+  background: ${(props) => props.theme.black};
   bottom: 0;
+  left: 0;
   width: 100%;
 `
 
