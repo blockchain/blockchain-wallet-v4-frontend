@@ -2,25 +2,40 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 
-import { DexChainList, DexStateType } from './types'
+import { DexChain, DexChainList, DexChainTokenList, DexStateType } from './types'
 
 const initialState: DexStateType = {
-  chains: Remote.NotAsked
+  chains: Remote.NotAsked,
+  currentChain: undefined,
+  currentChainTokens: Remote.NotAsked
 }
 
 const dexSlice = createSlice({
   initialState,
   name: 'dex',
   reducers: {
-    fetchDexChains: () => {},
-    fetchDexChainsFailure: (state, action: PayloadAction<string>) => {
+    fetchChainTopTokens: () => {},
+    fetchChainTopTokensFailure: (state, action: PayloadAction<string>) => {
+      state.currentChainTokens = Remote.Failure(action.payload)
+    },
+    fetchChainTopTokensLoading: (state) => {
+      state.currentChainTokens = Remote.Loading
+    },
+    fetchChainTopTokensSuccess: (state, action: PayloadAction<DexChainTokenList>) => {
+      state.currentChainTokens = Remote.Success(action.payload)
+    },
+    fetchChains: () => {},
+    fetchChainsFailure: (state, action: PayloadAction<string>) => {
       state.chains = Remote.Failure(action.payload)
     },
-    fetchDexChainsLoading: (state) => {
+    fetchChainsLoading: (state) => {
       state.chains = Remote.Loading
     },
-    fetchDexChainsSuccess: (state, action: PayloadAction<DexChainList>) => {
+    fetchChainsSuccess: (state, action: PayloadAction<DexChainList>) => {
       state.chains = Remote.Success(action.payload)
+    },
+    setCurrentChain: (state, action: PayloadAction<DexChain>) => {
+      state.currentChain = action.payload
     }
   }
 })

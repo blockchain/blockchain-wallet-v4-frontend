@@ -7,6 +7,7 @@ export default ({ api }) => {
   const dexSagas = sagas({ api })
 
   return function* dexSaga() {
-    yield takeLatest(actions.fetchDexChains.type, dexSagas.fetchDexChains)
+    yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
+    yield takeLatest(actions.fetchChainTopTokens.type, dexSagas.fetchChainTopTokens)
   }
 }

@@ -34,7 +34,7 @@ const ContentWrapper = styled.div`
 
 const Dex = ({ dexActions }: Props) => {
   useEffect(() => {
-    dexActions.fetchDexChains()
+    dexActions.fetchChains()
   }, [dexActions])
 
   const wasIntroViewed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
