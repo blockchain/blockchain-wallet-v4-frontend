@@ -182,7 +182,12 @@ export default ({ api, coreSagas, networks }) => {
     )
 
     if (amount && crypto && email && fiatCurrency) {
-      // add comment explaining
+      // because of react router 'isFirstRendering' check
+      // push to /signup won't be saved on state, app
+      // will reroute to /login, skipping buy goal
+
+      // waiting for the firstRender of app before pushing
+      // route to signup
       yield take(actionTypes.router.LOCATION_CHANGE)
       yield put(actions.router.push('/signup'))
     }
