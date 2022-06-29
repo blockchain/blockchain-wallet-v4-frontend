@@ -7,7 +7,6 @@ import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Modals from '../../modals'
-import { Props as OwnProps } from './Nfts'
 import Header, { FIXED_HEADER_HEIGHT } from './NftsHeader'
 
 const Wrapper = styled.div`
@@ -24,10 +23,12 @@ const Page = styled.div`
     z-index: 1;
     position: relative;
     top: ${FIXED_HEADER_HEIGHT}px;
+    padding: 0px 24px;
+    border-top: 0px;
   }
 `
 
-const NftsTemplate: React.FC<Props> = (props) => {
+const NftsTemplate: React.FC<any> = (props) => {
   useEffect(() => {
     props.nftsActions.handleRouterChange({ location: { pathname: window.location.hash } })
   }, [window.location.hash, props.nftsActions])
@@ -44,7 +45,5 @@ const NftsTemplate: React.FC<Props> = (props) => {
     </ErrorBoundary>
   )
 }
-
-type Props = OwnProps
 
 export default NftsTemplate

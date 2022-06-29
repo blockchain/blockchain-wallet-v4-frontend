@@ -235,7 +235,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
   const showBalanceError = showError && amtError === 'ABOVE_BALANCE'
 
-  const showSilverRevampBanner = props.silverRevamp && props.products?.swap?.maxOrdersLeft > 0
+  const showSilverRevampBanner = props.products?.swap?.maxOrdersLeft > 0
 
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>

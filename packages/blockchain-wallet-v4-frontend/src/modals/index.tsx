@@ -29,12 +29,12 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
 // Debit Card
-const OrderMyCard = React.lazy(() => import('./OrderMyCard'))
+const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
+const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
-const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 const EthWalletBalances = React.lazy(() => import('./Eth/EthWalletBalances'))
 
 // XLM
@@ -48,6 +48,7 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // NFTS
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
+const GetFeatured = React.lazy(() => import('./Nfts/components/GetFeatured'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -60,7 +61,6 @@ const AirdropSuccess = React.lazy(() => import('./Onboarding/AirdropSuccess'))
 const LinkFromExchangeAccount = React.lazy(() => import('./Onboarding/LinkFromExchangeAccount'))
 const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchangeAccount'))
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
-const ExtraFields = React.lazy(() => import('./Onboarding/KycVerification/ExtraFields'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
 const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
@@ -177,6 +177,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.GET_FEATURED) ? (
+          <GetFeatured />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
         ) : null}
@@ -256,6 +259,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
+          <TerminateCard />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}
@@ -293,9 +299,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
-          <WalletConnect />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ETH_WALLET_BALANCES) ? (
           <EthWalletBalances />
         ) : null}
@@ -321,9 +324,6 @@ const Modals = (props: Props) => {
           <XlmReserveLearn />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_EXTRA_FIELDS_MODAL) ? (
-          <ExtraFields />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
           <IdentityVerification />
         ) : null}

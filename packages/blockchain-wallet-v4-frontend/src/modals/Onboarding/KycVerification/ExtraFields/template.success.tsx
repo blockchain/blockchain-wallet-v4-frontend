@@ -66,7 +66,7 @@ const TopText = styled(Text)`
 `
 const LeftTopCol = styled.div`
   display: flex;
-  align-items: center;
+  align-items: left;
 `
 
 const ErrorTextContainer = styled.div`
@@ -360,16 +360,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
-            <Icon
-              cursor
-              data-e2e='kycBackToCryptoSelection'
-              name='arrow-left'
-              size='20px'
-              color='grey600'
-              role='button'
-              style={{ marginRight: '8px' }}
-              onClick={props.onClose}
-            />
             <FormattedMessage
               id='identityverification.extra_fields.title'
               defaultMessage='Use of Account Information'

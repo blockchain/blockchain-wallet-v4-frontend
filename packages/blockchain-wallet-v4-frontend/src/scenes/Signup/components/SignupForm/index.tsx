@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
+import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
@@ -26,6 +27,7 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
+import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SubviewProps } from '../../types'
 
@@ -67,9 +69,20 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SignupForm = (props: Props) => {
-  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
-    props
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    isReferralEnabled,
+    isValidReferralCode,
+    onCountrySelect,
+    onSignupSubmit,
+    showState
+  } = props
   const passwordValue = formValues?.password || ''
+  const referralValue = formValues?.referral || ''
+  const showReferralError =
+    referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -172,7 +185,7 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            placeholder='Reenter Password'
+            placeholder='Re-enter Password'
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
@@ -192,12 +205,7 @@ const SignupForm = (props: Props) => {
             component={SelectBoxCountry as ReturnType<typeof SelectBox>}
             menuPlacement='auto'
             onChange={onCountrySelect}
-            label={
-              <FormattedMessage
-                id='scenes.register.select_country'
-                defaultMessage='Select Country'
-              />
-            }
+            label='Select Country'
           />
         </FieldWithoutBottomRadius>
         {showState ? (
@@ -208,17 +216,39 @@ const SignupForm = (props: Props) => {
               errorBottom
               validate={[required]}
               normalize={(val) => val && val.code}
-              label={
-                <FormattedMessage
-                  id='components.selectboxstate.label'
-                  defaultMessage='Select state'
-                />
-              }
+              label='Select State'
             />
           </FieldWithoutTopRadius>
         ) : null}
       </FormGroup>
-
+      {isReferralEnabled && (
+        <FormGroup>
+          <FormItem>
+            <FormLabel htmlFor='referral' id='referral'>
+              <FormattedMessage
+                defaultMessage='Have a referral code?'
+                id='scenes.register.referralcode'
+              />
+            </FormLabel>
+            <Field
+              bgColor='grey000'
+              component={TextBox}
+              data-e2e='referral'
+              name='referral'
+              normalize={applyToUpperCase}
+              placeholder='Enter Referral Code'
+            />
+            {showReferralError && (
+              <FormError data-e2e='referralError' style={{ paddingTop: '5px' }}>
+                <FormattedMessage
+                  defaultMessage='Please enter a valid referral code'
+                  id='scenes.register.referralcode.error'
+                />
+              </FormError>
+            )}
+          </FormItem>
+        </FormGroup>
+      )}
       <FormGroup inline>
         <FieldWrapper>
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />

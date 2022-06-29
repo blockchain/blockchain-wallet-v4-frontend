@@ -6,8 +6,9 @@ import { NftAsset } from '@core/network/api/nfts/types'
 
 import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
-import ApprovalFees from '../Approval/fees'
-import WrapEthFees from '../WrapEth/fees'
+import { NftMakeOfferFormValues } from '.'
+import CreateOfferFees from './CreateOffer.fees'
+import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
   const getTotalFees = () => {
@@ -18,7 +19,8 @@ const Fees: React.FC<Props> = (props) => {
           props?.orderFlow?.wrapEthFees?.data?.gasPrice
         )
       )
-    const totalString = !totalFees.isNaN() ? totalFees.toString() : '0'
+    if (totalFees.isNaN()) return '⚠️'
+    const totalString = totalFees.toString()
     const total = displayCoinToCoin({ coin: 'ETH', value: totalString })
     return total
   }
@@ -26,13 +28,13 @@ const Fees: React.FC<Props> = (props) => {
   return (
     <>
       <FeesDropdown totalFees={getTotalFees()}>
-        <ApprovalFees {...props} />
-        <WrapEthFees {...props} />
+        <CreateOfferFees {...props} />
+        {props.formValues.coin === 'WETH' ? <WrapEthFees {...props} /> : null}
       </FeesDropdown>
     </>
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps & { asset: NftAsset; formValues: NftMakeOfferFormValues }
 
 export default Fees

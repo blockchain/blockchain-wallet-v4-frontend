@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
@@ -136,6 +136,7 @@ const DOBToObject = (value) => {
 }
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
+  const [isCountryStateSet, setCountyStateSet] = useState(false)
 
   if (props.submitting) {
     return (
@@ -149,8 +150,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     (props.formValues && props.formValues.country && props.formValues.country.code) ||
     props.countryCode
 
+  let stateCode = (props.formValues && props.formValues.state) || props.usState
+
   if (props.userData?.country && props.userData.country !== countryCode) {
     countryCode = props.userData.country
+  }
+
+  if (props.userData?.state && props.userData.state !== stateCode) {
+    stateCode = props.userData.state
   }
 
   const countryIsUS = countryCode === 'US'
@@ -161,6 +168,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   if (defaultCountry && (!props.formValues || (props.formValues && !props.formValues.country))) {
     props.updateDefaultCountry(defaultCountry)
+  }
+
+  if (countryIsUS && props.userData?.state && !isCountryStateSet) {
+    props.updateDefaultState(stateCode)
+    setCountyStateSet(true)
   }
 
   return (
@@ -358,6 +370,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 errorBottom
                 validate={[required]}
                 normalize={(val) => val && val.code}
+                disabled={!!stateCode}
                 format={(val) => ({
                   code: val,
                   name: getStateNameFromAbbreviation(val)
@@ -442,6 +455,7 @@ export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value: CountryType) => void
     updateDefaultCountry: (country: CountryType) => void
+    updateDefaultState: (state: string) => void
   }
 
 export default reduxForm<{}, Props>({

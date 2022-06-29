@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown, IconChevronRight } from '@blockchain-com/icons'
+import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -41,7 +41,7 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
     <Wrapper>
       <Top onClick={toggleDropdown}>
         <Text weight={500} size='14px'>
-          <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
+          <FormattedMessage id='copy.total_fees' defaultMessage='Total Fees' />
         </Text>
         <Flex alignItems='center' gap={8}>
           <Text weight={600} size='14px'>
@@ -50,20 +50,18 @@ const FeesDropdown: React.FC<Props> = ({ children, totalFees }) => {
           <IconWrapper>
             {!isActive ? (
               <Icon label='chevron-right' color='grey400' size='sm'>
-                <IconChevronRight />
+                <IconChevronDown />
               </Icon>
             ) : (
               <Icon label='chevron-down' color='grey400' size='sm'>
-                <IconChevronDown />
+                <IconChevronUp />
               </Icon>
             )}
           </IconWrapper>
         </Flex>
       </Top>
       <FeesWrapper style={isActive ? {} : { display: 'none' }}>
-        {React.Children.map(children, (child) => (
-          <FeeChild>{child}</FeeChild>
-        ))}
+        {React.Children.map(children, (child) => (child ? <FeeChild>{child}</FeeChild> : null))}
       </FeesWrapper>
     </Wrapper>
   )

@@ -45,7 +45,7 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BuySellState } from './types'
+import { BuySellState, BuySellStepType } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -69,7 +69,7 @@ const initialState: BuySellState = {
   method: undefined,
   methods: Remote.NotAsked,
   mobilePaymentMethod: undefined,
-  order: undefined,
+  order: Remote.NotAsked,
   orderType: undefined,
   orders: Remote.NotAsked,
   origin: undefined,
@@ -129,14 +129,14 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'PREVIEW_SELL': {
       return { sellOrderType: payload.sellOrderType, step: payload.step }
     }
-    case 'AUTHORIZE_PAYMENT':
-    case 'CHECKOUT_CONFIRM':
-    case 'ORDER_SUMMARY':
-    case 'OPEN_BANKING_CONNECT':
-    case '3DS_HANDLER_EVERYPAY':
-    case '3DS_HANDLER_STRIPE':
-    case '3DS_HANDLER_CHECKOUTDOTCOM':
-      return { order: payload.order, step: payload.step }
+    // case 'AUTHORIZE_PAYMENT':
+    // case 'CHECKOUT_CONFIRM':
+    // case 'ORDER_SUMMARY':
+    // case 'OPEN_BANKING_CONNECT':
+    // case '3DS_HANDLER_EVERYPAY':
+    // case '3DS_HANDLER_STRIPE':
+    // case '3DS_HANDLER_CHECKOUTDOTCOM':
+    //   return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
     case 'ADD_CARD_CHECKOUTDOTCOM':
@@ -164,7 +164,9 @@ const buySellSlice = createSlice({
     activateCardSuccess: (state, action: PayloadAction<ProviderDetailsType>) => {
       state.providerDetails = Remote.Success(action.payload)
     },
-    cancelOrder: (state, action: PayloadAction<BSOrderType>) => {},
+    cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
+      state.pendingOrder = undefined
+    },
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
@@ -174,9 +176,19 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
+    confirmOrderFailure: (state, action: PayloadAction<string | number>) => {
+      state.order = Remote.Failure(action.payload)
+    },
+    confirmOrderLoading: (state) => {
+      state.order = Remote.Loading
+    },
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
+    confirmOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
+      state.order = Remote.Success(action.payload)
+      state.pendingOrder = undefined
+    },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
-    createCardFailure: (state, action: PayloadAction<string>) => {
+    createCardFailure: (state, action: PayloadAction<string | number>) => {
       state.card = Remote.Failure(action.payload)
     },
     createCardLoading: (state) => {
@@ -196,12 +208,24 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
+    createOrderFailure: (state, action: PayloadAction<string>) => {
+      state.order = Remote.Failure(action.payload)
+    },
+    createOrderLoading: (state) => {
+      state.order = Remote.Loading
+    },
+    createOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
+      state.order = Remote.Success(action.payload)
+      state.pendingOrder = action.payload
+    },
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
     destroyCheckout: (state) => {
       state.account = Remote.NotAsked
+      state.providerDetails = Remote.NotAsked
       state.cardId = undefined
-      state.order = undefined
+      state.order = Remote.NotAsked
+      state.pendingOrder = undefined
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
@@ -253,7 +277,6 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
-
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -273,7 +296,7 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-    fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
+    fetchFiatEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
 
@@ -301,7 +324,7 @@ const buySellSlice = createSlice({
       state.limits = Remote.Success(action.payload)
     },
     fetchOrders: () => {},
-    fetchOrdersFailure: (state, action: PayloadAction<string>) => {
+    fetchOrdersFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.orders = Remote.Failure(action.payload)
     },
     fetchOrdersLoading: (state) => {
@@ -311,7 +334,7 @@ const buySellSlice = createSlice({
       state.orders = Remote.Success(action.payload)
     },
     fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency?: FiatType }>) => {},
-    fetchPairsFailure: (state, action: PayloadAction<string>) => {
+    fetchPairsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.pairs = Remote.Failure(action.payload)
     },
     fetchPairsLoading: (state) => {
@@ -473,7 +496,7 @@ const buySellSlice = createSlice({
           state.fiatCurrency = stepPayload.fiatCurrency
           state.method = stepPayload.method
           state.mobilePaymentMethod = stepPayload.mobilePaymentMethod
-          state.order = undefined
+          // state.order = undefined
           state.orderType = stepPayload.orderType
           state.pair = stepPayload.pair
           state.step = stepPayload.step
@@ -493,7 +516,6 @@ const buySellSlice = createSlice({
           state.addBank = undefined
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
-          state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case '3DS_HANDLER_EVERYPAY':
@@ -503,7 +525,6 @@ const buySellSlice = createSlice({
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
           state.addBank = undefined
-          state.order = stepPayload.order
           state.step = stepPayload.step
           break
         case 'BANK_WIRE_DETAILS':
@@ -532,6 +553,7 @@ const buySellSlice = createSlice({
         cryptoCurrency?: CoinType
         orderType?: BSOrderActionType
         origin: BSShowModalOriginType
+        step?: 'DETERMINE_CARD_PROVIDER'
       }>
     ) => {
       state.origin = action.payload.origin

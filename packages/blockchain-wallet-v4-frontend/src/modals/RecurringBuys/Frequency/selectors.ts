@@ -5,11 +5,14 @@ import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 const getData = createDeepEqualSelector(
-  [selectors.components.recurringBuy.getPaymentInfo],
-  (paymentInfoR) => {
-    return lift((paymentInfo: ExtractSuccess<typeof paymentInfoR>) => ({
-      paymentInfo
-    }))(paymentInfoR)
+  [selectors.components.buySell.getBSOrder, selectors.components.recurringBuy.getPaymentInfo],
+  (orderR, paymentInfoR) => {
+    return lift(
+      (order: ExtractSuccess<typeof orderR>, paymentInfo: ExtractSuccess<typeof paymentInfoR>) => ({
+        order,
+        paymentInfo
+      })
+    )(orderR, paymentInfoR)
   }
 )
 

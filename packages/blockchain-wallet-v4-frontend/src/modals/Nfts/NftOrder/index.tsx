@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
+import { DEFAULT_INVITATIONS } from '@core/model'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
@@ -53,6 +54,7 @@ class NftOrder extends PureComponent<Props, State> {
 
     return (
       <Flyout
+        doNotHide
         position={position}
         isOpen={show}
         userClickedOutside={userClickedOutside}
@@ -60,29 +62,14 @@ class NftOrder extends PureComponent<Props, State> {
         data-e2e='nftModal'
         total={total}
       >
-        {step === NftOrderStepEnum.BUY && (
-          <StyledFlyoutChild>
-            <Buy {...this.props} close={() => this.handleClose()} />
-          </StyledFlyoutChild>
-        )}
-        {step === NftOrderStepEnum.MARK_FOR_SALE && (
-          <StyledFlyoutChild>
-            <MarkForSale {...this.props} close={() => this.handleClose()} />
-          </StyledFlyoutChild>
-        )}
         {step === NftOrderStepEnum.ACCEPT_OFFER && (
           <StyledFlyoutChild>
             <AcceptOffer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
-        {step === NftOrderStepEnum.MAKE_OFFER && (
+        {step === NftOrderStepEnum.BUY && (
           <StyledFlyoutChild>
-            <MakeOffer {...this.props} close={() => this.handleClose()} />
-          </StyledFlyoutChild>
-        )}
-        {step === NftOrderStepEnum.CANCEL_OFFER && (
-          <StyledFlyoutChild>
-            <CancelOffer {...this.props} close={() => this.handleClose()} />
+            <Buy {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
         {step === NftOrderStepEnum.CANCEL_LISTING && (
@@ -90,19 +77,34 @@ class NftOrder extends PureComponent<Props, State> {
             <CancelListing {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
+        {step === NftOrderStepEnum.CANCEL_OFFER && (
+          <StyledFlyoutChild>
+            <CancelOffer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
+        {step === NftOrderStepEnum.MAKE_OFFER && (
+          <StyledFlyoutChild>
+            <MakeOffer {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
+        {step === NftOrderStepEnum.MARK_FOR_SALE && (
+          <StyledFlyoutChild>
+            <MarkForSale {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
         {step === NftOrderStepEnum.TRANSFER && (
           <StyledFlyoutChild>
             <Transfer {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
-        {step === NftOrderStepEnum.STATUS && (
-          <StyledFlyoutChild>
-            <Status {...this.props} close={() => this.handleClose()} />
-          </StyledFlyoutChild>
-        )}
         {step === NftOrderStepEnum.NOT_VERIFIED && (
           <StyledFlyoutChild>
             <NotVerified {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
+        {step === NftOrderStepEnum.STATUS && (
+          <StyledFlyoutChild>
+            <Status {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
       </Flyout>
@@ -113,6 +115,9 @@ class NftOrder extends PureComponent<Props, State> {
 const mapStateToProps = (state) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   isAuthenticated: selectors.auth.isAuthenticated(state),
+  isInvited:
+    selectors.core.settings.getInvitations(state).getOrElse(DEFAULT_INVITATIONS).nftBuySell ||
+    !selectors.auth.isAuthenticated(state),
   openSeaAssetR: selectors.components.nfts.getOpenSeaAsset(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })

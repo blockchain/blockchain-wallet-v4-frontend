@@ -39,12 +39,9 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     orderToMatch: null,
+    prevStep: null,
     status: null,
     step: null,
-    // This is a hack because sometimes opensea sets the owner address
-    // to NULL_ADDRESS (if contract is opensea storefront)
-    // will be fixed by explorer-gateway eventually
-    walletUserIsAssetOwnerHack: false,
 
     wrapEthFees: Remote.NotAsked
   },
@@ -57,9 +54,17 @@ const nftsSlice = createSlice({
   reducers: {
     acceptOffer: (
       state,
-      action: PayloadAction<{ buy: UnsignedOrder; gasData: GasDataI; sell: UnsignedOrder }>
+      action: PayloadAction<{
+        asset: NftAsset
+        buy: UnsignedOrder
+        gasData: GasDataI
+        sell: UnsignedOrder
+      }>
     ) => {},
-    cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
+    cancelListing: (
+      state,
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder }>
+    ) => {},
     cancelOffer: (
       state,
       action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: RawOrder | null }>
@@ -75,6 +80,7 @@ const nftsSlice = createSlice({
         coin?: string
         expirationTime: number
         offerFees: GasDataI
+        order?: NftOrder
         wrapFees?: GasDataI
       }>
     ) => {},
@@ -92,9 +98,10 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         asset: NftAssetsType[0]
         endPrice: number | null
-        expirationDays: number
+        expirationMinutes: number
         gasData: GasDataI
         paymentTokenAddress: string | undefined
+        reservePrice: number | undefined
         startPrice: number
         waitForHighestBid: boolean | undefined
       }>
@@ -118,6 +125,7 @@ const nftsSlice = createSlice({
             asset: NftAsset
             offer: string
             operation: GasCalculationOperations.CreateOffer
+            order?: NftOrder
             paymentTokenAddress: string
           }
         | {
@@ -128,9 +136,10 @@ const nftsSlice = createSlice({
         | {
             asset: NftAsset
             endPrice?: number
-            expirationDays: number
+            expirationMinutes: number
             operation: GasCalculationOperations.Sell
             paymentTokenAddress?: string
+            reservePrice?: number
             startPrice: number
             waitForHighestBid?: boolean
           }
@@ -194,7 +203,7 @@ const nftsSlice = createSlice({
         token_id: string
       }>
     ) => {},
-    fetchOpenSeaAssetFailure: (state, action: PayloadAction<NftAsset>) => {
+    fetchOpenSeaAssetFailure: (state, action: PayloadAction<string>) => {
       state.openSeaAsset = Remote.Failure(action.payload)
     },
     fetchOpenSeaAssetLoading: (state) => {
@@ -226,15 +235,13 @@ const nftsSlice = createSlice({
             order?: never
             step: NftOrderStepEnum.CANCEL_OFFER
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
             offer?: never
-            order?: RawOrder
+            order: RawOrder
             step: NftOrderStepEnum.ACCEPT_OFFER
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
         | {
             asset_contract_address: string
@@ -242,7 +249,20 @@ const nftsSlice = createSlice({
             order: RawOrder
             step: NftOrderStepEnum.BUY
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
+            order: RawOrder
+            step: NftOrderStepEnum.CANCEL_LISTING
+            token_id: string
+          }
+        | {
+            asset_contract_address: string
+            offer?: never
+            order?: RawOrder
+            step: NftOrderStepEnum.MAKE_OFFER
+            token_id: string
           }
         | {
             asset_contract_address: string
@@ -250,18 +270,19 @@ const nftsSlice = createSlice({
             order?: never
             step: NftOrderStepEnum
             token_id: string
-            walletUserIsAssetOwnerHack: boolean
           }
       >
     ) => {
       state.orderFlow.step = action.payload.step
-      state.orderFlow.walletUserIsAssetOwnerHack = action.payload.walletUserIsAssetOwnerHack
 
       if (action.payload.order) {
         state.orderFlow.orderToMatch = action.payload.order
       }
       if (action.payload.offer && action.payload.step === NftOrderStepEnum.CANCEL_OFFER) {
         state.orderFlow.offerToCancel = action.payload.offer
+      }
+      if (action.payload.order && action.payload.step === NftOrderStepEnum.CANCEL_LISTING) {
+        state.orderFlow.listingToCancel = action.payload.order
       }
     },
     nftSearch: (state, action: PayloadAction<{ search: string }>) => {},
@@ -304,6 +325,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload
+    },
+    setOrderFlowPrevStep: (state, action: PayloadAction<{ prevStep: NftOrderStepEnum }>) => {
+      state.orderFlow.prevStep = action.payload.prevStep
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step

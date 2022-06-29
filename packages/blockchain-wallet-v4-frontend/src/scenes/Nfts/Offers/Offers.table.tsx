@@ -3,30 +3,31 @@ import { useSortBy, useTable } from 'react-table'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
 
-import { RawOrder } from '@core/network/api/nfts/types'
+import { NftAsset, RawOrder } from '@core/network/api/nfts/types'
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 
 import {
+  getActionColumn,
   getAmountColumn,
   getExpirationColumn,
   getFromColumn,
-  getOfferCancelColumn,
   getPriceColumn
 } from './OffersTableColumns'
 
 const getTableColumns = (
-  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[],
-  defaultEthAddr
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'action')[],
+  defaultEthAddr,
+  asset
 ) =>
   [
     columns.includes('price') ? getPriceColumn() : null,
     columns.includes('amount') ? getAmountColumn() : null,
     columns.includes('expiration') ? getExpirationColumn() : null,
     columns.includes('from') ? getFromColumn() : null,
-    columns.includes('cancel_offer') ? getOfferCancelColumn(defaultEthAddr) : null
+    columns.includes('action') ? getActionColumn(defaultEthAddr, asset) : null
   ].filter(Boolean)
 
-const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }) => {
+const OffersTable: React.FC<Props> = ({ asset, bidsAndOffers, columns, defaultEthAddr }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       autoResetExpanded: false,
@@ -36,7 +37,10 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }
       autoResetRowState: false,
       autoResetSelectedRows: false,
       autoResetSortBy: false,
-      columns: useMemo(() => getTableColumns(columns, defaultEthAddr), [columns, defaultEthAddr]),
+      columns: useMemo(
+        () => getTableColumns(columns, defaultEthAddr, asset),
+        [columns, defaultEthAddr, asset]
+      ),
       data: useMemo(() => bidsAndOffers, [bidsAndOffers]),
       disableMultiSort: true,
       disableSortRemove: true,
@@ -46,7 +50,7 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }
   )
 
   return (
-    <div {...getTableProps()} className='table'>
+    <div {...getTableProps()} className='table no-border'>
       <StickyTableHeader>
         {headerGroups.map((headerGroup) => (
           // eslint-disable-next-line react/jsx-key
@@ -55,7 +59,11 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }
               <div
                 key={column.key}
                 {...column.getHeaderProps(
-                  column.getSortByToggleProps({ style: { width: `${100 / columns.length}%` } })
+                  column.getSortByToggleProps({
+                    style: {
+                      width: column.id === 'price' ? '40%' : `${60 / (columns.length - 1)}%`
+                    }
+                  })
                 )}
                 className='th'
               >
@@ -94,7 +102,11 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }
               {row.cells.map((cell) => (
                 <div
                   key={`cell-${cell.row.id}`}
-                  {...cell.getCellProps({ style: { width: `${100 / columns.length}%` } })}
+                  {...cell.getCellProps({
+                    style: {
+                      width: cell.column.id === 'price' ? '40%' : `${60 / (columns.length - 1)}%`
+                    }
+                  })}
                   className='td'
                 >
                   {cell.render('Cell')}
@@ -109,8 +121,9 @@ const OffersTable: React.FC<Props> = ({ bidsAndOffers, columns, defaultEthAddr }
 }
 
 type Props = {
+  asset?: NftAsset
   bidsAndOffers: RawOrder[]
-  columns: ('price' | 'amount' | 'from' | 'expiration' | 'cancel_offer')[]
+  columns: ('price' | 'amount' | 'from' | 'expiration' | 'action')[]
   defaultEthAddr: string
 }
 

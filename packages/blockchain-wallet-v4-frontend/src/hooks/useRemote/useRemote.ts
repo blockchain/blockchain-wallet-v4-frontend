@@ -1,6 +1,6 @@
 import { DefaultRootState, useSelector } from 'react-redux'
 
-import { RemoteDataType } from '@core/types'
+import { Remote } from '@core'
 
 import { RemoteHookSelector, RemoteHookState } from './types'
 import {
@@ -17,21 +17,13 @@ export const useRemote = <
 >(
   selector: RemoteHookSelector<ERROR, RESULT, STATE>
 ): RemoteHookState<ERROR, RESULT> => {
-  const data = useSelector(selector)
+  const remote = useSelector(selector)
 
-  const remoteDataState = data['@@tag']
+  if (Remote.Loading.is(remote)) return createRemoteLoadingState()
 
-  const mapRemoteDataStateToRemoteHookBaseState: Record<
-    'NotAsked' | 'Failure' | 'Loading' | 'Success',
-    (data: RemoteDataType<ERROR, RESULT>) => RemoteHookState<ERROR, RESULT>
-  > = {
-    Failure: (data) => createRemoteFailureState(data['@@values'][0] as ERROR),
-    Loading: createRemoteLoadingState,
-    NotAsked: createRemoteNotAskedState,
-    Success: ({ data }) => createRemoteSuccessState(data)
-  }
+  if (Remote.Success.is(remote)) return createRemoteSuccessState(remote.data)
 
-  const stateBuilder = mapRemoteDataStateToRemoteHookBaseState[remoteDataState]
+  if (Remote.Failure.is(remote)) return createRemoteFailureState(remote['@@values'][0] as ERROR)
 
-  return stateBuilder(data)
+  return createRemoteNotAskedState()
 }

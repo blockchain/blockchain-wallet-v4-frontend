@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
@@ -9,9 +10,10 @@ import styled from 'styled-components'
 
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import AppSwitcher from 'components/NavbarV2/AppSwitcher'
-import { Logo, NavContainer, NavLeft, NavRight } from 'components/NavbarV2/Navbar'
-import { ModalName } from 'data/types'
+import AppSwitcher from 'components/Navbar/AppSwitcher'
+import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
+import { actions } from 'data'
+import { Analytics, ModalName } from 'data/types'
 import { media, useMedia } from 'services/styles'
 
 import { Props as OwnProps } from '../Nfts'
@@ -32,19 +34,24 @@ const NavCenter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
+  width: 100%;
+  margin: 0 40px;
   ${media.tablet`
     width: auto;
   `}
 `
-const NavLinkButton = styled(Link)`
+const NavLinkButton = styled(NavLink)`
   padding: 8px 10px;
   border-radius: 8px;
   text-decoration: none;
   margin-right: 12px;
-  background-color: ${(props) => props.theme.blue000};
-  * {
-    color: ${(props) => props.theme.blue600};
+  transition: color 0.3s, background-color 0.3s;
+  &:hover,
+  &.active {
+    background-color: ${(props) => props.theme.purple000};
+    * {
+      color: ${(props) => props.theme.purple600};
+    }
   }
 `
 
@@ -52,9 +59,17 @@ const ExploreHeader: React.FC<Props> = ({
   ethAddress,
   isAuthenticated,
   modalActions,
-  pathname,
-  routerActions
+  pathname
 }) => {
+  const dispatch = useDispatch()
+  const trackExploreClicked = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.NFT_EXPLORER_CLICKED,
+        properties: {}
+      })
+    )
+  }
   const isTablet = useMedia('tablet')
 
   return (
@@ -69,16 +84,18 @@ const ExploreHeader: React.FC<Props> = ({
       </NavLeft>
       <NavCenter>
         {isTablet ? null : (
-          <LinkContainer to='/nfts/explore'>
-            <NavLinkButton>
-              <Flex alignItems='center' gap={4}>
-                <Text size='14px' weight={600}>
-                  <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-                </Text>
-                🚀
-              </Flex>
-            </NavLinkButton>
-          </LinkContainer>
+          <NavLinkButton to='/nfts/home' onClick={trackExploreClicked}>
+            <Text size='14px' weight={600}>
+              <FormattedMessage id='copy.home' defaultMessage='Home' />
+            </Text>
+          </NavLinkButton>
+        )}
+        {isTablet ? null : (
+          <NavLinkButton to='/nfts/explore' onClick={trackExploreClicked}>
+            <Text size='14px' weight={600}>
+              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+            </Text>
+          </NavLinkButton>
         )}
         <NftsSearch />
       </NavCenter>
@@ -88,25 +105,27 @@ const ExploreHeader: React.FC<Props> = ({
             <Button
               small
               data-e2e='back'
-              nature='empty-blue'
+              nature='empty-purple'
               onClick={() =>
                 modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
               }
             >
-              <Icon label='arrow-left' size='sm' color='blue600'>
+              <Icon label='wallet' size='sm' color='purple600'>
                 <IconWallet />
               </Icon>
               <span style={{ marginLeft: '4px' }}>
                 <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
               </span>
             </Button>
-            <Icon color='grey400' label='user-page' size='sm'>
-              <IconUser
-                cursor='pointer'
-                onClick={() => routerActions.push(`/nfts/address/${ethAddress}`)}
-                style={{ marginLeft: '4px' }}
-              />
-            </Icon>
+            <NavButton data-e2e='settingsLink'>
+              <LinkContainer to={`/nfts/address/${ethAddress}`}>
+                <Link>
+                  <Icon color='grey400' label='open-menu' size='sm'>
+                    <IconUser />
+                  </Icon>
+                </Link>
+              </LinkContainer>
+            </NavButton>
           </Flex>
         ) : (
           <>
@@ -115,13 +134,13 @@ const ExploreHeader: React.FC<Props> = ({
               to={`/open${pathname}`}
               data-e2e='loginLink'
             >
-              <Button small data-e2e='login' nature='empty-blue'>
+              <Button small data-e2e='login' nature='empty-purple'>
                 <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
               </Button>
             </LinkContainer>
             {isTablet ? null : (
               <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
-                <Button small data-e2e='signup' nature='primary'>
+                <Button small data-e2e='signup' nature='purple'>
                   <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
                 </Button>
               </LinkContainer>

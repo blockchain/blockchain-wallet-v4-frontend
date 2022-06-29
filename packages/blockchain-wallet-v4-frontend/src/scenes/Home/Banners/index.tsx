@@ -19,7 +19,6 @@ import RecurringBuys from './RecurringBuys'
 import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
-import TaxCenter from './TaxCenter'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -107,12 +106,6 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <Sanctions />
-          </BannerWrapper>
-        )
-      case 'taxCenter':
-        return (
-          <BannerWrapper>
-            <TaxCenter />
           </BannerWrapper>
         )
       default:

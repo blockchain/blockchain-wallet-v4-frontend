@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FocusEventHandler, useCallback, useRef, useState } from 'react'
 import { Row } from 'blockchain-wallet-v4-frontend/src/modals/Swap/EnterAmount/Checkout'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -17,14 +17,14 @@ const AmountContainer = styled.div`
 
 const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
-  padding: 24px;
-  justify-content: space-between;
+  padding: 12px;
+  justify-content: center;
   align-items: center;
   border: 0;
   width: 100%;
 
   & #amount-row {
-    max-width: 95%;
+    max-width: 90%;
     display: flex;
     flex: 1;
     justify-content: center;
@@ -39,7 +39,7 @@ const AmountRow = styled(Row)<{ isError: boolean }>`
 const QuoteRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `
 
 const AmountFieldInput: React.FC<Props> = ({
@@ -56,6 +56,7 @@ const AmountFieldInput: React.FC<Props> = ({
   ...rest
 }) => {
   const [fontRatio, setRatio] = useState(1)
+  const initialFocus = useRef<boolean>(false)
 
   const normalizeAmount = (value, prevValue, allValues) => {
     if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -69,9 +70,20 @@ const AmountFieldInput: React.FC<Props> = ({
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
       ? amountRowNode.children[0]
-      : amountRowNode.children[amountRowNode.children.length - 1]
+      : amountRowNode.children[amountRowNode.children.length - 2]
     currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
   }
+
+  const handleOnFocus: FocusEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      if (initialFocus.current === false && event.target.value === '0') {
+        event.target.value = ''
+      }
+
+      initialFocus.current = true
+    },
+    [initialFocus]
+  )
 
   return (
     <AmountContainer>
@@ -90,6 +102,7 @@ const AmountFieldInput: React.FC<Props> = ({
             component={AmountTextBox}
             normalize={normalizeAmount}
             onChange={onChange}
+            onFocus={handleOnFocus}
             // eslint-disable-next-line
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
@@ -102,27 +115,28 @@ const AmountFieldInput: React.FC<Props> = ({
               hideError: true
             }}
           />
+
           {fix === 'CRYPTO' && (
             <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
               {coin}
             </Text>
           )}
+          {showToggle ? (
+            <Icon
+              color='blue600'
+              cursor
+              style={{ marginLeft: '12px' }}
+              name='up-down-chevron'
+              onClick={onToggleFix}
+              role='button'
+              size='24px'
+              data-e2e='sendSwitchIcon'
+            />
+          ) : null}
         </div>
-        {!showCounter && showToggle && (
-          <Icon
-            color='blue600'
-            cursor
-            name='up-down-chevron'
-            onClick={onToggleFix}
-            role='button'
-            size='24px'
-            data-e2e='sendSwitchIcon'
-          />
-        )}
       </AmountRow>
       <QuoteRow>
-        <div />
-        {showCounter && (
+        {showCounter ? (
           <>
             <Text
               color={amtError ? 'red400' : 'grey600'}
@@ -132,19 +146,8 @@ const AmountFieldInput: React.FC<Props> = ({
             >
               {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
             </Text>
-            {showToggle && (
-              <Icon
-                color='blue600'
-                cursor
-                name='up-down-chevron'
-                onClick={onToggleFix}
-                role='button'
-                size='24px'
-                data-e2e='sendSwitchIcon'
-              />
-            )}
           </>
-        )}
+        ) : null}
       </QuoteRow>
     </AmountContainer>
   )

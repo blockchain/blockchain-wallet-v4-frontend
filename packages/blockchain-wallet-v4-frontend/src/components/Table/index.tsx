@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 export const TableWrapper = styled.div<{
   cellWidth?: string
@@ -23,8 +24,10 @@ export const TableWrapper = styled.div<{
     display: block;
     height: 100%;
     border-spacing: 0;
-    border: 1px solid ${(props) => props.theme.grey100};
-    border-radius: 8px;
+    ${media.atLeastTablet`
+      border: 1px solid ${(props) => props.theme.grey100};
+      border-radius: 8px;
+  `}
 
     .th {
       display: table-header-group;
@@ -43,12 +46,23 @@ export const TableWrapper = styled.div<{
       text-align: left;
       min-width: ${(props) => (props.minCellWidth ? props.minCellWidth : '50px')};
       width: ${(props) => (props.cellWidth ? props.cellWidth : '20%')};
+
+      ${media.tabletL`
+        max-width: 12em;
+        min-width: 12em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      `}
     }
 
     .td {
       height: 75px;
       padding-top: 0;
       padding-bottom: 0;
+      ${media.tabletL`
+        height: 66px;
+      `}
     }
 
     .tr {
@@ -68,6 +82,7 @@ export const StickyTableHeader = styled.div`
   border-top-right-radius: 8px;
   border-bottom: 1px solid ${(props) => props.theme.grey100};
   background: ${(props) => props.theme.white};
+  z-index: 1;
 `
 export const CellHeaderText = styled(Text)`
   font-style: normal;

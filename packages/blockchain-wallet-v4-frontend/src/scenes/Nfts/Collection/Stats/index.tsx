@@ -7,14 +7,13 @@ import { actions } from 'data'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
-import { NftFilterFormValuesType } from '../../NftFilter'
 
 const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
   return (
     <div style={{ marginTop: '24px' }}>
       <StatsWrapper>
         <Stat>
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </Text>
           <Text size='16px' color='white' weight={600}>
@@ -25,7 +24,7 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
           onClick={() => formActions.change('nftFilter', 'forSale', true)}
           style={{ cursor: 'pointer' }}
         >
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
           </Text>
           <Text size='16px' color='white' weight={600}>
@@ -41,11 +40,11 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
           </Text>
         </Stat> */}
         <Stat>
-          <Text size='16px' weight={500} color='grey600'>
+          <Text size='16px' weight={500} color='white'>
             <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
           </Text>
           <Text size='16px' color='white' weight={600}>
-            {numeral(stats?.total_volume).format('0a')}
+            {numeral(stats?.total_volume).format('0a')} ETH
           </Text>
         </Stat>
       </StatsWrapper>
@@ -55,7 +54,6 @@ const Stats: React.FC<Props> = ({ formActions, stats, total_supply }) => {
 
 type Props = {
   formActions: typeof actions.form
-  formValues: NftFilterFormValuesType
   stats: CollectionsQuery['collections'][0]['stats']
   total_supply: CollectionsQuery['collections'][0]['total_supply']
 }

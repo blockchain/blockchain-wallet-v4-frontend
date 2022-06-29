@@ -16,3 +16,14 @@ export const getCards = (state: RootState) => state.components.debitCard.cards
 export const getCardToken = (state: RootState) => state.components.debitCard.cardToken
 
 export const getLockHandler = (state: RootState) => state.components.debitCard.lockHandler
+
+export const getEligibleAccounts = (state: RootState) => state.components.debitCard.eligibleAccounts
+
+export const getCurrentCardAccount = (state: RootState) =>
+  state.components.debitCard.currentCardAccount
+
+export const getCurrentCardSelected = (state: RootState) =>
+  state.components.debitCard.currentCardSelected
+
+export const getTerminateCardHandler = (state: RootState) =>
+  state.components.debitCard.terminateHandler

@@ -7,7 +7,7 @@ import { actions as debitCard } from './debitCard/slice'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as fundRecovery from './fundRecovery/actions'
-import * as identityVerification from './identityVerification/actions'
+import { actions as identityVerification } from './identityVerification/slice'
 import * as importBtcAddress from './importBtcAddress/actions'
 import { actions as interest } from './interest/slice'
 import { actions as interestUploadDocument } from './interestUploadDocument/slice'
@@ -34,7 +34,6 @@ import { actions as taxCenter } from './taxCenter/slice'
 import { actions as termsAndConditions } from './termsAndConditions/slice'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
-import { actions as walletConnect } from './walletConnect/slice'
 import { actions as withdraw } from './withdraw/slice'
 import * as xlmTransactions from './xlmTransactions/actions'
 
@@ -75,7 +74,6 @@ export {
   termsAndConditions,
   uploadDocuments,
   veriff,
-  walletConnect,
   withdraw,
   xlmTransactions
 }

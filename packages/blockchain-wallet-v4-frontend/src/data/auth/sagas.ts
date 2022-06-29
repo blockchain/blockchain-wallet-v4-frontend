@@ -6,6 +6,7 @@ import { call, fork, put, select, take } from 'redux-saga/effects'
 import { WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
+import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
@@ -62,8 +63,8 @@ export default ({ api, coreSagas, networks }) => {
   const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
-      actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
-      actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
+      identityVerificationActions.setSupportedCountriesSuccess.type,
+      identityVerificationActions.setSupportedCountriesFailure.type
     ])
     yield put(actions.modules.profile.signIn())
   }
@@ -244,6 +245,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkWalletDefaultAccountIdx = function* () {
+    const needsUpdate = yield call(coreSagas.wallet.getHdWalletWithMissingDefaultAccountIdx)
+    if (needsUpdate) {
+      yield call(coreSagas.wallet.fixHdWalletWithMissingDefaultAccountIdx)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
+  const checkWalletAccountsDefaultDerivation = function* () {
+    const accounts = yield call(coreSagas.wallet.getAccountsWithMissingDefaultDerivation)
+    if (accounts.length > 0) {
+      yield call(coreSagas.wallet.fixAccountsWithMissingDefaultDerivation, accounts)
+      yield put(actions.components.refresh.refreshClicked())
+    }
+  }
+
   const loginRoutineSaga = function* ({
     country = undefined,
     email = undefined,
@@ -392,6 +409,10 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkXpubCacheLegitimacy)
       // ensure derivations are correct
       yield fork(checkWalletDerivationsLegitimacy)
+      // ensure default_account_idx is set
+      yield fork(checkWalletDefaultAccountIdx)
+      // ensure default_derivation is set on each account
+      yield fork(checkWalletAccountsDefaultDerivation)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
 
@@ -1036,6 +1057,14 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
   }
+  const sendLoginMessageToExchangeMobileApp = function* () {
+    const { platform } = yield select(selectors.signup.getProductSignupMetadata)
+    sendMessageToMobile(platform, {
+      data: {
+        action: 'login'
+      }
+    })
+  }
 
   return {
     authNabu,
@@ -1048,6 +1077,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     resendSmsLoginCode,
+    sendLoginMessageToExchangeMobileApp,
     triggerWalletMagicLink
   }
 }

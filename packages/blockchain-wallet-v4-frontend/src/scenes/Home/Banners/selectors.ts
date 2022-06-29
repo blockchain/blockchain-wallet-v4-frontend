@@ -157,21 +157,11 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   }
 
-  // tax center
-  const isCountryUS = userData?.address?.country === 'US'
-  const taxCenterAnnouncement = getTaxCenterAnnouncement()
-  const taxCenterEnabled = selectors.core.walletOptions
-    .getTaxCenterEnabled(state)
-    .getOrElse(false) as boolean
-  const showTaxCenterBanner = showBanner(!!isCountryUS, taxCenterAnnouncement, announcementState)
-
   const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
 
   let bannerToShow: BannerType = null
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
-  } else if (showTaxCenterBanner && taxCenterEnabled) {
-    bannerToShow = 'taxCenter'
   } else if (showCompleteYourProfileBanner && !isProfileCompleted) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {

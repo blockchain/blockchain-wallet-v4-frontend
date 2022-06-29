@@ -3,6 +3,9 @@ import { NabuApiErrorType } from '@core/types'
 import * as AT from './actionTypes'
 import { ExchangeAuthOriginType, ProfileActionTypes } from './types'
 
+export const clearProfileState = () => ({
+  type: AT.CLEAR_PROFILE_STATE
+})
 export const clearSession = () => ({
   type: AT.CLEAR_SESSION
 })

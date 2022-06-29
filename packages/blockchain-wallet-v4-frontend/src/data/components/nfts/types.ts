@@ -11,6 +11,10 @@ import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStatusEnum {
+  POST_BUY_ORDER = 'POST_BUY_ORDER',
+  POST_BUY_ORDER_SUCCESS = 'POST_BUY_ORDER_SUCCESS',
+  POST_LISTING = 'POST_LISTING',
+  POST_LISTING_SUCCESS = 'POST_LISTING_SUCCESS',
   POST_OFFER = 'POST_OFFER',
   POST_OFFER_SUCCESS = 'POST_OFFER_SUCCESS',
   WRAP_ETH = 'WRAP_ETH'
@@ -66,9 +70,9 @@ export type NftsStateType = {
     matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
     offerToCancel: RawOrder | null
     orderToMatch: RawOrder | null
+    prevStep: NftOrderStepEnum | null
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
-    walletUserIsAssetOwnerHack: boolean
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
   }
   search: RemoteDataType<string, ExplorerGatewaySearchType>

@@ -88,7 +88,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       middleware: path.resolve(__dirname, 'src/middleware/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/'),
+      utils: path.resolve(__dirname, 'src/utils/')
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
@@ -218,7 +218,7 @@ const buildDevServerConfig = (
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
-        `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `child-src https://localhost:8080 http://localhost:8080 ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
         `worker-src 'self' blob:`,
         [
@@ -240,8 +240,7 @@ const buildDevServerConfig = (
           'https://static.zdassets.com',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
-          'wss://localhost:8080',
-          'wss://*.walletconnect.org'
+          'wss://localhost:8080'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
@@ -251,7 +250,11 @@ const buildDevServerConfig = (
     hot: useHMR,
     https: httpsConfig,
     liveReload: !useHMR,
-    onBeforeSetupMiddleware(devServer) {
+    setupMiddlewares: (middlewares, devServer) => {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined')
+      }
+
       devServer.app.get('/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
@@ -277,6 +280,8 @@ const buildDevServerConfig = (
         }
         res.json(mockWalletOptions)
       })
+
+      return middlewares
     },
     port: 8080
   }

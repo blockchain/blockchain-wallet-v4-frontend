@@ -22,16 +22,14 @@ export const getData = createDeepEqualSelector(
     getCoinsSortedByBalance,
     selectors.modules.profile.isSilverOrAbove,
     selectors.form.getFormValues(REQUEST_FORM),
-    selectors.custodial.getProductEligibilityForUser,
-    selectors.core.walletOptions.getSilverRevamp
+    selectors.custodial.getProductEligibilityForUser
   ],
   (
     accounts,
     sortedCoinsR: ReturnType<typeof getCoinsSortedByBalance>,
     isSilverOrAbove,
     formValues: { coinSearch?: string },
-    productsR: ReturnType<typeof selectors.custodial.getProductEligibilityForUser>,
-    showSilverRevampR: ReturnType<typeof selectors.core.walletOptions.getSilverRevamp>
+    productsR: ReturnType<typeof selectors.custodial.getProductEligibilityForUser>
   ) => {
     const search = formValues?.coinSearch || 'ALL'
     const prunedAccounts = [] as Array<SwapAccountType>
@@ -53,8 +51,6 @@ export const getData = createDeepEqualSelector(
       products.custodialWallets?.canDepositCrypto &&
       products?.notifications?.length === 0
 
-    const showSilverRevamp = showSilverRevampR.getOrElse(false)
-
     // @ts-ignore
     map(
       (coinAccounts) =>
@@ -69,8 +65,7 @@ export const getData = createDeepEqualSelector(
           if (coinfig.displaySymbol.toLowerCase().includes(lowerSearch)) include = true
 
           // do not include custodial wallet in case that user do not have ability to use custodial wallets
-          if (coinAccount.type === 'CUSTODIAL' && !includeCustodialWallets && showSilverRevamp)
-            include = false
+          if (coinAccount.type === 'CUSTODIAL' && !includeCustodialWallets) include = false
 
           if (include) prunedAccounts.push(coinAccount)
         }, coinAccounts),

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import Content from 'components/Flyout/Content'
+import { FlyoutContent } from 'components/Flyout/Layout'
 import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
@@ -155,7 +155,7 @@ const Template: React.FC<Props> = (props) => {
         </Text>
       </HeaderWrapper>
 
-      <Content mode='top'>
+      <FlyoutContent mode='top'>
         <div>
           <UpgradeContainer>
             <UpgradeRowWithBorder>
@@ -338,7 +338,7 @@ const Template: React.FC<Props> = (props) => {
             </RowItemSubTitle>
           </Disclaimer>
         </div>
-      </Content>
+      </FlyoutContent>
     </Wrapper>
   )
 }

@@ -53,24 +53,6 @@ class BuySellListItem extends PureComponent<Props, State> {
     this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
   }
 
-  showModal = (order: BSOrderType) => {
-    this.props.modalActions.showModal('SIMPLE_BUY_MODAL', {
-      origin: 'TransactionList'
-    })
-    this.props.buySellActions.setStep({
-      order,
-      step:
-        order.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
-          : order.attributes?.authorisationUrl
-          ? 'OPEN_BANKING_CONNECT'
-          : 'ORDER_SUMMARY'
-    })
-    if (order.attributes?.authorisationUrl) {
-      this.props.buySellActions.confirmOrderPoll(order)
-    }
-  }
-
   render() {
     const { data, order } = this.props
     const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>

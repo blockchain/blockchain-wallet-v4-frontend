@@ -4,7 +4,7 @@ import { brokerageReducer as brokerage } from './brokerage/slice'
 import { buySellReducer as buySell } from './buySell/slice'
 import { debitCardReducer } from './debitCard/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
-import identityVerificationReducer from './identityVerification/reducers'
+import { identityVerificationReducer } from './identityVerification/slice'
 import { interestReducer } from './interest/slice'
 import { reducer as interestUploadDocumentReducer } from './interestUploadDocument/slice'
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
@@ -28,7 +28,6 @@ import { taxCenterReducer } from './taxCenter/slice'
 import { reducer as termsAndConditions } from './termsAndConditions/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
-import { walletConnectReducer as walletConnect } from './walletConnect/slice'
 import { withdrawReducer as withdraw } from './withdraw/slice'
 
 const componentReducer = combineReducers({
@@ -60,7 +59,6 @@ const componentReducer = combineReducers({
   termsAndConditions,
   uploadDocuments,
   veriff,
-  walletConnect,
   withdraw
 })
 

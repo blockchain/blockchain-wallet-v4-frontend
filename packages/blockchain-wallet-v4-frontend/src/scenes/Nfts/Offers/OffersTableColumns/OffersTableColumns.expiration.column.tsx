@@ -6,7 +6,11 @@ import { CellHeaderText, CellText } from 'components/Table'
 
 export const getExpirationColumn = () => ({
   Cell: ({ row: { original: offer } }) => {
-    return <CellText>{formatDistanceToNow(new Date(offer?.expiration_time * 1000))}</CellText>
+    return (
+      <CellText>
+        {formatDistanceToNow(new Date(offer?.expiration_time * 1000)).replace('about', '')}
+      </CellText>
+    )
   },
   Header: () => (
     <CellHeaderText>
