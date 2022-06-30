@@ -6,10 +6,9 @@ import { coreSelectors } from '@core'
 import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { getCoinTradingBalance } from 'data/coins/selectors'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
-
-import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = (coin) => {

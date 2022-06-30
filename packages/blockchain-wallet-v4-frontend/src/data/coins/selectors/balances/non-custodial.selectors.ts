@@ -6,7 +6,7 @@ import { CoinType, RemoteDataType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
-// only hd accounts, no imported addresses
+// gets BTC non-custodial balance which includes hd accounts excluding imported addresses
 const getBtcNonCustodialBalance = createDeepEqualSelector(
   [selectors.core.common.btc.getActiveHDAccounts],
   (accountsR) => {
@@ -22,7 +22,7 @@ const getBtcNonCustodialBalance = createDeepEqualSelector(
   }
 )
 
-// only hd accounts, no imported addresses
+// gets BCH non-custodial balance which includes hd accounts excluding imported addresses
 const getBchNonCustodialBalance = createDeepEqualSelector(
   [selectors.core.common.bch.getActiveHDAccounts],
   (accountsR) => {
@@ -38,6 +38,7 @@ const getBchNonCustodialBalance = createDeepEqualSelector(
   }
 )
 
+// gets ETH non-custodial balance
 const getEthNonCustodialBalance = createDeepEqualSelector(
   [selectors.core.kvStore.eth.getContext, selectors.core.data.eth.getAddresses],
   (context, addressesR) => {
@@ -53,6 +54,7 @@ const getEthNonCustodialBalance = createDeepEqualSelector(
   }
 )
 
+// gets XLM non-custodial balance
 const getXlmNonCustodialBalance = createDeepEqualSelector(
   [
     (state) =>
@@ -65,6 +67,7 @@ const getXlmNonCustodialBalance = createDeepEqualSelector(
   }
 )
 
+// given an ERC20 coin, returns its non-custodial balance
 const getErc20NonCustodialBalance = (coin) =>
   createDeepEqualSelector(
     [(state) => selectors.core.data.eth.getErc20Balance(state, coin)],
@@ -76,6 +79,7 @@ const getErc20NonCustodialBalance = (coin) =>
 // TODO: add proper erc20 is default
 // TODO: add DSC coins
 // TODO: dont default to a coin
+// given any coin, returns its non-custodial balance
 const getCoinNonCustodialBalance = (coin: CoinType) => {
   switch (coin) {
     case 'BTC':

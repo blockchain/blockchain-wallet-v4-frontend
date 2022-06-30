@@ -11,16 +11,16 @@ import { CoinfigType } from '@core/redux/walletOptions/types'
 import { ExtractSuccess, RemoteDataType } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { getOutputFromPair } from 'data/components/swap/model'
-import { RootState } from 'data/rootReducer'
-
-import { getCoinCustodialBalance } from './custodial.selectors'
-import { getFiatBalance, getFiatBalanceInfo } from './fiat.selectors'
 import {
+  getCoinCustodialBalance,
   getErc20NonCustodialBalance,
   getEthNonCustodialBalance,
+  getFiatBalance,
+  getFiatBalanceInfo,
   getXlmNonCustodialBalance
-} from './non-custodial.selectors'
+} from 'data/coins/selectors'
+import { getOutputFromPair } from 'data/components/swap/model'
+import { RootState } from 'data/rootReducer'
 
 const getCoinTotalBalance = createDeepEqualSelector(
   [selectors.core.data.coins.getAllCoins, selectors.core.settings.getCurrency, (state) => state],

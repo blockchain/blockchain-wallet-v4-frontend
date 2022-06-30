@@ -7,7 +7,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getCoinTradingBalance } from '../balances/custodial.selectors'
+import { getCoinTradingBalance } from 'data/coins/selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => null

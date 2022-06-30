@@ -7,11 +7,10 @@ import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { getCoinTradingBalance } from 'data/coins/selectors'
 import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType } from 'data/types'
-
-import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
