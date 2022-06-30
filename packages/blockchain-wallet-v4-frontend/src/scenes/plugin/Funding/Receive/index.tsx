@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button } from '@blockchain-com/constellation'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
+import { selectors } from 'data'
 
 import { RootState } from '../../../../data/rootReducer'
 
@@ -74,14 +76,13 @@ const InlineLink = styled.a`
   text-decoration: none;
 `
 
-export const Receive = () => {
-  // @ts-ignore
-  const address = useSelector((state: RootState) => state.dataPath.eth.addresses.data)
+const Receive = (props) => {
+  const { walletAddress } = props
   const [isCoppied, setIsCoppied] = useState<boolean>(false)
 
   /** Copies wallet addres into clipboard */
   const copyAddress = () => {
-    navigator.clipboard.writeText(Object.keys(address)[0])
+    navigator.clipboard.writeText(walletAddress)
     setIsCoppied(true)
   }
 
@@ -99,9 +100,9 @@ export const Receive = () => {
         with this address
       </Text>
       <QrCodeWrapper>
-        <QRCodeReact value={Object.keys(address)[0]} size={104} />
+        <QRCodeReact value={walletAddress} size={104} />
         <WalletAddressWrapper>
-          <WalletAddress>{Object.keys(address)[0]}</WalletAddress>
+          <WalletAddress>{walletAddress}</WalletAddress>
           <CopyButton onClick={copyAddress}>{isCoppied ? 'Coppied' : 'Copy'}</CopyButton>
         </WalletAddressWrapper>
       </QrCodeWrapper>
@@ -113,3 +114,9 @@ export const Receive = () => {
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  walletAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+})
+
+export default connect(mapStateToProps)(Receive)

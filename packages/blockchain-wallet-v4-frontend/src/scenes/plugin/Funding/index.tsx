@@ -4,7 +4,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { Receive } from './Receive'
+import Receive from './Receive'
 import { Success } from './Success'
 
 export const FundingWrapper = styled.section`

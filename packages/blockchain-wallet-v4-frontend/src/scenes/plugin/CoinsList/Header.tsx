@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -32,8 +33,9 @@ const IconButtonStyled = styled(IconButton)`
   }
 `
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled(Link)`
   text-align: center;
+  text-decoration: none;
 
   & > *:first-child {
     margin-bottom: 5px;
@@ -57,7 +59,7 @@ const Header = (props: any) => {
         {balance}
       </Text>
       <Flex justifyContent='center' gap={24}>
-        <ButtonWrapper>
+        <ButtonWrapper to='/plugin/receive'>
           <IconButtonStyled
             padding='0'
             name='receive'
@@ -74,7 +76,7 @@ const Header = (props: any) => {
             Receive
           </Text>
         </ButtonWrapper>
-        <ButtonWrapper>
+        <ButtonWrapper to='/plugin/send'>
           <IconButtonStyled
             padding='0'
             name='IconArrowUpRight'
