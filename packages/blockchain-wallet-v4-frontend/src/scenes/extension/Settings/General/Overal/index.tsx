@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronRightV2 } from '@blockchain-com/icons'
 
@@ -13,11 +14,18 @@ export const Overal = (props) => {
 
   return (
     <>
-      <SettingsHeading>General</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
+      </SettingsHeading>
       <SettingsList>
         <SettingsLink to={`${path}/local-currency`} style={{ color: 'red' }}>
           <Flex justifyContent='space-between' alignItems='center'>
-            <Text>Local Curency</Text>
+            <Text>
+              <FormattedMessage
+                id='scenes.settings.preferences.localcurrency.success.title'
+                defaultMessage='Local Currency'
+              />
+            </Text>
             <Icon color='white800' label='IconBack' size='md'>
               <IconChevronRightV2 />
             </Icon>
@@ -25,7 +33,12 @@ export const Overal = (props) => {
         </SettingsLink>
         <SettingsLink to={`${path}/language`} style={{ color: 'red' }}>
           <Flex justifyContent='space-between' alignItems='center'>
-            <Text>Language</Text>
+            <Text>
+              <FormattedMessage
+                id='scenes.settings.preferences.walletlanguage.success.title'
+                defaultMessage='Wallet Language'
+              />
+            </Text>
             <Icon color='white800' label='IconBack' size='md'>
               <IconChevronRightV2 />
             </Icon>

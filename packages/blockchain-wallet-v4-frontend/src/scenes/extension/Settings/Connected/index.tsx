@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Disconnect } from 'blockchain-wallet-v4-frontend/src/icons/Disconnect'
 import styled from 'styled-components'
 
@@ -32,7 +33,12 @@ const DisconnectButton = styled.button`
 export const Connected = () => {
   return (
     <>
-      <SettingsHeading>Connected Dapps</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage
+          id='scenes.plugin.settings.conected_dapps.heading'
+          defaultMessage='Connected Dapps'
+        />
+      </SettingsHeading>
       <SettingsList>
         <Dapp>
           <Text>test.org</Text>
@@ -43,7 +49,12 @@ export const Connected = () => {
           <Disconnect />
         </Dapp>
       </SettingsList>
-      <DisconnectButton>Disconnect all</DisconnectButton>
+      <DisconnectButton>
+        <FormattedMessage
+          id='scenes.plugin.settings.conected_dapps.disconnect_all'
+          defaultMessage='Disconnect all'
+        />
+      </DisconnectButton>
     </>
   )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronRightV2 } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -16,12 +17,14 @@ export const Account = (props) => {
   const { path } = props.match
 
   const accountSettings = [
-    new Setting('Import account', `${path}/import`),
-    new Setting('Upgrade account', `${path}/upgrade`)
+    new Setting('', 'Import account', `${path}/import`),
+    new Setting('', 'Upgrade account', `${path}/upgrade`)
   ]
   return (
     <>
-      <SettingsHeading>Account</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage id='scenes.plugin.settings.account.heading' defaultMessage='Account' />
+      </SettingsHeading>
       <SettingsList>
         {accountSettings.map((setting: Setting) => (
           <li key={setting.label}>

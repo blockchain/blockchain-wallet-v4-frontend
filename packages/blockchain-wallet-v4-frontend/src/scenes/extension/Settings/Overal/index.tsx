@@ -42,8 +42,8 @@ export const SettingsLinkLabel = styled(Text)`
 const LogoutButton = styled.button`
   width: 100%;
   height: 48px;
-  color: #98a1b2;
-  border: 1px solid #98a1b2aa;
+  color: ${(props) => props.theme.grey400};
+  border: 1px solid ${(props) => props.theme.grey400};
   background: transparent;
   border-radius: 10px;
 `
@@ -52,10 +52,20 @@ const Overal = (props) => {
   const { path } = props.match
 
   const overalSettings = [
-    new Setting('Network', `${path}/networks`, <IconWallet />),
-    new Setting('Connected Dapps', `${path}/connected-dapps`, <IconWallet />),
-    new Setting('General', `${path}/general`, <IconSettings />),
-    new Setting('Info', `${path}/info`, <IconInformation />)
+    new Setting(
+      'scenes.plugin.settings.networks.label',
+      'Network',
+      `${path}/networks`,
+      <IconWallet />
+    ),
+    new Setting(
+      'scenes.plugin.settings.connected_dapps.heading',
+      'Connected Dapps',
+      `${path}/connected-dapps`,
+      <IconWallet />
+    ),
+    new Setting('layouts.wallet.header.general', 'General', `${path}/general`, <IconSettings />),
+    new Setting('scenes.plugin.settings.info', 'Info', `${path}/info`, <IconInformation />)
   ]
   const logout = () => {
     props.sessionActions.deauthorizeBrowser()
@@ -63,7 +73,9 @@ const Overal = (props) => {
 
   return (
     <>
-      <SettingsHeading>Settings</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage id='scenes.lockbox.menu.settings' defaultMessage='Settings' />
+      </SettingsHeading>
       <SettingsList>
         {overalSettings.map((setting: Setting) => (
           <li key={setting.label}>
@@ -72,7 +84,9 @@ const Overal = (props) => {
                 <Icon color='white800' label='IconBack' size='md'>
                   {setting.icon}
                 </Icon>
-                <SettingsLinkLabel>{setting.label}</SettingsLinkLabel>
+                <SettingsLinkLabel>
+                  <FormattedMessage id={setting.id} defaultMessage={setting.label} />
+                </SettingsLinkLabel>
                 <Icon color='white800' label='IconBack' size='md'>
                   <IconChevronRightV2 />
                 </Icon>

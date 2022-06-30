@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -13,7 +14,7 @@ import { SettingsList } from '../Overal'
 const NetworkHeading = styled(Text)`
   font-size: 20px;
   margin: 34px 0 58px;
-  color: white;
+  color: ${(props) => props.theme.white};
 `
 
 const NetworkButton = styled.button`
@@ -28,7 +29,7 @@ const NetworkButton = styled.button`
 const ButtonLabel = styled(Text)`
   margin-left: 16px;
   flex-grow: 1;
-  color: white;
+  color: ${(props) => props.theme.white};
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
@@ -37,7 +38,7 @@ const ButtonLabel = styled(Text)`
 `
 
 const ButtonSatus = styled(Text)`
-  color: white;
+  color: ${(props) => props.theme.white};
   font-size: 12px;
   font-weight: 700;
   line-height: 18px;
@@ -45,13 +46,16 @@ const ButtonSatus = styled(Text)`
   text-align: right;
 `
 class Network {
+  public messageId: string
+
   public icon: any
 
   public label: string
 
   public isConnected: boolean
 
-  constructor(icon: any, label: string, isConnected: boolean) {
+  constructor(messageId: string, icon: any, label: string, isConnected: boolean) {
+    this.messageId = messageId
     this.icon = icon
     this.label = label
     this.isConnected = isConnected
@@ -60,24 +64,31 @@ class Network {
 
 export const Networks = () => {
   const networks = [
-    new Network(<Ethereum />, 'Ethereum', true),
-    new Network(<Polygon />, 'Polygon', false),
-    new Network(<Near />, 'Near', false),
-    new Network(<Polygon />, 'Fantom', false),
-    new Network(<Polygon />, 'Arbitrum', false),
-    new Network(<Optimist />, 'Optimist', false)
+    new Network('scenes.plugin.settings.networks.ethereum', <Ethereum />, 'Ethereum', true),
+    new Network('scenes.plugin.settings.networks.polygon', <Polygon />, 'Polygon', false),
+    new Network('scenes.plugin.settings.networks.near', <Near />, 'Near', false),
+    new Network('scenes.plugin.settings.networks.fantom', <Polygon />, 'Fantom', false),
+    new Network('scenes.plugin.settings.networks.arbitrum', <Polygon />, 'Arbitrum', false),
+    new Network('scenes.plugin.settings.networks.optimist', <Optimist />, 'Optimist', false)
   ]
 
   return (
     <>
-      <NetworkHeading>Available networks</NetworkHeading>
+      <NetworkHeading>
+        <FormattedMessage
+          id='scenes.plugin.settings.networks.heading'
+          defaultMessage='Available networks'
+        />
+      </NetworkHeading>
       <SettingsList>
         {networks.map((network: Network) => (
           <li key={network.label}>
             <NetworkButton>
               <Flex justifyContent='space-between' alignItems='center'>
                 {network.icon}
-                <ButtonLabel>{network.label}</ButtonLabel>
+                <ButtonLabel>
+                  <FormattedMessage id={network.messageId} defaultMessage={network.label} />
+                </ButtonLabel>
                 <ButtonSatus>{network.isConnected && 'Connected'}</ButtonSatus>
               </Flex>
             </NetworkButton>

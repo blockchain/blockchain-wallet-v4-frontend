@@ -17,7 +17,7 @@ import Overal from './Overal'
 export const SettingsHeading = styled(Text)`
   font-size: 20px;
   margin: 34px 0 42px;
-  color: white;
+  color: ${(props) => props.theme.white};
 `
 
 export const SettingsContainer = styled(Flex)`
@@ -26,13 +26,16 @@ export const SettingsContainer = styled(Flex)`
 `
 
 export class Setting {
+  public id: string
+
   public icon: any
 
   public label: string
 
   public path: string
 
-  constructor(label: string, path: string, icon?: any) {
+  constructor(id: string, label: string, path: string, icon?: any) {
+    this.id = id
     this.label = label
     this.path = path
     this.icon = icon

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
 import { bindActionCreators } from 'redux'
@@ -31,7 +32,12 @@ const Currency = (props) => {
   })
   return (
     <div>
-      <SettingsHeading>Local currency</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage
+          id='scenes.plugin.settings.currency.title'
+          defaultMessage='Local currency'
+        />
+      </SettingsHeading>
       <Updated>Updated Tue May 31 2022 11:44:04 GMT+0100 (British Summer Time)</Updated>
       <Selection />
     </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronRightV2 } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -24,18 +25,33 @@ class AboutLink {
 
   public label: string
 
-  constructor(path, label) {
+  public id: string
+
+  constructor(path, label, id) {
     this.path = path
     this.label = label
+    this.id = id
   }
 }
 
 export const Info = () => {
   const aboutSettings = [
-    new AboutLink('https://www.blockchain.com/legal/privacy', 'Privacy'),
-    new AboutLink('https://www.blockchain.com/legal/terms', 'Terms of service'),
-    new AboutLink('https://www.blockchain.com/about', 'About Blockchain.com'),
-    new AboutLink('https://support.blockchain.com/hc/en-us', 'Support')
+    new AboutLink(
+      'https://www.blockchain.com/legal/privacy',
+      'Privacy',
+      'modals.interest.deposit.privacy'
+    ),
+    new AboutLink(
+      'https://www.blockchain.com/legal/terms',
+      'Terms of service',
+      'modals.interest.deposit.termsservice'
+    ),
+    new AboutLink(
+      'https://www.blockchain.com/about',
+      'About',
+      'scenes.settings.general.about.title'
+    ),
+    new AboutLink('https://support.blockchain.com/hc/en-us', 'Support', 'buttons.contact_support')
   ]
   return (
     <>
@@ -44,7 +60,7 @@ export const Info = () => {
         {aboutSettings.map((setting: AboutLink) => (
           <GeneralSetting key={setting.label} href={setting.path} target='_blank'>
             <Flex justifyContent='space-between' alignItems='center'>
-              {setting.label}
+              <FormattedMessage id={setting.id} defaultMessage={setting.label} />
               <Icon color='white800' label='IconBack' size='md'>
                 <IconChevronRightV2 />
               </Icon>

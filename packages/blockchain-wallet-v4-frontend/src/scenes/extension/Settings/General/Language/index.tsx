@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
 import { bindActionCreators } from 'redux'
@@ -28,7 +29,12 @@ const Language = (props) => {
 
   return (
     <div data-e2e='prefsWalletLanguage'>
-      <SettingsHeading>Local currency</SettingsHeading>
+      <SettingsHeading>
+        <FormattedMessage
+          id='scenes.settings.preferences.walletlanguage.success.title'
+          defaultMessage='Wallet Language'
+        />
+      </SettingsHeading>
       <Text>Select your language</Text>
       <Selection />
     </div>
