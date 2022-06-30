@@ -58,7 +58,9 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
   handleClose = () => {
     this.setState({ show: false })
-    setTimeout(this.props.close, duration)
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
   }
 
   initializeVerification = () => {
