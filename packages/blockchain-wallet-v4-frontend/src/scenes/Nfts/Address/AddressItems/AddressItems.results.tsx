@@ -86,7 +86,7 @@ const NftAddressResults: React.FC<Props> = ({
   return (
     <>
       {result.data?.assets.map((asset) => {
-        return asset ? <NftAssetItem asset={asset} /> : null
+        return asset ? <NftAssetItem asset={asset} isAddressPage /> : null
       })}
     </>
   )

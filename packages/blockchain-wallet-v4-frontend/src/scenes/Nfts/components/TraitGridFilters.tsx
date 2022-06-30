@@ -164,14 +164,20 @@ const TraitGridFilters: React.FC<Props> = ({
     <Wrapper isSticky={isSticky}>
       <div style={{ width: '100%' }}>
         <Flex
-          alignItems={isTablet ? 'flex-start' : 'center'}
+          alignItems='center'
           justifyContent='space-between'
           flexDirection={isTablet ? 'column' : 'row'}
         >
           {tabs.length > 1 ? (
-            <TabMenu style={{ marginBottom: isTablet ? '16px' : '0px', width: 'fit-content' }}>
+            <TabMenu
+              style={{
+                marginBottom: isTablet ? '16px' : '0px',
+                width: isTablet ? '100%' : 'fit-content'
+              }}
+            >
               {tabs.map((tab) => (
                 <TabMenuItem
+                  width='100%'
                   key={tab}
                   selected={activeTab === tab}
                   onClick={() => routerActions.push(`${route}?tab=${tab}`)}
@@ -259,7 +265,10 @@ const TraitGridFilters: React.FC<Props> = ({
                       {
                         group: '',
                         items: [
-                          { text: 'Most Recent', value: `${AssetSortFields.DateIngested}-DESC` },
+                          {
+                            text: 'Recently Listed',
+                            value: `${AssetSortFields.DateIngested}-DESC`
+                          },
                           { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
                           { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` }
                         ]

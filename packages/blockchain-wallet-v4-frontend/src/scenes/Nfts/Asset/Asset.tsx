@@ -271,6 +271,10 @@ const NftAsset: React.FC<Props> = ({
 
   const { network } = currentAsset
   const unsupportedNetwork = network !== 'ethereum' && network !== 'rinkeby'
+  const sortedTraits =
+    currentAsset?.traits?.sort((a, b) =>
+      a?.trait_count && b?.trait_count && a.trait_count > b.trait_count ? 1 : -1
+    ) || []
 
   return (
     <Wrapper>
@@ -338,59 +342,57 @@ const NftAsset: React.FC<Props> = ({
                   </Flex>
                 </Description>
               ) : null}
-              {currentAsset.traits?.length ? (
+              {sortedTraits.length ? (
                 <DropdownPadding style={{ paddingTop: '1em' }}>
                   <NftDropdown expanded title='Traits'>
                     <div style={{ padding: '1em' }}>
-                      {currentAsset.traits?.length ? (
-                        <Flex flexDirection='column'>
-                          <TraitsWrapper>
-                            {currentAsset.traits.map((trait) => {
-                              if (!trait) return null
+                      <Flex flexDirection='column'>
+                        <TraitsWrapper>
+                          {sortedTraits.map((trait) => {
+                            if (!trait) return null
 
-                              const assetTraits = currentAsset.traits?.find(
-                                (t) => t?.trait_type === trait.trait_type
-                              )
-                              const traitCount = assetTraits?.trait_count
-                              const rarity =
-                                traitCount && currentAsset.collection.total_supply
-                                  ? `${parseFloat(
-                                      (
-                                        (traitCount / currentAsset.collection.total_supply) *
-                                        100
-                                      ).toFixed(1)
-                                    )}% Rarity`
-                                  : 'New Trait'
+                            const assetTraits = sortedTraits?.find(
+                              (t) => t?.trait_type === trait.trait_type
+                            )
+                            const traitCount = assetTraits?.trait_count
+                            const rarity =
+                              traitCount && currentAsset.collection.total_supply
+                                ? `${parseFloat(
+                                    (
+                                      (traitCount / currentAsset.collection.total_supply) *
+                                      100
+                                    ).toFixed(1)
+                                  )}% Rarity`
+                                : 'New Trait'
 
-                              return (
-                                <Trait
-                                  key={trait.value}
-                                  onClick={() => {
-                                    routerActions.push(
-                                      `/nfts/collection/${currentAsset.collection.slug}`
-                                    )
-                                    formActions.change(
-                                      'nftFilter',
-                                      `${trait.trait_type}.${trait.value}`,
-                                      true
-                                    )
-                                  }}
-                                >
-                                  <Text capitalize color='blue400' size='12px' weight={400}>
-                                    <b>{trait?.trait_type}</b>
-                                  </Text>
-                                  <Text capitalize color='blue600' size='14px' weight={600}>
-                                    {trait?.value}
-                                  </Text>
-                                  <Text capitalize color='grey900' size='12px' weight={500}>
-                                    {rarity}
-                                  </Text>
-                                </Trait>
-                              )
-                            })}
-                          </TraitsWrapper>
-                        </Flex>
-                      ) : null}
+                            return (
+                              <Trait
+                                key={trait.value}
+                                onClick={() => {
+                                  routerActions.push(
+                                    `/nfts/collection/${currentAsset.collection.slug}`
+                                  )
+                                  formActions.change(
+                                    'nftFilter',
+                                    `${trait.trait_type}.${trait.value}`,
+                                    true
+                                  )
+                                }}
+                              >
+                                <Text capitalize color='blue400' size='12px' weight={400}>
+                                  <b>{trait?.trait_type}</b>
+                                </Text>
+                                <Text capitalize color='blue600' size='14px' weight={600}>
+                                  {trait?.value}
+                                </Text>
+                                <Text capitalize color='grey900' size='12px' weight={500}>
+                                  {rarity}
+                                </Text>
+                              </Trait>
+                            )
+                          })}
+                        </TraitsWrapper>
+                      </Flex>
                     </div>
                   </NftDropdown>
                 </DropdownPadding>

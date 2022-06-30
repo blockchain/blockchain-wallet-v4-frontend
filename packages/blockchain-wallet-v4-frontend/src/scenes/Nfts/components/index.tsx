@@ -205,17 +205,27 @@ export const CollectionInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  justify-content: center;
   bottom: 0;
   width: 100%;
   margin: 24px;
   ${media.tablet`
     padding: 12px;
+    margin: 0;
+    margin-bottom: 1em;
+    flex-direction: row;
   `}
 `
 
 export const StatsWrapper = styled.div`
   display: flex;
   gap: 8px;
+  margin: 24px;
+  ${media.tablet`
+    justify-content: center;
+    display: block;
+    margin: 0 0 1em 0;
+  `}
 `
 
 export const Stat = styled.div`
@@ -229,10 +239,12 @@ export const Stat = styled.div`
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid ${colors.grey000};
   ${media.tablet`
-    padding: 10px;
     > div {
       font-size: 12px;
     }
+    padding: 20px;
+    width: 125px;
+    max-width: 150px;
   `}
 `
 

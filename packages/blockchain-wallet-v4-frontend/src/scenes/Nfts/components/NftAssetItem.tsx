@@ -61,7 +61,7 @@ const OverflowText = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const NftAssetItem: React.FC<Props> = ({ asset }) => {
+const NftAssetItem: React.FC<Props> = ({ asset, isAddressPage = false }) => {
   const [hover, setHover] = useState(false)
   const dispatch = useDispatch()
   const isMobile = useMedia('mobile')
@@ -209,9 +209,15 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               </Flex>
             ) : (
               <NotForSale style={{ marginBottom: '1em' }}>
-                <Text weight={500} color='white'>
-                  <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-                </Text>
+                {isAddressPage ? (
+                  <Text weight={500} color='white'>
+                    <FormattedMessage id='copy.view_details' defaultMessage='See Details' />
+                  </Text>
+                ) : (
+                  <Text weight={500} color='white'>
+                    <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                  </Text>
+                )}
               </NotForSale>
             )}
           </LinkContainer>
@@ -310,20 +316,30 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                         </Link>
                       </LinkContainer>
                     </Flex>
+                  ) : isAddressPage ? (
+                    <NotForSale>
+                      <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
+                        <FormattedMessage id='copy.not_for_sale' defaultMessage='See Details' />
+                      </Text>
+                      <Text size='12px' weight={500} color='white'>
+                        <FormattedMessage
+                          id='copy.click_to_view_more'
+                          defaultMessage='Click to view more information about this NFT.'
+                        />
+                      </Text>
+                    </NotForSale>
                   ) : (
-                    <>
-                      <NotForSale>
-                        <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
-                          <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-                        </Text>
-                        <Text size='12px' weight={500} color='white'>
-                          <FormattedMessage
-                            id='copy.item_not_for_sale'
-                            defaultMessage='You can still make offers with ERC-20 assets like WETH'
-                          />
-                        </Text>
-                      </NotForSale>
-                    </>
+                    <NotForSale>
+                      <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
+                        <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                      </Text>
+                      <Text size='12px' weight={500} color='white'>
+                        <FormattedMessage
+                          id='copy.item_not_for_sale'
+                          defaultMessage='You can still make offers with ERC-20 assets like WETH'
+                        />
+                      </Text>
+                    </NotForSale>
                   )}
                 </LinkContainer>
               </PriceCTA>
@@ -340,6 +356,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
 type Props = {
   asset: AssetsQuery['assets'][0]
+  isAddressPage?: boolean
 }
 
 export default NftAssetItem

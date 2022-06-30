@@ -32,7 +32,7 @@ import {
   EventFilterFields,
   useCollectionsQuery
 } from 'generated/graphql.types'
-import { useMedia } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import { FIXED_HEADER_HEIGHT } from '../../../layouts/Nfts/NftsHeader'
 import NftCollectionImage from '../components/NftCollectionImage'
@@ -64,6 +64,10 @@ const OuterCollectionInfo = styled.div`
   z-index: 21;
   background: ${(props) => props.theme.white};
   border-bottom: 1px solid ${colors.grey000};
+  ${media.tablet`
+    padding: 12px;
+    display: block;
+  `}
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -173,6 +177,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
               slug={collection.slug}
               routerActions={routerActions}
               formActions={formActions}
+              num_owners={collection.num_owners}
               total_supply={collection.total_supply}
               stats={collection.stats}
             />
@@ -191,7 +196,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           setIsFilterOpen={setIsFilterOpen}
-          isSticky={!collection.banner_image_url}
+          isSticky={!!collection.banner_image_url}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
