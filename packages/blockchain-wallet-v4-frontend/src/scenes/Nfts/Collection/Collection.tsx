@@ -76,7 +76,7 @@ const LinksContainer = styled.div`
   }
 `
 
-const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) => {
+const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
   const { slug } = rest.computedMatch.params
   const params = new URLSearchParams(window.location.hash.split('?')[1])
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
@@ -98,6 +98,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
 
   useEffect(() => {
     setActiveTab(tab)
+    setNumOfResults(undefined)
   }, [tab])
 
   if (collectionsQuery.error)
@@ -162,6 +163,8 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             </LinksContainer>
           </CollectionInfo>
           <Stats
+            slug={collection.slug}
+            routerActions={routerActions}
             formActions={formActions}
             total_supply={collection.total_supply}
             stats={collection.stats}
@@ -186,7 +189,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, ...rest }) =
             tabs={['ITEMS', 'ACTIVITY']}
             formValues={formValues}
             numOfResults={numOfResults}
-            showSortBy
+            showSortBy={activeTab === 'ITEMS'}
             setIsFilterOpen={setIsFilterOpen}
             formActions={formActions}
             setRefreshTrigger={setRefreshTrigger}
@@ -228,7 +231,8 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -236,8 +240,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: 'nftFilter',
-    initialValues: { sortBy: `${AssetSortFields.ListingDate}-DESC` }
+    form: 'nftFilter'
   }),
   connector
 )

@@ -53,13 +53,12 @@ const Banner = styled.div`
 
 const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
-  border: 1.18px solid ${colors.grey000};
+  border: 1px solid ${colors.grey000};
   z-index: 2;
   height: 50px;
   background: white;
   left: 3em;
   top: 1em;
-  margin-top: -12px;
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -100,7 +99,7 @@ const Explore: React.FC<Props> = (props) => {
   const contracts = props.openseaApi.includes('testnet')
     ? ['azuki-god', 'dragon-age', 'baychonorarymembers', 'doodles-2sgb43ekw0']
     : ['nouns', 'mfers', 'superrare']
-  const [randomContract] = useState(Math.floor(Math.random() * 4))
+  const [randomContract] = useState(Math.floor(Math.random() * contracts.length))
   const [assetId, setAssetId] = useState(0)
   const limit = 5
   const [assets] = useAssetsQuery({
@@ -176,7 +175,7 @@ const Explore: React.FC<Props> = (props) => {
   )
 
   return (
-    <NftPageV2 style={isTablet ? { padding: 0 } : { padding: '1em' }}>
+    <NftPageV2 style={isTablet ? { padding: 0 } : { marginTop: '0px', padding: '1em' }}>
       <>
         <Banner style={{ height: '100%' }}>
           <div style={{ lineHeight: '2em' }}>
@@ -270,19 +269,12 @@ const Explore: React.FC<Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <img
-                    style={
-                      isMobile || isTablet
-                        ? {
-                            borderRadius: '16px 16px 0px 0px',
-                            height: '300.35px',
-                            width: '300.35px'
-                          }
-                        : {
-                            borderRadius: '16px 16px 0px 0px',
-                            height: '350px',
-                            width: '350px'
-                          }
-                    }
+                    style={{
+                      borderRadius: '16px 16px 0px 0px',
+                      display: 'block',
+                      height: isMobile || isTablet ? '300.35px' : '350px',
+                      width: isMobile || isTablet ? '300.35px' : '350px'
+                    }}
                     alt='assetImage'
                     src={loadedAssets[assetId]?.image_url || ''}
                   />
@@ -349,7 +341,11 @@ const Explore: React.FC<Props> = (props) => {
             ) : (
               <CardWrapper style={{ opacity: '50%' }}>
                 <div>
-                  <SkeletonRectangle height='300.35px' width='300.35px' bgColor='white' />
+                  <SkeletonRectangle
+                    height={isMobile || isTablet ? '300.35px' : '350px'}
+                    width={isMobile || isTablet ? '300.35px' : '350px'}
+                    bgColor='white'
+                  />
                 </div>
                 <AssetFooter>
                   <Flex alignItems='center'>
@@ -363,6 +359,7 @@ const Explore: React.FC<Props> = (props) => {
                     </Button>
                   </Flex>
                 </AssetFooter>
+                <div style={{ height: '12px' }} />
               </CardWrapper>
             )}
           </div>

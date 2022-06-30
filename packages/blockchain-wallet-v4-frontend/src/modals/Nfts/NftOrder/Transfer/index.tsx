@@ -1,12 +1,11 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { Row, Title, Value } from 'components/Flyout'
+import { Text } from 'blockchain-info-components'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import TextBox from 'components/Form/TextBox'
 import { selectors } from 'data'
@@ -17,12 +16,11 @@ import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
+import TransferCTA from './cta'
 import TransferFees from './fees'
 
 const Transfer: React.FC<Props> = (props) => {
-  const { close, formValues, isInvited, nftActions, openSeaAssetR } = props
-
-  const disabled = formValues ? !formValues.to || props.orderFlow.isSubmitting : true
+  const { close, openSeaAssetR } = props
 
   return (
     <>
@@ -30,12 +28,12 @@ const Transfer: React.FC<Props> = (props) => {
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader close={props.close} />,
         NotAsked: () => <NftFlyoutLoader close={props.close} />,
-        Success: (val) => (
+        Success: (asset) => (
           <>
             <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
               Transfer Item
             </FlyoutHeader>
-            <NftAssetHeaderRow asset={val} />
+            <NftAssetHeaderRow asset={asset} />
             <div
               style={{
                 display: 'flex',
@@ -53,7 +51,7 @@ const Transfer: React.FC<Props> = (props) => {
                   <Field
                     onChange={(e) =>
                       props.nftActions.fetchFees({
-                        asset: val,
+                        asset,
                         operation: GasCalculationOperations.Transfer,
                         to: e.target.value
                       })
@@ -70,61 +68,9 @@ const Transfer: React.FC<Props> = (props) => {
               </NftFlyoutRow>
             </div>
             <StickyCTA>
-              <TransferFees {...props} asset={val} />
+              <TransferFees {...props} asset={asset} />
               <br />
-              {isInvited ? (
-                props.orderFlow.fees.cata({
-                  Failure: (e) => (
-                    <>
-                      <Text
-                        size='14px'
-                        weight={600}
-                        style={{ marginBottom: '8px', maxHeight: '200px' }}
-                      >
-                        {e}
-                      </Text>
-                      <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
-                        <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
-                      </Button>
-                    </>
-                  ),
-                  Loading: () => (
-                    <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
-                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
-                    </Button>
-                  ),
-                  NotAsked: () => null,
-                  Success: (fees) => (
-                    <Button
-                      jumbo
-                      nature='primary'
-                      fullwidth
-                      data-e2e='transferNft'
-                      disabled={disabled}
-                      type='submit'
-                      onClick={() =>
-                        nftActions.createTransfer({
-                          asset: val,
-                          gasData: fees,
-                          to: formValues.to
-                        })
-                      }
-                    >
-                      {props.orderFlow.isSubmitting ? (
-                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                      ) : (
-                        <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
-                      )}
-                    </Button>
-                  )
-                })
-              ) : (
-                <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
-                  <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
-                    <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
-                  </Button>
-                </Link>
-              )}
+              <TransferCTA {...props} asset={asset} />
             </StickyCTA>
           </>
         )
@@ -146,6 +92,6 @@ const enhance = compose(
   connector
 )
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(Transfer) as React.FC<OwnProps>

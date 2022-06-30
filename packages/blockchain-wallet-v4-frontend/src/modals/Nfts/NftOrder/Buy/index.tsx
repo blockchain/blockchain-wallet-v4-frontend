@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useQuery } from 'react-query'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'

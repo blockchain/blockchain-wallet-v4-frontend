@@ -50,6 +50,7 @@ const ErrorHandler = (props) => {
       </Text>
     )
   }
+
   if (errorMessage === RECURRING_BUY_PERIOD_FETCH) {
     return (
       <Text size='16px' weight={400} style={{ width: '300px' }}>
@@ -62,7 +63,7 @@ const ErrorHandler = (props) => {
   }
   if (typeof errorMessage === 'string') {
     return (
-      <Text size='16px' color='error' weight={500}>
+      <Text size='16px' color='error' weight={500} style={{ textAlign: 'center' }}>
         {errorMessage}
       </Text>
     )

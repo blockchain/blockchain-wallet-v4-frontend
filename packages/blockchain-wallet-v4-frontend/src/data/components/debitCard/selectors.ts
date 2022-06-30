@@ -1,5 +1,6 @@
 import { isEmpty } from 'ramda'
 
+import { AccountType } from 'data/components/debitCard/types'
 import { RootState } from 'data/rootReducer'
 
 export const getProducts = (state: RootState) => state.components.debitCard.products
@@ -19,6 +20,9 @@ export const getLockHandler = (state: RootState) => state.components.debitCard.l
 
 export const getEligibleAccounts = (state: RootState) => state.components.debitCard.eligibleAccounts
 
+export const getEligibleAccountsData = (state: RootState) =>
+  state.components.debitCard.eligibleAccounts.getOrElse([] as Array<AccountType>)
+
 export const getCurrentCardAccount = (state: RootState) =>
   state.components.debitCard.currentCardAccount
 
@@ -27,3 +31,6 @@ export const getCurrentCardSelected = (state: RootState) =>
 
 export const getTerminateCardHandler = (state: RootState) =>
   state.components.debitCard.terminateHandler
+
+export const getSelectAccountHandler = (state: RootState) =>
+  state.components.debitCard.selectAccountHandler

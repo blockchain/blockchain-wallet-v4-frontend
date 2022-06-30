@@ -1,4 +1,5 @@
 import { NabuError } from '.'
+import { NabuErrorIconProps } from './NabuError.types'
 
 describe('NabuError()', () => {
   it('Should create a nabu error with only title and message', () => {
@@ -19,7 +20,15 @@ describe('NabuError()', () => {
     const title = 'Unable to quote USDC-USD'
     const message =
       "We are having problems fetching a quote for USDC-USD, don't worry - we're on it"
-    const icon = 'https://blockchain.com/asset/quote/usd-usdc.png'
+    const icon: NabuErrorIconProps = {
+      accessibility: {
+        description: ''
+      },
+      status: {
+        url: ''
+      },
+      url: 'https://blockchain.com/asset/quote/usd-usdc.png'
+    }
 
     const error = new NabuError({
       icon,

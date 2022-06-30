@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const SettingStatus = styled.div<{ active: boolean }>`
   display: block;
   padding: 1px 5px;
+  margin-left: 8px;
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${(props) => (props.active ? props.theme.success : props.theme.error)};
