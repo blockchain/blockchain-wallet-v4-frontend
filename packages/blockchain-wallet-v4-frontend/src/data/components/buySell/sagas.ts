@@ -67,6 +67,7 @@ import {
   getFiatFromPair,
   GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
+  ORDER_ERROR_CODE,
   POLLING,
   SDD_TIER
 } from './model'
@@ -1646,26 +1647,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
-    let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
-    let step = S.getStep(yield select())
+    try {
+      let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
+      let step = S.getStep(yield select())
 
-    while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
-      order = yield call(api.getBSOrder, payload)
-      step = S.getStep(yield select())
-      retryAttempts += 1
-      if (
-        step !== '3DS_HANDLER_EVERYPAY' &&
-        step !== '3DS_HANDLER_STRIPE' &&
-        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
-      ) {
-        yield cancel()
+      while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
+        order = yield call(api.getBSOrder, payload)
+        step = S.getStep(yield select())
+        retryAttempts += 1
+        if (
+          step !== '3DS_HANDLER_EVERYPAY' &&
+          step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+        ) {
+          yield cancel()
+        }
+        yield delay(2000)
       }
-      yield delay(2000)
+
+      yield put(A.createOrderSuccess(order))
+    } catch (e) {
+      yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
+    } finally {
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
-
-    yield put(A.createOrderSuccess(order))
-
-    yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
 
   const setStepChange = function* (action: ReturnType<typeof A.setStep>) {
