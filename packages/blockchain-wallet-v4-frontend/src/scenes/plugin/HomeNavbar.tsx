@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { Icon } from '@blockchain-com/constellation'
 import { IconHistory, IconListBullets, IconNft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
@@ -9,11 +10,18 @@ const HomeNavbarItem = styled(NavLink)`
   padding: 10px;
   font-size: 24px;
   color: #fff;
+
+  & * {
+    fill: ${(p) => p.theme.white};
+  }
+
   &:not(:first-child),
   &:not(:last-child) {
     margin: 0 10px;
   }
+
   transition: 0.3s ease-in;
+
   &:after {
     content: '';
     height: 5px;
@@ -25,9 +33,11 @@ const HomeNavbarItem = styled(NavLink)`
     bottom: 0;
     left: calc(50% - 2.5px);
   }
+
   &.active {
     margin-top: -3px;
   }
+
   &.active:after {
     background: ${(p) => p.theme.white};
   }
@@ -41,14 +51,20 @@ const HomeNavbarWrapper = styled.div`
 
 const HomeNavbar = () => (
   <HomeNavbarWrapper>
-    <HomeNavbarItem exact to='/coinview'>
-      <IconListBullets />
+    <HomeNavbarItem exact to='/plugin/coinslist'>
+      <Icon label='icon-listbullets'>
+        <IconListBullets />
+      </Icon>
     </HomeNavbarItem>
-    <HomeNavbarItem to='/activity'>
-      <IconHistory />
+    <HomeNavbarItem to='/plugin/activity'>
+      <Icon label='icon-history'>
+        <IconHistory color='white' />
+      </Icon>
     </HomeNavbarItem>
-    <HomeNavbarItem to='/nft'>
-      <IconNft />
+    <HomeNavbarItem to='/plugin/nft'>
+      <Icon label='icon-nft'>
+        <IconNft />
+      </Icon>
     </HomeNavbarItem>
   </HomeNavbarWrapper>
 )
