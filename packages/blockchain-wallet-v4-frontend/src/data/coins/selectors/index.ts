@@ -54,16 +54,6 @@ export const getIntroductionText = (coin: string) => {
   return coinSelectors[selector]?.getTransactionPageHeaderText(coinfig.symbol)
 }
 
-// retrieves custodial account balances
-export const getTradingBalance = (coin: CoinType, state) => {
-  return selectors.components.buySell.getBSBalances(state).map((x) => x[coin])
-}
-
-// retrieves custodial account balances
-export const getInterestBalance = (coin: CoinType, state) => {
-  return selectors.components.interest.getInterestAccountBalance(state).map((x) => x[coin])
-}
-
 // generic selector that should be used by all features to request their desired
 // account types for their coins
 export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
@@ -98,12 +88,10 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
   const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
     getCoinAccountsR(state)
 
-  const accounts = accountsR?.getOrElse({}) || {}
-
-  return accounts
+  return accountsR?.getOrElse({}) || {}
 }
 
-export const getStxSelfCustodyAvailablity = (state): boolean => {
+export const getStxSelfCustodyAvailability = (state): boolean => {
   const isDoubleEncrypted = selectors.core.wallet.isSecondPasswordOn(state) as boolean
   if (isDoubleEncrypted) return false
 
@@ -122,11 +110,7 @@ export const getStxSelfCustodyAvailablity = (state): boolean => {
     if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {
       return true
     }
-    if (featureFlags.stxSelfCustodyEnableAll) {
-      return true
-    }
-
-    return false
+    return featureFlags.stxSelfCustodyEnableAll
   }
 
   return false

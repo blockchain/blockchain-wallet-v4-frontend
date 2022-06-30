@@ -6,7 +6,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { generateSelfCustodyAccount, generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getTradingBalance } from '..'
+import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 export const getTransactionPageHeaderText = () => null
 
@@ -15,7 +15,7 @@ export const getTransactionPageHeaderText = () => null
 export const getAccounts = createDeepEqualSelector(
   [
     (state, ownProps) => getBalance(ownProps.coin, state),
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (balanceR, sbBalanceR, ownProps) => {

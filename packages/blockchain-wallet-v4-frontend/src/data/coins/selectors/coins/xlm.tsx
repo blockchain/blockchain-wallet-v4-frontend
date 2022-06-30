@@ -11,7 +11,7 @@ import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType } from 'data/types'
 
-import { getTradingBalance } from '..'
+import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -28,7 +28,7 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts, // non-custodial accounts
     coreSelectors.kvStore.xlm.getAccounts, // non-custodial metadata
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (xlmData, xlmMetadataR, sbBalanceR, ownProps) => {

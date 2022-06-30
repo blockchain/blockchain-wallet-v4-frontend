@@ -10,7 +10,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getTradingBalance } from '..'
+import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -27,7 +27,7 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses, // non-custodial accounts
     coreSelectors.kvStore.eth.getAccounts, // non-custodial metadata
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (ethDataR, ethMetadataR, sbBalanceR, ownProps) => {

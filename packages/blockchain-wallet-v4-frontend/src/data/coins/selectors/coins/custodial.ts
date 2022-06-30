@@ -7,7 +7,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getTradingBalance } from '..'
+import { getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => null
@@ -17,7 +17,7 @@ export const getTransactionPageHeaderText = () => null
 // NOT IMPLEMENTED FOR COIN: non-custodial accounts, imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (sbBalanceR, ownProps) => {

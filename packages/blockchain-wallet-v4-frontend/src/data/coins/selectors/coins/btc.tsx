@@ -11,7 +11,7 @@ import { CoinAccountSelectorType } from 'data/coins/types'
 import { generateInterestAccount, generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getInterestBalance, getTradingBalance } from '..'
+import { getCoinInterestBalance, getCoinTradingBalance } from '../balances/custodial.selectors'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -28,8 +28,8 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.wallet.getHDAccounts, // non-custodial accounts
     coreSelectors.data.btc.getAddresses, // non-custodial xpub info
     coreSelectors.common.btc.getActiveAddresses, // imported addresses
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
-    (state, { coin }) => getInterestBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => getCoinInterestBalance(coin, state), // custodial accounts
     (state, ownProps): CoinAccountSelectorType & { coin: CoinType } => ownProps // selector config
   ],
   (btcAccounts, btcDataR, importedAddressesR, sbBalanceR, interestBalanceR, ownProps) => {
