@@ -502,16 +502,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const checkAuthUrl = function* (orderId) {
+  const checkOrderAuthUrl = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
     if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     }
+
     throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
   }
 
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+
+    if (order.paymentError) {
+      throw new Error(order.paymentError)
+    }
 
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
@@ -524,6 +529,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+    if (
+      confirmedOrder.paymentError ||
+      confirmedOrder.state === 'FAILED' ||
+      confirmedOrder.state === 'CANCELED'
+    ) {
+      throw new Error(confirmedOrder.paymentError)
+    }
+
     yield put(A.confirmOrderSuccess(confirmedOrder))
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
@@ -711,7 +725,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
-        const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, checkAuthUrl, confirmedOrder.id)
+        const order = yield retry(
+          RETRY_AMOUNT,
+          SECONDS * 1000,
+          checkOrderAuthUrl,
+          confirmedOrder.id
+        )
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
@@ -771,13 +790,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
       if (isNabuError(e)) {
-        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
-
         yield put(A.confirmOrderFailure(e))
       } else {
-        yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
-
         yield put(A.confirmOrderFailure(errorHandlerCode(e)))
       }
     }
