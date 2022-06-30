@@ -47,7 +47,7 @@ const LatamWrapper = styled.div`
   }
 `
 
-const SIGNUP_FORM = 'register'
+export const SIGNUP_FORM = 'register'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
