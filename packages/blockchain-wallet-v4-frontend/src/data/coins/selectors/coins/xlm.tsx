@@ -53,7 +53,7 @@ export const getAccounts = createDeepEqualSelector(
               )
               return {
                 address,
-                archived: prop('archived', acc),
+                archived: prop('archived', acc) || false,
                 balance,
                 baseCoin: coin,
                 coin,
