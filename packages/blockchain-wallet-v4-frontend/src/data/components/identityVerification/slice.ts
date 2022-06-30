@@ -76,6 +76,7 @@ const identityVerificationSlice = createSlice({
     saveKYCExtraQuestions: () => {},
     sendDeepLink: () => {},
     sendEmailVerification: (state, action: PayloadAction<{ email: string }>) => {},
+    setAllContextQuestionsAnswered: () => {},
     setEmailStep: (state, action: PayloadAction<EmailSmsStepType>) => {
       state.emailStep = action.payload
     },

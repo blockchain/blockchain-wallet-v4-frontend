@@ -230,6 +230,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
     )
 
+    // Wait for KYC flow to end
+    const result = yield take([
+      actions.modals.closeModal.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed without answering, close
+    if (result.type === actions.modals.closeModal.type) return
+
     yield put(
       actions.components.brokerage.showModal({
         modalType: 'BANK_DEPOSIT_MODAL',
