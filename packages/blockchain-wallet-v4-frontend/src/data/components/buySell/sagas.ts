@@ -1729,7 +1729,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // When opening the buy modal if there are any existing orders that are cancellable, cancel them
     yield call(cleanupCancellableOrders)
 
-    const { cryptoCurrency, orderType, origin, step } = payload
+    const { cryptoCurrency, method, mobilePaymentMethod, orderType, origin, step } = payload
 
     let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
@@ -1842,6 +1842,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             A.setStep({
               cryptoCurrency,
               fiatCurrency,
+              method,
+              mobilePaymentMethod,
               orderType,
               step: 'ENTER_AMOUNT'
             })
