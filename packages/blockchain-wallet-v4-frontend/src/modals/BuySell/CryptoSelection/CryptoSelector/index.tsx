@@ -9,7 +9,6 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import { getPreferredCurrency } from 'data/components/buySell/utils'
 import { ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
