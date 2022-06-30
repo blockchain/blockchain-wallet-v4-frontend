@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Icon } from '@blockchain-com/constellation'
+import { IconCheckCircle } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -12,7 +14,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 
 import { RootState } from '../../../../data/rootReducer'
-import CheckBox from '../../../../icons/BackIcon'
 
 const List = styled.ul`
   width: 100%;
@@ -89,10 +90,9 @@ const SelectAccount = (props) => {
       <List>
         <li style={{ cursor: 'pointer' }}>
           <button type='button' className='item' onClick={() => setSelectedAccount('Trading')}>
-            <CheckBox
-              innerColor={selectedAccount ? '#619FF7' : 'transparent'}
-              outerColor={selectedAccount ? '#619FF7' : '#98A1B2'}
-            />
+            <Icon color='white800' label='IconCheckCircle' size='md'>
+              <IconCheckCircle />
+            </Icon>
             <ListItemContent>
               <Text color='white'>Trading Account</Text>
               <Text color='white' style={{ display: 'flex', justifyContent: 'right' }}>
@@ -117,10 +117,9 @@ const SelectAccount = (props) => {
         </li>
         <li style={{ cursor: 'pointer' }}>
           <button type='button' className='item' onClick={() => setSelectedAccount('')}>
-            <CheckBox
-              innerColor={selectedAccount ? 'transparent' : '#619FF7'}
-              outerColor={selectedAccount ? '#98A1B2' : ' #619FF7'}
-            />
+            <Icon color='white800' label='IconCheckCircle' size='md'>
+              <IconCheckCircle />
+            </Icon>
             <Text color='white' style={{ marginLeft: '16px' }}>
               Another wallet
             </Text>
