@@ -182,6 +182,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Currency has been successfully updated'
         />
       )
+    case C.TRADING_CURRENCY_UPDATE_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.trading_currency_update_success'
+          defaultMessage='Trading Currency has been successfully updated'
+        />
+      )
+    case C.TRADING_CURRENCY_UPDATE_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.trading_currency_update_error'
+          defaultMessage='Failed to update trading currency'
+        />
+      )
     case C.DEBIT_CARD_DASHBOARD_LOCK_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

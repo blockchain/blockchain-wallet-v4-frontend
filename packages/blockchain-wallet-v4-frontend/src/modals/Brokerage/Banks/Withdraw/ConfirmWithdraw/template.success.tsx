@@ -4,7 +4,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, NabuSymbolNumberType, WalletFiatEnum } from '@core/types'
+import { FiatType, NabuSymbolNumberType } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'

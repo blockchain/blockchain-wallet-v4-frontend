@@ -12,6 +12,7 @@ import LocalCurrency from './LocalCurrency'
 import MobileNumber from './MobileNumber'
 import Notifications from './Notifications'
 import Themes from './Themes'
+import TradingCurrency from './TradingCurrency'
 import WalletLanguage from './WalletLanguage'
 
 const Wrapper = styled.section`
@@ -46,6 +47,7 @@ const Preferences = () => {
       </MenuHeader>
       <MobileNumber />
       <WalletLanguage />
+      <TradingCurrency />
       <LocalCurrency />
       <Notifications />
       <CryptoLinkHandling />

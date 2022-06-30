@@ -24,23 +24,8 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
-  // TODO: Move this code to another place to clean this file
-  const bindIntegrationArEnabled = selectors.core.walletOptions
-    .getBindIntegrationArEnabled(state)
-    .getOrElse(false) as boolean
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
-  const userCountryCode = userData?.address?.country || 'default'
-  const allFiatCurrencies = Object.keys(WalletFiatEnum).filter(
-    (value) =>
-      typeof WalletFiatEnum[value] === 'number' && WalletFiatEnum[value] !== WalletFiatEnum.ARS
-  )
-  const countryCurrencies = {
-    AR: bindIntegrationArEnabled
-      ? [WalletFiatEnum[WalletFiatEnum.USD], WalletFiatEnum[WalletFiatEnum.ARS]]
-      : allFiatCurrencies,
-    default: allFiatCurrencies
-  }
-  const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
+  const fiatCurrencies = userData.currencies?.userFiatCurrencies || []
   // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
 

@@ -30,12 +30,14 @@ const RightArrowIcon = styled(Icon)<{
 const Payment: React.FC<Props> = (props: Props) => {
   const nextStep = props.hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
 
+  const { preferredFiatTradingCurrency } = props.userData.currencies
+
   // ensure only non SDD flow and non empty amount field open the payment selection screen
   const onPaymentMethodClick = () => {
     return !props.isSddFlow
       ? props.buySellActions.setStep({
           cryptoCurrency: props.cryptoCurrency,
-          fiatCurrency: props.fiatCurrency || 'USD',
+          fiatCurrency: props.fiatCurrency || preferredFiatTradingCurrency,
           pair: props.pair,
           step: nextStep
         })
