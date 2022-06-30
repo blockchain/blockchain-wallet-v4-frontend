@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
-import CardError from 'components/BuySell/CardError'
+import Error from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -79,7 +79,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         }
 
         return (
-          <CardError
+          <Error
             code={e}
             handleRetry={this.handleRetry}
             handleReset={this.handleReset}
