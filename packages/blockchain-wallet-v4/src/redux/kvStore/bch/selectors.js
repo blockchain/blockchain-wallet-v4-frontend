@@ -1,4 +1,4 @@
-import { concat, curry, filter, flatten, lift, map, not, path, prop, values } from 'ramda'
+import { concat, curry, filter, flatten, lift, map, not, path, pathOr, prop, values } from 'ramda'
 
 import * as Types from '../../../types'
 import { createDeepEqualSelector } from '../../../utils'
@@ -37,7 +37,7 @@ export const getSpendableContext = createDeepEqualSelector(
 )
 
 export const getDefaultAccountIndex = (state) =>
-  getMetadata(state).map(path(['value', 'default_account_idx']))
+  getMetadata(state).map(pathOr(0, ['value', 'default_account_idx']))
 
 export const getAccountLabel = curry((state, index) =>
   getAccounts(state).map(path([index, 'label']))
