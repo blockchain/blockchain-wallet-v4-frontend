@@ -50,8 +50,8 @@ export const LeftColWrapper = styled.div`
   display: block;
 
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
@@ -71,8 +71,8 @@ export const RightColWrapper = styled.div`
   z-index: 1;
   display: block;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
@@ -83,6 +83,9 @@ export const AssetName = styled(Text)`
   display: flex;
   margin-top: 30px;
   color: ${colors.grey900};
+  ${media.tablet`
+    margin: 0 0 1em 0;
+  `}
 `
 
 export const CurrentPriceBox = styled.div`
@@ -105,8 +108,8 @@ export const MoreAssets = styled.div`
   width: 100%;
   padding: 40px;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 

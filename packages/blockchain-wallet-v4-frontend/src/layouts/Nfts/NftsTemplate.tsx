@@ -23,7 +23,7 @@ const Page = styled.div`
     z-index: 1;
     position: relative;
     top: ${FIXED_HEADER_HEIGHT}px;
-    padding: 0px 24px;
+    padding: 0px 12px;
     border-top: 0px;
   }
 `
