@@ -3,7 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
-import CardError from 'components/BuySell/CardError'
+import Error from 'components/BuySell/Error'
+import DataError from 'components/DataError'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { CARD_ERROR_CODE } from 'data/components/buySell/model'
@@ -13,7 +14,6 @@ import { isNabuError } from 'services/errors'
 
 import Loading from './template.loading'
 import Success from './template.success'
-import DataError from 'components/DataError'
 
 const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   const [isPolling, setPolling] = useState(false)
@@ -33,7 +33,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (order.hasData) {
       props.buySellActions.setStep({
         step: 'CHECKOUT_CONFIRM'
@@ -45,17 +45,17 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [order.hasData, props.buySellActions])
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     props.buySellActions.destroyCheckout()
-  }
+  }, [props.buySellActions])
 
-  const handleRetry = () => {
+  const handleRetry = useCallback(() => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [props.buySellActions])
 
   useEffect(() => {
     window.addEventListener('message', handlePostMessage, false)
@@ -67,18 +67,18 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     (error: string | Error) => {
       if (isNabuError(error)) {
         return <GenericNabuErrorFlyout error={error} onClickClose={handleBack} />
-      } else if (typeof error === 'string') {
+      }
+      if (typeof error === 'string') {
         return (
-          <CardError
+          <Error
             code={error}
             handleReset={handleReset}
             handleBack={handleBack}
             handleRetry={handleRetry}
           />
         )
-      } else {
-        return <DataError message={{ message: error.toString() }} />
       }
+      return <DataError message={{ message: error.toString() }} />
     },
     [handleReset, handleBack, handleRetry]
   )
@@ -115,7 +115,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {
     return (
-      <CardError
+      <Error
         code={CARD_ERROR_CODE.CREATE_FAILED}
         handleReset={handleReset}
         handleBack={handleBack}

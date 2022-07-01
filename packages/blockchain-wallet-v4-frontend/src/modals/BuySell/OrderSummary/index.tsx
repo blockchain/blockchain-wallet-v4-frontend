@@ -11,6 +11,7 @@ import {
   OrderType,
   RemoteDataType
 } from '@core/types'
+import Error from 'components/BuySell/Error'
 import DataError from 'components/DataError'
 import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
@@ -74,9 +75,20 @@ class OrderSummaryContainer extends PureComponent<Props> {
     }
   }
 
+  handleErrorAction = () => {
+    this.props.buySellActions.destroyCheckout()
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <DataError />,
+      Failure: (e) => (
+        <Error
+          code={e}
+          handleRetry={this.handleErrorAction}
+          handleReset={this.handleErrorAction}
+          handleBack={this.handleErrorAction}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {

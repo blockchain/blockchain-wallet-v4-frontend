@@ -11,7 +11,7 @@ import { RewardsTransactionsCardComponent } from './RewardsTransactionsCard.type
 
 const RewardsTransactionsCard: RewardsTransactionsCardComponent = () => {
   return (
-    <Card>
+    <Card borderWidth={1} borderRadius='lg'>
       <Padding all={48}>
         <Flex flexDirection='column' alignItems='center' justifyContent='center' gap={16}>
           <Flex flexDirection='column' alignItems='center' justifyContent='center' gap={8}>

@@ -225,6 +225,8 @@ class PreviewSell extends PureComponent<
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
 
+        const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
+
         if (isNabuError(error)) {
           return (
             <GenericNabuErrorFlyout
@@ -357,7 +359,7 @@ class PreviewSell extends PureComponent<
                 <FormattedMessage id='copy.deposit_to' defaultMessage='Deposit To' />
               </RowText>
               <Value data-e2e='sbIncomingAccount'>
-                {counterCoinTicker} <FormattedMessage id='copy.account' defaultMessage='Account' />
+                {incomingCoinName} <FormattedMessage id='copy.account' defaultMessage='Account' />
               </Value>
             </RowItem>
 

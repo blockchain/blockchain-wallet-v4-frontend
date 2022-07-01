@@ -25,7 +25,7 @@ const Wrapper = styled(FlyoutWrapper)`
   text-align: center;
 `
 
-const CardError = ({ code, handleBack, handleReset, handleRetry }: Props) => {
+const Error = ({ code, handleBack, handleReset, handleRetry }: Props) => {
   const renderError = () => {
     switch (code) {
       case CARD_ERROR_CODE.INSUFFICIENT_FUNDS:
@@ -90,4 +90,4 @@ type Props = {
   handleRetry: () => void
 }
 
-export default CardError
+export default Error
