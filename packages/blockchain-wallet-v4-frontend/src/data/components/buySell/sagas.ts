@@ -74,7 +74,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
+import { getDirection, reversePair } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -1954,40 +1954,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const setFiatTradingCurrency = function* () {
-    try {
-      const state = yield select()
-      const cryptoCurrency = S.getCryptoCurrency(state) || 'BTC'
-      const fiatCurrency = S.getFiatCurrency(state) || 'USD'
-      const orderType = S.getOrderType(state) || 'BUY'
-      yield put(A.fetchPairs({ coin: cryptoCurrency, currency: fiatCurrency }))
-      // wait to load new pairs
-      yield take([A.fetchPairsSuccess.type, A.fetchPairsFailure.type])
-      // state has been changed we need most recent pairs
-      const pairs = S.getBSPairs(yield select()).getOrElse([])
-
-      // find a pair
-      const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
-      yield put(A.fetchPaymentMethods(fiatCurrency))
-      // record desired currency
-      const preferredCurrencyFromStorage = getPreferredCurrency()
-      if (!preferredCurrencyFromStorage) {
-        setPreferredCurrency(fiatCurrency as WalletFiatType)
-      }
-      yield put(
-        A.setStep({
-          cryptoCurrency,
-          fiatCurrency,
-          orderType,
-          pair,
-          step: 'ENTER_AMOUNT'
-        })
-      )
-    } catch (e) {
-      // do nothing
-    }
-  }
-
   return {
     activateBSCard,
     cancelBSOrder,
@@ -2025,7 +1991,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSCard,
     pollBSOrder,
     registerBSCard,
-    setFiatTradingCurrency,
     setStepChange,
     showModal,
     switchFix

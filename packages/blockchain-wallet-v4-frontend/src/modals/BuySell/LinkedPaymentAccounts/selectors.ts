@@ -12,6 +12,7 @@ export const getData = (state) => {
   const applePayEnabledR = selectors.core.walletOptions.getApplePayAsNewPaymentMethod(state)
   const googlePayEnabledR = selectors.core.walletOptions.getGooglePayAsNewPaymentMethod(state)
   const isInternalTesterR = selectors.modules.profile.isInternalTester(state)
+  const userDataR = selectors.modules.profile.getUserData(state)
 
   return lift(
     (
@@ -22,7 +23,8 @@ export const getData = (state) => {
       googlePayEnabled: Boolean,
       isInternalTester: ExtractSuccess<typeof isInternalTesterR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
-      walletCurrency: FiatType
+      walletCurrency: FiatType,
+      userData: ExtractSuccess<typeof userDataR>
     ) => ({
       applePayEnabled,
       balances,
@@ -31,6 +33,7 @@ export const getData = (state) => {
       googlePayEnabled,
       isInternalTester,
       paymentMethods,
+      userData,
       walletCurrency
     })
   )(
@@ -41,6 +44,7 @@ export const getData = (state) => {
     googlePayEnabledR,
     isInternalTesterR,
     paymentMethodsR,
-    walletCurrencyR
+    walletCurrencyR,
+    userDataR
   )
 }
