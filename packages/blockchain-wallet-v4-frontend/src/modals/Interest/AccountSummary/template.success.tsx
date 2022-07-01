@@ -40,6 +40,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     handleClose,
     handleDepositClick,
     interestActions,
+    interestEligible,
     interestLimits,
     interestRate,
     interestUploadDocumentActions,
@@ -62,6 +63,16 @@ const AccountSummary: React.FC<Props> = (props) => {
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const pendingInterestStandard = convertBaseToStandard(coin, pendingInterestBase)
+
+  const getInterestEligibility = () => {
+    const interestEligibility = interestEligible[coin]
+    if (!interestEligibility) {
+      return false
+    }
+    return interestEligibility.eligible
+  }
+
+  const isDepositEnabled = getInterestEligibility()
 
   const handleBuyCoin = useCallback(() => {
     analyticsActions.trackEvent({
@@ -332,6 +343,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               data-e2e='interestDeposit'
               height='48px'
               nature='primary'
+              disabled={!isDepositEnabled}
               onClick={handleDepositClick}
               width='192px'
             >
