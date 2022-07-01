@@ -64,10 +64,17 @@ const OuterCollectionInfo = styled.div`
   z-index: 21;
   background: ${(props) => props.theme.white};
   border-bottom: 1px solid ${colors.grey000};
-  ${media.tablet`
+  ${media.tabletL`
     padding: 12px;
     display: block;
   `}
+`
+
+const OverflowText = styled(Text)`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -131,9 +138,9 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                       colors={AvatarGradientColors}
                     />
                   )}
-                  <Text color='black' size='14px' weight={600}>
+                  <OverflowText color='black' size='14px' weight={600}>
                     {collection.name}
-                  </Text>
+                  </OverflowText>
                 </div>
                 <LinksContainer>
                   {collection.external_url ? (

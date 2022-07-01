@@ -223,7 +223,8 @@ export const StatsWrapper = styled.div`
   margin: 24px;
   ${media.tablet`
     justify-content: center;
-    display: block;
+    display: flex;
+    flex-direction: column;
     margin: 0 0 1em 0;
   `}
 `
@@ -242,8 +243,8 @@ export const Stat = styled.div`
     > div {
       font-size: 12px;
     }
-    padding: 20px;
-    width: 125px;
+    padding: 15px 30px;
+    width: 110px;
     max-width: 150px;
   `}
 `

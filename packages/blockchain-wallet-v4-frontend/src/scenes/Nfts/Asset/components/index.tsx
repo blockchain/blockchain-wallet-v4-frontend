@@ -168,6 +168,7 @@ export const CustomLink = styled(LinkContainer)`
 
 export const NftTableWrapper = styled(TableWrapper)`
   .table {
+    overflow: scroll;
     &.no-border {
       border: 0px;
     }
