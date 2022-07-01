@@ -69,6 +69,9 @@ const AssetImageContainer = styled.div`
   border-radius: 16px;
   margin-bottom: 0.5rem;
   padding: 30px;
+  ${media.mobile`
+    padding: 0;
+  `};
 `
 
 const AssetImg = styled.img`
@@ -158,8 +161,8 @@ const ShadowTag = styled.div`
   border-radius: 16px;
   padding: 6px 12px;
   width: fit-content;
-  ${media.mobile`
-  padding: 6px 0;
+  ${media.tablet`
+    padding: 0.5em 1em;
   `};
 `
 
@@ -1186,7 +1189,7 @@ const NftAsset: React.FC<Props> = ({
                     </Description>
                   ) : null}
                   {sortedTraits.length ? (
-                    <DropdownPadding style={{ paddingTop: '1em' }}>
+                    <DropdownPadding>
                       <NftDropdown expanded title='Traits'>
                         <div style={{ padding: '1em' }}>
                           <Flex flexDirection='column'>
@@ -1241,7 +1244,7 @@ const NftAsset: React.FC<Props> = ({
                     </DropdownPadding>
                   ) : null}
                   {collectionDescription !== '' ? (
-                    <DropdownPadding style={{ paddingTop: '1em' }}>
+                    <DropdownPadding>
                       <NftDropdown expanded title={`About ${collectionName}`}>
                         <div style={{ padding: '1em' }}>
                           <div>
