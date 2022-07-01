@@ -3,7 +3,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconDeposit } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-const FlipPairButton = styled.div`
+const FlipPairButton = styled.div<{ animate: boolean }>`
   position: absolute;
   top: calc(50% - 16px);
   right: calc(50% - 16px);
@@ -11,6 +11,8 @@ const FlipPairButton = styled.div`
   width: 32px;
   border-radius: 50%;
   background-color: ${(props) => props.theme.white};
+  z-index: 99;
+  cursor: pointer;
 
   > :nth-child(1) {
     position: relative;
@@ -31,14 +33,22 @@ const FlipPairButton = styled.div`
     border-radius: 50%;
     background-color: ${(props) => props.theme.grey000};
   }
+  &:hover:after {
+    background-color: ${(props) => props.theme.grey100};
+  }
 `
 
-const PairFlipButton = () => (
-  <FlipPairButton>
+const PairFlipButton = ({ animate, onFlipPairClick }: OwnProps) => (
+  <FlipPairButton animate={animate} onClick={onFlipPairClick}>
     <Icon label='arrow down' color='grey400' size='sm'>
-      <IconDeposit onClick={() => window.alert('TODO: flip pairs')} />
+      <IconDeposit />
     </Icon>
   </FlipPairButton>
 )
+
+type OwnProps = {
+  animate: boolean
+  onFlipPairClick: () => void
+}
 
 export default PairFlipButton

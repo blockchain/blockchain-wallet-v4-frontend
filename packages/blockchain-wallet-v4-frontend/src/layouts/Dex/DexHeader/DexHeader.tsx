@@ -8,10 +8,10 @@ import { IconUser, IconWallet } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
-import { getTotalBalance } from 'components/Balances/total/selectors'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/Navbar/AppSwitcher'
 import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
+import { selectors } from 'data'
 import { useMedia } from 'services/styles'
 
 import { Props as OwnProps } from '../Dex'
@@ -28,7 +28,7 @@ const StickyNav = styled(NavContainer)`
   align-items: center;
 `
 
-const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname, totalBalanceR }) => {
+const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) => {
   const isTablet = useMedia('tablet')
 
   return (
@@ -45,11 +45,11 @@ const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname, totalBalanceR }
         {isAuthenticated ? (
           <Flex gap={8} alignItems='center'>
             <Button small data-e2e='back' nature='empty'>
-              {totalBalanceR.cata({
+              {ethBalanceR.cata({
                 Failure: () => <>N/A</>,
                 Loading: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
                 NotAsked: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
-                Success: ({ totalBalance }) => (
+                Success: (ethBalance) => (
                   <>
                     <Icon label='wallet' size='sm' color='grey400'>
                       <IconWallet />
@@ -61,7 +61,7 @@ const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname, totalBalanceR }
                       weight={600}
                       style={{ marginLeft: '10px' }}
                     >
-                      {totalBalance}
+                      Wallet
                     </Text>
                   </>
                 )
@@ -99,10 +99,10 @@ const DexHeader: React.FC<Props> = ({ isAuthenticated, pathname, totalBalanceR }
 }
 
 const mapStateToProps = (state) => ({
-  totalBalanceR: getTotalBalance(state)
+  ethBalanceR: selectors.balances.getCoinNonCustodialBalance('ETH')(state)
 })
 
 const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> & OwnProps
 
-export default connect(mapStateToProps)(DexHeader)
+export default connector(DexHeader)

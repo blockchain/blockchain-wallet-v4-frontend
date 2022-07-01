@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown } from '@blockchain-com/icons'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { CoinType } from '@core/types'
 import { Icon as TokenIcon, Text } from 'blockchain-info-components'
@@ -13,7 +13,70 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 import { DexSwapSideEnum, ModalName } from 'data/types'
 
-const PairWrapper = styled.div`
+const swingOutAnimationTopKeyframes = keyframes`
+  0% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0.5;
+  }
+`
+const swingOutTopAnimation = css`
+  animation: ${swingOutAnimationTopKeyframes} 0.4s linear;
+`
+
+const swingInAnimationTopKeyframes = keyframes`
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+`
+const swingInTopAnimation = css`
+  animation: ${swingInAnimationTopKeyframes} 0.4s linear;
+`
+const swingInAnimationBottomKeyframes = keyframes`
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: bottom;
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+`
+const swingInBottomAnimation = css`
+  animation: ${swingInAnimationBottomKeyframes} 0.4s linear;
+`
+
+const swingOutBottomAnimationKeyframes = keyframes`
+  0% {
+    transform: rotateX(0);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: rotateX(100deg);
+    transform-origin: bottom;
+    opacity: 0.5;
+  }
+`
+const swingOutBottomAnimation = css`
+  animation: ${swingOutBottomAnimationKeyframes} 0.4s linear;
+`
+
+const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSideEnum }>`
   height: 48px;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 16px;
@@ -21,6 +84,14 @@ const PairWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  ${({ animate, swapSide }) =>
+    swapSide === DexSwapSideEnum.BASE
+      ? animate
+        ? swingOutBottomAnimation
+        : swingInBottomAnimation
+      : animate
+      ? swingOutTopAnimation
+      : swingInTopAnimation}
 `
 const PairValueColumn = styled.div`
   display: flex;
@@ -56,65 +127,63 @@ const TokenSelectRowEmpty = styled(TokenSelectRow)`
   justify-content: space-between;
 `
 
-const DexSwapPair = ({ balance, coin, modalActions, swapSide }: Props) => {
-  return (
-    <PairWrapper>
-      <PairValueColumn>
-        <Text color='textBlack' lineHeight='135%' size='24px' weight={600}>
-          0
-        </Text>
-        <FiatDisplay
-          coin='UNI'
-          color='grey600'
-          currency='USD'
-          lineHeight='20px'
-          loadingHeight='20px'
-          size='14px'
-          weight={500}
-        >
-          {0}
-        </FiatDisplay>
-      </PairValueColumn>
-      <PairSelectColumn isCoinSelected={!!coin}>
-        <TokenSelectWrapper
-          role='button'
-          onClick={() => {
-            modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
-          }}
-        >
-          {coin && (
-            <>
-              <TokenIcon name={coin} size='16px' />
-              <TokenSelectRow>
-                <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
-                  {coin}
-                </Text>
-                <Icon label='select dropdown' color='grey400' size='sm'>
-                  <IconChevronDown />
-                </Icon>
-              </TokenSelectRow>
-            </>
-          )}
-          {!coin && (
-            <TokenSelectRowEmpty>
+const DexSwapPair = ({ animate, balance, coin, modalActions, swapSide }: Props) => (
+  <PairWrapper animate={animate} swapSide={swapSide}>
+    <PairValueColumn>
+      <Text color='textBlack' lineHeight='135%' size='24px' weight={600}>
+        0
+      </Text>
+      <FiatDisplay
+        coin='UNI'
+        color='grey600'
+        currency='USD'
+        lineHeight='20px'
+        loadingHeight='20px'
+        size='14px'
+        weight={500}
+      >
+        {0}
+      </FiatDisplay>
+    </PairValueColumn>
+    <PairSelectColumn isCoinSelected={!!coin}>
+      <TokenSelectWrapper
+        role='button'
+        onClick={() => {
+          modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
+        }}
+      >
+        {coin && (
+          <>
+            <TokenIcon name={coin} size='16px' />
+            <TokenSelectRow>
               <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
-                <FormattedMessage id='buttons.select' defaultMessage='Select' />
+                {coin}
               </Text>
               <Icon label='select dropdown' color='grey400' size='sm'>
                 <IconChevronDown />
               </Icon>
-            </TokenSelectRowEmpty>
-          )}
-        </TokenSelectWrapper>
-        {coin && (
-          <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
-            {balance}
-          </CoinDisplay>
+            </TokenSelectRow>
+          </>
         )}
-      </PairSelectColumn>
-    </PairWrapper>
-  )
-}
+        {!coin && (
+          <TokenSelectRowEmpty>
+            <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
+              <FormattedMessage id='buttons.select' defaultMessage='Select' />
+            </Text>
+            <Icon label='select dropdown' color='grey400' size='sm'>
+              <IconChevronDown />
+            </Icon>
+          </TokenSelectRowEmpty>
+        )}
+      </TokenSelectWrapper>
+      {coin && (
+        <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
+          {balance}
+        </CoinDisplay>
+      )}
+    </PairSelectColumn>
+  </PairWrapper>
+)
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
@@ -123,6 +192,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
+  animate: boolean
   balance?: number
   coin?: CoinType
   swapSide: DexSwapSideEnum

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
@@ -36,7 +36,22 @@ const SwapWrapper = styled.div`
   }
 `
 
-const DexSwap = ({ formValues, modalActions }: Props) => {
+const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
+  const [animate, setAnimate] = useState(false)
+
+  const onFlipPairClick = () => {
+    setAnimate(true)
+    setTimeout(() => {
+      if (formValues) {
+        const { baseToken, counterToken } = formValues
+        formActions.change('dexSwap', DexSwapSideEnum.BASE, counterToken)
+        formActions.change('dexSwap', DexSwapSideEnum.COUNTER, baseToken)
+      }
+      setAnimate(false)
+    }, 400)
+  }
+  // console.log(formValues)
+
   return (
     <Form>
       <Header>
@@ -54,9 +69,18 @@ const DexSwap = ({ formValues, modalActions }: Props) => {
         </SettingsIcon>
       </Header>
       <SwapWrapper>
-        <SwapPair coin={formValues?.[DexSwapSideEnum.BASE]} swapSide={DexSwapSideEnum.BASE} />
-        <PairFlipButton />
-        <SwapPair coin={formValues?.[DexSwapSideEnum.COUNTER]} swapSide={DexSwapSideEnum.COUNTER} />
+        <SwapPair
+          animate={animate}
+          coin={formValues?.[DexSwapSideEnum.BASE]}
+          swapSide={DexSwapSideEnum.BASE}
+        />
+        {/* @ts-ignore */}
+        <PairFlipButton animate={animate} onFlipPairClick={onFlipPairClick} />
+        <SwapPair
+          animate={animate}
+          coin={formValues?.[DexSwapSideEnum.COUNTER]}
+          swapSide={DexSwapSideEnum.COUNTER}
+        />
       </SwapWrapper>
       <Button data-e2e='swap' disabled fullwidth jumbo nature='primary'>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />
@@ -70,6 +94,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
