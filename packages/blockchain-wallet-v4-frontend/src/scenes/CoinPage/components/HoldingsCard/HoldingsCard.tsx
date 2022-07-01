@@ -10,7 +10,7 @@ import { HoldingsCardComponent } from './types'
 
 export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTotal, total }) => {
   return (
-    <Card>
+    <Card borderWidth={1} borderRadius='md'>
       <Padding all={16}>
         <Flex flexDirection='column' gap={16}>
           <Text color='grey600' size='14px' weight={500} lineHeight='20px'>

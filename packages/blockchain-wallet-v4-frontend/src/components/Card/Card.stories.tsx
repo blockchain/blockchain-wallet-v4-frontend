@@ -12,14 +12,20 @@ const Template: ComponentStory<CardComponent> = (args) => <Card {...args} />
 
 export const NoElevation = Template.bind({})
 NoElevation.args = {
-  children: <span>no elevation</span>,
-  elevation: 0
+  children: <span>no elevation</span>
 }
 
 export const ElevationOne = Template.bind({})
 ElevationOne.args = {
   children: <span>elevation 1</span>,
   elevation: 1
+}
+
+export const GreyBackground = Template.bind({})
+GreyBackground.args = {
+  backgroundColor: 'grey400',
+  borderRadius: 'lg',
+  children: <span>elevation 1</span>
 }
 
 export default cardStoriesMeta

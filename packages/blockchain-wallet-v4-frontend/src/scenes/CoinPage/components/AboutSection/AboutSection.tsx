@@ -9,7 +9,7 @@ import { AboutSectionComponent } from './types'
 
 export const AboutSection: AboutSectionComponent = ({ actions, content, title }) => {
   return (
-    <Card>
+    <Card borderWidth={1} borderRadius='lg'>
       <Padding all={16}>
         <Flex flexDirection='column' gap={16}>
           <Text size='14px' weight={500} lineHeight='20px' color='grey600'>
