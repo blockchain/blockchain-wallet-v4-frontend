@@ -35,7 +35,7 @@ const CustodialTxListItem: React.FC<Props> = (props) => {
           <StatusAndType data-e2e='orderStatusColumn'>
             <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
               <TransactionType coin={props.coin} currency={props.currency} tx={props.tx} />{' '}
-              {coinfig.displaySymbol}
+              {coinfig.name}
             </Text>
             <Timestamp coin={props.coin} currency={props.currency} tx={props.tx} />
           </StatusAndType>

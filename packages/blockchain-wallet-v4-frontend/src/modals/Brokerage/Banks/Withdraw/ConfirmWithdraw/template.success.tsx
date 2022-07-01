@@ -93,7 +93,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
             id='modals.brokerage.fiat_account'
             defaultMessage='{currency} Account'
             values={{
-              currency: props.fiatCurrency
+              currency: window.coins[props.fiatCurrency]?.coinfig.name ?? props.fiatCurrency
             }}
           />
         </Value>
