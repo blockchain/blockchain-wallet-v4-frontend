@@ -42,15 +42,20 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
   const onFlipPairClick = () => {
     setAnimate(true)
     setTimeout(() => {
+      // TODO: improve logic, move to better spot
       if (formValues) {
-        const { baseToken, counterToken } = formValues
-        formActions.change('dexSwap', DexSwapSideEnum.BASE, counterToken)
-        formActions.change('dexSwap', DexSwapSideEnum.COUNTER, baseToken)
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
+
+        // flip sides
+        formActions.change('dexSwap', 'baseToken', counterToken)
+        formActions.change('dexSwap', 'counterToken', baseToken)
+        // flip values
+        formActions.change('dexSwap', 'baseTokenAmount', counterTokenAmount)
+        formActions.change('dexSwap', 'counterTokenAmount', baseTokenAmount)
       }
       setAnimate(false)
     }, 400)
   }
-  // console.log(formValues)
 
   return (
     <Form>
@@ -72,6 +77,7 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
         <SwapPair
           animate={animate}
           coin={formValues?.[DexSwapSideEnum.BASE]}
+          formValues={formValues}
           swapSide={DexSwapSideEnum.BASE}
         />
         {/* @ts-ignore */}
@@ -79,6 +85,7 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
         <SwapPair
           animate={animate}
           coin={formValues?.[DexSwapSideEnum.COUNTER]}
+          formValues={formValues}
           swapSide={DexSwapSideEnum.COUNTER}
         />
       </SwapWrapper>

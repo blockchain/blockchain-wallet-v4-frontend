@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 import { CoinType, RemoteDataType } from '@core/types'
 
 export type DexToken = {
@@ -37,6 +39,8 @@ export enum DexSwapSideEnum {
 }
 
 export type DexSwapForm = {
-  [DexSwapSideEnum.BASE]?: CoinType
-  [DexSwapSideEnum.COUNTER]?: CoinType
+  baseToken?: CoinType
+  baseTokenAmount?: number | BigNumber
+  counterToken?: CoinType
+  counterTokenAmount?: number | BigNumber
 }

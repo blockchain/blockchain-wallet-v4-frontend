@@ -4,77 +4,20 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown } from '@blockchain-com/icons'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled, { css, keyframes } from 'styled-components'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
 
+import { Exchange } from '@core'
 import { CoinType } from '@core/types'
 import { Icon as TokenIcon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { actions } from 'data'
-import { DexSwapSideEnum, ModalName } from 'data/types'
+import NumberBox from 'components/Form/NumberBox'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 
-const swingOutAnimationTopKeyframes = keyframes`
-  0% {
-    transform: rotateX(0deg);
-    transform-origin: top;
-    opacity: 1;
-  }
-  100% {
-    transform: rotateX(-100deg);
-    transform-origin: top;
-    opacity: 0.5;
-  }
-`
-const swingOutTopAnimation = css`
-  animation: ${swingOutAnimationTopKeyframes} 0.4s linear;
-`
-
-const swingInAnimationTopKeyframes = keyframes`
-  0% {
-    transform: rotateX(-100deg);
-    transform-origin: top;
-    opacity: 0.5;
-  }
-  100% {
-    transform: rotateX(0deg);
-    transform-origin: top;
-    opacity: 1;
-  }
-`
-const swingInTopAnimation = css`
-  animation: ${swingInAnimationTopKeyframes} 0.4s linear;
-`
-const swingInAnimationBottomKeyframes = keyframes`
-  0% {
-    transform: rotateX(-100deg);
-    transform-origin: bottom;
-    opacity: 0.5;
-  }
-  100% {
-    transform: rotateX(0deg);
-    transform-origin: bottom;
-    opacity: 1;
-  }
-`
-const swingInBottomAnimation = css`
-  animation: ${swingInAnimationBottomKeyframes} 0.4s linear;
-`
-
-const swingOutBottomAnimationKeyframes = keyframes`
-  0% {
-    transform: rotateX(0);
-    transform-origin: bottom;
-    opacity: 1;
-  }
-  100% {
-    transform: rotateX(100deg);
-    transform-origin: bottom;
-    opacity: 0.5;
-  }
-`
-const swingOutBottomAnimation = css`
-  animation: ${swingOutBottomAnimationKeyframes} 0.4s linear;
-`
+import * as animations from './SwapPair.animations'
 
 const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSideEnum }>`
   height: 48px;
@@ -87,17 +30,20 @@ const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSideEnum }>`
   ${({ animate, swapSide }) =>
     swapSide === DexSwapSideEnum.BASE
       ? animate
-        ? swingOutBottomAnimation
-        : swingInBottomAnimation
+        ? animations.swingOutBottomAnimation
+        : animations.swingInBottomAnimation
       : animate
-      ? swingOutTopAnimation
-      : swingInTopAnimation}
+      ? animations.swingOutTopAnimation
+      : animations.swingInTopAnimation}
 `
-const PairValueColumn = styled.div`
+const PairValueColumn = styled.div<{ areValuesEntered: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: ${({ areValuesEntered }) => (areValuesEntered ? 'space-between' : 'center')};
   align-items: flex-start;
+  > :first-child {
+    padding-top: ${({ areValuesEntered }) => (areValuesEntered ? '2px' : '0')};
+  }
 `
 const PairSelectColumn = styled.div<{ isCoinSelected: boolean }>`
   display: flex;
@@ -126,75 +72,127 @@ const TokenSelectRow = styled.div`
 const TokenSelectRowEmpty = styled(TokenSelectRow)`
   justify-content: space-between;
 `
+const AmountInput = styled(NumberBox)`
+  max-height: 24px;
+  > input {
+    background-color: initial;
+    border: none;
+    color: ${(props) => props.theme.textBlack};
+    line-height: 135%;
+    font-size: 24px;
+    font-weight: 600;
+    min-height: 24px;
+    height: 24px;
+    max-height: 24px;
+    padding: 0;
+    &:focus {
+      background-color: initial;
+      border: none;
+    }
+    ::placeholder {
+      color: ${(props) => props.theme.textBlack};
+      line-height: 200%;
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+`
 
-const DexSwapPair = ({ animate, balance, coin, modalActions, swapSide }: Props) => (
-  <PairWrapper animate={animate} swapSide={swapSide}>
-    <PairValueColumn>
-      <Text color='textBlack' lineHeight='135%' size='24px' weight={600}>
-        0
-      </Text>
-      <FiatDisplay
-        coin='UNI'
-        color='grey600'
-        currency='USD'
-        lineHeight='20px'
-        loadingHeight='20px'
-        size='14px'
-        weight={500}
-      >
-        {0}
-      </FiatDisplay>
-    </PairValueColumn>
-    <PairSelectColumn isCoinSelected={!!coin}>
-      <TokenSelectWrapper
-        role='button'
-        onClick={() => {
-          modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
-        }}
-      >
-        {coin && (
-          <>
-            <TokenIcon name={coin} size='16px' />
-            <TokenSelectRow>
+const DexSwapPair = ({
+  animate,
+  balance,
+  coin,
+  formValues,
+  modalActions,
+  swapSide,
+  walletCurrency
+}: Props) => {
+  const amountInputField = `${swapSide}Amount`
+  const amountInputValue = formValues?.[amountInputField]
+
+  return (
+    <PairWrapper animate={animate} swapSide={swapSide}>
+      <PairValueColumn areValuesEntered={!!amountInputValue && !!coin}>
+        <Field
+          component={AmountInput}
+          data-e2e={`${swapSide}AmountField`}
+          placeholder='0.00'
+          name={amountInputField}
+          validate={[]}
+        />
+        {coin && amountInputValue && (
+          <FiatDisplay
+            coin={coin}
+            currency={walletCurrency}
+            color='grey600'
+            lineHeight='12px'
+            loadingHeight='14px'
+            size='14px'
+            weight={500}
+          >
+            {Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin: 'ETH',
+              value: amountInputValue
+            })}
+          </FiatDisplay>
+        )}
+      </PairValueColumn>
+      <PairSelectColumn isCoinSelected={!!coin}>
+        <TokenSelectWrapper
+          role='button'
+          onClick={() => {
+            modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
+          }}
+        >
+          {coin && (
+            <>
+              <TokenIcon name={coin} size='16px' />
+              <TokenSelectRow>
+                <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
+                  {coin}
+                </Text>
+                <Icon label='select dropdown' color='grey400' size='sm'>
+                  <IconChevronDown />
+                </Icon>
+              </TokenSelectRow>
+            </>
+          )}
+          {!coin && (
+            <TokenSelectRowEmpty>
               <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
-                {coin}
+                <FormattedMessage id='buttons.select' defaultMessage='Select' />
               </Text>
               <Icon label='select dropdown' color='grey400' size='sm'>
                 <IconChevronDown />
               </Icon>
-            </TokenSelectRow>
-          </>
+            </TokenSelectRowEmpty>
+          )}
+        </TokenSelectWrapper>
+        {coin && (
+          <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
+            {balance}
+          </CoinDisplay>
         )}
-        {!coin && (
-          <TokenSelectRowEmpty>
-            <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
-              <FormattedMessage id='buttons.select' defaultMessage='Select' />
-            </Text>
-            <Icon label='select dropdown' color='grey400' size='sm'>
-              <IconChevronDown />
-            </Icon>
-          </TokenSelectRowEmpty>
-        )}
-      </TokenSelectWrapper>
-      {coin && (
-        <CoinDisplay coin={coin} color='grey600' size='10px' weight={500}>
-          {balance}
-        </CoinDisplay>
-      )}
-    </PairSelectColumn>
-  </PairWrapper>
-)
+      </PairSelectColumn>
+    </PairWrapper>
+  )
+}
 
+const mapStateToProps = (state: RootState) => ({
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+})
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   animate: boolean
   balance?: number
   coin?: CoinType
+  formValues: DexSwapForm
   swapSide: DexSwapSideEnum
 }
 

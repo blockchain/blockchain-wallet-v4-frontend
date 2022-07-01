@@ -34,7 +34,7 @@ const FlipPairButton = styled.div<{ animate: boolean }>`
     background-color: ${(props) => props.theme.grey000};
   }
   &:hover:after {
-    background-color: ${(props) => props.theme.grey100};
+    background-color: ${(props) => props.theme.blue100};
   }
 `
 
