@@ -221,6 +221,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+    const isUserTier2 = yield call(isTier2)
     // Verify identity before deposit if TIER 2
     yield put(
       actions.components.identityVerification.verifyIdentity({
@@ -229,6 +230,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         tier: 1
       })
     )
+    if (!isUserTier2) {
+      return
+    }
 
     // Wait for KYC flow to end
     const result = yield take([
