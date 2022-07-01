@@ -1,7 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 
 import sagas from './sagas'
-import { getEligibleAccountsData } from './selectors'
+import { getCurrentCardSelected, getEligibleAccountsData } from './selectors'
 import { actions as A } from './slice'
 
 const API_MOCK = {
@@ -25,9 +25,16 @@ describe('debitCard sagas', () => {
     const currentAccountSelectedMock = { accountCurrency: 'USD' }
     const accountMock = { balance: { symbol: 'USD', value: '1' } }
     const eligibleAccountsMock = [accountMock]
+    const selectedCard = { id: CARD_ID }
 
-    const validateYieldSelectGetEligibleAccountsData = (generator) => {
+    const validateYieldSelectGetCurrentCardSelected = (generator) => {
       const actual = generator.next().value
+      const expected = select(getCurrentCardSelected)
+
+      expect(actual).toEqual(expected)
+    }
+    const validateYieldSelectGetEligibleAccountsData = (generator) => {
+      const actual = generator.next(selectedCard).value
       const expected = select(getEligibleAccountsData)
 
       expect(actual).toEqual(expected)
@@ -52,7 +59,11 @@ describe('debitCard sagas', () => {
     }
 
     describe('success flow with currentAccount data', () => {
-      const generator = saga(CARD_ID)
+      const generator = saga()
+
+      it('should yields select getCurrentCardSelected', () => {
+        validateYieldSelectGetCurrentCardSelected(generator)
+      })
 
       it('should yields select getEligibleAccountsData', () => {
         validateYieldSelectGetEligibleAccountsData(generator)
@@ -79,7 +90,11 @@ describe('debitCard sagas', () => {
     })
 
     describe('no current account obtained from API', () => {
-      const generator = saga(CARD_ID)
+      const generator = saga()
+
+      it('should yields select getCurrentCardSelected', () => {
+        validateYieldSelectGetCurrentCardSelected(generator)
+      })
 
       it('should yields select getEligibleAccounts', () => {
         validateYieldSelectGetEligibleAccountsData(generator)
@@ -109,7 +124,11 @@ describe('debitCard sagas', () => {
     })
 
     describe('current account mismatch with existing eligible accounts', () => {
-      const generator = saga(CARD_ID)
+      const generator = saga()
+
+      it('should yields select getCurrentCardSelected', () => {
+        validateYieldSelectGetCurrentCardSelected(generator)
+      })
 
       it('should yields select getEligibleAccounts', () => {
         validateYieldSelectGetEligibleAccountsData(generator)
