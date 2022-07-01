@@ -17,10 +17,9 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
@@ -259,7 +258,7 @@ const CTA: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  ethBalancesR: getEthBalances(state)
+  ethBalancesR: selectors.balances.getEthTotalBalances(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

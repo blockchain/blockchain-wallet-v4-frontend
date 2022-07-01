@@ -3,7 +3,6 @@ import { lift } from 'ramda'
 import { Exchange, Remote } from '@core'
 import { getBalance } from '@core/redux/data/coins/selectors'
 import { ExtractSuccess, FiatType } from '@core/types'
-import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import { getData as getCoinAddressData } from 'components/Form/SelectBoxCoinAddresses/selectors'
@@ -21,11 +20,6 @@ export const getData = (state, ownProps: OwnProps) => {
   let addressDataR
   let balanceDataR
 
-  // const accounts = getCoinAccounts(state, {
-  //   coins: [coin],
-  //   ...ALL_ACCOUNTS_SELECTOR
-  // } as CoinAccountSelectorType)[coin as CoinType]
-
   switch (coin) {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
@@ -33,7 +27,7 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true,
         includeInterest: true
       })
-      balanceDataR = balanceSelectors.getBtcBalance(state)
+      balanceDataR = selectors.balances.getCoinTotalBalance('BTC')(state)
       break
     case 'BCH':
       addressDataR = getBchAddressData(state, {
@@ -41,28 +35,28 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true,
         includeInterest: true
       })
-      balanceDataR = balanceSelectors.getBchBalance(state)
+      balanceDataR = selectors.balances.getCoinTotalBalance('BCH')(state)
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         includeCustodial: true,
         includeInterest: true
       })
-      balanceDataR = balanceSelectors.getEthBalance(state)
+      balanceDataR = selectors.balances.getCoinTotalBalance('ETH')(state)
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         includeCustodial: true,
         includeInterest: true
       })
-      balanceDataR = balanceSelectors.getXlmBalance(state)
+      balanceDataR = selectors.balances.getCoinTotalBalance('XLM')(state)
       break
     case 'EUR':
     case 'GBP':
     case 'USD':
     case 'ARS':
       addressDataR = Remote.Success({ data: [] })
-      balanceDataR = balanceSelectors.getFiatBalance(coin, state)
+      balanceDataR = selectors.balances.getFiatCurrencyBalance(state)
       break
     default:
       switch (true) {
@@ -72,7 +66,7 @@ export const getData = (state, ownProps: OwnProps) => {
             includeCustodial: true,
             includeInterest: true
           })
-          balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
+          balanceDataR = selectors.balances.getCoinTotalBalance(coin)(state)
           break
         case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
@@ -88,7 +82,7 @@ export const getData = (state, ownProps: OwnProps) => {
             includeCustodial: true,
             includeInterest: true
           })
-          balanceDataR = balanceSelectors.getCoinCustodialBalance(coin)(state)
+          balanceDataR = selectors.balances.getCoinCustodialBalance(state)
           break
         default:
       }

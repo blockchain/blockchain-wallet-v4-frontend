@@ -7,8 +7,7 @@ import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/remote/types'
 import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
-import { getCoinsSortedByBalance } from 'components/Balances/selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
 import { getData as getBackupData } from './selectors'
@@ -98,7 +97,7 @@ const HoldingsTableContainer = (props: Props) => (
 
 const mapStateToProps = (state) => ({
   backupCoins: getBackupData(state).getOrElse([]),
-  data: getCoinsSortedByBalance(state)
+  data: selectors.balances.getTotalWalletBalancesSorted(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -107,7 +106,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getCoinsSortedByBalance>>
+export type SuccessStateType = ExtractSuccess<
+  ReturnType<typeof selectors.balances.getTotalWalletBalancesSorted>
+>
 export type Props = ConnectedProps<typeof connector>
 
 export default connector(HoldingsTableContainer)

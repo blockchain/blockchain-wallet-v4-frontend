@@ -7,7 +7,7 @@ import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { getCoinTradingBalance } from 'data/coins/selectors'
+import { selectors } from 'data'
 import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType } from 'data/types'
@@ -27,7 +27,7 @@ export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts, // non-custodial accounts
     coreSelectors.kvStore.xlm.getAccounts, // non-custodial metadata
-    (state, { coin }) => getCoinTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (xlmData, xlmMetadataR, sbBalanceR, ownProps) => {

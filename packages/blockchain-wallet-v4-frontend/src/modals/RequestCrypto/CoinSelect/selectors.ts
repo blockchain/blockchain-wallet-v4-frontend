@@ -2,7 +2,6 @@ import { map } from 'ramda'
 
 import { CoinfigType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
@@ -19,14 +18,14 @@ export const getData = createDeepEqualSelector(
         coins: ownProps.requestableCoins,
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
-    getCoinsSortedByBalance,
+    selectors.balances.getTotalWalletBalancesSorted,
     selectors.modules.profile.isSilverOrAbove,
     selectors.form.getFormValues(REQUEST_FORM),
     selectors.custodial.getProductEligibilityForUser
   ],
   (
     accounts,
-    sortedCoinsR: ReturnType<typeof getCoinsSortedByBalance>,
+    sortedCoinsR: ReturnType<typeof selectors.balances.getTotalWalletBalancesSorted>,
     isSilverOrAbove,
     formValues: { coinSearch?: string },
     productsR: ReturnType<typeof selectors.custodial.getProductEligibilityForUser>

@@ -12,7 +12,6 @@ import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -292,7 +291,7 @@ const mapStateToProps = (state) => {
 
   return {
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
-    ethBalancesR: getEthBalances(state),
+    ethBalancesR: selectors.balances.getEthTotalBalances(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
     rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),

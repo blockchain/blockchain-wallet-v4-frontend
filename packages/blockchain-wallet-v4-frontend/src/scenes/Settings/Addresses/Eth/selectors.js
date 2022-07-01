@@ -1,7 +1,6 @@
-import { getEthBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 
-export const getData = (state, props) => {
+export const getData = (state) => {
   const ethKvStoreSelectors = selectors.core.kvStore.eth
   const legacyEthAddr = ethKvStoreSelectors.getLegacyAccountAddress(state).getOrElse('')
 
@@ -14,7 +13,7 @@ export const getData = (state, props) => {
   return {
     addressInfo: {
       addr: ethKvStoreSelectors.getContext(state).getOrElse(''),
-      balance: getEthBalance(state).getOrElse(0),
+      balance: selectors.balances.getCoinTotalBalance('ETH')(state).getOrElse(0),
       priv: state.securityCenter.shownEthPrivKey
     },
     coin: 'ETH',

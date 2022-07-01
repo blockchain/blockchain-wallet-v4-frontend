@@ -2,7 +2,6 @@ import { lift } from 'ramda'
 
 import { Remote } from '@core'
 import { CrossBorderLimits, ExtractSuccess, InvitationsType } from '@core/types'
-import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'
@@ -10,8 +9,11 @@ import { BankTransferAccountType } from 'data/types'
 import { OwnProps } from '.'
 
 const getData = (state: RootState, ownProps: OwnProps) => {
-  const withdrawableBalanceR = getWithdrawableFiatBalance(ownProps.fiatCurrency, state)
-  const availableBalanceR = getFiatBalance(ownProps.fiatCurrency, state)
+  const withdrawableBalanceR = selectors.balances.getFiatCurrencyWithdrawableBalance(
+    ownProps.fiatCurrency,
+    state
+  )
+  const availableBalanceR = selectors.balances.getFiatCurrencyBalance(ownProps.fiatCurrency, state)
   const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
     ownProps.fiatCurrency,
     state
