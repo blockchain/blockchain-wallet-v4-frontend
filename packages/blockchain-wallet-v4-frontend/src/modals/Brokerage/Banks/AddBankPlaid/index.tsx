@@ -78,7 +78,7 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
   const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
   const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
-  if (hasError) return <>I has an error {error}</>
+  if (hasError) return <>{error}</>
   if (!data) return <>No Data Yet</>
   if (data.partner !== BankPartners.PLAID) return null
 

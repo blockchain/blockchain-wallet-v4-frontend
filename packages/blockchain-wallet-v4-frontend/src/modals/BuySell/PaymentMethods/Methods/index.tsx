@@ -287,7 +287,6 @@ const Methods: React.FC<Props> = (props: Props) => {
     return (
       <LinkBank
         {...bankTransfer}
-        // @ts-ignore
         icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
         onClick={() =>
           handlePaymentMethodSelect({

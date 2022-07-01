@@ -158,7 +158,9 @@ const IconContainer = styled.div`
   justify-content: center;
 `
 
-export const getIcon = (value: BSPaymentMethodType): ReactElement => {
+export const getIcon = (
+  value: BSPaymentMethodType | { type: BSPaymentTypes.BANK_TRANSFER }
+): ReactElement => {
   switch (value.type) {
     case BSPaymentTypes.BANK_TRANSFER:
     case BSPaymentTypes.LINK_BANK:
