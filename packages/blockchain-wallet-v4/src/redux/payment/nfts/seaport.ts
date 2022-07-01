@@ -23,6 +23,7 @@ import {
   WETH_CONTRACT_RINKEBY
 } from './constants'
 import {
+  calculateConduitApprovalsFees,
   cancelSeaportOrders,
   constructPrivateListingCounterOrder,
   getAssetItems,
@@ -412,7 +413,7 @@ export const calculateSeaportGasFees = async (
 ): Promise<GasDataI> => {
   const { operation, signer } = params
   let totalFees = 0
-  let gasFees = 0
+  let approvalFees = '0'
   let estimate = '0'
   const seaport = getSeaport(signer)
 
@@ -428,7 +429,6 @@ export const calculateSeaportGasFees = async (
       )._hex
       break
     case GasCalculationOperations.Sell:
-    case GasCalculationOperations.CreateOffer:
       if (params.actions) {
         const [methods] = params.actions
         if (methods.type === 'approval') {
@@ -444,15 +444,23 @@ export const calculateSeaportGasFees = async (
       const [methods] = actions
       estimate = (await methods.transactionMethods.estimateGas())._hex
       break
+    case GasCalculationOperations.CreateOffer:
+      if (params.actions) {
+        const [methods] = params.actions
+        if (methods.type === 'approval') {
+          estimate = await (await methods.transactionMethods.estimateGas())._hex
+        }
+      }
+      approvalFees = await (await calculateConduitApprovalsFees(signer)).toString()
+      break
     default:
   }
-  gasFees = Math.ceil(parseInt(estimate) * 1.5)
+  totalFees = Math.ceil(parseInt(estimate) * 1.5) + Math.ceil(parseInt(approvalFees) * 1.5)
 
   const gasPrice = await (await signer.getGasPrice()).toNumber()
-  totalFees = gasFees
   return {
-    approvalFees: 0,
-    gasFees,
+    approvalFees: Math.ceil(parseInt(approvalFees) * 1.5),
+    gasFees: Math.ceil(parseInt(estimate) * 1.5),
     gasPrice,
     proxyFees: 0,
     totalFees

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
+import { NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -12,17 +12,7 @@ import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props: Props) => {
-  const { nftActions, orderFlow } = props
-
-  useEffect(() => {
-    nftActions.fetchFees({
-      amount: '0',
-      asset: props.asset,
-      // TODO: SEAPORT
-      coin: 'WETH',
-      operation: GasCalculationOperations.CreateOffer
-    })
-  }, [])
+  const { orderFlow } = props
 
   return (
     <>
@@ -72,6 +62,6 @@ const Fees: React.FC<Props> = (props: Props) => {
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps
 
 export default Fees

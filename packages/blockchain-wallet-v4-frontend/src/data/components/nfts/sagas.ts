@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
 import { ethers, Signer } from 'ethers'
@@ -16,6 +17,7 @@ import {
   createSellOrder as createSeaportSellOrder,
   fulfillOrder as fulfillSeaportOrder
 } from '@core/redux/payment/nfts/seaport'
+import { fungibleTokenApprovals } from '@core/redux/payment/nfts/seaport.utils'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
@@ -362,6 +364,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+
+      if (offerFees.approvalFees) {
+        yield put(A.setNftOrderStatus(NftOrderStatusEnum.APPROVE_ERC20))
+        yield call(fungibleTokenApprovals, {
+          gasData: offerFees,
+          minimumAmount: new BigNumber(amount),
+          signer
+        })
+      }
+
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
       const seaportOrder = yield call(createBuyOrder, {
         accountAddress: signer.address,

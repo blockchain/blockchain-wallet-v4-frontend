@@ -251,7 +251,7 @@ const MakeOffer: React.FC<Props> = (props) => {
       </div>
 
       <StickyCTA>
-        <MakeOfferFees {...props} asset={asset} canWrap={canWrap} needsWrap={needsWrap} />
+        <MakeOfferFees {...props} asset={asset} needsWrap={needsWrap} />
         <br />
         <MakeOfferCTA
           {...props}

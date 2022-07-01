@@ -12,13 +12,33 @@ import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { canWrap, needsWrap, nftActions, orderFlow } = props
+  const { needsWrap, nftActions, orderFlow } = props
 
   useEffect(() => {
     nftActions.fetchFeesWrapEth({
       operation: GasCalculationOperations.WrapEth
     })
   }, [nftActions])
+
+  if (!needsWrap) {
+    return (
+      <Flex justifyContent='space-between' alignItems='center'>
+        <Text size='14px' weight={500}>
+          <FormattedMessage id='copy.wrap_eth_fees' defaultMessage='Wrap Eth Fees' />
+        </Text>
+        <div>
+          <RightAlign>
+            <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+              0
+            </CoinDisplay>
+            <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
+              0
+            </FiatDisplay>
+          </RightAlign>
+        </div>
+      </Flex>
+    )
+  }
 
   return (
     <>
@@ -53,12 +73,12 @@ const Fees: React.FC<Props> = (props) => {
               <div>
                 <RightAlign>
                   <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                    {canWrap && needsWrap
+                    {needsWrap
                       ? new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
                       : new BigNumber(0).toString()}
                   </CoinDisplay>
                   <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                    {canWrap && needsWrap
+                    {needsWrap
                       ? new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
                       : new BigNumber(0).toString()}
                   </FiatDisplay>
@@ -73,7 +93,6 @@ const Fees: React.FC<Props> = (props) => {
 }
 
 type Props = OwnProps & {
-  canWrap: boolean
   needsWrap: boolean
 }
 

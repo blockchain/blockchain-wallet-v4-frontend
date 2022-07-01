@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
-import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -12,14 +10,12 @@ import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
   CheckBoxInput,
-  Color,
   Image,
   Link,
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { Flex } from 'components/Flex'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'

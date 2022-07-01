@@ -11,6 +11,7 @@ import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStatusEnum {
+  APPROVE_ERC20 = 'APPROVE_ERC20',
   POST_BUY_ORDER = 'POST_BUY_ORDER',
   POST_BUY_ORDER_SUCCESS = 'POST_BUY_ORDER_SUCCESS',
   POST_LISTING = 'POST_LISTING',

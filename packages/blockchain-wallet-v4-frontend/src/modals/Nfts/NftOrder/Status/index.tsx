@@ -33,6 +33,15 @@ const ButtonWrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
 `
+
+const StyledImage = styled.img`
+  border-radius: 8px;
+  height: 120px;
+  marginright: 12px;
+  padding: 12px;
+  width: auto;
+`
+
 const NftOrderStatus: React.FC<Props> = (props) => {
   const { analyticsActions, defaultEthAddr, openSeaAssetR, routerActions } = props
   const dispatch = useDispatch()
@@ -86,19 +95,21 @@ const NftOrderStatus: React.FC<Props> = (props) => {
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
         </Wrapper>
       )}
+      {props.orderFlow.status === NftOrderStatusEnum.APPROVE_ERC20 && (
+        <Wrapper>
+          <StyledImage alt='nft-asset' src={val.image_url} />
+          <Text size='24px' weight={600} style={{ marginBottom: '8px' }}>
+            <FormattedMessage
+              id='copy.approving_erc20_spending'
+              defaultMessage='Approving ERC-20 for Spending'
+            />
+          </Text>
+          <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+        </Wrapper>
+      )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_OFFER && (
         <Wrapper>
-          <img
-            style={{
-              borderRadius: '8px',
-              height: '120px',
-              marginRight: '12px',
-              padding: '12px',
-              width: 'auto'
-            }}
-            alt='nft-asset'
-            src={val.image_url}
-          />
+          <StyledImage alt='nft-asset' src={val.image_url} />
           <Text size='24px' weight={600}>
             <FormattedMessage
               id='buttons.submitting_your_offer_for'
@@ -113,17 +124,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
       )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_BUY_ORDER && (
         <Wrapper>
-          <img
-            style={{
-              borderRadius: '8px',
-              height: '120px',
-              marginRight: '12px',
-              padding: '12px',
-              width: 'auto'
-            }}
-            alt='nft-asset'
-            src={val.image_url}
-          />
+          <StyledImage alt='nft-asset' src={val.image_url} />
           <Text size='24px' weight={600}>
             <FormattedMessage id='buttons.buying' defaultMessage='Buying' />
           </Text>
@@ -135,17 +136,7 @@ const NftOrderStatus: React.FC<Props> = (props) => {
       )}
       {props.orderFlow.status === NftOrderStatusEnum.POST_LISTING && (
         <Wrapper>
-          <img
-            style={{
-              borderRadius: '8px',
-              height: '120px',
-              marginRight: '12px',
-              padding: '12px',
-              width: 'auto'
-            }}
-            alt='nft-asset'
-            src={val.image_url}
-          />
+          <StyledImage alt='nft-asset' src={val.image_url} />
           <Text size='24px' weight={600}>
             Preparing to list
           </Text>
