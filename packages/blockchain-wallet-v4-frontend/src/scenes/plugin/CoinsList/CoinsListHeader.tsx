@@ -1,11 +1,11 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { selectors } from 'data'
 
 import DefaultHeader from '../DefaultHeader'
@@ -16,7 +16,7 @@ const WalletAddress = styled.div`
   background-color: ${(p) => p.theme.grey800};
   color: ${(p) => p.theme.grey400};
   border-radius: 8px;
-  padding: 3px 5px;
+  padding: 3px 5px 3px 10px;
   font-size: 12px;
 `
 
@@ -49,7 +49,9 @@ const CoinsListHeader = (props) => {
       }
     >
       <WalletAddress>
-        <CryptoAddress>{props.walletAddress}</CryptoAddress>
+        <Text size='12px' color='grey600'>
+          <FormattedMessage id='plugin.privateKeyWallet' defaultMessage='Private Key Wallet' />
+        </Text>
         <WalletSymbol>
           <Text size='12px'>ETH</Text>
           <span />
