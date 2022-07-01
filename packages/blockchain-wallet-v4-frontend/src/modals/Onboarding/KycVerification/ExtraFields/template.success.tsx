@@ -190,7 +190,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             isChanged = true
           }
           // remove all other checked values
-          if (child.id !== childId && child.checked) {
+          if (
+            child.id !== childId &&
+            child.checked &&
+            node.type !== NodeItemTypes.MULTIPLE_SELECTION
+          ) {
             child.checked = false
             isChanged = true
           }
