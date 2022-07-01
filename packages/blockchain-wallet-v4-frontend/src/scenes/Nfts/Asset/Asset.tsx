@@ -1037,7 +1037,7 @@ const NftAsset: React.FC<Props> = ({
                 )}
               </CurrentPriceBox>
               <DropdownPadding style={{ paddingTop: '1em' }}>
-                <NftDropdown title='Activity'>
+                <NftDropdown expanded title='Activity'>
                   <ActivityWrapper>
                     <Events
                       noBorder
@@ -1056,7 +1056,7 @@ const NftAsset: React.FC<Props> = ({
                 </NftDropdown>
               </DropdownPadding>
               <DropdownPadding>
-                <NftDropdown title='Offers'>
+                <NftDropdown expanded title='Offers'>
                   {bidsAndOffers.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
