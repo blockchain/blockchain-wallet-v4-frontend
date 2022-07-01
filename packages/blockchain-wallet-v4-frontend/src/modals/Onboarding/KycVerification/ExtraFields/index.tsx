@@ -16,7 +16,6 @@ const { KYC_EXTRA_QUESTIONS_FORM } = model.components.identityVerification
 
 const KYCExtraQuestionnaire = (props: Props) => {
   useEffect(() => {
-    props.identityVerificationActions.fetchExtraKYC(ExtraKYCContext.TIER_TWO_VERIFICATION)
     props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED,
       properties: {}

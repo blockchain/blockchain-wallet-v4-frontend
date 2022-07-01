@@ -11,7 +11,7 @@ import { WalletsCardComponent } from './types'
 
 const WalletsCard: WalletsCardComponent = ({ children }) => {
   return (
-    <Card>
+    <Card borderWidth={1} borderRadius='md'>
       <Padding top={16}>
         <Flex flexDirection='column' gap={0}>
           <Padding horizontal={16} vertical={0}>

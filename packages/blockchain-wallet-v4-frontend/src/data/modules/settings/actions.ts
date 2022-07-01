@@ -51,6 +51,11 @@ export const updateCurrency = (currency, hideAlert) => ({
   type: AT.UPDATE_CURRENCY
 })
 
+export const setTradingCurrency = (currency) => ({
+  payload: { currency },
+  type: AT.UPDATE_TRADING_CURRENCY
+})
+
 export const updateAutoLogout = (autoLogout) => ({
   payload: { autoLogout },
   type: AT.UPDATE_AUTO_LOGOUT

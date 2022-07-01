@@ -19,6 +19,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.VERIFY_MOBILE, settingsSagas.verifyMobile)
     yield takeLatest(AT.UPDATE_LANGUAGE, settingsSagas.updateLanguage)
     yield takeLatest(AT.UPDATE_CURRENCY, settingsSagas.updateCurrency)
+    yield takeLatest(AT.UPDATE_TRADING_CURRENCY, settingsSagas.updateTradingCurrency)
     yield takeLatest(AT.UPDATE_AUTO_LOGOUT, settingsSagas.updateAutoLogout)
     yield takeLatest(AT.UPDATE_LOGGING_LEVEL, settingsSagas.updateLoggingLevel)
     yield takeLatest(AT.UPDATE_IP_LOCK, settingsSagas.updateIpLock)

@@ -1,7 +1,7 @@
-import * as balanceSelectors from 'components/Balances/selectors'
+import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
-  return balanceSelectors.getBalanceSelector(ownProps.coin)(state)
+  return selectors.balances.getCoinTotalBalance(ownProps.coin)(state)
 }
 
 export default getData

@@ -10,13 +10,13 @@ import { Stat, StatsWrapper } from '../../components'
 
 const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total_supply }) => {
   return (
-    <div style={{ marginTop: '24px' }}>
+    <div style={{ margin: '24px' }}>
       <StatsWrapper>
         <Stat>
-          <Text size='16px' weight={500} color='white'>
+          <Text size='16px' weight={500} color='grey400'>
             <FormattedMessage id='copy.items' defaultMessage='Items' />
           </Text>
-          <Text size='16px' color='white' weight={600}>
+          <Text size='16px' color='black' weight={600}>
             {numeral(total_supply).format('0,0')}
           </Text>
         </Stat>
@@ -28,28 +28,20 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             }}
             style={{ cursor: 'pointer' }}
           >
-            <Text size='16px' weight={500} color='white'>
+            <Text size='16px' weight={500} color='grey400'>
               <FormattedMessage id='copy.floor_price' defaultMessage='Floor Price' />
             </Text>
-            <Text size='16px' color='white' weight={600}>
+            <Text size='16px' color='black' weight={600}>
               {stats?.floor_price} ETH
             </Text>
           </Stat>
         ) : null}
-        {/* <Stat>
-          <Text size='16px' weight={500} color='grey600'>
-            <FormattedMessage id='copy.owners' defaultMessage='Owners' />
-          </Text>
-          <Text size='16px' color='white' weight={600}>
-            {numeral(stats?.num_owners).format('0,0')}
-          </Text>
-        </Stat> */}
         {typeof stats?.total_volume === 'number' ? (
           <Stat>
-            <Text size='16px' weight={500} color='white'>
+            <Text size='16px' weight={500} color='grey400'>
               <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
             </Text>
-            <Text size='16px' color='white' weight={600}>
+            <Text size='16px' color='black' weight={600}>
               {numeral(stats?.total_volume).format('0a')} ETH
             </Text>
           </Stat>

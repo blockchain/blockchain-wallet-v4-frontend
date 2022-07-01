@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { SkeletonRectangle, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { getTotalBalance } from 'components/Balances/total/selectors'
 import { selectors } from 'data'
 
 const ErrorWrapper = styled(TooltipHost)`
@@ -70,7 +69,7 @@ class TotalBalance extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  data: getTotalBalance(state),
+  data: selectors.balances.getTotalWalletBalance(state),
   userCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 

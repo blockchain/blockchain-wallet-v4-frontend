@@ -189,8 +189,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             child.checked = !child.checked
             isChanged = true
           }
-          // for dropdown options remove all other checked values
-          if (child.id !== childId && node.isDropdown && child.checked) {
+          // remove all other checked values
+          if (child.id !== childId && child.checked) {
             child.checked = false
             isChanged = true
           }
@@ -208,9 +208,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
-    nodes.map(
-      (node) =>
-        node.children &&
+    nodes.map((node) => {
+      if (node.children) {
         node.children.map(
           (child) =>
             child.children &&
@@ -221,7 +220,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               return item
             })
         )
-    )
+      }
+      if (node.id === itemId && node.input !== value) {
+        node.input = value
+      }
+      return node
+    })
 
     if (isChanged) {
       props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
@@ -394,6 +398,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             component={TextBox}
             placeholder={node.hint}
             pattern={node.regex || ''}
+            onChange={onChangeInput}
           />
         </FormItem>
       </FormGroup>

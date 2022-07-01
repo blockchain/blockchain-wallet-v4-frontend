@@ -13,7 +13,7 @@ import { LearnAboutRecurringBuyPanelComponent } from './types'
 
 export const LearnAboutRecurringBuyPanel: LearnAboutRecurringBuyPanelComponent = ({ onClick }) => {
   return (
-    <Card elevation={1}>
+    <Card elevation={1} borderRadius='md'>
       <Padding all={16}>
         <Flex flexDirection='column' gap={12}>
           <IconCircularBackground color='blue000'>

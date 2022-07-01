@@ -132,6 +132,23 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const updateTradingCurrency = function* (action) {
+    try {
+      yield call(coreSagas.settings.setTradingCurrency, action.payload)
+      if (!action.payload.hideAlert) {
+        yield put(actions.alerts.displaySuccess(C.TRADING_CURRENCY_UPDATE_SUCCESS))
+      }
+      // update prices based on new currency
+      yield put(actions.prices.fetchCoinPrices())
+      yield put(actions.prices.fetchCoinPricesPreviousDay())
+      yield put(actions.core.data.coins.fetchCoinsRates())
+      yield put(actions.modules.profile.fetchUser())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTradingCurrency', e))
+      yield put(actions.alerts.displayError(C.TRADING_CURRENCY_UPDATE_ERROR))
+    }
+  }
+
   const updateAutoLogout = function* (action) {
     try {
       yield call(coreSagas.settings.setAutoLogout, action.payload)
@@ -326,6 +343,7 @@ export default ({ api, coreSagas }) => {
     updateLanguage,
     updateLoggingLevel,
     updateMobile,
+    updateTradingCurrency,
     updateTwoStepRemember,
     verifyMobile
   }

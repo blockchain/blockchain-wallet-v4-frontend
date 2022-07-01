@@ -1,14 +1,13 @@
 import BigNumber from 'bignumber.js'
 import { add, lift, pathOr, reduce } from 'ramda'
 
-import { Remote } from '@core'
-import { CoinType, RemoteDataType } from '@core/types'
+import { coreSelectors, Remote } from '@core'
+import { RemoteDataType } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { selectors } from 'data'
 
-// only hd accounts, no imported addresses
-export const getBtcBalance = createDeepEqualSelector(
-  [selectors.core.common.btc.getActiveHDAccounts],
+// gets BTC non-custodial balance which includes hd accounts excluding imported addresses
+export const __getBtcNonCustodialBalance = createDeepEqualSelector(
+  [coreSelectors.common.btc.getActiveHDAccounts],
   (accountsR) => {
     const getBalances = (balances) => {
       const walletBalances: Array<number> = balances.map((account) =>
@@ -22,9 +21,9 @@ export const getBtcBalance = createDeepEqualSelector(
   }
 )
 
-// only hd accounts, no imported addresses
-export const getBchBalance = createDeepEqualSelector(
-  [selectors.core.common.bch.getActiveHDAccounts],
+// gets BCH non-custodial balance which includes hd accounts excluding imported addresses
+export const __getBchNonCustodialBalance = createDeepEqualSelector(
+  [coreSelectors.common.bch.getActiveHDAccounts],
   (accountsR) => {
     const getBalances = (balances) => {
       const walletBalances: Array<number> = balances.map((account) =>
@@ -38,8 +37,9 @@ export const getBchBalance = createDeepEqualSelector(
   }
 )
 
-export const getEthBalance = createDeepEqualSelector(
-  [selectors.core.kvStore.eth.getContext, selectors.core.data.eth.getAddresses],
+// gets ETH non-custodial balance
+export const __getEthNonCustodialBalance = createDeepEqualSelector(
+  [coreSelectors.kvStore.eth.getContext, coreSelectors.data.eth.getAddresses],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>
       context.map((a) => pathOr(0, [a, 'balance'], balances))
@@ -53,38 +53,24 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
-export const getXlmBalance = createDeepEqualSelector(
+// gets XLM non-custodial balance
+export const __getXlmNonCustodialBalance = createDeepEqualSelector(
   [
     (state) =>
-      selectors.core.kvStore.xlm
+      coreSelectors.kvStore.xlm
         .getDefaultAccountId(state)
-        .map((accountId) => selectors.core.data.xlm.getBalance(state, accountId).getOrElse(0))
+        .map((accountId) => coreSelectors.data.xlm.getBalance(state, accountId).getOrElse(0))
   ],
   (balanceR) => {
     return Remote.of(new BigNumber(balanceR.getOrElse(0)))
   }
 )
 
-export const getErc20NonCustodialBalance = (coin) =>
+// given an ERC20 coin, returns its non-custodial balance
+export const __getErc20NonCustodialBalance = (coin) =>
   createDeepEqualSelector(
-    [(state) => selectors.core.data.eth.getErc20Balance(state, coin)],
+    [(state) => coreSelectors.data.eth.getErc20Balance(state, coin)],
     (balanceR) => {
       return Remote.of(new BigNumber(balanceR.getOrElse(0)))
     }
   )
-
-export const getBalanceSelector = (coin: CoinType) => {
-  switch (coin) {
-    case 'BTC':
-      return getBtcBalance
-    case 'BCH':
-      return getBchBalance
-    case 'ETH':
-      return getEthBalance
-    case 'XLM':
-      return getXlmBalance
-    // TODO: FIX erc20 is default
-    default:
-      return getErc20NonCustodialBalance(coin)
-  }
-}

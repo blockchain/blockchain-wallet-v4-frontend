@@ -5,7 +5,7 @@ import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { CountryScope, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
-import { fetchBalances } from 'data/balance/sagas'
+import { fetchBalances } from 'data/balances/sagas'
 import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
@@ -1056,6 +1056,14 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
   }
+  const sendLoginMessageToExchangeMobileApp = function* () {
+    const { platform } = yield select(selectors.signup.getProductSignupMetadata)
+    sendMessageToMobile(platform, {
+      data: {
+        action: 'login'
+      }
+    })
+  }
 
   return {
     authNabu,
@@ -1068,6 +1076,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     resendSmsLoginCode,
+    sendLoginMessageToExchangeMobileApp,
     triggerWalletMagicLink
   }
 }

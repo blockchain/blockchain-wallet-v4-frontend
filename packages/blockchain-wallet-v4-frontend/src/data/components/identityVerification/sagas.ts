@@ -215,6 +215,7 @@ export default ({ api, coreSagas, networks }) => {
     const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
     if (!steps.length) {
       // if no steps to be shown, close modal
+      yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
       yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
     } else {
       yield call(initializeStep)
@@ -243,7 +244,7 @@ export default ({ api, coreSagas, networks }) => {
     if (step) return yield put(A.setVerificationStep(step))
 
     yield put(actions.modules.profile.fetchUser())
-
+    yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
     yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
   }
 
@@ -428,7 +429,7 @@ export default ({ api, coreSagas, networks }) => {
         line1,
         line2,
         postCode,
-        state: state.code
+        state: state?.code ?? null
       }
 
       yield call(updateUser, { payload: { data: personalData } })

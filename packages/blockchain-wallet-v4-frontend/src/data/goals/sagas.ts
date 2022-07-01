@@ -14,7 +14,7 @@ import {
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
+import { getBchBalance, getBtcBalance } from 'data/balances/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'

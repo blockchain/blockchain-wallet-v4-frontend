@@ -1,10 +1,10 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess } from '@core/types'
-import { getCoinsSortedByBalance } from 'components/Balances/selectors'
+import { selectors } from 'data'
 
 export const getData = (state) => {
-  const coinsR = getCoinsSortedByBalance(state)
+  const coinsR = selectors.balances.getTotalWalletBalancesSorted(state)
 
   const transform = (coins: ExtractSuccess<typeof coinsR>) => {
     return coins

@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useQuery } from 'react-query'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -11,7 +10,6 @@ import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -19,6 +17,7 @@ import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
+import { getCoinBalancesTypeSeperated } from 'data/balances/selectors'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
@@ -55,10 +54,7 @@ const Buy: React.FC<Props> = (props) => {
           value: amount
         })
       : amount
-  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
-    new BigNumber(0),
-    new BigNumber(0)
-  ])
+  const [selfCustodyBalance] = ethBalancesR.getOrElse([new BigNumber(0), new BigNumber(0)])
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
@@ -197,7 +193,7 @@ const mapStateToProps = (state) => ({
     // @ts-ignore
     selectors.form.getFormValues('nftBuy')(state)?.coin || 'WETH'
   ),
-  ethBalancesR: getEthBalances(state),
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state),
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string

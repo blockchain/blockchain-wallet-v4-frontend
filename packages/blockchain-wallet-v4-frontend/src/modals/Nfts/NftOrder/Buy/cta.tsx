@@ -6,18 +6,20 @@ import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import * as lz from 'lz-string'
+import styled from 'styled-components'
 
 import {
   Button,
   CheckBoxInput,
+  Color,
   HeartbeatLoader,
   Image,
   Link,
   Text
 } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { actions } from 'data'
+import { Flex } from 'components/Flex'
+import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { DeepLinkGoal } from 'data/types'
@@ -27,6 +29,14 @@ import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
+
+export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
+  background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
+  border: 1px solid ${colors.grey000};
+  border-radius: 8px;
+  margin: 1em 0em;
+  justify-content: center;
+`
 
 const CTA: React.FC<Props> = (props) => {
   const {
@@ -174,7 +184,7 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <div style={{ display: 'flex' }}>
+            <CheckboxWrapper termsAccepted={termsAccepted}>
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
                 <CheckBoxInput
@@ -207,7 +217,7 @@ const CTA: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </label>
-            </div>
+            </CheckboxWrapper>
             <Button
               onClick={() =>
                 nftActions.createOrder({
@@ -248,7 +258,7 @@ const CTA: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  ethBalancesR: getEthBalances(state)
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

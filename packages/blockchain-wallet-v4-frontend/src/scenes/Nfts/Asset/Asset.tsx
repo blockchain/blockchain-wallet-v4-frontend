@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconComputer, IconInstagram, IconLink, IconTwitter } from '@blockchain-com/icons'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
-import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import {
+  AvatarGradientColors,
+  LinksContainer
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
@@ -36,7 +40,6 @@ import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/g
 import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
-import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
@@ -64,7 +67,6 @@ import NftAssetLoading from './components/NftAssetLoading'
 const AssetImageContainer = styled.div`
   position: relative;
   border-radius: 16px;
-  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 0.5rem;
   padding: 30px;
 `
@@ -75,11 +77,12 @@ const AssetImg = styled.img`
   box-sizing: border-box;
 `
 
-const Description = styled.div<{ isLongEnough: boolean }>`
+const Description = styled.div`
   margin-bottom: 1em;
-  p:last-child {
-    margin-bottom: 4px;
-  }
+  padding: 1em;
+  background: rgb(240, 242, 247, 0.3);
+  border: 1px solid ${(props) => props.theme.greyFade000};
+  border-radius: 16px;
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -152,7 +155,7 @@ const Detail = styled(Text)`
 const ShadowTag = styled.div`
   background: ${colors.white900};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
-  border-radius: 40px;
+  border-radius: 16px;
   padding: 6px 12px;
   width: fit-content;
 `
@@ -163,6 +166,12 @@ const CollectionHeader = styled.div`
     marginTop: 2px;
     gap: 24px;
     `};
+`
+
+const GradientCoinDisplay = styled(CoinDisplay)`
+  background: linear-gradient(92.99deg, #7663ff 0.55%, #0069fc 98.76%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `
 
 const DetailsAndOffers = styled.div``
@@ -191,7 +200,7 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
-  const [moreToggle, setIsMore] = useState(true)
+  const [moreAssetToggle, setMoreAssetToggle] = useState(true)
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
@@ -215,8 +224,8 @@ const NftAsset: React.FC<Props> = ({
 
   const owner = isOwner ? openSeaAsset.data?.ownership?.owner : openSeaAsset.data?.owner
   const collectionName = currentAsset?.collection?.name || ''
-  const description = currentAsset?.collection?.description || ''
-  const isLongEnough = description?.length > 82
+  const assetDecription = currentAsset?.description || ''
+  const collectionDescription = currentAsset?.collection?.description || ''
 
   let bids =
     openSeaAsset.data?.orders?.filter((x) => {
@@ -288,65 +297,53 @@ const NftAsset: React.FC<Props> = ({
                 ) : (
                   <Image width='100%' height='500px' name='nft-img-placeholder' />
                 )}
-                <NftAssetImageType
-                  animation_url={currentAsset.animation_url}
-                  image_url={currentAsset.image_url}
-                  top='40px'
-                  right='40px'
-                />
               </AssetImageContainer>
-              {currentAsset.traits?.length || description !== '' ? (
+              {assetDecription !== '' ? (
+                <Description>
+                  <Flex flexDirection='column'>
+                    <Text size='16px' color='grey900' weight={600}>
+                      <FormattedMessage id='copy.description' defaultMessage='Description' />
+                    </Text>
+                    <Text
+                      size='16px'
+                      color='grey900'
+                      weight={500}
+                      style={{ wordBreak: 'break-word' }}
+                    >
+                      {moreAssetToggle && assetDecription?.length > 82 ? (
+                        <ReactMarkdown linkTarget='_blank'>
+                          {`${assetDecription.substring(0, 82)}...`}
+                        </ReactMarkdown>
+                      ) : (
+                        <ReactMarkdown linkTarget='_blank'>{assetDecription}</ReactMarkdown>
+                      )}
+                    </Text>
+                    {assetDecription?.length > 82 && (
+                      <Text
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          if (assetDecription?.length > 82) setMoreAssetToggle(!moreAssetToggle)
+                        }}
+                        size='16px'
+                        color='blue600'
+                        weight={600}
+                      >
+                        {moreAssetToggle ? (
+                          <FormattedMessage id='copy.more' defaultMessage='See More' />
+                        ) : (
+                          <FormattedMessage id='copy.less' defaultMessage='Less' />
+                        )}
+                      </Text>
+                    )}
+                  </Flex>
+                </Description>
+              ) : null}
+              {currentAsset.traits?.length ? (
                 <DropdownPadding style={{ paddingTop: '1em' }}>
-                  <NftDropdown expanded title='About'>
+                  <NftDropdown expanded title='Traits'>
                     <div style={{ padding: '1em' }}>
-                      {description !== '' ? (
-                        <Description isLongEnough={isLongEnough}>
-                          <Flex flexDirection='column'>
-                            <Text size='14px' color='grey600' weight={600}>
-                              <FormattedMessage
-                                id='copy.description'
-                                defaultMessage='Description'
-                              />
-                            </Text>
-                            <Text
-                              size='14px'
-                              color='grey600'
-                              weight={500}
-                              style={{ wordBreak: 'break-word' }}
-                            >
-                              {moreToggle && isLongEnough ? (
-                                <ReactMarkdown linkTarget='_blank'>
-                                  {`${description.substring(0, 82)}...`}
-                                </ReactMarkdown>
-                              ) : (
-                                <ReactMarkdown linkTarget='_blank'>{description}</ReactMarkdown>
-                              )}
-                            </Text>
-                            {isLongEnough && (
-                              <Text
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  if (isLongEnough) setIsMore(!moreToggle)
-                                }}
-                                size='12px'
-                                color='blue600'
-                                weight={600}
-                              >
-                                {moreToggle ? (
-                                  <FormattedMessage id='copy.more' defaultMessage='More' />
-                                ) : (
-                                  <FormattedMessage id='copy.less' defaultMessage='Less' />
-                                )}
-                              </Text>
-                            )}
-                          </Flex>
-                        </Description>
-                      ) : null}
                       {currentAsset.traits?.length ? (
                         <Flex flexDirection='column'>
-                          <Text size='14px' color='grey600' weight={600}>
-                            <FormattedMessage id='copy.properties' defaultMessage='Properties' />
-                          </Text>
                           <TraitsWrapper>
                             {currentAsset.traits.map((trait) => {
                               if (!trait) return null
@@ -394,6 +391,67 @@ const NftAsset: React.FC<Props> = ({
                           </TraitsWrapper>
                         </Flex>
                       ) : null}
+                    </div>
+                  </NftDropdown>
+                </DropdownPadding>
+              ) : null}
+              {collectionDescription !== '' ? (
+                <DropdownPadding style={{ paddingTop: '1em' }}>
+                  <NftDropdown expanded title={`About ${collectionName}`}>
+                    <div style={{ padding: '1em' }}>
+                      <div>
+                        <Flex flexDirection='column'>
+                          <Text
+                            size='16px'
+                            color='grey900'
+                            weight={500}
+                            style={{ wordBreak: 'break-word' }}
+                          >
+                            <ReactMarkdown linkTarget='_blank'>
+                              {collectionDescription}
+                            </ReactMarkdown>
+                          </Text>
+                          <LinksContainer style={{ width: 'fit-content' }}>
+                            {currentAsset?.collection.external_url ? (
+                              <Link target='_blank' href={currentAsset?.collection.external_url}>
+                                <Icon size='sm' label='globe'>
+                                  <IconLink fill={colors.blue600} />
+                                </Icon>
+                              </Link>
+                            ) : null}
+                            {currentAsset?.collection.twitter_username ? (
+                              <Link
+                                target='_blank'
+                                href={`https://twitter.com/${currentAsset?.collection.twitter_username}`}
+                              >
+                                <Icon size='sm' label='twitter'>
+                                  <IconTwitter fill={colors.blue600} />
+                                </Icon>
+                              </Link>
+                            ) : null}
+                            {currentAsset?.collection.instagram_username ? (
+                              <Link
+                                target='_blank'
+                                href={`https://instagram.com/${currentAsset?.collection.instagram_username}`}
+                              >
+                                <Icon size='sm' label='camera'>
+                                  <IconInstagram fill={colors.blue600} />
+                                </Icon>
+                              </Link>
+                            ) : null}
+                            {currentAsset?.collection.discord_url ? (
+                              <Link
+                                target='_blank'
+                                href={`${currentAsset?.collection.discord_url}`}
+                              >
+                                <Icon size='sm' label='computer'>
+                                  <IconComputer fill={colors.blue600} />
+                                </Icon>
+                              </Link>
+                            ) : null}
+                          </LinksContainer>
+                        </Flex>
+                      </div>
                     </div>
                   </NftDropdown>
                 </DropdownPadding>
@@ -448,7 +506,8 @@ const NftAsset: React.FC<Props> = ({
                                 maxWidth: '160px',
                                 overflow: 'hidden',
                                 paddingLeft: '8px',
-                                textOverflow: 'ellipsis'
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
                               }}
                             >
                               {currentAsset.collection?.name}
@@ -623,14 +682,14 @@ const NftAsset: React.FC<Props> = ({
                           <CoinIcon
                             name={bidsAndOffers[0].payment_token_contract.symbol || 'ETH'}
                           />
-                          <CoinDisplay
+                          <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
                             coin={bidsAndOffers[0].payment_token_contract.symbol}
                           >
                             {bidsAndOffers[0].current_price}
-                          </CoinDisplay>
+                          </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
                             size='16px'
@@ -684,14 +743,14 @@ const NftAsset: React.FC<Props> = ({
                         </Highest>
                         <EthText>
                           <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
-                          <CoinDisplay
+                          <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
                             coin={lowest_order.payment_token_contract.symbol}
                           >
                             {lowest_order.current_price}
-                          </CoinDisplay>
+                          </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
                             size='16px'
@@ -726,14 +785,14 @@ const NftAsset: React.FC<Props> = ({
                         <Highest>Highest Offer</Highest>
                         <EthText>
                           <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
-                          <CoinDisplay
+                          <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
                             coin={highest_offer.payment_token_contract.symbol}
                           >
                             {highest_offer.current_price}
-                          </CoinDisplay>
+                          </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
                             size='16px'

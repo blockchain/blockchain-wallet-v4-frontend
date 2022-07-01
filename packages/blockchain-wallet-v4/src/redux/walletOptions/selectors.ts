@@ -132,6 +132,11 @@ export const getRewardsPromoBannerEnabled = (state: RootState) =>
 export const getReferralEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
 
+// show login button redirect for exchange mobile
+// will take user out of webview into native signin
+export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
+
 // dex feature flag
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))

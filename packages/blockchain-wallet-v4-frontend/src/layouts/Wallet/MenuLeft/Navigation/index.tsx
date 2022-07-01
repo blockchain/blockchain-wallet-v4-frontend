@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
-import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../template.success'
@@ -24,7 +23,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  coinList: getCoinsSortedByBalance(state),
+  coinList: selectors.balances.getTotalWalletBalancesSorted(state),
   walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 

@@ -53,11 +53,7 @@ export default ({ api, coreSagas, networks }) => {
       // store initial address in case of US state we add prefix
       yield call(api.setUserInitialAddress, country, state)
       yield call(coreSagas.settings.fetchSettings)
-
-      const guid = yield select(selectors.core.wallet.getGuid)
-
       yield call(createExchangeUser, country)
-
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))
@@ -142,7 +138,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       if (isReferralEntered) {
-        yield call(api.createReferral(referral))
+        yield call(api.createReferral, referral)
       }
     } catch (e) {
       if (e.message !== REFERRAL_ERROR_MESSAGE) {

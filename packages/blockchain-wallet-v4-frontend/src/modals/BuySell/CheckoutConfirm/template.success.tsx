@@ -21,6 +21,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import {
   getBaseAmount,
@@ -41,6 +42,7 @@ import {
   UserDataType
 } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 import {
   displayFiat,
@@ -49,8 +51,6 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { isNabuError } from 'services/errors'
-import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -243,7 +243,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     props.buySellActions.cancelOrder(props.order)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
         isSddFlow: false,

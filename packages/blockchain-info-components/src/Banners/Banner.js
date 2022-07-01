@@ -32,23 +32,32 @@ const BannerContent = styled(Text)`
   }
 `
 
+export const BannerType = {
+  ALERT: 'alert',
+  CAUTION: 'caution',
+  INFORMATIONAL: 'informational',
+  SUCCESS: 'success',
+  WARNING: 'warning',
+  WHITE: 'white'
+}
+
 const selectStyle = (type) => {
   switch (type) {
-    case 'success':
+    case BannerType.SUCCESS:
       return {
         color: 'success',
         icon: 'checkmark-in-circle',
         uppercase: false
       }
-    case 'warning':
+    case BannerType.WARNING:
       return { color: 'error', icon: 'alert-filled', uppercase: true }
-    case 'alert':
+    case BannerType.ALERT:
       return { color: 'blue600', icon: 'bell', uppercase: false }
-    case 'caution':
+    case BannerType.CAUTION:
       return { color: 'brand-yellow', icon: 'alert-filled', uppercase: false }
-    case 'white':
+    case BannerType.WHITE:
       return { color: 'white', icon: null, uppercase: true }
-    case 'informational':
+    case BannerType.INFORMATIONAL:
       return { color: 'grey700', icon: null, uppercase: false }
     default:
       return { color: 'blue600', icon: null, uppercase: false }
@@ -56,10 +65,21 @@ const selectStyle = (type) => {
 }
 
 const Banner = (props) => {
-  const { children, inline, label, size, style: customCss, type, width } = props
+  const {
+    children,
+    icon: customIcon = undefined,
+    inline,
+    label,
+    size,
+    style: customCss,
+    type,
+    width
+  } = props
   const style = selectStyle(type)
-  const { color, icon, uppercase } = style
+  const { color, uppercase } = style
 
+  // For removing default icon value it could be sent null as value
+  const icon = customIcon !== undefined ? customIcon : style.icon
   return (
     <Container
       className={props.className}
@@ -86,9 +106,16 @@ const Banner = (props) => {
 
 Banner.propTypes = {
   children: PropTypes.node.isRequired,
+  icon: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
-  type: PropTypes.oneOf(['success', 'warning', 'alert', 'caution', 'informational']),
+  type: PropTypes.oneOf([
+    BannerType.SUCCESS,
+    BannerType.WARNING,
+    BannerType.ALERT,
+    BannerType.CAUTION,
+    BannerType.INFORMATIONAL
+  ]),
   width: PropTypes.string
 }
 

@@ -20,6 +20,7 @@ export const BoxRow = styled.div`
 
 export const BoxRowWithBorder = styled(BoxRow)`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
+  align-items: center;
 `
 
 export const BoxRowItemTitle = styled(Text)`

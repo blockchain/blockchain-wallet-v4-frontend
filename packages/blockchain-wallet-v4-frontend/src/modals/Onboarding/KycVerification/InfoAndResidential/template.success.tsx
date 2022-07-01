@@ -183,8 +183,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   if (countryIsUS && props.userData?.state && !isCountryStateSet) {
     const defaultState = supportedUSStates.states.find((state) => state.code === stateCode)
     if (defaultState) {
-      props.updateDefaultState(defaultState)
-      setCountyStateSet(true)
+      setTimeout(() => {
+        props.updateDefaultState(defaultState)
+        setCountyStateSet(true)
+      }, 500)
     }
   }
 
