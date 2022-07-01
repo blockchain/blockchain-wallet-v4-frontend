@@ -258,7 +258,7 @@ const CTA: React.FC<Props> = (props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  ethBalancesR: selectors.balances.getEthTotalBalances(state)
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

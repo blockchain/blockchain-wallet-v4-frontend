@@ -291,7 +291,7 @@ const mapStateToProps = (state) => {
 
   return {
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
-    ethBalancesR: selectors.balances.getEthTotalBalances(state),
+    ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
     rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),

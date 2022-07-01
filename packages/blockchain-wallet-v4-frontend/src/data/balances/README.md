@@ -13,6 +13,7 @@ These selectors should be used if you need the total balance of the entire walle
 Total balance means custodial (Trading, Buy/Sell, Interest, etc.) + non-custodial + fiat (if applicable).
 
 - `getCoinTotalBalance` - given `CoinType` or `FiatType`, will return its total balance across all accounts
+- `getCoinBalancesTypeSeperated` given `CoinType`, will return its balances in a list seperated by type ([non-custodial, custodial])
 - `getTotalWalletBalance` - returns the total balance of the wallet across all accounts
 - `getTotalWalletBalancesSorted` - returns a list of coins with any balance sorted by balance descending
 

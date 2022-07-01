@@ -339,15 +339,19 @@ export const getCoinNonCustodialBalance = (
   }
 }
 
-// returns an array of ETH balances
-// the first being non-custodial balances and the second being custodial balances
-export const getEthTotalBalances = createDeepEqualSelector(
-  [getCoinNonCustodialBalance('ETH'), getCoinCustodialBalance('ETH')],
-  (balancesR, custodialBalanceR) => {
-    const custodialBalance = custodialBalanceR.getOrElse(0)
-    return Remote.of([new BigNumber(balancesR.getOrElse(new BigNumber(0))), custodialBalance])
-  }
-)
+// given a coin, return its balances seperated as a list [non-custodial, custodial]
+export const getCoinBalancesTypeSeperated = (coin) =>
+  createDeepEqualSelector(
+    [() => getCoinNonCustodialBalance(coin), () => getCoinCustodialBalance(coin)],
+    (nonCustodialBalancesR, custodialBalanceR) => {
+      return Remote.of([
+        // @ts-ignore
+        new BigNumber(nonCustodialBalancesR.getOrElse(new BigNumber(0))),
+        // @ts-ignore
+        custodialBalanceR.getOrElse(0)
+      ])
+    }
+  )
 
 //
 // INTERNAL SELECTORS, DO NOT USE OUTSIDE OF THIS FILE!
