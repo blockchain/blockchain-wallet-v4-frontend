@@ -62,6 +62,7 @@ import {
 // these functions are private as denoted by the '__' prefix but must be at the top of this
 // file to avoid function hoisting issues. they also cannot be included in the external
 // util file as that results in circular dependencies.
+
 // gets all coins and returns the total balance in terms of wallet currency
 const __getAllCoinsTotalBalance = createDeepEqualSelector(
   [coreSelectors.data.coins.getAllCoins, coreSelectors.settings.getCurrency, (state) => state],

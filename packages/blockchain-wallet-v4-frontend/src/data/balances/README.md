@@ -26,7 +26,7 @@ Custodial balance means Trading, Buy/Sell, Interest, etc. + fiat (if applicable)
 - `getCoinInterestBalance` - given `CoinType`, returns its interest account balance
 
 ### Non-Custodial Only Balances
-These selectors should be used if you need the total balance of just the non-custodial coins/feature of the wallet or of a specific coin.
+These selectors should be used if you need the total non-custodial balance of a specific coin.
 Non-custodial balance means on-chain balances of private key wallets.
 
 - `getCoinNonCustodialBalance` - given `CoinType`, returns the non-custodial balance
