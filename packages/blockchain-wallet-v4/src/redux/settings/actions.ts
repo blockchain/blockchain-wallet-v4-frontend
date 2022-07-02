@@ -16,7 +16,10 @@ export const setSettings = (data) => ({
   payload: { data },
   type: AT.SET_SETTINGS
 })
-export const setEmail = (email) => ({ payload: { email }, type: AT.SET_EMAIL })
+export const setEmail = (email, nabuSessionToken) => ({
+  payload: { email, nabuSessionToken },
+  type: AT.SET_EMAIL
+})
 export const sentConfirmationCodeSuccess = (email) => ({
   payload: { email },
   type: AT.SENT_CONFIRMATION_CODE_SUCCESS

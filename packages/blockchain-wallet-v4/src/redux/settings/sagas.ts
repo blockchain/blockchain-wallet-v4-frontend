@@ -42,14 +42,14 @@ export default ({ api }) => {
     // return response
   }
 
-  const setEmail = function* ({ email }) {
+  const setEmail = function* (email, nabuSessionToken) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateEmail, guid, sharedKey, email)
+    const response = yield call(api.secureUpdateEmail, guid, sharedKey, email, nabuSessionToken)
     if (!contains('updated', toLower(response))) {
       throw new Error(response)
     }
-    yield put(actions.setEmail(email))
+    yield put(actions.setEmail(email, nabuSessionToken))
   }
 
   const sendConfirmationCodeEmail = function* ({ email }) {

@@ -40,8 +40,6 @@ class VerifyEmail extends PureComponent<Props> {
       this.props
     if (formValues) {
       identityVerificationActions.updateEmail({ email: formValues.email })
-      securityCenterActions.resendVerifyEmail(formValues.email, 'VERIFICATION')
-      settingsActions.setEmail(formValues.email)
     }
   }
 

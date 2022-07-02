@@ -13,8 +13,32 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const updateEmail = (guid, sharedKey, email) =>
-    updateSettings(guid, sharedKey, 'update-email', email)
+  const updateSettingsAuthorized = (
+    guid,
+    sharedKey,
+    method,
+    payload,
+    nabuSessionToken,
+    querystring = ''
+  ) =>
+    post({
+      data: {
+        guid,
+        length: `${payload}`.length,
+        method,
+        nabuSessionToken,
+        payload,
+        sharedKey
+      },
+      endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
+      url: rootUrl
+    })
+
+  const updateEmail = (guid, sharedKey, email, apiToken) =>
+    updateSettings(guid, sharedKey, 'update-email', email, apiToken)
+
+  const secureUpdateEmail = (guid, sharedKey, email, nabuSessionToken) =>
+    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, nabuSessionToken)
 
   const sendConfirmationCodeEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
@@ -94,6 +118,7 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     getGoogleAuthenticatorSecretUrl,
     getSettings,
     resendVerifyEmail,
+    secureUpdateEmail,
     sendConfirmationCodeEmail,
     sendEmailConfirmation,
     updateAuthType,

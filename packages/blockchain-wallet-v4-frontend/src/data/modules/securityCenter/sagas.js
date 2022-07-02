@@ -1,6 +1,6 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
 import * as C from 'services/alerts'
 
@@ -8,9 +8,11 @@ export default ({ coreSagas }) => {
   const logLocation = 'modules/securityCenter/sagas'
 
   const updateEmail = function* (action) {
+    const { email } = action.payload
     try {
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
       yield put(actions.modules.settings.clearEmailCodeFailure())
-      yield call(coreSagas.settings.setEmail, action.payload)
+      yield call(coreSagas.settings.setEmail, email, nabuSessionToken)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_UPDATE_ERROR))
