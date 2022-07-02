@@ -15,7 +15,6 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
@@ -36,12 +35,12 @@ const CTA: React.FC<Props> = ({
   formValues,
   isAuthenticated,
   isInvited,
-  maxOfferPossible,
   needsWrap,
   nftActions,
   offerFees,
   orderFlow,
   selfCustodyBalance,
+  standardMaxOfferPossible,
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
@@ -97,30 +96,18 @@ const CTA: React.FC<Props> = ({
                   style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   The max you can offer from this wallet is&nbsp;
-                  <CoinDisplay
+                  <Text
                     size='12px'
                     weight={600}
                     color='blue600'
                     style={{ cursor: 'pointer' }}
-                    role='button'
-                    coin={formValues.coin || 'WETH'}
                     onClick={() => {
                       formActions.change('nftMakeOffer', 'fix', 'CRYPTO')
-                      formActions.change(
-                        'nftMakeOffer',
-                        'amount',
-                        Number(
-                          convertCoinToCoin({
-                            baseToStandard: true,
-                            coin,
-                            value: Math.max(maxOfferPossible.toNumber(), 0)
-                          })
-                        ).toFixed(Math.min(8, window.coins[coin].coinfig.precision))
-                      )
+                      formActions.change('nftMakeOffer', 'amount', standardMaxOfferPossible)
                     }}
                   >
-                    {Math.max(maxOfferPossible.toNumber(), 0)}
-                  </CoinDisplay>
+                    {standardMaxOfferPossible} {formValues.coin}
+                  </Text>
                 </Text>
               </div>
             </>
@@ -246,10 +233,10 @@ type Props = OwnProps & {
   canWrap: boolean
   cryptoAmt: string
   custodialBalance: any
-  maxOfferPossible: BigNumber
   needsWrap: boolean
   offerFees: GasDataI
   selfCustodyBalance: any
+  standardMaxOfferPossible: number
   wrapFees: GasDataI
 }
 

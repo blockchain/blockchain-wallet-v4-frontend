@@ -59,6 +59,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   if (!formValues) return null
 
   const { amount, coin, fix } = formValues
+  const { coinfig } = window.coins[coin]
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -68,7 +69,6 @@ const MakeOffer: React.FC<Props> = (props) => {
       ? convertFiatToCoin({
           coin,
           currency: walletCurrency,
-          maxPrecision: 8,
           rates,
           value: amount
         })
@@ -95,6 +95,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   const amtToBuy = maxOfferPossible
     .times(-1)
     .plus(convertCoinToCoin({ baseToStandard: false, coin, value: cryptoAmt }))
+  // Standard Values
   const standardErc20Balance = convertCoinToCoin({
     coin: formValues.coin || 'WETH',
     value: erc20Balance
@@ -103,6 +104,11 @@ const MakeOffer: React.FC<Props> = (props) => {
     coin: 'ETH',
     value: maxWrapPossible.toString()
   })
+  // used to avoid precision error caused by AmountFieldInput component, which
+  // uses max 8 decimal precision
+  const standardMaxOfferPossible =
+    (Math.floor(maxOfferPossible.dividedBy(1e8).toNumber()) * 1e8) / 10 ** coinfig.precision
+
   const amtToWrap = new BigNumber(cryptoAmt || 0).minus(standardErc20Balance)
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
@@ -265,7 +271,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           custodialBalance={custodialBalance}
           cryptoAmt={cryptoAmt}
           amtToWrap={amtToWrap}
-          maxOfferPossible={maxOfferPossible}
+          standardMaxOfferPossible={standardMaxOfferPossible}
         />
       </StickyCTA>
     </>

@@ -37,7 +37,7 @@ const ButtonWrapper = styled.div`
 const StyledImage = styled.img`
   border-radius: 8px;
   height: 120px;
-  marginright: 12px;
+  margin-right: 12px;
   padding: 12px;
   width: auto;
 `
