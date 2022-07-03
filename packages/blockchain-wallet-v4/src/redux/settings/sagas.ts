@@ -80,11 +80,11 @@ export default ({ api }) => {
     if (!prop('success', response)) throw new Error(JSON.stringify(response))
   }
 
-  const setMobile = function* ({ mobile }) {
+  const setMobile = function* (mobile, nabuSessionToken) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-    yield put(actions.setMobile(mobile))
+    const response = yield call(api.secureUpdateMobile, guid, sharedKey, mobile, nabuSessionToken)
+    yield put(actions.setMobile(mobile, nabuSessionToken))
     return response
   }
 

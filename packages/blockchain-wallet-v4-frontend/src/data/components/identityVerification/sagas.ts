@@ -237,8 +237,9 @@ export default ({ api, coreSagas, networks }) => {
   const updateSmsNumber = function* () {
     try {
       const { smsNumber } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
+      yield call(coreSagas.settings.setMobile, { mobile: smsNumber }, nabuSessionToken)
       yield put(A.setSmsStep(STEPS.verify as EmailSmsStepType))
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
     } catch (e) {
@@ -273,7 +274,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
       const smsNumber = (yield select(selectors.core.settings.getSmsNumber)).getOrFail()
-      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+      yield call(coreSagas.settings.setMobile, { mobile: smsNumber }, nabuSessionToken)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
     } catch (e) {
@@ -384,7 +386,7 @@ export default ({ api, coreSagas, networks }) => {
       const { email } = payload
       if (prevEmail === email)
         yield call(coreSagas.settings.resendVerifyEmail, { email }, 'VERIFICATION')
-      else yield call(coreSagas.settings.setEmail, { email, nabuSessionToken })
+      else yield call(coreSagas.settings.setEmail, email, nabuSessionToken)
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify as EmailSmsStepType))
     } catch (e) {

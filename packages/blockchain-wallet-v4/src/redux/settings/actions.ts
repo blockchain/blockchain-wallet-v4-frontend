@@ -33,8 +33,8 @@ export const setEmailVerifiedFailedStatus = (isFailed) => ({
   payload: { isFailed },
   type: AT.SET_EMAIL_VERIFIED_FAILED_STATUS
 })
-export const setMobile = (mobile) => ({
-  payload: { mobile },
+export const setMobile = (mobile, nabuSessionToken) => ({
+  payload: { mobile, nabuSessionToken },
   type: AT.SET_MOBILE
 })
 export const setMobileVerified = () => ({ type: AT.SET_MOBILE_VERIFIED })

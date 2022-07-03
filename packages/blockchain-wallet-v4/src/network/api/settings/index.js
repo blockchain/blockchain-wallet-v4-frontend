@@ -34,11 +34,15 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const updateEmail = (guid, sharedKey, email, apiToken) =>
-    updateSettings(guid, sharedKey, 'update-email', email, apiToken)
-
   const secureUpdateEmail = (guid, sharedKey, email, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, nabuSessionToken)
+    updateSettingsAuthorized(guid, sharedKey, 'update-email', email, nabuSessionToken)
+
+  const secureUpdateMobile = (guid, sharedKey, mobile, nabuSessionToken) =>
+    updateSettingsAuthorized(guid, sharedKey, 'update-sms', mobile, nabuSessionToken)
+
+  // TODO: remove this, replaced by secureUpdate
+  const updateEmail = (guid, sharedKey, email) =>
+    updateSettings(guid, sharedKey, 'update-email', email)
 
   const sendConfirmationCodeEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
@@ -52,6 +56,7 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
   const verifyEmail = (guid, sharedKey, code) =>
     updateSettings(guid, sharedKey, 'verify-email-code', code)
 
+  // TODO: remove this, replace by secureUpdate
   const updateMobile = (guid, sharedKey, mobile) =>
     updateSettings(guid, sharedKey, 'update-sms', mobile)
 
@@ -119,6 +124,7 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     getSettings,
     resendVerifyEmail,
     secureUpdateEmail,
+    secureUpdateMobile,
     sendConfirmationCodeEmail,
     sendEmailConfirmation,
     updateAuthType,

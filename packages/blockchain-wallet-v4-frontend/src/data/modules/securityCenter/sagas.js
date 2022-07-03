@@ -100,7 +100,9 @@ export default ({ coreSagas }) => {
 
   const sendMobileVerificationCode = function* (action) {
     try {
-      yield call(coreSagas.settings.setMobile, action.payload)
+      const { mobile } = action.payload
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+      yield call(coreSagas.settings.setMobile, mobile, nabuSessionToken)
       yield put(actions.alerts.displaySuccess(C.MOBILE_CODE_SENT_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sendMobileVerificationCode', e))
