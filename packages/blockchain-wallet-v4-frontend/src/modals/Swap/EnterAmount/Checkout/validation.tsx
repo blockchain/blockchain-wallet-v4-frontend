@@ -110,13 +110,13 @@ export const minimumAmount = (value: string, allValues: SwapAmountFormValues, re
   return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin) ? 'BELOW_MIN' : false
 }
 
-export const maximumAmountSilver = (restProps: Props, amtError: string | boolean) => {
+export const maximumAmountSilver = (restProps: Props, amountError: string | boolean) => {
   // @ts-ignore
   const { limits, userData } = restProps
   if (userData.tiers.current === 2) return
   if (
     userData.tiers.current === 1 &&
-    amtError === 'ABOVE_MAX' &&
+    amountError === 'ABOVE_MAX' &&
     limits.maxPossibleOrder < limits.maxOrder
   )
     return true
