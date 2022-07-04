@@ -9,7 +9,9 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { getBalanceSelector } from 'components/Balances/selectors'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -62,6 +64,10 @@ const WalletBlock = styled.div`
   align-items: center;
   cursor: copy;
 `
+const CoinTextBlock = styled(Text)`
+  display: flex;
+`
+
 interface TooltipProperties {
   backgroundColor: string
   index: number
@@ -170,9 +176,18 @@ const Account: React.FC<AccountProps & any> = ({
           </Text>
           <IconCopy width={16} height={16} />
         </WalletBlock>
-        <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
-          {balance}
-        </FiatDisplay>
+        <Flex>
+          <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
+            {balance}
+          </FiatDisplay>
+          <CoinTextBlock color='grey400' size='12px' weight={500}>
+            &nbsp;(
+            <CoinDisplay coin={account.coin} color='grey400' size='12px' weight={500}>
+              {balance}
+            </CoinDisplay>
+            )
+          </CoinTextBlock>
+        </Flex>
       </AccountInfo>
       {selectedAccountIndex === index ? (
         <ConnectBlock>
