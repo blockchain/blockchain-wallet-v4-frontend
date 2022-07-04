@@ -1,16 +1,17 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { IconCheckCircle, IconCopy } from '@blockchain-com/icons'
+import { SwapAccountType } from 'blockchain-wallet-v4-frontend/src/data/components/swap/types'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/plugin/SwitchAccount/Tooltip'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { getBalanceSelector } from 'components/Balances/selectors'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-
-import { SwapAccountType } from '..'
 
 const AccountBlock = styled.div`
   display: flex;
@@ -61,89 +62,93 @@ const WalletBlock = styled.div`
   align-items: center;
   cursor: copy;
 `
-class TooltipProperties {
-  public backgroundColor: string
-
-  public index: number
-
-  public leftBlockPosition: number
-
-  public leftTrianglePosition: number
-
-  public text: string
-
-  public textColor: string
-
-  public constructor(
-    backgroundColor,
-    index,
-    leftBlockPosition,
-    leftTrianglePosition,
-    text,
-    textColor
-  ) {
-    this.backgroundColor = backgroundColor
-    this.index = index
-    this.leftBlockPosition = leftBlockPosition
-    this.leftTrianglePosition = leftTrianglePosition
-    this.text = text
-    this.textColor = textColor
-  }
+interface TooltipProperties {
+  backgroundColor: string
+  index: number
+  leftBlockPosition: number
+  leftTrianglePosition: number
+  text: string
+  textColor: string
 }
 
 type AccountProps = {
   account: SwapAccountType
-  activeAccountIndex: number
   copiedWalletAddress: string | number
-  setActiveAccountIndex: (activeAccountIndex: number) => void
+  index: number
+  selectedAccountIndex: number
   setCopiedWalletAddress: (copiedWalletAddress: string | number) => void
+  setSelectedAccountIndex: (selectedAccountIndex: number) => void
 }
 
-export const Account: React.FC<AccountProps> = ({
+const defaultTooltipProperties: TooltipProperties = {
+  backgroundColor: 'black',
+  index: 0,
+  leftBlockPosition: 50,
+  leftTrianglePosition: 50,
+  text: 'Copy to clipboard',
+  textColor: 'grey400'
+}
+
+const Account: React.FC<AccountProps & any> = ({
   account,
-  activeAccountIndex,
+  addressR,
   copiedWalletAddress,
-  setActiveAccountIndex,
-  setCopiedWalletAddress
+  index,
+  selectedAccountIndex,
+  setCopiedWalletAddress,
+  setSelectedAccountIndex,
+  ...props
 }) => {
   const state = useSelector((state: RootState) => state)
   const balance = getBalanceSelector(account.coin)(state).getOrElse(0)
-  const [tooltipProperties, setTooltipProperties] = useState<TooltipProperties>(
-    new TooltipProperties('black', 0, 50, 50, 'Copy to clipboard', 'grey400')
-  )
-  const defaultTooltipProperties = new TooltipProperties(
-    'black',
-    0,
-    50,
-    50,
-    'Copy to clipboard',
-    'grey400'
-  )
+  const [tooltipProperties, setTooltipProperties] =
+    useState<TooltipProperties>(defaultTooltipProperties)
 
-  const copyAddress = (event: MouseEvent<HTMLDivElement>, address: string | number): void => {
+  useEffect(() => {
+    props.requestActions.getNextAddress(account)
+  }, [])
+
+  const changeTooltipProperties = (
+    backgroundColor: string,
+    index: number,
+    leftBlockPosition: number,
+    leftTrianglePosition: number,
+    text: string,
+    textColor: string
+  ): TooltipProperties => {
+    return { backgroundColor, index, leftBlockPosition, leftTrianglePosition, text, textColor }
+  }
+
+  const generateNextAddress = () => {
+    return addressR.cata({
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null,
+      Success: (val) => val.address
+    })
+  }
+
+  const copyAddress = (event: MouseEvent<HTMLDivElement>): void => {
     event.stopPropagation()
-    navigator.clipboard.writeText(address.toString())
-    setCopiedWalletAddress(address)
-    setTooltipProperties(
-      new TooltipProperties('white', account.accountIndex, 50, 50, 'Copied!', 'black')
-    )
+    const accountAddress = generateNextAddress()
+
+    if (accountAddress) {
+      navigator.clipboard.writeText(accountAddress)
+      setCopiedWalletAddress(accountAddress)
+      setTooltipProperties(changeTooltipProperties('white', index, 50, 50, 'Copied!', 'black'))
+    }
   }
 
   return (
-    <AccountBlock
-      key={account.accountIndex}
-      onClick={() => setActiveAccountIndex(account.accountIndex)}
-    >
+    <AccountBlock key={index} onClick={() => setSelectedAccountIndex(index)}>
       <Icon size='24' name={account.coin} />
       <AccountInfo>
-        {account.address === copiedWalletAddress ? (
+        {generateNextAddress() === copiedWalletAddress ? (
           <Tooltip tooltipProperties={tooltipProperties} />
         ) : (
           <Tooltip tooltipProperties={defaultTooltipProperties} />
         )}
-        <WalletBlock
-          onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event, account.address)}
-        >
+        <WalletBlock onClick={(event: MouseEvent<HTMLDivElement>) => copyAddress(event)}>
           <Text
             size='16px'
             color='white'
@@ -151,10 +156,17 @@ export const Account: React.FC<AccountProps> = ({
             lineHeight='150%'
             style={{ marginRight: '9px' }}
           >
-            <FormattedMessage
-              id='switch.account.private_key_wallet'
-              defaultMessage='Private Key Wallet'
-            />
+            {account.label ? (
+              <FormattedMessage
+                id={`plugin.switch.account.label.${account.label}`}
+                defaultMessage={account.label}
+              />
+            ) : (
+              <FormattedMessage
+                id='plugin.switch.account.private_key_wallet'
+                defaultMessage='Private Key Wallet'
+              />
+            )}
           </Text>
           <IconCopy width={16} height={16} />
         </WalletBlock>
@@ -162,25 +174,45 @@ export const Account: React.FC<AccountProps> = ({
           {balance}
         </FiatDisplay>
       </AccountInfo>
-      {activeAccountIndex === account.accountIndex ? (
+      {selectedAccountIndex === index ? (
         <ConnectBlock>
           <IconCheckWrapper height='24px' width='24px' />
           <Tooltip
-            tooltipProperties={
-              new TooltipProperties('white', account.accountIndex, 70, 65, 'Connected!', 'black')
-            }
+            tooltipProperties={changeTooltipProperties(
+              'white',
+              index,
+              70,
+              65,
+              'Connected!',
+              'black'
+            )}
           />
         </ConnectBlock>
       ) : (
         <ConnectBlock>
           <IconUncheckCircle />
           <Tooltip
-            tooltipProperties={
-              new TooltipProperties('black', account.accountIndex, 50, 50, 'Connect', 'grey400')
-            }
+            tooltipProperties={changeTooltipProperties(
+              'black',
+              index,
+              50,
+              50,
+              'Connect',
+              'grey400'
+            )}
           />
         </ConnectBlock>
       )}
     </AccountBlock>
   )
 }
+
+const mapStateToProps = (state, props) => ({
+  addressR: selectors.components.request.getNextAddress(state, props.account)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  requestActions: bindActionCreators(actions.components.request, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account)
