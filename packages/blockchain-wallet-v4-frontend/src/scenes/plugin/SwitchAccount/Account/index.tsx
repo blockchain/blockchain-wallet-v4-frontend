@@ -79,10 +79,10 @@ interface TooltipProperties {
 
 type AccountProps = {
   account: SwapAccountType
-  copiedWalletAddress: string | number
+  copiedAccountIndex: number
   index: number
   selectedAccountIndex: number
-  setCopiedWalletAddress: (copiedWalletAddress: string | number) => void
+  setCopiedAccountIndex: (copiedAccountIndex: number) => void
   setSelectedAccountIndex: (selectedAccountIndex: number) => void
 }
 
@@ -98,10 +98,10 @@ const defaultTooltipProperties: TooltipProperties = {
 const Account: React.FC<AccountProps & any> = ({
   account,
   addressR,
-  copiedWalletAddress,
+  copiedAccountIndex,
   index,
   selectedAccountIndex,
-  setCopiedWalletAddress,
+  setCopiedAccountIndex,
   setSelectedAccountIndex,
   ...props
 }) => {
@@ -126,6 +126,24 @@ const Account: React.FC<AccountProps & any> = ({
   }
 
   const generateNextAddress = () => {
+    if (account.coin === 'STX') {
+      return addressR.cata({
+        Failure: () =>
+          setTooltipProperties(
+            changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
+          ),
+        Loading: () =>
+          setTooltipProperties(
+            changeTooltipProperties('white', index, 50, 50, 'Getting address...', 'black')
+          ),
+        NotAsked: () =>
+          setTooltipProperties(
+            changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
+          ),
+        Success: (val) => val.address
+      })
+    }
+
     return addressR.cata({
       Failure: () => null,
       Loading: () => null,
@@ -134,13 +152,13 @@ const Account: React.FC<AccountProps & any> = ({
     })
   }
 
-  const copyAddress = (event: MouseEvent<HTMLDivElement>): void => {
+  const copyAddress = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation()
+    setCopiedAccountIndex(index)
     const accountAddress = generateNextAddress()
 
     if (accountAddress) {
       navigator.clipboard.writeText(accountAddress)
-      setCopiedWalletAddress(accountAddress)
       setTooltipProperties(changeTooltipProperties('white', index, 50, 50, 'Copied!', 'black'))
     }
   }
@@ -149,7 +167,7 @@ const Account: React.FC<AccountProps & any> = ({
     <AccountBlock key={index} onClick={() => setSelectedAccountIndex(index)}>
       <Icon size='24' name={account.coin} />
       <AccountInfo>
-        {generateNextAddress() === copiedWalletAddress ? (
+        {copiedAccountIndex === index ? (
           <Tooltip tooltipProperties={tooltipProperties} />
         ) : (
           <Tooltip tooltipProperties={defaultTooltipProperties} />

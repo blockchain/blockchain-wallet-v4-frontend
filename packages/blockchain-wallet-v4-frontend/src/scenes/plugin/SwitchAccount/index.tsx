@@ -38,7 +38,7 @@ const CloseIconWrapper = styled(IconClose)`
 `
 const SwitchAccount = (props) => {
   const [selectedAccountIndex, setSelectedAccountIndex] = useState<number>(0)
-  const [copiedWalletAddress, setCopiedWalletAddress] = useState<string | number>('')
+  const [copiedAccountIndex, setCopiedAccountIndex] = useState<string | number>('')
   const { accounts, data } = props
 
   const switchAccounts = [
@@ -81,8 +81,8 @@ const SwitchAccount = (props) => {
             account={account}
             setSelectedAccountIndex={setSelectedAccountIndex}
             selectedAccountIndex={selectedAccountIndex}
-            setCopiedWalletAddress={setCopiedWalletAddress}
-            copiedWalletAddress={copiedWalletAddress}
+            setCopiedAccountIndex={setCopiedAccountIndex}
+            copiedAccountIndex={copiedAccountIndex}
           />
         ))}
     </Wrapper>
