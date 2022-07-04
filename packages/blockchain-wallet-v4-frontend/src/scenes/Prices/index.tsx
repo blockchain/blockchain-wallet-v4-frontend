@@ -71,11 +71,13 @@ const Scene = ({ children }) => (
 )
 
 const PricesContainer = (props: Props) => {
-  const { priceActions, rowDataR } = props
+  const { interestActions, priceActions, rowDataR } = props
 
   useEffect(() => {
     priceActions.fetchCoinPrices()
     priceActions.fetchCoinPricesPreviousDay()
+    interestActions.fetchInterestEligible()
+    interestActions.fetchInterestRate()
   }, [])
 
   return rowDataR.cata({
@@ -109,8 +111,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
@@ -121,8 +125,10 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(reduxForm({ form: 'prices' }), connector)
 
 export type TableColumnsType = {
+  analyticsActions: ReturnType<typeof mapDispatchToProps>['analyticsActions']
   buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
   formActions: ReturnType<typeof mapDispatchToProps>['formActions']
+  interestActions: ReturnType<typeof mapDispatchToProps>['interestActions']
   modalActions: ReturnType<typeof mapDispatchToProps>['modalActions']
   routerActions: ReturnType<typeof mapDispatchToProps>['routerActions']
   swapActions: ReturnType<typeof mapDispatchToProps>['swapActions']
