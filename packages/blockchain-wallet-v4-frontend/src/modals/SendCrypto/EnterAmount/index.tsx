@@ -103,7 +103,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     verifyIdentity,
     walletCurrency
   } = props
-  const amtError = typeof formErrors.amount === 'string' && formErrors.amount
+  const amountError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
   const { coin, type } = selectedAccount
   const isAccount = type === SwapBaseCounterTypes.ACCOUNT
@@ -213,7 +213,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         <AmountFieldInput
           coin={coin}
           fiatCurrency={walletCurrency}
-          amtError={amtError}
+          amountError={amountError}
           quote={quote}
           data-e2e='sendAmountInput'
           fix={fix}
@@ -226,7 +226,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           }}
         />
         <QuoteActionContainer>
-          {amtError && amtError !== 'ABOVE_MAX_LIMIT' ? (
+          {amountError && amountError !== 'ABOVE_MAX_LIMIT' ? (
             <div
               style={{
                 display: 'flex',
@@ -237,7 +237,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             >
               <CustomErrorCartridge
                 onClick={() => {
-                  if (amtError === 'ABOVE_MAX') {
+                  if (amountError === 'ABOVE_MAX') {
                     handleMax()
                   } else {
                     formActions.change(SEND_FORM, 'fix', 'CRYPTO')
@@ -245,13 +245,13 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                   }
                 }}
               >
-                {amtError === 'ABOVE_MAX' && (
+                {amountError === 'ABOVE_MAX' && (
                   <FormattedMessage
                     id='copy.above_max_amount'
                     defaultMessage='Amount is above Max'
                   />
                 )}
-                {amtError === 'BELOW_MIN' && (
+                {amountError === 'BELOW_MIN' && (
                   <FormattedMessage
                     id='copy.below_min_amount'
                     defaultMessage='Amount is below Min'
@@ -351,7 +351,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        {!amtError && (
+        {!amountError && (
           <Button
             nature='primary'
             type='submit'
@@ -364,7 +364,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           </Button>
         )}
 
-        {amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit && (
+        {amountError && amountError === 'ABOVE_MAX_LIMIT' && effectiveLimit && (
           <>
             <AlertButton>
               <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
@@ -392,7 +392,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           </>
         )}
 
-        {amtError === 'ABOVE_MAX' && (
+        {amountError === 'ABOVE_MAX' && (
           <>
             <AlertButton>
               <FormattedMessage
@@ -420,7 +420,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             </Text>
           </>
         )}
-        {amtError === 'BELOW_MIN' && (
+        {amountError === 'BELOW_MIN' && (
           <AlertButton>
             <FormattedMessage
               id='copy.below_min'
@@ -436,10 +436,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         )}
 
         {(sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ||
-          (amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit)) &&
+          (amountError && amountError === 'ABOVE_MAX_LIMIT' && effectiveLimit)) &&
           !isAccount && <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={verifyIdentity} />}
 
-        {amtError === 'ABOVE_MAX' && (
+        {amountError === 'ABOVE_MAX' && (
           <BuyMoreLine
             startBuy={() =>
               buySellActions.showModal({
