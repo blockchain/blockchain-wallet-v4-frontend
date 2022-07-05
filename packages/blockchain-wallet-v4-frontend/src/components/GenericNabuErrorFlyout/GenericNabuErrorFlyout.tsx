@@ -9,12 +9,12 @@ import { Padding } from 'components/Padding'
 import { IconButton } from './GenericNabuErrorFlyout.styles'
 import { GenericNabuErrorFlyoutComponent } from './GenericNabuErrorFlyout.types'
 
-const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onClickClose }) => {
+const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onDismiss }) => {
   return (
     <Flex flexDirection='column' style={{ height: '100%' }}>
       <Padding top={40} horizontal={40}>
         <Flex justifyContent='flex-end'>
-          <IconButton onClick={onClickClose} type='button'>
+          <IconButton onClick={onDismiss} type='button'>
             <Icon label='close' color='grey600' size='sm'>
               <IconClose />
             </Icon>
@@ -24,7 +24,7 @@ const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onClic
 
       <Flex alignItems='center' justifyContent='center' style={{ flexGrow: 1 }}>
         <Padding horizontal={40}>
-          <GenericNabuError error={error} />
+          <GenericNabuError error={error} onDismiss={onDismiss} />
         </Padding>
       </Flex>
     </Flex>

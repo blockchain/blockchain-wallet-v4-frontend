@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
@@ -208,12 +208,18 @@ class PreviewSell extends PureComponent<
   }
 
   render() {
+    const { error } = this.props
+
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={this.props.clearErrors} />
+    }
+
     return this.props.quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
       NotAsked: () => null,
       Success: (val) => {
-        const { account, error, formValues } = this.props
+        const { account, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
         const BASE = getInputFromPair(val.quote.pair)
@@ -224,17 +230,7 @@ class PreviewSell extends PureComponent<
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
-
         const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
-
-        if (isNabuError(error)) {
-          return (
-            <GenericNabuErrorFlyout
-              error={error}
-              onClickClose={() => this.handleOnClickBack(BASE)}
-            />
-          )
-        }
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -608,7 +604,8 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearErrors: () => dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

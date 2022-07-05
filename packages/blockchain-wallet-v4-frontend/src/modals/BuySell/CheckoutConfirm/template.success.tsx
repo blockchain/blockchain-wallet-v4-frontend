@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { intervalToDuration } from 'date-fns'
 import { defaultTo, filter, path, prop } from 'ramda'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
@@ -176,6 +177,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
   const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
+  const dispatch = useDispatch()
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -242,6 +244,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
   }
+
+  const clearFormErrors = () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT_CONFIRM))
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -350,7 +354,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }
 
   if (isNabuError(props.error)) {
-    return <GenericNabuErrorFlyout error={props.error} onClickClose={handleCancel} />
+    return <GenericNabuErrorFlyout error={props.error} onDismiss={clearFormErrors} />
   }
 
   return (

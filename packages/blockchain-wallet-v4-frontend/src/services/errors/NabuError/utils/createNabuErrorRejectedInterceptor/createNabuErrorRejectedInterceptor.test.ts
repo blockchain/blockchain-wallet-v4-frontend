@@ -44,7 +44,7 @@ describe('#createNabuErrorRejectedInterceptor()', () => {
 
     await expect(rejectedInterceptor(error)).rejects.toEqual(nabuError)
   })
-
+  
   it('Should not handle the error if response is not present in error', async () => {
     const error = new Error('Some error') as AxiosErrorResponse
 

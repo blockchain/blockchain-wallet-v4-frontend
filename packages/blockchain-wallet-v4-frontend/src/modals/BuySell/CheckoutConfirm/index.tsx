@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
@@ -75,7 +76,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         this.trackError(e)
 
         if (isNabuError(e)) {
-          return <GenericNabuErrorFlyout error={e} onClickClose={this.handleBack} />
+          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleBack} />
         }
 
         return (
@@ -107,6 +108,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearFormError: () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
