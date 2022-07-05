@@ -29,9 +29,9 @@ import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
 import NftRefreshIcon from './NftRefreshIcon'
 
-const Wrapper = styled.div<{ isSticky: boolean }>`
-  top: ${(props) => (props.isSticky ? `calc(${FIXED_HEADER_HEIGHT}px)` : `initial`)};
-  position: ${(props) => (props.isSticky ? `sticky` : `initial`)};
+const Wrapper = styled.div<{ hasBanner: boolean }>`
+  top: ${(props) => (props.hasBanner ? `calc(${FIXED_HEADER_HEIGHT}px)` : `initial`)};
+  position: sticky;
   background: ${(props) => props.theme.white};
   padding-top: 20px;
   padding-bottom: 20px;
@@ -90,7 +90,7 @@ const TraitGridFilters: React.FC<Props> = ({
   defaultSortBy,
   formActions,
   formValues,
-  isSticky = false,
+  hasBanner = false,
   numOfResults,
   routerActions,
   setIsFilterOpen,
@@ -161,7 +161,7 @@ const TraitGridFilters: React.FC<Props> = ({
   }
 
   return (
-    <Wrapper isSticky={isSticky}>
+    <Wrapper hasBanner={hasBanner}>
       <div style={{ width: '100%' }}>
         <Flex
           alignItems='center'
@@ -465,7 +465,7 @@ type OwnProps = {
   defaultSortBy?: `${AssetSortFields}-${'ASC' | 'DESC'}`
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
-  isSticky?: boolean
+  hasBanner?: boolean
   numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'ACTIVITY'>>
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>

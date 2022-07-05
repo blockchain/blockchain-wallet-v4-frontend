@@ -203,7 +203,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           setIsFilterOpen={setIsFilterOpen}
-          isSticky={!!collection.banner_image_url}
+          hasBanner={!!collection.banner_image_url}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -217,7 +217,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             collections={collectionsQuery.data?.collections || []}
-            isSticky={!collection.banner_image_url}
+            hasBanner={!collection.banner_image_url}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems
