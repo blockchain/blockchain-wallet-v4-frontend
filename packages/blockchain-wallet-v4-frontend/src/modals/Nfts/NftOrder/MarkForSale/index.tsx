@@ -135,7 +135,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <AmountFieldInput
                         coin={coin}
                         fiatCurrency={props.walletCurrency}
-                        amtError={false}
+                        amountError={false}
                         quote={fix === 'CRYPTO' ? fixFiatAmt : fixCryptoAmt}
                         fix={fix as 'CRYPTO' | 'FIAT'}
                         name='fixAmount'

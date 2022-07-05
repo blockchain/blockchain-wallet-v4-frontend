@@ -10,7 +10,6 @@ import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -53,10 +52,7 @@ const Buy: React.FC<Props> = (props) => {
           value: amount
         })
       : amount
-  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
-    new BigNumber(0),
-    new BigNumber(0)
-  ])
+  const [selfCustodyBalance] = ethBalancesR.getOrElse([new BigNumber(0), new BigNumber(0)])
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
@@ -188,7 +184,7 @@ const mapStateToProps = (state) => ({
     // @ts-ignore
     selectors.form.getFormValues('nftBuy')(state)?.coin || 'WETH'
   ),
-  ethBalancesR: getEthBalances(state),
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string

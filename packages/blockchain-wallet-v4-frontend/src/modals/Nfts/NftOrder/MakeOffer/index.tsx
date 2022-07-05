@@ -12,7 +12,6 @@ import { GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -167,7 +166,7 @@ const MakeOffer: React.FC<Props> = (props) => {
             <AmountFieldInput
               coin={coin}
               fiatCurrency={walletCurrency}
-              amtError={false}
+              amountError={false}
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
@@ -290,7 +289,7 @@ const mapStateToProps = (state) => {
 
   return {
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
-    ethBalancesR: getEthBalances(state),
+    ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
     rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),

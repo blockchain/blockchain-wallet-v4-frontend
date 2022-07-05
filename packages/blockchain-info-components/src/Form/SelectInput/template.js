@@ -5,8 +5,6 @@ import styled, { css } from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
-const INPUT_ID = 'clickableInput'
-
 // 🚨🚨🚨
 // react-select overrides
 // shared with CreatableInput
@@ -127,11 +125,6 @@ export const sharedSelect = css`
 
 const StyledSelect = styled(Select)`
   ${sharedSelect}
-
-  .dummy-input-wrapper {
-    position: absolute;
-    top: -1000px;
-  }
 `
 
 // A fake button so that vimium and other assistive tech can pick up dropdown
@@ -162,9 +155,6 @@ const Option = (props) => {
 }
 
 const ValueContainer = ({ children, ...props }) => {
-  const selectInput = React.Children.map(children, (child) => {
-    return child && child.props && child.props.id === INPUT_ID ? child : null
-  })
   const displayProps = assoc(
     'text',
     path(['selectProps', 'value', 'label'], props),
@@ -175,7 +165,6 @@ const ValueContainer = ({ children, ...props }) => {
       {props.selectProps.templateDisplay
         ? props.selectProps.templateDisplay(displayProps, children)
         : children}
-      {selectInput && <span className='dummy-input-wrapper'>{selectInput}</span>}
     </components.ValueContainer>
   )
 }
@@ -238,7 +227,6 @@ const SelectInput = (props) => {
           Option,
           ValueContainer
         }}
-        inputId={INPUT_ID}
         noOptionsMessage={noOptionsMessage}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         filterOption={filterOption}

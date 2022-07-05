@@ -5,12 +5,14 @@ import { IconMinusCircle, IconPlusCircle } from '@blockchain-com/icons'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Banner, BannerType, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
 import { selectors } from 'data'
-import { BalanceType, TransactionType } from 'data/components/debitCard/types'
+import { BalanceType, TransactionState, TransactionType } from 'data/components/debitCard/types'
+import { ModalName } from 'data/modals/types'
 import { useRemote } from 'hooks'
 
+import { FULL_DATETIME_FORMAT, useDateTimeFormatter } from '../../../../hooks/useDateTimeFormatter'
 import {
   BoxContainer,
   BoxRow,
@@ -31,8 +33,22 @@ const SkeletonLoader = styled.div`
 `
 
 const TransactionsWrapper = styled.div`
-  max-height: 350px;
+  max-height: 310px;
   overflow: auto;
+`
+
+const StyledBanner = styled(Banner)`
+  max-width: fit-content;
+  display: inline-flex;
+  margin-left: 8px;
+  border: unset;
+`
+
+const TransactionItem = styled(BoxRowWithBorder)`
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.grey000};
+  }
 `
 
 const LoadingDetail = () => (
@@ -62,17 +78,7 @@ const EmptyList = () => (
   </BoxRow>
 )
 
-const dateTimeFormatter = (userTransactionTime) =>
-  new Date(userTransactionTime).toLocaleDateString('en-US', {
-    day: '2-digit',
-    hour: 'numeric',
-    hour12: true,
-    minute: 'numeric',
-    month: '2-digit',
-    year: 'numeric'
-  })
-
-const TransactionsBox = () => {
+const TransactionsBox = ({ modalActions }) => {
   const { data, isLoading, isNotAsked } = useRemote(
     selectors.components.debitCard.getCardTransactions
   )
@@ -116,24 +122,54 @@ const TransactionsBox = () => {
     return type === TransactionType.PAYMENT ? <IconMinusCircle /> : <IconPlusCircle />
   }
 
+  const getBannerType = (state: TransactionState) => {
+    switch (state) {
+      case TransactionState.COMPLETED:
+        return BannerType.SUCCESS
+      case TransactionState.CANCELLED:
+      case TransactionState.DECLINED:
+        return BannerType.WARNING
+      case TransactionState.PENDING:
+      default:
+        return BannerType.INFORMATIONAL
+    }
+  }
+
+  const handleOpenDetail = (detail) => {
+    modalActions.showModal(ModalName.TRANSACTION_DETAIL, {
+      detail,
+      origin: 'SettingsPage'
+    })
+  }
+
   const ListComponent = () => (
     <>
       {!data || isEmpty(data) ? (
         <EmptyList />
       ) : (
         <TransactionsWrapper>
-          {data.map(({ id, merchantName, originalAmount, type, userTransactionTime }) => (
-            <BoxRowWithBorder key={id}>
-              <Icon color='blue300' label='Spent' size='sm'>
-                {generateTransactionIcon(type)}
-              </Icon>
-              <BoxRowItemTitle>
-                {generateTransactionTitle(type, originalAmount, merchantName)}
-                <BoxRowItemSubTitle>{dateTimeFormatter(userTransactionTime)}</BoxRowItemSubTitle>
-              </BoxRowItemTitle>
-              <CoinBalanceDisplay coin={originalAmount.symbol} balance={originalAmount.value} />
-            </BoxRowWithBorder>
-          ))}
+          {data.map((detail) => {
+            const { id, merchantName, originalAmount, state, type, userTransactionTime } = detail
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const datetime = useDateTimeFormatter(userTransactionTime, FULL_DATETIME_FORMAT)
+            return (
+              <TransactionItem key={id} onClick={() => handleOpenDetail(detail)}>
+                <Icon color='blue300' label='Spent' size='sm'>
+                  {generateTransactionIcon(type)}
+                </Icon>
+                <BoxRowItemTitle>
+                  {generateTransactionTitle(type, originalAmount, merchantName)}
+                  <BoxRowItemSubTitle>
+                    {datetime}
+                    <StyledBanner type={getBannerType(state)} icon={null}>
+                      {state}
+                    </StyledBanner>
+                  </BoxRowItemSubTitle>
+                </BoxRowItemTitle>
+                <CoinBalanceDisplay coin={originalAmount.symbol} balance={originalAmount.value} />
+              </TransactionItem>
+            )
+          })}
         </TransactionsWrapper>
       )}
     </>

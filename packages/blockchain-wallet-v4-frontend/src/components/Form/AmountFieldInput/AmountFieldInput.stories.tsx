@@ -39,7 +39,7 @@ const Template: ComponentStory<typeof AmountFieldInput> = (args) => <AmountField
 
 export const Default = Template.bind({})
 Default.args = {
-  amtError: false,
+  amountError: false,
   coin: 'BTC',
   'data-e2e': 'amountField',
   fiatCurrency: 'USD',
@@ -53,7 +53,7 @@ Default.args = {
 
 export const NoQuoteWithToggle = Template.bind({})
 NoQuoteWithToggle.args = {
-  amtError: false,
+  amountError: false,
   'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
@@ -65,7 +65,7 @@ NoQuoteWithToggle.args = {
 
 export const FiatOnly = Template.bind({})
 FiatOnly.args = {
-  amtError: false,
+  amountError: false,
   'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
@@ -77,7 +77,7 @@ FiatOnly.args = {
 
 export const InitialValueZero = Template.bind({})
 InitialValueZero.args = {
-  amtError: false,
+  amountError: false,
   'data-e2e': 'amountField',
   fiatCurrency: 'USD',
   fix: 'FIAT',
