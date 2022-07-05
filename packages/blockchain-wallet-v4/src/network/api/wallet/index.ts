@@ -30,12 +30,17 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const savePayload = (data) =>
-    post({
-      data: mergeRight({ format: 'plain', method: 'update' }, data),
-      endPoint: '/wallet',
-      url: rootUrl
-    }).then(() => data.checksum)
+  const savePayload = (data) => {
+    if (!data.old_checksum) {
+      throw new Error('Payload error')
+    } else {
+      return post({
+        data: mergeRight({ format: 'plain', method: 'update' }, data),
+        endPoint: '/wallet',
+        url: rootUrl
+      }).then(() => data.checksum)
+    }
+  }
 
   const createPayload = (email, captchaToken, forceVerifyEmail, data) =>
     post({
