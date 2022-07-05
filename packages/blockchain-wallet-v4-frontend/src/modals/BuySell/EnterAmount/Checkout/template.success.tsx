@@ -285,13 +285,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     ? getAmountLimitsError(Number(props.formValues?.amount), Number(min), Number(max))
     : null
 
-  const amtError =
+  const amountError =
     (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
 
-  const showError = !props.isPristine && amtError
+  const showError = !props.isPristine && amountError
 
   const handleMinMaxClick = () => {
-    const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
+    const prop = amountError === 'BELOW_MIN' ? 'min' : 'max'
     const maxMin: string = getMaxMin(
       prop,
       props.sbBalances,
@@ -394,7 +394,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const effectiveLimit = getEffectiveLimit(crossBorderLimits)
   const effectivePeriod = getEffectivePeriod(crossBorderLimits)
 
-  const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
+  const showLimitError = showError && amountError === 'ABOVE_MAX_LIMIT'
 
   const isFundsMethod = method && method.type === BSPaymentTypes.FUNDS
   return (
@@ -476,7 +476,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             )}
           </AmountRow>
           <QuoteActionContainer>
-            {props.isSddFlow && props.orderType === OrderType.BUY && amtError === 'BELOW_MIN' ? (
+            {props.isSddFlow && props.orderType === OrderType.BUY && amountError === 'BELOW_MIN' ? (
               <ErrorAmountContainer onClick={handleMinMaxClick}>
                 <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
                   <FormattedMessage
@@ -547,9 +547,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 )}
 
                 <CartridgeWrapper onClick={handleMinMaxClick}>
-                  <Cartridge error={amtError === 'ABOVE_MAX'}>
+                  <Cartridge error={amountError === 'ABOVE_MAX'}>
                     {/* If amount is 0 or below min show the min amount button before the max sell button */}
-                    {amtError === 'BELOW_MIN' ? (
+                    {amountError === 'BELOW_MIN' ? (
                       <FormattedMessage
                         id='modals.simplebuy.checkout.belowmin'
                         defaultMessage='{value} Minimum {orderType}'
@@ -593,9 +593,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 <div onClick={handleMaxClick} onKeyDown={handleMaxClick} role='button' tabIndex={0}>
                   <Cartridge
                     error={
-                      amtError === 'ABOVE_MAX' ||
-                      amtError === 'ABOVE_BALANCE' ||
-                      amtError === 'ABOVE_LIMIT'
+                      amountError === 'ABOVE_MAX' ||
+                      amountError === 'ABOVE_BALANCE' ||
+                      amountError === 'ABOVE_LIMIT'
                     }
                   >
                     <FormattedMessage
@@ -659,7 +659,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {!showLimitError && showError && (
             <ButtonContainer>
               {props.orderType === OrderType.BUY ? (
-                amtError === 'BELOW_MIN' ? (
+                amountError === 'BELOW_MIN' ? (
                   <AlertButton onClick={handleMinMaxClick}>
                     <FormattedMessage
                       id='copy.below_min'
@@ -672,12 +672,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       }}
                     />
                   </AlertButton>
-                ) : amtError === 'ABOVE_LIMIT' ||
-                  (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
+                ) : amountError === 'ABOVE_LIMIT' ||
+                  (amountError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
                   <AlertButton onClick={handleMaxClick}>
                     <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
                   </AlertButton>
-                ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                ) : amountError === 'ABOVE_BALANCE' && isFundsMethod ? (
                   <AlertButton onClick={handleMaxClick}>
                     <FormattedMessage
                       id='copy.not_enough_coin'
@@ -704,7 +704,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               ) : null}
 
               {props.orderType === OrderType.SELL &&
-                (amtError === 'BELOW_MIN' ? (
+                (amountError === 'BELOW_MIN' ? (
                   <AlertButton onClick={handleMinMaxClick}>
                     <FormattedMessage
                       id='copy.below_min'
@@ -732,7 +732,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 weight={500}
                 style={{ marginTop: '24px', textAlign: 'center' }}
               >
-                {amtError === 'BELOW_MIN' &&
+                {amountError === 'BELOW_MIN' &&
                   (props.orderType === OrderType.BUY ? (
                     <FormattedMessage
                       id='modals.simplebuy.checkout.buy.belowmin'
@@ -759,7 +759,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     />
                   ))}
 
-                {amtError === 'ABOVE_MAX' &&
+                {amountError === 'ABOVE_MAX' &&
                   (props.orderType === OrderType.BUY ? (
                     <FormattedMessage
                       id='modals.simplebuy.checkout.buy.abovemax'
@@ -787,7 +787,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     />
                   ))}
 
-                {amtError === 'ABOVE_BALANCE' && effectiveLimit && (
+                {amountError === 'ABOVE_BALANCE' && effectiveLimit && (
                   <FormattedMessage
                     id='modals.simplebuy.checkout.buy.over_balance'
                     defaultMessage='Swapping from Trade Accounts cannot exceed {limit} a {period}. You have {currency}{amount} remaining.'
@@ -805,8 +805,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     }}
                   />
                 )}
-                {(amtError === 'ABOVE_LIMIT' ||
-                  (amtError === 'ABOVE_BALANCE' && !isFundsMethod)) && (
+                {(amountError === 'ABOVE_LIMIT' ||
+                  (amountError === 'ABOVE_BALANCE' && !isFundsMethod)) && (
                   <FormattedMessage
                     id='modals.simplebuy.checkout.buy.over_limit_full_access'
                     defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
@@ -818,7 +818,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     }}
                   />
                 )}
-                {amtError === 'ABOVE_BALANCE' && isFundsMethod && (
+                {amountError === 'ABOVE_BALANCE' && isFundsMethod && (
                   <FormattedMessage
                     id='modals.simplebuy.checkout.buy.abovemax'
                     defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
@@ -896,8 +896,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
       {props.userData?.tiers?.current < 2 && // silver tier
         (props.isSddFlow ||
-          (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
-          amtError === 'ABOVE_LIMIT') &&
+          (amountError === 'ABOVE_BALANCE' && !isFundsMethod) ||
+          amountError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
             <GetMoreAccess startProcess={props.showUpgradeModal} />

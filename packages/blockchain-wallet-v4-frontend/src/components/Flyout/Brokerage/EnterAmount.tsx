@@ -221,7 +221,7 @@ const Amount = memoizer((props: AmountProps) => {
       <AmountFieldInput
         fix='FIAT'
         fiatCurrency={props.fiatCurrency}
-        amtError={props.showError}
+        amountError={props.showError}
         name='amount'
         data-e2e={
           props.orderType === BrokerageOrderType.DEPOSIT
