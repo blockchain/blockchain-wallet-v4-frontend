@@ -36,7 +36,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
-import { media, useMedia } from 'services/styles'
+import { isMobile, media, useMedia } from 'services/styles'
 
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
@@ -157,11 +157,8 @@ const ShadowTag = styled.div`
   background: ${colors.white900};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
   border-radius: 16px;
-  padding: 6px 12px;
+  padding: 6px 6px;
   width: fit-content;
-  ${media.tablet`
-    padding: 0.5em 1em;
-  `};
 `
 
 const CollectionHeader = styled.div`
@@ -965,6 +962,7 @@ const NftAsset: React.FC<Props> = ({
                           <Button
                             data-e2e='openNftFlow'
                             nature='dark'
+                            fullwidth={isMobile()}
                             jumbo
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
@@ -990,6 +988,7 @@ const NftAsset: React.FC<Props> = ({
                           <Button
                             data-e2e='openNftFlow'
                             nature='primary'
+                            fullwidth={isMobile()}
                             jumbo
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
