@@ -50,7 +50,7 @@ const CTA: React.FC<Props> = (props) => {
     openSeaAssetR,
     orderFlow
   } = props
-  const { orderToMatch, userHasPendingTxR } = orderFlow
+  const { seaportOrder, userHasPendingTxR } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -64,8 +64,6 @@ const CTA: React.FC<Props> = (props) => {
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
-
-  if (!orderToMatch) return null
 
   const disabled = props.orderFlow.isSubmitting || !termsAccepted || userHasPendingTx
 
@@ -81,7 +79,7 @@ const CTA: React.FC<Props> = (props) => {
               to={`/open/${DeepLinkGoal.BUY_NFT}?contract_address=${
                 val.asset_contract.address
               }&token_id=${val.token_id}&order=${lz.compressToEncodedURIComponent(
-                JSON.stringify(orderToMatch)
+                JSON.stringify(seaportOrder)
               )}`}
             >
               <Button jumbo nature='primary' fullwidth data-e2e='buyNftLogin'>
@@ -116,7 +114,8 @@ const CTA: React.FC<Props> = (props) => {
         Failure: (e) => (
           <div>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
-              {e === 'INSUFFICIENT_FUNDS' ? (
+              {e === 'INSUFFICIENT_FUNDS' ||
+              e === 'The offerer does not have the amount needed to create or fulfill.' ? (
                 <>
                   <GetMoreEthComponent
                     amount={amount}
@@ -166,6 +165,15 @@ const CTA: React.FC<Props> = (props) => {
                   id='copy.may_already_have_completed'
                   defaultMessage='Invalid order. This asset has already been purchased.'
                 />
+              ) : e.includes('UNPREDICTABLE_GAS_LIMIT') ? (
+                <Flex gap={4} flexDirection='column'>
+                  <FormattedMessage
+                    id='copy.unpredictable_gas_limit'
+                    defaultMessage='Cannot estimate gas, transaction may fail. Check console for full error.'
+                  />
+                  {/* eslint-disable-next-line no-console */}
+                  {console.log(e)}
+                </Flex>
               ) : (
                 e
               )}
@@ -223,7 +231,7 @@ const CTA: React.FC<Props> = (props) => {
                 nftActions.createOrder({
                   asset: val.asset,
                   gasData: val.fees,
-                  ...val.matchingOrder
+                  seaportOrder: orderFlow.seaportOrder!
                 })
               }
               jumbo

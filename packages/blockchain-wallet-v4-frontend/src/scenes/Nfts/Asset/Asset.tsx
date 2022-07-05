@@ -15,8 +15,6 @@ import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { RawOrder } from '@core/network/api/nfts/types'
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
@@ -227,41 +225,24 @@ const NftAsset: React.FC<Props> = ({
   const assetDecription = currentAsset?.description || ''
   const collectionDescription = currentAsset?.collection?.description || ''
 
-  let bids =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address !== NULL_ADDRESS
-    }, []) || []
-  // Offers have taker as null address
-  let offers =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address === NULL_ADDRESS
-    }, []) || []
-  const sellOrders =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 1
-    }) || []
-  bids = bids.length
-    ? bids.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  offers = offers.length
-    ? offers.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  const bidsAndOffers = bids.concat(offers).sort((a: any, b: any) => {
-    return b.current_price - a.current_price
-  })
-  if (offers.length < 1) offers = bids
-  const highest_bid = bids[0]
-  const highest_offer = offers[0]
-  const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
-  )[0]
-  const is_lowest_order_dutch = lowest_order && lowest_order.sale_kind === 1
-  const is_lowest_order_english =
-    lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
+  // seaport sell orders (aka listing)
+  const seaportAsks =
+    openSeaAsset.data?.seaport_sell_orders
+      ?.filter(({ side }) => side === 'ask')
+      ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1)) || []
+  // seaport buy orders (aka offer)
+  const seaportBids =
+    openSeaAsset.data?.seaport_sell_orders
+      ?.filter(({ side }) => side === 'bid')
+      ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1)) || []
+  const highestBid = seaportBids[0]
+  const lowestAsk = seaportAsks[0]
+  const isLowestAskDutch = lowestAsk?.protocol_data.parameters.consideration.find(
+    (x) => x.token === window.coins.WETH.coinfig.type.erc20Address
+  )
+  // TODO: SEAPORT
+  const isLowestAskEnglish = false
+  const paymentTokenContractSymbol = isLowestAskDutch ? 'WETH' : 'ETH'
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
 
@@ -667,28 +648,28 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : (
                   <>
-                    {highest_bid ? (
+                    {(seaportBids[0] && isLowestAskDutch) || isLowestAskEnglish ? (
                       <>
                         <Highest>
                           <div style={{ marginBottom: '1em' }}>
                             Bid expires in{' '}
-                            {formatDistanceToNow(new Date(highest_bid?.expiration_time * 1000))}:
+                            {formatDistanceToNow(new Date(highestBid?.expiration_time * 1000))}:
                           </div>
-                          <NftAssetCountdown countDownDate={highest_bid.expiration_time * 1000} />
+                          <NftAssetCountdown countDownDate={highestBid.expiration_time * 1000} />
                         </Highest>
                         <Divider style={{ marginBottom: '1em' }} />
                         <Highest>Top Bid</Highest>
                         <EthText>
-                          <CoinIcon
-                            name={bidsAndOffers[0].payment_token_contract.symbol || 'ETH'}
-                          />
+                          {/* TODO: SEAPORT */}
+                          <CoinIcon name='WETH' />
+                          {/* TODO: SEAPORT */}
                           <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
-                            coin={bidsAndOffers[0].payment_token_contract.symbol}
+                            coin='WETH'
                           >
-                            {bidsAndOffers[0].current_price}
+                            {seaportBids[0].current_price}
                           </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
@@ -697,33 +678,33 @@ const NftAsset: React.FC<Props> = ({
                             style={{ display: 'flex' }}
                             color='grey500'
                           >
-                            (
+                            ({/* TODO: SEAPORT */}
                             <FiatDisplay
                               weight={500}
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={bidsAndOffers[0].payment_token_contract.symbol}
+                              coin='WETH'
                             >
-                              {bidsAndOffers[0].current_price}
+                              {seaportBids[0].current_price}
                             </FiatDisplay>
                             )
                           </Text>
                         </EthText>
                       </>
-                    ) : lowest_order ? (
+                    ) : lowestAsk ? (
                       <>
                         <Highest>
-                          {is_lowest_order_english || is_lowest_order_dutch ? (
+                          {isLowestAskEnglish || isLowestAskDutch ? (
                             <div style={{ marginBottom: '1em' }}>Auction Ends In </div>
                           ) : (
                             <div style={{ marginBottom: '1em' }}>
                               Sale ends in{' '}
                               {formatDistanceToNow(
                                 new Date(
-                                  (is_lowest_order_english
-                                    ? lowest_order.listing_time
-                                    : lowest_order?.expiration_time) * 1000
+                                  (isLowestAskEnglish
+                                    ? lowestAsk.listing_time
+                                    : lowestAsk?.expiration_time) * 1000
                                 )
                               )}
                             </div>
@@ -731,25 +712,23 @@ const NftAsset: React.FC<Props> = ({
 
                           <NftAssetCountdown
                             countDownDate={
-                              (is_lowest_order_english
-                                ? lowest_order.listing_time
-                                : lowest_order?.expiration_time) * 1000
+                              (isLowestAskEnglish
+                                ? lowestAsk.listing_time
+                                : lowestAsk?.expiration_time) * 1000
                             }
                           />
                         </Highest>
                         <Divider style={{ marginBottom: '1em' }} />
-                        <Highest>
-                          {is_lowest_order_english ? 'Minimum Bid' : 'Current Price'}
-                        </Highest>
+                        <Highest>{isLowestAskEnglish ? 'Minimum Bid' : 'Current Price'}</Highest>
                         <EthText>
-                          <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
+                          <CoinIcon name={paymentTokenContractSymbol} />
                           <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
-                            coin={lowest_order.payment_token_contract.symbol}
+                            coin={paymentTokenContractSymbol}
                           >
-                            {lowest_order.current_price}
+                            {lowestAsk.current_price}
                           </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
@@ -764,34 +743,35 @@ const NftAsset: React.FC<Props> = ({
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={lowest_order.payment_token_contract.symbol}
+                              coin={paymentTokenContractSymbol}
                             >
-                              {lowest_order.current_price}
+                              {lowestAsk.current_price}
                             </FiatDisplay>
                             )
                           </Text>
                         </EthText>
                       </>
-                    ) : highest_offer ? (
+                    ) : highestBid ? (
                       <>
                         <Highest>
                           <div style={{ marginBottom: '1em' }}>
                             Offer expires in{' '}
-                            {formatDistanceToNow(new Date(highest_offer.expiration_time * 1000))}
+                            {formatDistanceToNow(new Date(highestBid.expiration_time * 1000))}
                           </div>
-                          <NftAssetCountdown countDownDate={highest_offer.expiration_time * 1000} />
+                          <NftAssetCountdown countDownDate={highestBid.expiration_time * 1000} />
                         </Highest>
                         <Divider style={{ marginBottom: '1em' }} />
                         <Highest>Highest Offer</Highest>
                         <EthText>
-                          <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
+                          {/* TODO: SEAPORT */}
+                          <CoinIcon name='WETH' />
                           <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
-                            coin={highest_offer.payment_token_contract.symbol}
+                            coin='WETH'
                           >
-                            {highest_offer.current_price}
+                            {highestBid.current_price}
                           </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
@@ -800,15 +780,15 @@ const NftAsset: React.FC<Props> = ({
                             style={{ display: 'flex' }}
                             color='grey500'
                           >
-                            (
+                            ({/* TODO: SEAPORT */}
                             <FiatDisplay
                               weight={500}
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={highest_offer.payment_token_contract.symbol}
+                              coin='WETH'
                             >
-                              {highest_offer.current_price}
+                              {highestBid.current_price}
                             </FiatDisplay>
                             )
                           </Text>
@@ -818,7 +798,8 @@ const NftAsset: React.FC<Props> = ({
                     <Flex gap={8}>
                       {isOwner ? (
                         <>
-                          {!lowest_order ? (
+                          {!lowestAsk ||
+                          lowestAsk.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase() ? (
                             <Button
                               data-e2e='openNftFlow'
                               nature='primary'
@@ -851,8 +832,7 @@ const NftAsset: React.FC<Props> = ({
                               onClick={() =>
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
-                                  offer: undefined,
-                                  order: lowest_order,
+                                  seaportOrder: lowestAsk,
                                   step: NftOrderStepEnum.CANCEL_LISTING,
                                   token_id: id
                                 })
@@ -865,7 +845,7 @@ const NftAsset: React.FC<Props> = ({
                             </Button>
                           )}
 
-                          {highest_offer && !sellOrders.length ? (
+                          {highestBid && !seaportAsks.length ? (
                             <Button
                               data-e2e='acceptNftOffer'
                               nature='dark'
@@ -873,7 +853,7 @@ const NftAsset: React.FC<Props> = ({
                               onClick={() => {
                                 nftsActions.nftOrderFlowOpen({
                                   asset_contract_address: contract,
-                                  order: highest_offer,
+                                  seaportOrder: highestBid,
                                   step: NftOrderStepEnum.ACCEPT_OFFER,
                                   token_id: id
                                 })
@@ -888,7 +868,7 @@ const NftAsset: React.FC<Props> = ({
                         </>
                       ) : null}
                       {!isOwner ? (
-                        is_lowest_order_english || is_lowest_order_dutch ? (
+                        isLowestAskEnglish || isLowestAskDutch ? (
                           <Button
                             data-e2e='openNftFlow'
                             nature='primary'
@@ -897,7 +877,6 @@ const NftAsset: React.FC<Props> = ({
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
                                 asset_contract_address: contract,
-                                order: lowest_order,
                                 step: NftOrderStepEnum.MAKE_OFFER,
                                 token_id: id
                               })
@@ -933,7 +912,7 @@ const NftAsset: React.FC<Props> = ({
                           </Button>
                         )
                       ) : null}
-                      {lowest_order && !isOwner && !is_lowest_order_english ? (
+                      {lowestAsk && !isOwner ? (
                         <>
                           <Button
                             data-e2e='openNftFlow'
@@ -942,7 +921,7 @@ const NftAsset: React.FC<Props> = ({
                             onClick={() => {
                               nftsActions.nftOrderFlowOpen({
                                 asset_contract_address: contract,
-                                order: lowest_order as RawOrder,
+                                seaportOrder: lowestAsk,
                                 step: NftOrderStepEnum.BUY,
                                 token_id: id
                               })
@@ -984,12 +963,13 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
               <DropdownPadding>
                 <NftDropdown title='Offers'>
-                  {bidsAndOffers.length > 0 ? (
+                  {seaportBids && seaportBids.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
                         asset={openSeaAsset.data}
+                        isOwner={isOwner}
                         columns={['price', 'from', 'expiration', 'action']}
-                        bidsAndOffers={bidsAndOffers}
+                        offers={seaportBids}
                         defaultEthAddr={defaultEthAddr}
                       />
                     </ActivityWrapper>

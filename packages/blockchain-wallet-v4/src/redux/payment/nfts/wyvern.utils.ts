@@ -42,8 +42,8 @@ import {
   MIN_EXPIRATION_SECONDS,
   NULL_ADDRESS,
   NULL_BLOCK_HASH,
-  OPENSEA_FEE_RECIPIENT,
   OPENSEA_FEE_RECIPIENT_RINKEBY,
+  OPENSEA_LEGACY_FEE_RECIPIENT,
   OPENSEA_SELLER_BOUNTY_BASIS_POINTS,
   ORDER_MATCHING_LATENCY_SECONDS,
   WETH_CONTRACT_MAINNET,
@@ -518,7 +518,7 @@ async function _computeFees({
  * @param startAmount The base value for the order, in the token's main units (e.g. ETH instead of wei)
  * @param endAmount The end value for the order, in the token's main units (e.g. ETH instead of wei). If unspecified, the order's `extra` attribute will be 0
  */
-async function _getPriceParameters(
+export async function _getPriceParameters(
   orderSide: NftOrderSide,
   tokenAddress: string,
   expirationTime: number,
@@ -575,12 +575,13 @@ async function _getPriceParameters(
   //     ? new BigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
   //     : WyvernProtocol.toBaseUnitAmount(new BigNumber(englishAuctionReservePrice), token.decimals)
   //   : undefined
+  const endPrice = ethers.utils.parseEther(endAmount?.toString() || '0')
   const basePrice = ethers.utils.parseEther(startAmount.toString())
   const extra = ethers.utils.parseEther(priceDiff.toString())
   const reservePrice = englishAuctionReservePrice
     ? ethers.utils.parseEther(englishAuctionReservePrice.toString())
     : undefined
-  return { basePrice, extra, paymentToken, reservePrice }
+  return { basePrice, endPrice, extra, paymentToken, reservePrice }
 }
 
 async function _signOrder(
@@ -725,7 +726,7 @@ function _getBuyFeeParameters(
   return {
     feeMethod: FeeMethod.SplitFee,
     // TODO use buyerBountyBPS
-    feeRecipient: OPENSEA_FEE_RECIPIENT,
+    feeRecipient: OPENSEA_LEGACY_FEE_RECIPIENT,
 
     makerProtocolFee: new BigNumber(0),
 
@@ -747,7 +748,7 @@ function _getSellFeeParameters(
   // to-do:reimplement this validation
   // _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
   // Use buyer as the maker when it's an English auction, so Wyvern sets prices correctly
-  const feeRecipient = waitForHighestBid ? NULL_ADDRESS : OPENSEA_FEE_RECIPIENT
+  const feeRecipient = waitForHighestBid ? NULL_ADDRESS : OPENSEA_LEGACY_FEE_RECIPIENT
 
   // Swap maker/taker fees when it's an English auction,
   // since these sell orders are takers not makers
@@ -1658,7 +1659,7 @@ export async function _makeMatchingOrder({
       ? NULL_ADDRESS
       : network === 'rinkeby'
       ? OPENSEA_FEE_RECIPIENT_RINKEBY
-      : OPENSEA_FEE_RECIPIENT
+      : OPENSEA_LEGACY_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: new BigNumber(order.basePrice),
