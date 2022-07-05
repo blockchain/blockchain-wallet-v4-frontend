@@ -960,12 +960,22 @@ const NftAsset: React.FC<Props> = ({
                             nature='primary'
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                seaportOrder: lowestAsk,
-                                step: NftOrderStepEnum.BUY,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  // @ts-ignore
+                                  order: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  seaportOrder: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_BUY_NOW_CLICKED,
                                 properties: {

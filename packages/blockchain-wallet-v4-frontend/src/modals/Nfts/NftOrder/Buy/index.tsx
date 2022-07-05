@@ -84,9 +84,9 @@ const Buy: React.FC<Props> = (props) => {
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
         Loading: () => <NftFlyoutLoader close={props.close} />,
         NotAsked: () => null,
-        Success: (val) => {
+        Success: (asset) => {
           if (
-            val.collection.safelist_request_status !== 'verified' &&
+            asset.collection.safelist_request_status !== 'verified' &&
             orderFlow.prevStep !== NftOrderStepEnum.BUY
           ) {
             nftActions.setOrderFlowPrevStep({ prevStep: NftOrderStepEnum.BUY })
@@ -105,7 +105,7 @@ const Buy: React.FC<Props> = (props) => {
                 }}
               >
                 <div style={{ height: '100%' }}>
-                  <NftAssetHeaderRow asset={val} />
+                  <NftAssetHeaderRow asset={asset} />
                   <NftFlyoutRow>
                     <Title>
                       <b>
@@ -130,7 +130,7 @@ const Buy: React.FC<Props> = (props) => {
                         elements={[
                           {
                             group: '',
-                            items: val.collection.payment_tokens
+                            items: asset.collection.payment_tokens
                               .map((token) => token.symbol)
                               .filter((symbol) => !!window.coins[symbol])
                               .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
@@ -165,10 +165,11 @@ const Buy: React.FC<Props> = (props) => {
                 </div>
               </div>
               <StickyCTA>
-                <BuyFees {...props} />
+                <BuyFees {...props} asset={asset} />
                 <br />
                 <BuyCta
                   {...props}
+                  asset={asset}
                   amount={cryptoAmt}
                   amtToBuy={amtToBuy}
                   maxBuyPossible={maxBuyPossible}

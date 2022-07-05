@@ -36,7 +36,6 @@ const initialState: NftsStateType = {
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
     fees: Remote.NotAsked,
-    fees_LEGACY: Remote.NotAsked,
     isSubmitting: false,
     matchingOrder_LEGACY: Remote.NotAsked,
     prevStep: null,
@@ -152,6 +151,15 @@ const nftsSlice = createSlice({
         asset: NftAsset
         gasData: GasDataI
         seaportOrder: SeaportRawOrder
+      }>
+    ) => {},
+    createOrder_LEGACY: (
+      state,
+      action: PayloadAction<{
+        asset: NftAsset
+        buy: NftOrder
+        gasData: GasDataI
+        sell: NftOrder
       }>
     ) => {},
     createTransfer: (

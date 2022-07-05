@@ -31,10 +31,11 @@ export default ({ api, coreSagas, networks }) => {
     // TODO: SEAPORT - remove wyvern
     yield takeLatest(actions.fetchFees_LEGACY, nftsSagas.fetchFees_LEGACY)
     yield takeLatest(actions.acceptOffer_LEGACY, nftsSagas.acceptOffer_LEGACY)
-    yield takeLatest(actions.cancelOffer_LEGACY, nftsSagas.cancelOffer_LEGACY)
     yield takeLatest(actions.cancelListing_LEGACY, nftsSagas.cancelListing_LEGACY)
-    yield takeLatest(actions.createOffer_LEGACY, nftsSagas.createOffer_LEGACY)
+    yield takeLatest(actions.cancelOffer_LEGACY, nftsSagas.cancelOffer_LEGACY)
     yield takeLatest(actions.createListing_LEGACY, nftsSagas.createListing_LEGACY)
+    yield takeLatest(actions.createOffer_LEGACY, nftsSagas.createOffer_LEGACY)
+    yield takeLatest(actions.createOrder_LEGACY, nftsSagas.createOrder_LEGACY)
     yield takeLatest(actions.nftOrderFlowOpen_LEGACY, nftsSagas.nftOrderFlowOpen)
   }
 }

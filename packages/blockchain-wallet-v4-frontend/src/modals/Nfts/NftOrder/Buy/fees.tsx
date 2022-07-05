@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -14,11 +15,17 @@ import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
-  const { seaportOrder } = orderFlow
+  const { asset, nftActions, orderFlow } = props
+  const { seaportOrder, wyvernOrder } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   useEffect(() => {
-    if (seaportOrder) {
+    if (IS_SHARED_STOREFRONT && wyvernOrder) {
+      nftActions.fetchFees_LEGACY({
+        operation: GasCalculationOperations.Buy,
+        order: wyvernOrder
+      })
+    } else if (seaportOrder) {
       nftActions.fetchFees({
         operation: GasCalculationOperations.Buy,
         order: seaportOrder
@@ -26,7 +33,7 @@ const Fees: React.FC<Props> = (props) => {
     }
   }, [])
 
-  if (!seaportOrder)
+  if (!seaportOrder && !wyvernOrder)
     return (
       <Text size='12px' weight={600}>
         No order found.
@@ -70,6 +77,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees

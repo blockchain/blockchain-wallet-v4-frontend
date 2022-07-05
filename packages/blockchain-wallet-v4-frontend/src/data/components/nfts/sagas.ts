@@ -1340,6 +1340,72 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
     yield put(A.setOrderFlowIsSubmitting(false))
   }
+
+  const createOrder_LEGACY = function* (action: ReturnType<typeof A.createOrder_LEGACY>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+    // TODO: get coin from paymentToken
+    const coin = action.payload.sell.paymentToken === NULL_ADDRESS ? 'ETH' : ('WETH' as string)
+    const amount = Number(
+      convertCoinToCoin({
+        baseToStandard: true,
+        coin,
+        value:
+          action?.payload?.buy?.basePrice?.toString() ||
+          action?.payload?.sell?.basePrice?.toString()
+      })
+    )
+    const amount_usd = yield call(getAmountUsd, coin, amount)
+
+    try {
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+      const { buy, gasData, sell } = action.payload
+      const signer = yield call(getEthSigner)
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+    } catch (e) {
+      let error = errorHandler(e)
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_BUY_SUCCESS_FAIL,
+          properties: {
+            amount,
+            amount_usd,
+            currency: coin,
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to create this order.'
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.BUY }))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
   // TODO: SEAPORT - remove wyvern 👆
 
   return {
@@ -1354,6 +1420,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     createOffer,
     createOffer_LEGACY,
     createOrder,
+    createOrder_LEGACY,
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,
