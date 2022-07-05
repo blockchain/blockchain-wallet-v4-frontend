@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import { addMinutes, getUnixTime } from 'date-fns'
-import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -12,14 +10,11 @@ import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
   CheckBoxInput,
-  Color,
   Image,
   Link,
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import { Flex } from 'components/Flex'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
@@ -40,12 +35,12 @@ const CTA: React.FC<Props> = ({
   formValues,
   isAuthenticated,
   isInvited,
-  maxOfferPossible,
   needsWrap,
   nftActions,
   offerFees,
   orderFlow,
   selfCustodyBalance,
+  standardMaxOfferPossible,
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
@@ -101,30 +96,18 @@ const CTA: React.FC<Props> = ({
                   style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   The max you can offer from this wallet is&nbsp;
-                  <CoinDisplay
+                  <Text
                     size='12px'
                     weight={600}
                     color='blue600'
                     style={{ cursor: 'pointer' }}
-                    role='button'
-                    coin={formValues.coin || 'WETH'}
                     onClick={() => {
                       formActions.change('nftMakeOffer', 'fix', 'CRYPTO')
-                      formActions.change(
-                        'nftMakeOffer',
-                        'amount',
-                        Number(
-                          convertCoinToCoin({
-                            baseToStandard: true,
-                            coin,
-                            value: Math.max(maxOfferPossible.toNumber(), 0)
-                          })
-                        ).toFixed(Math.min(8, window.coins[coin].coinfig.precision))
-                      )
+                      formActions.change('nftMakeOffer', 'amount', standardMaxOfferPossible)
                     }}
                   >
-                    {Math.max(maxOfferPossible.toNumber(), 0)}
-                  </CoinDisplay>
+                    {standardMaxOfferPossible} {formValues.coin}
+                  </Text>
                 </Text>
               </div>
             </>
@@ -196,11 +179,12 @@ const CTA: React.FC<Props> = ({
                 ),
                 offerFees,
                 wrapFees,
-                ...formValues
+                ...formValues,
+                amount: cryptoAmt
               })
             }
           >
-            {formValues.amount && Number(formValues.amount) > 0 ? (
+            {cryptoAmt && Number(cryptoAmt) > 0 ? (
               orderFlow.isSubmitting ? (
                 <>
                   {orderFlow.status &&
@@ -212,7 +196,15 @@ const CTA: React.FC<Props> = ({
                         </div>
                       </>
                     ) : (
-                      <>{orderFlow.status}</>
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage={
+                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                        }
+                        values={{
+                          val: `${cryptoAmt} ${formValues.coin}`
+                        }}
+                      />
                     ))}
                 </>
               ) : (
@@ -220,7 +212,7 @@ const CTA: React.FC<Props> = ({
                   id='copy.make_offer_value'
                   defaultMessage={!needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'}
                   values={{
-                    val: `${formValues.amount} ${formValues.coin}`
+                    val: `${cryptoAmt} ${formValues.coin}`
                   }}
                 />
               )
@@ -241,10 +233,10 @@ type Props = OwnProps & {
   canWrap: boolean
   cryptoAmt: string
   custodialBalance: any
-  maxOfferPossible: BigNumber
   needsWrap: boolean
   offerFees: GasDataI
   selfCustodyBalance: any
+  standardMaxOfferPossible: number
   wrapFees: GasDataI
 }
 

@@ -155,11 +155,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         type: fromAccountType
       }
     })
-
-    analyticsActions.trackEvent({
-      key: Analytics.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED,
-      properties: {}
-    })
   }
 
   const amountChanged = (e) => {

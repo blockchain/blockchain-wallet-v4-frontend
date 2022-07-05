@@ -8,7 +8,7 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
-  AssetSortFields,
+  CollectionFilterFields,
   CollectionSortFields,
   SortDirection,
   useTrendingCollectionsQuery
@@ -24,9 +24,13 @@ import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
-const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
+const NftFirehose: React.FC<Props> = ({ formActions, formValues, isTestnet }) => {
   const [collectionsQuery] = useTrendingCollectionsQuery({
     variables: {
+      filter: {
+        field: CollectionFilterFields.Network,
+        value: 'ethereum'
+      },
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
@@ -105,6 +109,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
                       // @ts-ignore
                       formValues={formValues}
                       key={page}
+                      isTestnet={isTestnet}
                       setMaxItemsFetched={setMaxItemsFetched}
                       setNextPageFetchError={setNextPageFetchError}
                       setNumOfPageItems={setNumOfPageItems}
@@ -132,7 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & { isTestnet: boolean }
 
 const enhance = compose(
   reduxForm<{}, Props>({

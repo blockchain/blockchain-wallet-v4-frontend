@@ -26,9 +26,8 @@ import {
   createSellOrder,
   getNetwork,
   sellOrderValidationAndApprovals,
-  transferAsset,
-  verifyTransfered
-} from './utils'
+  transferAsset
+} from './wyvern.utils'
 
 export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasData: GasDataI) => {
   const { gasFees, gasPrice } = gasData

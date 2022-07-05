@@ -10,7 +10,6 @@ import { actions, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
-import { useRemote } from 'hooks'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'

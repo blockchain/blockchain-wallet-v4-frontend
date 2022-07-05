@@ -18,7 +18,7 @@ import CancelOfferFees from './fees'
 
 const CancelOffer: React.FC<Props> = (props) => {
   const { close, openSeaAssetR, orderFlow } = props
-  const { offerToCancel } = orderFlow
+  const { seaportOrder } = orderFlow
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
@@ -42,21 +42,13 @@ const CancelOffer: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.offer' defaultMessage='Offer' />
             </Text>
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-              <CoinDisplay
-                size='14px'
-                color='black'
-                weight={600}
-                coin={offerToCancel?.payment_token_contract?.symbol}
-              >
-                {offerToCancel?.current_price}
+              {/* TODO: SEAPORT */}
+              <CoinDisplay size='14px' color='black' weight={600} coin='WETH'>
+                {seaportOrder?.current_price}
               </CoinDisplay>
-              <FiatDisplay
-                size='12px'
-                color='grey600'
-                weight={600}
-                coin={offerToCancel?.payment_token_contract?.symbol}
-              >
-                {offerToCancel?.current_price}
+              {/* TODO: SEAPORT */}
+              <FiatDisplay size='12px' color='grey600' weight={600} coin='WETH'>
+                {seaportOrder?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>
