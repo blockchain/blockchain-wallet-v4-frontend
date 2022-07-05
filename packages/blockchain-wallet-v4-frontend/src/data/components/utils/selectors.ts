@@ -18,7 +18,7 @@ import { getOutputFromPair } from '../swap/model'
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO: SELF_CUSTODY, remove this
-  const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(state)
+  const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)

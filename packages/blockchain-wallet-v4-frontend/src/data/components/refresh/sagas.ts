@@ -48,7 +48,7 @@ export default () => {
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
       // TODO: SELF_CUSTODY, remove
-      const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(yield select())
+      const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(yield select())
       if (stxEligibility) {
         yield put(actions.core.data.coins.fetchData())
       }

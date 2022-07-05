@@ -3,19 +3,18 @@ import { lift } from 'ramda'
 import { getBalance } from '@core/redux/data/coins/selectors'
 import { BSBalanceType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { selectors } from 'data'
 import { generateSelfCustodyAccount, generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
 
-import { getTradingBalance } from '..'
-
 export const getTransactionPageHeaderText = () => null
 
-// main selector for all SELF-CUSTODY account types
+// main selector for all DYNAMIC-SELF-CUSTODY account types
 // accepts a coin string
 export const getAccounts = createDeepEqualSelector(
   [
     (state, ownProps) => getBalance(ownProps.coin, state),
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (balanceR, sbBalanceR, ownProps) => {
