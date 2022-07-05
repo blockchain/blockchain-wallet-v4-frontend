@@ -67,7 +67,7 @@ const Failure = (props: FailurePropsType) => {
             <Icon label='alert' color='red600'>
               <IconAlert />
             </Icon>
-            <ErrorText>{message}</ErrorText>
+            <ErrorText>{props.errorMessage}</ErrorText>
           </ErrorTextContainer>
         )}
         <Button
