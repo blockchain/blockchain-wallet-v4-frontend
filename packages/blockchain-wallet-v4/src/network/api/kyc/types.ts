@@ -14,7 +14,9 @@ export type CountryScopeType = keyof typeof CountryScope
 
 export enum ExtraKYCContext {
   FIAT_DEPOSIT = 'FIAT_DEPOSIT',
-  TIER_TWO_VERIFICATION = 'TIER_TWO_VERIFICATION'
+  FIAT_WITHDRAW = 'FIAT_WITHDRAW',
+  TIER_TWO_VERIFICATION = 'TIER_TWO_VERIFICATION',
+  TRADING = 'TRADING'
 }
 
 export enum NodeItemTypes {

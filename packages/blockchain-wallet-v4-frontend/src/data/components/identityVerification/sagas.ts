@@ -119,7 +119,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const defineSteps = function* (tier, needMoreInfo, origin) {
+  const defineSteps = function* (tier, needMoreInfo, context) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -170,12 +170,10 @@ export default ({ api, coreSagas, networks }) => {
 
     let addExtraStep = false
     // check extra KYC fields
-    const context =
-      origin === 'BuySell' && tiers.current === TIERS[2]
-        ? ExtraKYCContext.FIAT_DEPOSIT
-        : ExtraKYCContext.TIER_TWO_VERIFICATION
+    const contextPayload =
+      tiers.current === TIERS[2] ? context : ExtraKYCContext.TIER_TWO_VERIFICATION
 
-    yield put(actions.components.identityVerification.fetchExtraKYC(context))
+    yield put(actions.components.identityVerification.fetchExtraKYC(contextPayload))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
     const kycExtraSteps = selectors.components.identityVerification
       .getKYCExtraSteps(yield select())
@@ -209,9 +207,13 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeVerification = function* ({ payload }) {
-    const { tier = TIERS[2], needMoreInfo = false, origin = 'Unknown' } = payload
+    const {
+      tier = TIERS[2],
+      needMoreInfo = false,
+      context = ExtraKYCContext.TIER_TWO_VERIFICATION
+    } = payload
     yield put(A.setEmailStep(STEPS.edit as EmailSmsStepType))
-    yield call(defineSteps, tier, needMoreInfo, origin)
+    yield call(defineSteps, tier, needMoreInfo, context)
     const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
     if (!steps.length) {
       // if no steps to be shown, close modal
