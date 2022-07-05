@@ -194,9 +194,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [props.buySellActions])
 
-  const goToCryptoSelection = useCallback(() => {
+  const clearFormError = useCallback(() => {
     dispatch(clearSubmitErrors(props.form))
+  }, [dispatch, props.form])
 
+  const goToCryptoSelection = useCallback(() => {
     props.buySellActions.setStep({
       fiatCurrency: props.fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
@@ -404,7 +406,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { error } = props
 
   if (isNabuError(error)) {
-    return <GenericNabuErrorFlyout error={error} onClickClose={goToCryptoSelection} />
+    return <GenericNabuErrorFlyout error={error} onDismiss={clearFormError} />
   }
 
   return (

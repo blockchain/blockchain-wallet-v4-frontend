@@ -47,13 +47,6 @@ const Failure = (props: FailurePropsType) => {
       break
   }
 
-  const message =
-    typeof props.errorMessage === 'string'
-      ? props.errorMessage
-      : props.errorMessage?.network_error_description
-      ? props.errorMessage.network_error_description
-      : null
-
   return (
     <Wrapper>
       <div>
@@ -69,7 +62,7 @@ const Failure = (props: FailurePropsType) => {
             defaultMessage='Oops. Something went wrong on our side. Please try again.'
           />
         </Title>
-        {message && (
+        {typeof props.errorMessage === 'string' && (
           <ErrorTextContainer>
             <Icon label='alert' color='red600'>
               <IconAlert />
