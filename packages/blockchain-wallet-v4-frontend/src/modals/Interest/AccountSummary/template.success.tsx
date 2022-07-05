@@ -63,15 +63,7 @@ const AccountSummary: React.FC<Props> = (props) => {
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const pendingInterestStandard = convertBaseToStandard(coin, pendingInterestBase)
 
-  const getInterestEligibility = () => {
-    const interestEligibility = interestEligible[coin]
-    if (!interestEligibility) {
-      return false
-    }
-    return interestEligibility.eligible
-  }
-
-  const isDepositEnabled = getInterestEligibility()
+  const isDepositEnabled = interestEligible[coin] ? interestEligible[coin]?.eligible : false
 
   return (
     <Wrapper>
