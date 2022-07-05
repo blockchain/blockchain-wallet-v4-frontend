@@ -1190,6 +1190,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         yield delay(refresh)
       } catch (e) {
+        if (isNabuError(e)) {
+          yield put(A.fetchBuyQuoteFailure(e))
+
+          yield put(A.stopPollBuyQuote())
+
+          return
+        }
+
         const { code: network_error_code, message: network_error_description } =
           errorCodeAndMessage(e)
         const error: PartialClientErrorProperties = {

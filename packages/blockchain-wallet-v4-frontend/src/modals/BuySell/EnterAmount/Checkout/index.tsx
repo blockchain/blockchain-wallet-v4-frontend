@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Remote } from '@core'
 import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
@@ -17,6 +18,7 @@ import {
   SwapBaseCounterTypes,
   UserDataType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../../template.loading'
 import {
@@ -206,14 +208,20 @@ class Checkout extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: (error) => (
-        <FlyoutOopsError
-          action='retry'
-          data-e2e='sbTryCurrencySelectionAgain'
-          handler={this.errorCallback}
-          errorMessage={error}
-        />
-      ),
+      Failure: (error) => {
+        if (isNabuError(error)) {
+          return <GenericNabuErrorFlyout error={error} onDismiss={this.errorCallback} />
+        }
+
+        return (
+          <FlyoutOopsError
+            action='retry'
+            data-e2e='sbTryCurrencySelectionAgain'
+            handler={this.errorCallback}
+            errorMessage={error}
+          />
+        )
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
