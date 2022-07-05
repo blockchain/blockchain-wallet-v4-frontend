@@ -433,7 +433,7 @@ export interface txnData {
   gasPrice: number
 }
 
-export interface RawOrder {
+export interface WyvernRawOrder {
   approved_on_chain: boolean
   base_price: string
   bounty_multiple: string
@@ -651,7 +651,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: RawOrder[] | null
+  orders: WyvernRawOrder[] | null
   owner: {
     address: string
     config: string

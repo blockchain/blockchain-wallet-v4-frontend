@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { Remote } from '@core'
 import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
@@ -22,6 +23,7 @@ const CTA: React.FC<Props> = ({
 }) => {
   const { fees, userHasPendingTxR } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   if (!isInvited) return <NftNotInvited />
 
@@ -63,8 +65,49 @@ const CTA: React.FC<Props> = ({
         data-e2e='sellNft'
         disabled={disabled}
         onClick={() => {
-          if (saleType === 'fixed-price') {
-            nftActions.createSellOrder({
+          if (IS_SHARED_STOREFRONT) {
+            if (saleType === 'fixed-price') {
+              nftActions.createListing_LEGACY({
+                asset,
+                endPrice: null,
+                expirationMinutes: formValues.expirationMinutes,
+                gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
+                paymentTokenAddress: undefined,
+                reservePrice: undefined,
+                startPrice: Number(amount),
+                waitForHighestBid: false
+              })
+              // English Auction
+            } else if (
+              saleType === 'timed-auction' &&
+              formValues?.timedAuctionType === 'highestBidder'
+            ) {
+              nftActions.createListing_LEGACY({
+                asset,
+                endPrice: null,
+                expirationMinutes: formValues.expirationMinutes,
+                gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
+                paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+                reservePrice: Number(formValues.reserve),
+                startPrice: Number(formValues.starting),
+                waitForHighestBid: true
+              })
+            }
+            // Dutch Auction
+            else {
+              nftActions.createListing_LEGACY({
+                asset,
+                endPrice: Number(formValues.ending),
+                expirationMinutes: formValues.expirationMinutes,
+                gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
+                paymentTokenAddress: undefined,
+                reservePrice: undefined,
+                startPrice: Number(formValues.starting),
+                waitForHighestBid: false
+              })
+            }
+          } else if (saleType === 'fixed-price') {
+            nftActions.createListing({
               asset,
               endPrice: null,
               expirationMinutes: formValues.expirationMinutes,
@@ -79,7 +122,7 @@ const CTA: React.FC<Props> = ({
             saleType === 'timed-auction' &&
             formValues?.timedAuctionType === 'highestBidder'
           ) {
-            nftActions.createSellOrder({
+            nftActions.createListing({
               asset,
               endPrice: null,
               expirationMinutes: formValues.expirationMinutes,
@@ -92,7 +135,7 @@ const CTA: React.FC<Props> = ({
           }
           // Dutch Auction
           else {
-            nftActions.createSellOrder({
+            nftActions.createListing({
               asset,
               endPrice: Number(formValues.ending),
               expirationMinutes: formValues.expirationMinutes,

@@ -5,7 +5,7 @@ import {
   GasDataI,
   NftAsset,
   NftOrder,
-  RawOrder
+  WyvernRawOrder
 } from '@core/network/api/nfts/types'
 
 import { WETH_ABI } from './abis'
@@ -22,14 +22,18 @@ import {
   calculateWrapEthFees,
   cancelOrder,
   createBuyOrder,
+  createListing,
   createMatchingOrders,
-  createSellOrder,
   getNetwork,
   sellOrderValidationAndApprovals,
   transferAsset
 } from './wyvern.utils'
 
-export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasData: GasDataI) => {
+export const cancelNftOrder = async (
+  sellOrder: WyvernRawOrder,
+  signer: Signer,
+  gasData: GasDataI
+) => {
   const { gasFees, gasPrice } = gasData
   const txnData = {
     gasLimit: gasFees,
@@ -58,7 +62,7 @@ export const getNftSellOrder = async (
   waitForHighestBid = false, // True = English auction,
   paymentTokenAddress = '0x0000000000000000000000000000000000000000'
 ): Promise<NftOrder> => {
-  return createSellOrder(
+  return createListing(
     asset,
     expirationTime,
     listingTime,
@@ -129,7 +133,7 @@ export const getNftMatchingOrders = async (
 export const calculateGasFees = async (
   operation: GasCalculationOperations,
   signer: Signer,
-  cancelOrder?: RawOrder,
+  cancelOrder?: WyvernRawOrder,
   buyOrder?: NftOrder,
   sellOrder?: NftOrder,
   transferAsset?: NftAsset,

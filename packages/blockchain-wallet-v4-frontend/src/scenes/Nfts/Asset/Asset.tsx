@@ -15,6 +15,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { NftAsset as NftAssetType, WyvernRawOrder } from '@core/network/api/nfts/types'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
@@ -43,6 +44,7 @@ import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
+import { getIsSharedStorefront } from '../utils/NftUtils'
 import {
   AssetName,
   CollectionName,
@@ -185,6 +187,9 @@ const NftAsset: React.FC<Props> = ({
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront({
+    asset_contract: { address: contract }
+  } as NftAssetType)
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
   const [assetQuery, reExecuteQuery] = useAssetQuery({
@@ -226,22 +231,56 @@ const NftAsset: React.FC<Props> = ({
   const collectionDescription = currentAsset?.collection?.description || ''
 
   // seaport sell orders (aka listing)
-  const seaportAsks =
+  let asks =
     openSeaAsset.data?.seaport_sell_orders
       ?.filter(({ side }) => side === 'ask')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1)) || []
   // seaport buy orders (aka offer)
-  const seaportBids =
+  let bids =
     openSeaAsset.data?.seaport_sell_orders
       ?.filter(({ side }) => side === 'bid')
       ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1)) || []
-  const highestBid = seaportBids[0]
-  const lowestAsk = seaportAsks[0]
-  const isLowestAskDutch = lowestAsk?.protocol_data.parameters.consideration.find(
+  let highestBid = bids[0]
+  let lowestAsk = asks[0]
+  let isLowestAskDutch = !!lowestAsk?.protocol_data.parameters.consideration.find(
     (x) => x.token === window.coins.WETH.coinfig.type.erc20Address
   )
   // TODO: SEAPORT
-  const isLowestAskEnglish = false
+  let isLowestAskEnglish = false
+
+  // TODO: SEAPORT - remove wyvern 👇
+  if (IS_SHARED_STOREFRONT) {
+    const bids_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 0
+      }, []) || []
+    const asks_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 1
+      }) || []
+    const highestBid_LEGACY = bids_LEGACY.sort((a, b) =>
+      new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1
+    )[0]
+    const lowestAsk_LEGACY = asks_LEGACY.sort((a, b) =>
+      new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
+    )[0]
+    const isLowestAskDutch_LEGACY = lowestAsk_LEGACY && lowestAsk_LEGACY.sale_kind === 1
+    const isLowestAskEnglish_LEGACY =
+      lowestAsk_LEGACY && !lowestAsk_LEGACY.r && !lowestAsk_LEGACY.s && !lowestAsk_LEGACY.v
+
+    isLowestAskDutch = isLowestAskDutch_LEGACY
+    isLowestAskEnglish = isLowestAskEnglish_LEGACY
+    // @ts-ignore
+    asks = asks_LEGACY
+    // @ts-ignore
+    bids = bids_LEGACY
+    // @ts-ignore
+    lowestAsk = lowestAsk_LEGACY
+    // @ts-ignore
+    highestBid = highestBid_LEGACY
+  }
+  // TODO: SEAPORT - remove wyvern 👆
+
   const paymentTokenContractSymbol = isLowestAskDutch ? 'WETH' : 'ETH'
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
@@ -648,51 +687,7 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : (
                   <>
-                    {(seaportBids[0] && isLowestAskDutch) || isLowestAskEnglish ? (
-                      <>
-                        <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Bid expires in{' '}
-                            {formatDistanceToNow(new Date(highestBid?.expiration_time * 1000))}:
-                          </div>
-                          <NftAssetCountdown countDownDate={highestBid.expiration_time * 1000} />
-                        </Highest>
-                        <Divider style={{ marginBottom: '1em' }} />
-                        <Highest>Top Bid</Highest>
-                        <EthText>
-                          {/* TODO: SEAPORT */}
-                          <CoinIcon name='WETH' />
-                          {/* TODO: SEAPORT */}
-                          <GradientCoinDisplay
-                            weight={600}
-                            color={colors.grey900}
-                            size='24px'
-                            coin='WETH'
-                          >
-                            {seaportBids[0].current_price}
-                          </GradientCoinDisplay>
-                          &nbsp;{' '}
-                          <Text
-                            size='16px'
-                            weight={500}
-                            style={{ display: 'flex' }}
-                            color='grey500'
-                          >
-                            ({/* TODO: SEAPORT */}
-                            <FiatDisplay
-                              weight={500}
-                              currency={walletCurrency}
-                              color='grey500'
-                              size='16px'
-                              coin='WETH'
-                            >
-                              {seaportBids[0].current_price}
-                            </FiatDisplay>
-                            )
-                          </Text>
-                        </EthText>
-                      </>
-                    ) : lowestAsk ? (
+                    {lowestAsk && !highestBid ? (
                       <>
                         <Highest>
                           {isLowestAskEnglish || isLowestAskDutch ? (
@@ -805,11 +800,6 @@ const NftAsset: React.FC<Props> = ({
                               nature='primary'
                               jumbo
                               onClick={() => {
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  step: NftOrderStepEnum.MARK_FOR_SALE,
-                                  token_id: id
-                                })
                                 analyticsActions.trackEvent({
                                   key: Analytics.NFT_MARK_FOR_SALE,
                                   properties: {
@@ -817,6 +807,19 @@ const NftAsset: React.FC<Props> = ({
                                     collection_id: id
                                   }
                                 })
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                }
                               }}
                             >
                               <FormattedMessage
@@ -829,14 +832,24 @@ const NftAsset: React.FC<Props> = ({
                               data-e2e='openNftFlow'
                               nature='primary'
                               jumbo
-                              onClick={() =>
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  seaportOrder: lowestAsk,
-                                  step: NftOrderStepEnum.CANCEL_LISTING,
-                                  token_id: id
-                                })
-                              }
+                              onClick={() => {
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    // @ts-ignore
+                                    order: lowestAsk as WyvernRawOrder,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    seaportOrder: lowestAsk,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                }
+                              }}
                             >
                               <FormattedMessage
                                 id='copy.cancel_listing'
@@ -845,18 +858,28 @@ const NftAsset: React.FC<Props> = ({
                             </Button>
                           )}
 
-                          {highestBid && !seaportAsks.length ? (
+                          {highestBid && !asks.length ? (
                             <Button
                               data-e2e='acceptNftOffer'
                               nature='dark'
                               jumbo
                               onClick={() => {
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  seaportOrder: highestBid,
-                                  step: NftOrderStepEnum.ACCEPT_OFFER,
-                                  token_id: id
-                                })
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    // @ts-ignore
+                                    order: highestBid,
+                                    step: NftOrderStepEnum.ACCEPT_OFFER,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    seaportOrder: highestBid,
+                                    step: NftOrderStepEnum.ACCEPT_OFFER,
+                                    token_id: id
+                                  })
+                                }
                               }}
                             >
                               <FormattedMessage
@@ -875,11 +898,21 @@ const NftAsset: React.FC<Props> = ({
                             width='50%'
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                step: NftOrderStepEnum.MAKE_OFFER,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  // @ts-ignore
+                                  order: lowestAsk,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
                                 properties: {}
@@ -894,11 +927,19 @@ const NftAsset: React.FC<Props> = ({
                             nature='dark'
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                step: NftOrderStepEnum.MAKE_OFFER,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
                                 properties: {}
@@ -912,19 +953,29 @@ const NftAsset: React.FC<Props> = ({
                           </Button>
                         )
                       ) : null}
-                      {lowestAsk && !isOwner ? (
+                      {lowestAsk && !isOwner && !isLowestAskEnglish && !isLowestAskDutch ? (
                         <>
                           <Button
                             data-e2e='openNftFlow'
                             nature='primary'
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                seaportOrder: lowestAsk,
-                                step: NftOrderStepEnum.BUY,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  // @ts-ignore
+                                  order: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  seaportOrder: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_BUY_NOW_CLICKED,
                                 properties: {
@@ -963,13 +1014,13 @@ const NftAsset: React.FC<Props> = ({
               </DropdownPadding>
               <DropdownPadding>
                 <NftDropdown title='Offers'>
-                  {seaportBids && seaportBids.length > 0 ? (
+                  {bids && bids.length > 0 ? (
                     <ActivityWrapper>
                       <Offers
                         asset={openSeaAsset.data}
                         isOwner={isOwner}
                         columns={['price', 'from', 'expiration', 'action']}
-                        offers={seaportBids}
+                        offers={bids}
                         defaultEthAddr={defaultEthAddr}
                       />
                     </ActivityWrapper>
@@ -1086,6 +1137,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { contract: string; id: string } }
+  isTestnet: boolean
 }
 
 export default connector(NftAsset)

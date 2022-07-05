@@ -5,9 +5,12 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 import * as lz from 'lz-string'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
+import { NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
   CheckBoxInput,
@@ -28,7 +31,6 @@ import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
-import { getData } from './selectors'
 
 export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
   background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
@@ -42,15 +44,15 @@ const CTA: React.FC<Props> = (props) => {
   const {
     amount,
     amtToBuy,
+    asset,
     ethBalancesR,
     isAuthenticated,
     isInvited,
     maxBuyPossible,
     nftActions,
-    openSeaAssetR,
     orderFlow
   } = props
-  const { seaportOrder, userHasPendingTxR } = orderFlow
+  const { matchingOrder_LEGACY, seaportOrder, userHasPendingTxR } = orderFlow
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -60,35 +62,31 @@ const CTA: React.FC<Props> = (props) => {
     setTermsAccepted(!termsAccepted)
   }
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
 
-  const disabled = props.orderFlow.isSubmitting || !termsAccepted || userHasPendingTx
+  const disabled =
+    props.orderFlow.isSubmitting ||
+    !termsAccepted ||
+    userHasPendingTx ||
+    (IS_SHARED_STOREFRONT && !Remote.Success.is(matchingOrder_LEGACY))
 
   if (!isAuthenticated) {
     return (
-      <>
-        {openSeaAssetR.cata({
-          Failure: () => null,
-          Loading: () => null,
-          NotAsked: () => null,
-          Success: (val) => (
-            <LinkContainer
-              to={`/open/${DeepLinkGoal.BUY_NFT}?contract_address=${
-                val.asset_contract.address
-              }&token_id=${val.token_id}&order=${lz.compressToEncodedURIComponent(
-                JSON.stringify(seaportOrder)
-              )}`}
-            >
-              <Button jumbo nature='primary' fullwidth data-e2e='buyNftLogin'>
-                <FormattedMessage id='copy.login_buy_now' defaultMessage='Login to Buy Now' />
-              </Button>
-            </LinkContainer>
-          )
-        })}
-      </>
+      <LinkContainer
+        to={`/open/${DeepLinkGoal.BUY_NFT}?contract_address=${
+          asset.asset_contract.address
+        }&token_id=${asset.token_id}&order=${lz.compressToEncodedURIComponent(
+          JSON.stringify(seaportOrder)
+        )}`}
+      >
+        <Button jumbo nature='primary' fullwidth data-e2e='buyNftLogin'>
+          <FormattedMessage id='copy.login_buy_now' defaultMessage='Login to Buy Now' />
+        </Button>
+      </LinkContainer>
     )
   }
 
@@ -110,7 +108,7 @@ const CTA: React.FC<Props> = (props) => {
 
   return (
     <>
-      {props.data.cata({
+      {orderFlow.fees.cata({
         Failure: (e) => (
           <div>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
@@ -190,7 +188,7 @@ const CTA: React.FC<Props> = (props) => {
             <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
           </Button>
         ),
-        Success: (val) => (
+        Success: (gasData) => (
           <div>
             <CheckboxWrapper termsAccepted={termsAccepted}>
               {' '}
@@ -227,13 +225,23 @@ const CTA: React.FC<Props> = (props) => {
               </label>
             </CheckboxWrapper>
             <Button
-              onClick={() =>
-                nftActions.createOrder({
-                  asset: val.asset,
-                  gasData: val.fees,
-                  seaportOrder: orderFlow.seaportOrder!
-                })
-              }
+              onClick={() => {
+                if (IS_SHARED_STOREFRONT) {
+                  // @ts-ignore
+                  nftActions.createOrder_LEGACY({
+                    asset,
+                    gasData,
+                    // @ts-ignore
+                    ...matchingOrder_LEGACY.getOrElse({})
+                  })
+                } else {
+                  nftActions.createOrder({
+                    asset,
+                    gasData,
+                    seaportOrder: orderFlow.seaportOrder!
+                  })
+                }
+              }}
               jumbo
               nature='primary'
               fullwidth
@@ -265,8 +273,7 @@ const CTA: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
+ ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
@@ -278,6 +285,7 @@ type Props = OwnProps &
   ConnectedProps<typeof connector> & {
     amount: string
     amtToBuy: BigNumber
+    asset: NftAsset
     maxBuyPossible: BigNumber
   }
 

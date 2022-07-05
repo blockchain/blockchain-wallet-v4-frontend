@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { Remote } from '@core'
-import { NftAsset } from '@core/network/api/nfts/types'
+import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -13,16 +14,22 @@ import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 
 const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
-  const { seaportOrder, userHasPendingTxR } = orderFlow
+  const { seaportOrder, userHasPendingTxR, wyvernOrder } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   const dispatch = useDispatch()
-  const cancelListingClicked = () => {
+  const cancelListingClicked = (gasData: GasDataI) => {
     dispatch(
       actions.analytics.trackEvent({
         key: Analytics.NFT_CANCEL_LISTING_CLICKED,
         properties: {}
       })
     )
+    if (IS_SHARED_STOREFRONT && wyvernOrder) {
+      nftActions.cancelListing_LEGACY({ asset, gasData, order: wyvernOrder })
+    } else {
+      nftActions.cancelListing({ asset, gasData, seaportOrder })
+    }
   }
 
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
@@ -51,7 +58,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
         Loading: () => null,
         NotAsked: () => null,
         Success: (val) =>
-          seaportOrder ? (
+          seaportOrder || wyvernOrder ? (
             <Button
               jumbo
               nature='primary'
@@ -59,8 +66,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
               data-e2e='cancelListingNft'
               disabled={disabled}
               onClick={() => {
-                cancelListingClicked()
-                nftActions.cancelListing({ asset, gasData: val, seaportOrder })
+                cancelListingClicked(val)
               }}
             >
               {orderFlow.isSubmitting ? (

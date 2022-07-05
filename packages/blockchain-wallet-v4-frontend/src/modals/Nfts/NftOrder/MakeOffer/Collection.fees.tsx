@@ -10,6 +10,7 @@ import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
+import { NftMakeOfferFormValues } from '.'
 
 const Fees: React.FC<Props> = (props: Props) => {
   const { orderFlow } = props
