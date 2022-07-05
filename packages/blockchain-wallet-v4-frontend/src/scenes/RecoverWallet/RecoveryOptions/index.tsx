@@ -34,9 +34,8 @@ const IconTextRow = styled.div`
 `
 const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
   cursor: ${(props) => (props.hasCloudBackup ? 'pointer' : 'not-allowed')};
-  ${media.mobile`
-  margin-bottom: 16px;
-  `}
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 `
 const TextStack = styled.div`
   max-width: 312px;
