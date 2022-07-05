@@ -108,7 +108,7 @@ export const cancelOrder = async ({
  * @param options.signer ethers.Wallet
  * @param options.buyerAddress Optional address that's allowed to purchase this item. If specified, no other address will be able to take the order, unless its value is the null address.
  */
-export const createSellOrder = async ({
+export const createListing = async ({
   openseaAsset,
   execute,
   gasData,

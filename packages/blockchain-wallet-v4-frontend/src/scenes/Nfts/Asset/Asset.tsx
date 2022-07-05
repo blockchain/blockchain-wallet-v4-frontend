@@ -15,8 +15,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { NftAsset as NftAssetType } from '@core/network/api/nfts/types'
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
+import { NftAsset as NftAssetType, WyvernRawOrder } from '@core/network/api/nfts/types'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
@@ -801,11 +800,6 @@ const NftAsset: React.FC<Props> = ({
                               nature='primary'
                               jumbo
                               onClick={() => {
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  step: NftOrderStepEnum.MARK_FOR_SALE,
-                                  token_id: id
-                                })
                                 analyticsActions.trackEvent({
                                   key: Analytics.NFT_MARK_FOR_SALE,
                                   properties: {
@@ -813,6 +807,19 @@ const NftAsset: React.FC<Props> = ({
                                     collection_id: id
                                   }
                                 })
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                }
                               }}
                             >
                               <FormattedMessage
@@ -825,14 +832,24 @@ const NftAsset: React.FC<Props> = ({
                               data-e2e='openNftFlow'
                               nature='primary'
                               jumbo
-                              onClick={() =>
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  seaportOrder: lowestAsk,
-                                  step: NftOrderStepEnum.CANCEL_LISTING,
-                                  token_id: id
-                                })
-                              }
+                              onClick={() => {
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    // @ts-ignore
+                                    order: lowestAsk as WyvernRawOrder,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    seaportOrder: lowestAsk,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                }
+                              }}
                             >
                               <FormattedMessage
                                 id='copy.cancel_listing'

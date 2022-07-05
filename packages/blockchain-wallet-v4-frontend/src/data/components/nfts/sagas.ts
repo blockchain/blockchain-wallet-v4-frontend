@@ -13,6 +13,7 @@ import {
   cancelNftOrder,
   executeWrapEth,
   fulfillNftOrder,
+  fulfillNftSellOrder,
   fulfillTransfer,
   getNftBuyOrder,
   getNftMatchingOrders,
@@ -23,7 +24,7 @@ import {
   calculateSeaportGasFees,
   cancelOrder as cancelSeaportOrder,
   createBuyOrder,
-  createSellOrder as createSeaportSellOrder,
+  createListing as createSeaportSellOrder,
   fulfillOrder as fulfillSeaportOrder
 } from '@core/redux/payment/nfts/seaport'
 import { fungibleTokenApprovals } from '@core/redux/payment/nfts/seaport.utils'
@@ -511,7 +512,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     yield put(A.setOrderFlowIsSubmitting(false))
   }
 
-  const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
+  const createListing = function* (action: ReturnType<typeof A.createListing>) {
     yield put(A.setOrderFlowIsSubmitting(true))
     const { asset, endPrice, expirationMinutes, gasData, startPrice, waitForHighestBid } =
       action.payload
@@ -645,6 +646,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: ethers.Wallet = yield call(getEthSigner)
+      if (!action.payload.seaportOrder) throw new Error('No Seaport order found to cancel.')
       yield call(cancelSeaportOrder, {
         accountAddress: signer.address,
         gasData: action.payload.gasData,
@@ -1209,18 +1211,149 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
     yield put(A.setOrderFlowIsSubmitting(false))
   }
+
+  const cancelListing_LEGACY = function* (action: ReturnType<typeof A.cancelListing_LEGACY>) {
+    try {
+      yield put(A.setOrderFlowIsSubmitting(true))
+      const signer = yield call(getEthSigner)
+      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+    } catch (e) {
+      let error = errorHandler(e)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_CANCEL_LISTING_SUCCESS_FAIL,
+          properties: {
+            error_message: error,
+            type: 'FAILED'
+          }
+        })
+      )
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to cancel this listing.'
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
+
+  const createListing_LEGACY = function* (action: ReturnType<typeof A.createListing_LEGACY>) {
+    yield put(A.setOrderFlowIsSubmitting(true))
+    const isTimedAuction = !!action.payload.endPrice
+    const coin = isTimedAuction ? 'WETH' : 'ETH'
+    const startPrice = action?.payload?.startPrice
+    const endPrice = action?.payload?.endPrice || 0
+    const start_usd = yield getAmountUsd(coin, startPrice)
+    const end_usd = yield getAmountUsd(coin, endPrice)
+
+    try {
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING))
+      const guid = yield select(selectors.core.wallet.getGuid)
+      let listingTime = getUnixTime(addSeconds(new Date(), 10))
+      let expirationTime = getUnixTime(addMinutes(new Date(), action.payload.expirationMinutes))
+
+      if (action.payload.waitForHighestBid) {
+        listingTime = expirationTime
+        expirationTime = getUnixTime(
+          addMinutes(new Date(), action.payload.expirationMinutes + 10080)
+        )
+      }
+
+      const signer = yield call(getEthSigner)
+      const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+        getNftSellOrder,
+        action.payload.asset,
+        signer,
+        listingTime,
+        expirationTime,
+        action.payload.startPrice,
+        action.payload.endPrice,
+        action.payload.reservePrice,
+        IS_TESTNET ? 'rinkeby' : 'mainnet',
+        action.payload.waitForHighestBid,
+        action.payload.paymentTokenAddress
+      )
+      const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.postNftOrderV1, order, action.payload.asset.collection.slug, guid, retailToken)
+      yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_LISTING_SUCCESS))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          properties: {
+            currency: coin,
+            end_price: isTimedAuction ? Number(endPrice) : undefined,
+            end_usd: isTimedAuction ? end_usd : undefined,
+            start_price: Number(startPrice),
+            start_usd,
+            type: 'SUCCESS'
+          }
+        })
+      )
+      yield put(
+        A.fetchOpenSeaAsset({
+          asset_contract_address: action.payload.asset.asset_contract.address,
+          defaultEthAddr: signer.address,
+          token_id: action.payload.asset.token_id
+        })
+      )
+    } catch (e) {
+      let error = errorHandler(e)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.NFT_LISTING_SUCCESS_FAIL,
+          properties: {
+            currency: coin,
+            end_price: isTimedAuction ? Number(endPrice) : undefined,
+            end_usd: isTimedAuction ? end_usd : undefined,
+            error_message: error,
+            start_price: Number(startPrice),
+            start_usd,
+            type: 'FAILED'
+          }
+        })
+      )
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to sell this asset.'
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+      yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.MARK_FOR_SALE }))
+    }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
+  }
   // TODO: SEAPORT - remove wyvern 👆
 
   return {
     acceptOffer,
     acceptOffer_LEGACY,
     cancelListing,
+    cancelListing_LEGACY,
     cancelOffer,
     cancelOffer_LEGACY,
+    createListing,
+    createListing_LEGACY,
     createOffer,
     createOffer_LEGACY,
     createOrder,
-    createSellOrder,
     createTransfer,
     fetchFees,
     fetchFeesWrapEth,

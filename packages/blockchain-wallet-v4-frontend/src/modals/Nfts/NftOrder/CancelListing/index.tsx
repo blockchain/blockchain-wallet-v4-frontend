@@ -60,7 +60,7 @@ const CancelListing: React.FC<Props> = (props) => {
         </NftFlyoutRow>
       </div>
       <StickyCTA>
-        <CancelListingFees {...props} />
+        <CancelListingFees {...props} asset={asset} />
         <br />
         <CancelListingCTA {...props} asset={asset} />
       </StickyCTA>

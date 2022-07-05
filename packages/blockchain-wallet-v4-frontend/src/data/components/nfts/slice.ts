@@ -77,8 +77,12 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         asset: NftAsset
         gasData: GasDataI
-        seaportOrder: SeaportRawOrder
+        seaportOrder: SeaportRawOrder | null
       }>
+    ) => {},
+    cancelListing_LEGACY: (
+      state,
+      action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: WyvernRawOrder }>
     ) => {},
     cancelOffer: (
       state,
@@ -91,6 +95,32 @@ const nftsSlice = createSlice({
     cancelOffer_LEGACY: (
       state,
       action: PayloadAction<{ asset: NftAsset; gasData: GasDataI; order: WyvernRawOrder | null }>
+    ) => {},
+    createListing: (
+      state,
+      action: PayloadAction<{
+        asset: NftAsset
+        endPrice: number | null
+        expirationMinutes: number
+        gasData: GasDataI
+        paymentTokenAddress: string | undefined
+        reservePrice: number | undefined
+        startPrice: number
+        waitForHighestBid: boolean | undefined
+      }>
+    ) => {},
+    createListing_LEGACY: (
+      state,
+      action: PayloadAction<{
+        asset: NftAsset
+        endPrice: number | null
+        expirationMinutes: number
+        gasData: GasDataI
+        paymentTokenAddress: string | undefined
+        reservePrice: number | undefined
+        startPrice: number
+        waitForHighestBid: boolean | undefined
+      }>
     ) => {},
     createOffer: (
       state,
@@ -122,19 +152,6 @@ const nftsSlice = createSlice({
         asset: NftAsset
         gasData: GasDataI
         seaportOrder: SeaportRawOrder
-      }>
-    ) => {},
-    createSellOrder: (
-      state,
-      action: PayloadAction<{
-        asset: NftAsset
-        endPrice: number | null
-        expirationMinutes: number
-        gasData: GasDataI
-        paymentTokenAddress: string | undefined
-        reservePrice: number | undefined
-        startPrice: number
-        waitForHighestBid: boolean | undefined
       }>
     ) => {},
     createTransfer: (

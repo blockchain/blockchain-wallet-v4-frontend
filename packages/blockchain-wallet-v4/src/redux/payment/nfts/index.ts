@@ -22,8 +22,8 @@ import {
   calculateWrapEthFees,
   cancelOrder,
   createBuyOrder,
+  createListing,
   createMatchingOrders,
-  createSellOrder,
   getNetwork,
   sellOrderValidationAndApprovals,
   transferAsset
@@ -62,7 +62,7 @@ export const getNftSellOrder = async (
   waitForHighestBid = false, // True = English auction,
   paymentTokenAddress = '0x0000000000000000000000000000000000000000'
 ): Promise<NftOrder> => {
-  return createSellOrder(
+  return createListing(
     asset,
     expirationTime,
     listingTime,

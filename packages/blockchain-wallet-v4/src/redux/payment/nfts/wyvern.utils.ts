@@ -1845,7 +1845,7 @@ export async function cancelOrder({
   return !isValidOrder
 }
 
-export async function createSellOrder(
+export async function createListing(
   asset: NftAsset,
   expirationTime: number,
   listingTime: number | undefined,
