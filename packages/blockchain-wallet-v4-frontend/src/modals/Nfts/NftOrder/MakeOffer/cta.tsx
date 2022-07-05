@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 import { addMinutes, getUnixTime } from 'date-fns'
 
 import { Remote } from '@core'
@@ -44,6 +45,7 @@ const CTA: React.FC<Props> = ({
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
   const disabled =
@@ -170,19 +172,32 @@ const CTA: React.FC<Props> = ({
             fullwidth
             data-e2e='makeOfferNft'
             disabled={disabled || !termsAccepted}
-            onClick={() =>
-              nftActions.createOffer({
-                amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                asset,
-                expirationTime: getUnixTime(
-                  addMinutes(new Date(), parseInt(formValues.expirationMinutes))
-                ),
-                offerFees,
-                wrapFees,
-                ...formValues,
-                amount: cryptoAmt
-              })
-            }
+            onClick={() => {
+              if (IS_SHARED_STOREFRONT) {
+                nftActions.createOffer_LEGACY({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues
+                })
+              } else {
+                nftActions.createOffer({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues,
+                  amount: cryptoAmt
+                })
+              }
+            }}
           >
             {cryptoAmt && Number(cryptoAmt) > 0 ? (
               orderFlow.isSubmitting ? (

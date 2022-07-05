@@ -13,12 +13,12 @@ import {
   NftOrderSide,
   NftSaleKind,
   PartialReadonlyContractAbi,
-  RawOrder,
   txnData,
   UnhashedOrder,
   UnsignedOrder,
   WyvernAsset,
   WyvernNFTAsset,
+  WyvernRawOrder,
   WyvernSchemaName
 } from '@core/network/api/nfts/types'
 
@@ -1749,7 +1749,7 @@ export async function cancelOrder({
   signer,
   txnData
 }: {
-  sellOrder: RawOrder
+  sellOrder: WyvernRawOrder
   signer: Signer
   txnData: txnData
 }) {
@@ -1845,7 +1845,7 @@ export async function cancelOrder({
   return !isValidOrder
 }
 
-export async function createSellOrder(
+export async function createListing(
   asset: NftAsset,
   expirationTime: number,
   listingTime: number | undefined,
@@ -2065,7 +2065,7 @@ export async function calculatePaymentProxyApprovalsFees(order: NftOrder, signer
   )
 }
 
-export async function calculateCancellationFees(sellOrder: RawOrder, signer: Signer) {
+export async function calculateCancellationFees(sellOrder: WyvernRawOrder, signer: Signer) {
   const waitingForBestCounterOrder = !sellOrder.r && !sellOrder.v && !sellOrder.s
 
   const order = {

@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { Remote } from '@core'
-import { NftAsset } from '@core/network/api/nfts/types'
+import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -13,19 +14,33 @@ import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 
 const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
-  const { seaportOrder, userHasPendingTxR } = orderFlow
+  const { seaportOrder, userHasPendingTxR, wyvernOrder } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   const disabled = Remote.Loading.is(orderFlow.fees) || orderFlow.isSubmitting
 
   const dispatch = useDispatch()
-  const cancelOfferClicked = () => {
+  const cancelOfferClicked = (gasData: GasDataI) => {
     dispatch(
       actions.analytics.trackEvent({
         key: Analytics.NFT_CANCEL_OFFER_CLICKED,
         properties: {}
       })
     )
+    if (IS_SHARED_STOREFRONT && wyvernOrder) {
+      nftActions.cancelOffer_LEGACY({
+        asset,
+        gasData,
+        order: wyvernOrder
+      })
+    } else {
+      nftActions.cancelOffer({
+        asset,
+        gasData,
+        seaportOrder
+      })
+    }
   }
 
   if (!isInvited) return <NftNotInvited />
@@ -56,7 +71,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
         Loading: () => null,
         NotAsked: () => null,
         Success: (gasData) =>
-          seaportOrder ? (
+          seaportOrder || (IS_SHARED_STOREFRONT && wyvernOrder) ? (
             <Button
               jumbo
               nature='primary'
@@ -64,12 +79,7 @@ const CTA: React.FC<Props> = ({ asset, isInvited, nftActions, orderFlow }) => {
               data-e2e='cancelOfferNft'
               disabled={disabled}
               onClick={() => {
-                cancelOfferClicked()
-                nftActions.cancelOffer({
-                  asset,
-                  gasData,
-                  seaportOrder
-                })
+                cancelOfferClicked(gasData)
               }}
             >
               {orderFlow.isSubmitting ? (

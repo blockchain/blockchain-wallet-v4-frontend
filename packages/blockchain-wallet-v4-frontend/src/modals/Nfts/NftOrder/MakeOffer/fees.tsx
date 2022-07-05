@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
@@ -14,17 +15,31 @@ import ConduitFees from './Conduit.fees'
 import WrapEthFees from './WrapEth.fees'
 
 const Fees: React.FC<Props> = (props) => {
-  const { isAuthenticated, isInvited, needsWrap, nftActions, orderFlow } = props
+  const { asset, isAuthenticated, isInvited, needsWrap, nftActions, orderFlow } = props
   const fees = useRemote(() => orderFlow.fees)
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   useEffect(() => {
-    nftActions.fetchFees({
-      amount: '0',
-      asset: props.asset,
-      // TODO: SEAPORT
-      coin: 'WETH',
-      operation: GasCalculationOperations.CreateOffer
-    })
+    if (IS_SHARED_STOREFRONT) {
+      // Default to WETH
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const WETH = window.coins.WETH.coinfig.type.erc20Address!
+
+      nftActions.fetchFees_LEGACY({
+        asset,
+        offer: '0.000001',
+        operation: GasCalculationOperations.CreateOffer,
+        paymentTokenAddress: WETH
+      })
+    } else {
+      nftActions.fetchFees({
+        amount: '0',
+        asset,
+        // TODO: SEAPORT
+        coin: 'WETH',
+        operation: GasCalculationOperations.CreateOffer
+      })
+    }
   }, [])
 
   const getTotalFees = () => {
@@ -54,7 +69,7 @@ const Fees: React.FC<Props> = (props) => {
       {props.formValues?.coin === 'WETH' ? (
         <NftDropdown title='Total Fees' hasPadding titleRight={getTotalFees()}>
           <CollectionFees {...props} />
-          <ConduitFees {...props} />
+          {IS_SHARED_STOREFRONT ? null : <ConduitFees {...props} />}
           <WrapEthFees {...props} />
         </NftDropdown>
       ) : null}
