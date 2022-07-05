@@ -59,7 +59,7 @@ const Failure = (props: FailurePropsType) => {
             defaultMessage='Oops. Something went wrong on our side. Please try again.'
           />
         </Title>
-        {props.errorMessage && (
+        {typeof props.errorMessage === 'string' && (
           <ErrorTextContainer>
             <ErrorText>
               <Icon label='alert' color='red600'>
