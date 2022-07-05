@@ -40,10 +40,6 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
   const secureUpdateMobile = (guid, sharedKey, mobile, nabuSessionToken) =>
     updateSettingsAuthorized(guid, sharedKey, 'update-sms', mobile, nabuSessionToken)
 
-  // TODO: remove this, replaced by secureUpdate
-  const updateEmail = (guid, sharedKey, email) =>
-    updateSettings(guid, sharedKey, 'update-email', email)
-
   const sendConfirmationCodeEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
 
@@ -55,10 +51,6 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
 
   const verifyEmail = (guid, sharedKey, code) =>
     updateSettings(guid, sharedKey, 'verify-email-code', code)
-
-  // TODO: remove this, replace by secureUpdate
-  const updateMobile = (guid, sharedKey, mobile) =>
-    updateSettings(guid, sharedKey, 'update-sms', mobile)
 
   const verifyMobile = (guid, sharedKey, code) =>
     updateSettings(guid, sharedKey, 'verify-sms', code)
@@ -132,14 +124,12 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     updateBlockTorIps,
     updateCommunicationLanguage,
     updateCurrency,
-    updateEmail,
     updateHint,
     updateIpLock,
     updateIpLockOn,
     updateLanguage,
     updateLastTxTime,
     updateLoggingLevel,
-    updateMobile,
     updateNotificationsType,
     verifyEmail,
     verifyMobile
