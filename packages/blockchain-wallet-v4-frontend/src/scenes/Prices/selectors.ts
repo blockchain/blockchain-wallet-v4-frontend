@@ -6,11 +6,13 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
+    (state) => selectors.components.interest.getInterestEligible(state),
+    (state) => selectors.components.interest.getInterestRate(state),
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
     (state) => state
   ],
-  (coinPricesR, coinPricesPreviousR, state) => {
+  (interestEligibleR, interestRateR, coinPricesR, coinPricesPreviousR, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
@@ -35,6 +37,8 @@ export const getData = createDeepEqualSelector(
           balance: coinBalance,
           coin: coinfig.symbol,
           coinModel: coin,
+          interestEligible: interestEligibleR.getOrElse({}),
+          interestRate: interestRateR.getOrElse({}),
           marketCap,
           name: `${coinfig.name} (${coinfig.displaySymbol})`,
           price: currentPrice,

@@ -13,7 +13,7 @@ These selectors should be used if you need the total balance of the entire walle
 Total balance means custodial (Trading, Buy/Sell, Interest, etc.) + non-custodial + fiat (if applicable).
 
 - `getCoinTotalBalance` - given `CoinType` or `FiatType`, will return its total balance across all accounts
-- `getCoinBalancesTypeSeperated` given `CoinType`, will return its balances in a list seperated by type ([non-custodial, custodial])
+- `getCoinBalancesTypeSeparated` given `CoinType`, will return its balances in a list seperated by balance type ([non-custodial, custodial]). This selector should be used sparingly and with caution!
 - `getTotalWalletBalance` - returns the total balance of the wallet across all accounts
 - `getTotalWalletBalancesSorted` - returns a list of coins with any balance sorted by balance descending
 
@@ -27,9 +27,13 @@ Custodial balance means Trading, Buy/Sell, Interest, etc. + fiat (if applicable)
 
 ### Non-Custodial Only Balances
 These selectors should be used if you need the total non-custodial balance of a specific coin.
-Non-custodial balance means on-chain balances of private key wallets.
+Non-custodial balance means on-chain balances of private key wallets, IT DOES NOT YET INCLUDE DYNAMIC SELF-CUSTODY BALANCES!
 
 - `getCoinNonCustodialBalance` - given `CoinType`, returns the non-custodial balance
+
+
+### Dynamic Self Custody Only Balances
+Not yet implemented. Perhaps these specific balance selectors shouldn't exist, and they should just be included in the non-custodial selectors
 
 ### Fiat Currency Balances
 These selectors should be used if you need the total balance of custodially held fiat currencies.

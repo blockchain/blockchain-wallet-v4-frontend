@@ -160,7 +160,7 @@ const MakeOffer: React.FC<Props> = (props) => {
             <AmountFieldInput
               coin={coin}
               fiatCurrency={walletCurrency}
-              amtError={false}
+              amountError={false}
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
@@ -291,7 +291,7 @@ const mapStateToProps = (state) => {
 
   return {
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
-    ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state),
+    ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
     rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),

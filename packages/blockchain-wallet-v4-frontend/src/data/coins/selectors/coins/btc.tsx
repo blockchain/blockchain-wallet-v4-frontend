@@ -52,7 +52,7 @@ export const getAccounts = createDeepEqualSelector(
             .map((acc) => ({
               accountIndex: prop('index', acc),
               address: prop('index', acc),
-              archived: prop('archived', acc),
+              archived: prop('archived', acc) || false,
               balance: xpubBalance(acc).reduce(add, 0),
               baseCoin: coin,
               coin,

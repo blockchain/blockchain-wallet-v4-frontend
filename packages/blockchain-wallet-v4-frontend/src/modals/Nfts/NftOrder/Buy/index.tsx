@@ -17,7 +17,6 @@ import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
-import { getCoinBalancesTypeSeperated } from 'data/balances/selectors'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
@@ -193,7 +192,7 @@ const mapStateToProps = (state) => ({
     // @ts-ignore
     selectors.form.getFormValues('nftBuy')(state)?.coin || 'WETH'
   ),
-  ethBalancesR: selectors.balances.getCoinBalancesTypeSeperated('ETH')(state),
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string

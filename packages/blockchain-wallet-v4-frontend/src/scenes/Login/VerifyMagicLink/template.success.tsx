@@ -115,7 +115,7 @@ const Success = (props) => {
         <Text size='20px' weight={600} color='grey900' style={{ marginTop: '24px' }}>
           <FormattedMessage id='copy.verifyyourdevice' defaultMessage='Verify Your Device' />
         </Text>
-        <Text color='grey700' style={{ marginTop: '8px' }} size='16px' weight={500}>
+        <Text color='grey700' style={{ marginTop: '8px' }} size='16px' weight={400}>
           <FormattedMessage
             id='scenes.login.verify_device.header'
             defaultMessage='We noticed a login attempt recently from a different browser or device. If this was you, verify the login device.'

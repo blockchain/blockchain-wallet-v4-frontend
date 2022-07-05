@@ -340,8 +340,8 @@ export const getCoinNonCustodialBalance = (
   }
 }
 
-// given a coin, return its balances seperated as a list [non-custodial, custodial]
-export const getCoinBalancesTypeSeperated = (coin) =>
+// given a coin, return its balances separated as a list [non-custodial, custodial]
+export const getCoinBalancesTypeSeparated = (coin) =>
   createDeepEqualSelector(
     [() => getCoinNonCustodialBalance(coin), () => getCoinCustodialBalance(coin)],
     (nonCustodialBalancesR, custodialBalanceR) => {
