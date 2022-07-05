@@ -32,7 +32,7 @@ import {
   EventFilterFields,
   useCollectionsQuery
 } from 'generated/graphql.types'
-import { useMedia } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 import { FIXED_HEADER_HEIGHT } from '../../../layouts/Nfts/NftsHeader'
 import NftCollectionImage from '../components/NftCollectionImage'
@@ -64,6 +64,17 @@ const OuterCollectionInfo = styled.div`
   z-index: 21;
   background: ${(props) => props.theme.white};
   border-bottom: 1px solid ${colors.grey000};
+  ${media.tabletL`
+    padding: 12px;
+    display: block;
+  `}
+`
+
+const OverflowText = styled(Text)`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerActions, ...rest }) => {
@@ -127,9 +138,9 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                       colors={AvatarGradientColors}
                     />
                   )}
-                  <Text color='black' size='14px' weight={600}>
+                  <OverflowText color='black' size='14px' weight={600}>
                     {collection.name}
-                  </Text>
+                  </OverflowText>
                 </div>
                 <LinksContainer>
                   {collection.external_url ? (
@@ -173,6 +184,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
               slug={collection.slug}
               routerActions={routerActions}
               formActions={formActions}
+              num_owners={collection.num_owners}
               total_supply={collection.total_supply}
               stats={collection.stats}
             />
@@ -191,7 +203,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
           minMaxPriceFilter={activeTab === 'ITEMS'}
           forSaleFilter={activeTab === 'ITEMS'}
           setIsFilterOpen={setIsFilterOpen}
-          isSticky={!collection.banner_image_url}
+          hasBanner={!!collection.banner_image_url}
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
@@ -205,7 +217,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             collections={collectionsQuery.data?.collections || []}
-            isSticky={!collection.banner_image_url}
+            hasBanner={!collection.banner_image_url}
           />
           {activeTab === 'ITEMS' ? (
             <CollectionItems
