@@ -10,6 +10,7 @@ import { actions, selectors } from 'data'
 import { ProductAuthOptions, RecoverFormType, RecoverSteps } from 'data/types'
 
 import CloudRecovery from './CloudRecovery'
+import ForgotPasswordEmail from './ForgotPasswordEmail'
 import { RECOVER_FORM } from './model'
 import RecoveryOptions from './RecoveryOptions'
 import RecoveryPhrase from './RecoveryPhrase'
@@ -30,7 +31,7 @@ class RecoverWalletContainer extends React.PureComponent<
     if (this.state.showPhraseStep) {
       this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
     } else {
-      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
+      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL)
     }
   }
 
@@ -49,6 +50,8 @@ class RecoverWalletContainer extends React.PureComponent<
       <Form>
         {(() => {
           switch (step) {
+            case RecoverSteps.FORGOT_PASSWORD_EMAIL:
+              return <ForgotPasswordEmail {...this.props} setStep={this.setStep} />
             case RecoverSteps.RECOVERY_OPTIONS:
               return <RecoveryOptions {...this.props} setStep={this.setStep} />
             case RecoverSteps.CLOUD_RECOVERY:

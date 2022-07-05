@@ -157,7 +157,7 @@ const EmailAndGuid = styled.div`
 `
 
 export const BackArrowFormHeader = (props: {
-  email: string
+  email?: string
   guid?: string
   handleBackArrowClick: () => void
   product?: ProductAuthOptions

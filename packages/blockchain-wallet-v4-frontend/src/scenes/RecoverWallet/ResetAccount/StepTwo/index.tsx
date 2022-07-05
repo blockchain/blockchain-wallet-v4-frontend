@@ -24,7 +24,7 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const SecondStep = (props: Props) => {
-  const { emailFromMagicLink, formValues, invalid, isRegistering, setStep } = props
+  const { emailFromMagicLink, invalid, isRegistering, setStep } = props
   return (
     <>
       <BackArrowFormHeader
