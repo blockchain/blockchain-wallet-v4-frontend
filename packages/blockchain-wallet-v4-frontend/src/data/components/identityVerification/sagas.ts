@@ -171,7 +171,9 @@ export default ({ api, coreSagas, networks }) => {
     let addExtraStep = false
     // check extra KYC fields
     const context =
-      origin === 'BuySell' ? ExtraKYCContext.FIAT_DEPOSIT : ExtraKYCContext.TIER_TWO_VERIFICATION
+      origin === 'BuySell' && tiers.current === TIERS[2]
+        ? ExtraKYCContext.FIAT_DEPOSIT
+        : ExtraKYCContext.TIER_TWO_VERIFICATION
 
     yield put(actions.components.identityVerification.fetchExtraKYC(context))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
@@ -426,7 +428,7 @@ export default ({ api, coreSagas, networks }) => {
         line1,
         line2,
         postCode,
-        state: state.code
+        state: state?.code ?? null
       }
 
       yield call(updateUser, { payload: { data: personalData } })

@@ -52,9 +52,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     defaultEthAddr?: string
   ): NftAsset => {
     return get({
-      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true${
-        defaultEthAddr ? `&account_address=${defaultEthAddr}` : ''
-      }`,
+      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })

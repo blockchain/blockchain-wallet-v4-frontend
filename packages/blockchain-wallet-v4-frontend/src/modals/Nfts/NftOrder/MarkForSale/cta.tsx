@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { props } from 'ramda'
 
-import { NftAsset } from '@core/network/api/nfts/types'
+import { Remote } from '@core'
+import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Analytics } from 'data/types'
 
@@ -20,7 +20,7 @@ const CTA: React.FC<Props> = ({
   orderFlow,
   saleType
 }) => {
-  const { userHasPendingTxR } = orderFlow
+  const { fees, userHasPendingTxR } = orderFlow
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
 
   if (!isInvited) return <NftNotInvited />
@@ -51,7 +51,8 @@ const CTA: React.FC<Props> = ({
     orderFlow.isSubmitting ||
     // TODO: SEAPORT
     // opensea v2 api does not currently support english auctions
-    formValues.timedAuctionType === 'highestBidder'
+    formValues.timedAuctionType === 'highestBidder' ||
+    !Remote.Success.is(fees)
 
   return (
     <div>
@@ -67,6 +68,7 @@ const CTA: React.FC<Props> = ({
               asset,
               endPrice: null,
               expirationMinutes: formValues.expirationMinutes,
+              gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
               paymentTokenAddress: undefined,
               reservePrice: undefined,
               startPrice: Number(amount),
@@ -81,6 +83,7 @@ const CTA: React.FC<Props> = ({
               asset,
               endPrice: null,
               expirationMinutes: formValues.expirationMinutes,
+              gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
               paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
               reservePrice: Number(formValues.reserve),
               startPrice: Number(formValues.starting),
@@ -93,6 +96,7 @@ const CTA: React.FC<Props> = ({
               asset,
               endPrice: Number(formValues.ending),
               expirationMinutes: formValues.expirationMinutes,
+              gasData: fees.getOrElse({ totalFees: 0 } as GasDataI),
               paymentTokenAddress: undefined,
               reservePrice: undefined,
               startPrice: Number(formValues.starting),

@@ -1,33 +1,15 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { compose } from 'redux'
 
-import {
-  BoxContainer,
-  BoxRow,
-  BoxRowItemSubTitle,
-  BoxRowItemTitle,
-  BoxRowWithBorder
-} from '../CardDashboard.model'
+import TransactionsBox from './TransactionsBox.template'
 
-const TransactionsBox = () => (
-  <BoxContainer width='662px'>
-    <BoxRowWithBorder>
-      <BoxRowItemTitle>
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.transactions.title'
-          defaultMessage='Recent Transactions'
-        />
-      </BoxRowItemTitle>
-    </BoxRowWithBorder>
-    <BoxRow>
-      <BoxRowItemSubTitle style={{ margin: 'auto' }}>
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.transactions.empty_state'
-          defaultMessage='Your most recent purchases will show up here'
-        />
-      </BoxRowItemSubTitle>
-    </BoxRow>
-  </BoxContainer>
-)
+const TransactionsBoxContainer = (props) => <TransactionsBox {...props} />
 
-export default TransactionsBox
+const connector = connect(null, null)
+
+export type Props = ConnectedProps<typeof connector>
+
+const enhance = compose(connector)
+
+export default enhance(TransactionsBoxContainer)

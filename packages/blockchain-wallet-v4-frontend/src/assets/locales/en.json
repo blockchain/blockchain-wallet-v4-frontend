@@ -1019,6 +1019,7 @@
   "modals.interest.withdrawal.accountAmount": "Select the account you would like to withdraw your Rewards Account funds to. You can withdraw up to",
   "modals.interest.withdrawal.available": "A small network fee will be applied, and your {coinTicker} will be available in your {coinTicker} Wallet within 2 days.",
   "modals.interest.withdrawal.balance1": "Your {coinTicker} Balance",
+  "modals.interest.withdrawal.balance2": "Your Rewards Balance",
   "modals.interest.withdrawal.edd_need": "This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.",
   "modals.interest.withdrawal.edd_need_further_information": "We will need to further verify your identity to make this withdrawal.",
   "modals.interest.withdrawal.enteramount": "Enter withdrawal amount",

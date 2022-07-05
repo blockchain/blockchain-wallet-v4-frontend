@@ -79,7 +79,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues, isTestnet }) =>
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
-          collections={[]}
+          collections={collectionsQuery.data?.collections || []}
           tabs={['EXPLORE']}
           activeTab='EXPLORE'
           showSortBy

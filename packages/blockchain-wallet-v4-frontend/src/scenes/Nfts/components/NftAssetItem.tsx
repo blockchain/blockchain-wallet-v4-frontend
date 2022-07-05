@@ -24,7 +24,6 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
 const XSmallButton = styled(Button)`
@@ -54,6 +53,12 @@ const NotForSale = styled.div`
   border-radius: 8px;
   padding: 0.5em;
   width: fit-content;
+`
+
+const OverflowText = styled(Text)`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const NftAssetItem: React.FC<Props> = ({ asset }) => {
@@ -124,19 +129,20 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background='linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'
             />
           )}
-          <NftAssetImageType
-            top='10px'
-            right='10px'
-            animation_url={asset.animation_url}
-            image_url={image}
-          />
         </Link>
       </LinkContainer>
       <AssetDetails>
         <Flex flexDirection='column' gap={8}>
-          <Text size='18px' style={{ marginTop: '4px' }} color='white' weight={600}>
+          <OverflowText
+            size='18px'
+            style={{
+              marginTop: '4px'
+            }}
+            color='white'
+            weight={600}
+          >
             #{asset?.token_id}
-          </Text>
+          </OverflowText>
           <LinkContainer
             onClick={logoClickTracking}
             to={`/nfts/collection/${asset.collection.slug}`}
@@ -148,12 +154,12 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
                   <Avatar
-                    size={16}
+                    size={24}
                     name={asset.collection.slug || ''}
                     variant='marble'
                     colors={AvatarGradientColors}
@@ -250,21 +256,21 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   src={image.replace(/=s\d*/, '')}
                 />
               ) : null}
-              <Text size='18px' weight={600} lineHeight='150%' color='white'>
+              <OverflowText size='18px' weight={600} lineHeight='150%' color='white'>
                 #{asset?.token_id}
-              </Text>
+              </OverflowText>
               <Flex alignItems='center' gap={8}>
                 {asset.collection.image_url ? (
                   <NftCollectionImageSmall
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
                   <Avatar
-                    size={16}
+                    size={24}
                     name={asset.collection.slug || ''}
                     variant='marble'
                     colors={AvatarGradientColors}

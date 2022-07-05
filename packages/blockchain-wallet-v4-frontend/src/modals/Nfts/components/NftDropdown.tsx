@@ -45,11 +45,11 @@ const NftDropdown: React.FC<Props> = ({
   return (
     <Wrapper>
       <Top onClick={toggleDropdown}>
-        <Text weight={600} size='14px' color='grey900'>
+        <Text weight={600} size='16px' color='grey900'>
           {title}
         </Text>
         <Flex alignItems='center' gap={8}>
-          <Text weight={600} size='14px'>
+          <Text weight={600} size='16px'>
             {titleRight || ''}
           </Text>
           <IconWrapper>
@@ -65,7 +65,17 @@ const NftDropdown: React.FC<Props> = ({
           </IconWrapper>
         </Flex>
       </Top>
-      <ChildWrapper style={isActive ? {} : { display: 'none' }}>
+      <ChildWrapper
+        style={
+          isActive
+            ? { transition: 'opacity 0.5s linear' }
+            : {
+                height: '0',
+                opacity: '0',
+                visibility: 'hidden'
+              }
+        }
+      >
         {React.Children.map(children, (child) =>
           child ? <Child hasPadding={hasPadding}>{child}</Child> : null
         )}

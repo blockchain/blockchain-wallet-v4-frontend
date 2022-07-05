@@ -168,10 +168,12 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 
 // collection
 export const CollectionHeader = styled.div<{ bgUrl?: string }>`
-  height: 300px;
+  height: 400px;
   display: flex;
   justify-content: space-between;
-  background: center ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : colors.blue700)};
+  background: center ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'unset')};
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
   ${media.tablet`
     flex-direction: column;
@@ -189,13 +191,23 @@ export const Centered = styled.div`
 `
 //
 export const NftBannerWrapper = styled.div`
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
-  backdrop-filter: blur(2px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
   width: 100%;
   padding: 24px 40px;
+  ${media.tablet`
+    padding: 12px;
+  `}
+`
+
+export const CollectionInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  bottom: 0;
+  width: 100%;
+  margin: 24px;
   ${media.tablet`
     padding: 12px;
   `}
@@ -207,13 +219,15 @@ export const StatsWrapper = styled.div`
 `
 
 export const Stat = styled.div`
-  padding: 16px;
+  padding: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
   gap: 16px;
+  white-space: nowrap;
   background: rgba(255, 255, 255, 0.08);
+  border: 1px solid ${colors.grey000};
   ${media.tablet`
     padding: 10px;
     > div {
@@ -229,3 +243,39 @@ export const AvatarGradientColors = [
   colors.green300,
   colors.grey900
 ]
+
+export const LinksContainer = styled.div`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  justify-content: center;
+  > a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    padding-right: 0px;
+    svg {
+      fill: ${(props) => props.theme.grey200};
+      transition: fill 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        fill: ${(props) => props.theme.white};
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      height: 90%;
+      width: 1px;
+      margin-left: 16px;
+      background-color: ${(props) => props.theme.grey000};
+    }
+    &:last-child {
+      padding-right: 16px;
+    }
+    &:last-child:after {
+      display: none;
+    }
+  }
+`

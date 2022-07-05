@@ -6,10 +6,12 @@ import { colors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import * as lz from 'lz-string'
+import styled from 'styled-components'
 
 import {
   Button,
   CheckBoxInput,
+  Color,
   HeartbeatLoader,
   Image,
   Link,
@@ -17,6 +19,7 @@ import {
 } from 'blockchain-info-components'
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import { Flex } from 'components/Flex'
 import { actions } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
@@ -27,6 +30,14 @@ import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
 import { getData } from './selectors'
+
+export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
+  background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
+  border: 1px solid ${colors.grey000};
+  border-radius: 8px;
+  margin: 1em 0em;
+  justify-content: center;
+`
 
 const CTA: React.FC<Props> = (props) => {
   const {
@@ -155,6 +166,15 @@ const CTA: React.FC<Props> = (props) => {
                   id='copy.may_already_have_completed'
                   defaultMessage='Invalid order. This asset has already been purchased.'
                 />
+              ) : e.includes('UNPREDICTABLE_GAS_LIMIT') ? (
+                <Flex gap={4} flexDirection='column'>
+                  <FormattedMessage
+                    id='copy.unpredictable_gas_limit'
+                    defaultMessage='Cannot estimate gas, transaction may fail. Check console for full error.'
+                  />
+                  {/* eslint-disable-next-line no-console */}
+                  {console.log(e)}
+                </Flex>
               ) : (
                 e
               )}
@@ -173,7 +193,7 @@ const CTA: React.FC<Props> = (props) => {
         ),
         Success: (val) => (
           <div>
-            <div style={{ display: 'flex' }}>
+            <CheckboxWrapper termsAccepted={termsAccepted}>
               {' '}
               <div style={{ padding: '1.2em 0em' }}>
                 <CheckBoxInput
@@ -206,7 +226,7 @@ const CTA: React.FC<Props> = (props) => {
                   </Link>
                 </Text>
               </label>
-            </div>
+            </CheckboxWrapper>
             <Button
               onClick={() =>
                 nftActions.createOrder({

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import {
@@ -35,16 +36,21 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
       offset
     }
   })
+  const Wrapper = styled.div`
+    background: ${(props) => props.theme.greyFade000};
+    box-shadow: inset 0px 8px 16px rgba(60, 106, 172, 0.08);
+    display: flex;
+    width: 100%;
+  `
 
   return assets?.data?.assets?.length ? (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <Wrapper>
       <MoreAssets>
         <div
           style={{
             alignItems: 'center',
             display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: '40px'
+            justifyContent: 'space-between'
           }}
         >
           <Text color='grey700' weight={600} capitalize>
@@ -68,7 +74,7 @@ const AssetMoreItems: React.FC<Props> = ({ asset }) => {
           </NftGrid>
         </MoreAssetsWrapper>
       </MoreAssets>
-    </div>
+    </Wrapper>
   ) : null
 }
 

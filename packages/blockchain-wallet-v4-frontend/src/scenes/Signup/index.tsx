@@ -10,6 +10,7 @@ import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ProductSignupMetadata } from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -158,6 +159,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
+  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
   unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
 })
 
@@ -181,6 +183,7 @@ type LinkStatePropsType = {
   isValidReferralCode?: boolean
   language: string
   search: string
+  signupMetadata: ProductSignupMetadata
   unified: boolean
 }
 type StateProps = {

@@ -90,6 +90,7 @@ export const CurrentPriceBox = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 20px;
+  background: ${(props) => props.theme.greyFade000};
   padding: 1.2em;
 `
 
@@ -102,6 +103,7 @@ export const Divider = styled.div`
 
 export const MoreAssets = styled.div`
   width: 100%;
+  padding: 40px;
   ${media.tablet`
     padding-right: 1em;
     padding-left: 1em;

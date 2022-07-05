@@ -30,11 +30,11 @@ import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 export const FILTER_WIDTH = '300'
 export const FILTER_WIDTH_CLOSED = '20'
 
-const Wrapper = styled.div<{ isFilterOpen: boolean }>`
-  top: calc(${FIXED_HEADER_HEIGHT}px);
+const Wrapper = styled.div<{ isFilterOpen: boolean; isSticky: boolean }>`
+  top: ${(props) => (props.isSticky ? `calc(151px)` : `calc(${FIXED_HEADER_HEIGHT}px)`)};
+  position: ${(props) => (props.isSticky ? `sticky` : `initial`)};
   padding-right: 24px;
-  padding-top: 20px;
-  position: sticky;
+  padding-top: 24px;
   transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
   min-width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
@@ -50,7 +50,7 @@ const Wrapper = styled.div<{ isFilterOpen: boolean }>`
     z-index: 1000;
     height: 100vh;
     width: 100%;
-    position: fixed;
+    position: ${(props) => (props.isSticky ? `sticky` : `initial`)};
     padding: 20px;
     top: ${FIXED_HEADER_HEIGHT}px;
     bottom: 0;
@@ -115,6 +115,7 @@ const NftFilter: React.FC<Props> = ({
   formActions,
   formValues,
   isFilterOpen,
+  isSticky = false,
   minMaxPriceFilter,
   opensea_event_types,
   setIsFilterOpen,
@@ -149,7 +150,7 @@ const NftFilter: React.FC<Props> = ({
   )
 
   return (
-    <Wrapper ref={ref} isFilterOpen={isFilterOpen}>
+    <Wrapper ref={ref} isFilterOpen={isFilterOpen} isSticky={isSticky}>
       <FilterHeader isFilterOpen={isFilterOpen}>
         <FilterHeaderText isFilterOpen={isFilterOpen} size='20px' weight={500} color='black'>
           <FormattedMessage defaultMessage='Filter' id='copy.filter' />
@@ -503,6 +504,7 @@ type OwnProps = {
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
   isFilterOpen: boolean
+  isSticky?: boolean
   minMaxPriceFilter: boolean
   opensea_event_types?: string[]
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>

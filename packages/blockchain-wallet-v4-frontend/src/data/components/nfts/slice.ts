@@ -7,7 +7,6 @@ import {
   GasCalculationOperations,
   GasDataI,
   NftAsset,
-  NftAssetsType,
   NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
@@ -128,9 +127,10 @@ const nftsSlice = createSlice({
     createSellOrder: (
       state,
       action: PayloadAction<{
-        asset: NftAssetsType[0]
+        asset: NftAsset
         endPrice: number | null
         expirationMinutes: number
+        gasData: GasDataI
         paymentTokenAddress: string | undefined
         reservePrice: number | undefined
         startPrice: number
@@ -140,7 +140,7 @@ const nftsSlice = createSlice({
     createTransfer: (
       state,
       action: PayloadAction<{
-        asset: NftAssetsType[0]
+        asset: NftAsset
         gasData: GasDataI
         to: string
       }>
@@ -169,6 +169,10 @@ const nftsSlice = createSlice({
             coin?: string
             expirationTime?: number
             operation: GasCalculationOperations.CreateOffer
+          }
+        | {
+            asset: NftAsset
+            operation: GasCalculationOperations.Sell
           }
         | {
             operation: GasCalculationOperations.CancelOrder

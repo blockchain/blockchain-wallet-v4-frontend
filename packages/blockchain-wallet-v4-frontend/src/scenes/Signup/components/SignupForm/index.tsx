@@ -107,7 +107,6 @@ const SignupForm = (props: Props) => {
 
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-
   if (!supportedCountries?.countries || !supportedUSStates?.states) {
     return <></>
   }
@@ -213,7 +212,7 @@ const SignupForm = (props: Props) => {
             component={PasswordBox}
             data-e2e='signupConfirmPassword'
             name='confirmationPassword'
-            placeholder='Reenter Password'
+            placeholder='Re-enter Password'
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
@@ -245,7 +244,6 @@ const SignupForm = (props: Props) => {
               component={SelectBox}
               errorBottom
               validate={[required]}
-              normalize={(val) => val && val.code}
               label='Select State'
             />
           </FieldWithoutTopRadius>

@@ -1,7 +1,8 @@
 import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -28,14 +29,14 @@ import { BSCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
-import { clearSubmitErrors } from 'redux-form'
+
 import { AlertButton } from '../../../components'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
-import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
+import BaseQuote from './BaseQuote'
 import Payment from './Payment'
 import {
   checkCrossBorderLimit,
@@ -46,7 +47,6 @@ import {
   maximumAmount,
   minimumAmount
 } from './validation'
-import { useDispatch } from 'react-redux'
 
 const { FORM_BS_CHECKOUT, LIMIT, LIMIT_FACTOR } = model.components.buySell
 
@@ -230,10 +230,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
   // TODO: Remove this ordertype check when flexible pricing is implemented for SELL
-  const quoteAmt =
+  const quoteAmount =
     props.orderType === OrderType.BUY
-      ? getBuyQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
-      : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+      ? getBuyQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
+      : getQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -437,11 +437,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </LeftTopCol>
         </TopText>
       </FlyoutWrapper>
-      <CryptoItem
-        fiat={props.fiatCurrency || 'USD'}
-        coin={props.cryptoCurrency}
-        orderType={props.orderType}
-      />
+      <BaseQuote coin={props.cryptoCurrency} orderType={props.orderType} />
+
       <FlyoutWrapper
         style={{
           display: 'flex',
@@ -507,7 +504,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   weight={500}
                   data-e2e='sbQuoteAmount'
                 >
-                  {formatQuote(quoteAmt, props.pair.pair, fix)}
+                  {formatQuote(quoteAmount, props.pair.pair, fix)}
                 </Text>
                 <Icon
                   color='blue600'
@@ -515,7 +512,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   name='up-down-chevron'
                   onClick={() =>
                     props.buySellActions.switchFix({
-                      amount: fix === 'FIAT' ? formatCoin(quoteAmt, 0, CRYPTO_DECIMALS) : quoteAmt, // format crypto amount to 8 digits
+                      amount:
+                        fix === 'FIAT' ? formatCoin(quoteAmount, 0, CRYPTO_DECIMALS) : quoteAmount, // format crypto amount to 8 digits
                       fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
                       orderType: props.orderType
                     })
@@ -901,7 +899,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           )}
         </AnchoredActions>
       </FlyoutWrapper>
-
       {/* {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />} */}
       {props.userData?.tiers?.current < 2 && // silver tier
         (props.isSddFlow ||

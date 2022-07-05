@@ -60,6 +60,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getCardTransactions = function* (cardId) {
+    yield put(A.getCardTransactionsLoading())
+    try {
+      const data = yield call(api.getDCTransactions, cardId)
+      yield put(A.getCardTransactionsSuccess(data))
+    } catch (e) {
+      yield put(A.getCardTransactionsFailure(e))
+    }
+  }
+
   const getCards = function* () {
     try {
       yield put(A.getCardsLoading())
@@ -71,6 +81,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(getCardToken, cards[0].id)
         yield call(getEligibleAccounts)
         yield call(getCurrentCardAccount, cards[0].id)
+        yield call(getCardTransactions, cards[0].id)
       }
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
