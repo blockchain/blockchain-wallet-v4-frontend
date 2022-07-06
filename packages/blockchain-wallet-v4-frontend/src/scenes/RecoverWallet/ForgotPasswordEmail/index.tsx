@@ -73,14 +73,19 @@ const ForgotPasswordEmail = (props: Props) => {
           </Text>
         )}
       </Button>
-      <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
-        <Link size='13px' weight={600} data-e2e='loginImportAccount'>
-          <FormattedMessage
-            id='scenes.recover.email_request.12_word_option'
-            defaultMessage='Recover via 12 Word Recovery Phrase'
-          />
-        </Link>
-      </LinkContainer>
+      <Text
+        color='blue600'
+        size='13px'
+        weight={600}
+        data-e2e='loginImportAccount'
+        style={{ cursor: 'pointer', textAlign: 'center' }}
+        onClick={() => setStep(RecoverSteps.RECOVERY_PHRASE)}
+      >
+        <FormattedMessage
+          id='scenes.recover.email_request.12_word_option'
+          defaultMessage='Recover via 12 Word Recovery Phrase'
+        />
+      </Text>
     </FormWrapper>
   )
 }
