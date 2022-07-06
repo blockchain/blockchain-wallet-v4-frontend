@@ -86,7 +86,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
                 defaultMessage='Verify Your Device'
               />
             </Text>
-            <Text color='black' size='16px' weight={500} lineHeight='24px'>
+            <Text color='black' size='16px' weight={400} lineHeight='24px'>
               <FormattedMessage
                 id='scenes.authorizelogin.verify'
                 defaultMessage='We noticed a login attempt recently originating from a different browser or device.  If this was you, verify the login attempt.'

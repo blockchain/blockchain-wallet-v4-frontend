@@ -479,9 +479,6 @@ const buySellSlice = createSlice({
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
-    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
-      state.fiatCurrency = action.payload
-    },
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
       state.googlePayInfo = action.payload
     },

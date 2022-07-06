@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 import { addMinutes, getUnixTime } from 'date-fns'
 
 import { Remote } from '@core'
@@ -15,12 +16,12 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import { DeepLinkGoal } from 'data/types'
 
 import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
+import { CheckboxWrapper } from '../Buy/cta'
 import { Props as OwnProps } from '.'
 
 const CTA: React.FC<Props> = ({
@@ -35,18 +36,18 @@ const CTA: React.FC<Props> = ({
   formValues,
   isAuthenticated,
   isInvited,
-  maxOfferPossible,
   needsWrap,
   nftActions,
   offerFees,
   orderFlow,
   selfCustodyBalance,
+  standardMaxOfferPossible,
   wrapFees
 }) => {
   const { fees, isSubmitting, userHasPendingTxR } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
   const userHasPendingTx = userHasPendingTxR.getOrElse(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
-
   const disabled =
     !formValues.amount ||
     Number(formValues.amount) <= 0 ||
@@ -58,13 +59,11 @@ const CTA: React.FC<Props> = ({
   const toggleTermsAccepted = () => {
     setTermsAccepted(!termsAccepted)
   }
-
   const acceptTerms = () => {
     setTermsAccepted(true)
   }
 
   const { coin } = formValues
-
   if (!isAuthenticated)
     return (
       <LinkContainer
@@ -99,30 +98,18 @@ const CTA: React.FC<Props> = ({
                   style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   The max you can offer from this wallet is&nbsp;
-                  <CoinDisplay
+                  <Text
                     size='12px'
                     weight={600}
                     color='blue600'
                     style={{ cursor: 'pointer' }}
-                    role='button'
-                    coin={formValues.coin || 'WETH'}
                     onClick={() => {
                       formActions.change('nftMakeOffer', 'fix', 'CRYPTO')
-                      formActions.change(
-                        'nftMakeOffer',
-                        'amount',
-                        Number(
-                          convertCoinToCoin({
-                            baseToStandard: true,
-                            coin,
-                            value: Math.max(maxOfferPossible.toNumber(), 0)
-                          })
-                        ).toFixed(Math.min(8, window.coins[coin].coinfig.precision))
-                      )
+                      formActions.change('nftMakeOffer', 'amount', standardMaxOfferPossible)
                     }}
                   >
-                    {Math.max(maxOfferPossible.toNumber(), 0)}
-                  </CoinDisplay>
+                    {standardMaxOfferPossible} {formValues.coin}
+                  </Text>
                 </Text>
               </div>
             </>
@@ -139,7 +126,7 @@ const CTA: React.FC<Props> = ({
         </Text>
       ) : null}
       {disabled ? null : (
-        <div style={{ display: 'flex' }}>
+        <CheckboxWrapper termsAccepted={termsAccepted}>
           {' '}
           <div style={{ padding: '1.2em 0em' }}>
             <CheckBoxInput
@@ -164,7 +151,7 @@ const CTA: React.FC<Props> = ({
               </Link>
             </Text>
           </label>
-        </div>
+        </CheckboxWrapper>
       )}
       {needsWrap && !canWrap ? (
         <Button disabled rounded nature='dark' fullwidth data-e2e='notEnoughEth'>
@@ -185,20 +172,34 @@ const CTA: React.FC<Props> = ({
             fullwidth
             data-e2e='makeOfferNft'
             disabled={disabled || !termsAccepted}
-            onClick={() =>
-              nftActions.createOffer({
-                amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
-                asset,
-                expirationTime: getUnixTime(
-                  addMinutes(new Date(), parseInt(formValues.expirationMinutes))
-                ),
-                offerFees,
-                wrapFees,
-                ...formValues
-              })
-            }
+            onClick={() => {
+              if (IS_SHARED_STOREFRONT) {
+                nftActions.createOffer_LEGACY({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues
+                })
+              } else {
+                nftActions.createOffer({
+                  amtToWrap: amtToWrap.isGreaterThan(0) ? amtToWrap.toString() : '',
+                  asset,
+                  expirationTime: getUnixTime(
+                    addMinutes(new Date(), parseInt(formValues.expirationMinutes))
+                  ),
+                  offerFees,
+                  wrapFees,
+                  ...formValues,
+                  amount: cryptoAmt
+                })
+              }
+            }}
           >
-            {formValues.amount && Number(formValues.amount) > 0 ? (
+            {cryptoAmt && Number(cryptoAmt) > 0 ? (
               orderFlow.isSubmitting ? (
                 <>
                   {orderFlow.status &&
@@ -210,7 +211,15 @@ const CTA: React.FC<Props> = ({
                         </div>
                       </>
                     ) : (
-                      <>{orderFlow.status}</>
+                      <FormattedMessage
+                        id='copy.make_offer_value'
+                        defaultMessage={
+                          !needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'
+                        }
+                        values={{
+                          val: `${cryptoAmt} ${formValues.coin}`
+                        }}
+                      />
                     ))}
                 </>
               ) : (
@@ -218,7 +227,7 @@ const CTA: React.FC<Props> = ({
                   id='copy.make_offer_value'
                   defaultMessage={!needsWrap ? 'Make an Offer for {val}' : 'Wrap ETH & Make Offer'}
                   values={{
-                    val: `${formValues.amount} ${formValues.coin}`
+                    val: `${cryptoAmt} ${formValues.coin}`
                   }}
                 />
               )
@@ -239,10 +248,10 @@ type Props = OwnProps & {
   canWrap: boolean
   cryptoAmt: string
   custodialBalance: any
-  maxOfferPossible: BigNumber
   needsWrap: boolean
   offerFees: GasDataI
   selfCustodyBalance: any
+  standardMaxOfferPossible: number
   wrapFees: GasDataI
 }
 
