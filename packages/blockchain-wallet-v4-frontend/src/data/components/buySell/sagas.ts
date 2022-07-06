@@ -434,7 +434,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         // pause the while loop here until if/when the quote expires again, then refresh the order
         yield take(A.fetchBuyQuoteSuccess)
-        // need to get curren step and break if not checkout confirm
+        // need to get current step and break if not checkout confirm
         // usually happens when the user goes back to the enter amount form
         const currentStep = S.getStep(yield select())
         if (currentStep !== 'CHECKOUT_CONFIRM') {
@@ -455,36 +455,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const error: number | string = errorHandlerCode(e)
 
-      const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT, BS_ERROR.NO_AMOUNT]
-      // After CC has been activated we try to create an order
-      // If order creation fails go back to ENTER_AMOUNT step
-      // Wait for the form to be INITIALIZED and display err
-      const step = S.getStep(yield select())
-      if (step !== 'ENTER_AMOUNT') {
-        const pair = S.getBSPair(yield select())
-        const method = S.getBSPaymentMethod(yield select())
-        const from = S.getSwapAccount(yield select())
-        // If user doesn't enter amount into checkout
-        // they are redirected back to checkout screen
-        // ensures newly linked bank account is fetched
-        yield call(fetchBankTransferAccounts)
-        if (pair) {
-          yield put(
-            A.setStep({
-              cryptoCurrency: getCoinFromPair(pair.pair),
-              fiatCurrency: getFiatFromPair(pair.pair),
-              method,
-              orderType: values?.orderType,
-              pair,
-              step: 'ENTER_AMOUNT',
-              swapAccount: from
-            })
-          )
-          yield take(A.initializeCheckout.type)
-          yield delay(3000)
-          yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
-        }
-      }
+      yield call(fetchBankTransferAccounts)
+
+      const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
 
       if (!skipErrorDisplayList.includes(error as BS_ERROR)) {
         yield put(A.createOrderFailure(e))
