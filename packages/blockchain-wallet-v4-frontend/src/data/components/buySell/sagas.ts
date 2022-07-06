@@ -24,7 +24,6 @@ import {
   OrderType,
   ProductTypes,
   SwapOrderType,
-  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
@@ -56,6 +55,7 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   BS_ERROR,
   CARD_ERROR_CODE,
+  CARD_ORDER_POLLING,
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
   FORM_BS_CANCEL_ORDER,
@@ -68,7 +68,7 @@ import {
   GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
   ORDER_ERROR_CODE,
-  POLLING,
+  ORDER_POLLING,
   SDD_TIER
 } from './model'
 import * as S from './selectors'
@@ -515,10 +515,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
-    if (order.paymentError) {
-      throw new Error(order.paymentError)
-    }
-
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
     }
@@ -526,20 +522,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
-  const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
-    const { RETRY_AMOUNT, SECONDS } = POLLING
-    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, orderConfirmCheck, payload.id)
+  const confirmOrderPoll = function* (
+    { payload }: ReturnType<typeof A.confirmOrderPoll>,
+    { RETRY_AMOUNT, SECONDS }: { RETRY_AMOUNT: number; SECONDS: number } = {
+      RETRY_AMOUNT: ORDER_POLLING.RETRY_AMOUNT,
+      SECONDS: ORDER_POLLING.SECONDS
+    }
+  ) {
+    const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
-    if (
-      confirmedOrder.paymentError ||
-      confirmedOrder.state === 'FAILED' ||
-      confirmedOrder.state === 'CANCELED'
-    ) {
+    if (confirmedOrder.paymentError) {
       throw new Error(confirmedOrder.paymentError)
     }
 
-    yield put(A.confirmOrderSuccess(confirmedOrder))
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
 
@@ -722,16 +718,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         freshOrder.paymentType === BSPaymentTypes.BANK_TRANSFER &&
         account?.partner === BankPartners.YAPILY
       ) {
-        const { RETRY_AMOUNT, SECONDS } = POLLING
+        const { RETRY_AMOUNT, SECONDS } = ORDER_POLLING
         // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
-        const order = yield retry(
-          RETRY_AMOUNT,
-          SECONDS * 1000,
-          checkOrderAuthUrl,
-          confirmedOrder.id
-        )
+        const order = yield retry(RETRY_AMOUNT, SECONDS, checkOrderAuthUrl, confirmedOrder.id)
         // Refresh the tx list in the modal background
         yield put(A.fetchOrders())
 
@@ -739,6 +730,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
         // Now we need to poll for the order success
+
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
 
@@ -757,12 +749,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state !== 'FINISHED') {
-          yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
-        } else {
-          yield put(A.confirmOrderSuccess(confirmedOrder))
-
-          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          try {
+            yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
+          } catch (e) {
+            // exhausted the retry attempts, so just show the order summary
+          }
         }
+
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
@@ -1491,8 +1487,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
   }
 
-  const initializeCheckout = function* ({ payload }: ReturnType<typeof A.initializeCheckout>) {
-    const { account, amount, cryptoAmount, fix, orderType, period } = payload
+  const initializeCheckout = function* ({
+    payload: { account, amount, cryptoAmount, fix, orderType, period }
+  }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
       const fiatCurrency = S.getFiatCurrency(yield select())

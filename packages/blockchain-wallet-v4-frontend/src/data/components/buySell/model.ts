@@ -27,9 +27,14 @@ export const DEFAULT_BS_METHODS = {
   methods: []
 }
 
-export const POLLING = {
+export const ORDER_POLLING = {
   RETRY_AMOUNT: 30,
-  SECONDS: 10
+  SECONDS: 10000
+}
+
+export const CARD_ORDER_POLLING = {
+  RETRY_AMOUNT: 10,
+  SECONDS: 5000
 }
 
 export const LIMIT = { max: '10000', min: '500' } as Limits
