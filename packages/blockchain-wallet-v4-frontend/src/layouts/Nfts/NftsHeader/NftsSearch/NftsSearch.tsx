@@ -88,9 +88,9 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
   const isTablet = useMedia('tablet')
   const [isActive, setIsActive] = useState(false)
 
-  const handleInputChange = (e: any, meta: any) => {
-    if (meta.action === 'input-change') {
-      setInput(e)
+  const handleInputChange = (value: any, actionMeta: any) => {
+    if (actionMeta.action === 'input-change') {
+      setInput(value)
     }
   }
 
@@ -202,7 +202,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
             filterOption={() => true}
             onChange={(e) => handleSelect(e)}
             inputValue={input}
-            onInputChange={(e, meta) => handleInputChange(e, meta)}
+            onInputChange={(value, actionMeta) => handleInputChange(value, actionMeta)}
             noOptionsMessage={() => null}
             isLoading={Remote.Loading.is(nftSearch)}
             placeholder='Collections or items'
