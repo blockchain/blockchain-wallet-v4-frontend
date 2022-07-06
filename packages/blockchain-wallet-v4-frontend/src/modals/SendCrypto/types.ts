@@ -6,6 +6,7 @@ export type SendFormType = {
   coin: string
   fee: BuildTxFeeType
   fix: 'CRYPTO' | 'FIAT'
+  memo?: string
   selectedAccount: SwapAccountType
   to: string
 }

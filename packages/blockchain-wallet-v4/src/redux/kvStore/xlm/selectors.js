@@ -5,7 +5,8 @@ import { XLM } from '../config'
 
 export const getMetadata = path([kvStorePath, XLM])
 
-export const getAccounts = (state) => getMetadata(state).map(path(['value', 'accounts']))
+export const getAccounts = (state) =>
+  getMetadata(state).map((x) => [path(['value', 'accounts', 0])(x)])
 
 export const getDefaultAccountIndex = (state) =>
   getMetadata(state).map(path(['value', 'default_account_idx']))

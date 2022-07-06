@@ -11,6 +11,7 @@ export const languages: Array<Language> = [
   { language: 'es-la', name: 'Español (Latinoamérica)' },
   { language: 'fr', name: 'Français' },
   { language: 'pt', name: 'Português' },
+  { language: 'pt-br', name: 'Português (Brasil)' },
   { language: 'ru', name: 'Русский' },
   { language: 'tr', name: 'Türkçe' }
 ]
@@ -95,16 +96,16 @@ export const loadLocaleData = (locale, callback) => {
         'i18n-pt'
       )
       break
-    case 'pt-BR':
+    case 'pt-br':
       require.ensure(
         [
           'date-fns/locale/pt-BR',
           '@formatjs/intl-relativetimeformat/locale-data/pt.js',
-          '../../assets/locales/pt-BR.json'
+          '../../assets/locales/pt-br.json'
         ],
         (require) => {
           require('date-fns/locale/pt-BR')
-          setLocaleData(require('../../assets/locales/pt-BR.json'))
+          setLocaleData(require('../../assets/locales/pt-br.json'))
         },
         'i18n-pt-BR'
       )

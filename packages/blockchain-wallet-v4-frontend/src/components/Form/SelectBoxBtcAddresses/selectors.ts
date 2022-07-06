@@ -181,8 +181,8 @@ export const getData = (
                 x
               )
             )
-    ]).map(([b1, b2, b3, b4]) => {
-      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4] : [b1, b2, b3, b4]
+    ]).map(([b1, b2, b3, b4, b5]) => {
+      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
       // @ts-ignore
       const data = reduce(concat, [], orderArray) as array
 

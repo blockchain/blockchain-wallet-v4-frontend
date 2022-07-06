@@ -2,16 +2,17 @@ import { lift } from 'ramda'
 
 import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { getBalanceSelector, getErc20Balance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
+    (state) => selectors.components.interest.getInterestEligible(state),
+    (state) => selectors.components.interest.getInterestRate(state),
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
     (state) => state
   ],
-  (coinPricesR, coinPricesPreviousR, state) => {
+  (interestEligibleR, interestRateR, coinPricesR, coinPricesPreviousR, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
@@ -25,17 +26,19 @@ export const getData = createDeepEqualSelector(
         const marketCap = coinPrices[coinfig.symbol]?.marketCap
           ? coinPrices[coinfig.symbol]?.marketCap
           : 0
-        const coinBalance = getBalanceSelector(coinfig.symbol)(state).getOrElse(0).valueOf()
+        const coinBalance = selectors.balances
+          .getCoinTotalBalance(coinfig.symbol)(state)
+          .getOrElse(0)
+          .valueOf()
         const priceChangeNum = Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100)
         const priceChangeStr = Number.isNaN(priceChangeNum) ? '0' : priceChangeNum.toPrecision(2)
 
         return {
-          balance:
-            coinfig.type.name === 'ERC20'
-              ? getErc20Balance(coinfig.symbol)(state).getOrElse(0)
-              : coinBalance,
+          balance: coinBalance,
           coin: coinfig.symbol,
           coinModel: coin,
+          interestEligible: interestEligibleR.getOrElse({}),
+          interestRate: interestRateR.getOrElse({}),
           marketCap,
           name: `${coinfig.name} (${coinfig.displaySymbol})`,
           price: currentPrice,

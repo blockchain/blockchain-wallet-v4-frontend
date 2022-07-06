@@ -6,7 +6,6 @@ import * as sendBtc from './sendBtc/model'
 import * as sendEth from './sendEth/model'
 import * as sendXlm from './sendXlm/model'
 import * as termsAndConditions from './termsAndConditions/model'
-import * as walletConnect from './walletConnect/model'
 
 export {
   buySell,
@@ -16,6 +15,5 @@ export {
   sendBtc,
   sendEth,
   sendXlm,
-  termsAndConditions,
-  walletConnect
+  termsAndConditions
 }

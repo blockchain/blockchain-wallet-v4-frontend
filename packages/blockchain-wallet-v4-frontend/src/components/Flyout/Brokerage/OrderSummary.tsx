@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { intervalToDuration } from 'date-fns'
+import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
-import { BSOrderStateType, BSPaymentTypes, OrderType } from '@core/types'
+import {
+  BSOrderStateType,
+  BSPaymentTypes,
+  InterestEligibleType,
+  InterestRateType,
+  OrderType
+} from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { duration } from 'components/Flyout'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import Container from '../Container'
 import Content from '../Content'
@@ -33,7 +43,7 @@ const IconWrapper = styled.div`
   justify-content: center;
 `
 const TitleWrapper = styled(Text)`
-  padding: 32px 0 24px 0;
+  padding: 2rem 0 1.5rem 0;
   width: 100%;
 `
 const BottomInfo = styled(Bottom)`
@@ -48,10 +58,23 @@ const BottomPromo = styled.div`
   justify-content: flex-end;
   flex-direction: column;
   height: 180px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
+`
+
+const SecondaryInfoText = styled.div`
+  margin-top: 1.5rem;
+`
+
+const StyledDoneButton = styled(Button)`
+  margin-top: 1rem;
+`
+
+const StyledEarnButton = styled(Button)`
+  margin-top: 1.5rem;
 `
 
 const OrderSummary: React.FC<Props> = ({
+  analyticsActions,
   baseAmount,
   baseCurrency,
   children,
@@ -61,6 +84,9 @@ const OrderSummary: React.FC<Props> = ({
   handleClose,
   handleCompleteButton,
   handleOkButton,
+  interestActions,
+  interestEligible,
+  interestRate,
   lockTime,
   orderState,
   orderType,
@@ -73,6 +99,41 @@ const OrderSummary: React.FC<Props> = ({
   const isTransactionPending = isPendingDeposit && paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
+
+  // Getting the interest rate for the coin that was bought
+  const coinInterestRate = !!interestRate[outputCurrency] && interestRate[outputCurrency]
+
+  const isInterestEligibleCoin = useMemo(
+    () =>
+      !isEmpty(interestEligible) &&
+      orderState === 'FINISHED' &&
+      interestEligible[outputCurrency] &&
+      interestEligible[outputCurrency]?.eligible,
+    [interestEligible, outputCurrency, orderState]
+  )
+
+  const handleEarnRewardsButton = useCallback(() => {
+    handleClose()
+    setTimeout(() => {
+      interestActions.showInterestModal({
+        coin: outputCurrency,
+        step: 'ACCOUNT_SUMMARY'
+      })
+    }, duration)
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_BUY_EARN_REWARDS_CLICKED,
+      properties: {}
+    })
+  }, [outputCurrency, handleClose])
+
+  useEffect(() => {
+    if (isInterestEligibleCoin) {
+      analyticsActions.trackEvent({
+        key: Analytics.WALLET_BUY_EARN_REWARDS_VIEWED,
+        properties: {}
+      })
+    }
+  }, [outputCurrency])
 
   return (
     <Container>
@@ -133,13 +194,27 @@ const OrderSummary: React.FC<Props> = ({
 
             <Text size='14px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
               {orderState === 'FINISHED' && (
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.available1'
-                  defaultMessage='Your {coin} is now available in your Trading Account.'
-                  values={{
-                    coin: baseCurrency
-                  }}
-                />
+                <>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.available1'
+                    defaultMessage='Your {coin} is now available in your Trading Account.'
+                    values={{
+                      coin: baseCurrency
+                    }}
+                  />
+
+                  {isInterestEligibleCoin && (
+                    <SecondaryInfoText>
+                      <FormattedMessage
+                        id='copy.swap_earn_paragraph'
+                        defaultMessage="Don't keep it waiting, earn up to {rate}% on it with our Rewards Program"
+                        values={{
+                          rate: coinInterestRate
+                        }}
+                      />
+                    </SecondaryInfoText>
+                  )}
+                </>
               )}
               {orderState === 'FAILED' && (
                 <>
@@ -271,17 +346,44 @@ const OrderSummary: React.FC<Props> = ({
       <Footer collapsed>
         {children && <BottomPromo>{children}</BottomPromo>}
 
-        {orderType === 'BUY' && orderState !== 'FAILED' && (
-          <Button
-            fullwidth
-            data-e2e='sbDone'
-            size='16px'
-            height='48px'
-            nature='primary'
-            onClick={handleOkButton}
-          >
-            <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-          </Button>
+        {!isInterestEligibleCoin ? (
+          orderType === 'BUY' &&
+          orderState !== 'FAILED' && (
+            <Button
+              fullwidth
+              data-e2e='sbDone'
+              size='16px'
+              height='48px'
+              nature='primary'
+              onClick={handleOkButton}
+            >
+              <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+            </Button>
+          )
+        ) : (
+          <>
+            <StyledEarnButton
+              data-e2e='swapEarn'
+              nature='primary'
+              fullwidth
+              jumbo
+              onClick={handleEarnRewardsButton}
+            >
+              <FormattedMessage
+                id='modals.tradinglimits.earn_interest'
+                defaultMessage='Earn Rewards'
+              />
+            </StyledEarnButton>
+            <StyledDoneButton
+              data-e2e='swapDone'
+              nature='white-blue'
+              fullwidth
+              jumbo
+              onClick={handleOkButton}
+            >
+              <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+            </StyledDoneButton>
+          </>
         )}
       </Footer>
     </Container>
@@ -289,6 +391,7 @@ const OrderSummary: React.FC<Props> = ({
 }
 
 export type Props = {
+  analyticsActions: typeof actions.analytics
   baseAmount: string
   baseCurrency: string
   children?: React.ReactNode
@@ -298,6 +401,9 @@ export type Props = {
   handleClose: () => void
   handleCompleteButton?: () => void
   handleOkButton: () => void
+  interestActions: typeof actions.components.interest
+  interestEligible: InterestEligibleType
+  interestRate: InterestRateType['rates']
   lockTime: number
   orderState: BSOrderStateType
   orderType: OrderType

@@ -7,8 +7,7 @@ import {
   AuthMagicLink,
   LoginSteps,
   MobileAuthConnectedMessage,
-  MobileAuthExchangeMessage,
-  MobileAuthWalletMergeMessage,
+  MobileMessageTypes,
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
@@ -34,10 +33,7 @@ const pollForMessageFromMobile = () => {
 }
 
 // sends messages to mobile clients based on platform
-export const sendMessageToMobile = (
-  platform: PlatformTypes,
-  message: MobileAuthConnectedMessage | MobileAuthWalletMergeMessage | MobileAuthExchangeMessage
-) => {
+export const sendMessageToMobile = (platform: PlatformTypes, message: MobileMessageTypes) => {
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
 
@@ -123,6 +119,7 @@ export const initMobileWalletAuthFlow = function* () {
       yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeData?.email))
       yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
       yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+      yield put(actions.form.change(LOGIN_FORM, 'exchangeUnifiedGuid', walletData?.guid))
       yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
       yield put(
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_MERGE)

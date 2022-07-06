@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { mergeAll } from 'ramda'
 import { css } from 'styled-components'
 
@@ -129,13 +129,15 @@ export const media = Object.keys(sizes).reduce((acc, label) => {
 }, {}) as MediaServiceType
 
 export function useMedia(size: Sizes): boolean {
-  const getSize = () => {
-    if (window.innerWidth <= sizes[size]) {
-      return true
-    }
+  const getSize = useMemo(() => {
+    return () => {
+      if (window.innerWidth <= sizes[size]) {
+        return true
+      }
 
-    return false
-  }
+      return false
+    }
+  }, [size])
 
   const [isSize, setIsSize] = useState(getSize())
 

@@ -67,6 +67,7 @@ import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
+import terminateCard from './img/debitCard/terminate-card.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -136,7 +137,6 @@ import visaLogo from './img/visa-logo.svg'
 import wallet from './img/wallet.svg'
 import walletGrayscale from './img/wallet-grayscale.svg'
 import walletNoBackground from './img/wallet-no-background.svg'
-import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import whiteVerified from './img/white-verified.svg'
 import withdrawBlueCircle from './img/withdraw-blue-circle.svg'
@@ -278,6 +278,7 @@ const Images = {
   'swap-blue': swapBlue,
   'swap-success': swapSuccess,
   'swap-white': swapWhite,
+  'terminate-card': terminateCard,
   'tier-gold': tierGold,
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
@@ -285,7 +286,6 @@ const Images = {
   wallet,
   'wallet-grayscale': walletGrayscale,
   'wallet-no-background': walletNoBackground,
-  'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'white-verified': whiteVerified,
   'withdraw-blue-circle': withdrawBlueCircle,

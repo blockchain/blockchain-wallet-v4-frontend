@@ -13,16 +13,19 @@ import { TransactionListItemComponent } from './TransactionListItem.types'
 
 const TransactionListItem: TransactionListItemComponent = ({ coin, transaction }) => {
   const currency = useCurrency()
-  const coinfig = useCoinConfig({
+
+  const { data: coinfig } = useCoinConfig({
     coin
   })
+
+  if (!coinfig) return null
 
   return 'processingErrorType' in transaction ? null : 'hash' in transaction ? (
     <NonCustodialTxListItem
       key={transaction.hash}
       transaction={transaction}
       coin={coin}
-      coinTicker={coinfig.symbol}
+      coinTicker={coinfig?.symbol}
       currency={currency}
     />
   ) : 'priceFunnel' in transaction ? (

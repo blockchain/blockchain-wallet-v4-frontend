@@ -16,6 +16,7 @@ import {
   LoginPayloadType,
   LoginSuccessType,
   MagicLinkRequestPayloadType,
+  MobileAuthLoginPayloadType,
   PlatformTypes,
   ProductAuthMetadata,
   ProductAuthOptions
@@ -124,6 +125,7 @@ const authSlice = createSlice({
     ) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
+    sendLoginMessageToMobile: () => {},
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
       state.accountUnificationFlow = action.payload
     },
@@ -135,6 +137,12 @@ const authSlice = createSlice({
       action: PayloadAction<AuthStateType['exchangeAuth']['exchangeAccountConflict']>
     ) => {
       state.exchangeAuth.exchangeAccountConflict = action.payload
+    },
+    setExchangeAccountCreationFailure: (
+      state,
+      action: PayloadAction<AuthStateType['exchangeAuth']['exchangeAccountFailure']>
+    ) => {
+      state.exchangeAuth.exchangeAccountFailure = action.payload
     },
     setJwtToken: (state, action: PayloadAction<AuthStateType['exchangeAuth']['jwtToken']>) => {
       state.exchangeAuth.jwtToken = action.payload

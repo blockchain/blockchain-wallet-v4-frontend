@@ -10,20 +10,17 @@ import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { Title } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import SelectBox from 'components/Form/SelectBox'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { orderFromJSON } from 'data/components/nfts/utils'
 import { useRemote } from 'hooks'
 
-import { RightAlign, StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
@@ -43,7 +40,7 @@ const Buy: React.FC<Props> = (props) => {
     walletCurrency
   } = props
   const { amount, coin, fix } = formValues
-  const { orderToMatch } = orderFlow
+  const { seaportOrder } = orderFlow
 
   const cryptoAmt =
     fix === 'FIAT'
@@ -55,15 +52,12 @@ const Buy: React.FC<Props> = (props) => {
           value: amount
         })
       : amount
-  const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
-    new BigNumber(0),
-    new BigNumber(0)
-  ])
+  const [selfCustodyBalance] = ethBalancesR.getOrElse([new BigNumber(0), new BigNumber(0)])
 
   const openSeaAsset = useRemote(() => openSeaAssetR)
   const sellOrders =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 1
+    openSeaAsset.data?.seaport_sell_orders?.filter((x) => {
+      return x.side === 'ask'
     }) || []
   const lowest_order = sellOrders.sort((a, b) =>
     new BigNumber(a?.current_price).isLessThan(b?.current_price) ? -1 : 1
@@ -84,11 +78,11 @@ const Buy: React.FC<Props> = (props) => {
     <>
       {openSeaAssetR.cata({
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader />,
+        Loading: () => <NftFlyoutLoader close={props.close} />,
         NotAsked: () => null,
-        Success: (val) => {
+        Success: (asset) => {
           if (
-            val.collection.safelist_request_status !== 'verified' &&
+            asset.collection.safelist_request_status !== 'verified' &&
             orderFlow.prevStep !== NftOrderStepEnum.BUY
           ) {
             nftActions.setOrderFlowPrevStep({ prevStep: NftOrderStepEnum.BUY })
@@ -107,8 +101,8 @@ const Buy: React.FC<Props> = (props) => {
                 }}
               >
                 <div style={{ height: '100%' }}>
-                  <NftAssetHeaderRow asset={val} />
-                  <Row>
+                  <NftAssetHeaderRow asset={asset} />
+                  <NftFlyoutRow>
                     <Title>
                       <b>
                         <FormattedMessage id='copy.buy_with' defaultMessage='Buy With' />
@@ -124,7 +118,7 @@ const Buy: React.FC<Props> = (props) => {
 
                           nftActions.fetchFees({
                             operation: GasCalculationOperations.Buy,
-                            order: orderFromJSON(orderToMatch),
+                            order: seaportOrder!,
                             paymentTokenAddress: address
                           })
                         }}
@@ -132,7 +126,7 @@ const Buy: React.FC<Props> = (props) => {
                         elements={[
                           {
                             group: '',
-                            items: val.collection.payment_tokens
+                            items: asset.collection.payment_tokens
                               .map((token) => token.symbol)
                               .filter((symbol) => !!window.coins[symbol])
                               .filter((symbol) => !window.coins[symbol].coinfig.type.erc20Address)
@@ -144,41 +138,34 @@ const Buy: React.FC<Props> = (props) => {
                         ]}
                       />
                     </Value>
-                  </Row>
-                  {orderToMatch ? (
-                    <Row>
+                  </NftFlyoutRow>
+                  {seaportOrder ? (
+                    <NftFlyoutRow>
                       <Flex alignItems='center' justifyContent='space-between'>
                         <Text color='black' weight={600} size='20px'>
                           <FormattedMessage id='copy.total' defaultMessage='Total' />
                         </Text>
                         <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-                          <CoinDisplay
-                            size='14px'
-                            color='black'
-                            weight={600}
-                            coin={orderToMatch?.payment_token_contract?.symbol}
-                          >
-                            {orderToMatch?.current_price}
+                          {/* TODO: SEAPORT */}
+                          <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                            {seaportOrder?.current_price}
                           </CoinDisplay>
-                          <FiatDisplay
-                            size='12px'
-                            color='grey600'
-                            weight={600}
-                            coin={orderToMatch?.payment_token_contract?.symbol}
-                          >
-                            {orderToMatch?.current_price}
+                          {/* TODO: SEAPORT */}
+                          <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
+                            {seaportOrder?.current_price}
                           </FiatDisplay>
                         </Flex>
                       </Flex>
-                    </Row>
+                    </NftFlyoutRow>
                   ) : null}
                 </div>
               </div>
               <StickyCTA>
-                <BuyFees {...props} />
+                <BuyFees {...props} asset={asset} />
                 <br />
                 <BuyCta
                   {...props}
+                  asset={asset}
                   amount={cryptoAmt}
                   amtToBuy={amtToBuy}
                   maxBuyPossible={maxBuyPossible}
@@ -197,7 +184,7 @@ const mapStateToProps = (state) => ({
     // @ts-ignore
     selectors.form.getFormValues('nftBuy')(state)?.coin || 'WETH'
   ),
-  ethBalancesR: getEthBalances(state),
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string
     coin: string

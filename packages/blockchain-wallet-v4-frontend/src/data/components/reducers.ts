@@ -28,7 +28,6 @@ import { taxCenterReducer } from './taxCenter/slice'
 import { reducer as termsAndConditions } from './termsAndConditions/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
-import { walletConnectReducer as walletConnect } from './walletConnect/slice'
 import { withdrawReducer as withdraw } from './withdraw/slice'
 
 const componentReducer = combineReducers({
@@ -60,7 +59,6 @@ const componentReducer = combineReducers({
   termsAndConditions,
   uploadDocuments,
   veriff,
-  walletConnect,
   withdraw
 })
 

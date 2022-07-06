@@ -26,7 +26,7 @@ const Wrapper = styled(Text)`
 const NftOrderNotVerified: React.FC<Props> = (props) => {
   const { close, nftActions, openSeaAssetR, orderFlow } = props
   const openSeaAsset = useRemote(() => openSeaAssetR)
-  if (openSeaAsset.isLoading) return <NftFlyoutLoader />
+  if (openSeaAsset.isLoading) return <NftFlyoutLoader close={props.close} />
   if (openSeaAsset.error)
     return <NftFlyoutFailure error={openSeaAsset.error || ''} close={props.close} />
 

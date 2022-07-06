@@ -37,12 +37,13 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createPayload = (email, captchaToken, data) =>
+  const createPayload = (email, captchaToken, forceVerifyEmail, data) =>
     post({
       data: mergeRight(
         {
           captcha: captchaToken,
           email,
+          force: forceVerifyEmail,
           format: 'plain',
           method: 'insert',
           siteKey: window.CAPTCHA_KEY

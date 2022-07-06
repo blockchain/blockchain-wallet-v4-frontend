@@ -55,10 +55,6 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
 
-// on hold funds feature flag
-export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
-
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
@@ -90,13 +86,6 @@ export const getAddStripePaymentProvider = (state: RootState) =>
 export const getUseNewPaymentProviders = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
 
-export const getFlexiblePricingModel = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
-
-// show/hide wallet connect
-export const getWalletConnectEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
-
 export const getHotWalletAddresses = (state: RootState, product: Product) =>
   getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
 
@@ -104,17 +93,9 @@ export const getHotWalletAddresses = (state: RootState, product: Product) =>
 export const getCompleteYourProfile = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
 
-// show/hide trading currency flyout
-export const getTradingCurrency = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))
-
 // show/hide wallet debit card
 export const getWalletDebitCardEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletDebitCardEnabled']))
-
-// show/hide wallet tax center
-export const getTaxCenterEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'taxCenter']))
 
 // use new institutional portal app
 export const getInstitutionalPortalEnabled = (state: RootState) =>
@@ -134,3 +115,24 @@ export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
 
 export const getNftExplorer = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))
+
+// enable/disable BIND integration (AR)
+export const getBindIntegrationArEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
+
+// check for rewards flow under swap Feature Flag
+export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsFlowUnderSwapEnabled']))
+
+// check for rewards promo banner to be enabled
+export const getRewardsPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
+
+// show referral signup input in sign up
+export const getReferralEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
+
+// show login button redirect for exchange mobile
+// will take user out of webview into native signin
+export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))

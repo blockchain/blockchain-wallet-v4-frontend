@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
 import { IconActivity } from '@blockchain-com/icons'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 

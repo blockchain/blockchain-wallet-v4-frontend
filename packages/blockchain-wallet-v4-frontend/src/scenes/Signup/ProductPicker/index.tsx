@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from '@core'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
-import { ExchangeAuthOriginType } from 'data/types'
+import { ExchangeAuthOriginType, PlatformTypes, ProductSignupMetadata } from 'data/types'
 
 import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
+import ExchangeMobileUserConflict from './template.error.exchangeMobile'
 
 const ProductPickerContainer: React.FC<Props> = (props) => {
+  const [showExchangeUserConflict, setExchangeUserConflict] = useState(false)
+
+  const isExchangeMobileSignup =
+    props.signupMetadata?.platform === PlatformTypes.ANDROID ||
+    props.signupMetadata?.platform === PlatformTypes.IOS
+
   const walletRedirect = () => {
     props.signupActions.setRegisterEmail(undefined)
     props.routerActions.push('/home')
@@ -21,19 +29,33 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   }
 
   const exchangeRedirect = () => {
-    props.signupActions.setRegisterEmail(undefined)
-    props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
+    if (props.exchangeUserConflict) {
+      setExchangeUserConflict(true)
+    } else {
+      props.signupActions.setRegisterEmail(undefined)
+      props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup)
+    }
   }
+  const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
 
   return props.walletLoginData.cata({
-    Failure: (error) => <Error error={error} />,
+    Failure: (error) =>
+      error === 4 && isExchangeMobileSignup ? (
+        <ExchangeMobileUserConflict {...props} />
+      ) : (
+        <Error error={error} />
+      ),
     Loading: () => <SpinningLoader />,
     NotAsked: () => {
+      if (isMetadataRecovery) {
+        props.routerActions.push('/home')
+        return null
+      }
       props.routerActions.push('/login?product=exchange')
       return null
     },
     Success: () =>
-      props.exchangeUserConflict ? (
+      showExchangeUserConflict ? (
         <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
       ) : (
         <ProductPicker
@@ -48,6 +70,11 @@ const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
+  isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  showExchangeLoginButton: selectors.core.walletOptions
+    .getExchangeMobileDuplicateAccountRedirect(state)
+    .getOrElse(false) as boolean,
+  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 

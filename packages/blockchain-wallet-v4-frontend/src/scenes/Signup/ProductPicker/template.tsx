@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -18,6 +19,11 @@ const ProductImageRow = styled.div`
   text-align: center;
   align-items: center;
   margin: 32px 0;
+  ${media.mobile`
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0;
+`}
 `
 const ProductImage = styled(Image)`
   margin: 0 1.5rem;
@@ -28,6 +34,12 @@ const ProductImage = styled(Image)`
     transform: scale(1.05);
     box-shadow: #000 0 8px 16px 8px, #000 0 2px 8px 2px;
   }
+  ${media.mobile`
+  flex-direction: column;
+  align-items: center;
+  height: 275px;
+  margin: 1rem 0;
+`}
 `
 const WhiteCircle = styled.div`
   display: flex;

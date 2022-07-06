@@ -12,12 +12,18 @@ import { SwapAccountType } from 'data/types'
 export type SendCryptoState = {
   initialCoin?: string
   isValidAddress: RemoteDataType<string, boolean>
-  prebuildTx: RemoteDataType<string, BuildTxResponseType>
+  prebuildTx: RemoteDataType<string, SharedBuildTxResponseType>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: SendCryptoStepType
   transaction: RemoteDataType<string, WithdrawResponseType>
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawalFeesAndMins: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
+}
+
+export type SharedBuildTxResponseType = {
+  preImages?: BuildTxResponseType['preImages']
+  rawTx?: BuildTxResponseType['rawTx']
+  summary: BuildTxResponseType['summary']
 }
 
 export type SendCryptoStepPayload = {

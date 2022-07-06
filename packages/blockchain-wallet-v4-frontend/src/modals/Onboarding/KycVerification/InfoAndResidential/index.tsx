@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -16,15 +15,6 @@ import Success from './template.success'
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  fetchData = () => {
-    this.props.identityVerificationActions.fetchSupportedCountries()
-    this.props.identityVerificationActions.fetchStates()
-  }
-
   handleSubmit = () => {
     const {
       analyticsActions,
@@ -53,9 +43,13 @@ class InfoAndResidential extends PureComponent<Props> {
     this.props.formActions.clearFields(INFO_AND_RESIDENTIAL_FORM, false, false, 'state')
   }
 
+  setDefaultState = (state: string) => {
+    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'state', state)
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <DataError onClick={this.fetchData} />,
+      Failure: () => <DataError />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => (
@@ -65,6 +59,7 @@ class InfoAndResidential extends PureComponent<Props> {
           onSubmit={this.handleSubmit}
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}
+          updateDefaultState={this.setDefaultState}
           initialValues={{
             ...val.userData
           }}
@@ -79,7 +74,8 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
     | InfoAndResidentialFormValuesType
-    | undefined
+    | undefined,
+  usState: selectors.core.settings.getUsState(state).getOrElse(null)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -96,7 +92,7 @@ export type OwnProps = {
   onCompletionCallback?: () => void
 }
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

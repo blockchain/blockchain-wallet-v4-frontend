@@ -10,7 +10,13 @@ import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { ModalName, NabuProducts, ProductEligibilityForUser } from 'data/types'
+import {
+  CustodialSanctionsEnum,
+  ModalName,
+  NabuProducts,
+  ProductEligibilityForUser
+} from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -234,8 +240,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       )
       yield put(actions.custodial.fetchRecentSwapTxs())
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
+      if (isNabuError(e)) {
+        yield put(actions.form.stopSubmit('previewSwap', { _error: e }))
+      } else {
+        const error = errorHandler(e)
+        yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
+      }
     }
   }
 
@@ -469,22 +479,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      custodialActions.fetchProductEligibilityForUserSuccess.type,
+      custodialActions.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      swap: { enabled: false, maxOrdersLeft: 0 }
+    } as ProductEligibilityForUser)
+
     // check is user eligible to do sell/buy
     // we skip this for gold users
     if (!isUserTier2 && !latestPendingOrder) {
-      yield put(actions.custodial.fetchProductEligibilityForUser())
-      yield take([
-        custodialActions.fetchProductEligibilityForUserSuccess.type,
-        custodialActions.fetchProductEligibilityForUserFailure.type
-      ])
-
-      const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-        swap: { enabled: false, maxOrdersLeft: 0 }
-      } as ProductEligibilityForUser)
-
-      const userCanBuyMore = products.swap?.maxOrdersLeft > 0
+      // in case that there are no maxOrdersLeft user can swap freely
+      const userCanSwapMore = !products.swap?.maxOrdersLeft || products.swap?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
-      if (!userCanBuyMore) {
+      if (!userCanSwapMore) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
             origin: 'BuySellInit'
@@ -494,6 +505,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
         return
       }
+    }
+
+    // show sanctions for sell
+    if (products?.swap?.reasonNotEligible) {
+      const message =
+        products.swap.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
+          ? products.swap.reasonNotEligible.message
+          : undefined
+      yield put(
+        actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
+          message,
+          origin: 'Swap'
+        })
+      )
+      yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+      return
     }
 
     if (latestPendingOrder) {

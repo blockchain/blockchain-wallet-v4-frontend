@@ -22,6 +22,11 @@ const INITIAL_STATE: ProfileState = {
 
 export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes): ProfileState {
   switch (action.type) {
+    case AT.CLEAR_PROFILE_STATE:
+      return {
+        ...state,
+        userData: Remote.NotAsked
+      }
     case AT.FETCH_USER_CAMPAIGNS_FAILURE:
       return {
         ...state,

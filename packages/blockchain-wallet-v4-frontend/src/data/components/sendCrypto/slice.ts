@@ -20,7 +20,8 @@ import {
   FetchSendLimitsPayload,
   SendCryptoState,
   SendCryptoStepPayload,
-  SendCryptoStepType
+  SendCryptoStepType,
+  SharedBuildTxResponseType
 } from './types'
 
 const initialState: SendCryptoState = {
@@ -46,6 +47,7 @@ const sendCryptoSlice = createSlice({
         destination: string
         fee: BuildTxFeeType
         fix: 'FIAT' | 'CRYPTO'
+        memo?: string
         rates: RatesType
         walletCurrency: keyof FiatCurrenciesType
       }>
@@ -56,7 +58,7 @@ const sendCryptoSlice = createSlice({
     buildTxLoading: (state) => {
       state.prebuildTx = Remote.Loading
     },
-    buildTxSuccess: (state, action: PayloadAction<BuildTxResponseType>) => {
+    buildTxSuccess: (state, action: PayloadAction<SharedBuildTxResponseType>) => {
       state.prebuildTx = Remote.Success(action.payload)
     },
     fetchSendLimits: (state, action: PayloadAction<FetchSendLimitsPayload>) => {},

@@ -1,13 +1,19 @@
 import React from 'react'
 import { colors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
+import styled from 'styled-components'
 
-import { NftAsset, RawOrder } from '@core/network/api/nfts/types'
+import { NftAsset, WyvernRawOrder } from '@core/network/api/nfts/types'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import { Row } from 'components/Flyout'
+
+const BorderRow = styled(Row)`
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+`
 
 const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
   const sellOrders =
@@ -19,7 +25,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
   )[0]
 
   return (
-    <Row>
+    <BorderRow>
       <Flex justifyContent='space-between'>
         <Flex>
           <img
@@ -30,7 +36,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
               width: 'fit-content'
             }}
             alt='nft-asset'
-            src={asset.image_url.replace(/=s\d*/, '')}
+            src={asset.image_url?.replace(/=s\d*/, '')}
           />
         </Flex>
         <Flex style={{ width: '100%' }} flexDirection='column' justifyContent='space-between'>
@@ -90,13 +96,13 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
           </Flex>
         </Flex>
       </Flex>
-    </Row>
+    </BorderRow>
   )
 }
 
 type Props = {
   asset: NftAsset
-  lowest_order?: RawOrder
+  lowest_order?: WyvernRawOrder
 }
 
 export default NftAssetHeaderRow

@@ -13,12 +13,13 @@ import {
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
+import { actions, actionTypes, model, selectors } from 'data'
+import { getBchBalance, getBtcBalance } from 'data/balances/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
+import { ProductEligibilityForUser } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -181,6 +182,13 @@ export default ({ api, coreSagas, networks }) => {
     )
 
     if (amount && crypto && email && fiatCurrency) {
+      // because of react router 'isFirstRendering' check
+      // push to /signup won't be saved on state, app
+      // will reroute to /login, skipping buy goal
+
+      // waiting for the firstRender of app before pushing
+      // route to signup
+      yield take(actionTypes.router.LOCATION_CHANGE)
       yield put(actions.router.push('/signup'))
     }
   }
@@ -236,18 +244,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineWalletConnectGoal = function* (search) {
-    // cant use URLSearchParams as it parses the oddly formed uri incorrectly
-    const walletConnectURI = search.split('?uri=')[1]
-    yield put(actions.goals.saveGoal({ data: walletConnectURI, name: 'walletConnect' }))
-  }
-
   const defineDeepLinkGoals = function* (pathname, search) {
-    // /#/open/wc?uri={wc_uri}
-    if (startsWith(DeepLinkGoal.WALLET_CONNECT, pathname)) {
-      return yield call(defineWalletConnectGoal, search)
-    }
-
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
       return yield call(defineMakeOfferNftGoal, search)
     }
@@ -440,7 +437,7 @@ export default ({ api, coreSagas, networks }) => {
 
       if (new Date() > new Date(paymentRequest.expires)) {
         return yield put(
-          actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
+          actions.modals.showModal(ModalName.BITPAY_INVOICE_EXPIRED_MODAL, {
             origin: 'PaymentProtocolGoal'
           })
         )
@@ -624,31 +621,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runWalletConnectGoal = function* (goal: GoalType) {
-    try {
-      const { data: uri, id } = goal
-      const walletConnectEnabled = (yield select(
-        selectors.core.walletOptions.getWalletConnectEnabled
-      )).getOrElse(false)
-      yield put(actions.goals.deleteGoal(id))
-      if (walletConnectEnabled) {
-        yield put(
-          actions.goals.addInitialModal({
-            data: {
-              origin,
-              uri
-            },
-            key: 'walletConnect',
-            name: ModalName.WALLET_CONNECT_MODAL
-          })
-        )
-      }
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.logs.logErrorMessage('goals', 'runWalletConnectGoal', error))
-    }
-  }
-
   const runSyncPitGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -741,7 +713,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
-        order: goal.data.order,
+        seaportOrder: goal.data.order,
         step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id
       })
@@ -826,13 +798,13 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
+      sanctionsNotice,
       swap,
       swapGetStarted,
       swapUpgrade,
       termsAndConditions,
       transferEth,
       upgradeForAirdrop,
-      walletConnect,
       welcomeModal
     } = initialModals
 
@@ -849,9 +821,6 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
-    }
-    if (walletConnect) {
-      return yield put(actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
@@ -872,6 +841,9 @@ export default ({ api, coreSagas, networks }) => {
       return yield put(
         actions.modals.showModal(kycUpgradeRequiredNotice.name, kycUpgradeRequiredNotice.data)
       )
+    }
+    if (sanctionsNotice) {
+      return yield put(actions.modals.showModal(sanctionsNotice.name, sanctionsNotice.data))
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
@@ -931,6 +903,34 @@ export default ({ api, coreSagas, networks }) => {
           data: { origin },
           key: 'kycUpgradeRequiredNotice',
           name: ModalName.VERIFY_NOTICE
+        })
+      )
+    }
+  }
+
+  const runSanctionsNoticeGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(fetchUser)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      actions.custodial.fetchProductEligibilityForUserSuccess.type,
+      actions.custodial.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      notifications: []
+    } as ProductEligibilityForUser)
+
+    if (products?.notifications?.length > 0) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'sanctionsNotice',
+          name: ModalName.SANCTIONS_INFO_MODAL
         })
       )
     }
@@ -1031,9 +1031,6 @@ export default ({ api, coreSagas, networks }) => {
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
           break
-        case 'walletConnect':
-          yield call(runWalletConnectGoal, goal)
-          break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
           break
@@ -1050,6 +1047,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'kycUpgradeRequiredNotice':
           yield call(runKycUpgradeRequiredNoticeGoal, goal)
+          break
+        case 'sanctionsNotice':
+          yield call(runSanctionsNoticeGoal, goal)
           break
         default:
           break
@@ -1083,6 +1083,7 @@ export default ({ api, coreSagas, networks }) => {
     // only for existing users
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
+      yield put(actions.goals.saveGoal({ data: {}, name: 'sanctionsNotice' }))
     }
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))

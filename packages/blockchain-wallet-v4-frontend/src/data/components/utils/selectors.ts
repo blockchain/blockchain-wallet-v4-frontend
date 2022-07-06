@@ -5,10 +5,12 @@ import {
   BSPaymentTypes,
   CoinfigType,
   ExtractSuccess,
-  SwapOrderType
+  SwapOrderType,
+  WalletFiatEnum
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 
 import { getOutputFromPair } from '../swap/model'
 
@@ -16,12 +18,14 @@ import { getOutputFromPair } from '../swap/model'
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO: SELF_CUSTODY, remove this
-  const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(state)
+  const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
+  const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  const fiatCurrencies = userData.currencies?.userFiatCurrencies || []
   // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
 
@@ -36,9 +40,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
     const coinOrder = [
       ...new Set([
-        'USD',
-        'EUR',
-        'GBP',
+        ...fiatCurrencies,
         'BTC',
         'ETH',
         'BCH',

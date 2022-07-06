@@ -11,11 +11,10 @@ import styled from 'styled-components'
 
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
-import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { Title } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
-import { Row, Value } from 'components/Flyout/model'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import NumberBox from 'components/Form/NumberBox'
 import SelectBox from 'components/Form/SelectBox'
@@ -25,11 +24,13 @@ import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
 
-import { StickyCTA } from '../../components'
+import { NftFlyoutRow, StickyCTA } from '../../components'
+import GreyMessage from '../../components/GreyMessage'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
 import NftFlyoutFailure from '../../components/NftFlyoutFailure'
 import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
+import MarkForSaleCTA from './cta'
 import MarkForSaleFees from './fees'
 import { NftMarkForSaleFormValues } from './MarkForSale.types'
 import { getQuoteAmts } from './MarkForSale.utils'
@@ -60,39 +61,18 @@ const SaleSelection = styled.div`
 `
 
 const MarkForSale: React.FC<Props> = (props) => {
-  const {
-    analyticsActions,
-    close,
-    formValues,
-    isInvited,
-    nftActions,
-    openSeaAssetR,
-    orderFlow,
-    rates
-  } = props
+  const { analyticsActions, close, formValues, openSeaAssetR, orderFlow, rates } = props
   const { fix } = formValues || { fix: 'CRYPTO' }
   const [saleType, setSaleType] = useState<'fixed-price' | 'timed-auction'>('fixed-price')
   const [isReservedChecked, setIsReserveChecked] = useState<boolean>(false)
   const [open, setOpen] = useState(true)
-  const disabled =
-    (saleType === 'fixed-price'
-      ? // Fixed Price
-        !formValues?.fixAmount
-      : // Dutch (Declining)
-        ((!formValues?.starting ||
-          !formValues?.ending ||
-          formValues?.ending > formValues?.starting) &&
-          formValues?.timedAuctionType === 'decliningPrice') ||
-        // English (Ascending)
-        (!formValues.starting && formValues?.timedAuctionType === 'highestBidder')) ||
-    props.orderFlow.isSubmitting
 
   const resetForms = () => {
     formValues.fixAmount = ''
     formValues.starting = ''
     formValues.ending = ''
     formValues.expirationMinutes = 1440
-    formValues.timedAuctionType = 'highestBidder'
+    formValues.timedAuctionType = 'decliningPrice'
   }
   const setToFixed = () => {
     setSaleType('fixed-price')
@@ -133,14 +113,14 @@ const MarkForSale: React.FC<Props> = (props) => {
     <>
       {openSeaAssetR.cata({
         Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader />,
-        NotAsked: () => <NftFlyoutLoader />,
-        Success: (val) => (
+        Loading: () => <NftFlyoutLoader close={props.close} />,
+        NotAsked: () => <NftFlyoutLoader close={props.close} />,
+        Success: (asset) => (
           <>
             <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
               Sell Item
             </FlyoutHeader>
-            <NftAssetHeaderRow asset={val} />
+            <NftAssetHeaderRow asset={asset} />
             <div
               style={{
                 display: 'flex',
@@ -150,12 +130,12 @@ const MarkForSale: React.FC<Props> = (props) => {
             >
               {saleType === 'fixed-price' ? (
                 <>
-                  <Row>
+                  <NftFlyoutRow>
                     <Value>
                       <AmountFieldInput
                         coin={coin}
                         fiatCurrency={props.walletCurrency}
-                        amtError={false}
+                        amountError={false}
                         quote={fix === 'CRYPTO' ? fixFiatAmt : fixCryptoAmt}
                         fix={fix as 'CRYPTO' | 'FIAT'}
                         name='fixAmount'
@@ -178,12 +158,12 @@ const MarkForSale: React.FC<Props> = (props) => {
                         }}
                       />
                     </Value>
-                  </Row>
+                  </NftFlyoutRow>
                 </>
               ) : (
                 // Time Based Auction
                 <>
-                  <Row>
+                  <NftFlyoutRow>
                     <Value>
                       <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
                         <FormattedMessage
@@ -203,15 +183,15 @@ const MarkForSale: React.FC<Props> = (props) => {
                         </Text>
                       </Flex>
                     </Value>
-                  </Row>
+                  </NftFlyoutRow>
                   {formValues?.timedAuctionType === 'decliningPrice' ? (
-                    <Row>
+                    <NftFlyoutRow>
                       <Value>
                         <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
                           <FormattedMessage id='copy.ending_price' defaultMessage='Ending Price' />
                         </Text>
                         <Field
-                          validate={[endingLessThanStarting]}
+                          validate={[endingLessThanStarting, required]}
                           name='ending'
                           component={NumberBox}
                         />
@@ -221,9 +201,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                           </Text>
                         </Flex>
                       </Value>
-                    </Row>
+                    </NftFlyoutRow>
                   ) : (
-                    <Row>
+                    <NftFlyoutRow>
                       <Value>
                         <Flex justifyContent='space-between' alignItems='center'>
                           <Text style={{ marginBottom: '2px' }} size='14px' weight={600}>
@@ -254,11 +234,11 @@ const MarkForSale: React.FC<Props> = (props) => {
                           </div>
                         ) : null}
                       </Value>
-                    </Row>
+                    </NftFlyoutRow>
                   )}
                 </>
               )}
-              <Row>
+              <NftFlyoutRow>
                 <Value>
                   <SaleType>
                     <SaleSelection
@@ -364,9 +344,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                     </SaleSelection>
                   </SaleType>
                 </Value>
-              </Row>
+              </NftFlyoutRow>
               {saleType === 'timed-auction' && (
-                <Row>
+                <NftFlyoutRow>
                   <Title>
                     <b>
                       <FormattedMessage id='copy.starting_price' defaultMessage='Method' />
@@ -398,9 +378,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </div>
                     </FormWrapper>
                   </Value>
-                </Row>
+                </NftFlyoutRow>
               )}
-              <Row>
+              <NftFlyoutRow>
                 <Title>
                   <b>
                     <FormattedMessage id='copy.select_coin' defaultMessage='Expires After' />
@@ -423,6 +403,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                             value: item.value
                           }),
                           [
+                            { text: '3 Mins', value: 3 },
                             { text: '30 Mins', value: 30 },
                             { text: '1 Hour', value: 60 },
                             { text: '1 Day', value: 1440 },
@@ -437,151 +418,72 @@ const MarkForSale: React.FC<Props> = (props) => {
                     ]}
                   />
                 </Value>
-              </Row>
-              <Row style={{ border: 'unset' }}>
+              </NftFlyoutRow>
+              <NftFlyoutRow>
                 {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
-                    <Icon
-                      onClick={() => {
-                        setOpen(false)
-                      }}
-                      name='close'
-                      cursor
-                      role='button'
-                      style={{
-                        background: 'lightgrey',
-                        borderRadius: '12px',
-                        color: 'grey',
-                        fontSize: '16px',
-                        marginTop: '1.1em',
-                        padding: '0.3em',
-                        position: 'absolute',
-                        right: '3.5em'
-                      }}
-                    />
-                    <div
-                      style={{ background: colors.grey000, borderRadius: '8px', padding: '1em' }}
-                    >
-                      <Text weight={600} style={{ padding: '0.5em 0em' }}>
-                        Listing Is Free
-                      </Text>
-                      <Text size='14px' weight={500} style={{ paddingBottom: '1em' }}>
-                        Once sold, the above fees will be deducted from the sale.{' '}
+                    <GreyMessage>
+                      <Flex alignItems='center' justifyContent='space-between'>
+                        <Text color='grey900' weight={600}>
+                          <FormattedMessage
+                            id='copy.listing_is_free'
+                            defaultMessage='Listing Is Free'
+                          />
+                        </Text>
+                        <Icon
+                          onClick={() => {
+                            setOpen(false)
+                          }}
+                          name='close'
+                          cursor
+                          role='button'
+                          style={{
+                            background: 'lightgrey',
+                            borderRadius: '12px',
+                            color: 'grey',
+                            fontSize: '16px',
+                            padding: '0.3em'
+                          }}
+                        />
+                      </Flex>
+                      <Text size='12px'>
+                        Once sold, the below fees will be deducted from the sale.{' '}
                         <Link
                           href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
-                          size='14px'
+                          size='12px'
                           target='_blank'
                         >
                           Learn more about fees.
                         </Link>
                       </Text>
-                    </div>
+                    </GreyMessage>
                   </>
                 ) : null}
-              </Row>
+              </NftFlyoutRow>
             </div>
             <StickyCTA>
-              <MarkForSaleFees {...props} asset={val} />
+              {formValues.timedAuctionType === 'highestBidder' ? (
+                <>
+                  <GreyMessage>
+                    <Text color='grey900' weight={600}>
+                      <FormattedMessage
+                        id='copy.english_auction_not_supported'
+                        defaultMessage='English Auctions Not Supported'
+                      />
+                    </Text>
+                    <Text size='12px'>
+                      <FormattedMessage
+                        id='copy.english_auction_explainer'
+                        defaultMessage='We are working closely with the OpenSea team to add support for selling to the highest bidder. In the meantime, please select another method.'
+                      />
+                    </Text>
+                  </GreyMessage>
+                  <br />
+                </>
+              ) : null}
+              <MarkForSaleFees {...props} asset={asset} />
               <br />
-              {isInvited ? (
-                props.orderFlow.fees.cata({
-                  Failure: () => (
-                    <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
-                      <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-                    </Button>
-                  ),
-                  Loading: () => (
-                    <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
-                      <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-                    </Button>
-                  ),
-                  NotAsked: () => null,
-                  Success: (fees) => (
-                    <Button
-                      jumbo
-                      nature='primary'
-                      fullwidth
-                      data-e2e='sellNft'
-                      disabled={disabled}
-                      onClick={() => {
-                        if (saleType === 'fixed-price') {
-                          nftActions.createSellOrder({
-                            asset: val,
-                            endPrice: null,
-                            expirationMinutes: formValues.expirationMinutes,
-                            gasData: fees,
-                            paymentTokenAddress: undefined,
-                            reservePrice: undefined,
-                            startPrice: Number(amount),
-                            waitForHighestBid: false
-                          })
-                          // English Auction
-                        } else if (
-                          saleType === 'timed-auction' &&
-                          formValues?.timedAuctionType === 'highestBidder'
-                        ) {
-                          nftActions.createSellOrder({
-                            asset: val,
-                            endPrice: null,
-                            expirationMinutes: formValues.expirationMinutes,
-                            gasData: fees,
-                            paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
-                            reservePrice: Number(formValues.reserve),
-                            startPrice: Number(formValues.starting),
-                            waitForHighestBid: true
-                          })
-                        }
-                        // Dutch Auction
-                        else {
-                          nftActions.createSellOrder({
-                            asset: val,
-                            endPrice: Number(formValues.ending),
-                            expirationMinutes: formValues.expirationMinutes,
-                            gasData: fees,
-                            paymentTokenAddress: undefined,
-                            reservePrice: undefined,
-                            startPrice: Number(formValues.starting),
-                            waitForHighestBid: false
-                          })
-                        }
-
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_SELL_ITEM_CLICKED,
-                          properties: {
-                            amount: Number(amount),
-                            collection: val.collection.name,
-                            collection_id: val.token_id,
-                            selling_fees: Number(fees.totalFees),
-                            type: saleType === 'fixed-price' ? 'FIXED_PRICE' : 'TIME_AUCTION'
-                          }
-                        })
-                      }}
-                    >
-                      {formValues.fixAmount || formValues.starting ? (
-                        props.orderFlow.isSubmitting ? (
-                          <HeartbeatLoader color='blue100' height='20px' width='20px' />
-                        ) : (
-                          <FormattedMessage
-                            id='copy.sell_item_value'
-                            defaultMessage='Sell Item for {val}'
-                            values={{
-                              val: amount ? `${amount} ${coin}` : `${formValues.starting} ${coin}`
-                            }}
-                          />
-                        )
-                      ) : (
-                        <FormattedMessage id='copy.sell_item' defaultMessage='Sell Item' />
-                      )}
-                    </Button>
-                  )
-                })
-              ) : (
-                <Link href='https://www.blockchain.com/waitlist/nft' target='_blank'>
-                  <Button jumbo nature='primary' fullwidth data-e2e='joinWaitlist'>
-                    <FormattedMessage id='copy.join_waitlist' defaultMessage='Join the Waitlist' />
-                  </Button>
-                </Link>
-              )}
+              <MarkForSaleCTA {...props} asset={asset} amount={amount} saleType={saleType} />
             </StickyCTA>
           </>
         )
@@ -611,12 +513,12 @@ const enhance = compose(
       expirationMinutes: 1440,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
-      timedAuctionType: 'highestBidder'
+      timedAuctionType: 'decliningPrice'
     }
   }),
   connector
 )
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(MarkForSale) as React.FC<OwnProps>

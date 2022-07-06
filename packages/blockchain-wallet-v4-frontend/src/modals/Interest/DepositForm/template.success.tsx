@@ -147,8 +147,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     props.setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
-      key: Analytics.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED,
-      properties: {}
+      key: Analytics.WALLET_REWARDS_DEPOSIT_TRANSFER_CLICKED,
+      properties: {
+        amount: depositAmount,
+        amount_usd: depositAmountFiat,
+        currency: coin,
+        type: fromAccountType
+      }
     })
   }
 
@@ -555,12 +560,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 defaultMessage='I have read and agreed to the'
               />
             </Text>{' '}
-            <Link
-              href='https://www.blockchain.com/legal/reward-terms'
-              target='_blank'
-              size='14px'
-              weight={500}
-            >
+            <Link href='https://www.blockchain.com/legal' target='_blank' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.termsservice'
                 defaultMessage='Terms of Service'

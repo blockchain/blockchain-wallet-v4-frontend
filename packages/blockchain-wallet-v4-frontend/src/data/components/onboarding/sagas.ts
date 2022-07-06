@@ -1,6 +1,7 @@
 import { delay, put, take } from 'redux-saga/effects'
 
 import { actions, actionTypes } from 'data'
+import { ModalName } from 'data/types'
 
 export const logLocation = 'components/onboarding/sagas'
 
@@ -19,7 +20,7 @@ export default () => {
       yield put(actions.form.stopSubmit('airdropClaim'))
       yield put(actions.modals.closeAllModals())
       yield put(
-        actions.modals.showModal('AIRDROP_SUCCESS_MODAL', {
+        actions.modals.showModal(ModalName.AIRDROP_SUCCESS_MODAL, {
           origin: 'AirdropClaimGoal'
         })
       )

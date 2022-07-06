@@ -88,6 +88,13 @@ export const ErrorCodeMappings = ({ code }: { code: number | string }) => {
           defaultMessage='Destination amount is negative'
         />
       )
+    case 165:
+      return (
+        <FormattedMessage
+          id='error.sanctioned_country'
+          defaultMessage='You are not eligible to perform requested operation because you are from a sanctioned country or state'
+        />
+      )
     default:
       // If the error form the api is a string like a `description` or `message` just pipe it to the
       // UI else if its a numeric code that's not supported here show a default error message
@@ -167,17 +174,31 @@ export const getPaymentMethod = ({
         <FormattedMessage id='modals.simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       )
     case BSPaymentTypes.FUNDS:
-      return orderType === 'BUY' ? (
+      if (orderType === 'BUY') {
+        const coinName = window.coins[counterCurrency]?.coinfig.name ?? counterCurrency
+
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.confirm.funds_wallet'
+            defaultMessage='{coin} Wallet'
+            values={{
+              coin: coinName
+            }}
+          />
+        )
+      }
+      const coinName = window.coins[baseCurrency]?.coinfig.name ?? baseCurrency
+
+      return (
         <FormattedMessage
-          id='modals.simplebuy.confirm.funds_wallet'
-          defaultMessage='{coin} Wallet'
+          id='modals.simplebuy.confirm.funds_trading_account'
+          defaultMessage='{coin} Trading Account'
           values={{
-            coin: counterCurrency
+            coin: coinName
           }}
         />
-      ) : (
-        `${baseCurrency} Trading Account`
       )
+
     case BSPaymentTypes.BANK_TRANSFER:
       const defaultBankInfo = {
         accountNumber: '',

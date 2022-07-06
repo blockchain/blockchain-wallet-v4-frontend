@@ -7,9 +7,7 @@ import { RootState } from 'data/rootReducer'
 export const getData = (state: RootState) => {
   const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
 
-  const quoteR = selectors.core.walletOptions.getFlexiblePricingModel(state).getOrElse(false)
-    ? selectors.components.buySell.getBuyQuote(state)
-    : selectors.components.buySell.getBSQuote(state)
+  const quoteR = selectors.components.buySell.getBuyQuote(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const sddEligibleR = selectors.components.buySell.getSddEligible(state)
   const userSDDTierR = selectors.components.buySell.getUserSddEligibleTier(state)

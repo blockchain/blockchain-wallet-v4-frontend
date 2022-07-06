@@ -9,7 +9,6 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import { getPreferredCurrency } from 'data/components/buySell/utils'
 import { ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -110,23 +109,10 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     }
 
     // in case of not directly supported fiat currency lend user to select trading currency from list
-    const preferredCurrencyFromStorage = getPreferredCurrency()
-    if (
-      this.props.originalFiatCurrency &&
-      !preferredCurrencyFromStorage &&
-      this.props.showTradingCurrency
-    ) {
-      return this.props.buySellActions.setStep({
-        step: 'TRADING_CURRENCY_SELECTOR'
-      })
-    }
-
-    // use preferred currency from local storage if it exists
+    const { preferredFiatTradingCurrency } = this.props.userData.currencies
     const fiatCurrency =
-      this.props.originalFiatCurrency &&
-      preferredCurrencyFromStorage &&
-      this.props.showTradingCurrency
-        ? preferredCurrencyFromStorage
+      this.props.originalFiatCurrency && preferredFiatTradingCurrency
+        ? preferredFiatTradingCurrency
         : getFiatFromPair(pair.pair)
 
     // default continue to enter amount step
@@ -236,6 +222,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
                     selected={this.state.orderType === OrderType.BUY}
                     onClick={() => {
                       this.setOrderType(OrderType.BUY)
+                      // tracking event
                       this.props.buySellActions.setBuyCrypto('CurrencyList')
                     }}
                     data-e2e='sbBuyButton'
@@ -247,6 +234,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
                     selected={this.state.orderType === OrderType.SELL}
                     onClick={() => {
                       this.setOrderType(OrderType.SELL)
+                      // tracking event
                       this.props.buySellActions.setSellCrypto('CurrencyList')
                     }}
                     data-e2e='sbSellButton'

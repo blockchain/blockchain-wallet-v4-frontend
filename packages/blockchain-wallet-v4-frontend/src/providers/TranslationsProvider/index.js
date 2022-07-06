@@ -16,8 +16,8 @@ class TranslationsProvider extends React.Component {
   }
 
   // Can cause child components very far down to re-render if check is not in place
-  shouldComponentUpdate(nextProps) {
-    return this.props.locale !== nextProps.locale
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.locale !== nextProps.locale || this.state.locale !== nextState.locale
   }
 
   // ⚠️ HACK ALERT ⚠️

@@ -74,12 +74,12 @@ const createWalletApi = (
 
   // **********
 
-  const createWalletTask = (email, captchaToken) => (wrapper) => {
-    const create = (data) => ApiPromise.createPayload(email, captchaToken, data)
+  const createWalletTask = (email, captchaToken, forceVerifyEmail) => (wrapper) => {
+    const create = (data) => ApiPromise.createPayload(email, captchaToken, forceVerifyEmail, data)
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
-  const createWallet = (email, captchaToken, wrapper) =>
-    compose(taskToPromise, createWalletTask(email, captchaToken))(wrapper)
+  const createWallet = (email, captchaToken, wrapper, forceVerifyEmail) =>
+    compose(taskToPromise, createWalletTask(email, captchaToken, forceVerifyEmail))(wrapper)
 
   // **********
 

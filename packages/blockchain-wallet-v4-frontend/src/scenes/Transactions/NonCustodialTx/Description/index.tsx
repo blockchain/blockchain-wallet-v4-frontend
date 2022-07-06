@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import EditDescription from './template'
 
@@ -19,7 +20,7 @@ class EditDescriptionContainer extends React.PureComponent<Props, { newDescripti
   }
 
   handleChange = () => {
-    this.props.modalActions.showModal('EDIT_TX_DESCRIPTION_MODAL', {
+    this.props.modalActions.showModal(ModalName.EDIT_TX_DESCRIPTION_MODAL, {
       handleConfirm: this.handleConfirm,
       origin: 'TransactionList',
       value: this.state.newDescription

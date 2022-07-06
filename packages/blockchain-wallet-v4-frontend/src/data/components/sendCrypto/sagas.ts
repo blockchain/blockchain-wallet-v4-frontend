@@ -27,10 +27,8 @@ export default ({ api }: { api: APIType }) => {
     let accountType
     try {
       yield put(A.buildTxLoading())
-      const { account, baseCryptoAmt, destination } = action.payload
-      coin = account.coin
-      fee = action.payload.fee
-      accountType = account.type
+      const { account, baseCryptoAmt, destination, fee, memo } = action.payload
+      const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
@@ -48,6 +46,9 @@ export default ({ api }: { api: APIType }) => {
             amount: baseCryptoAmt,
             currency: coin,
             destination,
+            extraData: {
+              memo
+            },
             fee,
             sources: [
               {
@@ -72,10 +73,12 @@ export default ({ api }: { api: APIType }) => {
 
         yield put(
           A.buildTxSuccess({
-            // @ts-ignore
             summary: {
               absoluteFeeEstimate: baseCryptoFee,
-              amount: baseCryptoAmt
+              absoluteFeeMaximum: baseCryptoFee,
+              amount: baseCryptoAmt,
+              balance: account.balance as string,
+              relativeFee: baseCryptoFee
             }
           })
         )
@@ -232,7 +235,9 @@ export default ({ api }: { api: APIType }) => {
         const password = yield call(promptForSecondPassword)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
-        const prebuildTx = S.getPrebuildTx(yield select()).getOrFail('No prebuildTx')
+        const prebuildTx = S.getPrebuildTx(yield select()).getOrFail(
+          'No prebuildTx'
+        ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
         const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(

@@ -50,7 +50,7 @@ const MenuLeft = (props: Props) => {
   return (
     <Container toggled={props.menuOpened}>
       <Balances />
-      {isTier2 && props.withdrawalLocksFundsOnHold && <FundsOnHold />}
+      {isTier2 && <FundsOnHold />}
       <Overflow>
         <Navigation {...props} />
       </Overflow>

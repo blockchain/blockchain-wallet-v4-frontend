@@ -79,7 +79,7 @@ export const getInitialSocketContext = (state) => ({
   context: getContextGrouped(state),
   guid: getGuid(state)
 })
-export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, getWallet)
+export const getAutoLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, getWallet)
 export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, getWallet)
 export const isMnemonicVerified = compose(HDWallet.selectMnemonicVerified, getDefaultHDWallet)
 export const getMainPassword = compose(Wrapper.selectPassword, getWrapper)

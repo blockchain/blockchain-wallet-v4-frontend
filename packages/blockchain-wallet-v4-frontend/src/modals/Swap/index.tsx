@@ -33,6 +33,8 @@ class Swap extends PureComponent<Props, State> {
     /* eslint-enable */
     this.props.swapActions.fetchCustodialEligibility()
     this.props.custodialActions.fetchProductEligibilityForUser()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestRate()
   }
 
   componentWillUnmount() {
@@ -159,9 +161,11 @@ const mapStateToProps = (
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   showUpgradeModal: () => {
     dispatch(actions.modals.closeModal(ModalName.SWAP_MODAL))

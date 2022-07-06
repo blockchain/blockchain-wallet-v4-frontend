@@ -176,7 +176,7 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
-    confirmOrderFailure: (state, action: PayloadAction<string | number>) => {
+    confirmOrderFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.order = Remote.Failure(action.payload)
     },
     confirmOrderLoading: (state) => {
@@ -188,7 +188,7 @@ const buySellSlice = createSlice({
       state.pendingOrder = undefined
     },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
-    createCardFailure: (state, action: PayloadAction<string | number>) => {
+    createCardFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.card = Remote.Failure(action.payload)
     },
     createCardLoading: (state) => {
@@ -296,7 +296,10 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-    fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
+    fetchFiatEligibleFailure: (
+      state,
+      action: PayloadAction<PartialClientErrorProperties | Error>
+    ) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
 
@@ -324,7 +327,7 @@ const buySellSlice = createSlice({
       state.limits = Remote.Success(action.payload)
     },
     fetchOrders: () => {},
-    fetchOrdersFailure: (state, action: PayloadAction<string>) => {
+    fetchOrdersFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.orders = Remote.Failure(action.payload)
     },
     fetchOrdersLoading: (state) => {
@@ -334,7 +337,7 @@ const buySellSlice = createSlice({
       state.orders = Remote.Success(action.payload)
     },
     fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency?: FiatType }>) => {},
-    fetchPairsFailure: (state, action: PayloadAction<string>) => {
+    fetchPairsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.pairs = Remote.Failure(action.payload)
     },
     fetchPairsLoading: (state) => {
@@ -474,9 +477,6 @@ const buySellSlice = createSlice({
     },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
-      state.fiatCurrency = action.payload
-    },
-    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {

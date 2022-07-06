@@ -1,6 +1,7 @@
 import { CardNameType } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
+import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type IBSAccountType = {
@@ -19,7 +20,10 @@ type AgentSimple = {
 export type AgentType = AgentSimple & {
   accountType: string
   address: string
+  bankName: string
   country: string
+  holderDocument: string
+  label: string
   recipientAddress: string
   routingNumber: string
   swiftCode: string
@@ -37,6 +41,10 @@ export type BSAccountType =
   | (IBSAccountType & {
       agent: AgentSimple
       currency: 'GBP'
+    })
+  | (IBSAccountType & {
+      agent: AgentType
+      currency: 'ARS'
     })
 
 export type BSBalanceType = {
@@ -227,6 +235,7 @@ export type BSOrderProperties = {
   inputQuantity: string
   insertedAt: string
   outputQuantity: string
+  paymentError?: ORDER_ERROR_CODE
   paymentMethodId?: string
   paymentType?: BSPaymentMethodType['type']
   period?: RecurringBuyPeriods
@@ -271,6 +280,14 @@ export type BSQuoteType = {
   time: string
 }
 
+export enum BSTransactionExtraAttributesStatuses {
+  CLEARED = 'CLEARED',
+  COMPLETED = 'COMPLETED',
+  CONFIRMED = 'CONFIRMED',
+  FAILED = 'FAILED',
+  UNCONFIRMED = 'UNCONFIRMED'
+}
+
 export type BSTransactionType = {
   amount: { symbol: WalletCurrencyType; value: string }
   amountMinor: string
@@ -290,7 +307,7 @@ export type BSTransactionType = {
         hash: string
         id: string
         qrcodeUrl?: string
-        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED' | 'FAILED'
+        status: keyof typeof BSTransactionExtraAttributesStatuses
         txHash: string
       }
       type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
@@ -318,20 +335,24 @@ export type BSTransactionsType = {
   prev: string | null
 }
 
-export type BSTransactionStateType =
-  | 'CREATED'
-  | 'PENDING'
-  | 'PENDING_DEPOSIT'
-  | 'UNIDENTIFIED'
-  | 'FAILED'
-  | 'FRAUD_REVIEW'
-  | 'MANUAL_REVIEW'
-  | 'REJECTED'
-  | 'CLEARED'
-  | 'COMPLETE'
-  | 'REFUNDED'
-  | 'CANCELED'
-  | 'EXPIRED'
+export enum BSTransactionStateEnum {
+  CANCELED = 'CANCELED',
+  CLEARED = 'CLEARED',
+  COMPLETE = 'COMPLETE',
+  COMPLETED = 'COMPLETED',
+  CREATED = 'CREATED',
+  EXPIRED = 'EXPIRED',
+  FAILED = 'FAILED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+  PENDING = 'PENDING',
+  PENDING_DEPOSIT = 'PENDING_DEPOSIT',
+  REFUNDED = 'REFUNDED',
+  REJECTED = 'REJECTED',
+  UNIDENTIFIED = 'UNIDENTIFIED'
+}
+
+export type BSTransactionStateType = keyof typeof BSTransactionStateEnum
 
 export enum BSPendingTransactionStateEnum {
   CLEARED = 'CLEARED',

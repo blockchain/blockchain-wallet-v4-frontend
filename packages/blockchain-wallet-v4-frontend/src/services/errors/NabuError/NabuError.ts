@@ -1,18 +1,21 @@
-import { NabuErrorProps } from './NabuError.types'
+import { NabuErrorAction, NabuErrorIconProps, NabuErrorProps } from './NabuError.types'
 
 class NabuError extends Error {
   title: string
 
-  icon?: string
+  icon?: NabuErrorIconProps
 
   message: string
 
-  constructor({ icon, message, title }: NabuErrorProps) {
+  actions?: NabuErrorAction[]
+
+  constructor({ actions, icon, message, title }: NabuErrorProps) {
     super(title)
 
     this.title = title
     this.message = message
     this.icon = icon
+    this.actions = actions?.filter((action) => !!action.title)
   }
 }
 

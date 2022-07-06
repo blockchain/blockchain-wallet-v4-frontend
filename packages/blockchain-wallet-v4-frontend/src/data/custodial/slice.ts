@@ -9,7 +9,8 @@ import { CustodialState, ProductEligibilityForUser } from './types'
 const initialState: CustodialState = {
   beneficiaries: Remote.NotAsked,
   productEligibilityForUser: Remote.NotAsked,
-  recentSwapTxs: Remote.NotAsked
+  recentSwapTxs: Remote.NotAsked,
+  userHadNotifications: false
 }
 
 const custodialSlice = createSlice({
@@ -44,6 +45,11 @@ const custodialSlice = createSlice({
       action: PayloadAction<ProductEligibilityForUser>
     ) => {
       state.productEligibilityForUser = Remote.Success(action.payload)
+      if (action.payload.notifications.length > 0) {
+        state.userHadNotifications = true
+      } else if (state.userHadNotifications) {
+        state.userHadNotifications = false
+      }
     },
 
     // Swap Tx

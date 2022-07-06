@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Navbar } from 'components/NavbarV2'
+import { Navbar } from 'components/Navbar'
 import { Analytics, ModalName } from 'data/types'
 
 import { Props } from '.'
 
 type OwnProps = Props & {
   history: { push: (path: string) => void }
-  taxCenterEnabled: boolean
 }
 
 const Header = (props: OwnProps) => {
@@ -85,22 +84,11 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (props.walletConnectEnabled) {
-    PrimaryNavItems.push({
-      dest: '/dapps',
-      e2e: 'dappsLink',
-      text: (
-        <FormattedMessage id='layouts.wallet.menuleft.navigation.dapps' defaultMessage='Dapps' />
-      )
-    })
-  }
-
   return (
     <Navbar
       primaryNavItems={PrimaryNavItems}
       fabClickHandler={fabCallback}
       nftsEnabled={props.nftsEnabled}
-      taxCenterEnabled={props.taxCenterEnabled}
       limitsClickHandler={limitsCallback}
       logoutClickHandler={logoutCallback}
       receiveClickHandler={receiveCallback}

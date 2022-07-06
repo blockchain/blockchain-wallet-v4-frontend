@@ -7,6 +7,10 @@ export const getBrowserNameAndVersion = () => {
 
 export const isBrowserSupported = () => {
   const browser = Bowser.getParser(window.navigator.userAgent)
+
+  // let search crawlers through for SEO purposes
+  if (browser.getPlatformType() === 'bot') return true
+
   return browser.satisfies({
     chrome: '>80', // chromium
     chromium: '>80', // chromium

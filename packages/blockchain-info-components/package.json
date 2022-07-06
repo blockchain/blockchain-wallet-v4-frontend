@@ -18,11 +18,11 @@
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6007",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
-    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "test": "cross-env ./../../node_modules/.bin/jest --silent --runInBand",
     "test:build": "cross-env rimraf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll --runInBand"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -59,6 +59,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.12.1",
+    "@blockchain-com/constellation": "0.0.35",
+    "@blockchain-com/icons": "0.0.6",
     "polished": "4.1.1",
     "prop-types": "15.7.2",
     "ramda": "0.26.1",

@@ -17,6 +17,7 @@ class SelectBoxCurrency extends React.PureComponent {
 const mapStateToProps = (state) => ({
   currencies: [
     { text: 'Australian Dollar', value: 'AUD' },
+    { text: 'Argentine Peso', value: 'ARS' },
     { text: 'Brazil Real', value: 'BRL' },
     { text: 'Canadian Dollar', value: 'CAD' },
     { text: 'Chilean Peso', value: 'CLP' },

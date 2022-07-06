@@ -8,5 +8,4 @@ export type InvitationsType = {
   openBanking: boolean
   segwit: boolean
   stxSelfCustody: boolean
-  withdrawalLocksFundsOnHold: boolean
 }

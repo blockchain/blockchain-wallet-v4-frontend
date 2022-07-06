@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios'
 
-import { Exchange } from '@core'
 import type { NabuAddressType, NabuApiErrorType, RemoteDataType, WalletFiatType } from '@core/types'
 import type { CampaignsType } from 'data/components/identityVerification/types'
 
@@ -89,15 +88,16 @@ export type Tiers = {
   selected: 0 | 1 | 2 | 3
 }
 
-export type UserTradingCurencies = {
+export type UserTradingCurrencies = {
   defaultWalletCurrency: WalletFiatType
   preferredFiatTradingCurrency: WalletFiatType
   usableFiatCurrencies: WalletFiatType[]
+  userFiatCurrencies: WalletFiatType[]
 }
 
 export type UserDataType = {
   address?: NabuAddressType
-  currencies: UserTradingCurencies
+  currencies: UserTradingCurrencies
   dob: string
   email: string
   emailVerified: boolean
@@ -153,6 +153,9 @@ export interface ProfileState {
 // Actions
 // Keep these sorted alphabetically
 
+interface ClearProfileStateAction {
+  type: typeof AT.CLEAR_PROFILE_STATE
+}
 interface FetchTiersFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
@@ -313,6 +316,7 @@ interface ShareWalletAddressWithExchangeSuccessAction {
 
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
+  | ClearProfileStateAction
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction

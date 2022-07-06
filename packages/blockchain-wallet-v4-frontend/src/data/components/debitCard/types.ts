@@ -7,9 +7,12 @@ export type DebitCardState = {
   cards: RemoteDataType<string, Array<DebitCardType>>
   currentCardAccount: RemoteDataType<string, AccountType>
   currentCardSelected: DebitCardType | undefined
-  eligibleAccounts: Array<AccountType>
+  eligibleAccounts: RemoteDataType<string, Array<AccountType>>
   lockHandler: RemoteDataType<string, boolean>
   products: Array<ProductType>
+  selectAccountHandler: RemoteDataType<string, string>
+  terminateHandler: RemoteDataType<string, string>
+  transactions: RemoteDataType<string, Array<CardTransaction>>
 }
 
 export type ProductType = {
@@ -43,6 +46,21 @@ export enum CardStateType {
   TERMINATED = 'TERMINATED'
 }
 
+export enum TransactionType {
+  CASHBACK = 'CASHBACK',
+  CHARGEBACK = 'CHARGEBACK',
+  FUNDING = 'FUNDING',
+  PAYMENT = 'PAYMENT',
+  REFUND = 'REFUND'
+}
+
+export enum TransactionState {
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED',
+  DECLINED = 'DECLINED',
+  PENDING = 'PENDING'
+}
+
 export type BalanceType = {
   symbol: string
   value: string
@@ -50,4 +68,19 @@ export type BalanceType = {
 
 export type AccountType = {
   balance: BalanceType
+}
+
+export type CardTransaction = {
+  cardId: string
+  clearedFundingAmount: BalanceType
+  declineReason: string
+  fee: BalanceType
+  fundingAmount: BalanceType
+  id: string
+  merchantName: string
+  originalAmount: BalanceType
+  reversedAmount: BalanceType
+  state: TransactionState
+  type: TransactionType
+  userTransactionTime: string
 }

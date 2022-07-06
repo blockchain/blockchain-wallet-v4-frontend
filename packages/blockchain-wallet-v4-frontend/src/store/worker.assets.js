@@ -26,6 +26,7 @@ addEventListener('message', ({ data }) => {
 
         // TODO: remove once backend returns this
         assets.STX.coinfig.products.push('DynamicSelfCustody')
+        assets.STX.coinfig.type.isMemoBased = true
 
         // switch up the erc20 addresses to support testnet (for opensea testing)
         if (openSeaApi && openSeaApi.includes('testnets')) {

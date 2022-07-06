@@ -53,14 +53,6 @@ const Title = styled(Text)<{ asValue?: boolean }>`
   margin-top: ${(props) => (props.asValue ? '4px' : '0px')};
 `
 
-const Row = styled.div`
-  padding: 16px 40px;
-  box-sizing: border-box;
-  border-top: 1px solid ${(props) => props.theme.grey000};
-  &:last-child {
-    border-bottom: 1px solid ${(props) => props.theme.grey000};
-  }
-`
 const Col = styled.div`
   display: flex;
   align-items: center;
@@ -637,18 +629,24 @@ const renderCard = (value: BSPaymentMethodType) => (
   </>
 )
 
-const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => (
-  <>
-    <DisplayValue>{value.currency}</DisplayValue>
-    <DisplayTitle>
-      {fiatToString({
-        unit: value.currency as FiatType,
-        value: convertBaseToStandard('FIAT', sbBalances[value.currency]?.available || '0')
-      })}{' '}
-      <FormattedMessage id='copy.available' defaultMessage='Available' />
-    </DisplayTitle>
-  </>
-)
+const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => {
+  const { currency } = value
+
+  const displayValue = window.coins[currency]?.coinfig.name ?? currency
+
+  return (
+    <>
+      <DisplayValue>{displayValue}</DisplayValue>
+      <DisplayTitle>
+        {fiatToString({
+          unit: currency,
+          value: convertBaseToStandard('FIAT', sbBalances[currency]?.available || '0')
+        })}{' '}
+        <FormattedMessage id='copy.available' defaultMessage='Available' />
+      </DisplayTitle>
+    </>
+  )
+}
 
 const getIcon = (
   method: BSPaymentMethodType | undefined,
@@ -970,7 +968,6 @@ export {
   renderCardText,
   renderFund,
   RightArrowIcon,
-  Row,
   SectionTitle,
   Title,
   Value

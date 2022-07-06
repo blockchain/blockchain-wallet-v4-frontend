@@ -59,7 +59,7 @@ export const ResizeableFontInput = (Component) =>
     }
 
     componentWillUnmount() {
-      window.removeEventListener('resizes', this.resizeInputFont)
+      window.removeEventListener('resize', this.resizeInputFont)
     }
 
     resizeInputFont = () => {
