@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
@@ -88,8 +88,10 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
   const isTablet = useMedia('tablet')
   const [isActive, setIsActive] = useState(false)
 
-  const handleInputChange = (e: any) => {
-    setInput(e)
+  const handleInputChange = (e: any, meta: any) => {
+    if (meta.action === 'input-change') {
+      setInput(e)
+    }
   }
 
   const handleClose = () => {
@@ -100,9 +102,14 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
     setIsActive(true)
   }
 
+  const search = useCallback(
+    debounce((input) => nftActions.nftSearch({ search: input }), 500),
+    []
+  )
+
   useEffect(() => {
     if (input) {
-      nftActions.nftSearch({ search: input })
+      search(input)
     }
   }, [input, nftActions])
 
@@ -194,7 +201,8 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
             cursor='initial'
             filterOption={() => true}
             onChange={(e) => handleSelect(e)}
-            onInputChange={debounce((e) => handleInputChange(e), 500)}
+            inputValue={input}
+            onInputChange={(e, meta) => handleInputChange(e, meta)}
             noOptionsMessage={() => null}
             isLoading={Remote.Loading.is(nftSearch)}
             placeholder='Collections or items'

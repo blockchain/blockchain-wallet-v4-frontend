@@ -192,6 +192,7 @@ const SelectInput = (props) => {
     hideFocusedControl,
     hideIndicator,
     hideValue,
+    inputValue = undefined,
     isLoading,
     items,
     menuIsOpen,
@@ -236,6 +237,7 @@ const SelectInput = (props) => {
         isDisabled={disabled}
         isLoading={isLoading}
         isSearchable={searchEnabled}
+        inputValue={inputValue}
         menuIsOpen={menuIsOpen}
         menuPlacement={menuPlacement}
         onBlur={onBlur}
