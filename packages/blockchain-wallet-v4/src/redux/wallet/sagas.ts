@@ -353,7 +353,9 @@ export default ({ api, networks }) => {
   }
 
   // log wallet payload shape discrepencies
-  const checkPayloadShape = function* () {
+  const payloadHealthCheck = function* () {
+    const issues: string[] = []
+
     try {
       const wallet = yield select(S.getWallet)
       const walletJS: typeof wrapperV4['wallet'] = wallet.toJS()
@@ -365,63 +367,75 @@ export default ({ api, networks }) => {
       const possibleDerivationPurposes = DERIVATION_LIST.map(({ purpose }) => purpose)
 
       if (hdWallets.length > 1) {
-        // payload should only have 1 hd_wallet
+        issues.push('MULTIPLE_HD_WALLETS')
       }
-      if (!hdWallet.seed_hex) {
-        // hd_wallet should have seed_hex
+      // ts-ignores because of shift prop in HDWallet 'seed_hex' => 'seedHex'
+      // @ts-ignore
+      if (!hdWallet.seedHex) {
+        issues.push('MISSING_SEED_HEX')
       }
-      if (hdWallet.seed_hex.length !== 32) {
-        // seed_hex possibly malformed
+      // @ts-ignore
+      if (hdWallet.seedHex.length !== 32) {
+        issues.push('INCORRECT_SEED_HEX_LENGTH')
       }
       if (hdWallet.default_account_idx === undefined || hdWallet.default_account_idx < 0) {
-        // hd_wallet default_account_idx incorrect
+        issues.push('INCORRECT_DEFAULT_ACCOUNT_IDX')
       }
       if (typeof hdWallet.mnemonic_verified !== 'boolean') {
-        // hd_wallet mnemonic_verified should be a boolean
+        issues.push('INCORRECT_MNEMONIC_VERIFIED_TYPE')
       }
       if (typeof hdWallet.passphrase !== 'string') {
-        // hd_wallet passphrase should be a string
+        issues.push('INCORRECT_PASSPHRASE_TYPE')
       }
 
       accounts.forEach((account) => {
         if (account.derivations.length !== DERIVATION_LIST.length) {
-          // log # of derivations
-          // account derivations are incorrect size
+          issues.push(`INCORRECT_NUMBER_OF_ACCOUNT_DERIVATIONS_${account.derivations.length}`)
         }
         if (!possibleDerivationTypes.includes(account.default_derivation)) {
-          // account default_derivation is not included in DERIVATION_LIST types
+          issues.push(`INCORRECT_ACCOUNT_DERIVATION_TYPE_FOUND_${account.default_derivation}`)
         }
         if (typeof account.label !== 'string') {
-          // account label should a string
+          issues.push(`INCORRECT_ACCOUNT_LABEL_TYPE`)
         }
         if (typeof account.archived !== 'boolean') {
-          // account archived field should be a boolean
+          issues.push(`INCORRECT_ACCOUNT_ARCHIVED_TYPE`)
         }
         if (Object.keys(account).length > 5) {
-          // account has too many keys, mismatch
+          issues.push(
+            `INCORRECT_ACCOUNT_NUMBER_OF_KEYS_FOUND_${Object.keys(account).length}_${Object.keys(
+              account
+            ).join('_')}`
+          )
         }
       })
 
       derivations.forEach((derivation) => {
         if (!derivation.cache.receiveAccount) {
-          // no derivation cache receiveAccount
+          issues.push('MISSING_DERIVATION_CACHE_RECEIVE_ACCOUNT')
         }
         if (!derivation.cache.changeAccount) {
-          // no derivations cache changeAccount
+          issues.push('MISSING_DERIVATION_CACHE_CHANGE_ACCOUNT')
         }
         if (!possibleDerivationPurposes.includes(derivation.purpose)) {
-          // derivation purpose is not included in DERIVATION_LIST purposes
+          issues.push(`INCORRECT_DERIVATION_PURPOSE_FOUND_${derivation.purpose}`)
         }
         if (!possibleDerivationTypes.includes(derivation.type)) {
-          // derivation type is not included in DERIVATION_LIST types
+          issues.push(`INCORRECT_DERIVATION_TYPE_FOUND_${derivation.type}`)
         }
         if (Object.keys(derivation).length > 6) {
-          // derivation has too many keys, mismatch
+          issues.push(
+            `INCORRECT_DERIVATION_NUMBER_OF_KEYS_FOUND_${
+              Object.keys(derivation).length
+            }_${Object.keys(derivation).join('_')}`
+          )
         }
       })
     } catch (e) {
       // dont throw
     }
+
+    return issues
   }
 
   // client payload bugs
@@ -499,7 +513,6 @@ export default ({ api, networks }) => {
 
   return {
     checkAndUpdateWalletNames,
-    checkPayloadShape,
     createWalletSaga,
     fetchWalletSaga,
     fixAccountsWithMissingDefaultDerivation,
@@ -509,6 +522,7 @@ export default ({ api, networks }) => {
     getHdWalletWithMissingDefaultAccountIdx,
     importLegacyAddress,
     newHDAccount,
+    payloadHealthCheck,
     refetchContextData,
     replenishDerivations,
     resendSmsLoginCode,
