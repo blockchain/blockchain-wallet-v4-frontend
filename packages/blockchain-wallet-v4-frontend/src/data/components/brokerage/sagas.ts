@@ -120,10 +120,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
 
-      // Polls the account details to check for Active state
+      // Polls the account details to check for Active or Blocked state
       const bankData = yield call(conditionalRetry, status.id)
-      // Shows bank status screen based on whether has blocked account or not
 
+      // Show bank status screen with success or failure error
       yield put(
         actions.components.brokerage.setAddBankStep({
           addBankStep: AddBankStepType.ADD_BANK_STATUS,

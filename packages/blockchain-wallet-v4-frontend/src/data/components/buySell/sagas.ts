@@ -1493,6 +1493,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             modalType = ModalName.ADD_BANK_YODLEE_MODAL
             break
         }
+
+        // Open the add bank (brokerage) modal on top of the buySell modal
         yield put(
           actions.components.brokerage.showModal({
             isFlow,
@@ -1505,17 +1507,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             addBankStep: AddBankStepType.ADD_BANK
           })
         )
-        // Small delay before setting the buy/sell modal back to payment method step
-        // This is simply for a better visual UX
-        yield delay(2000)
-        return yield put(
-          actions.components.buySell.setStep({
-            cryptoCurrency,
-            fiatCurrency,
-            pair,
-            step: 'PAYMENT_METHODS'
-          })
-        )
+
+        // the buySell modal step is still `LOADING` at this point
+
+        // listen for add bank close modal action
+        // if there was an error go back to payment methods
+        return
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {
           return yield put(
