@@ -16,6 +16,7 @@ import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
 import NftsLayout from 'layouts/Nfts'
+import PluginLayout from 'layouts/plugin/PluginLayout'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
 import { UTM } from 'middleware/analyticsMiddleware/constants'
@@ -24,6 +25,9 @@ import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
+
+import CoinsList from './plugin/CoinsList'
+import HomeNavbar from './plugin/HomeNavbar'
 
 const queryClient = new QueryClient()
 
@@ -182,6 +186,13 @@ const App = ({
                             path='/verify-email-step'
                             component={VerifyEmail}
                             pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                          />
+
+                          {/* Plugin routes */}
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
                           />
 
                           {/* NFT Explorer routes */}

@@ -72,6 +72,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
+    chunkFilename: '[name].[chunkhash:8].js',
     crossOriginLoading: 'anonymous',
     filename: '[name].[fullhash:8].js',
     path: CONFIG_PATH.ciBuild,
@@ -86,6 +87,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       middleware: path.resolve(__dirname, 'src/middleware/'),
+      plugin: path.resolve(__dirname, 'src/plugin/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
       utils: path.resolve(__dirname, 'src/utils/')
@@ -219,7 +221,7 @@ const buildDevServerConfig = (
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src https://localhost:8080 http://localhost:8080 ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
-        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
+        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com https://www.google.com/recaptcha`,
         `worker-src 'self' blob:`,
         [
           'connect-src',
