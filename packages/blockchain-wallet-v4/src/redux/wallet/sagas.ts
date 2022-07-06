@@ -26,7 +26,6 @@ import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
 import { DEFAULT_DERIVATION_TYPE, DERIVATION_LIST } from '@core/types/HDAccount'
-import { propertiesToArray } from '@core/utils'
 
 import { DerivationList, HDAccount, HDWallet, KVStoreEntry, Wallet, Wrapper } from '../../types'
 // eslint-disable-next-line
